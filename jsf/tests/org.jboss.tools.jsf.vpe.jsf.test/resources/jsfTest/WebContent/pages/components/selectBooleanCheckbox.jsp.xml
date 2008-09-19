@@ -1,0 +1,5 @@
+<tests>
+	<test id="selectBooleanCheckbox">
+		<INPUT TYPE="checkbox" />
+	</test>
+</tests>

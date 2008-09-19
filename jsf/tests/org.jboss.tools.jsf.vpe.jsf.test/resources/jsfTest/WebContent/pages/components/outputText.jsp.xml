@@ -1,0 +1,13 @@
+<tests>
+	<test id="outputText1">
+		<SPAN> outputText1</SPAN>
+	</test>
+	<test id="outputText2">
+		<SPAN> outputText2</SPAN>
+	</test>
+	<test id="outputText3">
+		<SPAN>
+			<SPAN> outputText3</SPAN>
+		</SPAN>
+	</test>
+</tests>

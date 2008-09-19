@@ -71,11 +71,11 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testOutputFormat() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/outputFormat.jsp"); //$NON-NLS-1$
 	}
 
 	public void testOutputLabel() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/outputLabel.jsp"); //$NON-NLS-1$
 	}
 
 	public void testOutputLink() throws Throwable {
@@ -83,42 +83,42 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testOutputText() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/outputText.jsp"); //$NON-NLS-1$
 	}
 
 	public void testPanelGrid() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/panelGrid.jsp"); //$NON-NLS-1$
 	}
 
 	public void testPanelGroup() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/panelGroup.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectBooleanCheckbox() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectBooleanCheckbox.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectManyCheckbox() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectManyCheckbox.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectManyListbox() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectManyListbox.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectManyMenu() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectManyMenu.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectOneListbox() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectOneListbox.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectOneMenu() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectOneMenu.jsp"); //$NON-NLS-1$
 	}
 
-	public void _testSelectOneRadio() throws Throwable {
+	public void testSelectOneRadio() throws Throwable {
 		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
 	}
 

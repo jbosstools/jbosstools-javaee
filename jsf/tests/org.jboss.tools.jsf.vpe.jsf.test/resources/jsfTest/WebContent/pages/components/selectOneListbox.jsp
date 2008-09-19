@@ -11,7 +11,7 @@
 
 	<h:outputText value="selectOneListbox:" />
 
-		<h:selectOneListbox value="someValue" >
+		<h:selectOneListbox value="someValue" id="selectOneListbox" >
 			<f:selectItem itemLabel="value1" itemValue="value1" />
 			<f:selectItem itemLabel="value2" itemValue="value2" />
 			<f:selectItem itemLabel="value3" itemValue="value3" />

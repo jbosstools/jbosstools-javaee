@@ -17,6 +17,10 @@ package org.jboss.tools.jsf.vpe.jsf.template.util;
  */
 public class JSF {
 
+	public static final String TAG_SELECT_ITEM = "selectItem"; //$NON-NLS-1$
+	
+	public static final String TAG_SELECT_ITEMS = "selectItems"; //$NON-NLS-1$
+
 	public static final String TAG_PARAM = "param"; //$NON-NLS-1$
 
 	public static final String ATTR_VALUE = "value"; //$NON-NLS-1$
@@ -39,12 +43,16 @@ public class JSF {
 
 	public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 
+	public static final String ATTR_STYLE = "style"; //$NON-NLS-1$
+
 	public static final String ATTR_SIZE = "size"; //$NON-NLS-1$
 
 	public static final String ATTR_ROWS = "rows"; //$NON-NLS-1$
 
 	public static final String ATTR_COLS = "cols"; //$NON-NLS-1$
-	
+
 	public static final String ATTR_ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
+
+	public static final String ATTR_LAYOUT = "layout";//$NON-NLS-1$
 
 }

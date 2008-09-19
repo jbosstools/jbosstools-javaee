@@ -1,18 +1,19 @@
 /*******************************************************************************
-  * Copyright (c) 2007-2008 Red Hat, Inc.
-  * Distributed under license by Red Hat, Inc. All rights reserved.
-  * This program is made available under the terms of the
-  * Eclipse Public License v1.0 which accompanies this distribution,
-  * and is available at http://www.eclipse.org/legal/epl-v10.html
-  *
-  * Contributor:
-  *     Red Hat, Inc. - initial API and implementation
-  ******************************************************************************/
+ * Copyright (c) 2007-2008 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -26,35 +27,31 @@ import org.w3c.dom.NodeList;
 
 /**
  * @author dmaliarevich
- *
+ * 
  */
 public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 
-	private static final String PAGE_DIRECTION = "pageDirection";
-	private static final String LINE_DIRECTION = "lineDirection";
-	
-	/*h:SelectManyCheckbox attributes*/
-	private static final String STYLE = "style";
-	private static final String STYLE_CLASS = "styleClass";
-	private static final String BORDER = "border";
-	private static final String LAYOUT = "layout";
-	private static final String CLASS = "class";
-	
+	private static final String PAGE_DIRECTION = "pageDirection"; //$NON-NLS-1$
+	private static final String LINE_DIRECTION = "lineDirection"; //$NON-NLS-1$
+
+	/* h:SelectManyCheckbox attributes */
+	private static final String BORDER = "border"; //$NON-NLS-1$
+
 	private String style;
 	private String styleClass;
 	private String border;
 	private String layout;
-	
+
 	/**
 	 * list of visible children
 	 */
 	private static List<String> CHILDREN_LIST = new ArrayList<String>();
 
 	static {
-		CHILDREN_LIST.add("selectItem"); //$NON-NLS-1$
-		CHILDREN_LIST.add("selectItems"); //$NON-NLS-1$
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEM);
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEMS);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -64,8 +61,10 @@ public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
+	 * @see
+	 * org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools
+	 * .vpe.editor.context.VpePageContext, org.w3c.dom.Node,
+	 * org.mozilla.interfaces.nsIDOMDocument)
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -78,10 +77,10 @@ public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 		nsIDOMElement td = null;
 
 		if (attrPresents(style)) {
-			table.setAttribute(STYLE, style);
+			table.setAttribute(HTML.ATTR_STYLE, style);
 		}
 		if (attrPresents(styleClass)) {
-			table.setAttribute(CLASS, styleClass);
+			table.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
 		if (attrPresents(border)) {
 			table.setAttribute(BORDER, border);
@@ -123,7 +122,7 @@ public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 
 		return creationData;
 	}
-	
+
 	/**
 	 * Read attributes from the source element.
 	 * 
@@ -132,21 +131,22 @@ public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 	 */
 	private void readAttributes(Node sourceNode) {
 		Element source = (Element) sourceNode;
-		style = source.getAttribute(STYLE);
-		styleClass = source.getAttribute(STYLE_CLASS);
+		style = source.getAttribute(JSF.ATTR_STYLE);
+		styleClass = source.getAttribute(JSF.ATTR_STYLE_CLASS);
 		border = source.getAttribute(BORDER);
-		layout = source.getAttribute(LAYOUT);
+		layout = source.getAttribute(JSF.ATTR_LAYOUT);
 	}
 
-    /**
-     * Checks is attribute presents.
-     * 
-     * @param attr the attribute
-     * 
-     * @return true, if successful
-     */
-    private boolean attrPresents(String attr) {
-		return ((null != attr) && (!"".equals(attr)));
+	/**
+	 * Checks is attribute presents.
+	 * 
+	 * @param attr
+	 *            the attribute
+	 * 
+	 * @return true, if successful
+	 */
+	private boolean attrPresents(String attr) {
+		return ((null != attr) && (attr.length() != 0));
 	}
 
 }

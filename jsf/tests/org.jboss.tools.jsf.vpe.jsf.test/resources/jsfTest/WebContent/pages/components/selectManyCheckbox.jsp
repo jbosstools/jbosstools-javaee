@@ -11,7 +11,15 @@
 
 	<h:outputText value="selectManyCheckbox:" />
 
-	<h:selectManyCheckbox value="someValue">
+	<h:selectManyCheckbox value="someValue" layout="pageDirection"
+		id="selectManyCheckbox1">
+		<f:selectItem itemLabel="check1" />
+		<f:selectItem itemLabel="check2" />
+		<f:selectItem itemLabel="check3" />
+	</h:selectManyCheckbox>
+
+	<h:selectManyCheckbox value="someValue" layout="lineDirection"
+		id="selectManyCheckbox2">
 		<f:selectItem itemLabel="check1" />
 		<f:selectItem itemLabel="check2" />
 		<f:selectItem itemLabel="check3" />

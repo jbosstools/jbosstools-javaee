@@ -10,7 +10,7 @@
 	<h1><h:outputText value="selectBooleanCheckbox" /></h1>
 
 	<h:outputText value="selectBooleanCheckbox:" />
-	<h:selectBooleanCheckbox value="false" />
+	<h:selectBooleanCheckbox value="false" id="selectBooleanCheckbox"/>
 
 </f:view>
 </body>

@@ -8,7 +8,7 @@
 
 <f:view>
 	<h1><h:outputText value="panelGrid" /></h1>
-	<h:panelGrid columns="2" rowClasses="oddRows,evenRows">
+	<h:panelGrid columns="2" rowClasses="oddRows,evenRows" id="panelGrid" >
 
 		<h:outputText value="column 1" />
 		<h:outputText value="column 2" />

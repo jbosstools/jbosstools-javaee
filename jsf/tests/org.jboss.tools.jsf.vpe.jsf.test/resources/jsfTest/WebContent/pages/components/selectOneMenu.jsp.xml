@@ -1,0 +1,8 @@
+<tests>
+	<test id="selectOneMenu">
+		<SELECT SIZE="1">
+			<OPTION>value1</OPTION>
+			<OPTION>value2</OPTION>
+		</SELECT>
+	</test>
+</tests>

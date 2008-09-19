@@ -17,9 +17,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -38,20 +40,13 @@ import org.w3c.dom.Node;
 public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 
 	/**
-	 * "size" attribute
-	 */
-
-	private static final String ATTR_DISABLED_CLASS = "disabledClass";
-	private static final String ATTR_ENABLED_CLASS = "enabledClass";
-
-	/**
 	 * list of visible children
 	 */
 	private static List<String> CHILDREN_LIST = new ArrayList<String>();
 
 	static {
-		CHILDREN_LIST.add("selectItem"); //$NON-NLS-1$
-		CHILDREN_LIST.add("selectItems"); //$NON-NLS-1$
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEM);
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEMS);
 	}
 
 	/**
@@ -60,11 +55,10 @@ public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 	private static Map<String, String> ATTR_LIST_COPY = new HashMap<String, String>();
 
 	static {
-		ATTR_LIST_COPY.put("style", "style"); //$NON-NLS-1$
-		ATTR_LIST_COPY.put("styleClass", "class"); //$NON-NLS-1$
-		ATTR_LIST_COPY.put("disabled", "disabled"); //$NON-NLS-1$
-		ATTR_LIST_COPY.put("dir", "dir"); //$NON-NLS-1$
-
+		ATTR_LIST_COPY.put(JSF.ATTR_STYLE, HTML.ATTR_STYLE);
+		ATTR_LIST_COPY.put(JSF.ATTR_STYLE_CLASS, HTML.ATTR_CLASS);
+		ATTR_LIST_COPY.put(JSF.ATTR_DISABLED, HTML.ATTR_DISABLED);
+		ATTR_LIST_COPY.put(JSF.ATTR_DIR, HTML.ATTR_DIR);
 	}
 
 	/**
@@ -86,7 +80,7 @@ public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 
 		// create select element
 		nsIDOMElement select = visualDocument.createElement(HTML.TAG_SELECT);
-		select.setAttribute(HTML.ATTR_SIZE, "1");
+		select.setAttribute(HTML.ATTR_SIZE, "1"); //$NON-NLS-1$
 		Element element = (Element) sourceNode;
 
 		// import attributes from source
@@ -100,9 +94,9 @@ public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 			// add attribute to "select"
 			if (attr != null) {
 				if (attributeName.equalsIgnoreCase(HTML.ATTR_DISABLED)) {
-					if (attr.equalsIgnoreCase("true")) {
+					if (attr.equalsIgnoreCase(Constants.TRUE)) {
 						select.setAttribute(ATTR_LIST_COPY.get(attributeName),
-								"disabled");
+								"disabled"); //$NON-NLS-1$
 						
 					}
 					continue;
@@ -148,9 +142,9 @@ public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 					sourceElement, HTML.ATTR_DISABLED));
 			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_OPTION)) {
 				element.setAttribute(HTML.ATTR_CLASS, disabled ? ComponentUtil
-						.getAttribute(sourceElement, ATTR_DISABLED_CLASS)
+						.getAttribute(sourceElement, JSF.ATTR_DISABLED_CLASS)
 						: ComponentUtil.getAttribute(sourceElement,
-								ATTR_ENABLED_CLASS));
+								JSF.ATTR_ENABLED_CLASS));
 			}
 			for (int i = 0; i < list.getLength(); i++) {
 				applyChildAttributes(sourceElement, list.item(i));

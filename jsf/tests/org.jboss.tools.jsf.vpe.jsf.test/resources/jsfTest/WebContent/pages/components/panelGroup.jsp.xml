@@ -1,0 +1,14 @@
+<tests>
+	<test id="panelGroup1">
+		<SPAN>
+			<SPAN> 1</SPAN>
+			<SPAN> 2</SPAN>
+		</SPAN>
+	</test>
+	<test id="panelGroup2">
+		<DIV>
+			<SPAN> 3</SPAN>
+			<SPAN> 4</SPAN>
+		</DIV>
+	</test>
+</tests>

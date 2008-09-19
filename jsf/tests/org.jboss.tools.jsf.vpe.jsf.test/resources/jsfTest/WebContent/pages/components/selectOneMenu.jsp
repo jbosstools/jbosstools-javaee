@@ -11,7 +11,7 @@
 
 	<h:outputText value="selectOneMenu:" />
 
-		<h:selectOneMenu value="someValue">
+		<h:selectOneMenu value="someValue" id="selectOneMenu">
 
 			<f:selectItem itemLabel="value1" itemValue="value1" />
 			<f:selectItem itemLabel="value2" itemValue="value2" />

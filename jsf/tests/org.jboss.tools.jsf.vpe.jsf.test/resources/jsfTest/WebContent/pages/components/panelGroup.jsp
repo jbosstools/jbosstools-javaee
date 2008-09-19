@@ -13,11 +13,11 @@
 		<h:outputText value="column 1" />
 		<h:outputText value="column 2" />
 
-		<h:panelGroup>
+		<h:panelGroup id="panelGroup1">
 			<h:outputText value="1" />
 			<h:outputText value="2" />
 		</h:panelGroup>
-		<h:panelGroup>
+		<h:panelGroup id="panelGroup2" layout="block" >
 			<h:outputText value="3" />
 			<h:outputText value="4" />
 		</h:panelGroup>

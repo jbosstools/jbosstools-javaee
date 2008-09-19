@@ -1,18 +1,19 @@
 /******************************************************************************* 
-* Copyright (c) 2007 Red Hat, Inc.
-* Distributed under license by Red Hat, Inc. All rights reserved.
-* This program is made available under the terms of the
-* Eclipse Public License v1.0 which accompanies this distribution,
-* and is available at http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*     Red Hat, Inc. - initial API and implementation
-******************************************************************************/
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -27,24 +28,11 @@ import org.w3c.dom.NodeList;
 /**
  * @author Sergey Dzmitrovich
  * 
- * template for selectOneListbox select item
+ *         template for selectOneListbox select item
  * 
  */
 public class JsfSelectManyListbox extends VpeAbstractTemplate {
 
-	/**
-	 * "size" attribute
-	 */
-	private static final String ATTR_SIZE = "size"; //$NON-NLS-1$
-
-	/**
-	 * "dir" attribute
-	 */
-	private static final String ATTR_DIR = "dir";
-	
-	/**
-	 * "size" attribute
-	 */
 	private static final String ATTR_MULTIPLE_VALUE = "multiple"; //$NON-NLS-1$
 	/**
 	 * list of visible children
@@ -52,8 +40,8 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 	private static List<String> CHILDREN_LIST = new ArrayList<String>();
 
 	static {
-		CHILDREN_LIST.add("selectItem"); //$NON-NLS-1$
-		CHILDREN_LIST.add("selectItems"); //$NON-NLS-1$
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEM);
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEMS);
 	}
 
 	/**
@@ -77,8 +65,10 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
+	 * @see
+	 * org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools
+	 * .vpe.editor.context.VpePageContext, org.w3c.dom.Node,
+	 * org.mozilla.interfaces.nsIDOMDocument)
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -104,15 +94,15 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 		select.setAttribute(HTML.ATTR_MULTIPLE, ATTR_MULTIPLE_VALUE);
 
 		// get "size" attribute
-		String size = element.getAttribute(ATTR_SIZE);
+		String size = element.getAttribute(JSF.ATTR_SIZE);
 
 		// get "dir" attribute
-		String dir = element.getAttribute(ATTR_DIR);
-		
+		String dir = element.getAttribute(JSF.ATTR_DIR);
+
 		if (null != dir) {
 			select.setAttribute(HTML.ATTR_DIR, dir);
 		}
-		
+
 		// add "size" attribute to "select"
 		if (size != null)
 			// if source has "size" attribute import it

@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -33,18 +34,10 @@ import org.w3c.dom.NodeList;
 /**
  * @author Sergey Dzmitrovich
  * 
- * template for selectOneListbox select item
+ *         template for selectOneListbox select item
  * 
  */
 public class JsfSelectOneListbox extends VpeAbstractTemplate {
-
-	/**
-	 * "size" attribute
-	 */
-	private static final String ATTR_SIZE = "size"; //$NON-NLS-1$
-
-	private static final String ATTR_DISABLED_CLASS = "disabledClass";
-	private static final String ATTR_ENABLED_CLASS = "enabledClass";
 
 	/**
 	 * list of visible children
@@ -52,8 +45,8 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 	private static List<String> CHILDREN_LIST = new ArrayList<String>();
 
 	static {
-		CHILDREN_LIST.add("selectItem"); //$NON-NLS-1$
-		CHILDREN_LIST.add("selectItems"); //$NON-NLS-1$
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEM);
+		CHILDREN_LIST.add(JSF.TAG_SELECT_ITEMS);
 	}
 
 	/**
@@ -62,10 +55,10 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 	private static Map<String, String> ATTR_LIST_COPY = new HashMap<String, String>();
 
 	static {
-		ATTR_LIST_COPY.put("style", "style"); //$NON-NLS-1$
-		ATTR_LIST_COPY.put("styleClass", "class"); //$NON-NLS-1$
-		ATTR_LIST_COPY.put("disabled", "disabled"); //$NON-NLS-1$
-		ATTR_LIST_COPY.put("dir", "dir"); //$NON-NLS-1$
+		ATTR_LIST_COPY.put(JSF.ATTR_STYLE, HTML.ATTR_STYLE);
+		ATTR_LIST_COPY.put(JSF.ATTR_STYLE_CLASS, HTML.ATTR_CLASS);
+		ATTR_LIST_COPY.put(JSF.ATTR_DISABLED, HTML.ATTR_DISABLED);
+		ATTR_LIST_COPY.put(JSF.ATTR_DIR, HTML.ATTR_DIR);
 	}
 
 	/**
@@ -79,8 +72,10 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
+	 * @see
+	 * org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools
+	 * .vpe.editor.context.VpePageContext, org.w3c.dom.Node,
+	 * org.mozilla.interfaces.nsIDOMDocument)
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -114,7 +109,7 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 		}
 
 		// get "size" attribute
-		String size = element.getAttribute(ATTR_SIZE);
+		String size = element.getAttribute(JSF.ATTR_SIZE);
 
 		// add "size" attribute to "select"
 		if (size != null)
@@ -190,21 +185,22 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 					element
 							.setAttribute(HTML.ATTR_DISABLED,
 									HTML.ATTR_DISABLED);
-					element.setAttribute(HTML.ATTR_STYLE, sourceElement.getAttribute(HTML.ATTR_STYLE));
+					element.setAttribute(HTML.ATTR_STYLE, sourceElement
+							.getAttribute(HTML.ATTR_STYLE));
 				}
-					element
-							.setAttribute(
-									HTML.ATTR_CLASS,
-									(disabled || ComponentUtil
-											.string2boolean(ComponentUtil
-													.getAttribute(element,
-															HTML.ATTR_DISABLED))) ? ComponentUtil
-											.getAttribute(sourceElement,
-													ATTR_DISABLED_CLASS)
-											: ComponentUtil.getAttribute(
-													sourceElement,
-													ATTR_ENABLED_CLASS));
-				
+				element
+						.setAttribute(
+								HTML.ATTR_CLASS,
+								(disabled || ComponentUtil
+										.string2boolean(ComponentUtil
+												.getAttribute(element,
+														HTML.ATTR_DISABLED))) ? ComponentUtil
+										.getAttribute(sourceElement,
+												JSF.ATTR_DISABLED_CLASS)
+										: ComponentUtil.getAttribute(
+												sourceElement,
+												JSF.ATTR_ENABLED_CLASS));
+
 			}
 			for (int i = 0; i < list.getLength(); i++) {
 				applyChildAttributes(sourceElement, list.item(i));

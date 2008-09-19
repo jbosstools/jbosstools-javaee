@@ -1,0 +1,13 @@
+<tests>
+	<test id="outputLabel1">
+		<LABEL> outputLabel1</LABEL>
+	</test>
+	<test id="outputLabel2">
+		<LABEL> outputLabel2</LABEL>
+	</test>
+	<test id="outputLabel3">
+		<LABEL>
+			<SPAN> outputLabel3</SPAN>
+		</LABEL>
+	</test>
+</tests>

@@ -1,0 +1,66 @@
+<tests>
+	<test id="selectManyCheckbox1">
+		<TABLE>
+			<TR>
+				<TD>
+					<SPAN>
+						<INPUT TYPE="checkbox" />
+						<LABEL>
+							<SPAN> check1</SPAN>
+						</LABEL>
+					</SPAN>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<SPAN>
+						<INPUT TYPE="checkbox" />
+						<LABEL>
+							<SPAN> check2</SPAN>
+						</LABEL>
+					</SPAN>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<SPAN>
+						<INPUT TYPE="checkbox" />
+						<LABEL>
+							<SPAN> check3</SPAN>
+						</LABEL>
+					</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+	<test id="selectManyCheckbox2">
+		<TABLE>
+			<TR>
+				<TD>
+					<SPAN>
+						<INPUT TYPE="checkbox" />
+						<LABEL>
+							<SPAN> check1</SPAN>
+						</LABEL>
+					</SPAN>
+				</TD>
+				<TD>
+					<SPAN>
+						<INPUT TYPE="checkbox" />
+						<LABEL>
+							<SPAN> check2</SPAN>
+						</LABEL>
+					</SPAN>
+				</TD>
+				<TD>
+					<SPAN>
+						<INPUT TYPE="checkbox" />
+						<LABEL>
+							<SPAN> check3</SPAN>
+						</LABEL>
+					</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>
