@@ -119,7 +119,7 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testSelectOneRadio() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectOneRadio.jsp"); //$NON-NLS-1$
 	}
 
 	/*
@@ -147,7 +147,7 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testFacet() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/facet.jsp"); //$NON-NLS-1$
 	}
 
 	public void testLoadBundle() throws Throwable {
@@ -163,11 +163,11 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testSelectItem() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectItem.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSelectItems() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/selectItems.jsp"); //$NON-NLS-1$
 	}
 
 	public void testSetPropertyActionListener() throws Throwable {
@@ -175,7 +175,8 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testSubview() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/subview.jsp"); //$NON-NLS-1$
+
 	}
 
 	public void testValidateDoubleRange() throws Throwable {
@@ -199,11 +200,11 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testVerbatim() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/verbatim.jsp"); //$NON-NLS-1$
 	}
 
 	public void testView() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/view.jsp"); //$NON-NLS-1$
 	}
 
 	protected String getTestProjectName() {

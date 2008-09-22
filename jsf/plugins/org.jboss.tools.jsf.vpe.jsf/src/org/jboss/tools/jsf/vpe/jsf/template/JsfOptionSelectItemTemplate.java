@@ -35,8 +35,6 @@ import org.w3c.dom.NodeList;
  */
 public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* VpeAbstractTemplate */{
 
-	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
-
 	/* "escape" attribute of f:selectItem */
 
 	private String escape;
@@ -101,7 +99,7 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 			// if escape then contents of value (or other attribute) is only
 			// text
 			if (!sourceElement.hasAttribute(JSF.ATTR_ESCAPE)
-					|| Constants.TRUE.equalsIgnoreCase(sourceElement //$NON-NLS-1$
+					|| Constants.TRUE.equalsIgnoreCase(sourceElement
 							.getAttribute(JSF.ATTR_ESCAPE))) {
 
 				String value = outputAttr.getNodeValue();

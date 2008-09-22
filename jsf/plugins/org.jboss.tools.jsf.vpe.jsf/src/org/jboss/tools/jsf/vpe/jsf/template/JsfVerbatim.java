@@ -18,7 +18,7 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.TemplateManagingUtil;
+import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -34,8 +34,10 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
+	 * @see
+	 * org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools
+	 * .vpe.editor.context.VpePageContext, org.w3c.dom.Node,
+	 * org.mozilla.interfaces.nsIDOMDocument)
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -72,7 +74,7 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 
 			} else {
 				// get text by positions and add to span
-				String text = TemplateManagingUtil.getSourceText(pageContext,
+				String text = NodesManagingUtil.getSourceText(pageContext,
 						((IDOMNode) child).getStartOffset(), ((IDOMNode) child)
 								.getEndOffset() - 1);
 				span.appendChild(visualDocument.createTextNode(text));
@@ -95,10 +97,11 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument,
-	 *      org.mozilla.interfaces.nsIDOMElement, java.lang.Object,
-	 *      java.lang.String, java.lang.String)
+	 * @seeorg.jboss.tools.vpe.editor.template.VpeAbstractTemplate#
+	 * isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext,
+	 * org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument,
+	 * org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String,
+	 * java.lang.String)
 	 */
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,

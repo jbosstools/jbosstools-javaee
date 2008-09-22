@@ -16,6 +16,7 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -43,9 +44,6 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 
 	// style of span
 	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
-
-	private static final String CONSTANT_TRUE = "true"; //$NON-NLS-1$
-	private static final String CONSTANT_EMPTY = ""; //$NON-NLS-1$
 
 	private String dir;
 
@@ -77,10 +75,10 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 		table.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		nsIDOMElement radio = visualDocument.createElement(HTML.TAG_INPUT);
 		if (disabledItem)
-			radio.setAttribute(ITEM_DISABLED, CONSTANT_TRUE);
+			radio.setAttribute(ITEM_DISABLED, Constants.TRUE);
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 		if (disabledItem)
-			label.setAttribute(ITEM_DISABLED, CONSTANT_TRUE);
+			label.setAttribute(ITEM_DISABLED, Constants.TRUE);
 		table.appendChild(radio);
 		table.appendChild(label);
 
@@ -169,7 +167,7 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 	 * @return true, if successful
 	 */
 	private boolean attrPresents(String attr) {
-		return ((null != attr) && (!CONSTANT_EMPTY.equals(attr)));
+		return ((null != attr) && (attr.length()!=0));
 	}
 
 	@Override

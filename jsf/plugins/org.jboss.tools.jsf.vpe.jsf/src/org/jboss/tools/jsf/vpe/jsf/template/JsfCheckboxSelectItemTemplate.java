@@ -14,6 +14,7 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -75,7 +76,7 @@ public class JsfCheckboxSelectItemTemplate extends AbstractOutputJsfTemplate {
 			input.setAttribute(HTML.ATTR_DIR, dir);
 		}
 
-		if (attrPresents(disabled) && "true".equalsIgnoreCase(disabled)) { //$NON-NLS-1$
+		if (attrPresents(disabled) && Constants.TRUE.equalsIgnoreCase(disabled)) { 
 			label.setAttribute(HTML.ATTR_CLASS, disabledClass);
 		} else if (attrPresents(enabledClass)) {
 			label.setAttribute(HTML.ATTR_CLASS, enabledClass);
@@ -100,7 +101,7 @@ public class JsfCheckboxSelectItemTemplate extends AbstractOutputJsfTemplate {
 	 * @return true, if successful
 	 */
 	private boolean attrPresents(String attr) {
-		return ((null != attr) && (!"".equals(attr))); //$NON-NLS-1$
+		return ((null != attr) && (attr.length() != 0));
 	}
 
 	/**

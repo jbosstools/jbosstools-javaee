@@ -103,9 +103,6 @@
 
 	<vpe:tag name="h:inputHidden" case-sensitive="yes">
 		<vpe:template children="no" modify="no"  >
-			<input type="text" value="{jsfvalue(@value)}"
-				title="{tagstring()}" />
-		
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">

@@ -11,7 +11,10 @@
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -47,12 +50,13 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 	/**
 	 * list of copied attributes
 	 */
-	private static List<String> ATTR_LIST_COPY = new ArrayList<String>();
+	private static Map<String, String> ATTR_LIST_COPY = new HashMap<String, String>();
 
 	static {
-		ATTR_LIST_COPY.add("style"); //$NON-NLS-1$
-		ATTR_LIST_COPY.add("styleClass"); //$NON-NLS-1$
+		ATTR_LIST_COPY.put(JSF.ATTR_STYLE, HTML.ATTR_STYLE);
+		ATTR_LIST_COPY.put(JSF.ATTR_STYLE_CLASS, HTML.ATTR_CLASS);
 	}
+
 
 	/**
 	 * 
@@ -79,14 +83,17 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 		Element element = (Element) sourceNode;
 
 		// import attributes from source
-		for (String attributeName : ATTR_LIST_COPY) {
+		Set<String> jsfAttributes = ATTR_LIST_COPY.keySet();
+
+		for (String attributeName : jsfAttributes) {
 
 			// get attribute
 			String attr = element.getAttribute(attributeName);
 
 			// add attribute to "select"
-			if (attr != null)
-				select.setAttribute(HTML.ATTR_STYLE, attr);
+			if (attr != null) {
+				select.setAttribute(ATTR_LIST_COPY.get(attributeName), attr);
+			}
 
 		}
 
