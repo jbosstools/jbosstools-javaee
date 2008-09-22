@@ -118,7 +118,7 @@ public class SeamPagesPageRefUpdateManager implements XModelTreeListener, Runnab
 
     private void onChildAdded(XModelTreeEvent event) {
         XModelObject c = (XModelObject)event.getInfo();
-        if(!c.getModelEntity().getName().equals("JSFProcessGroup")) return;
+        if(!c.getModelEntity().getName().equals(SeamPagesConstants.ENT_DIAGRAM_ITEM)) return;
         SeamPagesDiagramImpl pi = (SeamPagesDiagramImpl)event.getModelObject();
         PageLinks pl = getPageLinks(c);
         if(pl == null || pi.getHelper() == null) return;
