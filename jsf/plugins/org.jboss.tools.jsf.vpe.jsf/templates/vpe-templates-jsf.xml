@@ -278,15 +278,7 @@
 				</vpe:textFormatting>
 			</vpe:template>
 		</vpe:if>
-		<vpe:if test="tld_version('max=1.2')" >
-			<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfOutputLinkTemplate">
-			<vpe:textFormatting use-default-formats="yes">
-				<vpe:format type="UnderlineFormat" setDefault="true">
-					<vpe:formatAttribute type="style" />
-				</vpe:format>
-			</vpe:textFormatting>
-		</vpe:template>
-		</vpe:if>
+		<vpe:if test="tld_version('min=1.2')">
 		<vpe:template children="yes" modify="yes">
 			<vpe:a class="{@styleClass}"
 				style="{@style}"
@@ -298,7 +290,14 @@
 				</vpe:format>
 			</vpe:textFormatting>
 		</vpe:template>
-
+		</vpe:if>
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfOutputLinkTemplate">
+			<vpe:textFormatting use-default-formats="yes">
+				<vpe:format type="UnderlineFormat" setDefault="true">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormatting>
+		</vpe:template>
 	</vpe:tag>
 
 	<vpe:tag name="h:outputLabel" case-sensitive="yes">
