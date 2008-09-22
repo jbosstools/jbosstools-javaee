@@ -87,6 +87,9 @@
 		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.RenameViewSupport"
 			class="org.jboss.tools.seam.pages.xml.model.handlers.RenameViewSupport"/>
 
+		<xclass id="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
+			class="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"/>
+
 		<xclass id="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"
 			class="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"/>
 

@@ -3089,15 +3089,15 @@
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem kind="list" name="LinkActions">
     <XActionItem HIDE="disabled"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
      ICON="action.empty" PROPERTIES="value=no;property=shortcut"
      displayName="Show as Transition" kind="action" name="AsTransition"/>
     <XActionItem HIDE="disabled"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
      ICON="action.empty" PROPERTIES="value=yes;property=shortcut"
      displayName="Show as Shortcut" kind="action" name="AsSrortcut"/>
     <XActionItem HIDE="always"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
      ICON="action.empty" PROPERTIES="value=yes;property=hidden"
      displayName="Hide" kind="action" name="Hide"/>
    </XActionItem>
@@ -3156,15 +3156,15 @@
     ICON="action.empty" displayName="Auto Layout" kind="action" name="Autolayout"/>
    <XActionItem kind="list" name="LinkActions">
     <XActionItem HIDE="disabled"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
      ICON="action.empty" PROPERTIES="value=no;property=shortcut"
      displayName="Show as Transition" kind="action" name="AsTransition"/>
     <XActionItem HIDE="disabled"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
      ICON="action.empty" PROPERTIES="value=yes;property=shortcut"
      displayName="Show as Shortcut" kind="action" name="AsSrortcut"/>
     <XActionItem HIDE="always"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.ModifyLinkHandler"
+     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.ModifyLinkHandler"
      ICON="action.empty" PROPERTIES="value=yes;property=hidden"
      displayName="Hide" kind="action" name="Hide"/>
    </XActionItem>

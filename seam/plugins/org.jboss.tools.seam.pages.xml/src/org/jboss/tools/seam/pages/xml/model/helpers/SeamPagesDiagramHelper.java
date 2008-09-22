@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.jst.web.model.ReferenceObject;
@@ -203,7 +204,6 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			}
 			updatePageItem(gs[i]);
 			if(hadReference && ts == gs[i].getTimeStamp()) {
-				System.out.println("fire " + gs[i].getPath());
 				gs[i].fireReferenceChanged();
 			}
 		}
