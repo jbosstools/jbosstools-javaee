@@ -118,10 +118,10 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 		String text = "";
 //		if (getLink().getJSFModel().getOptions().showShortcutPath())
-//			text = getLink().getToGroup().getVisiblePath();
+			text = getLink().getToElement().getName();
 		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
 //		if (getLink().getJSFModel().getOptions().showShortcutIcon())
-//			shortcutLabel.setIcon(icon);
+			shortcutLabel.setIcon(icon);
 //		shortcutLabel.setFont(getLink().getJSFModel().getOptions()
 //				.getLinkPathFont());
 		shortcutLabel.setTextAlignment(Label.LEFT);
@@ -212,11 +212,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	public void linkChange(Link source) {
 		pathLabel.setText(getLink().getName());
 //		if (getLinkModel().getJSFModel().getOptions().showShortcutPath())
-//			shortcutLabel.setText(getLink().getToGroup().getVisiblePath());
+			shortcutLabel.setText(getLink().getToElement().getName());
 //		else
 //			shortcutLabel.setText("");
 //		if (getLinkModel().getJSFModel().getOptions().showShortcutIcon())
-//			shortcutLabel.setIcon(icon);
+			shortcutLabel.setIcon(icon);
 //		else
 //			shortcutLabel.setIcon(null);
 
@@ -269,6 +269,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 		 */
 		public void notifyChanged(Notification notification) {
+			linkChange(getLink());
 			pathLabel.setText(getLinkModel().getName());
 			if (getLinkFigure().isManual()
 					&& getLink().getPathFromModel().equals("")) {
