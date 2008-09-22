@@ -78,21 +78,19 @@ public class JBIDE788Test extends VpeTest {
 		assertNotNull(results);
 		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
 		for (ICompletionProposal completionProposal : results) {
-			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();		
 			if(!displayString.startsWith("${msg.")) { //$NON-NLS-1$
-				//TODO Max Areshkau Fix When JBIDE-2498 will be fixed
 				fail("String doesn't matches"); //$NON-NLS-1$
 			}
 			
 		}
 
-		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,41,false);  //$NON-NLS-1$//$NON-NLS-2$
+		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,43,false);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
 
 		for(ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			if(!displayString.contains("temp")) { //$NON-NLS-1$
+			if(!displayString.contains("temp") && !displayString.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
 				fail("String doesn't matches"); //$NON-NLS-1$
 			}
 		}
