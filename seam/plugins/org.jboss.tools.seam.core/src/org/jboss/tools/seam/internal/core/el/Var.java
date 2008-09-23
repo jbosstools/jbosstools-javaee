@@ -1,6 +1,22 @@
+/******************************************************************************* 
+ * Copyright (c) 2007 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.el;
 
 import java.util.List;
+
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInstance;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.parser.ELParser;
+import org.jboss.tools.common.el.core.parser.ELParserFactory;
 
 /**
  * Represents "var"/"value" attributes.
@@ -9,9 +25,9 @@ import java.util.List;
 public class Var {
 	String name;
 	String value;
-	ELToken elToken;
+	ELExpression elToken;
 	String resolvedValue;
-	ELToken resolvedElToken;
+	ELExpression resolvedElToken;
 	int declOffset;
 	int declLength;
 	
@@ -38,16 +54,14 @@ public class Var {
 		this(name, value, 0, 0);
 	}		
 	
-	ELToken parseEl(String el) {
+	ELExpression parseEl(String el) {
 		if(el.length()>3 && el.startsWith("#{") && el.endsWith("}")) {
-			String elBody = el.substring(0, el.length()-1).substring(2);
-			SeamELTokenizer elTokenizer = new SeamELTokenizer(elBody);
-			List<ELToken> tokens = elTokenizer.getTokens();
-			for (ELToken token : tokens) {
-				if(token.getType()==ELToken.EL_VARIABLE_TOKEN) {
-					return token;
-				}
-			}
+			ELParser parser = ELParserFactory.createJbossParser();
+			ELModel model = parser.parse(el);
+			if(model == null || parser.getSyntaxErrors().size() > 0) return null;
+			List<ELInstance> is = model.getInstances();
+			if(is.size() == 0) return null;
+			return is.get(0).getExpression();
 		}
 		return null;
 	}
@@ -73,14 +87,14 @@ public class Var {
 	/**
 	 * @return parsed EL from "value" attribute. Returns null if EL is not valid.
 	 */
-	public ELToken getElToken() {
+	public ELExpression getElToken() {
 		return elToken;
 	}
 
 	/**
 	 * @return parsed resolved EL from "value" attribute. May be null.
 	 */
-	public ELToken getResolvedElToken() {
+	public ELExpression getResolvedElToken() {
 		return resolvedElToken;
 	}
 

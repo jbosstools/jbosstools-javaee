@@ -24,6 +24,7 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
@@ -248,14 +249,14 @@ public class ElVarSearcher {
 		if(vars!=null) {
 			ArrayList<Var> parentVars = new ArrayList<Var>();
 			for (Var var : vars) {
-				ELToken token = var.getElToken();
+				ELExpression token = var.getElToken();
 				if(token!=null && !token.getText().endsWith(".")) {
 					String varName = var.getName();
-					if(el.equals(varName) || el.startsWith(varName + ".")) {
+					if(el.equals(varName)) {
 						if(var.getElToken()!=null && initializeNestedVars) {
 							Var parentVar = findVarForEl(var.getElToken().getText(), parentVars, true);
 							if(parentVar!=null) {
-								ELToken resolvedToken = parentVar.getResolvedElToken();
+								ELExpression resolvedToken = parentVar.getResolvedElToken();
 								if(resolvedToken==null && parentVar.getElToken()!=null) {
 									try {
 										// Initialize parent vars.
