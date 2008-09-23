@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="convertNumber" /></h1>
 	<h:inputText value="value">
-		<f:convertNumber minFractionDigits="2"/>
+		<f:convertNumber minFractionDigits="2" id="convertNumber" />
 	</h:inputText>
 </f:view>
 </body>

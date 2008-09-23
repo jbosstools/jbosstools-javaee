@@ -1,0 +1,15 @@
+<tests>
+	<test id="verbatim1">
+		<SPAN>
+			<INPUT TYPE="button" VALUE="button" />
+		</SPAN>
+	</test>
+	<test id="verbatim2">
+		<SPAN>
+			<SPAN></SPAN>
+			<SPAN></SPAN> 
+				&lt;input type="button" value="button" /&gt; 
+			<SPAN></SPAN>
+		</SPAN>
+	</test>
+</tests>

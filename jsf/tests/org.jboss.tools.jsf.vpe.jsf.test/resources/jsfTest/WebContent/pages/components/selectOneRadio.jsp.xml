@@ -1,0 +1,68 @@
+<tests>
+	<test id="selectOneRadio1">
+		<TABLE BORDER="1">
+			<TR>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+						<LABEL> value1</LABEL>
+					</TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+						<LABEL> value2</LABEL>
+					</TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+						<LABEL> value3</LABEL>
+					</TABLE>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+						<LABEL> value4</LABEL>
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+	<test id="selectOneRadio2">
+		<TABLE>
+			<TR>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+						<LABEL> value1</LABEL>
+					</TABLE>
+				</TD>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+						<LABEL> value2</LABEL>
+					</TABLE>
+				</TD>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+						<LABEL> value3</LABEL>
+					</TABLE>
+				</TD>
+				<TD>
+					<TABLE>
+						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+						<LABEL> value4</LABEL>
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>

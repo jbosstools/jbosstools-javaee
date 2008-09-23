@@ -1,0 +1,15 @@
+<tests>
+	<test id="selectItems1">
+		<SPAN>
+			<INPUT TYPE="checkbox" />
+		</SPAN>
+	</test>
+	<test id="selectItems2">
+		<OPTION>someValue</OPTION>
+	</test>
+	<test id="selectItems3">
+		<SPAN>
+			<INPUT TYPE="radio" />
+		</SPAN>
+	</test>
+</tests>

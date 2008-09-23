@@ -10,7 +10,7 @@
 	<h1><h:outputText value="valueChangeListener" /></h1>
 	<h:form>
 		<h:inputText value="value">
-			<f:valueChangeListener type="listener"  />
+			<f:valueChangeListener type="listener" id="valueChangeListener" />
 		</h:inputText>
 	</h:form>
 </f:view>

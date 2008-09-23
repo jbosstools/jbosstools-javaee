@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<f:view>
-	<h1><h:outputText value="view" /></h1>
+<f:view id="view">
+	view
 </f:view>
 </body>
 </html>

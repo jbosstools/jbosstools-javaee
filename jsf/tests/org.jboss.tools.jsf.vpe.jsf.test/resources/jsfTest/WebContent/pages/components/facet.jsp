@@ -11,8 +11,9 @@
 	<h:dataTable value="data">
 
 		<h:column>
-			<f:facet name="header">
+			<f:facet name="header" id="facet">
 				<h:outputText value="Last Name" />
+				<h:outputText value="Cut Text" />
 			</f:facet>
 
 

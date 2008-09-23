@@ -10,7 +10,7 @@
 	<h1><h:outputText value="setPropertyActionListener" /></h1>
 	<h:form>
 		<h:commandButton value="click">
-			<f:setPropertyActionListener target="#{myBean.currentPage}" value="1" />
+			<f:setPropertyActionListener target="#{myBean.currentPage}" value="1" id="setPropertyActionListener" />
 		</h:commandButton>
 	</h:form>
 </f:view>

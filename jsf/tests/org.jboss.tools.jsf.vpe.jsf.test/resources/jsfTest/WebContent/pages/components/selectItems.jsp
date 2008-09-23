@@ -11,9 +11,17 @@
 
 	<h:outputText value="selectitems:" />
 
-	<h:selectManyCheckbox value="someValue">
-		<f:selectItems value="someValue" />
+	<h:selectManyCheckbox>
+		<f:selectItems value="someValue" id="selectItems1" />
 	</h:selectManyCheckbox>
+
+	<h:selectManyListbox>
+		<f:selectItems value="someValue" id="selectItems2" />
+	</h:selectManyListbox>
+
+	<h:selectOneRadio>
+		<f:selectItems value="someValue" id="selectItems3" />
+	</h:selectOneRadio>
 
 </f:view>
 </body>

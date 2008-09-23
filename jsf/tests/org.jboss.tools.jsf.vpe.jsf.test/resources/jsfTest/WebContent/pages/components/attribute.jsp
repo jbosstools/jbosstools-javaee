@@ -10,7 +10,7 @@
 	<h1><h:outputText value="attribute" /></h1>
 	<h:form id="form">
 		<h:commandButton value="button">
-			<f:attribute name="attributeName" value="attributeValue" />
+			<f:attribute name="attributeName" value="attributeValue" id="attribute"/>
 		</h:commandButton>
 	</h:form>
 </f:view>

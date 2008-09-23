@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="convertDateTime" /></h1>
 	<h:inputText value="value">
-		<f:convertDateTime pattern="MM/yyyy" />
+		<f:convertDateTime pattern="MM/yyyy" id="convertDateTime" />
 	</h:inputText>
 </f:view>
 </body>

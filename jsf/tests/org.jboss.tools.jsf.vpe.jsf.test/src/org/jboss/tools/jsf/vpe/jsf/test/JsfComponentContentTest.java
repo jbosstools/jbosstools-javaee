@@ -46,7 +46,8 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testInputHidden() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/inputHidden.jsp", "inputHidden"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testInputSecret() throws Throwable {
@@ -127,23 +128,25 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	 */
 
 	public void testActionListener() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/actionListener.jsp", "actionListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testAttribute() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/attribute.jsp", "attribute"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testConvertDateTime() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/convertDateTime.jsp", "convertDateTime"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testConvertNumber() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/convertNumber.jsp", "convertNumber"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testConverter() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/converter.jsp", "converter"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testFacet() throws Throwable {
@@ -151,15 +154,15 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testLoadBundle() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/loadBundle.jsp", "loadBundle"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testParam() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/param.jsp", "param"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPhaseListener() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/phaseListener.jsp", "phaseListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testSelectItem() throws Throwable {
@@ -171,7 +174,8 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testSetPropertyActionListener() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/setPropertyActionListener.jsp", "setPropertyActionListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testSubview() throws Throwable {
@@ -180,23 +184,27 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testValidateDoubleRange() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/validateDoubleRange.jsp", "validateDoubleRange"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testValidateLength() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/validateLength.jsp", "validateLength"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testValidateLongRange() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/validateLongRange.jsp", "validateLongRange"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testValidator() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest("components/validator.jsp", "validator"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testValueChangeListener() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performInvisibleTagTest(
+				"components/valueChangeListener.jsp", "valueChangeListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testVerbatim() throws Throwable {

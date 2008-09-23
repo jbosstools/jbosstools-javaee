@@ -8,17 +8,11 @@
 
 <f:view>
 	<h1><h:outputText value="verbatim" /></h1>
-	<f:verbatim>
-		<table width="50%">
-			<tr>
-				<td>1</td>
-				<td>2</td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>4</td>
-			</tr>
-		</table>
+	<f:verbatim id="verbatim1">
+		<input type="button" value="button" />
+	</f:verbatim>
+	<f:verbatim escape="true" id="verbatim2">
+		<input type="button" value="button" />
 	</f:verbatim>
 </f:view>
 </body>

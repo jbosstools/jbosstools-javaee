@@ -1,0 +1,19 @@
+<tests>
+	<test id="selectItem1">
+		<SPAN>
+			<INPUT TYPE="checkbox" />
+			<LABEL>
+				<SPAN> check1</SPAN>
+			</LABEL>
+		</SPAN>
+	</test>
+	<test id="selectItem2">
+		<OPTION> value1</OPTION>
+	</test>
+	<test id="selectItem3">
+		<TABLE>
+			<INPUT TYPE="radio" NAME="radio_name_507" />
+			<LABEL> value1</LABEL>
+		</TABLE>
+	</test>
+</tests>

@@ -10,7 +10,7 @@
 	<h1><h:outputText value="actionListener" /></h1>
 	<h:form id="form">
 		<h:commandButton value="button">
-			<f:actionListener type="someType" />
+			<f:actionListener type="someType" id="actionListener" />
 		</h:commandButton>
 	</h:form>
 </f:view>

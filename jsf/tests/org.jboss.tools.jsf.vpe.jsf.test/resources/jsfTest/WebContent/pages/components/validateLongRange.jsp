@@ -10,7 +10,7 @@
 	<h1><h:outputText value="validateLongRange" /></h1>
 	<h:form>
 		<h:inputText value="value">
-			<f:validateLongRange minimum="10" maximum="100" />
+			<f:validateLongRange minimum="10" maximum="100" id="validateLongRange" />
 		</h:inputText>
 	</h:form>
 </f:view>

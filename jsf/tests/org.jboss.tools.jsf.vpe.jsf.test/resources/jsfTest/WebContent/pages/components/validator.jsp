@@ -10,7 +10,7 @@
 	<h1><h:outputText value="validator" /></h1>
 	<h:form>
 		<h:inputText value="value">
-			<f:validator validatorId="validatorId"/>
+			<f:validator validatorId="validatorId" id="validator" />
 		</h:inputText>
 	</h:form>
 </f:view>

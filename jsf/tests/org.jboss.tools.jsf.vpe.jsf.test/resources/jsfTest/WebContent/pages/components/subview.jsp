@@ -8,8 +8,10 @@
 
 <f:view>
 	<h1><h:outputText value="subview" /></h1>
-	<f:subview id="subviewId">
-		<h:outputText value="subview content" />
+	<f:subview id="subview1">
+	</f:subview>
+	<f:subview id="subview2">
+		subview content
 	</f:subview>
 </f:view>
 </body>

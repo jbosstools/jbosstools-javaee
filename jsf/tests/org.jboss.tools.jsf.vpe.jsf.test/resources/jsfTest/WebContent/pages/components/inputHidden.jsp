@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="inputHidden" /></h1>
 
-	<h:inputHidden value="inputHidden"/>
+	<h:inputHidden value="inputHidden" id="inputHidden"/>
 	
 </f:view>
 </body>

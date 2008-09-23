@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="phaseListener" /></h1>
 
-	<f:phaseListener type="phaseListenerId"/>
+	<f:phaseListener type="phaseListenerId" id="phaseListener"/>
 	
 </f:view>
 </body>

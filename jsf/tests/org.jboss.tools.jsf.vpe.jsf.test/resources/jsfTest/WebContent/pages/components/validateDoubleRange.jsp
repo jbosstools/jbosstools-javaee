@@ -10,7 +10,7 @@
 	<h1><h:outputText value="validateDoubleRange" /></h1>
 	<h:form>
 		<h:inputText value="value">
-			<f:validateDoubleRange minimum="0" maximum="100" />
+			<f:validateDoubleRange minimum="0" maximum="100"  id="validateDoubleRange"/>
 		</h:inputText>
 	</h:form>
 </f:view>

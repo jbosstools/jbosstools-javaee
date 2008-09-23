@@ -15,7 +15,7 @@
 
 			<h:outputText value="param" />
 
-			<f:param id="paramId" name="param" value="someParamValue" />
+			<f:param id="param" name="param" value="someParamValue" />
 
 		</h:commandLink>
 

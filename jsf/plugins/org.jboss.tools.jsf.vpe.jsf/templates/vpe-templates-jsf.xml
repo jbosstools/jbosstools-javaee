@@ -732,6 +732,10 @@
 	<vpe:tag name="f:setPropertyActionListener">
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
+	
+	<vpe:tag name="f:actionListener">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
 
 	<vpe:tag name="f:valueChangeListener">
 		<vpe:template children="no" modify="no" />

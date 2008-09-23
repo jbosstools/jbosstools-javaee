@@ -9,7 +9,7 @@
 <f:view>
 	<h1><h:outputText value="converter" /></h1>
 	<h:inputText value="value">
-		<f:converter converterId="someConverterId" />
+		<f:converter converterId="someConverterId" id="converter" />
 	</h:inputText>
 </f:view>
 </body>

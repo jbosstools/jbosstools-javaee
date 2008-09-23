@@ -8,7 +8,7 @@
 
 <f:view>
 	<h1><h:outputText value="loadBundle" /></h1>
-	<f:loadBundle var="var" basename="someBaseName" />
+	<f:loadBundle var="var" basename="someBaseName" id="loadBundle" />
 </f:view>
 </body>
 </html>
