@@ -1,9 +1,0 @@
-<tests>
-	<test id="selectOneListbox">
-		<SELECT SIZE="3">
-			<OPTION> value1</OPTION>
-			<OPTION> value2</OPTION>
-			<OPTION> value3</OPTION>
-		</SELECT>
-	</test>
-</tests>

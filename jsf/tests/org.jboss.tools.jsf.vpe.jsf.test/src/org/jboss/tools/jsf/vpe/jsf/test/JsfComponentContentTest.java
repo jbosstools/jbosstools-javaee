@@ -80,7 +80,7 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testOutputLink() throws Throwable {
-		assertTrue("it is necessery to add body of the test", false); //$NON-NLS-1$
+		performContentTest("components/outputLink.jsp"); //$NON-NLS-1$
 	}
 
 	public void testOutputText() throws Throwable {
