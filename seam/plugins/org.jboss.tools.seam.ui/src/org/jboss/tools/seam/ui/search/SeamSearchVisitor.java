@@ -115,7 +115,7 @@ import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizerForward;
 import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
+import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
 import org.jboss.tools.seam.internal.core.scanner.java.ResolvedAnnotation;

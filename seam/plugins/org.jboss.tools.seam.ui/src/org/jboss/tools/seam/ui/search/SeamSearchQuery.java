@@ -39,7 +39,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**

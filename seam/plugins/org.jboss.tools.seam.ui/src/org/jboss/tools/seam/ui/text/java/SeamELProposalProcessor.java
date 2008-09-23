@@ -57,6 +57,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
+import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.w3c.dom.Node;
 
@@ -324,7 +325,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
     			proposalSufix = "}";
     		}
 
-			List<ElVarSearcher.Var> vars = ElVarSearcher.findAllVars(viewer, offset);
+			List<Var> vars = ElVarSearcher.findAllVars(viewer, offset);
 			List<String> suggestions = fEngine.getCompletions(seamProject, file, documentContent, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
 			List<String> uniqueSuggestions = fEngine.makeUnique(suggestions);
 

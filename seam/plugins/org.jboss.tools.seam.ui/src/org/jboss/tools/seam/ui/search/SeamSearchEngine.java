@@ -42,7 +42,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
+import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
