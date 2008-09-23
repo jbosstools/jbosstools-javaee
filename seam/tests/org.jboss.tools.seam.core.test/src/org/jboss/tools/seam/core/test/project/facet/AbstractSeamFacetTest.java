@@ -11,8 +11,11 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
@@ -24,7 +27,6 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
-import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
@@ -52,6 +54,8 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	protected static final IProjectFacetVersion javaFacesVersion;
 	
 	private static final IProjectFacet seamFacet;
+
+	private static final long MAX_IDLE = 30*60*1000L;
 	
 	static {
 		seamFacet = ProjectFacetsManager.getProjectFacet("jst.seam");
@@ -94,26 +98,43 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	throws Exception
 
 	{
+		
 		// Wait until all jobs is finished to avoid delete project problems
-		EditorTestHelper.joinBackgroundActivities();
-		EditorTestHelper.runEventQueue(3000);
+		
+		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+	    waitForIdle(); 
+	    boolean oldAutoBuilding = true; 
 		Exception last = null;
-		for (IResource r : this.resourcesToCleanup) {
-			try {
-				System.out.println("Deleting " + r);
-				r.delete(true, null);
-			} catch(Exception e) {
-				System.out.println("Error deleting " + r);
-				e.printStackTrace();
-				last = e;
+		try {
+			oldAutoBuilding = setAutoBuilding(false); 
+			for (IResource r : this.resourcesToCleanup) {
+				try {
+					System.out.println("Deleting " + r);
+					r.delete(true, null);
+				} catch(Exception e) {
+					System.out.println("Error deleting " + r);
+					e.printStackTrace();
+					last = e;
+				}
 			}
-		}
 
-		for (Runnable runnable : this.tearDownOperations) {
-			runnable.run();
+			for (Runnable runnable : this.tearDownOperations) {
+				runnable.run();
+			}
+		} finally {
+			setAutoBuilding(oldAutoBuilding); 
 		}
 		
 		if(last!=null) throw last;
+	}
+
+	public static void waitForIdle() {
+		long start = System.currentTimeMillis();
+		while (!EditorTestHelper.allJobsQuiet()) {
+			delay(500);
+			if ( (System.currentTimeMillis()-start) > MAX_IDLE ) 
+				throw new RuntimeException("A long running task detected"); //$NON-NLS-1$
+		}
 	}
 
 	protected final void addResourceToCleanup(final IResource resource) {
@@ -242,4 +263,36 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			
 	}
 
+	protected boolean setAutoBuilding(boolean state) throws CoreException {
+	       boolean oldAutoBuilding;
+	       IWorkspace workspace = ResourcesPlugin.getWorkspace();
+	       IWorkspaceDescription description = workspace.getDescription();
+	       oldAutoBuilding = description.isAutoBuilding();
+	       if (state != oldAutoBuilding) {
+	           description.setAutoBuilding(state);
+	           workspace.setDescription(description);
+	       }
+	       return oldAutoBuilding;
+	} 
+	
+	public static void delay(long waitTimeMillis) {
+		Display display = Display.getCurrent();
+		if (display != null) {
+			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
+			while (System.currentTimeMillis() < endTimeMillis) {
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
+			display.update();
+		}
+		// Otherwise, perform a simple sleep.
+		else {
+			try {
+				Thread.sleep(waitTimeMillis);
+			} catch (InterruptedException e) {
+				// Ignored.
+			}
+		}
+	}
+	
 }

@@ -18,9 +18,11 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -56,10 +58,11 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
 		assertNotNull("",project);
-		
-		componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
+		this.project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		componentsFile = project.getFile(new Path("WebContent/WEB-INF/components.xml"));
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 
+		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		EditorTestHelper.joinBackgroundActivities();
 	}
 	

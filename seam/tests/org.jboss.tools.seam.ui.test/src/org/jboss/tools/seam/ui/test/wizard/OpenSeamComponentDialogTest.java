@@ -13,6 +13,9 @@ package org.jboss.tools.seam.ui.test.wizard;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -32,7 +35,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+       
 		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
 		if(project == null) {
 			ProjectImportTestSetup setup = new ProjectImportTestSetup(
@@ -41,6 +44,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 					"projects/TestComponentView",
 					"TestComponentView");
 			project = setup.importProject();
+			this.project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		}
 		this.project = project.getProject();
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -71,7 +75,6 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	
 	//JBIDE-1879
 	public void testFindShortHand() {
-		
 		find("o*jbpm", "org.jboss.seam.core.jbpm", true);
 		find("jbpm", "org.jboss.seam.core.jbpm", false);
 		

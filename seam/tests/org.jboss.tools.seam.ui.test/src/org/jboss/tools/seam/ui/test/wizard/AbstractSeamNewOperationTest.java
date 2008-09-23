@@ -195,8 +195,8 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	 * Test Seam Action for http://jira.jboss.com/jira/browse/JBIDE-2004
 	 */
 	public void testNewSeamActionOperation() {
-		try { EditorTestHelper.joinBackgroundActivities(); } 
-		catch (Exception e) { JUnitUtils.fail(e.getMessage(), e); }
+//		try { EditorTestHelper.joinBackgroundActivities(); } 
+//		catch (Exception e) { JUnitUtils.fail(e.getMessage(), e); }
 
 		assertProjectsAreCreated();
 	
@@ -208,11 +208,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		registry.fillDataDefaults(SEAM_ACTION_COMPONENT_NAME, getProject().getName());
 		performOperation(CREATE_SEAM_ACTION, registry);
 		
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 
 		assertNewActionFilesAreCreatedSuccessfully(registry);
 	}
@@ -221,11 +221,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	 * Test Seam Form for http://jira.jboss.com/jira/browse/JBIDE-2004
 	 */
 	public void testNewSeamFormOperation() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 		assertProjectsAreCreated();
 		
 		setUpSeamProjects();
@@ -234,11 +234,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		registry.createData();
 		registry.fillDataDefaults(SEAM_FORM_COMPONENT_NAME, getProject().getName());
 		performOperation(CREATE_SEAM_FORM, registry);
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 
 		assertNewFormFilesAreCreatedSuccessfully(registry);
 	}
@@ -246,11 +246,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	 * Test Seam Action for http://jira.jboss.com/jira/browse/JBIDE-2004
 	 */
 	public void testNewSeamConversationOperation() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 		assertProjectsAreCreated();
 		
 		setUpSeamProjects();
@@ -259,11 +259,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		registry.createData();
 		registry.fillDataDefaults(SEAM_CONVERSATION_COMPONENT_NAME, getProject().getName());
 		performOperation(CREATE_SEAM_CONVERSATION, registry);
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 
 		assertNewConversationFilesAreCreatedSuccessfully(registry);
 	}
@@ -272,11 +272,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	 * Test Seam Action for http://jira.jboss.com/jira/browse/JBIDE-2004
 	 */
 	public void testNewSeamEntityOperation() {
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 		
 		assertProjectsAreCreated();
 		
@@ -292,11 +292,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		registry.createData();
 		registry.fillDataDefaults(SEAM_ENTITY_COMPONENT_NAME, getProject().getName());
 		performOperation(CREATE_SEAM_ENTITY, registry);
-		try {
-			EditorTestHelper.joinBackgroundActivities();
-		} catch (Exception e) {
-			JUnitUtils.fail(e.getMessage(), e);
-		}
+//		try {
+//			EditorTestHelper.joinBackgroundActivities();
+//		} catch (Exception e) {
+//			JUnitUtils.fail(e.getMessage(), e);
+//		}
 
 		assertNewEntityFilesAreCreatedSuccessfully(registry);
 	}
