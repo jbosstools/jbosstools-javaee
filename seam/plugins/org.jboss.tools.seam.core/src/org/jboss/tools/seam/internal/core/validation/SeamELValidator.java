@@ -53,9 +53,10 @@ import org.jboss.tools.seam.internal.core.el.ELStringToken;
 import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
+import org.jboss.tools.seam.internal.core.el.SeamELOperandResolveStatus;
 import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
 import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher.Var;
+import org.jboss.tools.seam.internal.core.el.Var;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -289,7 +290,7 @@ public class SeamELValidator extends SeamValidator {
 						position = 0;
 					}
 
-					SeamELCompletionEngine.SeamELOperandResolveStatus status = 
+					SeamELOperandResolveStatus status = 
 						engine.resolveSeamELOperand(project, file, operand, prefix, position, true, varListForCurentValidatedNode, elVarSearcher);
 
 					if(status.getUsedVariables().size()==0 && status.isError()) {
