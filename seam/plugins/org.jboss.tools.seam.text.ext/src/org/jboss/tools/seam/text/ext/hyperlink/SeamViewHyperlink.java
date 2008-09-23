@@ -50,7 +50,12 @@ public class SeamViewHyperlink extends LinkHyperlink {
 	protected IFile getFileFromProject(String fileName) {
 		IFile documentFile = getFile();
 		IProject project = documentFile.getProject();
-		return super.getFileFromProject(updateFilenameForModel(fileName, project));
+		String updatedFileName = updateFilenameForModel(fileName, project);
+		if(updatedFileName!=null) {
+			return super.getFileFromProject(updatedFileName);
+		} else {
+			return null;
+		}
 	}
 	
 }
