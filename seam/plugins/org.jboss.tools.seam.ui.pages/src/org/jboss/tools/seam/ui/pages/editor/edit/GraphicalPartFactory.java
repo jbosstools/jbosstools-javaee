@@ -44,8 +44,10 @@ public class GraphicalPartFactory implements EditPartFactory {
 			child = new ParamListEditPart();
 		else if (model instanceof Param)
 			child = new ParamEditPart();
-		else if (model instanceof Link)
+		else if (model instanceof Link){
 			child = new LinkEditPart();
+			((LinkEditPart)child).setEditor(editor);
+		}
 
 		if (child != null)
 			child.setModel(model);

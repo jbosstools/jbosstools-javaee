@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.PointList;
@@ -24,16 +25,24 @@ import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.SelectionManager;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
+import org.jboss.tools.seam.ui.pages.editor.PagesEditor.ModelSelectionProvider;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
@@ -43,6 +52,8 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			PagesEditor.class, "icons/shortcut.gif").createImage();
 
 	AccessibleEditPart acc;
+	
+	PagesEditor editor;
 
 	private boolean shortcut;
 
@@ -55,6 +66,10 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	private GEFLabel pathLabel;
 	
 	private PageEditPart pagePart = null;
+	
+	public void setEditor(PagesEditor editor){
+		this.editor = editor;
+	}
 
 	public void activate() {
 		if (!isActive()) {
@@ -197,6 +212,30 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	 * 
 	 */
 	protected void refreshVisuals() {
+	}
+	
+	public void performRequest(Request req) {
+		if (RequestConstants.REQ_OPEN.equals(req.getType())) {
+			if(getLink().isShortcut()){
+				PagesElement element = getLink().getToElement();
+				if(element == null) return;
+				
+				PagesEditPart part = (PagesEditPart)editor.getScrollingGraphicalViewer().getEditPartRegistry().get(element);
+				if(part == null) return;
+				
+				Object[] sel = new Object[1];
+				sel[0] = part;
+				StructuredSelection newSelection = new StructuredSelection(sel);
+				
+				editor.getScrollingGraphicalViewer().setSelection(newSelection);
+				
+				PagesDiagramEditPart diagram = (PagesDiagramEditPart) editor.getScrollingGraphicalViewer()
+				.getRootEditPart().getChildren().get(0);
+				FreeformViewport vp = diagram.getFreeformViewport();
+				
+				((ModelSelectionProvider)editor.getModelSelectionProvider()).scroll(vp, part.getNodeFigure());
+			}
+		}
 	}
 
 	public void setModel(Object model) {

@@ -539,7 +539,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 
 	private ModelSelectionProvider modelSelectionProvider = new ModelSelectionProvider();
 
-	class ModelSelectionProvider extends AbstractSelectionProvider implements
+	public class ModelSelectionProvider extends AbstractSelectionProvider implements
 			ISelectionChangedListener {
 		public void selectionChanged(SelectionChangedEvent event) {
 			fireSelectionChanged();
@@ -588,7 +588,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 				vp.setViewLocation(origin);
 		}
 
-		protected void setSelectedModelObject(XModelObject object) {
+		public void setSelectedModelObject(XModelObject object) {
 			if(object == null) return;
 
 			// Make projection to diagram XML if necessary.
