@@ -91,6 +91,12 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInstance;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.parser.ELParser;
+import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -108,13 +114,9 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
-import org.jboss.tools.seam.internal.core.el.ELStringToken;
-import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizerForward;
-import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
-import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
@@ -676,8 +678,12 @@ public class SeamSearchVisitor {
 					
 					int length = valueRegion.getLength();
 					int offset = valueRegion.getOffset();
-					String string = "#{" + value + "}";
-					locateMatchesInString(file, string, offset - 2, content);
+					if(value != null && value.indexOf("#{") >= 0) {
+						locateMatchesInString(file, value, offset, content);
+					} else {
+						String string = "#{" + value + "}";
+						locateMatchesInString(file, string, offset - 2, content);
+					}
 				}
 			}
 		} catch (BadLocationException e) {
@@ -692,25 +698,24 @@ public class SeamSearchVisitor {
 	private void locateMatchesInString(IFile file, String string, int offset, CharSequence content) throws CoreException {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
 		if(startEl>-1) {
-			SeamELStringTokenizer st = new SeamELStringTokenizer(string);
-			List<ELStringToken> tokens = st.getTokens();
-			for (ELStringToken stringToken : tokens) {
-				stringToken.setStart(offset + stringToken.getStart() + 2);
-				locateMatchesInEL(file, stringToken, content);
+			ELParser parser = ELParserFactory.createJbossParser();
+			ELModel model = parser.parse(string);
+			List<ELInstance> is = model.getInstances();
+			for (ELInstance i: is) {
+				if(i.getExpression() != null) {
+					locateMatchesInEL(file, i.getExpression(), content, offset);
+				}
 			}
 		}
 	}
 
-	private void locateMatchesInEL(IFile file, ELStringToken el, CharSequence content) throws CoreException {
-		String exp = el.getBody();
-		SeamELTokenizer elTokenizer = new SeamELTokenizer(exp);
-		List<ELToken> tokens = elTokenizer.getTokens();
-		for (ELToken token : tokens) {
-			if(token.getType()==ELToken.EL_VARIABLE_TOKEN) {
+	private void locateMatchesInEL(IFile file, ELExpression el, CharSequence content, int offset) throws CoreException {
+		List<ELInvocationExpression> invocations = el.getInvocations();
+		for (ELInvocationExpression token : invocations) {
 //				validateElOperand(file, token, el.getStart());
 				String operand = token.getText();
 				String varName = operand;
-				int offsetOfToken = el.getStart() + token.getStart();
+				int offsetOfToken = offset + token.getFirstToken().getStart();
 				SeamELOperandTokenizerForward forwardTokenizer = new SeamELOperandTokenizerForward(operand, 0);
 				List<ELOperandToken>operandTokens = forwardTokenizer.getTokens();
 				if (fJavaMatchers != null) {
@@ -794,7 +799,6 @@ public class SeamSearchVisitor {
 						}
 					}
 				}
-			}
 		}
 	}
 
