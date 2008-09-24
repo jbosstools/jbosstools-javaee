@@ -23,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
@@ -54,12 +55,17 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	
 	@Override
 	protected void tearDown() throws Exception {
-		EditorTestHelper.joinBackgroundActivities();
-		if(project != null){
-			project.close(new NullProgressMonitor());
-			project.delete(true, new NullProgressMonitor());
-			project = null;
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
 			EditorTestHelper.joinBackgroundActivities();
+			if(project != null){
+				project.close(new NullProgressMonitor());
+				project.delete(true, new NullProgressMonitor());
+				project = null;
+				EditorTestHelper.joinBackgroundActivities();
+			}
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
 		
 	}
@@ -88,7 +94,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		dialog.setInitialPattern(pattern);
 		dialog.beginTest();
 		if(wait){
-			try{
+			try {
 				EditorTestHelper.joinBackgroundActivities();
 			}catch(Exception ex){
 				ex.printStackTrace();

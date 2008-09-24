@@ -10,17 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.view;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
-
-import junit.extensions.TestSetup;
-import junit.framework.Test;
 
 /**
  * @author eskimo
@@ -56,7 +55,12 @@ public class SeamComponentsViewTestSetup extends TestSetup {
 	 */
 	protected void tearDown() throws Exception {
 		EditorTestHelper.joinBackgroundActivities();
-		project.delete(true,true, null);
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
+			project.delete(true,true, null);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
 	}
 
 }

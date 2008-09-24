@@ -27,6 +27,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
@@ -106,7 +107,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	    boolean oldAutoBuilding = true; 
 		Exception last = null;
 		try {
-			oldAutoBuilding = setAutoBuilding(false); 
+			oldAutoBuilding = ResourcesUtils.setBuildAutomatically(false); 
 			for (IResource r : this.resourcesToCleanup) {
 				try {
 					System.out.println("Deleting " + r);
@@ -122,7 +123,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 				runnable.run();
 			}
 		} finally {
-			setAutoBuilding(oldAutoBuilding); 
+			ResourcesUtils.setBuildAutomatically(oldAutoBuilding); 
 		}
 		
 		if(last!=null) throw last;
@@ -262,18 +263,6 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		}
 			
 	}
-
-	protected boolean setAutoBuilding(boolean state) throws CoreException {
-	       boolean oldAutoBuilding;
-	       IWorkspace workspace = ResourcesPlugin.getWorkspace();
-	       IWorkspaceDescription description = workspace.getDescription();
-	       oldAutoBuilding = description.isAutoBuilding();
-	       if (state != oldAutoBuilding) {
-	           description.setAutoBuilding(state);
-	           workspace.setDescription(description);
-	       }
-	       return oldAutoBuilding;
-	} 
 	
 	public static void delay(long waitTimeMillis) {
 		Display display = Display.getCurrent();

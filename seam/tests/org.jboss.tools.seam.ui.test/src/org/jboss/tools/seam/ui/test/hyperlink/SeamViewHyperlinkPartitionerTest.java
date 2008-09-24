@@ -52,7 +52,12 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 
 	protected void tearDown() throws Exception {
 		if(project != null) {
-			project.delete(true, true, null);
+			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+			try {
+				project.delete(true,true, null);
+			} finally {
+				ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+			}
 		}
 	}
 
