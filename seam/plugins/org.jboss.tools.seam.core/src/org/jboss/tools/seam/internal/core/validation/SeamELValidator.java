@@ -41,6 +41,13 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInstance;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.parser.ELParser;
+import org.jboss.tools.common.el.core.parser.ELParserFactory;
+import org.jboss.tools.common.el.core.parser.SyntaxError;
 import org.jboss.tools.common.model.util.TypeInfoCollector;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -49,13 +56,9 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
-import org.jboss.tools.seam.internal.core.el.ELStringToken;
-import org.jboss.tools.seam.internal.core.el.ELToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandResolveStatus;
-import org.jboss.tools.seam.internal.core.el.SeamELStringTokenizer;
-import org.jboss.tools.seam.internal.core.el.SeamELTokenizer;
 import org.jboss.tools.seam.internal.core.el.Var;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -69,6 +72,7 @@ public class SeamELValidator extends SeamValidator {
 	protected static final String UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_NAME"; //$NON-NLS-1$
 	protected static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_PROPERTY_NAME"; //$NON-NLS-1$
 	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
+	protected static final String SYNTAX_ERROR_MESSAGE_ID = "SYNTAX_ERROR"; //$NON-NLS-1$
 
 	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
 
@@ -251,33 +255,42 @@ public class SeamELValidator extends SeamValidator {
 	private void validateString(IFile file, String string, int offset) {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
 		if(startEl>-1) {
-			SeamELStringTokenizer st = new SeamELStringTokenizer(string);
-			List<ELStringToken> tokens = st.getTokens();
-			for (ELStringToken stringToken : tokens) {
-				if(reporter.isCancelled()) {
+			ELParser parser = ELParserFactory.createJbossParser();
+			ELModel model = parser.parse(string);
+			List<SyntaxError> errors = parser.getSyntaxErrors();
+			if(errors.size() > 0) {
+				for (SyntaxError error: errors) {
+					//TODO 1) make message more informative
+					//     2) create other preference 
+					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{}, 1, offset + error.getPosition(), file);
+				}
+				
+			}
+			List<ELInstance> is = model.getInstances();
+			for (ELInstance i : is) {
+				if (reporter.isCancelled()) {
 					return;
 				}
-				stringToken.setStart(offset + stringToken.getStart() + 2);
-				validateEl(file, stringToken);
+				if(i.getErrors().size() > 0) {
+					//Already reported syntax problem in this piece of EL.
+					continue;
+				}
+				validateEl(file, i.getExpression(), offset);
 			}
 		}
 	}
 
-	private void validateEl(IFile file, ELStringToken el) {
-		String exp = el.getBody();
-		SeamELTokenizer elTokenizer = new SeamELTokenizer(exp);
-		List<ELToken> tokens = elTokenizer.getTokens();
-		for (ELToken token : tokens) {
-			if(token.getType()==ELToken.EL_VARIABLE_TOKEN) {
-				validateElOperand(file, token, el.getStart());
-			}
+	private void validateEl(IFile file, ELExpression el, int offset) {
+		List<ELInvocationExpression> es = el.getInvocations();
+		for (ELInvocationExpression token: es) {
+			validateElOperand(file, token, offset);
 		}
 	}
 
-	private void validateElOperand(IFile file, ELToken operandToken, int documnetOffset) {
+	private void validateElOperand(IFile file, ELInvocationExpression operandToken, int documnetOffset) {
 		String operand = operandToken.getText();
 		String varName = operand;
-		int offsetOfVarName = documnetOffset + operandToken.getStart();
+		int offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart();
 		int lengthOfVarName = varName.length();
 		boolean unresolvedTokenIsVariable = true;
 		try {
@@ -327,7 +340,7 @@ public class SeamELValidator extends SeamValidator {
 					for (ELOperandToken token : tokens) {
 						if((token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_PROPERTY_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
 							varName = token.getText();
-							offsetOfVarName = documnetOffset + operandToken.getStart() + token.getStart();
+							offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart() + token.getStart();
 							lengthOfVarName = varName.length();
 							unresolvedTokenIsVariable = (token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN);
 							break;
@@ -347,4 +360,5 @@ public class SeamELValidator extends SeamValidator {
 			addError(UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
 		}
 	}
+
 }
