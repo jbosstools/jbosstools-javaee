@@ -92,6 +92,7 @@ public class RichFacesGMapTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
+	@Override
 	public void resize(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement visualElement, Object data, int resizerConstrains, int top, int left, int width, int height) {
 		super.resize(pageContext, sourceElement, visualDocument, visualElement, data, resizerConstrains, top, left, width, height);
 	}
