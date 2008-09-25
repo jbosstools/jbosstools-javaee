@@ -22,54 +22,13 @@ import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 
 public class NodeFigure extends
 		BaseNodeFigure {
-	public static final Color blackColor = new Color(null, 0x00, 0x00, 0x00);
-
-	public static final Color whiteColor = new Color(null, 0xff, 0xff, 0xff);
-
-	public static final Color orangeColor = new Color(null, 0xff, 0xea, 0x82);
-
-	public static final Color yellowColor = new Color(null, 0xff, 0xf6, 0xcb);
-
-	public static final Color brownColor = new Color(null, 0xf0, 0xe8, 0xbf);
-
-	public static final Color lightGrayColor = new Color(null, 0xf1, 0xf1, 0xf1);
-
-	public static final Color darkGrayColor = new Color(null, 0xb3, 0xb3, 0xb3);
-
-	public static final Color lightBlueColor = new Color(null, 0xd4, 0xe6, 0xff);
-
-	public static final Color darkBlueColor = new Color(null, 0x97, 0xc4, 0xff);
-
-	public static final Color pattSelected = new Color(null, 0xc6, 0xda, 0xe8);
-
-	public static final Color pattBorder = new Color(null, 0x3e, 0x75, 0x99);
-
-	public static final Color errorColor = new Color(null, 0xff, 0xb9, 0xb9);
-
-	public static final Color errorSelected = new Color(null, 0xff, 0xa2, 0xa2);
-
-	public static final Color errorBorder = new Color(null, 0xc5, 0x63, 0x62);
-
-	public static final Color selectedColor = new Color(null, 0xf0, 0xe8, 0xbf);
-
-	public static final Color borderColor = new Color(null, 0x86, 0x7d, 0x51);
-
+	
 	public final static Color ghostFillColor = new Color(null, 31, 31, 31);
-	
-	public static final Color exceptionBackgroundColor = new Color(null, 0xff, 0xe3, 0xe7);
-	
-	public static final Color exceptionForegroundColor = blackColor; //new Color(null, 0x99, 0x07, 0x02);
-	
-	public static final Color button1Color = new Color(null, 0xff, 0xf6, 0xc8);
-	public static final Color button2Color = new Color(null, 0x98, 0x99, 0x98);
-	public static final Color button3Color = new Color(null, 0xff, 0xe8, 0x79);
-	public static final Color button4Color = new Color(null, 0xdb, 0xc7, 0x68);
 	
 	public static final Font nodeLabelFont = new Font(null, "default", 10, SWT.BOLD); // TODO: use preference font mechanism for this
 	
-	public static final Font nameParamFont = new Font(null, "default", 10, SWT.BOLD); // TODO: use preference font mechanism for this
-	public static final Font valueParamFont = new Font(null, "default", 10, SWT.NORMAL); // TODO: use preference font mechanism for this
-
+	public static final Color lightGrayColor = new Color(null, 0xf1, 0xf1, 0xf1);
+	
 	public static final Image errorIcon = ModelUIImages
 			.getImage("error_co.gif");
 

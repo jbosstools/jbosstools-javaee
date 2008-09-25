@@ -26,7 +26,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.handles.ConnectionHandle;
 import org.eclipse.gef.tools.ConnectionEndpointTracker;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.jboss.tools.jst.web.model.ReferenceObject;
@@ -34,6 +33,7 @@ import org.jboss.tools.seam.ui.pages.editor.dnd.DndHelper;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
+import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
 
 public class LinkEndpointEditPolicy
@@ -70,7 +70,7 @@ public class LinkEndpointEditPolicy
 			super.addSelectionHandles();
 		addPagesHandles();
 
-		getConnectionFigure().setSelected(true);
+		getConnectionFigure().setForegroundColor(FigureFactory.selectedColor);
 	}
 
 	protected ConnectionFigure getConnectionFigure() {
@@ -80,7 +80,7 @@ public class LinkEndpointEditPolicy
 	protected void removeSelectionHandles() {
 		super.removeSelectionHandles();
 		removePagesHandles();
-		getConnectionFigure().setSelected(false);
+		getConnectionFigure().setForegroundColor(FigureFactory.normalColor);
 	}
 
 	protected List createSelectionHandles() {

@@ -17,11 +17,17 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.handles.HandleBounds;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
 import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
 
 public class ParamFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
+	
+	private static final Font nameParamFont = new Font(null, "default", 10, SWT.BOLD); // TODO: use preference font mechanism for this
+
+	private static final Font valueParamFont = new Font(null, "default", 10, SWT.NORMAL); // TODO: use preference font mechanism for this
 
 	public Param param;
 

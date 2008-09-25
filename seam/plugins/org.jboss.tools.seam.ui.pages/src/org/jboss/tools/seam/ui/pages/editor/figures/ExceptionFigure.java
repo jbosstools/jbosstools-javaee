@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
@@ -19,19 +20,30 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.GEFGraphicalViewer;
+import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.edit.ExceptionEditPart;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.CompressNameUtil;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
-import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
 public class ExceptionFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
+	
+	private static final Color exceptionBackgroundColor = new Color(null, 0xea, 0xf3, 0xff);
+	
+	private static final Color exceptionForegroundColor = new Color(null, 0x41, 0x77, 0xa0);
+	
+	private static final Color borderColor = new Color(null, 0x67, 0x7f, 0x91);
+	
+	private static final Color greyForeground = new Color(null, 0x99, 0x95, 0x99);
+	
+	private static final Image exceptionImage = ImageDescriptor.createFromFile(
+			PagesEditor.class, "icons/ico_exception.png").createImage();
 
-	private Image icon = null;
 
 	public PageException exc;
 
@@ -46,28 +58,18 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 	}
 
 	public void setIcon(Image i) {
-		icon = PrintIconHelper.getPrintImage(i);
 	}
 
 	public ExceptionFigure(PageException group) {
 		this.exc = group;
 
-		if (group != null && group.getData() != null) {
-			setIcon(group.getImage());
-		}
-
 		setOpaque(false);
 		setLayoutManager(new XYLayout());
 
-		setBorder(new GroupBorder(blackColor));
+		setBorder(new GroupBorder(ColorConstants.black));
 
 		if (group != null) {
 			FixedConnectionAnchor c;
-			c = new FixedConnectionAnchor(this);
-			c.offsetV = 10;
-			//c.offsetH = -1;
-			connectionAnchors.put("1_IN", c);
-			inputConnectionAnchors.addElement(c);
 
 			c = new FixedConnectionAnchor(this);
 			c.offsetV = 10;
@@ -108,18 +110,15 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 			g.setBackgroundColor(lightGrayColor);
 		}
 		
-		g.fillRectangle(1, 1, r.width-2, r.height-2);
-
-		g.setBackgroundColor(whiteColor);
-
-		g.fillRectangle(1, 1, 22, 19);
-
-		if (icon != null)
-			g.drawImage(icon, 4, 2);
+		Rectangle boundingRect = new Rectangle(1, 1, r.width, r.height);
+		
+		g.fillRectangle(boundingRect);
+		
+		g.drawImage(exceptionImage, 1, 1);
 		
 		if(exc != null){
 			g.setFont(nodeLabelFont);
-			g.drawString(getExceptionReadOnlyLabel(), 27, 3);			
+			g.drawString(getExceptionReadOnlyLabel(), 27, 1);			
 		}
 		
 
@@ -149,17 +148,14 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 			int height = r.height - 1;
 			
 			if (exc != null)
-				graphics.setForegroundColor(blackColor);
+				graphics.setForegroundColor(borderColor);
 			else
-				graphics.setForegroundColor(darkGrayColor);
-
+				graphics.setForegroundColor(greyForeground);
+			
 			graphics.drawLine(1, 0, width-1, 0);
 			graphics.drawLine(0, 1, 0, height - 1);
 			graphics.drawLine(1, height, width-1, height);
 			graphics.drawLine(width, 1, width, height - 1);
-			graphics.drawLine(23 , 0, 23, height);
-			
-
 	}
 
 	public void mouseDoubleClicked(MouseEvent me) {

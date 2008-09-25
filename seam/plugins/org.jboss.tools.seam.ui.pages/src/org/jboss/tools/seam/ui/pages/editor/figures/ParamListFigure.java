@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
@@ -23,6 +24,8 @@ import org.jboss.tools.seam.ui.pages.editor.edit.ParamListEditPart;
 
 public class ParamListFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
+	
+	private static final Color darkGrayColor = new Color(null, 0xb3, 0xb3, 0xb3);
 
 	public PageWrapper paramList;
 
@@ -42,7 +45,7 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 		setOpaque(false);
 		setLayoutManager(new ParamListLayout());
 
-		setBorder(new GroupBorder(blackColor));
+		setBorder(new GroupBorder(ColorConstants.black));
 	}
 
 	/**

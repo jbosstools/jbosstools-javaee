@@ -133,7 +133,9 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 		String text = "";
 //		if (getLink().getJSFModel().getOptions().showShortcutPath())
+		if(getLink().getToElement() != null)
 			text = getLink().getToElement().getName();
+		
 		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
 //		if (getLink().getJSFModel().getOptions().showShortcutIcon())
 			shortcutLabel.setIcon(icon);
@@ -251,9 +253,10 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	public void linkChange(Link source) {
 		pathLabel.setText(getLink().getName());
 //		if (getLinkModel().getJSFModel().getOptions().showShortcutPath())
+		if(getLink().getToElement() != null)
 			shortcutLabel.setText(getLink().getToElement().getName());
-//		else
-//			shortcutLabel.setText("");
+		else
+			shortcutLabel.setText("");
 //		if (getLinkModel().getJSFModel().getOptions().showShortcutIcon())
 			shortcutLabel.setIcon(icon);
 //		else

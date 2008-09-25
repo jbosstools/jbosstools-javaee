@@ -11,44 +11,37 @@
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.jdt.internal.ui.preferences.formatter.BlankLinesTabPage;
 import org.eclipse.swt.graphics.Color;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
 
 public class FigureFactory {
-	public static final Color normalColor = new Color(null, 0xb5, 0xb5, 0xb5);
-	public static final Color selectedColor = new Color(null, 0x44, 0xa9, 0xf3);
+	public static final Color normalColor = new Color(null, 0x88, 0x89, 0x88);
+	public static final Color selectedColor = new Color(null, 0xff, 0x84, 0x00);
 	public static final Color highlightColor = ColorConstants.black;
 
 	public static final PointList TRIANGLE_TIP = new PointList();
 
 	static {
-		TRIANGLE_TIP.addPoint(0, 0);
-		TRIANGLE_TIP.addPoint(-1, -1);
-		TRIANGLE_TIP.addPoint(-7, -4);
-		TRIANGLE_TIP.addPoint(-8, -4);
-		TRIANGLE_TIP.addPoint(-8, 4);
-		TRIANGLE_TIP.addPoint(0, 0);
+		TRIANGLE_TIP.addPoint(0, -3);
+		TRIANGLE_TIP.addPoint(7, 0);
+		TRIANGLE_TIP.addPoint(0, 3);
 	}
 
 	public static ConnectionFigure createNewBendableWire(LinkEditPart part,
 			Link link) {
 		ConnectionFigure conn = new ConnectionFigure(part);
-		conn.setForegroundColor(NodeFigure.blackColor);
+		conn.setForegroundColor(normalColor);
 
 		PolygonDecoration decor = new PolygonDecoration();
 		
-		decor.setBackgroundColor(NodeFigure.blackColor);
 		decor.setTemplate(TRIANGLE_TIP);
 		decor.setScale(1, 1);
-		decor.setForegroundColor(NodeFigure.blackColor);
 		conn.setTargetDecoration(decor);
-
+		decor.setFill(false);
 		return conn;
 	}
 	
@@ -59,7 +52,6 @@ public class FigureFactory {
 		conn.setForegroundColor(selectedColor);
 
 		PolygonDecoration decor = new PolygonDecoration();
-		decor.setBackgroundColor(NodeFigure.whiteColor);
 		decor.setTemplate(TRIANGLE_TIP);
 		decor.setScale(1, 1);
 

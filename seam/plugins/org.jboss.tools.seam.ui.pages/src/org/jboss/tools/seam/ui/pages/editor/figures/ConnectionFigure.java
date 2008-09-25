@@ -18,7 +18,6 @@ import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.SWT;
-import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
@@ -87,15 +86,7 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 			editPart.clear();
 	}
 
-	private boolean selected;
-
 	protected void outlineShape(Graphics g) {
-		if(selected) {
-			g.setForegroundColor(FigureFactory.selectedColor);
-		} else {
-			g.setForegroundColor(getForegroundColor());
-		}
-		
 		Page page=null;
 		if(link != null && link.getFromElement() instanceof Page)
 			page = (Page)link.getFromElement();
@@ -196,10 +187,6 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 			beg.x = point.x;
 			beg.y = point.y;
 		}
-	}
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-		repaint();
 	}
 	
 	public void layout() {

@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
@@ -115,7 +116,7 @@ public class PagesXYLayoutEditPolicy extends XYLayoutEditPolicy {
 				((RectangleFigure) figure).setXOR(true);
 				((RectangleFigure) figure).setFill(true);
 				figure.setBackgroundColor(NodeFigure.ghostFillColor);
-				figure.setForegroundColor(NodeFigure.whiteColor);
+				figure.setForegroundColor(ColorConstants.white);
 			}
 
 			return figure;

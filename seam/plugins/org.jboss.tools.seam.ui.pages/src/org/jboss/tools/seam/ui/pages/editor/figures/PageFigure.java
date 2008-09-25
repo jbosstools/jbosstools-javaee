@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -19,21 +20,36 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.handles.HandleBounds;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.jst.web.model.ReferenceObject;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
+import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.edit.PageEditPart;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
-import org.jboss.tools.seam.ui.pages.editor.print.PrintIconHelper;
 
 public class PageFigure extends NodeFigure implements HandleBounds{
 	private static final Dimension SIZE = new Dimension(56, 100);
+	
+	private static final Color backgroundColor = new Color(null, 0xff, 0xf7, 0xcb);
+	
+	private static final Color foregroundColor = new Color(null, 0x9d, 0x96, 0x24);
+	
+	private static final Color greyBackground = new Color(null, 0xf1, 0xf1, 0xf1);
+	
+	private static final Color greyForeground = new Color(null, 0x99, 0x95, 0x99);
+	
+	private static final Image pageImage = ImageDescriptor.createFromFile(
+			PagesEditor.class, "icons/ico_page.png").createImage();
+	
+	private static final Image plusImage = ImageDescriptor.createFromFile(
+			PagesEditor.class, "icons/ico_plus.png").createImage();
 
-	private Image icon = null;
+	private static final Image minusImage = ImageDescriptor.createFromFile(
+			PagesEditor.class, "icons/ico_minus.png").createImage();
 
 	public Page page;
 
@@ -50,7 +66,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 	}
 
 	public void setIcon(Image i) {
-		icon = PrintIconHelper.getPrintImage(i);
+		//icon = PrintIconHelper.getPrintImage(i);
 	}
 
 		
@@ -65,13 +81,13 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		setOpaque(false);
 		setLayoutManager(new XYLayout());
 
-		setBorder(new PageBorder(blackColor));
+		setBorder(new PageBorder(ColorConstants.black));
 
 		if (page != null) {
 			FixedConnectionAnchor c;
 			c = new FixedConnectionAnchor(this);
 			c.offsetV = 10;
-			c.offsetH = -1;
+			c.offsetH = -8;
 			connectionAnchors.put("1_IN", c);
 			inputConnectionAnchors.addElement(c);
 
@@ -110,50 +126,30 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		g.translate(r.getLocation());
 
 		int height = r.height - 1;
-		int start = 0;
 		
-
-		g.setBackgroundColor(whiteColor);
-
-		g.fillRectangle(start + 1, 1, 22, 190); // fill left part
-
-		// drawIcon
-		if (icon != null)
-			g.drawImage(icon, start + getInsetX(), getInsetY());
-		
-		if(page != null && page.getData() != null && SeamPagesDiagramStructureHelper.instance.isUnconfirmedPage((XModelObject)page.getData())){
-			g.drawImage(errorIcon, start + getInsetX(), getInsetY()+8);
-		}
-		
-		//color the page 
 		if (page != null) {
-			g.setBackgroundColor(new Color(null, 0xff, 0xff, 0xc2));			
-		} else {
-			g.setBackgroundColor(lightGrayColor);
+			if(page.isConfirmed()){
+				g.setBackgroundColor(backgroundColor);
+				g.setForegroundColor(foregroundColor);
+			}else{
+				g.setBackgroundColor(greyBackground);
+				g.setForegroundColor(greyForeground);
+			}
+		} else{
+			g.setBackgroundColor(greyBackground);
+			g.setForegroundColor(greyForeground);
 		}
 		
-		Rectangle boundingRect = new Rectangle(22, 1, r.width, r.height);
+		Rectangle boundingRect = new Rectangle(1, 1, r.width, r.height);
 		
 		g.fillRectangle(boundingRect);
+
+		// drawIcon
+		g.drawImage(pageImage, 1, 1);
 		
-//		if(g instanceof ScaledGraphics) {
-//			// scaled graphcis does not support gradients ;(			
-//			g.fillRectangle(boundingRect);
-//		} else {
-//			Display display = Display.getCurrent();
-//			
-//
-//			Point topLeft = boundingRect.getTopLeft();
-//			Point bottomRight = boundingRect.getBottomRight();
-//
-//			Pattern pattern = new Pattern(display, topLeft.x, topLeft.y,
-//					bottomRight.x, bottomRight.y,
-//					ColorConstants.white, g.getBackgroundColor());
-//			g.setBackgroundPattern(pattern);
-//			g.fillRectangle(boundingRect);
-//			g.setBackgroundPattern(null);		
-//			pattern.dispose();
-//		}
+		if(page != null && page.getData() != null && SeamPagesDiagramStructureHelper.instance.isUnconfirmedPage((XModelObject)page.getData())){
+			g.drawImage(errorIcon, getInsetX(), getInsetY()+8);
+		}
 		
 		if(page != null && page.getName() != null){
 			g.setFont(nodeLabelFont);
@@ -162,50 +158,9 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		
 		if(page.getChildren().size() != 0){
 			if(page.isParamsVisible()){
-				g.setForegroundColor(blackColor);
-				g.drawLine(4, height-13, 11, height-13);
-				g.drawLine(4, height-13, 4, height-6);
-				
-				g.drawLine(6, height-9, 10, height-9);
-	 			
-				g.setForegroundColor(button2Color);
-				g.drawLine(12, height-13, 12, height-5);
-				g.drawLine(4, height-5, 12, height-5);
-				
-				g.setForegroundColor(button3Color);
-				g.setBackgroundColor(button3Color);
-				g.drawLine(5, height-4, 13, height-4);
-				g.drawLine(13, height-4, 13, height-12);
-				g.fillRectangle(6, height-11, 5, 2);
-				g.fillRectangle(6, height-8, 5, 2);
-				
-				g.setForegroundColor(button4Color);
-				g.drawLine(5, height-7, 5, height-12);
-				g.drawLine(5, height-12, 10, height-12);
+				g.drawImage(minusImage, 4, height-12);
 			}else{
-				
-				g.setForegroundColor(button2Color);
-				g.drawLine(4, height-13, 11, height-13);
-				g.drawLine(4, height-13, 4, height-6);
-				
-				g.setForegroundColor(blackColor);
-				
-				g.drawLine(6, height-9, 10, height-9);
-				g.drawLine(8, height-11, 8, height-7);
-				
-				g.drawLine(12, height-13, 12, height-5);
-				g.drawLine(4, height-5, 12, height-5);
-				
-				g.setForegroundColor(button3Color);
-				g.drawLine(5, height-4, 13, height-4);
-				g.drawLine(13, height-4, 13, height-12);
-				
-				g.drawLine(6, height-6, 11, height-6);
-				g.drawLine(11, height-6, 11, height-12);
-				
-				g.setForegroundColor(whiteColor);
-				g.drawLine(5, height-6, 5, height-12);
-				g.drawLine(5, height-12, 11, height-12);
+				g.drawImage(plusImage, 4, height-12);
 			}
 		}
 	}
@@ -239,19 +194,14 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			}
 			
 			if (page != null)
-				graphics.setForegroundColor(blackColor);
+				graphics.setForegroundColor(foregroundColor);
 			else
-				graphics.setForegroundColor(darkGrayColor);
+				graphics.setForegroundColor(greyForeground);
 
 			graphics.drawLine(1, 0, width-1, 0);
 			graphics.drawLine(0, 1, 0, height - 1);
 			graphics.drawLine(1, height, width-1, height);
 			graphics.drawLine(width, 1, width, height - 1);
-			graphics.drawLine(23 , 0, 23, height); 
+		}
 	}
-
-	
-
-
-}
 }

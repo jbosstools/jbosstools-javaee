@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -24,7 +25,7 @@ public class ExceptionFeedbackFigure extends ExceptionFigure {
 	
 	protected void paintFigure(Graphics g) {
 		g.setXORMode(true);
-		g.setForegroundColor(whiteColor);
+		g.setForegroundColor(ColorConstants.white);
 		g.setBackgroundColor(ghostFillColor);
 
 		Rectangle r = getBounds().getCopy();
