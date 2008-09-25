@@ -363,6 +363,11 @@
                 </imageobject>
             </mediaobject>
         </figure>
+
+        <para>Select a template for editing from the available list and press <emphasis>
+                <property>Edit</property>
+            </emphasis> button. It will pick up the <link linkend="vpe_templating">Template
+            dialog</link> where you can adjust new settings.</para>
     </section>
 
     <section id="el_variables">
@@ -399,8 +404,9 @@
 
         <tip>
             <title>Tip:</title>
-            <para>If you specify an equal variable in <link linkend="el_exp_para">VPE EL dialog</link> and in Preference EL dialog,
-                variable from preference dialog will have priority.</para>
+            <para>If you specify an equal variable in <link linkend="el_exp_para">VPE EL
+                dialog</link> and in Preference EL dialog, variable from preference dialog will have
+                priority.</para>
         </tip>
     </section>
     <!--section id="JBossServers">
