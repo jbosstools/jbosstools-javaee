@@ -260,7 +260,7 @@ public class ElVarSearcher {
 								if(resolvedToken==null && parentVar.getElToken()!=null) {
 									try {
 										// Initialize parent vars.
-										engine.resolveSeamELOperand(project, file, var.getElToken().getText(), var.getElToken().getText(), 0, true, parentVars, this);
+										engine.resolveSeamELOperand(project, file, var.getElToken().getText(), true, parentVars, this);
 										resolvedToken = parentVar.getResolvedElToken();
 									} catch (StringIndexOutOfBoundsException e) {
 										SeamCorePlugin.getPluginLog().logError(e);

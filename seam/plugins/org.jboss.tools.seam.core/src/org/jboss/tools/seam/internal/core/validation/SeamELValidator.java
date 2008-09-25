@@ -304,7 +304,7 @@ public class SeamELValidator extends SeamValidator {
 					}
 
 					SeamELOperandResolveStatus status = 
-						engine.resolveSeamELOperand(project, file, operand, prefix, position, true, varListForCurentValidatedNode, elVarSearcher);
+						engine.resolveSeamELOperand(project, file, operand, true, varListForCurentValidatedNode, elVarSearcher);
 
 					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names

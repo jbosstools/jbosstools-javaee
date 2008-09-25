@@ -97,7 +97,9 @@ public final class SeamELCompletionEngine {
 	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<String> completions = new ArrayList<String>();
-		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, documentContent, prefix, position, returnEqualedVariablesOnly, vars, new ElVarSearcher(project, file, this));
+		String prefix2 = SeamELCompletionEngine.getPrefix(documentContent, position + prefix.length());
+
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, prefix2, returnEqualedVariablesOnly, vars, new ElVarSearcher(project, file, this));
 		if (status.isOK()) {
 			completions.addAll(status.getProposals());
 		}
@@ -122,7 +124,7 @@ public final class SeamELCompletionEngine {
 	 * Resolve EL.
 	 * @param project Seam project.
 	 * @param file
-	 * @param documentContent
+	 * @param operand
 	 * @param prefix Text between #{ and cursor position in document. 
 	 * @param position Cursor position in document
 	 * @param returnEqualedVariablesOnly if "false" use prefix as mask. 
@@ -132,9 +134,9 @@ public final class SeamELCompletionEngine {
 	 * @throws BadLocationException
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly, List<Var> vars, ElVarSearcher varSearcher) throws BadLocationException, StringIndexOutOfBoundsException {
-		String oldEl = prefix.toString();
+	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String operand,  
+			boolean returnEqualedVariablesOnly, List<Var> vars, ElVarSearcher varSearcher) throws BadLocationException, StringIndexOutOfBoundsException {
+		String oldEl = operand;
 		Var var = varSearcher.findVarForEl(oldEl, vars, true);
 		String suffix = "";
 		String newEl = oldEl;
@@ -158,18 +160,18 @@ public final class SeamELCompletionEngine {
 				newEl  = var.getElToken().getText() + suffix + oldEl.substring(var.getName().length());
 			}
 		}
-		String newDocumentContent = documentContent;
+		String newOperand = operand;
 		boolean prefixWasChanged = newEl!=oldEl;
 		if(prefixWasChanged) {
-			newDocumentContent = documentContent.substring(0, position) + newEl;
+			newOperand = newEl;
 		}
 
-		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, newDocumentContent, newEl, position, returnEqualedVariablesOnly);
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, newOperand, returnEqualedVariablesOnly);
 
 		if(prefixWasChanged) {
 			// Replace new EL by original one in result status.
 			ELOperandToken newLastResolvedToken = status.getLastResolvedToken();
-			SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
+			SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(operand, operand.length());
 			List<ELOperandToken> oldTokens = tokenizer.getTokens();
 			status.setTokens(oldTokens);
 			if(newLastResolvedToken != null) {
@@ -194,7 +196,7 @@ public final class SeamELCompletionEngine {
 		}
 
 		if(!returnEqualedVariablesOnly && vars!=null) {
-			status.getProposals().addAll(getVarNameProposals(vars, prefix.toString()));
+			status.getProposals().addAll(getVarNameProposals(vars, operand.toString()));
 		}
 		return status;
 	}
@@ -203,13 +205,13 @@ public final class SeamELCompletionEngine {
 	 * Returns MemberInfo for last segment of EL. Null if El is not resolved.
 	 * @param project
 	 * @param file
-	 * @param elBody EL without #{}
+	 * @param operand EL without #{}
 	 * @return MemberInfo for last segment of EL. Null if El is not resolved.
 	 * @throws BadLocationException
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public TypeInfoCollector.MemberInfo resolveSeamEL(ISeamProject project, IFile file, String elBody) throws BadLocationException, StringIndexOutOfBoundsException {
-		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, elBody, elBody, 0, true);
+	public TypeInfoCollector.MemberInfo resolveSeamEL(ISeamProject project, IFile file, String operand) throws BadLocationException, StringIndexOutOfBoundsException {
+		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, operand, true);
 		return status.getMemberOfResolvedOperand();
 	}
 
@@ -261,7 +263,7 @@ public final class SeamELCompletionEngine {
 	 * Resolves Seam EL
 	 * @param project
 	 * @param file
-	 * @param documentContent
+	 * @param operand
 	 * @param prefix
 	 * @param position
 	 * @param returnEqualedVariablesOnly
@@ -269,10 +271,10 @@ public final class SeamELCompletionEngine {
 	 * @throws BadLocationException
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String documentContent, String prefix, 
-			int position, boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
+	public SeamELOperandResolveStatus resolveSeamELOperand(ISeamProject project, IFile file, String operand,  
+			boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
 
-		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, position + prefix.length());
+		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(operand, operand.length());
 		SeamELOperandResolveStatus status = new SeamELOperandResolveStatus(tokenizer.getTokens());
 
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
@@ -312,8 +314,8 @@ public final class SeamELCompletionEngine {
 			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
-				if(varName.startsWith(prefix)) {
-					proposals.add(varName.substring(prefix.length()));
+				if(varName.startsWith(operand)) {
+					proposals.add(varName.substring(operand.length()));
 				}
 			}
 			status.setProposals(proposals);
@@ -327,8 +329,8 @@ public final class SeamELCompletionEngine {
 			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
-				if(prefix.length()<=varName.length()) {
-					proposals.add(varName.substring(prefix.length()));
+				if(operand.length()<=varName.length()) {
+					proposals.add(varName.substring(operand.length()));
 				} else if(returnEqualedVariablesOnly) {
 					proposals.add(varName);
 				}
