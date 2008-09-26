@@ -33,7 +33,7 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
     /**
      * 
      */
-    protected static final String KEY_6 = "#{global.value1}"; //$NON-NLS-1$
+    protected static final String KEY_6 = "global.value1"; //$NON-NLS-1$
     protected Map<String, String> globalElMap = new HashMap<String, String>();
 
     /**
@@ -100,6 +100,8 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
 
     @Override
     protected void tearDown() throws Exception {
+    	//clear global resources
+    	GlobalELReferenceList.getInstance().setAllResources(Platform.getLocation(), new ResourceReference[0]);
         super.tearDown();
     }
 
