@@ -116,7 +116,6 @@ import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.SeamELOperandTokenizerForward;
 import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
@@ -716,32 +715,24 @@ public class SeamSearchVisitor {
 				String operand = token.getText();
 				String varName = operand;
 				int offsetOfToken = offset + token.getFirstToken().getStart();
-				SeamELOperandTokenizerForward forwardTokenizer = new SeamELOperandTokenizerForward(operand, 0);
-				List<ELOperandToken>operandTokens = forwardTokenizer.getTokens();
 				if (fJavaMatchers != null) {
-					List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(operandTokens);
-	
-					for (List<ELOperandToken> variation : variations) {
+					ELInvocationExpression expr = token;
+					while(expr != null) {
 						List<IJavaElement> elements = null;
 						try {
-							elements = fCompletionEngine.getJavaElementsForELOperandTokens(fCurrentSeamProject, file, variation);
+							elements = fCompletionEngine.getJavaElementsForELOperandTokens(fCurrentSeamProject, file, expr);
 						} catch (StringIndexOutOfBoundsException e) {
 							SeamGuiPlugin.getPluginLog().logError(e);
 						} catch (BadLocationException e) {
 							SeamGuiPlugin.getPluginLog().logError(e);
 						}
 	
-						if (elements == null || elements.size() == 0) {
-							continue;
-						}
-	
-						for (int i = 0; i < elements.size(); i++) {
+						if(elements != null) for (int i = 0; i < elements.size(); i++) {
 							if (!matches(elements.get(i))) 
 								continue;
 	
-							int start = variation.get(0).getStart();
-							int end = variation.get(variation.size() - 1).getStart() + 
-											variation.get(variation.size() - 1).getLength();
+							int start = 0;
+							int end = expr.getEndPosition() - expr.getStartPosition();
 							String variationText = operand.substring(start, end);
 	
 							int offsetOfOperandToken = offsetOfToken + start;
@@ -752,23 +743,20 @@ public class SeamSearchVisitor {
 								return; // no further reporting requested
 							}
 						}
+						expr = expr.getLeft();
 					}
 				} else if (fVariableMatchers != null) {
-					List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(operandTokens);
+					ELInvocationExpression expr = token;
 					
-					for (List<ELOperandToken> variation : variations) {
-						Set<ISeamContextVariable> variables = fCurrentSeamProject.getVariablesByName(tokensToString(variation));
-						if (variables == null || variables.size() == 0) {
-							continue;
-						}
+					while(expr != null) {
+						Set<ISeamContextVariable> variables = fCurrentSeamProject.getVariablesByName(expr.getText());
 	
-						for (ISeamContextVariable variable : variables) {
+						if(variables != null) for (ISeamContextVariable variable : variables) {
 							if (!matches(variable)) 
 								continue;
 	
-							int start = variation.get(0).getStart();
-							int end = variation.get(variation.size() - 1).getStart() + 
-											variation.get(variation.size() - 1).getLength();
+							int start = 0;
+							int end = expr.getEndPosition() - expr.getStartPosition();
 							String variationText = operand.substring(start, end);
 	
 							int offsetOfOperandToken = offsetOfToken + start;
@@ -779,15 +767,17 @@ public class SeamSearchVisitor {
 								return; // no further reporting requested
 							}
 						}
+						expr = expr.getLeft();
 					}
 				} else if (fVarMatchers != null) {
 					Var var = fELVarSearcher.findVarForEl(operand, fVarListForCurentValidatedNode, false);
 					if (var != null){
 						if (matches(var)) {
-							String varRefText = operandTokens.get(0).getText();
-							int start = operandTokens.get(0).getStart();
-							int end = operandTokens.get(0).getStart() + 
-										operandTokens.get(0).getLength();
+							ELInvocationExpression expr = token;
+							while(expr.getLeft() != null) expr = expr.getLeft();
+							String varRefText = expr.getText();
+							int start = expr.getStartPosition();
+							int end = expr.getEndPosition();
 							int offsetOfVarRefToken = offsetOfToken + start;
 							int lengthOfVarRefToken = end - start;
 							

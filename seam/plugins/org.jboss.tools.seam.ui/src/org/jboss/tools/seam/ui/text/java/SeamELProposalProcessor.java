@@ -333,7 +333,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			for (String string : uniqueSuggestions) {
 				if (string.length() >= 0) {
 					string = proposalPrefix + string + proposalSufix;
-					if ('#' == string.charAt(0) || '$' == string.charAt(0))
+					if (string.length() > 0 && ('#' == string.charAt(0) || '$' == string.charAt(0)))
                 		string = elStartChar + string.substring(1);
 					
 					if (string.startsWith("['") && string.endsWith("']") && prefix != null && prefix.endsWith(".")) {
