@@ -55,7 +55,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandResolveStatus;
@@ -296,15 +295,10 @@ public class SeamELValidator extends SeamValidator {
 		try {
 			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
-				String prefix = SeamELCompletionEngine.getPrefix(operand, offset);
-				if(prefix!=null) {
-					int position = operand.indexOf(prefix);
-					if (position == -1) {
-						position = 0;
-					}
+				{
 
 					SeamELOperandResolveStatus status = 
-						engine.resolveSeamELOperand(project, file, operand, true, varListForCurentValidatedNode, elVarSearcher);
+						engine.resolveSeamELOperand(project, file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
 					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names
@@ -334,18 +328,25 @@ public class SeamELValidator extends SeamValidator {
 						// It's valid EL.
 						return;
 					}
+					
+					ELInvocationExpression ts = status.getUnresolvedTokens();
+					
+					varName = ts.getMemberName();
+					offsetOfVarName = documnetOffset + ts.getInvocationStartPosition();
+					lengthOfVarName = varName.length();
+					unresolvedTokenIsVariable = true; //TODO
 
-					List<ELOperandToken> tokens = status.getUnresolvedTokens();
-
-					for (ELOperandToken token : tokens) {
-						if((token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_PROPERTY_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
-							varName = token.getText();
-							offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart() + token.getStart();
-							lengthOfVarName = varName.length();
-							unresolvedTokenIsVariable = (token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN);
-							break;
-						}
-					}
+//					List<ELOperandToken> tokens = status.getUnresolvedTokens();
+//
+//					for (ELOperandToken token : tokens) {
+//						if((token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_PROPERTY_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
+//							varName = token.getText();
+//							offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart() + token.getStart();
+//							lengthOfVarName = varName.length();
+//							unresolvedTokenIsVariable = (token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN);
+//							break;
+//						}
+//					}
 				}
 			}
 		} catch (BadLocationException e) {
