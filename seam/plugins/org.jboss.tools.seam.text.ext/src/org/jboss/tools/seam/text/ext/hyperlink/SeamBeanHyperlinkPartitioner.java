@@ -18,6 +18,8 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperLinkPartitionPriority;
@@ -253,13 +255,14 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 
 			SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
-			List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, r.getOffset() + r.getLength());
-			if (tokens == null)
+			String prefix = SeamELCompletionEngine.getPrefix(document.get(), r.getOffset() + r.getLength());
+			ELExpression expr = SeamELCompletionEngine.parseOperand(prefix);
+			if (expr == null)
 				return null; // No EL Operand found
 
 			List<IJavaElement> javaElements = null;
 			try {
-				javaElements = engine.getJavaElementsForELOperandTokens(seamProject, file, tokens);
+				javaElements = engine.getJavaElementsForELOperandTokens(seamProject, file, (ELInvocationExpression)expr);
 			} catch (StringIndexOutOfBoundsException e) {
 				SeamExtPlugin.getPluginLog().logError(e);
 				return null;
@@ -272,28 +275,17 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				// Try to find a local Var (a pair of variable-value attributes)
 				ElVarSearcher varSearcher = new ElVarSearcher(seamProject, file, new SeamELCompletionEngine());
 				// Find a Var in the EL 
-				int start = tokens.get(0).getStart();
-				int end = tokens.get(tokens.size() - 1).getStart() + 
-								tokens.get(tokens.size() - 1).getLength();
+				int start = expr.getStartPosition();
+				int end = expr.getEndPosition();
 				
-				StringBuffer elText = new StringBuffer();
-				for (ELOperandToken token : tokens) {
-					if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
-							token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
-							token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
-							token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
-						elText.append(token.getText());
-					}
-				}
-
-				if (elText.length() == 0)
+				if (expr.getText().length() == 0)
 					return null;
 				
 				List<Var> allVars= ElVarSearcher.findAllVars(file, start);
-				Var var = varSearcher.findVarForEl(elText.toString(), allVars, true);
+				Var var = varSearcher.findVarForEl(expr.getText(), allVars, true);
 				if (var == null) {
 					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
-					var = ElVarSearcher.findVar(file, tokens.get(0).getStart());
+					var = ElVarSearcher.findVar(file, start);
 				}
 				if (var == null)
 					return null;
@@ -307,17 +299,12 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 					resolvedValue = resolvedValue.substring(0, resolvedValue.lastIndexOf("}"));
 				
 				// Replace the Var with its resolved value in tokens (Var is always the first token)
-				elText = new StringBuffer();
+				StringBuffer elText = new StringBuffer();
 				elText.append(resolvedValue);
-				for (int i = 1; i < tokens.size(); i++) {
-					ELOperandToken token = tokens.get(i);
-					if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
-							token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
-							token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
-							token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
-						elText.append(token.getText());
-					}
-				}
+				String app = expr.getText();
+				int i = app.indexOf('.');
+				app = app.substring(i + 1);
+				elText.append('.').append(app);
 				
 				javaElements = engine.getJavaElementsForExpression(
 						seamProject, file, elText.toString());
