@@ -63,10 +63,12 @@ public class ScannerTest extends TestCase {
 	}
 	
 	protected void setUp() throws Exception {
+		boolean save = ResourcesUtils.setBuildAutomatically(false);
 		project = ResourcesUtils.importProject(
 				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		EditorTestHelper.joinBackgroundActivities();
+		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		//EditorTestHelper.joinBackgroundActivities();
 	}
 
 	private ISeamProject getSeamProject() {
@@ -78,14 +80,6 @@ public class ScannerTest extends TestCase {
 		}
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
-	}
-	
-	/**
-	 * This empty test is meaningful as it gives Eclipse opportunity 
-	 * to pass for the first time setUp() and show the license dialog 
-	 * that may cause InterruptedException for XJob.waitForJob()
-	 */
-	public void testCreatingProject() {
 	}
 
 	/**
@@ -307,7 +301,7 @@ public class ScannerTest extends TestCase {
 		
 		try {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-			EditorTestHelper.joinBackgroundActivities();
+			//EditorTestHelper.joinBackgroundActivities();
 		} catch (Exception e) {
 			JUnitUtils.fail("Cannot build",e);
 		}
@@ -518,7 +512,8 @@ public class ScannerTest extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		EditorTestHelper.joinJobs(1000, 10000, 500);
+		boolean save = ResourcesUtils.setBuildAutomatically(false);
 		project.delete(true,true, null);
+		ResourcesUtils.setBuildAutomatically(save);
 	}
 }

@@ -13,11 +13,11 @@ package org.jboss.tools.jsf.vpe.facelets.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
-import org.jboss.tools.vpe.ui.test.beans.ImportBean;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.jboss.tools.tests.ImportBean;
+import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 public class FaceletsAllTests {
 

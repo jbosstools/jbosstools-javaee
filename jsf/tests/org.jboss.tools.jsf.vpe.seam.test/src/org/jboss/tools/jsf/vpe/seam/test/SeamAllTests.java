@@ -16,8 +16,8 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
-import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
 /**
  * Class for testing all Seam components

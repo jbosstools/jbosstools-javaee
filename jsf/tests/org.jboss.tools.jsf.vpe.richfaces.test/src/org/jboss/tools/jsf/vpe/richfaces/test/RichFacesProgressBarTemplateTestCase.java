@@ -15,6 +15,7 @@ package org.jboss.tools.jsf.vpe.richfaces.test;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.vpe.editor.util.HTML;

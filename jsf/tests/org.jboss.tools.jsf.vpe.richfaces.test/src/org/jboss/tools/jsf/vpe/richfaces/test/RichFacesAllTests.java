@@ -26,8 +26,8 @@ import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1580Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1614Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1639Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1682Test;
+import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
-import org.jboss.tools.vpe.ui.test.beans.ImportBean;
 
 /**
  * Class for testing all RichFaces components

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.struts.vpe.struts.test;
 
+import static org.jboss.tools.vpe.ui.test.TestUtil.createImportBeanList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -38,7 +39,7 @@ public class StrutsAllTests {
 		suite.addTestSuite(StrutsTilesComponentTest.class);
 		//cleanUpTests();
 		// $JUnit-END$
-		return new VpeTestSetup(suite,TestUtil.createImportBeanList(StrutsHTMLComponentTest.IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath()));
+		return new VpeTestSetup(suite,createImportBeanList(StrutsHTMLComponentTest.IMPORT_PROJECT_NAME, StrutsTestPlugin.getPluginResourcePath()));
 
 	}
 
