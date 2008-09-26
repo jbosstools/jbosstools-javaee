@@ -260,12 +260,12 @@ public class ElVarSearcher {
 								if(resolvedToken==null && parentVar.getElToken()!=null) {
 									try {
 										// Initialize parent vars.
-										engine.resolveSeamELOperand(project, file, var.getElToken(), true, parentVars, this);
+//										engine.resolveSeamELOperand(project, file, var.getElToken(), true, parentVars, this);
 										resolvedToken = parentVar.getResolvedElToken();
 									} catch (StringIndexOutOfBoundsException e) {
 										SeamCorePlugin.getPluginLog().logError(e);
-									} catch (BadLocationException e) {
-										SeamCorePlugin.getPluginLog().logError(e);
+//									} catch (BadLocationException e) {
+//										SeamCorePlugin.getPluginLog().logError(e);
 									}
 								}
 								if(resolvedToken!=null) {
