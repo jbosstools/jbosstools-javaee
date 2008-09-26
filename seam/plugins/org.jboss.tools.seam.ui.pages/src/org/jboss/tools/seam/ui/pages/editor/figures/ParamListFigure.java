@@ -97,4 +97,14 @@ public class ParamListFigure extends NodeFigure implements HandleBounds {
 		}
 
 	}
+	
+	private int nameWidth = 0;
+	
+	public void setNameWidth(int nameWidth){
+		this.nameWidth = nameWidth;
+	}
+	
+	public int getNameWidth(){
+		return nameWidth;
+	}
 }

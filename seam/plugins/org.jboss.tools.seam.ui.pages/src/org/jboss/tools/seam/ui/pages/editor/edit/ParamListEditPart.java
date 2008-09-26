@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -29,7 +30,9 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
+import org.jboss.tools.seam.ui.pages.editor.figures.ParamFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.ParamListFigure;
 
 public class ParamListEditPart extends PagesEditPart implements PropertyChangeListener, Adapter {
@@ -83,7 +86,41 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 
 	Dimension size;
 
-	
+	private int calculateListWidth(){
+		int width = 0;
+		int nameWidth = 0;
+		
+		for(int i = 0; i < getPageWrapperModel().getPage().getChildren().size(); i++){
+			Param param = (Param)getPageWrapperModel().getPage().getChildren().get(i);
+			String name;
+			if(param.getName() != null){
+				name = param.getName();
+				name += ":";
+			}else
+				name = "Param:";
+			
+			String value;
+			if(param.getValue() != null){
+				value = param.getValue();
+			}else
+				value = "value";
+			
+			int curName = FigureUtilities.getTextExtents(name, ParamFigure.nameParamFont).width;
+			
+			if(curName > nameWidth)
+				nameWidth = curName;
+			
+			int current = FigureUtilities.getTextExtents(name, ParamFigure.nameParamFont).width+
+			FigureUtilities.getTextExtents(value, ParamFigure.valueParamFont).width + 20;
+			
+			if(current > width)
+				width = current;
+		}
+		
+		((ParamListFigure)getFigure()).setNameWidth(nameWidth);
+		
+		return width;
+	}
 
 	protected void refreshVisuals() {
 		Point loc = getPageWrapperModel().getPage().getLocation().getCopy();
@@ -91,7 +128,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 		if(links == 0)
 			links = 1;
 		loc.y += 25+links*NodeFigure.LINK_HEIGHT;
-		size = new Dimension(200, getPageWrapperModel().getPage().getChildren().size()*19+2);
+		size = new Dimension(calculateListWidth(), getPageWrapperModel().getPage().getChildren().size()*19+2);
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);

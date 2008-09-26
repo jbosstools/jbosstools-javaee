@@ -26,9 +26,9 @@ import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
 public class ParamFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
 	
-	private static final Font nameParamFont = new Font(null, "default", 8, SWT.BOLD); // TODO: use preference font mechanism for this
+	public static final Font nameParamFont = new Font(null, "default", 8, SWT.BOLD); // TODO: use preference font mechanism for this
 
-	private static final Font valueParamFont = new Font(null, "default", 8, SWT.NORMAL); // TODO: use preference font mechanism for this
+	public static final Font valueParamFont = new Font(null, "default", 8, SWT.NORMAL); // TODO: use preference font mechanism for this
 	
 	private static final Color selectionColor = new Color(null, 0x41, 0x77, 0xa0);
 
@@ -88,14 +88,14 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 		}
 		String name;
 		if(param.getName() != null){
-			name = dottedString(param.getName(), getTextWidth()-getTextInset(), nameParamFont);
+			name = param.getName();
 			name += ":";
 		}else
 			name = "Param:";
 		
 		String value;
 		if(param.getValue() != null){
-			value = dottedString(param.getValue(), getTextWidth()-getTextInset(), valueParamFont);
+			value = param.getValue();
 		}else
 			value = "value";
 
@@ -104,7 +104,7 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 			g.drawString(name, getTextInset(), 2);
 			
 			g.setFont(valueParamFont);
-			g.drawString(value, getTextWidth()+3*getTextInset(), 2);
+			g.drawString(value, ((ParamListFigure)getParent()).getNameWidth()+3*getTextInset(), 2);
 
 		}
 		
