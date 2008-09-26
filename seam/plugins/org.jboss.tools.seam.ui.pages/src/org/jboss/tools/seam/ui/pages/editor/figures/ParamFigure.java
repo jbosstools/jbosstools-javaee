@@ -18,6 +18,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
 import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
@@ -25,9 +26,11 @@ import org.jboss.tools.seam.ui.pages.editor.edit.ParamEditPart;
 public class ParamFigure extends NodeFigure implements HandleBounds {
 	private static final Dimension SIZE = new Dimension(56, 100);
 	
-	private static final Font nameParamFont = new Font(null, "default", 10, SWT.BOLD); // TODO: use preference font mechanism for this
+	private static final Font nameParamFont = new Font(null, "default", 8, SWT.BOLD); // TODO: use preference font mechanism for this
 
-	private static final Font valueParamFont = new Font(null, "default", 10, SWT.NORMAL); // TODO: use preference font mechanism for this
+	private static final Font valueParamFont = new Font(null, "default", 8, SWT.NORMAL); // TODO: use preference font mechanism for this
+	
+	private static final Color selectionColor = new Color(null, 0x41, 0x77, 0xa0);
 
 	public Param param;
 
@@ -74,11 +77,13 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 		
 		if (editPart.getSelected() == EditPart.SELECTED_PRIMARY
 				|| editPart.getSelected() == EditPart.SELECTED) {
-			    g.setBackgroundColor(ColorConstants.white);
+			    g.setBackgroundColor(selectionColor);
+			    g.setForegroundColor(ColorConstants.white);
 			    g.fillRectangle(1, 1, r.width-2, r.height-2);
 			    
 		} else {
 		    g.setBackgroundColor(lightGrayColor);
+		    g.setForegroundColor(ColorConstants.black);
 		    g.fillRectangle(1, 1, r.width-2, r.height-2);
 		}
 		String name;
@@ -96,10 +101,10 @@ public class ParamFigure extends NodeFigure implements HandleBounds {
 
 		if(param != null){
 			g.setFont(nameParamFont);
-			g.drawString(name, getTextInset(), 1);
+			g.drawString(name, getTextInset(), 2);
 			
 			g.setFont(valueParamFont);
-			g.drawString(value, getTextWidth()+3*getTextInset(), 1);
+			g.drawString(value, getTextWidth()+3*getTextInset(), 2);
 
 		}
 		

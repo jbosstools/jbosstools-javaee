@@ -118,7 +118,7 @@ public class ExceptionFigure extends NodeFigure implements HandleBounds {
 		
 		if(exc != null){
 			g.setFont(nodeLabelFont);
-			g.drawString(getExceptionReadOnlyLabel(), 27, 1);			
+			g.drawString(getExceptionReadOnlyLabel(), 27, 3);			
 		}
 		
 

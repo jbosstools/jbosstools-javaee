@@ -34,8 +34,8 @@ public class ParamListLayout extends AbstractLayout {
 
 		for (int i = 0; i < container.getChildren().size(); i++) {
 			IFigure figure = (IFigure) container.getChildren().get(i);
-			figure.setLocation(new Point(bounds.x + 5, bounds.y + y));
-			figure.setSize(container.getSize().width - 5, 19);
+			figure.setLocation(new Point(bounds.x + 1, bounds.y + y + 1));
+			figure.setSize(container.getSize().width - 2, 19);
 			y += 19;
 		}
 	}

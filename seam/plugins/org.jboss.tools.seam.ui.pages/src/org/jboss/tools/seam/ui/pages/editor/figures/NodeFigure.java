@@ -25,7 +25,7 @@ public class NodeFigure extends
 	
 	public final static Color ghostFillColor = new Color(null, 31, 31, 31);
 	
-	public static final Font nodeLabelFont = new Font(null, "default", 10, SWT.BOLD); // TODO: use preference font mechanism for this
+	public static final Font nodeLabelFont = new Font(null, "default", 8, SWT.BOLD); // TODO: use preference font mechanism for this
 	
 	public static final Color lightGrayColor = new Color(null, 0xf1, 0xf1, 0xf1);
 	

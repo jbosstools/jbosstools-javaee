@@ -42,6 +42,8 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 	
 	private static final Color greyForeground = new Color(null, 0x99, 0x95, 0x99);
 	
+	private static final Color borderColor = new Color(null, 0xad, 0xa9, 0xad);
+	
 	private static final Image pageImage = ImageDescriptor.createFromFile(
 			PagesEditor.class, "icons/ico_page.png").createImage();
 	
@@ -50,6 +52,9 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 
 	private static final Image minusImage = ImageDescriptor.createFromFile(
 			PagesEditor.class, "icons/ico_minus.png").createImage();
+	
+	private static final Image crossImage = ImageDescriptor.createFromFile(
+			PagesEditor.class, "icons/ico_cross.gif").createImage();
 
 	public Page page;
 
@@ -148,7 +153,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 		g.drawImage(pageImage, 1, 1);
 		
 		if(page != null && page.getData() != null && SeamPagesDiagramStructureHelper.instance.isUnconfirmedPage((XModelObject)page.getData())){
-			g.drawImage(errorIcon, getInsetX(), getInsetY()+8);
+			g.drawImage(crossImage, getInsetX()-1, getInsetY()+4);
 		}
 		
 		if(page != null && page.getName() != null){
@@ -187,16 +192,17 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			int width = r.width - 1;
 			int height = r.height - 1;
 			
-			// if page has not page element
-			if(page != null && !page.isConfirmed()){
-				graphics.setLineDash(new int[]{3,3});
-				graphics.setLineStyle(SWT.LINE_CUSTOM);
-			}
-			
 			if (page != null)
 				graphics.setForegroundColor(foregroundColor);
 			else
 				graphics.setForegroundColor(greyForeground);
+			
+			// if page has not page element
+			if(page != null && !page.isConfirmed()){
+				graphics.setLineDash(new int[]{3,3});
+				graphics.setLineStyle(SWT.LINE_CUSTOM);
+				graphics.setForegroundColor(borderColor);
+			}
 
 			graphics.drawLine(1, 0, width-1, 0);
 			graphics.drawLine(0, 1, 0, height - 1);

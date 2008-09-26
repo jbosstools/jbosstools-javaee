@@ -27,17 +27,16 @@ import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.SelectionManager;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
-import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor.ModelSelectionProvider;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
@@ -48,8 +47,10 @@ import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
 public class LinkEditPart extends AbstractConnectionEditPart implements
 		PropertyChangeListener, EditPartListener {
-	public static final Image icon = ImageDescriptor.createFromFile(
+	private static final Image icon = ImageDescriptor.createFromFile(
 			PagesEditor.class, "icons/shortcut.gif").createImage();
+	
+	private static final Font pathFont = new Font(null, "default", 8, SWT.NONE);
 
 	AccessibleEditPart acc;
 	
@@ -119,8 +120,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 		pathLabel = new GEFLabel(getLink().getName(),
 				FigureFactory.normalColor);
-//		pathLabel.setFont(getLink().getJSFModel().getOptions()
-//				.getLinkPathFont());
+		pathLabel.setFont(pathFont);
 		pathLabel.setIcon(null);
 		pathLabel.setTextAlignment(Label.LEFT);
 		pathLabel.setLabelAlignment(Label.LEFT);

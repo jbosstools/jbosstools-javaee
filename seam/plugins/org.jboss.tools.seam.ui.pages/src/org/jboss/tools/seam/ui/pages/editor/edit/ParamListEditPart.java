@@ -91,7 +91,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 		if(links == 0)
 			links = 1;
 		loc.y += 25+links*NodeFigure.LINK_HEIGHT;
-		size = new Dimension(200, getPageWrapperModel().getPage().getChildren().size()*19);
+		size = new Dimension(200, getPageWrapperModel().getPage().getChildren().size()*19+2);
 		adjustForGrid(loc);
 
 		Rectangle r = new Rectangle(loc, size);
