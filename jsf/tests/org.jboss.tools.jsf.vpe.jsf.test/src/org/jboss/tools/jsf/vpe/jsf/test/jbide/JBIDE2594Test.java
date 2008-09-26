@@ -47,7 +47,7 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
     
     
     public void testReplaceGlobalElVariable(){
-        String replaceString= KEY_6+"images/test.gif"; //$NON-NLS-1$
+        String replaceString= "#{"+KEY_6+"}"+"images/test.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String replacedString = ElService.getInstance().replaceEl(file, replaceString);
         
         assertEquals("Should be equals " + globalElMap.get(KEY_6) + "images/test.gif", replacedString, globalElMap.get(KEY_6) //$NON-NLS-1$ //$NON-NLS-2$
@@ -60,7 +60,7 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
      * @throws CoreException the core exception
      */
     public void testOverrideLocalVariable() throws CoreException {
-        String string1 = KEY_1+"/images/smalle.gif"; //$NON-NLS-1$
+        String string1 = "${"+KEY_1+"}"+"/images/smalle.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String replacedValue = ElService.getInstance().replaceEl(file, string1);
 
         assertEquals("Should be equals " + globalElMap.get(KEY_1) + "/images/smalle.gif", replacedValue, globalElMap.get(KEY_1) //$NON-NLS-1$ //$NON-NLS-2$
