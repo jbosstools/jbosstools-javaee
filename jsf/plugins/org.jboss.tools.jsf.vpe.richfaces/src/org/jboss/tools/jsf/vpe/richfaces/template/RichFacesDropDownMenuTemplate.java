@@ -51,8 +51,8 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_LABEL_TEXT_DECOR = "rich-label-text-decor"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BORDER = "rich-menu-list-border"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BG = "rich-menu-list-bg"; //$NON-NLS-1$
-	private static final String CSS_RICH_DDEMENU_LIST_DIV_STYLE = "position: relative; z-index: 100;"; //$NON-NLS-1$
-	private static final String CSS_RICH_DDEMENU_BORDER_DIV_STYLE = "position: relative; z-index: 2;"; //$NON-NLS-1$
+	private static final String CSS_RICH_DDEMENU_LIST_DIV_STYLE = "position: relative; z-index: 100; display: table;"; //$NON-NLS-1$
+	private static final String CSS_RICH_DDEMENU_BORDER_DIV_STYLE = "position: relative; z-index: 2; display: table;"; //$NON-NLS-1$
 	
 	/*
 	 * rich:dropDownMenu attributes names
@@ -168,14 +168,20 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		/*
 		 * Setting css styles
 		 */
-		String cssLabelDivStyle = EMPTY;
+		String cssListDivStyle = EMPTY;
 		String cssListBorderDivStyle = EMPTY;
+		String cssLabelDivStyle = EMPTY;
 		
-		cssLabelDivStyle += SPACE + CSS_RICH_DDEMENU_LIST_DIV_STYLE;
+		cssListDivStyle += SPACE + CSS_RICH_DDEMENU_LIST_DIV_STYLE;
 		cssListBorderDivStyle += SPACE + CSS_RICH_DDEMENU_BORDER_DIV_STYLE;
 		
-		ddmListDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssLabelDivStyle);
+		if (attrPresents(ddm_style)) {
+			cssLabelDivStyle += SPACE + ddm_style;
+		}
+		
+		ddmListDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssListDivStyle);
 		ddmListBorderDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssListBorderDivStyle);
+		ddmLabelDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssLabelDivStyle);
 		
 		/*
 		 * Encoding label value

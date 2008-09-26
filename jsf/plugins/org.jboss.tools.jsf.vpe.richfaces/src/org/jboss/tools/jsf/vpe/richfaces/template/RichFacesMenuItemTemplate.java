@@ -150,6 +150,17 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		itemLabelSpan.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, labelSpanClass);
 
 		/*
+		 * Setting css styles
+		 */
+		String topDivStyle = EMPTY;
+		
+		if (attrPresents(mi_style)) {
+			topDivStyle += SPACE + mi_style;
+		}
+		
+		itemTopDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, topDivStyle);
+		
+		/*
 		 * Encode label and icon value
 		 */
 		Attr valueAttr = sourceElement.getAttributeNode(HtmlComponentUtil.HTML_VALUE_ATTR);
@@ -184,6 +195,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			 * Add image to span
 			 */
 			itemIconImgSpan.appendChild(itemIconImg);
+
 		}
 		
 		/*

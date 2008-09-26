@@ -5,7 +5,8 @@
     
 }
 .rich-menu-item-icon {
-    
+    border:0pt solid transparent;
+    padding:2px 10px 2px 2px;
 }
 .rich-menu-item-disabled {
     

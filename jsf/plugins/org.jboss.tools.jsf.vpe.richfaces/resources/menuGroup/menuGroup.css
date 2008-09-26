@@ -32,30 +32,28 @@
 }
 .rich-menu-item-icon-enabled {
     border:0pt solid transparent;
-    padding:2px 36px 2px 2px;
+    padding:2px 10px 2px 2px;
 }
 .rich-menu-item-icon-selected {
     
 }
 .rich-menu-list-border {
 	font-family:Arial,Verdana,sans-serif;
-    /*background-color:#F1EEE9;*/
-    background-color:#C4C0B9;
+    background-color:#F1EEE9;
+    background-color:#F1EEE9;
     border-color:#C4C0B9;
     border:1px solid;
 }
 .rich-menu-list-bg {
-	background-image:url(list-bg.png);
-    border-left-color:#F1EEE9;
-    border-right-color:#F1EEE9;
-    border-top-color:#F1EEE9;
-
     background:transparent none repeat-y scroll left center;
+	background-image:url(list-bg.png);
+	border-left-color:#C4C0B9;
+    border-right-color:#C4C0B9;
+    border-top-color:#C4C0B9;
     border-left-style:solid;
     border-left-width:1px;
     border-right-style:solid;
     border-right-width:1px;
     border-top-style:solid;
     border-top-width:1px;
-
 }

@@ -59,8 +59,8 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_MENU_ITEM_ICON_SELECTED = "rich-menu-item-icon-selected"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BORDER = "rich-menu-list-border"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BG = "rich-menu-list-bg"; //$NON-NLS-1$
-	private static final String CSS_RICH_LIST_FOLDER_DIV_STYLE = "position: relative; z-index: 100;"; //$NON-NLS-1$
-	private static final String CSS_RICH_LIST_BORDER_DIV_STYLE = "position: relative; z-index: 2;"; //$NON-NLS-1$
+	private static final String CSS_RICH_LIST_FOLDER_DIV_STYLE = "position: relative; z-index: 100; display: table;"; //$NON-NLS-1$
+	private static final String CSS_RICH_LIST_BORDER_DIV_STYLE = "position: relative; z-index: 2; display: table;"; //$NON-NLS-1$
 	
 	/*
 	 * rich:menuGroup attributes names
@@ -180,6 +180,13 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		/*
 		 * Setting css styles
 		 */
+		String topDivStyle = EMPTY;
+		
+		if (attrPresents(mg_style)) {
+			topDivStyle += SPACE + mg_style;
+		}
+		
+		grTopDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, topDivStyle);
 		grFolderDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, CSS_RICH_LIST_FOLDER_DIV_STYLE);
 		grListBorderDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, CSS_RICH_LIST_BORDER_DIV_STYLE);
 		
@@ -213,8 +220,12 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 				 * Create spacer image
 				 */
 				ComponentUtil.setImg(grImg, SPACER_IMG_PATH);
-				grImgSpan.appendChild(grImg);
 			}
+			/*
+			 * Add image to span
+			 */
+			grImgSpan.appendChild(grImg);
+			
 		}
 		
 		String menuGroupId = (String) sourceNode.getUserData(MENU_GROUP_ID);
