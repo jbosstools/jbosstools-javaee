@@ -35,7 +35,6 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
-import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor.ModelSelectionProvider;
@@ -44,6 +43,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
+import org.jboss.tools.seam.ui.pages.editor.figures.PathLabel;
 
 public class LinkEditPart extends AbstractConnectionEditPart implements
 		PropertyChangeListener, EditPartListener {
@@ -60,11 +60,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 	private CustomLocator shortcutLocator;
 
-	private GEFLabel shortcutLabel;
+	private PathLabel shortcutLabel;
 
 	private CustomLocator pathLocator;
 
-	private GEFLabel pathLabel;
+	private PathLabel pathLabel;
 	
 	private PageEditPart pagePart = null;
 	
@@ -118,8 +118,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			//conn.repaint();
 		}
 
-		pathLabel = new GEFLabel(getLink().getName(),
-				FigureFactory.normalColor);
+		pathLabel = new PathLabel(getLink().getName());
 		pathLabel.setFont(pathFont);
 		pathLabel.setIcon(null);
 		pathLabel.setTextAlignment(Label.LEFT);
@@ -136,7 +135,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if(getLink().getToElement() != null)
 			text = getLink().getToElement().getName();
 		
-		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
+		shortcutLabel = new PathLabel(text);
 //		if (getLink().getJSFModel().getOptions().showShortcutIcon())
 			shortcutLabel.setIcon(icon);
 //		shortcutLabel.setFont(getLink().getJSFModel().getOptions()

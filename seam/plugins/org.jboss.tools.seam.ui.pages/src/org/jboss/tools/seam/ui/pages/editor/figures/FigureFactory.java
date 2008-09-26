@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Color;
@@ -19,9 +18,9 @@ import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
 
 public class FigureFactory {
-	public static final Color normalColor = new Color(null, 0x88, 0x89, 0x88);
+	public static final Color pathColor = new Color(null, 0x84, 0x85, 0x84);
+	public static final Color normalColor = new Color(null, 0xad, 0xae, 0xad);
 	public static final Color selectedColor = new Color(null, 0xff, 0x84, 0x00);
-	public static final Color highlightColor = ColorConstants.black;
 
 	public static final PointList TRIANGLE_TIP = new PointList();
 
