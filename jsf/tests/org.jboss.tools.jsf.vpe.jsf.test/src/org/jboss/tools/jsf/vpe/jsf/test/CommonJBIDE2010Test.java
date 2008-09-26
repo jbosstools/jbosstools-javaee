@@ -37,22 +37,22 @@ public abstract class CommonJBIDE2010Test extends VpeTest {
     protected static final String VALUE_5 = "world"; //$NON-NLS-1$
 
     /** The Constant KEY_5. */
-    protected static final String KEY_5 = "#{bean1.property3}"; //$NON-NLS-1$
+    protected static final String KEY_5 = "bean1.property3"; //$NON-NLS-1$
 
     /** The Constant VALUE_4. */
     protected static final String VALUE_4 = "background: red"; //$NON-NLS-1$
 
     /** The Constant KEY_4. */
-    protected static final String KEY_4 = "#{bean1.property2}"; //$NON-NLS-1$
+    protected static final String KEY_4 = "bean1.property2"; //$NON-NLS-1$
 
     /** The Constant IMPORT_PROJECT_NAME. */
     public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 
     /** The Constant KEY_3. */
-    protected static final String KEY_3 = "#{facesContext.requestPath}"; //$NON-NLS-1$
+    protected static final String KEY_3 = "facesContext.requestPath"; //$NON-NLS-1$
 
     /** The Constant KEY_2. */
-    protected static final String KEY_2 = "#{beanA.property2}"; //$NON-NLS-1$
+    protected static final String KEY_2 = "beanA.property2"; //$NON-NLS-1$
 
     /** The Constant DIR_TEST_PAGE_NAME. */
     protected static final String DIR_TEST_PAGE_NAME_2 = "JBIDE/2010/page2.jsp"; //$NON-NLS-1$
@@ -61,7 +61,7 @@ public abstract class CommonJBIDE2010Test extends VpeTest {
     protected static final String DIR_TEST_PAGE_NAME = "JBIDE/2010/page.jsp"; //$NON-NLS-1$
 
     /** The Constant KEY_1. */
-    protected static final String KEY_1 = "#{beanA.property1}"; //$NON-NLS-1$
+    protected static final String KEY_1 = "beanA.property1"; //$NON-NLS-1$
 
     /** The Constant elValuesMap. */
     protected static final Map<String, String> elValuesMap = new HashMap<String, String>();
