@@ -40,12 +40,12 @@ import org.mozilla.interfaces.nsIDOMNode;
  * @author Eugene Stherbin
  * 
  */
-public class JBIDE2624 extends VpeTest {
+public class JBIDE2624Test extends VpeTest {
 
     /**
      * @param name
      */
-    public JBIDE2624(String name) {
+    public JBIDE2624Test(String name) {
         super(name);
     }
 
