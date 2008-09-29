@@ -14,31 +14,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.javaee.core.DisplayName;
 import org.eclipse.jst.javaee.core.JavaeeFactory;
 import org.eclipse.jst.javaee.web.Filter;
 import org.eclipse.jst.javaee.web.WebApp;
-import org.eclipse.jst.javaee.web.WebFactory;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -52,8 +45,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.osgi.service.prefs.BackingStoreException;
-import org.osgi.service.prefs.Preferences;
 
 /**
  * Install delegate for seam faset version 1.2
@@ -81,16 +72,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	 * 
 	 */
 	public static final String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
-
-	/**
-	 * 
-	 */
-	public static final String TEST_WAR_PROFILE = "test-war"; //$NON-NLS-1$
-
-	/**
-	 * 
-	 */
-	public static final String TEST_EAR_PROFILE = "test"; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -132,20 +113,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	private static final String ORG_JBOSS_SEAM_UI_SEAMFACELETVIEWHANDLER = "org.jboss.seam.ui.facelet.SeamFaceletViewHandler";
 
 	private static final String ORG_AJAX4JSF_VIEW_HANDLERS = "org.ajax4jsf.VIEW_HANDLERS";
-
-	/**
-	 * 
-	 */
-	public static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
-		.include("testng-.*-jdk15\\.jar") //$NON-NLS-1$
-		.include("myfaces-api-.*\\.jar") //$NON-NLS-1$
-		.include("myfaces-impl-.*\\.jar") //$NON-NLS-1$
-		.include("servlet-api\\.jar") //$NON-NLS-1$
-		.include("hibernate-all\\.jar") //$NON-NLS-1$
-		.include("jboss-ejb3-all\\.jar") //$NON-NLS-1$
-		.include("thirdparty-all\\.jar") //$NON-NLS-1$
-		.exclude(".*/CVS") //$NON-NLS-1$
-		.exclude(".*/\\.svn"); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -211,16 +178,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	/**
 	 * 
 	 */
-	public static AntCopyUtils.FileSet CVS_SVN = new AntCopyUtils.FileSet()
-		.include(".*") //$NON-NLS-1$
-		.exclude(".*/CVS") //$NON-NLS-1$
-		.exclude("CVS") //$NON-NLS-1$
-		.exclude(".*\\.svn") //$NON-NLS-1$
-		.exclude(".*/\\.svn");	 //$NON-NLS-1$
-
-	/**
-	 * 
-	 */
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF") //$NON-NLS-1$
 		//.include("WEB-INF/web\\.xml") //$NON-NLS-1$
@@ -267,12 +224,8 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	 */
 	public static String WEB_LIBRARIES_RELATED_PATH = "WEB-INF/lib"; //$NON-NLS-1$
 
-	/**
-	 * 
-	 */
-	public void doExecute(final IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor) throws CoreException {
-		final IDataModel model = (IDataModel)config;
+	private void doExecuteForWar(final IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException {
 
 		// get WebContents folder path from DWP model 
 		IVirtualComponent component = ComponentCore.createComponent(project);
@@ -281,7 +234,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		IContainer webRootFolder = webRootVirtFolder.getUnderlyingFolder();
 
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
-		model.setProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, project.getName() + "-test"); //$NON-NLS-1$
 
 		Boolean dbExists = (Boolean) model.getProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
 		Boolean dbRecreate = (Boolean) model.getProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
@@ -310,7 +262,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		final File seamHomeFolder = new File(seamHomePath);
 		final File seamLibFolder = new File(seamHomePath, SEAM_LIB_RELATED_PATH);
 		final File seamGenResFolder = new File(seamHomePath, "seam-gen/resources"); //$NON-NLS-1$
-		final File seamGenResMetainfFolder = new File(seamGenResFolder, "META-INF"); //$NON-NLS-1$
 
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		final File seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
@@ -322,8 +273,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		final File hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
 		//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
 		final File persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
-
-		final File applicationFile = new File(seamGenResFolder, "META-INF/application.xml"); //$NON-NLS-1$
 
 		final FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
 		final FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
@@ -350,7 +299,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
 
 		configureWebXml(project);
-		
+
 		AntCopyUtils.copyFileToFile(
 				componentsFile,
 				new File(webInfFolder, "components.xml"), //$NON-NLS-1$
@@ -364,7 +313,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 
-		createTestProject(model, project, selectedRuntime);
+//		createTestProject(model, project, selectedRuntime);
 
 		// ********************************************************************************************
 		// Handle WAR/EAR configurations
@@ -389,7 +338,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			// ********************************************************************************************
 			// Copy seam project indicator
 			// ********************************************************************************************
-			
+
 			final IContainer source = srcRootFolder.getUnderlyingFolder();
 
 			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/action"); //$NON-NLS-1$
@@ -403,9 +352,9 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			srcRootFolder.createLink(modelSrcPath, 0, null);					
 
 			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/");
-			
+
 			//AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
-			
+
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
 					new File(actionsSrc,model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -458,7 +407,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 				} else {
 					filterSet.addFilter("driverJar", ""); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				
+
 				File ejbTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(),"ejb");
 				AntCopyUtils.FileSet excludeCvsSvn = new AntCopyUtils.FileSet(CVS_SVN).dir(ejbTemplateDir);
 
@@ -582,183 +531,32 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
 		if (!isWarConfiguration(model)) {
 			IProject ejbProjectToBeImported = wsRoot.getProject(project.getName() + "-ejb");
-			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath + "/" + project.getName() + "-ejb", project.getName() + "-ejb");
+			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath + "/" + project.getName() + "-ejb", project.getName() + "-ejb", monitor, false);
 			toggleHibernateOnProject(ejbProjectToBeImported, consoleName);
 			IProjectFacet sf = ProjectFacetsManager.getProjectFacet("jst.ejb");  
 			IProjectFacetVersion pfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(sf);
 			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
 
 			IProject earProjectToBeImported = wsRoot.getProject(project.getName() + "-ear");
-			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + project.getName() + "-ear", project.getName() + "-ear");
+			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + project.getName() + "-ear", project.getName() + "-ear", monitor, false);
 		}
-
-		IProject testProjectToBeImported = wsRoot.getProject(project.getName() + "-test");
-		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + project.getName() + "-test", project.getName() + "-test");
-		toggleHibernateOnProject(testProjectToBeImported, consoleName);
 	}
 
-	/**
-	 * 
-	 * @param model
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#doExecute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public static boolean isWarConfiguration(IDataModel model) {
-		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)); //$NON-NLS-1$
+	public void doExecute(final IProject project, IProjectFacetVersion fv,
+			Object config, IProgressMonitor monitor) throws CoreException {
+		final IDataModel model = (IDataModel)config;
+
+		doExecuteForWar(project, fv, model, monitor);
 	}
 
-	private void createTestProject(IDataModel model, IProject seamWebProject, SeamRuntime seamRuntime) {
-		String projectName = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME).toString();
-		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), projectName + "-test"); //$NON-NLS-1$
-		testProjectDir.mkdir();
-
-		IVirtualComponent component = ComponentCore.createComponent(seamWebProject);
-		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-
-		File testLibDir = new File(testProjectDir, "lib"); //$NON-NLS-1$
-		File embededEjbDir = new File(testProjectDir, "embedded-ejb"); //$NON-NLS-1$
-		File testSrcDir = new File(testProjectDir, "test-src"); //$NON-NLS-1$
-		String seamGenResFolder = seamRuntime.getResourceTemplatesDir();
-		File persistenceFile = new File(seamGenResFolder , "META-INF/persistence-" + (isWarConfiguration(model) ? TEST_WAR_PROFILE:TEST_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
-		File jbossBeansFile = new File(seamGenResFolder , "META-INF/jboss-beans.xml"); //$NON-NLS-1$
-		FilterSet filterSet = new FilterSet();
-		filterSet.addFilter("projectName", projectName); //$NON-NLS-1$
-		filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
-		filterSet.addFilter("webRootFolder", webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
-
-		final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
-		final String seamHomePath = selectedRuntime.getHomeDir();
-
-		AntCopyUtils.FileSet includeLibs 
-			= new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET)
-											.dir(new File(seamRuntime.getHomeDir(), "lib")); //$NON-NLS-1$
-		File[] libs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
-		StringBuffer testLibraries = new StringBuffer();
-
-		for (File file : libs) {
-			testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		StringBuffer requiredProjects = new StringBuffer();
-		requiredProjects.append(
-				"\t<classpathentry combineaccessrules=\"false\" kind=\"src\" path=\"/" + seamWebProject.getName() + "\"/>"); //$NON-NLS-1$ //$NON-NLS-2$
-		if (!isWarConfiguration(model)) {
-			requiredProjects.append(
-					"\n\t<classpathentry combineaccessrules=\"false\" kind=\"src\" path=\"/" + seamWebProject.getName() + "-ejb\"/>"); //$NON-NLS-1$ //$NON-NLS-2$
-		} 
-		filterSet.addFilter("testLibraries", testLibraries.toString()); //$NON-NLS-1$
-		filterSet.addFilter("requiredProjects", requiredProjects.toString()); //$NON-NLS-1$
-		File testTemplateDir = null;
-		try {
-			testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "test"); //$NON-NLS-1$
-		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-			return;
-		}
-		AntCopyUtils.FileSet excludeCvsSvn 
-				 = new AntCopyUtils.FileSet(CVS_SVN).dir(testTemplateDir);
-
-		AntCopyUtils.copyFilesAndFolders(
-				testTemplateDir,
-				testProjectDir,
-				new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
-				new FilterSetCollection(filterSet), true);
-
-		excludeCvsSvn.dir(new File(seamRuntime.getHomeDir(), "embedded-ejb/conf")); //$NON-NLS-1$
-		AntCopyUtils.copyFiles(
-				new File(seamRuntime.getHomeDir(), "embedded-ejb/conf"), //$NON-NLS-1$
-				embededEjbDir,
-				new AntCopyUtils.FileSetFileFilter(excludeCvsSvn));
-
-		AntCopyUtils.copyFiles(
-				new File(seamRuntime.getHomeDir(), "lib"), //$NON-NLS-1$
-				testLibDir,
-				new AntCopyUtils.FileSetFileFilter(includeLibs));
-
-		createComponentsProperties(testSrcDir, "", Boolean.TRUE); //$NON-NLS-1$
-	}
-
-	/**
-	 * 
-	 * @param seamGenResFolder
-	 * @param projectName
-	 * @param embedded
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#configure(org.eclipse.jst.javaee.web.WebApp)
 	 */
-	private void createComponentsProperties(final File seamGenResFolder, String projectName, Boolean embedded) {
-		Properties components = new Properties();
-		String prefix = "".equals(projectName) ? "" : projectName + "/"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		components.put("embeddedEjb", embedded.toString()); //$NON-NLS-1$
-		components.put("jndiPattern", prefix + "#{ejbName}/local"); //$NON-NLS-1$ //$NON-NLS-2$
-		File componentsProps = new File(seamGenResFolder, "components.properties"); //$NON-NLS-1$
-		try {
-			componentsProps.createNewFile();
-			components.store(new FileOutputStream(componentsProps), ""); //$NON-NLS-1$
-		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
-	}
-
-	/**
-	 * 
-	 * @param project
-	 * @param defaultConsoleName
-	 * @return
-	 */
-	public static boolean toggleHibernateOnProject(IProject project, String defaultConsoleName) {
-		IScopeContext scope = new ProjectScope(project);
-
-		Preferences node = scope.getNode("org.hibernate.eclipse.console");
-
-		if (node != null) {
-			node.putBoolean("hibernate3.enabled", true);
-			node.put("default.configuration", defaultConsoleName);
-			try {
-				node.flush();
-			} catch (BackingStoreException e) {
-				SeamCorePlugin.getDefault().logError("Could not save changes to preferences", e);
-				return false;
-			}
-		} else {
-			return false;
-		}
-
-		try {
-			addProjectNature(project, "org.hibernate.eclipse.console.hibernateNature", new NullProgressMonitor());
-			return true;
-		} catch (CoreException ce) {
-			SeamCorePlugin.getDefault().logError("Could not activate Hibernate nature on project " + project.getName(), ce);			
-			return false;
-		}		
-	}
-
-	/**
-	 * Add the given project nature to the given project (if it isn't already added).
-	 * 
-	 * @param project
-	 * @param nature
-	 * @param monitor
-	 * @return true if nature where added, false if not
-	 * @throws OperationCanceledException if job were canceled or CoreException if something went wrong. 
-	 */
-	public static boolean addProjectNature(IProject project, String nature, IProgressMonitor monitor) throws CoreException {
-		if (monitor != null && monitor.isCanceled()) {
-			throw new OperationCanceledException();
-		}
-
-		if (!project.hasNature(nature)) {
-			IProjectDescription description = project.getDescription();
-			String[] prevNatures = description.getNatureIds();
-			String[] newNatures = new String[prevNatures.length + 1];
-			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
-			newNatures[prevNatures.length] = nature;
-			description.setNatureIds(newNatures);
-			project.setDescription(description, monitor);
-			return true;
-		} else {
-			monitor.worked(1);
-			return false;
-		}
-	}
-
 	@Override
 	protected void configure(WebApp webApp) {
 		// Ajax4jsf (must come first!)

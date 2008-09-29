@@ -219,6 +219,14 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public IDataModel getConfig() {
+		return model;
+	}
+
+	/**
 	 * Finish has been pressed.
 	 */
 	public void transferStateToConfig() {

@@ -10,17 +10,24 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.project.facet;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -52,6 +59,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 
 /**
  * 
@@ -76,6 +84,13 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	public static String RESTRICT_RAW_XHTML = "Restrict raw XHTML Documents";
 	public static String XHTML = "XHTML";
 	public static String WEB_RESOURCE_COLLECTION_PATTERN = "*.xhtml";
+
+	static AntCopyUtils.FileSet CVS_SVN = new AntCopyUtils.FileSet()
+		.include(".*") //$NON-NLS-1$
+		.exclude(".*/CVS") //$NON-NLS-1$
+		.exclude("CVS") //$NON-NLS-1$
+		.exclude(".*\\.svn") //$NON-NLS-1$
+		.exclude(".*/\\.svn");	 //$NON-NLS-1$
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
@@ -103,6 +118,85 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 										SeamCoreMessages.SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERRORS_OCCURED));
 					}
 				});
+		}
+	}
+
+	public static boolean toggleHibernateOnProject(IProject project, String defaultConsoleName) {
+		IScopeContext scope = new ProjectScope(project);
+
+		Preferences node = scope.getNode("org.hibernate.eclipse.console");
+
+		if(node!=null) {
+			node.putBoolean("hibernate3.enabled", true );
+			node.put("default.configuration", defaultConsoleName );
+			try {
+				node.flush();
+			} catch (BackingStoreException e) {
+				SeamCorePlugin.getDefault().logError("Could not save changes to preferences", e);
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+		try {
+			addProjectNature(project, "org.hibernate.eclipse.console.hibernateNature", new NullProgressMonitor() );
+			return true;
+		} catch(CoreException ce) {
+			SeamCorePlugin.getDefault().logError("Could not activate Hibernate nature on project " + project.getName(), ce);			
+			return false;
+		}		
+	}
+
+	/**
+	 * Add the given project nature to the given project (if it isn't already added).
+	 * 
+	 * @param project
+	 * @param nature
+	 * @param monitor
+	 * @return true if nature where added, false if not
+	 * @throws OperationCanceledException if job were canceled or CoreException if something went wrong. 
+	 */
+	public static boolean addProjectNature(IProject project, String nature, IProgressMonitor monitor) throws CoreException {
+		if (monitor != null && monitor.isCanceled()) {
+			throw new OperationCanceledException();
+		}
+
+		if (!project.hasNature(nature)) {
+			IProjectDescription description = project.getDescription();
+			String[] prevNatures = description.getNatureIds();
+			String[] newNatures = new String[prevNatures.length + 1];
+			System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
+			newNatures[prevNatures.length] = nature;
+			description.setNatureIds(newNatures);
+			project.setDescription(description, monitor);
+			return true;
+		} else {
+			monitor.worked(1);
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
+	static boolean isWarConfiguration(IDataModel model) {
+		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)); //$NON-NLS-1$
+	}
+
+	static void createComponentsProperties(final File seamGenResFolder, String projectName, Boolean embedded) {
+		Properties components = new Properties();
+		String prefix = "".equals(projectName) ? "" : projectName + "/"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		components.put("embeddedEjb", embedded.toString()); //$NON-NLS-1$
+		components.put("jndiPattern", prefix + "#{ejbName}/local"); //$NON-NLS-1$ //$NON-NLS-2$
+		File componentsProps = new File(seamGenResFolder, "components.properties"); //$NON-NLS-1$
+		try {
+			componentsProps.createNewFile();
+			components.store(new FileOutputStream(componentsProps), ""); //$NON-NLS-1$
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
 

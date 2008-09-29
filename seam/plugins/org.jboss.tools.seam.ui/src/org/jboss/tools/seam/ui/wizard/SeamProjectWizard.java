@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
@@ -48,8 +51,12 @@ import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.Seam1ProjectCreator;
+import org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
+import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
@@ -186,6 +193,31 @@ public class SeamProjectWizard extends WebProjectWizard {
 		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		page.finishPressed();
 		return super.performFinish();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard#performFinish(org.eclipse.core.runtime.IProgressMonitor)
+	 */
+    protected void performFinish(final IProgressMonitor monitor) throws CoreException {
+    	super.performFinish(monitor);
+		IProject project = this.getFacetedProject().getProject();
+
+		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
+		IDataModel model = page.getConfig();
+
+		String seamVersionString = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+		SeamVersion seamVersion = SeamVersion.parseFromString(seamVersionString);
+		SeamProjectCreator creator = null;
+		if(seamVersion == SeamVersion.SEAM_1_2) {
+			creator = new Seam1ProjectCreator(model, project);
+		} else if(seamVersion == SeamVersion.SEAM_2_0) {
+			creator = new Seam2ProjectCreator(model, project);
+		} else {
+			throw new RuntimeException("Can't get seam version from seam facet model");
+		}
+
+		creator.execute(monitor);
 	}
 
 	class SeamWebProjectFirstPage extends WebProjectFirstPage {

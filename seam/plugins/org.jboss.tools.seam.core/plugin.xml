@@ -49,40 +49,52 @@
             facet="jst.seam"
             version="1.2">
          <constraint>
-            <and>
-               <requires
-                     facet="jst.web"
-                     version="[2.5">
-               </requires>
-               <requires
-                     facet="jst.jsf"
-                     version="[1.2">
-               </requires>
-               <requires
-                     facet="jst.java"
-                     version="5.0">
-               </requires>
-            </and>
+         	<or>
+                <requires
+           	         facet="jst.ejb"
+       	             version="[3.0">
+   	            </requires>
+                <and>
+	               <requires
+            	         facet="jst.web"
+        	             version="[2.5">
+    	           </requires>
+	               <requires
+            	         facet="jst.jsf"
+        	             version="[1.2">
+    	           </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="5.0">
+    	           </requires>
+	            </and>
+         	</or>
          </constraint>
       </project-facet-version>
       <project-facet-version
             facet="jst.seam"
             version="2.0">
          <constraint>
-            <and>
-               <requires
-                     facet="jst.web"
-                     version="[2.5">
-               </requires>
-               <requires
-                     facet="jst.jsf"
-                     version="[1.2">
-               </requires>
-               <requires
-                     facet="jst.java"
-                     version="[5.0">
-               </requires>
-            </and>
+         	<or>
+                <requires
+           	         facet="jst.ejb"
+       	             version="[3.0">
+   	            </requires>
+                <and>
+	               <requires
+            	         facet="jst.web"
+        	             version="[2.5">
+    	           </requires>
+	               <requires
+            	         facet="jst.jsf"
+        	             version="[1.2">
+    	           </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="5.0">
+    	           </requires>
+	            </and>
+         	</or>
          </constraint>
       </project-facet-version>
       <action
@@ -176,10 +188,10 @@
      <static-preset
            id="jst.seam.preset">
 	    <label>Dynamic Web Project with Seam 1.2</label>
-	    <facet id="jst.java" version="5.0" />
+	    <facet id="jst.java" version="5.0"/>
 	    <facet id="jst.web" version="2.5"/>
-	    <facet id="jst.jsf" version="1.2" />
-	    <facet id="jst.seam" version="1.2" />
+	    <facet id="jst.jsf" version="1.2"/>
+	    <facet id="jst.seam" version="1.2"/>
      	<description>
         	Configures a Dynamic Web application to use Seam v1.2
      	</description>
@@ -187,10 +199,10 @@
      <static-preset
            id="jst.seam2.preset">
 	    <label>Dynamic Web Project with Seam 2.0</label>
-	    <facet id="jst.java" version="5.0" />
+	    <facet id="jst.java" version="5.0"/>
 	    <facet id="jst.web" version="2.5"/>
-	    <facet id="jst.jsf" version="1.2" />
-	    <facet id="jst.seam" version="2.0" />
+	    <facet id="jst.jsf" version="1.2"/>
+	    <facet id="jst.seam" version="2.0"/>
      	<description>
         	Configures a Dynamic Web application to use Seam v2.0
      	</description>
