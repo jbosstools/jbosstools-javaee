@@ -102,17 +102,18 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		
 		// Wait until all jobs is finished to avoid delete project problems
 		
-		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-	    waitForIdle(); 
 	    boolean oldAutoBuilding = true; 
 		Exception last = null;
 		try {
-			oldAutoBuilding = ResourcesUtils.setBuildAutomatically(false); 
+			oldAutoBuilding = ResourcesUtils.setBuildAutomatically(false);
+			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+		    waitForIdle(); 
 			for (IResource r : this.resourcesToCleanup) {
 				try {
-					System.out.println("Deleting " + r);
-					r.getProject().close(null);
+					//System.out.println("Deleting " + r);
+					//r.getProject().close(null);
 					r.delete(true, null);
+					waitForIdle();
 				} catch(Exception e) {
 					System.out.println("Error deleting " + r);
 					e.printStackTrace();
@@ -132,7 +133,11 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 
 	public static void waitForIdle() {
 		long start = System.currentTimeMillis();
-		while (!EditorTestHelper.allJobsQuiet()) {
+		// Job.getJobManager().isIdle() is more efficient than EditorTestHelper.allJobsQuiet()
+		// EditorTestHelper.allJobsQuiet() isn't thread-safe
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=198241 is fixed 
+		//while (!EditorTestHelper.allJobsQuiet()) {
+		while (!Job.getJobManager().isIdle()) {
 			delay(500);
 			if ( (System.currentTimeMillis()-start) > MAX_IDLE ) 
 				throw new RuntimeException("A long running task detected"); //$NON-NLS-1$
@@ -245,22 +250,22 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		assertNotNull("seam home folder was null!", folder);
 		assertTrue(folder.getAbsolutePath() + " does not exist", folder.exists());
 		
-		System.out.println("Listing " + folder);
+		//System.out.println("Listing " + folder);
 		File[] list = folder.listFiles();
 		for (int i = 0; i < list.length; i++) {
 			File string = list[i];
-			System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
+			//System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
 		}
 		
 		File seamgen = new File(folder, "seam-gen");
 		assertNotNull("seam gen folder was null!", seamgen);
 		assertTrue(seamgen.getName() + " seamgen does not exist", seamgen.exists());
 		
-		System.out.println("Listing seamgen " + seamgen);
+		//System.out.println("Listing seamgen " + seamgen);
 		list = seamgen.listFiles();
 		for (int i = 0; i < list.length; i++) {
 			File string = list[i];
-			System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
+			//System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
 		}
 			
 	}
