@@ -11,13 +11,12 @@
 
 package org.jboss.tools.seam.ui.actions;
 
-import java.util.List;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jdt.ui.text.java.IInvocationContext;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
@@ -33,9 +32,9 @@ import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -62,8 +61,16 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			return false;
 		
 		IDocument document = getDocument( context.getCompilationUnit() );
+		
+		//TODO compute region start and end
+		int start = 0;
+		int end = document.getLength();
+		
+		ASTNode node = context.getCoveringNode();
+		
+		System.out.println("Covering node=" + node);
 
-		String[] varNames = getVariableNames(seamProject, document, context.getSelectionOffset());
+		String[] varNames = getVariableNames(seamProject, document, context.getSelectionOffset(), start, end);
 
 		return (varNames != null && varNames.length != 0);
 	}
@@ -80,10 +87,10 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 		return SeamCorePlugin.getSeamProject(javaFile.getProject(), true);
 	}
 	
-	private String[] getVariableNames(ISeamProject seamProject, IDocument document, int offset) {
-		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(
-				document, 
-				offset);
+	private String[] getVariableNames(ISeamProject seamProject, IDocument document, int offset,
+			int start, int end) {
+		ELInvocationExpression tokens = SeamELCompletionEngine.findExpressionAtOffset(
+				document, offset, start, end);
 		
 		if (tokens == null)
 			return null;
@@ -110,18 +117,16 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			if (seamProject == null)
 				return result;
 			
-			List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(
+			ELInvocationExpression tokens = SeamELCompletionEngine.findExpressionAtOffset(
 					document, 
-					context.getSelectionOffset());				
-			if (tokens == null || tokens.size() == 0)
+					context.getSelectionOffset(),
+					0,							//TODO compute region start
+					document.getLength()		//TODO compute region end
+					);				
+			if (tokens == null /*|| tokens.size() == 0*/)
 				return result;
 			
-			
-			StringBuffer buf= new StringBuffer();
-			for (int i= 0; i < tokens.size(); i++) {
-				buf.append(tokens.get(i).getText()); //$NON-NLS-1$
-			}
-			searchString = buf.toString();
+			searchString = tokens.getText();
 
 			result = new IJavaCompletionProposal[2];			
 			

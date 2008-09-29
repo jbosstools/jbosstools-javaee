@@ -36,10 +36,10 @@ import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.search.core.text.TextSearchEngine;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.Var;
@@ -83,10 +83,10 @@ public abstract class SeamSearchEngine {
 			public IStatus search(SeamSearchScope javaScope,
 					SeamSearchRequestor requestor,
 					IFile sourceFile,
-					List<ELOperandToken> tokens,
+					ELInvocationExpression tokens,
 					IProgressMonitor monitor) {
 
-				if (tokens == null || tokens.size() == 0) {
+				if (tokens == null /*|| tokens.size() == 0*/) {
 					return Status.OK_STATUS;
 				}
 
@@ -102,7 +102,7 @@ public abstract class SeamSearchEngine {
 				
 				//Find Seam variable names
 				// - if the tokens are the variable name only - search for variable declaration in Seam project
-				String variableName = SeamSearchVisitor.tokensToString(tokens);
+				String variableName = tokens.getText();   //SeamSearchVisitor.tokensToString(tokens);
 				
 				Set<ISeamContextVariable> variables = seamProject.getVariablesByName(variableName);
 				if (variables != null && variables.size() > 0) {
@@ -128,31 +128,25 @@ public abstract class SeamSearchEngine {
 				// Try to find a local Var (a pair of variable-value attributes)
 				ElVarSearcher varSearcher = new ElVarSearcher(seamProject, sourceFile, new SeamELCompletionEngine());
 				// Find a Var in the EL 
-				int start = tokens.get(0).getStart();
-				int end = tokens.get(tokens.size() - 1).getStart() + 
-								tokens.get(tokens.size() - 1).getLength();
+				int start = tokens.getStartPosition();
+				int end = tokens.getEndPosition();
 				
 				StringBuffer elText = new StringBuffer();
-				for (ELOperandToken token : tokens) {
-					if (elText.length() > 0) {
-						elText.append(".");
-					} 
-					elText.append(token.getText());
-				}
+				elText.append(tokens.toString());
 
 				if (elText == null || elText.length() == 0)
 					return Status.OK_STATUS;
 				
-				List<Var> allVars= ElVarSearcher.findAllVars(sourceFile, tokens.get(0).getStart());
+				List<Var> allVars= ElVarSearcher.findAllVars(sourceFile, tokens.getStartPosition());
 				Var var = varSearcher.findVarForEl(elText.toString(), allVars, true);
 				if (var == null) {
 					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
-					var = ElVarSearcher.findVar(sourceFile, tokens.get(0).getStart());
+					var = ElVarSearcher.findVar(sourceFile, tokens.getStartPosition());
 				}
 				if (var == null)
 					return Status.OK_STATUS;
 
-				if (tokens.size() == 1) {
+				if (tokens.getLeft() == null) {
 					// The only Var is selected to search for
 					if (isSearchForDeclarations(javaScope.getLimitTo())) {
 						
@@ -230,7 +224,7 @@ public abstract class SeamSearchEngine {
 	 * @return the status containing information about problems in resources searched.
 	 */
 	public abstract IStatus search(SeamSearchScope scope, SeamSearchRequestor requestor, 
-			IFile sourceFile, List<ELOperandToken> tokens, IProgressMonitor monitor);
+			IFile sourceFile, ELInvocationExpression tokens, IProgressMonitor monitor);
 
 	/**
 	 * Uses a given IJavaElement-s to find matches in the content of 

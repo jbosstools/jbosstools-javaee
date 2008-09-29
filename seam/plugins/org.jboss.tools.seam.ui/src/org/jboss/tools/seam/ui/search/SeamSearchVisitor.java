@@ -113,7 +113,6 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.Var;
@@ -1235,25 +1234,6 @@ public class SeamSearchVisitor {
 		} 
 		return false;
 	}
-
-
-	/**
-	 * Returns the text for a given {@link ELOperandToken} list
-	 * 
-	 * @param tokens
-	 * @return
-	 */
-	public static String tokensToString(List<ELOperandToken> tokens) {
-		StringBuffer text = new StringBuffer();
-		if (tokens != null) { 
-			for (ELOperandToken token : tokens) {
-				text = text.append(token.getText());
-			}
-		}
-		
-		return text.toString();
-	}
-
 
 	/**
 	 * Evaluates all files in this scope.

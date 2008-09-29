@@ -1,5 +1,4 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -33,11 +32,11 @@ import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.ISearchResult;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.Match;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
@@ -174,7 +173,7 @@ public class SeamSearchQuery implements ISearchQuery {
 
 	}
 	
-	private List<ELOperandToken> fTokens;
+	private ELInvocationExpression fTokens;
 	private IJavaElement[] fJavaElements;
 	private final SeamSearchScope fScope;
 	private SeamSearchResult fResult;
@@ -182,13 +181,13 @@ public class SeamSearchQuery implements ISearchQuery {
 	private ISearchRequestor fParentRequestor; 
 	
 	/**
-	 * Constructs Seam search query for a given {@link ELOperandToken} objects list
+	 * Constructs Seam search query for a given {@link ELInvocationExpression} objects list
 	 *  
 	 * @param tokens
 	 * @param sourceFile
 	 * @param scope
 	 */
-	public SeamSearchQuery(List<ELOperandToken> tokens, IFile sourceFile, SeamSearchScope scope) {
+	public SeamSearchQuery(ELInvocationExpression tokens, IFile sourceFile, SeamSearchScope scope) {
 		fTokens = tokens;
 		fJavaElements = null;
 		fSourceFile = sourceFile;
@@ -329,11 +328,7 @@ public class SeamSearchQuery implements ISearchQuery {
 			}
 			searchString = buf.toString();
 		} else if (fTokens != null) {
-			StringBuffer buf= new StringBuffer();
-			for (int i= 0; i < fTokens.size(); i++) {
-				buf.append(fTokens.get(i).getText());
-			}
-			searchString = buf.toString();
+			searchString = fTokens.getText();
 		}
 		return searchString;
 	}

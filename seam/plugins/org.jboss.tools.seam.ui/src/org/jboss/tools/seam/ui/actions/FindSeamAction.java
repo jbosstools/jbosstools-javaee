@@ -48,14 +48,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.progress.IProgressService;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
-import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
@@ -187,7 +186,9 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (seamProject == null)
 			return;
 
-		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, selectionOffset);
+//		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, selectionOffset);
+
+		ELInvocationExpression tokens = null; //TODO
 
 		if (tokens == null)
 			return; // No EL Operand found
@@ -210,19 +211,17 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 * @param tokens
 	 * @return
 	 */
-	public static String[] findVariableNames(ISeamProject seamProject, IDocument document, List<ELOperandToken> tokens) {
+	public static String[] findVariableNames(ISeamProject seamProject, IDocument document, ELInvocationExpression tokens) {
 		String[] varNames = null;
+		if(tokens == null) return varNames;
 		
-		List<List<ELOperandToken>> variations = SeamELCompletionEngine.getPossibleVarsFromPrefix(tokens);
-
 		// Define the Seam project variables to search for declarations 
 		List<ISeamContextVariable> variables = new ArrayList<ISeamContextVariable>();
 		
-		for (List<ELOperandToken> variation : variations) {
+		while(tokens != null) {
 			try {
-				int start = variation.get(0).getStart();
-				int end = variation.get(variation.size() - 1).getStart() + 
-								variation.get(variation.size() - 1).getLength();
+				int start = tokens.getStartPosition();
+				int end = tokens.getEndPosition();
 				String variationText = document.get(start, end - start);
 				
 				Set<ISeamContextVariable> vars = seamProject.getVariablesByName(variationText);
@@ -232,6 +231,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 			} catch (BadLocationException e1) {
 				SeamGuiPlugin.getPluginLog().logError(e1);
 			}
+			tokens = tokens.getLeft();
 		}
 		
 		if (variables.size() != 0) {
@@ -291,7 +291,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		fDelegatorAction = action;
 	}
 
-	private SeamSearchQuery createQuery(List<ELOperandToken> tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
+	private SeamSearchQuery createQuery(ELInvocationExpression tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
 		
 		SeamSearchScope scope  = new SeamSearchScope(new IProject[] {sourceFile.getProject()}, getLimitTo());
 
@@ -306,7 +306,7 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 */
 	abstract protected int getLimitTo();
 
-	private void performNewSearch(List<ELOperandToken> tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
+	private void performNewSearch(ELInvocationExpression tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
 		SeamSearchQuery query= createQuery(tokens, sourceFile);
 		if (query.canRunInBackground()) {
 			/*

@@ -42,24 +42,31 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.core.internal.provisional.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor;
 import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * Content assist proposal processor.
@@ -268,6 +275,60 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
 	 */
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
+		if(viewer == null) {
+			return NO_PROPOSALS;
+		}
+		IDocument document = viewer.getDocument();
+		int start = 0;
+		int end = document.getLength();
+
+		int[] region = getRegion(document, offset);
+		if(region != null) {
+			start = region[0];
+			end = region[1];
+		}
+		
+		return computeCompletionProposals(viewer, offset, start, end);
+	}
+
+	private int[] getRegion(IDocument document, int offset) {
+		IStructuredModel model = StructuredModelManager.getModelManager().getExistingModelForRead(document);
+		
+		try {
+		Document xmlDocument = (model instanceof IDOMModel) ? ((IDOMModel) model)
+					.getDocument()
+					: null;
+			if (xmlDocument == null)
+				return null;
+
+			Node n = Utils.findNodeForOffset(xmlDocument, offset);
+
+			if (n == null || !(n instanceof Attr || n instanceof Text))
+				return null;
+
+			int start = 0;
+			int end = document.getLength();
+			if (n instanceof IDOMNode) {
+				start = ((IDOMNode) n).getStartOffset();
+				end = ((IDOMNode) n).getEndOffset();
+			}
+			return new int[]{start, end};
+		} finally {
+			if(model != null) {
+				model.releaseFromRead();
+				model = null;
+			}
+		}
+		
+	}
+	/**
+	 * 
+	 * @param start  start of relevant region in document
+	 * @param end    end of relevant region in document
+	 * 
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer, int)
+	 */
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset, int start, int end) {
 		try {
 			ITextEditor part = getActiveEditor();
 			if (part == null) {
@@ -287,7 +348,9 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 				return NO_PROPOSALS;
 			}
 
-			String prefix= SeamELCompletionEngine.getPrefix(viewer, offset);
+			//TODO Now this will work only for EL. 
+			//     If we need CA for expressions/variables without #{}, it should be handled separately.
+			String prefix= SeamELCompletionEngine.getPrefix(viewer, offset, start, end);
 			prefix = (prefix == null ? "" : prefix); //$NON-NLS-1$
 
 			String proposalPrefix = "";
@@ -326,7 +389,10 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
     		}
 
 			List<Var> vars = ElVarSearcher.findAllVars(viewer, offset);
-			List<String> suggestions = fEngine.getCompletions(seamProject, file, documentContent, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
+			
+			//TODO
+
+			List<String> suggestions = fEngine.getCompletions(seamProject, file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
 			List<String> uniqueSuggestions = fEngine.makeUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();

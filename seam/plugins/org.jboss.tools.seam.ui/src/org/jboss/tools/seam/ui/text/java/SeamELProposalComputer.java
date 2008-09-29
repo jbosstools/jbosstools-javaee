@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.ui.text.java.ContentAssistInvocationContext;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposalComputer;
+import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 
@@ -39,6 +40,13 @@ public class SeamELProposalComputer implements IJavaCompletionProposalComputer {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposalComputer#computeCompletionProposals(org.eclipse.jface.text.contentassist.TextContentAssistInvocationContext, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
+		if(context instanceof JavaContentAssistInvocationContext) {
+			int start = ((JavaContentAssistInvocationContext)context).getCoreContext().getTokenStart();
+			int end = ((JavaContentAssistInvocationContext)context).getCoreContext().getTokenEnd();
+			if(start >= 0 && end >= start) {
+				return Arrays.asList(fProcessor.computeCompletionProposals(context.getViewer(), context.getInvocationOffset(), start, end));
+			}
+		}
 		return Arrays.asList(fProcessor.computeCompletionProposals(context.getViewer(), context.getInvocationOffset()));
 	}
 
