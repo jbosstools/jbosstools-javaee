@@ -35,6 +35,7 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
+import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor.ModelSelectionProvider;
@@ -43,7 +44,6 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
-import org.jboss.tools.seam.ui.pages.editor.figures.PathLabel;
 
 public class LinkEditPart extends AbstractConnectionEditPart implements
 		PropertyChangeListener, EditPartListener {
@@ -60,11 +60,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 	private CustomLocator shortcutLocator;
 
-	private PathLabel shortcutLabel;
+	private GEFLabel shortcutLabel;
 
 	private CustomLocator pathLocator;
 
-	private PathLabel pathLabel;
+	private GEFLabel pathLabel;
 	
 	private PageEditPart pagePart = null;
 	
@@ -118,7 +118,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			//conn.repaint();
 		}
 
-		pathLabel = new PathLabel(getLink().getName());
+		pathLabel = new GEFLabel(getLink().getName(), FigureFactory.normalColor);
 		pathLabel.setFont(pathFont);
 		pathLabel.setIcon(null);
 		pathLabel.setTextAlignment(Label.LEFT);
@@ -135,7 +135,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if(getLink().getToElement() != null)
 			text = getLink().getToElement().getName();
 		
-		shortcutLabel = new PathLabel(text);
+		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
 //		if (getLink().getJSFModel().getOptions().showShortcutIcon())
 			shortcutLabel.setIcon(icon);
 //		shortcutLabel.setFont(getLink().getJSFModel().getOptions()
