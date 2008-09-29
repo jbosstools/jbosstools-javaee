@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
+import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -27,6 +28,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -39,7 +41,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
-		if (region == null || canShowMultipleHyperlinks || !(textEditor instanceof JavaEditor))
+		if (region == null /*|| canShowMultipleHyperlinks*/ || !(textEditor instanceof JavaEditor))
 			return null;
 
 		int offset= region.getOffset();
@@ -53,7 +55,22 @@ public class SeamELInJavaStringHyperlinkDetector extends
 
 		if (wordRegion == null)
 			return null;
-		
+
+		int[] range = null;
+		FastJavaPartitionScanner scanner = new FastJavaPartitionScanner();
+		scanner.setRange(document, 0, document.getLength());
+		while(true) {
+			IToken token = scanner.nextToken();
+			if(token == null || token.isEOF()) break;
+			int start = scanner.getTokenOffset();
+			int end = start + scanner.getTokenLength();
+			if(start <= offset && end >= offset) {
+				range = new int[]{start, end};
+				break;
+			}
+			if(start > offset) break;
+		}
+
 		if (!checkStartPosition(document, offset))
 				return null;
 		
@@ -67,14 +84,16 @@ public class SeamELInJavaStringHyperlinkDetector extends
 			// Ignore. It is probably because of Java element's resource is not found 
 		}
 		
-		IJavaElement[] elements = findJavaElements(document, file, wordRegion);
+		if(range == null) range = new int[]{0, document.getLength()};
+		
+		IJavaElement[] elements = findJavaElements(document, file, wordRegion, range[0], range[1]);
 		if (elements != null && elements.length > 0)
 			return new IHyperlink[] {new SeamELInJavaStringHyperlink(wordRegion, elements)};
 
 		return null;
 	}
 
-	public static IJavaElement[] findJavaElements(IDocument document, IFile file, IRegion region) {
+	public static IJavaElement[] findJavaElements(IDocument document, IFile file, IRegion region, int start, int end) {
 	
 		IProject project = (file == null ? null : file.getProject());
 
@@ -84,7 +103,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 
 		SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
-		String prefix= engine.getJavaElementExpression(document.get(), region.getOffset(), region);
+		String prefix= engine.getJavaElementExpression(document, region.getOffset(), region, start, end);
 		prefix = (prefix == null ? "" : prefix);
 
 		List<IJavaElement> javaElements = null;

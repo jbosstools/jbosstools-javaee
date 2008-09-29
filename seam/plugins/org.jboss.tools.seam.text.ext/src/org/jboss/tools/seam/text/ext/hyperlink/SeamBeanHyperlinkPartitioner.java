@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
@@ -30,7 +31,6 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ELOperandToken;
 import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.Var;
@@ -195,13 +195,20 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 
 			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
+
+			int start = 0;
+			int end = document.getLength();
+			if(n instanceof IDOMNode) {
+				start = ((IDOMNode)n).getStartOffset();
+				end = ((IDOMNode)n).getEndOffset();
+			}
 			
-			List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, offset);
-			if (tokens == null || tokens.size() == 0)
+			ELInvocationExpression tokens = SeamELCompletionEngine.findExpressionAtOffset(document, offset, start, end);
+			if (tokens == null /*|| tokens.size() == 0*/)
 				return null; // No EL Operand found
 
-			int propStart = tokens.get(0).getStart();
-			int propLength = tokens.get(tokens.size() - 1).getStart() + tokens.get(tokens.size() - 1).getLength() - propStart; 
+			int propStart = tokens.getStartPosition();
+			int propLength = tokens.getEndPosition() - propStart; 
 			
 			if (propStart > offset || propStart + propLength < offset) return null;
 			
@@ -255,7 +262,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 
 			SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
-			String prefix = SeamELCompletionEngine.getPrefix(document.get(), r.getOffset() + r.getLength());
+			String prefix = propText;
 			ELExpression expr = SeamELCompletionEngine.parseOperand(prefix);
 			if (expr == null)
 				return null; // No EL Operand found
