@@ -280,6 +280,7 @@ public class SeamELValidator extends SeamValidator {
 	}
 
 	private void validateEl(IFile file, ELExpression el, int offset) {
+		if(el == null) return;
 		List<ELInvocationExpression> es = el.getInvocations();
 		for (ELInvocationExpression token: es) {
 			validateElOperand(file, token, offset);

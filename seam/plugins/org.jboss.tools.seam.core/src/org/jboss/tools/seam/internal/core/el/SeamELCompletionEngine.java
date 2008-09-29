@@ -35,6 +35,7 @@ import org.jboss.tools.common.el.core.model.ELMethodInvocation;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELObjectType;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.el.core.model.ELUtil;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
@@ -68,16 +69,14 @@ public final class SeamELCompletionEngine {
 	 * @param prefix the prefix to search for
 	 * @param position Offset of the prefix
 	 * @param vars - 'var' attributes which can be used in this EL 
+	 * @param start  start of relevant region in document
+	 * @param end    end of relevant region in document
 	 * @return the list of all possible suggestions
 	 * @throws BadLocationException if accessing the current document fails
 	 */
 	public List<String> getCompletions(ISeamProject project, IFile file, IDocument document, CharSequence prefix, 
-			int position, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
-		String documentContent = null;
-		if(document!=null) {
-			documentContent = document.get();
-		}
-		return getCompletions(project, file, documentContent, prefix, position, false, vars);
+			int position, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
+		return getCompletions(project, file, document, prefix, position, false, vars, start, end);
 	}
 
 	/**
@@ -89,6 +88,8 @@ public final class SeamELCompletionEngine {
 	 * @param position Offset of the prefix 
 	 * @param vars - 'var' attributes which can be used in this EL. Can be null.
 	 * @param returnEqualedVariablesOnly 'false' if we get proposals for mask  
+	 * @param start  start of relevant region in document
+	 * @param end    end of relevant region in document
 	 *  for example:
 	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'  
 	 *   prefix is 'variableName.variableProperty'
@@ -102,12 +103,11 @@ public final class SeamELCompletionEngine {
 	 * @throws BadLocationException if accessing the current document fails
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public List<String> getCompletions(ISeamProject project, IFile file, String documentContent, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
+	public List<String> getCompletions(ISeamProject project, IFile file, IDocument document, CharSequence prefix, 
+			int position, boolean returnEqualedVariablesOnly, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<String> completions = new ArrayList<String>();
 		
-		//TODO change algorithm for finding operand.
-		String prefix2 = SeamELCompletionEngine.getPrefix(documentContent, position + prefix.length());
+		String prefix2 = getPrefix(document, position + prefix.length(), start, end);
 
 		SeamELOperandResolveStatus status = resolveSeamELOperand(project, file, parseOperand(prefix2), returnEqualedVariablesOnly, vars, new ElVarSearcher(project, file, this));
 		if (status.isOK()) {
@@ -540,7 +540,8 @@ public final class SeamELCompletionEngine {
 			status.setLastResolvedToken(expr);
 		}
 	}
-	
+
+/**
 	private String computeVariableName(List<ELOperandToken> tokens){
 		if (tokens == null)
 			tokens = new ArrayList<ELOperandToken>();
@@ -555,14 +556,9 @@ public final class SeamELCompletionEngine {
 		}
 		return sb.toString();
 	}
+*/
 
-	/*
-	 * Compares to tokenized expressions.
-	 * 
-	 * @param first
-	 * @param second
-	 * @return boolean true if two expressions are equal
-	 */
+/**
 	private boolean areEqualExpressions(List<ELOperandToken>first, List<ELOperandToken>second) {
 		if (first == null || second == null)
 			return (first == second);
@@ -576,6 +572,7 @@ public final class SeamELCompletionEngine {
 		}
 		return true;
 	}
+*/
 
 	/* Returns scope for the resource
 	 * 
@@ -599,15 +596,7 @@ public final class SeamELCompletionEngine {
 		return null;
 	}
 
-	/*
-	 * Tries to resolve variables by part of expression
-	 *  
-	 * @param project
-	 * @param scope
-	 * @param part
-	 * @param tokens
-	 * @return
-	 */
+/**
 	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, List<ELOperandToken>part, List<ELOperandToken> tokens, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		String varName = computeVariableName(part);
@@ -631,6 +620,7 @@ public final class SeamELCompletionEngine {
 		}
 		return new ArrayList<ISeamContextVariable>(); 
 	}
+*/
 
 	private List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
@@ -656,12 +646,7 @@ public final class SeamELCompletionEngine {
 		return new ArrayList<ISeamContextVariable>(); 
 	}
 
-	/**
-	 * Creates and returns list of possible variable name combinations from expression starting from the longest name
-	 * 
-	 * @param prefix
-	 * @return
-	 */
+/**
 	public static List<List<ELOperandToken>> getPossibleVarsFromPrefix(List<ELOperandToken>prefix) {
 		ArrayList<List<ELOperandToken>> result = new ArrayList<List<ELOperandToken>>();
 		for (int i = 0; prefix != null && i < prefix.size(); i++) {
@@ -676,6 +661,7 @@ public final class SeamELCompletionEngine {
 		}
 		return result;
 	}
+*/
 
 	/**
 	 * Removes duplicates of completion strings
@@ -706,14 +692,16 @@ public final class SeamELCompletionEngine {
 	 * 
 	 * @param viewer
 	 * @param offset
+	 * @param start  start of relevant region in document
+	 * @param end    end of relevant region in document
 	 * @return
 	 * @throws BadLocationException
 	 */
-	public static String getPrefix(ITextViewer viewer, int offset) throws StringIndexOutOfBoundsException {
+	public static String getPrefix(ITextViewer viewer, int offset, int start, int end) throws StringIndexOutOfBoundsException {
 		IDocument doc= viewer.getDocument();
 		if (doc == null || offset > doc.getLength())
 			return null;
-		return getPrefix(doc.get(), offset);
+		return getPrefix(doc, offset, start, end);
 	}
 
 	/**
@@ -721,20 +709,18 @@ public final class SeamELCompletionEngine {
 	 * 
 	 * @param viewer
 	 * @param offset
+	 * @param start  start of relevant region in document
+	 * @param end    end of relevant region in document
 	 * @return
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public static String getPrefix(String documentContent, int offset) throws StringIndexOutOfBoundsException {
-		if (documentContent == null || offset > documentContent.length())
+	public static String getPrefix(IDocument document, int offset, int start, int end) throws StringIndexOutOfBoundsException {
+		if (document == null || document.get() == null || offset > document.get().length())
 			return null;
-
-		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, offset);
-		List<ELOperandToken> tokens = tokenizer.getTokens();
-
-		if (tokens == null || tokens.size() == 0)
+		ELInvocationExpression expr = findExpressionAtOffset(document, offset, start, end);
+		if (expr == null)
 			return null;
-
-		return documentContent.substring(tokens.get(0).start, offset);
+		return document.get().substring(expr.getStartPosition(), offset);
 	}
 
 	/**
@@ -744,35 +730,35 @@ public final class SeamELCompletionEngine {
 	 * @return 
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public String getJavaElementExpression(String documentContent, int offset, IRegion region) throws StringIndexOutOfBoundsException {
-		if (documentContent == null || offset > documentContent.length())
+	public String getJavaElementExpression(IDocument document, int offset, IRegion region, int start, int end) throws StringIndexOutOfBoundsException {
+		if (document == null || document.get() == null || offset > document.get().length())
 			return null;
 
-		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(documentContent, region.getOffset() + region.getLength());
-		List<ELOperandToken> tokens = tokenizer.getTokens();
+		ELInvocationExpression expr = findExpressionAtOffset(
+				document, 
+				region.getOffset() + region.getLength(), 
+				start, end);
 
-		if (tokens == null || tokens.size() == 0)
-			return null;
+		if (expr == null) return null;
 
-		List<List<ELOperandToken>> vars = getPossibleVarsFromPrefix(tokens);
-		if (vars == null) 
-			return null;
+		ELInvocationExpression left = expr;
+		while(left != null && left.getLeft() != null) left = left.getLeft();
 
-		String prefixPart = documentContent.substring(tokens.get(0).start, offset);
+		String prefixPart = document.get().substring(expr.getStartPosition(), offset);
 
-		// Search from the shortest variation to the longest one
-		for (int i = vars.size() - 1; i >= 0; i--) { 
-			List<ELOperandToken>var = vars.get(i);
-			String varText = computeVariableName(var); 
+		while(left != null) {
+			String varText = left.getText(); 
 			if (varText != null && varText.startsWith(prefixPart)) {
 				return varText; 
 			}
+			if(left == expr) break;
+			left = (ELInvocationExpression)left.getParent();
 		}
 		return null;
 	}
 
 	/**
-	 * Create the array of suggestions from {@link ELOperandToken} list. 
+	 * Create the array of suggestions from expression. 
 	 * @param project Seam project 
 	 * @param file File 
 	 * @param document 
@@ -787,14 +773,7 @@ public final class SeamELCompletionEngine {
 		return getJavaElementsForELOperandTokens(project, file, (ELInvocationExpression)expr);
 	}
 
-	/**
-	 * Create the array of suggestions. 
-	 * @param project Seam project 
-	 * @param file File 
-	 * @param document 
-	 * @param prefix the prefix to search for
-	 * @param position Offset of the prefix 
-	 */
+/**
 	public List<IJavaElement> getJavaElementsForELOperandTokens(
 			ISeamProject project, IFile file, 
 			List<ELOperandToken> tokens) throws BadLocationException, StringIndexOutOfBoundsException {
@@ -940,7 +919,7 @@ public final class SeamELCompletionEngine {
 		}
 		return res;
 	}
-	
+*/	
 
 	/**
 	 * Create the array of suggestions. 
@@ -960,7 +939,6 @@ public final class SeamELCompletionEngine {
 			return res;
 		}
 
-		List<ELOperandToken> resolvedExpressionPart = new ArrayList<ELOperandToken>();
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		ScopeType scope = getScope(project, file);
 		ELInvocationExpression left = expr;
@@ -974,6 +952,7 @@ public final class SeamELCompletionEngine {
 				resolvedVariables = resolvedVars;
 				break;
 			}
+			int y = 0;
 			left = (ELInvocationExpression)left.getLeft();
 		} 
 
@@ -991,7 +970,6 @@ public final class SeamELCompletionEngine {
 		}
 
 		// First segment is found - proceed with next tokens 
-		int startTokenIndex = (resolvedExpressionPart == null ? 0 : resolvedExpressionPart.size());
 		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
 		for (ISeamContextVariable var : resolvedVariables) {
 			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, true);
@@ -1110,12 +1088,52 @@ public final class SeamELCompletionEngine {
 	}
 
 	/**
-	  * Returns list of Seam ELOperandToken which are placed under the cursor position
-	  * 
-	  * @param document
-	  * @param offset
-	  * @return
-	  */
+	 * 
+	 * @param document
+	 * @param offset
+	 * @param start  start of relevant region in document
+	 * @param end    end of relevant region in document
+	 * @return
+	 */
+	public static ELInvocationExpression findExpressionAtOffset(IDocument document, int offset, int start, int end) {
+		String content = document.get();
+		
+		//TODO this naive calculations should be removed; 
+		//	   this method should be called with reasonable start and end. 
+		if(start <= 0) start = guessStart(content, offset);
+		if(end >= content.length()) end = guessEnd(content, offset);
+		
+		ELParser parser = ELParserFactory.createJbossParser();
+		ELModel model = parser.parse(content, start, end - start);
+		
+		return ELUtil.findExpression(model, offset);
+	}
+
+	static int guessStart(String content, int offset) {
+		if(offset > content.length()) offset = content.length();
+		if(offset < 2) return 0;
+		int s = offset - 2;
+		
+		while(s >= 0) {
+			if(content.charAt(s + 1) == '{') {
+				char ch = content.charAt(s);
+				if(ch == '#' || ch == '$') return s;
+			}
+			s--;
+		}
+		return 0;
+	}
+
+	static int guessEnd(String content, int offset) {
+		if(offset >= content.length()) return content.length();
+		while(offset < content.length()) {
+			if(content.charAt(offset) == '}') return offset;
+			offset++;
+		}
+		return content.length();
+	}
+
+/**
 	public static List<ELOperandToken> findTokensAtOffset(IDocument document, int offset) {
 		List<ELOperandToken> result = new ArrayList<ELOperandToken>();
 		
@@ -1150,11 +1168,9 @@ public final class SeamELCompletionEngine {
 		
 		return result;
 	}
+*/
 
-	/* 
-	 * Scans the document from the offset to the beginning to find start of Seam EL operand
-	 * Returns the start position of first Seam EL operand token 
-	 */
+/**
 	private static int getELStart(IDocument document, int offset) {
 		SeamELOperandTokenizer tokenizer = new SeamELOperandTokenizer(document, offset);
 		List<ELOperandToken> tokens = tokenizer.getTokens();
@@ -1165,5 +1181,6 @@ public final class SeamELCompletionEngine {
 		ELOperandToken firstToken = tokens.get(0);
 		return firstToken.getStart();
 	}
+*/
 	
 }

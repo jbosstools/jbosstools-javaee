@@ -56,13 +56,15 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			list.addAll(set);
 			return list;
 		} else if(MEMBERS.equals(id)) {
-			try {
-				String prefix2 = SeamELCompletionEngine.getPrefix(prefix, prefix.length());
-				List<String> suggestions = engine.getCompletions(p, f, prefix, prefix2, 2, true, null);
-				return suggestions;
-			} catch (BadLocationException e) {
-				return EMPTY_LIST;
-			}
+			//TODO either refactor or remove this class
+//			try {
+//				String prefix2 = SeamELCompletionEngine.getPrefix(prefix, prefix.length());
+//				List<String> suggestions = engine.getCompletions(p, f, prefix, prefix2, 2, true, null);
+//				return suggestions;
+//			} catch (BadLocationException e) {
+//				return EMPTY_LIST;
+//			}
+			return EMPTY_LIST;
 		}
 		return null;
 	}
