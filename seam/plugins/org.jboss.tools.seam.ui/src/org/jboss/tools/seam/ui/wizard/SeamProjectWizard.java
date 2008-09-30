@@ -53,7 +53,6 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.internal.core.project.facet.Seam1ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
@@ -210,7 +209,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		SeamVersion seamVersion = SeamVersion.parseFromString(seamVersionString);
 		SeamProjectCreator creator = null;
 		if(seamVersion == SeamVersion.SEAM_1_2) {
-			creator = new Seam1ProjectCreator(model, project);
+			creator = new SeamProjectCreator(model, project);
 		} else if(seamVersion == SeamVersion.SEAM_2_0) {
 			creator = new Seam2ProjectCreator(model, project);
 		} else {

@@ -10,13 +10,29 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.project.facet;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+
+import org.apache.tools.ant.types.FilterSet;
+import org.apache.tools.ant.types.FilterSetCollection;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.util.ResourcesUtils;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 
@@ -24,17 +40,79 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
  * @author Alexey Kazakov
  * This is basic class that helps New Seam Wizard Page to create EJB, EAR and test projects for seam WAR project. 
  */
-abstract public class SeamProjectCreator {
+public class SeamProjectCreator {
 
 	protected static final String TEST_WAR_PROFILE = "test-war"; //$NON-NLS-1$
 	protected static final String TEST_EAR_PROFILE = "test"; //$NON-NLS-1$
+	protected static final String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
+	protected static final String DEV_EAR_PROFILE = "dev"; //$NON-NLS-1$
+
+	protected static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
+		.include("import\\.sql") //$NON-NLS-1$
+		.include("seam\\.properties")
+		.exclude(".*/WEB-INF"); //$NON-NLS-1$
+
+	private static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
+		.include("testng-.*-jdk15\\.jar") //$NON-NLS-1$
+		.include("myfaces-api-.*\\.jar") //$NON-NLS-1$
+		.include("myfaces-impl-.*\\.jar") //$NON-NLS-1$
+		.include("servlet-api\\.jar") //$NON-NLS-1$
+		.include("hibernate-all\\.jar") //$NON-NLS-1$
+		.include("jboss-ejb3-all\\.jar") //$NON-NLS-1$
+		.include("thirdparty-all\\.jar") //$NON-NLS-1$
+		.exclude(".*/CVS") //$NON-NLS-1$
+		.exclude(".*/\\.svn"); //$NON-NLS-1$
+
+	private static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
+		.include("antlr.*\\.jar") //$NON-NLS-1$
+		.include("commons-jci-core.*\\.jar") //$NON-NLS-1$
+		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
+		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
+		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("janino.*\\.jar") //$NON-NLS-1$
+		.include("jboss-seam.jar") //$NON-NLS-1$
+		.include("jbpm.*\\.jar") //$NON-NLS-1$
+		.include("security\\.drl") //$NON-NLS-1$
+		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
+	    // el-ri needed for JBIDE-939
+	    .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
 
 	protected IDataModel model;
 	protected IProject seamWebProject;
 	protected SeamRuntime seamRuntime;
+	protected String seamHomePath;
+	protected File seamHomeFolder;
+	protected File seamLibFolder;
+	protected File seamGenHomeFolder;
+
 	protected String earProjectName;
 	protected String ejbProjectName;
 	protected String testProjectName;
+
+	protected File earProjectFolder;
+	protected File ejbProjectFolder;
+	protected File earContentsFolder;
+
+	protected FilterSet filtersFilterSet;
+	protected File seamGenResFolder;
+	protected File persistenceFile;
+	protected File hibernateConsoleLaunchFile;
+	protected File hibernateConsolePropsFile;
+
+	protected FilterSet jdbcFilterSet;
+	protected FilterSet projectFilterSet;
+	protected FilterSetCollection viewFilterSetCollection;
+	protected FilterSetCollection hibernateDialectFilterSet;
+	protected File dataSourceDsFile;
+
+	protected File ejbTemplateDir;
+	protected AntCopyUtils.FileSet excludeCvsSvn;
+	protected FilterSet ejbFilterSet;
+
+	protected File webMetaInf;
+	protected File ejbMetaInf;
+
+	protected File droolsLibFolder;
 
 	/**
 	 * @param model Seam facet data model
@@ -44,15 +122,67 @@ abstract public class SeamProjectCreator {
 		this.model = model;
 		this.seamWebProject = seamWebProject;
 
-		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
-		if(seamRuntime==null) {
-			throw new RuntimeException("Can't get seam runtime " + model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
-		}
-
 		// Set default project names
 		earProjectName = seamWebProject.getName() + "-ear";
 		ejbProjectName = seamWebProject.getName() + "-ejb";
 		testProjectName = seamWebProject.getName() + "-test";
+
+		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
+		if(seamRuntime==null) {
+			throw new RuntimeException("Can't get seam runtime " + model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
+		}
+		seamHomePath = seamRuntime.getHomeDir();
+		seamHomeFolder = new File(seamHomePath);
+		seamLibFolder = new File(seamHomePath, SeamFacetAbstractInstallDelegate.SEAM_LIB_RELATED_PATH);
+		seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
+
+		filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
+		seamGenResFolder = new File(seamGenHomeFolder, "resources"); //$NON-NLS-1$
+		persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (SeamFacetAbstractInstallDelegate.isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
+		hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
+		hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
+		dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
+
+		IVirtualComponent component = ComponentCore.createComponent(seamWebProject);
+		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+		IContainer webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+		File webContentFolder = webRootFolder.getLocation().toFile();
+		webMetaInf = new File(webContentFolder, "META-INF"); //$NON-NLS-1$
+		earProjectFolder = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), earProjectName);
+		earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
+		ejbProjectFolder = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), ejbProjectName);
+		ejbMetaInf = new File(ejbProjectFolder, "ejbModule/META-INF"); //$NON-NLS-1$		
+
+		jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+
+		viewFilterSetCollection = new FilterSetCollection();
+		viewFilterSetCollection.addFilterSet(jdbcFilterSet);
+		viewFilterSetCollection.addFilterSet(projectFilterSet);
+
+		hibernateDialectFilterSet = new FilterSetCollection();
+		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+
+		try {
+			ejbTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb");
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		excludeCvsSvn = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.CVS_SVN).dir(ejbTemplateDir);
+
+		ejbFilterSet = new FilterSet();
+		ejbFilterSet.addFilter("projectName", seamWebProject.getName()); //$NON-NLS-1$
+		ejbFilterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
+		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
+			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
+			ejbFilterSet.addFilter("driverJar", " " + driver.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		} else {
+			ejbFilterSet.addFilter("driverJar", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		droolsLibFolder = new File(seamHomePath, SeamFacetInstallDelegate.DROOLS_LIB_SEAM_RELATED_PATH);
 	}
 
 	public IDataModel getModel() {
@@ -61,6 +191,14 @@ abstract public class SeamProjectCreator {
 
 	public void setModel(IDataModel model) {
 		this.model = model;
+	}
+
+	protected AntCopyUtils.FileSet getJBossTestLibFileset() {
+		return JBOSS_TEST_LIB_FILESET;
+	}
+
+	protected AntCopyUtils.FileSet getJbossEarContent() {
+		return JBOSS_EAR_CONTENT;
 	}
 
 	/**
@@ -72,8 +210,54 @@ abstract public class SeamProjectCreator {
 		createTestProject();
 		final String consoleName = SeamFacetAbstractInstallDelegate.isWarConfiguration(model) ? seamWebProject.getName() : ejbProjectName;
 
+		if(!SeamFacetAbstractInstallDelegate.isWarConfiguration(model)) {
+			model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ejbProjectName);
+			model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, testProjectName);
+			createEjbProject();
+			createEarProject();
+
+			try {
+				File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
+					/* (non-Javadoc)
+					 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+					 */
+					public boolean accept(File dir, String name) {
+						return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
+					}
+				});
+				String earJarsStr = ""; //$NON-NLS-1$
+				for (File file : earJars) {
+					earJarsStr += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+
+				FilterSetCollection manifestFilterCol = new FilterSetCollection(projectFilterSet);
+				FilterSet manifestFilter = new FilterSet();
+				manifestFilter.addFilter("earLibs", earJarsStr); //$NON-NLS-1$
+				manifestFilterCol.addFilterSet(manifestFilter);
+				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterCol, true); //$NON-NLS-1$
+				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterCol, true); //$NON-NLS-1$
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
+
+		SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(seamWebProject, consoleName);
+
 		String wsPath = seamWebProject.getLocation().removeLastSegments(1).toFile().getAbsoluteFile().getPath();
 		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+
+		if (!SeamFacetAbstractInstallDelegate.isWarConfiguration(model)) {
+			IProject ejbProjectToBeImported = wsRoot.getProject(ejbProjectName);
+			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath + "/" + ejbProjectName, ejbProjectName, monitor, false);
+			SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(ejbProjectToBeImported, consoleName);
+			IProjectFacet sf = ProjectFacetsManager.getProjectFacet("jst.ejb");  
+			IProjectFacetVersion pfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(sf);
+			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
+
+			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
+			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + earProjectName, earProjectName, monitor, false);
+		}
+
 		IProject testProjectToBeImported = wsRoot.getProject(testProjectName);
 
 		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + testProjectName, testProjectName, monitor, true);
@@ -83,7 +267,65 @@ abstract public class SeamProjectCreator {
 	/**
 	 * Creates test project for given seam web project.
 	 */
-	abstract protected void createTestProject();
+	protected void createTestProject() {
+		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), testProjectName); //$NON-NLS-1$
+		testProjectDir.mkdir();
+
+		IVirtualComponent component = ComponentCore.createComponent(seamWebProject);
+		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+
+		File testLibDir = new File(testProjectDir, "lib"); //$NON-NLS-1$
+		File embededEjbDir = new File(testProjectDir, "embedded-ejb"); //$NON-NLS-1$
+		File testSrcDir = new File(testProjectDir, "test-src"); //$NON-NLS-1$
+		FilterSet filterSet = new FilterSet();
+		filterSet.addFilter("projectName", seamWebProject.getName()); //$NON-NLS-1$
+		filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
+		filterSet.addFilter("webRootFolder", webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
+
+		AntCopyUtils.FileSet includeLibs = new AntCopyUtils.FileSet(getJBossTestLibFileset()).dir(new File(seamRuntime.getHomeDir(), "lib")); //$NON-NLS-1$
+		File[] libs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
+		StringBuffer testLibraries = new StringBuffer();
+
+		for (File file : libs) {
+			testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file.getName() + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		StringBuffer requiredProjects = new StringBuffer();
+		requiredProjects.append("\t<classpathentry combineaccessrules=\"false\" kind=\"src\" path=\"/" + seamWebProject.getName() + "\"/>"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (!SeamFacetAbstractInstallDelegate.isWarConfiguration(model)) {
+			requiredProjects.append("\n\t<classpathentry combineaccessrules=\"false\" kind=\"src\" path=\"/" + ejbProjectName + "\"/>"); //$NON-NLS-1$ //$NON-NLS-2$
+		} 
+		filterSet.addFilter("testLibraries", testLibraries.toString()); //$NON-NLS-1$
+		filterSet.addFilter("requiredProjects", requiredProjects.toString()); //$NON-NLS-1$
+		File testTemplateDir = null;
+		try {
+			testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "test"); //$NON-NLS-1$
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+			return;
+		}
+		AntCopyUtils.FileSet excludeCvsSvn 
+				 = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.CVS_SVN).dir(testTemplateDir);
+
+		AntCopyUtils.copyFilesAndFolders(
+				testTemplateDir,
+				testProjectDir,
+				new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+				new FilterSetCollection(filterSet), true);
+
+		excludeCvsSvn.dir(new File(seamRuntime.getHomeDir(), "embedded-ejb/conf")); //$NON-NLS-1$
+		AntCopyUtils.copyFiles(
+				new File(seamRuntime.getHomeDir(), "embedded-ejb/conf"), //$NON-NLS-1$
+				embededEjbDir,
+				new AntCopyUtils.FileSetFileFilter(excludeCvsSvn));
+
+		AntCopyUtils.copyFiles(
+				new File(seamRuntime.getHomeDir(), "lib"), //$NON-NLS-1$
+				testLibDir,
+				new AntCopyUtils.FileSetFileFilter(includeLibs));
+
+		SeamFacetAbstractInstallDelegate.createComponentsProperties(testSrcDir, "", Boolean.TRUE); //$NON-NLS-1$
+	}
 
 	/**
 	 * Creates test project for given seam web project.
@@ -95,5 +337,104 @@ abstract public class SeamProjectCreator {
 		}
 		this.testProjectName = testProjectName;
 		createTestProject();
+	}
+
+	/**
+	 * Creates EJB project for given seam web project.
+	 * @param ejbProjectName
+	 */
+	protected void createEjbProject(String ejbProjectName) {
+		if(ejbProjectName==null) {
+			throw new IllegalArgumentException("EJB project name must not be null"); 
+		}
+		this.ejbProjectName = ejbProjectName;
+		createEjbProject();
+	}
+
+	protected void createEjbProject() {
+		ejbProjectFolder.mkdir();
+
+		AntCopyUtils.copyFilesAndFolders(
+				ejbTemplateDir,
+				ejbProjectFolder, new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+				new FilterSetCollection(ejbFilterSet), true);
+
+		// *******************************************************************************************
+		// Copy sources to EJB project in case of EAR configuration
+		// *******************************************************************************************
+		AntCopyUtils.copyFileToFile(
+				new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
+				new File(ejbProjectFolder, "ejbModule/" + model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new FilterSetCollection(filtersFilterSet), true);
+		AntCopyUtils.copyFileToFile(
+				persistenceFile,
+				new File(ejbProjectFolder, "ejbModule/META-INF/persistence.xml"), //$NON-NLS-1$
+				viewFilterSetCollection, true);
+
+		SeamFacetAbstractInstallDelegate.createComponentsProperties(new File(ejbProjectFolder, "ejbModule"), earProjectName, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenResFolder, new File(ejbProjectFolder, "ejbModule"), new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, true); //$NON-NLS-1$
+
+		AntCopyUtils.copyFileToFolder(
+				new File(seamGenResFolder, "META-INF/ejb-jar.xml"),  //$NON-NLS-1$
+				new File(ejbProjectFolder, "ejbModule/META-INF/"),  //$NON-NLS-1$
+				viewFilterSetCollection, true);
+
+		/*AntCopyUtils.copyFileToFolder(
+				hibernateConsolePref,
+				new File(ejbProjectFolder,".settings"), //$NON-NLS-1$
+				new FilterSetCollection(projectFilterSet), true);*/
+
+		FilterSet ejbFilterSet =  new FilterSet();
+		ejbFilterSet.addFilter("projectName", ejbProjectFolder.getName()); //$NON-NLS-1$
+
+		AntCopyUtils.copyFileToFile(
+				hibernateConsoleLaunchFile,
+				new File(ejbProjectFolder, ejbProjectFolder.getName() + ".launch"),  //$NON-NLS-1$
+				new FilterSetCollection(ejbFilterSet), true);
+
+		AntCopyUtils.copyFileToFolder(
+				hibernateConsolePropsFile,
+				ejbProjectFolder,
+				hibernateDialectFilterSet, true);
+	}
+
+	protected void createEarProject() {
+		earProjectFolder.mkdir();
+
+		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
+
+		FilterSet earFilterSet =  new FilterSet();
+		earFilterSet.addFilter("projectName", earProjectFolder.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		AntCopyUtils.copyFileToFolder(
+				new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
+				new File(earContentsFolder, "META-INF"), //$NON-NLS-1$
+				new FilterSetCollection(earFilterSet), true);
+
+		// Copy configuration files from template
+		try {
+			AntCopyUtils.copyFilesAndFolders(
+					new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ear"),  //$NON-NLS-1$
+					earProjectFolder, new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+					new FilterSetCollection(ejbFilterSet), true);
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+
+		// Fill ear contents
+		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamHomeFolder)));
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamLibFolder)));
+		AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(droolsLibFolder)));
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamLibFolder)));
+		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamGenResFolder)));						
+
+		File resources = new File(earProjectFolder, "resources");
+		AntCopyUtils.copyFileToFile(
+				dataSourceDsFile,
+				new File(resources, seamWebProject.getName() + "-ds.xml"),  //$NON-NLS-1$ //$NON-NLS-2$
+				viewFilterSetCollection, true);
 	}
 }

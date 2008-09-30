@@ -84,6 +84,41 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	public static String RESTRICT_RAW_XHTML = "Restrict raw XHTML Documents";
 	public static String XHTML = "XHTML";
 	public static String WEB_RESOURCE_COLLECTION_PATTERN = "*.xhtml";
+	public static String SEAM_LIB_RELATED_PATH = "lib"; //$NON-NLS-1$
+	public static final String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
+	public static final String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
+
+	public static AntCopyUtils.FileSet VIEW_FILESET = new AntCopyUtils.FileSet()
+		.include("home\\.xhtml") //$NON-NLS-1$
+		.include("error\\.xhtml") //$NON-NLS-1$
+		.include("login\\.xhtml") //$NON-NLS-1$
+		.include("login\\.page.xml") //$NON-NLS-1$
+		.include("index\\.html") //$NON-NLS-1$
+		.include("layout") //$NON-NLS-1$
+		.include("layout/.*") //$NON-NLS-1$
+		.include("stylesheet") //$NON-NLS-1$
+		.include("stylesheet/.*") //$NON-NLS-1$
+		.include("img/.*") //$NON-NLS-1$
+		.include("img") //$NON-NLS-1$
+		.exclude(".*/.*\\.ftl") //$NON-NLS-1$
+		.exclude(".*/CVS") //$NON-NLS-1$
+		.exclude(".*/\\.svn"); //$NON-NLS-1$
+
+	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
+		.include("WEB-INF") //$NON-NLS-1$
+		//.include("WEB-INF/web\\.xml") //$NON-NLS-1$
+		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
+		.include("WEB-INF/jboss-web\\.xml") //$NON-NLS-1$
+		.include("WEB-INF/faces-config\\.xml") //$NON-NLS-1$
+		.include("WEB-INF/componets\\.xml"); //$NON-NLS-1$
+
+	public static AntCopyUtils.FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
+		.include("import\\.sql") //$NON-NLS-1$
+		.include("security\\.drl") //$NON-NLS-1$
+		.include("seam\\.properties") //$NON-NLS-1$
+		.include("messages_en\\.properties"); //$NON-NLS-1$
+
+	public static String WEB_LIBRARIES_RELATED_PATH = "WEB-INF/lib"; //$NON-NLS-1$
 
 	static AntCopyUtils.FileSet CVS_SVN = new AntCopyUtils.FileSet()
 		.include(".*") //$NON-NLS-1$

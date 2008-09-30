@@ -32,7 +32,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 public class Seam2ProjectCreator extends SeamProjectCreator {
 
 	// test/*.jar are duplicated here since the filtering seem to be assymetric when matching 
-	protected static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
+	private static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
 	    .include("testng\\.jar") //$NON-NLS-1$
 		.include("test/hibernate-all\\.jar") //$NON-NLS-1$
 		.include("hibernate-all\\.jar") //$NON-NLS-1$
@@ -48,12 +48,24 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 
+	private static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
+		.include("antlr-runtime.jar") //$NON-NLS-1$
+		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
+		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("jboss-seam.jar") //$NON-NLS-1$
+		.include("jboss-el.*.jar") //$NON-NLS-1$
+		.include("mvel14.*.jar") //$NON-NLS-1$
+		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
+		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
+
 	/**
 	 * @param model Seam facet data model
 	 * @param seamWebProject Seam web project
 	 */
 	public Seam2ProjectCreator(IDataModel model, IProject seamWebProject) {
 		super(model, seamWebProject);
+		viewFilterSetCollection.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+		droolsLibFolder = new File(seamHomePath, Seam2FacetInstallDelegate.DROOLS_LIB_SEAM_RELATED_PATH);
 	}
 
 	@Override
@@ -80,8 +92,8 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		// TODO: why are these filters not shared!?
 		filterSet.addConfiguredFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 
-		AntCopyUtils.FileSet includeLibs = new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET).dir(new File(seamRuntime.getHomeDir(),"lib")); //$NON-NLS-1$
-		AntCopyUtils.FileSet secondSetincludeLibs = new AntCopyUtils.FileSet(JBOSS_TEST_LIB_FILESET).dir(new File(seamRuntime.getHomeDir(),"lib/test")); //$NON-NLS-1$
+		AntCopyUtils.FileSet includeLibs = new AntCopyUtils.FileSet(getJBossTestLibFileset()).dir(new File(seamRuntime.getHomeDir(),"lib")); //$NON-NLS-1$
+		AntCopyUtils.FileSet secondSetincludeLibs = new AntCopyUtils.FileSet(getJBossTestLibFileset()).dir(new File(seamRuntime.getHomeDir(),"lib/test")); //$NON-NLS-1$
 
 		File[] firstlibs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
 		File[] secondLibs = secondSetincludeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(secondSetincludeLibs));
@@ -160,5 +172,20 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 				new AntCopyUtils.FileSetFileFilter(includeLibs));
 
 		SeamFacetAbstractInstallDelegate.createComponentsProperties(testSrcDir, "", true); //$NON-NLS-1$
+	}
+
+	@Override
+	protected void createEjbProject() {
+		super.createEjbProject();
+		// Copy security.drl to source folder
+		AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), new File(ejbProjectFolder, "ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	protected AntCopyUtils.FileSet getJBossTestLibFileset() {
+		return JBOSS_TEST_LIB_FILESET;
+	}
+
+	protected AntCopyUtils.FileSet getJbossEarContent() {
+		return JBOSS_EAR_CONTENT;
 	}
 }
