@@ -54,7 +54,7 @@
 
     <colspec colnum="1" align="left" colwidth="2*"/>
     <colspec colnum="2" colwidth="4*"/>
-    <colspec colnum="3" colwidth="2*"/>
+    <colspec colnum="3" colwidth="2*" align="left" />
 
     <thead>
      <row>
