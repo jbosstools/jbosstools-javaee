@@ -101,7 +101,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if (seamProject == null)
 			return null;
 
-		SeamELCompletionEngine engine= new SeamELCompletionEngine();
+		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
 
 		String prefix= engine.getJavaElementExpression(document, region.getOffset(), region, start, end);
 		prefix = (prefix == null ? "" : prefix);

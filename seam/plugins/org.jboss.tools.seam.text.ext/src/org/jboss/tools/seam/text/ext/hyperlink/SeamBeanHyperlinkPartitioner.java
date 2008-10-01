@@ -21,6 +21,8 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperLinkPartitionPriority;
@@ -31,9 +33,7 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -202,8 +202,10 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				start = ((IDOMNode)n).getStartOffset();
 				end = ((IDOMNode)n).getEndOffset();
 			}
-			
-			ELInvocationExpression tokens = SeamELCompletionEngine.findExpressionAtOffset(document, offset, start, end);
+
+			//TODO do we have and need seam project here?
+			SeamELCompletionEngine engine = new SeamELCompletionEngine(null);
+			ELInvocationExpression tokens = engine.findExpressionAtOffset(document, offset, start, end);
 			if (tokens == null /*|| tokens.size() == 0*/)
 				return null; // No EL Operand found
 
@@ -260,13 +262,14 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			if (seamProject == null)
 				return null;
 
-			SeamELCompletionEngine engine= new SeamELCompletionEngine();
+			SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
 
 			String prefix = propText;
-			ELExpression expr = SeamELCompletionEngine.parseOperand(prefix);
+			ELExpression expr = engine.parseOperand(prefix);
 			if (expr == null)
 				return null; // No EL Operand found
-
+			expr.getModel().shift(r.getOffset() - expr.getFirstToken().getStart());
+			
 			List<IJavaElement> javaElements = null;
 			try {
 				javaElements = engine.getJavaElementsForELOperandTokens(seamProject, file, (ELInvocationExpression)expr);
@@ -278,9 +281,10 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				return null;
 			}
 
+			//Do not need it, vars handled in getJavaElementsForELOperandTokens
 			if (javaElements == null || javaElements.size() == 0) {
 				// Try to find a local Var (a pair of variable-value attributes)
-				ElVarSearcher varSearcher = new ElVarSearcher(seamProject, file, new SeamELCompletionEngine());
+				ElVarSearcher varSearcher = new ElVarSearcher(file, engine);
 				// Find a Var in the EL 
 				int start = expr.getStartPosition();
 				int end = expr.getEndPosition();
@@ -288,11 +292,11 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				if (expr.getText().length() == 0)
 					return null;
 				
-				List<Var> allVars= ElVarSearcher.findAllVars(file, start);
+				List<Var> allVars= varSearcher.findAllVars(file, start);
 				Var var = varSearcher.findVarForEl(expr.getText(), allVars, true);
 				if (var == null) {
 					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
-					var = ElVarSearcher.findVar(file, start);
+					var = varSearcher.findVar(file, start);
 				}
 				if (var == null)
 					return null;
