@@ -54,14 +54,14 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor;
 import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -263,8 +263,6 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 
 	}
 
-	private final SeamELCompletionEngine fEngine= new SeamELCompletionEngine();
-
 	/**
 	 * Creates a new Seam EL completion proposal computer.
 	 */
@@ -350,7 +348,9 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 
 			//TODO Now this will work only for EL. 
 			//     If we need CA for expressions/variables without #{}, it should be handled separately.
-			String prefix= SeamELCompletionEngine.getPrefix(viewer, offset, start, end);
+
+			SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+			String prefix= engine.getPrefix(viewer, offset, start, end);
 			prefix = (prefix == null ? "" : prefix); //$NON-NLS-1$
 
 			String proposalPrefix = "";
@@ -388,11 +388,13 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
     			proposalSufix = "}";
     		}
 
-			List<Var> vars = ElVarSearcher.findAllVars(viewer, offset);
+    		ElVarSearcher varSearcher = new ElVarSearcher(engine);
+			List<Var> vars = varSearcher.findAllVars(viewer, offset);
 			
 			//TODO
 
-			List<String> suggestions = fEngine.getCompletions(seamProject, file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
+			SeamELCompletionEngine fEngine= new SeamELCompletionEngine(seamProject);
+			List<String> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
 			List<String> uniqueSuggestions = fEngine.makeUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();

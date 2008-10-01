@@ -263,14 +263,14 @@ public class SeamSearchQuery implements ISearchQuery {
 	
 	private IStatus queryByTokens(AbstractTextSearchResult textResult, 
 			final IProgressMonitor monitor) {
-		SeamELCompletionEngine engine = new SeamELCompletionEngine();
-		
 		IProject project = (fSourceFile == null ? null : fSourceFile.getProject());
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if (seamProject == null)
 			return Status.OK_STATUS;
 
+		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		
 //		List<IJavaElement> elements = engine.getJavaElementsForELOperandTokens(seamProject, fSourceFile, fTokens)
 		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
 		return SeamSearchEngine.getInstance().search(fScope, collector, fSourceFile, fTokens, monitor);
@@ -279,14 +279,14 @@ public class SeamSearchQuery implements ISearchQuery {
 	private IStatus queryByJavaElements(
 			AbstractTextSearchResult textResult, 
 			final IProgressMonitor monitor) {
-		SeamELCompletionEngine engine = new SeamELCompletionEngine();
-		
 		IProject project = (fSourceFile == null ? null : fSourceFile.getProject());
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if (seamProject == null)
 			return Status.OK_STATUS;
 
+		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		
 		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
 		return SeamSearchEngine.getInstance().search(fScope, collector, fSourceFile, fJavaElements, monitor);
 	}

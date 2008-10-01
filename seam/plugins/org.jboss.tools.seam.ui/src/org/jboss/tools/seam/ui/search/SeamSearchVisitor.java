@@ -97,6 +97,9 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
+import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -113,9 +116,7 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponent;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
 import org.jboss.tools.seam.internal.core.scanner.java.ResolvedAnnotation;
@@ -151,7 +152,6 @@ public class SeamSearchVisitor {
 	
 	private IFile fCurrentFile;
 	private final FileCharSequenceProvider fFileCharSequenceProvider;
-	private final SeamELCompletionEngine fCompletionEngine;
 
 	interface ISeamMatcher {
 		String getName();
@@ -327,7 +327,6 @@ public class SeamSearchVisitor {
 		}
 		fFileCharSequenceProvider= new FileCharSequenceProvider();
 		fMatchAccess= new ReusableMatchAccess();
-		fCompletionEngine = new SeamELCompletionEngine();
 	}
 
 	/**
@@ -351,7 +350,6 @@ public class SeamSearchVisitor {
 		}
 		fFileCharSequenceProvider= new FileCharSequenceProvider();
 		fMatchAccess= new ReusableMatchAccess();
-		fCompletionEngine = new SeamELCompletionEngine();
 	}
 
 	/**
@@ -375,7 +373,6 @@ public class SeamSearchVisitor {
 		}
 		fFileCharSequenceProvider= new FileCharSequenceProvider();
 		fMatchAccess= new ReusableMatchAccess();
-		fCompletionEngine = new SeamELCompletionEngine();
 	}
 
 
@@ -478,8 +475,9 @@ public class SeamSearchVisitor {
 			}
 			
 		}
-		
-		fELVarSearcher = new ElVarSearcher(project, fCompletionEngine);
+
+		SeamELCompletionEngine fCompletionEngine = new SeamELCompletionEngine(project);
+		fELVarSearcher = new ElVarSearcher(fCompletionEngine);
 		fDocumentsInEditors= evalNonFileBufferDocuments();
 		boolean res= true;
 		for (int i = 0; files != null && i < files.length; i++) {
@@ -597,7 +595,7 @@ public class SeamSearchVisitor {
 
 	private void locateMatchesInChildNodes(IFile file, Node parent, CharSequence content) 
 			throws CoreException {
-		Var var = ElVarSearcher.findVar(parent);
+		Var var = fELVarSearcher.findVar(parent);
 		if(var!=null) {
 			fVarListForCurentValidatedNode.add(var);
 		}
@@ -696,7 +694,7 @@ public class SeamSearchVisitor {
 	private void locateMatchesInString(IFile file, String string, int offset, CharSequence content) throws CoreException {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
 		if(startEl>-1) {
-			ELParser parser = ELParserFactory.createJbossParser();
+			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
 			List<ELInstance> is = model.getInstances();
 			for (ELInstance i: is) {
@@ -718,6 +716,7 @@ public class SeamSearchVisitor {
 					ELInvocationExpression expr = token;
 					while(expr != null) {
 						List<IJavaElement> elements = null;
+						SeamELCompletionEngine fCompletionEngine = new SeamELCompletionEngine(fCurrentSeamProject);
 						try {
 							elements = fCompletionEngine.getJavaElementsForELOperandTokens(fCurrentSeamProject, file, expr);
 						} catch (StringIndexOutOfBoundsException e) {

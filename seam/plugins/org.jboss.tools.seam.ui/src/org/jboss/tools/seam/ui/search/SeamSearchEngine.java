@@ -37,12 +37,12 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.search.core.text.TextSearchEngine;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.Var;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
@@ -90,14 +90,13 @@ public abstract class SeamSearchEngine {
 					return Status.OK_STATUS;
 				}
 
-				SeamELCompletionEngine engine = new SeamELCompletionEngine();
-				
 				IProject project = (sourceFile == null ? null : sourceFile.getProject());
 
 				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 				if (seamProject == null)
 					return Status.OK_STATUS;
 
+				SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
 				
 				
 				//Find Seam variable names
@@ -126,7 +125,7 @@ public abstract class SeamSearchEngine {
 				}
 				
 				// Try to find a local Var (a pair of variable-value attributes)
-				ElVarSearcher varSearcher = new ElVarSearcher(seamProject, sourceFile, new SeamELCompletionEngine());
+				ElVarSearcher varSearcher = new ElVarSearcher(sourceFile, engine);
 				// Find a Var in the EL 
 				int start = tokens.getStartPosition();
 				int end = tokens.getEndPosition();
@@ -137,11 +136,11 @@ public abstract class SeamSearchEngine {
 				if (elText == null || elText.length() == 0)
 					return Status.OK_STATUS;
 				
-				List<Var> allVars= ElVarSearcher.findAllVars(sourceFile, tokens.getStartPosition());
+				List<Var> allVars= varSearcher.findAllVars(sourceFile, tokens.getStartPosition());
 				Var var = varSearcher.findVarForEl(elText.toString(), allVars, true);
 				if (var == null) {
 					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
-					var = ElVarSearcher.findVar(sourceFile, tokens.getStartPosition());
+					var = varSearcher.findVar(sourceFile, tokens.getStartPosition());
 				}
 				if (var == null)
 					return Status.OK_STATUS;

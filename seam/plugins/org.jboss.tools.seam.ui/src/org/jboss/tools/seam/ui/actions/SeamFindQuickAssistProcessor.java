@@ -89,7 +89,8 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 	
 	private String[] getVariableNames(ISeamProject seamProject, IDocument document, int offset,
 			int start, int end) {
-		ELInvocationExpression tokens = SeamELCompletionEngine.findExpressionAtOffset(
+		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		ELInvocationExpression tokens = engine.findExpressionAtOffset(
 				document, offset, start, end);
 		
 		if (tokens == null)
@@ -116,8 +117,10 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 			ISeamProject seamProject = getSeamProject(context);
 			if (seamProject == null)
 				return result;
+
+			SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
 			
-			ELInvocationExpression tokens = SeamELCompletionEngine.findExpressionAtOffset(
+			ELInvocationExpression tokens = engine.findExpressionAtOffset(
 					document, 
 					context.getSelectionOffset(),
 					0,							//TODO compute region start
