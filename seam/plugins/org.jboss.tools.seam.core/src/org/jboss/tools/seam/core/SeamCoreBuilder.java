@@ -21,7 +21,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.osgi.util.NLS;
-import org.jboss.tools.common.model.util.TypeInfoCollector;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;

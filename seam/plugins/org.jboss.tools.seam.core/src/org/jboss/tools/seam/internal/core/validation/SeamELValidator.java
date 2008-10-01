@@ -47,18 +47,20 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
+import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.parser.SyntaxError;
-import org.jboss.tools.common.model.util.TypeInfoCollector;
+import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
-import org.jboss.tools.seam.internal.core.el.ElVarSearcher;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.internal.core.el.SeamELOperandResolveStatus;
-import org.jboss.tools.seam.internal.core.el.Var;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -75,7 +77,7 @@ public class SeamELValidator extends SeamValidator {
 
 	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
 
-	private SeamELCompletionEngine engine = new SeamELCompletionEngine();
+	private SeamELCompletionEngine engine;
 	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
 	private ElVarSearcher elVarSearcher;
 
@@ -83,7 +85,8 @@ public class SeamELValidator extends SeamValidator {
 			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
-		elVarSearcher = new ElVarSearcher(project, engine);
+		engine = new SeamELCompletionEngine(project);
+		elVarSearcher = new ElVarSearcher(engine);
 	}
 
 	/* (non-Javadoc)
@@ -213,7 +216,7 @@ public class SeamELValidator extends SeamValidator {
 		String preferenceValue = SeamPreferences.getProjectPreference(project, SeamPreferences.CHECK_VARS);
 		Var var = null;
 		if (SeamPreferences.ENABLE.equals(preferenceValue)) {
-			var = ElVarSearcher.findVar(parent);
+			var = elVarSearcher.findVar(parent);
 		}
 		if(var!=null) {
 			varListForCurentValidatedNode.add(var);
@@ -254,7 +257,7 @@ public class SeamELValidator extends SeamValidator {
 	private void validateString(IFile file, String string, int offset) {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
 		if(startEl>-1) {
-			ELParser parser = ELParserFactory.createJbossParser();
+			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
 			List<SyntaxError> errors = parser.getSyntaxErrors();
 			if(errors.size() > 0) {
@@ -298,7 +301,7 @@ public class SeamELValidator extends SeamValidator {
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
 				{
 					SeamELOperandResolveStatus status = 
-						engine.resolveSeamELOperand(project, file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
+						engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
 					if(status.getUsedVariables().size()==0 && status.isError()) {
 						// Save resources with unknown variables names

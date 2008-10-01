@@ -29,7 +29,7 @@ public class SeamPromptingProvider implements IPromptingProvider {
 	public static String VARIABLES = "seam.variables"; //$NON-NLS-1$
 	public static String MEMBERS = "seam.members"; //$NON-NLS-1$
 
-	SeamELCompletionEngine engine= new SeamELCompletionEngine();
+//	SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
 	public SeamPromptingProvider() {}
 
