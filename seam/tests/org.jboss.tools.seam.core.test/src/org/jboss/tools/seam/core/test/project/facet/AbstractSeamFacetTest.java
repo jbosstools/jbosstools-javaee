@@ -27,6 +27,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
@@ -107,15 +108,12 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		try {
 			oldAutoBuilding = ResourcesUtils.setBuildAutomatically(false);
 			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-		    waitForIdle(); 
+		    JobUtils.waitForIdle(); 
 			for (IResource r : this.resourcesToCleanup) {
 				try {
-					//System.out.println("Deleting " + r);
-					//r.getProject().close(null);
 					r.delete(true, null);
-					waitForIdle();
+					JobUtils.waitForIdle();
 				} catch(Exception e) {
-					System.out.println("Error deleting " + r);
 					e.printStackTrace();
 					last = e;
 				}
@@ -129,19 +127,6 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		}
 		
 		if(last!=null) throw last;
-	}
-
-	public static void waitForIdle() {
-		long start = System.currentTimeMillis();
-		// Job.getJobManager().isIdle() is more efficient than EditorTestHelper.allJobsQuiet()
-		// EditorTestHelper.allJobsQuiet() isn't thread-safe
-		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=198241 is fixed 
-		//while (!EditorTestHelper.allJobsQuiet()) {
-		while (!Job.getJobManager().isIdle()) {
-			delay(500);
-			if ( (System.currentTimeMillis()-start) > MAX_IDLE ) 
-				throw new RuntimeException("A long running task detected"); //$NON-NLS-1$
-		}
 	}
 
 	protected final void addResourceToCleanup(final IResource resource) {
@@ -268,26 +253,6 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			//System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
 		}
 			
-	}
-	
-	public static void delay(long waitTimeMillis) {
-		Display display = Display.getCurrent();
-		if (display != null) {
-			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-			while (System.currentTimeMillis() < endTimeMillis) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-			display.update();
-		}
-		// Otherwise, perform a simple sleep.
-		else {
-			try {
-				Thread.sleep(waitTimeMillis);
-			} catch (InterruptedException e) {
-				// Ignored.
-			}
-		}
 	}
 	
 }
