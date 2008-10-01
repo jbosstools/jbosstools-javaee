@@ -66,13 +66,13 @@ public class RichFaces {
     public static final String ATTR_SHOW_BUTTON_LABELS = "showButtonLabels"; //$NON-NLS-1$
 
     /** The Constant ATTR_DEFAULT_LABEL. */
-    public static final String ATTR_DEFAULT_LABEL = "defaultLabel";
+    public static final String ATTR_DEFAULT_LABEL = "defaultLabel"; //$NON-NLS-1$
 
     /** The Constant ATTR_ADD_CONTROL_LABEL. */
-    public static final String ATTR_ADD_CONTROL_LABEL = "addControlLabel";
+    public static final String ATTR_ADD_CONTROL_LABEL = "addControlLabel"; //$NON-NLS-1$
 
     /** The Constant ATTR_STYLE_CLASS. */
-    public static final String ATTR_STYLE_CLASS = "styleClass";
+    public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 
     public static final String ATTR_SELECT_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
     

@@ -9,9 +9,20 @@
 <head>
 </head>
 <body>
-<h1>calendar</h1>
-<rich:calendar direction="bottom-right" id="calendar1"></rich:calendar>
+<h1>graphValidator</h1>
+<h:form>
 
-<rich:calendar direction="bottom-right" popup="false" id="calendar2"></rich:calendar>
+	<rich:graphValidator id="graphValidator">
+
+		<h:inputText value="#{bean.gvString}" id="input">
+		</h:inputText>
+		<rich:message for="input" />
+		<h:inputText value="#{bean.gvString2}" id="input2">
+		</h:inputText>
+		<rich:message for="input2" />
+
+	</rich:graphValidator>
+	<a4j:commandButton value="Store changes" />
+</h:form>
 </body>
 </html>

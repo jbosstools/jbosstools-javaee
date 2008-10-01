@@ -9,9 +9,13 @@
 <head>
 </head>
 <body>
-<h1>calendar</h1>
-<rich:calendar direction="bottom-right" id="calendar1"></rich:calendar>
-
-<rich:calendar direction="bottom-right" popup="false" id="calendar2"></rich:calendar>
+<h1>beanValidator</h1>
+<h:form>
+	<h:inputText value="#{bean.bvString}" id="input">
+		<rich:beanValidator id="beanValidator"/>
+	</h:inputText>
+	<rich:message for="input"/>
+	<a4j:commandButton value="Store changes" />
+</h:form>
 </body>
 </html>

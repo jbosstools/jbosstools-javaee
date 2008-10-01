@@ -1,0 +1,30 @@
+<tests>
+	<test id="calendar1">
+		<TABLE>
+			<TR>
+				<TD>
+					<DIV>
+						<DIV STYLE="overflow: hidden; width: 220px;">
+							<TABLE STYLE="width: 100%;">
+								<TR>
+									<TD>
+										<INPUT TYPE="text" CLASS="rich-calendar-input" STYLE="width: 180px;" />
+									</TD>
+									<TD>
+										<IMG CLASS="rich-calendar-button" VPE-USER-TOGGLE-ID="false" />
+									</TD>
+								</TR>
+								<TR>
+									<TD>
+									</TD>
+								</TR>
+							</TABLE>
+						</DIV>
+					</DIV>
+				</TD>
+			</TR>
+			<BR VPE:PSEUDO-ELEMENT="yes"
+				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+		</TABLE>
+	</test>
+</tests>

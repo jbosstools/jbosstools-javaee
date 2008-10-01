@@ -9,9 +9,18 @@
 <head>
 </head>
 <body>
-<h1>calendar</h1>
-<rich:calendar direction="bottom-right" id="calendar1"></rich:calendar>
+<h1>ajaxValidator</h1>
 
-<rich:calendar direction="bottom-right" popup="false" id="calendar2"></rich:calendar>
+<h:form>
+
+	<h:panelGrid columns="2">
+		<h:inputText value="#{bean.avString}" id="input" required="true">
+			<f:validateLength minimum="3" maximum="12" />
+			<rich:ajaxValidator event="onblur" id="ajaxValidator" />
+		</h:inputText>
+		<rich:message for="input" />
+	</h:panelGrid>
+</h:form>
+
 </body>
 </html>

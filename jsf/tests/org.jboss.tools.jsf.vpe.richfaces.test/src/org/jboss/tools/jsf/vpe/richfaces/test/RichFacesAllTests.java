@@ -38,40 +38,43 @@ import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 public class RichFacesAllTests {
 
-    public static Test suite() {
-	TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON-NLS-1$
-	// $JUnit-BEGIN$
+	public static final String IMPORT_PROJECT_NAME = "richFacesTest"; //$NON-NLS-1$
 
-	suite.addTestSuite(RichFacesComponentTest.class);
-	suite.addTestSuite(JBIDE1579Test.class);
-	suite.addTestSuite(Jbide1580Test.class);
-	suite.addTestSuite(JBIDE1613Test.class);
-	suite.addTestSuite(Jbide1614Test.class);
-	suite.addTestSuite(Jbide1639Test.class);
-	suite.addTestSuite(Jbide1682Test.class);
-	suite.addTestSuite(Jbide1548Test.class);
-	suite.addTestSuite(JBIDE1713Test.class);
-    suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
-    suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
-    suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
-    suite.addTestSuite(RichFacesProgressBarTemplateTestCase.class);
-    suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
-    suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
-    suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
-    suite.addTestSuite(JBIDE1605Test.class);
-    suite.addTestSuite(JBIDE1606Test.class);
-	// $JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON
+		// $JUnit-BEGIN$
 
-	List<ImportBean> projectToImport = new ArrayList<ImportBean>();
-	ImportBean importBean = new ImportBean();
-	importBean
-		.setImportProjectName(RichFacesComponentTest.IMPORT_PROJECT_NAME);
-	importBean.setImportProjectPath(RichFacesTestPlugin
-		.getPluginResourcePath());
-	projectToImport.add(importBean);
+		suite.addTestSuite(RichFacesComponentTest.class);
+		suite.addTestSuite(JBIDE1579Test.class);
+		suite.addTestSuite(Jbide1580Test.class);
+		suite.addTestSuite(JBIDE1613Test.class);
+		suite.addTestSuite(Jbide1614Test.class);
+		suite.addTestSuite(Jbide1639Test.class);
+		suite.addTestSuite(Jbide1682Test.class);
+		suite.addTestSuite(Jbide1548Test.class);
+		suite.addTestSuite(JBIDE1713Test.class);
+		suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
+		suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
+		suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
+		suite.addTestSuite(RichFacesProgressBarTemplateTestCase.class);
+		suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
+		suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
+		suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
+		suite.addTestSuite(JBIDE1605Test.class);
+		suite.addTestSuite(JBIDE1606Test.class);
+		suite.addTestSuite(RichFacesComponentContentTest.class);
 
-	return new VpeTestSetup(suite, projectToImport);
+		// $JUnit-END$
 
-    }
+		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
+		ImportBean importBean = new ImportBean();
+		importBean.setImportProjectName(RichFacesAllTests.IMPORT_PROJECT_NAME);
+		importBean.setImportProjectPath(RichFacesTestPlugin
+				.getPluginResourcePath());
+		projectToImport.add(importBean);
+
+		return new VpeTestSetup(suite, projectToImport);
+
+	}
 
 }

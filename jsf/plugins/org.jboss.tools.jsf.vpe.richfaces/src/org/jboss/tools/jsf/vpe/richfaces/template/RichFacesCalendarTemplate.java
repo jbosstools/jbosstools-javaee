@@ -15,11 +15,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
@@ -30,6 +28,8 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -46,101 +46,101 @@ import org.w3c.dom.Node;
  */
 public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
-    static String[] HEADER_CONTENT = { "<<", "<", "", ">", ">>" };
-    static String[] HEADER_CONTENT_ON_POPUP = { "<<", "<", "", ">", ">>", "X" };
+    static String[] HEADER_CONTENT = { "<<", "<", "", ">", ">>" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+    static String[] HEADER_CONTENT_ON_POPUP = { "<<", "<", "", ">", ">>", "X" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
     final static int MONTH_LENGTH[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
 			30, 31 };
 	final static int LEAP_MONTH_LENGTH[] = { 31, 29, 31, 30, 31, 30, 31, 31,
 			30, 31, 30, 31 }; 
-    final static String STYLE_PATH = "calendar/calendar.css";
-    final static String BUTTON_IMG = "calendar/calendar.gif";
+    final static String STYLE_PATH = "calendar/calendar.css"; //$NON-NLS-1$
+    final static String BUTTON_IMG = "calendar/calendar.gif"; //$NON-NLS-1$
     final static int COLUMN = 8;
-    final static String FILL_WIDTH = "100%";
+    final static String FILL_WIDTH = "100%"; //$NON-NLS-1$
     final static int NUM_DAYS_IN_WEEK = 7;
     final static int NUM_WEEK_ON_PAGE = 6;
-    final static String TODAY = "Today";
-    final static String VERTICAL_SEPARATOR = "|";
-    final static String APPLY = "Apply";
+    final static String TODAY = "Today"; //$NON-NLS-1$
+    final static String VERTICAL_SEPARATOR = "|"; //$NON-NLS-1$
+    final static String APPLY = "Apply"; //$NON-NLS-1$
     final static int CALENDAR_WIDTH = 200;
     final static int CALENDAR_INPUT_WIDTH = CALENDAR_WIDTH - 20;
     final static int CALENDAR_IMAGE_WIDTH = 20;
     final static int CALENDAR_CUSTOM_IMAGE_WIDTH = 40;
     final static int CALENDAR_BUTTON_WIDTH = 80;
-    final static String ATTRIBUTE_TEXT = "text";
+    final static String ATTRIBUTE_TEXT = "text"; //$NON-NLS-1$
     
-    static final String DEFAULT_DATE_PATTERN = "MMMM, yyyy";
-    static final String 	 HEADER = "header";
-    static final String 	 FOOTER = "footer";
-    static final String 	 VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id";
+    static final String DEFAULT_DATE_PATTERN = "MMMM, yyyy"; //$NON-NLS-1$
+    static final String 	 HEADER = "header"; //$NON-NLS-1$
+    static final String 	 FOOTER = "footer"; //$NON-NLS-1$
+    static final String 	 VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id"; //$NON-NLS-1$
     
     /*rich:calendar attributes*/
-	static final String BUTTON_LABEL = "buttonLabel";
-	static final String BUTTON_ICON = "buttonIcon";
-	static final String DIRECTION = "direction";
-	static final String ENABLE_MANUAL_INPUT = "enableManualInput";
-	static final String CELL_HEIGHT = "cellHeight";
-	static final String CELL_WIDTH = "cellWidth";
-	static final String DATE_PATTERN = "datePattern";
-	static final String VALUE = "value";
-	static final String DISABLED = "disabled";
-	static final String HORIZONTAL_OFFSET = "horizontalOffset";
-	static final String VERTICAL_OFFSET = "verticalOffset";
-	static final String LOCALE = "locale";
-	static final String POPUP = "popup";
-	static final String SHOW_APPLY_BUTTON = "showApplyButton";
-	static final String SHOW_INPUT = "showInput";
-	static final String SHOW_SHOW_WEEKS_DAY_BAR = "showWeekDaysBar";
-	static final String SHOW_WEEKS_BAR = "showWeeksBar";
-	static final String TODAY_CONTROL_MODE = "todayControlMode";
-	static final String SHOW_HEADER = "showHeader";
-	static final String SHOW_FOOTER= "showFooter";
+	static final String BUTTON_LABEL = "buttonLabel"; //$NON-NLS-1$
+	static final String BUTTON_ICON = "buttonIcon"; //$NON-NLS-1$
+	static final String DIRECTION = "direction"; //$NON-NLS-1$
+	static final String ENABLE_MANUAL_INPUT = "enableManualInput"; //$NON-NLS-1$
+	static final String CELL_HEIGHT = "cellHeight"; //$NON-NLS-1$
+	static final String CELL_WIDTH = "cellWidth"; //$NON-NLS-1$
+	static final String DATE_PATTERN = "datePattern"; //$NON-NLS-1$
+	static final String VALUE = "value"; //$NON-NLS-1$
+	static final String DISABLED = "disabled"; //$NON-NLS-1$
+	static final String HORIZONTAL_OFFSET = "horizontalOffset"; //$NON-NLS-1$
+	static final String VERTICAL_OFFSET = "verticalOffset"; //$NON-NLS-1$
+	static final String LOCALE = "locale"; //$NON-NLS-1$
+	static final String POPUP = "popup"; //$NON-NLS-1$
+	static final String SHOW_APPLY_BUTTON = "showApplyButton"; //$NON-NLS-1$
+	static final String SHOW_INPUT = "showInput"; //$NON-NLS-1$
+	static final String SHOW_SHOW_WEEKS_DAY_BAR = "showWeekDaysBar"; //$NON-NLS-1$
+	static final String SHOW_WEEKS_BAR = "showWeeksBar"; //$NON-NLS-1$
+	static final String TODAY_CONTROL_MODE = "todayControlMode"; //$NON-NLS-1$
+	static final String SHOW_HEADER = "showHeader"; //$NON-NLS-1$
+	static final String SHOW_FOOTER= "showFooter"; //$NON-NLS-1$
 
 	/*CSS  classes*/
-	static final String CSS_R_C_INPUT = "rich-calendar-input";
-	static final String CSS_R_C_BUTTON = "rich-calendar-button";
-	static final String CSS_R_C_EXTERIOR = "rich-calendar-exterior";
-	static final String CSS_R_C_HEADER = "rich-calendar-header";
-	static final String CSS_R_C_TOOL = "rich-calendar-tool";
-	static final String CSS_R_C_MONTH = "rich-calendar-month";
-	static final String CSS_R_C_TOOL_CLOSE = "rich-calendar-tool-close";
-	static final String CSS_R_C_DAYS = "rich-calendar-days";
-	static final String CSS_R_C_WEEKENDS = "rich-calendar-weekends";
-	static final String CSS_R_C_WEEK = "rich-calendar-week";
-	static final String CSS_R_C_CELL = "rich-calendar-cell";
-	static final String CSS_R_C_CELL_SIZE = "rich-calendar-cell-size";
-	static final String CSS_R_C_HOLLY = "rich-calendar-holly";
-	static final String CSS_R_C_BOUNDARY_DATES = "rich-calendar-boundary-dates";
-	static final String CSS_R_C_BTN = "rich-calendar-btn";
-	static final String CSS_R_C_TODAY = "rich-calendar-today";
-	static final String CSS_R_C_SELECT = "rich-calendar-select";
-	static final String CSS_R_C_TOOLFOOTER = "rich-calendar-toolfooter";
-	static final String CSS_R_C_FOOTER = "rich-calendar-footer";
-	static final String CSS_R_C_HEADER_OPTIONAL = "rich-calendar-header-optional";
-	static final String CSS_R_C_FOOTER_OPTIONAL = "rich-calendar-footer-optional";
+	static final String CSS_R_C_INPUT = "rich-calendar-input"; //$NON-NLS-1$
+	static final String CSS_R_C_BUTTON = "rich-calendar-button"; //$NON-NLS-1$
+	static final String CSS_R_C_EXTERIOR = "rich-calendar-exterior"; //$NON-NLS-1$
+	static final String CSS_R_C_HEADER = "rich-calendar-header"; //$NON-NLS-1$
+	static final String CSS_R_C_TOOL = "rich-calendar-tool"; //$NON-NLS-1$
+	static final String CSS_R_C_MONTH = "rich-calendar-month"; //$NON-NLS-1$
+	static final String CSS_R_C_TOOL_CLOSE = "rich-calendar-tool-close"; //$NON-NLS-1$
+	static final String CSS_R_C_DAYS = "rich-calendar-days"; //$NON-NLS-1$
+	static final String CSS_R_C_WEEKENDS = "rich-calendar-weekends"; //$NON-NLS-1$
+	static final String CSS_R_C_WEEK = "rich-calendar-week"; //$NON-NLS-1$
+	static final String CSS_R_C_CELL = "rich-calendar-cell"; //$NON-NLS-1$
+	static final String CSS_R_C_CELL_SIZE = "rich-calendar-cell-size"; //$NON-NLS-1$
+	static final String CSS_R_C_HOLLY = "rich-calendar-holly"; //$NON-NLS-1$
+	static final String CSS_R_C_BOUNDARY_DATES = "rich-calendar-boundary-dates"; //$NON-NLS-1$
+	static final String CSS_R_C_BTN = "rich-calendar-btn"; //$NON-NLS-1$
+	static final String CSS_R_C_TODAY = "rich-calendar-today"; //$NON-NLS-1$
+	static final String CSS_R_C_SELECT = "rich-calendar-select"; //$NON-NLS-1$
+	static final String CSS_R_C_TOOLFOOTER = "rich-calendar-toolfooter"; //$NON-NLS-1$
+	static final String CSS_R_C_FOOTER = "rich-calendar-footer"; //$NON-NLS-1$
+	static final String CSS_R_C_HEADER_OPTIONAL = "rich-calendar-header-optional"; //$NON-NLS-1$
+	static final String CSS_R_C_FOOTER_OPTIONAL = "rich-calendar-footer-optional"; //$NON-NLS-1$
 	
 	private final static String WEEK_DAY_HTML_CLASS_ATTR = CSS_R_C_DAYS;
-	private final static String HOL_WEEK_DAY_HTML_CLASS_ATTR = CSS_R_C_DAYS + " " + CSS_R_C_WEEKENDS;
-	private final static String TODAY_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+ CSS_R_C_TODAY;
-	private final static String CUR_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL;
-	private final static String HOL_CUR_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+  CSS_R_C_HOLLY;
-	private final static String OTHER_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+  CSS_R_C_BOUNDARY_DATES;
-	private final static String HOL_OTHER_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+  CSS_R_C_HOLLY + " " + CSS_R_C_BOUNDARY_DATES ;
+	private final static String HOL_WEEK_DAY_HTML_CLASS_ATTR = CSS_R_C_DAYS + " " + CSS_R_C_WEEKENDS; //$NON-NLS-1$
+	private final static String TODAY_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+ CSS_R_C_TODAY; //$NON-NLS-1$ //$NON-NLS-2$
+	private final static String CUR_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL; //$NON-NLS-1$
+	private final static String HOL_CUR_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+  CSS_R_C_HOLLY; //$NON-NLS-1$ //$NON-NLS-2$
+	private final static String OTHER_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+  CSS_R_C_BOUNDARY_DATES; //$NON-NLS-1$ //$NON-NLS-2$
+	private final static String HOL_OTHER_MONTH_HTML_CLASS_ATTR = CSS_R_C_CELL_SIZE + " "+ CSS_R_C_CELL + " "+  CSS_R_C_HOLLY + " " + CSS_R_C_BOUNDARY_DATES ; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	
 	/*Attribute values*/
-	private static final String	DIRECTIONS_TOP_LEFT = "top-left";
-	private static final String	DIRECTIONS_TOP_RIGHT = "top-right";
-	private static final String	DIRECTIONS_BOTTOM_LEFT = "bottom-left";
-	private static final String	DIRECTIONS_BOTTOM_RIGHT = "bottom-right";
+	private static final String	DIRECTIONS_TOP_LEFT = "top-left"; //$NON-NLS-1$
+	private static final String	DIRECTIONS_TOP_RIGHT = "top-right"; //$NON-NLS-1$
+	private static final String	DIRECTIONS_BOTTOM_LEFT = "bottom-left"; //$NON-NLS-1$
+	private static final String	DIRECTIONS_BOTTOM_RIGHT = "bottom-right"; //$NON-NLS-1$
 	private static final int DIRECTIONS_TOP_LEFT_INT = 1;
 	private static final int	DIRECTIONS_TOP_RIGHT_INT = 2;
 	private static final int DIRECTIONS_BOTTOM_LEFT_INT = 3;
 	private static final int DIRECTIONS_BOTTOM_RIGHT_INT = 4;
 	
 	/*styles for direction table cells*/
-	private static final String STYLE_TOP_LEFT = "vertical-align: bottom; text-align: right;";
-	private static final String STYLE_TOP_RIGHT = "vertical-align: bottom; text-align: left;";
-	private static final String STYLE_BOTTOM_LEFT = "vertical-align: top; text-align: right;";
-	private static final String STYLE_BOTTOM_RIGHT = "vertical-align: top; text-align: left;";
+	private static final String STYLE_TOP_LEFT = "vertical-align: bottom; text-align: right;"; //$NON-NLS-1$
+	private static final String STYLE_TOP_RIGHT = "vertical-align: bottom; text-align: left;"; //$NON-NLS-1$
+	private static final String STYLE_BOTTOM_LEFT = "vertical-align: top; text-align: right;"; //$NON-NLS-1$
+	private static final String STYLE_BOTTOM_RIGHT = "vertical-align: top; text-align: left;"; //$NON-NLS-1$
 	
 	/*rich:calendar attributes*/
 	private String buttonLabel;
@@ -202,7 +202,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	readAttributes(sourceNode);
     	initCalendar();
 
-    	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "calendar");
+    	ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "calendar"); //$NON-NLS-1$
     	nsIDOMElement div = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_DIV);
     	
@@ -222,8 +222,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	
     	nsIDOMElement calendar;
     	nsIDOMElement calendarWithPopup;
-    	if ("false".equalsIgnoreCase(popup)) {
-    		if ("true".equalsIgnoreCase(disabled)) {
+    	if ("false".equalsIgnoreCase(popup)) { //$NON-NLS-1$
+    		if ("true".equalsIgnoreCase(disabled)) { //$NON-NLS-1$
     			calendar = visualDocument
     			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
     		} else {
@@ -298,8 +298,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     			nsIDOMElement hiddenDiv = visualDocument
     			.createElement(HtmlComponentUtil.HTML_TAG_DIV);
     			hiddenDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-    					HtmlComponentUtil.HTML_ATR_WIDTH + " : " + CALENDAR_WIDTH
-    					+ "px; overflow: hidden; display: none;");
+    					HtmlComponentUtil.HTML_ATR_WIDTH + " : " + CALENDAR_WIDTH //$NON-NLS-1$
+    					+ "px; overflow: hidden; display: none;"); //$NON-NLS-1$
 
     			nsIDOMElement hiddenTable = visualDocument
     			.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
@@ -346,7 +346,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
     	table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-    			HtmlComponentUtil.HTML_ATR_WIDTH + " : 100%");
+    			HtmlComponentUtil.HTML_ATR_WIDTH + " : 100%"); //$NON-NLS-1$
 
     	tr1.appendChild(td1_1);
     	tr1.appendChild(td1_2);
@@ -360,21 +360,21 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	int divWidth = CALENDAR_WIDTH + CALENDAR_IMAGE_WIDTH;
     	div.appendChild(table);
 
-    	if (!"false".equalsIgnoreCase(showInput)) {
+    	if (!Constants.FALSE.equalsIgnoreCase(showInput)) {
     		nsIDOMElement input = visualDocument
     		.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
     		input.setAttribute(HtmlComponentUtil.HTML_TYPE_ATTR, ATTRIBUTE_TEXT);
     		input.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_R_C_INPUT);
     		input.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-    				HtmlComponentUtil.HTML_ATR_WIDTH + " : "
-    				+ CALENDAR_INPUT_WIDTH + "px;");
+    				HtmlComponentUtil.HTML_ATR_WIDTH + " : " //$NON-NLS-1$
+    				+ CALENDAR_INPUT_WIDTH + "px;"); //$NON-NLS-1$
 
-    		if ("true".equals(enableManualInput)) {
-    			input.setAttribute(HtmlComponentUtil.HTML_READONLY_ATTR, "true");
-    		}
-    		if ("true".equals(disabled)) {
-    			input.setAttribute(HtmlComponentUtil.HTML_ATTR_DISABLED, "true");
-    		}
+    		if (Constants.TRUE.equals(enableManualInput)) {
+				input.setAttribute(HTML.ATTR_READONLY, Constants.TRUE);
+			}
+			if (Constants.TRUE.equals(disabled)) {
+				input.setAttribute(HTML.ATTR_DISABLED, Constants.TRUE);
+			}
     		
     		if (attrPresents(value)) {
     			input.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, value);
@@ -391,10 +391,10 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     				HtmlComponentUtil.HTML_TAG_BUTTON);
     		button.setAttribute(HtmlComponentUtil.HTML_VALUE_ATTR, buttonLabel);
     		button.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_R_C_BUTTON);
-    		if ("true".equalsIgnoreCase(disabled)) {
-    			button.setAttribute(HtmlComponentUtil.HTML_ATTR_DISABLED, "true");
+    		if ("true".equalsIgnoreCase(disabled)) { //$NON-NLS-1$
+    			button.setAttribute(HtmlComponentUtil.HTML_ATTR_DISABLED, "true"); //$NON-NLS-1$
     		}
-    		button.setAttribute(VPE_USER_TOGGLE_ID_ATTR, ""+showPopupCalendar);
+    		button.setAttribute(VPE_USER_TOGGLE_ID_ATTR, ""+showPopupCalendar); //$NON-NLS-1$
     		td1_2.appendChild(button);
     		divWidth = CALENDAR_WIDTH + CALENDAR_BUTTON_WIDTH;
     	} else {
@@ -409,12 +409,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     			ComponentUtil.setImg(image, BUTTON_IMG);
     			divWidth = CALENDAR_WIDTH + CALENDAR_IMAGE_WIDTH;
     		}
-    		image.setAttribute(VPE_USER_TOGGLE_ID_ATTR, ""+showPopupCalendar);
+    		image.setAttribute(VPE_USER_TOGGLE_ID_ATTR, ""+showPopupCalendar); //$NON-NLS-1$
     		td1_2.appendChild(image);
     	}
     	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-    			HtmlComponentUtil.HTML_ATR_WIDTH + " : " 
-    			+ divWidth + "px;  overflow: hidden;");
+    			HtmlComponentUtil.HTML_ATR_WIDTH + " : "  //$NON-NLS-1$
+    			+ divWidth + "px;  overflow: hidden;"); //$NON-NLS-1$
     	return div;
     }
 
@@ -454,14 +454,14 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	nsIDOMElement div = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_DIV);
     	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-    			HtmlComponentUtil.HTML_ATR_WIDTH + " : " + CALENDAR_WIDTH
-    			+ "px; overflow: hidden;");
+    			HtmlComponentUtil.HTML_ATR_WIDTH + " : " + CALENDAR_WIDTH //$NON-NLS-1$
+    			+ "px; overflow: hidden;"); //$NON-NLS-1$
 
     	nsIDOMElement table = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-    	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
-    	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
-    	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
+    	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0"); //$NON-NLS-1$
+    	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
+    	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0"); //$NON-NLS-1$
     	table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
     			CSS_R_C_EXTERIOR);
 
@@ -481,10 +481,10 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	nsIDOMElement calendarBody = createCalendarBody(visualDocument);
     	nsIDOMElement footer = null;
 
-    	if (!"false".equals(showHeader)) {
+    	if (!"false".equals(showHeader)) { //$NON-NLS-1$
     		header = createCalendarHeader(visualDocument);
     	}
-    	if (!"false".equals(showFooter)) {
+    	if (!"false".equals(showFooter)) { //$NON-NLS-1$
     		footer = createCalendarFooter(visualDocument);
     	}
 
@@ -524,7 +524,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		nsIDOMElement td = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN);
+		td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN); //$NON-NLS-1$
 		tr.appendChild(td);
 		
 		if (isHeader) {
@@ -549,10 +549,10 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
     	.createElement(HtmlComponentUtil.HTML_TAG_TR);
     	nsIDOMElement td = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_TD);
-    	td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN);
+    	td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN); //$NON-NLS-1$
 
     	String[] array;
-    	if ("false".equalsIgnoreCase(popup)) {
+    	if ("false".equalsIgnoreCase(popup)) { //$NON-NLS-1$
     		array = HEADER_CONTENT;
     	} else {
     		array = HEADER_CONTENT_ON_POPUP;
@@ -573,9 +573,9 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 
     	nsIDOMElement table = visualDocument
     	.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-    	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
-    	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
-    	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
+    	table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0"); //$NON-NLS-1$
+    	table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0"); //$NON-NLS-1$
+    	table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
     	table.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
 
     	nsIDOMElement tbody = visualDocument
@@ -594,8 +594,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 
     		// close tool
     		if (i == 5) {
-    			td1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, "0");
-    			td1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "cursor: pointer;");
+    			td1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, "0"); //$NON-NLS-1$
+    			td1.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "cursor: pointer;"); //$NON-NLS-1$
     		}
 
     		nsIDOMText text1 = visualDocument.createTextNode(array[i]);
@@ -622,12 +622,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		nsIDOMElement td = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN);
+		td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, "" + COLUMN); //$NON-NLS-1$
 		nsIDOMElement table = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0");
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
-		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
+		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0"); //$NON-NLS-1$
+		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0"); //$NON-NLS-1$
+		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
 		table.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH, FILL_WIDTH);
 
 		nsIDOMElement tr1 = visualDocument
@@ -640,7 +640,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		td1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				CSS_R_C_TOOLFOOTER);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
 		Calendar cal = getCalendarWithLocale();
 
 		nsIDOMText text1 = visualDocument.createTextNode(sdf.format(cal
@@ -662,14 +662,14 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 				HtmlComponentUtil.HTML_ALIGN_RIGHT_VALUE);
 
 		String nodeText;
-		if ("false".equalsIgnoreCase(showApplyButton)) {
-			if ("hidden".equalsIgnoreCase(todayControlMode)) {
-				nodeText = "";
+		if ("false".equalsIgnoreCase(showApplyButton)) { //$NON-NLS-1$
+			if ("hidden".equalsIgnoreCase(todayControlMode)) { //$NON-NLS-1$
+				nodeText = ""; //$NON-NLS-1$
 			} else {
 				nodeText = TODAY;
 			}
 		} else {
-			if ("hidden".equalsIgnoreCase(todayControlMode)) {
+			if ("hidden".equalsIgnoreCase(todayControlMode)) { //$NON-NLS-1$
 				nodeText = APPLY;
 			} else {
 				nodeText = TODAY + VERTICAL_SEPARATOR + APPLY;
@@ -702,16 +702,14 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 
 		Calendar cal1 = getCalendarWithLocale();
 
-		SimpleDateFormat wdf = new SimpleDateFormat("EE");
-
 		cal1.set(Calendar.WEEK_OF_MONTH, Calendar.SATURDAY);
 		
 		// Create week days row
-		if (!"false".equalsIgnoreCase(showWeekDaysBar)) {
+		if (!"false".equalsIgnoreCase(showWeekDaysBar)) { //$NON-NLS-1$
 			for (int i = 0; i < COLUMN; i++) {
 				nsIDOMElement td = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
-				if ((i == 0) && (!"false".equalsIgnoreCase(showWeeksBar))) {
+				if ((i == 0) && (!"false".equalsIgnoreCase(showWeeksBar))) { //$NON-NLS-1$
 					td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 							WEEK_DAY_HTML_CLASS_ATTR);
 					nsIDOMElement br = visualDocument
@@ -726,7 +724,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 						td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 								WEEK_DAY_HTML_CLASS_ATTR);
 					}
-					nsIDOMText text = visualDocument.createTextNode(i == 0 ? ""
+					nsIDOMText text = visualDocument.createTextNode(i == 0 ? "" //$NON-NLS-1$
 							: weeks[i - 1]);
 					td.appendChild(text);
 					bodyTR.appendChild(td);
@@ -754,13 +752,13 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 			nsIDOMElement tr = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TR);
 
-			if (!"false".equalsIgnoreCase(showWeeksBar)) {
+			if (!"false".equalsIgnoreCase(showWeeksBar)) { //$NON-NLS-1$
 				// Week in year
 				nsIDOMElement weekTD = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TD);
 				weekTD.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 						CSS_R_C_WEEK);
-				nsIDOMText weekText = visualDocument.createTextNode(""
+				nsIDOMText weekText = visualDocument.createTextNode("" //$NON-NLS-1$
 						+ cal.get(Calendar.WEEK_OF_YEAR));
 				weekTD.appendChild(weekText);
 				tr.appendChild(weekTD);
@@ -773,7 +771,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 				nsIDOMElement td = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
-				String currentAttr = "";
+				String currentAttr = ""; //$NON-NLS-1$
 
 				int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
@@ -808,18 +806,18 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, currentAttr);
 				if (attrPresents(cellWidth) && attrPresents(cellHeight)) {
 					td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-							HtmlComponentUtil.HTML_ATR_WIDTH + ":" + cellWidth
-									+ "px;" + HtmlComponentUtil.HTML_ATR_HEIGHT
-									+ ":" + cellHeight + "px;");
+							HtmlComponentUtil.HTML_ATR_WIDTH + ":" + cellWidth //$NON-NLS-1$
+									+ "px;" + HtmlComponentUtil.HTML_ATR_HEIGHT //$NON-NLS-1$
+									+ ":" + cellHeight + "px;"); //$NON-NLS-1$ //$NON-NLS-2$
 				} else if (attrPresents(cellWidth)) {
 					td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
-							HtmlComponentUtil.HTML_ATR_WIDTH +":" + cellWidth + "px;");
+							HtmlComponentUtil.HTML_ATR_WIDTH +":" + cellWidth + "px;"); //$NON-NLS-1$ //$NON-NLS-2$
 				} else if (attrPresents(cellHeight)) {
 					td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
-							HtmlComponentUtil.HTML_ATR_HEIGHT+":" + cellHeight + "px;");
+							HtmlComponentUtil.HTML_ATR_HEIGHT+":" + cellHeight + "px;"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				
-				nsIDOMText text = visualDocument.createTextNode(""
+				nsIDOMText text = visualDocument.createTextNode("" //$NON-NLS-1$
 						+ cal.get(Calendar.DAY_OF_MONTH));
 				td.appendChild(text);
 				tr.appendChild(td);
@@ -843,7 +841,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		visualNode, data, name, value);
 	if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_VALUE_ATTR)) {
 	    String popup = sourceElement.getAttribute(POPUP);
-	    if (popup != null && popup.equalsIgnoreCase("false"))
+	    if (popup != null && popup.equalsIgnoreCase("false")) //$NON-NLS-1$
 		return;
 	    nsIDOMElement element = (nsIDOMElement) visualNode
 		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
@@ -867,7 +865,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 		visualNode, data, name);
 	if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_VALUE_ATTR)) {
 	    String popup = sourceElement.getAttribute(POPUP);
-	    if (popup != null && popup.equalsIgnoreCase("false"))
+	    if (popup != null && popup.equalsIgnoreCase("false")) //$NON-NLS-1$
 		return;
 	    nsIDOMElement element = (nsIDOMElement) visualNode
 		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
@@ -917,7 +915,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
      * @return true, if successful
      */
     private boolean attrPresents(String attr) {
-		return ((null != attr) && (!"".equals(attr)));
+		return ((null != attr) && (!"".equals(attr))); //$NON-NLS-1$
 	}
 
 	/**
@@ -931,8 +929,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("EE");
-		String dayOfWeek = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("EE"); //$NON-NLS-1$
+		String dayOfWeek = ""; //$NON-NLS-1$
 		for (int i = 0; i < NUM_DAYS_IN_WEEK; i++) {
 			dayOfWeek = sdf.format(cal.getTime());
 			weeks[i] = dayOfWeek;
@@ -964,7 +962,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 			return Locale.getDefault();
 		}
 		// Lookup index of first '_' in string locale representation.
-		int index1 = localeStr.indexOf("_");
+		int index1 = localeStr.indexOf("_"); //$NON-NLS-1$
 		// Get first charters (if exist) from string
 		String language = null;
 		if (index1 != -1) {
@@ -973,7 +971,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements Vp
 			return new Locale(localeStr);
 		}
 		// Lookup index of second '_' in string locale representation.
-		int index2 = localeStr.indexOf("_", index1 + 1);
+		int index2 = localeStr.indexOf("_", index1 + 1); //$NON-NLS-1$
 		String country = null;
 		if (index2 != -1) {
 			country = localeStr.substring(index1 + 1, index2);

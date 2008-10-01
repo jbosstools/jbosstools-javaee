@@ -34,186 +34,186 @@ public class RichFacesComponentTest extends VpeTest {
     public void testAllComponentsOnSinglePage() throws PartInitException,
 	    Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/richFacesTest.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/richFacesTest.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testCalendar() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/calendar.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/calendar.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataDefinitionList() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataDefinitionList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataDefinitionList.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataFilterSlider() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataFilterSlider.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataFilterSlider.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataGrid() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataGrid.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataGrid.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataList() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataList.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataOrderedList() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataOrderedList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataOrderedList.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataScroller() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataScroller.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataScroller.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataTable() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataTable.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dataTable.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDragAndDrop() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dragAndDrop.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dragAndDrop.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDropDawnMenu() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dropDawnMenu.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/dropDawnMenu.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testEffect() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/effect.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/effect.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testGoogleMap() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/googleMap.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/googleMap.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testInputNumberSlider() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/inputNumberSlider.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/inputNumberSlider.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testInputNumberSpinner() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/inputNumberSpinner.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/inputNumberSpinner.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testInsert() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/insert.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/insert.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testMessage() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/message.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/message.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testMessages() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/messages.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/messages.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testModalPanel() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/modalPanel.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/modalPanel.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testOrderingList() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/orderingList.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/orderingList.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testPaint2D() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/paint2D.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/paint2D.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testPanel() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/panel.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/panel.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testPanelBar() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/panelBar.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/panelBar.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testPanelMenu() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/panelMenu.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/panelMenu.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testScrollableDataTable() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/scrollableDataTable.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/scrollableDataTable.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testSeparator() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/separator.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/separator.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testSimpleTogglePanel() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/simpleTogglePanel.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/simpleTogglePanel.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testSpacer() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/spacer.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/spacer.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testSuggestionBox() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/suggestionbox.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/suggestionbox.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testTabPanel() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/tabPanel.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/tabPanel.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testTogglePanel() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/togglePanel.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/togglePanel.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testToolBar() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/toolBar.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/toolBar.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testTree() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/tree.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/tree.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testVirtualEarth() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/virtualEarth.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/virtualEarth.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testComponentControl() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/componentControl.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/componentControl.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testContextMenu() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/contextMenu.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/contextMenu.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
     
     public void testListShuttle() throws Throwable {
 		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-				"components/listShuttle.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+				"components/listShuttle.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 }
