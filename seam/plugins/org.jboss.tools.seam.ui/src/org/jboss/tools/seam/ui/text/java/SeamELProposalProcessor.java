@@ -54,6 +54,10 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor;
 import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.model.ELUtil;
+import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
@@ -350,7 +354,20 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			//     If we need CA for expressions/variables without #{}, it should be handled separately.
 
 			SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+
+			//TODO refactor method checkStartPositionInEL
+			boolean isInEl = checkStartPositionInEL(viewer, offset);
 			String prefix= engine.getPrefix(viewer, offset, start, end);
+
+			if(isInEl && (prefix == null || prefix.length() == 0)) {
+				String el = viewer.getDocument().get().substring(start, offset) + "a";
+				ELModel model = engine.getParserFactory().createParser().parse(el);
+				ELInvocationExpression expr = ELUtil.findExpression(model, el.length());
+				if(expr == null) {
+					return NO_PROPOSALS;
+				}
+			}
+			
 			prefix = (prefix == null ? "" : prefix); //$NON-NLS-1$
 
 			String proposalPrefix = "";
@@ -358,7 +375,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			String elStartChar = "#";
 			String documentContent = null;
 			IDocument document = viewer.getDocument();
-			if (!checkStartPositionInEL(viewer, offset)) {
+			if (!isInEl) {
 				// Work only with attribute value for JSP/HTML
 				if((part instanceof XMLTextEditor) || (!isAttributeValue(viewer, offset))) {
 					return NO_PROPOSALS;
