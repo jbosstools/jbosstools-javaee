@@ -901,7 +901,7 @@
                     </mediaobject>
                 </figure>
                 
-                <para>Here is what the <property>Template dialog</property> looks like.</para>
+                <para id="template_dialog">Here is what the <property>Template dialog</property> looks like.</para>
                 
                 <figure>
                     <title>Template Dialog</title>
