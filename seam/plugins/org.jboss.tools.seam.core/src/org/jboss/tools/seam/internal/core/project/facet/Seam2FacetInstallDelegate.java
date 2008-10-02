@@ -251,7 +251,6 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
 		ClasspathHelper.addClasspathEntries(project, fv);
 
-		// TODO
 		createSeamProjectPreferenes(project, model);
 
 		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);

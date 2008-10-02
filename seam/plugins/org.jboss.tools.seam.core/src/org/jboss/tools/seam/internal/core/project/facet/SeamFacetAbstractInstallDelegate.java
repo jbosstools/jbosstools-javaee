@@ -296,14 +296,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		prefs.put(SESSION_BEAN_PACKAGE_NAME, model.getProperty(SESSION_BEAN_PACKAGE_NAME).toString());
 		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
 		prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());
-		prefs.put(TEST_CREATING, "true");
-
-		String testSrcPath = project.getFullPath().removeLastSegments(1).append(project.getName() + "-test").append("test-src").toString();
-		prefs.put(TEST_SOURCE_FOLDER, testSrcPath);
-
-		prefs.put(SEAM_TEST_PROJECT, 
-				model.getProperty(SEAM_TEST_PROJECT)==null?
-						"":model.getProperty(SEAM_TEST_PROJECT).toString()); //$NON-NLS-1$
+		prefs.put(TEST_CREATING, "false");
+		prefs.put(SEAM_TEST_PROJECT, project.getName());
 
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		IVirtualFolder rootFolder = component.getRootFolder();
@@ -311,24 +305,15 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		String webRootFolderPath = webRootFolder.getFullPath().toString();
 		prefs.put(WEB_CONTENTS_FOLDER, webRootFolderPath);
 
-		if(DEPLOY_AS_EAR.equals(model.getProperty(JBOSS_AS_DEPLOY_AS))) {
-			prefs.put(SEAM_EJB_PROJECT, 
-					model.getProperty(SEAM_EJB_PROJECT)==null? 
-						"":model.getProperty(SEAM_EJB_PROJECT).toString()); //$NON-NLS-1$
+		IPath srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
 
-			prefs.put(SEAM_EAR_PROJECT, 
-					model.getProperty(SEAM_EAR_PROJECT)==null? 
-						"":model.getProperty(SEAM_EAR_PROJECT).toString()); //$NON-NLS-1$
-
-			String srcPath = project.getFullPath().removeLastSegments(1).append(project.getName() + "-ejb").append("ejbModule").toString();
-			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcPath);
-			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcPath);
-		} else {
-			IPath srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
-
-			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.append("model").toString());
-			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.append("action").toString());
+		if(!isWarConfiguration(model)) {
+			prefs.put(SEAM_EJB_PROJECT, project.getName());
+			prefs.put(SEAM_EAR_PROJECT, project.getName());
 		}
+		prefs.put(ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.toString());
+		prefs.put(SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.toString());
+		prefs.put(TEST_SOURCE_FOLDER, srcRootFolder.toString());
 
 		try {
 			prefs.flush();
