@@ -264,7 +264,7 @@ public class SeamELValidator extends SeamValidator {
 				for (SyntaxError error: errors) {
 					//TODO 1) make message more informative
 					//     2) create other preference 
-					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{}, 1, offset + error.getPosition(), file);
+					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
 				}
 				
 			}
@@ -335,21 +335,14 @@ public class SeamELValidator extends SeamValidator {
 					ELInvocationExpression ts = status.getUnresolvedTokens();
 					
 					varName = ts.getMemberName();
+					if(varName == null) {
+						//This is syntax error case. Reported by parser.
+						return;						
+					}
 					offsetOfVarName = documnetOffset + ts.getInvocationStartPosition();
-					lengthOfVarName = varName.length();
-					unresolvedTokenIsVariable = true; //TODO
+					lengthOfVarName = varName == null ? 0 : varName.length();
+					unresolvedTokenIsVariable = true;
 
-//					List<ELOperandToken> tokens = status.getUnresolvedTokens();
-//
-//					for (ELOperandToken token : tokens) {
-//						if((token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_PROPERTY_NAME_TOKEN) || (token.getType()==ELOperandToken.EL_METHOD_TOKEN)) {
-//							varName = token.getText();
-//							offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart() + token.getStart();
-//							lengthOfVarName = varName.length();
-//							unresolvedTokenIsVariable = (token.getType()==ELOperandToken.EL_VARIABLE_NAME_TOKEN);
-//							break;
-//						}
-//					}
 				}
 			}
 		} catch (BadLocationException e) {

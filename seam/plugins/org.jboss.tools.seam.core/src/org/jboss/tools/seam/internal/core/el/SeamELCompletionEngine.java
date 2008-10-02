@@ -74,25 +74,6 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 
 	/**
 	 * Create the array of suggestions. 
-	 * 
-	 * @param project Seam project 
-	 * @param file File 
-	 * @param document 
-	 * @param prefix the prefix to search for
-	 * @param position Offset of the prefix
-	 * @param vars - 'var' attributes which can be used in this EL 
-	 * @param start  start of relevant region in document
-	 * @param end    end of relevant region in document
-	 * @return the list of all possible suggestions
-	 * @throws BadLocationException if accessing the current document fails
-	 */
-	public List<String> getCompletions(IFile file, IDocument document, CharSequence prefix, 
-			int position, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
-		return getCompletions(file, document, prefix, position, false, vars, start, end);
-	}
-
-	/**
-	 * Create the array of suggestions. 
 	 * @param project Seam project 
 	 * @param file File 
 	 * @param documentContent
@@ -119,9 +100,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<String> completions = new ArrayList<String>();
 		
-		String prefix2 = getPrefix(document, position + prefix.length(), start, end);
-
-		ELOperandResolveStatus status = resolveELOperand(file, parseOperand(prefix2), returnEqualedVariablesOnly, vars, new ElVarSearcher(file, this));
+		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, vars, new ElVarSearcher(file, this));
 		if (status.isOK()) {
 			completions.addAll(status.getProposals());
 		}
