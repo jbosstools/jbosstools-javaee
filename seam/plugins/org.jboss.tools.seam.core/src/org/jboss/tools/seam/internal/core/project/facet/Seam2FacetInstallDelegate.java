@@ -176,7 +176,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			AntCopyUtils.copyFilesAndFolders(
 					seamGenResFolder,srcFolder,new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, true);
 
-			createComponentsProperties(srcFolder, isWarConfiguration(model)?"":project.getName()+"-ear", false); //$NON-NLS-1$ //$NON-NLS-2$
+			createComponentsProperties(srcFolder, "", false); //$NON-NLS-1$ //$NON-NLS-2$
 
 			/*AntCopyUtils.copyFileToFolder(
 					hibernateConsolePref,
