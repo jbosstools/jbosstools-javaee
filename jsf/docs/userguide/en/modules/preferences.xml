@@ -344,8 +344,8 @@
         <para><emphasis>
                 <property>JBoss Tools &gt; Web &gt; Editors &gt; Visual Page
                 Editor</property>
-            </emphasis> screen allows you to control some aspects of the behavior of the Visual Page
-            Editor (VPE) for JSP files. Also you can define a default editor tab.</para>
+            </emphasis> screen allows you to control some aspects of the behavior of the
+                <property>Visual Page Editor</property> (VPE) for JSF/HTML files.</para>
         <figure>
             <title>Visual Page Editor</title>
             <mediaobject>
@@ -354,7 +354,90 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>On the Templates tab you can edit or remove VPE templates.</para>
+
+        <para>The next table lists the possible settings that you can adjust on the
+                <property>General tab</property> of the VPE Preferences page.</para>
+
+
+        <table>
+
+            <title>VPE Preferences</title>
+            <tgroup cols="3">
+
+                <colspec colnum="1" align="left" colwidth="2*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                <colspec colnum="3" colwidth="2*"/>
+
+                <thead>
+                    <row>
+                        <entry>Option</entry>
+                        <entry>Description</entry>
+                        <entry>Default</entry>
+                    </row>
+                </thead>
+
+                <tbody>
+                    <row>
+                        <entry>Show Border for Unknown Tags</entry>
+                        <entry>The option allows to place the border around unknown tags or undo
+                            this</entry>
+                        <entry>On</entry>
+                    </row>
+
+                    <row>
+                        <entry>Show Non-Visual Tags</entry>
+                        <entry>Check this box, if you want the editor shows non-visual elements on
+                            the page you're editing</entry>
+                        <entry>Off</entry>
+                    </row>
+
+                    <row>
+                        <entry>Show Resource Bundles Usage as EL Expressions </entry>
+                        <entry>If the option is checked, the editor will show EL expressions instead
+                            of the resource values</entry>
+                        <entry>Off</entry>
+                    </row>
+
+                    <row>
+                        <entry>Always Prompts for Tag Attributes During Tag Insert </entry>
+                        <entry>Having this option off, the dialog with possible attributes for
+                            inserting tag won't appear if all its attributes are optional</entry>
+                        <entry>On</entry>
+                    </row>
+
+                    <row>
+                        <entry>Show Selection Tag Bar</entry>
+                        <entry>This option allows to show or hide the Selection Bar</entry>
+                        <entry>On</entry>
+                    </row>
+
+                    <row>
+                        <entry>Always Hide Selection Bar Without Prompt</entry>
+                        <entry>Check this box if you don&apos;t want the confirmation window
+                            appears when closing the Selection Bar</entry>
+                        <entry>Off</entry>
+                    </row>
+
+                    <row>
+                        <entry>Default Editor Tab</entry>
+                        <entry>The option provides with a possibility to choose one of the following
+                            views - Visual/Source, Source or Preview, as default when opening the
+                            editor</entry>
+                        <entry>Visual/Source</entry>
+                    </row>
+
+                    <row>
+                        <entry>Size of Visual Editor Pane 0 – 100% </entry>
+                        <entry>With the help of this scroll bar you can adjust the percentage rating
+                            between the Source and Visual modes of the Visual/Source view</entry>
+                        <entry>50%</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+
+        <para>On the <property>Templates tab</property> you can edit or remove <link
+                linkend="vpe_templating">VPE templates</link>.</para>
         <figure>
             <title>Visual Page Editor Templates</title>
             <mediaobject>
@@ -366,7 +449,7 @@
 
         <para>Select a template for editing from the available list and press <emphasis>
                 <property>Edit</property>
-            </emphasis> button. It will pick up the <link linkend="vpe_templating">Template
+            </emphasis> button. It will pick up the <link linkend="template_dialog">Template
             dialog</link> where you can adjust new settings.</para>
     </section>
 
