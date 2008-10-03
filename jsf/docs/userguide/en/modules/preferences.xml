@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="preferences" xreflabel="preferences" role="updated">
+<chapter id="preferences" xreflabel="preferences">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
 
@@ -527,10 +527,9 @@
 
     <section id="JSFPage">
         <?dbhtml filename="JSF Page.html"?>
-        <title>JSF Page</title>
+        <title>JSF Pages</title>
         <para>By selecting <emphasis>
-                <property>JBoss Tools &gt; Web &gt; JSF &gt; &gt; JSF
-                Pages</property>
+                <property>JBoss Tools &gt; Web &gt; JSF &gt; JSF Pages</property>
             </emphasis> you can add jsf pages or remove existing ones.</para>
         <figure>
             <title>JSF Page</title>
@@ -544,26 +543,70 @@
 
     <section id="JSFPropject">
         <?dbhtml filename="JSFPropject.html"?>
-        <title>JSF Propject</title>
+        <title>JSF Project</title>
         <para>Select <emphasis>
                 <property>JBoss Tools > Web > JSF > Project</property>
-            </emphasis> to see JSF Project preference page.</para>
-        <para>On <emphasis>
-                <property>Project</property>
-            </emphasis> panel you define a template for a new created project: servlet version, page
-            template and so on.</para>
+            </emphasis> to see JSF Project preferences page.</para>
+        <para>On the <emphasis>
+                <property>New Project</property>
+            </emphasis> tab you can set default values for <ulink
+                url=" &jsfreflink;#new_jsf_project">New JSF Project</ulink> wizard:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para><emphasis>
+                        <property>Version</property>
+                    </emphasis> for setting the default JSF Environment</para>
+            </listitem>
+
+            <listitem>
+                <para><emphasis>
+                        <property>Project Template</property>
+                    </emphasis> so as <property>New JSF
+                        Project wizard</property> shows this template as default for the chosen JSF
+                    Environment</para>
+            </listitem>
+
+            <listitem>
+                <para><emphasis>
+                        <property>Project Root</property>
+                    </emphasis> for specifying default location for a new JSF project</para>
+                <para>If you check <emphasis>
+                        <property>Use Default Path</property>
+                    </emphasis> here, this box will be also checked in the <property>New JSF Project
+                wizard</property>.</para>
+            </listitem>
+
+            <listitem>
+                <para><emphasis>
+                        <property>Servlet Version</property>
+                    </emphasis> for setting the default Servlet version of a new JSF project</para>
+                <para>Here it&apos;s also possible to define whether to register Web Context in <emphasis>
+                        <property>server.xml</property>
+                    </emphasis> while organizing a new project or not. Check the proper box in order
+                    to do that.</para>
+            </listitem>
+        </itemizedlist>
+
         <figure>
-            <title>JSF Propject</title>
+            <title>New JSF Propject Preferences</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_13.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>Selecting the Import Project tab in the JSF Project screen allows you to determine the
-            default servlet version and whether to register Web Context in server.xml.</para>
+
+        <para>On the <emphasis>
+                <property>Import Project</property>
+            </emphasis> tab in the JSF Project screen you can determine the default Servlet version
+            for the <ulink url=" &migrationlink;#import_jsf_screen">Import JSF Project</ulink>
+            wizard and also whether to register Web Context in <emphasis>
+                <property>server.xml</property>
+            </emphasis> or not.</para>
+
         <figure>
-            <title>Import JSF Propject</title>
+            <title>Import JSF Propject Preferences</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_14.png"/>
@@ -579,6 +622,7 @@
                 <property>JBoss Tools > Web > Editors > JSF Flow Diagram</property>
             </emphasis> allows you to specify some aspects of the Diagram mode of the JSF
             configuration file editor.</para>
+
         <figure>
             <title>JSF Flow Diagram</title>
             <mediaobject>
@@ -587,11 +631,13 @@
                 </imageobject>
             </mediaobject>
         </figure>
+
         <para>The first two items control the background grid for the diagram. The next two items
             allow you to control the appearance of the labels for views (pages) and the transitions
             between views. For these two items, clicking the <emphasis>
                 <property>Change... </property>
             </emphasis>button allows you to assign a font with a dialog box.</para>
+
         <para>The first check box determines whether a view in the diagram that doesn't have a
             transition connecting it to another view yet should be written to the source code as a
             partial navigation rule. The next check box determines whether the diagram cursor
