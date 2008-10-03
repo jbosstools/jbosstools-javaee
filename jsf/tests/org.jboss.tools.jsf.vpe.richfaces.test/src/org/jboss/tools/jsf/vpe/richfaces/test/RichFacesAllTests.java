@@ -26,6 +26,7 @@ import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1580Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1614Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1639Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1682Test;
+import org.jboss.tools.jsf.vpe.richfaces.test.jbide.RichFacesJBIDE1169Test;
 import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
@@ -53,6 +54,7 @@ public class RichFacesAllTests {
 		suite.addTestSuite(Jbide1682Test.class);
 		suite.addTestSuite(Jbide1548Test.class);
 		suite.addTestSuite(JBIDE1713Test.class);
+		suite.addTestSuite(RichFacesJBIDE1169Test.class);
 		suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
 		suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
 		suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
