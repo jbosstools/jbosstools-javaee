@@ -562,9 +562,8 @@
             <listitem>
                 <para><emphasis>
                         <property>Project Template</property>
-                    </emphasis> so as <property>New JSF
-                        Project wizard</property> shows this template as default for the chosen JSF
-                    Environment</para>
+                    </emphasis> so as <property>New JSF Project wizard</property> shows this
+                    template as default for the chosen JSF Environment</para>
             </listitem>
 
             <listitem>
@@ -574,7 +573,7 @@
                 <para>If you check <emphasis>
                         <property>Use Default Path</property>
                     </emphasis> here, this box will be also checked in the <property>New JSF Project
-                wizard</property>.</para>
+                        wizard</property>.</para>
             </listitem>
 
             <listitem>
@@ -1141,4 +1140,15 @@
         </figure>
     </section>
     -->
+
+    <para>In summary, this document should guide you to those parts of <property>JBoss
+        Tools</property> which you specifically need to develop Web Applications. It coves different
+        aspects of visual components such as editors, views, etc. for browsing, representing and
+        editing web resources you are working with.</para>
+
+    <para>If there&apos;s anything we didn&apos;t cover or you can&apos;t figure out,
+        please feel free to visit our <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss
+            Developer Studio Forum</ulink> to ask questions. There we are also looking for your
+        suggestions and comments.</para>
 </chapter>
