@@ -60,7 +60,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jsf-facelets\\.jar") //$NON-NLS-1$
 		.include("oscache.*\\.jar") //$NON-NLS-1$
 		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
-	    .include("mvel14.jar") //$NON-NLS-1$
+	    .include("mvel.*\\.jar") //$NON-NLS-1$
 	    .include("jboss-el.jar"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 

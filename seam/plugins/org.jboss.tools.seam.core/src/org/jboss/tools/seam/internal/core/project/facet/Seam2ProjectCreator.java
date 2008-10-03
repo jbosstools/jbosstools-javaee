@@ -54,7 +54,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
 		.include("jboss-seam.jar") //$NON-NLS-1$
 		.include("jboss-el.*.jar") //$NON-NLS-1$
-		.include("mvel14.*.jar") //$NON-NLS-1$
+		.include("mvel.*\\.jar") //$NON-NLS-1$
 		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
 		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
 
