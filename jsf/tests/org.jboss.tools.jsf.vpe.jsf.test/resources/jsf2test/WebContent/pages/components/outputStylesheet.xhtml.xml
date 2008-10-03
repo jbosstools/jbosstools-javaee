@@ -1,0 +1,12 @@
+<tests>
+	<test id="outputStylesheetRed">
+		<style>
+			span {    color: red;}
+		</style>
+	</test>
+	<test id="outputStylesheetBlue">
+		<style>
+			span {    color: blue;}
+		</style>
+	</test>
+</tests>

@@ -1,0 +1,9 @@
+<tests>
+	<test id="body1">
+		<div>
+			<span>
+				JSF 2.0 Test
+			</span>
+		</div>
+	</test>
+</tests>

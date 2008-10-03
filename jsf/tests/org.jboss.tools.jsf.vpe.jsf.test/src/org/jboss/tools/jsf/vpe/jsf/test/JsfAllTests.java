@@ -66,6 +66,7 @@ public class JsfAllTests {
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$ //$NON-NLS-1$
 		// $JUnit-BEGIN$
 		suite.addTestSuite(JsfComponentTest.class);
+		suite.addTestSuite(Jsf20ComponentContentTest.class);
 		suite.addTestSuite(JsfJbide1467Test.class);
 		suite.addTestSuite(JsfJbide1501Test.class);
 		suite.addTestSuite(JBIDE1484Test.class);
@@ -103,10 +104,15 @@ public class JsfAllTests {
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests
 		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
-		ImportBean importBean = new ImportBean();
-		importBean.setImportProjectName(JsfAllTests.IMPORT_PROJECT_NAME);
-		importBean.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(importBean);
+		ImportBean importBeanJsf1 = new ImportBean();
+		importBeanJsf1.setImportProjectName(JsfAllTests.IMPORT_PROJECT_NAME);
+		importBeanJsf1.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(importBeanJsf1);
+		
+		ImportBean importBeanJsf20 = new ImportBean();
+		importBeanJsf20.setImportProjectName(Jsf20AllTests.IMPORT_PROJECT_NAME);
+		importBeanJsf20.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(importBeanJsf20);
 
 		return new VpeTestSetup(suite, projectToImport);
 

@@ -1,0 +1,7 @@
+<tests>
+	<test id="head1">
+		<div>
+			<h1>JSF 2.0 Test</h1>
+		</div>
+	</test>
+</tests>
