@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -22,7 +23,6 @@ import org.mozilla.interfaces.nsIDOMNode;
  *
  */
 public class Jbide1682Test extends VpeTest {
-	public static final String IMPORT_PROJECT_NAME = "richFacesTest";
 
 	public static final String TEST_PAGE_WITH_POPUP = "JBIDE/1682/JBIDE-1682-with-popup.xhtml";
 	public static final String TEST_PAGE_WITHOUT_POPUP = "JBIDE/1682/JBIDE-1682-without-popup.xhtml";
@@ -39,7 +39,7 @@ public class Jbide1682Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_WITH_POPUP, IMPORT_PROJECT_NAME);
+				TEST_PAGE_WITH_POPUP, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);
@@ -82,7 +82,7 @@ public class Jbide1682Test extends VpeTest {
 		
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_WITHOUT_POPUP, IMPORT_PROJECT_NAME);
+				TEST_PAGE_WITHOUT_POPUP, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);

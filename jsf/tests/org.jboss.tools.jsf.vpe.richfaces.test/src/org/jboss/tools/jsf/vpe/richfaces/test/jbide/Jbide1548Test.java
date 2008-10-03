@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -39,9 +40,6 @@ public class Jbide1548Test extends VpeTest {
 	// type of input tag
 
 	// import project name
-
-	public static final String IMPORT_PROJECT_NAME = "richFacesTest";
-
 	public Jbide1548Test(String name) {
 		super(name);
 	}
@@ -59,7 +57,7 @@ public class Jbide1548Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1548/JBIDE-1548.xhtml", IMPORT_PROJECT_NAME);
+				"JBIDE/1548/JBIDE-1548.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);

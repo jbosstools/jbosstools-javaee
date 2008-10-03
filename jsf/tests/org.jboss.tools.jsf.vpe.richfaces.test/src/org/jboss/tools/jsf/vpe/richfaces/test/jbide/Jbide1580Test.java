@@ -19,6 +19,7 @@ import junit.framework.Assert;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -34,8 +35,6 @@ import org.mozilla.interfaces.nsIDOMNode;
  * 
  */
 public class Jbide1580Test extends VpeTest {
-
-	public static final String IMPORT_PROJECT_NAME = "richFacesTest";
 
 	public static final String FILE_NAME1 = "JBIDE/1580/JBIDE-1580-8button.xhtml";
 	public static final String FILE_NAME2 = "JBIDE/1580/JBIDE-1580-4button.xhtml";
@@ -53,7 +52,7 @@ public class Jbide1580Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME1,
-				IMPORT_PROJECT_NAME);
+				RichFacesAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -95,7 +94,7 @@ public class Jbide1580Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME2,
-				IMPORT_PROJECT_NAME);
+				RichFacesAllTests.IMPORT_PROJECT_NAME);
 
 		IEditorInput input = new FileEditorInput(file);
 

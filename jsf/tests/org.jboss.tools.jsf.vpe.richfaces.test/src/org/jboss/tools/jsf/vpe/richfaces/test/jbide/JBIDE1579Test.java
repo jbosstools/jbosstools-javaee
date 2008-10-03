@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -16,8 +17,6 @@ import org.mozilla.interfaces.nsIDOMNode;
 
 public class JBIDE1579Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "richFacesTest";
-	
 	private static final String TEST_PAGE_NAME_2BUTTONS = "JBIDE/1579/JBIDE-1579-2buttons.xhtml";
 	private static final String TEST_PAGE_NAME_4BUTTONS = "JBIDE/1579/JBIDE-1579-4buttons.xhtml";
 
@@ -33,7 +32,7 @@ public class JBIDE1579Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_NAME_2BUTTONS, IMPORT_PROJECT_NAME);
+				TEST_PAGE_NAME_2BUTTONS, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);
@@ -71,7 +70,7 @@ public class JBIDE1579Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_NAME_4BUTTONS, IMPORT_PROJECT_NAME);
+				TEST_PAGE_NAME_4BUTTONS, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
 		assertNotNull("Could not open specified file " + file.getFullPath(),
 				file);

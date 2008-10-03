@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
-import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesComponentTest;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
