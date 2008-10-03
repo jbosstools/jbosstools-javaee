@@ -52,6 +52,6 @@ public class Jsf20ComponentContentTest extends ComponentContentTest {
 	}
 	
 	protected String getTestProjectName() {
-		return Jsf20AllTests.IMPORT_PROJECT_NAME;
+		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
 	}
 }

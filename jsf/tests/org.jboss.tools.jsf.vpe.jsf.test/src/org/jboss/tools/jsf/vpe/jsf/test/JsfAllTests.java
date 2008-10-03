@@ -60,10 +60,11 @@ import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 public class JsfAllTests {
 
 	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
+	public static final String IMPORT_JSF_20_PROJECT_NAME = "jsf2Test"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
-		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$ //$NON-NLS-1$
+		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$
 		// $JUnit-BEGIN$
 		suite.addTestSuite(JsfComponentTest.class);
 		suite.addTestSuite(Jsf20ComponentContentTest.class);
@@ -110,7 +111,7 @@ public class JsfAllTests {
 		projectToImport.add(importBeanJsf1);
 		
 		ImportBean importBeanJsf20 = new ImportBean();
-		importBeanJsf20.setImportProjectName(Jsf20AllTests.IMPORT_PROJECT_NAME);
+		importBeanJsf20.setImportProjectName(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
 		importBeanJsf20.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(importBeanJsf20);
 
