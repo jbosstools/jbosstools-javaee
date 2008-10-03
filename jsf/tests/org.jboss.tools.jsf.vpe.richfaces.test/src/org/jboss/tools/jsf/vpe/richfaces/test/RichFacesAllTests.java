@@ -41,7 +41,7 @@ public class RichFacesAllTests {
 	public static final String IMPORT_PROJECT_NAME = "richFacesTest"; //$NON-NLS-1$
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON
+		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON //$NON-NLS-1$
 		// $JUnit-BEGIN$
 
 		suite.addTestSuite(RichFacesComponentTest.class);

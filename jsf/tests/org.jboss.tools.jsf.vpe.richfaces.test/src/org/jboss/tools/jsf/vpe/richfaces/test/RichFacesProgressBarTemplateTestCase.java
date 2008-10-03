@@ -76,7 +76,7 @@ public class RichFacesProgressBarTemplateTestCase extends VpeTest {
         nsIDOMElement rst = null;
 
         try {
-            rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page, RichFacesComponentTest.IMPORT_PROJECT_NAME));
+            rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page, RichFacesAllTests.IMPORT_PROJECT_NAME));
         } catch (CoreException e) {
             fail(e.getMessage() + e);
         } catch (Throwable e) {

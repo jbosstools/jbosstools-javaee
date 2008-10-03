@@ -53,7 +53,7 @@ public class RichFacesColumnsTemplateTestCase extends VpeTest {
     public void testColumnsWithAttributes() {
         try {
             final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COLUMNS_WITH_ATTRIBUTES,
-                    RichFacesComponentTest.IMPORT_PROJECT_NAME));
+            		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
@@ -76,7 +76,7 @@ public class RichFacesColumnsTemplateTestCase extends VpeTest {
     public void testSimpleColumns() {
         try {
             final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COMPONENTS_COLUMNS_COLUMNS_XHTML,
-                    RichFacesComponentTest.IMPORT_PROJECT_NAME));
+            		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);

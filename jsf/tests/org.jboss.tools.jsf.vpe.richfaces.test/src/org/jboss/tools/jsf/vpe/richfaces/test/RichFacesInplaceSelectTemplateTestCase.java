@@ -48,7 +48,7 @@ public class RichFacesInplaceSelectTemplateTestCase extends VpeTest {
      */
     public void testSimple() throws PartInitException, CoreException, Throwable {
         performTestForVpeComponent((IFile) TestUtil.getComponentPath(COMPONENTS_INPLACE_SELECT_INPLACE_SELECT_XHTML,
-                RichFacesComponentTest.IMPORT_PROJECT_NAME));
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
     }
 
 }

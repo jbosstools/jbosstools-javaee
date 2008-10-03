@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesComponentTest;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -55,7 +56,7 @@ public class JBIDE1605Test extends VpeTest {
      * @throws Throwable the throwable
      */
     public void testSimpleJBIDE1605() throws Throwable {
-        performTestForVpeComponent((IFile) TestUtil.getComponentPath(PAGE, RichFacesComponentTest.IMPORT_PROJECT_NAME));
+        performTestForVpeComponent((IFile) TestUtil.getComponentPath(PAGE, RichFacesAllTests.IMPORT_PROJECT_NAME));
     }
     
     /**
@@ -65,7 +66,7 @@ public class JBIDE1605Test extends VpeTest {
      */
     public void testJBIDE1605() throws Throwable {
         final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(PAGE,
-                RichFacesComponentTest.IMPORT_PROJECT_NAME));
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
         List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 

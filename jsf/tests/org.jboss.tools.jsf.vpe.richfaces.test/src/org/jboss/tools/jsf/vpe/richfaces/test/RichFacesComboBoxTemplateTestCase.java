@@ -87,7 +87,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
      */
     private nsIDOMElement baseTableCheck(String page, String width) throws PartInitException, Throwable {
         final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page,
-                RichFacesComponentTest.IMPORT_PROJECT_NAME));
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
         List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 

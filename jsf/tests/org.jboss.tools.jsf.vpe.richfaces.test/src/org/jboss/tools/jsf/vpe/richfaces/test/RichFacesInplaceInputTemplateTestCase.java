@@ -74,7 +74,7 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
      */
     private void baseCheck(String page, String value, String styleClass) throws Throwable, CoreException {
         final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(page,
-                RichFacesComponentTest.IMPORT_PROJECT_NAME));
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
         List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 

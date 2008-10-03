@@ -37,7 +37,7 @@ public class RichFacesFileUploadTemplateTestCase extends VpeTest {
      */
     public void testBaseFileUpload() throws PartInitException, Throwable {
         performTestForVpeComponent((IFile) TestUtil.getComponentPath(COMPONENTS_FILE_UPLOAD_FILE_UPLOAD_BASE,
-                RichFacesComponentTest.IMPORT_PROJECT_NAME));
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
     }
 
 }

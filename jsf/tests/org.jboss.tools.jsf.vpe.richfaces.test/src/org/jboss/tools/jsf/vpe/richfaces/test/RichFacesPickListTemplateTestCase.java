@@ -48,7 +48,7 @@ public class RichFacesPickListTemplateTestCase extends VpeTest {
         nsIDOMElement rst;
         try {
             rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath("components/pickList/pickList.xhtml", //$NON-NLS-1$
-                    RichFacesComponentTest.IMPORT_PROJECT_NAME));
+            		RichFacesAllTests.IMPORT_PROJECT_NAME));
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TABLE);
