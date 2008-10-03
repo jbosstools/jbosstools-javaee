@@ -20,7 +20,8 @@
 <!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
 <!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
 <!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
-<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">                          
+<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">      
+<!ENTITY migrationlink "../../Exadel-migration/html_single/index.html">      
 
 ]>
 <book>
