@@ -13,13 +13,17 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.html.template.HtmlBodyTemplate;
+//import org.jboss.tools.vpe.html.template.HtmlBodyTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+
+/**
+ * TODO There is code which doesn't compile . It was commented .
+ */
 /**
  * A wrapper of VpeAbstractTemplate. Does the same, but ignores all attributes except id.
  * @author yradtsevich
@@ -28,11 +32,11 @@ import org.w3c.dom.Node;
 public class JsfBodyTemplate extends VpeAbstractTemplate {
 	public static final String ID_ID = "id"; //$NON-NLS-1$
 	
-	private final HtmlBodyTemplate htmlBodyTemplate = new HtmlBodyTemplate();
+//	private final HtmlBodyTemplate htmlBodyTemplate = new HtmlBodyTemplate();
 	
-	/**
-	 * @see org.jboss.tools.vpe.html.template.HtmlBodyTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
-	 */
+//	/**
+//	 * @see org.jboss.tools.vpe.html.template.HtmlBodyTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
+//	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		sourceNode = sourceNode.cloneNode(true);
@@ -46,7 +50,8 @@ public class JsfBodyTemplate extends VpeAbstractTemplate {
 			}
 		}
 		
-		return htmlBodyTemplate.create(pageContext, sourceNode, visualDocument);
+//		return htmlBodyTemplate.create(pageContext, sourceNode, visualDocument);
+		return null;
 	}
 
 	// TODO: change to default implementation (remove)
