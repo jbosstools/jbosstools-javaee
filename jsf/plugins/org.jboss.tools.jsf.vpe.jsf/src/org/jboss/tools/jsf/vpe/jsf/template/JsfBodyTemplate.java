@@ -22,7 +22,7 @@ import org.w3c.dom.Node;
 
 
 /**
- * TODO There is code which doesn't compile . It was commented .
+ * TODO There was code which didn't compile . It was commented .
  */
 /**
  * A wrapper of VpeAbstractTemplate. Does the same, but ignores all attributes except id.
