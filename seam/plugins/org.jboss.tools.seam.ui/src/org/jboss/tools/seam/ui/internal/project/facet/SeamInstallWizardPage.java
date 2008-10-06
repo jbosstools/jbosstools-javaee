@@ -47,6 +47,7 @@ import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
+import org.eclipse.wst.common.project.facet.ui.ModifyFacetedProjectWizard;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -357,10 +358,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					new ProjectNamesDuplicationValidator(
 							IFacetDataModelProperties.FACET_PROJECT_NAME));
 			validatorDelegate.addValidatorForProperty(
-					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, 
-					new DeploymentTypeValidator(
-							ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
-							((NewProjectDataModelFacetWizard)getWizard()).getDataModel()));
+					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
+					getDeploymentTypeValidator(getWizard()));
 		}
 
 		jBossHibernateDbTypeEditor
@@ -540,6 +539,20 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		}
 	}
 
+	IValidator getDeploymentTypeValidator(IWizard wizard) {
+		if(wizard instanceof NewProjectDataModelFacetWizard) {
+			return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ((NewProjectDataModelFacetWizard)wizard).getDataModel());
+		} else if(wizard instanceof ModifyFacetedProjectWizard) {
+			ModifyFacetedProjectWizard mfpw = (ModifyFacetedProjectWizard)wizard;
+		}
+		return  new IValidator() {
+			public Map<String, String> validate(Object value, Object context) {
+				SeamInstallWizardPage.this.validate();
+				return ValidatorFactory.NO_ERRORS;
+			}
+		};
+	}
+
 	static class DeploymentTypeValidator implements IValidator {
 
 		String propertyName;
@@ -556,7 +569,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		/**
 		 */
-		public DeploymentTypeValidator (String propertyName, IDataModel model) {
+		public DeploymentTypeValidator(String propertyName, IDataModel model) {
 			this.propertyName = propertyName;
 			this.model = model;
 		}
@@ -565,7 +578,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		 * @see IValidator#validate(Object, Object)
 		 */
 		public Map<String, String> validate(Object value, Object context) {
-
 			final String deploymentType = value.toString();
 			if(!ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(deploymentType)) {
 				Object runtimeName = model.getProperty(IFacetProjectCreationDataModelProperties.FACET_RUNTIME);
