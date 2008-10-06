@@ -54,15 +54,16 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testContextMenu() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/contextMenu.xhtml", "contextMenu");//$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testDataFilterSlider() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/dataFilterSlider.xhtml");//$NON-NLS-1$
 	}
 
 	public void testDatascroller() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		
+		performContentTest("components/datascroller.xhtml");//$NON-NLS-1$
 	}
 
 	public void testColumns() throws Throwable {
@@ -93,8 +94,9 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
-	public void testDataTable() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+	public void _testDataTable() throws Throwable {
+		performContentTest("components/dataTable.xhtml");//$NON-NLS-1$
+
 	}
 
 	public void testSubTable() throws Throwable {

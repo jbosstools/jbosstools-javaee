@@ -11,10 +11,12 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -34,34 +36,32 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 
 	final static int SCROLL_CELL = 3;
 
-	final static String STYLE_PATH = "dataTableScroller/dataTableScroller.css";
+	final static String STYLE_PATH = "dataTableScroller/dataTableScroller.css"; //$NON-NLS-1$
 
 	/**
 	 * Default size component This parameter need for calculate default number
 	 * of cells
 	 */
-	final static String DEFAULT_STYLE_WIDTH = "width : 400px;";
+	final static String DEFAULT_STYLE_WIDTH = "width : 400px;"; //$NON-NLS-1$
 
 	/**
 	 * Minimal size component This parameter need for calculate minimal number
 	 * of cells
 	 */
-	final static String MIN_STYLE_WIDTH = "width : 225px;";
+	final static String MIN_STYLE_WIDTH = "width : 225px;"; //$NON-NLS-1$
 
-	final static String RIGHT_DOUBLE_SCROLL_SYMBOL = ">>";
+	final static String RIGHT_DOUBLE_SCROLL_SYMBOL = ">>"; //$NON-NLS-1$
 
-	final static String RIGHT_SINGLE_SCROLL_SYMBOL = ">";
+	final static String RIGHT_SINGLE_SCROLL_SYMBOL = ">"; //$NON-NLS-1$
 
-	final static String LEFT_DOUBLE_SCROLL_SYMBOL = "<<";
+	final static String LEFT_DOUBLE_SCROLL_SYMBOL = "<<"; //$NON-NLS-1$
 
-	final static String LEFT_SINGLE_SCROLL_SYMBOL = "<";
+	final static String LEFT_SINGLE_SCROLL_SYMBOL = "<"; //$NON-NLS-1$
 
 	/**
 	 * Minimal cells in datascroller
 	 */
 	final static int MIN_NUM_CELLS = 9;
-
-	final static String PIXEL_PREFIX = "px";
 
 	/**
 	 * 
@@ -87,22 +87,22 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		Element source = (Element) sourceNode;
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
-				"richFacesDataScrollerTable");
-		nsIDOMElement div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		String style = source.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-		div.setAttribute("class", "dr-div-heigth");
+				"richFacesDataScrollerTable"); //$NON-NLS-1$
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+		String style = source.getAttribute(RichFaces.ATTR_STYLE);
+		div.setAttribute(HTML.ATTR_CLASS, "dr-div-heigth"); //$NON-NLS-1$
 		if (style == null) {
 			style = DEFAULT_STYLE_WIDTH;
 		}
 
-		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				"dr-dscr-t dr-tbpnl-cntnt");
-		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "1");
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0");
-		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0");
-		nsIDOMElement tbody = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+		table.setAttribute(HTML.ATTR_CLASS,
+				"dr-dscr-t dr-tbpnl-cntnt"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_CELLSPACING, "1"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
+		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
+		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		tbody.appendChild(tr);
 		table.appendChild(tbody);
 		
@@ -111,7 +111,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		nsIDOMElement child1 = createCell(visualDocument, false, LEFT_DOUBLE_SCROLL_SYMBOL, SCROLL_CELL);
 		nsIDOMElement child2 = createCell(visualDocument, false, LEFT_SINGLE_SCROLL_SYMBOL, SCROLL_CELL);
 		/* Add empty cells */
-		nsIDOMElement child3 = createCell(visualDocument, false, "", EMPTY_CELL);
+		nsIDOMElement child3 = createCell(visualDocument, false, Constants.EMPTY, EMPTY_CELL);
 		tr.appendChild(child1);
 		tr.appendChild(child2);
 		tr.appendChild(child3);
@@ -127,11 +127,11 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		size /= (minSize / MIN_NUM_CELLS);
 		/* Add number cells in datascroller */
 		for (int i = 0; i < (size - 6); i++) {
-			nsIDOMElement child = createCell(visualDocument, (i == 0 ? true : false), "" + (i + 1), NUM_CELL);
+			nsIDOMElement child = createCell(visualDocument, (i == 0 ? true : false), Constants.EMPTY + (i + 1), NUM_CELL);
 			tr.appendChild(child);
 		}
 		/* Add empty cell */
-		child1 = createCell(visualDocument, false, "", EMPTY_CELL);
+		child1 = createCell(visualDocument, false, Constants.EMPTY, EMPTY_CELL);
 		/* Add scroll cells */
 		child2 = createCell(visualDocument, false, RIGHT_SINGLE_SCROLL_SYMBOL,
 				SCROLL_CELL);
@@ -141,7 +141,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		tr.appendChild(child2);
 		tr.appendChild(child3);
 
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+		div.setAttribute(HTML.ATTR_STYLE, style);
 		div.appendChild(table);
 		return creationData;
 	}
@@ -158,21 +158,21 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 * @return Element
 	 */
 	private nsIDOMElement createCell(nsIDOMDocument visualDocument, boolean active, String text, int sellType) {
-		nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		td.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center");
+		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
+		td.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_CENTER);
 		nsIDOMText d = visualDocument.createTextNode(text);
 		if (sellType == NUM_CELL) {
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					(active ? "dr-dscr-act" : "dr-dscr-inact"));
+			td.setAttribute(HTML.ATTR_CLASS,
+					(active ? "dr-dscr-act" : "dr-dscr-inact")); //$NON-NLS-1$ //$NON-NLS-2$
 			td.appendChild(d);
 		} else if (sellType == EMPTY_CELL) {
 			td
-					.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-							"dr-dscr-button");
+					.setAttribute(HTML.ATTR_CLASS,
+							"dr-dscr-button"); //$NON-NLS-1$
 		} else {
 			td
-					.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-							"dr-dscr-button");
+					.setAttribute(HTML.ATTR_CLASS,
+							"dr-dscr-button"); //$NON-NLS-1$
 			td.appendChild(d);
 		}
 		return td;
@@ -201,7 +201,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		
 		int size = 45;
-		if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_STYLE_ATTR)) {
+		if (name.equalsIgnoreCase(RichFaces.ATTR_STYLE)) {
 			String str = getWidth(value);
 			size = getSize(str);
 			int minSize = getSize(getWidth(MIN_STYLE_WIDTH));
@@ -226,10 +226,10 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 					}
 					// Add cells in datascroller 
 					for (int i = 0; i < (size - nodesLength); i++) {
-						nsIDOMElement cell = createCell(visualDocument, false, "" + (nodesLength - 5 + i), NUM_CELL);
+						nsIDOMElement cell = createCell(visualDocument, false,Constants.EMPTY + (nodesLength - 5 + i), NUM_CELL);
 						tr.appendChild(cell);
 					}
-					nsIDOMElement child1 = createCell(visualDocument, false, "", EMPTY_CELL);
+					nsIDOMElement child1 = createCell(visualDocument, false, Constants.EMPTY, EMPTY_CELL);
 					nsIDOMElement child2 = createCell(visualDocument, false,RIGHT_SINGLE_SCROLL_SYMBOL, SCROLL_CELL);
 					nsIDOMElement child3 = createCell(visualDocument, false, RIGHT_DOUBLE_SCROLL_SYMBOL, SCROLL_CELL);
 					tr.appendChild(child1);
@@ -249,14 +249,14 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 * @return size
 	 */
 	private String getWidth(String style) {
-		String[] sub = style.split(";");
+		String[] sub = style.split(Constants.SEMICOLON);
 		for (int i = 0; i < sub.length; i++) {
 			sub[i] = sub[i].trim();
 			sub[i] = sub[i].toLowerCase();
-			int pos = sub[i].indexOf(HtmlComponentUtil.HTML_ATR_WIDTH);
+			int pos = sub[i].indexOf(HTML.STYLE_PARAMETER_WIDTH);
 			if (pos != -1) {
 				if (pos == 0 || sub[i].charAt(pos - 1) != '-') {
-					pos = sub[i].indexOf(":");
+					pos = sub[i].indexOf(Constants.COLON);
 					return sub[i].substring(pos + 1);
 				}
 			}
@@ -275,7 +275,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 			return 0;
 		}
 		String num = size;
-		int pos = size.indexOf(PIXEL_PREFIX);
+		int pos = size.indexOf(Constants.PIXEL);
 		if (pos != -1) {
 			num = size.substring(0, pos);
 		}

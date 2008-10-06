@@ -1,0 +1,64 @@
+<tests>
+	<test id="dataTable">
+		<TABLE WIDTH="700" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+			VAR="row" VALUE="#{bean.dtList}" ROWKEYVAR="rowKey" ID="dataTable"
+			CLASS="dr-table rich-table">
+			<COLGROUP SPAN="1">
+			</COLGROUP>
+			<THEAD>
+				<TR CLASS="dr-table-header rich-table-header">
+					<TD CLASS="dr-table-headercell rich-table-headercell" ROWSPAN="2">
+						<IMG WIDTH="1" HEIGHT="1" />
+					</TD>
+					<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="3">
+						<SPAN> FIELDS</SPAN>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-header-continue rich-table-header-continue">
+					<TD CLASS="dr-table-headercell rich-table-headercell"
+						BREAKBEFORE="true">
+						<SPAN> field1</SPAN>
+					</TD>
+					<TD CLASS="dr-table-headercell rich-table-headercell">
+						<SPAN> field2</SPAN>
+					</TD>
+					<TD CLASS="dr-table-headercell rich-table-headercell">
+						<SPAN> field3</SPAN>
+					</TD>
+				</TR>
+			</THEAD>
+			<TFOOT>
+				<TR CLASS="dr-table-footer rich-table-footer">
+					<TD CLASS="dr-table-footercell rich-table-footercell">
+						<BR  />
+					</TD>
+					<TD CLASS="dr-table-footercell rich-table-footercell">
+						<SPAN> footer1</SPAN>
+					</TD>
+					<TD CLASS="dr-table-footercell rich-table-footercell">
+						<SPAN> footer2</SPAN>
+					</TD>
+					<TD CLASS="dr-table-footercell rich-table-footercell">
+						<SPAN> footer3</SPAN>
+					</TD>
+				</TR>
+			</TFOOT>
+			<TBODY>
+				<TR CLASS="dr-table-cell rich-table-cell">
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN> #{rowKey}</SPAN>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN> #{row.field1}</SPAN>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN> #{row.field2}</SPAN>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN> #{row.field3}</SPAN>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+	</test>
+</tests>

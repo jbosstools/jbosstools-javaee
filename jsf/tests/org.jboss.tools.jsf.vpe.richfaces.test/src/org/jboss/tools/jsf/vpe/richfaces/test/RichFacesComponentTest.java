@@ -66,7 +66,7 @@ public class RichFacesComponentTest extends VpeTest {
 
     public void testDataScroller() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dataScroller.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+		"components/datascroller.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDataTable() throws PartInitException, Throwable {

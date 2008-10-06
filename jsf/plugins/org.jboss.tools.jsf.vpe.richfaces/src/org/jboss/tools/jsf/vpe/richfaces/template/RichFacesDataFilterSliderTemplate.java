@@ -11,9 +11,11 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -28,11 +30,11 @@ import org.w3c.dom.Node;
 public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate {
 
 	/** IMAGE_SPACER */
-	final static String IMAGE_SPACER = "/common/spacer.gif";
+	final static String IMAGE_SPACER = "/common/spacer.gif"; //$NON-NLS-1$
 	
-	final static String CENTER_SLIDER = "/dataFilterSlider/pos.gif";
+	final static String CENTER_SLIDER = "/dataFilterSlider/pos.gif"; //$NON-NLS-1$
 
-	final static String STYLE_PATH = "/dataFilterSlider/dataFilterSlider.css";
+	final static String STYLE_PATH = "/dataFilterSlider/dataFilterSlider.css"; //$NON-NLS-1$
 
 	final static int DEFAULT_WIDTH = 260;
 
@@ -41,27 +43,23 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 
 	final static int DEFAULT_HEIGHT = 20;
 
-	final static String DEFAULT_SLIDER_POSITION = "left: -38px; width: 114px;";
+	final static String DEFAULT_SLIDER_POSITION = "left: -38px; width: 114px;"; //$NON-NLS-1$
 
-	final static String DEFAULT_SLIDER_WIDTH = "7px";
+	final static String DEFAULT_SLIDER_WIDTH = "7px"; //$NON-NLS-1$
 
-	final static String DEFAULT_SLIDER_HEIGHT = "8px";
+	final static String DEFAULT_SLIDER_HEIGHT = "8px"; //$NON-NLS-1$
 
-	final static String DEFAULT_SLIDER_BORDER = "0px";
+	final static String DEFAULT_SLIDER_BORDER = "0px"; //$NON-NLS-1$
 
-	final static String PIXEL_PREFIX = "px";
+	final static String FIELD_STYLE_CLASS_ATR = "fieldStyleClass"; //$NON-NLS-1$
 
-	final static String PERCENT_PREFIX = "%";
+	final static String HANDLE_STYLE_CLASS_ATR = "handleStyleClass"; //$NON-NLS-1$
 
-	final static String FIELD_STYLE_CLASS_ATR = "fieldStyleClass";
+	final static String RANGE_STYLE_CLASS_ATR = "rangeStyleClass"; //$NON-NLS-1$
 
-	final static String HANDLE_STYLE_CLASS_ATR = "handleStyleClass";
+	final static String TRACK_STYLE_CLASS_ATR = "trackStyleClass"; //$NON-NLS-1$
 
-	final static String RANGE_STYLE_CLASS_ATR = "rangeStyleClass";
-
-	final static String TRACK_STYLE_CLASS_ATR = "trackStyleClass";
-
-	final static String TRAILER_STYLE_CLASS_ATR = "trailerStyleClass";
+	final static String TRAILER_STYLE_CLASS_ATR = "trailerStyleClass"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -85,10 +83,11 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		int numWidth = 0;
-		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesDataFilterSlider");
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesDataFilterSlider"); //$NON-NLS-1$
 		Element sourceElement = (Element) sourceNode;
-		String style = ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR);
-		String width = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+		String style = ComponentUtil.getAttribute(sourceElement,
+				RichFaces.ATTR_STYLE);
+		String width = sourceElement.getAttribute(RichFaces.ATTR_WIDTH);
 		if (width != null) {
 			numWidth = getSize(width);
 			if (numWidth < DEFAULT_WIDTH) {
@@ -97,34 +96,34 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		} else {
 			numWidth = DEFAULT_WIDTH;
 		}
-		String defaultStyle = style + ";" + HtmlComponentUtil.HTML_ATR_WIDTH + " : " + numWidth + "px ; ";
-		nsIDOMElement parentDiv = createDIV(visualDocument, "slider-container",	defaultStyle);
+		String defaultStyle = style + Constants.SEMICOLON + HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + numWidth + "px ; "; //$NON-NLS-1$
+		nsIDOMElement parentDiv = createDIV(visualDocument, "slider-container",	defaultStyle); //$NON-NLS-1$
 		String rangeStyleClass = ComponentUtil.getAttribute(sourceElement,	RANGE_STYLE_CLASS_ATR);
-		nsIDOMElement rangeDiv = createDIV(visualDocument, "range " + rangeStyleClass, 
-				HtmlComponentUtil.HTML_ATR_WIDTH	+ " : " + (numWidth - DEFAULT_PARAGRAPH) + "px;");
-		nsIDOMElement rangeDecorDiv = createDIV(visualDocument, "range-decor", null);
+		nsIDOMElement rangeDiv = createDIV(visualDocument, "range " + rangeStyleClass,  //$NON-NLS-1$
+				HTML.STYLE_PARAMETER_WIDTH	+ Constants.COLON + (numWidth - DEFAULT_PARAGRAPH) + "px;"); //$NON-NLS-1$
+		nsIDOMElement rangeDecorDiv = createDIV(visualDocument, "range-decor", null); //$NON-NLS-1$
 		String trailerStyleClass = ComponentUtil.getAttribute(sourceElement,
 				TRAILER_STYLE_CLASS_ATR);
-		nsIDOMElement trailerDiv = createDIV(visualDocument, "trailer "
+		nsIDOMElement trailerDiv = createDIV(visualDocument, "trailer " //$NON-NLS-1$
 				+ trailerStyleClass, DEFAULT_SLIDER_POSITION);
 		String trackStyleClass = ComponentUtil.getAttribute(sourceElement,
 				TRACK_STYLE_CLASS_ATR);
 		nsIDOMElement trackDiv = createDIV(visualDocument,
-				"track " + trackStyleClass, HtmlComponentUtil.HTML_ATR_WIDTH
-						+ " : " + (numWidth - DEFAULT_PARAGRAPH) + "px;");
+				"track " + trackStyleClass, HTML.STYLE_PARAMETER_WIDTH //$NON-NLS-1$
+						+ Constants.COLON + (numWidth - DEFAULT_PARAGRAPH) + "px;"); //$NON-NLS-1$
 
 		String handleStyleClass = ComponentUtil.getAttribute(sourceElement,HANDLE_STYLE_CLASS_ATR);
-		nsIDOMElement handleDiv = createDIV(visualDocument, "handle " + handleStyleClass, null);
+		nsIDOMElement handleDiv = createDIV(visualDocument, "handle " + handleStyleClass, null); //$NON-NLS-1$
 
-		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
 		ComponentUtil.setImg(img, CENTER_SLIDER);
-		img.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,	DEFAULT_SLIDER_WIDTH);
-		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,DEFAULT_SLIDER_BORDER);
-		img.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,	DEFAULT_SLIDER_HEIGHT);
+		img.setAttribute(HTML.ATTR_WIDTH,	DEFAULT_SLIDER_WIDTH);
+		img.setAttribute(HTML.ATTR_BORDER,DEFAULT_SLIDER_BORDER);
+		img.setAttribute(HTML.ATTR_HEIGHT,	DEFAULT_SLIDER_HEIGHT);
 
 		/* Set input component */
-		nsIDOMElement input = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
-		input.setAttribute(HtmlComponentUtil.HTML_TYPE_ATTR, "text");
+		nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
+		input.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
 		
 		setAttributesToInputElement(input, sourceElement);
 
@@ -136,24 +135,24 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		trackDiv.appendChild(handleDiv);
 		handleDiv.appendChild(img);
 		
-		nsIDOMElement tableSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0px");
-		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0px");
-		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0px");		
-		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%" );
-		tableSpacer2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%" );
+		nsIDOMElement tableSpacer2 = visualDocument.createElement(HTML.TAG_TABLE);
+		tableSpacer2.setAttribute(HTML.ATTR_CELLSPACING, "0px"); //$NON-NLS-1$
+		tableSpacer2.setAttribute(HTML.ATTR_CELLPADDING, "0px"); //$NON-NLS-1$
+		tableSpacer2.setAttribute(HTML.ATTR_BORDER, "0px");		 //$NON-NLS-1$
+		tableSpacer2.setAttribute(HTML.ATTR_WIDTH, "100%" ); //$NON-NLS-1$
+		tableSpacer2.setAttribute(HTML.ATTR_HEIGHT, "100%" ); //$NON-NLS-1$
 		
-		nsIDOMElement trSpacer2 =  visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement trSpacer2 =  visualDocument.createElement(HTML.TAG_TR);
 		
-		nsIDOMElement tdSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-		tdSpacer2.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "right");
-		tdSpacer2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,"font-family: Arial, Verdana, sans-serif; font-size: 5px; color: white;");
+		nsIDOMElement tdSpacer2 = visualDocument.createElement(HTML.TAG_TD);
+		tdSpacer2.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_RIGHT_ALIGN);
+		tdSpacer2.setAttribute(HTML.ATTR_STYLE,"font-family: Arial, Verdana, sans-serif; font-size: 5px; color: white;"); //$NON-NLS-1$
 		trSpacer2.appendChild(tdSpacer2);
 
-		nsIDOMElement imageSpacer2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		nsIDOMElement imageSpacer2 = visualDocument.createElement(HTML.TAG_IMG);
 		ComponentUtil.setImg(imageSpacer2, IMAGE_SPACER);
-		imageSpacer2.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, "100%");
-		imageSpacer2.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, "100%");
+		imageSpacer2.setAttribute(HTML.ATTR_WIDTH, "100%"); //$NON-NLS-1$
+		imageSpacer2.setAttribute(HTML.ATTR_HEIGHT, "100%"); //$NON-NLS-1$
 		tdSpacer2.appendChild(imageSpacer2);
 		
 		tableSpacer2.appendChild(trSpacer2);
@@ -186,38 +185,38 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 
 		if (name.equalsIgnoreCase(RANGE_STYLE_CLASS_ATR)) {
 			nsIDOMElement range = getRangeElement(element);
-			range.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
-			range.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "range");
+			range.removeAttribute(HTML.ATTR_CLASS);
+			range.setAttribute(HTML.ATTR_CLASS, "range"); //$NON-NLS-1$
 		} else if (name.equalsIgnoreCase(TRAILER_STYLE_CLASS_ATR)) {
 			nsIDOMElement trailer = getTrailerElement(element);
-			trailer.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
-			trailer.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "trailer");
+			trailer.removeAttribute(HTML.ATTR_CLASS);
+			trailer.setAttribute(HTML.ATTR_CLASS, "trailer"); //$NON-NLS-1$
 		} else if (name.equalsIgnoreCase(TRACK_STYLE_CLASS_ATR)) {
 			nsIDOMElement track = getTrackElement(element);
-			track.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
-			track.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "track");
+			track.removeAttribute(HTML.ATTR_CLASS);
+			track.setAttribute(HTML.ATTR_CLASS, "track"); //$NON-NLS-1$
 		} else if (name.equalsIgnoreCase(HANDLE_STYLE_CLASS_ATR)) {
 			nsIDOMElement handle = getHandleElement(element);
-			handle.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
-			handle.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "handle");
+			handle.removeAttribute(HTML.ATTR_CLASS);
+			handle.setAttribute(HTML.ATTR_CLASS, "handle"); //$NON-NLS-1$
 		} else if (name.equalsIgnoreCase(FIELD_STYLE_CLASS_ATR)) {
 			nsIDOMElement field = getInputElement(element);
 			setAttributesToInputElement( field, sourceElement );
-		} else if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_ATR_WIDTH)) {
+		} else if (name.equalsIgnoreCase(RichFaces.ATTR_WIDTH)) {
 			nsIDOMElement range = getRangeElement(element);
 			String style = ComponentUtil.getAttribute(sourceElement,
-					HtmlComponentUtil.HTML_STYLE_ATTR);
-			element.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style + ";"
-					+ HtmlComponentUtil.HTML_ATR_WIDTH + " : " + DEFAULT_WIDTH
-					+ "px ; ");
+					RichFaces.ATTR_STYLE);
+			element.setAttribute(HTML.ATTR_STYLE, style + Constants.SEMICOLON
+					+ HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + DEFAULT_WIDTH
+					+ "px ; "); //$NON-NLS-1$
 			String rangeStyle = ComponentUtil.getAttribute(range,
-					HtmlComponentUtil.HTML_STYLE_ATTR);
-			range.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, rangeStyle
-					+ ";" + HtmlComponentUtil.HTML_ATR_WIDTH + " : "
-					+ (DEFAULT_WIDTH - DEFAULT_PARAGRAPH) + "px;");
-		} else if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_STYLE_ATTR)) {
+					HTML.ATTR_STYLE);
+			range.setAttribute(HTML.ATTR_STYLE, rangeStyle
+					+ Constants.SEMICOLON  + HTML.STYLE_PARAMETER_WIDTH + Constants.COLON
+					+ (DEFAULT_WIDTH - DEFAULT_PARAGRAPH) + "px;"); //$NON-NLS-1$
+		} else if (name.equalsIgnoreCase(RichFaces.ATTR_STYLE)) {
 			String width = sourceElement
-					.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+					.getAttribute(RichFaces.ATTR_WIDTH);
 			if (width != null) {
 				numWidth = getSize(width);
 				if (numWidth < DEFAULT_WIDTH) {
@@ -226,9 +225,9 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 			} else {
 				numWidth = DEFAULT_WIDTH;
 			}
-			String style = HtmlComponentUtil.HTML_ATR_WIDTH + " : " + numWidth
-					+ "px ; ";
-			element.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+			String style = HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + numWidth
+					+ "px ; "; //$NON-NLS-1$
+			element.setAttribute(HTML.ATTR_STYLE, style);
 		} else {
 			element.removeAttribute(name);
 		}
@@ -254,7 +253,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 
 		
 		int numWidth = 0;
-		if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_ATR_WIDTH)) {
+		if (name.equalsIgnoreCase(RichFaces.ATTR_WIDTH)) {
 			int size = getSize(value);
 			if (size < DEFAULT_WIDTH) {
 				size = DEFAULT_WIDTH;
@@ -263,41 +262,41 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 			nsIDOMElement trackDiv = getTrackElement(parentDiv);
 
 			String style = ComponentUtil.getAttribute(parentDiv,
-					HtmlComponentUtil.HTML_STYLE_ATTR);
-			style = style + HtmlComponentUtil.HTML_ATR_WIDTH + " : " + size
-					+ PIXEL_PREFIX + ";";
-			parentDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+					HTML.ATTR_STYLE);
+			style = style + HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + size
+					+ Constants.PIXEL + Constants.SEMICOLON;
+			parentDiv.setAttribute(HTML.ATTR_STYLE, style);
 			String rangeStyle = ComponentUtil.getAttribute(rangeDiv,
-					HtmlComponentUtil.HTML_STYLE_ATTR);
-			rangeDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, rangeStyle
-					+ HtmlComponentUtil.HTML_ATR_WIDTH + " : "
-					+ (size - DEFAULT_PARAGRAPH) + "px;");
+					HTML.ATTR_STYLE);
+			rangeDiv.setAttribute(HTML.ATTR_STYLE, rangeStyle
+					+ Constants.SEMICOLON + HTML.STYLE_PARAMETER_WIDTH + Constants.COLON
+					+ (size - DEFAULT_PARAGRAPH) + "px;"); //$NON-NLS-1$
 			String trackStyle = ComponentUtil.getAttribute(trackDiv,
-					HtmlComponentUtil.HTML_STYLE_ATTR);
-			trackDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, trackStyle
-					+ HtmlComponentUtil.HTML_ATR_WIDTH + " : "
-					+ (size - DEFAULT_PARAGRAPH) + "px;");
+					HTML.ATTR_STYLE);
+			trackDiv.setAttribute(HTML.ATTR_STYLE, trackStyle
+					+ Constants.SEMICOLON + HTML.STYLE_PARAMETER_WIDTH+ Constants.COLON
+					+ +(size - DEFAULT_PARAGRAPH) + "px;"); //$NON-NLS-1$
 
 		} else if (name.equalsIgnoreCase(RANGE_STYLE_CLASS_ATR)) {
 			nsIDOMElement range = getRangeElement(parentDiv);
-			range.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "range "
+			range.setAttribute(HTML.ATTR_CLASS, "range " //$NON-NLS-1$
 					+ value);
 		} else if (name.equalsIgnoreCase(TRACK_STYLE_CLASS_ATR)) {
 			nsIDOMElement track = getTrackElement(parentDiv);
-			track.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "track "
+			track.setAttribute(HTML.ATTR_CLASS, "track " //$NON-NLS-1$
 					+ value);
 		} else if (name.equalsIgnoreCase(TRAILER_STYLE_CLASS_ATR)) {
 			nsIDOMElement trailer = getTrailerElement(parentDiv);
-			trailer.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "trailer "
+			trailer.setAttribute(HTML.ATTR_CLASS, "trailer " //$NON-NLS-1$
 					+ value);
 		} else if (name.equalsIgnoreCase(HANDLE_STYLE_CLASS_ATR)) {
 			nsIDOMElement handle = getHandleElement(parentDiv);
-			handle.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "handle "
+			handle.setAttribute(HTML.ATTR_CLASS, "handle " //$NON-NLS-1$
 					+ value);
 		} else if (name.equalsIgnoreCase(FIELD_STYLE_CLASS_ATR)) {
-		} else if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_STYLE_ATTR)) {
+		} else if (name.equalsIgnoreCase(RichFaces.ATTR_STYLE)) {
 			String width = sourceElement
-					.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+					.getAttribute(RichFaces.ATTR_WIDTH);
 			if (width != null) {
 				numWidth = getSize(width);
 				if (numWidth < DEFAULT_WIDTH) {
@@ -306,9 +305,9 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 			} else {
 				numWidth = DEFAULT_WIDTH;
 			}
-			String style = HtmlComponentUtil.HTML_ATR_WIDTH + " : " + numWidth
-					+ "px ; " + value;
-			parentDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+			String style = HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + numWidth
+					+ "px ; " + value; //$NON-NLS-1$
+			parentDiv.setAttribute(HTML.ATTR_STYLE, style);
 		} else {
 			parentDiv.setAttribute(name, value);
 		}
@@ -322,12 +321,12 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 * @param style
 	 */
 	private nsIDOMElement createDIV(nsIDOMDocument visualDocument, String styleClass, String style) {
-		nsIDOMElement div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		if (styleClass != null) {
-			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+			div.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
 		if (style != null) {
-			div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+			div.setAttribute(HTML.ATTR_STYLE, style);
 		}
 		return div;
 	}
@@ -340,11 +339,11 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 */
 	private int getSize(String size) {
 		String num = size;
-		int pos = num.indexOf(PIXEL_PREFIX);
+		int pos = num.indexOf(Constants.PIXEL);
 		if (pos != -1) {
 			num = num.substring(0, pos);
 		}
-		pos = num.indexOf(PERCENT_PREFIX);
+		pos = num.indexOf(Constants.PERCENT);
 		if (pos != -1) {
 			num = num.substring(0, pos);
 		}
@@ -479,19 +478,19 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	
 	private void setAttributesToInputElement( nsIDOMElement inputElement, Element sourceElement) {
 		String styleClass = getAttribute(FIELD_STYLE_CLASS_ATR, sourceElement);
-		String value = getAttribute("handleValue", sourceElement);
+		String value = getAttribute("handleValue", sourceElement); //$NON-NLS-1$
 		
 		if ( value.length() == 0 ) {
-			value = "N/A";
+			value = "N/A"; //$NON-NLS-1$
 		}
 		
 		inputElement.setAttribute(
-				HtmlComponentUtil.HTML_CLASS_ATTR, 
-				new StringBuffer().append("slider-input-field").append(" ").append(styleClass).toString() 
+				HTML.ATTR_CLASS, 
+				new StringBuffer().append("slider-input-field").append(Constants.WHITE_SPACE).append(styleClass).toString()  //$NON-NLS-1$
 				);
 		
 		inputElement.setAttribute(
-				HtmlComponentUtil.HTML_VALUE_ATTR, 
+				HTML.ATTR_VALUE, 
 				value 
 				);
 	}

@@ -1,0 +1,27 @@
+<tests>
+	<test id="dataFilterSlider">
+		<DIV CLASS="slider-container" STYLE="width: 260px;">
+			<DIV CLASS="range" STYLE="width: 200px;">
+				<DIV CLASS="range-decor">
+					<DIV CLASS="trailer" STYLE="left: -38px; width: 114px;">
+						<DIV CLASS="track" STYLE="width: 200px;">
+							<DIV CLASS="handle">
+								<IMG WIDTH="7" HEIGHT="8" BORDER="0" />
+							</DIV>
+							<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING="0"
+								CELLPADDING="0" BORDER="0">
+								<TR>
+									<TD ALIGN="right"
+										STYLE="font-family: Arial,Verdana,sans-serif; font-size: 5px; color: white;">
+										<IMG WIDTH="100%" HEIGHT="100%" />
+									</TD>
+								</TR>
+							</TABLE>
+						</DIV>
+					</DIV>
+				</DIV>
+			</DIV>
+			<INPUT TYPE="text" CLASS="slider-input-field" VALUE="N/A" />
+		</DIV>
+	</test>
+</tests>

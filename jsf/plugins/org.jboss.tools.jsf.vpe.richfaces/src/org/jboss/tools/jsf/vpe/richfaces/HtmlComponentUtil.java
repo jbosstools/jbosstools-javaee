@@ -13,6 +13,8 @@ package org.jboss.tools.jsf.vpe.richfaces;
 /**
  * Util class which contains basic html tags.
  * 
+ * @deprecated use org.jboss.tools.vpe.editor.util.HTML and
+ *             org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces
  * @author Max Areshkau
  * 
  */
