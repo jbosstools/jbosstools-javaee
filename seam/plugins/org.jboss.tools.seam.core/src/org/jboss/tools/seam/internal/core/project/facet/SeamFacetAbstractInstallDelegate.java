@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jst.j2ee.model.IModelProvider;
 import org.eclipse.jst.j2ee.model.ModelProviderManager;
+import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
 import org.eclipse.jst.javaee.core.DisplayName;
 import org.eclipse.jst.javaee.core.JavaeeFactory;
 import org.eclipse.jst.javaee.core.Listener;
@@ -55,7 +56,9 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.osgi.service.prefs.BackingStoreException;
@@ -239,14 +242,59 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 * 
 	 * @param project
 	 * @param fv
+	 * @param model
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	protected abstract void doExecuteForWar(IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException;
+
+	/**
+	 * 
+	 * @param project
+	 * @param fv
+	 * @param model
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	protected abstract void doExecuteForEar(IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException;
+
+	/**
+	 * 
+	 * @param project
+	 * @param fv
+	 * @param model
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	protected abstract void doExecuteForEjb(IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException;
+
+	/**
+	 * 
+	 * @param project
+	 * @param fv
 	 * @param config
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected abstract void doExecute(IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor) throws CoreException;
+	public void doExecute(final IProject project, IProjectFacetVersion fv,
+			Object config, IProgressMonitor monitor) throws CoreException {
+		final IDataModel model = (IDataModel)config;
+		IFacetedProject facetedProject = ProjectFacetsManager.create(project);
+		IProjectFacetVersion ejbVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.EJB_FACET);
+		IProjectFacetVersion webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
+		IProjectFacetVersion earVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.ENTERPRISE_APPLICATION_FACET);
+		if(ejbVersion!=null) {
+			doExecuteForEjb(project, fv, model, monitor);
+		} else if(webVersion!=null) {
+			doExecuteForWar(project, fv, model, monitor);
+		} else if(earVersion!=null) {
+			doExecuteForEar(project, fv, model, monitor);
+		}
+	}
 
-	
 	/**
 	 * 
 	 */
