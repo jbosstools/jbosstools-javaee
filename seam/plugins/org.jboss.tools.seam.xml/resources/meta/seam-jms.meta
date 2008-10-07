@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="jms" value="http://jboss.com/products/seam/jms-1.2.xsd"/>
    <PAIR name="jms$20" value="http://jboss.com/products/seam/jms-2.0.xsd"/>
+   <PAIR name="jms$21" value="http://jboss.com/products/seam/jms-2.1.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -352,11 +353,15 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
- <XEntityExtension name="FileSeamComponents20_EditorActionList">
-  <XChildrenEntities/>
+ <XEntityExtension name="FileSeamComponents21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamJmsQueueConnection"/>
+   <XChildEntity name="SeamJmsTopicConnection"/>
+   <XChildEntity name="SeamJmsTopicPublisher"/>
+   <XChildEntity name="SeamJmsQueueSender"/>
+  </XChildrenEntities>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="JMS" group="1"
      kind="list" name="JMS">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"

@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="drools" value="http://jboss.com/products/seam/drools-1.2.xsd"/>
    <PAIR name="drools$20" value="http://jboss.com/products/seam/drools-2.0.xsd"/>
+   <PAIR name="drools$21" value="http://jboss.com/products/seam/drools-2.1.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -328,10 +329,15 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
- <XEntityExtension name="FileSeamComponents20_EditorActionList">
-  <XChildrenEntities/>
+ <XEntityExtension name="FileSeamComponents21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamDroolsManagedWorkingMemory"/>
+   <XChildEntity name="SeamDroolsRuleBase"/>
+   <XChildEntity name="SeamDroolsRuleAgent"/>
+  </XChildrenEntities>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Drools" group="1"
      kind="list" name="Drools">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"

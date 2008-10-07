@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="web" value="http://jboss.com/products/seam/web-1.2.xsd"/>
    <PAIR name="web$20" value="http://jboss.com/products/seam/web-2.0.xsd"/>
+   <PAIR name="web$21" value="http://jboss.com/products/seam/web-2.1.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -745,10 +746,21 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
- <XEntityExtension name="FileSeamComponents20_EditorActionList">
-  <XChildrenEntities/>
+ <XEntityExtension name="FileSeamComponents21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamWebContextFilter20"/>
+   <XChildEntity name="SeamWebExceptionFilter20"/>
+   <XChildEntity name="SeamWebMultipartFilter20"/>
+   <XChildEntity name="SeamWebRedirectFilter20"/>
+   <XChildEntity name="SeamWebAuthenticationFilter20"/>
+   <XChildEntity name="SeamWebCharacterFilter20"/>
+   <XChildEntity name="SeamWebAjaxFilter20"/>
+   <XChildEntity name="SeamWebLoggingFilter20"/>
+   <XChildEntity name="SeamWebServletSession20"/>
+  </XChildrenEntities>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Web" group="1"
      kind="list" name="Web">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"

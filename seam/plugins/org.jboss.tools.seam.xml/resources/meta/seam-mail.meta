@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="mail" value="http://jboss.com/products/seam/mail-1.2.xsd"/>
    <PAIR name="mail$20" value="http://jboss.com/products/seam/mail-2.0.xsd"/>
+   <PAIR name="mail$21" value="http://jboss.com/products/seam/mail-2.1.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -409,10 +410,15 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
- <XEntityExtension name="FileSeamComponents20_EditorActionList">
-  <XChildrenEntities/>
+ <XEntityExtension name="FileSeamComponents21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamMailSession"/>
+   <XChildEntity name="SeamMailMeldware"/>
+   <XChildEntity name="SeamMailMeldwareUser"/>
+  </XChildrenEntities>
   <XActionItem kind="list">
-   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Mail" group="1"
      kind="list" name="Mail">
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
