@@ -11,11 +11,12 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceDescription;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
@@ -26,10 +27,11 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
+import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * Base class for facet related tests; based on the facet test class found in
@@ -56,8 +58,6 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	protected static final IProjectFacetVersion javaFacesVersion;
 	
 	private static final IProjectFacet seamFacet;
-
-	private static final long MAX_IDLE = 30*60*1000L;
 	
 	static {
 		seamFacet = ProjectFacetsManager.getProjectFacet("jst.seam");
@@ -171,7 +171,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		fproj.installProjectFacet(javaFacesVersion, null, null);
 	}
 
-	protected IFacetedProject createSeamProject(String baseProjectName, IDataModel config) throws CoreException {
+	protected IFacetedProject createSeamProject(String baseProjectName, final IDataModel config) throws CoreException {
 		final IFacetedProject fproj = ProjectFacetsManager.create(baseProjectName, null,
 				null);
 	
@@ -182,6 +182,28 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(fproj.getProject());
 		assertTrue(seamProjectsSet.getActionFolder().exists());
 		assertTrue(seamProjectsSet.getModelFolder().exists());
+		
+		final IProject proj = fproj.getProject();
+		
+		
+		ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+
+			public void run(IProgressMonitor monitor) throws CoreException {
+				String seamVersionString = config.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+				SeamVersion seamVersion = SeamVersion.parseFromString(seamVersionString);
+				SeamProjectCreator creator = null;
+				if(seamVersion == SeamVersion.SEAM_1_2) {
+					creator = new SeamProjectCreator(config, proj);
+				} else if(seamVersion == SeamVersion.SEAM_2_0) {
+					creator = new Seam2ProjectCreator(config, proj);
+				} else {
+					throw new RuntimeException("Can't get seam version from seam facet model");
+				}
+				creator.execute(monitor);
+				proj.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+			}
+			
+		},new NullProgressMonitor());
 		
 		return fproj;
 	}
