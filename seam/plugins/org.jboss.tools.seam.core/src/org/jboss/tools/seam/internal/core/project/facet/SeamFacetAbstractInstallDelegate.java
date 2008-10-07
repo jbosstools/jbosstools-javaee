@@ -289,10 +289,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(ejbVersion!=null) {
 			doExecuteForEjb(project, fv, model, monitor);
 		} else if(webVersion!=null) {
-			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 			doExecuteForWar(project, fv, model, monitor);
 		} else if(earVersion!=null) {
-			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 			doExecuteForEar(project, fv, model, monitor);
 		}
 	}
