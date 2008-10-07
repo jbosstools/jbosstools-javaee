@@ -221,7 +221,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 * @return
 	 */
 	static boolean isWarConfiguration(IDataModel model) {
-		return "war".equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)); //$NON-NLS-1$
+		return ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 	}
 
 	static void createComponentsProperties(final File seamGenResFolder, String projectName, Boolean embedded) {
@@ -289,8 +289,10 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(ejbVersion!=null) {
 			doExecuteForEjb(project, fv, model, monitor);
 		} else if(webVersion!=null) {
+			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 			doExecuteForWar(project, fv, model, monitor);
 		} else if(earVersion!=null) {
+			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 			doExecuteForEar(project, fv, model, monitor);
 		}
 	}

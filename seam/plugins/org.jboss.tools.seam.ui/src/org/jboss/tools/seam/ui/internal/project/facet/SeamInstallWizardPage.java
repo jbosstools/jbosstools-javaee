@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
@@ -24,7 +26,9 @@ import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -33,6 +37,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.componentcore.internal.util.IModuleConstants;
@@ -40,6 +45,7 @@ import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -47,7 +53,6 @@ import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
-import org.eclipse.wst.common.project.facet.ui.ModifyFacetedProjectWizard;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -63,6 +68,7 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
+import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 
 /**
  * @author eskimo
@@ -159,8 +165,33 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * @return
 	 */
 	private Object getDeployAsDefaultValue() {
-		return SeamProjectPreferences.getStringPreference(
-				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS);
+		String result = SeamProjectPreferences.getStringPreference(SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS);
+		if(!isNewProjectWizard()) {
+			ISelection sel = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
+			IProject project = SeamWizardUtils.getInitialProject(sel);
+			if(project == null) {
+				SeamCorePlugin.getPluginLog().logError("Can't get project name to initialize SeamInstallWizardPage for ModifyFacetedProjectWizard");
+				return result;
+			}
+			IFacetedProject facetedProject;
+			try {
+				facetedProject = ProjectFacetsManager.create(project);
+				if(facetedProject==null) {
+					SeamCorePlugin.getPluginLog().logError("Can't get faceted project to initialize SeamInstallWizardPage for ModifyFacetedProjectWizard");
+					return result;
+				}
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				return result;
+			}
+			IProjectFacetVersion webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
+			if(webVersion!=null) {
+				return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
+			} else {
+				return ISeamFacetDataModelProperties.DEPLOY_AS_EAR;
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -353,10 +384,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate.addValidatorForProperty(sessionBeanPkgNameditor
 					.getName(), new PackageNameValidator(
 					sessionBeanPkgNameditor.getName(), "session beans")); //$NON-NLS-1$
-			validatorDelegate.addValidatorForProperty(
-					IFacetDataModelProperties.FACET_PROJECT_NAME, 
-					new ProjectNamesDuplicationValidator(
-							IFacetDataModelProperties.FACET_PROJECT_NAME));
+			if(isNewProjectWizard()) {
+				validatorDelegate.addValidatorForProperty(
+						IFacetDataModelProperties.FACET_PROJECT_NAME, 
+						new ProjectNamesDuplicationValidator(
+								IFacetDataModelProperties.FACET_PROJECT_NAME));
+			}
 			validatorDelegate.addValidatorForProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					getDeploymentTypeValidator(getWizard()));
@@ -373,6 +406,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
         Dialog.applyDialogFont(parent);
         initDefaultWizardProperties();
+	}
+
+	private boolean isNewProjectWizard() {
+		// ModifyFacetedProjectWizard or NewProjectDataModelFacetWizard
+		return getWizard() instanceof NewProjectDataModelFacetWizard;
 	}
 
 	/**
@@ -542,15 +580,14 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	IValidator getDeploymentTypeValidator(IWizard wizard) {
 		if(wizard instanceof NewProjectDataModelFacetWizard) {
 			return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ((NewProjectDataModelFacetWizard)wizard).getDataModel());
-		} else if(wizard instanceof ModifyFacetedProjectWizard) {
-			ModifyFacetedProjectWizard mfpw = (ModifyFacetedProjectWizard)wizard;
 		}
-		return  new IValidator() {
-			public Map<String, String> validate(Object value, Object context) {
-				SeamInstallWizardPage.this.validate();
-				return ValidatorFactory.NO_ERRORS;
-			}
-		};
+		return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, model);
+//		return  new IValidator() {
+//			public Map<String, String> validate(Object value, Object context) {
+//				SeamInstallWizardPage.this.validate();
+//				return ValidatorFactory.NO_ERRORS;
+//			}
+//		};
 	}
 
 	static class DeploymentTypeValidator implements IValidator {
