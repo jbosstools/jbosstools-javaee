@@ -23,6 +23,7 @@ import org.w3c.dom.Node;
 
 public class VpeDefineTemplate extends VpeAbstractTemplate {
 	
+	@Override
 	protected void init(Element templateElement) {
 		children = true;
 		modify = true;
@@ -43,7 +44,14 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 		return sourceNode.getParentNode();
 	}
 
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name, String value) {
+	
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
 	
