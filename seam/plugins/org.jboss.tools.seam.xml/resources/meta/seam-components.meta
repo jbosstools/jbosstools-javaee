@@ -4,6 +4,11 @@
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.0"/>
  <MAPPINGS>
+  <MAPPING name="AttributeConstraints">
+   <PAIR name="IntEL" value="org.jboss.tools.seam.xml.components.model.constraint.IntELConstraint"/>
+   <PAIR name="ListEL" value="org.jboss.tools.seam.xml.components.model.constraint.ListELConstraint"/>
+   <PAIR name="ListIntEL" value="org.jboss.tools.seam.xml.components.model.constraint.ListIntELConstraint"/>
+  </MAPPING>
   <MAPPING name="FileVersions">
    <PAIR name="SeamComponents1.1" value="FileSeamComponents11"/>
    <PAIR name="SeamComponents1.2" value="FileSeamComponents12"/>
@@ -1112,8 +1117,39 @@
     name="EditActions" path="EditActions"/>
    <XActionItemReference entity="FileSeamComponents20"
     name="SaveActions" path="SaveActions"/>
-   <XActionItemReference entity="FileSeamComponents20"
-    name="CreateActions" path="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%"
+     ICON="action.new.struts.webapp.res_ref"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Component..." kind="action" name="AddComponent">
+     <EntityData EntityName="SeamComponent20">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%"
+     ICON="action.new.struts.webapp.res_ref"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Factory..." kind="action" name="AddFactory">
+     <EntityData EntityName="SeamFactory20">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     <EntityData EntityName="SeamEvent20">
+      <AttributeData AttributeName="type"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Import..." kind="action" name="AddImport">
+     <EntityData EntityName="SeamImport">
+      <AttributeData AttributeName="import"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItemReference entity="FileSeamComponents20"
     name="CopyActions" path="CopyActions"/>
    <XActionItemReference entity="FileSeamComponents20"
@@ -1366,7 +1402,7 @@
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="scope" xmlname="scope">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="stateless"/>
      <value name="event"/>
@@ -1385,10 +1421,19 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="precedence" xmlname="precedence"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="precedence" xmlname="precedence">
+    <Constraint loader="%ListIntEL%">
+     <value name=""/>
+     <value name="BUILT_IN"/>
+     <value name="FRAMEWORK"/>
+     <value name="APPLICATION"/>
+     <value name="DEPLOYMENT"/>
+     <value name="MOCK"/>
+    </Constraint>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     default="default(true)" name="installed" xmlname="installed">
-    <Constraint loader="ListString">
+    <Constraint loader="%ListEL%">
      <value name="default(true)"/>
      <value name="true"/>
      <value name="false"/>
@@ -1397,7 +1442,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     default="default(false)" name="auto-create" xmlname="auto-create">
-    <Constraint loader="ListString">
+    <Constraint loader="%ListEL%">
      <value name="default(false)"/>
      <value name="true"/>
      <value name="false"/>
@@ -1406,7 +1451,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     default="default(false)" name="startup" xmlname="startup">
-    <Constraint loader="ListString">
+    <Constraint loader="%ListEL%">
      <value name="default(false)"/>
      <value name="true"/>
      <value name="false"/>

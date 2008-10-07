@@ -41,6 +41,14 @@
 			class="org.jboss.tools.seam.xml.components.model.SeamComponents11FileLoader"/>
 		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"
 			class="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"/>
+
+		<xclass id="org.jboss.tools.seam.xml.components.model.constraint.ListELConstraint"
+			class="org.jboss.tools.seam.xml.components.model.constraint.ListELConstraint"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.constraint.IntELConstraint"
+			class="org.jboss.tools.seam.xml.components.model.constraint.IntELConstraint"/>
+		<xclass id="org.jboss.tools.seam.xml.components.model.constraint.ListIntELConstraint"
+			class="org.jboss.tools.seam.xml.components.model.constraint.ListIntELConstraint"/>
+
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">
