@@ -155,7 +155,6 @@
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
 
-
             <title>Content Assist</title>
             <para><property>Content assist</property> is available when working with</para>
 
@@ -185,6 +184,11 @@
                     <para>
                         <link linkend="ContentAssistForRF">RichFaces components</link>
                     </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <ulink url="&esblinklink;#ESBContentAssist">ESB XML files</ulink>
+                       </para>
                 </listitem>
             </itemizedlist>
 
