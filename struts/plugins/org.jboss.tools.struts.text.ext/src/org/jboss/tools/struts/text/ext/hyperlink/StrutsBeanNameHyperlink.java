@@ -69,7 +69,7 @@ public class StrutsBeanNameHyperlink extends AbstractHyperlink {
 			return;
 		}
 		StrutsFormBeanHyperlink openOn = new StrutsFormBeanHyperlink();
-		openOn.setTextViewer(getTextViewer());
+		openOn.setDocument(getDocument());
 		openOn.setOffset(getOffset());
 		openOn.doHyperlink(region);
 	}
