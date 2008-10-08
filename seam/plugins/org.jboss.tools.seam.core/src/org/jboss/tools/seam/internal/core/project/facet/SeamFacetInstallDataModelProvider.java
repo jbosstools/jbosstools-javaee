@@ -17,8 +17,10 @@ import java.util.Set;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 
 /**
  * Data model provider for Seam facet wizard page
@@ -136,5 +138,28 @@ public class SeamFacetInstallDataModelProvider extends
 		return new File(FileLocator.resolve(
 				Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry(
 						"/templates")).getPath()); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.common.frameworks.datamodel.AbstractDataModelProvider#init()
+	 */
+	@Override
+	public void init() {
+		super.init();
+		model.setProperty(ISeamFacetDataModelProperties.DB_TYPE, SeamProjectPreferences.getStringPreference(SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE));
+		model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE));
+		model.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME, "");
+		model.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME, "");
+		model.setProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS, false);
+		model.setProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY, false);
+		if(model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)!=null) {
+			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".session"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".entity"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".test"); //$NON-NLS-1$
+		}
+		// TODO
+//		jBossSeamHome
+//		jBossAsDeployAs
 	}
 }

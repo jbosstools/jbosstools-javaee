@@ -53,7 +53,6 @@ import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
-import org.eclipse.wst.common.project.facet.ui.ModifyFacetedProjectWizard;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -155,27 +154,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	}
 
 	/**
-	 * This method is useful for seam facet modify wizard. 
-	 */
-	private void initModel() {
-		synchEditorsAndModel(jBossHibernateDbTypeEditor);
-//		synchEditorsAndModel(jBossSeamHomeEditor);
-		synchEditorsAndModel(jBossAsDeployAsEditor);
-		synchEditorsAndModel(connProfileSelEditor);
-		synchEditorsAndModel(dbSchemaName);
-		synchEditorsAndModel(dbCatalogName);
-		synchEditorsAndModel(dbTablesExists);
-		synchEditorsAndModel(recreateTablesOnDeploy);
-		synchEditorsAndModel(sessionBeanPkgNameditor);
-		synchEditorsAndModel(entityBeanPkgNameditor);
-		synchEditorsAndModel(testsPkgNameditor);
-	}
-
-	private void synchEditorsAndModel(IFieldEditor editor) {
-		model.setProperty(editor.getName(), editor.getValue());
-	}
-
-	/**
 	 * @return
 	 */
 	private String getDefaultDbType() {
@@ -270,10 +248,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
 				HIBERNATE_HELPER.getDialectClass(jBossHibernateDbTypeEditor.getValueAsString()));
-
-		if(!isNewProjectWizard()) {
-			initModel();
-		}
 	}
 
 	/**
