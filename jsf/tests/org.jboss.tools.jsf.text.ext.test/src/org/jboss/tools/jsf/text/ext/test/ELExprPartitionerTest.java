@@ -8,7 +8,7 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-package org.jboss.tools.jsf.text.ext.tests;
+package org.jboss.tools.jsf.text.ext.test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
