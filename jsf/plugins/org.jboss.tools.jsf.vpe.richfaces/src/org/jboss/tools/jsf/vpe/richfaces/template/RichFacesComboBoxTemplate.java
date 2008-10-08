@@ -183,9 +183,12 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         final nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_DIV);
         
         //Fix  https://jira.jboss.org/jira/browse/JBIDE-2430 issue with resizement. 
-        rootDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH+Constants.COLON+sourceWidth); 
+        rootDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH+Constants.COLON+sourceWidth);
+        final nsIDOMElement comboBoxDiv = visualDocument.createElement(HTML.TAG_DIV); 
         final nsIDOMElement secondDiv = visualDocument.createElement(HTML.TAG_DIV);
-        secondDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign); 
+        comboBoxDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign); //$NON-NLS-1$ 
+        secondDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign);
+        //comboBoxDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv")); //$NON-NLS-1$ 
         secondDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv")); //$NON-NLS-1$
         String secondDivSubStyle = "; position: {0}; z-index: {1} ;"; //$NON-NLS-1$
         if (isToggle) {
@@ -194,6 +197,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
             secondDivSubStyle = MessageFormat.format(secondDivSubStyle, "static", "0"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         // TODO add ATTR_STYLE.
+        comboBoxDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + this.sourceListWidth
+                + Constants.SEMICOLON + secondDivSubStyle);
         secondDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + this.sourceListWidth
                 + Constants.SEMICOLON + secondDivSubStyle + sourceStyle);
         final nsIDOMElement thirdDiv = visualDocument.createElement(HTML.TAG_DIV);
@@ -248,11 +253,12 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
                 + calculateWithForDiv(this.sourceWidth, 10));
         forthEmptyDiv.appendChild(visualDocument.createTextNode("Struts")); //$NON-NLS-1$
 
-        rootDiv.appendChild(secondDiv);
+        rootDiv.appendChild(comboBoxDiv);
+        comboBoxDiv.appendChild(secondDiv); 
 
         secondDiv.appendChild(thirdDiv);
         if (isToggle) {
-            secondDiv.appendChild(createToogleDiv(pageContext, source, visualDocument));
+        	comboBoxDiv.appendChild(createToogleDiv(pageContext, source, visualDocument));
         }
         thirdDiv.appendChild(firstInput);
         thirdDiv.appendChild(secondInput);
