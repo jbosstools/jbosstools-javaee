@@ -13,12 +13,12 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
-import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -101,6 +101,8 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		 * MenuItem component structure.
 		 * In order of  nesting.
 		 */
+		nsIDOMElement itemMainLI;
+		
 		nsIDOMElement itemTopDiv;
 		nsIDOMElement itemIconImgSpan;
 		nsIDOMElement itemIconImg;
@@ -110,12 +112,13 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		/*
 		 * Creating visual elements
 		 */
-		itemTopDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		itemIconImgSpan = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
-		itemIconImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-		itemLabelSpan = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
-		itemLabelText = visualDocument.createTextNode(""); //$NON-NLS-1$
-		creationData = new VpeCreationData(itemTopDiv);
+		itemMainLI = visualDocument.createElement(HTML.TAG_LI);
+		itemTopDiv = visualDocument.createElement(HTML.TAG_DIV);
+		itemIconImgSpan = visualDocument.createElement(HTML.TAG_SPAN);
+		itemIconImg = visualDocument.createElement(HTML.TAG_IMG);
+		itemLabelSpan = visualDocument.createElement(HTML.TAG_SPAN);
+		itemLabelText = visualDocument.createTextNode(EMPTY);
+		creationData = new VpeCreationData(itemMainLI);
 		
 		/*
 		 * Nesting elements
@@ -123,6 +126,12 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		itemTopDiv.appendChild(itemIconImgSpan);
 		itemTopDiv.appendChild(itemLabelSpan);
 		itemLabelSpan.appendChild(itemLabelText);
+		itemMainLI.appendChild(itemTopDiv);
+		
+		/*
+		 * Setting attributes for the drop-down mechanism
+		 */
+		itemMainLI.setAttribute(RichFacesDropDownMenuTemplate.MENU_CHILD_ID, EMPTY);
 		
 		/*
 		 * Setting css classes
@@ -145,9 +154,11 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			labelSpanClass += SPACE + mi_labelClass;
 		}
 		
-		itemTopDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, topDivClass);
-		itemIconImgSpan.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, iconImgSpanClass);
-		itemLabelSpan.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, labelSpanClass);
+//		itemTopDiv.setAttribute(HTML.ATTR_CLASS, topDivClass);
+		itemMainLI.setAttribute(HTML.ATTR_CLASS, topDivClass);
+		itemIconImgSpan.setAttribute(HTML.ATTR_CLASS, iconImgSpanClass);
+		itemLabelSpan.setAttribute(HTML.ATTR_CLASS, labelSpanClass);
+		
 
 		/*
 		 * Setting css styles
@@ -158,21 +169,22 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			topDivStyle += SPACE + mi_style;
 		}
 		
-		itemTopDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, topDivStyle);
+//		itemTopDiv.setAttribute(HTML.ATTR_STYLE, topDivStyle);
+		itemMainLI.setAttribute(HTML.ATTR_STYLE, topDivStyle);
 		
 		/*
 		 * Encode label and icon value
 		 */
-		Attr valueAttr = sourceElement.getAttributeNode(HtmlComponentUtil.HTML_VALUE_ATTR);
+		Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
     	String labelValue = valueAttr != null
-				&& valueAttr.getValue() != null ? valueAttr.getValue() : ""; //$NON-NLS-1$
+				&& valueAttr.getValue() != null ? valueAttr.getValue() : EMPTY;
 		itemLabelText.setNodeValue(labelValue);
 		
 		/*
 		 * Encode icon facets
 		 */
 		Element iconFacet = ComponentUtil.getFacet(sourceElement, ICON_FACET_NAME);
-		Element iconDisabledFacet = ComponentUtil.getFacet(sourceElement, ICON_DISABLED_FACET_NAME);
+//		Element iconDisabledFacet = ComponentUtil.getFacet(sourceElement, ICON_DISABLED_FACET_NAME);
 		if (null != iconFacet) {
 			VpeChildrenInfo childInfo = new VpeChildrenInfo(itemIconImgSpan);
 			childInfo.addSourceChild(iconFacet);
@@ -184,7 +196,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 				 * Add path to specified image
 				 */
 				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(iconPath, pageContext, true);
-				itemIconImg.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, imgFullPath);
+				itemIconImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 			} else {
 				/*
 				 * Create spacer image
@@ -221,9 +233,9 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		if (null == sourceElement) {
 			return;
 		}
-		mi_disabled = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATTR_DISABLED);
+		mi_disabled = sourceElement.getAttribute(HTML.ATTR_DISABLED);
 		mi_icon = sourceElement.getAttribute(ICON);
-		mi_value = sourceElement.getAttribute(HtmlComponentUtil.HTML_VALUE_ATTR);
+		mi_value = sourceElement.getAttribute(HTML.ATTR_VALUE);
 		
 		mi_iconClass = sourceElement.getAttribute(ICON_CLASS);
 		mi_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
@@ -231,8 +243,8 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		mi_labelClass = sourceElement.getAttribute(LABEL_CLASS);
 		mi_selectClass = sourceElement.getAttribute(SELECT_CLASS);
 		mi_selectStyle = sourceElement.getAttribute(SELECT_STYLE);
-		mi_style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-		mi_styleClass = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
+		mi_style = sourceElement.getAttribute(HTML.ATTR_STYLE);
+		mi_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 	}
 
     /**
@@ -252,14 +264,5 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
-	
-	public void onMouseOver(VpeVisualDomBuilder visualDomBuilder, Node sourceNode, String mouseOverId) {
-		// TODO Auto-generated method stub
-//		visualDomBuilder.updateNode(sourceNode);
-	}
 
-	public void stopMouseOver(Node sourceNode) {
-		// TODO Auto-generated method stub
-		
-	}
 }

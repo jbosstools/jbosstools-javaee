@@ -10,27 +10,29 @@
   ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
-import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.interfaces.nsIDOMText;
-import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
+	
+	/*
+	 * Public constants for drop down mechanism.
+	 */
+	public final static String 	MENU_PARENT_ID = "vpe-ddm-menu-ul"; //$NON-NLS-1$
+	public final static String 	MENU_CHILD_ID = "vpe-ddm-menu-li"; //$NON-NLS-1$
 	
 	/*
 	 * rich:dropDownMenu constants
@@ -51,9 +53,9 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_LABEL_TEXT_DECOR = "rich-label-text-decor"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BORDER = "rich-menu-list-border"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_LIST_BG = "rich-menu-list-bg"; //$NON-NLS-1$
-	private static final String CSS_RICH_DDEMENU_LIST_DIV_STYLE = "position: relative; z-index: 100; display: table;"; //$NON-NLS-1$
-	private static final String CSS_RICH_DDEMENU_BORDER_DIV_STYLE = "position: relative; z-index: 2; display: table;"; //$NON-NLS-1$
-	
+	private static final String CSS_RICH_DDEMENU_LIST_DIV_STYLE = ""; //$NON-NLS-1$
+	private static final String CSS_RICH_DDEMENU_BORDER_DIV_STYLE = ""; //$NON-NLS-1$	
+
 	/*
 	 * rich:dropDownMenu attributes names
 	 */
@@ -97,27 +99,21 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	private String ddm_style;
 	private String ddm_styleClass;
 
-	private nsIDOMElement storedVisualMenu = null;
-	private int ddmId = 1;
-	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 	    VpeCreationData creationData = null;
 	    Element sourceElement = (Element)sourceNode;
 	    
-	    Element srcNode = null;
-        
-        if ((sourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
-                && (sourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
-            srcNode = (Element) sourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
-        }
 	    ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
 	    readDropDownMenuAttributes(sourceElement);
-	    
 	    
 		/*
 		 * DropDownMenu component structure.
 		 * In order of  nesting.
 		 */
+	    nsIDOMElement ddmMainUL;
+	    nsIDOMElement ddmMainLI;
+	    nsIDOMElement ddmChildrenUL;
+	    
 		nsIDOMElement ddmLabelDiv;
 		nsIDOMElement ddmTextSpan;
 		nsIDOMText ddmLabelText;
@@ -128,23 +124,40 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		/*
 		 * Creating visual elements
 		 */
-		ddmLabelDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		ddmTextSpan = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
-		ddmLabelText = visualDocument.createTextNode(""); //$NON-NLS-1$
-		ddmListDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		ddmListBorderDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		ddmListBgDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		creationData = new VpeCreationData(ddmLabelDiv);
-		storedVisualMenu = ddmLabelDiv;
+
+	    ddmMainUL = visualDocument.createElement(HTML.TAG_UL);
+	    ddmMainLI = visualDocument.createElement(HTML.TAG_LI);
+	    ddmChildrenUL = visualDocument.createElement(HTML.TAG_UL);
+		ddmLabelDiv = visualDocument.createElement(HTML.TAG_DIV);
+		ddmTextSpan = visualDocument.createElement(HTML.TAG_SPAN);
+		ddmLabelText = visualDocument.createTextNode(EMPTY);
+		ddmListDiv = visualDocument.createElement(HTML.TAG_DIV);
+		ddmListBorderDiv = visualDocument.createElement(HTML.TAG_DIV);
+		ddmListBgDiv = visualDocument.createElement(HTML.TAG_DIV);
+		creationData = new VpeCreationData(ddmMainUL);
 		
 		/*
 		 * Nesting elements
 		 */
 		ddmLabelDiv.appendChild(ddmTextSpan);
 		ddmTextSpan.appendChild(ddmLabelText);
-		ddmLabelDiv.appendChild(ddmListDiv);
+//		ddmLabelDiv.appendChild(ddmListDiv);
 		ddmListDiv.appendChild(ddmListBorderDiv);
 		ddmListBorderDiv.appendChild(ddmListBgDiv);
+
+		ddmMainUL.appendChild(ddmMainLI);
+		ddmMainLI.appendChild(ddmLabelDiv);
+		/*
+		 * Children <ul> will be added only if there are some of them.
+		 */
+//		ddmMainLI.appendChild(ddmChildrenUL);
+		
+		/*
+		 * Setting attributes for the drop-down mechanism
+		 */
+	    ddmMainUL.setAttribute(MENU_PARENT_ID, EMPTY);
+	    ddmMainLI.setAttribute(MENU_CHILD_ID, EMPTY);
+	    ddmChildrenUL.setAttribute(MENU_PARENT_ID, EMPTY);
 		
 		/*
 		 * Setting css classes
@@ -160,11 +173,12 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			listBorderDivClass += SPACE + ddm_styleClass;
 		}
 		
-		ddmLabelDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, labelDivClass);
-		ddmTextSpan.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_RICH_LABEL_TEXT_DECOR);
-		ddmListBorderDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, listBorderDivClass);
-		ddmListBgDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_RICH_MENU_LIST_BG);
-		
+//		ddmLabelDiv.setAttribute(HTML.CLASS_ATTR, labelDivClass);
+		ddmMainLI.setAttribute(HTML.ATTR_CLASS, labelDivClass);
+		ddmTextSpan.setAttribute(HTML.ATTR_CLASS, CSS_RICH_LABEL_TEXT_DECOR);
+//		ddmListBorderDiv.setAttribute(HTML.ATTR_CLASS, listBorderDivClass);
+//		ddmListBgDiv.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BG);
+		ddmChildrenUL.setAttribute(HTML.ATTR_CLASS, listBorderDivClass + SPACE + CSS_RICH_MENU_LIST_BG);
 		/*
 		 * Setting css styles
 		 */
@@ -179,106 +193,49 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			cssLabelDivStyle += SPACE + ddm_style;
 		}
 		
-		ddmListDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssListDivStyle);
-		ddmListBorderDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssListBorderDivStyle);
-		ddmLabelDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, cssLabelDivStyle);
-		
+//		ddmListDiv.setAttribute(HTML.STYLE_ATTR, cssListDivStyle);
+//		ddmListBorderDiv.setAttribute(HTML.STYLE_ATTR, cssListBorderDivStyle);
+//		ddmLabelDiv.setAttribute(HTML.STYLE_ATTR, cssLabelDivStyle);
+		ddmMainLI.setAttribute(HTML.ATTR_STYLE, cssListDivStyle + SPACE + cssListBorderDivStyle + SPACE + cssLabelDivStyle);
+		ddmChildrenUL.setAttribute(HTML.ATTR_STYLE, cssListDivStyle + SPACE + cssListBorderDivStyle + SPACE + cssLabelDivStyle);
 		/*
 		 * Encoding label value
 		 */
-		final Element passedElement = (srcNode != null ? srcNode : sourceElement);
-		final Element labelFacet = ComponentUtil.getFacet(passedElement, LABEL_FACET_NAME);
+		Element labelFacet = ComponentUtil.getFacet(sourceElement, LABEL_FACET_NAME);
 		if (null != labelFacet) {
 			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(ddmTextSpan);
 			childrenInfo.addSourceChild(labelFacet);
 			creationData.addChildrenInfo(childrenInfo);
 		} else {
-			Attr valueAttr = sourceElement.getAttributeNode(HtmlComponentUtil.HTML_VALUE_ATTR);
+			Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
 	    	String labelValue = valueAttr != null && valueAttr.getValue() != null
 		    			? valueAttr.getValue()
 		    			: EMPTY;
 		    ddmLabelText.setNodeValue(labelValue);
 		}
 
-		
 		/*
 		 * Adding child nodes
 		 */
-		List<Node> children = ComponentUtil.getChildren(passedElement);
-		int groupCount = 1;
-		for (Node child : children) {
-			if (child.getNodeType() == Node.ELEMENT_NODE
-					&& child.getNodeName().endsWith(":menuGroup")) { //$NON-NLS-1$
-				child.setUserData(RichFacesMenuGroupTemplate.MENU_GROUP_ID,
-						String.valueOf(groupCount), null);
-				groupCount++;
+		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		if (children.size() > 0) {
+			/*
+			 * Add children <ul> and children in it.
+			 */
+			ddmMainLI.appendChild(ddmChildrenUL);
+			for (Node child : children) {
+//			nsIDOMElement childDiv = visualDocument
+//					.createElement(HTML.TAG_DIV);
+//			ddmListBgDiv.appendChild(childDiv);
+				VpeChildrenInfo childDivInfo = new VpeChildrenInfo(ddmChildrenUL);
+				childDivInfo.addSourceChild(child);
+				creationData.addChildrenInfo(childDivInfo);
 			}
-			nsIDOMElement childDiv = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-			ddmListBgDiv.appendChild(childDiv);
-			VpeChildrenInfo childDivInfo = new VpeChildrenInfo(childDiv);
-			childDivInfo.addSourceChild(child);
-			creationData.addChildrenInfo(childDivInfo);
-		}
+		} 
 			
 		return creationData;
 	}
-
-	    @Override
-	    public void validate(VpePageContext pageContext, Node sourceNode,
-		    nsIDOMDocument visualDocument, VpeCreationData data) {
-		super.validate(pageContext, sourceNode, visualDocument, data);
-		List<nsIDOMElement> children = getChildren(storedVisualMenu);
 		
-//		storedVisualMenu.setAttribute(VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_ID, String.valueOf(ddmId));
-//		applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_ID, String.valueOf(ddmId), children);
-//		applyAttributeValueOnChildren(
-//				VpeVisualDomBuilder.VPE_USER_MOUSE_OVER_LOOKUP_PARENT,
-//				"true", children); //$NON-NLS-1$
-	    }
-
-		/**
-		 * 	Sets the attribute to element children 
-		 * @param attrName attribute name
-		 * @param attrValue attribute value
-		 * @param children children
-		 */
-		private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMElement> children) {
-			if (children == null || attrName == null || attrValue == null) {
-				return;
-			}
-			for (nsIDOMElement child : children) {
-				child.setAttribute(attrName, attrValue);
-				applyAttributeValueOnChildren(attrName, attrValue, getChildren(child));
-			}
-		}
-		
-		/**
-		 * Gets element children
-		 * @param element the element
-		 * @return children
-		 */
-		private List<nsIDOMElement> getChildren(nsIDOMElement element) {
-			List<nsIDOMElement> result = new ArrayList<nsIDOMElement>();
-			if (element.hasChildNodes()) {
-				nsIDOMNodeList children = element.getChildNodes();
-				if (null != children) {
-					long len = children.getLength();
-					for (int i = 0; i < len; i++) {
-						nsIDOMNode item = children.item(i);
-						try {
-							nsIDOMElement elem = (nsIDOMElement) item
-									.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-							result.add(elem);
-						} catch (XPCOMException ex) {
-							// just ignore this exception
-						}
-					}
-				}
-			}
-			return result;
-		}
-
 		/**
 		 * Read attributes from the source element.
 		 * 
@@ -290,7 +247,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			}
 			
 			ddm_direction = sourceElement.getAttribute(DIRECTION);
-			ddm_disabled = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATTR_DISABLED);
+			ddm_disabled = sourceElement.getAttribute(HTML.ATTR_DISABLED);
 			ddm_horizontalOffset = sourceElement.getAttribute(HORIZONTAL_OFFCET);
 			ddm_jointPoint = sourceElement.getAttribute(JOINT_POINT);
 			ddm_popupWidth = sourceElement.getAttribute(POPUP_WIDTH);
@@ -303,8 +260,8 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			ddm_itemStyle = sourceElement.getAttribute(ITEM_STYLE);
 			ddm_selectedLabelClass = sourceElement.getAttribute(SELECED_LABEL_CLASS);
 			ddm_selectItemClass = sourceElement.getAttribute(SELECT_ITEM_CLASS);
-			ddm_style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-			ddm_styleClass = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
+			ddm_style = sourceElement.getAttribute(HTML.ATTR_STYLE);
+			ddm_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 		}
 	
 	    /**
@@ -317,16 +274,11 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	    private static boolean attrPresents(String attr) {
 			return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
 		}
-		
-		public void onMouseOver(VpeVisualDomBuilder visualDomBuilder, Node sourceNode, String mouseOverId) {
-			// TODO Auto-generated method stub
-//			visualDomBuilder.updateNode(sourceNode);
+	
+		@Override
+		public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+				Element sourceElement, nsIDOMDocument visualDocument,
+				nsIDOMElement visualNode, Object data, String name, String value) {
+			return true;
 		}
-
-		public void stopMouseOver(Node sourceNode) {
-			// TODO Auto-generated method stub
-			
-		}
-	    
-	    
 }
