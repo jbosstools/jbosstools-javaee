@@ -12,12 +12,12 @@
 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.tools.jsf.vpe.richfaces.AttributeMap;
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
@@ -28,6 +28,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -38,13 +39,21 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
 /**
- * The Class RichFacesComboBox2Template.
+ * The Class RichFacesComboBoxTemplate.
  * 
  * @author Eugene Stherbin
  */
 public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate implements VpeToggableTemplate {
 
-    /** CSS_FILE_NAME. */
+	private static final String BUTTON_ICON_CLASSES_DISABLED = "rich-combobox-font-inactive rich-combobox-button-icon-disabled rich-combobox-button-inactive"; //$NON-NLS-1$
+	private static final String BUTTON_ICON_CLASSES = "rich-combobox-font-inactive rich-combobox-button-icon-inactive rich-combobox-button-inactive"; //$NON-NLS-1$
+	private static final String SECOND_DIV = "secondDiv"; //$NON-NLS-1$
+	private static final String THIRD_DIV = "thirdDiv"; //$NON-NLS-1$
+	private static final String THIRD_EMPTY_DIV = "thirdEmptyDiv"; //$NON-NLS-1$
+	private static final String TEXT_FIELD = "textField"; //$NON-NLS-1$
+	private static final String BUTTON_ICON = "buttonIcon"; //$NON-NLS-1$
+
+	/** CSS_FILE_NAME. */
     private static final String CSS_FILE_NAME = "comboBox/comboBox.css"; //$NON-NLS-1$
 
     /** The Constant DEFAULT_ALIGN. */
@@ -74,8 +83,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
     /** The Constant RICH_COMBOBOX_INPUT_CELL_STYLE. */
     private static final String RICH_COMBOBOX_INPUT_CELL_STYLE = "rich-combobox-inputCell"; //$NON-NLS-1$
 
-    /** The Constant SECOND_INPUT. */
-    private static final String SECOND_INPUT = "secondInput"; //$NON-NLS-1$
+    /** The Constant BUTTON_BACKGROUND. */
+    private static final String BUTTON_BACKGROUND = "buttonBackground"; //$NON-NLS-1$
 
     /** The Constant STYLE_EXT. */
     private static final String STYLE_EXT = "richFacesComboBox"; //$NON-NLS-1$
@@ -89,7 +98,8 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
     private static final String ZERO_STRING = "0"; //$NON-NLS-1$
 
     /** The source align. */
-    private String sourceAlign;
+    // Commented because of not working alignment in RichFaces implementation
+    // private String sourceAlign;
 
     /** The source button style. */
     private String sourceButtonStyle;
@@ -133,6 +143,12 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
     
     /** Source button icon **/
     private String sourceButtonIcon;
+    
+    private String sourceButtonIconInactive;
+    
+    private String sourceButtonIconDisabled;
+
+	private boolean disabled;
 
     /**
      * The Constructor.
@@ -186,11 +202,16 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         rootDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH+Constants.COLON+sourceWidth);
         final nsIDOMElement comboBoxDiv = visualDocument.createElement(HTML.TAG_DIV); 
         final nsIDOMElement secondDiv = visualDocument.createElement(HTML.TAG_DIV);
-        comboBoxDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign); //$NON-NLS-1$ 
-        secondDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign);
+
+        // Commented because of not working alignment in RichFaces implementation  
+        // comboBoxDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign); 
+        // secondDiv.setAttribute(HTML.ATTR_ALIGN, this.sourceAlign);
+
+        
         //comboBoxDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv")); //$NON-NLS-1$ 
-        secondDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("secondDiv")); //$NON-NLS-1$
+        secondDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get(SECOND_DIV)); //$NON-NLS-1$
         String secondDivSubStyle = "; position: {0}; z-index: {1} ;"; //$NON-NLS-1$
+        
         if (isToggle) {
             secondDivSubStyle = MessageFormat.format(secondDivSubStyle, "relative", "2"); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
@@ -202,15 +223,15 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         secondDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + this.sourceListWidth
                 + Constants.SEMICOLON + secondDivSubStyle + sourceStyle);
         final nsIDOMElement thirdDiv = visualDocument.createElement(HTML.TAG_DIV);
-        thirdDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdDiv")); //$NON-NLS-1$
+        thirdDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get(THIRD_DIV));
         thirdDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + this.sourceWidth
                 + "; z-index: 1;"); //$NON-NLS-1$
-        final nsIDOMElement firstInput = visualDocument.createElement(HTML.TAG_INPUT);
-        firstInput.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
-        ;
-        firstInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get("firstInput") + Constants.WHITE_SPACE + sourceInputClass); //$NON-NLS-1$ 
-        firstInput.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
-        firstInput.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH+ Constants.COLON + calculateWithForDiv(this.sourceWidth, 17) + Constants.SEMICOLON 
+        final nsIDOMElement textField = visualDocument.createElement(HTML.TAG_INPUT);
+        textField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
+        
+        textField.setAttribute(HTML.ATTR_CLASS, styleClasess.get(TEXT_FIELD) + Constants.WHITE_SPACE + sourceInputClass); //$NON-NLS-1$ 
+        textField.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
+        textField.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH+ Constants.COLON + calculateWithForDiv(this.sourceWidth, 17) + Constants.SEMICOLON 
                 + sourceInputStyle);
         String value = null;
         if (ComponentUtil.isNotBlank(this.sourceDefaultLabel)) {
@@ -220,33 +241,49 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         }
 
         if (value != null) {
-            firstInput.setAttribute(RichFaces.ATTR_VALUE, value);
+            textField.setAttribute(RichFaces.ATTR_VALUE, value);
         }
-        final nsIDOMElement secondInput = visualDocument.createElement(HTML.TAG_INPUT);
-        secondInput.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
-        ;
-        secondInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get(SECOND_INPUT));
-        secondInput.setAttribute(HTML.ATTR_READONLY, Constants.TRUE); 
-        secondInput.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-        if (this.sourceButtonStyle != null) {
-            secondInput.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
-        }
-        //
-        final nsIDOMElement thirdInput = visualDocument.createElement(HTML.TAG_INPUT);
-        thirdInput.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
-        ;
-        thirdInput.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdInput")); //$NON-NLS-1$
-        thirdInput.setAttribute(HTML.ATTR_READONLY, Constants.TRUE); 
-        thirdInput.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-        if (this.sourceButtonStyle != null) {
-            thirdInput.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
+        final nsIDOMElement buttonBackground = visualDocument.createElement(HTML.TAG_INPUT);
+        buttonBackground.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
+        
+        if (disabled) {
+        	styleClasess.put(BUTTON_ICON, BUTTON_ICON_CLASSES_DISABLED); //$NON-NLS-1$
+        } else {
+        	styleClasess.put(BUTTON_ICON, BUTTON_ICON_CLASSES); //$NON-NLS-1$
         }
         
-
-//        if (ComponentUtil.isNotBlank(this.sourceButtonIcon) && (this.sourceButtonIcon != IMAGE_NAME_DOWN)) {
-//            thirdInput.setAttribute(HTML.ATTR_STYLE, thirdInput.getAttribute(HTML.ATTR_STYLE) + " ; background-image: url("
-//                    + this.sourceButtonIcon + ")");
-//        }
+        buttonBackground.setAttribute(HTML.ATTR_CLASS, styleClasess.get(BUTTON_BACKGROUND));
+        buttonBackground.setAttribute(HTML.ATTR_READONLY, Constants.TRUE); 
+        buttonBackground.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        if (this.sourceButtonStyle != null) {
+            buttonBackground.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
+        }
+        //
+        final nsIDOMElement buttonIcon = visualDocument.createElement(HTML.TAG_INPUT);
+        buttonIcon.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
+        ;
+        buttonIcon.setAttribute(HTML.ATTR_CLASS, styleClasess.get(BUTTON_ICON)); //$NON-NLS-1$
+        buttonIcon.setAttribute(HTML.ATTR_READONLY, Constants.TRUE); 
+        buttonIcon.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        if (this.sourceButtonStyle != null) {
+            buttonIcon.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
+        }
+        
+        String actualSourceButton;
+        if (disabled) {
+        	actualSourceButton = sourceButtonIconDisabled;
+        } else if (isToggle) {
+        	actualSourceButton = sourceButtonIcon;
+        } else {
+        	actualSourceButton = sourceButtonIconInactive;
+        }
+        
+        if (ComponentUtil.isNotBlank(actualSourceButton) && (actualSourceButton != IMAGE_NAME_DOWN)) {
+        	String buttonIconPath = VpeStyleUtil.addFullPathToImgSrc(actualSourceButton, pageContext, true);
+        	buttonIconPath = buttonIconPath.replace('\\', '/');
+    		String style = "background-image: url(" + buttonIconPath + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            buttonIcon.setAttribute(HTML.ATTR_STYLE, buttonIcon.getAttribute(HTML.ATTR_STYLE) + style);
+        }
         final nsIDOMElement forthEmptyDiv = visualDocument.createElement(HTML.TAG_DIV);
         forthEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("forthEmptyDiv")); //$NON-NLS-1$
         forthEmptyDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH + Constants.COLON
@@ -260,9 +297,9 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
         if (isToggle) {
         	comboBoxDiv.appendChild(createToogleDiv(pageContext, source, visualDocument));
         }
-        thirdDiv.appendChild(firstInput);
-        thirdDiv.appendChild(secondInput);
-        thirdDiv.appendChild(thirdInput);
+        thirdDiv.appendChild(textField);
+        thirdDiv.appendChild(buttonBackground);
+        thirdDiv.appendChild(buttonIcon);
         thirdDiv.appendChild(forthEmptyDiv);
 
         final VpeCreationData creationData = new VpeCreationData(rootDiv);
@@ -287,7 +324,7 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 
         thirdEmptyDiv.setAttribute(HTML.ATTR_STYLE, this.sourceListStyle + Constants.SEMICOLON
                 + " z-index: 3; position: absolute; visibility: visible; top: 16px; left: 0px;"); //$NON-NLS-1$
-        thirdEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get("thirdEmptyDiv") + " " + this.sourceListClass); //$NON-NLS-1$ //$NON-NLS-2$
+        thirdEmptyDiv.setAttribute(HTML.ATTR_CLASS, styleClasess.get(THIRD_EMPTY_DIV) + " " + this.sourceListClass); //$NON-NLS-1$ //$NON-NLS-2$
         thirdEmptyDiv.setAttribute(HTML.ATTR_STYLE, "z-index: 3; position: absolute; visibility: visible; top: 16px; left: 0px;"); //$NON-NLS-1$
 
         final nsIDOMElement shadovDiv = visualDocument.createElement(HTML.TAG_DIV);
@@ -567,12 +604,12 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
      * Inits the default classes.
      */
     private void initDefaultClasses() {
-        styleClasess.put("secondDiv", "rich-combobox-font rich-combobox"); //$NON-NLS-1$ //$NON-NLS-2$
-        styleClasess.put("thirdDiv", "rich-combobox-font rich-combobox-shell"); //$NON-NLS-1$ //$NON-NLS-2$
-        styleClasess.put("thirdEmptyDiv", "rich-combobox-list-cord"); //$NON-NLS-1$ //$NON-NLS-2$
-        styleClasess.put("firstInput", "rich-combobox-font-disabled rich-combobox-input-inactive"); //$NON-NLS-1$ //$NON-NLS-2$
-        styleClasess.put(SECOND_INPUT, "rich-combobox-font-inactive rich-combobox-button-background rich-combobox-button-inactive"); //$NON-NLS-1$
-        styleClasess.put("thirdInput", "rich-combobox-font-inactive rich-combobox-button-icon-inactive rich-combobox-button-inactive"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put(SECOND_DIV, "rich-combobox-font rich-combobox"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put(THIRD_DIV, "rich-combobox-font rich-combobox-shell"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put(THIRD_EMPTY_DIV, "rich-combobox-list-cord"); //$NON-NLS-1$ //$NON-NLS-2$
+        styleClasess.put(TEXT_FIELD, "rich-combobox-font-disabled rich-combobox-input-inactive"); //$NON-NLS-1$ //$NON-NLS-2$
+       	styleClasess.put(BUTTON_BACKGROUND, "rich-combobox-font-inactive rich-combobox-button-background rich-combobox-button-inactive"); //$NON-NLS-1$
+       	styleClasess.put(BUTTON_ICON, BUTTON_ICON_CLASSES); //$NON-NLS-1$ //$NON-NLS-2$
         styleClasess.put("forthEmptyDiv", "rich-combobox-strut rich-combobox-font"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -602,24 +639,31 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
      * @param source the source
      */
     private void prepareData(Element source) {
-        this.sourceAlign = source.getAttribute(RichFaces.ATTR_ALIGN); 
-        if (ComponentUtil.isBlank(this.sourceAlign)) {
-            this.sourceAlign = DEFAULT_ALIGN;
-        }
-        this.sourceListWidth = source.getAttribute(RichFaces.ATTR_LIST_WIDTH); 
+    	AttributeMap attributeMap = new AttributeMap(source);
 
-        if (ComponentUtil.isBlank(this.sourceListWidth)) {
-            this.sourceListWidth = DEFAULT_LIST_WIDTH;
+        // Commented because of not working alignment in RichFaces implementation
+    	// if (attributeMap.isBlank(RichFaces.ATTR_ALIGN)) {
+    	// 	this.sourceAlign = DEFAULT_ALIGN;
+    	// } else {
+    	// 	this.sourceAlign = attributeMap.getString(RichFaces.ATTR_ALIGN);
+    	// }
+        
+        if (attributeMap.isBlank(RichFaces.ATTR_LIST_WIDTH)) {
+        	 this.sourceListWidth = DEFAULT_LIST_WIDTH;
+        } else {
+        	this.sourceListWidth = attributeMap.getString(RichFaces.ATTR_LIST_WIDTH);
         }
-        this.sourceListHeight = source.getAttribute(RichFaces.ATTR_LIST_HEIGHT);
         
-
-        this.sourceWidth = source.getAttribute(RichFaces.ATTR_WIDTH); 
+        this.sourceListHeight = attributeMap.getString(RichFaces.ATTR_LIST_HEIGHT);
         
-        if (ComponentUtil.isBlank(this.sourceWidth)) {
-            this.sourceWidth = DEFAULT_LIST_WIDTH;
-        }else if(ComponentUtil.isNotBlank(this.sourceWidth) && (this.sourceListWidth == DEFAULT_LIST_WIDTH)){
-            this.sourceListWidth = this.sourceWidth;
+        if (attributeMap.isBlank(RichFaces.ATTR_WIDTH)) {
+        	this.sourceWidth = DEFAULT_LIST_WIDTH;
+        } else {
+        	this.sourceWidth = attributeMap.getString(RichFaces.ATTR_WIDTH);
+        	
+        	if(this.sourceListWidth == DEFAULT_LIST_WIDTH) {
+                this.sourceListWidth = this.sourceWidth;
+            }
         }
         
         if (ComponentUtil.isNotBlank(this.sourceWidth) && (this.sourceWidth != DEFAULT_LIST_WIDTH)) {
@@ -633,26 +677,29 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
             }
         }
 
-        this.sourceDefaultLabel = ComponentUtil.getAttribute(source, "defaultLabel"); //$NON-NLS-1$
-        this.sourceValue = ComponentUtil.getAttribute(source, RichFaces.ATTR_VALUE); 
+        this.sourceDefaultLabel = attributeMap.getString("defaultLabel"); //$NON-NLS-1$
+        this.sourceValue = attributeMap.getString( RichFaces.ATTR_VALUE); 
 
-        this.sourceButtonStyle = ComponentUtil.getAttribute(source, "buttonStyle"); //$NON-NLS-1$
+        this.sourceButtonStyle = attributeMap.getString("buttonStyle"); //$NON-NLS-1$
 
-        final String sourceStyleClasess = ComponentUtil.getAttribute(source, RichFaces.ATTR_STYLE_CLASS);
+        final String sourceStyleClasess = attributeMap.getString(RichFaces.ATTR_STYLE_CLASS);
 
         if (ComponentUtil.isNotBlank(sourceStyleClasess)) {
-            styleClasess.put("secondDiv", styleClasess.get("secondDiv") + " " + sourceStyleClasess); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            styleClasess.put(SECOND_DIV, styleClasess.get(SECOND_DIV) + " " + sourceStyleClasess); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 
-        this.sourceStyle = ComponentUtil.getAttribute(source, HTML.ATTR_STYLE);
-        this.sourceInputStyle = ComponentUtil.getAttribute(source, "inputStyle"); //$NON-NLS-1$
-        this.sourceInputClass = ComponentUtil.getAttribute(source, "inputClass"); //$NON-NLS-1$
-        this.sourceListClass = ComponentUtil.getAttribute(source, "listClass"); //$NON-NLS-1$
-        this.sourceListStyle = ComponentUtil.getAttribute(source, "listStyle"); //$NON-NLS-1$
-        this.sourceItemClass = ComponentUtil.getAttribute(source, "itemClass"); //$NON-NLS-1$
+        this.sourceStyle = attributeMap.getString(HTML.ATTR_STYLE);
+        this.sourceInputStyle = attributeMap.getString("inputStyle"); //$NON-NLS-1$
+        this.sourceInputClass = attributeMap.getString("inputClass"); //$NON-NLS-1$
+        this.sourceListClass = attributeMap.getString("listClass"); //$NON-NLS-1$
+        this.sourceListStyle = attributeMap.getString("listStyle"); //$NON-NLS-1$
+        this.sourceItemClass = attributeMap.getString("itemClass"); //$NON-NLS-1$
         
-        this.sourceButtonIcon = ComponentUtil.getAttribute(source, "buttonIcon"); //$NON-NLS-1$
-        
+        this.sourceButtonIcon = attributeMap.getString(BUTTON_ICON); //$NON-NLS-1$
+        this.sourceButtonIconInactive = attributeMap.getString("buttonIconInactive"); //$NON-NLS-1$
+        this.sourceButtonIconDisabled = attributeMap.getString("buttonIconDisabled"); //$NON-NLS-1$
+        this.disabled = (attributeMap.getBoolean("disabled") == Boolean.TRUE); //$NON-NLS-1$
+
         if(ComponentUtil.isBlank(this.sourceButtonIcon)){
             this.sourceButtonIcon = IMAGE_NAME_DOWN;
         }
@@ -764,7 +811,6 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
      */
     public void stopToggling(Node sourceNode) {
         isToggle = false;
-
     }
 
     /**
@@ -775,8 +821,11 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
      * @param toggleId the toggle id
      */
     public void toggle(VpeVisualDomBuilder builder, Node sourceNode, String toggleId) {
-        isToggle = !isToggle;
+    	if (disabled) {
+    		isToggle = false;
+    	} else {
+    		isToggle = !isToggle;
+    	}
 
     }
-
 }

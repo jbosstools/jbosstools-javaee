@@ -72,13 +72,17 @@ input.rich-combobox-button-inactive {
 	border-top-color: #C4C0B9;
 }
 
-input.rich-combobox-button-icon-inactive {
+input.rich-combobox-button-icon-inactive,  input.rich-combobox-button-icon-disabled {
 	background: transparent none no-repeat scroll center;
 	cursor: pointer;
 }
 
 input.rich-combobox-button-icon-inactive {
 	background-image: url(down.gif);
+}
+
+input.rich-combobox-button-icon-disabled {
+	background-image: url(down-disabled.gif);
 }
 
 .rich-combobox-strut {

@@ -95,12 +95,11 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_DIV);
 
-        nsIDOMElement divOne = (nsIDOMElement) elements.get(4).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        nsIDOMElement divOne = (nsIDOMElement) elements.get(5).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
         assertTrue("Style classes should be contains ",divOne.getAttribute(HTML.ATTR_CLASS).contains("rich-combobox-font rich-combobox")); //$NON-NLS-1$ //$NON-NLS-2$
         assertTrue("Default style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1); //$NON-NLS-1$
         assertTrue("Default style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width")); //$NON-NLS-1$ //$NON-NLS-2$
         // Check input
-
         return rst;
     }
 
@@ -128,9 +127,8 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
      */
     public void testComboBoxWithAttributes() throws PartInitException, Throwable {
         final nsIDOMElement rst = baseTableCheck(COMPONENTS_COMBO_WITH_ATTR_TEMPLATE, _250PX);
-
+        
         checkValueInInput(rst, SELECT_ANY_VALUE);
-
     }
 
     /**
