@@ -30,7 +30,9 @@ public class JBIDE2828Test extends VpeTest {
 	public JBIDE2828Test(String name) {
 		super(name);
 	}
-	public void testJBIDE2828JbossELParser() {
+	public void testJBIDE2828JbossELParser() throws Throwable {
+		
+		setException(null);
 		
 		ELParserFactory jbossParserFactory = ELParserUtil.getJbossFactory();
 		
@@ -40,22 +42,19 @@ public class JBIDE2828Test extends VpeTest {
 		
 		assertNotNull(elParser);
 		
-		ELModel elModel1 =  elParser.parse("#{faces.context}"); //$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel2 =  elParser.parse("faces.context"); //$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel3 =  elParser.parse("");//$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel4 = elParser.parse("org.richfaces.SKIN"); //$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel5 = elParser.parse(" jdsfh dskfj lksdjf asjfdsd; dsf; ");//$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		assertNotNull(elModel1);
+		checkELParser(elParser);
+		
+		if(getException()!=null) {
+			
+			throw getException();
+		}
 	}
 	/**
 	 * Test for default parser
 	 */
-	public void testJBIDE2828DefaultELParser() {
+	public void testJBIDE2828DefaultELParser() throws Throwable {
+		
+		setException(null);
 		
 		ELParserFactory defaultParserFactory = ELParserUtil.getDefaultFactory();
 		
@@ -65,17 +64,29 @@ public class JBIDE2828Test extends VpeTest {
 		
 		assertNotNull(elParser);
 		
+		checkELParser(elParser);
+		
+		if(getException()!=null) {
+			
+			throw getException();
+		}
+	}
+	/**
+	 * Checks el parser
+	 */	
+	private void checkELParser(ELParser elParser) {
 		ELModel elModel1 =  elParser.parse("#{faces.context}"); //$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel2 =  elParser.parse("faces.context"); //$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel3 =  elParser.parse("");//$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel4 = elParser.parse("org.richfaces.SKIN"); //$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
-		ELModel elModel5 = elParser.parse(" jdsfh dskfj lksdjf asjfdsd; dsf; ");//$NON-NLS-1$
-		assertEquals("In which expression parser will found error?",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
 		assertNotNull(elModel1);
+		assertEquals("There shouldn't be errors",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
+		
+		ELModel elModel2 = elParser.parse("#{org.richfaces.SKIN}"); //$NON-NLS-1$
+		assertNotNull(elModel2);
+		assertEquals("There shouldn't be errors",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
+	
+		ELModel elModel3 = elParser.parse("#{klsjdf lsaijf aslkjd; sikjfd}"); //$NON-NLS-1$
+		assertNotNull(elModel3);
+		assertTrue("There should be errorrs", elParser.getSyntaxErrors().size()>0); //$NON-NLS-1$
+	
 	}
 	
 }
