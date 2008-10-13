@@ -342,13 +342,31 @@
 		<contentAssistProcessor 
 			class="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor" 
 			id="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor">
-			<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
-			<partitiontype id="org.eclipse.jst.jsp.DEFAULT_JSP" />
-			<partitiontype id="org.eclipse.jst.jsp.JSP_DIRECTIVE" />
-			<partitiontype id="org.eclipse.jst.jsp.SCRIPT.DELIMITER" />
-			<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
-			<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+			
+			<contenttype id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+				<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
+				<partitiontype id="org.eclipse.jst.jsp.DEFAULT_JSP" />
+				<partitiontype id="org.eclipse.jst.jsp.JSP_DIRECTIVE" />
+				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.DELIMITER" />
+				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
+				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+			</contenttype>
+			<contenttype id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+				<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
+				<partitiontype id="org.eclipse.jst.jsp.DEFAULT_JSP" />
+				<partitiontype id="org.eclipse.jst.jsp.JSP_DIRECTIVE" />
+				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.DELIMITER" />
+				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
+				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+			</contenttype>
+			<contenttype id="org.eclipse.core.runtime.xml">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
+			<contenttype id="org.jboss.tools.common.model.ui.xml">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
 			
 		</contentAssistProcessor>
   </extension>
