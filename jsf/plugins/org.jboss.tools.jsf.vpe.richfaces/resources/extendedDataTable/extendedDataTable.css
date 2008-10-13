@@ -24,6 +24,13 @@
 	font-family: Arial, Verdana, sans-serif;
 }
 
+.extendedTable-input {
+	border-color:#C4C0B9;
+	border-style: inset;
+	border-width:1px;
+	width:100%;
+}
+
 .dr-table-header {
 	background-color: #D4CFC7;
 	background-position: top left;

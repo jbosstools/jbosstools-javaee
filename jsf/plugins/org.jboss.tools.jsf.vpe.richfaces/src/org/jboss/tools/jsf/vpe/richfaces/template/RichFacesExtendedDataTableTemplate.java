@@ -34,6 +34,11 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 
+    private static final String DISPLAY_NONE = "display : none"; //$NON-NLS-1$
+    private static final String FILTER_BY = "filterBy"; //$NON-NLS-1$
+    private static final String DIV_STYLE = "padding : 4px"; //$NON-NLS-1$
+    private static final String EXTENDED_TABLE_INPUT = "extendedTable-input"; //$NON-NLS-1$
+    private static final String INPUT_TYPE_ATTR = "text"; //$NON-NLS-1$
     private static final String COLUMNS = "columns"; //$NON-NLS-1$
     private static final String FALSE = "false"; //$NON-NLS-1$
     private static final String SCOP = "scop"; //$NON-NLS-1$
@@ -77,7 +82,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
     final static String ZERRO = "0"; //$NON-NLS-1$
     final static String SORTABLE_PATH = "extendedDataTable/sortable.gif"; //$NON-NLS-1$
 
-    private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;"; //$NON-NLS-1$
+    private static String STYLE_FOR_RIGHT_SCROLL = "height: 100%; overflow-y: scroll"; //$NON-NLS-1$
+    private static String TD_STYLE_FOR_RIGHT_SCROLL = "height: 100%;width : 17px;"; //$NON-NLS-1$
 
     private static final int NUM_ROW = 5;
 
@@ -116,6 +122,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	tr1.appendChild(tr1_TD1);
 
 	nsIDOMElement tr1_TD2 = visualDocument.createElement(HTML.TAG_TD);
+	tr1_TD2.setAttribute(HTML.ATTR_STYLE, TD_STYLE_FOR_RIGHT_SCROLL);
 	tr1.appendChild(tr1_TD2);
 
 	nsIDOMElement tr1_td2_DIV = visualDocument.createElement(HTML.TAG_DIV);
@@ -177,17 +184,22 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    }
 	    if (!columnsHeaders.isEmpty()) {
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
+		nsIDOMElement filterTR = visualDocument.createElement(HTML.TAG_TR);
 		thead.appendChild(tr);
+		thead.appendChild(filterTR);
 		String styleClass = encodeStyleClass(null,
 			DR_TABLE_SUBHEADER_RICH_TABLE_SUBHEADER, null,
 			headerClass);
 		if (styleClass != null) {
 		    tr.setAttribute(HTML.ATTR_CLASS, styleClass);
+		    filterTR.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
-		encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
+		encodeHeaderFacets(creationData, tr, filterTR, visualDocument,
 			columnsHeaders,
 			DR_TABLE_SUBHEADERCELL_RICH_TABLE_SUBHEADERCELL,
-			headerClass, HEADER, HTML.TAG_TD);
+			headerClass);
+		
+		
 	    }
 	}
 
@@ -208,10 +220,10 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		if (styleClass != null) {
 		    tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
-		encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
+		encodeFooterFacets(creationData, tr, visualDocument,
 			columnsFooters,
 			DR_TABLE_SUBFOOTERCELL_RICH_TABLE_SUBFOOTERCELL,
-			footerClass, FOOTER, HTML.TAG_TD);
+			footerClass);
 	    }
 	    if (footer != null) {
 		encodeTableHeaderOrFooterFacet(creationData, tfoot,
@@ -319,23 +331,35 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
      * 
      * @param creationData
      * @param parentTr
+     * @param filterTR
      * @param visualDocument
-     * @param headersOrFooters
+     * @param headers
      * @param skinCellClass
      * @param headerClass
-     * @param facetName
-     * @param element
      */
-    public static void encodeHeaderOrFooterFacets(VpeCreationData creationData,
-	    nsIDOMElement parentTr, nsIDOMDocument visualDocument,
-	    ArrayList<Element> headersOrFooters, String skinCellClass,
-	    String headerClass, String facetName, String element) {
-	 String extClass = "Class"; //$NON-NLS-1$
-	for (Element column : headersOrFooters) {
-	    String classAttribute = facetName + extClass;
+    public static void encodeHeaderFacets(VpeCreationData creationData,
+	    nsIDOMElement parentTr, nsIDOMElement filterTR,
+	    nsIDOMDocument visualDocument, ArrayList<Element> headers,
+	    String skinCellClass, String headerClass) {
+	String classAttribute = "headerClass"; //$NON-NLS-1$
+	// Check filter
+	boolean existFilters = false;
+	for (Element column : headers) {
+	    if (ComponentUtil.getAttribute(column, FILTER_BY).length() > 0) {
+		existFilters = true;
+		break;
+	    }
+	}
+
+	// Not filters
+	if (!existFilters) {
+	    filterTR.setAttribute(HTML.ATTR_STYLE, DISPLAY_NONE);
+	}
+
+	for (Element column : headers) {
 	    String columnHeaderClass = column.getAttribute(classAttribute);
-	    nsIDOMElement td = visualDocument.createElement(element);
-	    
+	    nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
+
 	    nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 	    td.appendChild(table);
 	    table.setAttribute(HTML.ATTR_BORDER, ZERRO);
@@ -347,7 +371,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    table.appendChild(tr);
 	    tr.appendChild(trTd1);
 	    tr.appendChild(trTd2);
-	    
+
 	    parentTr.appendChild(td);
 	    String styleClass = encodeStyleClass(null, skinCellClass,
 		    headerClass, columnHeaderClass);
@@ -357,11 +381,36 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    if (colspan != null && colspan.length() > 0) {
 		td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 	    }
-	    Element facetBody = ComponentUtil.getFacet(column, facetName);
+	    Element facetBody = ComponentUtil.getFacet(column, HEADER);
 
 	    VpeChildrenInfo child = new VpeChildrenInfo(trTd1);
 	    child.addSourceChild(facetBody);
 	    creationData.addChildrenInfo(child);
+	    // Add filter
+	    if (existFilters) {
+		nsIDOMElement filterTD = visualDocument
+			.createElement(HTML.TAG_TD);
+
+		filterTR.appendChild(filterTD);
+		filterTD.setAttribute(HTML.ATTR_CLASS, styleClass);
+		filterTD.setAttribute(SCOP, COL);
+		if (colspan != null && colspan.length() > 0) {
+		    filterTD.setAttribute(HTML.ATTR_COLSPAN, colspan);
+		}
+		// Check current filter
+		if(ComponentUtil.getAttribute(column, FILTER_BY).length() > 0) {
+		    // Add input
+		    nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+		    div.setAttribute(HTML.ATTR_STYLE, DIV_STYLE);
+		    filterTD.appendChild(div);
+		    nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
+		    div.appendChild(input);
+		    input.setAttribute(HTML.ATTR_TYPE, INPUT_TYPE_ATTR);
+		    input.setAttribute(HTML.ATTR_CLASS, EXTENDED_TABLE_INPUT);
+		}
+		
+		
+	    }
 	    // Add sortable attribute
 	    String sortable = ComponentUtil.getAttribute(column, ATTR_SORTABLE);
 	    if (sortable.equalsIgnoreCase(FALSE)) {
@@ -370,6 +419,40 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
 	    ComponentUtil.setImg(img, SORTABLE_PATH);
 	    trTd2.appendChild(img);
+	}
+    }
+    
+    /**
+     * 
+     * @param creationData
+     * @param parentTr
+     * @param visualDocument
+     * @param footers
+     * @param skinCellClass
+     * @param footerClass
+     */
+    public static void encodeFooterFacets(VpeCreationData creationData,
+	    nsIDOMElement parentTr, nsIDOMDocument visualDocument,
+	    ArrayList<Element> footers, String skinCellClass, String footerClass) {
+	String classAttribute = "footerClass"; //$NON-NLS-1$
+	for (Element column : footers) {
+
+	    String columnHeaderClass = column.getAttribute(classAttribute);
+	    nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
+	    parentTr.appendChild(td);
+	    String styleClass = encodeStyleClass(null, skinCellClass,
+		    footerClass, columnHeaderClass);
+	    td.setAttribute(HTML.ATTR_CLASS, styleClass);
+	    td.setAttribute(SCOP, COL);
+	    String colspan = column.getAttribute(HTML.ATTR_COLSPAN);
+	    if (colspan != null && colspan.length() > 0) {
+		td.setAttribute(HTML.ATTR_COLSPAN, colspan);
+	    }
+	    Element facetBody = ComponentUtil.getFacet(column, FOOTER);
+
+	    VpeChildrenInfo child = new VpeChildrenInfo(td);
+	    child.addSourceChild(facetBody);
+	    creationData.addChildrenInfo(child);
 	}
     }
 
