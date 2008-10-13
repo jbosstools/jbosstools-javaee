@@ -15,13 +15,15 @@ import org.w3c.dom.Element;
 
 /**
  * A wrapper of DOM Element that can extract its attributes as objects of different types.
- * The methods of the class never throw exceptions. In case if parsing is impossible they
- * always return a correct value.
+ * The methods of the class never throw any exception. In case if parsing is impossible they
+ * always return a correct value(see methods descriptions).
  * 
  * @author yradtsevich
  * @see Element
  */
 public class AttributeMap {
+	private static final String FALSE_VALUE = "false"; //$NON-NLS-1$
+	private static final String TRUE_VALUE = "true"; //$NON-NLS-1$
 	private Element element;
 	
 	public AttributeMap(Element element) {
@@ -54,9 +56,9 @@ public class AttributeMap {
 		
 		Boolean ret;
 		
-		if ("true".equals(attribute)) {
+		if (TRUE_VALUE.equals(attribute)) {
 			ret = Boolean.TRUE;
-		} else if ("false".equals(attribute)) {
+		} else if (FALSE_VALUE.equals(attribute)) {
 			ret = Boolean.FALSE;
 		} else {
 			ret = null;
@@ -65,8 +67,24 @@ public class AttributeMap {
 		return ret;
 	}
 	
+	public void setAttribute(String name, boolean value) {
+		if (value) {
+			element.setAttribute(name, TRUE_VALUE);
+		} else {
+			element.setAttribute(name, FALSE_VALUE);
+		}
+	}
+	
+	/**
+	 * Tests if its parameter is blank string
+	 * 
+	 * @param attributeName
+	 * @return <code>true</code> if and only if <code>attributeName</code> is
+	 * either <code>null</code>, or blank, or contains non-printable characters only
+	 */
 	public boolean isBlank(String attributeName) {
 		String value = getString(attributeName);
 		return ComponentUtil.isBlank(value);
 	}
+	
 }
