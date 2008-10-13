@@ -128,6 +128,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		itemLabelSpan.appendChild(itemLabelText);
 		itemMainLI.appendChild(itemTopDiv);
 		
+		
 		/*
 		 * Setting attributes for the drop-down mechanism
 		 */
@@ -173,14 +174,6 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		itemMainLI.setAttribute(HTML.ATTR_STYLE, topDivStyle);
 		
 		/*
-		 * Encode label and icon value
-		 */
-		Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
-    	String labelValue = valueAttr != null
-				&& valueAttr.getValue() != null ? valueAttr.getValue() : EMPTY;
-		itemLabelText.setNodeValue(labelValue);
-		
-		/*
 		 * Encode icon facets
 		 */
 		Element iconFacet = ComponentUtil.getFacet(sourceElement, ICON_FACET_NAME);
@@ -209,11 +202,20 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			itemIconImgSpan.appendChild(itemIconImg);
 
 		}
+
+		/*
+		 * Encode label and icon value
+		 */
+		Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
+		String labelValue = (valueAttr != null && valueAttr.getValue() != null) 
+					? valueAttr.getValue()
+					: EMPTY;
+		itemLabelText.setNodeValue(labelValue);
 		
 		/*
-		 * Adding child nodes
+		 * Adding child nodes, including text nodes.
 		 */
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		for (Node child : children) {
 			VpeChildrenInfo childInfo = new VpeChildrenInfo(itemLabelSpan);
 			childInfo.addSourceChild(child);

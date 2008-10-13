@@ -37,6 +37,8 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 	private final static String COMPONENT_NAME = "menuGroup"; //$NON-NLS-1$
 	private final static String STYLE_PATH = "menuGroup/menuGroup.css"; //$NON-NLS-1$
 	private static final String SPACER_IMG_PATH = "menuGroup/spacer.gif"; //$NON-NLS-1$
+	private final static String CHILD_GROUP_NAME = ":menuGroup"; //$NON-NLS-1$
+	private final static String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
@@ -152,6 +154,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 //		grFolderDiv.appendChild(grListBorderDiv);
 //		grListBorderDiv.appendChild(grListBgDiv);
 		grMainLI.appendChild(grTopDiv);
+		
 		/*
 		 * Children <ul> will be added only if there are some of them.
 		 */
@@ -248,27 +251,29 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			
 		}
 		
-//		String menuGroupId = (String) sourceNode.getUserData(MENU_GROUP_ID);
 		/*
-		 * Adding child nodes
+		 * Adding child nodes:
+		 * <rich:menuGroup> and <rich:menuItem> only.
 		 */
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
-		if (children.size() > 0) {
-			/*
-			 * Add children <ul> and children in it.
-			 */
-			grMainLI.appendChild(grChildrenUL);
-			for (Node child : children) {
-//			nsIDOMElement childDiv = visualDocument
-//					.createElement(HTML.TAG_DIV);
-//			grListBgDiv.appendChild(childDiv);
-//			VpeChildrenInfo childDivInfo = new VpeChildrenInfo(childDiv);
+		boolean missingChildContainer = true;
+		for (Node child : children) {
+			if (child.getNodeType() == Node.ELEMENT_NODE
+					&& (child.getNodeName().endsWith(CHILD_GROUP_NAME) 
+							|| child.getNodeName().endsWith(CHILD_ITEM_NAME))) {
+				if (missingChildContainer) {
+					/*
+					 * Add children <ul> tag.
+					 */
+					grMainLI.appendChild(grChildrenUL);
+					missingChildContainer = false;
+				}
 				VpeChildrenInfo childDivInfo = new VpeChildrenInfo(grChildrenUL);
 				childDivInfo.addSourceChild(child);
 				creationData.addChildrenInfo(childDivInfo);
 			}
 		}
-		
+
 		return creationData;
 	}
 

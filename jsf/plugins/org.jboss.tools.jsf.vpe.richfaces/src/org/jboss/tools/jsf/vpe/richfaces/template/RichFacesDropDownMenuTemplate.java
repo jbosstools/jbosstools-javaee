@@ -39,7 +39,10 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	 */
 	private final static String COMPONENT_NAME = "dropDownMenu"; //$NON-NLS-1$
 	private final static String STYLE_PATH = "dropDownMenu/dropDownMenu.css"; //$NON-NLS-1$
+	private final static String CHILD_GROUP_NAME = ":menuGroup"; //$NON-NLS-1$
+	private final static String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
 	private static final String LABEL_FACET_NAME = "label"; //$NON-NLS-1$
+	private static final String DEFAULT_DDM_TITLE = "ddm"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
 
@@ -140,13 +143,14 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		 * Nesting elements
 		 */
 		ddmLabelDiv.appendChild(ddmTextSpan);
-		ddmTextSpan.appendChild(ddmLabelText);
+//		ddmTextSpan.appendChild(ddmLabelText);
 //		ddmLabelDiv.appendChild(ddmListDiv);
 		ddmListDiv.appendChild(ddmListBorderDiv);
 		ddmListBorderDiv.appendChild(ddmListBgDiv);
 
 		ddmMainUL.appendChild(ddmMainLI);
 		ddmMainLI.appendChild(ddmLabelDiv);
+		
 		/*
 		 * Children <ul> will be added only if there are some of them.
 		 */
@@ -208,30 +212,36 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			creationData.addChildrenInfo(childrenInfo);
 		} else {
 			Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
-	    	String labelValue = valueAttr != null && valueAttr.getValue() != null
+	    	String labelValue = (valueAttr != null && valueAttr.getValue() != null)
 		    			? valueAttr.getValue()
-		    			: EMPTY;
+		    			: DEFAULT_DDM_TITLE;
 		    ddmLabelText.setNodeValue(labelValue);
+		    ddmTextSpan.appendChild(ddmLabelText);		    
 		}
 
 		/*
-		 * Adding child nodes
+		 * Adding child nodes:
+		 * <rich:menuGroup> and <rich:menuItem> only.
 		 */
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
-		if (children.size() > 0) {
-			/*
-			 * Add children <ul> and children in it.
-			 */
-			ddmMainLI.appendChild(ddmChildrenUL);
-			for (Node child : children) {
-//			nsIDOMElement childDiv = visualDocument
-//					.createElement(HTML.TAG_DIV);
-//			ddmListBgDiv.appendChild(childDiv);
-				VpeChildrenInfo childDivInfo = new VpeChildrenInfo(ddmChildrenUL);
+		boolean missingChildContainer = true;
+		for (Node child : children) {
+			if (child.getNodeType() == Node.ELEMENT_NODE
+					&& (child.getNodeName().endsWith(CHILD_GROUP_NAME) || child
+							.getNodeName().endsWith(CHILD_ITEM_NAME))) {
+				if (missingChildContainer) {
+					/*
+					 * Add children <ul> tag.
+					 */
+					ddmMainLI.appendChild(ddmChildrenUL);
+					missingChildContainer = false;
+				}
+				VpeChildrenInfo childDivInfo = new VpeChildrenInfo(
+						ddmChildrenUL);
 				childDivInfo.addSourceChild(child);
 				creationData.addChildrenInfo(childDivInfo);
 			}
-		} 
+		}
 			
 		return creationData;
 	}
