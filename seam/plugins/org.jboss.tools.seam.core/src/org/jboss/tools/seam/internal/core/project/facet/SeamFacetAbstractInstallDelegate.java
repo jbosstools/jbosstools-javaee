@@ -17,9 +17,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.tools.ant.types.FilterSet;
+import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILogListener;
@@ -33,6 +36,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.model.IModelProvider;
 import org.eclipse.jst.j2ee.model.ModelProviderManager;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
@@ -59,8 +63,12 @@ import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
@@ -238,6 +246,26 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 	}
 
+	protected IVirtualFolder srcRootFolder;
+	protected File seamHomeFolder;
+	protected String seamHomePath;
+	protected File seamLibFolder;
+	protected File seamGenResFolder;
+	protected File srcFolder;
+	protected File webContentFolder;
+	protected File webLibFolder;
+	protected IContainer webRootFolder;
+	protected File seamGenHomeFolder;
+	protected File seamGenViewSource;
+	protected File dataSourceDsFile;
+	protected File componentsFile;
+	protected File webInfFolder;
+	protected File webInfClasses;
+	protected File webInfClassesMetaInf;
+	protected File persistenceFile;
+	protected File hibernateConsoleLaunchFile;
+	protected File hibernateConsolePropsFile;
+
 	/**
 	 * 
 	 * @param project
@@ -246,8 +274,177 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected abstract void doExecuteForWar(IProject project, IProjectFacetVersion fv,
-			IDataModel model, IProgressMonitor monitor) throws CoreException;
+	protected void doExecuteForWar(IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException {
+		// get WebContents folder path from DWP model 
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+		srcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
+		webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+
+		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
+
+		Boolean dbExists = (Boolean) model.getProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
+		Boolean dbRecreate = (Boolean) model.getProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
+		if (!dbExists && !dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "update"); //$NON-NLS-1$
+		} else if (dbExists && !dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "validate"); //$NON-NLS-1$
+		} else if (dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "create-drop"); //$NON-NLS-1$
+		}
+
+		webContentFolder = webRootFolder.getLocation().toFile();
+		webInfFolder = new File(webContentFolder, "WEB-INF"); //$NON-NLS-1$
+		webInfClasses = new File(webInfFolder, "classes"); //$NON-NLS-1$
+		webInfClassesMetaInf = new File(webInfClasses, "META-INF"); //$NON-NLS-1$
+		webInfClassesMetaInf.mkdirs();
+		webLibFolder = new File(webContentFolder, WEB_LIBRARIES_RELATED_PATH);
+		srcFolder = isWarConfiguration(model) ? new File(srcRootFolder.getUnderlyingFolder().getLocation().toFile(), "model") : srcRootFolder.getUnderlyingFolder().getLocation().toFile(); //$NON-NLS-1$
+		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+		final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
+
+		seamHomePath = selectedRuntime.getHomeDir();
+
+		seamHomeFolder = new File(seamHomePath);
+		seamLibFolder = new File(seamHomePath, SEAM_LIB_RELATED_PATH);
+		seamGenResFolder = new File(seamHomePath, "seam-gen/resources"); //$NON-NLS-1$
+
+		seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
+		seamGenViewSource = new File(seamGenHomeFolder, "view"); //$NON-NLS-1$
+		dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
+		componentsFile = new File(seamGenResFolder, "WEB-INF/components" + (isWarConfiguration(model) ? "-war" : "") + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
+		hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
+		hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
+		//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
+		persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		copyFilesToWarProject(project, fv, model, monitor);
+
+		ClasspathHelper.addClasspathEntries(project, fv);
+		createSeamProjectPreferenes(project, model);
+		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+	}
+
+	/**
+	 * 
+	 * @param project
+	 * @param fv
+	 * @param model
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	protected void copyFilesToWarProject(IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException {
+		final FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		final FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		final FilterSet filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
+
+		// ****************************************************************
+		// Copy view folder from seam-gen installation to WebContent folder
+		// ****************************************************************
+		final AntCopyUtils.FileSet viewFileSet = new AntCopyUtils.FileSet(VIEW_FILESET).dir(seamGenViewSource);
+		final FilterSetCollection viewFilterSetCollection = new FilterSetCollection();
+		viewFilterSetCollection.addFilterSet(jdbcFilterSet);
+		viewFilterSetCollection.addFilterSet(projectFilterSet);
+		viewFilterSetCollection.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenViewSource, 
+				webContentFolder, 
+				new AntCopyUtils.FileSetFileFilter(viewFileSet), 
+				viewFilterSetCollection, 
+				true);
+
+		// *******************************************************************
+		// Copy manifest and configuration resources the same way as view
+		// *******************************************************************
+		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
+
+		configureWebXml(project);
+
+		AntCopyUtils.copyFileToFile(
+				componentsFile,
+				new File(webInfFolder, "components.xml"), //$NON-NLS-1$
+				new FilterSetCollection(projectFilterSet), true);
+
+		AntCopyUtils.copyFilesAndFolders(
+				seamGenResFolder, webContentFolder, new AntCopyUtils.FileSetFileFilter(webInfSet), viewFilterSetCollection, true);
+
+		final FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
+		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+
+		// ********************************************************************************************
+		// Handle WAR configurations
+		// ********************************************************************************************
+		if (isWarConfiguration(model)) {
+			AntCopyUtils.FileSet webInfClassesSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+			AntCopyUtils.copyFilesAndFolders(
+					seamGenResFolder, srcFolder, new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, true);
+
+			createComponentsProperties(srcFolder, "", false); //$NON-NLS-1$ //$NON-NLS-2$
+
+			/*AntCopyUtils.copyFileToFolder(
+					hibernateConsolePref,
+					new File(project.getLocation().toFile(),".settings"),	 //$NON-NLS-1$
+					new FilterSetCollection(projectFilterSet), true);*/
+
+			// ********************************************************************************************
+			// Copy seam project indicator
+			// ********************************************************************************************
+
+			final IContainer source = srcRootFolder.getUnderlyingFolder();
+
+			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/action"); //$NON-NLS-1$
+			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/model"); //$NON-NLS-1$
+
+			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
+			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
+			WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);			
+
+			srcRootFolder.createLink(actionSrcPath, 0, null);
+			srcRootFolder.createLink(modelSrcPath, 0, null);					
+
+			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/");
+
+			//AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
+
+			AntCopyUtils.copyFileToFile(
+					new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
+					new File(actionsSrc,model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					new FilterSetCollection(filtersFilterSet), true);
+
+			AntCopyUtils.copyFileToFile(
+					persistenceFile,
+					new File(srcFolder, "META-INF/persistence.xml"), //$NON-NLS-1$
+					viewFilterSetCollection, true);
+
+			File resources = new File(project.getLocation().toFile(), "resources");
+			AntCopyUtils.copyFileToFile(
+					dataSourceDsFile, 
+					new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
+					viewFilterSetCollection, true);
+
+			AntCopyUtils.copyFileToFile(
+					hibernateConsoleLaunchFile, 
+					new File(project.getLocation().toFile(), project.getName() + ".launch"),  //$NON-NLS-1$
+					viewFilterSetCollection, true);
+
+			AntCopyUtils.copyFileToFolder(
+					hibernateConsolePropsFile, 
+					project.getLocation().toFile(),
+					hibernateDialectFilterSet, true);
+
+			WtpUtils.setClasspathEntryAsExported(project, new Path("org.eclipse.jst.j2ee.internal.web.container"), monitor); //$NON-NLS-1$
+		} else {
+			// In case of EAR configuration
+			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "messages_en.properties"), srcFolder, true); //$NON-NLS-1$
+		}
+	}
 
 	/**
 	 * 

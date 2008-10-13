@@ -61,6 +61,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
@@ -213,21 +214,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		return names;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private Object getSeamRuntimeDefaultValue() {
-		String seamFacetVersion = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
-		SeamVersion seamVersion = SeamVersion.parseFromString(seamFacetVersion); 
-
-		SeamRuntime defaultRuntime = SeamRuntimeManager.getInstance().getDefaultRuntime(seamVersion);
-		if(defaultRuntime==null) {
-			return "";
-		}
-		return defaultRuntime.getName();
-	}
-
 	private DataModelSynchronizer sync;
 
 	/**
@@ -308,7 +294,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * Creates Seam Facet Wizard Page contents
 	 */
 	public void createControl(Composite parent) {
-		jBossSeamHomeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(new SeamVersion[0], getSeamRuntimeDefaultValue().toString(), new NewSeamRuntimeAction());
+		jBossSeamHomeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(new SeamVersion[0], SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model), new NewSeamRuntimeAction());
 
 		initializeDialogUnits(parent);
 
@@ -479,7 +465,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		List<String> runtimes = getRuntimeNames(model.getProperty(
 				IFacetDataModelProperties.FACET_VERSION_STR).toString());
 		if (oldValue == null || !runtimes.contains(oldValue)) {
-			Object defaultRnt = getSeamRuntimeDefaultValue();
+			Object defaultRnt = SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model);
 			if (defaultRnt != null && runtimes.contains(defaultRnt)) {
 				newValue = defaultRnt;
 			} else if (runtimes.size() > 0) {
@@ -581,13 +567,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		if(wizard instanceof NewProjectDataModelFacetWizard) {
 			return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ((NewProjectDataModelFacetWizard)wizard).getDataModel());
 		}
-		return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, model);
-//		return  new IValidator() {
-//			public Map<String, String> validate(Object value, Object context) {
-//				SeamInstallWizardPage.this.validate();
-//				return ValidatorFactory.NO_ERRORS;
-//			}
-//		};
+//		return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, model);
+		return  new IValidator() {
+			public Map<String, String> validate(Object value, Object context) {
+				return ValidatorFactory.NO_ERRORS;
+			}
+		};
 	}
 
 	static class DeploymentTypeValidator implements IValidator {

@@ -19,8 +19,12 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 
 /**
  * Data model provider for Seam facet wizard page
@@ -138,6 +142,22 @@ public class SeamFacetInstallDataModelProvider extends
 		return new File(FileLocator.resolve(
 				Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry(
 						"/templates")).getPath()); //$NON-NLS-1$
+	}
+
+	/**
+	 * Returns default seam runtime name.
+	 * @param seamModel
+	 * @return
+	 */
+	public static String getSeamRuntimeDefaultValue(IDataModel seamModel) {
+		String seamFacetVersion = seamModel.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+		SeamVersion seamVersion = SeamVersion.parseFromString(seamFacetVersion); 
+
+		SeamRuntime defaultRuntime = SeamRuntimeManager.getInstance().getDefaultRuntime(seamVersion);
+		if(defaultRuntime==null) {
+			return "";
+		}
+		return defaultRuntime.getName();
 	}
 
 	/*
