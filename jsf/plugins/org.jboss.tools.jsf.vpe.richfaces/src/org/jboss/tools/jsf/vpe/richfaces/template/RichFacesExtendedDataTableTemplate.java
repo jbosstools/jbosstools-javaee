@@ -34,18 +34,50 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 
-    final static String DEFAULT_HEIGHT = "500px";
-    final static String DEFAULT_WIDTH = "100%";
-    final static String HEADER = "header";
-    final static String HEADER_CLASS = "headerClass";
-    final static String FOOTER = "footer";
-    final static String FOOTER_CLASS = "footerClass";
-    final static String CAPTION_CLASS = "captionClass";
-    final static String CAPTION_STYLE = "captionStyle";
-    final static String SPACE = " ";
+    private static final String COLUMNS = "columns"; //$NON-NLS-1$
+    private static final String FALSE = "false"; //$NON-NLS-1$
+    private static final String SCOP = "scop"; //$NON-NLS-1$
+    private static final String COL = "col"; //$NON-NLS-1$
+    private static final String TABLE_CAPTION_RICH_TABLE_CAPTION = "dr-table-caption rich-table-caption"; //$NON-NLS-1$
+    private static final String DR_TABLE_CAPTION_RICH_TABLE_CAPTION = "dr-table-caption rich-table-caption "; //$NON-NLS-1$
+    private static final String SUB_TABLE = ":subTable"; //$NON-NLS-1$
+    private static final String COLUMN_GROUP = ":columnGroup"; //$NON-NLS-1$
+    private static final String DR_TABLE_ROW_RICH_TABLE_ROW = "dr-table-row rich-table-row"; //$NON-NLS-1$
+    private static final String DR_TABLE_FIRSTROW_RICH_TABLE_FIRSTROW = "dr-table-firstrow rich-table-firstrow"; //$NON-NLS-1$
+    private static final String TRUE = "true"; //$NON-NLS-1$
+    private static final String BREAK_BEFORE = "breakBefore"; //$NON-NLS-1$
+    private static final String DR_TABLE_FOOTERCELL_RICH_TABLE_FOOTERCELL = "dr-table-footercell rich-table-footercell"; //$NON-NLS-1$
+    private static final String DR_TABLE_FOOTER_CONTINUE_RICH_TABLE_FOOTER_CONTINUE = "dr-table-footer-continue rich-table-footer-continue"; //$NON-NLS-1$
+    private static final String DR_TABLE_FOOTER_RICH_TABLE_FOOTER = "dr-table-footer rich-table-footer"; //$NON-NLS-1$
+    private static final String DR_TABLE_SUBFOOTERCELL_RICH_TABLE_SUBFOOTERCELL = "dr-table-subfootercell rich-table-subfootercell"; //$NON-NLS-1$
+    private static final String DR_TABLE_SUBFOOTER_RICH_TABLE_SUBFOOTER = "dr-table-subfooter rich-table-subfooter"; //$NON-NLS-1$
+    private static final String DR_TABLE_SUBHEADERCELL_RICH_TABLE_SUBHEADERCELL = "dr-table-subheadercell rich-table-subheadercell"; //$NON-NLS-1$
+    private static final String DR_TABLE_SUBHEADER_RICH_TABLE_SUBHEADER = "dr-table-subheader rich-table-subheader"; //$NON-NLS-1$
+    private static final String DR_TABLE_HEADERCELL_RICH_TABLE_HEADERCELL = "dr-table-headercell rich-table-headercell"; //$NON-NLS-1$
+    private static final String DR_TABLE_HEADER_CONTINUE_RICH_TABLE_HEADER_CONTINUE = "dr-table-header-continue rich-table-header-continue"; //$NON-NLS-1$
+    private static final String DR_TABLE_HEADER_RICH_TABLE_HEADER = "dr-table-header rich-table-header"; //$NON-NLS-1$
+    private static final String EMPTY = ""; //$NON-NLS-1$
+    private static final String DR_TABLE_RICH_TABLE = "dr-table rich-table "; //$NON-NLS-1$
+    private static final String RICH_FACES_DATA_TABLE = "richFacesDataTable"; //$NON-NLS-1$
+    private static final String EXTENDED_DATA_TABLE_CSS = "extendedDataTable/extendedDataTable.css"; //$NON-NLS-1$
+    private static final String SEMICOLON = ";"; //$NON-NLS-1$
+    private static final String COLON = " : "; //$NON-NLS-1$
+    private static final String DR_TABLE_HIDDEN = "dr-table-hidden"; //$NON-NLS-1$
+    private static final String COLUMN = ":column"; //$NON-NLS-1$
+    final static String DEFAULT_HEIGHT = "500px"; //$NON-NLS-1$
+    final static String DEFAULT_WIDTH = "100%"; //$NON-NLS-1$
+    final static String HEADER = "header"; //$NON-NLS-1$
+    final static String HEADER_CLASS = "headerClass"; //$NON-NLS-1$
+    final static String FOOTER = "footer"; //$NON-NLS-1$
+    final static String FOOTER_CLASS = "footerClass"; //$NON-NLS-1$
+    final static String CAPTION_CLASS = "captionClass"; //$NON-NLS-1$
+    final static String CAPTION_STYLE = "captionStyle"; //$NON-NLS-1$
+    final static String ATTR_SORTABLE = "sortable"; //$NON-NLS-1$
+    final static String SPACE = " "; //$NON-NLS-1$
+    final static String ZERRO = "0"; //$NON-NLS-1$
+    final static String SORTABLE_PATH = "extendedDataTable/sortable.gif"; //$NON-NLS-1$
 
-    private static String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
-    private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
+    private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;"; //$NON-NLS-1$
 
     private static final int NUM_ROW = 5;
 
@@ -77,21 +109,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	VpeCreationData creationData = new VpeCreationData(tableCommon);
 
 	nsIDOMElement tr1 = visualDocument.createElement(HTML.TAG_TR);
-
-	nsIDOMElement tr2 = visualDocument.createElement(HTML.TAG_TR);
-
 	tableCommon.appendChild(tr1);
-	tableCommon.appendChild(tr2);
-
-	// ---------tr2
-	nsIDOMElement tr2_TD = visualDocument.createElement(HTML.TAG_TD);
-	tr2.appendChild(tr2_TD);
-
-	nsIDOMElement tr2_td_DIV = visualDocument.createElement(HTML.TAG_DIV);
-	tr2_td_DIV.setAttribute(HTML.ATTR_STYLE, STYLE_FOR_LOW_SCROLL);
-	tr2_TD.appendChild(tr2_td_DIV);
-
-	// --------------------------------------------
 
 	// ---------------------tr1------------------------
 	nsIDOMElement tr1_TD1 = visualDocument.createElement(HTML.TAG_TD);
@@ -107,12 +125,12 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	// -------------------------------------------------------
 	nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 	tr1_TD1.appendChild(div);
-	div.setAttribute(HTML.ATTR_CLASS, "dr-table-hidden");
+	div.setAttribute(HTML.ATTR_CLASS, DR_TABLE_HIDDEN);
 
-	String divStyle = HTML.ATTR_WIDTH + " : "
-		+ (width == null ? DEFAULT_WIDTH : width) + ";"
-		+ HTML.ATTR_HEIGHT + " : "
-		+ (height == null ? DEFAULT_HEIGHT : height) + ";";
+	String divStyle = HTML.ATTR_WIDTH + COLON
+		+ (width == null ? DEFAULT_WIDTH : width) + SEMICOLON
+		+ HTML.ATTR_HEIGHT + COLON
+		+ (height == null ? DEFAULT_HEIGHT : height) + SEMICOLON;
 
 	div.setAttribute(HTML.ATTR_STYLE, divStyle);
 
@@ -121,13 +139,14 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	table.removeAttribute(HTML.ATTR_HEIGHT);
 	div.appendChild(table);
 
-	ComponentUtil.setCSSLink(pageContext,
-		"scrollableDataTable/scrollableDataTable.css",
-		"richFacesDataTable");
+	ComponentUtil
+		.setCSSLink(pageContext,
+			EXTENDED_DATA_TABLE_CSS,
+			RICH_FACES_DATA_TABLE);
 	String tableClass = sourceElement
 		.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-	table.setAttribute(HTML.ATTR_CLASS, "dr-table rich-table "
-		+ (tableClass == null ? "" : tableClass));
+	table.setAttribute(HTML.ATTR_CLASS, DR_TABLE_RICH_TABLE
+		+ (tableClass == null ? EMPTY : tableClass));
 
 	// Encode colgroup definition.
 	ArrayList<Element> columns = getColumns(sourceElement);
@@ -151,23 +170,23 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    if (header != null) {
 		encodeTableHeaderOrFooterFacet(creationData, thead,
 			columnsLength, visualDocument, header,
-			"dr-table-header rich-table-header",
-			"dr-table-header-continue rich-table-header-continue",
-			"dr-table-headercell rich-table-headercell",
+			DR_TABLE_HEADER_RICH_TABLE_HEADER,
+			DR_TABLE_HEADER_CONTINUE_RICH_TABLE_HEADER_CONTINUE,
+			DR_TABLE_HEADERCELL_RICH_TABLE_HEADERCELL,
 			headerClass, HTML.TAG_TD);
 	    }
 	    if (!columnsHeaders.isEmpty()) {
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		thead.appendChild(tr);
 		String styleClass = encodeStyleClass(null,
-			"dr-table-subheader rich-table-subheader", null,
+			DR_TABLE_SUBHEADER_RICH_TABLE_SUBHEADER, null,
 			headerClass);
 		if (styleClass != null) {
 		    tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
 		encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 			columnsHeaders,
-			"dr-table-subheadercell rich-table-subheadercell",
+			DR_TABLE_SUBHEADERCELL_RICH_TABLE_SUBHEADERCELL,
 			headerClass, HEADER, HTML.TAG_TD);
 	    }
 	}
@@ -184,22 +203,22 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		tfoot.appendChild(tr);
 		String styleClass = encodeStyleClass(null,
-			"dr-table-subfooter rich-table-subfooter", null,
+			DR_TABLE_SUBFOOTER_RICH_TABLE_SUBFOOTER, null,
 			footerClass);
 		if (styleClass != null) {
 		    tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
 		encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 			columnsFooters,
-			"dr-table-subfootercell rich-table-subfootercell",
+			DR_TABLE_SUBFOOTERCELL_RICH_TABLE_SUBFOOTERCELL,
 			footerClass, FOOTER, HTML.TAG_TD);
 	    }
 	    if (footer != null) {
 		encodeTableHeaderOrFooterFacet(creationData, tfoot,
 			columnsLength, visualDocument, footer,
-			"dr-table-footer rich-table-footer",
-			"dr-table-footer-continue rich-table-footer-continue",
-			"dr-table-footercell rich-table-footercell",
+			DR_TABLE_FOOTER_RICH_TABLE_FOOTER,
+			DR_TABLE_FOOTER_CONTINUE_RICH_TABLE_FOOTER_CONTINUE,
+			DR_TABLE_FOOTERCELL_RICH_TABLE_FOOTERCELL,
 			footerClass, HTML.TAG_TD);
 	    }
 	}
@@ -214,34 +233,34 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement tr = null;
 	    VpeChildrenInfo trInfo = null;
 	    for (Node child : children) {
-		if (child.getNodeName().endsWith(":column")) {
+		if (child.getNodeName().endsWith(COLUMN)) {
 		    String breakBefore = ((Element) child)
-			    .getAttribute("breakBefore");
+			    .getAttribute(BREAK_BEFORE);
 		    if (breakBefore != null
-			    && breakBefore.equalsIgnoreCase("true")) {
+			    && breakBefore.equalsIgnoreCase(TRUE)) {
 			tr = null;
 		    }
 		    if (tr == null) {
 			tr = visualDocument.createElement(HTML.TAG_TR);
 			if (firstRow) {
 			    tr.setAttribute(HTML.ATTR_CLASS,
-				    "dr-table-firstrow rich-table-firstrow");
+				    DR_TABLE_FIRSTROW_RICH_TABLE_FIRSTROW);
 			    firstRow = false;
 			} else {
 			    tr.setAttribute(HTML.ATTR_CLASS,
-				    "dr-table-row rich-table-row");
+				    DR_TABLE_ROW_RICH_TABLE_ROW);
 			}
 			trInfo = new VpeChildrenInfo(tr);
 			tbody.appendChild(tr);
 			creationData.addChildrenInfo(trInfo);
 		    }
 		    trInfo.addSourceChild(child);
-		} else if (child.getNodeName().endsWith(":columnGroup")) {
+		} else if (child.getNodeName().endsWith(COLUMN_GROUP)) {
 		    RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(
 			    creationData, (Element) child, visualDocument,
 			    tbody);
 		    tr = null;
-		} else if (child.getNodeName().endsWith(":subTable")) {
+		} else if (child.getNodeName().endsWith(SUB_TABLE)) {
 		    RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(
 			    creationData, (Element) child, visualDocument,
 			    tbody);
@@ -279,10 +298,10 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		    .createElement(HTML.TAG_CAPTION);
 	    table.appendChild(caption);
 	    if (captionClass != null && captionClass.length() > 0) {
-		captionClass = "dr-table-caption rich-table-caption "
+		captionClass = DR_TABLE_CAPTION_RICH_TABLE_CAPTION
 			+ captionClass;
 	    } else {
-		captionClass = "dr-table-caption rich-table-caption";
+		captionClass = TABLE_CAPTION_RICH_TABLE_CAPTION;
 	    }
 	    caption.setAttribute(HTML.ATTR_CLASS, captionClass);
 	    if (captionStyle != null && captionStyle.length() > 0) {
@@ -311,24 +330,46 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement parentTr, nsIDOMDocument visualDocument,
 	    ArrayList<Element> headersOrFooters, String skinCellClass,
 	    String headerClass, String facetName, String element) {
+	 String extClass = "Class"; //$NON-NLS-1$
 	for (Element column : headersOrFooters) {
-	    String classAttribute = facetName + "Class";
+	    String classAttribute = facetName + extClass;
 	    String columnHeaderClass = column.getAttribute(classAttribute);
 	    nsIDOMElement td = visualDocument.createElement(element);
+	    
+	    nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+	    td.appendChild(table);
+	    table.setAttribute(HTML.ATTR_BORDER, ZERRO);
+	    table.setAttribute(HTML.ATTR_CELLPADDING, ZERRO);
+	    table.setAttribute(HTML.ATTR_CELLSPACING, ZERRO);
+	    nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
+	    nsIDOMElement trTd1 = visualDocument.createElement(HTML.TAG_TD);
+	    nsIDOMElement trTd2 = visualDocument.createElement(HTML.TAG_TD);
+	    table.appendChild(tr);
+	    tr.appendChild(trTd1);
+	    tr.appendChild(trTd2);
+	    
 	    parentTr.appendChild(td);
 	    String styleClass = encodeStyleClass(null, skinCellClass,
 		    headerClass, columnHeaderClass);
 	    td.setAttribute(HTML.ATTR_CLASS, styleClass);
-	    td.setAttribute("scop", "col");
+	    td.setAttribute(SCOP, COL);
 	    String colspan = column.getAttribute(HTML.ATTR_COLSPAN);
 	    if (colspan != null && colspan.length() > 0) {
 		td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 	    }
 	    Element facetBody = ComponentUtil.getFacet(column, facetName);
 
-	    VpeChildrenInfo child = new VpeChildrenInfo(td);
+	    VpeChildrenInfo child = new VpeChildrenInfo(trTd1);
 	    child.addSourceChild(facetBody);
 	    creationData.addChildrenInfo(child);
+	    // Add sortable attribute
+	    String sortable = ComponentUtil.getAttribute(column, ATTR_SORTABLE);
+	    if (sortable.equalsIgnoreCase(FALSE)) {
+		continue;
+	    }
+	    nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
+	    ComponentUtil.setImg(img, SORTABLE_PATH);
+	    trTd2.appendChild(img);
 	}
     }
 
@@ -351,8 +392,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    String skinFirstRowClass, String skinRowClass,
 	    String skinCellClass, String facetBodyClass, String element) {
 	boolean isColumnGroup = facetBody.getNodeName()
-		.endsWith(":columnGroup");
-	boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
+		.endsWith(COLUMN_GROUP);
+	boolean isSubTable = facetBody.getNodeName().endsWith(SUB_TABLE);
 	if (isColumnGroup) {
 	    RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
 		    facetBody, visualDocument, parentTheadOrTfood);
@@ -402,7 +443,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	for (int i = 0; i < children.getLength(); i++) {
 	    Node child = children.item(i);
 	    if ((child instanceof Element)
-		    && child.getNodeName().endsWith(":column")) {
+		    && child.getNodeName().endsWith(COLUMN)) {
 		columns.add((Element) child);
 	    }
 	}
@@ -468,7 +509,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	int count = 0;
 	// check for exact value in component
 	try {
-	    int span = Integer.parseInt(sourceElement.getAttribute("columns"));
+	    int span = Integer.parseInt(sourceElement.getAttribute(COLUMNS));
 	    count = count > 0 ? span : calculateRowColumns(sourceElement,
 		    columns);
 	} catch (NumberFormatException e) {
@@ -487,7 +528,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	int currentLength = 0;
 	for (Element column : columns) {
 	    if (ComponentUtil.isRendered(column)) {
-		if (column.getNodeName().endsWith(":columnGroup")) {
+		if (column.getNodeName().endsWith(COLUMN_GROUP)) {
 		    // Store max calculated value of previsous rows.
 		    if (currentLength > count) {
 			count = currentLength;
@@ -501,8 +542,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		    }
 		    currentLength = 0;
 		} else if (column.getNodeName().equals(
-			sourceElement.getPrefix() + ":column")) {
-		    String breakBeforeStr = column.getAttribute("breakBefore");
+			sourceElement.getPrefix() + COLUMN)) {
+		    String breakBeforeStr = column.getAttribute(BREAK_BEFORE);
 		    // For new row, save length of previsous.
 		    if (Boolean.getBoolean(breakBeforeStr)) {
 			if (currentLength > count) {
@@ -517,7 +558,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		    } catch (NumberFormatException e) {
 			currentLength++;
 		    }
-		} else if (column.getNodeName().endsWith(":column")) {
+		} else if (column.getNodeName().endsWith(COLUMN)) {
 		    // UIColumn always have colspan == 1.
 		    currentLength++;
 		}
