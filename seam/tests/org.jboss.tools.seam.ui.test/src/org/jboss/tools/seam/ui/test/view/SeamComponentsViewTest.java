@@ -31,12 +31,17 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.seam.ui.SeamPerspectiveFactory;
 import org.jboss.tools.seam.ui.views.actions.SeamViewLayoutActionGroup.SeamContributionItem;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
@@ -55,7 +60,12 @@ public class SeamComponentsViewTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		try {
+			workbench.showPerspective(SeamPerspectiveFactory.PERSPECTIVE_ID,workbench.getActiveWorkbenchWindow());
+		} catch (WorkbenchException e) {
+			fail("Cannot load perspective '" + SeamPerspectiveFactory.PERSPECTIVE_ID + "'");
+		}
 		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
 		assertNotNull("",project);
 		this.project.refreshLocal(IResource.DEPTH_INFINITE, null);
