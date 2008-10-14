@@ -155,7 +155,14 @@
     attributes="name,class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="filter name" xmlname="persistence:name.#text"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="enabled" xmlname="enabled"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="enabled" xmlname="enabled">
+    <Constraint loader="%ListEL%">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -293,6 +300,52 @@
     <XActionItem HIDE="always" HandlerClassName="%Move%"
      ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="persistence:hibernate-session-factory" name="SeamPersistenceHibernateSessionFactory21">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamPersistenceMappingClasses" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPersistenceMappingFiles" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPersistenceMappingJars" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPersistenceMappingPackages" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPersistenceMappingResources" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamPersistenceCfgProperties" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="hibernate session factory"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="cfg-resource-name" xmlname="cfg-resource-name"/>
+   <XModelAttribute PROPERTIES="category=general" name="naming-strategy" xmlname="persistence:naming-strategy.#text"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamPersistenceHibernateSessionFactory"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamPersistenceHibernateSessionFactory"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamPersistenceHibernateSessionFactory"
+    name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamPersistenceHibernateSessionFactory"
+    name="MoveActions" path="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -865,7 +918,7 @@
    <XChildEntity name="SeamPersistenceEntityManagerFactory"/>
    <XChildEntity name="SeamPersistenceFilter"/>
    <XChildEntity name="SeamPersistenceManagedHibernateSession"/>
-   <XChildEntity name="SeamPersistenceHibernateSessionFactory"/>
+   <XChildEntity name="SeamPersistenceHibernateSessionFactory21"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -908,9 +961,10 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Hibernate Session Factory..." kind="action" name="AddHibernateSessionFactory">
-      <EntityData EntityName="SeamPersistenceHibernateSessionFactory">
+      <EntityData EntityName="SeamPersistenceHibernateSessionFactory21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="cfg-resource-name" Mandatory="no"/>
+       <AttributeData AttributeName="naming-strategy" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
