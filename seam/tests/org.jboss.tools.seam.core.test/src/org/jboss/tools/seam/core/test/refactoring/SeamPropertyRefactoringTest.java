@@ -52,9 +52,9 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.WorkbenchUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * @author Alexey Kazakov
@@ -110,7 +110,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 	private ISeamProject loadSeamProject(IProject project) throws CoreException {
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		assertNotNull("Seam project for " + project.getName() + " is null", seamProject);
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 		return seamProject;
 	}
 
@@ -296,7 +296,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 			JUnitUtils.fail("Exception during perform folder renaming: " + folderPath, e);
 		}
 
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 
 		IPath path = new Path(folderPath);
 		String newFolderPath = path.removeLastSegments(1).append(newFolderName).toString();
@@ -370,7 +370,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		} catch (InvocationTargetException e) {
 			JUnitUtils.fail("Rename failed", e);
 		}
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	private IFolder moveFolder(String folderPath, String destinationFolderPath) throws CoreException {
@@ -423,7 +423,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 			JUnitUtils.fail("Exception during perform folder moving: " + folderPath, e);
 		}
 
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 
 		String newFolderPath = destination.getFullPath().append(resource.getName()).toString();
 		resource = ResourcesPlugin.getWorkspace().getRoot().findMember(newFolderPath);

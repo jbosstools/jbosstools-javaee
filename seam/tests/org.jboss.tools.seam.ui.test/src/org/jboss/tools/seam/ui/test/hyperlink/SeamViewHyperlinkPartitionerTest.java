@@ -31,8 +31,8 @@ import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 
@@ -63,7 +63,7 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 
 	public void testSeamViewPartitioner() throws CoreException {
 
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 

@@ -6,12 +6,11 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.JobUtils;
 
 public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 	TestProjectProvider provider = null;
@@ -83,7 +82,7 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 		}
 
 		try {
-			EditorTestHelper.joinBackgroundActivities();
+			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Waiting for the jobs to complete has failed.", false);

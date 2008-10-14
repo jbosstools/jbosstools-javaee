@@ -18,7 +18,6 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
@@ -29,9 +28,7 @@ import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
-
-import sun.management.counter.Units;
+import org.jboss.tools.test.util.JobUtils;
 
 public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	TestProjectProvider provider = null;
@@ -78,7 +75,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		}catch(Exception e){
 			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.1'", e);
 		}
-		EditorTestHelper.joinJobs(1000,10000,500);
+		JobUtils.waitForIdle();
 
 		checkProposals("/WebContent/varAttributes.xhtml", 458, new String[]{"test.name"}, false);
 		checkProposals("/WebContent/varAttributes.xhtml", 640, new String[]{"item.name"}, false);
@@ -88,7 +85,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		}catch(Exception e){
 			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.2'", e);
 		}
-		EditorTestHelper.joinJobs(1000,10000,500);
+		JobUtils.waitForIdle();
 	}
 
 	private static final String[] VALID_SEAM_EL_PROPOSALS = new String[] {

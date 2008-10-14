@@ -23,8 +23,9 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 
@@ -59,7 +60,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 			createSeamEarProject(SEAM_EAR_PROJECTNAME);
 		
 		try {
-			EditorTestHelper.joinBackgroundActivities();
+			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			JUnitUtils.fail(e.getMessage(), e);
 		}
@@ -88,7 +89,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 	}
 	
 	protected void tearDown() throws Exception {
-		EditorTestHelper.closeAllEditors();
+		WorkbenchUtils.closeAllEditors();
 		
 		super.tearDown();
 		

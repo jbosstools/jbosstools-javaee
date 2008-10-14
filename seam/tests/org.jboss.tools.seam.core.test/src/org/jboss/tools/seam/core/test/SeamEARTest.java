@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
-import java.lang.reflect.InvocationTargetException;
-
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
@@ -19,17 +17,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.ui.refactoring.RenameSupport;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.WorkbenchUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.JobUtils;
 
 /**
  * @author V.Kabanovich
@@ -58,14 +50,13 @@ public class SeamEARTest extends TestCase {
 		projectWAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		projectEJB.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	private ISeamProject getSeamProject(IProject project) throws CoreException {
 
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		EditorTestHelper.joinBackgroundActivities();
-
+		JobUtils.waitForIdle();
 		ISeamProject seamProject = null;
 		
 		/*

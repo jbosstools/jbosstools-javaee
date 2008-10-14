@@ -16,7 +16,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -31,8 +30,9 @@ import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.validation.ISeamValidator;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class SeamValidatorsTest extends AbstractResourceMarkerTest {
@@ -57,18 +57,20 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			project = setup.importProject();
 		}
 		this.project = project.getProject();
-		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	public void tearDown() throws Exception {
-		if(project != null){
-//			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			EditorTestHelper.joinBackgroundActivities();
-			project.close(new NullProgressMonitor());
-			project.delete(true, new NullProgressMonitor());
-			project = null;
-			EditorTestHelper.joinBackgroundActivities();
+		boolean autoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
+			if(project != null){
+				JobUtils.waitForIdle();
+				project.delete(true, new NullProgressMonitor());
+				project = null;
+				JobUtils.waitForIdle();
+			}
+		} finally {
+			ResourcesUtils.setBuildAutomatically(autoBuild);
 		}
 	}
 
@@ -123,13 +125,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
-		IFile jbide1631XHTMLFileWithFoo = project.getFile("WebContent/JBIDE-1631.1");
-		try{
-			jbide1631XHTMLFile.setContents(jbide1631XHTMLFileWithFoo.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'JBIDE-1631.xhtml' content to " +
-					"'JBIDE-1631.1'", ex);
-		}
 		refreshProject(project);
 		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
 		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 16 );
@@ -848,10 +843,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	private void refreshProject(IProject project){
-		waitForJob();
-	}
-
-	public static void waitForJob() {
-		EditorTestHelper.joinJobs(1000,10000,500);
+		JobUtils.delay(1000);
+		JobUtils.waitForIdle();
+		JobUtils.delay(500);
 	}
 }

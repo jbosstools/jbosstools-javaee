@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
@@ -28,10 +30,8 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.JobUtils;
 import org.osgi.framework.Bundle;
-
-import junit.framework.TestCase;
 
 /**
  * Test checks that loading Seam model does not depend as N*N on the number of components N.
@@ -58,7 +58,7 @@ public class SeamBigProjectTest extends TestCase {
 		File template = getTemplateFile();
 		SeamBigProjectGenerator g = new SeamBigProjectGenerator();
 		g.generate(folder, template);
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 		//To ensure that the project is built.
 		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 	}
@@ -121,7 +121,7 @@ public class SeamBigProjectTest extends TestCase {
 		ISeamProject sp = getSeamProject();
 		SeamProject impl = (SeamProject)sp;
 		if(impl != null) impl.clearStorage();
-		EditorTestHelper.joinJobs(1000, 10000, 500);
+		JobUtils.waitForIdle();
 		provider.dispose();
 	}
 

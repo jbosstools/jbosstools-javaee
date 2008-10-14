@@ -17,9 +17,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * @author eskimo
@@ -45,16 +45,16 @@ public class SeamComponentsViewTestSetup extends TestSetup {
 		WorkbenchUtils.getWorkbench().showPerspective(
 				WebDevelopmentPerspectiveFactory.PERSPECTIVE_ID,
 				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 		project = ResourcesUtils.importProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestComponentView", new NullProgressMonitor());
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	/* (non-Javadoc)
 	 * @see junit.extensions.TestSetup#tearDown()
 	 */
 	protected void tearDown() throws Exception {
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();;
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		try {
 			project.delete(true,true, null);

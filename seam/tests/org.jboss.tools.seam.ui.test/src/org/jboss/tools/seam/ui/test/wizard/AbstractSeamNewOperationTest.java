@@ -52,7 +52,7 @@ import org.jboss.tools.seam.ui.wizard.SeamConversationWizard.SeamConversationCre
 import org.jboss.tools.seam.ui.wizard.SeamEntityWizard.SeamEntityCreateOperation;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard.SeamFormCreateOperation;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.JobUtils;
 import org.osgi.service.prefs.BackingStoreException;
 
 abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest {
@@ -86,11 +86,11 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	protected void setUp() throws Exception {
 		super.setUp();
 		try { 
-			EditorTestHelper.joinBackgroundActivities(); } 
-		catch (Exception e) { 
+			JobUtils.waitForIdle();
+		} catch (Exception e) { 
 			JUnitUtils.fail(e.getMessage(), e); 
 		}
-		EditorTestHelper.runEventQueue(3000);
+		JobUtils.delay(3000);
 	}
 
 	abstract protected IProject getProject();
@@ -121,7 +121,7 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	protected ISeamProject loadSeamProject(IProject project) throws CoreException {
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		assertNotNull("Seam project for " + project.getName() + " is null", seamProject);
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 		return seamProject;
 	}
 

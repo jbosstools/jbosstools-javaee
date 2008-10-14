@@ -26,7 +26,7 @@ import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
+import org.jboss.tools.test.util.JobUtils;
 
 public class StrutsJbide1762Test extends TestCase {
 	TestProjectProvider provider = null;
@@ -61,7 +61,7 @@ public class StrutsJbide1762Test extends TestCase {
 
 	public void testStrutsJbide1762 () {
 		try {
-			EditorTestHelper.joinBackgroundActivities();
+			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -93,7 +93,7 @@ public class StrutsJbide1762Test extends TestCase {
 		// Delay for 3 seconds so that
 		// the Favorites view can be seen.
 		try {
-			EditorTestHelper.joinBackgroundActivities();
+			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Waiting for the jobs to complete has failed.", false);
@@ -141,7 +141,7 @@ public class StrutsJbide1762Test extends TestCase {
 		}
 		
 		try {
-			EditorTestHelper.joinBackgroundActivities();
+			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue("Waiting for the jobs to complete has failed.", false);

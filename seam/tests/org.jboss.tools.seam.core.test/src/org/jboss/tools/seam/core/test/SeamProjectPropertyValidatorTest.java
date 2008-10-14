@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -59,8 +59,8 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 			pref.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "invalidConnectionName");
 			pref.flush();
 
-			EditorTestHelper.joinBackgroundActivities();
-			EditorTestHelper.runEventQueue(2000);
+			JobUtils.waitForIdle();
+			JobUtils.delay(2000);
 		}
 	}
 

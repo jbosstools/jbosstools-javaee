@@ -33,8 +33,8 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 import org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages;
 import org.jboss.tools.seam.ui.preferences.SeamSettingsPreferencePage;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 import org.osgi.framework.Bundle;
 
 /**
@@ -58,7 +58,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 		assertNotNull(PROJECT_NAME + " project is not imported.", project);
 		this.project = project.getProject();
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	public void testSettingsPage() throws Exception {
@@ -99,7 +99,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 			dialog.close();
 		}
 
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
 		assertNotNull("Can't load seam project. It seems seam nature was not added to rpoject by seam settings page.", seamProject);

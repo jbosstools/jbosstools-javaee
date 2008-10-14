@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -21,11 +23,9 @@ import org.jboss.tools.seam.internal.core.SeamXMLConstants;
 import org.jboss.tools.seam.internal.core.SeamXmlComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 import org.w3c.dom.Element;
-
-import junit.framework.TestCase;
 
 public class SerializationTest extends TestCase {
 	IProject project = null;
@@ -39,7 +39,7 @@ public class SerializationTest extends TestCase {
 		project = ResourcesUtils.importProject(
 				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	protected void tearDown() throws Exception {

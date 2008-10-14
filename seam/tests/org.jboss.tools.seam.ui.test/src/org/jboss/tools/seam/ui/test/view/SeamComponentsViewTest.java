@@ -36,7 +36,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.navigator.CommonNavigator;
-import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -44,8 +43,8 @@ import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.SeamPerspectiveFactory;
 import org.jboss.tools.seam.ui.views.actions.SeamViewLayoutActionGroup.SeamContributionItem;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * 
@@ -73,7 +72,7 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find components.xml in test project", componentsFile != null && componentsFile.exists());
 
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 	
 	public void testAddComponentInXmlFile() throws CoreException{
@@ -155,7 +154,7 @@ public class SeamComponentsViewTest extends TestCase {
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Expected package 'myPackage' was not found it tree",
 				seamPackage!=null);
-		EditorTestHelper.runEventQueue(1000);
+		JobUtils.delay(1000);
 		component = findSeamComponent(seamPackage, "myPackage.myTextComponent");
 		assertTrue("Expected component 'myPackage.myTextComponent' not found " +
 				"after renaming",component!=null);
@@ -175,7 +174,7 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		navigator.getCommonViewer().expandAll();
 		
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Expected package 'myNewPackage' was not found it tree after " +
@@ -191,7 +190,7 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 		Tree tree = navigator.getCommonViewer().getTree();
 		
 		ISeamPackage seamPackage = findSeamPackage(tree, "myNewPackage");
@@ -538,7 +537,7 @@ public class SeamComponentsViewTest extends TestCase {
 			System.out.println("Refresh project "+count);
 			try {
 				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				EditorTestHelper.joinBackgroundActivities();
+				JobUtils.waitForIdle();
 			} catch (CoreException e) {
 				JUnitUtils.fail("Cannot build test Project", e);
 				break;
@@ -547,7 +546,7 @@ public class SeamComponentsViewTest extends TestCase {
 			count++;
 			if(count > NUMBER_OF_REFRESHES) break;
 		}
-		EditorTestHelper.runEventQueue(1000);
+		JobUtils.delay(1000);
 	}
 	
 }

@@ -21,8 +21,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.jboss.tools.common.model.XJob;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -52,7 +50,6 @@ import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 public class ScannerTest extends TestCase {
 	IProject project = null;

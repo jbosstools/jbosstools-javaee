@@ -14,17 +14,15 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * @author Daniel Azarov
@@ -50,19 +48,19 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		this.project = project.getProject();
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		
-		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 	
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		try {
-			EditorTestHelper.joinBackgroundActivities();
+			JobUtils.waitForIdle();
 			if(project != null){
 				project.close(new NullProgressMonitor());
 				project.delete(true, new NullProgressMonitor());
 				project = null;
-				EditorTestHelper.joinBackgroundActivities();
+				JobUtils.waitForIdle();
 			}
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
@@ -95,7 +93,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		dialog.beginTest();
 		if(wait){
 			try {
-				EditorTestHelper.joinBackgroundActivities();
+				JobUtils.waitForIdle();
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}

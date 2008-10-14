@@ -25,18 +25,19 @@ public class OpenTagLib {
 		if(uri.length() == 0) return JSFUIMessages.URI_ISNOT_SPECIFIED;
 		XModelObject t = findTagLib(model, uri);
 		if(t == null) return NLS.bind(JSFUIMessages.CANNOT_FIND_TAG_LIBRARY, uri);
+		FindObjectHelper.findModelObject(t, FindObjectHelper.IN_EDITOR_ONLY);
 		if(tag != null) {
 			if(tag.length() == 0) return JSFUIMessages.TAG_ISNOT_SPECIFIED;
 			t = findTag(t, tag);
 			if(t == null) return NLS.bind(JSFUIMessages.CANNOT_FIND_TAG_IN_LIBRARY, tag, uri);
+			FindObjectHelper.findModelObject(t, FindObjectHelper.IN_EDITOR_ONLY);
 		}
-		FindObjectHelper.findModelObject(t, FindObjectHelper.IN_EDITOR_ONLY);
 		if(attribute != null) {
 			if(attribute.length() == 0) return JSFUIMessages.ATTRIBUTE_ISNOT_SPECIFIED;
 			t = findAttribute(t, attribute);
 			if(t == null) return NLS.bind(JSFUIMessages.CANNOT_FIND_ATTRIBUTE_IN_TAG, attribute, tag);
+			FindObjectHelper.findModelObject(t, FindObjectHelper.IN_EDITOR_ONLY);
 		}
-		FindObjectHelper.findModelObject(t, FindObjectHelper.IN_EDITOR_ONLY);
 		return null;
 	}
 	
