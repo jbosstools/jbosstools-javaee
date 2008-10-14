@@ -38,7 +38,6 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
  *
  */
 public class RichFacesComboBoxCreator {
-	private static final String EXPANDED_ATTR_NAME = "expanded"; //$NON-NLS-1$
 	private static final WeakHashMap<Node, Object> expandedComboBoxes = new WeakHashMap<Node, Object>();
 	private static final String DISABLED_ATTR_NAME = "disabled"; //$NON-NLS-1$
 	private static final String BUTTON_ICON_CLASSES_DISABLED = 
@@ -245,7 +244,7 @@ public class RichFacesComboBoxCreator {
         if (sourceButtonStyle != null) {
             buttonBackground.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
         }
-        //
+
         final nsIDOMElement buttonIcon = visualDocument.createElement(HTML.TAG_INPUT);
         buttonIcon.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
         ;
@@ -565,7 +564,7 @@ public class RichFacesComboBoxCreator {
     		expandedComboBoxes.put(sourceNode, null);
     	}
     }
-    
+
 	public static void stopToggling(final Node sourceNode) {
 		expandedComboBoxes.remove(sourceNode);
 	}
