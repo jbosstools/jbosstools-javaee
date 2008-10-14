@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -35,6 +36,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.model.IModelProvider;
@@ -56,6 +59,7 @@ import org.eclipse.jst.javaee.web.WebFactory;
 import org.eclipse.jst.javaee.web.WebResourceCollection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -67,6 +71,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.osgi.service.prefs.BackingStoreException;
@@ -302,25 +307,30 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		webLibFolder = new File(webContentFolder, WEB_LIBRARIES_RELATED_PATH);
 		srcFolder = isWarConfiguration(model) ? new File(srcRootFolder.getUnderlyingFolder().getLocation().toFile(), "model") : srcRootFolder.getUnderlyingFolder().getLocation().toFile(); //$NON-NLS-1$
 		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
-		final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
+		if(runtimeName!=null) {
+			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
 
-		seamHomePath = selectedRuntime.getHomeDir();
+			seamHomePath = selectedRuntime.getHomeDir();
 
-		seamHomeFolder = new File(seamHomePath);
-		seamLibFolder = new File(seamHomePath, SEAM_LIB_RELATED_PATH);
-		seamGenResFolder = new File(seamHomePath, "seam-gen/resources"); //$NON-NLS-1$
+			seamHomeFolder = new File(seamHomePath);
+			seamLibFolder = new File(seamHomePath, SEAM_LIB_RELATED_PATH);
+			seamGenResFolder = new File(seamHomePath, "seam-gen/resources"); //$NON-NLS-1$
 
-		seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
-		seamGenViewSource = new File(seamGenHomeFolder, "view"); //$NON-NLS-1$
-		dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
-		componentsFile = new File(seamGenResFolder, "WEB-INF/components" + (isWarConfiguration(model) ? "-war" : "") + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
+			seamGenViewSource = new File(seamGenHomeFolder, "view"); //$NON-NLS-1$
+			dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
+			componentsFile = new File(seamGenResFolder, "WEB-INF/components" + (isWarConfiguration(model) ? "-war" : "") + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-		hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
-		hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
-		//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
-		persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
+			hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
+			hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
+			//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
+			persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		copyFilesToWarProject(project, fv, model, monitor);
+			copyFilesToWarProject(project, fv, model, monitor);
+		} else {
+			// If seam runtime is null then just modify web.xml and add seam nature.
+			configureWebXml(project);
+		}
 
 		ClasspathHelper.addClasspathEntries(project, fv);
 		createSeamProjectPreferenes(project, model);
@@ -483,12 +493,47 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		IProjectFacetVersion ejbVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.EJB_FACET);
 		IProjectFacetVersion webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
 		IProjectFacetVersion earVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.ENTERPRISE_APPLICATION_FACET);
+		initDefaultModelValues(model, webVersion!=null);
 		if(ejbVersion!=null) {
 			doExecuteForEjb(project, fv, model, monitor);
 		} else if(webVersion!=null) {
 			doExecuteForWar(project, fv, model, monitor);
 		} else if(earVersion!=null) {
 			doExecuteForEar(project, fv, model, monitor);
+		}
+	}
+
+	private void initDefaultModelValues(IDataModel model, boolean warProject) {
+		if(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)==null) {
+			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, warProject?ISeamFacetDataModelProperties.DEPLOY_AS_WAR:ISeamFacetDataModelProperties.DEPLOY_AS_EAR);
+		}
+		if(model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)==null) {
+			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".session"); //$NON-NLS-1$
+		}
+		if(model.getProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)==null) {
+			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".entity"); //$NON-NLS-1$
+		}
+		if(model.getProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)==null) {
+			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".test"); //$NON-NLS-1$
+		}
+		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME)==null) {
+			String runtimeName = SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model);
+			if((runtimeName!=null && runtimeName.length()>0)) {
+				model.setProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, runtimeName);
+			}
+		}
+		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE)==null) {
+			String defaultDs = SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE);
+			IConnectionProfile[] profiles = ProfileManager.getInstance().getProfilesByCategory("org.eclipse.datatools.connectivity.db.category"); //$NON-NLS-1$
+			List<String> names = new ArrayList<String>();
+			for (IConnectionProfile connectionProfile : profiles) {
+				names.add(connectionProfile.getName());
+			}
+			if(names.contains(defaultDs)) {
+				model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, defaultDs);
+			} else if(names.size()>0) {
+				model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, names.get(0));
+			}
 		}
 	}
 
@@ -536,8 +581,12 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 
 		prefs.put(JBOSS_AS_DEPLOY_AS, model.getProperty(JBOSS_AS_DEPLOY_AS).toString());
 		prefs.put(SEAM_SETTINGS_VERSION, SEAM_SETTINGS_VERSION_1_1);
-		prefs.put(SEAM_RUNTIME_NAME, model.getProperty(SEAM_RUNTIME_NAME).toString());
-		prefs.put(SEAM_CONNECTION_PROFILE, model.getProperty(SEAM_CONNECTION_PROFILE).toString());
+		if(model.getProperty(SEAM_RUNTIME_NAME)!=null) {
+			prefs.put(SEAM_RUNTIME_NAME, model.getProperty(SEAM_RUNTIME_NAME).toString());
+		}
+		if(model.getProperty(SEAM_CONNECTION_PROFILE)!=null) {
+			prefs.put(SEAM_CONNECTION_PROFILE, model.getProperty(SEAM_CONNECTION_PROFILE).toString());
+		}
 		prefs.put(SESSION_BEAN_PACKAGE_NAME, model.getProperty(SESSION_BEAN_PACKAGE_NAME).toString());
 		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
 		prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());

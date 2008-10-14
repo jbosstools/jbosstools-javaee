@@ -97,9 +97,11 @@ public class SeamFacetInstallDataModelProvider extends
 	 */
 	public Object getDefaultProperty(String propertyName) {
 		if (JBOSS_AS_HOME.equals(propertyName)) {
-			return "Jboss_AS_HOME"; //$NON-NLS-1$
+//			return "Jboss_AS_HOME"; //$NON-NLS-1$
+			return null;
 		} else if (JBOSS_AS_DEPLOY_AS.equals(propertyName)) {
-			return "Jboos_DEPLOY_AS"; //$NON-NLS-1$
+//			return "Jboos_DEPLOY_AS"; //$NON-NLS-1$
+			return null;
 		} else if (propertyName.equals(FACET_ID)) {
 			return ISeamFacetDataModelProperties.SEAM_FACET_ID;
 		} else if (SEAM_TEST_PROJECT.equals(propertyName)) {
@@ -173,12 +175,9 @@ public class SeamFacetInstallDataModelProvider extends
 		model.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME, "");
 		model.setProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS, false);
 		model.setProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY, false);
-		if(model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)!=null) {
-			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".session"); //$NON-NLS-1$
-			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".entity"); //$NON-NLS-1$
-			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".test"); //$NON-NLS-1$
-		}
-		// TODO
+//		SESSION_BEAN_PACKAGE_NAME
+//		ENTITY_BEAN_PACKAGE_NAME
+//		TEST_CASES_PACKAGE_NAME
 //		jBossSeamHome
 //		jBossAsDeployAs
 	}
