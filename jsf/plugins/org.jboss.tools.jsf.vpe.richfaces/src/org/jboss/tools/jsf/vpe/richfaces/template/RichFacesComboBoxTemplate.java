@@ -34,20 +34,20 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 
 	/**
 	 * @see org.jboss.tools.vpe.editor.template.VpeToggableTemplate#toggle(org.jboss.tools.vpe.editor.VpeVisualDomBuilder, org.w3c.dom.Node, java.lang.String)
-	 * @see RichFacesComboBoxCreator#toggle(VpeVisualDomBuilder, Node, String)
+	 * @see RichFacesComboBoxTemplateHelper#toggle(VpeVisualDomBuilder, Node, String)
 	 */
 	public void toggle(final VpeVisualDomBuilder builder, final Node sourceNode, final String toggleId) {
-		RichFacesComboBoxCreator.toggle(builder, sourceNode, toggleId);
+		RichFacesComboBoxTemplateHelper.toggle(builder, sourceNode, toggleId);
 	}
 
 	/**
 	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
-	 * @see RichFacesComboBoxCreator
+	 * @see RichFacesComboBoxTemplateHelper
 	 */
 	public VpeCreationData create(final VpePageContext pageContext, final Node sourceNode,
 			final nsIDOMDocument visualDocument) {	
-		final RichFacesComboBoxCreator creator = 
-			new RichFacesComboBoxCreator(pageContext, sourceNode, visualDocument);
+		final RichFacesComboBoxTemplateHelper creator = 
+			new RichFacesComboBoxTemplateHelper(pageContext, sourceNode, visualDocument);
 		
 		return creator.getVpeCreationData();
 	}

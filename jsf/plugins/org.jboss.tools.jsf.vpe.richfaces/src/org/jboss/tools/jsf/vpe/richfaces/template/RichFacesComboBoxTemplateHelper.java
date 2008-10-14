@@ -37,7 +37,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
  * @author yradtsevich
  *
  */
-public class RichFacesComboBoxCreator {
+public class RichFacesComboBoxTemplateHelper {
 	private static final WeakHashMap<Node, Object> expandedComboBoxes = new WeakHashMap<Node, Object>();
 	private static final String DISABLED_ATTR_NAME = "disabled"; //$NON-NLS-1$
 	private static final String BUTTON_ICON_CLASSES_DISABLED = 
@@ -129,7 +129,7 @@ public class RichFacesComboBoxCreator {
     /**
      * The Constructor.
      */
-    public RichFacesComboBoxCreator(final VpePageContext pageContext, final Node sourceNode,
+    public RichFacesComboBoxTemplateHelper(final VpePageContext pageContext, final Node sourceNode,
     		final nsIDOMDocument visualDocument) {
     	this.pageContext = pageContext;
     	this.sourceNode = sourceNode;
