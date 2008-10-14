@@ -28,6 +28,7 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	static String ENT_FILTERS_20 = "SeamPersistenceFilters"; //$NON-NLS-1$
 	static String ENT_RULE_FILES = "SeamDroolsRuleFiles"; //$NON-NLS-1$
 	static String ENT_INTERCEPTORS = "SeamCoreInterceptors"; //$NON-NLS-1$
+	static String ENT_SUPPORTED_LOCALES = "SeamInternationalSupportedLocales"; //$NON-NLS-1$
 	
 	static String ENT_RESTRICTIONS = "SeamFrameworkRestrictions"; //$NON-NLS-1$
 	static String ENT_HINTS = "SeamFrameworkHints"; //$NON-NLS-1$
@@ -120,6 +121,13 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	
 	final static IFormData INTERCEPTORS_DEFINITION = new FormData(
 		ENT_INTERCEPTORS, new String[]{null}, INTERCEPTORS_DEFINITIONS);
+
+	private final static IFormData[] SUPPORTED_LOCALES_DEFINITIONS = new IFormData[] {
+		createListDefinition("Supported Locales") //$NON-NLS-1$
+	};
+	
+	final static IFormData SUPPORTED_LOCALES_DEFINITION = new FormData(
+		ENT_SUPPORTED_LOCALES, new String[]{null}, SUPPORTED_LOCALES_DEFINITIONS);
 
 	private final static IFormData[] FILTERS_DEFINITIONS = new IFormData[] {
 		createListDefinition("Filters") //$NON-NLS-1$
