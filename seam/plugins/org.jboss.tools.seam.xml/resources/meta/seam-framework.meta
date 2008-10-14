@@ -31,7 +31,7 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;saveDefault=false"
   XMLSUBPATH="framework:ejbql" name="SeamFrameworkEjbql">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -98,14 +98,7 @@
    <XModelAttribute PROPERTIES="category=advanced" name="new-instance" xmlname="new-instance"/>
    <XModelAttribute name="created-message" xmlname="created-message"/>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="updated-message" xmlname="updated-message">
-    <Constraint loader="ListString">
-     <value/>
-     <value name="true"/>
-     <value name="false"/>
-    </Constraint>
-    <Editor name="ListString"/>
-   </XModelAttribute>
+    name="updated-message" xmlname="updated-message"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="deleted-message" xmlname="deleted-message"/>
    <XModelAttribute PROPERTIES="category=advanced" name="entity-manager" xmlname="entity-manager"/>
@@ -160,7 +153,9 @@
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="ejbql" xmlname="ejbql"/>
    <XModelAttribute PROPERTIES="category=advanced" name="order" xmlname="order"/>
-   <XModelAttribute name="max-results" xmlname="max-results"/>
+   <XModelAttribute name="max-results" xmlname="max-results">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="entity-manager" xmlname="entity-manager"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
@@ -187,6 +182,86 @@
     <XActionItem HIDE="always" HandlerClassName="%Move%"
      ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;saveDefault=false"
+  XMLSUBPATH="framework:entity-query" name="SeamFrameworkEntityQuery21">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamFrameworkEjbql" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkOrder" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkRestrictions" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkGroupby" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkHints" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.framework.query" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="entity query" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="name,class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="ejbql" xmlname="ejbql"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="order" xmlname="order"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="max-results" xmlname="max-results">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="entity-manager" xmlname="entity-manager"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="group-by" xmlname="group-by"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamFrameworkEntityQuery"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamFrameworkEntityQuery"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamFrameworkEntityQuery"
+    name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamFrameworkEntityQuery"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;saveDefault=false"
+  XMLSUBPATH="framework:group-by" name="SeamFrameworkGroupby">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.framework.home" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="group-by" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="group-by" name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamFrameworkEjbql" name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamFrameworkEjbql"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamFrameworkEjbql" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamFrameworkEjbql" name="MoveActions" path="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -264,7 +339,7 @@
    <XModelAttribute PROPERTIES="category=advanced" name="order" xmlname="order"/>
    <XModelAttribute name="max-results" xmlname="max-results"/>
    <XModelAttribute PROPERTIES="category=advanced" name="cacheable" xmlname="cacheable">
-    <Constraint loader="ListString">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -273,7 +348,9 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="cache-region" xmlname="cache-region"/>
    <XModelAttribute PROPERTIES="category=advanced" name="session" xmlname="session"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="fetch-size" xmlname="fetch-size"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="fetch-size" xmlname="fetch-size">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -299,6 +376,63 @@
     <XActionItem HIDE="always" HandlerClassName="%Move%"
      ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="framework:hibernate-entity-query" name="SeamFrameworkHibernateEntityQuery21">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamFrameworkEjbql" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkOrder" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkRestrictions" required="yes"/>
+   <XChildEntity maxCount="1" name="SeamFrameworkGroupby" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.framework.query" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="hibernate entity query"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="name,class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="ejbql" xmlname="ejbql"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="order" xmlname="order"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="max-results" xmlname="max-results"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="group-by" xmlname="group-by"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cacheable" xmlname="cacheable">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="cache-region" xmlname="cache-region"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="session" xmlname="session"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="fetch-size" xmlname="fetch-size">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamFrameworkHibernateEntityQuery"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamFrameworkHibernateEntityQuery"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamFrameworkHibernateEntityQuery"
+    name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamFrameworkHibernateEntityQuery"
+    name="MoveActions" path="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -603,8 +737,8 @@
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents21">
   <XChildrenEntities>
-   <XChildEntity name="SeamFrameworkEntityQuery"/>
-   <XChildEntity name="SeamFrameworkHibernateEntityQuery"/>
+   <XChildEntity name="SeamFrameworkEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityQuery21"/>
    <XChildEntity name="SeamFrameworkEntityHome"/>
    <XChildEntity name="SeamFrameworkHibernateEntityHome"/>
   </XChildrenEntities>
@@ -616,7 +750,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Entity Query..." kind="action" name="AddEntityQuery">
-      <EntityData EntityName="SeamFrameworkEntityQuery">
+      <EntityData EntityName="SeamFrameworkEntityQuery21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="ejbql" Mandatory="no"/>
       </EntityData>
@@ -624,7 +758,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Hibernate Entity Query..." kind="action" name="AddHibernateEntityQuery">
-      <EntityData EntityName="SeamFrameworkHibernateEntityQuery">
+      <EntityData EntityName="SeamFrameworkHibernateEntityQuery21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="ejbql" Mandatory="no"/>
       </EntityData>
