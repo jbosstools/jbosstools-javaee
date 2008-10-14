@@ -51,7 +51,7 @@
     attributes="url-pattern,disabled,regex-url-pattern"
     entity="SeamWebContextFilter20" name="filter"/>
    <XModelAttribute PROPERTIES="category=general" name="enable-cache" xmlname="enable-cache">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -59,7 +59,7 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="force-parser" xmlname="force-parser">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -107,7 +107,9 @@
    <XModelAttribute PROPERTIES="category=advanced" name="realm" xmlname="realm"/>
    <XModelAttribute PROPERTIES="category=advanced" name="key" xmlname="key"/>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="nonce-validity-seconds" xmlname="nonce-validity-seconds"/>
+    name="nonce-validity-seconds" xmlname="nonce-validity-seconds">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="auth-type" xmlname="auth-type"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
@@ -148,7 +150,7 @@
     entity="SeamWebContextFilter20" name="filter"/>
    <XModelAttribute PROPERTIES="category=general" name="encoding" xmlname="encoding"/>
    <XModelAttribute PROPERTIES="category=general" name="override-client" xmlname="override-client">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -236,7 +238,14 @@
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
-   <XModelAttribute PROPERTIES="category=advanced" name="disabled" xmlname="disabled"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="disabled" xmlname="disabled">
+    <Constraint loader="%ListEL%">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="regex-url-pattern" xmlname="regex-url-pattern"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -326,6 +335,42 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:identity-filter" name="SeamWebIdentityFilter21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="identity filter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.identityFilter" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttributeReference
+    attributes="url-pattern,disabled,regex-url-pattern"
+    entity="SeamWebContextFilter20" name="filter"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamWebContextFilter" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="web:logging-filter" name="SeamWebLoggingFilter20">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -381,7 +426,7 @@
    <XModelAttribute PROPERTIES="category=general" name="url-pattern" xmlname="url-pattern"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="create-temp-files" xmlname="create-temp-files">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -389,7 +434,9 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="max-request-size" xmlname="max-request-size"/>
+    name="max-request-size" xmlname="max-request-size">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -428,7 +475,7 @@
     entity="SeamWebContextFilter20" name="filter"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="create-temp-files" xmlname="create-temp-files">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -436,7 +483,9 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
-    name="max-request-size" xmlname="max-request-size"/>
+    name="max-request-size" xmlname="max-request-size">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -541,7 +590,103 @@
     entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="invalidate-on-scheme-change" xmlname="invalidate-on-scheme-change">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamWebContextFilter" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:session" name="SeamWebSession21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="session" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="invalidate-on-scheme-change" xmlname="invalidate-on-scheme-change">
+    <Constraint loader="%ListEL%">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamWebContextFilter" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:wicket-filter" name="SeamWebWicketFilter21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="wicket filter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.wicketFilter" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttributeReference
+    attributes="url-pattern,disabled,regex-url-pattern"
+    entity="SeamWebContextFilter20" name="filter"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="application-class" xmlname="application-class">
+    <Constraint loader="QClassName"/>
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="application-factory-class" xmlname="application-factory-class">
+    <Constraint loader="QClassName"/>
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="detect-portlet-context" xmlname="detect-portlet-context">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -756,7 +901,9 @@
    <XChildEntity name="SeamWebCharacterFilter20"/>
    <XChildEntity name="SeamWebAjaxFilter20"/>
    <XChildEntity name="SeamWebLoggingFilter20"/>
-   <XChildEntity name="SeamWebServletSession20"/>
+   <XChildEntity name="SeamWebSession21"/>
+   <XChildEntity name="SeamWebIdentityFilter21"/>
+   <XChildEntity name="SeamWebWicketFilter21"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -829,10 +976,26 @@
      </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Servlet Session..." kind="action" name="AddServletSession">
-      <EntityData EntityName="SeamWebServletSession20">
+      displayName="Session..." kind="action" name="AddSession">
+      <EntityData EntityName="SeamWebSession21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="scope" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity Filter..." kind="action" name="AddIdentityFilter">
+      <EntityData EntityName="SeamWebIdentityFilter21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Wicket Filter..." kind="action" name="AddWicketFilter">
+      <EntityData EntityName="SeamWebWicketFilter21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
