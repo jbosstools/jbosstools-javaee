@@ -46,14 +46,16 @@
     entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="locale-string" xmlname="locale-string"/>
    <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -102,14 +104,16 @@
     entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="time-zone-id" xmlname="time-zone-id"/>
    <XModelAttribute PROPERTIES="category=advanced" name="cookie-enabled" xmlname="cookie-enabled">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -135,6 +139,79 @@
     <XActionItem HIDE="always" HandlerClassName="%Move%"
      ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="international:locale-config" name="SeamInternationalLocaleConfig">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamInternationalSupportedLocales" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.core.bundle" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="locale config" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.international.localeConfig" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="default-locale" xmlname="default-locale"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="supported-locales" xmlname="supported-locales"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamCoreLocaleSelector20"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamCoreLocaleSelector20"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamCoreLocaleSelector20"
+    name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamCoreLocaleSelector20"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="international:supported-locales" name="SeamInternationalSupportedLocales">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="bundle-names" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="supported-locales" name="name">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="SeamPropertyList" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="SeamPropertyList" name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamPropertyList" name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamPropertyList" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamPropertyList" name="MoveActions" path="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -172,6 +249,7 @@
   <XChildrenEntities>
    <XChildEntity name="SeamCoreLocaleSelector20"/>
    <XChildEntity name="SeamCoreTimeZoneSelector20"/>
+   <XChildEntity name="SeamInternationalLocaleConfig"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -192,6 +270,14 @@
       <EntityData EntityName="SeamCoreTimeZoneSelector20">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="time-zone-id" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Locale Config..." kind="action" name="AddLocaleConfig">
+      <EntityData EntityName="SeamInternationalLocaleConfig">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="default-locale" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>
