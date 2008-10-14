@@ -1,0 +1,24 @@
+<tests>
+	<test id="column1">
+		<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="3"
+			ID="column1">
+			<SPAN> FIELDS</SPAN>
+		</TD>
+	</test>
+	<test id="column2">
+		<TD CLASS="dr-table-headercell rich-table-headercell" BREAKBEFORE="true"
+			ID="column2">
+			<SPAN > field1</SPAN>
+		</TD>
+	</test>
+	<test id="column3">
+		<TD CLASS="dr-table-cell rich-table-cell" ID="column3">
+			<SPAN> #{row.field1}</SPAN>
+		</TD>
+	</test>
+	<test id="column4">
+		<TD CLASS="dr-table-footercell rich-table-footercell" ID="column4">
+			<SPAN> footer1</SPAN>
+		</TD>
+	</test>
+</tests>

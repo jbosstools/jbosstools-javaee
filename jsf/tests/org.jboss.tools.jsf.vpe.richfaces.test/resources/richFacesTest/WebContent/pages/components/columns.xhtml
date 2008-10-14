@@ -9,17 +9,15 @@
 <head>
 </head>
 <body>
-<h1>dataGrid</h1>
+<h1>columns</h1>
+
 <h:form>
-	<rich:dataGrid value="#{bean.dtList}" var="data" columns="2"
-		elements="4" id="dataGrid">
-		<rich:panel>
-			<f:facet name="header">
-				<h:outputText value="#{data.number}"></h:outputText>
-			</f:facet>
-			<h:outputText value="#{data.field1}" />
-		</rich:panel>
-	</rich:dataGrid>
+	<rich:dataTable value="#{bookList.books}" var="book" border="4"
+		style="background-color:grey; width : 117px;">
+		<rich:columns value="#{bookList.books}" var="label" id="columns">
+			<h:outputText value="#{book.price}" />
+		</rich:columns>
+	</rich:dataTable>
 </h:form>
 </body>
 </html>

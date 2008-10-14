@@ -25,6 +25,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		setCheckWarning(false);
 	}
 
+	/**
+	 * 
+	 * @throws Throwable
+	 */
 	public void testAjaxValidator() throws Throwable {
 		performInvisibleTagTest(
 				"components/ajaxValidator.xhtml", "ajaxValidator");//$NON-NLS-1$ //$NON-NLS-2$
@@ -62,12 +66,12 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testDatascroller() throws Throwable {
-		
+
 		performContentTest("components/datascroller.xhtml");//$NON-NLS-1$
 	}
 
 	public void testColumns() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/columns.xhtml");//$NON-NLS-1$
 	}
 
 	public void testColumnGroup() throws Throwable {
@@ -75,11 +79,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testColumn() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/column.xhtml");//$NON-NLS-1$
 	}
 
 	public void testDataGrid() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/dataGrid.xhtml");//$NON-NLS-1$
 	}
 
 	public void testDataList() throws Throwable {

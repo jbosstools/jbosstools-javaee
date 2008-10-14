@@ -1,0 +1,59 @@
+<tests>
+	<test id="dataGrid">
+		<TABLE VALUE="#{bean.dtList}" VAR="data" COLUMNS="2" ELEMENTS="4"
+			ID="dataGrid" CLASS="dr-table rich-table">
+			<COLGROUP SPAN="2">
+			</COLGROUP>
+			<TBODY>
+				<TR CLASS="dr-table-row rich-table-row">
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<DIV CLASS="dr-pnl rich-panel" TITLE="rich:panel">
+							<DIV CLASS="dr-pnl-h rich-panel-header"
+								STYLE="background-image: {url(.*org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif)};">
+								<SPAN> #{data.number}</SPAN>
+							</DIV>
+							<DIV CLASS="dr-pnl-b rich-panel-body">
+								<SPAN> #{data.field1}</SPAN>
+							</DIV>
+						</DIV>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<DIV CLASS="dr-pnl rich-panel" TITLE="rich:panel">
+							<DIV CLASS="dr-pnl-h rich-panel-header"
+								STYLE="background-image: url(file:////home/transfer/work/RHDS/repository/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif);">
+								<SPAN> #{data.number}</SPAN>
+							</DIV>
+							<DIV CLASS="dr-pnl-b rich-panel-body">
+								<SPAN> #{data.field1}</SPAN>
+							</DIV>
+						</DIV>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-row rich-table-row">
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<DIV CLASS="dr-pnl rich-panel" TITLE="rich:panel">
+							<DIV CLASS="dr-pnl-h rich-panel-header"
+								STYLE="background-image: url(file:////home/transfer/work/RHDS/repository/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif);">
+								<SPAN> #{data.number}</SPAN>
+							</DIV>
+							<DIV CLASS="dr-pnl-b rich-panel-body" TITLE="rich:panel">
+								<SPAN> #{data.field1}</SPAN>
+							</DIV>
+						</DIV>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<DIV CLASS="dr-pnl rich-panel" TITLE="rich:panel">
+							<DIV CLASS="dr-pnl-h rich-panel-header"
+								STYLE="background-image: url(file:////home/transfer/work/RHDS/repository/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif);">
+								<SPAN> #{data.number}</SPAN>
+							</DIV>
+							<DIV CLASS="dr-pnl-b rich-panel-body" TITLE="rich:panel">
+								<SPAN> #{data.field1}</SPAN>
+							</DIV>
+						</DIV>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+	</test>
+</tests>

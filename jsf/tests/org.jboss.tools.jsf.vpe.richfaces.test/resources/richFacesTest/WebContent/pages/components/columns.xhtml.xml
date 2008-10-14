@@ -1,0 +1,7 @@
+<tests>
+	<test id="columns">
+		<TD CLASS="dr-table-cell rich-table-cell">
+			<SPAN> #{book.price}</SPAN>
+		</TD>
+	</test>
+</tests>
