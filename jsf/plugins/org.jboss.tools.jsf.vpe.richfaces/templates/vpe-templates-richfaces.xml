@@ -529,10 +529,6 @@
     <vpe:tag name="rich:dropDownMenu" case-sensitive="yes" >
 	    <vpe:template class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesDropDownMenuTemplate"
 	    	children="yes" modify="no">
-			<vpe:resize>
-				<vpe:width width-attr="style.width" />
-				<vpe:height height-attr="style.height" />
-			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="no"/>
@@ -543,10 +539,6 @@
     <vpe:tag name="rich:menuItem" case-sensitive="yes" >
 	    <vpe:template class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesMenuItemTemplate"
 	    children="yes" modify="no">
-	    <vpe:resize>
-                <vpe:width width-attr="style.width" />
-                <vpe:height height-attr="style.height" />
-            </vpe:resize>
             <vpe:dnd>
                 <vpe:drag start-enable="yes"/>
                 <vpe:drop container="no"/>
@@ -557,10 +549,6 @@
     <vpe:tag name="rich:menuGroup" case-sensitive="yes" >
 	    <vpe:template class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesMenuGroupTemplate"
 	     children="yes" modify="no">
-	     <vpe:resize>
-                <vpe:width width-attr="style.width" />
-                <vpe:height height-attr="style.height" />
-            </vpe:resize>
             <vpe:dnd>
                 <vpe:drag start-enable="yes"/>
                 <vpe:drop container="no"/>

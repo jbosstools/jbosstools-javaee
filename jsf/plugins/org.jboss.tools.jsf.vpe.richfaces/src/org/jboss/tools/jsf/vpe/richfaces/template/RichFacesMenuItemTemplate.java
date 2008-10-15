@@ -29,16 +29,22 @@ import org.w3c.dom.Node;
 
 public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 
+	
 	/*
 	 * rich:menuItem constants
 	 */
-	private final static String COMPONENT_NAME = "menuItem"; //$NON-NLS-1$
-	private final static String STYLE_PATH = "menuItem/menuItem.css"; //$NON-NLS-1$
+	private static final String COMPONENT_NAME = "menuItem"; //$NON-NLS-1$
+	private static final String STYLE_PATH = "menuItem/menuItem.css"; //$NON-NLS-1$
 	private static final String SPACER_IMG_PATH = "menuItem/spacer.gif"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
+	
+	/*
+	 * Constants for drop down mechanism.
+	 */
+	private static  final String MENU_CHILD_ID = "vpe-ddm-menu-li"; //$NON-NLS-1$
 	
 	/*
 	 * rich:menuItem css styles names
@@ -55,6 +61,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_MENU_ITEM_ICON_ENABLED = "rich-menu-item-icon-enabled"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_LABEL_SELECTED = "rich-menu-item-label-selected"; //$NON-NLS-1$
 	private static final String CSS_RICH_MENU_ITEM_ICON_SELECTED = "rich-menu-item-icon-selected"; //$NON-NLS-1$
+	private static final String CSS_MENU_ITEM_TOP_DIV = "dr-menu-item-top-div"; //$NON-NLS-1$
 	
 	/*
 	 * rich:menuItem attributes names
@@ -128,11 +135,10 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		itemLabelSpan.appendChild(itemLabelText);
 		itemMainLI.appendChild(itemTopDiv);
 		
-		
 		/*
 		 * Setting attributes for the drop-down mechanism
 		 */
-		itemMainLI.setAttribute(RichFacesDropDownMenuTemplate.MENU_CHILD_ID, EMPTY);
+		itemMainLI.setAttribute(MENU_CHILD_ID, EMPTY);
 		
 		/*
 		 * Setting css classes
@@ -156,6 +162,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		}
 		
 //		itemTopDiv.setAttribute(HTML.ATTR_CLASS, topDivClass);
+		itemTopDiv.setAttribute(HTML.ATTR_CLASS, CSS_MENU_ITEM_TOP_DIV);
 		itemMainLI.setAttribute(HTML.ATTR_CLASS, topDivClass);
 		itemIconImgSpan.setAttribute(HTML.ATTR_CLASS, iconImgSpanClass);
 		itemLabelSpan.setAttribute(HTML.ATTR_CLASS, labelSpanClass);
@@ -200,7 +207,6 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			 * Add image to span
 			 */
 			itemIconImgSpan.appendChild(itemIconImg);
-
 		}
 
 		/*

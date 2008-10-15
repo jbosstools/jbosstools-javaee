@@ -29,23 +29,24 @@ import org.w3c.dom.Node;
 public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	
 	/*
-	 * Public constants for drop down mechanism.
-	 */
-	public final static String 	MENU_PARENT_ID = "vpe-ddm-menu-ul"; //$NON-NLS-1$
-	public final static String 	MENU_CHILD_ID = "vpe-ddm-menu-li"; //$NON-NLS-1$
-	
-	/*
 	 * rich:dropDownMenu constants
 	 */
-	private final static String COMPONENT_NAME = "dropDownMenu"; //$NON-NLS-1$
-	private final static String STYLE_PATH = "dropDownMenu/dropDownMenu.css"; //$NON-NLS-1$
-	private final static String CHILD_GROUP_NAME = ":menuGroup"; //$NON-NLS-1$
-	private final static String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
+	private static final String COMPONENT_NAME = "dropDownMenu"; //$NON-NLS-1$
+	private static final String STYLE_PATH = "dropDownMenu/dropDownMenu.css"; //$NON-NLS-1$
+	private static final String CHILD_GROUP_NAME = ":menuGroup"; //$NON-NLS-1$
+	private static final String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
 	private static final String LABEL_FACET_NAME = "label"; //$NON-NLS-1$
 	private static final String DEFAULT_DDM_TITLE = "ddm"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
 
+	/*
+	 * Constants for drop down mechanism.
+	 */
+	private static final String MENU_TOP_ID = "vpe-ddm-menu-title-ul"; //$NON-NLS-1$
+	private static final String MENU_TOP_ITEM_ID = "vpe-ddm-menu-title-li"; //$NON-NLS-1$
+	private static final String MENU_CHILDREN_LIST_ID = "vpe-ddm-menu-children-ul"; //$NON-NLS-1$
+	
 	/*
 	 * rich:dropDownMenu css styles names
 	 */
@@ -58,6 +59,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_MENU_LIST_BG = "rich-menu-list-bg"; //$NON-NLS-1$
 	private static final String CSS_RICH_DDEMENU_LIST_DIV_STYLE = ""; //$NON-NLS-1$
 	private static final String CSS_RICH_DDEMENU_BORDER_DIV_STYLE = ""; //$NON-NLS-1$	
+	private static final String CSS_MENU_TOP_DIV = "dr-menu-top-div"; //$NON-NLS-1$	
 
 	/*
 	 * rich:dropDownMenu attributes names
@@ -116,7 +118,6 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement ddmMainUL;
 	    nsIDOMElement ddmMainLI;
 	    nsIDOMElement ddmChildrenUL;
-	    
 		nsIDOMElement ddmLabelDiv;
 		nsIDOMElement ddmTextSpan;
 		nsIDOMText ddmLabelText;
@@ -127,7 +128,6 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		/*
 		 * Creating visual elements
 		 */
-
 	    ddmMainUL = visualDocument.createElement(HTML.TAG_UL);
 	    ddmMainLI = visualDocument.createElement(HTML.TAG_LI);
 	    ddmChildrenUL = visualDocument.createElement(HTML.TAG_UL);
@@ -147,21 +147,15 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 //		ddmLabelDiv.appendChild(ddmListDiv);
 		ddmListDiv.appendChild(ddmListBorderDiv);
 		ddmListBorderDiv.appendChild(ddmListBgDiv);
-
 		ddmMainUL.appendChild(ddmMainLI);
 		ddmMainLI.appendChild(ddmLabelDiv);
 		
 		/*
-		 * Children <ul> will be added only if there are some of them.
-		 */
-//		ddmMainLI.appendChild(ddmChildrenUL);
-		
-		/*
 		 * Setting attributes for the drop-down mechanism
 		 */
-	    ddmMainUL.setAttribute(MENU_PARENT_ID, EMPTY);
-	    ddmMainLI.setAttribute(MENU_CHILD_ID, EMPTY);
-	    ddmChildrenUL.setAttribute(MENU_PARENT_ID, EMPTY);
+	    ddmMainUL.setAttribute(MENU_TOP_ID, EMPTY);
+	    ddmMainLI.setAttribute(MENU_TOP_ITEM_ID, EMPTY);
+	    ddmChildrenUL.setAttribute(MENU_CHILDREN_LIST_ID, EMPTY);
 		
 		/*
 		 * Setting css classes
@@ -169,7 +163,8 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		String labelDivClass = EMPTY;
 		String listBorderDivClass = EMPTY;
 
-		labelDivClass += SPACE +  CSS_RICH_DDMENU_LABEL + SPACE + CSS_RICH_DDMENU_LABEL_UNSELECT;
+		labelDivClass += SPACE + CSS_RICH_DDMENU_LABEL + SPACE
+				+ CSS_RICH_DDMENU_LABEL_UNSELECT;
 		listBorderDivClass += SPACE + CSS_RICH_MENU_LIST_BORDER;
 		
 		if (attrPresents(ddm_styleClass)) {
@@ -177,12 +172,14 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			listBorderDivClass += SPACE + ddm_styleClass;
 		}
 		
-//		ddmLabelDiv.setAttribute(HTML.CLASS_ATTR, labelDivClass);
+//		ddmLabelDiv.setAttribute(HTML.ATTR_CLASS, labelDivClass);
+		ddmLabelDiv.setAttribute(HTML.ATTR_CLASS, CSS_MENU_TOP_DIV);
 		ddmMainLI.setAttribute(HTML.ATTR_CLASS, labelDivClass);
 		ddmTextSpan.setAttribute(HTML.ATTR_CLASS, CSS_RICH_LABEL_TEXT_DECOR);
 //		ddmListBorderDiv.setAttribute(HTML.ATTR_CLASS, listBorderDivClass);
 //		ddmListBgDiv.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BG);
-		ddmChildrenUL.setAttribute(HTML.ATTR_CLASS, listBorderDivClass + SPACE + CSS_RICH_MENU_LIST_BG);
+		ddmChildrenUL.setAttribute(HTML.ATTR_CLASS, listBorderDivClass + SPACE
+				+ CSS_RICH_MENU_LIST_BG);
 		/*
 		 * Setting css styles
 		 */
@@ -197,11 +194,13 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			cssLabelDivStyle += SPACE + ddm_style;
 		}
 		
-//		ddmListDiv.setAttribute(HTML.STYLE_ATTR, cssListDivStyle);
-//		ddmListBorderDiv.setAttribute(HTML.STYLE_ATTR, cssListBorderDivStyle);
-//		ddmLabelDiv.setAttribute(HTML.STYLE_ATTR, cssLabelDivStyle);
-		ddmMainLI.setAttribute(HTML.ATTR_STYLE, cssListDivStyle + SPACE + cssListBorderDivStyle + SPACE + cssLabelDivStyle);
-		ddmChildrenUL.setAttribute(HTML.ATTR_STYLE, cssListDivStyle + SPACE + cssListBorderDivStyle + SPACE + cssLabelDivStyle);
+//		ddmListDiv.setAttribute(HTML.ATTR_STYLE, cssListDivStyle);
+//		ddmListBorderDiv.setAttribute(HTML.ATTR_STYLE, cssListBorderDivStyle);
+//		ddmLabelDiv.setAttribute(HTML.ATTR_STYLE, cssLabelDivStyle);
+		ddmMainLI.setAttribute(HTML.ATTR_STYLE, cssListDivStyle + SPACE
+				+ cssListBorderDivStyle + SPACE + cssLabelDivStyle);
+		ddmChildrenUL.setAttribute(HTML.ATTR_STYLE, cssListDivStyle + SPACE
+				+ cssListBorderDivStyle + SPACE + cssLabelDivStyle);
 		/*
 		 * Encoding label value
 		 */

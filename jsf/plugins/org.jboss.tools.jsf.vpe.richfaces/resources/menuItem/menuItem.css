@@ -1,7 +1,5 @@
 .rich-menu-item {
     font-family:Arial,Verdana,sans-serif;
-    border-color:#C4C0B9;
-    border:1px solid;
 }
 .rich-menu-item-label {
     /*padding-left: 10px;*/ /*padding for item icon*/
@@ -36,4 +34,9 @@
 }
 .rich-menu-item-icon-selected {
     
+}
+.dr-menu-item-top-div {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }

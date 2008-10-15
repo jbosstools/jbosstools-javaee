@@ -29,20 +29,27 @@ import org.w3c.dom.Node;
 
 public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 
-	public static final String MENU_GROUP_ID = "MENU-GROUP-ID"; //$NON-NLS-1$
-	
 	/*
 	 * rich:menuGroup constants
 	 */
-	private final static String COMPONENT_NAME = "menuGroup"; //$NON-NLS-1$
-	private final static String STYLE_PATH = "menuGroup/menuGroup.css"; //$NON-NLS-1$
+	private static final String COMPONENT_NAME = "menuGroup"; //$NON-NLS-1$
+	private static final String STYLE_PATH = "menuGroup/menuGroup.css"; //$NON-NLS-1$
 	private static final String SPACER_IMG_PATH = "menuGroup/spacer.gif"; //$NON-NLS-1$
-	private final static String CHILD_GROUP_NAME = ":menuGroup"; //$NON-NLS-1$
-	private final static String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
+	private static final String FOLDER_IMG_PATH = "menuGroup/arrow.gif"; //$NON-NLS-1$
+	private static final String FOLDER_IMG_WIDTH = "16px;"; //$NON-NLS-1$
+	private static final String FOLDER_IMG_HEIGHT = "16px;"; //$NON-NLS-1$
+	private static final String CHILD_GROUP_NAME = ":menuGroup"; //$NON-NLS-1$
+	private static final String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
 	private static final String EMPTY = ""; //$NON-NLS-1$
 	private static final String SPACE = " "; //$NON-NLS-1$
+
+	/*
+	 * Constants for drop down mechanism.
+	 */
+	private static final String MENU_PARENT_ID = "vpe-ddm-menu-ul"; //$NON-NLS-1$
+	private static final String MENU_CHILD_ID = "vpe-ddm-menu-li"; //$NON-NLS-1$
 
 	/*
 	 * rich:menuGroup css styles names
@@ -63,6 +70,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_MENU_LIST_BG = "rich-menu-list-bg"; //$NON-NLS-1$
 	private static final String CSS_RICH_LIST_FOLDER_DIV_STYLE = ""; //$NON-NLS-1$
 	private static final String CSS_RICH_LIST_BORDER_DIV_STYLE = ""; //$NON-NLS-1$
+	private static final String CSS_MENU_GROUP_TOP_DIV = "dr-menu-group-top-div"; //$NON-NLS-1$
 	
 	/*
 	 * rich:menuGroup attributes names
@@ -123,9 +131,10 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		nsIDOMElement grTopDiv;
 		nsIDOMElement grImgSpan;
 		nsIDOMElement grImg;
+		nsIDOMElement grFolderImg;
 		nsIDOMElement grLabelSpan;
 		nsIDOMText grLabelText;
-		nsIDOMElement grFolderDiv;
+		nsIDOMElement grFolderImgSpan;
 		nsIDOMElement grListBorderDiv;
 		nsIDOMElement grListBgDiv;
 		
@@ -137,9 +146,10 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		grTopDiv = visualDocument.createElement(HTML.TAG_DIV);
 		grImgSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		grImg = visualDocument.createElement(HTML.TAG_IMG);
+		grFolderImg = visualDocument.createElement(HTML.TAG_IMG);
 		grLabelSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		grLabelText = visualDocument.createTextNode(EMPTY);
-		grFolderDiv = visualDocument.createElement(HTML.TAG_DIV);
+		grFolderImgSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		grListBorderDiv = visualDocument.createElement(HTML.TAG_DIV);
 		grListBgDiv = visualDocument.createElement(HTML.TAG_DIV);
 		creationData = new VpeCreationData(grMainLI);
@@ -150,21 +160,16 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		grTopDiv.appendChild(grImgSpan);
 		grTopDiv.appendChild(grLabelSpan);
 		grLabelSpan.appendChild(grLabelText);
-//		grTopDiv.appendChild(grFolderDiv);
+		grTopDiv.appendChild(grFolderImgSpan);
 //		grFolderDiv.appendChild(grListBorderDiv);
 //		grListBorderDiv.appendChild(grListBgDiv);
 		grMainLI.appendChild(grTopDiv);
-		
-		/*
-		 * Children <ul> will be added only if there are some of them.
-		 */
-//		grMainLI.appendChild(grChildrenUL);
-		
+
 		/*
 		 * Setting attributes for the drop-down mechanism
 		 */
-		grMainLI.setAttribute(RichFacesDropDownMenuTemplate.MENU_CHILD_ID, EMPTY);
-	    grChildrenUL.setAttribute(RichFacesDropDownMenuTemplate.MENU_PARENT_ID, EMPTY);
+		grMainLI.setAttribute(MENU_CHILD_ID, EMPTY);
+	    grChildrenUL.setAttribute(MENU_PARENT_ID, EMPTY);
 	    
 		/*
 		 * Setting css classes
@@ -190,14 +195,16 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			labelSpanClass += SPACE + mg_labelClass;
 		}
 		
-//		grTopDiv.setAttribute(HTML.CLASS_ATTR, topDivClass);
+//		grTopDiv.setAttribute(HTML.ATTR_CLASS, topDivClass);
+		grTopDiv.setAttribute(HTML.ATTR_CLASS, CSS_MENU_GROUP_TOP_DIV);
 		grMainLI.setAttribute(HTML.ATTR_CLASS, topDivClass);
 		grImgSpan.setAttribute(HTML.ATTR_CLASS, imgSpanClass);
 		grLabelSpan.setAttribute(HTML.ATTR_CLASS, labelSpanClass);
-//		grFolderDiv.setAttribute(HTML.ATTR_CLASS, folderDivClass);
+		grFolderImgSpan.setAttribute(HTML.ATTR_CLASS, folderDivClass);
 //		grListBorderDiv.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BORDER);
 //		grListBgDiv.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BG);
-		grChildrenUL.setAttribute(HTML.ATTR_CLASS, folderDivClass + SPACE + CSS_RICH_MENU_LIST_BORDER + SPACE + CSS_RICH_MENU_LIST_BG);
+		grChildrenUL.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BORDER
+				+ SPACE + CSS_RICH_MENU_LIST_BG);
 		/*
 		 * Setting css styles
 		 */
@@ -207,11 +214,12 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			topDivStyle += SPACE + mg_style;
 		}
 		
-//		grTopDiv.setAttribute(HTML.STYLE_ATTR, topDivStyle);
 		grMainLI.setAttribute(HTML.ATTR_STYLE, topDivStyle);
-//		grFolderDiv.setAttribute(HTML.ATTR_STYLE, CSS_RICH_LIST_FOLDER_DIV_STYLE);
+		grFolderImgSpan.setAttribute(HTML.ATTR_STYLE, CSS_RICH_LIST_FOLDER_DIV_STYLE);
 //		grListBorderDiv.setAttribute(HTML.ATTR_STYLE, CSS_RICH_LIST_BORDER_DIV_STYLE);
-		grChildrenUL.setAttribute(HTML.ATTR_STYLE, CSS_RICH_LIST_FOLDER_DIV_STYLE + SPACE + CSS_RICH_LIST_BORDER_DIV_STYLE);
+//		grChildrenUL.setAttribute(HTML.ATTR_STYLE,
+//				CSS_RICH_LIST_FOLDER_DIV_STYLE + SPACE
+//						+ CSS_RICH_LIST_BORDER_DIV_STYLE);
 		
 		/*
 		 * Encode label value
@@ -231,12 +239,11 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			childInfo.addSourceChild(iconFacet);
 			creationData.addChildrenInfo(childInfo);
 		} else {
-			String iconPath = sourceElement.getAttribute(ICON);
-			if (attrPresents(iconPath)) {
+			if (attrPresents(mg_icon)) {
 				/*
 				 * Add path to specified image
 				 */
-				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(iconPath, pageContext, true);
+				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(mg_icon, pageContext, true);
 				grImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 			} else {
 				/*
@@ -250,6 +257,26 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			grImgSpan.appendChild(grImg);
 			
 		}
+		
+		/*
+		 * Add group folder icon 
+		 */
+		if (attrPresents(mg_iconFolder)) {
+			/*
+			 * Add path to specified image
+			 */
+			String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(mg_iconFolder, pageContext, true);
+			grFolderImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
+		} else {
+			/*
+			 * Create default arrow image
+			 */
+			ComponentUtil.setImg(grFolderImg, FOLDER_IMG_PATH);
+		}
+		/*
+		 * Add image to group folder div
+		 */
+		grFolderImgSpan.appendChild(grFolderImg);
 		
 		/*
 		 * Adding child nodes:
