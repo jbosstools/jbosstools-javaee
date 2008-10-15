@@ -38,6 +38,9 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.model.IModelProvider;
@@ -103,6 +106,11 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	public static String SEAM_LIB_RELATED_PATH = "lib"; //$NON-NLS-1$
 	public static final String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static final String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
+
+	public static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
+		.include("import\\.sql") //$NON-NLS-1$
+		.include("seam\\.properties")
+		.exclude(".*/WEB-INF"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet VIEW_FILESET = new AntCopyUtils.FileSet()
 		.include("home\\.xhtml") //$NON-NLS-1$
@@ -258,6 +266,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	protected File seamGenResFolder;
 	protected File srcFolder;
 	protected File webContentFolder;
+	protected IPath webContentPath;
 	protected File webLibFolder;
 	protected IContainer webRootFolder;
 	protected File seamGenHomeFolder;
@@ -287,19 +296,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		srcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
 		webRootFolder = webRootVirtFolder.getUnderlyingFolder();
 
-		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
-
-		Boolean dbExists = (Boolean) model.getProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
-		Boolean dbRecreate = (Boolean) model.getProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
-		if (!dbExists && !dbRecreate) {
-			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "update"); //$NON-NLS-1$
-		} else if (dbExists && !dbRecreate) {
-			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "validate"); //$NON-NLS-1$
-		} else if (dbRecreate) {
-			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "create-drop"); //$NON-NLS-1$
-		}
-
 		webContentFolder = webRootFolder.getLocation().toFile();
+		webContentPath = webRootFolder.getFullPath();
 		webInfFolder = new File(webContentFolder, "WEB-INF"); //$NON-NLS-1$
 		webInfClasses = new File(webInfFolder, "classes"); //$NON-NLS-1$
 		webInfClassesMetaInf = new File(webInfClasses, "META-INF"); //$NON-NLS-1$
@@ -331,11 +329,6 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			// If seam runtime is null then just modify web.xml and add seam nature.
 			configureWebXml(project);
 		}
-
-		ClasspathHelper.addClasspathEntries(project, fv);
-		createSeamProjectPreferenes(project, model);
-		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
-		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
 	/**
@@ -366,7 +359,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				webContentFolder, 
 				new AntCopyUtils.FileSetFileFilter(viewFileSet), 
 				viewFilterSetCollection, 
-				true);
+				false);
 
 		// *******************************************************************
 		// Copy manifest and configuration resources the same way as view
@@ -378,10 +371,17 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		AntCopyUtils.copyFileToFile(
 				componentsFile,
 				new File(webInfFolder, "components.xml"), //$NON-NLS-1$
-				new FilterSetCollection(projectFilterSet), true);
+				new FilterSetCollection(projectFilterSet), false);
+
+		File facesConfig = new File(webContentFolder, "WEB-INF/faces-config.xml");
+		IPath webConfigPath = webContentPath.append("WEB-INF").append("faces-config.xml");
+		String webConfigName = webConfigPath.removeFirstSegments(1).toString();
+		if(facesConfig.exists()) {
+			configureFacesConfigXml(project, monitor, webConfigName);
+		}
 
 		AntCopyUtils.copyFilesAndFolders(
-				seamGenResFolder, webContentFolder, new AntCopyUtils.FileSetFileFilter(webInfSet), viewFilterSetCollection, true);
+				seamGenResFolder, webContentFolder, new AntCopyUtils.FileSetFileFilter(webInfSet), viewFilterSetCollection, false);
 
 		final FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
 		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
@@ -394,14 +394,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if (isWarConfiguration(model)) {
 			AntCopyUtils.FileSet webInfClassesSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
 			AntCopyUtils.copyFilesAndFolders(
-					seamGenResFolder, srcFolder, new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, true);
+					seamGenResFolder, srcFolder, new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, false);
 
-			createComponentsProperties(srcFolder, "", false); //$NON-NLS-1$ //$NON-NLS-2$
-
-			/*AntCopyUtils.copyFileToFolder(
-					hibernateConsolePref,
-					new File(project.getLocation().toFile(),".settings"),	 //$NON-NLS-1$
-					new FilterSetCollection(projectFilterSet), true);*/
+			createComponentsProperties(srcFolder, "", false); //$NON-NLS-1$
 
 			// ********************************************************************************************
 			// Copy seam project indicator
@@ -426,33 +421,33 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
 					new File(actionsSrc,model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					new FilterSetCollection(filtersFilterSet), true);
+					new FilterSetCollection(filtersFilterSet), false);
 
 			AntCopyUtils.copyFileToFile(
 					persistenceFile,
 					new File(srcFolder, "META-INF/persistence.xml"), //$NON-NLS-1$
-					viewFilterSetCollection, true);
+					viewFilterSetCollection, false);
 
 			File resources = new File(project.getLocation().toFile(), "resources");
 			AntCopyUtils.copyFileToFile(
 					dataSourceDsFile, 
 					new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
-					viewFilterSetCollection, true);
+					viewFilterSetCollection, false);
 
 			AntCopyUtils.copyFileToFile(
 					hibernateConsoleLaunchFile, 
 					new File(project.getLocation().toFile(), project.getName() + ".launch"),  //$NON-NLS-1$
-					viewFilterSetCollection, true);
+					viewFilterSetCollection, false);
 
 			AntCopyUtils.copyFileToFolder(
 					hibernateConsolePropsFile, 
 					project.getLocation().toFile(),
-					hibernateDialectFilterSet, true);
+					hibernateDialectFilterSet, false);
 
 			WtpUtils.setClasspathEntryAsExported(project, new Path("org.eclipse.jst.j2ee.internal.web.container"), monitor); //$NON-NLS-1$
 		} else {
 			// In case of EAR configuration
-			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "messages_en.properties"), srcFolder, true); //$NON-NLS-1$
+			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "messages_en.properties"), srcFolder, false); //$NON-NLS-1$
 		}
 	}
 
@@ -467,6 +462,24 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	protected abstract void doExecuteForEar(IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException;
 
+	protected IResource getSrcFolder(IProject project) throws JavaModelException {
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+
+		IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
+		IPackageFragmentRoot src = null;
+		for (int i= 0; i < roots.length; i++) {
+			if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
+				src = roots[i];
+			}
+		}
+		if(src!=null) {
+			return src.getResource();
+		}
+		return null;
+	}
+
+	protected FilterSetCollection ejbViewFilterSetCollection;
+
 	/**
 	 * 
 	 * @param project
@@ -475,8 +488,70 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected abstract void doExecuteForEjb(IProject project, IProjectFacetVersion fv,
-			IDataModel model, IProgressMonitor monitor) throws CoreException;
+	protected void doExecuteForEjb(final IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException {
+
+		IResource src = getSrcFolder(project);
+		if(src==null) {
+			return;
+		}
+
+		File ejbProjectFolder = project.getLocation().toFile();
+		FilterSet filtersFilterSet = SeamFacetFilterSetFactory.createFiltersFilterSet(model);
+		FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+
+		if(ejbViewFilterSetCollection==null) {
+			ejbViewFilterSetCollection = new FilterSetCollection();
+			ejbViewFilterSetCollection.addFilterSet(jdbcFilterSet);
+			ejbViewFilterSetCollection.addFilterSet(projectFilterSet);
+		}
+
+		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
+		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+
+		File srcFile = src.getLocation().toFile();
+		// Copy sources to EJB project in case of EAR configuration
+		AntCopyUtils.copyFileToFile(
+			new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
+			new File(srcFile, model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			new FilterSetCollection(filtersFilterSet), false);
+
+		File persistentXml = new File(srcFile, "META-INF/persistence.xml"); //$NON-NLS-1$
+		if(!persistentXml.exists()) {
+			AntCopyUtils.copyFileToFile(persistenceFile, new File(srcFile, "META-INF/persistence.xml"), //$NON-NLS-1$
+					ejbViewFilterSetCollection, false);
+		} else {
+			// TODO modify persistence.xml
+		}
+
+		File componentProperties = new File(srcFile, "components.properties"); //$NON-NLS-1$
+		if(!componentProperties.exists()) {
+			SeamFacetAbstractInstallDelegate.createComponentsProperties(srcFile, project.getName(), false);
+		}
+
+		AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+		AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), ejbViewFilterSetCollection, false);
+
+		File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml");
+		if(!ejbJarXml.exists()) {
+			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "META-INF/ejb-jar.xml"), //$NON-NLS-1$
+				new File(srcFile, "META-INF"), ejbViewFilterSetCollection, false); //$NON-NLS-1$
+		} else {
+			// TODO modify ejb-jar.xml
+		}
+		FilterSet ejbFilterSet = new FilterSet();
+		ejbFilterSet.addFilter("projectName", ejbProjectFolder.getName()); //$NON-NLS-1$
+
+		AntCopyUtils.copyFileToFile(hibernateConsoleLaunchFile, new File(
+			ejbProjectFolder, ejbProjectFolder.getName() + ".launch"), //$NON-NLS-1$
+			new FilterSetCollection(ejbFilterSet), false);
+
+		AntCopyUtils.copyFileToFolder(hibernateConsolePropsFile,
+			ejbProjectFolder, hibernateDialectFilterSet, false);
+	}
 
 	/**
 	 * 
@@ -494,6 +569,19 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		IProjectFacetVersion webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
 		IProjectFacetVersion earVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.ENTERPRISE_APPLICATION_FACET);
 		initDefaultModelValues(model, webVersion!=null);
+
+		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
+
+		Boolean dbExists = (Boolean) model.getProperty(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
+		Boolean dbRecreate = (Boolean) model.getProperty(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
+		if (!dbExists && !dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "update"); //$NON-NLS-1$
+		} else if (dbExists && !dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "validate"); //$NON-NLS-1$
+		} else if (dbRecreate) {
+			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "create-drop"); //$NON-NLS-1$
+		}
+
 		if(ejbVersion!=null) {
 			doExecuteForEjb(project, fv, model, monitor);
 		} else if(webVersion!=null) {
@@ -501,6 +589,11 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		} else if(earVersion!=null) {
 			doExecuteForEar(project, fv, model, monitor);
 		}
+
+		ClasspathHelper.addClasspathEntries(project, fv);
+		createSeamProjectPreferenes(project, model);
+		EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
 	private void initDefaultModelValues(IDataModel model, boolean warProject) {
@@ -818,7 +911,15 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			webApp.getContextParams().add(paramValue);
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @param project
+	 * @param monitor
+	 * @param webConfigName
+	 */
+	abstract protected void configureFacesConfigXml(final IProject project, IProgressMonitor monitor, String webConfigName);
+
 	protected abstract void configure(WebApp webApp);
 
 	protected void configureWebXml(final IProject project) {

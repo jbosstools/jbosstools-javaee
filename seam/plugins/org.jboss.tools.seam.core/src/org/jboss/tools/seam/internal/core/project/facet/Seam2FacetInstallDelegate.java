@@ -11,12 +11,25 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
+import java.util.Iterator;
 
+import org.apache.tools.ant.types.FilterSet;
+import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.jsf.facesconfig.emf.ApplicationType;
+import org.eclipse.jst.jsf.facesconfig.emf.DefaultLocaleType;
+import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigFactory;
+import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigType;
+import org.eclipse.jst.jsf.facesconfig.emf.LocaleConfigType;
+import org.eclipse.jst.jsf.facesconfig.emf.SupportedLocaleType;
+import org.eclipse.jst.jsf.facesconfig.emf.ViewHandlerType;
+import org.eclipse.jst.jsf.facesconfig.util.FacesConfigArtifactEdit;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 
@@ -82,7 +95,19 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	@Override
 	protected void doExecuteForEjb(final IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
-		// TODO
+		FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		ejbViewFilterSetCollection = new FilterSetCollection();
+		ejbViewFilterSetCollection.addFilterSet(jdbcFilterSet);
+		ejbViewFilterSetCollection.addFilterSet(projectFilterSet);
+
+		super.doExecuteForEjb(project, fv, model, monitor);
+
+		IResource src = getSrcFolder(project);
+		if(src!=null) {
+			File srcFile = src.getLocation().toFile();
+			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), srcFile, false); //$NON-NLS-1$
+		}
 	}
 
 	/*
@@ -105,6 +130,84 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
 			AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#configureFacesConfigXml(org.eclipse.core.resources.IProject, org.eclipse.core.runtime.IProgressMonitor, java.lang.String)
+	 */
+	@Override
+	protected void configureFacesConfigXml(final IProject project, IProgressMonitor monitor, String webConfigName) {
+		FacesConfigArtifactEdit facesConfigEdit = null;
+		try {
+			facesConfigEdit = FacesConfigArtifactEdit.getFacesConfigArtifactEditForWrite(project, webConfigName);
+			FacesConfigType facesConfig = facesConfigEdit.getFacesConfig();
+			EList applications = facesConfig.getApplication();
+			ApplicationType applicationType = null;
+			boolean applicationExists = false;
+			if (applications.size() <= 0) {
+				applicationType = FacesConfigFactory.eINSTANCE.createApplicationType();
+			} else {
+				applicationType = (ApplicationType) applications.get(0);
+				applicationExists = true;
+			}
+			boolean localeConfigExists = false;
+			for (Iterator iterator = applications.iterator(); iterator.hasNext();) {
+				ApplicationType application = (ApplicationType) iterator.next();
+				EList localeConfigs = application.getLocaleConfig();
+				if(localeConfigs.size()>0) {
+					localeConfigExists = true;
+					break;
+				}
+			}
+			if (!localeConfigExists) {
+				LocaleConfigType locale = FacesConfigFactory.eINSTANCE.createLocaleConfigType();
+				DefaultLocaleType defaultLocale = FacesConfigFactory.eINSTANCE.createDefaultLocaleType();
+				defaultLocale.setTextContent("en");
+				locale.setDefaultLocale(defaultLocale);
+				SupportedLocaleType supportedLocale = FacesConfigFactory.eINSTANCE.createSupportedLocaleType();
+				supportedLocale.setTextContent("bg");
+				locale.getSupportedLocale().add(supportedLocale);
+				supportedLocale = FacesConfigFactory.eINSTANCE.createSupportedLocaleType();
+				supportedLocale.setTextContent("de");
+				locale.getSupportedLocale().add(supportedLocale);
+				supportedLocale = FacesConfigFactory.eINSTANCE.createSupportedLocaleType();
+				supportedLocale.setTextContent("en");
+				locale.getSupportedLocale().add(supportedLocale);
+				supportedLocale = FacesConfigFactory.eINSTANCE.createSupportedLocaleType();
+				supportedLocale.setTextContent("fr");
+				locale.getSupportedLocale().add(supportedLocale);
+				supportedLocale = FacesConfigFactory.eINSTANCE.createSupportedLocaleType();
+				supportedLocale.setTextContent("tr");
+				locale.getSupportedLocale().add(supportedLocale);
+				applicationType.getLocaleConfig().add(locale);
+			}
+			boolean viewHandlerExists = false;
+			for (Iterator iterator = applications.iterator(); iterator.hasNext();) {
+				ApplicationType application = (ApplicationType) iterator.next();
+				EList viewHandlers = application.getViewHandler();
+				for (Iterator iterator2 = viewHandlers.iterator(); iterator2.hasNext();) {
+					ViewHandlerType viewHandlerType = (ViewHandlerType)iterator2.next();
+					if ("com.sun.facelets.FaceletViewHandler".equals(viewHandlerType.getTextContent().trim())) {
+						viewHandlerExists = true;
+						break;
+					}
+				}
+			}
+			if (!viewHandlerExists) {
+				ViewHandlerType viewHandler = FacesConfigFactory.eINSTANCE.createViewHandlerType();
+				viewHandler.setTextContent("com.sun.facelets.FaceletViewHandler");
+				applicationType.getViewHandler().add(viewHandler);
+			}
+			if (!applicationExists) {
+				facesConfig.getApplication().add(applicationType);
+			}
+			facesConfigEdit.save(monitor);
+		} finally {
+			if (facesConfigEdit != null) {
+				facesConfigEdit.dispose();
+			}
 		}
 	}
 

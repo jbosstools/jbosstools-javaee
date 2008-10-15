@@ -11,14 +11,23 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
+import java.util.Iterator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jst.javaee.core.DisplayName;
 import org.eclipse.jst.javaee.core.JavaeeFactory;
 import org.eclipse.jst.javaee.web.Filter;
 import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.jsf.facesconfig.emf.ApplicationType;
+import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigFactory;
+import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigType;
+import org.eclipse.jst.jsf.facesconfig.emf.LifecycleType;
+import org.eclipse.jst.jsf.facesconfig.emf.MessageBundleType;
+import org.eclipse.jst.jsf.facesconfig.emf.PhaseListenerType;
+import org.eclipse.jst.jsf.facesconfig.util.FacesConfigArtifactEdit;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 
@@ -106,16 +115,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#doExecuteForEjb(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, org.eclipse.wst.common.frameworks.datamodel.IDataModel, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	protected void doExecuteForEjb(final IProject project, IProjectFacetVersion fv,
-			IDataModel model, IProgressMonitor monitor) throws CoreException {
-		// TODO
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#copyFilesToWarProject(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, org.eclipse.wst.common.frameworks.datamodel.IDataModel, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -131,6 +130,84 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
 			AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#configureFacesConfigXml(org.eclipse.core.resources.IProject, org.eclipse.core.runtime.IProgressMonitor, java.lang.String)
+	 */
+	@Override
+	protected void configureFacesConfigXml(final IProject project, IProgressMonitor monitor, String webConfigName) {
+		FacesConfigArtifactEdit facesConfigEdit = null;
+		try {
+			facesConfigEdit = FacesConfigArtifactEdit.getFacesConfigArtifactEditForWrite(project, webConfigName);
+			FacesConfigType facesConfig = facesConfigEdit.getFacesConfig();
+			EList applications = facesConfig.getApplication();
+			ApplicationType applicationType = null;
+			boolean applicationExists = false;
+			if (applications.size() <= 0) {
+				applicationType = FacesConfigFactory.eINSTANCE.createApplicationType();
+			} else {
+				applicationType = (ApplicationType) applications.get(0);
+				applicationExists = true;
+			}
+			boolean messageBundleExists = false;
+			for (Iterator iterator = applications.iterator(); iterator.hasNext();) {
+				ApplicationType application = (ApplicationType) iterator.next();
+				EList messageBundles = application.getMessageBundle();
+				for (Iterator iterator2 = messageBundles.iterator(); iterator2.hasNext();) {
+					MessageBundleType messageBundle = (MessageBundleType)iterator2.next();
+					if ("messages".equals(messageBundle.getTextContent().trim())) {
+						messageBundleExists = true;
+						break;
+					}
+				}
+			}
+			if (!messageBundleExists) {
+				MessageBundleType messageBundle = FacesConfigFactory.eINSTANCE.createMessageBundleType();
+				messageBundle.setTextContent("messages");
+				applicationType.getMessageBundle().add(messageBundle);
+			}
+			if (!applicationExists) {
+				facesConfig.getApplication().add(applicationType);
+			}
+			EList lifecycles = facesConfig.getLifecycle();
+			LifecycleType lifecycleType = null;
+			boolean lifecycleExists = false;
+			if (lifecycles.size() <= 0) {
+				lifecycleType = FacesConfigFactory.eINSTANCE.createLifecycleType();
+			} else {
+				lifecycleType = (LifecycleType)lifecycles.get(0);
+				lifecycleExists = true;
+			}
+			boolean phaseListenerExists = false;
+			for (Iterator iterator = lifecycles.iterator(); iterator.hasNext();) {
+				LifecycleType lifecycle = (LifecycleType) iterator.next();
+				EList phaseListeners = lifecycle.getPhaseListener();
+				for (Iterator iterator2 = phaseListeners.iterator(); iterator2.hasNext();) {
+					PhaseListenerType messageBundle = (PhaseListenerType)iterator2.next();
+					if ("org.jboss.seam.jsf.TransactionalSeamPhaseListener".equals(messageBundle.getTextContent().trim()) ||
+							"org.jboss.seam.jsf.SeamPhaseListener".equals(messageBundle.getTextContent().trim())) {
+						phaseListenerExists = true;
+						break;
+					}
+				}
+			}
+			if (!phaseListenerExists) {
+				PhaseListenerType phaseListener = FacesConfigFactory.eINSTANCE.createPhaseListenerType();
+				phaseListener.setTextContent("org.jboss.seam.jsf.TransactionalSeamPhaseListener");
+				lifecycleType.getPhaseListener().add(phaseListener);
+			}
+			if (!lifecycleExists) {
+				facesConfig.getLifecycle().add(lifecycleType);
+			}
+
+			facesConfigEdit.save(monitor);
+		} finally {
+			if (facesConfigEdit != null) {
+				facesConfigEdit.dispose();
+			}
 		}
 	}
 

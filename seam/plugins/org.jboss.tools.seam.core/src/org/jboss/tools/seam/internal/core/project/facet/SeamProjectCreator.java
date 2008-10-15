@@ -52,11 +52,6 @@ public class SeamProjectCreator {
 	protected static final String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	protected static final String DEV_EAR_PROFILE = "dev"; //$NON-NLS-1$
 
-	protected static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
-		.include("import\\.sql") //$NON-NLS-1$
-		.include("seam\\.properties")
-		.exclude(".*/WEB-INF"); //$NON-NLS-1$
-
 	private static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet() 
 		.include("testng-.*-jdk15\\.jar") //$NON-NLS-1$
 		.include("myfaces-api-.*\\.jar") //$NON-NLS-1$
@@ -382,7 +377,7 @@ public class SeamProjectCreator {
 
 		SeamFacetAbstractInstallDelegate.createComponentsProperties(new File(ejbProjectFolder, "ejbModule"), earProjectName, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-		AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+		AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
 		AntCopyUtils.copyFilesAndFolders(
 			seamGenResFolder, new File(ejbProjectFolder, "ejbModule"), new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, true); //$NON-NLS-1$
 
