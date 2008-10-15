@@ -59,9 +59,6 @@ public class RichFacesComboBoxTemplate extends AbstractEditableRichFacesTemplate
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
-		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
 }
