@@ -88,8 +88,10 @@ public class DiagramAdopt implements XAdoptManager, SeamPagesConstants {
 	public static String getPageSuffix(String entity) {
 		if(entity.endsWith(SUFF_12)) {
 			return SUFF_12;
-		} else {
+		} else if(entity.endsWith(SUFF_20)) {
 			return SUFF_20;
+		} else {
+			return SUFF_21;
 		}
 	}
 	
