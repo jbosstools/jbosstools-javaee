@@ -16,11 +16,11 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -36,7 +36,7 @@ import org.w3c.dom.Node;
 public class RichFacesColumnsTemplate extends AbstractRichFacesTemplate {
 
     /** The Constant DEFAULT_CLASSES. */
-    private static final String DEFAULT_CLASSES = "dr-table-cell rich-table-cell";
+    private static final String DEFAULT_CLASSES = "dr-table-cell rich-table-cell"; //$NON-NLS-1$
 
     /**
      * Create.
@@ -54,7 +54,7 @@ public class RichFacesColumnsTemplate extends AbstractRichFacesTemplate {
      */
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
         final Element sourceElement = (Element) sourceNode;
-        final nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+        final nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
         prepareData(sourceElement);
         final VpeCreationData data = new VpeCreationData(td);
         // Create mapping to Encode body
@@ -62,7 +62,7 @@ public class RichFacesColumnsTemplate extends AbstractRichFacesTemplate {
         
         String clazz = DEFAULT_CLASSES;
         if(ComponentUtil.isNotBlank(this.sourceStyleClass)){
-            clazz = clazz+" "+this.sourceStyleClass;
+            clazz = clazz+Constants.WHITE_SPACE+this.sourceStyleClass;
         }
         if(ComponentUtil.isNotBlank(this.sourceWidth)){
             td.setAttribute(RichFaces.ATTR_WIDTH, this.sourceWidth);
@@ -83,7 +83,7 @@ public class RichFacesColumnsTemplate extends AbstractRichFacesTemplate {
      */
     private void prepareData(Element sourceElement) {
        this.sourceStyleClass = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
-       this.sourceStyle = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE);
+       this.sourceStyle = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE);
        this.sourceWidth = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_WIDTH);
         
     }

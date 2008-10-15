@@ -13,10 +13,12 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -28,13 +30,13 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument  visualDocument) {
 		Element sourceElement = (Element)sourceNode;
 
-		nsIDOMElement td = visualDocument.createElement("td");
+		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 		if(isHeader(sourceElement)) {
-			td.setAttribute("class", "dr-table-headercell rich-table-headercell");
+			td.setAttribute(HTML.ATTR_CLASS, "dr-table-headercell rich-table-headercell"); //$NON-NLS-1$
 		} else if(isFooter(sourceElement)) {
-			td.setAttribute("class", "dr-table-footercell rich-table-footercell");			
+			td.setAttribute(HTML.ATTR_CLASS, "dr-table-footercell rich-table-footercell");			 //$NON-NLS-1$
 		} else {
-			td.setAttribute("class", "dr-table-cell rich-table-cell");			
+			td.setAttribute(HTML.ATTR_CLASS, "dr-table-cell rich-table-cell");			 //$NON-NLS-1$
 		}
 		ComponentUtil.copyAttributes(sourceNode, td);
 		VpeCreationData creationData = new VpeCreationData(td);
@@ -51,11 +53,11 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	}
 
 	private boolean isHeader(Element sourceElement) {
-		return icludedInFacet(sourceElement, "header");
+		return icludedInFacet(sourceElement, RichFaces.NAME_FACET_HEADER);
 	}
 
 	private boolean isFooter(Element sourceElement) {
-		return icludedInFacet(sourceElement, "footer");
+		return icludedInFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
 	}
 
 	private boolean icludedInFacet(Element sourceElement, String facetName) {
@@ -63,7 +65,7 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 		if(parent!=null) {
 			if(ComponentUtil.isFacet(parent, facetName)) {
 				return true;
-			} else if (parent.getNodeName().endsWith(":columnGroup")) {
+			} else if (parent.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
 				return ComponentUtil.isFacet(parent.getParentNode(), facetName);
 			}
 		}

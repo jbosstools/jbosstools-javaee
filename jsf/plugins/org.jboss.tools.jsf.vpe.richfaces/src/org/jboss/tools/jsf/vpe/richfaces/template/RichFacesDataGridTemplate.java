@@ -15,9 +15,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -36,68 +39,68 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 
 		initStyleClasses(sourceElement);
 
-		nsIDOMElement table = visualDocument.createElement("table");
+		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		ComponentUtil.copyAttributes(sourceNode, table);
 
 		VpeCreationData creationData = new VpeCreationData(table);
 
-		ComponentUtil.setCSSLink(pageContext, "dataTable/dataTable.css", "richFacesDataGrid");
-		String tableClass = sourceElement.getAttribute("styleClass");
-		table.setAttribute("class", "dr-table rich-table " + (tableClass==null?"":tableClass));
+		ComponentUtil.setCSSLink(pageContext, "dataTable/dataTable.css", "richFacesDataGrid"); //$NON-NLS-1$ //$NON-NLS-2$
+		String tableClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+		table.setAttribute(HTML.ATTR_CLASS, "dr-table rich-table " + (tableClass==null?Constants.EMPTY:tableClass)); //$NON-NLS-1$
 
 		// Encode colgroup definition.
 		int columnsLength = getColumnsCount(sourceElement);
-		nsIDOMElement colgroup = visualDocument.createElement("colgroup");
-		colgroup.setAttribute("span", String.valueOf(columnsLength));
+		nsIDOMElement colgroup = visualDocument.createElement(HTML.TAG_COLGROUP);
+		colgroup.setAttribute(HTML.ATTR_SPAN, String.valueOf(columnsLength));
 		table.appendChild(colgroup);
 
 		//Encode Caption
 		encodeCaption(creationData, sourceElement, visualDocument, table);
 
 		// Encode Header
-		Element header = ComponentUtil.getFacet(sourceElement, "header");
+		Element header = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_HEADER);
 		if(header!=null) {
-			nsIDOMElement thead = visualDocument.createElement("thead");
+			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
-			String headerClass = (String) sourceElement.getAttribute("headerClass");
+			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
 			encodeTableHeaderOrFooterFacet(creationData, thead, columnsLength, visualDocument, header,
-					"dr-table-header rich-table-header",
-					"dr-table-header-continue rich-table-header-continue",
-					"dr-table-headercell rich-table-headercell",
-					headerClass, "td");
+					"dr-table-header rich-table-header", //$NON-NLS-1$
+					"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
+					"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
+					headerClass, HTML.TAG_TD);
 		}
 
 		// Encode Footer
-		Element footer = ComponentUtil.getFacet(sourceElement, "footer");
+		Element footer = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
 		if (footer != null) {
-			nsIDOMElement tfoot = visualDocument.createElement("tfoot");
+			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
-			String footerClass = (String) sourceElement.getAttribute("footerClass");
+			String footerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
 			encodeTableHeaderOrFooterFacet(creationData, tfoot, columnsLength, visualDocument, footer,
-					"dr-table-footer rich-table-footer",
-					"dr-table-footer-continue rich-table-footer-continue",
-					"dr-table-footercell rich-table-footercell",
-					footerClass, "td");
+					"dr-table-footer rich-table-footer", //$NON-NLS-1$
+					"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$
+					"dr-table-footercell rich-table-footercell", //$NON-NLS-1$
+					footerClass, HTML.TAG_TD);
 		}
 
-		nsIDOMElement tbody = visualDocument.createElement("tbody");
+		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
 		table.appendChild(tbody);
 
 		// Create mapping to Encode body
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
-		sourceElement.getAttribute("elements");
+		sourceElement.getAttribute(RichFaces.ATTR_ELEMENTS);
 
 		int elementsCount = getElementsCount(sourceElement, columnsLength);
 		if(columnsLength>0) {
 			int rowIndex = 0;
 			for(int elementIndex = 0; elementIndex<elementsCount; rowIndex++) {
-				nsIDOMElement tr = visualDocument.createElement("tr");
+				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				tbody.appendChild(tr);
-				tr.setAttribute("class", "dr-table-row rich-table-row " + getRowClass(rowIndex));
+				tr.setAttribute(HTML.ATTR_CLASS, "dr-table-row rich-table-row " + getRowClass(rowIndex)); //$NON-NLS-1$
 				for(int columnIndex = 0; columnIndex<columnsLength && elementIndex<elementsCount; columnIndex++) {
-					nsIDOMElement td = visualDocument.createElement("td");
+					nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 					tr.appendChild(td);
-					td.setAttribute("class", "dr-table-cell rich-table-cell " + getColumnClass(columnIndex));
+					td.setAttribute(HTML.ATTR_CLASS, "dr-table-cell rich-table-cell " + getColumnClass(columnIndex)); //$NON-NLS-1$
 					if(!children.isEmpty()) {
 						VpeChildrenInfo childInfo = new VpeChildrenInfo(td);
 						for (Node child : children) {
@@ -114,23 +117,23 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 	}
 
 	private void initStyleClasses(Element sourceElement) {
-		String columnClassesString = sourceElement.getAttribute("columnClasses");
-		String rowClassesString = sourceElement.getAttribute("rowClasses");
+		String columnClassesString = sourceElement.getAttribute(RichFaces.ATTR_COLUMN_CLASSES);
+		String rowClassesString = sourceElement.getAttribute(RichFaces.ATTR_ROW_CLASSES);
 		columnClasses = parceClasses(columnClassesString);
 		rowClasses = parceClasses(rowClassesString);
 	}
 
 	private String[] parceClasses(String classes) {
 		if(classes==null) {
-			return new String[]{""};
+			return new String[]{Constants.EMPTY};
 		}
 		ArrayList<String> list = new ArrayList<String>();
-		StringTokenizer st = new StringTokenizer(classes, ",", false);
+		StringTokenizer st = new StringTokenizer(classes, Constants.COMMA, false);
 		while(st.hasMoreElements()) {
 			list.add((String)st.nextElement());
 		}
 		if(list.isEmpty()) {
-			return new String[]{""};
+			return new String[]{Constants.EMPTY};
 		}
 		return (String[])list.toArray(new String[list.size()]);
 	}
@@ -147,7 +150,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		int count = 0;
 		// check for exact value in component
 		try {
-			int span = Integer.parseInt(sourceElement.getAttribute("columns"));
+			int span = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_COLUMNS));
 			count = span > 0 ? span : 0;
 		} catch (NumberFormatException e) {
 			// Ignore wrong formatted attribute 
@@ -159,7 +162,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		int elements = 0;
 		// check for exact value in component
 		try {
-			int span = Integer.parseInt(sourceElement.getAttribute("elements"));
+			int span = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_ELEMENTS));
 			elements = span>0 ? span : columnCount * defaultRows;
 		} catch (NumberFormatException e) {
 			elements = columnCount * defaultRows;

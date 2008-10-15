@@ -1,0 +1,17 @@
+<tests>
+	<test id="dataList">
+		<UL VAR="data" VALUE="#{bean.dtList}" ROWS="4" ID="dataList"
+			CLASS="dr-list rich-datalist">
+			<LI CLASS="dr-list-item rich-list-item">
+				<SPAN> field1:</SPAN>
+				<SPAN > #{data.field1}</SPAN>
+				<SPAN> field2:</SPAN>
+				<SPAN> #{data.field2}</SPAN>
+				<SPAN> field3:</SPAN>
+				<SPAN> #{data.field3}</SPAN>
+				<SPAN> number:</SPAN>
+				<SPAN> #{data.number}</SPAN>
+			</LI>
+		</UL>
+	</test>
+</tests>

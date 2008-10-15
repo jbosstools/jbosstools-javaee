@@ -26,6 +26,7 @@ public class RichFaces {
 
 	/** jsf tags which are used with richFaces. */
 	public static final String TAG_COLUMN = "column"; //$NON-NLS-1$
+	public static final String TAG_COLUMNS = "columns"; //$NON-NLS-1$
 	/** The Constant TAG_FACET. */
 	public static final String TAG_FACET = "facet"; //$NON-NLS-1$
 	public static final String TAG_COLUMN_GROUP = "columnGroup"; //$NON-NLS-1$
@@ -73,6 +74,7 @@ public class RichFaces {
 	public static final String ATTR_CAPTION_CLASS = "captionClass"; //$NON-NLS-1$
 	public static final String ATTR_CAPTION_STYLE = "captionStyle"; //$NON-NLS-1$
 	public static final String ATTR_COLUMNS = "columns"; //$NON-NLS-1$
+	public static final String ATTR_ELEMENTS = "elements"; //$NON-NLS-1$
 
 	public static final String NAME_FACET_HEADER = "header"; //$NON-NLS-1$
 	public static final String NAME_FACET_FOOTER = "footer"; //$NON-NLS-1$

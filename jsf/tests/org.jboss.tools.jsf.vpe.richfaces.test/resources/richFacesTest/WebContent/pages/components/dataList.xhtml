@@ -9,9 +9,17 @@
 <head>
 </head>
 <body>
-	<!-- Data List -->
-	<rich:dataList rows="5">
-		<h:outputText value="testList" />
-	</rich:dataList>
+<h1>dataList</h1>
+
+<rich:dataList var="data" value="#{bean.dtList}" rows="4" id="dataList" >
+	<h:outputText value="field1:"></h:outputText>
+	<h:outputText value="#{data.field1} " />
+	<h:outputText value="field2:"></h:outputText>
+	<h:outputText value="#{data.field2} " />
+	<h:outputText value="field3:"></h:outputText>
+	<h:outputText value="#{data.field3}" />
+	<h:outputText value="number:"></h:outputText>
+	<h:outputText value="#{data.number}" />
+</rich:dataList>
 </body>
 </html>
