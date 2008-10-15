@@ -61,7 +61,7 @@ import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 public class JsfAllTests {
 
 	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
-	public static final String IMPORT_JSF_20_PROJECT_NAME = "jsf2Test"; //$NON-NLS-1$
+	public static final String IMPORT_JSF_20_PROJECT_NAME = "jsf2test"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
