@@ -80,16 +80,6 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#doExecuteForEar(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, org.eclipse.wst.common.frameworks.datamodel.IDataModel, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	protected void doExecuteForEar(final IProject project, IProjectFacetVersion fv,
-			IDataModel model, IProgressMonitor monitor) throws CoreException {
-		// TODO
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#doExecuteForEjb(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, org.eclipse.wst.common.frameworks.datamodel.IDataModel, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override

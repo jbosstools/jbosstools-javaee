@@ -444,8 +444,62 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected abstract void doExecuteForEar(IProject project, IProjectFacetVersion fv,
-			IDataModel model, IProgressMonitor monitor) throws CoreException;
+	protected void doExecuteForEar(IProject project, IProjectFacetVersion fv,
+			IDataModel model, IProgressMonitor monitor) throws CoreException {
+/*
+		if(seamHomePath==null) {
+			return;
+		}
+		model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, project.getName());
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		IVirtualFolder rootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+		IContainer earContentsContainer = rootVirtFolder.getUnderlyingFolder();
+
+		File earContentsFolder = earContentsFolder.getAbsoluteFile();
+		File earProjectFolder = project.getLocation().toFile();
+
+		File ejbTemplateDir;
+		AntCopyUtils.FileSet excludeCvsSvn;
+
+		try {
+			ejbTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb");
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		excludeCvsSvn = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.CVS_SVN).dir(ejbTemplateDir);
+
+		FilterSet earFilterSet =  new FilterSet();
+		earFilterSet.addFilter("projectName", project.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		AntCopyUtils.copyFileToFolder(
+			new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
+			new File(earContentsFolder, "META-INF"), //$NON-NLS-1$
+			new FilterSetCollection(earFilterSet), false);
+
+		// Copy configuration files from template
+		try {
+			AntCopyUtils.copyFilesAndFolders(
+				new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ear"),  //$NON-NLS-1$
+				earProjectFolder, new AntCopyUtils.FileSetFileFilter(excludeCvsSvn),
+				new FilterSetCollection(ejbFilterSet), true);
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+
+		// Fill ear contents
+		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamHomeFolder)));
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamLibFolder)));
+		AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(droolsLibFolder)));
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamLibFolder)));
+		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamGenResFolder)));						
+
+		File resources = new File(earProjectFolder, "resources");
+		AntCopyUtils.copyFileToFile(
+			dataSourceDsFile,
+			new File(resources, seamWebProject.getName() + "-ds.xml"),  //$NON-NLS-1$ //$NON-NLS-2$
+			viewFilterSetCollection, true);
+*/
+	}
 
 	protected IResource getSrcFolder(IProject project) throws JavaModelException {
 		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
