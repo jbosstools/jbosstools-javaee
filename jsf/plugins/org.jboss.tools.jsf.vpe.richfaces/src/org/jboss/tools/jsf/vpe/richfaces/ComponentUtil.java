@@ -44,19 +44,19 @@ public class ComponentUtil {
 
 
     /** The Constant EMPTY_SELECT_ITEM_VALUE. */
-    private static final String EMPTY_SELECT_ITEM_VALUE = "<f:selectItem/>";
+    private static final String EMPTY_SELECT_ITEM_VALUE = "<f:selectItem/>"; //$NON-NLS-1$
 
     /** The Constant EMPTY_SELECT_ITEMS_VALUE. */
-    private static final String EMPTY_SELECT_ITEMS_VALUE = "<f:selectItems/>";
+    private static final String EMPTY_SELECT_ITEMS_VALUE = "<f:selectItems/>"; //$NON-NLS-1$
 
     /** The Constant SELECT_ITEMS. */
-    private static final String SELECT_ITEMS = "selectItems";
+    private static final String SELECT_ITEMS = "selectItems"; //$NON-NLS-1$
 
     /** The Constant PX_SUFFIX. */
-    public static final String PX_SUFFIX = "px";
+    public static final String PX_SUFFIX = "px"; //$NON-NLS-1$
 
     /** The Constant SELECT_ITEM. */
-    private static final String SELECT_ITEM = "selectItem";
+    private static final String SELECT_ITEM = "selectItem"; //$NON-NLS-1$
 
     /**
      * Gets child of Facet element by name. If facet has a few children the
@@ -172,7 +172,7 @@ public class ComponentUtil {
         File cssFile = pluginFile.append(cssHref).toFile();
         if (cssFile.exists()) {
             String cssPath = "file:///" + cssFile.getPath(); //$NON-NLS-1$
-            pageContext.getVisualBuilder().replaceLinkNodeToHead(cssPath, ext);
+            pageContext.getVisualBuilder().replaceLinkNodeToHead(cssPath, ext, true);
         }
     }
 
