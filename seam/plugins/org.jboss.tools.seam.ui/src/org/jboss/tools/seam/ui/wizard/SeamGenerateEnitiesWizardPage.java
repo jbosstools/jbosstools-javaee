@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -21,6 +22,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -60,7 +62,6 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
-		setPageComplete(true);
 		rootSeamProject = SeamWizardUtils.getCurrentSelectedRootSeamProject();
 		String projectName = rootSeamProject==null?"":rootSeamProject.getName();
 		projectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(projectName);
@@ -231,8 +232,23 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 			values.put(configEditor.getName(), configEditor.getValueAsString());
 			String mode = radios.getValue().toString();
 			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, ("reverse".equals(mode) ? "true" : "false")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			IWizardPage page2 = getWizard().getPage(SeamGenerateEntitiesTablesWizardPage.pageName);
+			if (page2 instanceof SeamGenerateEntitiesTablesWizardPage){
+				SeamGenerateEntitiesTablesWizardPage page = (SeamGenerateEntitiesTablesWizardPage)page2;
+				String filters = page.getFilters();
+				if (filters.length() > 0) values.put(HibernateLaunchConstants.ATTR_REVENG_TABLES, filters);
+			}
 			return values;
 		}
 		return null;
+	}
+	
+	@Override
+	public boolean canFlipToNextPage() {		
+		return "reverse".equals(radios.getValue()) && (getErrorMessage() == null);		//$NON-NLS-1$ 
+	}
+	
+	public String getConsoleCongigurationName(){
+		return configEditor.getValueAsString();
 	}
 }

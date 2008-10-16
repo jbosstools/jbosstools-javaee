@@ -30,6 +30,7 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
@@ -51,6 +52,9 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
  */
 public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWizard {
 
+	IWizardPage page1 = new SeamGenerateEnitiesWizardPage();
+	IWizardPage page2 = new SeamGenerateEntitiesTablesWizardPage();
+
 	public void createPageControls(Composite pageContainer) {
 		super.createPageControls(pageContainer);
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.GENERATE_SEAM_ENTITIES);
@@ -59,10 +63,16 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 	public SeamGenerateEnitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
 		setWindowTitle(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEnitiesWizard.class, "SeamWebProjectWizBan.png"));
-		addPage(new SeamGenerateEnitiesWizardPage());
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEnitiesWizard.class, "SeamWebProjectWizBan.png"));	
+		addPage(page1);
+		addPage(page2);
 	}
-
+	
+	@Override
+	public boolean canFinish() {
+		return page1.isPageComplete();
+	}
+	
 	public static final IUndoableOperation GENERATE_SEAM_ENTITIES = new SeamBaseOperation(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_ACTION_CREATING_OPERATION) {
 
 		/*
@@ -302,7 +312,14 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				hbmtemplateAttributes.put("for_each", "entity"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("hibernatetool.util.toolclass","org.hibernate.eclipse.launch.SeamUtil"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate9.properties", hbmtemplateAttributes); //$NON-NLS-1$
+				
+				//save before adding additional attribute
 				wc.doSave();
+				
+				if (params.containsKey(HibernateLaunchConstants.ATTR_REVENG_TABLES)){
+					wc.setAttribute(HibernateLaunchConstants.ATTR_REVENG_TABLES, params.get(HibernateLaunchConstants.ATTR_REVENG_TABLES));
+				}
+				
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
 
 				WebUtils.changeTimeStamp(project);
