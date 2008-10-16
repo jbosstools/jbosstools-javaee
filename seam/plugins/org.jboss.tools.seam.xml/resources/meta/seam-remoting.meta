@@ -31,6 +31,44 @@
  <GlobalActions kind="list"/>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="remoting:remoting" name="SeamRemoting21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.remoting.config" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="remoting" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.remoting.remoting" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttributeReference
+    attributes="poll-interval,poll-timeout,debug"
+    entity="SeamRemotingConfig20" name="remoting"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamRemotingConfig20"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamRemotingConfig20"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamRemotingConfig20" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamRemotingConfig20"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="remoting:remoting-config" name="SeamRemotingConfig">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -103,10 +141,14 @@
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
-   <XModelAttribute PROPERTIES="category=general" name="poll-interval" xmlname="poll-interval"/>
-   <XModelAttribute PROPERTIES="category=general" name="poll-timeout" xmlname="poll-timeout"/>
+   <XModelAttribute PROPERTIES="category=general" name="poll-interval" xmlname="poll-interval">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="poll-timeout" xmlname="poll-timeout">
+    <Constraint loader="%IntEL%"/>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="debug" xmlname="debug">
-    <Constraint loader="ListString">
+    <Constraint loader="%ListEL%">
      <value/>
      <value name="true"/>
      <value name="false"/>
@@ -209,7 +251,7 @@
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents21">
   <XChildrenEntities>
-   <XChildEntity name="SeamRemotingConfig20"/>
+   <XChildEntity name="SeamRemoting21"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -219,7 +261,7 @@
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Config..." kind="action" name="AddRemotingConfig">
-      <EntityData EntityName="SeamRemotingConfig20">
+      <EntityData EntityName="SeamRemoting21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="poll-interval" Mandatory="no"/>
        <AttributeData AttributeName="poll-timeout" Mandatory="no"/>

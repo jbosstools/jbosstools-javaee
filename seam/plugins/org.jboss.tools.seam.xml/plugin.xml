@@ -19,6 +19,8 @@
       <meta path="meta/seam-remoting.meta"/>
       <meta path="meta/seam-spring.meta"/>
       <meta path="meta/seam-transaction.meta"/>
+      <meta path="meta/seam-ui.meta"/>
+      <meta path="meta/seam-wicket.meta"/>
    </extension>
 
    <extension point="org.jboss.tools.common.model.keys">

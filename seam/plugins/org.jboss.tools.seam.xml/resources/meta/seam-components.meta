@@ -516,7 +516,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItemReference entity="FileSeamComponent20"
+   <XActionItemReference entity="FileSeamComponent21"
     name="CreateActions" path="CreateActions"/>
    <XActionItemReference entity="FileSeamComponent20" name="Properties" path="Properties"/>
    <XActionItem kind="list" name="VerifyActions">
@@ -1423,7 +1423,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="precedence" xmlname="precedence">
     <Constraint loader="%ListIntEL%">
-     <value name=""/>
+     <value/>
      <value name="BUILT_IN"/>
      <value name="FRAMEWORK"/>
      <value name="APPLICATION"/>
