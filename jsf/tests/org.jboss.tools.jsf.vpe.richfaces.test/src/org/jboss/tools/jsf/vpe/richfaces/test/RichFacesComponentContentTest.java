@@ -112,7 +112,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testDragIndicator() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/dragIndicator.xhtml", "dragIndicator"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testDragSupport() throws Throwable {
