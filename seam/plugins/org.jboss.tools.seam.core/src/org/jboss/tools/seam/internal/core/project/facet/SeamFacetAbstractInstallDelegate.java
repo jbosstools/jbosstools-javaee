@@ -40,7 +40,9 @@ import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.model.IModelProvider;
@@ -167,6 +169,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			stopListening();
 		}
 		if(errorOccurs) {
+			errorOccurs = false;
 			Display.getDefault().syncExec(
 				new Runnable() {
 					public void run() {
@@ -306,24 +309,6 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		srcFolder = isWarConfiguration(model) ? new File(srcRootFolder.getUnderlyingFolder().getLocation().toFile(), "model") : srcRootFolder.getUnderlyingFolder().getLocation().toFile(); //$NON-NLS-1$
 		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		if(runtimeName!=null) {
-			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
-
-			seamHomePath = selectedRuntime.getHomeDir();
-
-			seamHomeFolder = new File(seamHomePath);
-			seamLibFolder = new File(seamHomePath, SEAM_LIB_RELATED_PATH);
-			seamGenResFolder = new File(seamHomePath, "seam-gen/resources"); //$NON-NLS-1$
-
-			seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
-			seamGenViewSource = new File(seamGenHomeFolder, "view"); //$NON-NLS-1$
-			dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
-			componentsFile = new File(seamGenResFolder, "WEB-INF/components" + (isWarConfiguration(model) ? "-war" : "") + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-
-			hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
-			hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
-			//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
-			persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
-
 			copyFilesToWarProject(project, fv, model, monitor);
 		} else {
 			// If seam runtime is null then just modify web.xml and add seam nature.
@@ -490,9 +475,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 */
 	protected void doExecuteForEjb(final IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
-
-		IResource src = getSrcFolder(project);
-		if(src==null) {
+		if(seamHomePath == null) {
 			return;
 		}
 
@@ -501,46 +484,49 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
 		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
 
-		if(ejbViewFilterSetCollection==null) {
-			ejbViewFilterSetCollection = new FilterSetCollection();
-			ejbViewFilterSetCollection.addFilterSet(jdbcFilterSet);
-			ejbViewFilterSetCollection.addFilterSet(projectFilterSet);
-		}
-
 		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
 		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 
-		File srcFile = src.getLocation().toFile();
-		// Copy sources to EJB project in case of EAR configuration
-		AntCopyUtils.copyFileToFile(
-			new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
-			new File(srcFile, model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new FilterSetCollection(filtersFilterSet), false);
+		IResource src = getSrcFolder(project);
+		if(src!=null) {
+			if(ejbViewFilterSetCollection==null) {
+				ejbViewFilterSetCollection = new FilterSetCollection();
+				ejbViewFilterSetCollection.addFilterSet(jdbcFilterSet);
+				ejbViewFilterSetCollection.addFilterSet(projectFilterSet);
+			}
 
-		File persistentXml = new File(srcFile, "META-INF/persistence.xml"); //$NON-NLS-1$
-		if(!persistentXml.exists()) {
-			AntCopyUtils.copyFileToFile(persistenceFile, new File(srcFile, "META-INF/persistence.xml"), //$NON-NLS-1$
-					ejbViewFilterSetCollection, false);
-		} else {
-			// TODO modify persistence.xml
-		}
+			File srcFile = src.getLocation().toFile();
+			// Copy sources to EJB project in case of EAR configuration
+			AntCopyUtils.copyFileToFile(
+				new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
+				new File(srcFile, model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new FilterSetCollection(filtersFilterSet), false);
 
-		File componentProperties = new File(srcFile, "components.properties"); //$NON-NLS-1$
-		if(!componentProperties.exists()) {
-			SeamFacetAbstractInstallDelegate.createComponentsProperties(srcFile, project.getName(), false);
-		}
+			File persistentXml = new File(srcFile, "META-INF/persistence.xml"); //$NON-NLS-1$
+			if(!persistentXml.exists()) {
+				AntCopyUtils.copyFileToFile(persistenceFile, new File(srcFile, "META-INF/persistence.xml"), //$NON-NLS-1$
+						ejbViewFilterSetCollection, false);
+			} else {
+				// TODO modify persistence.xml
+			}
 
-		AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
-		AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), ejbViewFilterSetCollection, false);
+			File componentProperties = new File(srcFile, "components.properties"); //$NON-NLS-1$
+			if(!componentProperties.exists()) {
+				SeamFacetAbstractInstallDelegate.createComponentsProperties(srcFile, project.getName(), false);
+			}
 
-		File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml");
-		if(!ejbJarXml.exists()) {
-			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "META-INF/ejb-jar.xml"), //$NON-NLS-1$
-				new File(srcFile, "META-INF"), ejbViewFilterSetCollection, false); //$NON-NLS-1$
-		} else {
-			// TODO modify ejb-jar.xml
+			AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+			AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), ejbViewFilterSetCollection, false);
+
+			File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml");
+			if(!ejbJarXml.exists()) {
+				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "META-INF/ejb-jar.xml"), //$NON-NLS-1$
+					new File(srcFile, "META-INF"), ejbViewFilterSetCollection, false); //$NON-NLS-1$
+			} else {
+				// TODO modify ejb-jar.xml
+			}
 		}
 		FilterSet ejbFilterSet = new FilterSet();
 		ejbFilterSet.addFilter("projectName", ejbProjectFolder.getName()); //$NON-NLS-1$
@@ -553,6 +539,14 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			ejbProjectFolder, hibernateDialectFilterSet, false);
 	}
 
+	enum ProjectType {
+		EAR,
+		EJB,
+		WAR
+	}
+
+	protected ProjectType projectType;
+
 	/**
 	 * 
 	 * @param project
@@ -563,6 +557,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 */
 	public void doExecute(final IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
+		ejbViewFilterSetCollection = null;
 		final IDataModel model = (IDataModel)config;
 		IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 		IProjectFacetVersion ejbVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.EJB_FACET);
@@ -582,11 +577,37 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO, "create-drop"); //$NON-NLS-1$
 		}
 
+		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+		if(runtimeName!=null) {
+			final SeamRuntime selectedRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
+
+			seamHomePath = selectedRuntime.getHomeDir();
+
+			seamHomeFolder = new File(seamHomePath);
+			seamLibFolder = new File(seamHomePath, SEAM_LIB_RELATED_PATH);
+			seamGenResFolder = new File(seamHomePath, "seam-gen/resources"); //$NON-NLS-1$
+
+			seamGenHomeFolder = new File(seamHomePath, "seam-gen"); //$NON-NLS-1$
+			seamGenViewSource = new File(seamGenHomeFolder, "view"); //$NON-NLS-1$
+			dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
+			componentsFile = new File(seamGenResFolder, "WEB-INF/components" + (isWarConfiguration(model) ? "-war" : "") + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+
+			hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
+			hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
+			//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
+			persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
+		} else {
+			seamHomePath = null;
+		}
+
 		if(ejbVersion!=null) {
+			projectType = ProjectType.EJB;
 			doExecuteForEjb(project, fv, model, monitor);
 		} else if(webVersion!=null) {
+			projectType = ProjectType.WAR;
 			doExecuteForWar(project, fv, model, monitor);
 		} else if(earVersion!=null) {
+			projectType = ProjectType.EAR;
 			doExecuteForEar(project, fv, model, monitor);
 		}
 
@@ -600,14 +621,19 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)==null) {
 			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, warProject?ISeamFacetDataModelProperties.DEPLOY_AS_WAR:ISeamFacetDataModelProperties.DEPLOY_AS_EAR);
 		}
+		Object projectNamePackage = model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME);
+		IStatus status = JavaConventions.validatePackageName(projectNamePackage.toString(), CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
+		if(!status.isOK()) {
+			projectNamePackage = "project";
+		}
 		if(model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)==null) {
-			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".session"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".session"); //$NON-NLS-1$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)==null) {
-			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".entity"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".entity"); //$NON-NLS-1$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)==null) {
-			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME) + ".test"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + projectNamePackage + ".test"); //$NON-NLS-1$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME)==null) {
 			String runtimeName = SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model);
@@ -669,6 +695,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 */
 	protected void createSeamProjectPreferenes(final IProject project,
 			final IDataModel model) {
+		if(projectType == ProjectType.EAR) {
+			return;
+		}
 		IScopeContext projectScope = new ProjectScope(project);
 		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 
@@ -690,9 +719,22 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		IVirtualFolder rootFolder = component.getRootFolder();
 		IContainer webRootFolder = rootFolder.getFolder(new Path("/")).getUnderlyingFolder(); //$NON-NLS-1$
 		String webRootFolderPath = webRootFolder.getFullPath().toString();
-		prefs.put(WEB_CONTENTS_FOLDER, webRootFolderPath);
-
-		IPath srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
+		IPath srcRootFolder = null;
+		if(projectType == ProjectType.WAR) {
+			srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
+		} else if(projectType == ProjectType.EJB) {
+			try {
+				srcRootFolder = getSrcFolder(project).getFullPath();
+			} catch (JavaModelException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				srcRootFolder = new Path("");
+			}
+		}
+		if(projectType == ProjectType.WAR) {
+			prefs.put(WEB_CONTENTS_FOLDER, webRootFolderPath);
+		} else {
+			prefs.put(WEB_CONTENTS_FOLDER, srcRootFolder.toString());
+		}
 
 		if(!isWarConfiguration(model)) {
 			prefs.put(SEAM_EJB_PROJECT, project.getName());

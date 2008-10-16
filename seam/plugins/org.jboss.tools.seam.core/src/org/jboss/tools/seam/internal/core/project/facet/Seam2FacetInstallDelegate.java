@@ -104,7 +104,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		super.doExecuteForEjb(project, fv, model, monitor);
 
 		IResource src = getSrcFolder(project);
-		if(src!=null) {
+		if(src!=null && seamHomeFolder!=null) {
 			File srcFile = src.getLocation().toFile();
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), srcFile, false); //$NON-NLS-1$
 		}
