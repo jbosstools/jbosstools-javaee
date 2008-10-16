@@ -98,7 +98,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
-	public void _testDataTable() throws Throwable {
+	public void testDataTable() throws Throwable {
 		performContentTest("components/dataTable.xhtml");//$NON-NLS-1$
 
 	}
@@ -108,7 +108,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testDndParam() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/dndParam.xhtml", "dndParam"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testDragIndicator() throws Throwable {
