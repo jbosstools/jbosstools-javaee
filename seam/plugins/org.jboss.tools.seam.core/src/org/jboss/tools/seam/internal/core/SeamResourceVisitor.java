@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -17,8 +20,13 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -38,11 +46,27 @@ public class SeamResourceVisitor implements IResourceVisitor {
 	};
 	SeamProject p;
 	
-	IPath output = null;
+	IPath[] outs = new IPath[0];
+	IPath[] srcs = new IPath[0];
+	IPath webinf = null;
 	
 	public SeamResourceVisitor(SeamProject p) {
 		this.p = p;
-		getJavaProjectOutput(p.getProject());
+
+		if(p.getProject() != null && p.getProject().isOpen()) {
+			getJavaSourceRoots(p.getProject());
+
+			XModel model = InnerModelHelper.createXModel(p.getProject());
+			if(model != null) {
+				XModelObject wio = FileSystemsHelper.getWebInf(model);
+				if(wio != null) {
+					IResource wir = (IResource)wio.getAdapter(IResource.class);
+					if(wir != null) {
+						webinf = wir.getFullPath();
+					}
+				}
+			}
+		}
 	}
 	
 	public IResourceVisitor getVisitor() {
@@ -52,8 +76,10 @@ public class SeamResourceVisitor implements IResourceVisitor {
 	public boolean visit(IResource resource) {
 		if(resource instanceof IFile) {
 			IFile f = (IFile)resource;
-			if(output != null && output.isPrefixOf(resource.getFullPath())) {
-				return false;
+			for (int i = 0; i < outs.length; i++) {
+				if(outs[i].isPrefixOf(resource.getFullPath())) {
+					return false;
+				}
 			}
 			for (int i = 0; i < FILE_SCANNERS.length; i++) {
 				IFileScanner scanner = FILE_SCANNERS[i];
@@ -77,9 +103,26 @@ public class SeamResourceVisitor implements IResourceVisitor {
 			}
 		}
 		if(resource instanceof IFolder) {
-			if(output != null && output.isPrefixOf(resource.getFullPath())) {
-				return false;
+			IPath path = resource.getFullPath();
+			for (int i = 0; i < outs.length; i++) {
+				if(outs[i].isPrefixOf(path)) {
+					return false;
+				}
 			}
+			for (int i = 0; i < srcs.length; i++) {
+				if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
+					return true;
+				}
+			}
+			if(webinf != null) {
+				if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
+					return true;
+				}
+			}
+			if(resource == resource.getProject()) {
+				return true;
+			}
+			return false;
 		}
 		//return true to continue visiting children.
 		return true;
@@ -92,16 +135,31 @@ public class SeamResourceVisitor implements IResourceVisitor {
 		p.registerComponents(c, resource.getFullPath());
 	}
 
-	public IPath getJavaProjectOutput(IProject project) {
-		if(project == null || !project.isOpen()) return null;
-		if(output != null) return output;
+	void getJavaSourceRoots(IProject project) {
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+		if(javaProject == null) return;
+		List<IPath> ps = new ArrayList<IPath>();
+		List<IPath> os = new ArrayList<IPath>();
 		try {
-			if(!project.hasNature(JavaCore.NATURE_ID)) return null;
-			IJavaProject javaProject = JavaCore.create(project);		
-			return output = javaProject.getOutputLocation();
-		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-			return null;
+			IPath output = javaProject.getOutputLocation();
+			if(output != null) os.add(output);
+			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
+			for (int i = 0; i < es.length; i++) {
+				if(es[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
+					IResource findMember = ModelPlugin.getWorkspace().getRoot().findMember(es[i].getPath());
+					if(findMember != null && findMember.exists()) {
+						ps.add(findMember.getFullPath());
+					}
+					IPath out = es[i].getOutputLocation();
+					if(out != null && !os.contains(out)) {
+						os.add(out);
+					}
+				} 
+			}
+			srcs = ps.toArray(new IPath[0]);
+			outs = os.toArray(new IPath[0]);
+		} catch(CoreException ce) {
+			ModelPlugin.getPluginLog().logError("Error while locating java source roots for " + project, ce);
 		}
 	}
 
