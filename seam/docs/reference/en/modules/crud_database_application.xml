@@ -27,23 +27,26 @@
             <property>CRUD</property> at some point. A <property>CRUD</property> application is one
             that uses forms to get data into and out of a database. </para>
         <para> In the next section we will create <link linkend="intro">Seam</link> Web application,
-            connect it to the <ulink url="http://www.hsqldb.org/">HSQL</ulink> database
-            and add <property>CRUD</property> support. </para>
+            connect it to the <ulink url="http://www.hsqldb.org/">HSQL</ulink> database and add
+                <property>CRUD</property> support. </para>
     </section>
 
     <section>
         <title>How to create the CRUD Database Application with Seam</title>
 
         <itemizedlist>
-            <listitem><para>First, you should <ulink url="http://docs.jboss.org/tools/resources/"
-                >download</ulink> a database and start it by running <emphasis>
-                    <property>./runDBServer.sh</property></emphasis> or <emphasis>
-                        <property>runDBServer.bat</property></emphasis>
-                from the database directory.</para></listitem>
             <listitem>
-                <para>Create a new Seam Web Project using New Project wizard or main menu
-                            <emphasis><property>File > New > Seam Web
-                Project</property>.</emphasis></para>
+                <para>First, you should <ulink url="http://docs.jboss.org/tools/resources/"
+                    >download</ulink> a database and start it by running <emphasis>
+                        <property>./runDBServer.sh</property>
+                    </emphasis> or <emphasis>
+                        <property>runDBServer.bat</property>
+                    </emphasis> from the database directory.</para>
+            </listitem>
+            <listitem>
+                <para>Create a new Seam Web Project using <property>New Seam Project
+                    wizard</property> or main menu <emphasis><property>File > New > Seam Web
+                        Project</property>.</emphasis></para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -60,14 +63,10 @@
         <itemizedlist>
             <listitem>
                 <para>Name your project as <emphasis>
-                        <property>crudapp</property>
+                        <property>crudapp</property>, </emphasis> specify Target Runtime, Server and
+                    Seam Runtime configuration. Then press <emphasis>
+                        <property>Next</property>
                     </emphasis> and follow the next wizard steps keeping default settings.</para>
-                <para>Please have a look <link linkend="create_seam">here</link> how to create <emphasis>
-                        <property>Target Runtime</property>
-                    </emphasis> and <emphasis>
-                        <property>Seam Runtime</property>
-                    </emphasis> in order to get started creating, running, and debugging J2EE
-                    applications.</para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -81,13 +80,21 @@
             </mediaobject>
         </figure>
 
+        <tip>
+            <title>Tip:</title>
+            <para>Please have a look <link linkend="create_seam">here</link> how to create Target
+                Runtime and Seam Runtime in order to get started creating, running, and debugging
+                J2EE applications.</para>
+        </tip>
+
         <itemizedlist>
             <listitem>
                 <para>On <emphasis>
                         <property>Seam Facet</property>
                     </emphasis> page click <emphasis>
                         <property>New...</property>
-                    </emphasis> to create a new <property>Connection profile</property>.</para>
+                    </emphasis> next to the <property>Connection profile</property> section to
+                    create a new <property>Connection profile</property>.</para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -104,12 +111,15 @@
         <itemizedlist>
             <listitem>
                 <para>On <property>New Connection Profile</property> dialog select the <emphasis>
-                        <property>HSQLDB Connection Profile</property>
-                    </emphasis> type and click <emphasis>
-                        <property>Next</property>
-                    </emphasis>.</para>
+                        <property>HSQLDB</property>
+                    </emphasis> connection profile type, name it <emphasis>
+                        <property>cruddb</property>
+                    </emphasis> and click <emphasis>
+                        <property>Next</property>.
+                    </emphasis></para>
             </listitem>
         </itemizedlist>
+
         <figure>
             <title>New JDBC Connection Profile</title>
             <mediaobject>
@@ -123,29 +133,9 @@
 
         <itemizedlist>
             <listitem>
-                <para>Name your profile as <emphasis>
-                        <property>cruddb</property>
-                    </emphasis> and press <emphasis>
-                        <property>Next</property>
-                    </emphasis>.</para>
-            </listitem>
-        </itemizedlist>
-        <figure>
-            <title>New JDBC Connection Profile Name</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata
-                        fileref="images/crud_database_application/crud_database_application_05.png"
-                    />
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <itemizedlist>
-            <listitem>
-                <para>On the next page click <emphasis>
-                        <property>...</property>
-                    </emphasis> to select a database driver.</para>
+                <para>On the next page click the round icon next to the <emphasis>
+                        <property>Drivers</property>
+                    </emphasis> field to select a database driver.</para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -161,15 +151,16 @@
 
         <itemizedlist>
             <listitem>
-                <para>On <property>Driver Definitions</property> dialog select the <emphasis>
-                        <property>Hypersonic DB</property>
-                    </emphasis> and click <emphasis>
-                        <property>Add...</property>
-                    </emphasis>.</para>
+                <para>Now you should see the <property>New Driver Definition</property> dialog. On
+                    the first tab select the <emphasis>
+                        <property>HSQLDB JBDC Driver</property>.
+                    </emphasis> Underneath in the <emphasis>
+                        <property>Driver name</property>
+                    </emphasis> field you can change its name if you need.</para>
             </listitem>
         </itemizedlist>
         <figure>
-            <title>Driver Definitions List</title>
+            <title>Database Driver Type</title>
             <mediaobject>
                 <imageobject>
                     <imagedata
@@ -181,22 +172,15 @@
 
         <itemizedlist>
             <listitem>
-                <para>Set the location of <property>JDBC driver</property> and fill all other
-                    necessary fields (<emphasis>
-                        <property>URL</property>
-                    </emphasis>, <emphasis>
-                        <property>Database Name</property>
-                    </emphasis>, <emphasis>
-                        <property>Password</property>
-                    </emphasis>, <emphasis>
-                        <property>User Id</property>
-                    </emphasis>) and click <emphasis>
-                        <property>OK</property>
-                    </emphasis>.</para>
+                <para>You may notice the note on the previous figure. It prompts that you should
+                    specify the driver of the type you pointed. Set the location of the driver by switching to the
+                    next tab and press <emphasis>
+                        <property>Add JAR/Zip</property>
+                    </emphasis> button.</para>
             </listitem>
         </itemizedlist>
         <figure>
-            <title>Edit Driver Definition</title>
+            <title>Driver Definition</title>
             <mediaobject>
                 <imageobject>
                     <imagedata
@@ -208,13 +192,20 @@
 
         <itemizedlist>
             <listitem>
-                <para>After clicking <emphasis>
-                        <property>OK</property>
-                    </emphasis> to submit the newly created driver you can observe and if you need edit all specified connection details.</para>
+                <para>On the <property>Properties</property> tab set the
+                            <emphasis><property>Connection URL</property>,</emphasis>
+                    <emphasis>
+                        <property>Database Name</property>
+                    </emphasis> and <emphasis>
+                        <property>User ID</property>
+                    </emphasis> and click <emphasis>
+                        <property>OK</property>.
+                    </emphasis></para>
             </listitem>
         </itemizedlist>
+        
         <figure>
-            <title>Driver Definitions List</title>
+            <title>Driver Definitions Properties</title>
             <mediaobject>
                 <imageobject>
                     <imagedata
@@ -226,13 +217,31 @@
 
         <itemizedlist>
             <listitem>
-                <para>Now click <emphasis>
-                        <property>Test Connection</property>
-                    </emphasis> to be sure that connection can be
-                established.</para>
+                <para>After clicking <emphasis>
+                        <property>OK</property>
+                    </emphasis> to submit the newly created driver you can observe and if you need
+                    edit all specified connection details.</para>
             </listitem>
         </itemizedlist>
-       
+        <figure>
+            <title>Driver and Connection Details</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="images/crud_database_application/crud_database_application_11.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>Now click <emphasis>
+                        <property>Test Connection</property>
+                    </emphasis> to be sure that connection can be established.</para>
+            </listitem>
+        </itemizedlist>
+
         <figure>
             <title>JDBC Connection is OK</title>
             <mediaobject>
@@ -268,28 +277,15 @@
 
         <itemizedlist>
             <listitem>
-                <para>Observe that newly created profile has been selected on <emphasis>
-                        <property>Seam Facet</property>
-                    </emphasis> page and click <emphasis>
+                <para>After clicking <emphasis>
                         <property>Finish</property>
-                    </emphasis>.</para>
-                <para>This will create 2 projects - <emphasis>
+                    </emphasis> two projects <emphasis>
                         <property>crudapp</property>
                     </emphasis> and <emphasis>
                         <property>crudapp-test</property>
-                    </emphasis>.</para>
+                    </emphasis> will be created.</para>
             </listitem>
         </itemizedlist>
-        <figure>
-            <title>Last Step of New Seam Project Wizard</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata
-                        fileref="images/crud_database_application/crud_database_application_14.png"
-                    />
-                </imageobject>
-            </mediaobject>
-        </figure>
 
         <itemizedlist>
             <listitem>
