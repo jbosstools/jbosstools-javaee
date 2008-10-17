@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -24,6 +26,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -50,6 +53,7 @@ import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
  * 
  */
 public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
+
 	private static final String FILE_NAME = "OpenSeamComponentHistory.xml"; //$NON-NLS-1$
 	private static final String ROOT_NODE = "historyRootNode"; //$NON-NLS-1$
 	private static final String INFO_NODE = "infoNode"; //$NON-NLS-1$
@@ -73,14 +77,21 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			getSelectionHistory().load(memento);
 	}
 
-	public void beginTest() {
-		create();
+	public void startSearch() {
 		applyFilter();
 	}
 
-	public void endTest() {
+	@Override
+	public void okPressed() {
+		// TODO Auto-generated method stub
+		super.okPressed();
+	}
+	
+	public void stopSearchAndShowResults() {
 		refresh();
-		setResult(getSelectedItems().toList());
+		List list = getSelectedItems().toList();
+		Collections.sort(list,getItemsComparator());
+		setResult(list);
 	}
 
 	protected Control createExtendedContentArea(Composite parent) {
@@ -198,7 +209,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 	}
 
 	protected IStatus validateItem(Object item) {
-		return new SeamComponentStatus();
+		return new Status(getSelectedItems().size() >= 0?IStatus.OK:IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,null);
 	}
 
 	public class SeamComponentComparator implements
@@ -237,48 +248,6 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			}
 			return false;
 		}
-	}
-
-	public class SeamComponentStatus implements IStatus {
-		public IStatus[] getChildren() {
-			return null;
-		}
-
-		public int getCode() {
-			return 0;
-		}
-
-		public Throwable getException() {
-			return null;
-		}
-
-		public String getMessage() {
-			return ""; //$NON-NLS-1$
-		}
-
-		public String getPlugin() {
-			return ""; //$NON-NLS-1$
-		}
-
-		public int getSeverity() {
-			return 0;
-		}
-
-		public boolean isMultiStatus() {
-			return false;
-		}
-
-		public boolean isOK() {
-			if (getSelectedItems().size() < 0)
-				return false;
-
-			return true;
-		}
-
-		public boolean matches(int severityMask) {
-			return false;
-		}
-
 	}
 
 	public class SeamComponentSelectionHistory extends SelectionHistory {
@@ -368,16 +337,8 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			return componentName;
 		}
 
-		public void setComponentName(String componentName) {
-			this.componentName = componentName;
-		}
-
 		public String getProjectName() {
 			return projectName;
-		}
-
-		public void setProjectName(String projectName) {
-			this.projectName = projectName;
 		}
 
 		public ISeamComponent getComponent() {
@@ -396,10 +357,6 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 				return null;
 			}
 			return component;
-		}
-
-		public void setComponent(ISeamComponent component) {
-			this.component = component;
 		}
 
 	}

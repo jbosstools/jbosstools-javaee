@@ -26,6 +26,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.frameworks.internal.operations.IProjectCreationPropertiesNew;
 import org.eclipse.wst.server.core.IServerWorkingCopy;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.jboss.tools.common.util.WorkbenchUtils;
@@ -70,6 +71,7 @@ public class SeamProjectNewWizardTest extends TestCase{
 				wizard);
 		dialog.create();
 		startSeamPrjWzPg = wizard.getStartingPage();
+		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME","testName");
 		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
 	}
 

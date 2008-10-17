@@ -84,13 +84,12 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	}
 	
 	protected void setUp() throws Exception {
-		super.setUp();
-		try { 
+		
 			JobUtils.waitForIdle();
-		} catch (Exception e) { 
-			JUnitUtils.fail(e.getMessage(), e); 
-		}
-		JobUtils.delay(3000);
+		
+			
+		
+		
 	}
 
 	abstract protected IProject getProject();

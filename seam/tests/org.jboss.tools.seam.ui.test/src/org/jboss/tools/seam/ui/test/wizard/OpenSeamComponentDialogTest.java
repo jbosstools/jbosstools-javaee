@@ -43,10 +43,8 @@ public class OpenSeamComponentDialogTest extends TestCase{
 					"projects/TestComponentView",
 					"TestComponentView");
 			project = setup.importProject();
-			this.project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		}
 		this.project = project.getProject();
-		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		
 		JobUtils.waitForIdle();
 	}
@@ -69,45 +67,44 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	}
 	
 	public void testOpenSeamComponentDialogSearch() {
-		
 		find("m", "mockSecureEntity", true);
 		find("o", "org.jboss.seam.captcha.captcha", false);
 		find("p", "org.jboss.seam.core.pageContext", false);
-		
 	}
-	
 	
 	//JBIDE-1879
 	public void testFindShortHand() {
 		find("o*jbpm", "org.jboss.seam.core.jbpm", true);
 		find("jbpm", "org.jboss.seam.core.jbpm", false);
-		
-		
 	}
 	
 	private void find(String pattern, String componentName, boolean wait){
 		OpenSeamComponentDialog dialog = new OpenSeamComponentDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
+		dialog.setBlockOnOpen(false);
 		dialog.setInitialPattern(pattern);
-		dialog.beginTest();
-		if(wait){
-			try {
-				JobUtils.waitForIdle();
-			}catch(Exception ex){
-				ex.printStackTrace();
+		dialog.open();
+		try {
+			dialog.startSearch();
+			if(wait){
+					JobUtils.waitForIdle();
+					JobUtils.delay(2000);
 			}
+			dialog.stopSearchAndShowResults();
+			Object[] objects = dialog.getResult();
+			
+			assertNotNull("Search dialog returned null when searching for " + pattern, objects);
+			
+			assertTrue("Component "+componentName+" not found", objects.length != 0);
+		
+			SeamComponentWrapper wrapper = (SeamComponentWrapper)objects[0];
+			assertNotNull(wrapper.getComponent());
+		
+			assertEquals("Component "+componentName+" not found with " + pattern, componentName, wrapper.getComponentName());
+		} finally {
+			dialog.okPressed();
 		}
-		dialog.endTest();
-		Object[] objects = dialog.getResult();
-		
-		assertNotNull("Search dialog returned null when searching for " + pattern, objects);
-		
-		assertTrue("Component "+componentName+" not found", objects.length != 0);
-		
-		SeamComponentWrapper wrapper = (SeamComponentWrapper)objects[0];
-		
-		assertEquals("Component "+componentName+" not found with " + pattern, wrapper.getComponentName(), componentName);
 	}
 	
 }
