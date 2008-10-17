@@ -38,6 +38,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaConventions;
@@ -45,6 +46,10 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
+import org.eclipse.jst.j2ee.application.Application;
+import org.eclipse.jst.j2ee.application.ApplicationFactory;
+import org.eclipse.jst.j2ee.application.EjbModule;
+import org.eclipse.jst.j2ee.componentcore.util.EARArtifactEdit;
 import org.eclipse.jst.j2ee.model.IModelProvider;
 import org.eclipse.jst.j2ee.model.ModelProviderManager;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
@@ -456,8 +461,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
 			metaInfFolder, new FilterSetCollection(earFilterSet), false);
 
-		if(!applicationXml.exists()) {
-			// TODO configure application.xml
+		if(applicationXml.exists()) {
+			configureApplicationXml(project, monitor);
 		}
 		// Copy configuration files from template
 		try {
@@ -474,6 +479,39 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		AntCopyUtils.copyFileToFile(
 			dataSourceDsFile, new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
 			viewFilterSetCollection, false);
+	}
+
+	protected void configureApplicationXml(IProject project, IProgressMonitor monitor) {
+		EARArtifactEdit earArtifactEdit = null;
+		try {
+			earArtifactEdit = EARArtifactEdit.getEARArtifactEditForWrite(project);
+			if(earArtifactEdit!=null) {
+				Application application = earArtifactEdit.getApplication();
+				EList modules = application.getModules();
+				boolean moduleExists = false;
+				for (Iterator iterator = modules.iterator(); iterator.hasNext();) {
+					Object module = iterator.next();
+					if(module instanceof EjbModule) {
+						EjbModule ejbModule = (EjbModule)module;
+						if("jboss-seam.jar".equals(ejbModule.getUri())) {
+							moduleExists = true;
+							break;
+						}
+					}
+				}
+				if(!moduleExists) {
+					EjbModule module = ApplicationFactory.eINSTANCE.createEjbModule();
+					module.setUri("jboss-seam.jar");
+					application.getModules().add(module);
+				}
+
+				earArtifactEdit.save(monitor);
+			}
+		} finally {
+			if(earArtifactEdit!=null) {
+				earArtifactEdit.dispose();
+			}
+		}
 	}
 
 	/**
