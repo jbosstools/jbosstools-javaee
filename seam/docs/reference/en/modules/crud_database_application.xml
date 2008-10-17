@@ -286,7 +286,18 @@
                     </emphasis> will be created.</para>
             </listitem>
         </itemizedlist>
-
+        
+        <figure>
+            <title>CRUDAPP Seam Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="images/crud_database_application/crud_database_application_14.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
         <itemizedlist>
             <listitem>
                 <para>Have a look at the created projects. You can expand
