@@ -51,10 +51,10 @@
 
         <para>Clicking on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the Target Runtime section will bring you to another dialog. Here,
-            you can specify a new installed Runtime environment or the other type of runtime
-            appropriate for configuring your project. Let's create a JBoss 4.2 Runtime. For that
-            after choosing it click on <emphasis>
+            </emphasis> button in the <proeprty>Target Runtime</proeprty> section will bring you to
+            another dialog. Here, you can specify a new installed Runtime environment or the other
+            type of runtime appropriate for configuring your project. Let's create a JBoss 4.2
+            Runtime. For that after choosing it click on <emphasis>
                 <property>Next</property>
             </emphasis> button.</para>
 
@@ -88,8 +88,8 @@
             dialog</link>. The next step is to define an installed server that you can do by
             clicking on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the Target Server section. In appeared Server Dialog it's possible
-            to select a server version. </para>
+            </emphasis> button in the <property>Target Server</property> section. In appeared Server
+            Dialog it's possible to select a server version. </para>
 
         <para> If the chosen server has already got an installed runtime, there appears a combo box
             with all declared runtimes under the servers view. Here, you can indicate a server
@@ -136,9 +136,16 @@
         </figure>
 
 
-        <para>After clicking on <emphasis>
+        <para>Once you have the Target Server defined click on <emphasis>
                 <property>Finish</property>
-            </emphasis> button you should have the following wizard view:</para>
+            </emphasis> button to return to the first page of the <property>New Seam Project
+            wizard</property>.</para>
+
+        <tip>
+            <title>Tip:</title>
+            <para>We suggest that you look through our <ulink url="&aslink;">AS manager
+                guide</ulink> to find out more about runtimes and servers.</para>
+        </tip>
 
         <figure>
             <title>Completion of Runtime and Server Configuration</title>
@@ -149,30 +156,26 @@
             </mediaobject>
         </figure>
 
-        <para>The last section on this wizard step is <property>Configurations</property>. Here, you
+        <para>The last section on this wizard step is <property>Configuration</property>. Here, you
             can select one of the pre-defined project configurations either associated with Seam 1.2
-            or with Seam 2.0 that is the latest release but just only a technology preview. In
-            addition, you can create your own configuration. Choosing <emphasis>
-                <property>Default Configuration for jBoss 4.2 Runtime</property>
-            </emphasis> allows you later to specify your own set of facets for adding extra
-            functionality to your project. For more details about facets, see next section. Besides,
-            we suggest that you look through our <ulink url="&aslink;">AS manager guide</ulink> to find out more about runtimes
-            and servers.</para>
+            or with Seam 2.0. Furthermore, you can create your own configuration by pressing the <emphasis>
+                <property>Modify...</property>
+            </emphasis> button. It will open the dialog which allows to configure your own set of
+            facets for adding extra functionality to your project.</para>
 
-        <para>Having all necessary options arranged, click on <emphasis>
-                <property>Next</property>
-            </emphasis> to pass on to the other wizard.</para>
+        <para>Pass to the next section to find out more details on this dialog.</para>
 
     </section>
     <section id="projectFacets">
         <title>Select the Project Facets</title>
 
-        <para>This page of the wizard allows you to enable or disable specific facets that define
-            necessary characteristics for the project. In time you switch to this wizard form, all
-            critical facets are already checked for the chosen Dynamic Web Project.</para>
+        <para>The <property>Project Facets wizard</property> allows you to enable or disable
+            specific facets which define necessary characteristics for the project. In time you
+            switch to this wizard form, all critical facets are already checked for the chosen
+            Configuration.</para>
 
-        <para>Notice that this page of the wizard also allows you to specify the necessary version
-            for any facet. </para>
+        <para>Notice that this page of the wizard also allows you to set the necessary version for
+            any facet. </para>
 
         <figure>
             <title>Project Facets Selection</title>
@@ -183,8 +186,8 @@
             </mediaobject>
         </figure>
 
-        <para>Moreover, you can specify your own preset of selected facets by checking needed ones
-            in project facets window and clicking on <emphasis>
+        <para>Moreover, here you can specify your own preset of selected facets by checking needed
+            ones in project facets window and clicking on <emphasis>
                 <property>Save</property>
             </emphasis> button.</para>
 
@@ -197,11 +200,13 @@
             </mediaobject>
         </figure>
 
-        <para>You can also see all available runtimes after clicking on <emphasis>
-                <property>Show Runtimes</property>
-            </emphasis> or create new ones using the <emphasis>
+        <para>To see all available Server runtimes click on <property>Runtimes</property> tab on the
+            left. You can create a new one using the <emphasis>
                 <property>New</property>
-            </emphasis> button.</para>
+            </emphasis> button. If more than one runtimes are checked here, the <emphasis>
+                <property>Make Primary</property>
+            </emphasis> button won&apos;t be dimmed yet. So you can make use of it to mark
+            primary runtime.</para>
 
         <figure>
             <title>Runtime Manipulations</title>
@@ -212,13 +217,10 @@
             </mediaobject>
         </figure>
 
-        <para>Here, if more than one runtimes are checked, the <emphasis>
-                <property>Make Primary</property>
-            </emphasis> button won&apos;t be dimmed yet. So you can make use of it to mark
-            primary runtime.</para>
         <para><emphasis>
                 <property>Next</property>
-            </emphasis> button will bring you to the Web Module wizard form.</para>
+            </emphasis> button will bring you to the <property>Web Module</property> wizard
+        form.</para>
     </section>
 
     <section id="configureWebModule">
@@ -280,7 +282,8 @@
         </figure>
 
         <para>In the Component Libraries section of the wizard you can also add <property>Component
-            Libraries</property> (e.g. <ulink url="http://www.jboss.org/jbossrichfaces">Richfaces</ulink>). Just click on <emphasis>
+                Libraries</property> (e.g. <ulink url="http://www.jboss.org/jbossrichfaces"
+                >Richfaces</ulink>). Just click on <emphasis>
                 <property>New</property>
             </emphasis> button. Appeared dialog will ask you to type the Library name, supported
             version and add necessary jar's. Press <emphasis>
