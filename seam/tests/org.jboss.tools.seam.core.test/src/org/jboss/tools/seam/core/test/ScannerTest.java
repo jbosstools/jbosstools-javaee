@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -53,6 +54,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
 
 public class ScannerTest extends TestCase {
 	IProject project = null;
+	TestProjectProvider provider = null;
 	boolean makeCopy = true;
 
 	public ScannerTest() {
@@ -61,8 +63,9 @@ public class ScannerTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		boolean save = ResourcesUtils.setBuildAutomatically(false);
-		project = ResourcesUtils.importProject(
-				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
+		provider = new TestProjectProvider("org.jboss.tools.seam.core.test",
+				null,"TestScanner" ,true);
+		project = provider.getProject();
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		//EditorTestHelper.joinBackgroundActivities();
@@ -509,8 +512,6 @@ public class ScannerTest extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		boolean save = ResourcesUtils.setBuildAutomatically(false);
-		project.delete(true,true, null);
-		ResourcesUtils.setBuildAutomatically(save);
+		provider.dispose();
 	}
 }
