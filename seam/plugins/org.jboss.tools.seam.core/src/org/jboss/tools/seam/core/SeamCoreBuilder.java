@@ -56,15 +56,13 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			IResource resource = delta.getResource();
 			switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
-				getResourceVisitor().getVisitor().visit(resource);
-				break;
+				return getResourceVisitor().getVisitor().visit(resource);
 			case IResourceDelta.REMOVED:
 				SeamProject p = getSeamProject();
 				if(p != null) p.pathRemoved(resource.getFullPath());
 				break;
 			case IResourceDelta.CHANGED:
-				getResourceVisitor().getVisitor().visit(resource);
-				break;
+				return getResourceVisitor().getVisitor().visit(resource);
 			}
 			//return true to continue visiting children.
 			return true;
