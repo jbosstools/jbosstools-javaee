@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -18,19 +19,23 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.common.test.util.TestProjectProvider;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
 /**
@@ -102,6 +107,8 @@ public class SeamBigProjectTest extends TestCase {
 				+ "of seam model loading than in the beginning.\n"
 				+ "That implies that time depends as N*N on the number of components N.");
 		}
+		
+		generateLongXHTML(cs);
 	}
 
 
@@ -123,6 +130,45 @@ public class SeamBigProjectTest extends TestCase {
 		if(impl != null) impl.clearStorage();
 		JobUtils.waitForIdle();
 		provider.dispose();
+	}
+
+	private void generateLongXHTML(Set<ISeamComponent> cs) {
+		StringBuffer sb = new StringBuffer();
+		
+		IFolder webContent = project.getFolder("WebContent");
+		IFile tmpl = webContent.getFile("login.xhtml");
+		String s = FileUtil.readFile(tmpl.getLocation().toFile());
+		int i = s.indexOf("<h:form");
+		int j = s.indexOf(">", i) + 1;
+		sb.append(s.substring(0, j));
+
+		int k = 0;
+		for (ISeamComponent c: cs) {
+			k++;
+			String n = c.getName();
+			if(!n.startsWith("x")) continue;
+			String q = "\n<h:inputText id=\"k" + k + "\" " + 
+                "value=\"#{" + n + ".value}\"/>\n";
+			sb.append(q);
+		}
+		
+		sb.append(s.substring(j));
+		IFile file = webContent.getFile("long.xhtml");
+		try {
+			boolean save = ResourcesUtils.setBuildAutomatically(false);
+			file.create(new ByteArrayInputStream(sb.toString().getBytes()), true, new NullProgressMonitor());
+			long time = System.currentTimeMillis();
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+
+			long dt = System.currentTimeMillis() - time;
+			System.out.println("validated in " + dt);
+			
+			ResourcesUtils.setBuildAutomatically(save);
+
+			assertTrue("Validator takes more than 5s (" + (dt/1000d) + ") for validating generated long.xhtml", dt < 5000);
+		} catch (CoreException e) {
+			JUnitUtils.fail("", e);
+		}
 	}
 
 }
