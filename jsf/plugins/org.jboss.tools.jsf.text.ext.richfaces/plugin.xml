@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
+		id="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlinkPartitioner"
+		name="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlinkPartitioner">
+
+		<hyperlinkPartitioner
+         	id="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlink.jsp.JSPLinkHyperlinkPartitioner"
+         	class="org.jboss.tools.common.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlink.JSFJSPLinkHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFJSPLinkHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" >
+         			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" >
+         			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+	</extension>	
+</plugin>
