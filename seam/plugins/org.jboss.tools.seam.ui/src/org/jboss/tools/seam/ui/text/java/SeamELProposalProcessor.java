@@ -271,7 +271,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 * Returns the relevance of the proposal
 		 */
 		public int getRelevance() {
-			return XMLRelevanceConstants.R_XML_ATTRIBUTE_VALUE;
+			return XMLRelevanceConstants.R_XML_ATTRIBUTE_VALUE+10;
 		}
 
 	}
