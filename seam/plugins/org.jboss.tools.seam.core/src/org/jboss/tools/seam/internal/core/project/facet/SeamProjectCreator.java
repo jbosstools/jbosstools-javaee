@@ -63,20 +63,6 @@ public class SeamProjectCreator {
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 
-	private static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
-		.include("antlr.*\\.jar") //$NON-NLS-1$
-		.include("commons-jci-core.*\\.jar") //$NON-NLS-1$
-		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
-		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
-		.include("drools-core.*\\.jar") //$NON-NLS-1$
-		.include("janino.*\\.jar") //$NON-NLS-1$
-		.include("jboss-seam.jar") //$NON-NLS-1$
-		.include("jbpm.*\\.jar") //$NON-NLS-1$
-		.include("security\\.drl") //$NON-NLS-1$
-		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
-	    // el-ri needed for JBIDE-939
-	    .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
-
 	protected IDataModel model;
 	protected IProject seamWebProject;
 	protected SeamRuntime seamRuntime;
@@ -198,7 +184,7 @@ public class SeamProjectCreator {
 	}
 
 	protected AntCopyUtils.FileSet getJbossEarContent() {
-		return JBOSS_EAR_CONTENT;
+		return SeamFacetInstallDelegate.JBOSS_EAR_CONTENT;
 	}
 
 	/**

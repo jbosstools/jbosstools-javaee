@@ -189,9 +189,9 @@ public class AntCopyUtils {
 		}		
 	}
 
-	public static void copyFiles(File source, File dest, FileFilter filter) {
+	public static void copyFiles(File source, File dest, FileFilter filter, boolean override) {
 		dest.mkdir();
-		
+
 		File[] listFiles = source.listFiles(filter);
 		if(listFiles==null) {
 				throw new IllegalArgumentException(NLS.bind(SeamCoreMessages.ANT_COPY_UTILS_COULD_NOT_FIND_FOLDER,source));
@@ -199,11 +199,15 @@ public class AntCopyUtils {
 		for (File file:listFiles) {
 			if(file.isDirectory())continue;
 			try {
-				FileUtils.getFileUtils().copyFile(file, new File(dest,file.getName()),new FilterSetCollection(),true);
+				FileUtils.getFileUtils().copyFile(file, new File(dest, file.getName()), new FilterSetCollection(), override);
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
 		}
+	}
+
+	public static void copyFiles(File source, File dest, FileFilter filter) {
+		copyFiles(source, dest, filter, true);
 	}
 	
 	public static void copyFiles(String[] files, File dest) {

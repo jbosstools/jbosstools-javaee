@@ -13,8 +13,6 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.util.Iterator;
 
-import org.apache.tools.ant.types.FilterSet;
-import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -36,7 +34,17 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 // TODO: why not just *one* global filter set to avoid any missing names ? (assert for it in our unittests!
 public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
-	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
+	public static final AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
+		.include("antlr-runtime.jar") //$NON-NLS-1$
+		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
+		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("jboss-seam.jar") //$NON-NLS-1$
+		.include("jboss-el.*.jar") //$NON-NLS-1$
+		.include("mvel.*\\.jar") //$NON-NLS-1$
+		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
+		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
+
+	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
 		.include("richfaces.*\\.jar")
 		.include("antlr-runtime.*\\.jar") //$NON-NLS-1$		
@@ -63,7 +71,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	    .include("mvel.*\\.jar") //$NON-NLS-1$
 	    .include("jboss-el.jar"); //$NON-NLS-1$
 
-	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
+	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("richfaces-impl\\.jar") //$NON-NLS-1$
 		.include("richfaces-ui\\.jar") //$NON-NLS-1$
 		.include("commons-beanutils\\.jar") //$NON-NLS-1$
@@ -85,14 +93,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	@Override
 	protected void doExecuteForEjb(final IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
-		FilterSet jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
-		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
-		ejbViewFilterSetCollection = new FilterSetCollection();
-		ejbViewFilterSetCollection.addFilterSet(jdbcFilterSet);
-		ejbViewFilterSetCollection.addFilterSet(projectFilterSet);
-
 		super.doExecuteForEjb(project, fv, model, monitor);
-
 		IResource src = getSrcFolder(project);
 		if(src!=null && seamHomeFolder!=null) {
 			File srcFile = src.getLocation().toFile();
@@ -121,6 +122,20 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#fillEarContents()
+	 */
+	@Override
+	protected void fillEarContents() {
+		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
+		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
+		AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)), false);
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
+		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)), false);						
 	}
 
 	/*

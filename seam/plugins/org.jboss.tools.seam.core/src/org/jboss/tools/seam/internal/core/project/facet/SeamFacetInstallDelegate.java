@@ -48,6 +48,20 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
 	private static final String ORG_AJAX4JSF_SKIN = "org.ajax4jsf.SKIN";
 
+	public static final AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
+		.include("antlr.*\\.jar") //$NON-NLS-1$
+		.include("commons-jci-core.*\\.jar") //$NON-NLS-1$
+		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
+		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
+		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("janino.*\\.jar") //$NON-NLS-1$
+		.include("jboss-seam.jar") //$NON-NLS-1$
+		.include("jbpm.*\\.jar") //$NON-NLS-1$
+		.include("security\\.drl") //$NON-NLS-1$
+		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
+	    // el-ri needed for JBIDE-939
+	    .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
+
 	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
 		.include("richfaces.*\\.jar") //$NON-NLS-1$
@@ -74,7 +88,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	    // el-ri needed for JBIDE-939
 	    .include("el-ri.*\\.jar"); //$NON-NLS-1$ 
 
-	public static AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
+	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
 		.include("richfaces.*\\.jar") //$NON-NLS-1$
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
@@ -121,6 +135,20 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 			AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#fillEarContents()
+	 */
+	@Override
+	protected void fillEarContents() {
+		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
+		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
+		AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)), false);
+		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
+		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)), false);						
 	}
 
 	/*

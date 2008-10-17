@@ -48,16 +48,6 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 
-	private static AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
-		.include("antlr-runtime.jar") //$NON-NLS-1$
-		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
-		.include("drools-core.*\\.jar") //$NON-NLS-1$
-		.include("jboss-seam.jar") //$NON-NLS-1$
-		.include("jboss-el.*.jar") //$NON-NLS-1$
-		.include("mvel.*\\.jar") //$NON-NLS-1$
-		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
-		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
-
 	/**
 	 * @param model Seam facet data model
 	 * @param seamWebProject Seam web project
@@ -186,6 +176,6 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	}
 
 	protected AntCopyUtils.FileSet getJbossEarContent() {
-		return JBOSS_EAR_CONTENT;
+		return Seam2FacetInstallDelegate.JBOSS_EAR_CONTENT;
 	}
 }
