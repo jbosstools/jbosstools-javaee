@@ -205,8 +205,8 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="name,class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="ejbql" xmlname="ejbql"/>
    <XModelAttribute PROPERTIES="category=advanced" name="order" xmlname="order"/>
    <XModelAttribute PROPERTIES="category=advanced" name="max-results" xmlname="max-results">
@@ -399,8 +399,8 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="name,class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="ejbql" xmlname="ejbql"/>
    <XModelAttribute PROPERTIES="category=advanced" name="order" xmlname="order"/>
    <XModelAttribute PROPERTIES="category=advanced" name="max-results" xmlname="max-results"/>

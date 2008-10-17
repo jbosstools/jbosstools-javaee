@@ -43,8 +43,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.wicket.webApplication" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,startup"
-    entity="SeamComponent20" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="application-class" xmlname="application-class">
     <Editor name="AccessibleJava"/>

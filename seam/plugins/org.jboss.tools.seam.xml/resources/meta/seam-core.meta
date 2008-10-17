@@ -763,8 +763,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.core.init" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,startup"
-    entity="SeamComponent20" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttributeReference
     attributes="debug,jndi-pattern,transaction-management-enabled,user-transaction-name"
     entity="SeamCoreInit20" name="init"/>
@@ -1044,8 +1044,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.core.manager" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create"
-    entity="SeamComponent" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttributeReference
     attributes="conversation-timeout,concurrent-request-timeout,conversation-id-parameter,parent-conversation-id-parameter"
     entity="SeamCoreManager" name="manager"/>

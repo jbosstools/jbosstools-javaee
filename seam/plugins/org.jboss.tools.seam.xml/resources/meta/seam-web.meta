@@ -349,8 +349,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.web.identityFilter" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,startup"
-    entity="SeamComponent20" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttributeReference
     attributes="url-pattern,disabled,regex-url-pattern"
     entity="SeamWebContextFilter20" name="filter"/>
@@ -627,8 +627,8 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,startup"
-    entity="SeamComponent20" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttribute PROPERTIES="category=general"
     name="invalidate-on-scheme-change" xmlname="invalidate-on-scheme-change">
     <Constraint loader="%ListEL%">
@@ -669,8 +669,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     default="org.jboss.seam.web.wicketFilter" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,startup"
-    entity="SeamComponent20" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttributeReference
     attributes="url-pattern,disabled,regex-url-pattern"
     entity="SeamWebContextFilter20" name="filter"/>

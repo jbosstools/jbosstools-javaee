@@ -451,8 +451,8 @@
    <XModelAttribute PROPERTIES="id=true;category=general"
     name="component-name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup"
-    entity="SeamComponent20" name="component"/>
+    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
    </XModelAttribute>
@@ -1062,7 +1062,7 @@
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="components" name="FileSeamComponents21">
   <XChildrenEntities>
-   <XChildEntity name="SeamComponent20"/>
+   <XChildEntity name="SeamComponent21"/>
    <XChildEntity name="SeamFactory20"/>
    <XChildEntity name="SeamEvent20"/>
    <XChildEntity name="SeamImport"/>
@@ -1123,7 +1123,7 @@
      ICON="action.new.struts.webapp.res_ref"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
-     <EntityData EntityName="SeamComponent20">
+     <EntityData EntityName="SeamComponent21">
       <AttributeData AttributeName="name"/>
       <AttributeData AttributeName="class" Mandatory="no"/>
      </EntityData>
@@ -1493,26 +1493,73 @@
      kind="action" name="AddAnyProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
-    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
-     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
-    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
-     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
-    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
-     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   <XActionItemReference entity="SeamComponent" name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamComponent" name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamComponent" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamComponent" name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+  XMLSUBPATH="component" name="SeamComponent21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamProperty"/>
+   <XChildEntity name="SeamPropertyList"/>
+   <XChildEntity name="SeamPropertyMap"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.component" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="component" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="name,class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="startupDepends" xmlname="startupDepends"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="jndi-name" xmlname="jndi-name"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Simple Property..." kind="action" name="AddProperty">
+     <EntityData EntityName="SeamProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add List Property..." kind="action" name="AddListProperty">
+     <EntityData EntityName="SeamPropertyList">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Map Property..." kind="action" name="AddMapProperty">
+     <EntityData EntityName="SeamPropertyMap">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.ShowMenuHandler"
+     PROPERTIES="actionList=CreateActions" displayName="Property..."
+     kind="action" name="AddAnyProperty"/>
    </XActionItem>
-   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
-    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
-     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
-   </XActionItem>
-   <XActionItem ICON="action.empty" kind="list" name="Properties">
-    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
-     displayName="Properties..." kind="action" name="Properties"/>
-   </XActionItem>
-   <XActionItem displayName="move" kind="list" name="MoveActions">
-    <XActionItem HIDE="always" HandlerClassName="%Move%"
-     ICON="action.move" displayName="Move" kind="action" name="Move"/>
-   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="SeamComponent" name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamComponent" name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamComponent" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamComponent" name="MoveActions" path="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
