@@ -10,6 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -317,7 +319,11 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				wc.doSave();
 				
 				if (params.containsKey(HibernateLaunchConstants.ATTR_REVENG_TABLES)){
-					wc.setAttribute(HibernateLaunchConstants.ATTR_REVENG_TABLES, params.get(HibernateLaunchConstants.ATTR_REVENG_TABLES));
+					//create reveng.xml file
+					IPath revengPath = project.getLocation().append(".settings").append("gen-entities.hibernate.reveng.xml"); //$NON-NLS-1$ //$NON-NLS-2$
+					File location = revengPath.toFile();
+					org.jboss.tools.common.util.FileUtil.writeFile(location, params.get(HibernateLaunchConstants.ATTR_REVENG_TABLES));
+					wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS, revengPath.toString());
 				}
 				
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
