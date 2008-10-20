@@ -839,13 +839,22 @@
                 <para>When working in JBoss Tools JSP editor you are constantly provided with
                     feedback and contextual error checking as you type.</para>
             </section>
+        </section>
+
+        <section id="pages_styling">
+            <title>Pages Styling</title>
+
+            <para>Most web pages use the cascading style sheets (CSS) to control the way they look.
+                With <property>Visual Page Editor</property> you can easily stylise your pages. In
+                this section we are going to introduce you to a powerful mechanism that <property>VPE</property> provides for
+                a complete control over pages styling. </para>
 
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
 
-                <para>In the Visual part of the VPE there is a graphical toolbar, use it to add
-                    inline styling to JSF and Struts tags on your page. The toolbar can be hidden by
-                    clicking on arrow sign in the upper left corner.</para>
+                <para>In the Visual part of the <property>VPE</property> there is a graphical
+                    toolbar, use it to add inline styling to JSF and Struts tags on your page. The
+                    toolbar can be hidden by clicking on arrow sign in the upper left corner.</para>
 
                 <figure>
                     <title>Text Formatting</title>
@@ -856,8 +865,8 @@
                     </mediaobject>
                 </figure>
 
-                <para>For editing inline styles for DOM elements VPE also provides <property>CSS
-                        Dialog</property>. It can be called from <emphasis>
+                <para>For editing inline styles for DOM elements <property>VPE</property> also
+                    provides <property>CSS Dialog</property>. It can be called from <emphasis>
                         <property>style</property>
                     </emphasis> line in the <property>Properties view</property> for a currently
                     selected element.</para>
@@ -873,7 +882,7 @@
 
                 <para id="css_dialog"><property>CSS Dialog</property> has four tabs where css
                     properties for text, background, borders and others can be specified. A simple
-                    preview which is generated at the bottom of the <property>CSS Dialog</property>
+                    preview which is generated at the top of the <property>CSS Dialog</property>
                     allows you to see the changes before you apply them.</para>
 
                 <figure>
@@ -886,66 +895,165 @@
                 </figure>
             </section>
 
-            <section id="vpe_templating">
-                <title>Templating</title>
-
-                <para>The VPE also makes it possible to create templates for unknown tags.</para>
-
-                <para>To call the <property>Template dialog</property> for a tag, right-click on it
-                    in Visual mode and select <emphasis>
-                        <property>Template</property>
-                    </emphasis> option.</para>
+            <section id="external_stylesheets">
+                <title>External Stylesheets</title>
+                <para>The pages you are working with in <property>VPE</property> can use external
+                    stylesheets. <property>VPE</property> allows you to create new style classes in
+                    existing stylesheets and/or edit them as well. For these purposes <property>CSS
+                        Style Class Dialog</property> is provided.</para>
+                <para>Select the element for which you need to create or edit style class and press
+                    button next to <emphasis>
+                        <property>styleClass</property>
+                    </emphasis> field in <property>Properties view</property>.</para>
 
                 <figure>
-                    <title>Calling Template Dialog</title>
+                    <title>Calling the CSS Style Class Dialog</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_7a.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_17.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para>It&apos;ll pick up the <property>CSS Style Class Dialog</property> which
+                    looks like on the figure below.</para>
+                <figure>
+                    <title>CSS Style Class Dialog</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_18.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>First, you should specify the CSS file where you are going to put your style
+                    class. Do this by pressing button next to the <emphasis>
+                        <property>CSS file</property>
+                    </emphasis> field.</para>
+                <figure>
+                    <title>CSS File Selection</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_19.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
                 
-                <para id="template_dialog">Here is what the <property>Template dialog</property> looks like.</para>
-                
+                <para>To create new CSS class write its name in the <emphasis>
+                        <property>Style class</property>
+                    </emphasis> field and then configure style settings switching between the tabs: <emphasis>
+                        <property>Text/Font</property>, </emphasis>
+                    <emphasis>
+                        <property>Background</property>, </emphasis>
+                    <emphasis>
+                        <property>Boxes</property>, </emphasis>
+                    <emphasis>
+                        <property>Property Sheet</property>. </emphasis>To add existing styling to
+                    the chosen element expand the list of the existed style classes and point to the
+                    necessary one.</para>
+
                 <figure>
-                    <title>Template Dialog</title>
+                    <title>Style Class Selection</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_7b.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_20.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
+
                 <para><emphasis>
-                        <property>Tag for Display</property>
-                    </emphasis> field in the <property>Template dialog</property> requires
-                    specifying a type of tag. It can be SPAN, DIV, TABLE or any other html element.
-                    Here it&apos;s also possible to mark weather the tag is children or not (by checking <emphasis>
-                        <property>Children</property></emphasis>), whether it contains an IMG tag (by checking <emphasis>
-                            <property>Icon</property></emphasis>) and
-                            specify a value for it.</para>
+                        <property>Quick Edit</property>
+                    </emphasis> gives a preview of the properties which are set for the existing
+                    style class. You can easily modify them with the help of this wizard.</para>
 
-                <para>What comes to the <emphasis>
-                    <property>Style</property></emphasis> field, you can fill it out manually or make use of the button
-                    next to the field to bring the <link linkend="css_dialog">CSS Dialog</link> for
-                    editing styles.</para>
-
-                <para>You can observe all defined templates in the <link linkend="VisualPageEditor2"
-                        >VPE Preferences</link> on the Templates tab which you can quickly access by
-                    pressing <link linkend="AdvancedSettings954">Preferences button</link>.</para>
-                
                 <figure>
-                    <title>Templates Tab of the VPE Preferences Page</title>
+                    <title>Quick Edit</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_7c.png"/>
+                            <imagedata fileref="images/visual_page/visual_page_21.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
+
+                <para>Preview at the top of the <property>CSS Style Class Dialog</property>
+                    visualizes the result.</para>
+
+                <para>The dialog for creating a new CSS class, which is called from <emphasis>
+                        <property>New > Other... > JBoss Tools Web > CSS Class</property>,
+                </emphasis> looks the same.</para>
                 
-                <para>Here it&apos;s possible to edit or remove any listed in the table template.</para>
-                
+                <figure>
+                    <title>New CSS Class Dialog</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_22.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
             </section>
+        </section>
+
+        <section id="vpe_templating">
+            <title>Templating</title>
+
+            <para>The VPE also makes it possible to create templates for unknown tags.</para>
+
+            <para>To call the <property>Template dialog</property> for a tag, right-click on it in
+                Visual mode and select <emphasis>
+                    <property>Template</property>
+                </emphasis> option.</para>
+
+            <figure>
+                <title>Calling Template Dialog</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_7a.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para id="template_dialog">Here is what the <property>Template dialog</property> looks
+                like.</para>
+
+            <figure>
+                <title>Template Dialog</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_7b.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para><emphasis>
+                    <property>Tag for Display</property>
+                </emphasis> field in the <property>Template dialog</property> requires specifying a
+                type of tag. It can be SPAN, DIV, TABLE or any other html element. Here
+                it&apos;s also possible to mark weather the tag is children or not (by checking <emphasis>
+                    <property>Children</property>
+                </emphasis>), whether it contains an IMG tag (by checking <emphasis>
+                    <property>Icon</property>
+                </emphasis>) and specify a value for it.</para>
+
+            <para>What comes to the <emphasis>
+                    <property>Style</property>
+                </emphasis> field, you can fill it out manually or make use of the button next to
+                the field to bring the <link linkend="css_dialog">CSS Dialog</link> for editing
+                styles.</para>
+
+            <para>You can observe all defined templates in the <link linkend="VisualPageEditor2">VPE
+                    Preferences</link> on the Templates tab which you can quickly access by pressing
+                    <link linkend="AdvancedSettings954">Preferences button</link>.</para>
+
+            <figure>
+                <title>Templates Tab of the VPE Preferences Page</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_7c.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>Here it&apos;s possible to edit or remove any listed in the table template.</para>
+
         </section>
 
         <section id="AdvancedSettings954">
