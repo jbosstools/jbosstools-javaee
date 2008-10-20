@@ -213,4 +213,9 @@ public class RichFacesComponentTest extends VpeTest {
 		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 				"components/listShuttle.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
+
+    public void testSubTable() throws Throwable {
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+				"components/subTable.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+	}
 }

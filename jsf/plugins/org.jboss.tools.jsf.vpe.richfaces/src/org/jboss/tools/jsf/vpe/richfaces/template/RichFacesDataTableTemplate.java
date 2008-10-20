@@ -342,6 +342,27 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		return Math.max(currentLength,count);
 	}
 	
+	
+	
+	/**
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#validate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument, org.jboss.tools.vpe.editor.template.VpeCreationData)
+	 */
+	@Override
+	public void validate(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument, VpeCreationData data) {
+		Element sourceElement = (Element) sourceNode;
+		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		if (children != null) {
+			for (Node child : children) {
+				if (child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
+					RichFacesSubTableTemplate.DEFAULT_INSTANCE.validate(pageContext, child, visualDocument, data);
+				}
+			}
+		}
+		
+		super.validate(pageContext, sourceNode, visualDocument, data);
+	}
+
 	@Override
 	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
 		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
@@ -353,5 +374,4 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
 		visualElement.setAttribute(name, value);
 	}
-
 }
