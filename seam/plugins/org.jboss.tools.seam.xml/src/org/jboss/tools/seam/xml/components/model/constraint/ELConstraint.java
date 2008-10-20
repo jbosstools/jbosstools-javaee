@@ -12,7 +12,7 @@ public class ELConstraint extends XAttributeConstraintImpl {
 
     public boolean accepts(String value) {
     	if(value != null) {
-    		if(value.startsWith("#{") && value.endsWith("}")) {
+    		if((value.startsWith("#{") || value.startsWith("${")) && value.endsWith("}")) {
     			return true;
     		}
     		if(value.length() >= 2 && value.startsWith("@") && value.endsWith("@")) {
@@ -27,7 +27,7 @@ public class ELConstraint extends XAttributeConstraintImpl {
      */
     public String getError(String value) {
     	if(accepts(value)) return null;
-    	if(value.startsWith("#{")) {
+    	if(value.startsWith("#{") || value.startsWith("${")) {
     		return "value is not a correct EL."; 
     	}
     	if(value.startsWith("@")) {
