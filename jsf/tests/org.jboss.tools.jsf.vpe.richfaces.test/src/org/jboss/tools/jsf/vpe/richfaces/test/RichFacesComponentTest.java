@@ -79,9 +79,9 @@ public class RichFacesComponentTest extends VpeTest {
 		"components/dragAndDrop.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
-    public void testDropDawnMenu() throws PartInitException, Throwable {
+    public void testDropDownMenu() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/dropDawnMenu.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+		"components/dropDownMenu.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testEffect() throws PartInitException, Throwable {

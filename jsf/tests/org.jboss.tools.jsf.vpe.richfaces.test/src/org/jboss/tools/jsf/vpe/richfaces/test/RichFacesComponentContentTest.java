@@ -124,27 +124,27 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testDragListener() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/dragListener.xhtml", "dragListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testDropListener() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/dropListener.xhtml", "dropListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testDropDownMenu() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/dropDownMenu.xhtml");//$NON-NLS-1$
 	}
 
 	public void testExtendedDataTable() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/extendedDataTable.xhtml");//$NON-NLS-1$
 	}
 
 	public void testMenuGroup() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/menuGroup.xhtml");//$NON-NLS-1$
 	}
 
 	public void testMenuItem() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/menuItem.xhtml");//$NON-NLS-1$
 	}
 
 	public void testMenuSeparator() throws Throwable {

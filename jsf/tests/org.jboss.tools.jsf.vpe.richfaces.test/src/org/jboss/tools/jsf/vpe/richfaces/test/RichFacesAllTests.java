@@ -45,25 +45,25 @@ public class RichFacesAllTests {
 		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON //$NON-NLS-1$
 		// $JUnit-BEGIN$
 
-		suite.addTestSuite(RichFacesComponentTest.class);
-		suite.addTestSuite(JBIDE1579Test.class);
-		suite.addTestSuite(Jbide1580Test.class);
-		suite.addTestSuite(JBIDE1613Test.class);
-		suite.addTestSuite(Jbide1614Test.class);
-		suite.addTestSuite(Jbide1639Test.class);
-		suite.addTestSuite(Jbide1682Test.class);
-		suite.addTestSuite(Jbide1548Test.class);
-		suite.addTestSuite(JBIDE1713Test.class);
-		suite.addTestSuite(RichFacesJBIDE1169Test.class);
-		suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
-		suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
-		suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
-		suite.addTestSuite(RichFacesProgressBarTemplateTestCase.class);
-		suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
-		suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
-		suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
-		suite.addTestSuite(JBIDE1605Test.class);
-		suite.addTestSuite(JBIDE1606Test.class);
+//		suite.addTestSuite(RichFacesComponentTest.class);
+//		suite.addTestSuite(JBIDE1579Test.class);
+//		suite.addTestSuite(Jbide1580Test.class);
+//		suite.addTestSuite(JBIDE1613Test.class);
+//		suite.addTestSuite(Jbide1614Test.class);
+//		suite.addTestSuite(Jbide1639Test.class);
+//		suite.addTestSuite(Jbide1682Test.class);
+//		suite.addTestSuite(Jbide1548Test.class);
+//		suite.addTestSuite(JBIDE1713Test.class);
+//		suite.addTestSuite(RichFacesJBIDE1169Test.class);
+//		suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
+//		suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
+//		suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
+//		suite.addTestSuite(RichFacesProgressBarTemplateTestCase.class);
+//		suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
+//		suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
+//		suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
+//		suite.addTestSuite(JBIDE1605Test.class);
+//		suite.addTestSuite(JBIDE1606Test.class);
 		suite.addTestSuite(RichFacesComponentContentTest.class);
 
 		// $JUnit-END$
