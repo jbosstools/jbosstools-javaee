@@ -52,7 +52,7 @@ public class AddExceptionOnDiagramHandler extends AbstractHandler {
 		e.addChild(c);
 		m.addChild(e);
 		m.setModified(true);
-		String pp = e.getPathPart();
+		String pp = "exception:" + e.getPathPart();
 		XModelObject created = diagram.getChildByPath(pp);
 		String shape = AddExceptionHandler.getShape(p);
 		if(created != null && shape != null) created.setAttributeValue("shape", shape);
