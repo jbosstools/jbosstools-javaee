@@ -26,6 +26,7 @@ import org.eclipse.ui.editors.text.ILocationProvider;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.util.ElService;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
@@ -171,7 +172,7 @@ public class ComponentUtil {
         IPath pluginFile = new Path(pluginPath);
         File cssFile = pluginFile.append(cssHref).toFile();
         if (cssFile.exists()) {
-            String cssPath = "file:///" + cssFile.getPath(); //$NON-NLS-1$
+            String cssPath = "file:///" + cssFile.getPath().replace('\\', '/'); //$NON-NLS-1$
             pageContext.getVisualBuilder().replaceLinkNodeToHead(cssPath, ext, true);
         }
     }
@@ -202,8 +203,8 @@ public class ComponentUtil {
      * @param fileImageName the file image name
      */
     public static void setImg(nsIDOMElement img, String fileImageName) {
-        img.setAttribute("src", "file://" //$NON-NLS-1$//$NON-NLS-2$
-                + getAbsoluteResourcePath(fileImageName));
+        img.setAttribute(HTML.ATTR_SRC, "file://" //$NON-NLS-1$//$NON-NLS-2$
+                + getAbsoluteResourcePath(fileImageName).replace('\\', '/'));
     }
 
     /**
@@ -456,9 +457,9 @@ public class ComponentUtil {
     }
 
     /**
-     * Adds image as attribute to IMG tag from users worcpace.
+     * Adds image as attribute to IMG tag from users workspace.
      * 
-     * @param img img element to which set picture
+     * @param img image element to set picture to
      * @param pageContext Page Context
      * @param undefinedImgName default image when image is undefined
      * @param fileImageName image name
@@ -469,10 +470,10 @@ public class ComponentUtil {
         String path = ElService.getInstance().replaceEl(pageContext.getVisualBuilder().getCurrentIncludeInfo().getFile(), fileImageName);
         File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
-            img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toOSString() + File.separator
-                    + path);
+            img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toString() + "/" //$NON-NLS-1$
+                    + path.replace('\\', '/'));
         } else {
-            img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, undefinedImgName);
+            img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, undefinedImgName.replace('\\', '/'));
         }
     }
 
@@ -615,7 +616,7 @@ public class ComponentUtil {
         Integer rst = null;
 
         if ((value == null) || (value.trim().length() == 0)) {
-            throw new NumberFormatException("Passed value is empty ");
+            throw new NumberFormatException("Passed value is empty "); //$NON-NLS-1$
         }
 
         if (value.endsWith(PX_SUFFIX)) {
