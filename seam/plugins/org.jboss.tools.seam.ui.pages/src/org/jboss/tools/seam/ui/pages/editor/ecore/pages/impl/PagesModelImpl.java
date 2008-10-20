@@ -342,13 +342,30 @@ public class PagesModelImpl extends PagesElementImpl implements PagesModel {
 				link.dataChanged();
 			}
 		}
+		
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated NOT
+		 */
+		public void structureChanged(final XModelTreeEvent event) {
+			if(Display.getCurrent() != null){
+				structureChangedInternal(event);
+			}else{
+				Display.getDefault().asyncExec(new Runnable(){
+					public void run(){
+						structureChangedInternal(event);
+					}
+				});
+			}
+		}
 
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated NOT
 		 */
-		public void structureChanged(XModelTreeEvent event) {
+		public void structureChangedInternal(XModelTreeEvent event) {
 			if(getData() == null) return;
 			XModelObject diagramXML = (XModelObject)getData();
 			XModelObject target = event.getModelObject();
