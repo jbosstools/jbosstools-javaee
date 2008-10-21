@@ -340,6 +340,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 					newAddition = postAddition[0];
 
 				model.notifyPropertyChange(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, IDataModel.VALID_VALUES_CHG);
+				isPageComplete();
 				if (newAddition != null)
 					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, newAddition);
 				else
