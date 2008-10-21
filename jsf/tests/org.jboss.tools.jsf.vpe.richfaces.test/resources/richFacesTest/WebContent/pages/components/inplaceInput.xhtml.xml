@@ -1,0 +1,6 @@
+<tests>
+	<test id="inplaceInput">
+		<SPAN VPE-USER-TOGGLE-ID="false" CLASS="rich-inplace rich-inplace-view"
+			STYLE="display: inline;"> click to enter your name</SPAN>
+	</test>
+</tests>

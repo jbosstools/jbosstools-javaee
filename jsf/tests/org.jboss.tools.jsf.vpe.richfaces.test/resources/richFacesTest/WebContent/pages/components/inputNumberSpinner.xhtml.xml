@@ -1,0 +1,30 @@
+<tests>
+	<test id="inputNumberSpinner">
+		<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" >
+			<TR>
+				<TD VALIGN="top" CLASS="ins-dr-spnr-e">
+					<INPUT TYPE="text" CLASS="ins-input" STYLE="" SIZE="10"
+						VALUE="50"/>
+				</TD>
+				<TD VALIGN="middle" CLASS="dr-spnr-b">
+					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
+						<TR>
+							<TD>
+								<INPUT TYPE="image" BORDER="0"
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/inputNumberSpinner/up.gif/"
+									CLASS="dr-spnr-bn"/>
+							</TD>
+						</TR>
+						<TR>
+							<TD>
+								<INPUT TYPE="image" BORDER="0"
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/inputNumberSpinner/down.gif/"
+									CLASS="dr-spnr-bn"/>
+							</TD>
+						</TR>
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>
