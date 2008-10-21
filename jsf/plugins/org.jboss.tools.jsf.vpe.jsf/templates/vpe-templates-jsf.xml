@@ -181,7 +181,6 @@
 	<!-- Проблема с адресацией от приложения (30 of 4) -->
 	<vpe:tag name="h:commandButton" case-sensitive="yes">
 		<vpe:if test="not(attrpresent('image'))">
-			<vpe:if test="@type=''">
 				<vpe:template children="no" modify="no">
 					<input type="submit" value="{iif(@value='',' ',jsfvalue(@value))}"
 						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
@@ -195,23 +194,6 @@
 					<vpe:textFormatting use-default-formats="yes">
 					</vpe:textFormatting>
 				</vpe:template>
-			</vpe:if>
-			<vpe:if
-				test="(@type='button')|(@type='reset')|(@type='submit')">
-				<vpe:template children="no" modify="no">
-					<input type="{@type}" value="{jsfvalue(@value)}"
-						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
-					<vpe:resize>
-						<vpe:width width-attr="style.width" />
-						<vpe:height height-attr="style.height" />
-					</vpe:resize>
-					<vpe:dnd>
-						<vpe:drag start-enable="yes" />
-					</vpe:dnd>
-					<vpe:textFormatting use-default-formats="yes">
-					</vpe:textFormatting>
-				</vpe:template>
-			</vpe:if>
 		</vpe:if>
 		<vpe:if test="attrpresent('image')">
 			<vpe:template children="no" modify="no">
