@@ -54,9 +54,8 @@
     
     <vpe:tag name="a4j:commandLink" case-sensitive="yes">
 	    <vpe:template children="yes" modify="yes">
-			<span class="{@styleClass}" style="color:blue;text-decoration:underline;{@style}" title="{tagstring()}">
-				<vpe:value expr="{jsfvalue(@value)}"/>
-			</span>
+			<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}" 
+			style="{@style}" dir="{@dir}" title="{tagstring()}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">
@@ -76,7 +75,9 @@
 		<vpe:if test="not(attrpresent('image'))">
 			<vpe:if test="(@type='')">
 				<vpe:template children="no" modify="no">
-					<input type="button" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<input type="button" value="{jsfvalue(@value)}" 
+					class="{@styleClass}" style="{@style}" 
+					title="{tagstring()}" dir="{@dir}"/>
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
@@ -88,10 +89,11 @@
 					</vpe:textFormatting>
 				</vpe:template>
 			</vpe:if>
-			
-			<vpe:if test="not(@type='')  ">
+			<vpe:if test="not(@type='')">
 				<vpe:template children="no" modify="no">
-					<input type="{@type}" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<input type="{@type}" value="{jsfvalue(@value)}" 
+					class="{@styleClass}" style="{@style}" 
+					title="{tagstring()}" dir="{@dir}"/>
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
@@ -190,9 +192,8 @@
     
     <vpe:tag name="a4j:htmlCommandLink" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<span class="{@styleClass}" style="color:blue;text-decoration:underline;{@style}" title="{tagstring()}">
-				<vpe:value expr="{jsfvalue(@value)}"/>
-			</span>
+			<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}" 
+			style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">

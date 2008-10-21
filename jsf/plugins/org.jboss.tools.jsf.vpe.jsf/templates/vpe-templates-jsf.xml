@@ -181,9 +181,11 @@
 	<!-- Проблема с адресацией от приложения (30 of 4) -->
 	<vpe:tag name="h:commandButton" case-sensitive="yes">
 		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="(@type='')">
 				<vpe:template children="no" modify="no">
 					<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
-						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
+						class="{@styleClass}" style="{@style}" 
+						title="{tagstring()}" dir="{@dir}"/>
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
@@ -194,6 +196,23 @@
 					<vpe:textFormatting use-default-formats="yes">
 					</vpe:textFormatting>
 				</vpe:template>
+			</vpe:if>
+			<vpe:if test="not(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" 
+						title="{tagstring()}" dir="{@dir}"/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
 		</vpe:if>
 		<vpe:if test="attrpresent('image')">
 			<vpe:template children="no" modify="no">
