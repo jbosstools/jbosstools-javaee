@@ -155,17 +155,17 @@ public class SeamBigProjectTest extends TestCase {
 		sb.append(s.substring(j));
 		IFile file = webContent.getFile("long.xhtml");
 		try {
-			boolean save = ResourcesUtils.setBuildAutomatically(false);
+//			boolean save = ResourcesUtils.setBuildAutomatically(false);
 			file.create(new ByteArrayInputStream(sb.toString().getBytes()), true, new NullProgressMonitor());
 			long time = System.currentTimeMillis();
-			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-
+//			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			JobUtils.waitForIdle();
 			long dt = System.currentTimeMillis() - time;
 			System.out.println("validated in " + dt);
 			
-			ResourcesUtils.setBuildAutomatically(save);
+//			ResourcesUtils.setBuildAutomatically(save);
 
-			assertTrue("Validator takes more than 5s (" + (dt/1000d) + ") for validating generated long.xhtml", dt < 5000);
+			assertTrue("Validator takes more than 5s (" + ((dt-500)/1000d) + ") for validating generated long.xhtml", dt < 5000);
 		} catch (CoreException e) {
 			JUnitUtils.fail("", e);
 		}
