@@ -1,0 +1,5 @@
+<tests>
+    <test id="gmap">
+        <IMG SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/gmap/gmap.gif/"/>
+    </test>
+</tests>

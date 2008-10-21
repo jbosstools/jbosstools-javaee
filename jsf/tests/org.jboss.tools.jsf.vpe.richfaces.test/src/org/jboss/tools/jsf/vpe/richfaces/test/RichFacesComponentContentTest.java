@@ -160,11 +160,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testGmap() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/gmap.xhtml");//$NON-NLS-1$
 	}
 
 	public void testVirtualEarth() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/virtualEarth.xhtml");//$NON-NLS-1$
 	}
 
 	public void testHotKey() throws Throwable {

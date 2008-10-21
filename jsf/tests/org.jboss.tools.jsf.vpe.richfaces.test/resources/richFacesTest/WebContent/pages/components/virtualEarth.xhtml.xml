@@ -1,0 +1,5 @@
+<tests>
+    <test id="virtualEarth">
+        <IMG SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/virtualEarth/earth_road.png/"/>
+    </test>
+</tests>
