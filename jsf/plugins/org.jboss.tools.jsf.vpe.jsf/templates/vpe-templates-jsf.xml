@@ -182,7 +182,7 @@
 	<vpe:tag name="h:commandButton" case-sensitive="yes">
 		<vpe:if test="not(attrpresent('image'))">
 				<vpe:template children="no" modify="no">
-					<input type="submit" value="{iif(@value='',' ',jsfvalue(@value))}"
+					<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
 						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
