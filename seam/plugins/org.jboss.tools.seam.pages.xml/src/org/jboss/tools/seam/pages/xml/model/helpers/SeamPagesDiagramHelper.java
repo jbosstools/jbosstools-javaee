@@ -222,6 +222,8 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			return;
 		}
 //		if(item.isUpToDate()) return;
+		boolean iud = item.isUpToDate();
+		long ts = item.getTimeStamp();
 		item.notifyUpdate();
 		XModelObject sourcePage = item.getReference();		
 		item.setAttributeValue(ATTR_ID, sourcePage.getPathPart());
@@ -234,6 +236,9 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		item.setAttributeValue("params", sb.toString());
 		XModelObject[] cs = getPageTargets(sourcePage);		
 		updateOutputs(item, cs);
+		if(!iud && ts == item.getTimeStamp()) {
+			item.fireReferenceChanged();
+		}
 	}
 
 	private void updateUndeclaredPageItem(ReferenceObjectImpl item) {
