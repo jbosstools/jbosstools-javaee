@@ -168,23 +168,23 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testHotKey() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/hotkey.xhtml", "hotkey"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testInplaceInput() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/inplaceInput.xhtml");//$NON-NLS-1$
 	}
 
 	public void testInplaceSelect() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/inplaceSelect.xhtml");//$NON-NLS-1$
 	}
 
 	public void testInputNumberSlider() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/inputNumberSlider.xhtml");//$NON-NLS-1$
 	}
 
 	public void testInputNumberSpinner() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/inputNumberSpinner.xhtml");//$NON-NLS-1$
 	}
 
 	public void testInsert() throws Throwable {
