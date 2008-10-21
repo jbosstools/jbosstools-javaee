@@ -9,13 +9,14 @@
 <head>
 </head>
 <body>
-	<!-- Effect -->
-	<rich:panel id="fadebox" styleClass="box">
-		<f:facet name="header">Fade Effect</f:facet>
-		<rich:effect event="onclick" type="Fade" />
-		<rich:effect event="onclick" for="fadebox" type="Appear"
-			params="delay:3.0,duration:0.5" />
-		<h:outputText value="Click to Activate" />
-	</rich:panel>
+<f:view>
+<div id="contentDiv">
+  ..... div content ......
+</div>
+<input type="button" onclick="hideDiv({duration:0.7})" value="Hide" />
+<input type="button" onclick="showDiv()" value="Show" />
+<rich:effect id="effect1" name="hideDiv"  for="contentDiv" type="Fade" />
+<rich:effect id="effect2" name="showDiv"  for="contentDiv" type="Appear" />
+</f:view>
 </body>
 </html>

@@ -152,11 +152,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testEffect() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/effect.xhtml", "effect1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testFileUpload() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/fileUpload.xhtml");//$NON-NLS-1$
 	}
 
 	public void testGmap() throws Throwable {
