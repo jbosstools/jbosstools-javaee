@@ -74,9 +74,9 @@
     
     <vpe:tag name="a4j:commandButton" case-sensitive="yes">
 		<vpe:if test="not(attrpresent('image'))">
-			<vpe:if test="(@type='')|(@type='submit')">
+			<vpe:if test="(@type='')">
 				<vpe:template children="no" modify="no">
-					<input type="reset" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
+					<input type="button" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
@@ -89,7 +89,7 @@
 				</vpe:template>
 			</vpe:if>
 			
-			<vpe:if test="not(@type='') and not(@type='submit')">
+			<vpe:if test="not(@type='')  ">
 				<vpe:template children="no" modify="no">
 					<input type="{@type}" value="{jsfvalue(@value)}" class="{@styleClass}" style="{@style}" title="{tagstring()}"/>
 					<vpe:resize>
