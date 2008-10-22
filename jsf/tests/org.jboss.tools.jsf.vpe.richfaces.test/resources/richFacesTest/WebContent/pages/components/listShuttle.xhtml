@@ -10,16 +10,25 @@
 </head>
 
 <body>
-<rich:listShuttle sourceValue="#{person.source}"
-	targetValue="#{person.target}" var="items" targetListWidth="200"
-	sourceCaptionLabel="source label" targetCaptionLabel="target label"
-	orderControlsVerticalAlign="top">
+<f:view>
 
-	<rich:column>
-		<h:outputText value="#{items}"></h:outputText>
-	</rich:column>
+	<rich:listShuttle id="listShuttle" sourceValue="#{person.source}"
+		targetValue="#{person.target}" var="items" targetListWidth="200"
+		sourceCaptionLabel="source label" targetCaptionLabel="target label">
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Song Name" />
+			</f:facet>
+			<h:outputText value="You must be evil"></h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Artist Name" />
+			</f:facet>
+			<h:outputText value="Chris Rea"></h:outputText>
+		</rich:column>
+	</rich:listShuttle>
 
-</rich:listShuttle>
-
+/<f:view>
 </body>
 </html>

@@ -1,0 +1,38 @@
+<tests>
+	<test id="messages">
+		<TABLE>
+			<TR>
+				<TD>
+					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				</TD>
+				<TD>
+					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				</TD>
+				<TD> Error message</TD>
+			</TR>
+			<TR>
+				<TD>
+					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				</TD>
+				<TD> Fatal message</TD>
+			</TR>
+			<TR>
+				<TD>
+					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				</TD>
+				<TD> Info message</TD>
+			</TR>
+			<TR>
+				<TD>
+					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				</TD>
+				<TD> Warning message</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>
