@@ -3,14 +3,11 @@ package org.jboss.tools.jsf.model.pv.test;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Properties;
 
-import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.XModel;
@@ -18,7 +15,9 @@ import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jsf.plugin.JsfTestPlugin;
+import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 import junit.framework.TestCase;
@@ -57,80 +56,76 @@ public class JSFPromptingProviderTest extends TestCase {
 	}
 	
 	public void testIsSupporting() {
-		fail("Not yet implemented");
+		assertTrue(provider.isSupporting(IWebPromptingProvider.JSF_BUNDLES));
 	}
 
 	public void testGetList() {
-		fail("Not yet implemented");
+		List<Object> list = provider.getList(model, "", "", new Properties());
+		assertEquals("Empty list should be returned for unsupported id.",IWebPromptingProvider.EMPTY_LIST, list);
 	}
 
 	/******************************************************************
 	 * getBundles method test
 	 ******************************************************************/
-	public static final int GET_BUNDLE_EXPECTED_LIST_SIZE = 0;
+	public static final int GET_BUNDLE_EXPECTED_LIST_SIZE = 1;
 	/**
 	 * 
 	 */
 	public void testGetBundles() {
-		List<Object> list = provider.getBundles(model);
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_BUNDLES, "", new Properties());
 		assertEquals("Bundles proposal list has wrong size",GET_BUNDLE_EXPECTED_LIST_SIZE, list.size());
 	}
 
+	public static final int GET_BUNDLE_PROPERTIES_EXPECTED_LIST_SIZE = 3;
+
 	public void testGetBundleProperties() {
-		fail("Not yet implemented");
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_BUNDLE_PROPERTIES, "org.jboss.tools.jsf.test.Bundle", new Properties());
+		assertEquals("Bundles properties proposal list has wrong size",GET_BUNDLE_PROPERTIES_EXPECTED_LIST_SIZE, list.size());
 	}
 
 	/**
 	 * Expected beans list size
 	 */
-	public static final int GET_BEANS_EXPECTED_LIST_SIZE = 10;
+	public static final int GET_BEANS_EXPECTED_LIST_SIZE = 12;
 	/**
 	 * <code>JSFPromptingProvider.getBundles()</code> method test
 	 */
 	public void testGetBeans() {
-		List<Object> list = provider.getBeans(model);
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_MANAGED_BEANS, null, new Properties());
 		assertEquals("Managed Beans proposal list has wrong size",GET_BEANS_EXPECTED_LIST_SIZE, list.size());
-		
 	}
+
+	public static final int GET_BEAN_PROPERTIES_LIST_SIZE = 5;
 
 	public void testGetBeanProperties() {
-		fail("Not yet implemented");
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_BEAN_PROPERTIES, "mbean1.", new Properties());
+		assertEquals("Bean properties proposal list has wrong size",GET_BEAN_PROPERTIES_LIST_SIZE, list.size());
 	}
+
+	public static final int BUILD_BEAN_PROPERTIES_LIST_SIZE = 5;
 
 	public void testBuildBeanProperties() {
-		fail("Not yet implemented");
-	}
-
-	public void testBuildBean() {
-		fail("Not yet implemented");
-	}
-
-	public void testFindBean() {
-		fail("Not yet implemented");
-	}
-
-	public void testFindBeanClass() {
-		fail("Not yet implemented");
-	}
-
-	public void testFindBeanClassByClassName() {
-		fail("Not yet implemented");
+		List list = provider.buildBeanProperties(model, "org.jboss.tools.jsf.test.ManagedBean1", null);
+		assertEquals("Bean properties proposal list has wrong size",BUILD_BEAN_PROPERTIES_LIST_SIZE, list.size());
 	}
 
 	public void testGetBeanMethods() {
-		fail("Not yet implemented");
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_BEAN_METHODS, "mbean2", new Properties());
+		assertEquals(1, list.size());
 	}
 
 	public void testGetViewActions() {
-		fail("Not yet implemented");
-	}
-
-	public void testGetPathAsList() {
-		fail("Not yet implemented");
+		Properties p = new Properties();
+		p.setProperty(IWebPromptingProvider.VIEW_PATH, "/pages/inputname.jsp");
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_VIEW_ACTIONS, "", p);
+		assertEquals(1, list.size());
 	}
 
 	public void testGetPath() {
-		fail("Not yet implemented");
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_GET_PATH, "/a.jsf", new Properties());
+		assertEquals(1, list.size());
+		String s = (String)list.get(0);
+		assertEquals("/a.jsp", s);
 	}
 	
 	public void testOpenBean() {
@@ -148,7 +143,10 @@ public class JSFPromptingProviderTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		if(project!=null) {
+			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+			JobUtils.waitForIdle();
 			ResourcesUtils.deleteProject(TEST_PROJECT_NAME);
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
 	}
 }

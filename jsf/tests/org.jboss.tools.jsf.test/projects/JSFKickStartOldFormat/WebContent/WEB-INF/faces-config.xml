@@ -48,11 +48,11 @@
  </converter>
  <managed-bean>
   <description>Input Value Holder</description>
-  <managed-bean-name>nameBean</managed-bean-name>
-  <managed-bean-class>demo.NameBean</managed-bean-class>
+  <managed-bean-name>user</managed-bean-name>
+  <managed-bean-class>demo.User</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
   <managed-property>
-   <property-name>userName</property-name>
+   <property-name>name</property-name>
    <property-class>java.lang.String</property-class>
    <value/>
   </managed-property>

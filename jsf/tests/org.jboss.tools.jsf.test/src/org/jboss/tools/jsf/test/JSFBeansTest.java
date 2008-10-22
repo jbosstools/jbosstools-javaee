@@ -46,9 +46,9 @@ public class JSFBeansTest extends TestCase {
 	public void testGettersAndSetters() {
 		IModelNature n = EclipseResourceUtil.getModelNature(project);
 		List<Object> result = WebPromptingProvider.getInstance().getList(n.getModel(), IWebPromptingProvider.JSF_BEAN_METHODS, "user.", new Properties());
-		assertFalse("Method getX1 is not found. It is not a getter because it has type void.", result.contains("getX1"));
-		assertFalse("Method getX2 is not found. It is not a getter because it has a parameter.", result.contains("getX2"));
-		assertFalse("Method setX3 is not found. It is not a setter because it has 2 parameters", result.contains("setX3"));
+		assertTrue("Method getX1 is not found. It is not a getter because it has type void.", result.contains("getX1"));
+		assertTrue("Method getX2 is not found. It is not a getter because it has a parameter.", result.contains("getX2"));
+		assertTrue("Method setX3 is not found. It is not a setter because it has 2 parameters", result.contains("setX3"));
 	}
 
 	protected void tearDown() throws CoreException{

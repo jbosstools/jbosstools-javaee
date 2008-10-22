@@ -16,6 +16,7 @@ import org.jboss.tools.jsf.ui.operation.JSFProjectAdoptOperation;
 import org.jboss.tools.jsf.web.helpers.context.ImportProjectWizardContext;
 import org.jboss.tools.jst.web.context.*;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
 import junit.framework.TestCase;
@@ -32,7 +33,7 @@ public class JSFImportTest extends TestCase {
 	 * FIXME test is disabled because it hangs build for an eternity
 	 * http://jira.jboss.org/jira/browse/JBIDE-2441
 	 */
-	public void disapledTestImportWithoutLinks() {
+	public void testImportWithoutLinks() {
 		if(projectLocation == null) return;
 		ImportWebDirProjectContext context = new ImportProjectWizardContext(XModelFactory.getDefaultInstance().getRoot());
 		
@@ -60,7 +61,9 @@ public class JSFImportTest extends TestCase {
 			p.getLocation().toFile().equals(projectLocation));
 
 		try {
+			boolean save = ResourcesUtils.setBuildAutomatically(false);
 			p.delete(false, true, new NullProgressMonitor());
+			ResourcesUtils.setBuildAutomatically(save);
 		} catch (CoreException e) {
 			JUnitUtils.fail("Error in removing project", e);
 		}

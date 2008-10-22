@@ -61,4 +61,14 @@
   <referenced-bean-name>refbean2</referenced-bean-name>
   <referenced-bean-class>org.jboss.tools.jsf.test.RefBean2</referenced-bean-class>
  </referenced-bean>
+ <navigation-rule>
+  <from-view-id>/pages/inputname.jsp</from-view-id>
+  <navigation-case>
+   <from-outcome>greeting</from-outcome>
+   <to-view-id>/pages/greeting.jsp</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <application>
+ 	<message-bundle>org.jboss.tools.jsf.test.Bundle</message-bundle>
+ </application>
 </faces-config>
