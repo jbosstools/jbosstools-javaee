@@ -1,0 +1,111 @@
+<tests>
+	<test id="orderingList">
+		<TABLE WIDTH="300" HEIGHT="200" CLASS="rich-ordering-list-body">
+			<TR>
+				<TD>
+					<DIV CLASS="rich-ordering-list-caption" STYLE="width: 350px; height: 300px;">
+					</DIV>
+					<DIV STYLE="overflow: hidden; width: 100%;">
+						<TABLE>
+							<TR>
+								<TD>
+									<DIV STYLE=""
+										CLASS="rich-ordering-list-output rich-ordering-list-content">
+										<TABLE CELLSPACING="1" CLASS="rich-ordering-list-items"
+											ID="orderingList" LISTHEIGHT="300" LISTWIDTH="350" STYLE="width: 100%;">
+											<THEAD>
+												<TR
+													CLASS="rich-ordering-list-header rich-ordering-list-table-header">
+													<TD
+														BACKGROUND="/.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/table_header_cell_bg.gif/"
+														CLASS="rich-ordering-list-table-header-cell" SCOP="col">
+														<SPAN> Song Name</SPAN>
+													</TD>
+													<TD
+														BACKGROUND="/.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/table_header_cell_bg.gif/"
+														CLASS="rich-ordering-list-table-header-cell" SCOP="col">
+														<SPAN> Artist Name</SPAN>
+													</TD>
+												</TR>
+											</THEAD>
+											<TBODY>
+												<TR CLASS="rich-ordering-list-row">
+													<TD WIDTH="180" CLASS="dr-table-cell rich-table-cell">
+														<SPAN> You must be evil</SPAN>
+													</TD>
+													<TD CLASS="dr-table-cell rich-table-cell">
+														<SPAN> Chris Rea</SPAN>
+													</TD>
+												</TR>
+											</TBODY>
+										</TABLE>
+									</DIV>
+								</TD>
+								<TD>
+									<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
+									</DIV>
+									<BR _MOZ_DIRTY="" TYPE="_moz"/>
+								</TD>
+							</TR>
+							<TR>
+								<TD>
+									<DIV STYLE="overflow: scroll; width: 100%; height: 17px;">
+									</DIV>
+									<BR _MOZ_DIRTY="" TYPE="_moz"/>
+								</TD>
+							</TR>
+						</TABLE>
+					</DIV>
+				</TD>
+				<TD ALIGN="center" CLASS="rich-ordering-list-button-valign">
+					<DIV CLASS="rich-ordering-controls null rich-ordering-list-button-layout">
+						<DIV CLASS="dr-buttons-border rich-ordering-control-top null">
+							<DIV CLASS="rich-ordering-list-button"
+								STYLE="/width: 100%; background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/button_bg.gif\);/">
+								<A CLASS="rich-ordering-list-button-selection">
+									<DIV CLASS="rich-ordering-list-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/top.gif/"/>First
+									</DIV>
+								</A>
+							</DIV>
+						</DIV>
+						<DIV CLASS="dr-buttons-border rich-ordering-control-up null">
+							<DIV CLASS="rich-ordering-list-button"
+								STYLE="/width: 100%; background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/button_bg.gif\);/">
+								<A CLASS="rich-ordering-list-button-selection">
+									<DIV CLASS="rich-ordering-list-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/up.gif/"/>Up
+									</DIV>
+								</A>
+							</DIV>
+						</DIV>
+						<DIV CLASS="dr-buttons-border rich-ordering-control-down null">
+							<DIV CLASS="rich-ordering-list-button"
+								STYLE="/width: 100%; background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/button_bg.gif\);/">
+								<A CLASS="rich-ordering-list-button-selection">
+									<DIV CLASS="rich-ordering-list-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/down.gif/"/>Down
+									</DIV>
+								</A>
+							</DIV>
+						</DIV>
+						<DIV CLASS="dr-buttons-border rich-ordering-control-bottom null">
+							<DIV CLASS="rich-ordering-list-button"
+								STYLE="/width: 100%; background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/button_bg.gif\);/">
+								<A CLASS="rich-ordering-list-button-selection">
+									<DIV CLASS="rich-ordering-list-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/orderingList/bottom.gif/"/>Last
+									</DIV>
+								</A>
+							</DIV>
+						</DIV>
+					</DIV>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>

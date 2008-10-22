@@ -208,15 +208,15 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testModalPanel() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/modalPanel.xhtml", "modalPanel"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testOrderingList() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/orderingList.xhtml");//$NON-NLS-1$
 	}
 
 	public void testPaint2D() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/paint2D.xhtml");//$NON-NLS-1$
 	}
 
 	public void testPanel() throws Throwable {
