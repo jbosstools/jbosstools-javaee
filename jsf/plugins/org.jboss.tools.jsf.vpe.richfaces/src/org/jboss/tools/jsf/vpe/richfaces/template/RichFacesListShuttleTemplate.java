@@ -913,7 +913,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 				headerCell.setAttribute("background", "file:///" //$NON-NLS-1$ //$NON-NLS-2$
 						+ ComponentUtil
-								.getAbsoluteResourcePath(HEADER_IMG_PATH));
+								.getAbsoluteResourcePath(HEADER_IMG_PATH).replace('\\', '/'));
 
 				// get header classes
 				String headerClass = styleClasses.get("headerCell"); //$NON-NLS-1$

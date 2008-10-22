@@ -410,7 +410,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			div2.appendChild(a);
 			a.appendChild(div3);
 			// Creating button with image and label
-			img.setAttribute("src", "file:///" + ComponentUtil.getAbsoluteResourcePath(imgName));
+			ComponentUtil.setImg(img, imgName);
 			img.setAttribute(HTML.ATTR_WIDTH, "15");
 			img.setAttribute(HTML.ATTR_HEIGHT, "15");
 			div3.appendChild(img);
@@ -746,7 +746,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			parentTr.appendChild(td);
 	
 			td.setAttribute(HtmlComponentUtil.HTML_ATTR_BACKGROUND, "file:///"
-					+ ComponentUtil.getAbsoluteResourcePath(HEADER_CELL_BG));
+					+ ComponentUtil.getAbsoluteResourcePath(HEADER_CELL_BG).replace('\\', '/'));
 			
 			String styleClass = encodeStyleClass(null, skinCellClass,
 					headerClass, columnHeaderClass);

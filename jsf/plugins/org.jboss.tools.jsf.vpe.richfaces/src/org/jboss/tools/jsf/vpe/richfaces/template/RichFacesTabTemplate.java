@@ -291,8 +291,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 				 RichFacesTabPanelTemplate.CSS_SIDE_CELL
 				 + SPACE + 
 				 RichFacesTabPanelTemplate.CSS_SIDE_BORDER);
-		String borderImgPath = ComponentUtil.getAbsoluteResourcePath(BORDER_FILE_PATH);
-		String style = "background-image: url(file:///" + borderImgPath.replace('\\', '/') + ");"; //$NON-NLS-1$ //$NON-NLS-2$
+		String style = ComponentUtil.getBackgoundImgStyle(BORDER_FILE_PATH); 
 		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		td.appendChild(img);
