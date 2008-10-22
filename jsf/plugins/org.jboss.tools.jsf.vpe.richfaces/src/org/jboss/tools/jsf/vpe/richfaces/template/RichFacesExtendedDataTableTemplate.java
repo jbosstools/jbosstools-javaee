@@ -175,7 +175,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    String headerClass = (String) sourceElement
 		    .getAttribute(HEADER_CLASS);
 	    if (header != null) {
-		encodeTableHeaderOrFooterFacet(creationData, thead,
+		encodeTableHeaderOrFooterFacet(pageContext, creationData, thead,
 			columnsLength, visualDocument, header,
 			DR_TABLE_HEADER_RICH_TABLE_HEADER,
 			DR_TABLE_HEADER_CONTINUE_RICH_TABLE_HEADER_CONTINUE,
@@ -226,7 +226,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			footerClass);
 	    }
 	    if (footer != null) {
-		encodeTableHeaderOrFooterFacet(creationData, tfoot,
+		encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot,
 			columnsLength, visualDocument, footer,
 			DR_TABLE_FOOTER_RICH_TABLE_FOOTER,
 			DR_TABLE_FOOTER_CONTINUE_RICH_TABLE_FOOTER_CONTINUE,
@@ -268,12 +268,12 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		    }
 		    trInfo.addSourceChild(child);
 		} else if (child.getNodeName().endsWith(COLUMN_GROUP)) {
-		    RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(
+		    RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 			    creationData, (Element) child, visualDocument,
 			    tbody);
 		    tr = null;
 		} else if (child.getNodeName().endsWith(SUB_TABLE)) {
-		    RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(
+		    RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 			    creationData, (Element) child, visualDocument,
 			    tbody);
 		    tr = null;
@@ -469,7 +469,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
      * @param facetBodyClass
      * @param element
      */
-    protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData,
+    protected void encodeTableHeaderOrFooterFacet(final VpePageContext pageContext, VpeCreationData creationData,
 	    nsIDOMElement parentTheadOrTfood, int columns,
 	    nsIDOMDocument visualDocument, Element facetBody,
 	    String skinFirstRowClass, String skinRowClass,
@@ -478,10 +478,10 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		.endsWith(COLUMN_GROUP);
 	boolean isSubTable = facetBody.getNodeName().endsWith(SUB_TABLE);
 	if (isColumnGroup) {
-	    RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
+	    RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 		    facetBody, visualDocument, parentTheadOrTfood);
 	} else if (isSubTable) {
-	    RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
+	    RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 		    facetBody, visualDocument, parentTheadOrTfood);
 	} else {
 	    nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);

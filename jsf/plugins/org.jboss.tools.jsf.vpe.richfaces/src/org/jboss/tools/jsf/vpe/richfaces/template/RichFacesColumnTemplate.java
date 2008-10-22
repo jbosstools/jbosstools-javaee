@@ -10,15 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
+import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -26,30 +31,52 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesColumnTemplate extends VpeAbstractTemplate {
+	private static final String HEADER_ICON_STYLE = "vertical-align:middle;";
+	private static final String SORTABLE_PATH = "column/sortable.gif"; //$NON-NLS-1$
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument  visualDocument) {
 		Element sourceElement = (Element)sourceNode;
-
-		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
-		if(isHeader(sourceElement)) {
-			td.setAttribute(HTML.ATTR_CLASS, "dr-table-headercell rich-table-headercell"); //$NON-NLS-1$
-		} else if(isFooter(sourceElement)) {
-			td.setAttribute(HTML.ATTR_CLASS, "dr-table-footercell rich-table-footercell");			 //$NON-NLS-1$
+		VpeCreationData creationData;
+		boolean visible = !RichFaces.VAL_FALSE.equals(sourceElement.getAttribute(RichFaces.ATTR_VISIBLE));
+		
+		if (visible) {
+			nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
+			String columnClass = getColumnClass(sourceElement);
+			ComponentUtil.copyAttributes(sourceNode, td);
+			td.setAttribute(HTML.ATTR_CLASS, columnClass);
+			creationData = new VpeCreationData(td);
+	
+			// Create mapping to Encode body
+			VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
+			List<Node> children = ComponentUtil.getChildren(sourceElement,true);
+			for (Node child : children) {
+				tdInfo.addSourceChild(child);
+			}
+			creationData.addChildrenInfo(tdInfo);
+			
 		} else {
-			td.setAttribute(HTML.ATTR_CLASS, "dr-table-cell rich-table-cell");			 //$NON-NLS-1$
+			creationData = new VpeCreationData(null);			
+			creationData.setChildrenInfoList(new ArrayList<VpeChildrenInfo>(0));
 		}
-		ComponentUtil.copyAttributes(sourceNode, td);
-		VpeCreationData creationData = new VpeCreationData(td);
-
-		// Create mapping to Encode body
-		VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
-		List<Node> children = ComponentUtil.getChildren(sourceElement,true);
-		for (Node child : children) {
-			tdInfo.addSourceChild(child);
-		}
-		creationData.addChildrenInfo(tdInfo);
 
 		return creationData;
+	}
+
+	private String getColumnClass(Element sourceElement) {
+		String columnClass;
+		if(isHeader(sourceElement)) {
+			columnClass = "dr-table-headercell rich-table-headercell"; //$NON-NLS-1$
+		} else if(isFooter(sourceElement)) {
+			columnClass = "dr-table-footercell rich-table-footercell"; //$NON-NLS-1$
+		} else {
+			columnClass = "dr-table-cell rich-table-cell"; //$NON-NLS-1$
+		}
+		
+		String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+		if (styleClass != null) {
+			columnClass += " " + styleClass; //$NON-NLS-1$
+		}
+		return columnClass;
 	}
 
 	private boolean isHeader(Element sourceElement) {
@@ -73,14 +100,56 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	}
 
 	@Override
-	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
-		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
-		visualElement.removeAttribute(name);
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getNodeForUptate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object)
+	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
-		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
-		visualElement.setAttribute(name, value);
+	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
+			nsIDOMNode visualNode, Object data) {
+		/* XXX: The implementation is a little tricky, it returns first n-th parent
+		 * that has a nodeMapping. */
+
+		final VpeDomMapping domMapping = pageContext.getDomMapping();
+		SourceDomUtil.getParentHavingDomMapping(sourceNode, domMapping);
+		final Node parent = SourceDomUtil.getParentHavingDomMapping(sourceNode, domMapping);
+		
+		if (parent != null) {		
+			return parent;
+		} else {
+			return sourceNode;
+		}
+	}
+	
+	/** Creates <code>IMG</code> tag if it is specified by <code>&lt;rich:column&gt;</code>
+	 * attributes. 
+	 * @param pageContext 
+	 * 
+	 * @param column source <code>&lt;rich:column&gt;</code> element  
+	 * @param visualDocument Mozilla's Visual Document
+	 * @return <code>IMG</code> tag if it is necessary, <code>null</code> otherwise */
+	public static nsIDOMElement getHeaderIcon(VpePageContext pageContext, Element column, nsIDOMDocument visualDocument) {
+	    String sortable = ComponentUtil.getAttribute(column, RichFaces.ATTR_SORTABLE);
+	    String sortBy = column.getAttribute(RichFaces.ATTR_SORT_BY);
+	    if (RichFaces.VAL_TRUE.equals(sortable) || sortBy != null) {
+			nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
+			String sortIcon = column.getAttribute(RichFaces.ATTR_SORT_ICON);
+			if (sortIcon != null) {
+				sortIcon = VpeStyleUtil.addFullPathToImgSrc(sortIcon, pageContext, true);
+				sortIcon = sortIcon.replace('\\', '/');
+	    		img.setAttribute(HTML.ATTR_SRC, sortIcon);            
+			} else {
+				ComponentUtil.setImg(img, SORTABLE_PATH);
+			}
+		    img.setAttribute(HTML.ATTR_STYLE, HEADER_ICON_STYLE);
+		    return img;
+	    } else {
+	    	return null;
+	    }
 	}
 }

@@ -73,7 +73,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			table.appendChild(thead);
 			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
 			if(header != null) {
-				encodeTableHeaderOrFooterFacet(creationData, thead, columnsLength, visualDocument, header,
+				encodeTableHeaderOrFooterFacet(pageContext, creationData, thead, columnsLength, visualDocument, header,
 						"dr-table-header rich-table-header", //$NON-NLS-1$
 						"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
 						"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
@@ -86,7 +86,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
-				encodeHeaderOrFooterFacets(creationData, tr, visualDocument, columnsHeaders,
+				encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columnsHeaders,
 						"dr-table-subheadercell rich-table-subheadercell", //$NON-NLS-1$
 						headerClass, RichFaces.NAME_FACET_HEADER, HTML.TAG_TD);
 			}
@@ -106,12 +106,12 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
-				encodeHeaderOrFooterFacets(creationData, tr, visualDocument, columnsFooters,
+				encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columnsFooters,
 						"dr-table-subfootercell rich-table-subfootercell", //$NON-NLS-1$
 						footerClass, RichFaces.NAME_FACET_FOOTER, HTML.TAG_TD);
 			}
 			if (footer != null) {
-				encodeTableHeaderOrFooterFacet(creationData, tfoot, columnsLength, visualDocument, footer,
+				encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot, columnsLength, visualDocument, footer,
 						"dr-table-footer rich-table-footer", //$NON-NLS-1$
 						"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$
 						"dr-table-footercell rich-table-footercell", //$NON-NLS-1$
@@ -148,10 +148,10 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 					trInfo.addSourceChild(child);
 
 			} else if(child.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
-				RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)child, visualDocument, tbody);
+				RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)child, visualDocument, tbody);
 				tr = null;
 			} else if(child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
-				RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)child, visualDocument, tbody);
+				RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)child, visualDocument, tbody);
 				tr = null;
 			} else {
 				VpeChildrenInfo childInfo = new VpeChildrenInfo(tbody);
@@ -190,9 +190,12 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 
 	}
 
-	public static void encodeHeaderOrFooterFacets(VpeCreationData creationData, nsIDOMElement parentTr, nsIDOMDocument visualDocument, ArrayList<Element> headersOrFooters, String skinCellClass, String headerClass, String facetName, String element) {
+	public static void encodeHeaderOrFooterFacets(VpePageContext pageContext, VpeCreationData creationData, 
+			nsIDOMElement parentTr, nsIDOMDocument visualDocument, ArrayList<Element> headersOrFooters, 
+			String skinCellClass, String headerClass, String facetName, String element) {
 		for (Element column : headersOrFooters) {
 			String classAttribute = facetName + "Class"; //$NON-NLS-1$
+
 			String columnHeaderClass = column.getAttribute(classAttribute);
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
@@ -205,19 +208,28 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			}
 			Node facetBody = ComponentUtil.getFacet(column, facetName,true);
 
-			VpeChildrenInfo child = new VpeChildrenInfo(td);
-			child.addSourceChild(facetBody);
-			creationData.addChildrenInfo(child);
+			nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		    td.appendChild(span);
+		    if (RichFaces.NAME_FACET_HEADER.equals(facetName)) {
+		    	nsIDOMElement icon = RichFacesColumnTemplate.getHeaderIcon(pageContext, column, visualDocument);
+		    	if (icon != null) {
+		    		td.appendChild(icon);
+		    	}
+		    }
+
+			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(span);
+			childrenInfo.addSourceChild(facetBody);
+			creationData.addChildrenInfo(childrenInfo);
 		}
 	}
 
-	protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData, nsIDOMElement parentTheadOrTfood, int columns, nsIDOMDocument visualDocument, Node facetBody, String skinFirstRowClass, String skinRowClass, String skinCellClass, String facetBodyClass, String element) {
+	protected void encodeTableHeaderOrFooterFacet(final VpePageContext pageContext, VpeCreationData creationData, nsIDOMElement parentTheadOrTfood, int columns, nsIDOMDocument visualDocument, Node facetBody, String skinFirstRowClass, String skinRowClass, String skinCellClass, String facetBodyClass, String element) {
 		boolean isColumnGroup = facetBody.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP);
 		boolean isSubTable = facetBody.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE);
 		if(isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else if(isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			parentTheadOrTfood.appendChild(tr);
@@ -359,7 +371,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				}
 			}
 		}
-		
+
 		super.validate(pageContext, sourceNode, visualDocument, data);
 	}
 

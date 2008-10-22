@@ -170,7 +170,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		Element captionFacet = ComponentUtil.getFacet(sourceElement, CAPTION_FACET);
 		if (null != captionFacet) {
 			// Creating table caption with facet content
-			nsIDOMElement fecetDiv = encodeFacetsToDiv(captionFacet, false, CSS_CAPTION_CLASS, "", creationData, visualDocument);
+			nsIDOMElement fecetDiv = encodeFacetsToDiv(pageContext, captionFacet, false, CSS_CAPTION_CLASS, "", creationData, visualDocument);
 			captionRow_TD_DIV.appendChild(fecetDiv);
 		} else {
 			captionRow_TD_DIV.appendChild(visualDocument.createTextNode(captionLabel));
@@ -199,7 +199,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		// ---------------------buttons------------------------
 		if (!"none".equalsIgnoreCase(controlsType)) {
-			nsIDOMElement controlsDiv = createControlsDiv(creationData, visualDocument, sourceElement);
+			nsIDOMElement controlsDiv = createControlsDiv(pageContext, creationData, visualDocument, sourceElement);
 			buttonsTD.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					CSS_BUTTON_VALIGN_CLASS);
 			buttonsTD.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center");
@@ -281,7 +281,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		// --------------------------------------------
 
-		nsIDOMElement contentDiv = createResultList(creationData, visualDocument,
+		nsIDOMElement contentDiv = createResultList(pageContext, creationData, visualDocument,
 				sourceElement);
 		tr1_TD1.appendChild(contentDiv);
 
@@ -297,7 +297,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * 
 	 * @return the element
 	 */
-	private nsIDOMElement createControlsDiv( VpeCreationData creationData, nsIDOMDocument visualDocument, 
+	private nsIDOMElement createControlsDiv(final VpePageContext pageContext, VpeCreationData creationData, nsIDOMDocument visualDocument, 
 			Element sourceElement) {
 		
 		String topControlClass = sourceElement.getAttribute(TOP_CONTROL_CLASS);
@@ -329,7 +329,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		Element bottom_control_facet = ComponentUtil.getFacet(sourceElement, BOTTOM_CONTROL_FACET);
 		
 		if (fastOrderControlsVisible) {
-			nsIDOMElement btnTopDiv = createSingleButtonDiv(creationData, visualDocument,
+			nsIDOMElement btnTopDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
 					(null == topControlLabel ? TOP_CONTROL_LABEL_DEFAULT
 							: topControlLabel), TOP_CONTROL_IMG, 
 							showButtonLabels, top_control_facet, CSS_TOP_CONTROL_CLASS, topControlClass);
@@ -337,11 +337,11 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		}
 
 		if (orderControlsVisible) {
-			nsIDOMElement btnUpDiv = createSingleButtonDiv(creationData, visualDocument,
+			nsIDOMElement btnUpDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
 					(null == upControlLabel ? UP_CONTROL_LABEL_DEFAULT
 							: upControlLabel), UP_CONTROL_IMG,
 							showButtonLabels, up_control_facet, CSS_UP_CONTROL_CLASS, upControlClass);
-			nsIDOMElement btnDownDiv = createSingleButtonDiv(creationData, visualDocument,
+			nsIDOMElement btnDownDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
 					(null == downControlLabel ? DOWN_CONTROL_LABEL_DEFAULT
 							: downControlLabel), DOWN_CONTROL_IMG, 
 							showButtonLabels, down_control_facet, CSS_DOWN_CONTROL_CLASS, downControlClass);
@@ -350,7 +350,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		}
 
 		if (fastOrderControlsVisible) {
-			nsIDOMElement btnBottomDiv = createSingleButtonDiv(creationData, visualDocument,
+			nsIDOMElement btnBottomDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
 					(null == bottomControlLabel ? BOTTOM_CONTROL_LABEL_DEFAULT
 							: bottomControlLabel), BOTTOM_CONTROL_IMG,
 					showButtonLabels, bottom_control_facet, CSS_BOTTOM_CONTROL_CLASS, bottomControlClass);
@@ -375,7 +375,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * 
 	 * @return the ns idom element
 	 */
-	private nsIDOMElement createSingleButtonDiv(VpeCreationData creationData,
+	private nsIDOMElement createSingleButtonDiv(final VpePageContext pageContext, VpeCreationData creationData,
 			nsIDOMDocument visualDocument, String btnName, String imgName,
 			boolean showButtonLabels, Element buttonFacet, String cssStyleName,
 			String customStyleClass) {
@@ -402,7 +402,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		
 		if (null != buttonFacet) {
 			// Creating button with facet content
-			nsIDOMElement fecetDiv = encodeFacetsToDiv(buttonFacet, true, cssStyleName, customStyleClass, creationData, visualDocument);
+			nsIDOMElement fecetDiv = encodeFacetsToDiv(pageContext, buttonFacet, true, cssStyleName, customStyleClass, creationData, visualDocument);
 			div2.appendChild(fecetDiv);
 		} else {
 			a.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_BUTTON_SELECTION_CLASS);
@@ -431,7 +431,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * 
 	 * @return the  element
 	 */
-	private nsIDOMElement createResultList(VpeCreationData creationData, nsIDOMDocument visualDocument,
+	private nsIDOMElement createResultList(final VpePageContext pageContext, VpeCreationData creationData, nsIDOMDocument visualDocument,
 			Element sourceElement) {
 		nsIDOMElement contentDiv = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
@@ -554,13 +554,13 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				if (child.getNodeName().endsWith(":column")) {
 					trInfo.addSourceChild(child);
 				} else if (child.getNodeName().endsWith(":columnGroup")) {
-					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(
+					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 							creationData, (Element) child, visualDocument,
 							tbody);
 					tr = null;
 					trInfo = null;
 				} else if (child.getNodeName().endsWith(":subTable")) {
-					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(
+					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 							creationData, (Element) child, visualDocument,
 							tbody);
 					tr = null;
@@ -598,7 +598,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * 
 	 * @return the element
 	 */
-	private nsIDOMElement encodeFacetsToDiv(Element facetBody,
+	private nsIDOMElement encodeFacetsToDiv(final VpePageContext pageContext, Element facetBody,
 			boolean isControlFacet, String cssStyleName,
 			String customStyleClass, VpeCreationData creationData,
 			nsIDOMDocument visualDocument) {
@@ -613,10 +613,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				.endsWith(":columnGroup");
 		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
 		if (isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, tbody);
 		} else if (isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, tbody);
 		} else {
 			nsIDOMElement tr = visualDocument
@@ -675,7 +675,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * @param facetBodyClass
 	 * @param element
 	 */
-	private void encodeTableHeaderOrFooterFacet(VpeCreationData creationData,
+	private void encodeTableHeaderOrFooterFacet(final VpePageContext pageContext, VpeCreationData creationData,
 			nsIDOMElement parentTheadOrTfood, int columns,
 			nsIDOMDocument visualDocument, Element facetBody,
 			String skinFirstRowClass, String skinCellClass,
@@ -684,10 +684,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				.endsWith(":columnGroup");
 		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
 		if (isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else if (isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument
@@ -724,6 +724,9 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param creationData
 	/**
 	 * 
 	 * @param creationData

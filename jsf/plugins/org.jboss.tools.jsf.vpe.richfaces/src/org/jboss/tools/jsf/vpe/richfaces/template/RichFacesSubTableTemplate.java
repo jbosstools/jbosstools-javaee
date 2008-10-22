@@ -34,22 +34,10 @@ import org.w3c.dom.Node;
 
 public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
-	/**
-	 * 
-	 */
-	private static final String VAL_TRUE = "true";
-	/**
-	 * 
-	 */
-	private static final String ATTR_BREAK_BEFORE = "breakBefore"; //$NON-NLS-1$
-	/**
-	 * 
-	 */
-	private static final String COLUMN_CLASSES_EXPRESSION = "{@columnClasses}"; //$NON-NLS-1$
-	/**
-	 * 
-	 */
-	private static final String ROW_CLASSES_EXPRESSION = "{@rowClasses}"; //$NON-NLS-1$
+	private static final String COLUMN_CLASSES_EXPRESSION = 
+		"{@" + RichFaces.ATTR_COLUMN_CLASSES + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String ROW_CLASSES_EXPRESSION = 
+		"{@" + RichFaces.ATTR_ROW_CLASSES + "}"; //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String DEAFAULT_CELL_CLASS = "dr-subtable-cell rich-subtable-cell"; //$NON-NLS-1$
 	private static List<String> rowClasses;
 	private static List<String> columnClasses;
@@ -69,15 +57,20 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	 * @param parentVisualNode
 	 * @return
 	 */
-	public VpeCreationData encode(VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
+	public VpeCreationData encode(final VpePageContext pageContext, VpeCreationData creationData, final Element sourceElement,
+			final nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {		
+
 		if(creationData!=null) {
 			// Encode header
-			encodeHeader(creationData, sourceElement, visualDocument, parentVisualNode);
+			encodeHeader(pageContext, creationData, sourceElement, visualDocument, parentVisualNode);
 		}
 
 		initClasses(sourceElement, null);
 
 		nsIDOMElement curTr = visualDocument.createElement(HTML.TAG_TR);
+		if (parentVisualNode == null) {
+			parentVisualNode = curTr;
+		}
 		ComponentUtil.copyAttributes(sourceElement, curTr);
 
 		boolean header = false;
@@ -112,7 +105,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		final List<Node> children = ComponentUtil.getChildren(sourceElement);
 		for (final Node child : children) {
 			if (child.getNodeName().endsWith(':' + RichFaces.TAG_COLUMN)) {
-				final boolean breakBefore = VAL_TRUE.equals( ((Element)child).getAttribute(ATTR_BREAK_BEFORE) );
+				final boolean breakBefore = RichFaces.VAL_TRUE.equals( ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE) );
 				if (breakBefore) {
 					curRow++;
 					curColumn = 0;
@@ -144,11 +137,11 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 		if(parentVisualNode!=null) {
 			// Encode footer
-			encodeFooter(creationData, sourceElement, visualDocument, parentVisualNode);
+			encodeFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode);
 		}
-
 		return creationData;
 	}
+	
 
 	/** Adds necessary attributes to its children.*/
 	@Override
@@ -189,19 +182,21 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(final VpePageContext pageContext, final Node sourceNode, final nsIDOMDocument visualDocument) {
 		final Element sourceElement = (Element)sourceNode;
-		final VpeCreationData creationData = encode(null, sourceElement, visualDocument, null);
+		final VpeCreationData creationData = encode(pageContext, null, sourceElement, visualDocument, null);
 		return creationData;
 	}
 
-	protected void encodeHeader(final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
-		encodeHeaderOrFooter(creationData, sourceElement, visualDocument, parentVisualNode, "header", "dr-subtable-header rich-subtable-header", "dr-subtable-headercell rich-subtable-headercell");
+	protected void encodeHeader(final VpePageContext pageContext, final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
+		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, "header", "dr-subtable-header rich-subtable-header", "dr-subtable-headercell rich-subtable-headercell");
 	}
 
-	protected void encodeFooter(final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
-		encodeHeaderOrFooter(creationData, sourceElement, visualDocument, parentVisualNode, "footer", "dr-subtable-footer rich-subtable-footer", "dr-subtable-footercell rich-subtable-footercell");
+	protected void encodeFooter(final VpePageContext pageContext, final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
+		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, "footer", "dr-subtable-footer rich-subtable-footer", "dr-subtable-footercell rich-subtable-footercell");
 	}
 
-	protected void encodeHeaderOrFooter(final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode, final String facetName, final String trClass, final String tdClass) {
+	protected void encodeHeaderOrFooter(final VpePageContext pageContext, final VpeCreationData creationData,
+			final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode, 
+			final String facetName, final String trClass, final String tdClass) {
 		final ArrayList<Element> columns = RichFacesDataTableTemplate.getColumns(sourceElement);
 		final ArrayList<Element> columnsHeaders = RichFacesDataTableTemplate.getColumnsWithFacet(columns, facetName);
 		if(!columnsHeaders.isEmpty()) {
@@ -211,7 +206,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 			if(styleClass!=null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
-			RichFacesDataTableTemplate.encodeHeaderOrFooterFacets(creationData, tr, visualDocument, columnsHeaders,
+			RichFacesDataTableTemplate.encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columnsHeaders,
 					tdClass,
 					null, facetName, HTML.TAG_TD);
 		}
@@ -306,5 +301,16 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 			final Element sourceElement, final nsIDOMDocument visualDocument,
 			final nsIDOMElement visualNode, final Object data, final String name, final String value) {
 		return true;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getNodeForUptate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object)
+	 */
+	@Override
+	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
+			nsIDOMNode visualNode, Object data) {
+		Node parent = sourceNode.getParentNode();
+		return parent;
 	}
 }

@@ -165,7 +165,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			String headerClass = (String) sourceElement
 					.getAttribute(HEADER_CLASS);
 			if (header != null) {
-				encodeTableHeaderOrFooterFacet(creationData, thead,
+				encodeTableHeaderOrFooterFacet(pageContext, creationData, thead,
 						columnsLength, visualDocument, header,
 						"dr-table-header rich-table-header",
 						"dr-table-header-continue rich-table-header-continue",
@@ -215,7 +215,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						footerClass, FOOTER, HtmlComponentUtil.HTML_TAG_TD);
 			}
 			if (footer != null) {
-				encodeTableHeaderOrFooterFacet(creationData, tfoot,
+				encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot,
 						columnsLength, visualDocument, footer,
 						"dr-table-footer rich-table-footer",
 						"dr-table-footer-continue rich-table-footer-continue",
@@ -259,12 +259,12 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					}
 					trInfo.addSourceChild(child);
 				} else if (child.getNodeName().endsWith(":columnGroup")) {
-					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(
+					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 							creationData, (Element) child, visualDocument,
 							tbody);
 					tr = null;
 				} else if (child.getNodeName().endsWith(":subTable")) {
-					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(
+					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 							creationData, (Element) child, visualDocument,
 							tbody);
 					tr = null;
@@ -370,7 +370,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	 * @param facetBodyClass
 	 * @param element
 	 */
-	protected void encodeTableHeaderOrFooterFacet(VpeCreationData creationData,
+	protected void encodeTableHeaderOrFooterFacet(final VpePageContext pageContext, VpeCreationData creationData,
 			nsIDOMElement parentTheadOrTfood, int columns,
 			nsIDOMDocument visualDocument, Element facetBody,
 			String skinFirstRowClass, String skinRowClass,
@@ -379,10 +379,10 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				.endsWith(":columnGroup");
 		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
 		if (isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(creationData,
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else if (isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(creationData,
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument

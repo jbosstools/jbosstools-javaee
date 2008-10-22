@@ -63,7 +63,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
 			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
-			encodeTableHeaderOrFooterFacet(creationData, thead, columnsLength, visualDocument, header,
+			encodeTableHeaderOrFooterFacet(pageContext, creationData, thead, columnsLength, visualDocument, header,
 					"dr-table-header rich-table-header", //$NON-NLS-1$
 					"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
 					"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
@@ -76,7 +76,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
 			String footerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
-			encodeTableHeaderOrFooterFacet(creationData, tfoot, columnsLength, visualDocument, footer,
+			encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot, columnsLength, visualDocument, footer,
 					"dr-table-footer rich-table-footer", //$NON-NLS-1$
 					"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$
 					"dr-table-footercell rich-table-footercell", //$NON-NLS-1$
