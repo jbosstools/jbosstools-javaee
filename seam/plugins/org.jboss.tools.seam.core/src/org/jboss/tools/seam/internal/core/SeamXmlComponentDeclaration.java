@@ -33,12 +33,18 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	String precedence = null;
 	String scope = null;
 
+	boolean isClassNameGuessed = false;
+
 	public String getAutoCreateAsString() {
 		return autoCreate;
 	}
 
 	public String getClassName() {
 		return className;
+	}
+
+	public boolean isClassNameGuessed() {
+		return isClassNameGuessed;
 	}
 
 	public boolean getInstalledAsString() {
@@ -81,6 +87,10 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	public void setClassName(IValueInfo value) {
 		attributes.put(CLASS, value);
 		setClassName(value == null ? null : value.getValue());
+	}
+
+	public void setClassNameGuessed(boolean b) {
+		isClassNameGuessed = b;
 	}
 
 	public void setAutoCreate(String autoCreate) {
@@ -143,6 +153,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 			changes = Change.addChange(changes, new Change(this, CLASS, className, xd.className));
 			className = xd.className;
 		}
+		this.isClassNameGuessed = xd.isClassNameGuessed;
 		if(!stringsEqual(autoCreate, xd.autoCreate)) {
 			changes = Change.addChange(changes, new Change(this, AUTO_CREATE, autoCreate, xd.autoCreate));
 			autoCreate = xd.autoCreate;
@@ -178,6 +189,10 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 
 	public Element toXML(Element parent, Properties context) {
 		Element element = super.toXML(parent, context);
+		
+		if(isClassNameGuessed) {
+			element.setAttribute("isClassNameGuessed", "true");
+		}
 
 		return element;
 	}
@@ -192,12 +207,16 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 		setScope(attributes.get(SCOPE));
 		setClassName(attributes.get(CLASS));
 		
+		isClassNameGuessed = "true".equals(element.getAttribute("isClassNameGuessed"));
+		
 		if(className == null && id instanceof XModelObject) {
 			XModelObject c = (XModelObject)id;
 			if(c.getModelEntity().getName().equals("FileSeamComponent12")) {
 				className = XMLScanner.getImpliedClassName(c, source);
+				isClassNameGuessed = true;
 			} else {
 				className = XMLScanner.getDefaultClassName(c);
+				isClassNameGuessed = true;
 			}
 		}
 

@@ -173,6 +173,7 @@ public class XMLScanner implements IFileScanner {
 			String className = getDefaultClassName(c);
 			if(className != null) {
 				component.setClassName(className);
+				component.setClassNameGuessed(true);
 			}
 		}
 		component.setScope(new XMLValueInfo(c, ISeamXmlComponentDeclaration.SCOPE));

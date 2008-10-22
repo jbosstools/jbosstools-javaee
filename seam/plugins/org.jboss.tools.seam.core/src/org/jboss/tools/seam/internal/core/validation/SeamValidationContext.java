@@ -280,6 +280,8 @@ public class SeamValidationContext {
 			if(variableName==null) {
 				throw new IllegalArgumentException(SeamCoreMessages.SEAM_VALIDATION_CONTEXT_VARIABLE_NAME_MUST_NOT_BE_NULL);
 			}
+			
+			synchronized(this) {
 			Set<IPath> linkedResources = resourcesByVariableName.get(variableName);
 			if(linkedResources==null) {
 				// create set of linked resources with variable name.
@@ -288,6 +290,7 @@ public class SeamValidationContext {
 			}
 			// save linked resources.
 			linkedResources.add(linkedResourcePath);
+			}
 
 			// Save link between resource and variable names. It's needed if variable name changes in resource file.
 			Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
@@ -304,10 +307,12 @@ public class SeamValidationContext {
 		 * @param linkedResourcePath
 		 */
 		public void removeLinkedResource(String name, IPath linkedResourcePath) {
+			synchronized(this) {
 			Set<IPath> linkedResources = resourcesByVariableName.get(name);
 			if(linkedResources!=null) {
 				// remove linked resource.
 				linkedResources.remove(linkedResourcePath);
+			}
 			}
 			// Remove link between resource and variable names.
 			Set<String> variableNames = variableNamesByResource.get(linkedResourcePath);
@@ -330,7 +335,7 @@ public class SeamValidationContext {
 		 * Removes link between resource and variable names.
 		 * @param linkedResources
 		 */
-		public void removeLinkedResource(IPath resource) {
+		public synchronized void removeLinkedResource(IPath resource) {
 			Set<String> resourceNames = variableNamesByResource.get(resource);
 			if(resourceNames!=null) {
 				for (String name : resourceNames) {
@@ -350,7 +355,7 @@ public class SeamValidationContext {
 			return resourcesByVariableName.get(variableName);
 		}
 
-		public Set<String> getVariableNamesByResource(IPath fullPath) {
+		public synchronized Set<String> getVariableNamesByResource(IPath fullPath) {
 			return variableNamesByResource.get(fullPath);
 		}
 
@@ -378,13 +383,13 @@ public class SeamValidationContext {
 			unnamedResources.remove(fullPath);
 		}
 
-		public void clearAll() {
+		public synchronized void clearAll() {
 			resourcesByVariableName.clear();
 			variableNamesByResource.clear();
 			unnamedResources.clear();
 		}
 
-		public void store(Element root) {
+		public synchronized void store(Element root) {
 			Set<String> variables = resourcesByVariableName.keySet();
 			for (String name: variables) {
 				Set<IPath> paths = resourcesByVariableName.get(name);

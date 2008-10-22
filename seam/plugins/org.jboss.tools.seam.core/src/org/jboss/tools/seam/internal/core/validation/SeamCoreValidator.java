@@ -465,7 +465,11 @@ public class SeamCoreValidator extends SeamValidator {
 							if(isEmptyLocation(location)) {
 								location = declaration;
 							}
-							addError(UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME, new String[]{className}, location, declaration.getResource());
+							if(!declaration.isClassNameGuessed()) {
+								addError(UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME, new String[]{className}, location, declaration.getResource());
+							} else {
+								addError(UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME_GUESS, new String[]{className}, location, declaration.getResource());
+							}
 							return;
 						} else if(!type.isBinary()) {
 							validationContext.addLinkedCoreResource(componentName, type.getResource().getFullPath());

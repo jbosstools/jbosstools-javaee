@@ -623,6 +623,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			long t2 = System.currentTimeMillis();
 			if(statistics != null) {
 				statistics.add(new Long(t2 - t1));
+				if(t2 - t1 > 30) {
+					System.out.println("--->" + statistics.size() + " " + (t2 - t1));
+					System.out.println("stop");
+				}
 			}
 		}
 		postBuild();

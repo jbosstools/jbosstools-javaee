@@ -62,6 +62,8 @@ public class SeamPreferences {
 	public static final String STATEFUL_COMPONENT_WRONG_SCOPE = createSeverityOption("statefulComponentHasWrongScope"); //$NON-NLS-1$
 	// If className ('component' element) contains unknown class name then component.xml will be marked.
 	public static final String UNKNOWN_COMPONENT_CLASS_NAME = createSeverityOption("unknownComponentClassName"); //$NON-NLS-1$
+
+	public static final String UNKNOWN_COMPONENT_CLASS_NAME_GUESS = createSeverityOption("unknownComponentClassNameGuess"); //$NON-NLS-1$
 	// If component/property@name contains some property name which does not have setter then mark it.
 	public static final String UNKNOWN_COMPONENT_PROPERTY = createSeverityOption("unknownComponentProperty"); //$NON-NLS-1$
 

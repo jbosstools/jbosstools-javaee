@@ -43,6 +43,8 @@ public interface ISeamXmlComponentDeclaration extends ISeamPropertiesDeclaration
 	 */
 	public String getClassName();
 
+	public boolean isClassNameGuessed();
+
 	/**
 	 * @return string value of 'jndi-name' attribute
 	 */
