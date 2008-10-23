@@ -20,11 +20,13 @@ import java.util.Map;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizard;
@@ -98,7 +100,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 	// Database group
 	private IFieldEditor connProfileSelEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfileDefaultValue(), new IValidator() {
-		public Map<String, String> validate(Object value, Object context) {
+		public Map<String, IStatus> validate(Object value, Object context) {
 			SeamInstallWizardPage.this.validate();
 			return ValidatorFactory.NO_ERRORS;
 		}
@@ -379,6 +381,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate.addValidatorForProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					getDeploymentTypeValidator(getWizard()));
+			validatorDelegate.addValidatorForProperty(
+					IFacetDataModelProperties.FACET_PROJECT_NAME, 
+					new ProjectNamesDuplicationValidator(
+							IFacetDataModelProperties.FACET_PROJECT_NAME));
+			validatorDelegate.addValidatorForProperty(IFacetDataModelProperties.FACET_PROJECT_NAME,
+					new ProjectNameValidator(IFacetDataModelProperties.FACET_PROJECT_NAME));
 		}
 
 		jBossHibernateDbTypeEditor
@@ -479,11 +487,24 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	}
 
 	private void validate() {
-		final String message = validatorDelegate.getFirstValidationError();
+		final IStatus message = validatorDelegate.getFirstValidationError();
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-				setPageComplete(message == null);
-				setErrorMessage(message);		
+				if(message==null) {
+					setMessage(null);
+					setErrorMessage(null);
+					setPageComplete(true);
+					return;
+				}
+				if(message.getSeverity()==IStatus.ERROR) {
+					setErrorMessage(message.getMessage());
+					setPageComplete(false);
+					return;
+				}
+				setErrorMessage(null);
+				setMessage(message.getMessage(), DialogPage.WARNING);
+				setPageComplete(true);
+				return;
 			}
 		});
 	}
@@ -505,13 +526,40 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		/**
 		 * @see IValidator#validate(Object, Object)
 		 */
-		public Map<String, String> validate(Object value, Object context) {
+		public Map<String, IStatus> validate(Object value, Object context) {
 			IStatus status = JavaConventions.validatePackageName(value
 					.toString(), CompilerOptions.VERSION_1_5,
 					CompilerOptions.VERSION_1_5);
-			if (!status.isOK()) {
+			if (status.getSeverity()==IStatus.ERROR) {
 				return ValidatorFactory.createErrormessage(fieldName,
-						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_FOR + targetName + SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_IS_NOT_VALID);
+						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_FOR + targetName + SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_IS_NOT_VALID));
+			} else if (status.getSeverity()==IStatus.WARNING) {
+				return ValidatorFactory.createErrormessage(fieldName,
+						new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_FOR + targetName + SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_IS_NOT_VALID));
+			}
+			return ValidatorFactory.NO_ERRORS;
+		}
+	}
+
+	class ProjectNameValidator implements IValidator {
+		String propertyName;
+
+		public ProjectNameValidator(String propertyName) {
+			this.propertyName = propertyName;
+		}
+
+		public Map<String, IStatus> validate(Object value, Object context) {
+			if(value==null) {
+				return ValidatorFactory.NO_ERRORS;
+			}
+			final String projectName = (String)value;
+			if(projectName.length()==0) {
+				return ValidatorFactory.NO_ERRORS;
+			}
+			char firstLetter = projectName.charAt(0);
+			if(Character.isUpperCase(firstLetter)) {
+				return ValidatorFactory.createErrormessage(propertyName,
+					new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.SEAM_INSTALL_WIZARD_PROJECT_NAME_WITH_UPPERCASE));
 			}
 			return ValidatorFactory.NO_ERRORS;
 		}
@@ -529,35 +577,52 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		/**
 		 * @see IValidator#validate(Object, Object)
 		 */
-		public Map<String, String> validate(Object value, Object context) {
+		public Map<String, IStatus> validate(Object value, Object context) {
 			final String projectName = (String)value;
 			final String deployAs = model.getStringProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
 
 			final String testProjectName = projectName + "-test"; //$NON-NLS-1$
 			IStatus status = ProjectCreationDataModelProviderNew.validateName(testProjectName);
-			if (!status.isOK())
+			if (status.getSeverity()==IStatus.ERROR) {
 				return ValidatorFactory.createErrormessage(propertyName,
-						SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
-							testProjectName +
-							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
-
+						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+								testProjectName +
+								SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+			} else if (status.getSeverity()==IStatus.WARNING) {
+				return ValidatorFactory.createErrormessage(propertyName,
+						new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT +
+								testProjectName +
+								SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+			}
 			if (ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(deployAs)) {
 				final String earProjectName = projectName + "-ear"; //$NON-NLS-1$
 				status = ProjectCreationDataModelProviderNew.validateName(earProjectName);
-				if (!status.isOK())
+				if (status.getSeverity()==IStatus.ERROR) {
 					return ValidatorFactory.createErrormessage(propertyName,
-							SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT +
+							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT +
 							earProjectName +
-							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+				} else if (status.getSeverity()==IStatus.WARNING) {
+					return ValidatorFactory.createErrormessage(propertyName,
+							new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT +
+							earProjectName +
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+				}
 
 				final String ejbProjectName = projectName + "-ejb"; //$NON-NLS-1$
 				status = ProjectCreationDataModelProviderNew.validateName(ejbProjectName);
-				if (!status.isOK())
+				if (status.getSeverity()==IStatus.ERROR) {
 					return ValidatorFactory.createErrormessage(propertyName,
-							SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT +
+							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT +
 							ejbProjectName +
-							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS);
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+				} else if (status.getSeverity()==IStatus.WARNING) {
+					return ValidatorFactory.createErrormessage(propertyName,
+							new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT +
+							ejbProjectName +
+							SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+				}
 			}
 			return ValidatorFactory.NO_ERRORS;
 		}
@@ -569,7 +634,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		}
 //		return new DeploymentTypeValidator(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, model);
 		return  new IValidator() {
-			public Map<String, String> validate(Object value, Object context) {
+			public Map<String, IStatus> validate(Object value, Object context) {
 				return ValidatorFactory.NO_ERRORS;
 			}
 		};
@@ -599,7 +664,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		/**
 		 * @see IValidator#validate(Object, Object)
 		 */
-		public Map<String, String> validate(Object value, Object context) {
+		public Map<String, IStatus> validate(Object value, Object context) {
 			final String deploymentType = value.toString();
 			if(!ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(deploymentType)) {
 				Object runtimeName = model.getProperty(IFacetProjectCreationDataModelProperties.FACET_RUNTIME);
@@ -608,7 +673,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					if(!rt.supports(EJB_30) || !rt.supports(EAR_50)) {
 						return ValidatorFactory.createErrormessage(
 							propertyName,
-							NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6 , new String[]{deploymentType.toUpperCase(),runtimeName.toString()}));
+							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6 , new String[]{deploymentType.toUpperCase(),runtimeName.toString()})));
 					}
 				}
 			} 

@@ -12,6 +12,8 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
+
 /**
  * Simple validator interface
  * @author eskimo
@@ -27,5 +29,5 @@ public interface IValidator {
 	 * @param context - a contextual data that can be used during validation
 	 * @return map from editor name to error text
 	 */
-	Map<String,String> validate(Object value, Object context);
+	Map<String, IStatus> validate(Object value, Object context);
 }

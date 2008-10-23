@@ -14,12 +14,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -67,10 +67,15 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		projectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(projectName);
 		projectEditor.addPropertyChangeListener(this);
 		if(projectName!=null && projectName.length()>0) {
-			Map<String, String> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
+			Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
 			if(errors.size()>0) {
-				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
-				setPageComplete(false);
+				IStatus message = errors.get(IValidator.DEFAULT_ERROR);
+				if(message.getSeverity()==IStatus.ERROR) {
+					setErrorMessage(message.getMessage());
+					setPageComplete(false);
+				} else {
+					setMessage(message.getMessage());
+				}
 			} else {
 				setMessage(null);
 			}
@@ -202,15 +207,20 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	}
 
 	private void validate() {
-		Map<String, String> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
+		Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
 
 		if(errors.size()>0 || !isProjectSettingsOk()) {
-			Object errorMessage = errors.get(IValidator.DEFAULT_ERROR);
+			IStatus errorMessage = errors.get(IValidator.DEFAULT_ERROR);
 			if(errorMessage==null) {
-				errorMessage = SeamUIMessages.VALIDATOR_INVALID_SETTINGS;
+				setErrorMessage(SeamUIMessages.VALIDATOR_INVALID_SETTINGS);
 			}
-			setErrorMessage(errorMessage.toString());
-			setPageComplete(false);
+			if(errorMessage.getSeverity()==IStatus.ERROR) {
+				setErrorMessage(errorMessage.getMessage());
+				setPageComplete(false);
+			} else {
+				setMessage(errorMessage.getMessage());
+			}
+
 			return;
 		}
 		String config = (String)configEditor.getValue();

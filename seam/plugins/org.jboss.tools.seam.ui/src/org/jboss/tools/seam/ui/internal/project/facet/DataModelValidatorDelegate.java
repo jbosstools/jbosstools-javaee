@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
@@ -84,25 +86,40 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 * 
 	 */
 	public void validateUntillError() {
-		page.setErrorMessage(getFirstValidationError());
+		IStatus message = getFirstValidationError();
+		if(message == null) {
+			page.setMessage(null);
+			page.setErrorMessage(null);
+		} else {
+			if(message.getSeverity()==IStatus.ERROR) {
+				page.setErrorMessage(message.getMessage());			
+			} else {
+				page.setErrorMessage(null);
+				page.setMessage(message.getMessage(), DialogPage.WARNING);
+			}
+		}
 		page.setPageComplete(page.getErrorMessage()==null);
-		if(page.getErrorMessage()==null) page.setMessage(null);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getFirstValidationError() {
+	public IStatus getFirstValidationError() {
+		IStatus firstWarning = null;
 		for (String validatorName : validationOrder) {
-			Map<String,String> errors = getValidator(validatorName).validate(
+			Map<String,IStatus> errors = getValidator(validatorName).validate(
 					model.getProperty(validatorName),model);
-			String message = errors.get(validatorName);	
+			IStatus message = errors.get(validatorName);	
 			if(message!=null) {
-				return message;
+				if(message.getSeverity()==IStatus.ERROR) {
+					return message;
+				} else if(message.getSeverity()==IStatus.WARNING && firstWarning==null) {
+					firstWarning = message;
+				}
 			}
 		}
-		return null;
+		return firstWarning;
 	}
 	
 	/**
