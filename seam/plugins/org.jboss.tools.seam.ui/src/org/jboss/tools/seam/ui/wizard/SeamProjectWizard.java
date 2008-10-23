@@ -121,6 +121,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		Control control = findGroupByText(getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
 		if (control != null)
 			control.setVisible(false);
+		firstPage.isPageComplete();
 	}
 
 	private void synchSeamActionModels() {
@@ -286,21 +287,26 @@ public class SeamProjectWizard extends WebProjectWizard {
 		 */
 		@Override
 	    public boolean isPageComplete() {
-	        if(super.isPageComplete()) {
-	        	IProjectFacet pFacet = ProjectFacetsManager.getProjectFacet(ISeamFacetDataModelProperties.SEAM_FACET_ID);
-	        	IFacetedProjectWorkingCopy fProject = getFacetedProjectWorkingCopy();
-	        	if(fProject!=null) {
-		        	IProjectFacetVersion seamFacet = fProject.getProjectFacetVersion(pFacet);
-		        	if(seamFacet==null) {
+			boolean pageComplete = super.isPageComplete();
+
+			IProjectFacet pFacet = ProjectFacetsManager.getProjectFacet(ISeamFacetDataModelProperties.SEAM_FACET_ID);
+        	IFacetedProjectWorkingCopy fProject = getFacetedProjectWorkingCopy();
+        	if(fProject!=null) {
+	        	IProjectFacetVersion seamFacet = fProject.getProjectFacetVersion(pFacet);
+	        	if(seamFacet==null) {
+	        		if(pageComplete) {
 		        		this.setErrorMessage(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED);
 		        		return false;
-		        	} else {
-		        		this.setErrorMessage(null);
-		        	}
+	        		}
+	        	} else {
+	        		if(pageComplete) {
+	        			this.setErrorMessage(null);
+	        		} else if(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED.equals(getErrorMessage())) {
+	        			this.setErrorMessage(null);
+	        		}
 	        	}
-	        	return true;
-	        }
-	        return false;
+        	}
+        	return pageComplete;
 	    }
 
 		public boolean launchNewServerWizard(Shell shell, IDataModel model, String serverTypeID) {
