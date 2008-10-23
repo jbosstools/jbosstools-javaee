@@ -10,20 +10,27 @@
 </head>
 
 <body>
-<!-- Suggestion Box component -->
-<h:inputText value="#{suggestionBox.property}" id="text" />
-<rich:suggestionbox id="suggestionBoxId" for="text" tokens=",["
+<rich:suggestionbox id="suggestionBox" for="text" tokens=",[]"
 	rules="#{suggestionBox.rules}"
-	suggestionAction="#{suggestionBox.autocomplete}" var="result"
-	fetchValue="#{result.text}" rows="#{suggestionBox.intRows}"
-	first="#{suggestionBox.intFirst}" minChars="#{suggestionBox.minchars}"
+	suggestionAction="#{capitalsBean.autocomplete}" var="result"
+	fetchValue="#{result.name}" first="#{suggestionBox.intFirst}"
+	minChars="#{suggestionBox.minchars}"
 	shadowOpacity="#{suggestionBox.shadowOpacity}"
 	border="#{suggestionBox.border}" width="#{suggestionBox.width}"
 	height="#{suggestionBox.height}"
 	shadowDepth="#{suggestionBox.shadowDepth}"
-	cellpadding="#{suggestionBox.cellpadding}">
+	cellpadding="#{suggestionBox.cellpadding}"
+	nothingLabel="No capitals found" usingSuggestObjects="true"
+	onobjectchange="processObjectsChange(suggestion)">
+
 	<h:column>
-		<h:outputText value="#{result.text}" />
+		<h:graphicImage value="#{result.stateFlag}" />
+	</h:column>
+	<h:column>
+		<h:outputText value="#{result.name}" />
+	</h:column>
+	<h:column>
+		<h:outputText value="#{result.state}" style="font-style:italic" />
 	</h:column>
 </rich:suggestionbox>
 </body>

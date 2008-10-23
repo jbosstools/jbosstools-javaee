@@ -256,19 +256,19 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testSeparator() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/separator.xhtml");//$NON-NLS-1$
 	}
 
 	public void testSimpleTogglePanel() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/simpleTogglePanel.xhtml");//$NON-NLS-1$
 	}
 
 	public void testSpacer() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/spacer.xhtml");//$NON-NLS-1$
 	}
 
 	public void testSuggestionbox() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/suggestionbox.xhtml", "suggestionBox"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testTabPanel() throws Throwable {

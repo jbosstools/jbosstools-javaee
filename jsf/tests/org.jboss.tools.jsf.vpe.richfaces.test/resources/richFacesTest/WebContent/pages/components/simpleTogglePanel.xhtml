@@ -10,10 +10,19 @@
 </head>
 
 <body>
-<!-- Simple Toggle Panel component -->
-<rich:simpleTogglePanel switchType="client"
-	label="Test simple toggle panel">
-        This is simple toggle panel
+<f:view>
+	<rich:simpleTogglePanel id="simpleTogglePanel" switchType="client"
+		label="Add AJAX capability to existing JSF applications">
+        The framework is implemented by using a component library. The library
+        set Ajax functionality into existing pages, so there is no need to write
+        any JavaScript code or to replace existing components with new Ajax one. 
+        Ajax4jsf enables page-wide Ajax support instead of the traditional 
+        component-wide support and it gives the opportunity to define the event 
+        on the page. An event invokes an Ajax request and areas of the page 
+        which are synchronized with the JSF Component Tree after changing the 
+        data on the server by Ajax request in accordance with events fired on 
+        the client.             
     </rich:simpleTogglePanel>
+</f:view>
 </body>
 </html>
