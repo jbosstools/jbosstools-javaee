@@ -232,15 +232,15 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testPanelMenu() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/panelMenu.xhtml");//$NON-NLS-1$
 	}
 
 	public void testPanelMenuGroup() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/panelMenuGroup.xhtml");//$NON-NLS-1$
 	}
 
 	public void testPanelMenuItem() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/panelMenuItem.xhtml");//$NON-NLS-1$
 	}
 
 	public void testPickList() throws Throwable {

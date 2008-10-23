@@ -1,0 +1,89 @@
+<tests>
+	<test id="panelMenu">
+		<DIV BORDER="0" STYLE="margin-top: 3px; width: 200px;">
+			<DIV CLASS="dr-pmenu-top-self-div" BORDER="0" STYLE="margin-top: 3px;"
+				VPESUPPORT="panelMenuItem">
+				<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+					STYLE="margin-top: 3px;" CLASS="rich-pmenu-item rich-pmenu-top-item">
+					<TR CLASS="">
+						<TD STYLE="" CLASS="dr-pmenu-nowrap">
+							<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
+								SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuItem/spacer.gif/" />
+							<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
+								SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuItem/points.gif/"
+								CLASS="rich-pmenu-item-icon rich-pmenu-top-item-icon" />
+						</TD>
+						<TD STYLE="width: 100%;" CLASS="rich-pmenu-item-label rich-pmenu-top-item-label"> Item 1</TD>
+						<TD STYLE="" CLASS="dr-pmenu-nowrap">
+							<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
+								SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuItem/spacer.gif/" />
+						</TD>
+					</TR>
+				</TABLE>
+			</DIV>
+			<DIV>
+				<DIV VPESUPPORT="panelMenuGroup" VPE-USER-TOGGLE-ID="1"
+					CLASS="dr-pmenu-group-div dr-pmenu-top-group-div">
+					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+						CLASS="dr-pmenu-top-group rich-pmenu-group" STYLE="margin-top: 3px;">
+						<TR>
+							<TD VPE-USER-TOGGLE-ID="1" CLASS="rich-pmenu-top-group-self-icon">
+								<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuGroup/spacer.gif/" />
+							</TD>
+							<TD STYLE="width: 100%;" VPE-USER-TOGGLE-ID="1"
+								CLASS="rich-pmenu-top-group-self-label"> Group 1</TD>
+							<TD VPE-USER-TOGGLE-ID="1"
+								CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
+								<IMG
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuGroup/chevronDown.gif/" />
+							</TD>
+						</TR>
+					</TABLE>
+				</DIV>
+			</DIV>
+			<DIV>
+				<DIV VPESUPPORT="panelMenuGroup" VPE-USER-TOGGLE-ID="2"
+					CLASS="dr-pmenu-group-div dr-pmenu-top-group-div">
+					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+						CLASS="dr-pmenu-top-group rich-pmenu-group" STYLE="margin-top: 3px;">
+						<TR>
+							<TD VPE-USER-TOGGLE-ID="2" CLASS="rich-pmenu-top-group-self-icon">
+								<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuGroup/spacer.gif/" />
+							</TD>
+							<TD STYLE="width: 100%;" VPE-USER-TOGGLE-ID="2"
+								CLASS="rich-pmenu-top-group-self-label"> Group 2</TD>
+							<TD VPE-USER-TOGGLE-ID="2"
+								CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
+								<IMG
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuGroup/chevronDown.gif/" />
+							</TD>
+						</TR>
+					</TABLE>
+				</DIV>
+			</DIV>
+			<DIV>
+				<DIV VPESUPPORT="panelMenuGroup" VPE-USER-TOGGLE-ID="3"
+					CLASS="dr-pmenu-group-div dr-pmenu-top-group-div">
+					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+						CLASS="dr-pmenu-top-group rich-pmenu-group" STYLE="margin-top: 3px;">
+						<TR>
+							<TD VPE-USER-TOGGLE-ID="3" CLASS="rich-pmenu-top-group-self-icon">
+								<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuGroup/spacer.gif/" />
+							</TD>
+							<TD STYLE="width: 100%;" VPE-USER-TOGGLE-ID="3"
+								CLASS="rich-pmenu-top-group-self-label"> Group 3</TD>
+							<TD VPE-USER-TOGGLE-ID="3"
+								CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
+								<IMG
+									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuGroup/chevronDown.gif/" />
+							</TD>
+						</TR>
+					</TABLE>
+				</DIV>
+			</DIV>
+		</DIV>
+	</test>
+</tests>
