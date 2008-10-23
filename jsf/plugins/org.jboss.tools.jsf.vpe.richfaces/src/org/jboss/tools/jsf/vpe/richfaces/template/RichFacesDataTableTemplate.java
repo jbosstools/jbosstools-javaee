@@ -366,7 +366,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		if (children != null) {
 			for (Node child : children) {
-				if (child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
+				if (child.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
+					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.validate(pageContext, child, visualDocument, data);
+				} else if (child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
 					RichFacesSubTableTemplate.DEFAULT_INSTANCE.validate(pageContext, child, visualDocument, data);
 				}
 			}

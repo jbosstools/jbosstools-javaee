@@ -242,7 +242,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		return "dr-subtable-footer-continue rich-subtable-footer-continue";
 	}
 
-	private String getRowClass(final int row) {
+	protected String getRowClass(final int row) {
 		StringBuffer rowClass = new StringBuffer(DEAFAULT_CELL_CLASS);
 
 		if (rowClasses != null) {
