@@ -6,22 +6,13 @@
 				VPE-USER-TOGGLE-ID="false">
 				Add AJAX capability to existing JSF applications
 				<DIV STYLE="position: absolute; top: 0px; right: 5px;"
-					VPE-USER-TOGGLE-ID="false" VPE-USER-TOGGLE-LOOKUP-PARENT="true"> «</DIV>
+					VPE-USER-TOGGLE-ID="false" VPE-USER-TOGGLE-LOOKUP-PARENT="true">&#171;</DIV>
 			</DIV>
 			<DIV STYLE="overflow: hidden; width: 100%;">
 				<TABLE CELLPADDING="0" STYLE="width: 100%;">
 					<TR>
 						<TD CLASS="dr-stglpnl-b rich-stglpanel-body">
-							<SPAN> The framework is implemented by using a component library.
-								The library set Ajax functionality into existing pages, so there
-								is no need to write any JavaScript code or to replace existing
-								components with new Ajax one. Ajax4jsf enables page-wide Ajax
-								support instead of the traditional component-wide support and it
-								gives the opportunity to define the event on the page. An event
-								invokes an Ajax request and areas of the page which are
-								synchronized with the JSF Component Tree after changing the data
-								on the server by Ajax request in accordance with events fired on
-								the client.</SPAN>
+							<SPAN> The framework is implemented by using a component library.</SPAN>
 						</TD>
 					</TR>
 				</TABLE>

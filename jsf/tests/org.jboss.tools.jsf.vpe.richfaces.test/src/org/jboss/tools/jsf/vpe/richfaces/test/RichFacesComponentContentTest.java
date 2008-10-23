@@ -272,19 +272,19 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testTabPanel() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/tabPanel.xhtml");//$NON-NLS-1$
 	}
 
 	public void testTab() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/tab.xhtml");//$NON-NLS-1$
 	}
 
 	public void testTogglePanel() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/togglePanel.xhtml");//$NON-NLS-1$
 	}
 
 	public void testToggleControl() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/toggleControl.xhtml");//$NON-NLS-1$
 	}
 
 	public void testToolBar() throws Throwable {

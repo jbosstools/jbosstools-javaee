@@ -10,10 +10,10 @@
 </head>
 <body>
 <f:view>
-    <rich:togglePanel id="togglePanel" value="togglePanelValue" switchType="client"
+    <rich:togglePanel value="togglePanelValue" switchType="client"
         stateOrder="closed,tip1,tip2">
         <f:facet name="closed">
-            <rich:toggleControl>
+            <rich:toggleControl id="toggleControl">
                 <h:outputText value="CLOSED" />
             </rich:toggleControl>
         </f:facet>
