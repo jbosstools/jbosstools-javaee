@@ -244,15 +244,15 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testPickList() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/pickList.xhtml");//$NON-NLS-1$
 	}
 
 	public void testProgressBar() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/progressBar.xhtml");//$NON-NLS-1$
 	}
 
 	public void testScrollableDataTable() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/scrollableDataTable.xhtml");//$NON-NLS-1$
 	}
 
 	public void testSeparator() throws Throwable {
