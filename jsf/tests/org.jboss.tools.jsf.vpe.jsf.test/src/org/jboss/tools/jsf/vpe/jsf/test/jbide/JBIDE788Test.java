@@ -259,55 +259,59 @@ public class JBIDE788Test extends VpeTest {
         assertNotNull("Editor input is null", input); //$NON-NLS-1$
 
         // open and get editor
-        JSPMultiPageEditor part = openEditor(input);
-        
-        int position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), lineIndex, linePosition);
+        ICompletionProposal[] results;
+		try {
+			JSPMultiPageEditor part = openEditor(input);
+			
+			int position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), lineIndex, linePosition);
 
-        // insert string
-        part.getSourceEditor().getTextViewer().getTextWidget()
-                .replaceTextRange(position, 0, partOfString);
+			// insert string
+			part.getSourceEditor().getTextViewer().getTextWidget()
+			        .replaceTextRange(position, 0, partOfString);
 
-        int newPosition = position + partOfString.length();
+			int newPosition = position + partOfString.length();
 
-        // sets cursor position
-        part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
-                newPosition);
-        
-        TestUtil.waitForJobs();
-        TestUtil.delay(1000);
-        SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
-                .getSourceEditor()).getSourceViewerConfigurationForTest();
-        // errase errors which can be on start of editor(for example xuklunner
-        // not found)
-        setException(null);
-        StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration) sourceViewerConfiguration;
-        IContentAssistant iContentAssistant = stvc
-                .getContentAssistant((ISourceViewer) part.getSourceEditor()
-                        .getAdapter(ISourceViewer.class));
-        assertNotNull(iContentAssistant);
-        IContentAssistProcessor iContentAssistProcessor = iContentAssistant
-                .getContentAssistProcessor(caName);
-        assertNotNull(iContentAssistProcessor);
-        ICompletionProposal[] results = iContentAssistProcessor
-                .computeCompletionProposals(part.getSourceEditor()
-                        .getTextViewer(), newPosition);
+			// sets cursor position
+			part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(
+			        newPosition);
+			
+			TestUtil.waitForJobs();
+			TestUtil.delay(1000);
+			SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
+			        .getSourceEditor()).getSourceViewerConfigurationForTest();
+			// errase errors which can be on start of editor(for example xuklunner
+			// not found)
+			setException(null);
+			StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration) sourceViewerConfiguration;
+			IContentAssistant iContentAssistant = stvc
+			        .getContentAssistant((ISourceViewer) part.getSourceEditor()
+			                .getAdapter(ISourceViewer.class));
+			assertNotNull(iContentAssistant);
+			IContentAssistProcessor iContentAssistProcessor = iContentAssistant
+			        .getContentAssistProcessor(caName);
+			assertNotNull(iContentAssistProcessor);
+			results = iContentAssistProcessor
+			        .computeCompletionProposals(part.getSourceEditor()
+			                .getTextViewer(), newPosition);
 
-        // remove inserted string
-        part.getSourceEditor().getTextViewer().getTextWidget()
-                .replaceTextRange(position, partOfString.length(), ""); //$NON-NLS-1$
-        assertNotNull(results);
-        assertTrue("Number of ca proposals shouldn't be a null",results.length>0); //$NON-NLS-1$
-        if (isCheck) {
-            for (int i = 0; i < results.length; i++) {
+			// remove inserted string
+			part.getSourceEditor().getTextViewer().getTextWidget()
+			        .replaceTextRange(position, partOfString.length(), ""); //$NON-NLS-1$
+			assertNotNull(results);
+			assertTrue("Number of ca proposals shouldn't be a null",results.length>0); //$NON-NLS-1$
+			if (isCheck) {
+			    for (int i = 0; i < results.length; i++) {
 
-                String displayString = ((ICompletionProposal) results[i]).getDisplayString();
-                assertNotNull(displayString);
-                assertEquals(true, displayString.startsWith(partOfString));
-            }
-        }
+			        String displayString = ((ICompletionProposal) results[i]).getDisplayString();
+			        assertNotNull(displayString);
+			        assertEquals(true, displayString.startsWith(partOfString));
+			    }
+			}
+		} finally {
+			closeEditors();
+	        TestUtil.delay(1000L);
+		}
 
-        closeEditors();
-        TestUtil.delay(1000L);
         return results;
 	}
 }

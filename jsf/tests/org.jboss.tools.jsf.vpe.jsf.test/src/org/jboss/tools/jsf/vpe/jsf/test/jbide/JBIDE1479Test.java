@@ -75,7 +75,7 @@ public class JBIDE1479Test extends VpeTest {
 		job.setPriority(Job.SHORT);
 		job.schedule(0L);
 		job.join();
-		TestUtil.waitForIdle();
+		TestUtil.waitForIdle(15*1000*60);
 		TestUtil.delay(1000L);
 		closeEditors();
 		
