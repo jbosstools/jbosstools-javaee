@@ -263,6 +263,7 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 	public void notifyChanged(Notification notification) {
 		refresh();
 		refreshVisuals();
+		getFigure().repaint();
 	}
 	/**
 	 * )
