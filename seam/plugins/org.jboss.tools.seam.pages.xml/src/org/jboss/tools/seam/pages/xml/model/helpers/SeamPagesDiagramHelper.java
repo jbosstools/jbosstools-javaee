@@ -75,11 +75,28 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		reset();
 		XModelObject[] sourcePages = config.getChildByPath(FOLDER_PAGES).getChildren();
 
+		XModelObject[] cs = diagram.getChildren();
+		Map<XModelObject,XModelObject> old = new HashMap<XModelObject, XModelObject>();
+		for (int i = 0; i < cs.length; i++) {
+			if(cs[i] instanceof ReferenceObject) {
+				XModelObject k = ((ReferenceObject)cs[i]).getReference();
+				if(k != null) old.put(k, cs[i]);
+			}
+		}
+
 		for (int i = 0; i < sourcePages.length; i++) {
 			String view = sourcePages[i].getAttributeValue(ATTR_VIEW_ID);
 			if(view == null) continue;
 			String pp = toNavigationRulePathPart(view);
-			XModelObject g = findOrCreateItem(view, pp, TYPE_PAGE);
+			XModelObject og = old.get(sourcePages[i]);
+			if(og != null) {
+				String opp = og.getPathPart();
+				if(!pp.equals(opp)) {
+					pageItems.remove(opp);
+					og.setAttributeValue(ATTR_NAME, pp);
+				}
+			}
+			XModelObject g = og != null ? og : findOrCreateItem(view, pp, TYPE_PAGE);
 			((ReferenceObjectImpl)g).setReference(sourcePages[i]);
 			pageItems.put(pp, g);
 			pageViewIds.add(view);
@@ -102,7 +119,16 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		for (int i = 0; i < sourceExceptions.length; i++) {
 			String code = sourceExceptions[i].getAttributeValue("class");
 			String pp = "exception:" + code;
-			XModelObject g = findOrCreateItem(code, pp, TYPE_EXCEPTION);
+			XModelObject og = old.get(sourceExceptions[i]);
+			if(og != null) {
+				String opp = og.getPathPart();
+				if(!pp.equals(opp)) {
+					exceptionItems.remove(opp);
+					og.setAttributeValue(ATTR_NAME, pp);
+					((ReferenceObjectImpl)og).setReference(null);
+				}
+			}
+			XModelObject g = og != null ? og : findOrCreateItem(code, pp, TYPE_EXCEPTION);
 			((ReferenceObjectImpl)g).setReference(sourceExceptions[i]);
 			exceptionItems.put(pp, g);
 			addTarget(sourceExceptions[i], false);
