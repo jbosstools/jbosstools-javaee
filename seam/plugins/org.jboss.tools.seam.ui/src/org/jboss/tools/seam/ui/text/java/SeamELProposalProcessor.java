@@ -62,6 +62,7 @@ import org.jboss.tools.common.el.core.model.ELUtil;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.kb.KbProposal;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
@@ -271,7 +272,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 * Returns the relevance of the proposal
 		 */
 		public int getRelevance() {
-			return XMLRelevanceConstants.R_XML_ATTRIBUTE_VALUE+10;
+			return KbProposal.R_JSP_JSF_EL_VARIABLE_ATTRIBUTE_VALUE+10;
 		}
 
 	}
