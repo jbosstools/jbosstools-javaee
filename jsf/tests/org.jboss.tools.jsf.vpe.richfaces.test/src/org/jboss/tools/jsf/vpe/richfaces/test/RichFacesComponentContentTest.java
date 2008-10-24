@@ -288,23 +288,23 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testToolBar() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/toolBar.xhtml");//$NON-NLS-1$
 	}
 
 	public void testToolBarGroup() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/toolBarGroup.xhtml");//$NON-NLS-1$
 	}
 
 	public void testToolTip() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/toolTip.xhtml", "toolTip"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testTree() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/tree.xhtml");//$NON-NLS-1$
 	}
 
 	public void testTreeNode() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/treeNode.xhtml");//$NON-NLS-1$
 	}
 
 	public void testChangeExpandListener() throws Throwable {
