@@ -15,6 +15,7 @@ import java.io.File;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -22,6 +23,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 
 public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
@@ -95,5 +97,12 @@ public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
 		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
+	}
+	
+	@Override
+	protected IDataModel createSeamDataModel(String deployType) {
+		IDataModel model = super.createSeamDataModel(deployType);
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_2_0_0);
+		return model;
 	}
 }

@@ -12,11 +12,13 @@ package org.jboss.tools.seam.ui.test.wizard;
 
 import java.io.File;
 
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 public class Seam20EARNewOperationTest extends Seam12EARNewOperationTest {
 	
@@ -63,6 +65,13 @@ public class Seam20EARNewOperationTest extends Seam12EARNewOperationTest {
 	@Override
 	protected IProjectFacetVersion getSeamFacetVersion() {
 		return seam2FacetVersion;
+	}
+
+	@Override
+	protected IDataModel createSeamDataModel(String deployType) {
+		IDataModel model = super.createSeamDataModel(deployType);
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_2_0_0);
+		return model;
 	}
 
 }
