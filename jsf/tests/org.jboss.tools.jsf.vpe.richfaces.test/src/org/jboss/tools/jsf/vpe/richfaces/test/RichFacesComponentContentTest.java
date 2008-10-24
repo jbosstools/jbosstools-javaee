@@ -308,19 +308,19 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testChangeExpandListener() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/changeExpandListener.xhtml", "changeExpandListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testNodeSelectListener() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/nodeSelectListener.xhtml", "nodeSelectListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testRecursiveTreeNodesAdaptor() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/recursiveTreeNodesAdaptor.xhtml");//$NON-NLS-1$
 	}
 
 	public void testTreeNodesAdaptor() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/treeNodesAdaptor.xhtml");//$NON-NLS-1$
 	}
 
 	protected String getTestProjectName() {
