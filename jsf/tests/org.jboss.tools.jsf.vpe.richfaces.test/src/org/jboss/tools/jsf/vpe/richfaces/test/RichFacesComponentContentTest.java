@@ -91,11 +91,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testDataOrderedList() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/dataOrderedList.xhtml");//$NON-NLS-1$
 	}
 
 	public void testDataDefinitionList() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/dataDefinitionList.xhtml");//$NON-NLS-1$
 	}
 
 	public void testDataTable() throws Throwable {

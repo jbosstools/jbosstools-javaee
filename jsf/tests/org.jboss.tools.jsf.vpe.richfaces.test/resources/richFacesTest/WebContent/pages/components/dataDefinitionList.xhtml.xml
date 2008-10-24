@@ -1,0 +1,18 @@
+<tests>
+	<test id="dataDefinitionList">
+		<DL CLASS="listClass">
+			<DD CLASS="columnClass">
+				<SPAN> row=1 </SPAN>
+			</DD>
+			<DD CLASS="columnClass">
+				<SPAN> row=2 </SPAN>
+			</DD>
+			<DD CLASS="columnClass">
+				<SPAN> row=3 </SPAN>
+			</DD>
+			<DD CLASS="columnClass">
+				<SPAN> row=4 </SPAN>
+			</DD>
+		</DL>
+	</test>
+</tests>
