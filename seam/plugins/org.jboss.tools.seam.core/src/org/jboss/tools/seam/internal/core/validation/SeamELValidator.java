@@ -214,25 +214,25 @@ public class SeamELValidator extends SeamValidator {
 
 	private void validateChildNodes(IFile file, Node parent) {
 		String preferenceValue = SeamPreferences.getProjectPreference(project, SeamPreferences.CHECK_VARS);
-		Var var = null;
-		if (SeamPreferences.ENABLE.equals(preferenceValue)) {
-			var = elVarSearcher.findVar(parent);
-		}
-		if(var!=null) {
-			varListForCurentValidatedNode.add(var);
-		}
 		NodeList children = parent.getChildNodes();
 		for(int i=0; i<children.getLength() && !reporter.isCancelled(); i++) {
 			Node curentValidatedNode = children.item(i);
+			Var var = null;
 			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
+				if (SeamPreferences.ENABLE.equals(preferenceValue)) {
+					var = elVarSearcher.findVar(curentValidatedNode);
+				}
+				if(var!=null) {
+					varListForCurentValidatedNode.add(var);
+				}
 				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
 			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
 				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
 			}
 			validateChildNodes(file, curentValidatedNode);
-		}
-		if(var!=null) {
-			varListForCurentValidatedNode.remove(var);
+			if(var!=null) {
+				varListForCurentValidatedNode.remove(var);
+			}
 		}
 	}
 
