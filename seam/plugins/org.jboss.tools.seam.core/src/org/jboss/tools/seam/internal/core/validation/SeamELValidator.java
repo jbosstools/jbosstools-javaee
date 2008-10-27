@@ -299,51 +299,48 @@ public class SeamELValidator extends SeamValidator {
 		try {
 			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
-				{
-					SeamELOperandResolveStatus status = 
-						engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
+				SeamELOperandResolveStatus status = 
+					engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
-					if(status.getUsedVariables().size()==0 && status.isError()) {
-						// Save resources with unknown variables names
-						validationContext.addUnnamedElResource(file.getFullPath());
-					} else {
-						// Save links between resource and used variables names
-						for(ISeamContextVariable variable: status.getUsedVariables()) {
-							validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
-						}
+				if(status.getUsedVariables().size()==0 && status.isError()) {
+					// Save resources with unknown variables names
+					validationContext.addUnnamedElResource(file.getFullPath());
+				} else {
+					// Save links between resource and used variables names
+					for(ISeamContextVariable variable: status.getUsedVariables()) {
+						validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
 					}
-
-					// Check pair for getter/setter
-					if(status.getUnpairedGettersOrSetters().size()>0) {
-						TypeInfoCollector.MethodInfo unpairedMethod = status.getUnpairedGettersOrSetters().values().iterator().next();
-						String methodName = unpairedMethod.getName();
-						String propertyName = status.getUnpairedGettersOrSetters().keySet().iterator().next();
-						String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
-						String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
-						if(methodName.startsWith("s")) { //$NON-NLS-1$
-							missingMethodName = existedMethodName;
-							existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
-						}
-						addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, operand.length(), documnetOffset, file);
-					}
-
-					if (status.isOK()) {
-						// It's valid EL.
-						return;
-					}
-					
-					ELInvocationExpression ts = status.getUnresolvedTokens();
-					
-					varName = ts.getMemberName();
-					if(varName == null) {
-						//This is syntax error case. Reported by parser.
-						return;						
-					}
-					offsetOfVarName = documnetOffset + ts.getInvocationStartPosition();
-					lengthOfVarName = varName == null ? 0 : varName.length();
-					unresolvedTokenIsVariable = true;
-
 				}
+
+				// Check pair for getter/setter
+				if(status.getUnpairedGettersOrSetters().size()>0) {
+					TypeInfoCollector.MethodInfo unpairedMethod = status.getUnpairedGettersOrSetters().values().iterator().next();
+					String methodName = unpairedMethod.getName();
+					String propertyName = status.getUnpairedGettersOrSetters().keySet().iterator().next();
+					String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
+					String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
+					if(methodName.startsWith("s")) { //$NON-NLS-1$
+						missingMethodName = existedMethodName;
+						existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
+					}
+					addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, operand.length(), documnetOffset, file);
+				}
+
+				if (status.isOK()) {
+					// It's valid EL.
+					return;
+				}
+				
+				ELInvocationExpression ts = status.getUnresolvedTokens();
+				
+				varName = ts.getMemberName();
+				if(varName == null) {
+					//This is syntax error case. Reported by parser.
+					return;						
+				}
+				offsetOfVarName = documnetOffset + ts.getInvocationStartPosition();
+				lengthOfVarName = varName == null ? 0 : varName.length();
+				unresolvedTokenIsVariable = true;
 			}
 		} catch (BadLocationException e) {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
