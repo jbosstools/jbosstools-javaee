@@ -62,7 +62,6 @@ public class JsfJbide2362Test extends VpeTest {
 		ELEMENTS.add("h:inputText"); //$NON-NLS-1$
 		ELEMENTS.add("h:inputTextarea"); //$NON-NLS-1$
 		ELEMENTS.add("h:inputSecret"); //$NON-NLS-1$
-		ELEMENTS.add("h:inputHidden"); //$NON-NLS-1$
 	}
 
 	public JsfJbide2362Test(String name) {
