@@ -75,24 +75,26 @@ public class JBIDE788Test extends VpeTest {
 
 		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",11,31,false); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull(results);
-		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
+		assertTrue("The length should be more than 0",results.length>0); //$NON-NLS-1$
+		boolean str_exists=false;
 		for (ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();		
-			if(!displayString.startsWith("${msg.")) { //$NON-NLS-1$
-				fail("String doesn't matches"); //$NON-NLS-1$
-			}
+			if(displayString.startsWith("${msg.")) { //$NON-NLS-1$
+				str_exists=true;
+			} 
 			
 		}
-
-		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,43,false);  //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("$msg should be in proposals",true, str_exists);
+		str_exists=false;
+		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,41,false);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
-
 		for(ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			if(!displayString.contains("temp") && !displayString.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
-				fail("String doesn't matches"); //$NON-NLS-1$
-			}
+			if(displayString.contains("templates")) { //$NON-NLS-1$ //$NON-NLS-2$
+				str_exists=true;
+			}  
 		}
+		assertEquals("path proposala should be in proposals",true, str_exists);
 		// check exception
 		if (getException() != null) {
 
@@ -115,9 +117,11 @@ public class JBIDE788Test extends VpeTest {
 		assertNotNull(results);
 		assertTrue(results.length>2);
 		for(ICompletionProposal completionProposal : results) {
-			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			if(!displayString.startsWith("h:command") && !displayString.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
-				fail("String doesn't matches"); //$NON-NLS-1$
+			if(completionProposal instanceof AutoContentAssistantProposal ) {
+				String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+				if(!displayString.startsWith("h:command") && !displayString.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
+					fail("String doesn't matches"); //$NON-NLS-1$
+				}
 			}
 		}
 
@@ -146,12 +150,13 @@ public class JBIDE788Test extends VpeTest {
 		assertTrue("The lenft should be more than 0",results.length>0); //$NON-NLS-1$
 		boolean isMatches=true;
 		for (ICompletionProposal completionProposal : results) {
-			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			
-			if(!displayString.startsWith("ta")) { //$NON-NLS-1$
-				isMatches=false;
-			}
-			
+			if(completionProposal instanceof AutoContentAssistantProposal ) {
+				String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
+				
+				if(!displayString.startsWith("ta")) { //$NON-NLS-1$
+					isMatches=false;
+				}
+			}	
 		}
 		assertTrue("Proposals doesn't match to entered string",isMatches); //$NON-NLS-1$
 
@@ -301,10 +306,11 @@ public class JBIDE788Test extends VpeTest {
 			assertTrue("Number of ca proposals shouldn't be a null",results.length>0); //$NON-NLS-1$
 			if (isCheck) {
 			    for (int i = 0; i < results.length; i++) {
-
+			    	if(results[i] instanceof AutoContentAssistantProposal ) {
 			        String displayString = ((ICompletionProposal) results[i]).getDisplayString();
 			        assertNotNull(displayString);
 			        assertEquals(true, displayString.startsWith(partOfString));
+			    	}
 			    }
 			}
 		} finally {
