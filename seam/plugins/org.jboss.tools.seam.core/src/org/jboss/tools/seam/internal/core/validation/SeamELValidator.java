@@ -73,7 +73,7 @@ public class SeamELValidator extends SeamValidator {
 	protected static final String UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_NAME"; //$NON-NLS-1$
 	protected static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_PROPERTY_NAME"; //$NON-NLS-1$
 	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
-	protected static final String SYNTAX_ERROR_MESSAGE_ID = "SYNTAX_ERROR"; //$NON-NLS-1$
+	protected static final String SYNTAX_ERROR_MESSAGE_ID = "EL_SYNTAX_ERROR"; //$NON-NLS-1$
 
 	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
 
@@ -264,7 +264,7 @@ public class SeamELValidator extends SeamValidator {
 				for (SyntaxError error: errors) {
 					//TODO 1) make message more informative
 					//     2) create other preference 
-					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
+					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
 				}
 				
 			}

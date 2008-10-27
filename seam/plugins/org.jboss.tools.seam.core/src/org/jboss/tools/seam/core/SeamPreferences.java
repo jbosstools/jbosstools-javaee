@@ -121,6 +121,8 @@ public class SeamPreferences {
 	// If Expression use property of component and this property has only setter(getter) without getter(setter) then mark it.
 	public static final String UNPAIRED_GETTER_OR_SETTER = createSeverityOption("unpairedGetterOrSetter"); //$NON-NLS-1$
 
+	public static final String EL_SYNTAX_ERROR = createSeverityOption("elSyntaxError"); //$NON-NLS-1$
+
 	// Seam project settings
 
 	// Mark seam project if it has any invalid seam setting.
@@ -195,6 +197,7 @@ public class SeamPreferences {
 	public static boolean shouldValidateEL(ISeamProject project) {
 		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_NAME)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_PROPERTY_NAME)) && 
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, EL_SYNTAX_ERROR)) && 
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNPAIRED_GETTER_OR_SETTER)));
 	}
 
