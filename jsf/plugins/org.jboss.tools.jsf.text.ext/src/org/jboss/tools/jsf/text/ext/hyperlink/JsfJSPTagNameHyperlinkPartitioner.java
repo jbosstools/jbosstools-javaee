@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -107,31 +108,7 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 
 			if (nameStart > offset || nameEnd <= offset) return null;
 
-			IRegion region = new IRegion () {
-
-				public int getLength() {
-					return nameEnd - nameStart;
-				}
-
-				public int getOffset() {
-					return nameStart;
-				}
-
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-
-				public String toString() {
-					return "IRegion [" + getOffset() +", " + getLength()+ "]";
-				}
-			};
-			
-			return region;
+			return new Region(nameStart,nameEnd - nameStart);
 		} finally {
 			smw.dispose();
 		}

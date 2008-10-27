@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
@@ -57,28 +58,7 @@ public class ForIDHyperlink extends AbstractHyperlink {
 			if (element != null) {
 				final int offset = element.getStartOffset();
 				final int length = element.getStartStructuredDocumentRegion().getLength();
-				return new IRegion () {
-					public boolean equals(Object arg) {
-						if (!(arg instanceof IRegion)) return false;
-						IRegion region = (IRegion)arg;
-						
-						if (getOffset() != region.getOffset()) return false;
-						if (getLength() != region.getLength()) return false;
-						return true;
-					}
-	
-					public int getLength() {
-						return length;
-					}
-	
-					public int getOffset() {
-						return offset;
-					}
-	
-					public String toString() {
-						return "IRegion [" + getOffset() +", " + getLength()+ "]";
-					}
-				};
+				return new Region(offset,length);
 			}
 			return null;
 		} finally {
@@ -190,31 +170,7 @@ public class ForIDHyperlink extends AbstractHyperlink {
 			
 			if (propStart > offset || propStart + propLength < offset) return null;
 	
-			
-			IRegion region = new IRegion () {
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-
-				public int getLength() {
-					return propLength;
-				}
-
-				public int getOffset() {
-					return propStart;
-				}
-
-				public String toString() {
-					return "IRegion [" + getOffset() +", " + getLength()+ "]";
-				}
-			};
-			
-			return region;
+			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -78,28 +79,8 @@ public class JSFContextParamLinkHyperlink extends JSFLinkHyperlink {
 			final int propLength = bEnd - bStart;
 			
 			if (propStart > offset || propStart + propLength < offset) return null;
-			
-			IRegion region = new IRegion () {
-				public int getLength() {
-					return propLength;
-				}
 
-				public int getOffset() {
-					return propStart;
-				}
-				
-				
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-			};
-			
-			return region;
+			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;

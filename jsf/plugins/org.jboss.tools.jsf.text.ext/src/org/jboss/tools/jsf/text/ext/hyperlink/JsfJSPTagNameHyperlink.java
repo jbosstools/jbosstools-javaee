@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -153,32 +154,8 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 			final int nameEnd = nameStart + tagName.length();
 
 			if (nameStart > offset || nameEnd <= offset) return null;
-
-			IRegion region = new IRegion () {
-
-				public int getLength() {
-					return nameEnd - nameStart;
-				}
-
-				public int getOffset() {
-					return nameStart;
-				}
-
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-
-				public String toString() {
-					return "IRegion [" + getOffset() +", " + getLength()+ "]";
-				}
-			};
 			
-			return region;
+			return new Region(nameStart,nameEnd - nameStart);
 		} finally {
 			smw.dispose();
 		}

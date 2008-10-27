@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
@@ -115,31 +116,7 @@ public class RenderKitHyperlink extends AbstractHyperlink {
 			
 			if (propStart > offset || propStart + propLength < offset) return null;
 			
-			IRegion region = new IRegion () {
-				public int getLength() {
-					return propLength;
-				}
-
-				public int getOffset() {
-					return propStart;
-				}
-				
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-				
-				public String toString() {
-					return "IRegion [" + getOffset() +", " + getLength()+ "]";
-				}
-				
-			};
-			
-			return region;
+			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
