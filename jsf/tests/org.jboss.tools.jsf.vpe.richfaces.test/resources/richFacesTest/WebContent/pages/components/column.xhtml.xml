@@ -12,7 +12,7 @@
 		</TD>
 	</test>
 	<test id="column3">
-		<TD CLASS="dr-table-cell rich-table-cell" ID="column3">
+		<TD CLASS="dr-table-cell rich-table-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell" ID="column3">
 			<SPAN> #{row.field1}</SPAN>
 		</TD>
 	</test>

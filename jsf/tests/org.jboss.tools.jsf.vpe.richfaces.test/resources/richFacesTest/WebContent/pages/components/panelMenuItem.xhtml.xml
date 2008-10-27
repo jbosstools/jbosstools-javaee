@@ -7,15 +7,15 @@
 				<TR CLASS="">
 					<TD STYLE="" CLASS="dr-pmenu-nowrap">
 						<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuItem/spacer.gif/"/>
+							SRC="/.*resources/panelMenuItem/spacer.gif/"/>
 							<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
-								SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuItem/points.gif/"
+								SRC="/.*resources/panelMenuItem/points.gif/"
 								CLASS="rich-pmenu-item-icon rich-pmenu-top-item-icon"/>
 					</TD>
 					<TD STYLE="width: 100%;" CLASS="rich-pmenu-item-label rich-pmenu-top-item-label"> Item 1 </TD>
 					<TD STYLE="" CLASS="dr-pmenu-nowrap">
 						<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/panelMenuItem/spacer.gif/"/>
+							SRC="/.*resources/panelMenuItem/spacer.gif/"/>
 					</TD>
 				</TR>
 			</TABLE>

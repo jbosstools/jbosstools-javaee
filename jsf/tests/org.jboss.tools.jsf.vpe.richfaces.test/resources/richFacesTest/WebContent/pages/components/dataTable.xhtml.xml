@@ -6,10 +6,10 @@
 			</COLGROUP>
 			<THEAD>
 				<TR CLASS="dr-table-header rich-table-header"
-					STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif\);/">
+					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 					<TD ROWSPAN="2" CLASS="dr-table-headercell rich-table-headercell">
 						<IMG WIDTH="1" HEIGHT="1"
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/spacer/spacer.gif/"/>
+							SRC="/.*resources/spacer/spacer.gif/"/>
 					</TD>
 					<TD COLSPAN="3" CLASS="dr-table-headercell rich-table-headercell">
 						<SPAN> FIELDS</SPAN>

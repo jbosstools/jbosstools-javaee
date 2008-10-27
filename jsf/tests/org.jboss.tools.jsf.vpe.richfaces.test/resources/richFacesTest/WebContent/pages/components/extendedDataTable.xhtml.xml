@@ -33,7 +33,7 @@
 												</TD>
 												<TD>
 													<IMG
-														SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/extendedDataTable/sortable.gif/"/>
+														SRC="/.*resources/extendedDataTable/sortable.gif/"/>
 												</TD>
 											</TR>
 										</TABLE>
@@ -47,7 +47,7 @@
 												</TD>
 												<TD>
 													<IMG
-														SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/extendedDataTable/sortable.gif/"/>
+														SRC="/.*resources/extendedDataTable/sortable.gif/"/>
 												</TD>
 											</TR>
 										</TABLE>

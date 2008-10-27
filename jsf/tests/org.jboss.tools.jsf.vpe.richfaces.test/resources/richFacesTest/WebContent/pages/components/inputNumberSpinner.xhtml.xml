@@ -11,14 +11,14 @@
 						<TR>
 							<TD>
 								<INPUT TYPE="image" BORDER="0"
-									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/inputNumberSpinner/up.gif/"
+									SRC="/.*resources/inputNumberSpinner/up.gif/"
 									CLASS="dr-spnr-bn"/>
 							</TD>
 						</TR>
 						<TR>
 							<TD>
 								<INPUT TYPE="image" BORDER="0"
-									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/inputNumberSpinner/down.gif/"
+									SRC="/.*resources/inputNumberSpinner/down.gif/"
 									CLASS="dr-spnr-bn"/>
 							</TD>
 						</TR>

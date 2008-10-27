@@ -2,7 +2,7 @@
 	<test id="panel">
 		<DIV CLASS="dr-pnl rich-panel">
 			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif\);/">
+				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<SPAN> Panel Header </SPAN>
 			</DIV>
 			<DIV CLASS="dr-pnl-b rich-panel-body">

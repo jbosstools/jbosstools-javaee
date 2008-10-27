@@ -7,15 +7,15 @@
 					<TBODY>
 						<TR>
 							<TD
-								STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
+								STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
 								<IMG CLASS="treePictureStyle"
-									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconClosedNodeWithLines.gif/"
+									SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
 									RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
 							</TD>
 							<TD
-								STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
+								STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
 								<IMG CLASS="treePictureStyle"
-									SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconNodeWithLines.gif/"
+									SRC="/.*resources/tree/iconNodeWithLines.gif/"
 									RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM"/>
 							</TD>
 							<TD CLASS="treeNodeNameStyle">
@@ -30,15 +30,15 @@
 						<TBODY>
 							<TR>
 								<TD
-									STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
+									STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
 									<IMG CLASS="treePictureStyle"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconClosedNodeWithLines.gif/"
+										SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
 										RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
 								</TD>
 								<TD
-									STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
+									STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
 									<IMG CLASS="treePictureStyle"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconNodeWithLines.gif/"
+										SRC="/.*resources/tree/iconNodeWithLines.gif/"
 										RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM"/>
 								</TD>
 								<TD CLASS="treeNodeNameStyle">
@@ -53,15 +53,15 @@
 							<TBODY>
 								<TR>
 									<TD
-										STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
+										STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
 										<IMG CLASS="treePictureStyle"
-											SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconClosedNodeWithLines.gif/"
+											SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
 											RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
 									</TD>
 									<TD
-										STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
+										STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
 										<IMG CLASS="treePictureStyle"
-											SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconNodeWithLines.gif/"
+											SRC="/.*resources/tree/iconNodeWithLines.gif/"
 											RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM"/>
 									</TD>
 									<TD CLASS="treeNodeNameStyle">
@@ -76,14 +76,14 @@
 								<TBODY>
 									<TR>
 										<TD
-											STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources//tree/rightLine.gif\); background-position: center; background-repeat: repeat-y;/">
+											STYLE="/background-image: url\(.*resources//tree/rightLine.gif\); background-position: center; background-repeat: repeat-y;/">
 											<IMG CLASS="treePictureStyle"
-												SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconNotCollapsedWithLines.gif/"
+												SRC="/.*resources/tree/iconNotCollapsedWithLines.gif/"
 												RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
 										</TD>
 										<TD>
 											<IMG CLASS="treePictureStyle"
-												SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/tree/iconLeafWithLines.gif/"
+												SRC="/.*resources/tree/iconLeafWithLines.gif/"
 												RICHFACESTREENODEPARAM="iconLeaf"/>
 										</TD>
 										<TD CLASS="treeNodeNameStyle">

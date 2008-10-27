@@ -1,7 +1,7 @@
 <tests>
 	<test id="paint2D">
 		<IMG WIDTH="300" HEIGHT="120"
-			SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/paint2D/paint2D.gif/"
+			SRC="/.*resources/paint2D/paint2D.gif/"
 			ID="paint2D" DATA="#{paintData}" FORMAT="png" PAINT="#{paintBean.paint}" />
 	</test>
 </tests>

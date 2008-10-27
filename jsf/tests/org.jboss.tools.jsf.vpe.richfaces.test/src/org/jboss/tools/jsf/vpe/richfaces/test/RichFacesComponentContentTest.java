@@ -228,7 +228,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testPanelBarItem() throws Throwable {
-		performContentTest("components/panelBarItem.xhtml");//$NON-NLS-1$
+		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
 	public void testPanelMenu() throws Throwable {
@@ -276,7 +276,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testTab() throws Throwable {
-		performContentTest("components/tab.xhtml");//$NON-NLS-1$
+		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
 	public void testTogglePanel() throws Throwable {
@@ -305,14 +305,6 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 
 	public void testTreeNode() throws Throwable {
 		performContentTest("components/treeNode.xhtml");//$NON-NLS-1$
-	}
-
-	public void testChangeExpandListener() throws Throwable {
-		performInvisibleTagTest("components/changeExpandListener.xhtml", "changeExpandListener"); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	public void testNodeSelectListener() throws Throwable {
-		performInvisibleTagTest("components/nodeSelectListener.xhtml", "nodeSelectListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testRecursiveTreeNodesAdaptor() throws Throwable {

@@ -9,11 +9,11 @@
 							<TR>
 								<TD>
 									<IMG WIDTH="2" HEIGHT="1" BORDER="0"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"/>
+										SRC="/.*resources/common/spacer.gif/"/>
 								</TD>
 								<TD>
 									<IMG HEIGHT="1" BORDER="0"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+										SRC="/.*resources/common/spacer.gif/"
 										STYLE="width: 1px;"/>
 								</TD>
 								<TD STYLE="height: 100%; vertical-align: bottom;" CLASS="rich-tabhdr-cell-active"
@@ -23,10 +23,10 @@
 										VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 										<TR VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 											<TD CLASS="rich-tabhdr-side-cell rich-tabhdr-side-border"
-												STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/tabPanel/border.gif\);/"
+												STYLE="/background-image: url\(.*resources/tabPanel/border.gif\);/"
 												VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 												<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-													SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+													SRC="/.*resources/common/spacer.gif/"
 													VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true"/>
 											</TD>
 											<TD VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
@@ -43,10 +43,10 @@
 												</TABLE>
 											</TD>
 											<TD CLASS="rich-tabhdr-side-cell rich-tabhdr-side-border"
-												STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/tabPanel/border.gif\);/"
+												STYLE="/background-image: url\(.*resources/tabPanel/border.gif\);/"
 												VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 												<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-													SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+													SRC="/.*resources/common/spacer.gif/"
 													VPE-USER-TOGGLE-ID="0" VPE-USER-TOGGLE-LOOKUP-PARENT="true"/>
 											</TD>
 										</TR>
@@ -54,7 +54,7 @@
 								</TD>
 								<TD>
 									<IMG HEIGHT="1" BORDER="0"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+										SRC="/.*resources/common/spacer.gif/"
 										STYLE="width: 1px;"/>
 								</TD>
 								<TD STYLE="height: 100%; vertical-align: bottom;" CLASS="rich-tabhdr-cell-disabled rich-tab-disabled"
@@ -64,10 +64,10 @@
 										VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 										<TR VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 											<TD CLASS="rich-tabhdr-side-cell rich-tabhdr-side-border"
-												STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/tabPanel/border.gif\);/"
+												STYLE="/background-image: url\(.*resources/tabPanel/border.gif\);/"
 												VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 												<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-													SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+													SRC="/.*resources/common/spacer.gif/"
 													VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true"/>
 											</TD>
 											<TD VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
@@ -84,10 +84,10 @@
 												</TABLE>
 											</TD>
 											<TD CLASS="rich-tabhdr-side-cell rich-tabhdr-side-border"
-												STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/tabPanel/border.gif\);/"
+												STYLE="/background-image: url\(.*resources/tabPanel/border.gif\);/"
 												VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 												<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-													SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+													SRC="/.*resources/common/spacer.gif/"
 													VPE-USER-TOGGLE-ID="1" VPE-USER-TOGGLE-LOOKUP-PARENT="true"/>
 											</TD>
 										</TR>
@@ -95,7 +95,7 @@
 								</TD>
 								<TD>
 									<IMG HEIGHT="1" BORDER="0"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+										SRC="/.*resources/common/spacer.gif/"
 										STYLE="width: 1px;"/>
 								</TD>
 								<TD STYLE="height: 100%; vertical-align: bottom;" CLASS="rich-tabhdr-cell-inactive"
@@ -105,10 +105,10 @@
 										VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 										<TR VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 											<TD CLASS="rich-tabhdr-side-cell rich-tabhdr-side-border"
-												STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/tabPanel/border.gif\);/"
+												STYLE="/background-image: url\(.*resources/tabPanel/border.gif\);/"
 												VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 												<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-													SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+													SRC="/.*resources/common/spacer.gif/"
 													VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true"/>
 											</TD>
 											<TD VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
@@ -125,10 +125,10 @@
 												</TABLE>
 											</TD>
 											<TD CLASS="rich-tabhdr-side-cell rich-tabhdr-side-border"
-												STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/tabPanel/border.gif\);/"
+												STYLE="/background-image: url\(.*resources/tabPanel/border.gif\);/"
 												VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true">
 												<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-													SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+													SRC="/.*resources/common/spacer.gif/"
 													VPE-USER-TOGGLE-ID="2" VPE-USER-TOGGLE-LOOKUP-PARENT="true"/>
 											</TD>
 										</TR>
@@ -136,12 +136,12 @@
 								</TD>
 								<TD>
 									<IMG HEIGHT="1" BORDER="0"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"
+										SRC="/.*resources/common/spacer.gif/"
 										STYLE="width: 1px;"/>
 								</TD>
 								<TD>
 									<IMG WIDTH="1" HEIGHT="1" BORDER="0"
-										SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/common/spacer.gif/"/>
+										SRC="/.*resources/common/spacer.gif/"/>
 								</TD>
 							</TR>
 						</TABLE>

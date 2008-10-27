@@ -1,7 +1,7 @@
 <tests>
 	<test id="toolBar">
 		<TABLE WIDTH="100%" CLASS="dr-toolbar-ext rich-toolbar"
-			STYLE="/background-image: url\(.*org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif\);/">
+			STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 			<TBODY>
 				<TR VALIGN="middle">
 					<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="padding: 0px;">
@@ -18,7 +18,7 @@
 					</TD>
 					<TD ALIGN="center">
 						<IMG
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/toolBar/separatorLine.gif/"/>
+							SRC="/.*resources/toolBar/separatorLine.gif/"/>
 					</TD>
 					<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="padding: 0px;">
 						<TABLE
@@ -34,7 +34,7 @@
 					</TD>
 					<TD ALIGN="center">
 						<IMG
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/toolBar/separatorLine.gif/"/>
+							SRC="/.*resources/toolBar/separatorLine.gif/"/>
 					</TD>
 					<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="padding: 0px;">
 						<TABLE
@@ -50,14 +50,14 @@
 					</TD>
 					<TD ALIGN="center">
 						<IMG
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/toolBar/separatorLine.gif/"/>
+							SRC="/.*resources/toolBar/separatorLine.gif/"/>
 					</TD>
 					<TD WIDTH="100%">
 						<BR _MOZ_DIRTY="" TYPE="_moz"/>
 					</TD>
 					<TD ALIGN="center">
 						<IMG
-							SRC="/.*org.jboss.tools.jsf.vpe.richfaces/resources/toolBar/separatorLine.gif/"/>
+							SRC="/.*resources/toolBar/separatorLine.gif/"/>
 					</TD>
 					<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="padding: 0px;">
 						<TABLE
