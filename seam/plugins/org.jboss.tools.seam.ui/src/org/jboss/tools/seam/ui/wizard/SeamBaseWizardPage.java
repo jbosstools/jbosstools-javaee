@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -92,11 +93,11 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		setControl(new GridLayoutComposite(parent));
 
 		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
-			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+			Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 
 			if(errors.size()>0) {
-				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);
 			} else if(isWar()) {
 				getEditor(IParameter.SEAM_BEAN_NAME).setEnabled(false);	
@@ -221,11 +222,11 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(IParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
 		label.getLabelControl().setText(isWar?SeamUIMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME: SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_CLASS_NAME);
 
-		Map errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+		Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_COMPONENT_NAME).getValue(), null);
 
 		if(errors.size()>0) {
-			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).toString(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
 			setPageComplete(false);
 			return;
 		}
@@ -234,7 +235,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				editorRegistry.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), null);
 
 		if(errors.size()>0) {
-			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).toString(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_INTERFACE));
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_INTERFACE));
 			setPageComplete(false);
 			return;
 		}
@@ -244,7 +245,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 					editorRegistry.get(IParameter.SEAM_BEAN_NAME).getValue(), null);
 
 			if(errors.size()>0) {
-				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).toString(),"Bean")); //$NON-NLS-1$
+				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),"Bean")); //$NON-NLS-1$
 				setPageComplete(false);
 				return;
 			}
@@ -254,7 +255,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		if(editor!=null) {
 			errors = ValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(editor.getValue(), null);
 			if(errors.size()>0) {
-				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString()); //$NON-NLS-1$
+				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage()); //$NON-NLS-1$
 				setPageComplete(false);
 				return;
 			}
@@ -264,7 +265,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				editorRegistry.get(IParameter.SEAM_METHOD_NAME).getValue(), new Object[]{"Method",project}); //$NON-NLS-1$
 
 		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return;
 		}
@@ -273,7 +274,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), new Object[]{"Page",project}); //$NON-NLS-1$
 
 		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return;
 		}
@@ -283,7 +284,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 
 		if(errors.size()>0) {
 			setErrorMessage(null);
-			setMessage(errors.get(IValidator.DEFAULT_ERROR).toString(),IMessageProvider.WARNING);
+			setMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage(),IMessageProvider.WARNING);
 			setPageComplete(true);
 			return;
 		}
@@ -308,11 +309,11 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * @param project
 	 */
 	protected boolean isValidRuntimeConfigured(IProject project) {
-		Map errors;
+		Map<String, IStatus> errors;
 		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
 		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
 		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return false;
 		}
@@ -320,15 +321,16 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	}
 
 	protected boolean isValidProjectSelected() {
-		Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+		Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 
 		if(errors.size()>0 || !isProjectSettingsOk()) {
-			Object errorMessage = errors.get(IValidator.DEFAULT_ERROR);
-			if(errorMessage==null) {
-				errorMessage = SeamUIMessages.VALIDATOR_INVALID_SETTINGS;
+			IStatus errorStatus = errors.get(IValidator.DEFAULT_ERROR);
+			String errorMessage = SeamUIMessages.VALIDATOR_INVALID_SETTINGS;
+			if(errorStatus!=null) {
+				errorMessage = errorStatus.getMessage();
 			}
-			setErrorMessage(errorMessage.toString());
+			setErrorMessage(errorMessage);
 			setPageComplete(false);
 			IFieldEditor beanEditor = getEditor(IParameter.SEAM_BEAN_NAME);
 			if(beanEditor!=null) {

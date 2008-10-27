@@ -62,6 +62,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
@@ -511,6 +512,19 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_DOES_NOT_EXIST, new String[]{value}));
 				setValid(false);
 				return;
+			}
+			Map<String, IStatus> errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(value, null);
+			if(errors.size()>0) {
+				IStatus status = errors.get(IValidator.DEFAULT_ERROR);
+				if(IStatus.ERROR == status.getSeverity()) {
+					setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
+					setValid(false);
+					return;
+				} else {
+					setMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
+					warning = true;
+					setValid(true);
+				}
 			}
 		}
 

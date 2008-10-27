@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -57,7 +58,7 @@ public abstract class SeamWizardCustomizationPage extends SeamBaseWizardPage imp
 		setControl(new GridLayoutComposite(parent));
 
 		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
-			Map errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+			Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
 					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
 		}
 

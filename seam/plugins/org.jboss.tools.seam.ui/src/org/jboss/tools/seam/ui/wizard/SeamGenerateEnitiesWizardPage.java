@@ -195,11 +195,11 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	 * @param project
 	 */
 	protected boolean isValidRuntimeConfigured(IProject project) {
-		Map errors;
+		Map<String, IStatus> errors;
 		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
 		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
 		if(errors.size()>0) {
-			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).toString());
+			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return false;
 		}
@@ -213,14 +213,15 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 			IStatus errorMessage = errors.get(IValidator.DEFAULT_ERROR);
 			if(errorMessage==null) {
 				setErrorMessage(SeamUIMessages.VALIDATOR_INVALID_SETTINGS);
-			}
-			if(errorMessage.getSeverity()==IStatus.ERROR) {
-				setErrorMessage(errorMessage.getMessage());
 				setPageComplete(false);
 			} else {
-				setMessage(errorMessage.getMessage());
+				if(errorMessage.getSeverity()==IStatus.ERROR) {
+					setErrorMessage(errorMessage.getMessage());
+					setPageComplete(false);
+				} else {
+					setMessage(errorMessage.getMessage());
+				}
 			}
-
 			return;
 		}
 		String config = (String)configEditor.getValue();

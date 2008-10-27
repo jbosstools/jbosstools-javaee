@@ -26,6 +26,7 @@ import java.util.zip.ZipFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -636,12 +637,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				}
 			}
 
-			Map errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR
+			Map<String, IStatus> errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR
 					.validate(homeDir.getValueAsString(), seamVersion);
 			if (errors != ValidatorFactory.NO_ERRORS) {
 				setErrorMessage(errors.get(
 						ISeamFacetDataModelProperties.JBOSS_SEAM_HOME)
-						.toString());
+						.getMessage());
 				setPageComplete(false);
 				return;
 			}
