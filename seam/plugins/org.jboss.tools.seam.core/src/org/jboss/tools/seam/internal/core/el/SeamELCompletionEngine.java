@@ -132,30 +132,39 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		Var var = varSearcher.findVarForEl(oldEl, vars, true);
 		String suffix = "";
 		String newEl = oldEl;
+		TypeInfoCollector.MemberInfo member = null;
+		boolean isArray = false;
 		if(var!=null) {
-			TypeInfoCollector.MemberInfo member = resolveSeamEL(file, var.getElToken());
-			if(member!=null && !member.getType().isArray()) {
-				IType type = member.getMemberType();
-				if(type!=null) {
-					try {
-						if(TypeInfoCollector.isInstanceofType(type, "java.util.Map")) {
-							suffix = collectionAdditionForMapDataModel;
-						} else {
-							suffix = collectionAdditionForCollectionDataModel;
+			member = resolveSeamEL(file, var.getElToken());
+			if(member!=null) {
+				if(!member.getType().isArray()) {
+					IType type = member.getMemberType();
+					if(type!=null) {
+						try {
+							if(TypeInfoCollector.isInstanceofType(type, "java.util.Map")) {
+								suffix = collectionAdditionForMapDataModel;
+							} else {
+								suffix = collectionAdditionForCollectionDataModel;
+							}
+						} catch (JavaModelException e) {
+							SeamCorePlugin.getPluginLog().logError(e);
 						}
-					} catch (JavaModelException e) {
-						SeamCorePlugin.getPluginLog().logError(e);
 					}
+				} else {
+					isArray = true;
 				}
 			}
 			if(var.getElToken() != null) {
 				newEl = var.getElToken().getText() + suffix + oldEl.substring(var.getName().length());
 			}
 		}
-		boolean prefixWasChanged = newEl != oldEl;
+		boolean prefixWasChanged = !oldEl.equals(newEl);
+		if(prefixWasChanged && isArray) {
+			member.setDataModel(true);
+		}
 		ELExpression newOperand = (prefixWasChanged) ? parseOperand(newEl) : operand;
 
-		SeamELOperandResolveStatus status = resolveELOperand(file, newOperand, returnEqualedVariablesOnly);
+		SeamELOperandResolveStatus status = resolveELOperand(file, newOperand, returnEqualedVariablesOnly, prefixWasChanged);
 
 		if(prefixWasChanged) {
 			ELInvocationExpression newLastResolvedToken = status.getLastResolvedToken();
@@ -211,7 +220,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 */
 	public TypeInfoCollector.MemberInfo resolveSeamEL(IFile file, ELExpression operand) throws BadLocationException, StringIndexOutOfBoundsException {
 		if(!(operand instanceof ELInvocationExpression)) return null;
-		ELOperandResolveStatus status = resolveELOperand(file, operand, true);
+		ELOperandResolveStatus status = resolveELOperand(file, operand, true, false);
 		return status.getMemberOfResolvedOperand();
 	}
 
@@ -272,7 +281,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	}
 
 	public SeamELOperandResolveStatus resolveELOperand(IFile file, ELExpression operand,  
-			boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
+			boolean returnEqualedVariablesOnly, boolean varIsUsed) throws BadLocationException, StringIndexOutOfBoundsException {
 		if(!(operand instanceof ELInvocationExpression)) {
 			return new SeamELOperandResolveStatus(null);
 		}
@@ -357,9 +366,9 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		if(left != null) while(left != expr) {
 			left = (ELInvocationExpression)left.getParent();
 			if (left != expr) { // inside expression
-				members = resolveSegment(left, members, status, returnEqualedVariablesOnly);
+				members = resolveSegment(left, members, status, returnEqualedVariablesOnly, varIsUsed);
 			} else { // Last segment
-				resolveLastSegment((ELInvocationExpression)operand, members, status, returnEqualedVariablesOnly);
+				resolveLastSegment((ELInvocationExpression)operand, members, status, returnEqualedVariablesOnly, varIsUsed);
 				break;
 			}
 		}
@@ -373,7 +382,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	private List<TypeInfoCollector.MemberInfo> resolveSegment(ELInvocationExpression expr, 
 			List<TypeInfoCollector.MemberInfo> members,
 			ELOperandResolveStatus status,
-			boolean returnEqualedVariablesOnly) {
+			boolean returnEqualedVariablesOnly, boolean varIsUsed) {
 		LexicalToken lt = (expr instanceof ELPropertyInvocation) 
 			? ((ELPropertyInvocation)expr).getName()
 					: (expr instanceof ELMethodInvocation) 
@@ -385,7 +394,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
 			for (TypeInfoCollector.MemberInfo mbr : members) {
 				if (mbr.getMemberType() == null) continue;
-				TypeInfoCollector infos = mbr.getTypeCollector();
+				TypeInfoCollector infos = mbr.getTypeCollector(varIsUsed);
 				if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 					status.setMapOrCollectionOrBundleAmoungTheTokens();
 				}
@@ -434,7 +443,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	private void resolveLastSegment(ELInvocationExpression expr, 
 			List<TypeInfoCollector.MemberInfo> members,
 			ELOperandResolveStatus status,
-			boolean returnEqualedVariablesOnly) {
+			boolean returnEqualedVariablesOnly, boolean varIsUsed) {
 		Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		if (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION && ((ELPropertyInvocation)expr).getName() == null) {
 			// return all the methods + properties
@@ -459,7 +468,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				if (mbr.getMemberType() == null) {
 					continue;
 				}
-				TypeInfoCollector infos = mbr.getTypeCollector();
+				TypeInfoCollector infos = mbr.getTypeCollector(varIsUsed);
 				if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 					status.setMapOrCollectionOrBundleAmoungTheTokens();
 				}

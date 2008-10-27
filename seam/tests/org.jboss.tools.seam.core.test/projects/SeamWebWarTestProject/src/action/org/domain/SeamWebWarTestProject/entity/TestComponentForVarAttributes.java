@@ -30,6 +30,20 @@ public class TestComponentForVarAttributes {
 	    return null;
 	}
 
+    @Factory("tipos")
+    public Value[] initTipos() {
+    	return null;
+    }
+
+    public Value[] getArray() {
+    	return null;
+    }
+
+    @Factory("tiposs")
+    public List<Value> initTiposNew() {
+    	return null;
+    }
+
 	public static class Value {
 		public String getName() {
 			return null;
