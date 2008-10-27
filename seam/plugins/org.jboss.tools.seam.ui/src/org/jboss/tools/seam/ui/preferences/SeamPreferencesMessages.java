@@ -140,6 +140,7 @@ public class SeamPreferencesMessages extends NLS {
 
 	//Seam Expression language
 	public static String SeamValidatorConfigurationBlock_section_el;
+	public static String SeamValidatorConfigurationBlock_pb_elSyntaxError_label;
 	public static String SeamValidatorConfigurationBlock_pb_unknownElVariableName_label;
 	public static String SeamValidatorConfigurationBlock_pb_checkVars_label;
 	public static String SeamValidatorConfigurationBlock_pb_unknownElVariablePropertyName_label;

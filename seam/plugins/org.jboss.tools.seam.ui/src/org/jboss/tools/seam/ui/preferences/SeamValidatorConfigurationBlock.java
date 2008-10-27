@@ -122,9 +122,10 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static SectionDescription SECTION_EL = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_el,
 		new String[][]{
+			{SeamPreferences.EL_SYNTAX_ERROR, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_elSyntaxError_label},
 			{SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownElVariableName_label},
 			{SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownElVariablePropertyName_label},
-			{SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unpairedGetterOrSetter_label}
+			{SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unpairedGetterOrSetter_label},
 		}
 	);
 
