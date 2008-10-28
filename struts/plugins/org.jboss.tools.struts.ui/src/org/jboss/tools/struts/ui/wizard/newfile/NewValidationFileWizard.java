@@ -10,7 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.wizard.newfile;
 
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ui.wizard.newfile.*;
+import org.jboss.tools.struts.validators.model.handlers.CreateValidationFileSupport;
 
 public class NewValidationFileWizard extends NewFileWizardEx {
 
@@ -21,6 +23,9 @@ public class NewValidationFileWizard extends NewFileWizardEx {
 	class NewValidationFileContext extends NewFileContextEx {
 		protected String getActionPath() {
 			return "CreateActions.CreateFiles.Struts.CreateValidator";
+		}
+		protected SpecialWizardSupport createSupport() {
+			return new CreateValidationFileSupport();
 		}
 	}
 
