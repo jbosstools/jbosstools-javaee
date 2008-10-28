@@ -2,7 +2,7 @@
 <!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
                                    "meta.dtd">
 <XModelEntityGroup>
- <VERSION DEPENDS="Model:1.0" MODULE="Struts Editor" VERSION="1.1"/>
+ <VERSION DEPENDS="Model:1.0" MODULE="Struts" VERSION="1.1"/>
  <MAPPINGS>
   <MAPPING name="FileVersions">
    <PAIR name="Validation1.1.3" value="FileValidationRules11"/>

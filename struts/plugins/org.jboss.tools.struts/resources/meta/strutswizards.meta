@@ -2,7 +2,7 @@
 <!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
                                    "meta.dtd">
 <XModelEntityGroup>
- <VERSION MODULE="Struts Editor" VERSION="1.0"/>
+ <VERSION MODULE="Struts" VERSION="1.0"/>
  <MAPPINGS>
   <MAPPING name="AttributeEditor">
    <PAIR name="StrutsPathEditor" value="org.jboss.tools.common.model.ui.attribute.editor.StringEditor"/>
