@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -33,6 +34,8 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
+	private static final String COLUMN = ':' + RichFaces.TAG_COLUMN;
+	private static final String COLUMNS = ':' + RichFaces.TAG_COLUMNS;
 	final static String DEFAULT_HEIGHT = "500px";
 	final static String DEFAULT_WIDTH = "700px";
 	final static String HEADER = "header";
@@ -235,7 +238,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement tr = null;
 			VpeChildrenInfo trInfo = null;
 			for (Node child : children) {
-				if (child.getNodeName().endsWith(":column")) {
+				if (child.getNodeName().endsWith(COLUMN) || child.getNodeName().endsWith(COLUMNS)) {
 					String breakBefore = ((Element) child)
 							.getAttribute("breakBefore");
 					if (breakBefore != null
@@ -429,8 +432,9 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		NodeList children = parentSourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
+			String nodeName = child.getNodeName();
 			if ((child instanceof Element)
-					&& child.getNodeName().endsWith(":column")) {
+					&& (nodeName.endsWith(COLUMN) || nodeName.endsWith(COLUMNS))) {
 				columns.add((Element) child);
 			}
 		}
@@ -514,7 +518,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		int currentLength = 0;
 		for (Element column : columns) {
 			if (ComponentUtil.isRendered(column)) {
-				if (column.getNodeName().endsWith(":columnGroup")) {
+				String nodeName = column.getNodeName();
+				if (nodeName.endsWith(":columnGroup")) {
 					// Store max calculated value of previsous rows.
 					if (currentLength > count) {
 						count = currentLength;
@@ -527,8 +532,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						count = currentLength;
 					}
 					currentLength = 0;
-				} else if (column.getNodeName().equals(
-						sourceElement.getPrefix() + ":column")) {
+				} else if (nodeName.equals(sourceElement.getPrefix() + COLUMN) ||
+						nodeName.equals(sourceElement.getPrefix() + COLUMNS)) {
 					String breakBeforeStr = column.getAttribute("breakBefore");
 					// For new row, save length of previsous.
 					if (Boolean.getBoolean(breakBeforeStr)) {
@@ -545,7 +550,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					} catch (NumberFormatException e) {
 						currentLength++;
 					}
-				} else if (column.getNodeName().endsWith(":column")) {
+				} else if (nodeName.endsWith(COLUMN)) {
 					// UIColumn always have colspan == 1.
 					currentLength++;
 				}

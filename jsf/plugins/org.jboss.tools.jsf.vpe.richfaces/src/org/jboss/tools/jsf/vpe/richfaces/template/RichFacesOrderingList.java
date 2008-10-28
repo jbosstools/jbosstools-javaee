@@ -9,6 +9,7 @@ import java.util.List;
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -26,6 +27,8 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesOrderingList extends VpeAbstractTemplate {
 
+	private static final String COLUMN = ':' + RichFaces.TAG_COLUMN;
+	private static final String COLUMNS = ':' + RichFaces.TAG_COLUMNS;
 	private static final String DEFAULT_LIST_HEIGHT = "150px";
 	private static final String DEFAULT_LIST_WIDTH = "300px";
 
@@ -551,15 +554,16 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			creationData.addChildrenInfo(trInfo);
 
 			for (Node child : children) {
-				if (child.getNodeName().endsWith(":column")) {
+				String nodeName = child.getNodeName();
+				if (nodeName.endsWith(COLUMN) || nodeName.endsWith(COLUMNS)) {
 					trInfo.addSourceChild(child);
-				} else if (child.getNodeName().endsWith(":columnGroup")) {
+				} else if (nodeName.endsWith(":columnGroup")) {
 					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 							creationData, (Element) child, visualDocument,
 							tbody);
 					tr = null;
 					trInfo = null;
-				} else if (child.getNodeName().endsWith(":subTable")) {
+				} else if (nodeName.endsWith(":subTable")) {
 					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, 
 							creationData, (Element) child, visualDocument,
 							tbody);
@@ -779,8 +783,9 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		NodeList children = parentSourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
+			String nodeName = child.getNodeName();
 			if ((child instanceof Element)
-					&& child.getNodeName().endsWith(":column")) {
+					&& (nodeName.endsWith(COLUMN) || nodeName.endsWith(COLUMNS))) {
 				columns.add((Element) child);
 			}
 		}
@@ -864,7 +869,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		int currentLength = 0;
 		for (Element column : columns) {
 			if (ComponentUtil.isRendered(column)) {
-				if (column.getNodeName().endsWith(":columnGroup")) {
+				String nodeName = column.getNodeName();
+				if (nodeName.endsWith(":columnGroup")) {
 					// Store max calculated value of previous rows.
 					count = Math.max(currentLength, count);
 					// Calculate number of columns in row.
@@ -876,8 +882,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 					String colspanStr = column
 							.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
 
-				} else if (column.getNodeName().equals(
-						sourceElement.getPrefix() + ":column")) {
+				} else if (nodeName.equals(sourceElement.getPrefix() + COLUMN) ||
+						nodeName.equals(sourceElement.getPrefix() + COLUMNS)) {
 					String breakBeforeStr = column.getAttribute("breakBefore");
 					boolean breakBefore = Boolean.getBoolean(breakBeforeStr);
 					
@@ -894,7 +900,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 					} catch (NumberFormatException e) {
 						currentLength++;
 					}
-				} else if (column.getNodeName().endsWith(":column")) {
+				} else if (nodeName.endsWith(COLUMN)) {
 					// UIColumn always have colspan == 1.
 					currentLength++;
 				}

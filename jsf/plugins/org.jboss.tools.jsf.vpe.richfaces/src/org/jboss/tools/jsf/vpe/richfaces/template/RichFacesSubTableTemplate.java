@@ -104,7 +104,9 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		VpeChildrenInfo trChildrenInfo = new VpeChildrenInfo(curTr);
 		final List<Node> children = ComponentUtil.getChildren(sourceElement);
 		for (final Node child : children) {
-			if (child.getNodeName().endsWith(':' + RichFaces.TAG_COLUMN)) {
+			String nodeName = child.getNodeName();
+			if (nodeName.endsWith(':' + RichFaces.TAG_COLUMN) ||
+					nodeName.endsWith(':' + RichFaces.TAG_COLUMNS)) {
 				final boolean breakBefore = RichFaces.VAL_TRUE.equals( ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE) );
 				if (breakBefore) {
 					curRow++;

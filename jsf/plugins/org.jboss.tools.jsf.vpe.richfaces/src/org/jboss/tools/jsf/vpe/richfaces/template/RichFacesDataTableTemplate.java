@@ -128,7 +128,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement tr = null;
 		VpeChildrenInfo trInfo = null;
 		for (Node child : children) {
-			if(child.getNodeName().endsWith(RichFaces.TAG_COLUMN)) {
+			String nodeName = child.getNodeName();
+			if(nodeName.endsWith(RichFaces.TAG_COLUMN) || 
+					nodeName.endsWith(RichFaces.TAG_COLUMNS)) {
 				String breakBefore = ((Element)child).getAttribute(ATTR_BREAK_BEFORE);
 				if(breakBefore!=null && breakBefore.equalsIgnoreCase(Constants.TRUE)) {
 					tr = null;
@@ -147,10 +149,10 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				}
 					trInfo.addSourceChild(child);
 
-			} else if(child.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
+			} else if(nodeName.endsWith(RichFaces.TAG_COLUMN_GROUP)) {
 				RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)child, visualDocument, tbody);
 				tr = null;
-			} else if(child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
+			} else if(nodeName.endsWith(RichFaces.TAG_SUB_TABLE)) {
 				RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)child, visualDocument, tbody);
 				tr = null;
 			} else {
@@ -265,7 +267,11 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		NodeList children = parentSourceElement.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
 			Node child = children.item(i);
-			if((child instanceof Element) && child.getNodeName().endsWith(RichFaces.TAG_COLUMN)) {
+			String nodeName = child.getNodeName();
+			if((child instanceof Element) && (
+					nodeName.endsWith(RichFaces.TAG_COLUMN) ||
+					nodeName.endsWith(RichFaces.TAG_COLUMNS)
+					)) {
 				columns.add((Element)child);
 			}
 		}
@@ -324,7 +330,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		int currentLength = 0;
 		for (Element column : columns) {
 			if (ComponentUtil.isRendered(column)) {
-				if (column.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
+				String nodeName = column.getNodeName();
+				if (nodeName.endsWith(RichFaces.TAG_COLUMN_GROUP)) {
 					// Store max calculated value of previous rows.
 					count = Math.max(currentLength,count);
 					// Calculate number of columns in row.
@@ -332,7 +339,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 					// Store max calculated value
 					count = Math.max(currentLength,count);
 					currentLength = 0;
-				} else if (column.getNodeName().equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMN)) {
+				} else if (nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMN) ||
+						nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMNS)) {
 					// For new row, save length of previous.
 					if (Boolean.getBoolean(column.getAttribute(ATTR_BREAK_BEFORE))) {
 						count = Math.max(currentLength,count);
@@ -345,7 +353,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 					} catch (NumberFormatException e) {
 						currentLength++;
 					}
-				} else if (column.getNodeName().endsWith(RichFaces.TAG_COLUMN)) {
+				} else if (nodeName.endsWith(RichFaces.TAG_COLUMN)) {
 					// UIColumn always have colspan == 1.
 					currentLength++;
 				}

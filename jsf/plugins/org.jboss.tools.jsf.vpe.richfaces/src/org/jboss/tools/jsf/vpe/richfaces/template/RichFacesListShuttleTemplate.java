@@ -563,7 +563,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// add children to "tr" element
 		int columnCount = 0;
 		for (Node child : children) {
-			if (RichFaces.TAG_COLUMN.equals(child.getLocalName())) {
+			String localName = child.getLocalName();
+			if (RichFaces.TAG_COLUMN.equals(localName) || 
+					RichFaces.TAG_COLUMNS.equals(localName)) {
 
 				nsIDOMElement column = visualDocument
 						.createElement(HTML.TAG_TD);
@@ -906,7 +908,9 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		header.setAttribute(HTML.ATTR_CLASS, styleClasses.get(header));
 
 		for (Node child : children) {
-			if ("column".equals(child.getLocalName())) { //$NON-NLS-1$
+			String localName = child.getLocalName();
+			if (RichFaces.TAG_COLUMN.equals(localName) ||
+					RichFaces.TAG_COLUMNS.equals(localName)) {
 
 				nsIDOMElement headerCell = visualDocument
 						.createElement(HTML.TAG_TH);

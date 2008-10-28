@@ -39,7 +39,6 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
     private static final String DIV_STYLE = "padding : 4px"; //$NON-NLS-1$
     private static final String EXTENDED_TABLE_INPUT = "extendedTable-input"; //$NON-NLS-1$
     private static final String INPUT_TYPE_ATTR = "text"; //$NON-NLS-1$
-    private static final String COLUMNS = "columns"; //$NON-NLS-1$
     private static final String FALSE = "false"; //$NON-NLS-1$
     private static final String SCOP = "scop"; //$NON-NLS-1$
     private static final String COL = "col"; //$NON-NLS-1$
@@ -68,7 +67,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
     private static final String SEMICOLON = ";"; //$NON-NLS-1$
     private static final String COLON = " : "; //$NON-NLS-1$
     private static final String DR_TABLE_HIDDEN = "dr-table-hidden"; //$NON-NLS-1$
-    private static final String COLUMN = ":column"; //$NON-NLS-1$
+    private static final String COLUMN = ':' + RichFaces.TAG_COLUMN;
+    private static final String COLUMNS = ':' + RichFaces.TAG_COLUMNS;
     final static String DEFAULT_HEIGHT = "500px"; //$NON-NLS-1$
     final static String DEFAULT_WIDTH = "100%"; //$NON-NLS-1$
     final static String HEADER = "header"; //$NON-NLS-1$
@@ -245,7 +245,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement tr = null;
 	    VpeChildrenInfo trInfo = null;
 	    for (Node child : children) {
-		if (child.getNodeName().endsWith(COLUMN)) {
+	    String nodeName = child.getNodeName();
+		if (nodeName.endsWith(COLUMN) || nodeName.endsWith(COLUMNS)) {
 		    String breakBefore = ((Element) child)
 			    .getAttribute(BREAK_BEFORE);
 		    if (breakBefore != null
@@ -525,8 +526,9 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	NodeList children = parentSourceElement.getChildNodes();
 	for (int i = 0; i < children.getLength(); i++) {
 	    Node child = children.item(i);
+	    String nodeName = child.getNodeName();
 	    if ((child instanceof Element)
-		    && child.getNodeName().endsWith(COLUMN)) {
+		    && (nodeName.endsWith(COLUMN) || nodeName.endsWith(COLUMNS)) ) {
 		columns.add((Element) child);
 	    }
 	}
@@ -592,7 +594,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	int count = 0;
 	// check for exact value in component
 	try {
-	    int span = Integer.parseInt(sourceElement.getAttribute(COLUMNS));
+	    int span = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_COLUMNS));
 	    count = count > 0 ? span : calculateRowColumns(sourceElement,
 		    columns);
 	} catch (NumberFormatException e) {
@@ -611,7 +613,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	int currentLength = 0;
 	for (Element column : columns) {
 	    if (ComponentUtil.isRendered(column)) {
-		if (column.getNodeName().endsWith(COLUMN_GROUP)) {
+		String nodeName = column.getNodeName();
+		if (nodeName.endsWith(COLUMN_GROUP)) {
 		    // Store max calculated value of previsous rows.
 		    if (currentLength > count) {
 			count = currentLength;
@@ -624,8 +627,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			count = currentLength;
 		    }
 		    currentLength = 0;
-		} else if (column.getNodeName().equals(
-			sourceElement.getPrefix() + COLUMN)) {
+		} else if (nodeName.equals(sourceElement.getPrefix() + COLUMN) ||
+				nodeName.equals(sourceElement.getPrefix() + COLUMNS)) {
 		    String breakBeforeStr = column.getAttribute(BREAK_BEFORE);
 		    // For new row, save length of previsous.
 		    if (Boolean.getBoolean(breakBeforeStr)) {
@@ -641,7 +644,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		    } catch (NumberFormatException e) {
 			currentLength++;
 		    }
-		} else if (column.getNodeName().endsWith(COLUMN)) {
+		} else if (nodeName.endsWith(COLUMN)) {
 		    // UIColumn always have colspan == 1.
 		    currentLength++;
 		}
