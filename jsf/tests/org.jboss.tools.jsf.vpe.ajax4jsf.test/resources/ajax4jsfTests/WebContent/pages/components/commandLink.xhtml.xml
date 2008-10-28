@@ -1,0 +1,12 @@
+<tests>
+	<test id="commandLink1">
+		<A DIR="" STYLE="-moz-user-modify: read-write;">
+			<SPAN>Say Hello</SPAN>
+		</A>
+	</test>
+	<test id="commandLink2">
+		<A DIR="" STYLE="-moz-user-modify: read-write;">
+			<SPAN>Link</SPAN>
+		</A>
+	</test>
+</tests>

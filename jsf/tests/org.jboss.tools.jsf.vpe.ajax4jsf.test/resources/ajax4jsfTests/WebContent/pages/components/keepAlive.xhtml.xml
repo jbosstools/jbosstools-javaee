@@ -1,0 +1,5 @@
+<tests>
+	<test id="keepAlive">
+		<NOBR STYLE="-moz-user-modify: read-only;"> testBean</NOBR>
+	</test>
+</tests>

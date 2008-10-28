@@ -1,0 +1,7 @@
+<plugin>
+   <extension
+         point="org.jboss.tools.vpe.ui.tests">
+            <tests testSuite="org.jboss.tools.jsf.vpe.ajax4jsf.test.Ajax4JsfAllTests" name="Tests For Ajax For JSF Components"/>
+   </extension>
+
+</plugin>

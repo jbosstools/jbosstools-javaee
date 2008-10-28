@@ -1,0 +1,6 @@
+<tests>
+	<test id="commandButton">
+		<INPUT TYPE="button" VALUE="commandButton" STYLE="-moz-user-modify: read-only;"
+			READONLY="" />
+	</test>
+</tests>
