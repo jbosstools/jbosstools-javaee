@@ -74,7 +74,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/columns.xhtml");//$NON-NLS-1$
 	}
 
-	public void testColumnGroup() throws Throwable {
+	public void _testColumnGroup() throws Throwable {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
@@ -103,7 +103,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 
 	}
 
-	public void testSubTable() throws Throwable {
+	public void _testSubTable() throws Throwable {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
@@ -147,7 +147,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/menuItem.xhtml");//$NON-NLS-1$
 	}
 
-	public void testMenuSeparator() throws Throwable {
+	public void _testMenuSeparator() throws Throwable {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
@@ -227,7 +227,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/panelBar.xhtml");//$NON-NLS-1$
 	}
 
-	public void testPanelBarItem() throws Throwable {
+	public void _testPanelBarItem() throws Throwable {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
@@ -275,7 +275,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/tabPanel.xhtml");//$NON-NLS-1$
 	}
 
-	public void testTab() throws Throwable {
+	public void _testTab() throws Throwable {
 		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
 	}
 
