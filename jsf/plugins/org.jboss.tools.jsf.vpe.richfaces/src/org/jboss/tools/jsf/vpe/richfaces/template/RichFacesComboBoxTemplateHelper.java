@@ -494,6 +494,7 @@ public class RichFacesComboBoxTemplateHelper {
                     final int intValue = Integer.parseInt(sourceWidth);
                     sourceWidth = String.valueOf(intValue)+Constants.PIXEL;
                 } catch (final NumberFormatException e) {
+                	sourceWidth = DEFAULT_LIST_WIDTH;
                     sourceListWidth = DEFAULT_LIST_WIDTH;
                 }
             }
