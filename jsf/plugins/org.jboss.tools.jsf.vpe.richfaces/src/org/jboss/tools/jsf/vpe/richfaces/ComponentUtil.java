@@ -467,6 +467,10 @@ public class ComponentUtil {
     public static void setImgFromResources(VpePageContext pageContext, nsIDOMElement img, String fileImageName, String undefinedImgName) {
         IEditorInput input = pageContext.getEditPart().getEditorInput();
         IPath inputPath = getInputParentPath(input);
+        //Fix For JBIDE-3030
+        if(pageContext.getVisualBuilder().getCurrentIncludeInfo()==null) {
+        	return;
+        }
         String path = ElService.getInstance().replaceEl(pageContext.getVisualBuilder().getCurrentIncludeInfo().getFile(), fileImageName);
         File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
