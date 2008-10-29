@@ -77,15 +77,15 @@ public class JBIDE2828Test extends VpeTest {
 	private void checkELParser(ELParser elParser) {
 		ELModel elModel1 =  elParser.parse("#{faces.context}"); //$NON-NLS-1$
 		assertNotNull(elModel1);
-		assertEquals("There shouldn't be errors",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
+		assertEquals("There shouldn't be errors",elModel1.getSyntaxErrors().size(),0); //$NON-NLS-1$
 		
 		ELModel elModel2 = elParser.parse("#{org.richfaces.SKIN}"); //$NON-NLS-1$
 		assertNotNull(elModel2);
-		assertEquals("There shouldn't be errors",elParser.getSyntaxErrors().size(),0); //$NON-NLS-1$
+		assertEquals("There shouldn't be errors",elModel2.getSyntaxErrors().size(),0); //$NON-NLS-1$
 	
 		ELModel elModel3 = elParser.parse("#{klsjdf lsaijf aslkjd; sikjfd}"); //$NON-NLS-1$
 		assertNotNull(elModel3);
-		assertTrue("There should be errorrs", elParser.getSyntaxErrors().size()>0); //$NON-NLS-1$
+		assertTrue("There should be errorrs", elModel3.getSyntaxErrors().size()>0); //$NON-NLS-1$
 	
 	}
 	
