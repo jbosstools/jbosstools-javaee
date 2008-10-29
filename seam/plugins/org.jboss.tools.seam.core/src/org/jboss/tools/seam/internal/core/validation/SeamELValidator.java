@@ -259,7 +259,7 @@ public class SeamELValidator extends SeamValidator {
 		if(startEl>-1) {
 			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
-			List<SyntaxError> errors = parser.getSyntaxErrors();
+			List<SyntaxError> errors = model.getSyntaxErrors();
 			if(errors.size() > 0) {
 				for (SyntaxError error: errors) {
 					//TODO 1) make message more informative
