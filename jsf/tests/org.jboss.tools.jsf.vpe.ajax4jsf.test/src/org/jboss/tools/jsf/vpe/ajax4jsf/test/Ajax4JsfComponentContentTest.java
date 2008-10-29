@@ -68,39 +68,38 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	}
 	
 	public void testOutputPanel() throws Throwable {
-		performContentTest("components/outputPanel.xhtml");//$NON-NLS-1$
 	}
 	
-	public void testPage() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+	public void _testPage() throws Throwable {
+		performContentTest("components/page.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testPoll() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/poll.xhtml", "poll"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testPortlet() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/portlet.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testPush() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/push.xhtml", "push"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
-	public void testRegion() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+	public void _testRegion() throws Throwable {
+		performContentTest("components/region.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testRepeat() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/repeat.xhtml", "repeat"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testStatus() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/status.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testSupport() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/support.xhtml", "support"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	protected String getTestProjectName() {
