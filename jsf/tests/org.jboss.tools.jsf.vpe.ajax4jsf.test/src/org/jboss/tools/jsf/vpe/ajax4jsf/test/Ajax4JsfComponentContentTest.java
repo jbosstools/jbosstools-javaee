@@ -36,39 +36,39 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	}
 	
 	public void testHtmlCommandLink() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/htmlCommandLink.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testJsFunction() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/jsFunction.xhtml", "jsFunction"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testInclude() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/include.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testLoadBundle() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/loadBundle.xhtml", "loadBundle"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testLoadScript() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/loadScript.xhtml", "loadScript"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testLoadStyle() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/loadStyle.xhtml", "loadStyle"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testLog() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performInvisibleTagTest("components/log.xhtml", "log"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testMediaOutput() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/mediaOutput.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testOutputPanel() throws Throwable {
-		assertTrue("it is necessary to add a body of the test ", false);//$NON-NLS-1$
+		performContentTest("components/outputPanel.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testPage() throws Throwable {

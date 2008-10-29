@@ -1,0 +1,9 @@
+<tests>
+	<test id="mediaOutput">
+		<DIV>
+			<IMG WIDTH="100" HEIGHT="50"
+				SRC="/.*resources/mediaOutput/mediaOutput.jpg/"
+				ALT="	mediaOutput"/>
+		</DIV>
+	</test>
+</tests>

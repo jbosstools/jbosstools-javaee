@@ -45,7 +45,7 @@ public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
 		nsIDOMElement img = visualDocument
 			.createElement(HTML_TAG_IMG);
 		
-		img.setAttribute(ATTR_SRC, "file:///" + getAbsoluteResourcePath(IMG_PATH));
+		img.setAttribute(ATTR_SRC, "file:///" + getAbsoluteResourcePath(IMG_PATH).replace('\\', '/'));
 		img.setAttribute(ATTR_ALT, ALT_MEDIA_OTPUT);
 		img.setAttribute(ATTR_WIDTH, "100");
 		img.setAttribute(ATTR_HEIGHT, "50");
