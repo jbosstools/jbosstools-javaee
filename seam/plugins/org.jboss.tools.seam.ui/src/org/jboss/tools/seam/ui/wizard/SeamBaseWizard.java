@@ -75,6 +75,10 @@ public abstract class SeamBaseWizard extends Wizard {
 						operation.addContext(undoContext);
 						try {
 							result = operationHistory.execute(operation, monitor, (IAdaptable)getPages()[0]);
+							if(operation instanceof SeamBaseOperation) {
+								SeamBaseOperation seamOperation = (SeamBaseOperation)operation;
+								seamOperation.openResultInEditor((IAdaptable)getPages()[0]);
+							}
 						} catch (ExecutionException e) {
 							result = new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
 							SeamCorePlugin.getPluginLog().logError(e);

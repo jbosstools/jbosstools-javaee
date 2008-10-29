@@ -94,46 +94,13 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 			throws ExecutionException {
 		IStatus result = Status.OK_STATUS;
-		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
-		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
-
-		Map<String, Object> vars = new HashMap<String, Object>();
-		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
-		SeamProjectsSet seamPrjSet = new SeamProjectsSet(project);
+		
+		
+		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
 
 		try {
-			for (String key : seamFacetPrefs.keys()) {
-				vars.put(key, seamFacetPrefs.get(key, "")); //$NON-NLS-1$
-			}
-
-			for (Object valueHolder : params.values()) {
-				INamedElement elem  = (INamedElement)valueHolder;
-				vars.put(elem.getName(),elem.getValue().toString());
-			}
-
-			loadCustomVariables(vars);
-
-			String actionFolder = getSessionBeanPackageName(seamFacetPrefs, params);
-			String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
-			String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
-
-			vars.put(IParameter.SEAM_PROJECT_INSTANCE, project);
-			vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(project).getHomeDir());
-
-			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_LOCATION_PATH, project);
-			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_WEBCONTENT_PATH, seamPrjSet.getViewsFolder());
-			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_ACTION, seamPrjSet.getActionFolder());
-			putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_MODEL, seamPrjSet.getModelFolder());
-			putResourceLocationProperty(vars, IParameter.SEAM_EJB_PROJECT_LOCATION_PATH, seamPrjSet.getEjbProject());
-			putResourceLocationProperty(vars, IParameter.SEAM_TEST_PROJECT_LOCATION_PATH, seamPrjSet.getTestProject());
-			putResourceLocationProperty(vars, IParameter.TEST_SOURCE_FOLDER, seamPrjSet.getTestsFolder());
-			putPackageLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder);
-			putResourceLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
-			putPackageLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_PATH, testFolder);
-			putResourceLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
-			putPackageLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder);
-			putResourceLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+			
+			Map<String, Object> vars = loadParameters(info,	seamPrjSet);
 
 			List<FileMapping> fileMapping = getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
@@ -146,23 +113,23 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				index++;
 			}
 
-			Display.getCurrent().asyncExec(new Runnable() {
-				/* (non-Javadoc)
-				 * @see java.lang.Runnable#run()
-				 */
-				public void run() {
-					if(file.length > 0){
-						IFile iFile = project.getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
-						try {
-							IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
-						} catch (PartInitException e) {
-							SeamGuiPlugin.getPluginLog().logError(e);
-						}
-					}					
-				}
-			});
+//			Display.getCurrent().asyncExec(new Runnable() {
+//				/* (non-Javadoc)
+//				 * @see java.lang.Runnable#run()
+//				 */
+//				public void run() {
+//					if(file.length > 0){
+//						IFile iFile = seamPrjSet.getWarProject().getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
+//						try {
+//							IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
+//						} catch (PartInitException e) {
+//							SeamGuiPlugin.getPluginLog().logError(e);
+//						}
+//					}					
+//				}
+//			});
 			if(shouldTouchServer(seamPrjSet)) {
-				WebUtils.changeTimeStamp(project);
+				WebUtils.changeTimeStamp(seamPrjSet.getWarProject());
 			}
 		} catch (BackingStoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
@@ -201,6 +168,63 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		return result;
 	}
 
+	private Map<String, Object> loadParameters(IAdaptable info,	SeamProjectsSet seamPrjSet) throws BackingStoreException {
+		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);
+		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(seamPrjSet.getWarProject());
+		
+		Map<String, Object> vars = new HashMap<String, Object>();
+
+		for (String key : seamFacetPrefs.keys()) {
+			vars.put(key, seamFacetPrefs.get(key, "")); //$NON-NLS-1$
+		}
+
+		for (Object valueHolder : params.values()) {
+			INamedElement elem  = (INamedElement)valueHolder;
+			vars.put(elem.getName(),elem.getValue().toString());
+		}
+
+		loadCustomVariables(vars);
+
+		String actionFolder = getSessionBeanPackageName(seamFacetPrefs, params);
+		String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
+		String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
+
+		vars.put(IParameter.SEAM_PROJECT_INSTANCE, seamPrjSet.getWarProject());
+		vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(seamPrjSet.getWarProject()).getHomeDir());
+
+		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_LOCATION_PATH, seamPrjSet.getWarProject());
+		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_WEBCONTENT_PATH, seamPrjSet.getViewsFolder());
+		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_ACTION, seamPrjSet.getActionFolder());
+		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_MODEL, seamPrjSet.getModelFolder());
+		putResourceLocationProperty(vars, IParameter.SEAM_EJB_PROJECT_LOCATION_PATH, seamPrjSet.getEjbProject());
+		putResourceLocationProperty(vars, IParameter.SEAM_TEST_PROJECT_LOCATION_PATH, seamPrjSet.getTestProject());
+		putResourceLocationProperty(vars, IParameter.TEST_SOURCE_FOLDER, seamPrjSet.getTestsFolder());
+		putPackageLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder);
+		putResourceLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
+		putPackageLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_PATH, testFolder);
+		putResourceLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
+		putPackageLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder);
+		putResourceLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+		return vars;
+	}
+
+	public void openResultInEditor(IAdaptable info) {
+		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
+			try {
+				Map<String, Object> vars = loadParameters(info,	seamPrjSet);
+				List<FileMapping> fileMapping = getFileMappings(vars);	
+				List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
+				IFile iFile = seamPrjSet.getWarProject().getWorkspace().getRoot().getFileForLocation(new Path(fileMappingCopy.get(0)[1]));
+				IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
+			} catch (CoreException e) {
+
+			} catch (BackingStoreException e) {
+
+			}
+
+
+	}
+	
 	protected boolean shouldTouchServer(SeamProjectsSet seamPrjSet) {
 		return !seamPrjSet.isWarConfiguration();
 	}
@@ -217,6 +241,13 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		return seamFacetPrefs.get(IParameter.TEST_CASES_PACKAGE_NAME, "");
 	}
 
+	protected IProject getProject(IAdaptable info) {
+		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);
+		
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(
+				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+	}
+	
 	/**
 	 * @param fileMapping
 	 * @param vars
