@@ -87,14 +87,7 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 	}
 
 	protected void outlineShape(Graphics g) {
-		Page page=null;
-		if(link != null && link.getFromElement() instanceof Page)
-			page = (Page)link.getFromElement();
-		
-		if(page != null && !page.isConfirmed()){
-			g.setLineDash(new int[]{3,3});
-			g.setLineStyle(SWT.LINE_CUSTOM);
-		}
+		g.setLineCap(SWT.CAP_ROUND);
 		
 		PointList points = getPoints();
 		Point point = points.getPoint(0);
@@ -144,17 +137,15 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 			eCorner.x = 0;
 			if (i != 1) {
 				if (horiz) {
-					if (end.x > beg.x) {
+					if (end.x > beg.x)
 						beg.x += 2;
-					} else {
+					else
 						beg.x -= 2;
-					}
 				} else {
-					if (end.y > beg.y) {
+					if (end.y > beg.y)
 						beg.y += 2;
-					} else {
+					else
 						beg.y -= 2;
-					}
 				}
 				eCorner.x = beg.x;
 				eCorner.y = beg.y;
@@ -162,21 +153,19 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 			
 			if (bCorner.x != 0 && eCorner.x != 0)
 				g.drawLine(bCorner, eCorner);
+			
 			bCorner.x = 0;
-	
-			if (i != points.size() - 1) {
+			if (i != (points.size() - 1)) {
 				if (horiz) {
-					if (end.x > beg.x) {
+					if (end.x > beg.x)
 						end.x -= 2;
-					} else {
+					else
 						end.x += 2;
-					}
 				} else {
-					if (end.y > beg.y) {
+					if (end.y > beg.y)
 						end.y -= 2;
-					} else {
+					else
 						end.y += 2;
-					}
 				}
 				bCorner.x = end.x;
 				bCorner.y = end.y;
