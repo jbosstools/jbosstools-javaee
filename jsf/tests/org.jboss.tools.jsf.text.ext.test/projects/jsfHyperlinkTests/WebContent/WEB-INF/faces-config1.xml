@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+ <managed-bean>
+  <managed-bean-name>bean6</managed-bean-name>
+  <managed-bean-class>org.jboss.jsf.tests.Bean6</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>property1</property-name>
+   <property-class>Java.lang.String</property-class>
+   <value>bean6.property1 value</value>
+  </managed-property>
+  <managed-property>
+   <property-name>property2</property-name>
+   <property-class>java.lang.String</property-class>
+   <value>bean6.property2 value</value>
+  </managed-property>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>bean7</managed-bean-name>
+  <managed-bean-class>org.jboss.jsf.tests.Bean7</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>property1</property-name>
+   <property-class>java.lang.String</property-class>
+   <value>bean7.property1 value</value>
+  </managed-property>
+ </managed-bean>
+</faces-config>

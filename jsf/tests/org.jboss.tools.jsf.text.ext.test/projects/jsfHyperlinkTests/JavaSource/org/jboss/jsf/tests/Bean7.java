@@ -1,20 +1,10 @@
-/**
- * 
- */
 package org.jboss.jsf.tests;
 
-/**
- * @author eskimo
- *
- */
-public class Bean5 {
+public class Bean7 {
 
 	private java.lang.String property1;
 
-	/**
-	 * 
-	 */
-	public Bean5() {
+	public Bean7() {
 		// TODO Auto-generated constructor stub
 	}
 

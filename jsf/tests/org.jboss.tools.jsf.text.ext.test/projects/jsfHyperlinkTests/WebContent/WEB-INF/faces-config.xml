@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
-                              "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
-<faces-config>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
  <managed-bean>
   <managed-bean-name>bean1</managed-bean-name>
   <managed-bean-class>org.jboss.jsf.tests.Bean1</managed-bean-class>
@@ -9,7 +9,7 @@
   <managed-property>
    <property-name>property1</property-name>
    <property-class>java.lang.String</property-class>
-   <value>"property1 value"</value>
+   <value>property1 value</value>
   </managed-property>
   <!--Here is long comment for the property2-->
   <managed-property id="bean1.property2">
@@ -66,6 +66,11 @@
   <managed-bean-name>bean5</managed-bean-name>
   <managed-bean-class>org.jboss.jsf.tests.Bean5</managed-bean-class>
   <managed-bean-scope>application</managed-bean-scope>
+  <managed-property>
+   <property-name>property1</property-name>
+   <property-class>java.lang.String</property-class>
+   <value>bean5.property1 test value</value>
+  </managed-property>
  </managed-bean>
  <navigation-rule>
   <from-view-id>/page1.jsp</from-view-id>
