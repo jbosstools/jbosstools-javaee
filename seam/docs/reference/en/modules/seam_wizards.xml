@@ -237,19 +237,16 @@
                 </imageobject>
             </mediaobject>
         </figure>
-               
-    </section>
-    
-    <para>Let's create two customers <property>c1</property> and <property>c2</property>. Enter the name in the text field and press the <property>Save</property> button. 
-        Customer should be successfully created. Press <property>Done</property>. Do the same for <property>c2</property> customer. The result should be:</para>
-    
-    <figure>
-        <title>Two Customers Are Created</title>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="images/seam_wizards/seam_wizards_17.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
+        <para>Let's create two customers <property>c1</property> and <property>c2</property>. Enter the name in the text field and press the <property>Save</property> button. 
+            Customer should be successfully created. Press <property>Done</property>. Do the same for <property>c2</property> customer. The result should be:</para>
         
+        <figure>
+            <title>Two Customers Are Created</title>
+            <mediaobject> 
+                <imageobject>
+                    <imagedata fileref="images/seam_wizards/seam_wizards_17.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>       
+    </section>       
   </chapter>

@@ -51,7 +51,7 @@
 
         <para>Clicking on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the <proeprty>Target Runtime</proeprty> section will bring you to
+            </emphasis> button in the <property>Target Runtime</property> section will bring you to
             another dialog. Here, you can specify a new installed Runtime environment or the other
             type of runtime appropriate for configuring your project. Let's create a JBoss 4.2
             Runtime. For that after choosing it click on <emphasis>
