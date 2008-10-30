@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
-"http://www.oasis-open.org/docbook/xml/4.3CR3/docbookx.dtd"
+"http://www.docbook.org/xml/4.3/docbookx.dtd"
 
 [
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
@@ -20,8 +20,8 @@
 <!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
 <!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
 <!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
-<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">      
-<!ENTITY migrationlink "../../Exadel-migration/html_single/index.html">      
+<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">                          
+<!ENTITY migrationlink "../../Exadel-migration/html_single/index.html"> 
 
 ]>
 <book>
@@ -52,6 +52,6 @@
     &springTools;
     &editors;
     &palette;
-    &web_projects;	
-    &preferences;
+    &web_projects;
+    &preferences; 
 </book>    
