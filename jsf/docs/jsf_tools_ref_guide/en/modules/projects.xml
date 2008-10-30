@@ -454,10 +454,9 @@
                                 <para>That&apos;s it. Now, you can use this template with any
                                         new or imported project that uses the same run-time
                                         implementation as the project you turned into a
-                                template.</para>
+                                        template.</para>
+                                <para>At this point, you have a fully configured project and now you can
+                                        bring some new logic to it starting from JSF configuration
+                                        file.</para>
                         </section>
-
-                        <para>At this point, you have a fully configured project and now you can
-                                bring some new logic to it starting from JSF configuration
-                        file.</para>
 </chapter>
