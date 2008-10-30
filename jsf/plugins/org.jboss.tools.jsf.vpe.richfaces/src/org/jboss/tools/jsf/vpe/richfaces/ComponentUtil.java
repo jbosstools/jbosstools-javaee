@@ -203,7 +203,7 @@ public class ComponentUtil {
      * @param fileImageName the file image name
      */
     public static void setImg(nsIDOMElement img, String fileImageName) {
-        img.setAttribute(HTML.ATTR_SRC, "file://" //$NON-NLS-1$//$NON-NLS-2$
+        img.setAttribute(HTML.ATTR_SRC, "file://" //$NON-NLS-1$
                 + getAbsoluteResourcePath(fileImageName).replace('\\', '/'));
     }
 

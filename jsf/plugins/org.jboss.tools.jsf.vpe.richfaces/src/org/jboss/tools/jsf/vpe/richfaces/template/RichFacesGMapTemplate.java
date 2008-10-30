@@ -11,13 +11,13 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -29,46 +29,23 @@ import org.w3c.dom.Node;
  */
 public class RichFacesGMapTemplate extends VpeAbstractTemplate {
 
-	private String IMAGE_NAME = "/gmap/gmap.gif";
+	private static final String CLEAN_EARTH_IMG = "gmap/cleanEarth.png"; //$NON-NLS-1$
+	private static final String GMAP_TYPE_CONTROL_IMG = "gmap/mapType.png"; //$NON-NLS-1$
+	private static final String GLARGE_MAP_CONTROL_IMG = "gmap/largeMap.gif"; //$NON-NLS-1$
+	private static final String GSCALE_CONTROL_IMG = "gmap/scale.png"; //$NON-NLS-1$
 	
-	private String STYLE_CLASS_ATTR_NAME="styleClass";
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.exadel.vpe.editor.template.VpeAbstractTemplate#removeAttribute(com.exadel.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Element, org.w3c.dom.Document, org.w3c.dom.Node,
-	 *      java.lang.Object, java.lang.String)
-	 */
-	@Override
-	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
-		super.removeAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name);
-		nsIDOMElement img = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		if(STYLE_CLASS_ATTR_NAME.equals(name)){
-			img.removeAttribute(HtmlComponentUtil.HTML_CLASS_ATTR);
-		} else{
-			img.removeAttribute(name);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.exadel.vpe.editor.template.VpeAbstractTemplate#setAttribute(com.exadel.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Element, org.w3c.dom.Document, org.w3c.dom.Node,
-	 *      java.lang.Object, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
-		super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
-		nsIDOMElement img = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		img.setAttribute(name, value);
-		if(STYLE_CLASS_ATTR_NAME.equals(name)){
-			img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,value);
-			} else{
-				img.setAttribute(name,value);
-			}
-	}
+	private static final String SHOW_LARGE_MAP = "showGLargeMapControl"; //$NON-NLS-1$
+	private static final String SHOW_MAP_TYPE = "showGMapTypeControl"; //$NON-NLS-1$
+	private static final String SHOW_SCALE = "showGScaleControl"; //$NON-NLS-1$
+	private static final String FALSE = "false"; //$NON-NLS-1$
+	private static final String VISIBILITY_HIDDEN = "visibility: hidden;"; //$NON-NLS-1$
+	
+//	private static final String gmapWrapperStyle ="width: 400px; height: 398px; "; //$NON-NLS-1$
+	private String gmapWrapperStyle ="display: block; overflow: hidden; /*width: 400px; height: 398px;*/ float: left; position: relative;  "; //$NON-NLS-1$
+	private String cleanEarthImgStyle ="float: left; position: relative; width: 400px; height: 398px; "; //$NON-NLS-1$
+	private String mapTypeImgStyle ="float: left; position: relative; width: 202px; height: 19px; top: 3px; left: -206px; "; //$NON-NLS-1$
+	private String largeMapImgStyle ="float: left; position: relative; width: 57px; height: 270px; top: 5px; left: -596px; "; //$NON-NLS-1$
+	private String scaleImgStyle ="float: left; position: relative; width: 85px; height: 27px; top: 366px; left: -592px;"; //$NON-NLS-1$
 
 	/**
 	 * Create html instead of rich:faces component.
@@ -82,19 +59,56 @@ public class RichFacesGMapTemplate extends VpeAbstractTemplate {
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		nsIDOMElement img = visualDocument.createElement("img");
-		ComponentUtil.setImg(img, IMAGE_NAME);
-		ComponentUtil.copyAttributes(sourceNode, img);
-		if(((Element)sourceNode).getAttribute(STYLE_CLASS_ATTR_NAME)!=null){
-			img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,((Element)sourceNode).getAttribute("styleClass"));
-			} 
-		VpeCreationData creationData = new VpeCreationData(img);
+		
+		Element sourceElement = (Element) sourceNode; 
+		
+		String showGLargeMapControl = sourceElement.getAttribute(SHOW_LARGE_MAP);
+		String showGMapTypeControl = sourceElement.getAttribute(SHOW_MAP_TYPE);
+		String showGScaleControl = sourceElement.getAttribute(SHOW_SCALE);
+		
+		nsIDOMElement gmapWrapperElement = visualDocument.createElement(HTML.TAG_DIV);
+		nsIDOMElement gmapCleanEarhtImg = visualDocument.createElement(HTML.TAG_IMG);
+		nsIDOMElement gmapGMapTypeControlImg = visualDocument.createElement(HTML.TAG_IMG);
+		nsIDOMElement gmapGLargeMapControlImg = visualDocument.createElement(HTML.TAG_IMG);
+		nsIDOMElement gmapGScaleControlImg = visualDocument.createElement(HTML.TAG_IMG);
+		
+		ComponentUtil.setImg(gmapCleanEarhtImg, CLEAN_EARTH_IMG);
+		ComponentUtil.setImg(gmapGMapTypeControlImg, GMAP_TYPE_CONTROL_IMG);
+		ComponentUtil.setImg(gmapGLargeMapControlImg, GLARGE_MAP_CONTROL_IMG);
+		ComponentUtil.setImg(gmapGScaleControlImg, GSCALE_CONTROL_IMG);
+		
+		
+		gmapWrapperElement.appendChild(gmapCleanEarhtImg);
+		gmapWrapperElement.appendChild(gmapGMapTypeControlImg);
+		gmapWrapperElement.appendChild(gmapGLargeMapControlImg);
+		gmapWrapperElement.appendChild(gmapGScaleControlImg);
+		
+		if (FALSE.equalsIgnoreCase(showGMapTypeControl)) {
+			mapTypeImgStyle += VISIBILITY_HIDDEN;
+		}
+		if (FALSE.equalsIgnoreCase(showGLargeMapControl)) {
+			largeMapImgStyle += VISIBILITY_HIDDEN;
+		}
+		if (FALSE.equalsIgnoreCase(showGScaleControl)) {
+			scaleImgStyle += VISIBILITY_HIDDEN;
+		}
+		
+		gmapWrapperElement.setAttribute(HTML.ATTR_STYLE, gmapWrapperStyle);
+		gmapCleanEarhtImg.setAttribute(HTML.ATTR_STYLE, cleanEarthImgStyle);
+		gmapGMapTypeControlImg.setAttribute(HTML.ATTR_STYLE, mapTypeImgStyle);
+		gmapGLargeMapControlImg.setAttribute(HTML.ATTR_STYLE, largeMapImgStyle);
+		gmapGScaleControlImg.setAttribute(HTML.ATTR_STYLE, scaleImgStyle);
+		
+		VpeCreationData creationData = new VpeCreationData(gmapWrapperElement);
 		return creationData;
 	}
 
-	@Override
-	public void resize(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement visualElement, Object data, int resizerConstrains, int top, int left, int width, int height) {
-		super.resize(pageContext, sourceElement, visualDocument, visualElement, data, resizerConstrains, top, left, width, height);
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
 	}
+
+	
 
 }
