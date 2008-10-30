@@ -187,7 +187,7 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <ulink url="&esblinklink;#ESBContentAssist">ESB XML files</ulink>
+                        <ulink url="&esblink;#ESBContentAssist">ESB XML files</ulink>
                        </para>
                 </listitem>
             </itemizedlist>
@@ -679,7 +679,7 @@
        </proposal>
 </AttributeType>
 ]]></programlisting>
-                <orderedlist start="2" continuation="continues">
+                <orderedlist>
                     <listitem>
                         <para>Add information on your xml file in <emphasis>
                                 <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property>
