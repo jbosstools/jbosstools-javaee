@@ -29,24 +29,20 @@ import org.w3c.dom.Node;
  */
 public class RichFacesGMapTemplate extends VpeAbstractTemplate {
 
-	private static final String CLEAN_EARTH_IMG = "gmap/cleanEarth.png"; //$NON-NLS-1$
-	private static final String GMAP_TYPE_CONTROL_IMG = "gmap/mapType.png"; //$NON-NLS-1$
-	private static final String GLARGE_MAP_CONTROL_IMG = "gmap/largeMap.gif"; //$NON-NLS-1$
-	private static final String GSCALE_CONTROL_IMG = "gmap/scale.png"; //$NON-NLS-1$
+	private static final String ALL_CONTROLS_IMG = "gmap/allControls.png"; //$NON-NLS-1$
+	private static final String NO_CONTROLS_IMG = "gmap/noControls.png"; //$NON-NLS-1$
+	private static final String LARGE_IMG = "gmap/large.png"; //$NON-NLS-1$
+	private static final String SCALE_IMG = "gmap/scale.png"; //$NON-NLS-1$
+	private static final String TYPE_IMG = "gmap/type.png"; //$NON-NLS-1$
+	private static final String LARGE_SCALE_IMG = "gmap/large-scale.png"; //$NON-NLS-1$
+	private static final String LARGE_TYPE_IMG = "gmap/large-type.png"; //$NON-NLS-1$
+	private static final String TYPE_SCALE_IMG = "gmap/type-scale.png"; //$NON-NLS-1$
 	
 	private static final String SHOW_LARGE_MAP = "showGLargeMapControl"; //$NON-NLS-1$
 	private static final String SHOW_MAP_TYPE = "showGMapTypeControl"; //$NON-NLS-1$
 	private static final String SHOW_SCALE = "showGScaleControl"; //$NON-NLS-1$
-	private static final String FALSE = "false"; //$NON-NLS-1$
-	private static final String VISIBILITY_HIDDEN = "visibility: hidden;"; //$NON-NLS-1$
+	private static final String TRUE = "true"; //$NON-NLS-1$
 	
-//	private static final String gmapWrapperStyle ="width: 400px; height: 398px; "; //$NON-NLS-1$
-	private String gmapWrapperStyle ="display: block; overflow: hidden; /*width: 400px; height: 398px;*/ float: left; position: relative;  "; //$NON-NLS-1$
-	private String cleanEarthImgStyle ="float: left; position: relative; width: 400px; height: 398px; "; //$NON-NLS-1$
-	private String mapTypeImgStyle ="float: left; position: relative; width: 202px; height: 19px; top: 3px; left: -206px; "; //$NON-NLS-1$
-	private String largeMapImgStyle ="float: left; position: relative; width: 57px; height: 270px; top: 5px; left: -596px; "; //$NON-NLS-1$
-	private String scaleImgStyle ="float: left; position: relative; width: 85px; height: 27px; top: 366px; left: -592px;"; //$NON-NLS-1$
-
 	/**
 	 * Create html instead of rich:faces component.
 	 * 
@@ -62,44 +58,71 @@ public class RichFacesGMapTemplate extends VpeAbstractTemplate {
 		
 		Element sourceElement = (Element) sourceNode; 
 		
+		/*
+		 * Value indicating enabled controls combinations:
+		 * 
+		 * 0 - no controls are available.
+		 * 1 - map type control is enabled.
+		 * 2 - large map control is enabled.
+		 * 4 - scale control is enabled.
+		 * 3 - map type and large map controls are enabled.
+		 * 5 - map type and scale controls are enabled.
+		 * 6 - large map and scale controls are enabled.
+		 * 7 - all controls are enabled.
+		 */
+		int controls = 0;
+		
 		String showGLargeMapControl = sourceElement.getAttribute(SHOW_LARGE_MAP);
 		String showGMapTypeControl = sourceElement.getAttribute(SHOW_MAP_TYPE);
 		String showGScaleControl = sourceElement.getAttribute(SHOW_SCALE);
+		String style = sourceElement.getAttribute(HTML.ATTR_STYLE);
+		String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 		
-		nsIDOMElement gmapWrapperElement = visualDocument.createElement(HTML.TAG_DIV);
-		nsIDOMElement gmapCleanEarhtImg = visualDocument.createElement(HTML.TAG_IMG);
-		nsIDOMElement gmapGMapTypeControlImg = visualDocument.createElement(HTML.TAG_IMG);
-		nsIDOMElement gmapGLargeMapControlImg = visualDocument.createElement(HTML.TAG_IMG);
-		nsIDOMElement gmapGScaleControlImg = visualDocument.createElement(HTML.TAG_IMG);
+		nsIDOMElement mapImg = visualDocument.createElement(HTML.TAG_IMG);
 		
-		ComponentUtil.setImg(gmapCleanEarhtImg, CLEAN_EARTH_IMG);
-		ComponentUtil.setImg(gmapGMapTypeControlImg, GMAP_TYPE_CONTROL_IMG);
-		ComponentUtil.setImg(gmapGLargeMapControlImg, GLARGE_MAP_CONTROL_IMG);
-		ComponentUtil.setImg(gmapGScaleControlImg, GSCALE_CONTROL_IMG);
-		
-		
-		gmapWrapperElement.appendChild(gmapCleanEarhtImg);
-		gmapWrapperElement.appendChild(gmapGMapTypeControlImg);
-		gmapWrapperElement.appendChild(gmapGLargeMapControlImg);
-		gmapWrapperElement.appendChild(gmapGScaleControlImg);
-		
-		if (FALSE.equalsIgnoreCase(showGMapTypeControl)) {
-			mapTypeImgStyle += VISIBILITY_HIDDEN;
+		if (TRUE.equalsIgnoreCase(showGMapTypeControl)) {
+			controls += 1;
 		}
-		if (FALSE.equalsIgnoreCase(showGLargeMapControl)) {
-			largeMapImgStyle += VISIBILITY_HIDDEN;
+		if (TRUE.equalsIgnoreCase(showGLargeMapControl)) {
+			controls += 2;
 		}
-		if (FALSE.equalsIgnoreCase(showGScaleControl)) {
-			scaleImgStyle += VISIBILITY_HIDDEN;
+		if (TRUE.equalsIgnoreCase(showGScaleControl)) {
+			controls += 4;
 		}
 		
-		gmapWrapperElement.setAttribute(HTML.ATTR_STYLE, gmapWrapperStyle);
-		gmapCleanEarhtImg.setAttribute(HTML.ATTR_STYLE, cleanEarthImgStyle);
-		gmapGMapTypeControlImg.setAttribute(HTML.ATTR_STYLE, mapTypeImgStyle);
-		gmapGLargeMapControlImg.setAttribute(HTML.ATTR_STYLE, largeMapImgStyle);
-		gmapGScaleControlImg.setAttribute(HTML.ATTR_STYLE, scaleImgStyle);
+		switch (controls) {
+		case 0:
+			ComponentUtil.setImg(mapImg, NO_CONTROLS_IMG);
+			break;
+		case 1:
+			ComponentUtil.setImg(mapImg, TYPE_IMG);
+			break;
+		case 2:
+			ComponentUtil.setImg(mapImg, LARGE_IMG);
+			break;
+		case 4:
+			ComponentUtil.setImg(mapImg, SCALE_IMG);
+			break;
+		case 3:
+			ComponentUtil.setImg(mapImg, LARGE_TYPE_IMG);
+			break;
+		case 5:
+			ComponentUtil.setImg(mapImg, TYPE_SCALE_IMG);
+			break;
+		case 6:
+			ComponentUtil.setImg(mapImg, LARGE_SCALE_IMG);
+			break;
+		case 7:
+			ComponentUtil.setImg(mapImg, ALL_CONTROLS_IMG);
+			break;
+		default:
+			ComponentUtil.setImg(mapImg, NO_CONTROLS_IMG);
+		}
 		
-		VpeCreationData creationData = new VpeCreationData(gmapWrapperElement);
+		mapImg.setAttribute(HTML.ATTR_CLASS, styleClass);
+		mapImg.setAttribute(HTML.ATTR_STYLE, style);
+		
+		VpeCreationData creationData = new VpeCreationData(mapImg);
 		return creationData;
 	}
 
