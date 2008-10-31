@@ -24,8 +24,8 @@
    </extension>
 
    <extension point="org.jboss.tools.common.model.keys">
-      <keys path="help/keys-seam.properties">
-      </keys>
+      <keys path="help/keys-seam.properties"/>
+      <keys path="help/keys-seam-attrs.properties"/>
    </extension>
 
    	<extension
