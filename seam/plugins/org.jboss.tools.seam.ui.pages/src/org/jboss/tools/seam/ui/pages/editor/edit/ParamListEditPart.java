@@ -123,6 +123,16 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 	}
 
 	protected void refreshVisuals() {
+		refreshSizeAndLocation();
+
+		if(getParent() != null){
+			((PagesDiagramEditPart) ParamListEditPart.this.getParent())
+				.setToFront(this);
+		}
+		
+	}
+
+	void refreshSizeAndLocation() {
 		Point loc = getPageWrapperModel().getPage().getLocation().getCopy();
 		int links = getPageWrapperModel().getPage().getOutputLinks().size();
 		if(links == 0)
@@ -136,11 +146,7 @@ public class ParamListEditPart extends PagesEditPart implements PropertyChangeLi
 		if(getParent() != null){
 			((GraphicalEditPart) getParent()).setLayoutConstraint(this,
 				getFigure(), r);
-		
-			((PagesDiagramEditPart) ParamListEditPart.this.getParent())
-				.setToFront(this);
 		}
-		
 	}
 
 	protected List getModelChildren() {

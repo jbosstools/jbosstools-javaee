@@ -1,5 +1,7 @@
 package org.jboss.tools.seam.ui.pages.editor.ecore.pages;
 
+import org.jboss.tools.seam.ui.pages.editor.edit.PageWrapper;
+
 /** 
  * @author daniel
  * 
@@ -40,4 +42,12 @@ public interface Page extends PagesElement{
 	 * @generated
 	 */
 	void setParamsVisible(boolean value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public PageWrapper getParamList();
+
 }

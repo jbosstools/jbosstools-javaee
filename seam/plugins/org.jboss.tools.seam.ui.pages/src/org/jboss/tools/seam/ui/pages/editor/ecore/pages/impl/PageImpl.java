@@ -25,6 +25,7 @@ import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesFactory;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesPackage;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
+import org.jboss.tools.seam.ui.pages.editor.edit.PageWrapper;
 
 /**
  * <!-- begin-user-doc -->
@@ -312,6 +313,22 @@ public class PageImpl extends PagesElementImpl implements Page {
 				ps.add((Param)p);
 		}
 		return ps;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	PageWrapper paramList = new PageWrapper(this);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public PageWrapper getParamList() {
+		return paramList;
 	}
 
 } //PageImpl

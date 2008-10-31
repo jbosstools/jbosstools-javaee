@@ -239,7 +239,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 			if(getPagesModel().getChildren().get(i) instanceof Page){
 				Page page = (Page)getPagesModel().getChildren().get(i);
 				if(page.getChildren().size() > 0 && page.isParamsVisible()){
-					PageWrapper wrapper = new PageWrapper(page);
+					PageWrapper wrapper = page.getParamList();
 					list.add(wrapper);
 				}
 			}

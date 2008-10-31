@@ -25,6 +25,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Param;
@@ -171,6 +172,9 @@ public class ParamEditPart extends PagesEditPart implements PropertyChangeListen
 	public void notifyChanged(Notification notification) {
 		refresh();
 		refreshVisuals();
+		if(getParent() instanceof ParamListEditPart) {
+			((ParamListEditPart)getParent()).refreshSizeAndLocation();
+		}
 	}
 	/**
 	 * )
