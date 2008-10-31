@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -186,14 +187,14 @@ public class SeamCoreValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
 	public IStatus validateAll() throws ValidationException {
-		Set<ISeamComponent> components = project.getComponents();
+		Set<ISeamComponent> components = Collections.unmodifiableSet(project.getComponents());
 		for (ISeamComponent component : components) {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}
 			validateComponent(component);
 		}
-		Set<ISeamFactory> factories = project.getFactories();
+		Set<ISeamFactory> factories = Collections.unmodifiableSet(project.getFactories());
 		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
 		for (ISeamFactory factory : factories) {
 			if(reporter.isCancelled()) {
