@@ -8,8 +8,8 @@
    </extension>
 
    <extension point="org.jboss.tools.common.model.keys">
-      <keys path="help/keys-seam-pages.properties">
-      </keys>
+      <keys path="help/keys-seam-pages.properties"/>
+      <keys path="help/keys-seampages-attrs.properties"/>
    </extension>
 
    	<extension
