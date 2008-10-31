@@ -7,12 +7,51 @@
     xmlns:rich="http://richfaces.org/rich">
 
 <head>
+<style type="text/css">
+.map {
+    border: 5px solid green;
+}
+.map-bg {
+    background-color: red;
+}
+</style>
 </head>
 
 <body>
 <f:view>
-    <rich:gmap id="gmap">
+    <rich:gmap id="gmap1" showGLargeMapControl="true" showGMapTypeControl="true"
+        showGScaleControl="true" mapType="G_SATELLITE_MAP" zoom="1" style="widht: 100px; height: 100px;">
+    </rich:gmap> 
+    <br />
+    <rich:gmap id="gmap2" showGLargeMapControl="false" showGMapTypeControl="false"
+        showGScaleControl="false" mapType="G_SATELLITE_MAP" zoom="1" styleClass="map" style=" width : 301px; height : 306px;">
     </rich:gmap>
+    <br /> 
+    
+    <rich:gmap id="gmap3" showGLargeMapControl="true" showGMapTypeControl="false"
+        showGScaleControl="false" mapType="G_SATELLITE_MAP" zoom="1"  styleClass="map-bg">
+    </rich:gmap> 
+    <br /> 
+    <rich:gmap id="gmap4" showGLargeMapControl="true" showGMapTypeControl="true"
+        showGScaleControl="false" mapType="G_SATELLITE_MAP" zoom="1">
+    </rich:gmap> 
+    <br /> 
+    <rich:gmap id="gmap5" showGLargeMapControl="false" showGMapTypeControl="true"
+        showGScaleControl="false" mapType="G_SATELLITE_MAP" zoom="1">
+    </rich:gmap> 
+    <br /> 
+    <rich:gmap id="gmap6" showGLargeMapControl="false" showGMapTypeControl="true"
+        showGScaleControl="true" mapType="G_SATELLITE_MAP" zoom="1">
+    </rich:gmap> 
+    <br /> 
+    <rich:gmap id="gmap7" showGLargeMapControl="false" showGMapTypeControl="false"
+        showGScaleControl="true" mapType="G_SATELLITE_MAP" zoom="1">
+    </rich:gmap> 
+    <br /> 
+    <rich:gmap id="gmap8" showGLargeMapControl="true" showGMapTypeControl="false"
+        showGScaleControl="true" mapType="G_SATELLITE_MAP" zoom="1">
+    </rich:gmap> 
+    <br />
 </f:view>
 </body>
 </html>
