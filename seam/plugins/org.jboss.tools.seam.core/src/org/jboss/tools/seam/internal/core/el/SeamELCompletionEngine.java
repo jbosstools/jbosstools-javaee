@@ -74,7 +74,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 
 	/**
 	 * Create the array of suggestions. 
-	 * @param project Seam project 
+	 * @param seamProject Seam project 
 	 * @param file File 
 	 * @param documentContent
 	 * @param prefix the prefix to search for
@@ -211,7 +211,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 
 	/**
 	 * Returns MemberInfo for last segment of EL. Null if El is not resolved.
-	 * @param project
+	 * @param seamProject
 	 * @param file
 	 * @param operand EL without #{}
 	 * @return MemberInfo for last segment of EL. Null if El is not resolved.

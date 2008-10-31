@@ -73,7 +73,7 @@ public class SeamEarProjectValidator implements IValidatorJob {
 		if(!project.isAccessible()) {
 			return OK_STATUS;
 		}
-		errorManager = new ValidationErrorManager(this, null, reporter, null, ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+		errorManager = new ValidationErrorManager(this, null, reporter, null, project, ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 		errorManager.removeAllMessagesFromResource(project);
 
 		IVirtualComponent component = ComponentCore.createComponent(project);

@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -140,8 +141,8 @@ public class SeamPreferences {
 		allOptionNames.addAll(severityOptionNames);
 	}
 
-	public static IEclipsePreferences getProjectPreferences(ISeamProject project) {
-		return new ProjectScope(project.getProject()).getNode(SeamCorePlugin.PLUGIN_ID);
+	public static IEclipsePreferences getProjectPreferences(IProject project) {
+		return new ProjectScope(project).getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 
 	public static IEclipsePreferences getDefaultPreferences() {
@@ -152,7 +153,7 @@ public class SeamPreferences {
 		return new InstanceScope().getNode(SeamCorePlugin.PLUGIN_ID);
 	}
 
-	public static String getProjectPreference(ISeamProject project, String key) {
+	public static String getProjectPreference(IProject project, String key) {
 		IEclipsePreferences p = getProjectPreferences(project);
 		if(p == null) return null;
 		String value = p.get(key, null);
@@ -171,7 +172,7 @@ public class SeamPreferences {
 		return p.get(key, null);
 	}
 
-	public static boolean shouldValidateCore(ISeamProject project) {
+	public static boolean shouldValidateCore(IProject project) {
 		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, NONUNIQUE_COMPONENT_NAME)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY)) &&
@@ -194,14 +195,14 @@ public class SeamPreferences {
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_VARIABLE_NAME)));
 	}
 
-	public static boolean shouldValidateEL(ISeamProject project) {
+	public static boolean shouldValidateEL(IProject project) {
 		return !(SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_NAME)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNKNOWN_EL_VARIABLE_PROPERTY_NAME)) && 
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, EL_SYNTAX_ERROR)) && 
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNPAIRED_GETTER_OR_SETTER)));
 	}
 
-	public static boolean shouldValidateSettings(ISeamProject project) {
+	public static boolean shouldValidateSettings(IProject project) {
 		return !SeamPreferences.IGNORE.equals(getProjectPreference(project, INVALID_PROJECT_SETTINGS));
 	}
 }

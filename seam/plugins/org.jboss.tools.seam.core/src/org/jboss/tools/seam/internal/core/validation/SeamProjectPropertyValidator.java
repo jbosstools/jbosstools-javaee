@@ -78,7 +78,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			return OK_STATUS;
 		}
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
-		errorManager = new ValidationErrorManager(this, null, reporter, null, ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+		errorManager = new ValidationErrorManager(this, null, reporter, seamProject, seamProject.getProject(), ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 		if(seamProject!=null) {
 			validateSeamProject(seamProject);
 		}
@@ -230,7 +230,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			return;
 		}
 		errorManager.removeAllMessagesFromResource(project);
-		if(!SeamPreferences.shouldValidateSettings(seamProject)) {
+		if(!SeamPreferences.shouldValidateSettings(project)) {
 			return;
 		}
 		errorManager.displaySubtask(VALIDATING_PROJECT, new String[]{project.getName()});

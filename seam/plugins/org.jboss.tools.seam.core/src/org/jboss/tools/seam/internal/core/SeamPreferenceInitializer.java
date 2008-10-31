@@ -34,6 +34,7 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
 		defaultPreferences.put(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.WARNING);
+		defaultPreferences.put(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.IGNORE);
 		defaultPreferences.put(SeamPreferences.EL_SYNTAX_ERROR, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.CHECK_VARS, SeamPreferences.ENABLE);

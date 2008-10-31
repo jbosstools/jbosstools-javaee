@@ -173,7 +173,7 @@ public class SeamCoreValidator extends SeamValidator {
 		newResources.addAll(unnamedResources);
 		for (IPath path : newResources) {
 			displaySubtask(VALIDATING_RESOURCE_MESSAGE_ID, new String[]{projectName, path.toString()});
-			Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)project).findJavaDeclarations(path);
+			Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
 			for (SeamJavaComponentDeclaration d : declarations) {
 				validateMethodsOfUnknownComponent(d);
 			}
@@ -187,14 +187,14 @@ public class SeamCoreValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
 	public IStatus validateAll() throws ValidationException {
-		Set<ISeamComponent> components = Collections.unmodifiableSet(project.getComponents());
+		Set<ISeamComponent> components = Collections.unmodifiableSet(seamProject.getComponents());
 		for (ISeamComponent component : components) {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}
 			validateComponent(component);
 		}
-		Set<ISeamFactory> factories = Collections.unmodifiableSet(project.getFactories());
+		Set<ISeamFactory> factories = Collections.unmodifiableSet(seamProject.getFactories());
 		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
 		for (ISeamFactory factory : factories) {
 			if(reporter.isCancelled()) {
@@ -203,7 +203,7 @@ public class SeamCoreValidator extends SeamValidator {
 			validateFactory(factory, markedDuplicateFactoryNames);
 		}
 
-		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)project).getAllJavaComponentDeclarations();
+		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).getAllJavaComponentDeclarations();
 		Collection<SeamJavaComponentDeclaration> values = declarations.values();
 		for (SeamJavaComponentDeclaration d : values) {
 			if(reporter.isCancelled()) {
@@ -217,7 +217,7 @@ public class SeamCoreValidator extends SeamValidator {
 	}
 
 	private void validateFactory(IPath sourceFilePath, Set<String> markedDuplicateFactoryNames) {
-		Set<ISeamFactory> factories = project.getFactoriesByPath(sourceFilePath);
+		Set<ISeamFactory> factories = seamProject.getFactoriesByPath(sourceFilePath);
 		for (ISeamFactory factory : factories) {
 			validateFactory(factory, markedDuplicateFactoryNames);
 		}
@@ -274,7 +274,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateFactoryName(ISeamFactory factory, String factoryName, Set<String> markedDuplicateFactoryNames, boolean validateUnknownName) {
 		ScopeType factoryScope = factory.getScope();
-		Set<ISeamContextVariable> variables = project.getVariablesByName(factoryName);
+		Set<ISeamContextVariable> variables = seamProject.getVariablesByName(factoryName);
 		boolean unknownVariable = true;
 		boolean firstDuplicateVariableWasMarked = false;
 		for (ISeamContextVariable variable : variables) {
@@ -316,7 +316,7 @@ public class SeamCoreValidator extends SeamValidator {
 	}
 
 	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents, Set<IPath> unnamedResources) {
-		Set<ISeamComponent> components = project.getComponentsByPath(sourceFilePath);
+		Set<ISeamComponent> components = seamProject.getComponentsByPath(sourceFilePath);
 		if(components.size()==0) {
 			unnamedResources.add(sourceFilePath);
 			return;
@@ -334,7 +334,7 @@ public class SeamCoreValidator extends SeamValidator {
 	 * Returns set of variables which are linked with this resource
 	 */
 	private Set<String> getVariablesNameByResource(IPath resourcePath) {
-		Set<ISeamContextVariable> variables = project.getVariablesByPath(resourcePath);
+		Set<ISeamContextVariable> variables = seamProject.getVariablesByPath(resourcePath);
 		Set<String> result = new HashSet<String>();
 		if(variables!=null) {
 			for (ISeamContextVariable variable : variables) {
@@ -350,7 +350,7 @@ public class SeamCoreValidator extends SeamValidator {
 	 */
 	private Set<IPath> getAllResourceOfComponent(IPath sourceComponentFilePath) {
 		Set<IPath> result = new HashSet<IPath>();
-		Set<ISeamComponent> components = project.getComponentsByPath(sourceComponentFilePath);
+		Set<ISeamComponent> components = seamProject.getComponentsByPath(sourceComponentFilePath);
 		for (ISeamComponent component : components) {
 			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
 			for (ISeamComponentDeclaration seamComponentDeclaration : declarations) {
@@ -380,7 +380,7 @@ public class SeamCoreValidator extends SeamValidator {
 					ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)declaration;
 
 					//do not check files declared in another project
-					if(jd.getSeamProject() != project) continue;
+					if(jd.getSeamProject() != seamProject) continue;
 
 					IType type = (IType)jd.getSourceMember();
 					boolean sourceJavaDeclaration = !type.isBinary();
@@ -454,7 +454,7 @@ public class SeamCoreValidator extends SeamValidator {
 					IType type = null;
 					// validate class name
 					try {
-						IProject p = project.getProject();
+						IProject p = seamProject.getProject();
 //						type = EclipseJavaUtil.findType(EclipseResourceUtil.getJavaProject(p), className);
 						type = EclipseResourceUtil.getJavaProject(p).findType(className);
 						if(type==null) {
@@ -614,9 +614,9 @@ public class SeamCoreValidator extends SeamValidator {
 
 		// Validate @In
 		if(bijection.isOfType(BijectedAttributeType.IN)) {
-			Set<ISeamContextVariable> variables = project.getVariablesByName(name);
+			Set<ISeamContextVariable> variables = seamProject.getVariablesByName(name);
 			if(variables==null || variables.size()<1) {
-				ISeamProject parentProject = project.getParentProject();
+				ISeamProject parentProject = seamProject.getParentProject();
 				if(parentProject != null) {
 					variables = parentProject.getVariablesByName(name);
 				}
@@ -661,7 +661,7 @@ public class SeamCoreValidator extends SeamValidator {
 	 *  Validates methods of java classes. They must belong components.
 	 */
 	private void validateMethodsOfUnknownComponent(ISeamJavaComponentDeclaration declaration) {
-		if(project.getComponentsByPath(declaration.getSourcePath()).isEmpty()) {
+		if(seamProject.getComponentsByPath(declaration.getSourcePath()).isEmpty()) {
 			IMember member = declaration.getSourceMember();
 			try {
 				if(member!=null && !Flags.isAbstract(member.getFlags())) {

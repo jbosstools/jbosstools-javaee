@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -39,7 +40,8 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	protected IValidator validationManager;
 	protected SeamContextValidationHelper coreHelper;
 	protected IReporter reporter;
-	protected ISeamProject project;
+	protected ISeamProject seamProject;
+	protected IProject project;
 	protected String markerId;
 
 	/**
@@ -51,9 +53,10 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 */
 	public ValidationErrorManager(IValidator validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
-			ISeamProject project, String markerId) {
+			ISeamProject seamProject, IProject project, String markerId) {
 		this.validationManager = validatorManager;
 		this.coreHelper = coreHelper;
+		this.seamProject = seamProject;
 		this.project = project;
 		this.reporter = reporter;
 		this.markerId = markerId;
@@ -112,8 +115,10 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 */
 	public void addError(String messageId, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target) {
-		String preferenceValue = SeamPreferences.getProjectPreference(project,
-				preferenceKey);
+		String preferenceValue = SeamPreferences.getProjectPreference(project, preferenceKey);
+		if(preferenceValue==null && seamProject!=null) {
+			preferenceValue = SeamPreferences.getProjectPreference(seamProject.getProject(), preferenceKey);
+		}
 		boolean ignore = false;
 		int messageSeverity = IMessage.HIGH_SEVERITY;
 		if (SeamPreferences.WARNING.equals(preferenceValue)) {
@@ -231,6 +236,6 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#setProject(org.jboss.tools.seam.core.ISeamProject)
 	 */
 	public void setProject(ISeamProject project) {
-		this.project = project;
+		this.seamProject = project;
 	}
 }
