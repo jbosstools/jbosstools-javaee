@@ -89,6 +89,14 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 	protected void outlineShape(Graphics g) {
 		g.setLineCap(SWT.CAP_ROUND);
 		
+		Page page=null;
+		if(link != null && link.getFromElement() instanceof Page)
+			page = (Page)link.getFromElement();
+		
+		if(page != null && !page.isConfirmed()){
+			g.setLineDash(new int[]{3,3});
+			g.setLineStyle(SWT.LINE_CUSTOM);
+		}
 		PointList points = getPoints();
 		Point point = points.getPoint(0);
 		Point beg = new Point();
