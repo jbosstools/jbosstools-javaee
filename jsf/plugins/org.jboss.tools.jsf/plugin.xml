@@ -1567,6 +1567,7 @@
    <extension point="org.jboss.tools.common.model.keys">
       <keys path="help/keys-jsf.properties"/>
       <keys path="help/keys-jsf-attrs.properties"/>
+      <keys path="help/keys-jsf-menu.properties"/>
    </extension>
    <extension id="jsfnature" point="org.eclipse.core.resources.natures">
       <runtime>
