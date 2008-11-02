@@ -162,6 +162,7 @@
          <actionSet
                id="org.eclipse.debug.ui.breakpointActionSet">
          </actionSet>
+         <actionSet id="org.eclipse.wst.server.ui.internal.webbrowser.actionSet"/>
       </perspectiveExtension>
    </extension>
 
