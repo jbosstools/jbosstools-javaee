@@ -72,7 +72,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     private static final String CSS_EXTENSION = "pickList";
 
     /** default button align. */
-    private static final String DEFAULT_BUTTON_ALIGN = HTML.VALUE_MIDDLE_ALIGN;
+    private static final String DEFAULT_BUTTON_ALIGN = HTML.VALUE_ALIGN_MIDDLE;
 
     /** default value of height of box(list). */
     private static final String DEFAULT_LIST_HEIGHT = "140px"; //$NON-NLS-1$

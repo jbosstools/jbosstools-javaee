@@ -115,7 +115,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	/**
 	 * default button align
 	 */
-	private static final String DEFAULT_BUTTON_ALIGN = HTML.VALUE_MIDDLE_ALIGN;
+	private static final String DEFAULT_BUTTON_ALIGN = HTML.VALUE_ALIGN_MIDDLE;
 
 	/**
 	 * Customizes vertically a position of move/copy controls relatively to
@@ -553,7 +553,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// create body for box
 		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		tr.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETR_VERTICAL_ALIGN
-				+ VpeStyleUtil.COLON_STRING + HTML.VALUE_TOP_ALIGN);
+				+ VpeStyleUtil.COLON_STRING + HTML.VALUE_ALIGN_TOP);
 		tr.setAttribute(HTML.ATTR_CLASS, styleClasses.get(boxId + "Row") + " " //$NON-NLS-1$ //$NON-NLS-2$
 				+ rowClass);
 

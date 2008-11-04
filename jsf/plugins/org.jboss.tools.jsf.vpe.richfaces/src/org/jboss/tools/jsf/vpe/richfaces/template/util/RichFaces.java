@@ -35,11 +35,18 @@ public class RichFaces {
 	public static final String ATTR_COLUMNS = "columns"; //$NON-NLS-1$
 	public static final String ATTR_COLUMNS_WIDTH = "columnsWidth"; //$NON-NLS-1$
 
+	public static final String ATTR_BUTTON_ICON = "buttonIcon"; //$NON-NLS-1$
+	public static final String ATTR_BUTTON_ICON_DISABLED = "buttonIconDisabled"; //$NON-NLS-1$
+	public static final String ATTR_BUTTON_CLASS = "buttonClass"; //$NON-NLS-1$
+	public static final String ATTR_SHOW_INPUT = "showInput"; //$NON-NLS-1$
+	public static final String ATTR_LOCALE = "locale"; //$NON-NLS-1$
+	
 	/** The Constant ATTR_CONTROLS_TYPE. */
 	public static final String ATTR_CONTROLS_TYPE = "controlsType"; //$NON-NLS-1$
 	/** The Constant ATTR_DEFAULT_LABEL. */
 	public static final String ATTR_DEFAULT_LABEL = "defaultLabel"; //$NON-NLS-1$
 	public static final String ATTR_DIRECTION = "direction"; //$NON-NLS-1$
+	public static final String ATTR_JOINT_POINT = "jointPoint"; //$NON-NLS-1$
 	public static final String ATTR_DISABLED = "disabled";//$NON-NLS-1$
 	public static final String ATTR_ELEMENTS = "elements"; //$NON-NLS-1$
 	public static final String ATTR_FOOTER_CLASS = "footerClass"; //$NON-NLS-1$
@@ -73,9 +80,16 @@ public class RichFaces {
 	public static final String ATTR_VISIBLE = "visible"; //$NON-NLS-1$
 	/** The Constant ATTR_WIDTH. */
 	public static final String ATTR_WIDTH = "width"; //$NON-NLS-1$
+	
+	public static final String ATTR_HORIZONTAL_OFFSET = "horizontalOffset"; //$NON-NLS-1$
+	public static final String ATTR_VERTICAL_OFFSET = "verticalOffset"; //$NON-NLS-1$
+	public static final String ATTR_ZINDEX = "zindex"; //$NON-NLS-1$
+	
+	/** FACETS NAMES **/
 	public static final String NAME_FACET_CAPTION = "caption"; //$NON-NLS-1$
 	public static final String NAME_FACET_FOOTER = "footer"; //$NON-NLS-1$
 	public static final String NAME_FACET_HEADER = "header"; //$NON-NLS-1$
+	
 	/** jsf tags which are used with richFaces. */
 	public static final String TAG_COLUMN = "column"; //$NON-NLS-1$
 	public static final String TAG_COLUMN_GROUP = "columnGroup"; //$NON-NLS-1$

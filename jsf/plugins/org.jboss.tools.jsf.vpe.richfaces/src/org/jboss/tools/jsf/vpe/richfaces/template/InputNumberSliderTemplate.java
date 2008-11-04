@@ -273,7 +273,7 @@ public class InputNumberSliderTemplate extends
 
 		// create input field
 		nsIDOMElement inputField = visualDocument.createElement(HTML.TAG_INPUT);
-		inputField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE); 
+		inputField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT); 
 
 		inputField.setAttribute(HTML.ATTR_SIZE, getNumberValue(sourceElement,
 				RichFaces.ATTR_INPUT_SIZE, INPUT_SIZE_DEFAULT));

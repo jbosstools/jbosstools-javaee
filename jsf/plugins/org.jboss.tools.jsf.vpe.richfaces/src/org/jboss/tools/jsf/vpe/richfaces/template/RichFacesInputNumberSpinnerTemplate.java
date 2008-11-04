@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
@@ -79,12 +78,12 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		VpeElementData elementData = new VpeElementData();
 
 		nsIDOMElement row = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				.createElement(HTML.TAG_TR);
 
 		// create input element
 		nsIDOMElement cellInput = visualDocument.createElement(HTML.TAG_TD);
 		cellInput.setAttribute(HTML.ATTR_CLASS, "ins-dr-spnr-e"); //$NON-NLS-1$
-		cellInput.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_TOP_ALIGN);
+		cellInput.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_ALIGN_TOP);
 		cellInput.appendChild(createInputElement(visualDocument, sourceElement,
 				elementData));
 		row.appendChild(cellInput);
@@ -92,7 +91,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		// create arrows cell
 		nsIDOMElement cellArrows = visualDocument.createElement(HTML.TAG_TD);
 		cellArrows.setAttribute(HTML.ATTR_CLASS, "dr-spnr-b"); //$NON-NLS-1$
-		cellArrows.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_MIDDLE_ALIGN);
+		cellArrows.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_ALIGN_MIDDLE);
 		cellArrows.appendChild(createArrowsElement(visualDocument, sourceNode));
 		row.appendChild(cellArrows);
 
@@ -135,7 +134,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		ComponentUtil.setImg(imageUpElement, IMAGE_NAME_UP);
 
 		imageUpElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
-		imageUpElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_IMAGE_TYPE);
+		imageUpElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
 		imageUpElement.setAttribute(HTML.ATTR_CLASS, "dr-spnr-bn"); //$NON-NLS-1$
 
 		cellUp.appendChild(imageUpElement);
@@ -151,7 +150,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		ComponentUtil.setImg(imageDownElement, IMAGE_NAME_DOWN);
 
 		imageDownElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
-		imageDownElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_IMAGE_TYPE);
+		imageDownElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
 		imageDownElement.setAttribute(HTML.ATTR_CLASS, "dr-spnr-bn"); //$NON-NLS-1$
 		cellDown.appendChild(imageDownElement);
 		rowDown.appendChild(cellDown);
@@ -181,7 +180,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		inputElement
 				.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
 
-		inputElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
+		inputElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 
 		inputElement.setAttribute(HTML.ATTR_SIZE, getInputSize(sourceElement));
 		inputElement

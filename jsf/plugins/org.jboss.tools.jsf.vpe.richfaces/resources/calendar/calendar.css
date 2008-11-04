@@ -1,46 +1,57 @@
 .rich-calendar-input {
-	 cursor: pointer;
+	cursor: pointer;
 	vertical-align: middle;
 	text-align: left;
-	
 }
 
 .rich-calendar-button {
-	 cursor:pointer;
-	vertical-align:middle;
+	cursor: pointer;
+	vertical-align: middle;
 	text-align: left;
 }
 
 .rich-calendar-exterior {
-	border: 1px solid #c0c0c0;
+	border: 1px solid;
+	border-color: #C4C0B9;
 }
 
 .rich-calendar-header {
-	border-bottom: 1px solid #c0c0c0; 
-	background: #D4CFC7; 
-	font-size: 11px; 
+	border-right: 0 solid;
+	border-bottom: 1px solid;
+	border-bottom-color: #C4C0B9;
+	background-color: #F1EEE9;
+	font-size: 11px;
 	font-family: Arial, Verdana, sans-serif;
-	font-weight: bold;
-	vertical-align: middle;
-	text-align: center;
-	padding: 7px;
-	height: 22px;
 }
 
 .rich-calendar-tool {
-	width: 25px;
+	vertical-align: middle;
+	text-align: center;
+	width: 20px;
 	height: 22px;
+	background-color: #D4CFC7;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
+	font-weight: bold;
+	color: #000;
 }
 
 .rich-calendar-month {
-
+	vertical-align: middle;
+	text-align: center;
+	height: 22px;
+	background-color: #D4CFC7;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
+	font-weight: bold;
+	color: #000;
+	white-space: nowrap;
 }
 
 .rich-calendar-tool-close {
-/*background-image:url(/richfaces-demo/a4j_3_1_4.GAorg.richfaces.renderkit.html.iconimages.CalendarSeparator/DATB/eAFjYGAAAAADAAE_.jsf);*/
-background-position:left center;
-background-repeat:no-repeat;
-padding:2px 2px 2px 4px;
+	padding: 2px 2px 2px 4px;
+	background-repeat: no-repeat;
+	background-position: left center;
 }
 
 .rich-calendar-days {
@@ -56,39 +67,39 @@ padding:2px 2px 2px 4px;
 }
 
 .rich-calendar-weekends {
-	color:red;
+	color: red;
 }
 
 .rich-calendar-week {
-	background:#F1EEE9 none repeat scroll 0%;
-	font-family:Arial,Verdana,sans-serif;
-	font-size:11px;
+	background: #F1EEE9 none repeat scroll 0%;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
 	padding: 0pt;
-	border-bottom:1px solid #C4C0B9;
-	border-right:1px solid #C4C0B9;
-	text-align:center;
-	vertical-align:middle;
-	width:25px;
+	border-bottom: 1px solid #C4C0B9;
+	border-right: 1px solid #C4C0B9;
+	text-align: center;
+	vertical-align: middle;
+	width: 25px;
 }
 
 .rich-calendar-cell {
-	background-color:#FFFFFF;
-	font-family:Arial,Verdana,sans-serif;
-	font-size:11px;
-	border-bottom:1px solid #C4C0B9;
-	border-right:1px solid #C4C0B9;
-	padding:0pt;
-	text-align:center;
-	vertical-align:middle;
+	background-color: #FFFFFF;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	border-bottom: 1px solid #C4C0B9;
+	border-right: 1px solid #C4C0B9;
+	padding: 0pt;
+	text-align: center;
+	vertical-align: middle;
 }
 
 .rich-calendar-cell-size {
-height:22px;
-width:25px;
+	height: 22px;
+	width: 25px;
 }
 
 .rich-calendar-holly {
-	background-color:  #FFEBDA; /*unknown parameter - need to add*/
+	background-color: #FFEBDA; /*unknown parameter - need to add*/
 	color: #FF7800; /*unknown parameter - need to add*/
 }
 
@@ -97,7 +108,7 @@ width:25px;
 }
 
 .rich-calendar-btn {
-	cursor:	pointer;
+	cursor: pointer;
 }
 
 .rich-calendar-today {
@@ -113,23 +124,23 @@ width:25px;
 }
 
 .rich-calendar-toolfooter {
-	border-top: 1px solid #c0c0c0; /*panelBorderColor*/
-	border-right: 0px solid #c0c0c0; /*panelBorderColor*/
-	background: #F1EEE9; /*additionalBackgroundColor*/
-	font-size: 11px; /*generalSizeFont*/
-	font-family: verdana; /*generalFamilyFont*/
-	padding: 0px 7px 0px 7px;
 	height: 22px;
+	padding: 1px 2px 1px 1px;
+	background: #F1EEE9;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
+	background-repeat: no-repeat;
+	background-position: right center;
 }
 
 .rich-calendar-footer {
-	border-top: 1px solid #c0c0c0; /*panelBorderColor*/
-	border-right: 0px solid #c0c0c0; /*panelBorderColor*/
-	background: #F1EEE9; /*additionalBackgroundColor*/
-	font-size: 11px; /*generalSizeFont*/
-	font-family: verdana; /*generalFamilyFont*/
-	padding: 7px;
-	height: 22px;
+	border-top: 1px solid;
+	border-right: 0 solid;
+	border-top-color: #C4C0B9;
+	border-right-color: #C4C0B9;
+	background: #F1EEE9;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
 }
 
 .rich-calendar-header-optional {
@@ -141,4 +152,3 @@ width:25px;
 	background: #F1EEE9;
 	text-align: center;
 }
-

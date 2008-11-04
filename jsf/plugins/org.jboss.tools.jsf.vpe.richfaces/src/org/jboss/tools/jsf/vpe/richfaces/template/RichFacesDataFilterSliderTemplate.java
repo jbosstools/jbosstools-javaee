@@ -123,7 +123,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 
 		/* Set input component */
 		nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
-		input.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
+		input.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 		
 		setAttributesToInputElement(input, sourceElement);
 
@@ -145,7 +145,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		nsIDOMElement trSpacer2 =  visualDocument.createElement(HTML.TAG_TR);
 		
 		nsIDOMElement tdSpacer2 = visualDocument.createElement(HTML.TAG_TD);
-		tdSpacer2.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_RIGHT_ALIGN);
+		tdSpacer2.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_RIGHT);
 		tdSpacer2.setAttribute(HTML.ATTR_STYLE,"font-family: Arial, Verdana, sans-serif; font-size: 5px; color: white;"); //$NON-NLS-1$
 		trSpacer2.appendChild(tdSpacer2);
 

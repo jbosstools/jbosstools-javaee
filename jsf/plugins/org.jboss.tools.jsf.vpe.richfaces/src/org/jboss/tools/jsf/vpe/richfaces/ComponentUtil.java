@@ -14,6 +14,8 @@ package org.jboss.tools.jsf.vpe.richfaces;
 
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import org.eclipse.ui.editors.text.ILocationProvider;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.util.ElService;
+import org.jboss.tools.vpe.editor.util.FileUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -195,6 +198,41 @@ public class ComponentUtil {
                     + resourcePathInPlugin);
         }
     }
+    
+    /**
+     * Gets the absolute workspace path.
+     * 
+     * @param resourcePathInWorkspace the relative path in workspace
+     * 
+     * @return the absolute workspace path
+     */
+    public static String getAbsoluteWorkspacePath(
+			String resourcePathInWorkspace, VpePageContext pageContext) {
+
+		String resolvedValue = resourcePathInWorkspace
+				.replaceFirst(
+						"^\\s*(\\#|\\$)\\{facesContext.externalContext.requestContextPath\\}", ""); //$NON-NLS-1$ //$NON-NLS-2$
+
+		IFile file = pageContext.getVisualBuilder().getCurrentIncludeInfo()
+				.getFile();
+
+		resolvedValue = ElService.getInstance().replaceEl(file, resolvedValue);
+
+//		IPath path = new Path(resolvedValue);
+		
+		URI uri = null;
+		try {
+			uri = new URI(resolvedValue);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (uri.isAbsolute() || (new File(resolvedValue)).exists())
+			return resolvedValue;
+
+		return FileUtil.getFile(resolvedValue, file).getLocation().toOSString();
+	}
 
     /**
      * Adds image as attribute to IMG tag.

@@ -211,7 +211,7 @@ public class RichFacesComboBoxTemplateHelper {
         thirdDiv.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + sourceWidth
                 + "; z-index: 1;"); //$NON-NLS-1$
         final nsIDOMElement textField = visualDocument.createElement(HTML.TAG_INPUT);
-        textField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
+        textField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 
         textField.setAttribute(HTML.ATTR_CLASS, 
         		styleClasess.get(TEXT_FIELD) + Constants.WHITE_SPACE + sourceInputClass);
@@ -230,7 +230,7 @@ public class RichFacesComboBoxTemplateHelper {
             textField.setAttribute(RichFaces.ATTR_VALUE, value);
         }
         final nsIDOMElement buttonBackground = visualDocument.createElement(HTML.TAG_INPUT);
-        buttonBackground.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
+        buttonBackground.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 
         if (disabled) {
         	styleClasess.put(BUTTON_ICON, BUTTON_ICON_CLASSES_DISABLED);
@@ -246,7 +246,7 @@ public class RichFacesComboBoxTemplateHelper {
         }
 
         final nsIDOMElement buttonIcon = visualDocument.createElement(HTML.TAG_INPUT);
-        buttonIcon.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TEXT_TYPE);
+        buttonIcon.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
         ;
         buttonIcon.setAttribute(HTML.ATTR_CLASS, styleClasess.get(BUTTON_ICON));
         buttonIcon.setAttribute(HTML.ATTR_READONLY, Constants.TRUE);
