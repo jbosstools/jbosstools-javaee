@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <chapter id="preferences" xreflabel="preferences">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
@@ -144,6 +144,11 @@
             </para>
         </listitem>
     </itemizedlist>
+
+    <para>The <property>Preferences</property> dialog <emphasis>( <property>Window &gt;
+                Preferences</property>) </emphasis> also allows to adjust settings for <link
+            linkend="JBossServerPreferences">JBoss Server</link> and <link linkend="XDoclet"
+            >XDoclet</link> module.</para>
 
     <section id="PackagingArchives">
         <?dbhtml filename="PackagingArchives.html"?>
@@ -329,7 +334,8 @@
 
                     <row>
                         <entry>Use Source tab as a default for multi-tab editors</entry>
-                        <entry>If on, an editor will open the files in the Source view by default</entry>
+                        <entry>If on, an editor will open the files in the Source view by
+                            default</entry>
                         <entry>Off</entry>
                     </row>
                 </tbody>
@@ -343,7 +349,7 @@
         <title>Visual Page Editor</title>
         <para><emphasis>
                 <property>JBoss Tools &gt; Web &gt; Editors &gt; Visual Page
-                Editor</property>
+                    Editor</property>
             </emphasis> screen allows you to control some aspects of the behavior of the
                 <property>Visual Page Editor</property> (VPE) for JSF/HTML files.</para>
         <figure>
@@ -450,7 +456,7 @@
         <para>Select a template for editing from the available list and press <emphasis>
                 <property>Edit</property>
             </emphasis> button. It will pick up the <link linkend="template_dialog">Template
-            dialog</link> where you can adjust new settings.</para>
+                dialog</link> where you can adjust new settings.</para>
     </section>
 
     <section id="el_variables">
@@ -488,8 +494,8 @@
         <tip>
             <title>Tip:</title>
             <para>If you specify an equal variable in <link linkend="el_exp_para">VPE EL
-                dialog</link> and in Preference EL dialog, variable from preference dialog will have
-                priority.</para>
+                    dialog</link> and in Preference EL dialog, variable from preference dialog will
+                have priority.</para>
         </tip>
     </section>
     <!--section id="JBossServers">
@@ -722,7 +728,8 @@
             </emphasis> page.</para>
         <para>In <emphasis>
                 <property>Validator</property>
-            </emphasis> panel you configure seam problems that will be processed by validator.</para>
+            </emphasis> panel you configure seam problems that will be processed by
+            validator.</para>
         <figure>
             <title>Seam Validator</title>
             <mediaobject>
@@ -968,32 +975,79 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>In summary, this document should guide you to those parts of <property>JBoss
-            Tools</property> which you specifically need to develop Web Applications. It coves different
-            aspects of visual components such as editors, views, etc. for browsing, representing and
-            editing web resources you are working with.</para>
-        
-        <para>If there&apos;s anything we didn&apos;t cover or you can&apos;t figure out,
-            please feel free to visit our <ulink
-                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss
-                Developer Studio Forum</ulink> to ask questions. There we are also looking for your
-            suggestions and comments.</para>
+
     </section>
 
-    <!--section id="View">
+    <section id="JBossServerPreferences">
         <?dbhtml filename="View.html"?>
-        <title>View</title>
-        <para>The following preferences can be changed on the <emphasis>
-                <property>JBoss Tools > JBoss Servers > View</property>
+        <title>Server Preferences</title>
+        <para>Preferences for <property>JBoss Server</property> and other servers can be changed on
+            the <emphasis>
+                <property>Server</property>
             </emphasis> page.</para>
-        <para>The <emphasis>
-                <property>View</property>
-            </emphasis> shows you preferences for JBoss Servers view.</para>
+
         <figure>
-            <title>View</title>
+            <title>Server Preferences</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/preferences/preferences_28.png" scale="70"/>
+                    <imagedata fileref="images/preferences/preferences_36.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>On the <emphasis>
+                <property>Server > Runtime Environments</property>
+            </emphasis> page you can add new or modify already defined Server Runtime.</para>
+
+        <figure>
+            <title>Runtime Environments</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_37.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>Server Launching preferences can be configured on the <emphasis>
+                <property>Server > Launching</property>
+            </emphasis> page.</para>
+
+        <figure>
+            <title>Server Launching Preferences</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_38.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>Navigate to <emphasis>
+                <property>Server > JBoss Server View</property>
+            </emphasis> to set preferences for <property>JBoss Servers view</property>. On this page
+            you can enable or disable any of the listed view extensions, change their sequence order
+            and also edit preferences specific to each view extension. For example, <emphasis>
+                <property>Event Log</property>
+            </emphasis> preferences:</para>
+
+        <figure>
+            <title>JBoss Server View Preferences</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_39.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>Going to <emphasis>
+                <property>Server > Audio</property>
+            </emphasis> you can enable/disable the sound notification for different Server states
+            and actions and set the sound volume as well.</para>
+
+        <figure>
+            <title>Sound Notification Adjustment</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_40.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -1002,23 +1056,64 @@
     <section id="XDoclet">
         <?dbhtml filename="XDoclet.html"?>
         <title>XDoclet</title>
-        <para>The following preferences can be changed on the <emphasis>
-                <property>JBoss Tools > XDoclet</property>
-            </emphasis> page.</para>
-        <para>On <emphasis>
+        <para>The preferences for XDoclet can be changed if you click <emphasis>
                 <property>XDoclet</property>
-            </emphasis> screen you determine XDoclet module versions.</para>
+            </emphasis> on the left navigation bar.</para>
+        <para>On the <emphasis>
+                <property>XDoclet</property>
+            </emphasis> screen it&apos;s possible to enable/disable XDoclet builder by checking
+            proper box, specify XDoclet home and determine XDoclet module version as well.</para>
+
         <figure>
             <title>XDoclet</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/preferences/preferences_31.png"/>
+                    <imagedata fileref="images/preferences/preferences_41.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
+
+        <para>Switch to <emphasis>
+                <property>XDoclet > ejbdoclet</property>
+            </emphasis> page in order to adjust settings for EJB-specific sub-tasks.</para>
+
+        <figure>
+            <title>ejbdoclet</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_42.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>To configure settings for various web-specific XDoclet sub-tasks, follow to <emphasis>
+                <property>XDoclet > webdoclet</property>
+            </emphasis> page.</para>
+
+        <figure>
+            <title>webdoclet</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_43.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>On the whole, this document should guide you to those parts of <property>JBoss
+                Tools</property> which you specifically need to develop Web Applications. It covers
+            different aspects of visual components such as editors, views, etc. for browsing,
+            representing and editing web resources you are working with.</para>
+
+        <para>If there&apos;s anything we didn&apos;t cover or you can&apos;t figure
+            out, please feel free to visit our <ulink
+                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258"
+                >JBoss Developer Studio Users Forum</ulink> or <ulink
+                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201"
+                >JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
+            your suggestions and comments.</para>
     </section>
 
-    <section id="XDocletTemplates">
+    <!--section id="XDocletTemplates">
         <?dbhtml filename="XDocletTemplates.html"?>
         <title>XDoclet Templates</title>
         <para>To see what XDoclet tags templates available for completion select <emphasis>
@@ -1036,7 +1131,8 @@
             and also add a new tree.</para>
         <para>Select, for example, <emphasis>
                 <property>Add</property>
-            </emphasis> and you&apos;ll be prompted by a list of available elements to add.</para>
+            </emphasis> and you&apos;ll be prompted by a list of available elements to
+            add.</para>
         <figure>
             <title>Add New XDoclet Template</title>
             <mediaobject>
@@ -1045,7 +1141,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>By double-clicking some element a new list will be shown: now for available methods.</para>
+        <para>By double-clicking some element a new list will be shown: now for available
+            methods.</para>
         <figure>
             <title>Select New Element</title>
             <mediaobject>
@@ -1088,7 +1185,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-    </section>           
+    </section>
 
     <section id="ChangingDefaultEnvironmentDuringProjectCreation">
         <?dbhtml filename="ChangingDefaultEnvironmentDuringProjectCreation.html"?>
@@ -1126,7 +1223,8 @@
         <?dbhtml filename="ChangingDefaultEnvironmentDuringProjectCreation.html"?>
         <title>Changing Default Project Template During Project Creation</title>
 
-        <para>To change the default project template for either JSF or Struts new project creation:</para>
+        <para>To change the default project template for either JSF or Struts new project
+            creation:</para>
 
         <orderedlist>
             <listitem>
@@ -1149,5 +1247,5 @@
             </mediaobject>
         </figure>
     </section>
-    -->
+-->
 </chapter>
