@@ -27,6 +27,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.editors.text.ILocationProvider;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.ElService;
 import org.jboss.tools.vpe.editor.util.FileUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -231,7 +232,7 @@ public class ComponentUtil {
 		if (uri.isAbsolute() || (new File(resolvedValue)).exists())
 			return resolvedValue;
 
-		return FileUtil.getFile(resolvedValue, file).getLocation().toOSString();
+		return Constants.FILE_PREFIX+FileUtil.getFile(resolvedValue, file).getLocation().toOSString();
 	}
 
     /**

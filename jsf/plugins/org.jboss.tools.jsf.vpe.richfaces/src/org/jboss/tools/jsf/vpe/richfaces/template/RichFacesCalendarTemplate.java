@@ -341,8 +341,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 				List<Cell> footerContent = new ArrayList<Cell>();
 				if (showTodayControl)
 					footerContent.add(new Cell(TODAY_CONTROL,
-							CSS_R_C_TOOLFOOTER,showTodayControl
-							&& showApplyButton ));
+							CSS_R_C_TOOLFOOTER, showTodayControl
+									&& showApplyButton));
 				if (popup && showApplyButton)
 					footerContent.add(new Cell(APPLY_CONTROL,
 							CSS_R_C_TOOLFOOTER, false, true));
@@ -609,15 +609,17 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 										.getAttribute(RichFaces.ATTR_BUTTON_ICON_DISABLED),
 								pageContext);
 			else {
-				buttonIcon = ComponentUtil
-						.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON_DISABLED);
+				buttonIcon = Constants.FILE_PREFIX
+						+ ComponentUtil
+								.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON_DISABLED);
 			}
 		} else {
 
 			if (sourceElement.hasAttribute(RichFaces.ATTR_BUTTON_ICON))
-				buttonIcon = ComponentUtil.getAbsoluteWorkspacePath(
-						sourceElement.getAttribute(RichFaces.ATTR_BUTTON_ICON),
-						pageContext);
+				buttonIcon = Constants.FILE_PREFIX
+						+ ComponentUtil.getAbsoluteWorkspacePath(sourceElement
+								.getAttribute(RichFaces.ATTR_BUTTON_ICON),
+								pageContext);
 			else {
 				buttonIcon = ComponentUtil
 						.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON);
