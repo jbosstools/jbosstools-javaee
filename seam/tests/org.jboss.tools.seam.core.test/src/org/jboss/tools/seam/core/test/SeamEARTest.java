@@ -32,24 +32,23 @@ public class SeamEARTest extends TestCase {
 	IProject projectWAR = null;
 	IProject projectEJB = null;
 	
+	TestProjectProvider providerEAR = null;
+	TestProjectProvider providerWAR = null;
+	TestProjectProvider providerEJB = null;
+	
 	boolean makeCopy = true;
 
 	public SeamEARTest() {}
 
 	protected void setUp() throws Exception {
-		TestProjectProvider providerEAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ear", makeCopy);
+		providerEAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ear", makeCopy);
 		projectEAR = providerEAR.getProject();
-
-		TestProjectProvider providerWAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1", makeCopy);
+		JobUtils.waitForIdle();
+		providerWAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1", makeCopy);
 		projectWAR = providerWAR.getProject();
-
-		TestProjectProvider providerEJB = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ejb", makeCopy);
+		JobUtils.waitForIdle();
+		providerEJB = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ejb", makeCopy);
 		projectEJB = providerEJB.getProject();
-
-		projectEAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		projectWAR.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		projectEJB.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-
 		JobUtils.waitForIdle();
 	}
 
@@ -77,5 +76,11 @@ public class SeamEARTest extends TestCase {
 		ISeamComponent c = seamProject.getComponent("authenticator");
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
+	}
+	
+	protected void tearDown() throws CoreException {
+		providerWAR.dispose();
+		providerEJB.dispose();
+		providerEAR.dispose();
 	}
 }

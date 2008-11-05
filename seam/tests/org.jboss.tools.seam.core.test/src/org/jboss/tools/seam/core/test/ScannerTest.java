@@ -62,7 +62,6 @@ public class ScannerTest extends TestCase {
 	}
 	
 	protected void setUp() throws Exception {
-		boolean save = ResourcesUtils.setBuildAutomatically(false);
 		provider = new TestProjectProvider("org.jboss.tools.seam.core.test",
 				null,"TestScanner" ,true);
 		project = provider.getProject();
@@ -463,18 +462,6 @@ public class ScannerTest extends TestCase {
 		
 	}
 	
-	public void testPromptingProvider() {
-		ISeamProject seamProject = getSeamProject();
-		SeamPromptingProvider pp = new SeamPromptingProvider();
-		Properties properties = new Properties();
-		properties.put("seamProject", seamProject);
-		List list = pp.getList(null, SeamPromptingProvider.VARIABLES, "", properties);
-		assertTrue("Prompting has to contain 'myUser' variable", list.contains("myUser"));
-		
-		list = pp.getList(null, SeamPromptingProvider.MEMBERS, "#{myUser.", properties);
-		assertTrue("Prompting has to contain 'payment' property for '#{myUser.' seed", list.contains("payment"));
-	}
-
 	public void testInnerClass_JBIDE_1374() {
 		ISeamProject seamProject = getSeamProject();
 		ISeamComponent c = seamProject.getComponent("inner_JBIDE_1374");

@@ -236,32 +236,6 @@ public class ClassPath {
 		if(c == null) return;
 		project.registerComponents(c, path);
 	}
-	
-	public ClassLoader getClassLoader() {
-		if(classLoader != null) return classLoader;
-
-		XModelObject object = model.getByPath("FileSystems"); //$NON-NLS-1$
-		XModelObject[] fs = object.getChildren("FileSystemJar"); //$NON-NLS-1$
-		
-		List<URL> urls = new ArrayList<URL>();
-		for (int i = 0; i < fs.length; i++) {
-			JarSystemImpl jar = (JarSystemImpl)fs[i];
-			String tempLocation = jar.getTempLocation();
-			File f = new File(tempLocation);
-			if(f.isFile()) {
-				try {
-					URL u = new File(tempLocation).toURL();
-					if(u != null) urls.add(u);
-				} catch (MalformedURLException e) {
-					//ignore
-				}
-			}
-		}
-		
-		classLoader = new URLClassLoader(urls.toArray(new URL[0]), Class.class.getClassLoader());
-		
-		return classLoader;
-	}
 
 	List<SeamProject> getSeamProjects(IProject project) throws CoreException {
 		List<SeamProject> list = new ArrayList<SeamProject>();

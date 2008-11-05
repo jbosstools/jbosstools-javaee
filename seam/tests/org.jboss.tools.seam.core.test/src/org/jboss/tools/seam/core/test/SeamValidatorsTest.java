@@ -16,9 +16,9 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -47,6 +47,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	protected void setUp() throws Exception {
+		JobUtils.waitForIdle();
 		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
 		if(project == null) {
 			ProjectImportTestSetup setup = new ProjectImportTestSetup(
@@ -60,19 +61,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		JobUtils.waitForIdle();
 	}
 
-	public void tearDown() throws Exception {
-		boolean autoBuild = ResourcesUtils.setBuildAutomatically(false);
-		try {
-			if(project != null){
-				JobUtils.waitForIdle();
-				project.delete(true, new NullProgressMonitor());
-				project = null;
-				JobUtils.waitForIdle();
-			}
-		} finally {
-			ResourcesUtils.setBuildAutomatically(autoBuild);
-		}
-	}
 
 	private ISeamProject getSeamProject(IProject project) {
 		refreshProject(project);
@@ -94,6 +82,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testJBIDE1318() throws CoreException {
 		getSeamProject(project);
 		IFile testJSP = project.getFile("WebContent/test.jsp");
+		testJSP.touch(null);
+		JobUtils.waitForIdle();
 		assertMarkerIsNotCreated(testJSP, null, "actor cannot be resolved");
 	}
 
@@ -106,14 +96,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public void testJiraJbide1696() throws CoreException {
 		getSeamProject(project);
-
+		
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1696
 		IFile subclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java");
 		assertMarkerIsCreated(subclassComponentFile, null, "Stateful component \"testComponentJBIDE1696\" must have a method marked @Remove", 25);
 		IFile superclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.java");
 		IFile superclassComponentFileWithRemove = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
 		try{
-			superclassComponentFile.setContents(superclassComponentFileWithRemove.getContents(), true, false, new NullProgressMonitor());
+			superclassComponentFile.setContents(superclassComponentFileWithRemove.getContents(), true, false, null);
 		}catch(Exception e){
 			JUnitUtils.fail("Error during changing 'SuperclassTestComponent.java' content to 'SuperclassTestComponent.withRemove'", e);
 		}
@@ -151,7 +141,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile bbcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.2");
 		try{
-			bbcComponentFile.setContents(bbcComponentFile2.getContents(), true, false, new NullProgressMonitor());
+			bbcComponentFile.setContents(bbcComponentFile2.getContents(), true, false, null);
+			bbcComponentFile.touch(null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'BbcComponent.java' content to " +
 					"'BbcComponent.2'", ex);
@@ -175,7 +166,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile statefulComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.2");
 		try{
-			statefulComponentFile.setContents(statefulComponentFile2.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.setContents(statefulComponentFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.2'", ex);
@@ -198,7 +189,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile statefulComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.3");
 		try{
-			statefulComponentFile.setContents(statefulComponentFile3.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.setContents(statefulComponentFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.3'", ex);
@@ -221,7 +212,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile statefulComponentFile4 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.4");
 		try{
-			statefulComponentFile.setContents(statefulComponentFile4.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.setContents(statefulComponentFile4.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.4'", ex);
@@ -245,7 +236,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile componentsFile2 = project.getFile("WebContent/WEB-INF/components.2");
 		
 		try{
-			componentsFile.setContents(componentsFile2.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.setContents(componentsFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.2'", ex);
@@ -269,7 +260,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile componentsFile3 = project.getFile("WebContent/WEB-INF/components.3");
 		
 		try{
-			componentsFile.setContents(componentsFile3.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.setContents(componentsFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.3'", ex);
@@ -278,7 +269,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile statefulComponentFile5 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.5");
 
 		try{
-			statefulComponentFile.setContents(statefulComponentFile5.getContents(), true, false, new NullProgressMonitor());
+			statefulComponentFile.setContents(statefulComponentFile5.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
 					"'StatefulComponent.5'", ex);
@@ -299,7 +290,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		// resolve error in BbcComponent.java
 		IFile bbcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.3");
 		try{
-			bbcComponentFile.setContents(bbcComponentFile3.getContents(), true, false, new NullProgressMonitor());
+			bbcComponentFile.setContents(bbcComponentFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'BbcComponent.java' content to " +
 					"'BbcComponent.3'", ex);
@@ -319,7 +310,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile abcEntityFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.2");
 		try{
-			abcEntityFile.setContents(abcEntityFile2.getContents(), true, false, new NullProgressMonitor());
+			abcEntityFile.setContents(abcEntityFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcEntity.java' content to " +
 					"'abcEntity.2'", ex);
@@ -381,7 +372,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile componentsFileWithoutSTComponent = project.getFile("WebContent/WEB-INF/components.5");
 		try {
-			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, null);
 		} catch(Exception ex) {
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.5'", ex);
@@ -432,7 +423,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile componentsFileWithSTComponent = project.getFile("WebContent/WEB-INF/components.2");
 		try {
-			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, new NullProgressMonitor());
+			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'components.6'", ex);
@@ -450,7 +441,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile newContentFile = project.getFile(newContentPath);
 		IFile targetFile = project.getFile(targetPath);
-		targetFile.setContents(newContentFile.getContents(), true, false, new NullProgressMonitor());
+		targetFile.setContents(newContentFile.getContents(), true, false, null);
 		refreshProject(project);
 		assertMarkerIsCreated(targetFile, ISeamValidator.SEAM_RESOURCE_MESSAGE_ID, pattern, line);
 	}
@@ -494,7 +485,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile Component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
 		try{
-			Component12File.setContents(Component12File2.getContents(), true, false, new NullProgressMonitor());
+			Component12File.setContents(Component12File2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
 					"'Component12File2.2'", ex);
@@ -533,7 +524,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile selectionTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2");
 		try{
-			selectionTestFile.setContents(selectionTestFile2.getContents(), true, false, new NullProgressMonitor());
+			selectionTestFile.setContents(selectionTestFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
 					"'SelectionTest.2'", ex);
@@ -541,7 +532,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile selectionIndexTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2");
 		try{
-			selectionIndexTestFile.setContents(selectionIndexTestFile2.getContents(), true, false, new NullProgressMonitor());
+			selectionIndexTestFile.setContents(selectionIndexTestFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
 					"'SelectionIndexTest.2'", ex);
@@ -580,7 +571,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile selectionTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.3");
 		try{
-			selectionTestFile.setContents(selectionTestFile3.getContents(), true, false, new NullProgressMonitor());
+			selectionTestFile.setContents(selectionTestFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
 					"'SelectionTest.3'", ex);
@@ -588,7 +579,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile selectionIndexTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.3");
 		try{
-			selectionIndexTestFile.setContents(selectionIndexTestFile3.getContents(), true, false, new NullProgressMonitor());
+			selectionIndexTestFile.setContents(selectionIndexTestFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
 					"'SelectionIndexTest.3'", ex);
@@ -636,7 +627,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile contextVariableTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2");
 		try{
-			contextVariableTestFile.setContents(contextVariableTestFile2.getContents(), true, false, new NullProgressMonitor());
+			contextVariableTestFile.setContents(contextVariableTestFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
 					"'ContextVariableTest.2'", ex);
@@ -661,7 +652,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile contextVariableTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.3");
 		try{
-			contextVariableTestFile.setContents(contextVariableTestFile3.getContents(), true, false, new NullProgressMonitor());
+			contextVariableTestFile.setContents(contextVariableTestFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
 					"'ContextVariableTest.3'", ex);
@@ -707,7 +698,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile abcComponentXHTMLFile2 = project.getFile("WebContent/abcComponent.2");
 		try{
-			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile2.getContents(), true, false, new NullProgressMonitor());
+			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
 					"'abcComponent.2'", ex);
@@ -731,7 +722,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile abcComponentXHTMLFile3 = project.getFile("WebContent/abcComponent.3");
 		try{
-			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile3.getContents(), true, false, new NullProgressMonitor());
+			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
 					"'abcComponent.3'", ex);
@@ -755,7 +746,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		IFile abcComponentXHTMLFile4 = project.getFile("WebContent/abcComponent.4");
 		try{
-			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile4.getContents(), true, false, new NullProgressMonitor());
+			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile4.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
 					"'abcComponent.4'", ex);
@@ -768,7 +759,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile abcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
 		try{
-			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, new NullProgressMonitor());
+			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
 					"'abcComponent.2'", ex);
@@ -789,7 +780,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile abcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
 		try{
-			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, new NullProgressMonitor());
+			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
 					"'abcComponent.3'", ex);
@@ -843,8 +834,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	private void refreshProject(IProject project){
-		JobUtils.delay(1000);
-		JobUtils.waitForIdle();
-		JobUtils.delay(500);
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			JobUtils.waitForIdle();
+//			project.build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+//			JobUtils.waitForIdle();
+			JobUtils.delay(5000);
+		} catch (CoreException e) {
+			// ignore
+		}
 	}
 }

@@ -47,7 +47,6 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		final IFacetedProject fproj = createSeamProject("customProject",createSeamDataModel);
 		
 		assertTrue(fproj.getProject().findMember("src/action/x/y/z").exists());
-
 	}
 	
 	public void testJiraJbide1544() throws CoreException, IOException {

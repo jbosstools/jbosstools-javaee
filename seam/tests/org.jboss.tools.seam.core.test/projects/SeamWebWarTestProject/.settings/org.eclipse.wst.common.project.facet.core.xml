@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
-  <fixed facet="jst.jsf"/>
+  <runtime name="J2EE Preview"/>
   <fixed facet="jst.web"/>
-  <fixed facet="jst.seam"/>
   <fixed facet="jst.java"/>
   <installed facet="jst.java" version="5.0"/>
   <installed facet="jst.web" version="2.5"/>

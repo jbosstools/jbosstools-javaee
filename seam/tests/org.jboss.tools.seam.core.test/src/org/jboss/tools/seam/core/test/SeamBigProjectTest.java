@@ -57,7 +57,7 @@ public class SeamBigProjectTest extends TestCase {
 	TestProjectProvider provider;
 
 	protected void setUp() throws Exception {
-		provider = new TestProjectProvider(BUNDLE,"/projects/SeamWebWarTestProject" , "SeamWebWarTestProject", true);
+		provider = new TestProjectProvider(BUNDLE,"/projects/bigProject" , "bigProject", true);
 		project = provider.getProject();
 		IFolder folder = project.getFolder(new Path("src/action/p"));
 		File template = getTemplateFile();
@@ -65,7 +65,7 @@ public class SeamBigProjectTest extends TestCase {
 		g.generate(folder, template);
 		JobUtils.waitForIdle();
 		//To ensure that the project is built.
-		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
 	}
 	
 	private File getTemplateFile() {

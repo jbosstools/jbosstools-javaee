@@ -204,7 +204,9 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			}
 			
 		},new NullProgressMonitor());
-		
+		this.addResourceToCleanup(proj);
+		this.addResourceToCleanup(ResourcesPlugin.getWorkspace().getRoot().getProject(baseProjectName + "-test"));	
+
 		return fproj;
 	}
 

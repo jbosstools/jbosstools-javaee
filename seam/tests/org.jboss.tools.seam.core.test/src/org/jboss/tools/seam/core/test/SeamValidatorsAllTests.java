@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.test.util.JUnitUtils;
@@ -33,7 +34,7 @@ public class SeamValidatorsAllTests {
 			@Override
 			protected void setUp() throws Exception {
 				super.setUp();
-				IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
+				IProject project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
 				try {
 					// Configure seam nature to switch off WTP JSF Variable resolver.
 					((IProjectNature)SeamCorePlugin.getSeamProject((IProject)project, false)).configure();

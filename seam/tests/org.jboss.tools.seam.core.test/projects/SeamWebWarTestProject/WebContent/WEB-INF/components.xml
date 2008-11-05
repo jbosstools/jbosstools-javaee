@@ -11,7 +11,6 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-1.2.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
-                 
 
    <core:init debug="true" jndi-pattern="@jndiPattern@"/>
      
@@ -20,13 +19,22 @@
                  conversation-id-parameter="cid" 
                  conversation-is-long-running-parameter="clr"/>
     
+   <core:managed-persistence-context name="entityManager"
+                              auto-create="true"
+                   entity-manager-factory="#{SeamWebWarTestProjectEntityManagerFactory}"/>
 
    <core:entity-manager-factory name="SeamWebWarTestProjectEntityManagerFactory" 
                persistence-unit-name="SeamWebWarTestProject"/>
    
    <core:ejb installed="@embeddedEjb@"/>
     
+   <drools:rule-base name="securityRules">
+       <drools:rule-files><value>/security.drl</value></drools:rule-files>
+   </drools:rule-base>
 
+   <security:identity authenticate-method="#{authenticator.authenticate}"
+                           security-rules="#{securityRules}"
+                              remember-me="true"/>
                               
    <event type="org.jboss.seam.notLoggedIn">
        <action expression="#{redirect.captureCurrentView}"/>

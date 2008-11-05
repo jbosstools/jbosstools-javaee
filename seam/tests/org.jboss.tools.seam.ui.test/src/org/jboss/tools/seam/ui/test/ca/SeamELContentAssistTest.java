@@ -16,6 +16,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
@@ -379,16 +380,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 					final int regionOffset = sdRegion.getStartOffset() + region.getStart();
 					final int regionLength = region.getTextLength();
 
-					regions.add(new IRegion () {
-						public int getLength() {
-							return regionLength;
-						}
-
-						public int getOffset() {
-							return regionOffset;
-						}
-					});
-					
+					regions.add(new Region (regionOffset,regionLength));
 				}
 			}
 			startOffset += sdRegion.getLength(); 
@@ -411,15 +403,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 			final int regionLength = (endIndex != -1 ? endIndex - fromIndex : 
 				documentContent.length() - fromIndex) + 1;
 			
-			regions.add(new IRegion () {
-				public int getLength() {
-					return regionLength;
-				}
-
-				public int getOffset() {
-					return regionOffset;
-				}
-			});
+			regions.add(new Region (regionOffset,regionLength));
 			
 			fromIndex = (endIndex != -1 ? indexOfElBOB(documentContent, endIndex) : -1);
 		}
@@ -487,8 +471,6 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 					
 					
 				} catch (BadLocationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 					assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
 				}
 			}

@@ -395,27 +395,19 @@ class RolesVisitor extends ASTVisitor implements SeamAnnotations {
 	}
 
 	public boolean visit(SingleMemberAnnotation node) {
-		if(arrayFound) {
-			String typeName = ASTVisitorImpl.resolveType(type, node);
-			if(!ROLE_ANNOTATION_TYPE.equals(typeName)) return false;
-			annotations.add(node);
-			return false;
-		}
 		return true;
 	}
 
 	public boolean visit(NormalAnnotation node) {
-		if(arrayFound) {
-			String typeName = ASTVisitorImpl.resolveType(type, node);
-			if(!ROLE_ANNOTATION_TYPE.equals(typeName)) return false;
+		String typeName = ASTVisitorImpl.resolveType(type, node);
+		if(ROLE_ANNOTATION_TYPE.equals(typeName)) {
 			annotations.add(node);
+			return true;
 		}
 		return false;
 	}
 
 	public boolean visit(ArrayInitializer node) {
-		arrayFound = true;
 		return true;
 	}
-
 }

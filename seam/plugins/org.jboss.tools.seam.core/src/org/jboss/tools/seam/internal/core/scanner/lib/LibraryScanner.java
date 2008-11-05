@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.ByteArrayInputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -31,7 +32,6 @@ import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.seam.core.SeamCoreMessages;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -43,7 +43,6 @@ import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
  * @author Viacheslav Kabanovich
  */
 public class LibraryScanner implements IFileScanner {
-	static ClassScanner CLASS_SCANNER = new ClassScanner();
 	ClassPath classPath = null;
 	
 	//Now it is absolute file on disk
@@ -150,7 +149,6 @@ public class LibraryScanner implements IFileScanner {
 			} else if(es[i] instanceof IClassFile) {
 				IClassFile typeRoot = (IClassFile)es[i];
 				processWithClassReader(typeRoot, ds);		
-//				processWithClassLoader(typeRoot, ds);
 			}
 		}
 	}
@@ -187,28 +185,4 @@ public class LibraryScanner implements IFileScanner {
 			ds.add(ds1);
 		}
 	}
-	
-	void processWithClassLoader(IClassFile typeRoot, LoadedDeclarations ds) {
-		IType type = typeRoot.getType();
-		String className = type.getFullyQualifiedName();
-		
-		Class<?> cls = null;
-		try {
-			cls = classPath.getClassLoader().loadClass(className);
-		} catch (NoClassDefFoundError e) {
-			//ignore
-		} catch (ClassNotFoundException e) {
-			//ignore
-		}
-		if(cls == null) return;
-		if(!CLASS_SCANNER.isLikelyComponentSource(cls)) return;
-		LoadedDeclarations ds1 = null;
-		ds1 = CLASS_SCANNER.parse(type, cls, sourcePath);
-		if(ds1 != null) {
-			ds.add(ds1);
-		}
-	}
-	
-	
-
 }

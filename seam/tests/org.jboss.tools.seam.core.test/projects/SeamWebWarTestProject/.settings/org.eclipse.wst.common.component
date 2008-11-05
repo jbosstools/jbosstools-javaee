@@ -3,7 +3,8 @@
 <wb-module deploy-name="SeamWebWarTestProject">
 <wb-resource deploy-path="/" source-path="/WebContent"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/action"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/model"/>
 <property name="context-root" value="SeamWebWarTestProject"/>
-<property name="java-output-path" value="build/classes"/>
+<property name="java-output-path"/>
 </wb-module>
 </project-modules>
