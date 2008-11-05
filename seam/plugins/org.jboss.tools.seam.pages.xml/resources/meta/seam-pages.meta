@@ -68,6 +68,7 @@
    <XChildEntity name="SeamPageIn"/>
    <XChildEntity name="SeamPageAction"/>
    <XChildEntity name="SeamPageNavigation12"/>
+   <XChildEntity name="SeamPageNavigationRule12"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -206,6 +207,7 @@
    <XChildEntity maxCount="1" name="SeamPageRaiseEvent20"/>
    <XChildEntity name="SeamPageAction"/>
    <XChildEntity name="SeamPageNavigation20"/>
+   <XChildEntity name="SeamPageNavigationRule20"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -320,7 +322,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItemReference entity="SeamPage12" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="SeamPage20" name="CreateActions" path="CreateActions"/>
    <XActionItemReference entity="SeamPage12" name="Properties" path="Properties"/>
    <XActionItemReference entity="SeamPage12" name="VerifyActions" path="VerifyActions"/>
   </XActionItem>
