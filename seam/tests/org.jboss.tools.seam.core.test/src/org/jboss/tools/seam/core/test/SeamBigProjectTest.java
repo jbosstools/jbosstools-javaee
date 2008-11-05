@@ -165,7 +165,7 @@ public class SeamBigProjectTest extends TestCase {
 			
 //			ResourcesUtils.setBuildAutomatically(save);
 
-			assertTrue("Validator takes more than 5s (" + ((dt-500)/1000d) + ") for validating generated long.xhtml", dt < 5000);
+			assertTrue("Validator takes more than 5s (" + ((dt-500)/1000d) + ") for validating generated long.xhtml", ((dt-500)/1000d) < 5);
 		} catch (CoreException e) {
 			JUnitUtils.fail("", e);
 		}

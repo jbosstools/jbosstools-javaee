@@ -837,9 +837,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 			JobUtils.waitForIdle();
-//			project.build(IncrementalProjectBuilder.CLEAN_BUILD, null);
-//			JobUtils.waitForIdle();
-			JobUtils.delay(5000);
+			JobUtils.delay(2000);
 		} catch (CoreException e) {
 			// ignore
 		}
