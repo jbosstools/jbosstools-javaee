@@ -109,6 +109,8 @@
 
 .rich-calendar-btn {
 	cursor: pointer;
+	padding: 2px 3px 2px 3px;
+	white-space: nowrap;
 }
 
 .rich-calendar-today {
@@ -149,6 +151,14 @@
 }
 
 .rich-calendar-footer-optional {
+	border-top: 1px solid;
+	border-right: 0 solid;
+	padding: 7px;
+	height: 22px;
+	font-weight: bold;
+	border-top-color: #C4C0B9;
+	border-right-color: #C4C0B9;
 	background: #F1EEE9;
-	text-align: center;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
 }
