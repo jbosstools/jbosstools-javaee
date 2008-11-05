@@ -616,12 +616,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		} else {
 
 			if (sourceElement.hasAttribute(RichFaces.ATTR_BUTTON_ICON))
-				buttonIcon = Constants.FILE_PREFIX
-						+ ComponentUtil.getAbsoluteWorkspacePath(sourceElement
+				buttonIcon =  ComponentUtil.getAbsoluteWorkspacePath(sourceElement
 								.getAttribute(RichFaces.ATTR_BUTTON_ICON),
 								pageContext);
 			else {
-				buttonIcon = ComponentUtil
+				buttonIcon = Constants.FILE_PREFIX
+				+ ComponentUtil
 						.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON);
 			}
 		}
