@@ -44,9 +44,37 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	final static private String DEFAULT_INPUT_SIZE = "10"; //$NON-NLS-1$
 
 	/** DEFAULT_INPUT_STYLE */
-	final static private String DEFAULT_INPUT_STYLE = "ins-input"; //$NON-NLS-1$
+	final static private String DEFAULT_INPUT_STYLE = "dr-spnr-i"; //$NON-NLS-1$
+
+	/** DEFAULT_INPUT_CONTAINER_STYLE */
+	final static private String DEFAULT_INPUT_CONTAINER_STYLE = "dr-spnr-e"; //$NON-NLS-1$
+
+	/** DEFAULT_BUTTONS_STYLE */
+	final static private String DEFAULT_BUTTONS_STYLE = "dr-spnr-b"; //$NON-NLS-1$
+
+	/** DEFAULT_BUTTON_STYLE */
+	final static private String DEFAULT_BUTTON_STYLE = "dr-spnr-bn"; //$NON-NLS-1$
 
 	final static private String ZERO_STRING = "0"; //$NON-NLS-1$
+
+	/** DISABLED_INPUT_STYLE applied for INPUT tag element in case of DISABLING */
+	final static private String DISABLED_INPUT_STYLE = "color:gray"; //$NON-NLS-1$
+
+	/* RichFaces styles for component elements */
+	/** RICH_SPINNER_C_STYLE */
+	final static private String RICH_SPINNER_C_STYLE = "rich-spinner-c"; //$NON-NLS-1$
+
+	/** RICH_SPINNER_INPUT_CONTAINER_STYLE */
+	final static private String RICH_SPINNER_INPUT_CONTAINER_STYLE = "rich-spinner-input-container"; //$NON-NLS-1$
+
+	/** RICH_SPINNER_INPUT_STYLE */
+	final static private String RICH_SPINNER_INPUT_STYLE = "rich-spinner-input"; //$NON-NLS-1$
+
+	/** RICH_SPINNER_BUTTON_STYLE */
+	final static private String RICH_SPINNER_BUTTON_STYLE = "rich-spinner-button"; //$NON-NLS-1$
+
+	/** RICH_SPINNER_BUTTONS_STYLE */
+	final static private String RICH_SPINNER_BUTTONS_STYLE = "rich-spinner-buttons"; //$NON-NLS-1$
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -65,8 +93,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 			nsIDOMDocument visualDocument) {
 
 		// Set a css for this element
-		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME,
-				"richFacesInputNumberSpinner"); //$NON-NLS-1$
+		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME, "richFacesInputNumberSpinner"); //$NON-NLS-1$
 
 		Element sourceElement = (Element) sourceNode;
 
@@ -77,21 +104,19 @@ public class RichFacesInputNumberSpinnerTemplate extends
 
 		VpeElementData elementData = new VpeElementData();
 
-		nsIDOMElement row = visualDocument
-				.createElement(HTML.TAG_TR);
+		nsIDOMElement row = visualDocument.createElement(HTML.TAG_TR);
 
 		// create input element
 		nsIDOMElement cellInput = visualDocument.createElement(HTML.TAG_TD);
-		cellInput.setAttribute(HTML.ATTR_CLASS, "ins-dr-spnr-e"); //$NON-NLS-1$
-		cellInput.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_ALIGN_TOP);
-		cellInput.appendChild(createInputElement(visualDocument, sourceElement,
-				elementData));
+		cellInput.setAttribute(HTML.ATTR_CLASS, DEFAULT_INPUT_CONTAINER_STYLE + " " //$NON-NLS-1$
+				+ RICH_SPINNER_INPUT_CONTAINER_STYLE);
+		cellInput.appendChild(createInputElement(visualDocument, sourceElement, elementData));
 		row.appendChild(cellInput);
 
 		// create arrows cell
 		nsIDOMElement cellArrows = visualDocument.createElement(HTML.TAG_TD);
-		cellArrows.setAttribute(HTML.ATTR_CLASS, "dr-spnr-b"); //$NON-NLS-1$
-		cellArrows.setAttribute(HTML.ATTR_VALIGN, HTML.VALUE_ALIGN_MIDDLE);
+		cellArrows.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTONS_STYLE + " " //$NON-NLS-1$
+				+ RICH_SPINNER_BUTTONS_STYLE);
 		cellArrows.appendChild(createArrowsElement(visualDocument, sourceNode));
 		row.appendChild(cellArrows);
 
@@ -99,6 +124,9 @@ public class RichFacesInputNumberSpinnerTemplate extends
 
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE);
 		table.setAttribute(HTML.ATTR_STYLE, tmp);
+		tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
+		tmp = new StringBuffer().append(RICH_SPINNER_C_STYLE).append(" ").append(tmp).toString(); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_CLASS, tmp);
 
 		// Create return variable contain template
 		VpeCreationData creationData = new VpeCreationData(table);
@@ -128,14 +156,14 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		nsIDOMElement rowUp = visualDocument.createElement(HTML.TAG_TR);
 		nsIDOMElement cellUp = visualDocument.createElement(HTML.TAG_TD);
 
-		nsIDOMElement imageUpElement = visualDocument
-				.createElement(HTML.TAG_INPUT);
+		nsIDOMElement imageUpElement = visualDocument.createElement(HTML.TAG_INPUT);
 
 		ComponentUtil.setImg(imageUpElement, IMAGE_NAME_UP);
 
 		imageUpElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
 		imageUpElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
-		imageUpElement.setAttribute(HTML.ATTR_CLASS, "dr-spnr-bn"); //$NON-NLS-1$
+		imageUpElement.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTON_STYLE + " " //$NON-NLS-1$
+				+ RICH_SPINNER_BUTTON_STYLE);
 
 		cellUp.appendChild(imageUpElement);
 		rowUp.appendChild(cellUp);
@@ -144,14 +172,14 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		nsIDOMElement rowDown = visualDocument.createElement(HTML.TAG_TR);
 		nsIDOMElement cellDown = visualDocument.createElement(HTML.TAG_TD);
 
-		nsIDOMElement imageDownElement = visualDocument
-				.createElement(HTML.TAG_INPUT);
+		nsIDOMElement imageDownElement = visualDocument.createElement(HTML.TAG_INPUT);
 
 		ComponentUtil.setImg(imageDownElement, IMAGE_NAME_DOWN);
 
 		imageDownElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
 		imageDownElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
-		imageDownElement.setAttribute(HTML.ATTR_CLASS, "dr-spnr-bn"); //$NON-NLS-1$
+		imageDownElement.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTON_STYLE + " " //$NON-NLS-1$
+				+ RICH_SPINNER_BUTTON_STYLE);
 		cellDown.appendChild(imageDownElement);
 		rowDown.appendChild(cellDown);
 		table.appendChild(rowDown);
@@ -171,27 +199,19 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	 */
 	private nsIDOMElement createInputElement(nsIDOMDocument visualDocument,
 			Element sourceElement, VpeElementData elementData) {
-		nsIDOMElement inputElement = visualDocument
-				.createElement(HTML.TAG_INPUT);
+		nsIDOMElement inputElement = visualDocument.createElement(HTML.TAG_INPUT);
 
-		inputElement
-				.setAttribute(HTML.ATTR_CLASS, getInputClass(sourceElement));
-
-		inputElement
-				.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
-
+		inputElement.setAttribute(HTML.ATTR_CLASS, getInputClass(sourceElement));
+		inputElement.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
 		inputElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
-
 		inputElement.setAttribute(HTML.ATTR_SIZE, getInputSize(sourceElement));
-		inputElement
-				.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
+		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 
 		if ((sourceElement).hasAttribute(RichFaces.ATTR_VALUE)) {
 			elementData.addNodeData(new NodeData(sourceElement
 					.getAttributeNode(RichFaces.ATTR_VALUE), inputElement, true));
 		} else {
-			elementData.addNodeData(new AttributeData(
-					RichFaces.ATTR_VALUE, inputElement, true));
+			elementData.addNodeData(new AttributeData(RichFaces.ATTR_VALUE, inputElement, true));
 		}
 
 		return inputElement;
@@ -217,8 +237,15 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	 * @return a input style
 	 */
 	private String getInputStyle(Element sourceElement) {
-		String returnValue = getAttribute(sourceElement,
-				RichFaces.ATTR_INPUT_STYLE);
+		String returnValue = getAttribute(sourceElement, RichFaces.ATTR_INPUT_STYLE);
+		if ((sourceElement).hasAttribute(RichFaces.ATTR_DISABLED)) {
+			String disabled = getAttribute(sourceElement, RichFaces.ATTR_DISABLED);
+			if (disabled != null && disabled.equals("true")) { //$NON-NLS-1$
+				returnValue = new StringBuffer().append(returnValue).append(" ; ") //$NON-NLS-1$
+						.append(DISABLED_INPUT_STYLE).toString();
+			}
+		}
+
 		return returnValue;
 	}
 
@@ -247,6 +274,9 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	 */
 	public String getInputClass(Element sourceElement) {
 		String returnValue = getDefaultInputClass();
+		// append default richfaces component style class
+		returnValue += " " + RICH_SPINNER_INPUT_STYLE; //$NON-NLS-1$
+		// append custom input style class
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_INPUT_CLASS);
 		if (tmp.length() != 0) {
 			returnValue = new StringBuffer().append(returnValue).append(" ") //$NON-NLS-1$
@@ -266,11 +296,9 @@ public class RichFacesInputNumberSpinnerTemplate extends
 			nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
 			String name, String value) {
 		// 1. Call super method
-		super.setAttribute(pageContext, sourceElement, visualDocument,
-				visualNode, data, name, value);
+		super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
 
-		nsIDOMElement table = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement table = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		nsIDOMNodeList listTable = table.getChildNodes();
 		nsIDOMNode nodeTr = listTable.item(0);
 		nsIDOMNodeList listTr = nodeTr.getChildNodes();
@@ -279,18 +307,12 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		nsIDOMNodeList listTd = nodeTd.getChildNodes();
 		nsIDOMNode entry0 = listTd.item(0);
 
-		nsIDOMElement inputElement = (nsIDOMElement) entry0
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement inputElement = (nsIDOMElement) entry0.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
-		inputElement
-				.setAttribute(HTML.ATTR_CLASS, getInputClass(sourceElement));
-
-		inputElement
-				.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
-
+		inputElement.setAttribute(HTML.ATTR_CLASS, getInputClass(sourceElement));
+		inputElement.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
 		inputElement.setAttribute(HTML.ATTR_SIZE, getInputSize(sourceElement));
-		inputElement
-				.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
+		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 
 		// 3. Set a style for main container
 		String strStyle = getAttribute(sourceElement, RichFaces.ATTR_STYLE);
@@ -304,5 +326,4 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	public String getDefaultInputClass() {
 		return DEFAULT_INPUT_STYLE;
 	}
-
 }
