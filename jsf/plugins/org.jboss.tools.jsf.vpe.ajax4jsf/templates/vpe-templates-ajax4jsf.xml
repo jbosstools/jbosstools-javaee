@@ -5,8 +5,8 @@
 	<vpe:template-taglib uri="http://richfaces.org/a4j" prefix="a4j" />
 
     <vpe:tag name="a4j:page" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<vpe:copy attrs="id,style,dir"/>
+		<vpe:template children="yes" modify="yes" hasImaginaryBorder="yes"
+		  class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFPageTemplate">
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
@@ -20,7 +20,8 @@
     
     <vpe:tag name="a4j:region" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<vpe:copy attrs="id"/>
+			<div id="{@id}" class="{@styleClass}" style="{@style}" title="{tagstring()}">
+            </div>
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
@@ -182,7 +183,8 @@
     
     <vpe:tag name="a4j:form" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<vpe:copy attrs="id"/>
+			<div id="{@id}" class="{@styleClass}" style="{@style}" title="{tagstring()}">
+			</div>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />

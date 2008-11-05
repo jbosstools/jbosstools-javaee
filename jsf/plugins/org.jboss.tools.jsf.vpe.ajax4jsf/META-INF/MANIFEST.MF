@@ -9,6 +9,7 @@ Require-Bundle: org.jboss.tools.vpe,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.jst.jsp,
- org.mozilla.xpcom
+ org.mozilla.xpcom,
+ org.jboss.tools.jsf.vpe.richfaces;bundle-version="2.1.0"
 Eclipse-LazyStart: true
 Bundle-Vendor: Red Hat, Inc.
