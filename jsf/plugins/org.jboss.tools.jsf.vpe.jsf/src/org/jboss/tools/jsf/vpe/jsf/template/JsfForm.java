@@ -31,16 +31,13 @@ import org.w3c.dom.NodeList;
  */
 public class JsfForm extends VpeAbstractTemplate {
 
-	private static String TABLE_WIDTH_STYLE = "width: 100%;"; //$NON-NLS-1$
+	private static String CONTENT_DIV_STYLE = "width: 100%; display: table; "; //$NON-NLS-1$
 	
 	private static final String DIR_VALUE_RTL = "RTL"; //$NON-NLS-1$
 	private static final String DIR_VALUE_LTR = "LTR"; //$NON-NLS-1$
 	
-	/* Attributes of h:form */
-	private static final String DIR = "dir"; //$NON-NLS-1$
-	private static final String STYLE = "style"; //$NON-NLS-1$
+	private static final String SPACE = " "; //$NON-NLS-1$
 	private static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
-	private static final String CLASS = "class"; //$NON-NLS-1$
 	
 	private String dir;
 	private String style;
@@ -59,31 +56,21 @@ public class JsfForm extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element)sourceNode;
 		readAttributes(sourceElement);
-		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
-		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 
 		nsIDOMElement content_div = visualDocument.createElement(HTML.TAG_DIV);
+		content_div.setAttribute(HTML.ATTR_STYLE, CONTENT_DIV_STYLE + SPACE + style);
 		
-		if (attrPresents(style)) {
-			content_div.setAttribute(STYLE, style);
-		}
 		if (attrPresents(styleClass)) {
-			content_div.setAttribute(CLASS, styleClass);
+			content_div.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
 		if (attrPresents(dir)
 				&& (dir.equalsIgnoreCase(DIR_VALUE_RTL) 
 						|| dir.equalsIgnoreCase(DIR_VALUE_LTR))) {
-			content_div.setAttribute(DIR, dir);
+			content_div.setAttribute(HTML.ATTR_DIR, dir);
 		} 
 		
-		table.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, TABLE_WIDTH_STYLE);
-
-		td.appendChild(content_div);
-		tr.appendChild(td);
-		table.appendChild(tr);
-		
-		VpeCreationData creationData = new VpeCreationData(table);
+				
+		VpeCreationData creationData = new VpeCreationData(content_div);
 		VpeChildrenInfo divInfo = new VpeChildrenInfo(content_div);
 		creationData.addChildrenInfo(divInfo);
 		
@@ -127,9 +114,9 @@ public class JsfForm extends VpeAbstractTemplate {
 	 *            the source node
 	 */
 	private void readAttributes(Element sourceElement) {
-		style = sourceElement.getAttribute(STYLE);
+		style = sourceElement.getAttribute(HTML.ATTR_STYLE);
 		styleClass = sourceElement.getAttribute(STYLE_CLASS);
-		dir = sourceElement.getAttribute(DIR);
+		dir = sourceElement.getAttribute(HTML.ATTR_DIR);
 	}
 	
     /**
