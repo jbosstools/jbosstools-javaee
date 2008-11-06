@@ -13,10 +13,19 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.wst.server.core.IRuntime;
+import org.eclipse.wst.server.core.IRuntimeType;
+import org.eclipse.wst.server.core.IRuntimeWorkingCopy;
+import org.eclipse.wst.server.core.ServerUtil;
+import org.eclipse.wst.server.core.internal.RuntimeWorkingCopy;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -41,14 +50,16 @@ public class SeamEARTest extends TestCase {
 	public SeamEARTest() {}
 
 	protected void setUp() throws Exception {
+		createRuntime("JBoss 4.2 Runtime");
+		JobUtils.waitForIdle();
 		providerEAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ear", makeCopy);
 		projectEAR = providerEAR.getProject();
 		JobUtils.waitForIdle();
-		providerWAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1", makeCopy);
-		projectWAR = providerWAR.getProject();
-		JobUtils.waitForIdle();
 		providerEJB = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ejb", makeCopy);
 		projectEJB = providerEJB.getProject();
+		JobUtils.waitForIdle();
+		providerWAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1", makeCopy);
+		projectWAR = providerWAR.getProject();
 		JobUtils.waitForIdle();
 	}
 
@@ -82,5 +93,31 @@ public class SeamEARTest extends TestCase {
 		providerWAR.dispose();
 		providerEJB.dispose();
 		providerEAR.dispose();
+	}
+	
+	private static IRuntime createRuntime(String runtimeName) throws CoreException {
+		IRuntimeWorkingCopy runtime = null;
+		String type = null;
+		String version = null;
+		String runtimeId = null;
+		IPath jbossAsLocationPath = new Path(System.getProperty("jbosstools.test.jboss.home.4.2"));
+		IRuntimeType[] runtimeTypes = ServerUtil.getRuntimeTypes(null, null, "org.jboss.ide.eclipse.as.runtime.42");
+		if (runtimeTypes.length > 0) {
+			runtime = runtimeTypes[0].createRuntime(null, new NullProgressMonitor());
+			runtime.setLocation(jbossAsLocationPath);
+			if(runtimeName!=null) {
+				runtime.setName(runtimeName);				
+			}
+			IVMInstall defaultVM = JavaRuntime.getDefaultVMInstall();
+			// IJBossServerRuntime.PROPERTY_VM_ID
+			((RuntimeWorkingCopy) runtime).setAttribute("PROPERTY_VM_ID", defaultVM.getId());
+			// IJBossServerRuntime.PROPERTY_VM_TYPE_ID
+			((RuntimeWorkingCopy) runtime).setAttribute("PROPERTY_VM_TYPE_ID", defaultVM.getVMInstallType().getId());
+			// IJBossServerRuntime.PROPERTY_CONFIGURATION_NAME
+			((RuntimeWorkingCopy) runtime).setAttribute("org.jboss.ide.eclipse.as.core.runtime.configurationName", "default");
+
+			return runtime.save(false, new NullProgressMonitor());
+		}
+		return runtime;
 	}
 }
