@@ -231,53 +231,9 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 		table.appendChild(tbody);
 
-		// Create mapping to Encode body
 		for (int i = 0; i < NUM_ROW; i++) {
-			List<Node> children = ComponentUtil.getChildren(sourceElement);
-			boolean firstRow = true;
-			nsIDOMElement tr = null;
-			VpeChildrenInfo trInfo = null;
-			for (Node child : children) {
-				if (child.getNodeName().endsWith(COLUMN) || child.getNodeName().endsWith(COLUMNS)) {
-					String breakBefore = ((Element) child)
-							.getAttribute("breakBefore");
-					if (breakBefore != null
-							&& breakBefore.equalsIgnoreCase("true")) {
-						tr = null;
-					}
-					if (tr == null) {
-						tr = visualDocument
-								.createElement(HtmlComponentUtil.HTML_TAG_TR);
-						if (firstRow) {
-							tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-									"dr-table-firstrow rich-table-firstrow");
-							firstRow = false;
-						} else {
-							tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-									"dr-table-row rich-table-row");
-						}
-						trInfo = new VpeChildrenInfo(tr);
-						tbody.appendChild(tr);
-						creationData.addChildrenInfo(trInfo);
-					}
-					trInfo.addSourceChild(child);
-				} else if (child.getNodeName().endsWith(":columnGroup")) {
-					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, 
-							creationData, (Element) child, visualDocument,
-							tbody);
-					tr = null;
-				} else if (child.getNodeName().endsWith(":subTable")) {
-					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, 
-							creationData, (Element) child, visualDocument,
-							tbody);
-					tr = null;
-				} else {
-					VpeChildrenInfo childInfo = new VpeChildrenInfo(tbody);
-					childInfo.addSourceChild(child);
-					creationData.addChildrenInfo(childInfo);
-					tr = null;
-				}
-			}
+			new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
+					sourceElement, table).encodeChildren();
 		}
 
 		return creationData;
@@ -503,7 +459,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			int span = Integer.parseInt(sourceElement.getAttribute("columns"));
 			count = count > 0 ? span : calculateRowColumns(sourceElement, columns);
 		} catch (NumberFormatException e) {
-			count = count = calculateRowColumns(sourceElement, columns);
+			count = calculateRowColumns(sourceElement, columns);
 		}
 		return count;
 	}
@@ -588,6 +544,14 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#validate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument, org.jboss.tools.vpe.editor.template.VpeCreationData) */
+	@Override
+	public void validate(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument, VpeCreationData data) {
+		RichFacesDataTableChildrenEncoder.validateChildren(pageContext, sourceNode, visualDocument, data);
 	}
 
 	// @Override

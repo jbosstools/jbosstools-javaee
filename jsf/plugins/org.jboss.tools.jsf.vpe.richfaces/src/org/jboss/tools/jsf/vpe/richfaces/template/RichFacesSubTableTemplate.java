@@ -41,22 +41,14 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	private static final String DEAFAULT_CELL_CLASS = "dr-subtable-cell rich-subtable-cell"; //$NON-NLS-1$
 	private static List<String> rowClasses;
 	private static List<String> columnClasses;
-	public static RichFacesSubTableTemplate DEFAULT_INSTANCE = new RichFacesSubTableTemplate();
-
+	
+	/** @deprecated no one another template should know about this template */
+	public static final RichFacesSubTableTemplate DEFAULT_INSTANCE = new RichFacesSubTableTemplate();
 
 	public RichFacesSubTableTemplate() {
 		super();
 	}
 
-
-	/**
-	 * Encode columnGroup
-	 * @param creationData
-	 * @param columnGroupSourceElement
-	 * @param visualDocument
-	 * @param parentVisualNode
-	 * @return
-	 */
 	public VpeCreationData encode(final VpePageContext pageContext, VpeCreationData creationData, final Element sourceElement,
 			final nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {		
 
@@ -114,7 +106,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 					curTr = visualDocument.createElement(HTML.TAG_TR);
 					ComponentUtil.copyAttributes(sourceElement, curTr);
 
-					if(header) {
+					if (header) {
 						curTr.setAttribute(HTML.ATTR_CLASS, getHeaderContinueClass());
 					} else if(footer) {
 						curTr.setAttribute(HTML.ATTR_CLASS, getFooterContinueClass());
@@ -150,17 +142,26 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	public void validate(final VpePageContext pageContext, final Node sourceNode,
 			final nsIDOMDocument visualDocument, final VpeCreationData creationData) {
 		initClasses(sourceNode, pageContext);
-		final List<VpeChildrenInfo> childrenInfoList = creationData.getChildrenInfoList();
-		if (childrenInfoList != null) {
-			for (final VpeChildrenInfo childrenInfo : childrenInfoList) {
-				final List<Node> sourceChildren = childrenInfo.getSourceChildren();
-				if (sourceChildren != null 
-						&& sourceChildren.size() > 0 
-						&& sourceChildren.get(0).getParentNode() == sourceNode) {
-					final nsIDOMNodeList visualChildren = childrenInfo.getVisualParent().getChildNodes();
-					addStylesToCells(visualDocument, visualChildren);
+		
+		nsIDOMNode visualNode = creationData.getNode();
+		if (visualNode != null && visualNode.getNodeName().equals(HTML.TAG_TBODY)) {
+			// we are called by VpeVisualDomBuilder			
+			addStylesToCells(visualDocument, visualNode.getChildNodes());
+		} else {
+			// we are called by a validator of another template
+			// TODO: this case should be removed when no one template will call the method
+			final List<VpeChildrenInfo> childrenInfoList = creationData.getChildrenInfoList();
+			if (childrenInfoList != null) {
+				for (final VpeChildrenInfo childrenInfo : childrenInfoList) {
+					final List<Node> sourceChildren = childrenInfo.getSourceChildren();
+					if (sourceChildren != null 
+							&& sourceChildren.size() > 0 
+							&& sourceChildren.get(0).getParentNode() == sourceNode) {
+						final nsIDOMNodeList visualChildren = childrenInfo.getVisualParent().getChildNodes();
+						addStylesToCells(visualDocument, visualChildren);
+					}
 				}
-			}
+			}			
 		}
 	}
 	
@@ -184,7 +185,9 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(final VpePageContext pageContext, final Node sourceNode, final nsIDOMDocument visualDocument) {
 		final Element sourceElement = (Element)sourceNode;
-		final VpeCreationData creationData = encode(pageContext, null, sourceElement, visualDocument, null);
+		final nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
+		VpeCreationData creationData = new VpeCreationData(tbody);
+		creationData = encode(pageContext, creationData, sourceElement, visualDocument, tbody);
 		return creationData;
 	}
 
@@ -296,8 +299,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
-	 */
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String) */
 	@Override
 	public boolean isRecreateAtAttrChange(final VpePageContext pageContext,
 			final Element sourceElement, final nsIDOMDocument visualDocument,
@@ -307,8 +309,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getNodeForUptate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object)
-	 */
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getNodeForUptate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object) */
 	@Override
 	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMNode visualNode, Object data) {

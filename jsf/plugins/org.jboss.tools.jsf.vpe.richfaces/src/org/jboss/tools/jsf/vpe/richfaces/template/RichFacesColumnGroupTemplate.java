@@ -21,7 +21,8 @@ import org.w3c.dom.Node;
 
 public class RichFacesColumnGroupTemplate extends RichFacesSubTableTemplate {
 
-	public static RichFacesColumnGroupTemplate DEFAULT_INSTANCE = new RichFacesColumnGroupTemplate();
+	/** @deprecated no one another template should know about this template */
+	public static final RichFacesColumnGroupTemplate DEFAULT_INSTANCE = new RichFacesColumnGroupTemplate();
 	private static String styleClass;
 
 	public RichFacesColumnGroupTemplate() {

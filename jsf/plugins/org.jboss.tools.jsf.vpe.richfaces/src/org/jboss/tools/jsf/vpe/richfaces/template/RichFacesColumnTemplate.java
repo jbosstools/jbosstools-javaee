@@ -17,7 +17,6 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
-import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -31,7 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesColumnTemplate extends VpeAbstractTemplate {
-	private static final String HEADER_ICON_STYLE = "vertical-align:middle;";
+	private static final String HEADER_ICON_STYLE = "vertical-align:middle;"; //$NON-NLS-1$
 	private static final String SORTABLE_PATH = "column/sortable.gif"; //$NON-NLS-1$
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument  visualDocument) {
@@ -50,7 +49,9 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 			VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
 			List<Node> children = ComponentUtil.getChildren(sourceElement,true);
 			for (Node child : children) {
-				tdInfo.addSourceChild(child);
+				if (!isFacet(child)) {
+					tdInfo.addSourceChild(child);
+				}
 			}
 			creationData.addChildrenInfo(tdInfo);
 			
@@ -60,6 +61,14 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 		}
 
 		return creationData;
+	}
+
+	/**@param child a node
+	 * @return <code>true</code>, if the <code>node</code> is <code>rich:facet</code> tag, 
+	 * <code>false</code> otherwise*/
+	private boolean isFacet(Node child) {
+		boolean ret = child.getNodeName().endsWith(RichFaces.TAG_FACET);
+		return ret;
 	}
 
 	private String getColumnClass(Element sourceElement) {
@@ -151,5 +160,11 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	    } else {
 	    	return null;
 	    }
+	}
+	
+	public static boolean isBreakBefore(Node child) {
+		String breakBeforeVal = ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE);
+		boolean breakBefore = breakBeforeVal != null && breakBeforeVal.equalsIgnoreCase(RichFaces.VAL_TRUE);
+		return breakBefore;
 	}
 }

@@ -445,8 +445,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		.createElement(HtmlComponentUtil.HTML_TAG_THEAD);
 		nsIDOMElement tfoot = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TFOOT);
-		nsIDOMElement tbody = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 		
 		ArrayList<Element> columns = getColumns(sourceElement);
 		int columnsLength = getColumnsCount(sourceElement, columns);
@@ -524,7 +522,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		String listWidth = sourceElement.getAttribute(LIST_WIDTH);
 		String listHeight = sourceElement.getAttribute(LIST_HEIGHT);
 		String listClass = sourceElement.getAttribute(LIST_CLASS);
-		String rowClasses = sourceElement.getAttribute(ROW_CLASSES);
+		
+		// TODO: implement support of rowClasses
+		// following line commented by yradtsevich because the variable rowClasses was not used
+		//String rowClasses = sourceElement.getAttribute(ROW_CLASSES);
 		
 		String divStyle = HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
 		+ (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + ";"
@@ -544,44 +545,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		contentTable.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
 		contentTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;");
 		
-		// Create mapping to Encode body
-		for (int i = 0; i < NUM_ROW; i++) {
-			List<Node> children = ComponentUtil.getChildren(sourceElement);
-			nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
-			tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_LIST_ROW_CLASS +  " " + (null == rowClasses ? "" : rowClasses) );
-			VpeChildrenInfo trInfo = new VpeChildrenInfo(tr);
-			tbody.appendChild(tr);
-			creationData.addChildrenInfo(trInfo);
-
-			for (Node child : children) {
-				String nodeName = child.getNodeName();
-				if (nodeName.endsWith(COLUMN) || nodeName.endsWith(COLUMNS)) {
-					trInfo.addSourceChild(child);
-				} else if (nodeName.endsWith(":columnGroup")) {
-					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, 
-							creationData, (Element) child, visualDocument,
-							tbody);
-					tr = null;
-					trInfo = null;
-				} else if (nodeName.endsWith(":subTable")) {
-					RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, 
-							creationData, (Element) child, visualDocument,
-							tbody);
-					tr = null;
-					trInfo = null;
-				} else {
-					VpeChildrenInfo childInfo = new VpeChildrenInfo(tbody);
-					childInfo.addSourceChild(child);
-					creationData.addChildrenInfo(childInfo);
-					tr = null;
-					trInfo = null;
-				}
-			}
-		}
-		
-		// ---------- FINILAZING -----------
+		// ---------- FINALIZING and children encoding -----------
 		contentTable.appendChild(thead);
-		contentTable.appendChild(tbody);
+		new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
+				sourceElement, contentTable).encodeChildren();
 		//contentTable.appendChild(tfoot);
 		contentDiv.appendChild(contentTable);
 		//outputDiv.appendChild(contentDiv);
@@ -936,5 +903,13 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#validate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument, org.jboss.tools.vpe.editor.template.VpeCreationData) */
+	@Override
+	public void validate(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument, VpeCreationData data) {
+		RichFacesDataTableChildrenEncoder.validateChildren(pageContext, sourceNode, visualDocument, data);
 	}
 }

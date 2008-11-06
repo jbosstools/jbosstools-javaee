@@ -7,12 +7,11 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -30,8 +29,6 @@ import org.w3c.dom.NodeList;
 
 public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 
-	private static final String ATTR_BREAK_BEFORE = "breakBefore"; //$NON-NLS-1$
-	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element)sourceNode;
@@ -119,49 +116,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			}
 		}
 
-		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
-		table.appendChild(tbody);
-
-		// Create mapping to Encode body
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
-		boolean firstRow = true;
-		nsIDOMElement tr = null;
-		VpeChildrenInfo trInfo = null;
-		for (Node child : children) {
-			String nodeName = child.getNodeName();
-			if(nodeName.endsWith(RichFaces.TAG_COLUMN) || 
-					nodeName.endsWith(RichFaces.TAG_COLUMNS)) {
-				String breakBefore = ((Element)child).getAttribute(ATTR_BREAK_BEFORE);
-				if(breakBefore!=null && breakBefore.equalsIgnoreCase(Constants.TRUE)) {
-					tr = null;
-				}
-				if(tr==null) {
-					tr = visualDocument.createElement(HTML.TAG_TR);
-					if(firstRow) {
-						tr.setAttribute(HTML.ATTR_CLASS, "dr-table-firstrow rich-table-firstrow"); //$NON-NLS-1$
-						firstRow = false;
-					} else {
-						tr.setAttribute(HTML.ATTR_CLASS, "dr-table-row rich-table-row"); //$NON-NLS-1$
-					}
-					trInfo = new VpeChildrenInfo(tr);
-					tbody.appendChild(tr);
-					creationData.addChildrenInfo(trInfo);
-				}
-					trInfo.addSourceChild(child);
-
-			} else if(nodeName.endsWith(RichFaces.TAG_COLUMN_GROUP)) {
-				RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)child, visualDocument, tbody);
-				tr = null;
-			} else if(nodeName.endsWith(RichFaces.TAG_SUB_TABLE)) {
-				RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)child, visualDocument, tbody);
-				tr = null;
-			} else {
-				VpeChildrenInfo childInfo = new VpeChildrenInfo(tbody);
-				childInfo.addSourceChild(child);
-				creationData.addChildrenInfo(childInfo);
-				tr = null;
-			}
-		}
+		new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
+				sourceElement, table).encodeChildren();
 
 		return creationData;
 	}
@@ -225,7 +181,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		}
 	}
 
-	protected void encodeTableHeaderOrFooterFacet(final VpePageContext pageContext, VpeCreationData creationData, nsIDOMElement parentTheadOrTfood, int columns, nsIDOMDocument visualDocument, Node facetBody, String skinFirstRowClass, String skinRowClass, String skinCellClass, String facetBodyClass, String element) {
+	protected void encodeTableHeaderOrFooterFacet(final VpePageContext pageContext, VpeCreationData creationData,
+			nsIDOMElement parentTheadOrTfood, int columns, nsIDOMDocument visualDocument, Node facetBody, 
+			String skinFirstRowClass, String skinRowClass, String skinCellClass, String facetBodyClass, String element) {
 		boolean isColumnGroup = facetBody.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP);
 		boolean isSubTable = facetBody.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE);
 		if(isColumnGroup) {
@@ -342,7 +300,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				} else if (nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMN) ||
 						nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMNS)) {
 					// For new row, save length of previous.
-					if (Boolean.getBoolean(column.getAttribute(ATTR_BREAK_BEFORE))) {
+					if (Boolean.getBoolean(column.getAttribute(RichFaces.ATTR_BREAK_BEFORE))) {
 						count = Math.max(currentLength,count);
 						currentLength = 0;
 					}
@@ -370,19 +328,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 	@Override
 	public void validate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument, VpeCreationData data) {
-		Element sourceElement = (Element) sourceNode;
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
-		if (children != null) {
-			for (Node child : children) {
-				if (child.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
-					RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.validate(pageContext, child, visualDocument, data);
-				} else if (child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
-					RichFacesSubTableTemplate.DEFAULT_INSTANCE.validate(pageContext, child, visualDocument, data);
-				}
-			}
-		}
-
-		super.validate(pageContext, sourceNode, visualDocument, data);
+		RichFacesDataTableChildrenEncoder.validateChildren(pageContext, sourceNode, visualDocument, data);
 	}
 
 	@Override
