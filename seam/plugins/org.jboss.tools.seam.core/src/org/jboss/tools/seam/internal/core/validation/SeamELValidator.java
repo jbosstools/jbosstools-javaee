@@ -292,7 +292,7 @@ public class SeamELValidator extends SeamValidator {
 		String varName = operand;
 		int offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart();
 		int lengthOfVarName = varName.length();
-		boolean unresolvedTokenIsVariable = true;
+		boolean unresolvedTokenIsVariable = false;
 		try {
 			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
@@ -337,7 +337,9 @@ public class SeamELValidator extends SeamValidator {
 				}
 				offsetOfVarName = documnetOffset + ts.getInvocationStartPosition();
 				lengthOfVarName = varName == null ? 0 : varName.length();
-				unresolvedTokenIsVariable = true;
+				if(status.getUsedVariables().isEmpty()) {
+					unresolvedTokenIsVariable = true;
+				}
 			}
 		} catch (BadLocationException e) {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
