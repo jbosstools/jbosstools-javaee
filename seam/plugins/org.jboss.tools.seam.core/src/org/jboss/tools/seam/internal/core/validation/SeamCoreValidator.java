@@ -624,7 +624,11 @@ public class SeamCoreValidator extends SeamValidator {
 			if(variables==null || variables.size()<1) {
 				// Injection has unknown name. Mark it.
 				IResource declarationResource = declaration.getResource();
-				addError(UNKNOWN_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_VARIABLE_NAME, new String[]{name}, bijection, declarationResource);
+				ISeamTextSourceReference nameRef = getNameLocation(bijection);
+				if(nameRef == null) {
+					nameRef = bijection;
+				}
+				addError(UNKNOWN_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_VARIABLE_NAME, new String[]{name}, nameRef, declarationResource);
 			}
 		}
 	}
