@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.resources.IResourceProxyVisitor;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -143,8 +144,21 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
 		final IContainer warLibs = (IContainer) warProject.getProject().findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class);
 		assertOnlyContainsTheseFiles(seamgenlibs, warLibs);
-	
+	}
 
+	public void testMvelWarJars() {
+		final IContainer warLibs = (IContainer) warProject.getProject().findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class);
+		try {
+			for (IResource resource : warLibs.members()) {
+					if(resource.getName().matches("mvel.*\\.jar") ) {
+						return;
+					}
+			}
+			fail("mvel*.jar weren't found in seam 2.0. WAR project");
+		} catch (CoreException e) {
+			fail("Error occured during search mvel libraries in lib folder");
+		}
+	
 	}
 
 	public void testEarLibs() throws CoreException {
@@ -208,6 +222,24 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		assertOnlyContainsTheseFiles(onlyInEjbSrc, (IContainer)ejb.findMember("ejbModule").getAdapter(IContainer.class));		
 	}
 
+	public void testMvelEarJars() {
+		IProject war = earProject.getProject();
+		
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earProject.getProject());
+		
+		IProject ear = seamProjectsSet.getEarProject();
+		final IContainer earLibs = (IContainer) ear.findMember("EarContent").getAdapter(IContainer.class);
+			try {
+			for (IResource resource : earLibs.members()) {
+					if(resource.getName().matches("mvel.*\\.jar") ) {
+						return;
+					}
+			}
+			fail("mvel*.jar weren't found in seam 2.0. EAR project");
+		} catch (CoreException e) {
+			fail("Error occured during search mvel libraries in lib folder");
+		}
+	}
 
 	/**
 	 * Fails if set of fileNames is not found in dir or some other filename is found in dir.
