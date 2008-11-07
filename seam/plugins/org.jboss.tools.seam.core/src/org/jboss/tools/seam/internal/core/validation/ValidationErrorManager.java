@@ -115,7 +115,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 */
 	public void addError(String messageId, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target) {
-		String preferenceValue = SeamPreferences.getProjectPreference(project, preferenceKey);
+		String preferenceValue = SeamPreferences.getProjectPreference(target.getProject(), preferenceKey);
 		if(preferenceValue==null && seamProject!=null) {
 			preferenceValue = SeamPreferences.getProjectPreference(seamProject.getProject(), preferenceKey);
 		}
