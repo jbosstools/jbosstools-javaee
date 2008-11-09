@@ -607,5 +607,11 @@
   			commandId="org.jboss.tools.seam.ui.refactoring.component"
   			class="org.jboss.tools.seam.ui.refactoring.SeamComponentRenameHandler"/>
 	</extension>
+	
+	<extension point="org.eclipse.ui.ide.markerResolution">
+  		<markerResolutionGenerator
+     		class="org.jboss.tools.seam.ui.marker.MarkerResolutionGenerator"
+     		markerType="org.jboss.tools.seam.core.seamProjectProblem"/>
+	</extension>
 
 </plugin>

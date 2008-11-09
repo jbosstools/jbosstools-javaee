@@ -78,6 +78,7 @@ import org.osgi.service.prefs.BackingStoreException;
  */
 public class SeamSettingsPreferencePage extends PropertyPage implements PropertyChangeListener {
 
+	public static final String ID = "org.jboss.tools.seam.ui.propertyPages.SeamSettingsPreferencePage";
 	private Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
 	private IProject project;
 	private IProject warProject;
