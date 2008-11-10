@@ -94,6 +94,8 @@
 		<xclass id="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"
 			class="org.jboss.tools.seam.pages.xml.model.helpers.autolayout.SeamPagesItems"/>
 
+		<xclass id="org.jboss.tools.seam.pages.xml.model.ViewIdsTree"
+			class="org.jboss.tools.seam.pages.xml.model.ViewIdsTree"/>
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">
