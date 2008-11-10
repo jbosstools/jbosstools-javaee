@@ -47,10 +47,13 @@ public class JBIDE3127Test extends VpeTest{
         editorPart.maximizeSource();
         assertFalse("Visual part shouldn't be visible",vpeController.isVisualEditorVisible()); //$NON-NLS-1$
         //change source code
-        editor.getSourceEditor().getTextViewer().getTextWidget().replaceTextRange(offcet-10, "replaced text".length(), "replaced text"); //$NON-NLS-1$ //$NON-NLS-2$
+        editor.getSourceEditor().getTextViewer().getTextWidget().replaceTextRange(offcet-20, "replaced text".length(), "replaced text"); //$NON-NLS-1$ //$NON-NLS-2$
         assertFalse("Synced should be false",vpeController.isSynced()); //$NON-NLS-1$
         editorPart.maximizeVisual();
         vpeController.visualRefresh();
+        //wait while refresh jobs start
+        TestUtil.delay(500);
+        TestUtil.waitForJobs();
         if(getException()!=null) {
         	throw new Exception(getException());
         }
