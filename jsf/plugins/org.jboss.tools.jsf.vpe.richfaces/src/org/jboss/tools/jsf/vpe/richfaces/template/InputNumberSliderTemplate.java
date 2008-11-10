@@ -215,9 +215,9 @@ public class InputNumberSliderTemplate extends
 						SLYDER_WIDTH_DEFAULT) + ";" //$NON-NLS-1$
 				+ getAttribute(sourceElement, RichFaces.ATTR_STYLE));
 		basicTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get("style")); //$NON-NLS-1$
-		basicTable.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
-		basicTable.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
-		basicTable.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
+		basicTable.setAttribute(HTML.ATTR_CELLPADDING, MIN_VALUE_DEFAULT);
+		basicTable.setAttribute(HTML.ATTR_CELLSPACING, MIN_VALUE_DEFAULT);
+		basicTable.setAttribute(HTML.ATTR_BORDER, MIN_VALUE_DEFAULT);
 
 		nsIDOMElement valuesBlock = createValuesBlock(sourceElement,
 				visualDocument, elementData);
@@ -361,8 +361,8 @@ public class InputNumberSliderTemplate extends
 		// create table
 		nsIDOMElement barTable = visualDocument.createElement(HTML.TAG_TABLE);
 		barTable.setAttribute(HTML.ATTR_CLASS, TRACK_DECOR_1_CLASSES);
-		barTable.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
-		barTable.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
+		barTable.setAttribute(HTML.ATTR_CELLPADDING, MIN_VALUE_DEFAULT);
+		barTable.setAttribute(HTML.ATTR_CELLSPACING, MIN_VALUE_DEFAULT);
 
 		// create tr
 		nsIDOMElement barTr = visualDocument.createElement(HTML.TAG_TR);

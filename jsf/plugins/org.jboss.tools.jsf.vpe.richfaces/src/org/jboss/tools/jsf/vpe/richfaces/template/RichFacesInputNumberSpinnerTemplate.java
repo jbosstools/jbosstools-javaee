@@ -17,11 +17,10 @@ import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.NodeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -41,8 +40,11 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	final static private String IMAGE_NAME_DOWN = "/inputNumberSpinner/down.gif"; //$NON-NLS-1$
 
 	/** DEFAULT_INPUT_SIZE */
-	final static private String DEFAULT_INPUT_SIZE = "10"; //$NON-NLS-1$
+	final static private String DEFAULT_INPUT_SIZE = "10px"; //$NON-NLS-1$
+	final static private String DEFAULT_ZERO_SIZE = "0px"; //$NON-NLS-1$
+	final static private String DEFAULT_WIDTH = "1%"; //$NON-NLS-1$
 
+	/* Default and RichFaces styles */
 	/** DEFAULT_INPUT_STYLE */
 	final static private String DEFAULT_INPUT_STYLE = "dr-spnr-i"; //$NON-NLS-1$
 
@@ -55,10 +57,8 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	/** DEFAULT_BUTTON_STYLE */
 	final static private String DEFAULT_BUTTON_STYLE = "dr-spnr-bn"; //$NON-NLS-1$
 
-	final static private String ZERO_STRING = "0"; //$NON-NLS-1$
-
 	/** DISABLED_INPUT_STYLE applied for INPUT tag element in case of DISABLING */
-	final static private String DISABLED_INPUT_STYLE = "color:gray"; //$NON-NLS-1$
+	final static private String DISABLED_INPUT_STYLE = "color:grey"; //$NON-NLS-1$
 
 	/* RichFaces styles for component elements */
 	/** RICH_SPINNER_C_STYLE */
@@ -75,6 +75,13 @@ public class RichFacesInputNumberSpinnerTemplate extends
 
 	/** RICH_SPINNER_BUTTONS_STYLE */
 	final static private String RICH_SPINNER_BUTTONS_STYLE = "rich-spinner-buttons"; //$NON-NLS-1$
+
+	/**
+	 * Default constructor.
+	 */
+	public RichFacesInputNumberSpinnerTemplate() {
+		super();
+	}
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -98,9 +105,9 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		Element sourceElement = (Element) sourceNode;
 
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		table.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
-		table.setAttribute(HTML.ATTR_CELLPADDING, ZERO_STRING);
-		table.setAttribute(HTML.ATTR_CELLSPACING, ZERO_STRING);
+		table.setAttribute(HTML.ATTR_BORDER, DEFAULT_ZERO_SIZE);
+		table.setAttribute(HTML.ATTR_CELLPADDING, DEFAULT_ZERO_SIZE);
+		table.setAttribute(HTML.ATTR_CELLSPACING, DEFAULT_ZERO_SIZE);
 
 		VpeElementData elementData = new VpeElementData();
 
@@ -108,15 +115,17 @@ public class RichFacesInputNumberSpinnerTemplate extends
 
 		// create input element
 		nsIDOMElement cellInput = visualDocument.createElement(HTML.TAG_TD);
-		cellInput.setAttribute(HTML.ATTR_CLASS, DEFAULT_INPUT_CONTAINER_STYLE + " " //$NON-NLS-1$
+		cellInput.setAttribute(HTML.ATTR_CLASS, DEFAULT_INPUT_CONTAINER_STYLE + Constants.WHITE_SPACE
 				+ RICH_SPINNER_INPUT_CONTAINER_STYLE);
+		cellInput.setAttribute(HTML.ATTR_WIDTH, DEFAULT_WIDTH);
 		cellInput.appendChild(createInputElement(visualDocument, sourceElement, elementData));
 		row.appendChild(cellInput);
 
 		// create arrows cell
 		nsIDOMElement cellArrows = visualDocument.createElement(HTML.TAG_TD);
-		cellArrows.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTONS_STYLE + " " //$NON-NLS-1$
+		cellArrows.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTONS_STYLE + Constants.WHITE_SPACE
 				+ RICH_SPINNER_BUTTONS_STYLE);
+		cellArrows.setAttribute(HTML.ATTR_WIDTH, DEFAULT_WIDTH);
 		cellArrows.appendChild(createArrowsElement(visualDocument, sourceNode));
 		row.appendChild(cellArrows);
 
@@ -125,33 +134,32 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE);
 		table.setAttribute(HTML.ATTR_STYLE, tmp);
 		tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
-		tmp = new StringBuffer().append(RICH_SPINNER_C_STYLE).append(" ").append(tmp).toString(); //$NON-NLS-1$
+		tmp = new StringBuffer().append(RICH_SPINNER_C_STYLE).append(Constants.WHITE_SPACE).append(tmp).toString();
 		table.setAttribute(HTML.ATTR_CLASS, tmp);
 
-		// Create return variable contain template
+		// Create return variable contains template
 		VpeCreationData creationData = new VpeCreationData(table);
-
 		creationData.setElementData(elementData);
 
 		return creationData;
 	}
 
 	/**
-	 * Create a HTML-part containg arrows elements
+	 * Create a HTML-part containing arrows elements
 	 * 
 	 * @param visualDocument
 	 *            The current node of the source tree.
 	 * @param sourceNode
 	 *            The document of the visual tree.
-	 * @return a HTML-part containg arrows elements
+	 * @return a HTML-part containing arrows elements
 	 */
 	private nsIDOMElement createArrowsElement(nsIDOMDocument visualDocument,
 			Node sourceNode) {
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 
-		table.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
-		table.setAttribute(HTML.ATTR_CELLPADDING, ZERO_STRING);
-		table.setAttribute(HTML.ATTR_CELLSPACING, ZERO_STRING);
+		table.setAttribute(HTML.ATTR_BORDER, DEFAULT_ZERO_SIZE);
+		table.setAttribute(HTML.ATTR_CELLPADDING, DEFAULT_ZERO_SIZE);
+		table.setAttribute(HTML.ATTR_CELLSPACING, DEFAULT_ZERO_SIZE);
 
 		nsIDOMElement rowUp = visualDocument.createElement(HTML.TAG_TR);
 		nsIDOMElement cellUp = visualDocument.createElement(HTML.TAG_TD);
@@ -160,9 +168,9 @@ public class RichFacesInputNumberSpinnerTemplate extends
 
 		ComponentUtil.setImg(imageUpElement, IMAGE_NAME_UP);
 
-		imageUpElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
+		imageUpElement.setAttribute(HTML.ATTR_BORDER, DEFAULT_ZERO_SIZE);
 		imageUpElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
-		imageUpElement.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTON_STYLE + " " //$NON-NLS-1$
+		imageUpElement.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTON_STYLE + Constants.WHITE_SPACE
 				+ RICH_SPINNER_BUTTON_STYLE);
 
 		cellUp.appendChild(imageUpElement);
@@ -176,9 +184,9 @@ public class RichFacesInputNumberSpinnerTemplate extends
 
 		ComponentUtil.setImg(imageDownElement, IMAGE_NAME_DOWN);
 
-		imageDownElement.setAttribute(HTML.ATTR_BORDER, ZERO_STRING);
+		imageDownElement.setAttribute(HTML.ATTR_BORDER, DEFAULT_ZERO_SIZE);
 		imageDownElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
-		imageDownElement.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTON_STYLE + " " //$NON-NLS-1$
+		imageDownElement.setAttribute(HTML.ATTR_CLASS, DEFAULT_BUTTON_STYLE + Constants.WHITE_SPACE
 				+ RICH_SPINNER_BUTTON_STYLE);
 		cellDown.appendChild(imageDownElement);
 		rowDown.appendChild(cellDown);
@@ -205,6 +213,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		inputElement.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
 		inputElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 		inputElement.setAttribute(HTML.ATTR_SIZE, getInputSize(sourceElement));
+		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 
 		if ((sourceElement).hasAttribute(RichFaces.ATTR_VALUE)) {
@@ -240,8 +249,8 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		String returnValue = getAttribute(sourceElement, RichFaces.ATTR_INPUT_STYLE);
 		if ((sourceElement).hasAttribute(RichFaces.ATTR_DISABLED)) {
 			String disabled = getAttribute(sourceElement, RichFaces.ATTR_DISABLED);
-			if (disabled != null && disabled.equals("true")) { //$NON-NLS-1$
-				returnValue = new StringBuffer().append(returnValue).append(" ; ") //$NON-NLS-1$
+			if (disabled != null && disabled.equals(Constants.TRUE)) {
+				returnValue = new StringBuffer().append(returnValue).append(Constants.SEMICOLON)
 						.append(DISABLED_INPUT_STYLE).toString();
 			}
 		}
@@ -257,7 +266,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	 * @return a input size
 	 */
 	protected String getInputSize(Element sourceElement) {
-		String returnValue = getDefaultInputSize();
+		String returnValue = DEFAULT_INPUT_SIZE;
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_INPUT_SIZE);
 		if (tmp.length() != 0) {
 			returnValue = tmp;
@@ -273,57 +282,25 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	 * @return a input class
 	 */
 	public String getInputClass(Element sourceElement) {
-		String returnValue = getDefaultInputClass();
+		String returnValue = DEFAULT_INPUT_STYLE;
 		// append default richfaces component style class
-		returnValue += " " + RICH_SPINNER_INPUT_STYLE; //$NON-NLS-1$
+		returnValue += Constants.WHITE_SPACE + RICH_SPINNER_INPUT_STYLE;
 		// append custom input style class
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_INPUT_CLASS);
 		if (tmp.length() != 0) {
-			returnValue = new StringBuffer().append(returnValue).append(" ") //$NON-NLS-1$
-					.append(tmp).toString();
+			returnValue = new StringBuffer().append(returnValue).append(Constants.WHITE_SPACE).append(tmp).toString();
 		}
 		return returnValue;
 	}
 
 	/**
-	 * 
-	 * @see com.exadel.vpe.editor.template.VpeAbstractTemplate#setAttribute(com.exadel.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Element, org.w3c.dom.Document, org.w3c.dom.Node,
-	 *      java.lang.Object, java.lang.String, java.lang.String)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(VpePageContext, Element,
+	 * nsIDOMDocument, nsIDOMElement, Object, String, String)
 	 */
 	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
-			String name, String value) {
-		// 1. Call super method
-		super.setAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name, value);
-
-		nsIDOMElement table = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		nsIDOMNodeList listTable = table.getChildNodes();
-		nsIDOMNode nodeTr = listTable.item(0);
-		nsIDOMNodeList listTr = nodeTr.getChildNodes();
-		nsIDOMNode nodeTd = listTr.item(0);
-
-		nsIDOMNodeList listTd = nodeTd.getChildNodes();
-		nsIDOMNode entry0 = listTd.item(0);
-
-		nsIDOMElement inputElement = (nsIDOMElement) entry0.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-
-		inputElement.setAttribute(HTML.ATTR_CLASS, getInputClass(sourceElement));
-		inputElement.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
-		inputElement.setAttribute(HTML.ATTR_SIZE, getInputSize(sourceElement));
-		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
-
-		// 3. Set a style for main container
-		String strStyle = getAttribute(sourceElement, RichFaces.ATTR_STYLE);
-		table.setAttribute(HTML.ATTR_STYLE, strStyle);
-	}
-
-	public String getDefaultInputSize() {
-		return DEFAULT_INPUT_SIZE;
-	}
-
-	public String getDefaultInputClass() {
-		return DEFAULT_INPUT_STYLE;
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
 	}
 }

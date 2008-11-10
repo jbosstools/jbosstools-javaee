@@ -9,7 +9,6 @@
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-
 package org.jboss.tools.jsf.vpe.richfaces;
 
 
@@ -47,7 +46,6 @@ import org.w3c.dom.Text;
  */
 public class ComponentUtil {
 
-
     /** The Constant EMPTY_SELECT_ITEM_VALUE. */
     private static final String EMPTY_SELECT_ITEM_VALUE = "<f:selectItem/>"; //$NON-NLS-1$
 
@@ -56,9 +54,6 @@ public class ComponentUtil {
 
     /** The Constant SELECT_ITEMS. */
     private static final String SELECT_ITEMS = "selectItems"; //$NON-NLS-1$
-
-    /** The Constant PX_SUFFIX. */
-    public static final String PX_SUFFIX = "px"; //$NON-NLS-1$
 
     /** The Constant SELECT_ITEM. */
     private static final String SELECT_ITEM = "selectItem"; //$NON-NLS-1$
@@ -160,8 +155,7 @@ public class ComponentUtil {
      * @return true, if is rendered
      */
     public static boolean isRendered(Element sourceElement) {
-        return !"false" //$NON-NLS-1$
-        .equalsIgnoreCase(sourceElement.getAttribute("rendered")); //$NON-NLS-1$
+        return !Constants.FALSE.equalsIgnoreCase(sourceElement.getAttribute("rendered")); //$NON-NLS-1$
     }
 
     /**
@@ -212,7 +206,7 @@ public class ComponentUtil {
 
 		String resolvedValue = resourcePathInWorkspace
 				.replaceFirst(
-						"^\\s*(\\#|\\$)\\{facesContext.externalContext.requestContextPath\\}", ""); //$NON-NLS-1$ //$NON-NLS-2$
+						"^\\s*(\\#|\\$)\\{facesContext.externalContext.requestContextPath\\}", Constants.EMPTY); //$NON-NLS-1$
 
 		IFile file = pageContext.getVisualBuilder().getCurrentIncludeInfo()
 				.getFile();
@@ -418,7 +412,7 @@ public class ComponentUtil {
     public static String getAttribute(Element sourceElement, String attributeName) {
         String attribute = sourceElement.getAttribute(attributeName);
         if (attribute == null) {
-            attribute = ""; //$NON-NLS-1$
+            attribute = Constants.EMPTY;
         }
         return attribute;
     }
@@ -434,7 +428,7 @@ public class ComponentUtil {
     public static String getAttribute(nsIDOMElement sourceElement, String attributeName) {
         String attribute = sourceElement.getAttribute(attributeName);
         if (attribute == null) {
-            attribute = ""; //$NON-NLS-1$
+            attribute = Constants.EMPTY;
         }
         return attribute;
     }
@@ -449,9 +443,9 @@ public class ComponentUtil {
      */
     public static boolean parameterPresent(String style, String name) {
         if (style != null && style.length() > 0) {
-            String[] styles = style.split(";"); //$NON-NLS-1$
+            String[] styles = style.split(Constants.SEMICOLON);
             for (int i = 0; i < styles.length; i++) {
-                String[] pair = styles[i].split(":"); //$NON-NLS-1$
+                String[] pair = styles[i].split(Constants.COLON);
                 if (pair[0].trim().equals(name)) {
                     return true;
                 }
@@ -470,9 +464,9 @@ public class ComponentUtil {
      */
     public static String getStyleParametr(String style, String name) {
         if (style != null && style.length() > 0) {
-            String[] styles = style.split(";"); //$NON-NLS-1$
+            String[] styles = style.split(Constants.SEMICOLON);
             for (int i = 0; i < styles.length; i++) {
-                String[] pair = styles[i].split(":"); //$NON-NLS-1$
+                String[] pair = styles[i].split(Constants.COLON);
                 if (pair[0].trim().equals(name)) {
                     return pair[1].trim();
                 }
@@ -491,7 +485,7 @@ public class ComponentUtil {
      */
     public static String addParameter(String style, String element) {
         String s = style.trim();
-        return style + (s.length() == 0 || s.endsWith(";") ? "" : ";") //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+        return style + (s.length() == 0 || s.endsWith(Constants.SEMICOLON) ? Constants.EMPTY : Constants.SEMICOLON)
                 + element;
     }
 
@@ -572,7 +566,7 @@ public class ComponentUtil {
             String prefValue, String defValue) {
         String attrValue = ((Element) sourceNode).getAttribute(attrName);
         if (prefValue != null && prefValue.trim().length() > 0 && attrValue != null) {
-            attrValue = prefValue.trim() + " " + attrValue; //$NON-NLS-1$
+            attrValue = prefValue.trim() + Constants.WHITE_SPACE + attrValue;
         }
         if (attrValue != null) {
             visualNode.setAttribute(htmlAttrName, attrValue);
@@ -594,10 +588,10 @@ public class ComponentUtil {
      * @return boolean value from string
      */
     public static boolean string2boolean(String str) {
-        if ((str == null) || ("".equals(str))) { //$NON-NLS-1$
+        if ((str == null) || (Constants.EMPTY.equals(str))) {
             return true;
-        } else if (("true".equalsIgnoreCase(str)) //$NON-NLS-1$
-                || ("false".equalsIgnoreCase(str))) { //$NON-NLS-1$
+        } else if ((Constants.TRUE.equalsIgnoreCase(str))
+                || (Constants.FALSE.equalsIgnoreCase(str))) {
             return new Boolean(str).booleanValue();
         }
         return true;
@@ -662,7 +656,7 @@ public class ComponentUtil {
             throw new NumberFormatException("Passed value is empty "); //$NON-NLS-1$
         }
 
-        if (value.endsWith(PX_SUFFIX)) {
+        if (value.endsWith(Constants.PIXEL)) {
             rst = Integer.parseInt(value.substring(0, value.length() - 2));
         } else {
             rst = Integer.parseInt(value);

@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.w3c.dom.Element;
 
 public abstract class AbstractEditableRichFacesTemplate extends
@@ -21,8 +22,6 @@ public abstract class AbstractEditableRichFacesTemplate extends
 		if (sourceElement.hasAttribute(attributeName))
 			return sourceElement.getAttribute(attributeName);
 
-		return ""; //$NON-NLS-1$
-
+		return Constants.EMPTY;
 	}
-
 }
