@@ -18,6 +18,7 @@ import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -26,61 +27,109 @@ import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/**@author yradtsevich */
+/**
+ * The class {@code RichFacesDataTableChildrenEncoder} encodes children of a {@code rich:*Table}.
+ *
+ * <BR/>Use this class as follows:
+ * <blockquote><pre>
+ * RichFacesDataTableChildrenEncoder encoder
+ *    = new RichFacesDataTableChildrenEncoder(
+ *       creationData, visualDocument, sourceElement, table);
+ * encoder.encodeChildren();</pre></blockquote>
+ *
+ * Method {@link #validateChildren(VpePageContext, Node, nsIDOMDocument, VpeCreationData) validateChildren}
+ * MUST be invoked from {@link VpeTemplate#validate(VpePageContext, Node, nsIDOMDocument, VpeCreationData) validate}
+ * method of the caller of this class:
+ * <blockquote><pre>
+ * public void validate(VpePageContext pageContext, Node sourceNode,
+ *    nsIDOMDocument visualDocument, VpeCreationData data) {
+ *       RichFacesDataTableChildrenEncoder.validateChildren(
+ *          pageContext, sourceNode, visualDocument, data);
+ *       ...
+ * }</pre></blockquote>
+ *
+ * @author yradtsevich 
+ * */
 class RichFacesDataTableChildrenEncoder {
+	/**Non-HTML tag that is used to create temporary containers for {@code rich:subTable} and {@code rich:columnGroup}.*/
 	private static final String TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER = "subTableOrColumnGroup-container"; //$NON-NLS-1$
-	private VpeCreationData creationData;
-	private nsIDOMDocument visualDocument; 
-	private Element sourceElement;
-	private nsIDOMElement table;
+	private final VpeCreationData creationData;
+	private final nsIDOMDocument visualDocument;
+	private final Element sourceElement;
+	private final nsIDOMElement table;
 
-	public RichFacesDataTableChildrenEncoder(VpeCreationData creationData,
-			nsIDOMDocument visualDocument, Element sourceElement,
-			nsIDOMElement table) {
+	public RichFacesDataTableChildrenEncoder(final VpeCreationData creationData,
+			final nsIDOMDocument visualDocument, final Element sourceElement,
+			final nsIDOMElement table) {
 		this.creationData = creationData;
 		this.visualDocument = visualDocument;
 		this.sourceElement = sourceElement;
 		this.table = table;
 	}
 
+	/**
+	 * Creates containers in {@code table} for {@code sourceElement}'s children
+	 * and adds appropriate objects of {@link VpeChildrenInfo} to {@code creationData}.
+	 *
+	 * <BR/>It knows about following tags:
+	 * {@code rich:column, rich:columns, rich:subTable} and {@code rich:columnGroup}.
+	 * <BR/>For any another tag it uses {@link #addElementToTable(Node)} method.
+	 * */
 	public void encodeChildren() {
-		// Create mapping to Encode body
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		final List<Node> children = ComponentUtil.getChildren(sourceElement);
 		boolean createNewRow = true;
-		for (Node child : children) {
-			String nodeName = child.getNodeName();
-			if (nodeName.endsWith(RichFaces.TAG_COLUMN) || 
+		for (final Node child : children) {
+			final String nodeName = child.getNodeName();
+			if (nodeName.endsWith(RichFaces.TAG_COLUMN) ||
 					nodeName.endsWith(RichFaces.TAG_COLUMNS)) {
-				createNewRow |= RichFacesColumnTemplate.isBreakBefore(child);				
+				createNewRow |= RichFacesColumnTemplate.isBreakBefore(child);
 				addColumnToRow(child, createNewRow);
 				createNewRow = false;
-			} else if(nodeName.endsWith(RichFaces.TAG_SUB_TABLE) 
+			} else if(nodeName.endsWith(RichFaces.TAG_SUB_TABLE)
 					|| nodeName.endsWith(RichFaces.TAG_COLUMN_GROUP)) {
 				addSubTableOrColumnGroupToTable(child);
 				createNewRow = true;
 			} else {
-				VpeChildrenInfo childInfo = new VpeChildrenInfo(table);
-				childInfo.addSourceChild(child);
-				creationData.addChildrenInfo(childInfo);
+				addElementToTable(child);
 				createNewRow = true;
 			}
 		}
 	}
 
-	private nsIDOMElement addSubTableOrColumnGroupToTable(Node subTableOrColumnGroupNode) {
-		nsIDOMElement subTableOrColumnGroupContainer = visualDocument.createElement(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
+	/**
+	 * Makes necessary changes in the table's body after all children of the table have been encoded.
+	 * */
+	public static void validateChildren(final VpePageContext pageContext, final Node sourceNode,
+			final nsIDOMDocument visualDocument, final VpeCreationData creationData) {
+		final nsIDOMNode visualNode = creationData.getNode();
+		fixSubTables(visualNode);
+	}
+
+	/**
+	 * Creates a container for {@code subTableOrColumnGroupNode} in {@code table}
+	 * and adds an appropriate object of {@link VpeChildrenInfo} to {@code creationData}.
+	 * <BR/>The container is the tag {@link #TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER}.
+	 * */
+	private nsIDOMElement addSubTableOrColumnGroupToTable(final Node subTableOrColumnGroupNode) {
+		final nsIDOMElement subTableOrColumnGroupContainer = visualDocument.createElement(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
 		table.appendChild(subTableOrColumnGroupContainer);
-		VpeChildrenInfo childInfo = new VpeChildrenInfo(subTableOrColumnGroupContainer);
+		final VpeChildrenInfo childInfo = new VpeChildrenInfo(subTableOrColumnGroupContainer);
 		childInfo.addSourceChild(subTableOrColumnGroupNode);
 		creationData.addChildrenInfo(childInfo);
-		
+
 		return subTableOrColumnGroupContainer;
 	}
 
 	private nsIDOMElement currentRow = null;
 	private VpeChildrenInfo currentRowChildrenInfo = null;
 	private int rowNumber = 0;
-	private nsIDOMElement addColumnToRow(Node columnNode, boolean createNewRow) {
+	/**
+	 * Creates a container for {@code columnNode} in {@code table}
+	 * and adds an appropriate object of {@link VpeChildrenInfo} to {@code creationData}.
+	 * <BR/>If the parameter {@code createNewRow} is {@code true} then it  creates the
+	 * container in a new row.
+	 * */
+	private nsIDOMElement addColumnToRow(final Node columnNode, final boolean createNewRow) {
 		if ( createNewRow || (currentRow == null) ) {
 			currentRow = visualDocument.createElement(HTML.TAG_TR);
 			table.appendChild(currentRow);
@@ -98,30 +147,46 @@ class RichFacesDataTableChildrenEncoder {
 		return currentRow;
 	}
 
-	public static void validateChildren(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument, VpeCreationData creationData) {
-		nsIDOMNode visualNode = creationData.getNode();
-		fixSubTables(visualNode);		
+	/**
+	 * Creates a row container for {@code node} in {@code table}
+	 * and adds an appropriate object of {@link VpeChildrenInfo} to {@code creationData}.
+	 * <BR/>The container spans the entire row.
+	 * */
+	private void addElementToTable(final Node node) {
+		final nsIDOMElement tr = this.visualDocument.createElement(HTML.TAG_TR);
+		table.appendChild(tr);
+		final nsIDOMElement td = this.visualDocument.createElement(HTML.TAG_TD);
+		// COLSPAN="0" means the cell spans the entire row
+		td.setAttribute(HTML.ATTR_COLSPAN, "0"); //NON-NLS$1
+		tr.appendChild(td);
+		final VpeChildrenInfo childInfo = new VpeChildrenInfo(td);
+		childInfo.addSourceChild(node);
+		creationData.addChildrenInfo(childInfo);
 	}
 
-	private static void fixSubTables(nsIDOMNode node) {
-		nsIDOMElement element = (nsIDOMElement) node;
-		nsIDOMNodeList subTableContainers = element.getElementsByTagName(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
-		long length = subTableContainers.getLength();
+	/**
+	 * Replaces all occurencies of {@link #TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER} tag in
+	 * the {@code visualNode} by the tag's child.
+	 * @see #addSubTableOrColumnGroupToTable(Node)
+	 * */
+	private static void fixSubTables(final nsIDOMNode visualNode) {
+		final nsIDOMElement element = (nsIDOMElement) visualNode;
+		final nsIDOMNodeList subTableContainers = element.getElementsByTagName(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
+		final long length = subTableContainers.getLength();
 		for (int i = 0; i < length; i++) {
-			nsIDOMNode subTableContainer = subTableContainers.item(0);
-			nsIDOMNodeList subTableContainerChildren = subTableContainer.getChildNodes();				
-			nsIDOMNode containerParent = subTableContainer.getParentNode();
-			if (subTableContainerChildren != null 
+			final nsIDOMNode subTableContainer = subTableContainers.item(0);
+			final nsIDOMNodeList subTableContainerChildren = subTableContainer.getChildNodes();
+			final nsIDOMNode containerParent = subTableContainer.getParentNode();
+			if (subTableContainerChildren != null
 					&& subTableContainerChildren.getLength() == 1) {
-				nsIDOMNode subTableMainTag = subTableContainerChildren.item(0);
+				final nsIDOMNode subTableMainTag = subTableContainerChildren.item(0);
 				subTableContainer.removeChild(subTableMainTag);
 				containerParent.insertBefore(subTableMainTag, subTableContainer);
 			} else {
-				RuntimeException e = new RuntimeException("This is probably a bug. subTable-container should have one inner tag.");//$NON-NLS-1$
+				final RuntimeException e = new RuntimeException("This is probably a bug. subTable-container should have one inner tag.");//$NON-NLS-1$
 				RichFacesTemplatesActivator.getPluginLog().logError(e);
 			}
 			containerParent.removeChild(subTableContainer);
-		}	
+		}
 	}
 }
