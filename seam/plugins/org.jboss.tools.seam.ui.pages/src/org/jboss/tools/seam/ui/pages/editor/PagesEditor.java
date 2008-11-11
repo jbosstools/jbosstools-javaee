@@ -96,6 +96,10 @@ import org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
+import org.jboss.tools.seam.ui.pages.editor.actions.PagesCopyAction;
+import org.jboss.tools.seam.ui.pages.editor.actions.PagesCutAction;
+import org.jboss.tools.seam.ui.pages.editor.actions.PagesDeleteAction;
+import org.jboss.tools.seam.ui.pages.editor.actions.PagesPasteAction;
 import org.jboss.tools.seam.ui.pages.editor.dnd.FileTransferDropTargetListener;
 import org.jboss.tools.seam.ui.pages.editor.dnd.PagesTemplateTransferDropTargetListener;
 import org.jboss.tools.seam.ui.pages.editor.dnd.XModelTransferDropTargetListener;
@@ -457,10 +461,10 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	}
 
 	protected void createActions() {
-//		register(new JSFDeleteAction(this), true, false);
-//		register(new JSFCopyAction(this), true, false);
-//		register(new JSFPasteAction(this), true, false);
-//		register(new JSFCutAction(this), true, false);
+		register(new PagesDeleteAction(this), true, false);
+		register(new PagesCopyAction(this), true, false);
+		register(new PagesPasteAction(this), true, false);
+		register(new PagesCutAction(this), true, false);
 		//register(new MyPrintAction(this), false, true);
 		register(new DiagramAlignmentAction(this, PositionConstants.LEFT), true, false);
 		register(new DiagramAlignmentAction(this, PositionConstants.RIGHT), true, false);
