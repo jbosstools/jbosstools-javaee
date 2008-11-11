@@ -14,8 +14,8 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -58,25 +58,31 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         final Element source = (Element) sourceNode;
         prepareData(pageContext,source);
         final nsIDOMElement rootSpan = createRootSpanTemplateMethod(source, visualDocument);
-        final nsIDOMElement innerInput1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+        final nsIDOMElement innerInput1 = visualDocument.createElement(HTML.TAG_INPUT);
+        data = new VpeCreationData(rootSpan);
 
-        String clazz = "";
+        String clazz = ""; //$NON-NLS-1$
         if (this.isToggle) {
             rootSpan.appendChild(innerInput1);
             innerInput1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-            innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-field");
-            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + ";");
-            innerInput1.setAttribute(HTML.ATTR_TYPE, "text");
-            innerInput1.setAttribute("autocomplete", "off");
+            innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-field"); //$NON-NLS-1$
+            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+            innerInput1.setAttribute(HTML.ATTR_TYPE, "text"); //$NON-NLS-1$
+            innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
            
             if (showControls) {
-                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument));
+                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data));
             }
         } else {
-            innerInput1.setAttribute(HTML.ATTR_STYLE, "width: " + this.inputWidth + "; position: absolute; left: -32767px;");
-            innerInput1.setAttribute(HTML.ATTR_TYPE, "button");
+            innerInput1.setAttribute(HTML.ATTR_STYLE, "width: " + this.inputWidth + "; position: absolute; left: -32767px;"); //$NON-NLS-1$ //$NON-NLS-2$
+            innerInput1.setAttribute(HTML.ATTR_TYPE, "button"); //$NON-NLS-1$
+            
+            /*
+             * Add empty children info to avoid children processing.
+             * Only available child is "controls" facet
+             */
+            data.addChildrenInfo(new VpeChildrenInfo(rootSpan));
         }
-        data = new VpeCreationData(rootSpan);
 
 
         if (!isToggle) {
@@ -110,7 +116,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      * @return the css extension
      */
     protected String getCssExtension() {
-        return "inplaceInput";
+        return "inplaceInput"; //$NON-NLS-1$
     }
 
     /**
@@ -119,7 +125,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      * @return the css style
      */
     protected String getCssStyle() {
-        return "inplaceInput/inplaceInput.css";
+        return "inplaceInput/inplaceInput.css"; //$NON-NLS-1$
     }
 
     /**
@@ -132,7 +138,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      */
     @Override
     protected String getCssStylesSuffix() {
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     /**
@@ -141,22 +147,24 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      * @return the root span classes
      */
     protected Object[] getRootSpanClasses() {
-        String[] rst = new String[2];
-        String clazz = "";
+        String[] rst = new String[3];
+        String clazz = ""; //$NON-NLS-1$
 
         if (this.isToggle) {
-            rst[0] = "rich-inplace-edit";
+            rst[0] = "rich-inplace-edit"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.editClass)) {
                 clazz = this.editClass;
             }
         } else {
-            rst[0] = "rich-inplace-view";
-            if (ComponentUtil.isNotBlank(this.styleClass)) {
-                clazz = this.styleClass;
+            rst[0] = "rich-inplace-view"; //$NON-NLS-1$
+            if (ComponentUtil.isNotBlank(this.viewClass)) {
+        	clazz = this.viewClass;
             }
-
         }
         rst[1] = clazz;
+        if (ComponentUtil.isNotBlank(this.styleClass)) {
+            rst[2] = this.styleClass;
+        }
         return rst;
     }
 
@@ -167,12 +175,12 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      */
     protected void prepareData(VpePageContext pageContext,Element source) {
         try {
-            this.inputWidth = String.valueOf(ComponentUtil.parseWidthHeightValue(source.getAttribute("inputWidth")));
+            this.inputWidth = String.valueOf(ComponentUtil.parseWidthHeightValue(source.getAttribute("inputWidth"))); //$NON-NLS-1$
         } catch (NumberFormatException e) {
             this.inputWidth = DEFAULT_INPUT_WIDTH_VALUE;
         }
-        this.controlsHorizontalPositions.put("right", this.inputWidth);
-        this.controlsHorizontalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "18px");
+        this.controlsHorizontalPositions.put("right", this.inputWidth); //$NON-NLS-1$
+        this.controlsHorizontalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "18px"); //$NON-NLS-1$
         super.prepareData(pageContext,source);
 
     }
@@ -182,18 +190,18 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      */
     @Override
     public String getCssStylesControlSuffix() {
-        return "-input";
+        return "-input"; //$NON-NLS-1$
     }
 
     @Override
     protected String getControlPositionsSubStyles() {
-        return "top: " + controlsVerticalPositions.get(this.controlsVerticalPosition)
-            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";";
+        return "top: " + controlsVerticalPositions.get(this.controlsVerticalPosition) //$NON-NLS-1$
+            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
     @Override
     protected String getMainControlsDivCssClass() {
-        return "rich-inplace"+getCssStylesControlSuffix()+"-controls-set";
+        return "rich-inplace"+getCssStylesControlSuffix()+"-controls-set"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

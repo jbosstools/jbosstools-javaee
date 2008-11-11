@@ -88,7 +88,7 @@
 		</vpe:template>
 	</vpe:tag>
 	<vpe:tag name="rich:inplaceInput" case-sensitive="yes">
-		<vpe:template children="no" modify="no"
+		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesInplaceInputTemplate">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />

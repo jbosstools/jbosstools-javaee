@@ -68,6 +68,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         final Element source = (Element) sourceNode;
         prepareData(pageContext,source);
         final nsIDOMElement rootSpan = createRootSpanTemplateMethod(source, visualDocument);
+        data = new VpeCreationData(rootSpan);
 
         if (isToggle) {
             final nsIDOMElement innerInput1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
@@ -93,13 +94,12 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
                 rootSpan.appendChild(selectList);
             }
             if (this.showControls) {
-                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument));
+                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data));
             }
 
         } else {
             rootSpan.appendChild(visualDocument.createTextNode(getValue()));
         }
-         data = new VpeCreationData(rootSpan);
 //         DOMTreeDumper d = new DOMTreeDumper();
 //         d.dumpToStream(System.err, rootSpan);
         return data;

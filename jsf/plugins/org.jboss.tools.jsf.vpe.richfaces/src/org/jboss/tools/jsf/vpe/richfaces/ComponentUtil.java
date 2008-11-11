@@ -145,6 +145,32 @@ public class ComponentUtil {
     public static Element getFacet(Element sourceElement, String facetName) {
         return (Element) getFacet(sourceElement, facetName, false);
     }
+    
+    /**
+     * Gets the facet element.
+     * 
+     * @param sourceElement the source element
+     * @param facetName the facet name
+     * @param returnTextNode the return text node
+     * 
+     * @return the facet element
+     */
+    public static Element getFacetElement(Element sourceElement,
+	    String facetName) {
+	NodeList children = sourceElement.getChildNodes();
+	for (int i = 0; i < children.getLength(); i++) {
+	    Node node = children.item(i);
+	    if (node instanceof Element && node.getNodeName() != null
+		    && node.getNodeName().indexOf(":facet") > 0) { //$NON-NLS-1$
+		Element facetElement = (Element) node;
+		String name = facetElement.getAttribute("name"); //$NON-NLS-1$
+		if (facetName.equals(name)) {
+		    return facetElement;
+		}
+	    }
+	}
+	return null;
+    }
 
     /**
      * Returns true if "rendered" attribute of source element does not contain

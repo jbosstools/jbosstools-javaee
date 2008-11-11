@@ -14,7 +14,9 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
@@ -22,6 +24,8 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
+import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -44,27 +48,27 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     /**
      * 
      */
-    protected static final String CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE = "center";
+    protected static final String CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE = "center"; //$NON-NLS-1$
 
     /**
      * 
      */
-    private static final String CONTROLS_HORIZONTAL_POSITION_DEFAULT_VALUE = "right";
+    private static final String CONTROLS_HORIZONTAL_POSITION_DEFAULT_VALUE = "right"; //$NON-NLS-1$
 
     /** The Constant APPLY_BUTTON_GIF. */
-    protected static final String APPLY_BUTTON_GIF = "/applyButton.gif";
+    protected static final String APPLY_BUTTON_GIF = "/applyButton.gif"; //$NON-NLS-1$
 
     /** The Constant CANCEL_BUTTON_GIF. */
-    protected static final String CANCEL_BUTTON_GIF = "/cancelButton.gif";
+    protected static final String CANCEL_BUTTON_GIF = "/cancelButton.gif"; //$NON-NLS-1$
 
     /** The Constant controlsVerticalPositions. */
     protected final Map<String, String> controlsVerticalPositions = new HashMap<String, String>();
 
     /** The Constant DEFAULT_INPUT_WIDTH_VALUE. */
-    protected static final String DEFAULT_INPUT_WIDTH_VALUE = "66px";
+    protected static final String DEFAULT_INPUT_WIDTH_VALUE = "66px"; //$NON-NLS-1$
 
     /** The Constant DEFAULT_NULL_VALUE. */
-    protected static final String DEFAULT_NULL_VALUE = "null";
+    protected static final String DEFAULT_NULL_VALUE = " "; //$NON-NLS-1$
 
     /** The Constant DEFAULT_VERTICAL_POSITION. */
     protected static final String DEFAULT_VERTICAL_POSITION = null;
@@ -76,12 +80,12 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected static final Map<String, String> defaultStyleClasses = new HashMap<String, String>();
 
     /** The Constant RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS. */
-    protected static final String RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS = "rich-inplace-view";
+    protected static final String RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS = "rich-inplace-view"; //$NON-NLS-1$
 
     /** The Constant VPE_USER_TOGGLE_ID_ATTR. */
-    public static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id";
+    public static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id"; //$NON-NLS-1$
 
-    private static final String DEFAULT_LAYOUT = "inline";
+    private static final String DEFAULT_LAYOUT = "inline"; //$NON-NLS-1$
 
     /** The button images. */
     protected final Map<String, String> buttonImages = new HashMap<String, String>();
@@ -101,6 +105,12 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     /** The edit class. */
     protected String editClass;
 
+    /** The view class. */
+    protected String viewClass;
+
+    /** The control class. */
+    protected String controlClass;
+
     /** The is show input. */
     protected boolean isToggle = false;
 
@@ -111,13 +121,10 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     protected String sourceValue;
 
     /** The Constant SPACER_GIF. */
-    protected final String SPACER_GIF = getCssExtension()+"/spacer.gif";
+    protected final String SPACER_GIF = getCssExtension()+"/spacer.gif"; //$NON-NLS-1$
 
     /** The style class. */
     protected String styleClass;
-
-    /** The view class. */
-    protected String viewClass;
     
     protected String sourceCancelButtonIcon;
   
@@ -151,13 +158,13 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         // if(!(this.showControls && this.isToggle)){
         rootSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
         // }
-        final String rootClass = MessageFormat.format(defaultStyleClasses.get("rootSpan"), getRootSpanClasses());
+        final String rootClass = MessageFormat.format(defaultStyleClasses.get("rootSpan"), getRootSpanClasses()); //$NON-NLS-1$
         rootSpan.setAttribute(HTML.ATTR_CLASS, rootClass);
-        String style = "";
+        String style = ""; //$NON-NLS-1$
         if (this.isToggle) {
-            style = "position: relative;";
+            style = "position: relative;"; //$NON-NLS-1$
         }
-        rootSpan.setAttribute(HTML.ATTR_STYLE, style + "; display:"+this.sourceLayout+"; ");
+        rootSpan.setAttribute(HTML.ATTR_STYLE, style + "; display:"+this.sourceLayout+"; "); //$NON-NLS-1$ //$NON-NLS-2$
         return rootSpan;
 
     }
@@ -197,7 +204,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      * @return the value
      */
     protected String getValue() {
-        String rst = "";
+        String rst = ""; //$NON-NLS-1$
         if (ComponentUtil.isNotBlank(this.defaultLabel)) {
             rst = this.defaultLabel;
         } else if (ComponentUtil.isBlank(this.defaultLabel) && ComponentUtil.isNotBlank(this.sourceValue)) {
@@ -213,8 +220,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected void initDefaultButtonImages() {
         if (defaultButtonImages.isEmpty()) {
-            defaultButtonImages.put("cancelControlIcon", getCssExtension() + CANCEL_BUTTON_GIF);
-            defaultButtonImages.put("saveControlIcon", getCssExtension() + APPLY_BUTTON_GIF);
+            defaultButtonImages.put("cancelControlIcon", getCssExtension() + CANCEL_BUTTON_GIF); //$NON-NLS-1$
+            defaultButtonImages.put("saveControlIcon", getCssExtension() + APPLY_BUTTON_GIF); //$NON-NLS-1$
         }
 
     }
@@ -224,7 +231,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected void initDefaultStyleClasses() {
         if (defaultStyleClasses.isEmpty()) {
-            defaultStyleClasses.put("rootSpan", "rich-inplace" + getCssStylesSuffix() + " {0} {1}");
+            defaultStyleClasses.put("rootSpan", "rich-inplace" + getCssStylesSuffix() + " {0} {1} {2}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 
     }
@@ -234,13 +241,13 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected void initPositions() {
         if (controlsVerticalPositions.isEmpty()) {
-            controlsVerticalPositions.put("bottom", "18px");
-            controlsVerticalPositions.put("top", "-12px");
-            controlsVerticalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "0px");
+            controlsVerticalPositions.put("bottom", "18px"); //$NON-NLS-1$ //$NON-NLS-2$
+            controlsVerticalPositions.put("top", "-12px"); //$NON-NLS-1$ //$NON-NLS-2$
+            controlsVerticalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "0px"); //$NON-NLS-1$
         }
         if (controlsHorizontalPositions.isEmpty()) {
-            controlsHorizontalPositions.put("left", "0px");
-            controlsHorizontalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "53px");
+            controlsHorizontalPositions.put("left", "0px"); //$NON-NLS-1$ //$NON-NLS-2$
+            controlsHorizontalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "53px"); //$NON-NLS-1$
         }
     }
 
@@ -292,15 +299,16 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected void prepareData(VpePageContext pageContext,Element source) {
         this.styleClass = source.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-        this.editClass = source.getAttribute("editClass");
-        this.viewClass = source.getAttribute("viewClass");
+        this.editClass = source.getAttribute("editClass"); //$NON-NLS-1$
+        this.viewClass = source.getAttribute("viewClass"); //$NON-NLS-1$
+        this.controlClass = source.getAttribute("controlClass"); //$NON-NLS-1$
         this.sourceValue = source.getAttribute(RichFaces.ATTR_VALUE);
-        this.sourceLayout = ComponentUtil.getAttribute(source, "layout");
+        this.sourceLayout = ComponentUtil.getAttribute(source, "layout"); //$NON-NLS-1$
         if(ComponentUtil.isBlank(this.sourceLayout) || (!this.sourceLayout.equalsIgnoreCase(DEFAULT_LAYOUT) && 
-                !this.sourceLayout.equalsIgnoreCase("block")) ){
+                !this.sourceLayout.equalsIgnoreCase("block")) ){ //$NON-NLS-1$
             this.sourceLayout = DEFAULT_LAYOUT;
         }
-        this.defaultLabel = source.getAttribute("defaultLabel");
+        this.defaultLabel = source.getAttribute("defaultLabel"); //$NON-NLS-1$
         if (ComponentUtil.isBlank(this.sourceValue)) {
             this.sourceValue = DEFAULT_NULL_VALUE;
         }
@@ -314,12 +322,12 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 //            this.defaultLabel = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("defaultLabel"));
 //        }
         
-        this.showControls = Boolean.parseBoolean(source.getAttribute("showControls"));
-        this.controlsVerticalPosition = source.getAttribute("controlsVerticalPosition");
+        this.showControls = Boolean.parseBoolean(source.getAttribute("showControls")); //$NON-NLS-1$
+        this.controlsVerticalPosition = source.getAttribute("controlsVerticalPosition"); //$NON-NLS-1$
         if (ComponentUtil.isBlank(this.controlsVerticalPosition) || !isInKeySet(controlsVerticalPositions, this.controlsVerticalPosition)) {
             this.controlsVerticalPosition = CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE;
         }
-        this.controlsHorizontalPosition = source.getAttribute("controlsHorizontalPosition");
+        this.controlsHorizontalPosition = source.getAttribute("controlsHorizontalPosition"); //$NON-NLS-1$
 
         if (ComponentUtil.isBlank(this.controlsHorizontalPosition)
                 || !isInKeySet(controlsHorizontalPositions, this.controlsHorizontalPosition)) {
@@ -445,86 +453,130 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      * 
      * @return the ns IDOM element
      */
-    protected nsIDOMElement createControlsDiv(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-        final nsIDOMElement element = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+    protected nsIDOMElement createControlsDiv(VpePageContext pageContext,
+	    Node sourceNode, nsIDOMDocument visualDocument,
+	    VpeCreationData creationData) {
+        final nsIDOMElement element = visualDocument.createElement(HTML.TAG_DIV);
 
         element.setAttribute(HTML.ATTR_CLASS, getMainControlsDivCssClass());
-        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; "+getControlPositionsSubStyles());
+        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; "+getControlPositionsSubStyles()); //$NON-NLS-1$
 
-        final nsIDOMElement divShadov = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+        final nsIDOMElement divShadov = visualDocument.createElement(HTML.TAG_DIV);
 
-        divShadov.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow");
-        final nsIDOMElement divShadovTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-        divShadovTable.setAttribute(HTML.ATTR_CELLPADDING, "0");
-        divShadovTable.setAttribute(HTML.ATTR_CELLSPACING, "0");
-        divShadovTable.setAttribute(HTML.ATTR_BORDER, "0");
-        final nsIDOMElement divShadovTBody = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-        final nsIDOMElement divShadovTr1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
-        final nsIDOMElement divShadovTr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
-        final nsIDOMElement divShadovTd1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-        final nsIDOMElement divShadovTd2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-        final nsIDOMElement divShadovTd1Tr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-        final nsIDOMElement divShadovTd2Tr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+        divShadov.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow"); //$NON-NLS-1$ //$NON-NLS-2$
+        final nsIDOMElement divShadovTable = visualDocument.createElement(HTML.TAG_TABLE);
+        divShadovTable.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
+        divShadovTable.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
+        divShadovTable.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
+        final nsIDOMElement divShadovTBody = visualDocument.createElement(HTML.TAG_TBODY);
+        final nsIDOMElement divShadovTr1 = visualDocument.createElement(HTML.TAG_TR);
+        final nsIDOMElement divShadovTr2 = visualDocument.createElement(HTML.TAG_TR);
+        final nsIDOMElement divShadovTd1 = visualDocument.createElement(HTML.TAG_TD);
+        final nsIDOMElement divShadovTd2 = visualDocument.createElement(HTML.TAG_TD);
+        final nsIDOMElement divShadovTd1Tr2 = visualDocument.createElement(HTML.TAG_TD);
+        final nsIDOMElement divShadovTd2Tr2 = visualDocument.createElement(HTML.TAG_TD);
 
-        final nsIDOMElement td1Img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-        final nsIDOMElement td2Img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-        final nsIDOMElement td3Img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-        final nsIDOMElement td4Img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+        final nsIDOMElement td1Img = visualDocument.createElement(HTML.TAG_IMG);
+        final nsIDOMElement td2Img = visualDocument.createElement(HTML.TAG_IMG);
+        final nsIDOMElement td3Img = visualDocument.createElement(HTML.TAG_IMG);
+        final nsIDOMElement td4Img = visualDocument.createElement(HTML.TAG_IMG);
         setUpImg(td1Img, 10, 1, 0, SPACER_GIF);
         setUpImg(td2Img, 1, 10, 0, SPACER_GIF);
         setUpImg(td3Img, 1, 10, 0, SPACER_GIF);
         setUpImg(td4Img, 10, 1, 0, SPACER_GIF);
-        divShadovTd1.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-tl");
-        divShadovTd2.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-tr");
+        divShadovTd1.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-tl"); //$NON-NLS-1$ //$NON-NLS-2$
+        divShadovTd2.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-tr"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        divShadovTd1Tr2.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-bl");
-        divShadovTd2Tr2.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-br");
+        divShadovTd1Tr2.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-bl"); //$NON-NLS-1$ //$NON-NLS-2$
+        divShadovTd2Tr2.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow-br"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        final nsIDOMElement divButtons = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        divButtons.setAttribute(HTML.ATTR_STYLE, "position: relative; height: 18px;");
-        final nsIDOMElement applyButtonImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+        final nsIDOMElement divButtons = visualDocument.createElement(HTML.TAG_DIV);
+        divButtons.setAttribute(HTML.ATTR_STYLE, "position: relative; height: 18px;"); //$NON-NLS-1$
 
-        applyButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
-        applyButtonImg.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-control");
-        final String saveControlIconImg = buttonImages.get("saveControlIcon");
-        if(defaultButtonImages.containsValue(saveControlIconImg)){
-            ComponentUtil.setImg(applyButtonImg, saveControlIconImg);
-        }else{
-            ComponentUtil.setImgFromResources(pageContext, applyButtonImg, saveControlIconImg,"");
-        }
-        applyButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        /*
+         * Encoding controls facet
+         */
+        Element facetElement = ComponentUtil.getFacetElement((Element) sourceNode, "controls");
+        if (null != facetElement) {
+	    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(divButtons);
+	    childrenInfo.addSourceChild(facetElement);
+	    creationData.addChildrenInfo(childrenInfo);
+	} else {
+	    /*
+	     * Create "Apply" button
+	     */
+	    final nsIDOMElement applyButtonImg = visualDocument
+		    .createElement(HTML.TAG_INPUT);
+	    applyButtonImg.setAttribute(HTML.ATTR_TYPE, "image"); //$NON-NLS-1$
 
-        final nsIDOMElement cancelButtonImg = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+	    String applyButtonClass = "rich-inplace" + getCssStylesSuffix() + "-control"; //$NON-NLS-1$ //$NON-NLS-2$
+	    if (ComponentUtil.isNotBlank(controlClass)) {
+		applyButtonClass += " " + controlClass; //$NON-NLS-1$
+	    }
+	    applyButtonImg.setAttribute(HTML.ATTR_CLASS, applyButtonClass);
 
-        cancelButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
-        cancelButtonImg.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-control");
-        cancelButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-        final String cancelControlIconImg =  buttonImages.get("cancelControlIcon");
+	    final String saveControlIconImg = buttonImages
+		    .get("saveControlIcon"); //$NON-NLS-1$
+	    if (defaultButtonImages.containsValue(saveControlIconImg)) {
+		ComponentUtil.setImg(applyButtonImg, saveControlIconImg);
+	    } else {
+		ComponentUtil.setImgFromResources(pageContext, applyButtonImg,
+			saveControlIconImg, ""); //$NON-NLS-1$
+	    }
+	    applyButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String
+		    .valueOf(0));
 
-        if(defaultButtonImages.containsValue(cancelControlIconImg)){
-            ComponentUtil.setImg(cancelButtonImg,cancelControlIconImg); 
-        }else{
-            ComponentUtil.setImgFromResources(pageContext, cancelButtonImg, cancelControlIconImg, "");
-        }
-        cancelButtonImg.setAttribute(HTML.ATTR_TYPE, "image");
+	    /*
+	     * Create "Cancel" button
+	     */
+	    final nsIDOMElement cancelButtonImg = visualDocument
+		    .createElement(HTML.TAG_INPUT);
+	    cancelButtonImg.setAttribute(HTML.ATTR_TYPE, "image"); //$NON-NLS-1$
 
-        element.appendChild(divShadov);
+	    String cancelButtonClass = "rich-inplace" + getCssStylesSuffix() + "-control"; //$NON-NLS-1$ //$NON-NLS-2$
+	    if (ComponentUtil.isNotBlank(controlClass)) {
+		cancelButtonClass += " " + controlClass; //$NON-NLS-1$
+	    }
+	    cancelButtonImg.setAttribute(HTML.ATTR_CLASS, cancelButtonClass);
+
+	    final String cancelControlIconImg = buttonImages
+		    .get("cancelControlIcon"); //$NON-NLS-1$
+	    if (defaultButtonImages.containsValue(cancelControlIconImg)) {
+		ComponentUtil.setImg(cancelButtonImg, cancelControlIconImg);
+	    } else {
+		ComponentUtil.setImgFromResources(pageContext, cancelButtonImg,
+			cancelControlIconImg, ""); //$NON-NLS-1$
+	    }
+	    cancelButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String
+		    .valueOf(0));
+
+	    divButtons.appendChild(applyButtonImg);
+	    divButtons.appendChild(cancelButtonImg);
+
+	    /*
+	     * Adding shadow to controls
+	     */
+	    element.appendChild(divShadov);
+	    divShadov.appendChild(divShadovTable);
+	    divShadovTable.appendChild(divShadovTBody);
+	    divShadovTBody.appendChild(divShadovTr1);
+	    divShadovTr1.appendChild(divShadovTd1);
+	    divShadovTd1.appendChild(td1Img);
+	    divShadovTr1.appendChild(divShadovTd2);
+	    divShadovTd2.appendChild(td2Img);
+	    
+	    divShadovTBody.appendChild(divShadovTr2);
+	    divShadovTr2.appendChild(divShadovTd1Tr2);
+	    divShadovTd1Tr2.appendChild(td3Img);
+	    divShadovTr2.appendChild(divShadovTd2Tr2);
+	    divShadovTd2Tr2.appendChild(td4Img);
+	}
+        
+        /*
+         * Adding controls
+         */
         element.appendChild(divButtons);
-        divButtons.appendChild(applyButtonImg);
-        divButtons.appendChild(cancelButtonImg);
-        divShadov.appendChild(divShadovTable);
-        divShadovTable.appendChild(divShadovTBody);
-        divShadovTBody.appendChild(divShadovTr1);
-        divShadovTr1.appendChild(divShadovTd1);
-        divShadovTd1.appendChild(td1Img);
-        divShadovTr1.appendChild(divShadovTd2);
-        divShadovTd2.appendChild(td2Img);
-
-        divShadovTBody.appendChild(divShadovTr2);
-        divShadovTr2.appendChild(divShadovTd1Tr2);
-        divShadovTd1Tr2.appendChild(td3Img);
-        divShadovTr2.appendChild(divShadovTd2Tr2);
-        divShadovTd2Tr2.appendChild(td4Img);
+        
         return element;
     }
 
