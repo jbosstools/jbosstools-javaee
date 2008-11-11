@@ -133,6 +133,15 @@ public class SeamRuntime {
 	}
 
 	/**
+	 * Calculate path to lib folder
+	 * 
+	 * @return absolute path to lib folder
+	 */
+	public String getLibDir() {
+		return getHomeDir() + "/lib"; //$NON-NLS-1$
+	}
+
+	/**
 	 * Calculate path to source templates
 	 * 
 	 * @return absolute path to source templates
@@ -176,5 +185,4 @@ public class SeamRuntime {
 	public String getTemplatesDir() {
 		return getSeamGenDir();
 	}
-
 }

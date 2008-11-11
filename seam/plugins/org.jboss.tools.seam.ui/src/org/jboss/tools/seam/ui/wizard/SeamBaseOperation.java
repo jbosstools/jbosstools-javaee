@@ -87,6 +87,8 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		}
 	}
 
+	protected IAdaptable info;
+
 	/**
 	 * @see AbstractOperation#execute(IProgressMonitor, IAdaptable)
 	 */
@@ -94,12 +96,11 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 			throws ExecutionException {
 		IStatus result = Status.OK_STATUS;
-		
-		
+		this.info = info;
+
 		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
 
 		try {
-			
 			Map<String, Object> vars = loadParameters(info,	seamPrjSet);
 
 			List<FileMapping> fileMapping = getFileMappings(vars);	
