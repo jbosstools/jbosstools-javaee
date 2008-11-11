@@ -128,6 +128,7 @@ public class SeamPreferences {
 
 	// Mark seam project if it has any invalid seam setting.
 	public static final String INVALID_PROJECT_SETTINGS = createSeverityOption("invalidProjectSettings"); //$NON-NLS-1$
+	public static final String INVALID_XML_VERSION = createSeverityOption("invalidXMLVersion"); //$NON-NLS-1$
 
 	private static String createSeverityOption(String shortName) {
 		String name = SeamCorePlugin.PLUGIN_ID + ".validator.problem." + shortName; //$NON-NLS-1$

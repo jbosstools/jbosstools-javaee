@@ -10,10 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -55,6 +58,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
@@ -92,6 +96,8 @@ public class SeamCoreValidator extends SeamValidator {
 	protected static final String VALIDATING_RESOURCE_MESSAGE_ID = "VALIDATING_RESOURCE";
 	protected static final String VALIDATING_CLASS_MESSAGE_ID = "VALIDATING_CLASS";
 
+	protected static final String INVALID_XML_VERSION = "INVALID_XML_VERSION";
+
 	public SeamCoreValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
@@ -123,6 +129,7 @@ public class SeamCoreValidator extends SeamValidator {
 				break;
 			}
 			if (checkFileExtension(currentFile)) {
+				validateXMLVersion(currentFile);
 				// Get all variable names which were linked with this resource.
 				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath());
 				if(oldVariablesNamesOfChangedFile!=null) {
@@ -696,6 +703,67 @@ public class SeamCoreValidator extends SeamValidator {
 		}
 	}
 
+	private void validateXMLVersion(IFile file) {
+		String ext = file.getFileExtension();
+		if(!"xml".equals(ext)) return;
+		
+		XModelObject o = EclipseResourceUtil.createObjectForResource(file);
+		
+		if(o == null) return;
+		if(!o.getModelEntity().getName().startsWith("FileSeamComponent")) return;
+		
+		Set<String> vs = getXMLVersions(o);
+		
+		SeamRuntime runtime = seamProject.getRuntime();
+		if(runtime == null) return;
+		
+		String version = runtime.getVersion().toString();
+		String wrongVersion = null;
+		for (String v: vs) {
+			if(!v.startsWith(version)) {
+				wrongVersion = v;
+				break;
+			}
+		}
+		if(wrongVersion != null) {
+			addError(
+				INVALID_XML_VERSION, 
+				SeamPreferences.INVALID_XML_VERSION, 
+				new String[]{wrongVersion, version}, 
+				file);
+		}
+	}
+
+	private Set<String> getXMLVersions(XModelObject o) {
+		Set<String> result = new HashSet<String>();
+		if(o.getModelEntity().getName().endsWith("11")) {
+			result.add("1.1");
+			return result;
+		}
+		String sl = o.getAttributeValue("xsi:schemaLocation");
+		int i = 0;
+		while(i >= 0 && i < sl.length()) {
+			int j = sl.indexOf('-', i);
+			if(j < 0) break;
+			int k = sl.indexOf(".xsd", j);
+			if(k < 0) break;
+			String v = sl.substring(j + 1, k);
+			if(isVersion(v)) result.add(v);
+			i = k;
+		}
+
+		return result;
+	}
+
+	private boolean isVersion(String s) {
+		if(s.length() == 0) return false;
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if(c != '.' && !Character.isDigit(c)) return false;
+		}
+		return true;
+	}
+
 	private final static String[] extns = new String[]{"java", "xml"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	private boolean checkFileExtension(IFile file) {
@@ -707,4 +775,5 @@ public class SeamCoreValidator extends SeamValidator {
 		}
 		return false;
 	}
+
 }
