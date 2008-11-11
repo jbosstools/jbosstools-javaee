@@ -162,6 +162,14 @@ public class SeamFacetInstallDataModelProvider extends
 		return defaultRuntime.getName();
 	}
 
+	public boolean propertySet(String propertyName, Object propertyValue) {
+		if (IFacetDataModelProperties.FACET_PROJECT_NAME.equals(propertyName)) {
+			setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, propertyValue);
+			setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, propertyValue);
+		}
+		return super.propertySet(propertyName, propertyValue);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.wst.common.frameworks.datamodel.AbstractDataModelProvider#init()
@@ -169,6 +177,7 @@ public class SeamFacetInstallDataModelProvider extends
 	@Override
 	public void init() {
 		super.init();
+
 		model.setProperty(ISeamFacetDataModelProperties.DB_TYPE, SeamProjectPreferences.getStringPreference(SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE));
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, SeamProjectPreferences.getStringPreference(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE));
 		model.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME, "");

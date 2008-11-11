@@ -274,6 +274,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 			arrayList.addAll( list );
 			arrayList.add( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
 			arrayList.add( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+			arrayList.add( ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 			return (String[])arrayList.toArray( new String[0] );
 		}	
 

@@ -64,12 +64,14 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
+import org.jboss.tools.seam.ui.wizard.SeamProjectWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 
@@ -381,12 +383,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate.addValidatorForProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					getDeploymentTypeValidator(getWizard()));
-			validatorDelegate.addValidatorForProperty(
-					IFacetDataModelProperties.FACET_PROJECT_NAME, 
-					new ProjectNamesDuplicationValidator(
-							IFacetDataModelProperties.FACET_PROJECT_NAME));
-			validatorDelegate.addValidatorForProperty(IFacetDataModelProperties.FACET_PROJECT_NAME,
+			if(!isNewSeamProjectWizard()) {
+				validatorDelegate.addValidatorForProperty(IFacetDataModelProperties.FACET_PROJECT_NAME,
 					new ProjectNameValidator(IFacetDataModelProperties.FACET_PROJECT_NAME));
+			}
 		}
 
 		jBossHibernateDbTypeEditor
@@ -400,6 +400,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
         Dialog.applyDialogFont(parent);
         initDefaultWizardProperties();
+	}
+
+	private boolean isNewSeamProjectWizard() {
+		return getWizard()==null || getWizard() instanceof SeamProjectWizard;
 	}
 
 	private boolean isNewProjectWizard() {
@@ -445,6 +449,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * Fills Code Generation group with the default package names.
 	 */
 	private void setCodeGenerationProperties() {
+		String p = (String)model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		sessionBeanPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
 						+ model
@@ -553,13 +558,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				return ValidatorFactory.NO_ERRORS;
 			}
 			final String projectName = (String)value;
-			if(projectName.length()==0) {
-				return ValidatorFactory.NO_ERRORS;
-			}
-			char firstLetter = projectName.charAt(0);
-			if(Character.isUpperCase(firstLetter)) {
-				return ValidatorFactory.createErrormessage(propertyName,
-					new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.SEAM_INSTALL_WIZARD_PROJECT_NAME_WITH_UPPERCASE));
+			IStatus status = SeamFacetProjectCreationDataModelProvider.validateUpperCaseInProjectName(projectName);
+			if(!status.isOK()) {
+				return ValidatorFactory.createErrormessage(propertyName, status);
 			}
 			return ValidatorFactory.NO_ERRORS;
 		}

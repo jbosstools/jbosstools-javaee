@@ -68,6 +68,8 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 					setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, event.getProperty());
 					model.notifyPropertyChange(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, IDataModel.DEFAULT_CHG);
 					model.notifyPropertyChange(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, IDataModel.VALID_VALUES_CHG);
+				} else if (IFacetDataModelProperties.FACET_PROJECT_NAME.equals(event.getPropertyName())) {
+					setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, event.getProperty());
 				}
 			}
 		});	
@@ -112,6 +114,8 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			FacetDataModelMap map = (FacetDataModelMap) getProperty(FACET_DM_MAP);
 			IDataModel seamFacet = map.getFacetDataModel(ISeamFacetDataModelProperties.SEAM_FACET_ID);
 			seamFacet.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, propertyValue);
+		} else if (propertyName.equals(IFacetDataModelProperties.FACET_PROJECT_NAME)) {
+			model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, propertyValue);
 		}
 
 		return super.propertySet(propertyName, propertyValue);
@@ -121,6 +125,7 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		Set names = super.getPropertyNames();
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
+		names.add(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		return names;
 	}
 
@@ -199,6 +204,23 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			status = validateRuntime(runtime);
 			if (!status.isOK())
 				return status;
+		}
+		if(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME.equals(propertyName)) {
+			String projectName = (String)model.getProperty(propertyName);
+			status = validateUpperCaseInProjectName(projectName);
+			if(!status.isOK()) {
+				return status;
+			}
+		}
+		return OK_STATUS;
+	}
+
+	public static IStatus validateUpperCaseInProjectName(String projectName) {
+		if(projectName!=null && projectName.length()>0) {
+			char firstLetter = projectName.charAt(0);
+			if(Character.isUpperCase(firstLetter)) {
+				return new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.SEAM_INSTALL_WIZARD_PROJECT_NAME_WITH_UPPERCASE);
+			}
 		}
 		return OK_STATUS;
 	}
