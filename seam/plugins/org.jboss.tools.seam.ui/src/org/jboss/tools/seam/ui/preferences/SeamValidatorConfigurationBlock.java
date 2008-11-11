@@ -132,7 +132,8 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static SectionDescription SECTION_SETTINGS = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_settings,
 		new String[][]{
-			{SeamPreferences.INVALID_PROJECT_SETTINGS, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_invalidSeamProjectSettings_label}
+			{SeamPreferences.INVALID_PROJECT_SETTINGS, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_invalidSeamProjectSettings_label},
+			{SeamPreferences.INVALID_XML_VERSION, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_invalidXMLVersion_label}
 		}
 	);
 
