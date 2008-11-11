@@ -547,8 +547,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		
 		// ---------- FINALIZING and children encoding -----------
 		contentTable.appendChild(thead);
-		new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
-				sourceElement, contentTable).encodeChildren();
+		RichFacesDataTableChildrenEncoder childrenEncoder = new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
+				sourceElement, contentTable);
+		childrenEncoder.setRowClasses(CSS_LIST_ROW_CLASS, CSS_LIST_ROW_CLASS);
+		childrenEncoder.encodeChildren();
 		//contentTable.appendChild(tfoot);
 		contentDiv.appendChild(contentTable);
 		//outputDiv.appendChild(contentDiv);

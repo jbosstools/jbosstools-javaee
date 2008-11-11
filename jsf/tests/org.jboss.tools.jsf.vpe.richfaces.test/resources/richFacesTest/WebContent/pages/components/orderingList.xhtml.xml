@@ -28,16 +28,14 @@
 													</TD>
 												</TR>
 											</THEAD>
-											<TBODY>
-												<TR CLASS="rich-ordering-list-row">
-													<TD WIDTH="180" CLASS="dr-table-cell rich-table-cell">
-														<SPAN> You must be evil</SPAN>
-													</TD>
-													<TD CLASS="dr-table-cell rich-table-cell">
-														<SPAN> Chris Rea</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
+											<TR CLASS="rich-ordering-list-row">
+												<TD WIDTH="180" CLASS="dr-table-cell rich-table-cell">
+													<SPAN> You must be evil</SPAN>
+												</TD>
+												<TD CLASS="dr-table-cell rich-table-cell">
+													<SPAN> Chris Rea</SPAN>
+												</TD>
+											</TR>
 										</TABLE>
 									</DIV>
 								</TD>

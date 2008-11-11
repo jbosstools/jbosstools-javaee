@@ -8,8 +8,8 @@
 				<TR CLASS="dr-table-header rich-table-header"
 					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 					<TD ROWSPAN="2" CLASS="dr-table-headercell rich-table-headercell">
-						<IMG WIDTH="1" HEIGHT="1"
-							SRC="/.*resources/spacer/spacer.gif/"/>
+						<IMG WIDTH="1" HEIGHT="1" SRC="/.*resources/spacer/spacer.gif/"
+							STYLE="" />
 					</TD>
 					<TD COLSPAN="3" CLASS="dr-table-headercell rich-table-headercell">
 						<SPAN> FIELDS</SPAN>
@@ -30,7 +30,7 @@
 			<TFOOT>
 				<TR CLASS="dr-table-footer rich-table-footer">
 					<TD CLASS="dr-table-footercell rich-table-footercell">
-						<BR _MOZ_DIRTY="" TYPE="_moz"/>
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD CLASS="dr-table-footercell rich-table-footercell">
 						<SPAN> footer1</SPAN>
@@ -45,20 +45,16 @@
 			</TFOOT>
 			<TBODY>
 				<TR CLASS="dr-subtable-cell rich-subtable-cell">
-					<TD
-						CLASS="dr-table-cell rich-table-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell">
+					<TD CLASS="dr-table-cell rich-table-cell">
 						<SPAN> #{rowKey}</SPAN>
 					</TD>
-					<TD
-						CLASS="dr-table-cell rich-table-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell">
+					<TD CLASS="dr-table-cell rich-table-cell">
 						<SPAN> #{row.field1}</SPAN>
 					</TD>
-					<TD
-						CLASS="dr-table-cell rich-table-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell">
+					<TD CLASS="dr-table-cell rich-table-cell">
 						<SPAN> #{row.field2}</SPAN>
 					</TD>
-					<TD
-						CLASS="dr-table-cell rich-table-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell">
+					<TD CLASS="dr-table-cell rich-table-cell">
 						<SPAN> #{row.field3}</SPAN>
 					</TD>
 				</TR>

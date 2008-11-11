@@ -1,205 +1,118 @@
 <tests>
 	<test id="extendedDataTable">
-		<TABLE>
-			<TR>
-				<TD>
-					<DIV CLASS="dr-table-hidden" STYLE="width: 100%; height: 500px;">
-						<TABLE WIDTH="580" ID="table" VALUE="#{capitalsBean.capitals}"
-							VAR="cap" SORTMODE="#{extendedTableBean.sortMode}" SELECTIONMODE="#{extendedTableBean.selectionMode}"
-							CLASS="dr-table rich-table">
-							<COLGROUP SPAN="4">
-							</COLGROUP>
-							<THEAD>
-								<TR CLASS="dr-table-subheader rich-table-subheader">
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
-											<TR>
-												<TD>
-													<SPAN> Flag</SPAN>
-												</TD>
-												<TD>
-													<BR _MOZ_DIRTY="" TYPE="_moz"/>
-												</TD>
-											</TR>
-										</TABLE>
-									</TD>
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
-											<TR>
-												<TD>
-													<SPAN> State Name</SPAN>
-												</TD>
-												<TD>
-													<IMG
-														SRC="/.*resources/extendedDataTable/sortable.gif/"/>
-												</TD>
-											</TR>
-										</TABLE>
-									</TD>
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
-											<TR>
-												<TD>
-													<SPAN> State Capital</SPAN>
-												</TD>
-												<TD>
-													<IMG
-														SRC="/.*resources/extendedDataTable/sortable.gif/"/>
-												</TD>
-											</TR>
-										</TABLE>
-									</TD>
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
-											<TR>
-												<TD>
-													<SPAN> Time Zone</SPAN>
-												</TD>
-												<TD>
-													<BR _MOZ_DIRTY="" TYPE="_moz"/>
-												</TD>
-											</TR>
-										</TABLE>
-									</TD>
-								</TR>
-								<TR CLASS="dr-table-subheader rich-table-subheader">
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<BR _MOZ_DIRTY="" TYPE="_moz"/>
-									</TD>
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<DIV STYLE="padding: 4px;">
-											<INPUT TYPE="text" CLASS="extendedTable-input"/>
-										</DIV>
-									</TD>
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<DIV STYLE="padding: 4px;">
-											<INPUT TYPE="text" CLASS="extendedTable-input"/>
-										</DIV>
-									</TD>
-									<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-										SCOP="col">
-										<BR _MOZ_DIRTY="" TYPE="_moz"/>
-									</TD>
-								</TR>
-							</THEAD>
-							<TBODY>
-								<TR CLASS="dr-table-firstrow rich-table-firstrow">
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<IMG
-											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
-											STYLE="-moz-user-modify: read-write;"/>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.state}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.state}</SPAN>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.name}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.name}</SPAN>
-									</TD>
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<SPAN> #{cap.timeZone}</SPAN>
-									</TD>
-								</TR>
-								<TR CLASS="dr-table-firstrow rich-table-firstrow">
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<IMG
-											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
-											STYLE="-moz-user-modify: read-write;"/>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.state}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.state}</SPAN>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.name}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.name}</SPAN>
-									</TD>
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<SPAN> #{cap.timeZone}</SPAN>
-									</TD>
-								</TR>
-								<TR CLASS="dr-table-firstrow rich-table-firstrow">
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<IMG
-											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
-											STYLE="-moz-user-modify: read-write;"/>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.state}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.state}</SPAN>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.name}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.name}</SPAN>
-									</TD>
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<SPAN> #{cap.timeZone}</SPAN>
-									</TD>
-								</TR>
-								<TR CLASS="dr-table-firstrow rich-table-firstrow">
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<IMG
-											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
-											STYLE="-moz-user-modify: read-write;"/>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.state}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.state}</SPAN>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.name}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.name}</SPAN>
-									</TD>
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<SPAN> #{cap.timeZone}</SPAN>
-									</TD>
-								</TR>
-								<TR CLASS="dr-table-firstrow rich-table-firstrow">
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<IMG
-											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
-											STYLE="-moz-user-modify: read-write;"/>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.state}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.state}</SPAN>
-									</TD>
-									<TD WIDTH="170" CLASS="dr-table-cell rich-table-cell"
-										SORTABLE="true" SORTBY="#{cap.name}" FILTERBY="#{cap.state}"
-										FILTEREVENT="onkeyup">
-										<SPAN> #{cap.name}</SPAN>
-									</TD>
-									<TD CLASS="dr-table-cell rich-table-cell" SORTABLE="false">
-										<SPAN> #{cap.timeZone}</SPAN>
-									</TD>
-								</TR>
-							</TBODY>
-						</TABLE>
-					</DIV>
-				</TD>
-				<TD STYLE="height: 100%; width: 17px;">
-					<DIV STYLE="height: 100%; overflow-y: scroll;">
-					</DIV>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
-				</TD>
-			</TR>
-		</TABLE>
+		<DIV STYLE="width: 580px; height: 400px;">
+			<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING="0" CELLPADDING="0"
+				BORDER="0">
+				<COLGROUP>
+					<COL WIDTH="100" />
+					<COL WIDTH="100" />
+					<COL WIDTH="100" />
+					<COL WIDTH="100" />
+				</COLGROUP>
+				<THEAD>
+					<TR CLASS="dr-table-subheader rich-table-subheader">
+						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+							<SPAN>
+								<SPAN> Flag</SPAN>
+							</SPAN>
+						</TH>
+						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+							<SPAN>
+								<SPAN> State Name</SPAN>
+							</SPAN>
+							<IMG STYLE="vertical-align: middle;"
+								SRC="/.*resources/extendedDataTable/sortable.gif/"/>
+						</TH>
+						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+							<SPAN>
+								<SPAN> State Capital</SPAN>
+							</SPAN>
+							<IMG STYLE="vertical-align: middle;"
+								SRC="/.*resources/extendedDataTable/sortable.gif/"/>
+						</TH>
+						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+							<SPAN>
+								<SPAN> Time Zone</SPAN>
+							</SPAN>
+						</TH>
+						<TH CLASS="dr-table-subheadercell rich-table-subheadercell">
+						</TH>
+					</TR>
+					<TR CLASS="dr-table-subheader rich-table-subheader">
+						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+						</TD>
+						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+							<DIV STYLE="padding: 4px;">
+								<INPUT TYPE="text" CLASS="extendedTable-input" />
+							</DIV>
+						</TD>
+						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+							<DIV STYLE="padding: 4px;">
+								<INPUT TYPE="text" CLASS="extendedTable-input" />
+							</DIV>
+						</TD>
+						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+							SCOP="col">
+						</TD>
+						<TD CLASS="dr-table-subheadercell rich-table-subheadercell">
+						</TD>
+					</TR>
+				</THEAD>
+				<TFOOT>
+					<TR CLASS="dr-table-subfooter rich-table-subfooter">
+						<TD>
+						</TD>
+					</TR>
+				</TFOOT>
+				<TBODY>
+					<TR>
+						<TD VALIGN="top" COLSPAN="4" STYLE="padding: 0px;">
+							<TABLE WIDTH="100%" HEIGHT="100%">
+								<COLGROUP>
+									<COL WIDTH="100" />
+									<COL WIDTH="100" />
+									<COL WIDTH="100" />
+									<COL WIDTH="100" />
+									<COL />
+								</COLGROUP>
+								<TBODY>
+									<TR>
+										<TD SORTABLE="false" CLASS="dr-table-cell rich-table-cell">
+											<IMG
+												SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
+												STYLE="-moz-user-modify: read-write;" />
+										</TD>
+										<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.state}"
+											FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
+											CLASS="dr-table-cell rich-table-cell">
+											<SPAN> #{cap.state}</SPAN>
+										</TD>
+										<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.name}"
+											FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
+											CLASS="dr-table-cell rich-table-cell">
+											<SPAN> #{cap.name}</SPAN>
+										</TD>
+										<TD SORTABLE="false" CLASS="dr-table-cell rich-table-cell">
+											<SPAN> #{cap.timeZone}</SPAN>
+										</TD>
+									</TR>
+								</TBODY>
+							</TABLE>
+						</TD>
+						<TD WIDTH="17" ALIGN="right">
+							<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
+							</DIV>
+						</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+		</DIV>
 	</test>
 </tests>

@@ -1,23 +1,21 @@
 <tests>
 	<test id="column1">
-		<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="3"
-			ID="column1">
+		<TD COLSPAN="3" CLASS="dr-table-headercell rich-table-headercell">
 			<SPAN> FIELDS</SPAN>
 		</TD>
 	</test>
 	<test id="column2">
-		<TD CLASS="dr-table-headercell rich-table-headercell" BREAKBEFORE="true"
-			ID="column2">
-			<SPAN > field1</SPAN>
+		<TD BREAKBEFORE="true" CLASS="dr-table-headercell rich-table-headercell">
+			<SPAN> field1</SPAN>
 		</TD>
 	</test>
 	<test id="column3">
-		<TD CLASS="dr-table-cell rich-table-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell dr-subtable-cell rich-subtable-cell" ID="column3">
+		<TD CLASS="dr-table-cell rich-table-cell">
 			<SPAN> #{row.field1}</SPAN>
 		</TD>
 	</test>
 	<test id="column4">
-		<TD CLASS="dr-table-footercell rich-table-footercell" ID="column4">
+		<TD CLASS="dr-table-footercell rich-table-footercell">
 			<SPAN> footer1</SPAN>
 		</TD>
 	</test>

@@ -18,6 +18,7 @@ import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.VpeCreatorUtil;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -51,6 +52,16 @@ import org.w3c.dom.Node;
  * @author yradtsevich 
  * */
 class RichFacesDataTableChildrenEncoder {
+	private String firstRowClass = "dr-table-firstrow rich-table-firstrow";
+	private String nonFirstRowClass = "dr-table-row rich-table-row";
+
+	/**@param firstRowClass the class of the first row in the table
+	 * @param nonFirstRowClass the class of all rows in the table except the first one*/
+	public void setRowClasses(final String firstRowClass, final String nonFirstRowClass) {
+		this.firstRowClass = firstRowClass;
+		this.nonFirstRowClass = nonFirstRowClass;
+	}
+
 	/**Non-HTML tag that is used to create temporary containers for {@code rich:subTable} and {@code rich:columnGroup}.*/
 	private static final String TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER = "subTableOrColumnGroup-container"; //$NON-NLS-1$
 	private final VpeCreationData creationData;
@@ -89,7 +100,7 @@ class RichFacesDataTableChildrenEncoder {
 					|| nodeName.endsWith(RichFaces.TAG_COLUMN_GROUP)) {
 				addSubTableOrColumnGroupToTable(child);
 				createNewRow = true;
-			} else {
+			} else if (!VpeCreatorUtil.isFacet(child)) {
 				addElementToTable(child);
 				createNewRow = true;
 			}
@@ -137,9 +148,9 @@ class RichFacesDataTableChildrenEncoder {
 			creationData.addChildrenInfo(currentRowChildrenInfo);
 			rowNumber++;
 			if (rowNumber == 1) {
-				currentRow.setAttribute(HTML.ATTR_CLASS, "dr-table-firstrow rich-table-firstrow"); //$NON-NLS-1$
+				currentRow.setAttribute(HTML.ATTR_CLASS, firstRowClass); //$NON-NLS-1$
 			} else {
-				currentRow.setAttribute(HTML.ATTR_CLASS, "dr-table-row rich-table-row"); //$NON-NLS-1$
+				currentRow.setAttribute(HTML.ATTR_CLASS, nonFirstRowClass); //$NON-NLS-1$
 			}
 		}
 
@@ -168,7 +179,7 @@ class RichFacesDataTableChildrenEncoder {
 	 * Replaces all occurencies of {@link #TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER} tag in
 	 * the {@code visualNode} by the tag's child.
 	 * @see #addSubTableOrColumnGroupToTable(Node)
-	 * */
+	 */
 	private static void fixSubTables(final nsIDOMNode visualNode) {
 		final nsIDOMElement element = (nsIDOMElement) visualNode;
 		final nsIDOMNodeList subTableContainers = element.getElementsByTagName(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
