@@ -91,51 +91,7 @@ public class JsfJbide2362Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		// get controller
-		VpeController controller = getVpeController(part);
-		assertNotNull(controller);
-
-		// get dommapping
-		VpeDomMapping domMapping = controller.getDomMapping();
-
-		assertNotNull(domMapping);
-
-		// get source map
-		Map<Node, VpeNodeMapping> sourceMap = domMapping.getSourceMap();
-		assertNotNull(sourceMap);
-
-		// get collection of VpeNodeMapping
-		Collection<VpeNodeMapping> mappings = sourceMap.values();
-		assertNotNull(mappings);
-
-		// get editor control
-		StyledText styledText = part.getSourceEditor().getTextViewer()
-				.getTextWidget();
-		assertNotNull(styledText);
-
-		// get xulrunner editor
-		XulRunnerEditor xulRunnerEditor = controller.getXulRunnerEditor();
-		assertNotNull(xulRunnerEditor);
-
-		for (VpeNodeMapping nodeMapping : mappings) {
-
-			/**
-			 * exclude out DomDocument ( it is added to mapping specially ) and
-			 * nodes without visual representation
-			 */
-			if (!(nodeMapping.getSourceNode() instanceof IDOMDocument)
-					&& (nodeMapping.getVisualNode() != null)) {
-
-				SelectionUtil.setSourceSelection(controller.getPageContext(),
-						nodeMapping.getSourceNode(), 0, 0);
-
-				TestUtil.delay(50);
-
-				assertNotNull(xulRunnerEditor.getLastSelectedNode());
-				assertEquals(nodeMapping.getVisualNode(), xulRunnerEditor
-						.getLastSelectedNode());
-			}
-		}
+		checkSourceSelection(part);
 
 		// check exception
 		if (getException() != null) {

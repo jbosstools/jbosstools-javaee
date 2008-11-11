@@ -88,7 +88,8 @@ public class JBIDE2624Test extends VpeTest {
         TestUtil.findAllElementsByName(element, elements, HTML.TAG_TABLE);
 
         assertTrue("Faceletes wasn't loaded from specified path", elements.size() >= 1); //$NON-NLS-1$
-
+        //clear all resources
+        RelativeFolderReferenceList.getInstance().setAllResources(file,new ResourceReference[0]);
     }
 
 }
