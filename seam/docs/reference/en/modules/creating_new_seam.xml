@@ -218,9 +218,9 @@
         </figure>
 
         <para><emphasis>
-                <property>Next</property>
+                <property>Ok</property>
             </emphasis> button will bring you to the <property>Web Module</property> wizard
-        form.</para>
+        form again.</para>
     </section>
 
     <section id="configureWebModule">
