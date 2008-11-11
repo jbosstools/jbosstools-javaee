@@ -573,8 +573,14 @@
 			id="org.jboss.tools.seam.ui.search.SeamQueryParticipant" />
 	</extension>
 
+	<extension point="org.eclipse.ui.ide.markerResolution">
+  		<markerResolutionGenerator
+     		class="org.jboss.tools.seam.ui.marker.MarkerResolutionGenerator"
+     		markerType="org.jboss.tools.seam.core.seamProjectProblem"/>
+	</extension>
+
 <!-- Refactorng -->
-	<extension
+	<!--extension
 		point="org.eclipse.ui.menus">
 		<menuContribution
 			locationURI="popup:#CompilationUnitEditorContext?after=org.eclipse.jdt.ui.refactoring.menu">
@@ -606,12 +612,6 @@
  		<handler
   			commandId="org.jboss.tools.seam.ui.refactoring.component"
   			class="org.jboss.tools.seam.ui.refactoring.SeamComponentRenameHandler"/>
-	</extension>
-	
-	<extension point="org.eclipse.ui.ide.markerResolution">
-  		<markerResolutionGenerator
-     		class="org.jboss.tools.seam.ui.marker.MarkerResolutionGenerator"
-     		markerType="org.jboss.tools.seam.core.seamProjectProblem"/>
-	</extension>
+	</extension-->
 
 </plugin>
