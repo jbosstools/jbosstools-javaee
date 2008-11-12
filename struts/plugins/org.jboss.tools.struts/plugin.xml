@@ -18,6 +18,7 @@
       <keys path="help/keys-struts.properties"/>
       <keys path="help/keys-struts-attrs.properties"/>
       <keys path="help/keys-struts-menu.properties"/>
+      <keys path="help/keys-struts-lists.properties"/>
    </extension>
    <extension point="org.jboss.tools.common.model.specialwizard">
       <specialwizard class="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems" id="org.jboss.tools.struts.webprj.model.helpers.sync.SortFileSystems">
