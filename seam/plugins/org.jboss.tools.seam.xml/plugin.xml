@@ -27,6 +27,7 @@
       <keys path="help/keys-seam.properties"/>
       <keys path="help/keys-seam-attrs.properties"/>
       <keys path="help/keys-seam-menu.properties"/>
+      <keys path="help/keys-seam-lists.properties"/>
    </extension>
 
    	<extension
