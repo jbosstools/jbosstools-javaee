@@ -343,7 +343,6 @@
 		<contentAssistProcessor 
 			class="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor" 
 			id="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor">
-			
 			<contenttype id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
 				<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
@@ -368,7 +367,25 @@
 			<contenttype id="org.jboss.tools.common.model.ui.xml">  
 				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
 			</contenttype>
-			
+
+			<contenttype id="org.jboss.tools.seam.xml.ui.pages12xmlsource">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
+			<contenttype id="org.jboss.tools.seam.xml.ui.page12xmlsource">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
+			<contenttype id="org.jboss.tools.seam.xml.ui.pages20xmlsource">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
+			<contenttype id="org.jboss.tools.seam.xml.ui.page20xmlsource">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
+			<contenttype id="org.jboss.tools.seam.xml.ui.pages21xmlsource">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
+			<contenttype id="org.jboss.tools.seam.xml.ui.page21xmlsource">  
+				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contenttype>
 		</contentAssistProcessor>
   </extension>
  
