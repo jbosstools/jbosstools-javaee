@@ -10,25 +10,23 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.dnd;
 
+import java.io.File;
+import java.util.Properties;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.geometry.Point;
-import org.jboss.tools.common.model.ui.dnd.ModelTransfer;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import java.io.File;
-import java.util.Properties;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.resources.ResourcesPlugin;
-
-import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.ui.dnd.ModelTransfer;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-
+import org.jboss.tools.seam.pages.xml.model.SeamPagesXModelUtil;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesDiagramEditPart;
 
@@ -102,9 +100,7 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 			}
 			properties.put("diagramEditPart", part);
 
-			XActionInvoker
-					.invoke("CreateActions.AddPage", (XModelObject) editor
-							.getPagesModel().getData(), properties);
+			SeamPagesXModelUtil.addPage((XModelObject) editor.getPagesModel().getData(), properties);
 			return;
 		}
 		DndHelper.drop(editor.getPagesModel().getData(), point);

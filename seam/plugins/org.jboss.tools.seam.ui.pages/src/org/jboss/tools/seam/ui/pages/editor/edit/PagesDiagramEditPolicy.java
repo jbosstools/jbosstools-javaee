@@ -18,9 +18,9 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesXModelUtil;
 import org.jboss.tools.seam.ui.pages.editor.ExceptionTemplate;
 import org.jboss.tools.seam.ui.pages.editor.PageTemplate;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
@@ -83,7 +83,7 @@ public class PagesDiagramEditPolicy extends RootComponentEditPolicy{
 			}
 			properties.put("diagramEditPart", getDiagramEditPart());
 
-			XActionInvoker.invoke("CreateActions.AddException", (XModelObject)((PagesModel)getDiagramEditPart().getModel()).getData(),properties);
+			SeamPagesXModelUtil.addException((XModelObject)((PagesModel)getDiagramEditPart().getModel()).getData(), properties);
 		}
 	
 		public boolean canUndo() {
@@ -116,7 +116,7 @@ public class PagesDiagramEditPolicy extends RootComponentEditPolicy{
 			}
 			properties.put("diagramEditPart", getDiagramEditPart());
 
-			XActionInvoker.invoke("CreateActions.AddPage", (XModelObject)((PagesModel)getDiagramEditPart().getModel()).getData(),properties);
+			SeamPagesXModelUtil.addPage((XModelObject)((PagesModel)getDiagramEditPart().getModel()).getData(), properties);
 		}
 	
 		public boolean canUndo() {
