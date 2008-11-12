@@ -18,9 +18,8 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-
-import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jsf.model.JSFXModelUtil;
 import org.jboss.tools.jsf.ui.editor.model.impl.JSFModel;
 
 public class JSFDiagramEditPolicy extends RootComponentEditPolicy{
@@ -71,7 +70,7 @@ public class JSFDiagramEditPolicy extends RootComponentEditPolicy{
 			   properties.put("process.mouse.y","" + location.y);
 			}
 
-			XActionInvoker.invoke("CreateActions.AddRule", (XModelObject)((JSFModel)getDiagramEditPart().getModel()).getSource(),properties);
+			JSFXModelUtil.addRule((XModelObject)((JSFModel)getDiagramEditPart().getModel()).getSource(), properties);
 		}
 	
 		public boolean canUndo() {

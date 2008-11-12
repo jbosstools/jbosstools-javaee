@@ -10,25 +10,23 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.editor.dnd;
 
+import java.io.File;
+import java.util.Properties;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.geometry.Point;
-import org.jboss.tools.common.model.ui.dnd.ModelTransfer;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import java.io.File;
-import java.util.Properties;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.resources.ResourcesPlugin;
-
-import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.ui.dnd.ModelTransfer;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-
+import org.jboss.tools.jsf.model.JSFXModelUtil;
 import org.jboss.tools.jsf.ui.editor.JSFEditor;
 import org.jboss.tools.jsf.ui.editor.edit.JSFDiagramEditPart;
 
@@ -100,9 +98,7 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 				properties.put("process.mouse.y", "" + point.y);
 			}
 
-			XActionInvoker
-					.invoke("CreateActions.AddRule", (XModelObject) editor
-							.getJSFModel().getSource(), properties);
+			JSFXModelUtil.addRule((XModelObject) editor.getJSFModel().getSource(), properties);
 			return;
 		}
 		DndHelper.drop(editor.getJSFModel().getSource(), point);
