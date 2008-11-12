@@ -15,9 +15,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
-
-import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.XModelUtil;
 import org.jboss.tools.struts.ui.editor.figures.CommentFigure;
 
 public class CommentEditPart extends ProcessItemEditPart {
@@ -70,7 +69,7 @@ public class CommentEditPart extends ProcessItemEditPart {
 	}
 	
 	public void doDoubleClick(){
-		XActionInvoker.invoke("Edit", (XModelObject)getProcessItemModel().getSource(),null);
+		XModelUtil.openEditor((XModelObject)getProcessItemModel().getSource());
 	}
 
 	protected void layoutForwards(){

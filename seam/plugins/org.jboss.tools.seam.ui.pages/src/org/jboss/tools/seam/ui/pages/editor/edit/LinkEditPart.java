@@ -12,7 +12,6 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Properties;
 
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.FreeformViewport;
@@ -38,8 +37,8 @@ import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
-import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.XModelUtil;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor.ModelSelectionProvider;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
@@ -239,7 +238,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 				
 				((ModelSelectionProvider)editor.getModelSelectionProvider()).scroll(vp, part.getNodeFigure());
 			}else{
-				XActionInvoker.invoke("Properties/Properties", (XModelObject)getLink().getData(), new Properties());
+				XModelUtil.openProperyDialog((XModelObject)getLink().getData());
 			}
 		}
 	}
