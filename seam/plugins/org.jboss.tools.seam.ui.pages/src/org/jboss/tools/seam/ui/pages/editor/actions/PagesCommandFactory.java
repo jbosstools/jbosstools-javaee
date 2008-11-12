@@ -11,8 +11,10 @@
 package org.jboss.tools.seam.ui.pages.editor.actions;
 
 import java.util.List;
+
 import org.eclipse.gef.commands.Command;
 import org.jboss.tools.seam.ui.pages.editor.commands.PagesCompoundCommand;
+import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.edit.LinkEditPart;
 import org.jboss.tools.seam.ui.pages.editor.edit.PagesEditPart;
@@ -28,7 +30,7 @@ public class PagesCommandFactory {
 			for (int i = 0; i < objects.size(); i++) {
 				source = null;
 				if(objects.get(i) instanceof PagesEditPart) source = ((PagesElement)((PagesEditPart)objects.get(i)).getModel()).getData();
-				else if(objects.get(i) instanceof LinkEditPart) source = ((PagesElement)((LinkEditPart)objects.get(i)).getModel()).getData();
+				else if(objects.get(i) instanceof LinkEditPart) source = ((Link)((LinkEditPart)objects.get(i)).getModel()).getData();
 				if(source != null)compoundCmd.add(source);
 			}
 			return compoundCmd;
