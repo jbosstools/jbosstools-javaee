@@ -11,6 +11,7 @@
       <keys path="help/keys-seam-pages.properties"/>
       <keys path="help/keys-seampages-attrs.properties"/>
       <keys path="help/keys-seampages-menu.properties"/>
+      <keys path="help/keys-seampages-lists.properties"/>
    </extension>
 
    	<extension
