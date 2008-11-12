@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.componentcore.internal.util.IModuleConstants;
@@ -233,9 +234,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 */
 	public void setConfig(Object config) {
 		model = (IDataModel) config;
-		sync = new DataModelSynchronizer(model);
-		model.addListener(this);
-
 		model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
 				HIBERNATE_HELPER.getDialectClass(jBossHibernateDbTypeEditor.getValueAsString()));
 	}
@@ -298,6 +296,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * Creates Seam Facet Wizard Page contents
 	 */
 	public void createControl(Composite parent) {
+		sync = new DataModelSynchronizer(model);
 		jBossSeamHomeEditor = SeamWizardFactory.createSeamRuntimeSelectionFieldEditor(new SeamVersion[0], SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model), new NewSeamRuntimeAction());
 
 		initializeDialogUnits(parent);
@@ -400,6 +399,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
         Dialog.applyDialogFont(parent);
         initDefaultWizardProperties();
+		((IDataModel)model.getProperty(FacetInstallDataModelProvider.MASTER_PROJECT_DM)).addListener(this);
 	}
 
 	private boolean isNewSeamProjectWizard() {
@@ -421,7 +421,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, event
 							.getProperty().toString());
 		} else if(event.getPropertyName().equals(IFacetDataModelProperties.FACET_PROJECT_NAME)) {
-			setCodeGenerationProperties();
+			model.setStringProperty(
+					ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, event
+							.getProperty().toString());
 		}
 	}
 
@@ -431,8 +433,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 */
 	@Override
 	public void setVisible(boolean visible) {
-		setCodeGenerationProperties();
+		
 		if(visible) {
+			setCodeGenerationProperties();
 			setDefaultSeamRuntime();
 			validate();
 		}
@@ -452,18 +455,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		String p = (String)model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		sessionBeanPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
-						+ model
-								.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
+						+ p
 						+ ".session"); //$NON-NLS-1$
 		entityBeanPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
-						+ model
-								.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
+						+ p
 						+ ".entity"); //$NON-NLS-1$
 		testsPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
-						+ model
-								.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME)
+						+ p
 						+ ".test"); //$NON-NLS-1$
 	}
 

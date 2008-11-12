@@ -719,7 +719,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)==null) {
 			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, warProject?ISeamFacetDataModelProperties.DEPLOY_AS_WAR:ISeamFacetDataModelProperties.DEPLOY_AS_EAR);
 		}
-		Object projectNamePackage = model.getProperty(IFacetDataModelProperties.FACET_PROJECT_NAME);
+		Object projectNamePackage = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		IStatus status = JavaConventions.validatePackageName(projectNamePackage.toString(), CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
 		if(!status.isOK()) {
 			projectNamePackage = "project";

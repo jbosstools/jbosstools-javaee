@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -43,7 +44,7 @@ public class SeamFacetInstallDataModelProvider extends
 	 * @return set of property names
 	 */
 	public Set getPropertyNames() {
-		Set<String> names = super.getPropertyNames();
+		Set<String> names = super.getPropertyNames();//super.getPropertyNames();
 
 		// General group
 		names.add(ISeamFacetDataModelProperties.JBOSS_AS_HOME);
