@@ -18,9 +18,8 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-
-import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.struts.model.StrutsXModelUtil;
 import org.jboss.tools.struts.ui.editor.ActionTemplate;
 import org.jboss.tools.struts.ui.editor.GlobalExceptionTemplate;
 import org.jboss.tools.struts.ui.editor.GlobalForwardTemplate;
@@ -100,7 +99,7 @@ public class StrutsDiagramEditPolicy extends RootComponentEditPolicy{
 			   properties.put("process.mouse.y","" + location.y);
 			}
 
-			XActionInvoker.invoke("CreateActions.CreateAction", (XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(),properties);
+			StrutsXModelUtil.addAction((XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(), properties);
 		}
 	
 		public boolean canUndo() {
@@ -132,7 +131,7 @@ public class StrutsDiagramEditPolicy extends RootComponentEditPolicy{
 			   properties.put("process.mouse.y","" + location.y);
 			}
 
-			XActionInvoker.invoke("CreateActions.CreateForward", (XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(),properties);
+			StrutsXModelUtil.addForward((XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(), properties);
 		}
 	
 		public boolean canUndo() {
@@ -164,7 +163,7 @@ public class StrutsDiagramEditPolicy extends RootComponentEditPolicy{
 			   properties.put("process.mouse.y","" + location.y);
 			}
 
-			XActionInvoker.invoke("CreateActions.CreateException", (XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(),properties);
+			StrutsXModelUtil.addException((XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(), properties);
 		}
 	
 		public boolean canUndo() {
@@ -196,7 +195,7 @@ public class StrutsDiagramEditPolicy extends RootComponentEditPolicy{
 			   properties.put("process.mouse.y","" + location.y);
 			}
 
-			XActionInvoker.invoke("CreateActions.CreatePage", (XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(),properties);
+			StrutsXModelUtil.addPage((XModelObject)((IStrutsModel)getDiagramEditPart().getModel()).getSource(), properties);
 		}
 	
 		public boolean canUndo() {
