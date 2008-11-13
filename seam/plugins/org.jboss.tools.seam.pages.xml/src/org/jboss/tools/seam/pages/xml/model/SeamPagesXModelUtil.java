@@ -16,11 +16,14 @@ import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
 
 public class SeamPagesXModelUtil {
+	private static final String ADD_PAGE_ACTION = "CreateActions.AddPage";
+	private static final String ADD_EXCEPTION_ACTION = "CreateActions.AddException";
+	
 	public static void addPage(XModelObject object, Properties properties){
-		XActionInvoker.invoke("CreateActions.AddPage", object, properties);
+		XActionInvoker.invoke(ADD_PAGE_ACTION, object, properties);
 	}
 	
 	public static void addException(XModelObject object, Properties properties){
-		XActionInvoker.invoke("CreateActions.AddException", object, properties);
+		XActionInvoker.invoke(ADD_EXCEPTION_ACTION, object, properties);
 	}
 }

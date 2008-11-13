@@ -18,6 +18,11 @@ import org.jboss.tools.jsf.ui.editor.model.IJSFElement;
 import org.jboss.tools.jsf.ui.editor.model.commands.JSFCompoundCommand;
 
 public class JSFCommandFactory {
+	private static final String DELETE_ACTION = "DeleteActions.Delete";
+	private static final String COPY_ACTION = "CopyActions.Copy";
+	private static final String CUT_ACTION = "CopyActions.Cut";
+	private static final String PASTE_ACTION = "CopyActions.Paste";
+	
 	
 	private static Command createCommand(List objects, String commandPath) {
 		Object source = null;
@@ -36,19 +41,19 @@ public class JSFCommandFactory {
 	}
 
 	public static Command createDeleteCommand(List objects) {
-		return createCommand(objects, "DeleteActions.Delete");
+		return createCommand(objects, DELETE_ACTION);
 	}
 
 	public static Command createCopyCommand(List objects) {
-		return createCommand(objects, "CopyActions.Copy");
+		return createCommand(objects, COPY_ACTION);
 	}
 	
 	public static Command createCutCommand(List objects) {
-		return createCommand(objects, "CopyActions.Cut");
+		return createCommand(objects, CUT_ACTION);
 	}
 
 	public static Command createPasteCommand(List objects) {
-		return createCommand(objects, "CopyActions.Paste");
+		return createCommand(objects, PASTE_ACTION);
 	}
 
 }
