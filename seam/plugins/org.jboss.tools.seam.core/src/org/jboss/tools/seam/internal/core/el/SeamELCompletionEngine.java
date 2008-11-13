@@ -924,8 +924,11 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @return
 	 */
 	public ELInvocationExpression findExpressionAtOffset(IDocument document, int offset, int start, int end) {
-		String content = document.get();
-		
+		return findExpressionAtOffset(document.get(), offset, start, end);
+	}
+
+	public ELInvocationExpression findExpressionAtOffset(String content, int offset, int start, int end) {
+
 		//TODO this naive calculations should be removed; 
 		//	   this method should be called with reasonable start and end. 
 		if(start <= 0) start = guessStart(content, offset);
