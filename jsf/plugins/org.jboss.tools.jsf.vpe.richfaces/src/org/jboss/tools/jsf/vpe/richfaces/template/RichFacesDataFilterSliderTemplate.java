@@ -123,8 +123,12 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		nsIDOMElement parentDiv = createDIV(visualDocument, styleClass, style);
 
 		// create RANGE container DIV tag element
+		String width = ComponentUtil.getAttribute(sourceElement, HTML.STYLE_PARAMETER_WIDTH);
+		if (width == null || width.equals(Constants.EMPTY)) {
+			width = new Integer(DEFAULT_WIDTH).toString();
+		}
 		style = new StringBuffer(HTML.STYLE_PARAMETER_WIDTH).append(Constants.COLON).
-				append(DEFAULT_WIDTH).append(Constants.PIXEL).append(Constants.SEMICOLON).toString();
+				append(width).append(Constants.PIXEL).append(Constants.SEMICOLON).toString();
 		styleClass = ComponentUtil.getAttribute(sourceElement, RANGE_STYLE_CLASS_ATTR);
 		styleClass = new StringBuffer(DEFAULT_RANGE_STYLE).append(Constants.WHITE_SPACE).
 				append(RICH_DFS_RANGE_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
@@ -171,6 +175,12 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		input.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 		setAttributesToInputElement(input, sourceElement);
 
+		// create BR tag element
+		nsIDOMElement br = visualDocument.createElement(HTML.TAG_BR);
+		style = new StringBuffer(HTML.STYLE_PARAMETER_CLEAR).append(Constants.COLON).
+				append(HTML.VALUE_CLEAR_BOTH).append(Constants.SEMICOLON).toString();
+		br.setAttribute(HTML.ATTR_STYLE, HTML.VALUE_TYPE_TEXT);
+
 		// create DOM tree in correspondence order
 		parentDiv.appendChild(rangeDiv);
 		rangeDiv.appendChild(rangeDecorDiv);
@@ -180,6 +190,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		handleDiv.appendChild(img);
 
 		parentDiv.appendChild(input);
+		parentDiv.appendChild(br);
 
 		// Create return variable contains template
 		VpeCreationData creationData = new VpeCreationData(parentDiv);
