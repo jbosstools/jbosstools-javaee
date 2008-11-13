@@ -158,10 +158,10 @@ VpeToggableTemplate {
 		Element groupSourceElement =  (Element) sourceNode;
 		Element srcNode = null;
 		
-		if ((groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
-                && (groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
-            srcNode = (Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
-        }
+//		if ((groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
+//                && (groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
+//            srcNode = (Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
+//        }
 		nsIDOMElement creationDataDiv = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
@@ -204,11 +204,11 @@ VpeToggableTemplate {
 	
 		List<Node> children = null;
 		
-		if (srcNode != null) {
-            children = ComponentUtil.getChildren((Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE));
-        } else {
+//		if (srcNode != null) {
+//            children = ComponentUtil.getChildren((Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE));
+//        } else {
             children = ComponentUtil.getChildren(groupSourceElement);
-        }
+//        }
 		if (expanded) {
 			for (Node child : children) {
 				boolean isGroup = child.getNodeName().endsWith(

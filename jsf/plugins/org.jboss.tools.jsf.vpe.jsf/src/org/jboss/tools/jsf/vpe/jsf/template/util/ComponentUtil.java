@@ -109,7 +109,7 @@ public class ComponentUtil {
 
 		BundleMap bundle = pageContext.getBundle();
 
-		return bundle.getBundleValue(value, offfset);
+		return bundle.getBundleValue(value);
 
 	}
 }

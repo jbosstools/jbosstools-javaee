@@ -130,10 +130,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		Element itemSourceElement = (Element) sourceNode;
 		Element srcElement  = null;
 		//added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605
-        if ((itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
-                && (itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
-            srcElement = (Element) itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
-        }
+//        if ((itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
+//                && (itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
+//            srcElement = (Element) itemSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
+//        }
 		
 			
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);

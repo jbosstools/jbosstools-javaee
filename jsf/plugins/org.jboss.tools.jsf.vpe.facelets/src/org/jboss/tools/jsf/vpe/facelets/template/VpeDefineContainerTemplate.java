@@ -58,11 +58,9 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		String fileName = null;
-		Attr attr = ((Element)sourceNode).getAttributeNode(ATTR_TEMPLATE);
-		if (attr != null && attr.getNodeValue().trim().length() > 0) {
-			fileName = attr.getNodeValue().trim();
-			IFile file = VpeCreatorUtil.getFile(fileName, pageContext);
+		String fileName = ((Element)sourceNode).getAttribute(ATTR_TEMPLATE);
+		if (fileName != null && fileName.trim().length() > 0) {
+				IFile file = VpeCreatorUtil.getFile(fileName, pageContext);
 			if (file != null) {
 				if (!pageContext.getVisualBuilder().isFileInIncludeStack(file)) {
 					registerDefine(pageContext, sourceNode);
@@ -80,7 +78,11 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 						pageContext.getVisualBuilder().pushIncludeStack(
 								new VpeIncludeInfo((Element) sourceNode, file,
 										document));
-						defineContainer.add(sourceNode);
+						//we should add only real nodem, sourceNode can be a proxy
+						//so
+						if(sourceNode.getFirstChild()!=null) {
+							defineContainer.add(sourceNode.getFirstChild().getParentNode());
+						}
 						return creationData;
 					}
 				}

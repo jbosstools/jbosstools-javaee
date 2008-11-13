@@ -142,10 +142,10 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 		// get parent element
 		Node parent = sourceNode.getParentNode();
 		
-		if ((parent == null) && (sourceNode instanceof Element)
-                && (((Element) sourceNode).getAttribute(VpeVisualDomBuilder.PARENT) != null)) {
-            parent = (Node) ((Element) sourceNode).getAttributeNode(VpeVisualDomBuilder.PARENT).getUserData(VpeVisualDomBuilder.PARENT);
-        }
+//		if ((parent == null) && (sourceNode instanceof Element)
+//                && (((Element) sourceNode).getAttribute(VpeVisualDomBuilder.PARENT) != null)) {
+//            parent = (Node) ((Element) sourceNode).getAttributeNode(VpeVisualDomBuilder.PARENT).getUserData(VpeVisualDomBuilder.PARENT);
+//        }
 		if ((parent != null) && (parent.getNodeType() == Node.ELEMENT_NODE)) {
 
 			ElementImpl element = (ElementImpl) parent;
