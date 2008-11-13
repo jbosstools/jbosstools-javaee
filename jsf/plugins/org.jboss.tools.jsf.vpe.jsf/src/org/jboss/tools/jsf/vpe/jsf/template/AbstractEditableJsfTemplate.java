@@ -44,8 +44,11 @@ public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate im
     }
 
     // general jsf attributes
-	/** The attributes. */
-    static private Map<String, String> attributes = new HashMap<String, String>();
+	/**
+	 * Contains JSF attributes and appropriate HTML attributes 
+	 * content of that does not have to be modified in templates.
+	 */
+    static final private Map<String, String> attributes = new HashMap<String, String>();
 
 	static {
 		attributes.put("style", HTML.ATTR_STYLE); //$NON-NLS-1$
@@ -53,20 +56,21 @@ public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate im
 	}
 
 	/**
-	 * copy general.
+	 * Renames and copies most general JSF attributes from the
+	 * {@code sourceElement} to the {@code visualElement}.
 	 * 
 	 * @param sourceElement the source element
 	 * @param visualElement the visual element
+	 * @see AbstractEditableJsfTemplate#attributes attributes
 	 */
-	protected void copyGeneralJsfAttributes(nsIDOMElement visualElement,
-			Element sourceElement) {
-
-		Set<String> jsfAttributes = attributes.keySet();
-
-		for (String key : jsfAttributes) {
-
-			copyAttribute(visualElement, sourceElement, key, attributes
-					.get(key));
+	protected void copyGeneralJsfAttributes(Element sourceElement,
+			nsIDOMElement visualElement) {
+		
+		Set<Map.Entry<String, String>> jsfAttrEntries = attributes.entrySet();
+		
+		for (Map.Entry<String, String> attrEntry : jsfAttrEntries) {
+			copyAttribute(visualElement, sourceElement, attrEntry.getKey(),
+					attrEntry.getValue());
 		}
 
 	}
@@ -88,7 +92,4 @@ public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate im
 					.getAttribute(sourceAttributeName));
 
 	}
-	
-	
-
 }

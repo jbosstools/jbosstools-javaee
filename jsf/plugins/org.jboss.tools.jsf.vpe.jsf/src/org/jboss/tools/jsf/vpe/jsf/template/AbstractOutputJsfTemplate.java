@@ -61,7 +61,7 @@ public abstract class AbstractOutputJsfTemplate extends
 	 */
 	protected void copyOutputJsfAttributes(nsIDOMElement visualElement,
 			Element sourceElement) {
-		copyGeneralJsfAttributes(visualElement, sourceElement);
+		copyGeneralJsfAttributes(sourceElement, visualElement);
 		copyAttribute(visualElement, sourceElement, JSF.ATTR_DIR, HTML.ATTR_DIR);
 	}
 

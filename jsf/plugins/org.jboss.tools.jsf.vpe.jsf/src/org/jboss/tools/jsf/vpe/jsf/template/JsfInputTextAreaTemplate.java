@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
@@ -34,13 +35,16 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 
 		nsIDOMElement textArea = visualDocument
 				.createElement(HTML.TAG_TEXTAREA);
-		((nsIDOMHTMLTextAreaElement) textArea
-				.queryInterface(nsIDOMHTMLTextAreaElement.NS_IDOMHTMLTEXTAREAELEMENT_IID))
-				.setReadOnly(true);
+		
+// Commented as fix for JBIDE-3012.		
+//		((nsIDOMHTMLTextAreaElement) textArea
+//				.queryInterface(nsIDOMHTMLTextAreaElement.NS_IDOMHTMLTEXTAREAELEMENT_IID))
+//				.setReadOnly(true);
 
 		VpeCreationData creationData = new VpeCreationData(textArea);
 
-		copyGeneralJsfAttributes(textArea, sourceElement);
+		copyGeneralJsfAttributes(sourceElement, textArea);
+		ComponentUtil.copyDisabled(sourceElement, textArea);
 
 		copyAttribute(textArea, sourceElement, JSF.ATTR_DIR, HTML.ATTR_DIR);
 		copyAttribute(textArea, sourceElement, JSF.ATTR_ROWS, HTML.ATTR_ROWS);

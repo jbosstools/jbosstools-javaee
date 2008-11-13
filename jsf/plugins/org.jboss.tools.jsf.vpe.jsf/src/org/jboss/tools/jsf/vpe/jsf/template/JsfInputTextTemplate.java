@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
@@ -34,7 +35,8 @@ public class JsfInputTextTemplate extends AbstractEditableJsfTemplate {
 
 		VpeCreationData creationData = new VpeCreationData(input);
 
-		copyGeneralJsfAttributes(input, sourceElement);
+		copyGeneralJsfAttributes(sourceElement, input);
+		ComponentUtil.copyDisabled(sourceElement, input);
 
 		copyAttribute(input, sourceElement, JSF.ATTR_VALUE, HTML.ATTR_VALUE);
 		copyAttribute(input, sourceElement, JSF.ATTR_SIZE, HTML.ATTR_SIZE);
