@@ -7,7 +7,7 @@
 					<TD>
 						<DIV>
 							<SPAN> Some text </SPAN>
-							<INPUT VALUE="#{rsBean.text1}" READONLY=""/>
+							<INPUT VALUE="#{rsBean.text1}"/>
 						</DIV>
 					</TD>
 				</TR>

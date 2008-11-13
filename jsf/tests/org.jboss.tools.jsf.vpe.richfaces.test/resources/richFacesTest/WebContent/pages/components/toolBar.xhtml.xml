@@ -65,11 +65,11 @@
 							<TBODY>
 								<TR VALIGN="middle">
 									<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="">
-										<INPUT CLASS="barsearch" READONLY=""/>
+										<INPUT CLASS="barsearch"/>
 									</TD>
 									<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="">
 										<INPUT TYPE="button" CLASS="barsearchbutton" VALUE="Search"
-											STYLE="-moz-user-modify: read-only;" READONLY=""/>
+											STYLE="-moz-user-modify: read-only;"/>
 									</TD>
 								</TR>
 							</TBODY>
