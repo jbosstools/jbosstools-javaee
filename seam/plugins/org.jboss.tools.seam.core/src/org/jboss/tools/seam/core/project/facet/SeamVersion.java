@@ -27,8 +27,13 @@ public enum SeamVersion {
 	/**
 	 * Seam versions 2.0.X
 	 */
-	SEAM_2_0("2.0"); //$NON-NLS-1$ //$NON-NLS-2$
+	SEAM_2_0("2.0"), //$NON-NLS-1$ //$NON-NLS-2$
 
+	/**
+	 * Seam versions 2.1.X
+	 */
+	SEAM_2_1("2.1");  //$NON-NLS-1$
+	
 	String version = ""; //$NON-NLS-1$
 
 	SeamVersion(String version) {
@@ -45,7 +50,7 @@ public enum SeamVersion {
 		return version;
 	}
 
-	public static SeamVersion[] ALL_VERSIONS = new SeamVersion[]{SEAM_1_2, SEAM_2_0};
+	public static SeamVersion[] ALL_VERSIONS = new SeamVersion[]{SEAM_1_2, SEAM_2_0, SEAM_2_1};
 
 	/**
 	 * Get enumeration by string
@@ -61,6 +66,8 @@ public enum SeamVersion {
 			return SEAM_1_2;
 		} else if (SEAM_2_0.toString().equals(version)) {
 			return SEAM_2_0;
+		} else if (SEAM_2_1.toString().equals(version)) {
+			return SEAM_2_1;
 		}
 		throw new IllegalArgumentException(NLS.bind(
 				"Seam version ''{0}'' is not supported", version)); //$NON-NLS-1$ //$NON-NLS-2$
@@ -80,6 +87,8 @@ public enum SeamVersion {
 			return SEAM_1_2;
 		} else if (SEAM_2_0.toString().equals(version)) {
 			return SEAM_2_0;
+		} else if (SEAM_2_1.toString().equals(version)) {
+			return SEAM_2_1;
 		}
 		return null;
 	}
