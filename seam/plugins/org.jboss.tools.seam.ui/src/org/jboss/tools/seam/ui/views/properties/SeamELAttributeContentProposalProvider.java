@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.seam.ui.views.properties;
 
 import java.util.ArrayList;
@@ -22,6 +32,9 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
+/**
+ * @author Viacheslav Kabanovich
+ */
 public class SeamELAttributeContentProposalProvider implements
 		IAttributeContentProposalProvider {
 	XModelObject object;
@@ -29,15 +42,23 @@ public class SeamELAttributeContentProposalProvider implements
 	IFile file;
 	SeamELCompletionEngine engine;
 
-	public void dispose() {
-		object = null;
-		attribute = null;
-		file = null;
-		engine = null;
+	public boolean isRelevant(XModelObject object, XAttribute attribute) {
+		if(attribute == null) {
+			return false;
+		}
+		String module = attribute.getModelEntity().getModule();
+		if(module == null || !module.startsWith("Seam")) {
+			return false;
+		}
+		String entity = attribute.getModelEntity().getName();
+		if(entity.startsWith("File")) {
+			return false;
+		}
+		return true;
 	}
 
 	public IContentProposalProvider getContentProposalProvider() {
-		if(file == null) return null;
+		if(file == null || engine == null) return null;
 		return new ContentProposalProvider();
 	}
 
@@ -87,7 +108,7 @@ public class SeamELAttributeContentProposalProvider implements
 			
 			List<String> suggestions = null;
 			try {
-				suggestions = engine.getCompletions(file, null, prefix, position, true, null, 0, contents.length());
+				suggestions = engine.getCompletions(file, null, prefix, position, false, null, 0, contents.length());
 			} catch (BadLocationException e) {
 				SeamGuiPlugin.getPluginLog().logError(e);
 			}
@@ -142,4 +163,12 @@ public class SeamELAttributeContentProposalProvider implements
 		ELInvocationExpression expr = ELUtil.findExpression(model1, el.length());
 		return (expr != null);		
 	}
+
+	public void dispose() {
+		object = null;
+		attribute = null;
+		file = null;
+		engine = null;
+	}
+
 }

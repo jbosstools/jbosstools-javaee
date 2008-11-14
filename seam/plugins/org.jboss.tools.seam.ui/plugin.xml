@@ -631,4 +631,9 @@
   			class="org.jboss.tools.seam.ui.refactoring.SeamComponentRenameHandler"/>
 	</extension-->
 
+ <extension
+       point="org.jboss.tools.common.model.ui.attributeContentProposalProviders">
+    <provider class="org.jboss.tools.seam.ui.views.properties.SeamELAttributeContentProposalProvider"/>
+ </extension>
+
 </plugin>
