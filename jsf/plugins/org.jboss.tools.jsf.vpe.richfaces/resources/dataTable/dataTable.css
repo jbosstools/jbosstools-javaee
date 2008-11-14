@@ -50,6 +50,10 @@
 	background-color: #F1EEE9;
 }
 
+.dr-table-subfooter {
+	background-color:#F1F1F1;
+}
+
 .dr-table-subheadercell {
 	border-right: 1px solid;
 	border-bottom: 1px solid;
