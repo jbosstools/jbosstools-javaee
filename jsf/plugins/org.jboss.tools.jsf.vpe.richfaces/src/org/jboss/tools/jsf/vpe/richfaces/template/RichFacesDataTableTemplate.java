@@ -209,9 +209,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
 
-			if (columns>0) {
-				td.setAttribute(HTML.ATTR_COLSPAN, String.valueOf(columns));
-			}
+			// the cell spans the entire row
+			td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
+			
 			td.setAttribute(HTML.ATTR_SCOPE, "colgroup"); //$NON-NLS-1$
 
 			VpeChildrenInfo child = new VpeChildrenInfo(td);

@@ -684,10 +684,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 			}
 
-			if (columns > 0) {
-				td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, String
-						.valueOf(columns));
-			}
+			// the cell spans the entire row
+			td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
 			td.setAttribute(HtmlComponentUtil.HTML_SCOPE_ATTR,
 					HtmlComponentUtil.HTML_TAG_COLGROUP);
 

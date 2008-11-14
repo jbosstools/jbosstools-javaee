@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -365,10 +366,9 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 			}
 
-			if (columns > 0) {
-				td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, String
-						.valueOf(columns));
-			}
+			// the cell spans the entire row
+			td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
+			
 			td.setAttribute(HtmlComponentUtil.HTML_SCOPE_ATTR,
 					HtmlComponentUtil.HTML_TAG_COLGROUP);
 

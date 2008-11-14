@@ -167,8 +167,8 @@ class RichFacesDataTableChildrenEncoder {
 		final nsIDOMElement tr = this.visualDocument.createElement(HTML.TAG_TR);
 		table.appendChild(tr);
 		final nsIDOMElement td = this.visualDocument.createElement(HTML.TAG_TD);
-		// COLSPAN="0" means the cell spans the entire row
-		td.setAttribute(HTML.ATTR_COLSPAN, "0"); //NON-NLS$1
+
+		td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
 		tr.appendChild(td);
 		final VpeChildrenInfo childInfo = new VpeChildrenInfo(td);
 		childInfo.addSourceChild(node);
