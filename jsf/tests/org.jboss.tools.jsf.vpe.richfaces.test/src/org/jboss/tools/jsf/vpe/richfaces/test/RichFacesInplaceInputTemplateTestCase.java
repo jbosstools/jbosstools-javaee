@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.jst.jsp.outline.cssdialog.common.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -92,9 +93,10 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
         }
         
         if(element.getFirstChild().getNodeValue()!=null){
-            second = element.getFirstChild().getNodeValue();
+            second = element.getFirstChild().getNodeValue().trim();
         }
-        assertEquals("Text value  should be equals 'null'", first, second); //$NON-NLS-1$
+        
+        assertEquals("Text value  should be empty string", first, second); //$NON-NLS-1$
 
         assertTrue("Style class should be equals " + styleClass, element.getAttribute(HTML.ATTR_CLASS).contains(styleClass)); //$NON-NLS-1$
     }
@@ -106,7 +108,7 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
      * @throws Throwable the throwable
      */
     public void testInplaceInputWithoutAttributes() throws CoreException, Throwable {
-        baseCheck(TEMPLATE_WITH_EMPTY_TAG, null, RICH_INPLACE_VIEW);
+        baseCheck(TEMPLATE_WITH_EMPTY_TAG, Constants.EMPTY, RICH_INPLACE_VIEW);
 
     }
 
