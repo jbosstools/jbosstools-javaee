@@ -179,7 +179,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		nsIDOMElement br = visualDocument.createElement(HTML.TAG_BR);
 		style = new StringBuffer(HTML.STYLE_PARAMETER_CLEAR).append(Constants.COLON).
 				append(HTML.VALUE_CLEAR_BOTH).append(Constants.SEMICOLON).toString();
-		br.setAttribute(HTML.ATTR_STYLE, HTML.VALUE_TYPE_TEXT);
+		br.setAttribute(HTML.ATTR_STYLE, style);
 
 		// create DOM tree in correspondence order
 		parentDiv.appendChild(rangeDiv);

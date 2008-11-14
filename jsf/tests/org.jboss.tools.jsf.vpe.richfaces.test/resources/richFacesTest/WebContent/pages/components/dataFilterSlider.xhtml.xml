@@ -13,8 +13,8 @@
 					</DIV>
 				</DIV>
 			</DIV>
-			<INPUT TYPE="text"
-				CLASS="slider-input-field rich-dataFilterSlider-input-field" VALUE="1" />
+			<INPUT TYPE="text" CLASS="slider-input-field rich-dataFilterSlider-input-field" VALUE="1" />
+			<BR STYLE="clear: both;"/>
 		</DIV>
 	</test>
 	<test id="dataFilterSliderCustomCSS">
@@ -33,6 +33,7 @@
 				</DIV>
 			</DIV>
 			<INPUT TYPE="text" CLASS="slider-input-field rich-dataFilterSlider-input-field fieldStyle" VALUE="1"/>
+            <BR STYLE="clear: both;"/>
 		</DIV>
 	</test>
 </tests>
