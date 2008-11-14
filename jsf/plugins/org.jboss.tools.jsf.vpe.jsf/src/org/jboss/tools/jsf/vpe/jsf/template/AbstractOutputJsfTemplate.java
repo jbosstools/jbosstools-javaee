@@ -116,6 +116,11 @@ public abstract class AbstractOutputJsfTemplate extends
 						targetVisualElement);
 
 				// get atribute's offset
+				
+				//mareshkau because it's node can be a proxy, see JBIDE-3144
+				outputAttr = (Attr) ((((Attr)outputAttr).getOwnerElement()).getAttributes().getNamedItem(outputAttr.getLocalName()));
+				
+				
 				int offset = ((IDOMAttr) outputAttr)
 						.getValueRegionStartOffset();
 
