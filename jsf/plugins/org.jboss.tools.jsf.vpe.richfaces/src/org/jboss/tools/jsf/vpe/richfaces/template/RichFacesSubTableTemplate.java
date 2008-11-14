@@ -203,15 +203,16 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 			final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode, 
 			final String facetName, final String trClass, final String tdClass) {
 		final ArrayList<Element> columns = RichFacesDataTableTemplate.getColumns(sourceElement);
-		final ArrayList<Element> columnsHeaders = RichFacesDataTableTemplate.getColumnsWithFacet(columns, facetName);
-		if(!columnsHeaders.isEmpty()) {
+		//final ArrayList<Element> columnsHeaders = RichFacesDataTableTemplate.getColumnsWithFacet(columns, facetName);
+		final boolean hasColumnWithFacet = RichFacesDataTableTemplate.hasColumnWithFacet(columns, facetName);
+		if(hasColumnWithFacet) {
 			final nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			parentVisualNode.appendChild(tr);
 			final String styleClass = trClass;
 			if(styleClass!=null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
-			RichFacesDataTableTemplate.encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columnsHeaders,
+			RichFacesDataTableTemplate.encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columns,
 					tdClass,
 					null, facetName, HTML.TAG_TD);
 		}

@@ -63,9 +63,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		encodeCaption(creationData, sourceElement, visualDocument, table);
 
 		// Encode Header
-		Node header = ComponentUtil.getFacet((Element)sourceElement, RichFaces.NAME_FACET_HEADER,true);
-		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, RichFaces.NAME_FACET_HEADER);
-		if(header!=null || !columnsHeaders.isEmpty()) {
+		Node header = ComponentUtil.getFacet((Element)sourceElement, RichFaces.NAME_FACET_HEADER,true);		
+		final boolean hasColumnWithHeader = hasColumnWithFacet(columns, RichFaces.NAME_FACET_HEADER);
+		if(header!=null || hasColumnWithHeader) {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
 			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
@@ -76,14 +76,14 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 						"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
 						headerClass, HTML.TAG_TD);
 			}
-			if(!columnsHeaders.isEmpty()) {
+			if(hasColumnWithHeader) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				thead.appendChild(tr);
 				String styleClass = encodeStyleClass(null, "dr-table-subheader rich-table-subheader", null, headerClass); //$NON-NLS-1$
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
-				encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columnsHeaders,
+				encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columns,
 						"dr-table-subheadercell rich-table-subheadercell", //$NON-NLS-1$
 						headerClass, RichFaces.NAME_FACET_HEADER, HTML.TAG_TD);
 			}
@@ -91,19 +91,19 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 
 		// Encode Footer
 		Element footer = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
-		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
-		if (footer != null || !columnsFooters.isEmpty()) {
+		final boolean hasColumnWithFooter = hasColumnWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
+		if (footer != null || hasColumnWithFooter) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
 			String footerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
-			if(!columnsFooters.isEmpty()) {
+			if(hasColumnWithFooter) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
 				String styleClass = encodeStyleClass(null, "dr-table-subfooter rich-table-subfooter", null, footerClass); //$NON-NLS-1$
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
-				encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columnsFooters,
+				encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columns,
 						"dr-table-subfootercell rich-table-subfootercell", //$NON-NLS-1$
 						footerClass, RichFaces.NAME_FACET_FOOTER, HTML.TAG_TD);
 			}
@@ -236,15 +236,19 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		return columns;
 	}
 
-	public static ArrayList<Element> getColumnsWithFacet(ArrayList<Element> columns, String facetName) {
-		ArrayList<Element> columnsWithFacet = new ArrayList<Element>();
+	/**
+	 * Returns true if and only if {@code columns} contains at least one column that have facet 
+	 * with given {@code facetName}.
+	 */
+	public static boolean hasColumnWithFacet(ArrayList<Element> columns, String facetName) {
 		for (Element column : columns) {
-			Node body = ComponentUtil.getFacet(column, facetName,true);
+			Node body = ComponentUtil.getFacet(column, facetName, true);
 			if(body!=null) {
-				columnsWithFacet.add(column);
+				return true;
 			}
 		}
-		return columnsWithFacet;
+		
+		return false;
 	}
 
 	public static String encodeStyleClass(Object parentPredefined, Object predefined, Object parent, Object custom) {
