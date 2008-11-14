@@ -158,8 +158,14 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         // if(!(this.showControls && this.isToggle)){
         rootSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
         // }
-        final String rootClass = MessageFormat.format(defaultStyleClasses.get("rootSpan"), getRootSpanClasses()); //$NON-NLS-1$
-        rootSpan.setAttribute(HTML.ATTR_CLASS, rootClass);
+//        final String rootClass = MessageFormat.format(defaultStyleClasses.get("rootSpan"), getRootSpanClasses()); //$NON-NLS-1$
+        String rootStyleClass = "rich-inplace" + getCssStylesSuffix(); //$NON-NLS-1$
+        for (String sc : getRootSpanClasses()) {
+            if (ComponentUtil.isNotBlank(sc)) {
+        	rootStyleClass += " " + sc; //$NON-NLS-1$
+	    }
+	}
+        rootSpan.setAttribute(HTML.ATTR_CLASS, rootStyleClass);
         String style = ""; //$NON-NLS-1$
         if (this.isToggle) {
             style = "position: relative;"; //$NON-NLS-1$
@@ -196,7 +202,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      * 
      * @return the root span classes
      */
-    protected abstract Object[] getRootSpanClasses();
+    protected abstract String[] getRootSpanClasses();
 
     /**
      * Gets the value.
@@ -231,7 +237,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected void initDefaultStyleClasses() {
         if (defaultStyleClasses.isEmpty()) {
-            defaultStyleClasses.put("rootSpan", "rich-inplace" + getCssStylesSuffix() + " {0} {1} {2}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            defaultStyleClasses.put("rootSpan", "rich-inplace" + getCssStylesSuffix() + " {0} {1}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 
     }

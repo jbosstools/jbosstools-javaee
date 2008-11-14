@@ -261,7 +261,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      *      RichFacesAbstractInplaceTemplate#getRootSpanClasses()
      */
     @Override
-    protected Object[] getRootSpanClasses() {
+    protected String[] getRootSpanClasses() {
         String[] result = new String[2];
         String clazz = "";
 

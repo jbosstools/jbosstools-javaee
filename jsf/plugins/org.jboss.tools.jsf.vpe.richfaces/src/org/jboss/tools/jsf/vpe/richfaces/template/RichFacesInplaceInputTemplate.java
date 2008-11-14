@@ -146,7 +146,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      * 
      * @return the root span classes
      */
-    protected Object[] getRootSpanClasses() {
+    protected String[] getRootSpanClasses() {
         String[] rst = new String[3];
         String clazz = ""; //$NON-NLS-1$
 
@@ -154,14 +154,15 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
             rst[0] = "rich-inplace-edit"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.editClass)) {
                 clazz = this.editClass;
+                rst[1] = clazz;
             }
         } else {
             rst[0] = "rich-inplace-view"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.viewClass)) {
         	clazz = this.viewClass;
+        	rst[1] = clazz;
             }
         }
-        rst[1] = clazz;
         if (ComponentUtil.isNotBlank(this.styleClass)) {
             rst[2] = this.styleClass;
         }
