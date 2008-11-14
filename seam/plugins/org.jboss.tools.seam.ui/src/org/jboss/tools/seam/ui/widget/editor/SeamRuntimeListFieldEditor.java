@@ -472,11 +472,13 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 						SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2,
 						Arrays.asList(new String[] {
 								SeamVersion.SEAM_1_2.toString(),
-								SeamVersion.SEAM_2_0.toString()}),
+								SeamVersion.SEAM_2_0.toString(),
+								SeamVersion.SEAM_2_1.toString()}),
 						SeamVersion.SEAM_1_2.toString(), false);
 				this.validSeamVersions = new ArrayList<SeamVersion>();
 				this.validSeamVersions.add(SeamVersion.SEAM_1_2);
 				this.validSeamVersions.add(SeamVersion.SEAM_2_0);
+				this.validSeamVersions.add(SeamVersion.SEAM_2_1);
 			} else {
 				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
 						SRT_VERSION,

@@ -213,6 +213,8 @@ public class SeamProjectWizard extends WebProjectWizard {
 			creator = new SeamProjectCreator(model, project);
 		} else if(seamVersion == SeamVersion.SEAM_2_0) {
 			creator = new Seam2ProjectCreator(model, project);
+		} else if(seamVersion == SeamVersion.SEAM_2_1) {
+			creator = new Seam2ProjectCreator(model, project);
 		} else {
 			throw new RuntimeException("Can't get seam version from seam facet model");
 		}
