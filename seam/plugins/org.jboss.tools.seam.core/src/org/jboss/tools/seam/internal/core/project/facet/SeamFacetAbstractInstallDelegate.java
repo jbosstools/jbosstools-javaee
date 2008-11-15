@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -68,8 +69,11 @@ import org.eclipse.jst.javaee.web.WebApp;
 import org.eclipse.jst.javaee.web.WebFactory;
 import org.eclipse.jst.javaee.web.WebResourceCollection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.dialogs.IOverwriteQuery;
+import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
+import org.eclipse.ui.wizards.datatransfer.IImportStructureProvider;
+import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.eclipse.wst.common.componentcore.ComponentCore;
-import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -95,28 +99,28 @@ import org.osgi.service.prefs.Preferences;
 public abstract class SeamFacetAbstractInstallDelegate implements ILogListener, 
 										IDelegate,ISeamFacetDataModelProperties {
 
-	public static String ORG_RICHFACES_SKIN = "org.richfaces.SKIN";
-	public static String ORG_RICHFACES_SKIN_VALUE = "blueSky";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER = "org.jboss.seam.servlet.SeamListener";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER = "org.jboss.seam.servlet.SeamFilter";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME = "Seam Filter";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_MAPPING_VALUE = "/*";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET = "org.jboss.seam.servlet.SeamResourceServlet";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME = "Seam Resource Servlet";
-	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_VALUE = "/seam/resource/*";
-	public static String FACELETS_DEVELOPMENT = "facelets.DEVELOPMENT";
-	public static String JAVAX_FACES_DEFAULT_SUFFIX = "javax.faces.DEFAULT_SUFFIX";
-	public static String JAVAX_FACES_DEFAULT_SUFFIX_VALUE = ".xhtml";
-	public static String RESTRICT_RAW_XHTML = "Restrict raw XHTML Documents";
-	public static String XHTML = "XHTML";
-	public static String WEB_RESOURCE_COLLECTION_PATTERN = "*.xhtml";
+	public static String ORG_RICHFACES_SKIN = "org.richfaces.SKIN"; //$NON-NLS-1$
+	public static String ORG_RICHFACES_SKIN_VALUE = "blueSky"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER = "org.jboss.seam.servlet.SeamListener"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER = "org.jboss.seam.servlet.SeamFilter"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_NAME = "Seam Filter"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMFILTER_MAPPING_VALUE = "/*"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET = "org.jboss.seam.servlet.SeamResourceServlet"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_NAME = "Seam Resource Servlet"; //$NON-NLS-1$
+	public static String ORG_JBOSS_SEAM_SERVLET_SEAMRESOURCESERVLET_VALUE = "/seam/resource/*"; //$NON-NLS-1$
+	public static String FACELETS_DEVELOPMENT = "facelets.DEVELOPMENT"; //$NON-NLS-1$
+	public static String JAVAX_FACES_DEFAULT_SUFFIX = "javax.faces.DEFAULT_SUFFIX"; //$NON-NLS-1$
+	public static String JAVAX_FACES_DEFAULT_SUFFIX_VALUE = ".xhtml"; //$NON-NLS-1$
+	public static String RESTRICT_RAW_XHTML = SeamCoreMessages.SeamFacetAbstractInstallDelegate_Restrict_raw_XHTML_Documents;
+	public static String XHTML = "XHTML"; //$NON-NLS-1$
+	public static String WEB_RESOURCE_COLLECTION_PATTERN = "*.xhtml"; //$NON-NLS-1$
 	public static String SEAM_LIB_RELATED_PATH = "lib"; //$NON-NLS-1$
 	public static final String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static final String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql") //$NON-NLS-1$
-		.include("seam\\.properties")
+		.include("seam\\.properties") //$NON-NLS-1$
 		.exclude(".*/WEB-INF"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet VIEW_FILESET = new AntCopyUtils.FileSet()
@@ -129,8 +133,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		.include("layout/.*") //$NON-NLS-1$
 		.include("stylesheet") //$NON-NLS-1$
 		.include("stylesheet/.*") //$NON-NLS-1$
-		.include("img/.*") //$NON-NLS-1$
-		.include("img") //$NON-NLS-1$
+		//.include("img/.*") //$NON-NLS-1$
+		//.include("img") //$NON-NLS-1$
 		.exclude(".*/.*\\.ftl") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
@@ -158,6 +162,12 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		.exclude(".*\\.svn") //$NON-NLS-1$
 		.exclude(".*/\\.svn");	 //$NON-NLS-1$
 
+	private static IOverwriteQuery OVERWRITE_ALL = new IOverwriteQuery() {
+		public String queryOverwrite(String file) {
+			return ALL;
+		}	
+	};
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -191,15 +201,15 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	public static boolean toggleHibernateOnProject(IProject project, String defaultConsoleName) {
 		IScopeContext scope = new ProjectScope(project);
 
-		Preferences node = scope.getNode("org.hibernate.eclipse.console");
+		Preferences node = scope.getNode("org.hibernate.eclipse.console"); //$NON-NLS-1$
 
 		if(node!=null) {
-			node.putBoolean("hibernate3.enabled", true );
-			node.put("default.configuration", defaultConsoleName );
+			node.putBoolean("hibernate3.enabled", true ); //$NON-NLS-1$
+			node.put("default.configuration", defaultConsoleName ); //$NON-NLS-1$
 			try {
 				node.flush();
 			} catch (BackingStoreException e) {
-				SeamCorePlugin.getDefault().logError("Could not save changes to preferences", e);
+				SeamCorePlugin.getDefault().logError(SeamCoreMessages.SeamFacetAbstractInstallDelegate_Could_not_save_changes_to_preferences, e);
 				return false;
 			}
 		} else {
@@ -207,10 +217,10 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 
 		try {
-			addProjectNature(project, "org.hibernate.eclipse.console.hibernateNature", new NullProgressMonitor() );
+			addProjectNature(project, "org.hibernate.eclipse.console.hibernateNature", new NullProgressMonitor() ); //$NON-NLS-1$
 			return true;
 		} catch(CoreException ce) {
-			SeamCorePlugin.getDefault().logError("Could not activate Hibernate nature on project " + project.getName(), ce);			
+			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SeamFacetAbstractInstallDelegate_Could_not_activate_Hibernate_nature_on_project + project.getName(), ce);			
 			return false;
 		}		
 	}
@@ -340,6 +350,23 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				viewFilterSetCollection, 
 				false);
 
+		IImportStructureProvider structureProvider = FileSystemStructureProvider.INSTANCE;
+		File rootDir = new File(seamGenViewSource,"img"); //$NON-NLS-1$
+		IPath imgPath = webContentPath.append("img"); //$NON-NLS-1$
+		try {
+			ImportOperation op= new ImportOperation(imgPath, rootDir, structureProvider, OVERWRITE_ALL);
+			op.setCreateContainerStructure(false);
+			op.run(monitor);
+		} catch (InterruptedException e) {
+			// should not happen
+		} catch (InvocationTargetException e) {
+			Throwable t = e.getTargetException();
+			if (t instanceof CoreException) {	
+				ErrorDialog.openError(Display.getCurrent().getActiveShell(), SeamCoreMessages.SeamFacetAbstractInstallDelegate_Error,
+						null, ((CoreException) t).getStatus());
+			}
+		}
+		
 		// *******************************************************************
 		// Copy manifest and configuration resources the same way as view
 		// *******************************************************************
@@ -352,8 +379,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				new File(webInfFolder, "components.xml"), //$NON-NLS-1$
 				new FilterSetCollection(projectFilterSet), false);
 
-		File facesConfig = new File(webContentFolder, "WEB-INF/faces-config.xml");
-		IPath webConfigPath = webContentPath.append("WEB-INF").append("faces-config.xml");
+		File facesConfig = new File(webContentFolder, "WEB-INF/faces-config.xml"); //$NON-NLS-1$
+		IPath webConfigPath = webContentPath.append("WEB-INF").append("faces-config.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 		String webConfigName = webConfigPath.removeFirstSegments(1).toString();
 		if(facesConfig.exists()) {
 			configureFacesConfigXml(project, monitor, webConfigName);
@@ -393,7 +420,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			srcRootFolder.createLink(actionSrcPath, 0, null);
 			srcRootFolder.createLink(modelSrcPath, 0, null);					
 
-			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/");
+			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/"); //$NON-NLS-1$
 
 			//AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
 
@@ -407,7 +434,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 					new File(srcFolder, "META-INF/persistence.xml"), //$NON-NLS-1$
 					viewFilterSetCollection, false);
 
-			File resources = new File(project.getLocation().toFile(), "resources");
+			File resources = new File(project.getLocation().toFile(), "resources"); //$NON-NLS-1$
 			AntCopyUtils.copyFileToFile(
 					dataSourceDsFile, 
 					new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
@@ -451,7 +478,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 
 		earContentsFolder = rootVirtFolder.getUnderlyingFolder().getLocation().toFile();
 		File metaInfFolder = new File(earContentsFolder, "META-INF"); //$NON-NLS-1$
-		File applicationXml = new File(metaInfFolder, "application.xml");
+		File applicationXml = new File(metaInfFolder, "application.xml"); //$NON-NLS-1$
 		File earProjectFolder = project.getLocation().toFile();
 
 		FilterSet earFilterSet =  new FilterSet();
@@ -475,7 +502,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 
 		fillEarContents();
 
-		File resources = new File(earProjectFolder, "resources");
+		File resources = new File(earProjectFolder, "resources"); //$NON-NLS-1$
 		AntCopyUtils.copyFileToFile(
 			dataSourceDsFile, new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
 			viewFilterSetCollection, false);
@@ -493,7 +520,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 					Object module = iterator.next();
 					if(module instanceof EjbModule) {
 						EjbModule ejbModule = (EjbModule)module;
-						if("jboss-seam.jar".equals(ejbModule.getUri())) {
+						if("jboss-seam.jar".equals(ejbModule.getUri())) { //$NON-NLS-1$
 							moduleExists = true;
 							break;
 						}
@@ -501,7 +528,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				}
 				if(!moduleExists) {
 					EjbModule module = ApplicationFactory.eINSTANCE.createEjbModule();
-					module.setUri("jboss-seam.jar");
+					module.setUri("jboss-seam.jar"); //$NON-NLS-1$
 					application.getModules().add(module);
 				}
 
@@ -588,7 +615,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
 			AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, false);
 
-			File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml");
+			File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml"); //$NON-NLS-1$
 			if(!ejbJarXml.exists()) {
 				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "META-INF/ejb-jar.xml"), //$NON-NLS-1$
 					new File(srcFile, "META-INF"), viewFilterSetCollection, false); //$NON-NLS-1$
@@ -688,7 +715,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 			if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
 				File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
-				ejbFilterSet.addFilter("driverJar", " " + driver.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				ejbFilterSet.addFilter("driverJar", " " + driver.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} else {
 				ejbFilterSet.addFilter("driverJar", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -722,16 +749,16 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		Object projectNamePackage = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		IStatus status = JavaConventions.validatePackageName(projectNamePackage.toString(), CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
 		if(!status.isOK()) {
-			projectNamePackage = "project";
+			projectNamePackage = "project"; //$NON-NLS-1$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME)==null) {
-			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".session"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".session"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)==null) {
-			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".entity"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".entity"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)==null) {
-			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + projectNamePackage + ".test"); //$NON-NLS-1$
+			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + projectNamePackage + ".test"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME)==null) {
 			String runtimeName = SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model);
@@ -807,7 +834,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		prefs.put(SESSION_BEAN_PACKAGE_NAME, model.getProperty(SESSION_BEAN_PACKAGE_NAME).toString());
 		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
 		prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());
-		prefs.put(TEST_CREATING, "false");
+		prefs.put(TEST_CREATING, "false"); //$NON-NLS-1$
 		prefs.put(SEAM_TEST_PROJECT, project.getName());
 
 		IVirtualComponent component = ComponentCore.createComponent(project);
@@ -822,7 +849,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				srcRootFolder = getSrcFolder(project).getFullPath();
 			} catch (JavaModelException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
-				srcRootFolder = new Path("");
+				srcRootFolder = new Path(""); //$NON-NLS-1$
 			}
 		}
 		if(projectType == ProjectType.WAR) {
