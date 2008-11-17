@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
-import java.util.List;
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -333,6 +332,11 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 	public void validate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument, VpeCreationData data) {
 		RichFacesDataTableChildrenEncoder.validateChildren(pageContext, sourceNode, visualDocument, data);
+		
+		final RichFacesDataTableStyleClassesApplier styleClassesApplier = 
+			new RichFacesDataTableStyleClassesApplier(visualDocument, 
+					pageContext, sourceNode);
+		styleClassesApplier.applyClasses((nsIDOMElement) data.getNode());
 	}
 
 	@Override

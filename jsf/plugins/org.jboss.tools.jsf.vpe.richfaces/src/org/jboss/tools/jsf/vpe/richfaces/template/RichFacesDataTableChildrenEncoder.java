@@ -21,6 +21,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeCreatorUtil;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -52,8 +53,8 @@ import org.w3c.dom.Node;
  * @author yradtsevich 
  * */
 class RichFacesDataTableChildrenEncoder {
-	private String firstRowClass = "dr-table-firstrow rich-table-firstrow";
-	private String nonFirstRowClass = "dr-table-row rich-table-row";
+	private String firstRowClass = "dr-table-firstrow rich-table-firstrow"; //$NON-NLS-1$
+	private String nonFirstRowClass = "dr-table-row rich-table-row"; //$NON-NLS-1$
 
 	/**@param firstRowClass the class of the first row in the table
 	 * @param nonFirstRowClass the class of all rows in the table except the first one*/
@@ -109,18 +110,18 @@ class RichFacesDataTableChildrenEncoder {
 
 	/**
 	 * Makes necessary changes in the table's body after all children of the table have been encoded.
-	 * */
+	 */
 	public static void validateChildren(final VpePageContext pageContext, final Node sourceNode,
 			final nsIDOMDocument visualDocument, final VpeCreationData creationData) {
 		final nsIDOMNode visualNode = creationData.getNode();
 		fixSubTables(visualNode);
 	}
-
+	
 	/**
 	 * Creates a container for {@code subTableOrColumnGroupNode} in {@code table}
 	 * and adds an appropriate object of {@link VpeChildrenInfo} to {@code creationData}.
 	 * <BR/>The container is the tag {@link #TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER}.
-	 * */
+	 */
 	private nsIDOMElement addSubTableOrColumnGroupToTable(final Node subTableOrColumnGroupNode) {
 		final nsIDOMElement subTableOrColumnGroupContainer = visualDocument.createElement(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
 		table.appendChild(subTableOrColumnGroupContainer);
@@ -148,9 +149,9 @@ class RichFacesDataTableChildrenEncoder {
 			creationData.addChildrenInfo(currentRowChildrenInfo);
 			rowNumber++;
 			if (rowNumber == 1) {
-				currentRow.setAttribute(HTML.ATTR_CLASS, firstRowClass); //$NON-NLS-1$
+				currentRow.setAttribute(HTML.ATTR_CLASS, firstRowClass);
 			} else {
-				currentRow.setAttribute(HTML.ATTR_CLASS, nonFirstRowClass); //$NON-NLS-1$
+				currentRow.setAttribute(HTML.ATTR_CLASS, nonFirstRowClass);
 			}
 		}
 
@@ -187,17 +188,14 @@ class RichFacesDataTableChildrenEncoder {
 		for (int i = 0; i < length; i++) {
 			final nsIDOMNode subTableContainer = subTableContainers.item(0);
 			final nsIDOMNodeList subTableContainerChildren = subTableContainer.getChildNodes();
-			final nsIDOMNode containerParent = subTableContainer.getParentNode();
-			if (subTableContainerChildren != null
-					&& subTableContainerChildren.getLength() == 1) {
-				final nsIDOMNode subTableMainTag = subTableContainerChildren.item(0);
-				subTableContainer.removeChild(subTableMainTag);
-				containerParent.insertBefore(subTableMainTag, subTableContainer);
-			} else {
+
+			if (subTableContainerChildren == null
+					|| subTableContainerChildren.getLength() != 1) {
 				final RuntimeException e = new RuntimeException("This is probably a bug. subTable-container should have one inner tag.");//$NON-NLS-1$
 				RichFacesTemplatesActivator.getPluginLog().logError(e);
 			}
-			containerParent.removeChild(subTableContainer);
+			
+			VisualDomUtil.replaceNodeByItsChildren(subTableContainer);
 		}
-	}
+	}	
 }

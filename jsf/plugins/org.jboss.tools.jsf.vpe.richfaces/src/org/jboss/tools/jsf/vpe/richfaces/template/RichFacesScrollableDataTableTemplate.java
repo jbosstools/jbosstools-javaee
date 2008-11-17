@@ -15,14 +15,18 @@ import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -51,6 +55,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
 
 	private static final int NUM_ROW = 5;
+	private static final String TAG_MAIN_TABLE_WRAPPER = "mainTable-wrapper"; //$NON-NLS-1$
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -131,18 +136,21 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
 
-		nsIDOMElement table = visualDocument
+		nsIDOMElement mainTable = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		ComponentUtil.copyAttributes(sourceNode, table);
-		table.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
-		div.appendChild(table);
+		ComponentUtil.copyAttributes(sourceNode, mainTable);
+		mainTable.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
+
+		nsIDOMElement mainTableWrapper = visualDocument.createElement(TAG_MAIN_TABLE_WRAPPER);
+		mainTableWrapper.appendChild(mainTable);
+		div.appendChild(mainTableWrapper);
 
 		ComponentUtil.setCSSLink(pageContext,
 				"scrollableDataTable/scrollableDataTable.css",
 				"richFacesDataTable");
 		String tableClass = sourceElement
 				.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
-		table
+		mainTable
 				.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 						"dr-table rich-table "
 								+ (tableClass == null ? "" : tableClass));
@@ -154,10 +162,10 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				.createElement(HtmlComponentUtil.HTML_TAG_COLGROUP);
 		colgroup.setAttribute(HtmlComponentUtil.HTML_TAG_SPAN, String
 				.valueOf(columnsLength));
-		table.appendChild(colgroup);
+		mainTable.appendChild(colgroup);
 
 		// Encode Caption
-		encodeCaption(creationData, sourceElement, visualDocument, table);
+		encodeCaption(creationData, sourceElement, visualDocument, mainTable);
 
 		// Encode Header
 		Element header = ComponentUtil.getFacet(sourceElement, HEADER);
@@ -165,7 +173,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		if (header != null || !columnsHeaders.isEmpty()) {
 			nsIDOMElement thead = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_THEAD);
-			table.appendChild(thead);
+			mainTable.appendChild(thead);
 			String headerClass = (String) sourceElement
 					.getAttribute(HEADER_CLASS);
 			if (header != null) {
@@ -199,7 +207,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		if (footer != null || !columnsFooters.isEmpty()) {
 			nsIDOMElement tfoot = visualDocument
 					.createElement(HtmlComponentUtil.HTML_TAG_TFOOT);
-			table.appendChild(tfoot);
+			mainTable.appendChild(tfoot);
 			String footerClass = (String) sourceElement
 					.getAttribute(FOOTER_CLASS);
 			if (!columnsFooters.isEmpty()) {
@@ -230,11 +238,11 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		nsIDOMElement tbody = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-		table.appendChild(tbody);
+		mainTable.appendChild(tbody);
 
 		for (int i = 0; i < NUM_ROW; i++) {
 			new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
-					sourceElement, table).encodeChildren();
+					sourceElement, mainTable).encodeChildren();
 		}
 
 		return creationData;
@@ -552,6 +560,38 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	public void validate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument, VpeCreationData data) {
 		RichFacesDataTableChildrenEncoder.validateChildren(pageContext, sourceNode, visualDocument, data);
+		applyStyleClasses(pageContext, sourceNode, visualDocument, data);
+	}
+
+	private void applyStyleClasses(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument, VpeCreationData data) {
+		
+		nsIDOMElement element = (nsIDOMElement) data.getNode();
+		final nsIDOMNodeList mainTableWrappers = element.getElementsByTagName(TAG_MAIN_TABLE_WRAPPER);
+		
+		if (mainTableWrappers == null
+				|| mainTableWrappers.getLength() != 1) {
+			final RuntimeException e = new RuntimeException("This is probably a bug. There should be exatly one " + TAG_MAIN_TABLE_WRAPPER);//$NON-NLS-1$
+			RichFacesTemplatesActivator.getPluginLog().logError(e);
+		}
+		final nsIDOMNode mainTableWrapper = mainTableWrappers.item(0);			
+		final nsIDOMNodeList mainTableWrapperChildren = mainTableWrapper.getChildNodes();
+
+		if (mainTableWrapperChildren == null
+				|| mainTableWrapperChildren.getLength() != 1) {
+			final RuntimeException e = new RuntimeException("This is probably a bug. " + TAG_MAIN_TABLE_WRAPPER + " should have exactly one child.");//$NON-NLS-1$ //$NON-NLS-2$
+			RichFacesTemplatesActivator.getPluginLog().logError(e);
+		}
+		
+		final nsIDOMElement mainTable = (nsIDOMElement) mainTableWrapperChildren.item(0)
+			.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		
+		final RichFacesDataTableStyleClassesApplier styleClassesApplier = 
+			new RichFacesDataTableStyleClassesApplier(visualDocument, 
+					pageContext, sourceNode);
+		styleClassesApplier.applyClasses(mainTable);
+		
+		VisualDomUtil.replaceNodeByItsChildren(mainTableWrapper);
 	}
 
 	// @Override

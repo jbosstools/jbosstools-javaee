@@ -177,7 +177,8 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 				if (columnStyle == null) {
 					columnStyle = visualDocument.createAttribute(HTML.ATTR_CLASS);
 				}
-				columnStyle.setNodeValue(columnStyle.getNodeValue() + ' ' + getColumnClass(column));
+				columnStyle.setNodeValue(columnStyle.getNodeValue() + HTML.VALUE_CLASS_DELIMITER
+						+ getColumnClass(column));
 				column++;
 			}
 		}
@@ -249,27 +250,27 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	protected String getRowClass(final int row) {
-		StringBuffer rowClass = new StringBuffer(DEAFAULT_CELL_CLASS);
+		String rowClass = DEAFAULT_CELL_CLASS;
 
 		if (rowClasses != null) {
 			final int rowClassesSize = rowClasses.size();
 			if(rowClassesSize > 0) {
-				rowClass = new StringBuffer(rowClasses.get(row % rowClassesSize));
+				rowClass = rowClasses.get(row % rowClassesSize);
 			}
 		}
 
-		return rowClass.toString();
+		return rowClass;
 	}
 
 	private String getColumnClass(final int column) {
-		StringBuffer columnClass = new StringBuffer(DEAFAULT_CELL_CLASS);
+		String columnClass = DEAFAULT_CELL_CLASS;
 		if (columnClasses != null) {
 			final int columnClassesSize = columnClasses.size();
 			if (columnClassesSize > 0) {
-				columnClass = new  StringBuffer(columnClasses.get(column % columnClassesSize));
+				columnClass = columnClasses.get(column % columnClassesSize);
 			}
 		}
-		return columnClass.toString();
+		return columnClass;
 	}
 
 	private void initClasses(final Node sourceNode, final VpePageContext pageContext) {

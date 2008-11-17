@@ -42,102 +42,102 @@
 							<TBODY>
 							</TBODY>
 							<TR CLASS="dr-table-firstrow rich-table-firstrow">
-								<TD ID="make" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.make}</SPAN>
 								</TD>
-								<TD ID="model" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.model}</SPAN>
 								</TD>
-								<TD ID="price" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.price}</SPAN>
 								</TD>
-								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.mileage}</SPAN>
 								</TD>
-								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell">
+								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.vin}</SPAN>
 								</TD>
-								<TD ID="stock" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.stock}</SPAN>
 								</TD>
 							</TR>
 							<TR CLASS="dr-table-firstrow rich-table-firstrow">
-								<TD ID="make" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.make}</SPAN>
 								</TD>
-								<TD ID="model" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.model}</SPAN>
 								</TD>
-								<TD ID="price" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.price}</SPAN>
 								</TD>
-								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.mileage}</SPAN>
 								</TD>
-								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell">
+								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.vin}</SPAN>
 								</TD>
-								<TD ID="stock" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.stock}</SPAN>
 								</TD>
 							</TR>
 							<TR CLASS="dr-table-firstrow rich-table-firstrow">
-								<TD ID="make" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.make}</SPAN>
 								</TD>
-								<TD ID="model" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.model}</SPAN>
 								</TD>
-								<TD ID="price" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.price}</SPAN>
 								</TD>
-								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.mileage}</SPAN>
 								</TD>
-								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell">
+								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.vin}</SPAN>
 								</TD>
-								<TD ID="stock" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.stock}</SPAN>
 								</TD>
 							</TR>
 							<TR CLASS="dr-table-firstrow rich-table-firstrow">
-								<TD ID="make" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.make}</SPAN>
 								</TD>
-								<TD ID="model" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.model}</SPAN>
 								</TD>
-								<TD ID="price" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.price}</SPAN>
 								</TD>
-								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.mileage}</SPAN>
 								</TD>
-								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell">
+								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.vin}</SPAN>
 								</TD>
-								<TD ID="stock" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.stock}</SPAN>
 								</TD>
 							</TR>
 							<TR CLASS="dr-table-firstrow rich-table-firstrow">
-								<TD ID="make" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.make}</SPAN>
 								</TD>
-								<TD ID="model" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.model}</SPAN>
 								</TD>
-								<TD ID="price" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.price}</SPAN>
 								</TD>
-								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.mileage}</SPAN>
 								</TD>
-								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell">
+								<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.vin}</SPAN>
 								</TD>
-								<TD ID="stock" CLASS="dr-table-cell rich-table-cell">
+								<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
 									<SPAN> #{category.stock}</SPAN>
 								</TD>
 							</TR>
