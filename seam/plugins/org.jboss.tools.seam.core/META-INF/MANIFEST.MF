@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Name: Seam Core Plug-in
 Bundle-ClassPath: seam-core.jar
 Bundle-Activator: org.jboss.tools.seam.core.SeamCorePlugin
@@ -48,14 +48,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.jsf.common,
  org.eclipse.emf.ecore,
  org.eclipse.jst.j2ee.core,
- org.eclipse.jst.jsf.facesconfig;bundle-version="1.1.0"
-Provide-Package: org.jboss.tools.seam.core,
- org.jboss.tools.seam.internal.core,
- org.jboss.tools.seam.internal.core.scanner,
- org.jboss.tools.seam.internal.core.preferences,
- org.jboss.tools.seam.internal.core.refactoring
+ org.eclipse.jst.jsf.facesconfig,
+ org.eclipse.jst.common.frameworks
 Bundle-Version: 2.0.0
-Export-Package: org.jboss.tools.seam.core,
+Export-Package: 
+ org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,
  org.jboss.tools.seam.core.project.facet,
  org.jboss.tools.seam.internal.core,

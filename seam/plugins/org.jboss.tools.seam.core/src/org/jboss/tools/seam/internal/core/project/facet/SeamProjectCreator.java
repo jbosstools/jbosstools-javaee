@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Collections;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -27,14 +28,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jst.common.project.facet.JavaFacetUtils;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -232,7 +236,18 @@ public class SeamProjectCreator {
 
 		if (!SeamFacetAbstractInstallDelegate.isWarConfiguration(model)) {
 			IProject ejbProjectToBeImported = wsRoot.getProject(ejbProjectName);
+
 			ResourcesUtils.importExistingProject(ejbProjectToBeImported, wsPath + "/" + ejbProjectName, ejbProjectName, monitor, false);
+			// Set up compilation level and java facet for ejb project. 
+			String level = JavaFacetUtils.getCompilerLevel(seamWebProject);
+			String ejbLevel = JavaFacetUtils.getCompilerLevel(ejbProjectToBeImported);
+			if (!ejbLevel.equals(level)) {
+				JavaFacetUtils.setCompilerLevel(ejbProjectToBeImported, level);
+			}
+			Action action = new Action(Action.Type.VERSION_CHANGE, JavaFacetUtils.compilerLevelToFacet(level), null);
+			IFacetedProject facetedProject = ProjectFacetsManager.create(ejbProjectToBeImported);
+			facetedProject.modify(Collections.singleton(action), null);
+
 			SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(ejbProjectToBeImported, consoleName);
 			IProjectFacet sf = ProjectFacetsManager.getProjectFacet("jst.ejb");  
 			IProjectFacetVersion pfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(sf);
@@ -245,6 +260,13 @@ public class SeamProjectCreator {
 		IProject testProjectToBeImported = wsRoot.getProject(testProjectName);
 
 		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + testProjectName, testProjectName, monitor, true);
+		// Set up compilation level for test project.
+		String level = JavaFacetUtils.getCompilerLevel(seamWebProject);
+		String testLevel = JavaFacetUtils.getCompilerLevel(testProjectToBeImported);
+		if (!testLevel.equals(level)) {
+			JavaFacetUtils.setCompilerLevel(testProjectToBeImported, level);
+		}
+
 		SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(testProjectToBeImported, consoleName);
 
 		createSeamProjectPreferenes();
