@@ -591,7 +591,8 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	    if (lastElement != null) {
 		break;
 	    }
-	    if (el.equals(sourceNode)) {
+	  
+	    if (sourceNode.equals(el)) {
 		lastElement = el;
 	    }
 	}
