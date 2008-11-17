@@ -71,7 +71,7 @@ public class JBIDE2584Test extends VpeTest {
 		
 		nsIDOMNode domNode = simpleTextTemplate.getVisualNodeByBySourcePosition(simpleTextMapping, TestUtil.getLinePositionOffcet(itextViewer, 14, 10), 0, domMapping).getFirstChild();
 	
-		assertEquals(simpleTextNode ,simpleTextTemplate.getNodeData(domNode, null, domMapping).getSourceNode());
+		assertEquals(simpleTextNode ,domMapping.getNearElementMappingAtVisualNode(domNode).getSourceNode());
 		assertEquals("Node should be a text node", nsIDOMNode.TEXT_NODE,domNode.getNodeType()); //$NON-NLS-1$
 		
 		assertEquals(simpleTextNode.getNodeValue(), domNode.getNodeValue());
@@ -110,7 +110,7 @@ public class JBIDE2584Test extends VpeTest {
 		nsIDOMNode domNode = simpleTextTemplate.getVisualNodeByBySourcePosition(simpleTextMapping, TestUtil.getLinePositionOffcet(itextViewer, 15, 27), 0, domMapping).getFirstChild();
 	
 		assertEquals("Node should be a text node", nsIDOMNode.TEXT_NODE,domNode.getNodeType()); //$NON-NLS-1$
-		assertEquals(simpleTextNode ,simpleTextTemplate.getNodeData(domNode, null, domMapping).getSourceNode());
+		assertEquals(simpleTextNode ,domMapping.getNearElementMappingAtVisualNode(domNode).getSourceNode());
 		assertEquals("Hello", domNode.getNodeValue().trim()); //$NON-NLS-1$
 	}
 	

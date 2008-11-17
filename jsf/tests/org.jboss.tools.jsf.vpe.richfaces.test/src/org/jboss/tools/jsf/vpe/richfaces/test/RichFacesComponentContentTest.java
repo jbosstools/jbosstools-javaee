@@ -315,6 +315,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/treeNodesAdaptor.xhtml");//$NON-NLS-1$
 	}
 
+	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;
 	}
