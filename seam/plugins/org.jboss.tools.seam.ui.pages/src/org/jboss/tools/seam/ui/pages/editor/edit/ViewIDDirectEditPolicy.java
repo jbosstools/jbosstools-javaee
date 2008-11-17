@@ -12,7 +12,6 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 
 import java.util.Properties;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;

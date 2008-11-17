@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 
 import java.text.MessageFormat;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.GraphicalEditPart;
@@ -20,10 +21,12 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.pde.internal.ui.util.PDEJavaHelperUI;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Font;
@@ -37,7 +40,9 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.part.CellEditorActionHandler;
+import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.ui.attribute.AttributeContentProposalProviderFactory;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLMessages;
 import org.jboss.tools.seam.pages.xml.model.handlers.AddViewSupport;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
@@ -190,6 +195,15 @@ public class ViewIDEditManager extends DirectEditManager {
 		actionHandler.addCellEditor(getCellEditor());
 		actionBars.updateActionBars();
 		getCellEditor().setValidator(new ViewIDValidator(target));
+		if (figure instanceof PageFigure){
+			XAttribute attr = target.getModel().getMetaData().getEntity("SeamPage21").getAttribute("view id");
+			AttributeContentProposalProviderFactory.registerContentAssist(target, attr, getCellEditor().getControl());
+		}else if(figure instanceof ExceptionFigure){
+			IProject project = (IProject)target.getModel().getProperties().get("project");
+			
+			PDEJavaHelperUI.addTypeFieldAssistToText((Text)getCellEditor().getControl(), project, IJavaSearchConstants.CLASS);
+		}
+		
 	}
 
 	private void restoreSavedActions(IActionBars actionBars) {
