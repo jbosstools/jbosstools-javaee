@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -25,6 +26,8 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.Type;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeMemberInfo;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -265,7 +268,7 @@ public class SeamExpressionResolver {
 		}
 		if (variable instanceof ISeamComponent) {
 			ISeamComponent component = (ISeamComponent)variable;
-			
+
 			// Use UNWRAP method type instead of ISeamComponent type if it exists
 			IMember unwrapSourceMember = null;
 			for (ISeamComponentMethod method : component.getMethods()) {
@@ -280,6 +283,20 @@ public class SeamExpressionResolver {
 				ISeamJavaComponentDeclaration decl = component.getJavaDeclaration();
 				if (decl != null) {
 					member = TypeInfoCollector.createMemberInfo(decl.getSourceMember());
+				} else {
+					// Maybe it is framework component? Then let's try to find the class of it.  
+					String className = component.getClassName();
+					if(className!=null) {
+						IJavaProject project = EclipseResourceUtil.getJavaProject(component.getSeamProject().getProject());
+						try {
+							IType type = project.findType(className);
+							if(type!=null) {
+								member = TypeInfoCollector.createMemberInfo(type);
+							}
+						} catch (JavaModelException e) {
+							SeamCorePlugin.getDefault().logError(e);
+						}
+					}
 				}
 			}
 		}

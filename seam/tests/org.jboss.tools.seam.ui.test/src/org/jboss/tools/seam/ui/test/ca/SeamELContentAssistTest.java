@@ -54,6 +54,14 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	}
 
 	/**
+	 * Test for https://jira.jboss.org/jira/browse/JBIDE-3213
+	 */
+	public void testFrameworkComponents() {
+		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
+		checkProposals("/WebContent/frameworkComponents.xhtml", 684, new String[]{"fullPostList.resultList", "fullPostList.next"}, false);
+	}
+
+	/**
 	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1258
 	 */
 	public void testMessages() {
