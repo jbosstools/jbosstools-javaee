@@ -88,7 +88,13 @@ class RichFacesDataTableChildrenEncoder {
 	 * <BR/>For any another tag it uses {@link #addElementToTable(Node)} method.
 	 * */
 	public void encodeChildren() {
-		final List<Node> children = ComponentUtil.getChildren(sourceElement);
+		// create an empty childrenInfo. It tells to VpeVisualDomBuilder
+		// that it is not necessary to add any child of the sourceElement
+		// except ones specified in another vpeChildrenInfo's
+		final VpeChildrenInfo childInfo = new VpeChildrenInfo(null);
+		creationData.addChildrenInfo(childInfo);
+		
+		final List<Node> children = ComponentUtil.getChildren(sourceElement);		
 		boolean createNewRow = true;
 		for (final Node child : children) {
 			final String nodeName = child.getNodeName();
