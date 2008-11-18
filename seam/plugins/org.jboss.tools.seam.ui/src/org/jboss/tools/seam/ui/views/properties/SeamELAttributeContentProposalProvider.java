@@ -20,6 +20,7 @@ import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
@@ -169,6 +170,10 @@ public class SeamELAttributeContentProposalProvider implements
 		attribute = null;
 		file = null;
 		engine = null;
+	}
+
+	public LabelProvider getCustomLabelProbider() {
+		return null;
 	}
 
 }
