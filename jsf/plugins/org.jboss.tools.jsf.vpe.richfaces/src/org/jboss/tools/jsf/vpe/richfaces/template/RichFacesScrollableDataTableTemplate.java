@@ -310,6 +310,12 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			parentTr.appendChild(td);
 			String styleClass = encodeStyleClass(null, skinCellClass,
 					headerClass, columnHeaderClass);
+
+			if (!RichFacesColumnTemplate.isVisible(column)) {
+				VisualDomUtil.setSubAttribute(td, HTML.ATTR_STYLE,
+						HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
+			}
+
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 			td.setAttribute("scop", "col");
 			String colspan = column

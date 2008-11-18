@@ -22,6 +22,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -35,31 +36,32 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument  visualDocument) {
 		Element sourceElement = (Element)sourceNode;
-		VpeCreationData creationData;
-		boolean visible = !RichFaces.VAL_FALSE.equals(sourceElement.getAttribute(RichFaces.ATTR_VISIBLE));
 		
-		if (visible) {
-			nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
-			String columnClass = getColumnClass(sourceElement);
-			ComponentUtil.copyAttributes(sourceNode, td);
-			td.setAttribute(HTML.ATTR_CLASS, columnClass);
-			creationData = new VpeCreationData(td);
-	
-			// Create mapping to Encode body
-			VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
-			List<Node> children = ComponentUtil.getChildren(sourceElement,true);
-			for (Node child : children) {
-				if (!isFacet(child)) {
-					tdInfo.addSourceChild(child);
-				}
-			}
-			creationData.addChildrenInfo(tdInfo);
-			
-		} else {
-			creationData = new VpeCreationData(null);			
-			creationData.setChildrenInfoList(new ArrayList<VpeChildrenInfo>(0));
+		boolean visible = isVisible(sourceElement);
+		
+		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
+
+		if (!visible) {
+			VisualDomUtil.setSubAttribute(td, HTML.ATTR_STYLE,
+					HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
 		}
 
+		String columnClass = getColumnClass(sourceElement);
+		ComponentUtil.copyAttributes(sourceNode, td);
+		td.setAttribute(HTML.ATTR_CLASS, columnClass);
+		final VpeCreationData creationData = new VpeCreationData(td);
+
+		// Create mapping to Encode body
+		VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
+		List<Node> children = ComponentUtil.getChildren(sourceElement,true);
+		for (Node child : children) {
+			if (!isFacet(child)) {
+				tdInfo.addSourceChild(child);
+			}
+		}
+		creationData.addChildrenInfo(tdInfo);
+			
+		
 		return creationData;
 	}
 
@@ -161,10 +163,19 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	    	return null;
 	    }
 	}
-	
+
 	public static boolean isBreakBefore(Node child) {
 		String breakBeforeVal = ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE);
 		boolean breakBefore = breakBeforeVal != null && breakBeforeVal.equalsIgnoreCase(RichFaces.VAL_TRUE);
 		return breakBefore;
+	}
+	
+	/**
+	 * Returns {@code true} if the {@code column} is visible.
+	 *
+	 * @param column should be not {@code null}
+	 */
+	public static boolean isVisible(Element column) {
+		return !RichFaces.VAL_FALSE.equals(column.getAttribute(RichFaces.ATTR_VISIBLE));
 	}
 }

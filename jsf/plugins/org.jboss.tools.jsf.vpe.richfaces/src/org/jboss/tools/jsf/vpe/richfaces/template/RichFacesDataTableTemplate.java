@@ -19,6 +19,8 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -157,6 +159,10 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
 			String styleClass = encodeStyleClass(null, skinCellClass, headerClass, columnHeaderClass);
+			if (!RichFacesColumnTemplate.isVisible(column)) {
+				VisualDomUtil.setSubAttribute(td, HTML.ATTR_STYLE,
+						HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
+			}
 			td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			td.setAttribute(HTML.ATTR_SCOPE, "col"); //$NON-NLS-1$
 			String colspan = column.getAttribute("colspan"); //$NON-NLS-1$
@@ -177,6 +183,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(span);
 			childrenInfo.addSourceChild(facetBody);
 			creationData.addChildrenInfo(childrenInfo);
+			
 		}
 	}
 
