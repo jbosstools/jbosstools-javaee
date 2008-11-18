@@ -17,6 +17,7 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -176,7 +177,8 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
      */
     protected void prepareData(VpePageContext pageContext,Element source) {
         try {
-            this.inputWidth = String.valueOf(ComponentUtil.parseWidthHeightValue(source.getAttribute("inputWidth"))); //$NON-NLS-1$
+            this.inputWidth = String.valueOf(ComponentUtil
+		    .parseWidthHeightValue(source.getAttribute("inputWidth"))) + Constants.PIXEL; //$NON-NLS-1$
         } catch (NumberFormatException e) {
             this.inputWidth = DEFAULT_INPUT_WIDTH_VALUE;
         }

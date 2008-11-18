@@ -28,6 +28,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -465,8 +466,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         final nsIDOMElement element = visualDocument.createElement(HTML.TAG_DIV);
 
         element.setAttribute(HTML.ATTR_CLASS, getMainControlsDivCssClass());
-        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; "+getControlPositionsSubStyles()); //$NON-NLS-1$
-
+        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; " + getControlPositionsSubStyles()); //$NON-NLS-1$
         final nsIDOMElement divShadov = visualDocument.createElement(HTML.TAG_DIV);
 
         divShadov.setAttribute(HTML.ATTR_CLASS, "rich-inplace"+getCssStylesSuffix()+"-shadow"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -524,10 +524,16 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 	    final String saveControlIconImg = buttonImages
 		    .get("saveControlIcon"); //$NON-NLS-1$
 	    if (defaultButtonImages.containsValue(saveControlIconImg)) {
+		/*
+		 * Set default icon from resources
+		 */
 		ComponentUtil.setImg(applyButtonImg, saveControlIconImg);
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, applyButtonImg,
-			saveControlIconImg, ""); //$NON-NLS-1$
+		/*
+		 * Set custom user icon
+		 */
+		String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(saveControlIconImg, pageContext, true);
+		applyButtonImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 	    }
 	    applyButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String
 		    .valueOf(0));
@@ -548,10 +554,16 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 	    final String cancelControlIconImg = buttonImages
 		    .get("cancelControlIcon"); //$NON-NLS-1$
 	    if (defaultButtonImages.containsValue(cancelControlIconImg)) {
+		/*
+		 * Set default icon from resources
+		 */
 		ComponentUtil.setImg(cancelButtonImg, cancelControlIconImg);
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, cancelButtonImg,
-			cancelControlIconImg, ""); //$NON-NLS-1$
+		/*
+		 * Set custom user icon
+		 */
+		String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(cancelControlIconImg, pageContext, true);
+		cancelButtonImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 	    }
 	    cancelButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String
 		    .valueOf(0));
