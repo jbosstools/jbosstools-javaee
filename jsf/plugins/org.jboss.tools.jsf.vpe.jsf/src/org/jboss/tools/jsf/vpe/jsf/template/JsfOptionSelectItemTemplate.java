@@ -66,9 +66,9 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 				.getAttribute(element, JSF.ATTR_ITEM_DISABLED));
 		nsIDOMElement option = visualDocument.createElement(HTML.TAG_OPTION);
 
-		if (disabledItem)
-
+		if (disabledItem) {
 			option.setAttribute(HTML.ATTR_DISABLED, Constants.TRUE);
+		}
 		VpeCreationData creationData = new VpeCreationData(option);
 
 		if (attrPresents(disabled) && Constants.TRUE.equalsIgnoreCase(disabled)) {
@@ -198,10 +198,15 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 
 	@Override
 	public Attr getOutputAttributeNode(Element element) {
-
-		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL))
-			return element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
-		return null;
+		Attr outputAttributeNode;
+		
+		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL)) {
+			outputAttributeNode = element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
+		} else if (element.hasAttribute(JSF.ATTR_ITEM_VALUE)) {
+			outputAttributeNode = element.getAttributeNode(JSF.ATTR_ITEM_VALUE);
+		} else {
+			outputAttributeNode = null;
+		}
+		return outputAttributeNode;
 	}
-
 }
