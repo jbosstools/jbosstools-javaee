@@ -265,19 +265,25 @@ VpeToggableTemplate {
 		/*
 		 * Add indentation for nested groups
 		 */
-		String[] ids = activeChildId.split(GROUP_COUNT_SEPARATOR);
+		
 		List<nsIDOMElement> indentTds = new ArrayList<nsIDOMElement>();
-		if (ids.length > 1) {
-			for (int i = 1; i <= ids.length - 1; i++) {
-				nsIDOMElement spacerTd = visualDocument
-						.createElement(HtmlComponentUtil.HTML_TAG_TD);
-				nsIDOMElement spacerImg = visualDocument
-						.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-				spacerTd.appendChild(spacerImg);
-				ComponentUtil.setImg(spacerImg, PANEL_MENU_GROUP_ICON_SPACER_PATH);
-				setDefaultImgAttributes(spacerImg);
-				tableBodyRow.appendChild(spacerTd);
-				indentTds.add(spacerTd);
+		
+		if (activeChildId != null) {
+			String[] ids = activeChildId.split(GROUP_COUNT_SEPARATOR);
+			
+			if (ids.length > 1) {
+				for (int i = 1; i <= ids.length - 1; i++) {
+					nsIDOMElement spacerTd = visualDocument
+							.createElement(HtmlComponentUtil.HTML_TAG_TD);
+					nsIDOMElement spacerImg = visualDocument
+							.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					spacerTd.appendChild(spacerImg);
+					ComponentUtil.setImg(spacerImg,
+							PANEL_MENU_GROUP_ICON_SPACER_PATH);
+					setDefaultImgAttributes(spacerImg);
+					tableBodyRow.appendChild(spacerTd);
+					indentTds.add(spacerTd);
+				}
 			}
 		}
 
@@ -503,7 +509,8 @@ VpeToggableTemplate {
 			boolean findOnlyPanelMenuParent) {
 		Element parent = (Element) sourceElement.getParentNode();
 	
-		while (true) {
+		while ((parent.getParentNode() != null)
+				&& (parent.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
 			if (findOnlyPanelMenuParent) {
 				if ((parent!=null) && parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
 					break;
