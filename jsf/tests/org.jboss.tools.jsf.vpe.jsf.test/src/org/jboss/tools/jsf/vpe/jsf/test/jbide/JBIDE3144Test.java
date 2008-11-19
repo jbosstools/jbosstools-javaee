@@ -20,14 +20,14 @@ import org.jboss.tools.common.el.core.ELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.ui.test.ComponentContentTest;
 import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * @author mareshkau
  *
  */
-public class JBIDE3144Test extends VpeTest{
+public class JBIDE3144Test extends ComponentContentTest{
 
 	/**
 	 * Test Page
@@ -37,6 +37,7 @@ public class JBIDE3144Test extends VpeTest{
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#setUp()
 	 */
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -45,6 +46,13 @@ public class JBIDE3144Test extends VpeTest{
 				JsfAllTests.IMPORT_PROJECT_NAME);
 		elValuesMap = new HashMap<String, String>();
 		elValuesMap.put("request.contextPath", "./"); //$NON-NLS-1$ //$NON-NLS-2$
+		elValuesMap.put("test.dataTablecolor", "background-color:red;"); //$NON-NLS-1$ //$NON-NLS-2$
+		elValuesMap.put("test.columnColor", "background-color:green;"); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		elValuesMap.put("test.columnsColor", "background-color:#A020F0;"); //$NON-NLS-1$ //$NON-NLS-2$
+		elValuesMap.put("test.scrolable", "background-color:blue;"); //$NON-NLS-1$ //$NON-NLS-2$
+		elValuesMap.put("test.richDataGrid", "background-color:pink;"); //$NON-NLS-1$ //$NON-NLS-2$
+		elValuesMap.put("test.scope", "Test El expression");  //$NON-NLS-1$//$NON-NLS-2$
 		ResourceReference[] entries = new ResourceReference[elValuesMap.size()];
         int i = 0;
         for (Entry<String, String> string : elValuesMap.entrySet()) {
@@ -77,11 +85,16 @@ public class JBIDE3144Test extends VpeTest{
 		checkSourceSelection(part);
 	}
 	
-	public void testJBIDE3144EditingOfSimpleTextNodes() {
-		fail("Implement test case");
+	public void testJBIDE3144Test2() throws Throwable {
+		performContentTest("JBIDE/3144/test.xhtml"); //$NON-NLS-1$
 	}
 	
-	public void testJBIDE3144EditingJSFElements() {
-		fail("Implement test case");
+	public void testJBIDE3214() throws Throwable {	
+		performContentTest("JBIDE/3144/jbide3214test.xhtml"); //$NON-NLS-1$
 	}
-}
+
+	@Override
+	protected String getTestProjectName() {
+		return JsfAllTests.IMPORT_PROJECT_NAME;
+	}
+ }

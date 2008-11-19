@@ -1,0 +1,86 @@
+<tests>
+	<test id="body_test">
+		<DIV ID="body_test" STYLE="-moz-user-modify: read-write;">
+			<TABLE STYLE="background-color: red;" CLASS="dr-table rich-table">
+				<COLGROUP SPAN="1">
+				</COLGROUP>
+				<TR CLASS="dr-table-firstrow rich-table-firstrow">
+					<TD STYLE="background-color: green;" CLASS="dr-table-cell rich-table-cell">
+						<SPAN>
+							#{test.color}
+</SPAN>
+					</TD>
+				</TR>
+			</TABLE>
+			<TABLE>
+				<TR>
+					<TD>
+						<DIV CLASS="dr-table-hidden" STYLE="width: 100px; height: 100px;">
+							<TABLE WIDTH="100" STYLE="background-color: blue;" CLASS="dr-table rich-table">
+								<COLGROUP SPAN="1">
+								</COLGROUP>
+								<TBODY>
+								</TBODY>
+								<TR CLASS="dr-table-firstrow rich-table-firstrow">
+									<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell">
+										<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+									</TD>
+								</TR>
+								<TR CLASS="dr-table-firstrow rich-table-firstrow">
+									<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell">
+										<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+									</TD>
+								</TR>
+								<TR CLASS="dr-table-firstrow rich-table-firstrow">
+									<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell">
+										<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+									</TD>
+								</TR>
+								<TR CLASS="dr-table-firstrow rich-table-firstrow">
+									<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell">
+										<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+									</TD>
+								</TR>
+								<TR CLASS="dr-table-firstrow rich-table-firstrow">
+									<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell">
+										<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+									</TD>
+								</TR>
+							</TABLE>
+						</DIV>
+						<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+					</TD>
+					<TD>
+						<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
+						</DIV>
+						<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<DIV STYLE="overflow: scroll; width: 100%; height: 17px;">
+						</DIV>
+						<BR _MOZ_DIRTY="" TYPE="_moz"></BR>
+
+					</TD>
+				</TR>
+			</TABLE>
+			<TABLE STYLE="background-color: pink;" CLASS="dr-table rich-table" >
+				<COLGROUP SPAN="1">
+				</COLGROUP>
+				<TBODY>
+				</TBODY>
+				<SPAN>
+					ssssssssss
+</SPAN>
+			</TABLE>
+		</DIV>
+	</test>
+</tests>
