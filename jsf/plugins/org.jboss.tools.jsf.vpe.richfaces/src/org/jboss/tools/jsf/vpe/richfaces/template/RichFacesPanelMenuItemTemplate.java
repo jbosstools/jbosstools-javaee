@@ -544,7 +544,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static final Element getItemParent(Element sourceItemElement,
 			boolean findOnlyPanelMenuParent) {
 		Element parent = (Element) sourceItemElement.getParentNode();
-		while (true) {
+		while ((parent.getParentNode() != null)
+				&& (parent.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
 			if (findOnlyPanelMenuParent) {
 				if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
 					break;
