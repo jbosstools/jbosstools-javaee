@@ -25,7 +25,7 @@ public class ViewIdsTree extends WebPagesTree {
      
         XModelObject f = SeamPagesDiagramStructureHelper.getInstance().getParentFile(c);
         pages = f.getChildByPath("Pages");
-        XModelObject[] ps = pages.getChildren();
+        XModelObject[] ps = pages == null ? new XModelObject[0] : pages.getChildren();
         
         pageMap = new TreeMap<String, XModelObject>();
         
