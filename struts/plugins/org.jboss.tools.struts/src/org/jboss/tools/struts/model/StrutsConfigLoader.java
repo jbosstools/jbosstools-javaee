@@ -11,6 +11,7 @@
 package org.jboss.tools.struts.model;
 
 import org.jboss.tools.struts.*;
+import org.jboss.tools.jst.web.model.AbstractWebDiagramLoader;
 import org.jboss.tools.jst.web.model.WebProcessLoader;
 import org.jboss.tools.common.meta.*;
 import org.jboss.tools.common.model.*;
@@ -24,15 +25,20 @@ import java.util.Set;
 
 import org.w3c.dom.*;
 
-public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
+public class StrutsConfigLoader extends AbstractWebDiagramLoader implements WebProcessLoader, StrutsConstants {
 	public static String LAYOUT_FILE_EXTENSION = "strutsdia";
-    private FileAuxiliary aux = new FileAuxiliary(LAYOUT_FILE_EXTENSION, false);
     private SPUtil sputil = new SPUtil();
-	XModelObjectLoaderUtil util = new SCUtil();
-	boolean isLight = false;
 
     public StrutsConfigLoader() {}
-    
+
+    protected FileAuxiliary createFileAuxiliary() {
+    	return new FileAuxiliary(LAYOUT_FILE_EXTENSION, false);
+    }
+
+    protected XModelObjectLoaderUtil createUtil() {
+    	return new SCUtil();
+    }
+
     int getVersion(String entity) {
     	if(entity.endsWith(VER_SUFFIX_10)) return 10;
     	if(entity.endsWith(VER_SUFFIX_11)) return 11;
@@ -57,7 +63,6 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
             object.setAttributeValue("isIncorrect", "yes");
             object.setAttributeValue("incorrectBody", body);
 			object.set("actualBodyTimeStamp", "-1");
-//			return;
         } else {
             object.setAttributeValue("isIncorrect", "no");
 			object.set("correctBody", body);
@@ -71,7 +76,8 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 		}
         Element element = doc.getDocumentElement();
         util.load(element, object);
-		setEncoding(object, body);
+
+        setEncoding(object, body);
         NodeList nl = doc.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
             Node n = nl.item(i);
@@ -97,12 +103,6 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 			object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
 		}
     }
-    
-	protected void setEncoding(XModelObject object, String body) {
-		String encoding = XModelObjectLoaderUtil.getEncoding(body);
-		if(encoding == null) encoding = "";
-		object.setAttributeValue(XModelObjectConstants.ATTR_NAME_ENCODING, encoding);
-	}
     
 //    private DocumentType getDocumentType(Element element) {
 //		NodeList nl = element.getOwnerDocument().getChildNodes();
@@ -131,38 +131,7 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
 		process.firePrepared();
     }
     
-    public boolean update(XModelObject object) throws XModelException {
-        XModelObject p = object.getParent();
-        if (p == null) return true;
-        FolderLoader fl = (FolderLoader)p;
-		String body = fl.getBodySource(FileAnyImpl.toFileName(object)).get();
-//		String encoding = XModelObjectLoaderUtil.getEncoding(body);
-//		body = FileUtil.encode(body, encoding);
-		AbstractExtendedXMLFileImpl f = (AbstractExtendedXMLFileImpl)object;
-		f.setUpdateLock();
-		try {
-			f.edit(body, true);
-		} finally {
-			f.releaseUpdateLock();
-		}
-		object.setModified(false);
-		XModelObjectLoaderUtil.updateModifiedOnSave(object);
-	    return true;
-    }
-
-    public boolean save(XModelObject object) {
-        if (!object.isModified()) return true;
-        FileAnyImpl file = (FileAnyImpl)object;
-		String text = file.getAsText();
-		XModelObjectLoaderUtil.setTempBody(object, text);
-        if("yes".equals(object.get("isIncorrect"))) {
-            return true;
-        }
-        return saveLayout(object);
-    }
-    
     public boolean saveLayout(XModelObject object) {
-		if(isLight) return true;
 		try {
 			XModelObject process = object.getChildByPath(ELM_PROCESS);
 			if(process == null) return true;
@@ -209,18 +178,6 @@ public class StrutsConfigLoader implements WebProcessLoader, StrutsConstants {
             return null;
         }
     }
-
-    public String mainObjectToString(XModelObject object) {
-        return "" + serializeMainObject(object);
-    }
-
-	public String serializeObject(XModelObject object) {
-		return serializeMainObject(object);
-	}
-
-	public void loadFragment(XModelObject object, Element element) {
-		util.load(element, object);		
-	}
 
 }
 

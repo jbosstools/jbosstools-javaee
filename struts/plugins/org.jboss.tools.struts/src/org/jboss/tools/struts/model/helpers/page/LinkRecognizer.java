@@ -22,10 +22,15 @@ import org.jboss.tools.struts.model.helpers.page.link.Links;
 
 public class LinkRecognizer {
 	private static LinkRecognizer instance;
+	private static Object lock = new Object();
 	
 	public static LinkRecognizer getInstance() {
 		if(instance == null) {
-			instance = new LinkRecognizer();
+			synchronized(lock) {
+				if(instance == null) {
+					instance = new LinkRecognizer();
+				}
+			}
 			instance.init();
 		}
 		return instance; 
@@ -37,7 +42,9 @@ public class LinkRecognizer {
 	JSPLinkRecognizerObjectImpl object;
 	Links links;
 	
-	private LinkRecognizer() {}
+	private LinkRecognizer() {
+		links = new Links();
+	}
 	
 	void init() {
 		model = PreferenceModelUtilities.getPreferenceModel();
@@ -48,7 +55,6 @@ public class LinkRecognizer {
 		object.setActive(true);
 		((XModelImpl)model).setExtraRoot(object);
 		timeStamp = object.getTimeStamp();
-		links = new Links();
 		links.update(object);		
 	}
 	
