@@ -14,13 +14,12 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
-import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.ResourceUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -125,7 +124,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		nsIDOMElement creationDataDiv = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				.createElement(HTML.TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
 		Element itemSourceElement = (Element) sourceNode;
 		Element srcElement  = null;
@@ -149,31 +148,33 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		readPanelMenuAttributes(panelMenuParent);
 		readPanelMenuItemAttributes(itemSourceElement);
 		
-		creationDataDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, DR_TOP_DIV);
-		creationDataDiv.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
-		creationDataDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, MARGIN_TOP);
+		creationDataDiv.setAttribute(HTML.ATTR_CLASS, DR_TOP_DIV);
+		creationDataDiv.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
+		creationDataDiv.setAttribute(HTML.ATTR_STYLE, MARGIN_TOP);
 		
-		boolean childOfPanelMenu = anySuitableParent.getNodeName().endsWith(
-				PANEL_MENU_END_TAG);
-		boolean childOfPanelMenuGroup = anySuitableParent.getNodeName().endsWith(
-				PANEL_MENU_GROUP_END_TAG);
+		boolean childOfPanelMenu = anySuitableParent != null ? anySuitableParent
+				.getNodeName().endsWith(PANEL_MENU_END_TAG)
+				: false;
+		boolean childOfPanelMenuGroup = anySuitableParent != null ? anySuitableParent
+				.getNodeName().endsWith(PANEL_MENU_GROUP_END_TAG)
+				: false;
 		
 		if (childOfPanelMenu || childOfPanelMenuGroup) {
 			creationDataDiv.setAttribute("vpeSupport", COMPONENT_NAME); //$NON-NLS-1$
 			
 			nsIDOMElement table = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+					.createElement(HTML.TAG_TABLE);
 			creationDataDiv.appendChild(table);
 
-			table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR,
+			table.setAttribute(HTML.ATTR_CELLPADDING,
 					NO_SIZE_VALUE);
-			table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR,
+			table.setAttribute(HTML.ATTR_CELLSPACING,
 					NO_SIZE_VALUE);
-			table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR,
+			table.setAttribute(HTML.ATTR_BORDER,
 					NO_SIZE_VALUE);
 
 			nsIDOMElement tr = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TR);
+					.createElement(HTML.TAG_TR);
 			table.appendChild(tr);
 			
 			/*
@@ -189,15 +190,15 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 						continue;
 					}
 					nsIDOMElement spacerTd = visualDocument
-							.createElement(HtmlComponentUtil.HTML_TAG_TD);
+							.createElement(HTML.TAG_TD);
 					nsIDOMElement spacerImg = visualDocument
-							.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+							.createElement(HTML.TAG_IMG);
 					spacerTd.appendChild(spacerImg);
 					ComponentUtil.setImg(spacerImg, IMG_SPACER_SRC);
 					setDefaultImgAttributes(spacerImg);
-					spacerTd.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
+					spacerTd.setAttribute(HTML.ATTR_HEIGHT,
 							DEFAULT_SIZE_VALUE);
-					spacerTd.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
+					spacerTd.setAttribute(HTML.ATTR_WIDTH,
 							DEFAULT_SIZE_VALUE);
 					tr.appendChild(spacerTd);
 				}
@@ -205,12 +206,12 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			
 
 			nsIDOMElement tdNowrapLeft = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TD);
+					.createElement(HTML.TAG_TD);
 			tr.appendChild(tdNowrapLeft);
 			
 
 			nsIDOMElement tdLabel = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TD);
+					.createElement(HTML.TAG_TD);
 			tr.appendChild(tdLabel);
 			
 			/*
@@ -251,23 +252,23 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			tdLabel.appendChild(text);
 
 			nsIDOMElement tdRight = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TD);
+					.createElement(HTML.TAG_TD);
 			tr.appendChild(tdRight);
 
 			nsIDOMElement imgIcon = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					.createElement(HTML.TAG_IMG);
 			setDefaultImgAttributes(imgIcon);
 			setIcon(childOfPanelMenu, pageContext, imgIcon);
 
 			nsIDOMElement imgSpacer1 = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					.createElement(HTML.TAG_IMG);
 			setDefaultImgAttributes(imgSpacer1);
 			ComponentUtil.setImg(imgSpacer1, IMG_SPACER_SRC);
 
 			tdNowrapLeft.appendChild(imgSpacer1);
 
 			nsIDOMElement imgSpacer = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+					.createElement(HTML.TAG_IMG);
 			setDefaultImgAttributes(imgSpacer);
 			ComponentUtil.setImg(imgSpacer, IMG_SPACER_SRC);
 
@@ -302,7 +303,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			List<Node> children = ComponentUtil.getChildren(itemSourceElement);
 			
 			nsIDOMElement childSpan = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+				.createElement(HTML.TAG_SPAN);
 			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childSpan);
 			
 			if (!children.isEmpty()) {
@@ -333,9 +334,9 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	private static void setDefaultImgAttributes(nsIDOMElement element) {
 		element.setAttribute(VSPACE, NO_SIZE_VALUE);
 		element.setAttribute(HSPACE, NO_SIZE_VALUE);
-		element.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
+		element.setAttribute(HTML.ATTR_HEIGHT,
 				DEFAULT_SIZE_VALUE);
-		element.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
+		element.setAttribute(HTML.ATTR_WIDTH,
 				DEFAULT_SIZE_VALUE);
 	}
 
@@ -411,7 +412,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				ComponentUtil.setImg(img, imgPath[1]);
 			} else {
 				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(imgPath[0], pageContext, true);
-				img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, imgFullPath);
+				img.setAttribute(HTML.ATTR_SRC, imgFullPath);
 			}
 		}
 	}
@@ -520,17 +521,17 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			}
 		}
 		
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
-		iconCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, iconCellStyle);
-		labelCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, labelCellStyle);
-		emptyCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, emptyCellStyle);
+		table.setAttribute(HTML.ATTR_STYLE, tableStyle);
+		iconCell.setAttribute(HTML.ATTR_STYLE, iconCellStyle);
+		labelCell.setAttribute(HTML.ATTR_STYLE, labelCellStyle);
+		emptyCell.setAttribute(HTML.ATTR_STYLE, emptyCellStyle);
 		
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, tableClass);
-		tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, trClass);
-		iconCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, iconCellClass);
-		imgIcon.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, imgIconClass);
-		labelCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, labelCellClass);
-		emptyCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, emptyCellClass);
+		table.setAttribute(HTML.ATTR_CLASS, tableClass);
+		tr.setAttribute(HTML.ATTR_CLASS, trClass);
+		iconCell.setAttribute(HTML.ATTR_CLASS, iconCellClass);
+		imgIcon.setAttribute(HTML.ATTR_CLASS, imgIconClass);
+		labelCell.setAttribute(HTML.ATTR_CLASS, labelCellClass);
+		emptyCell.setAttribute(HTML.ATTR_CLASS, emptyCellClass);
 	}
 	
 	/**
@@ -539,13 +540,18 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	 * @param sourceItemElement the source item element
 	 * @param findOnlyPanelMenuParent flag to find only panel menu parent
 	 * 
-	 * @return the item parent
+	 * @return the item parent, can return null
 	 */
 	private static final Element getItemParent(Element sourceItemElement,
 			boolean findOnlyPanelMenuParent) {
-		Element parent = (Element) sourceItemElement.getParentNode();
-		while ((parent.getParentNode() != null)
-				&& (parent.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
+		Element parent = null;
+		Element currentElement = sourceItemElement;
+		
+		while ((currentElement.getParentNode() != null)
+				&& (currentElement.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
+
+			currentElement = parent = (Element) parent.getParentNode();
+
 			if (findOnlyPanelMenuParent) {
 				if (parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
 					break;
@@ -557,7 +563,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					break;
 				}
 			}
-			parent = (Element) parent.getParentNode();
+
 		}
 		return parent;
 	}

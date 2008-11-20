@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -26,16 +25,15 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.ResourceUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 public class RichFacesPanelMenuGroupTemplate extends VpeAbstractTemplate implements
 VpeToggableTemplate {
@@ -163,7 +161,7 @@ VpeToggableTemplate {
 //            srcNode = (Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
 //        }
 		nsIDOMElement creationDataDiv = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				.createElement(HTML.TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
 		//added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605 issue.
 		final Element elementToPass = (srcNode != null ? srcNode : groupSourceElement);
@@ -189,7 +187,7 @@ VpeToggableTemplate {
  			 expanded = expandedIds.contains(childId);
 		}
 		nsIDOMElement div = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				.createElement(HTML.TAG_DIV);
 		creationDataDiv.appendChild(div);
 		div.setAttribute(COMPONENT_ATTR_VPE_SUPPORT, NAME_COMPONENT);
 		div.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, childId);
@@ -198,7 +196,7 @@ VpeToggableTemplate {
 				visualDocument, div, expanded, childId);
 		
 		nsIDOMElement childSpan = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+		.createElement(HTML.TAG_SPAN);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(childSpan);
 		
 	
@@ -251,15 +249,15 @@ VpeToggableTemplate {
 		String divClass = EMPTY;
 
 		nsIDOMElement table = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+				.createElement(HTML.TAG_TABLE);
 		div.appendChild(table);
 
-		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "0"); //$NON-NLS-1$
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, "0"); //$NON-NLS-1$
-		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
 
 		nsIDOMElement tableBodyRow = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				.createElement(HTML.TAG_TR);
 		table.appendChild(tableBodyRow);
 		
 		/*
@@ -274,9 +272,9 @@ VpeToggableTemplate {
 			if (ids.length > 1) {
 				for (int i = 1; i <= ids.length - 1; i++) {
 					nsIDOMElement spacerTd = visualDocument
-							.createElement(HtmlComponentUtil.HTML_TAG_TD);
+							.createElement(HTML.TAG_TD);
 					nsIDOMElement spacerImg = visualDocument
-							.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+							.createElement(HTML.TAG_IMG);
 					spacerTd.appendChild(spacerImg);
 					ComponentUtil.setImg(spacerImg,
 							PANEL_MENU_GROUP_ICON_SPACER_PATH);
@@ -288,17 +286,17 @@ VpeToggableTemplate {
 		}
 
 		nsIDOMElement column1 = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				.createElement(HTML.TAG_TD);
 		column1.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, activeChildId);
 		tableBodyRow.appendChild(column1);
 
 		nsIDOMElement column2 = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				.createElement(HTML.TAG_TD);
 		tableBodyRow.appendChild(column2);
-		column2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, WIDTH_100_PERSENTS);
+		column2.setAttribute(HTML.ATTR_STYLE, WIDTH_100_PERSENTS);
 
 		nsIDOMElement column3 = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		.createElement(HTML.TAG_TD);
 		column3.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, activeChildId);
 		tableBodyRow.appendChild(column3);
 		
@@ -340,8 +338,9 @@ VpeToggableTemplate {
 		column2.appendChild(text);
 		column2.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, activeChildId);
 
-		boolean childOfPanelMenu = anySuitableParent.getNodeName().endsWith(
-				PANEL_MENU_END_TAG);
+		boolean childOfPanelMenu = anySuitableParent != null ? anySuitableParent
+				.getNodeName().endsWith(PANEL_MENU_END_TAG)
+				: false;
 		
 		/*
 		 * Group Icon Routine
@@ -371,10 +370,10 @@ VpeToggableTemplate {
 		}
 
 		nsIDOMElement imgIcon = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+				.createElement(HTML.TAG_IMG);
 		
 		nsIDOMElement imgSpacer = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		.createElement(HTML.TAG_IMG);
 		ComponentUtil.setImg(imgSpacer, PANEL_MENU_GROUP_ICON_SPACER_PATH);
 		setDefaultImgAttributes(imgSpacer);
 		
@@ -474,26 +473,26 @@ VpeToggableTemplate {
 			tableStyle += SPACE + pmg_style;
 		}
 		
-		iconCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, iconCellClass);
+		iconCell.setAttribute(HTML.ATTR_CLASS, iconCellClass);
 //		iconCell.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, iconCellStyle);
 		
 		for (nsIDOMElement indentTdCell : indentTds) {
-			indentTdCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, iconCellClass);
+			indentTdCell.setAttribute(HTML.ATTR_CLASS, iconCellClass);
 		}
 		
-		column2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, labelCellClass);
-		emptyCell.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, emptyCellClass);
-		div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, divClass);
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, tableClass);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
+		column2.setAttribute(HTML.ATTR_CLASS, labelCellClass);
+		emptyCell.setAttribute(HTML.ATTR_CLASS, emptyCellClass);
+		div.setAttribute(HTML.ATTR_CLASS, divClass);
+		table.setAttribute(HTML.ATTR_CLASS, tableClass);
+		table.setAttribute(HTML.ATTR_STYLE, tableStyle);
 	}
 
 	private static void setDefaultImgAttributes(nsIDOMElement element) {
-		element.setAttribute(HtmlComponentUtil.HTML_ATR_WIDTH,
+		element.setAttribute(HTML.ATTR_WIDTH,
 				DEFAULT_SIZE_VALUE);
 		element.setAttribute(VSPACE, NO_SIZE_VALUE);
 		element.setAttribute(HSPACE, NO_SIZE_VALUE);
-		element.setAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT,
+		element.setAttribute(HTML.ATTR_HEIGHT,
 				DEFAULT_SIZE_VALUE);
 	}
 	
@@ -507,22 +506,26 @@ VpeToggableTemplate {
 	 */
 	private static final Element getGroupParent(Element sourceElement,
 			boolean findOnlyPanelMenuParent) {
-		Element parent = (Element) sourceElement.getParentNode();
 	
-		while ((parent.getParentNode() != null)
-				&& (parent.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
+		Element parent = null;
+		Element currentElement = sourceElement;
+		
+		while ((currentElement.getParentNode() != null)
+				&& (currentElement.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
+			currentElement = parent = (Element) parent.getParentNode();
 			if (findOnlyPanelMenuParent) {
-				if ((parent!=null) && parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
+				if ((parent != null)
+						&& parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
 					break;
 				}
 			} else {
-				if ((parent!=null) && parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
+				if ((parent != null)
+						&& parent.getNodeName().endsWith(PANEL_MENU_END_TAG)
 						|| parent.getNodeName().endsWith(
 								PANEL_MENU_GROUP_END_TAG)) {
 					break;
 				}
 			}
-			parent = (Element) parent.getParentNode();
 		}
 		return parent;
 	}
@@ -533,7 +536,9 @@ VpeToggableTemplate {
 		String pathIconCollapsed = pmg_iconCollapsed;
 		String pathIconDisabled = pmg_iconDisabled;
 
-		if (anySuitableParent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
+		if ((anySuitableParent != null)
+				&& (anySuitableParent.getNodeName()
+						.endsWith(PANEL_MENU_END_TAG))) {
 			if (pathIconExpanded == null) {
 				pathIconExpanded = pm_iconExpandedTopGroup;
 			}
@@ -553,7 +558,7 @@ VpeToggableTemplate {
 				} else {
 					String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
 							pathIconDisabled, pageContext, true);
-					imgIcon.setAttribute(HtmlComponentUtil.HTML_ATR_SRC,
+					imgIcon.setAttribute(HTML.ATTR_SRC,
 							imgFullPath);
 				}
 			} else {
@@ -569,7 +574,7 @@ VpeToggableTemplate {
 					} else {
 						String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
 								pathIconExpanded, pageContext, true);
-						imgIcon.setAttribute(HtmlComponentUtil.HTML_ATR_SRC,
+						imgIcon.setAttribute(HTML.ATTR_SRC,
 								imgFullPath);
 					}
 				} else {
@@ -584,7 +589,7 @@ VpeToggableTemplate {
 					} else {
 						String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
 								pathIconCollapsed, pageContext, true);
-						imgIcon.setAttribute(HtmlComponentUtil.HTML_ATR_SRC,
+						imgIcon.setAttribute(HTML.ATTR_SRC,
 								imgFullPath);
 					}
 				} else {
