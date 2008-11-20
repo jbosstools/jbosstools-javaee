@@ -14,6 +14,7 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -38,9 +39,9 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
     private static final String LEFT_SINGLE_SCROLL_SYMBOL = "«"; //$NON-NLS-1$
 
     /*
-     * Minimal cells number in datascroller.
+     * Default cells number in datascroller.
      */
-    private static final int MINIMAL_CELLS_NUMBER = 5;
+    private static final int DEFAULT_CELLS_NUMBER = 10;
     /*
      * Default active datascroller page number.
      */
@@ -68,6 +69,13 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
     private static final String ATTR_TABLE_STYLE_CLASS = "tableStyleClass"; //$NON-NLS-1$
 
     private static final String ATTR_VALUE_SHOW = "show"; //$NON-NLS-1$
+
+    private static final String FACET_FIRST = "first"; //$NON-NLS-1$
+    private static final String FACET_LAST = "last"; //$NON-NLS-1$
+    private static final String FACET_FAST_FORWARD = "fastforward"; //$NON-NLS-1$
+    private static final String FACET_FAST_REWIND = "fastrewind"; //$NON-NLS-1$
+    private static final String FACET_NEXT = "next"; //$NON-NLS-1$
+    private static final String FACET_PREVIOUS = "previous"; //$NON-NLS-1$
 
     private boolean showBoundaryControls;
     private boolean showFastControls;
@@ -107,11 +115,16 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
 	readAttributes(sourceNode);
+	Element sourceElement = (Element) sourceNode;
 	ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
 		COMPONENT_NAME);
 	nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 	VpeCreationData creationData = new VpeCreationData(div);
-
+	/*
+	 * Adding fake children info to avoid creating pseudo element.
+	 */
+	creationData.addChildrenInfo(new VpeChildrenInfo(div));
+	
 	div.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_CENTER);
 	div.setAttribute(HTML.ATTR_CLASS, styleClass);
 	if (ComponentUtil.isNotBlank(style)) {
@@ -137,18 +150,35 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	/*
 	 * Create left side controls
 	 */
+	Object object = null;
+	Element facetElement = null;
 	if (showBoundaryControls) {
-	    createCell(visualDocument, tr, LEFT_DOUBLE_SCROLL_SYMBOL,
+	    object = LEFT_DOUBLE_SCROLL_SYMBOL;
+	    facetElement = ComponentUtil.getFacetElement(sourceElement, FACET_FIRST);
+	    if (null != facetElement) {
+		object = facetElement;
+	    }
+	    createCell(visualDocument, creationData, tr, object,
 		    CSS_RICH_DATASCR_BUTTON + Constants.WHITE_SPACE
 			    + CSS_RICH_DATASCR_BUTTON_DSBLD, Constants.EMPTY);
 	}
 	if (showFastControls) {
-	    createCell(visualDocument, tr, LEFT_SINGLE_SCROLL_SYMBOL,
+	    object = LEFT_SINGLE_SCROLL_SYMBOL;
+	    facetElement = ComponentUtil.getFacetElement(sourceElement, FACET_FAST_REWIND);
+	    if (null != facetElement) {
+		object = facetElement;
+	    }
+	    createCell(visualDocument, creationData, tr, object,
 		    CSS_RICH_DATASCR_BUTTON + Constants.WHITE_SPACE
 			    + CSS_RICH_DATASCR_BUTTON_DSBLD, Constants.EMPTY);
 	}
 	if (showStepControls) {
-	    createCell(visualDocument, tr, Constants.EMPTY,
+	    object = Constants.EMPTY;
+	    facetElement = ComponentUtil.getFacetElement(sourceElement, FACET_PREVIOUS);
+	    if (null != facetElement) {
+		object = facetElement;
+	    }
+	    createCell(visualDocument, creationData, tr, object,
 		    CSS_RICH_DATASCR_BUTTON + Constants.WHITE_SPACE
 			    + CSS_RICH_DATASCR_BUTTON_DSBLD, Constants.EMPTY);
 	}
@@ -157,7 +187,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 * Create page numbers controls
 	 */
 	for (int i = 1; i <= maxPages; i++) {
-	    createCell(visualDocument, tr, String.valueOf(i),
+	    createCell(visualDocument, creationData, tr, String.valueOf(i),
 		    (i == 1 ? selectedStyleClass : inactiveStyleClass),
 		    (i == 1 ? selectedStyle : inactiveStyle));
 	}
@@ -166,35 +196,42 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 * Create right side controls
 	 */
 	if (showStepControls) {
-	    createCell(visualDocument, tr, Constants.EMPTY,
+	    object = Constants.EMPTY;
+	    facetElement = ComponentUtil.getFacetElement(sourceElement, FACET_NEXT);
+	    if (null != facetElement) {
+		object = facetElement;
+	    }
+	    createCell(visualDocument, creationData, tr, object,
 		    CSS_RICH_DATASCR_BUTTON, Constants.EMPTY);
 	}
 	if (showFastControls) {
-	    createCell(visualDocument, tr, RIGHT_SINGLE_SCROLL_SYMBOL,
+	    object = RIGHT_SINGLE_SCROLL_SYMBOL;
+	    facetElement = ComponentUtil.getFacetElement(sourceElement, FACET_FAST_FORWARD);
+	    if (null != facetElement) {
+		object = facetElement;
+	    }
+	    createCell(visualDocument, creationData, tr, object,
 		    CSS_RICH_DATASCR_BUTTON, Constants.EMPTY);
 	}
 	if (showBoundaryControls) {
-	    createCell(visualDocument, tr, RIGHT_DOUBLE_SCROLL_SYMBOL,
+	    object = RIGHT_DOUBLE_SCROLL_SYMBOL;
+	    facetElement = ComponentUtil.getFacetElement(sourceElement, FACET_LAST);
+	    if (null != facetElement) {
+		object = facetElement;
+	    }
+	    createCell(visualDocument, creationData, tr, object,
 		    CSS_RICH_DATASCR_BUTTON, Constants.EMPTY);
 	}
 
 	return creationData;
     }
 
-    /**
-     * Creates the cell with central alignment.
-     * 
-     * @param visualDocument the visual document
-     * @param tr the table row to add the cell
-     * @param text the text in the cell
-     * @param styleClass the style class for the cell
-     * @param style the style for the cell
-     */
-    private void createCell(nsIDOMDocument visualDocument, nsIDOMElement tr,
-	    String text, String styleClass, String style) {
+    
+    private void createCell(nsIDOMDocument visualDocument,
+	    VpeCreationData creationData, nsIDOMElement tr, Object element,
+	    String styleClass, String style) {
 	nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 	td.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_CENTER);
-	nsIDOMText cellText = visualDocument.createTextNode(text);
 
 	if (ComponentUtil.isNotBlank(styleClass)) {
 	    td.setAttribute(HTML.ATTR_CLASS, styleClass);
@@ -203,7 +240,14 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	    td.setAttribute(HTML.ATTR_STYLE, style);
 	}
 
-	td.appendChild(cellText);
+	if (element instanceof String) {
+	    nsIDOMText cellText = visualDocument.createTextNode((String)element);
+	    td.appendChild(cellText);
+	} else if (element instanceof Element) {
+	    VpeChildrenInfo facetInfo = new VpeChildrenInfo(td);
+	    facetInfo.addSourceChild((Element) element);
+	    creationData.addChildrenInfo(facetInfo);
+	}
 	tr.appendChild(td);
 
     }
@@ -229,7 +273,7 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 			.getAttribute(ATTR_FAST_CONTROLS)));
 
 	maxPages = ComponentUtil.parseNumberAttribute(sourceElement,
-		ATTR_MAX_PAGES, MINIMAL_CELLS_NUMBER);
+		ATTR_MAX_PAGES, DEFAULT_CELLS_NUMBER);
 
 	page = ComponentUtil.parseNumberAttribute(sourceElement, ATTR_PAGE, DEFAULT_PAGE_NUMBER);
 
