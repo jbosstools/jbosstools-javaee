@@ -40,4 +40,8 @@ public class %T% {
 		this.%t% = t;
 	}
 
+	public %T% getValue() {
+		return this;
+	}
+
 }
