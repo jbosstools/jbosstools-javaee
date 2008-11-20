@@ -512,7 +512,7 @@ VpeToggableTemplate {
 		
 		while ((currentElement.getParentNode() != null)
 				&& (currentElement.getParentNode().getNodeType() == Node.ELEMENT_NODE)) {
-			currentElement = parent = (Element) parent.getParentNode();
+			currentElement = parent = (Element) currentElement.getParentNode();
 			if (findOnlyPanelMenuParent) {
 				if ((parent != null)
 						&& parent.getNodeName().endsWith(PANEL_MENU_END_TAG)) {
