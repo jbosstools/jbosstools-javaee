@@ -692,6 +692,72 @@ public class ComponentUtil {
     }
 
     /**
+     * Parses the size attribute.
+     * 
+     * @param sourceElement the source element
+     * @param attributeName the attribute name
+     * @param defaultValue the default value
+     * 
+     * @return the int size
+     */
+    public static int parseSizeAttribute(Element sourceElement, String attributeName,
+	    int defaultValue) {
+
+	if (sourceElement.hasAttribute(attributeName)) {
+	    String attrValue = sourceElement.getAttribute(attributeName);
+
+	    if (attrValue.endsWith(Constants.PIXEL))
+		attrValue = attrValue.substring(0, attrValue.length()
+			- Constants.PIXEL.length());
+
+	    try {
+		/*
+		 * Decoding attribute's value
+		 */
+		int intValue = Integer.decode(attrValue);
+		return intValue;
+	    } catch (NumberFormatException e) {
+		/*
+		 * if attribute's value is not a number do nothing 
+		 * return default value
+		 */
+	    }
+	}
+	return defaultValue;
+    }
+
+    /**
+     * Parses the number attribute.
+     * 
+     * @param sourceElement the source element
+     * @param attributeName the attribute name
+     * @param defaultValue the default value
+     * 
+     * @return the int number
+     */
+    public static int parseNumberAttribute(Element sourceElement,
+	    String attributeName, int defaultValue) {
+
+	if (sourceElement.hasAttribute(attributeName)) {
+	    String attrValue = sourceElement.getAttribute(attributeName);
+
+	    try {
+		/*
+		 * Decoding attribute's value
+		 */
+		int intValue = Integer.decode(attrValue);
+		return intValue;
+	    } catch (NumberFormatException e) {
+		/*
+		 * if attribute's value is not a number do nothing 
+		 * return default value
+		 */
+	    }
+	}
+	return defaultValue;
+    }
+    
+    /**
      * Checks if is blank.
      * 
      * @param value the value

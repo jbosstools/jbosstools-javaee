@@ -704,11 +704,11 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		currentDayControl = sdf.format(calendar.getTime());
 
 		// cellWidth
-		cellWidth = parseSizeAttribute(sourceElement, ATTR_CELL_WIDTH,
+		cellWidth = ComponentUtil.parseSizeAttribute(sourceElement, ATTR_CELL_WIDTH,
 				DEFAULT_CELL_WIDTH);
 
 		// cellHeight
-		cellHeight = parseSizeAttribute(sourceElement, ATTR_CELL_HEIGHT,
+		cellHeight = ComponentUtil.parseSizeAttribute(sourceElement, ATTR_CELL_HEIGHT,
 				DEFAULT_CELL_HEIGHT);
 
 		// tableWidth
@@ -730,14 +730,14 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 				DIRECTIONS_BOTTOM_RIGHT);
 
 		// zindex
-		zindex = parseNumberAttribute(sourceElement, RichFaces.ATTR_ZINDEX, 3);
+		zindex = ComponentUtil.parseNumberAttribute(sourceElement, RichFaces.ATTR_ZINDEX, 3);
 
 		// horizontalOffset
-		horizontalOffset = parseNumberAttribute(sourceElement,
+		horizontalOffset = ComponentUtil.parseNumberAttribute(sourceElement,
 				RichFaces.ATTR_HORIZONTAL_OFFSET, 0);
 
 		// verticalOffset
-		verticalOffset = parseNumberAttribute(sourceElement,
+		verticalOffset = ComponentUtil.parseNumberAttribute(sourceElement,
 				RichFaces.ATTR_VERTICAL_OFFSET, 0);
 
 	}
@@ -933,54 +933,6 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 
 		return defaultValue;
 
-	}
-
-	private int parseSizeAttribute(Element sourceElement, String attributeName,
-			int defaultValue) {
-
-		if (sourceElement.hasAttribute(attributeName)) {
-			String attrValue = sourceElement.getAttribute(attributeName);
-
-			if (attrValue.endsWith(Constants.PIXEL))
-				attrValue = attrValue.substring(0, attrValue.length()
-						- Constants.PIXEL.length());
-
-			try {
-				// decode attribute's value
-				int intValue = Integer.decode(attrValue);
-
-				// richfaces Calendar counts weekdays from 0 but
-				// java.util.Calendar counts weekdays from 1
-				return intValue;
-			} catch (NumberFormatException e) {
-				// if attribute's value is not number do nothing and then return
-				// default value
-			}
-		}
-
-		return defaultValue;
-	}
-
-	private int parseNumberAttribute(Element sourceElement,
-			String attributeName, int defaultValue) {
-
-		if (sourceElement.hasAttribute(attributeName)) {
-			String attrValue = sourceElement.getAttribute(attributeName);
-
-			try {
-				// decode attribute's value
-				int intValue = Integer.decode(attrValue);
-
-				// richfaces Calendar counts weekdays from 0 but
-				// java.util.Calendar counts weekdays from 1
-				return intValue;
-			} catch (NumberFormatException e) {
-				// if attribute's value is not number do nothing and then return
-				// default value
-			}
-		}
-
-		return defaultValue;
 	}
 
 	/**
