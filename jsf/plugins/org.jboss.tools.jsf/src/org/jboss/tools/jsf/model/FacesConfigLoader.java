@@ -25,11 +25,16 @@ import org.jboss.tools.common.model.util.*;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.*;
 
-public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
+public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebProcessLoader, JSFConstants {
 	public static String AUXILIARY_FILE_EXTENSION = "jsfdia";
-	private FileAuxiliary aux = new FileAuxiliary(AUXILIARY_FILE_EXTENSION, false);
-	XModelObjectLoaderUtil util = new SFUtil();
-	boolean isLight = false;
+
+    protected FileAuxiliary createFileAuxiliary() {
+    	return new FileAuxiliary(AUXILIARY_FILE_EXTENSION, false);
+    }
+
+    protected XModelObjectLoaderUtil createUtil() {
+    	return new SFUtil();
+    }
 
 	public void load(XModelObject object) {
 //		String entity = object.getModelEntity().getName();
@@ -58,7 +63,6 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		}
 		Element element = doc.getDocumentElement();
 		util.load(element, object);
-		String loadingError = util.getError();
 		
 		((FileFacesConfigImpl)object).updateRuleIndices();
 		
@@ -76,21 +80,16 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 				}
 			}
 		}
+		String loadingError = util.getError();
 		reloadProcess(object);
+
 		object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
-		
 		((AbstractXMLFileImpl)object).setLoaderError(loadingError);
 		if(!hasErrors && loadingError != null) {
 			object.setAttributeValue("isIncorrect", "yes");
 			object.setAttributeValue("incorrectBody", body);
 			object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
 		}
-	}
-    
-	protected void setEncoding(XModelObject object, String body) {
-		String encoding = XModelObjectLoaderUtil.getEncoding(body);
-		if(encoding == null) encoding = "";
-		object.setAttributeValue(XModelObjectConstants.ATTR_NAME_ENCODING, encoding);
 	}
     
 	public void reloadProcess(XModelObject object) {
@@ -111,36 +110,7 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 		process.firePrepared();
 	}
     
-	public boolean update(XModelObject object) throws XModelException {
-		XModelObject p = object.getParent();
-		if (p == null) return true;
-		FolderLoader fl = (FolderLoader)p;
-		String body = fl.getBodySource(FileAnyImpl.toFileName(object)).get();
-		AbstractExtendedXMLFileImpl f = (AbstractExtendedXMLFileImpl)object;
-		f.setUpdateLock();
-		try {
-			f.edit(body, true);
-		} finally {
-			f.releaseUpdateLock();
-		}
-		object.setModified(false);
-		XModelObjectLoaderUtil.updateModifiedOnSave(object);
-		return true;
-	}
-
-	public boolean save(XModelObject object) {
-		if (!object.isModified()) return true;
-		FileAnyImpl file = (FileAnyImpl)object;
-		String text = file.getAsText();
-		XModelObjectLoaderUtil.setTempBody(object, text);
-		if("yes".equals(object.get("isIncorrect"))) {
-			return true;
-		}
-		return saveLayout(object);
-	}
-    
 	public boolean saveLayout(XModelObject object) {
-		if(isLight) return true;
 		if(object == null || !object.isActive()) return false;
 		XModelObjectLoaderUtil util = new XModelObjectLoaderUtil();
 		try {
@@ -192,18 +162,6 @@ public class FacesConfigLoader implements WebProcessLoader, JSFConstants {
 			JSFModelPlugin.getPluginLog().logError(e);
 			return null;
 		}
-	}
-
-	public String mainObjectToString(XModelObject object) {
-		return "" + serializeMainObject(object);
-	}
-
-	public String serializeObject(XModelObject object) {
-		return serializeMainObject(object);
-	}
-
-	public void loadFragment(XModelObject object, Element element) {
-		util.load(element, object);		
 	}
 
 }
