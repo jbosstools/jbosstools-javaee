@@ -16,17 +16,15 @@ import java.io.StringWriter;
 
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.common.model.filesystems.FileAuxiliary;
-import org.jboss.tools.common.model.filesystems.impl.AbstractExtendedXMLFileImpl;
 import org.jboss.tools.common.model.filesystems.impl.AbstractXMLFileImpl;
-import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
-import org.jboss.tools.common.model.filesystems.impl.FolderLoader;
+import org.jboss.tools.common.model.loaders.AuxiliaryLoader;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EntityXMLRegistration;
 import org.jboss.tools.common.model.util.XMLUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
+import org.jboss.tools.jst.web.model.AbstractWebDiagramLoader;
 import org.jboss.tools.jst.web.model.WebProcessLoader;
 import org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl;
 import org.w3c.dom.Document;
@@ -35,13 +33,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants {
+public class SeamPagesFileLoader extends AbstractWebDiagramLoader implements WebProcessLoader, SeamPagesConstants, AuxiliaryLoader {
 	public static String AUXILIARY_FILE_EXTENSION = "spdia";
-	private FileAuxiliary aux = new FileAuxiliary(AUXILIARY_FILE_EXTENSION, false);
-	XModelObjectLoaderUtil util = createUtil();
 
     public SeamPagesFileLoader() {}
 
+    protected FileAuxiliary createFileAuxiliary() {
+    	return new FileAuxiliary(AUXILIARY_FILE_EXTENSION, false);
+    }
+    
 	public void load(XModelObject object) {
 //		String entity = object.getModelEntity().getName();
         
@@ -69,7 +69,6 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 		}
 		Element element = doc.getDocumentElement();
 		util.load(element, object);
-		String loadingError = util.getError();
 		
 //		((FileSeamPagesImpl)object).updateRuleIndices();
 		
@@ -87,21 +86,16 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 				}
 			}
 		}
+		String loadingError = util.getError();
 		reloadProcess(object);
+
 		object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
-		
 		((AbstractXMLFileImpl)object).setLoaderError(loadingError);
 		if(!hasErrors && loadingError != null) {
 			object.setAttributeValue("isIncorrect", "yes");
 			object.setAttributeValue("incorrectBody", body);
 			object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
 		}
-	}
-    
-	protected void setEncoding(XModelObject object, String body) {
-		String encoding = XModelObjectLoaderUtil.getEncoding(body);
-		if(encoding == null) encoding = "";
-		object.setAttributeValue(XModelObjectConstants.ATTR_NAME_ENCODING, encoding);
 	}
     
 	public void reloadProcess(XModelObject object) {
@@ -120,34 +114,6 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 		}
 		diagram.setReference(null);
 		diagram.firePrepared();
-	}
-    
-	public boolean update(XModelObject object) throws XModelException {
-		XModelObject p = object.getParent();
-		if (p == null) return true;
-		FolderLoader fl = (FolderLoader)p;
-		String body = fl.getBodySource(FileAnyImpl.toFileName(object)).get();
-		AbstractExtendedXMLFileImpl f = (AbstractExtendedXMLFileImpl)object;
-		f.setUpdateLock();
-		try {
-			f.edit(body, true);
-		} finally {
-			f.releaseUpdateLock();
-		}
-		object.setModified(false);
-		XModelObjectLoaderUtil.updateModifiedOnSave(object);
-		return true;
-	}
-
-	public boolean save(XModelObject object) {
-		if (!object.isModified()) return true;
-		FileAnyImpl file = (FileAnyImpl)object;
-		String text = file.getAsText();
-		XModelObjectLoaderUtil.setTempBody(object, text);
-		if("yes".equals(object.get("isIncorrect"))) {
-			return true;
-		}
-		return saveLayout(object);
 	}
     
 	public boolean saveLayout(XModelObject object) {
@@ -203,20 +169,8 @@ public class SeamPagesFileLoader implements WebProcessLoader, SeamPagesConstants
 		}
 	}
 
-	public String mainObjectToString(XModelObject object) {
-		return "" + serializeMainObject(object);
-	}
-
-	public String serializeObject(XModelObject object) {
-		return serializeMainObject(object);
-	}
-
-	public void loadFragment(XModelObject object, Element element) {
-		util.load(element, object);		
-	}
-
     protected XModelObjectLoaderUtil createUtil() {
         return new SeamPagesLoaderUtil();
     }
-    
+
 }
