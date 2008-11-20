@@ -6,7 +6,7 @@
 					SIZE=" " VALUE="" />
 
 				<IMG
-					SRC="/.*org\.jboss\.tools\.jsf\.vpe.richfaces\/resources\/calendar\/calendar\.gif/"
+					SRC="/.*/resources/calendar/calendar.gif/"
 					STYLE="vertical-align: middle;" CLASS="rich-calendar-button null"
 					VPE-USER-TOGGLE-ID="true" />
 
