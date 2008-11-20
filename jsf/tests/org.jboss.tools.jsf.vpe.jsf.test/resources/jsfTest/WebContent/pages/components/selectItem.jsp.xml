@@ -11,9 +11,9 @@
 		<OPTION> value1</OPTION>
 	</test>
 	<test id="selectItem3">
-		<TABLE>
-			<INPUT TYPE="radio" NAME="radio_name_507" />
+		<DIV>
+			<INPUT TYPE="radio" />
 			<LABEL> value1</LABEL>
-		</TABLE>
+		</DIV>
 	</test>
 </tests>

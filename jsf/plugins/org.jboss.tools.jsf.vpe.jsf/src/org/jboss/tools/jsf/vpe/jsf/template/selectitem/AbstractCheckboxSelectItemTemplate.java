@@ -8,7 +8,7 @@
  * Contributor:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.jsf.template;
+package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
@@ -27,7 +27,7 @@ import org.w3c.dom.Node;
  * @author dmaliarevich
  * 
  */
-public class JsfCheckboxSelectItemTemplate extends AbstractOutputJsfTemplate {
+abstract public class AbstractCheckboxSelectItemTemplate extends AbstractSelectItemTemplate {
 
 	private static final String TYPE_CHECKBOX = "checkbox"; //$NON-NLS-1$
 
@@ -39,10 +39,8 @@ public class JsfCheckboxSelectItemTemplate extends AbstractOutputJsfTemplate {
 	private String enabledClass;
 	private String disabledClass;
 
-	/**
-	 * 
-	 */
-	public JsfCheckboxSelectItemTemplate() {
+	protected AbstractCheckboxSelectItemTemplate(SelectItemType selectItemType) {
+		super(selectItemType);
 	}
 
 	/*
@@ -152,18 +150,9 @@ public class JsfCheckboxSelectItemTemplate extends AbstractOutputJsfTemplate {
 	}
 
 	@Override
-	public Attr getOutputAttributeNode(Element element) {
-
-		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL))
-			return element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
-		return null;
-	}
-	
-	@Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
-
 }

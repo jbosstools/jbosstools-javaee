@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.jsf.template;
+package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
  * template for radio select item
  * 
  */
-public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
+abstract public class AbstractRadioSelectItemTemplate extends AbstractSelectItemTemplate {
 
 	/* "itemDisabled" attribute of f:selectItem */
 	public static final String ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
@@ -47,12 +47,8 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 
 	private String dir;
 
-	/**
-	 * 
-	 */
-	public JsfRadioSelectItemTemplate() {
-
-		// TODO Auto-generated constructor stub
+	protected AbstractRadioSelectItemTemplate(SelectItemType selectItemType) {
+		super(selectItemType);
 	}
 
 	/*
@@ -66,30 +62,29 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		// create table element
-		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		boolean disabledItem = ComponentUtil.string2boolean(ComponentUtil
-				.getAttribute(element, ITEM_DISABLED));
+		// create container element
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+		final boolean disabledItem = selectItemType.isDisabledItem(element);
 
-		// add title attribute to span
-		table.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
+		// add title attribute to div
+		div.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		nsIDOMElement radio = visualDocument.createElement(HTML.TAG_INPUT);
 		if (disabledItem)
 			radio.setAttribute(ITEM_DISABLED, Constants.TRUE);
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 		if (disabledItem)
 			label.setAttribute(ITEM_DISABLED, Constants.TRUE);
-		table.appendChild(radio);
-		table.appendChild(label);
+		div.appendChild(radio);
+		div.appendChild(label);
 
 		if (null != element) {
 			dir = element.getAttribute(JSF.ATTR_DIR);
 		}
 
-		VpeCreationData creationData = new VpeCreationData(table);
+		VpeCreationData creationData = new VpeCreationData(div);
 
 		// set attributes
-		table.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
+		div.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
 		radio.setAttribute(HTML.ATTR_TYPE, ATTR_TYPE_VALUE);
 		radio.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		radio.setAttribute(HTML.ATTR_NAME, ATTR_NAME_VALUE
@@ -168,14 +163,6 @@ public class JsfRadioSelectItemTemplate extends AbstractOutputJsfTemplate {
 	 */
 	private boolean attrPresents(String attr) {
 		return ((null != attr) && (attr.length()!=0));
-	}
-
-	@Override
-	public Attr getOutputAttributeNode(Element element) {
-
-		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL))
-			return element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
-		return null;
 	}
 
 	@Override

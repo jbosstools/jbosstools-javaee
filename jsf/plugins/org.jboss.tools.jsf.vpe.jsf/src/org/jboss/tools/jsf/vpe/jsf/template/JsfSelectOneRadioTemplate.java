@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.selectitem.AbstractRadioSelectItemTemplate;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -157,7 +158,7 @@ public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 								.string2boolean(ComponentUtil
 										.getAttribute(
 												element,
-												JsfRadioSelectItemTemplate.ITEM_DISABLED)))
+												AbstractRadioSelectItemTemplate.ITEM_DISABLED)))
 					element.setAttribute(HTML.ATTR_DISABLED,
 							ATTR_DISABLED_VALUE);
 
@@ -170,7 +171,7 @@ public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 										.string2boolean(ComponentUtil
 												.getAttribute(
 														element,
-														JsfRadioSelectItemTemplate.ITEM_DISABLED))) ? ComponentUtil
+														AbstractRadioSelectItemTemplate.ITEM_DISABLED))) ? ComponentUtil
 										.getAttribute(sourceElement,
 												ATTR_DISABLED_CLASS)
 										: ComponentUtil.getAttribute(

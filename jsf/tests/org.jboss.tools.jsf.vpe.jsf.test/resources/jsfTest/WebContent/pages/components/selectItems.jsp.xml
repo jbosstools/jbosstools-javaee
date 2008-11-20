@@ -1,15 +1,19 @@
 <tests>
 	<test id="selectItems1">
-		<SPAN>
-			<INPUT TYPE="checkbox" />
+		<SPAN STYLE="-moz-user-modify: read-write;">
+			<INPUT TYPE="checkbox"/>
+			<LABEL>
+				<SPAN>someValue</SPAN>
+			</LABEL>
 		</SPAN>
 	</test>
 	<test id="selectItems2">
 		<OPTION>someValue</OPTION>
 	</test>
 	<test id="selectItems3">
-		<SPAN>
-			<INPUT TYPE="radio" />
-		</SPAN>
+		<DIV>
+			<INPUT TYPE="radio" />			
+			<LABEL>someValue</LABEL>
+		</DIV>
 	</test>
 </tests>

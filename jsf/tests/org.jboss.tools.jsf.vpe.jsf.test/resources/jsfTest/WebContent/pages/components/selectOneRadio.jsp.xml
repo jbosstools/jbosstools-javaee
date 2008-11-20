@@ -3,34 +3,34 @@
 		<TABLE BORDER="1">
 			<TR>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="" SIZE="" />
 						<LABEL> value1</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 			</TR>
 			<TR>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="" SIZE="" />
 						<LABEL> value2</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 			</TR>
 			<TR>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="" SIZE="" />
 						<LABEL> value3</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 			</TR>
 			<TR>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_253" DIR="" SIZE="" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="" SIZE="" />
 						<LABEL> value4</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 			</TR>
 		</TABLE>
@@ -39,28 +39,28 @@
 		<TABLE>
 			<TR>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="ltr" />
 						<LABEL> value1</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="ltr" />
 						<LABEL> value2</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="ltr" />
 						<LABEL> value3</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 				<TD>
-					<TABLE>
-						<INPUT TYPE="radio" NAME="radio_name_506" DIR="ltr" />
+					<DIV>
+						<INPUT TYPE="radio" DIR="ltr" />
 						<LABEL> value4</LABEL>
-					</TABLE>
+					</DIV>
 				</TD>
 			</TR>
 		</TABLE>

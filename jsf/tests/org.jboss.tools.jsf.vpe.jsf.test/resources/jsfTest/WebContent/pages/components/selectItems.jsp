@@ -7,7 +7,7 @@
 <body>
 
 <f:view>
-	<h1><h:outputText value="selecItems" /></h1>
+	<h1><h:outputText value="selectItems" /></h1>
 
 	<h:outputText value="selectitems:" />
 
@@ -20,6 +20,9 @@
 	</h:selectManyListbox>
 
 	<h:selectOneRadio>
+		<f:selectItems value="someValue" id="selectItems3" />
+		<f:selectItems value="someValue" id="selectItems3" />
+		<f:selectItems value="someValue" id="selectItems3" />
 		<f:selectItems value="someValue" id="selectItems3" />
 	</h:selectOneRadio>
 

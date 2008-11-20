@@ -506,19 +506,19 @@
 	<vpe:tag name="f:selectItem" case-sensitive="yes">
 		<vpe:if test="hasinparents('h:selectManyCheckbox')">
 			<vpe:template children="yes" modify="yes"
-				class="org.jboss.tools.jsf.vpe.jsf.template.JsfCheckboxSelectItemTemplate">
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfCheckboxSelectItemTemplate">
 			</vpe:template>
 		</vpe:if>
 		<vpe:if
 			test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
 			<vpe:template children="yes" modify="yes"
-				class="org.jboss.tools.jsf.vpe.jsf.template.JsfOptionSelectItemTemplate">
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfOptionSelectItemTemplate">
 			</vpe:template>
 		</vpe:if>
 		<vpe:if
 			test="hasinparents('h:selectOneRadio')|hasinparents('x:selectOneRadio')">
 			<vpe:template children="yes" modify="yes"
-				class="org.jboss.tools.jsf.vpe.jsf.template.JsfRadioSelectItemTemplate">
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfRadioSelectItemTemplate">
 			</vpe:template>
 		</vpe:if>
 		<vpe:if
@@ -548,9 +548,25 @@
 	</vpe:tag>
 
 	<vpe:tag name="f:selectItems" case-sensitive="yes">
+		<vpe:if test="hasinparents('h:selectManyCheckbox')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfCheckboxSelectItemsTemplate">
+			</vpe:template>
+		</vpe:if>
 		<vpe:if
-			test="hasinparents('h:selectManyCheckbox')|hasinparents('x:selectManyCheckbox')">
-<!-- added x: 8.02.05 --><!-- Gavr -->
+			test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfOptionSelectItemsTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('h:selectOneRadio')|hasinparents('x:selectOneRadio')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfRadioSelectItemsTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
 			<vpe:template children="no" modify="yes">
 				<span title="{tagstring()}">
 					<input type="checkbox" />
@@ -559,30 +575,17 @@
 				<vpe:dnd>
 					<vpe:drag start-enable="yes" />
 				</vpe:dnd>
-			</vpe:template>
-		</vpe:if>
-		<vpe:if test="hasinparents('h:selectOneRadio')">
-			<vpe:template children="no" modify="yes">
-				<span title="{tagstring()}">
-					<input type="radio" />
-					<vpe:value expr="{jsfvalue(@itemLabel)}" />
-				</span>
-				<vpe:dnd>
-					<vpe:drag start-enable="yes" />
-				</vpe:dnd>
+				<vpe:breaker type="selectItem" />
 			</vpe:template>
 		</vpe:if>
 		<vpe:if
-			test="hasinparents('h:selectOneListbox')|
-						hasinparents('h:selectManyListbox')|
-						hasinparents('h:selectOneMenu')|
-						hasinparents('h:selectManyMenu')|
-						hasinparents('x:selectOneMenu')|
-						hasinparents('rich:pickList')">
-<!-- Gavr -->
+			test="hasinparents('t:selectManyMenu')|
+						hasinparents('x:selectOneRadio')|
+						hasinparents('x:selectOneMenu')">
+			<!-- Gavr --><!-- added x: 8.02.05 -->
 			<vpe:template children="no" modify="yes">
 				<option value="{@itemValue}" title="{tagstring()}">
-					<vpe:value expr="{jsfvalue(@value)}" />
+					<vpe:value expr="{jsfvalue(@itemLabel)}" />
 				</option>
 			</vpe:template>
 		</vpe:if>

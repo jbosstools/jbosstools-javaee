@@ -8,9 +8,10 @@
  * Contributor:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.jsf.template;
+package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.vpe.jsf.template.AbstractOutputJsfTemplate;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
@@ -33,19 +34,16 @@ import org.w3c.dom.NodeList;
  * @author dmaliarevich
  * 
  */
-public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* VpeAbstractTemplate */{
+public abstract class AbstractOptionSelectItemTemplate extends AbstractSelectItemTemplate /* VpeAbstractTemplate */{
 
 	/* "escape" attribute of f:selectItem */
+	private String escape = null;
+	private String disabled = null;
+	private String enabledClass = null;
+	private String disabledClass = null;
 
-	private String escape;
-	private String disabled;
-	private String enabledClass;
-	private String disabledClass;
-
-	/**
-	 * 
-	 */
-	public JsfOptionSelectItemTemplate() {
+	protected AbstractOptionSelectItemTemplate(SelectItemType selectItemType) {
+		super(selectItemType);
 	}
 
 	/*
@@ -62,11 +60,10 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 		readParentAttributes(sourceNode.getParentNode());
 		readAttributes(sourceNode);
 		Element element = (Element) sourceNode;
-		boolean disabledItem = ComponentUtil.string2boolean(ComponentUtil
-				.getAttribute(element, JSF.ATTR_ITEM_DISABLED));
+
 		nsIDOMElement option = visualDocument.createElement(HTML.TAG_OPTION);
 
-		if (disabledItem) {
+		if (selectItemType.isDisabledItem(element)) {
 			option.setAttribute(HTML.ATTR_DISABLED, Constants.TRUE);
 		}
 		VpeCreationData creationData = new VpeCreationData(option);
@@ -194,19 +191,5 @@ public class JsfOptionSelectItemTemplate extends AbstractOutputJsfTemplate /* Vp
 		}
 		Element source = (Element) sourceNode;
 		escape = source.getAttribute(JSF.ATTR_ESCAPE);
-	}
-
-	@Override
-	public Attr getOutputAttributeNode(Element element) {
-		Attr outputAttributeNode;
-		
-		if (element.hasAttribute(JSF.ATTR_ITEM_LABEL)) {
-			outputAttributeNode = element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
-		} else if (element.hasAttribute(JSF.ATTR_ITEM_VALUE)) {
-			outputAttributeNode = element.getAttributeNode(JSF.ATTR_ITEM_VALUE);
-		} else {
-			outputAttributeNode = null;
-		}
-		return outputAttributeNode;
 	}
 }
