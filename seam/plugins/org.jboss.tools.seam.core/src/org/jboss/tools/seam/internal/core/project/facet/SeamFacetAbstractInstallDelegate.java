@@ -277,7 +277,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 	}
 
-	protected IVirtualFolder srcRootFolder;
+	protected IVirtualFolder warSrcRootFolder;
 	protected File seamHomeFolder;
 	protected String seamHomePath;
 	protected File seamLibFolder;
@@ -311,7 +311,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		// get WebContents folder path from DWP model 
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-		srcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
+		warSrcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
 		webRootFolder = webRootVirtFolder.getUnderlyingFolder();
 
 		webContentFolder = webRootFolder.getLocation().toFile();
@@ -321,7 +321,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		webInfClassesMetaInf = new File(webInfClasses, "META-INF"); //$NON-NLS-1$
 		webInfClassesMetaInf.mkdirs();
 		webLibFolder = new File(webContentFolder, WEB_LIBRARIES_RELATED_PATH);
-		srcFolder = isWarConfiguration(model) ? new File(srcRootFolder.getUnderlyingFolder().getLocation().toFile(), "model") : srcRootFolder.getUnderlyingFolder().getLocation().toFile(); //$NON-NLS-1$
+		srcFolder = isWarConfiguration(model) ? new File(warSrcRootFolder.getUnderlyingFolder().getLocation().toFile(), "model") : warSrcRootFolder.getUnderlyingFolder().getLocation().toFile(); //$NON-NLS-1$
 		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		if(runtimeName!=null) {
 			copyFilesToWarProject(project, fv, model, monitor);
@@ -394,6 +394,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 
+		final IContainer source = warSrcRootFolder.getUnderlyingFolder();
+
 		// ********************************************************************************************
 		// Handle WAR configurations
 		// ********************************************************************************************
@@ -408,17 +410,15 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			// Copy seam project indicator
 			// ********************************************************************************************
 
-			final IContainer source = srcRootFolder.getUnderlyingFolder();
-
 			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/action"); //$NON-NLS-1$
 			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/model"); //$NON-NLS-1$
 
-			srcRootFolder.delete(IVirtualFolder.FORCE, monitor);
+			warSrcRootFolder.delete(IVirtualFolder.FORCE, monitor);
 			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
 			WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);			
 
-			srcRootFolder.createLink(actionSrcPath, 0, null);
-			srcRootFolder.createLink(modelSrcPath, 0, null);					
+			warSrcRootFolder.createLink(actionSrcPath, 0, null);
+			warSrcRootFolder.createLink(modelSrcPath, 0, null);					
 
 			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/"); //$NON-NLS-1$
 
@@ -454,6 +454,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		} else {
 			// In case of EAR configuration
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "messages_en.properties"), srcFolder, false); //$NON-NLS-1$
+			WtpUtils.createSourceFolder(project, source.getFullPath(), source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
 		}
 	}
 
