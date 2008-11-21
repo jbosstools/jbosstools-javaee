@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.scanner;
 
 import org.eclipse.core.resources.IFile;
+import org.jboss.tools.seam.core.ISeamProject;
 
 public interface IFileScanner {
 
@@ -36,6 +37,6 @@ public interface IFileScanner {
 	 * @return
 	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws ScannerException;
+	public LoadedDeclarations parse(IFile f, ISeamProject sp) throws ScannerException;
 
 }

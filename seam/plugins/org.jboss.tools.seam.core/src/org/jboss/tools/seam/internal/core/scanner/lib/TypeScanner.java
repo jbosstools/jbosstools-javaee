@@ -104,7 +104,7 @@ public class TypeScanner implements SeamAnnotations {
 		return false;
 	}
 	
-	protected String getTypeName(IBinaryAnnotation a) {
+	public static String getTypeName(IBinaryAnnotation a) {
 		if(a.getTypeName() == null) return ""; //$NON-NLS-1$
 		String t = new String(a.getTypeName());
 		if(t.startsWith("L") && t.endsWith(";")) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -280,7 +280,7 @@ public class TypeScanner implements SeamAnnotations {
 		}
 	}
 
-	private String getValue(IBinaryAnnotation a, String method) {
+	public static String getValue(IBinaryAnnotation a, String method) {
 		try {
 			IBinaryElementValuePair[] ps = a.getElementValuePairs();
 			if(ps != null) for (int i = 0; i < ps.length; i++) {

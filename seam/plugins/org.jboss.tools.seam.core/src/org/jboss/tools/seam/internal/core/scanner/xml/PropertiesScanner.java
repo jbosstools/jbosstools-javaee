@@ -22,6 +22,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamPropertiesDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProperty;
@@ -63,7 +64,7 @@ public class PropertiesScanner implements IFileScanner {
 	 * @return
 	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws ScannerException {
+	public LoadedDeclarations parse(IFile f, ISeamProject sp) throws ScannerException {
 		XModel model = InnerModelHelper.createXModel(f.getProject());
 		if(model == null) return null;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);

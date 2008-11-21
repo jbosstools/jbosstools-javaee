@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamFactory;
+import org.jboss.tools.seam.core.ISeamNamespace;
 
 /**
  * This object keeps all declarations loaded from one source.
@@ -25,6 +26,7 @@ public class LoadedDeclarations {
 	List<ISeamComponentDeclaration> components = new ArrayList<ISeamComponentDeclaration>();
 	List<ISeamFactory> factories = new ArrayList<ISeamFactory>();
 	List<String> imports = new ArrayList<String>();
+	List<ISeamNamespace> namespaces = new ArrayList<ISeamNamespace>();
 	
 	public List<ISeamComponentDeclaration> getComponents() {
 		return components;
@@ -37,12 +39,17 @@ public class LoadedDeclarations {
 	public List<String> getImports() {
 		return imports;
 	}
+
+	public List<ISeamNamespace> getNamespaces() {
+		return namespaces;
+	}
 	
 	public void add(LoadedDeclarations ds) {
 		if(ds == null) return;
 		components.addAll(ds.components);
 		factories.addAll(ds.factories);
 		imports.addAll(ds.imports);
+		namespaces.addAll(ds.namespaces);
 	}
 
 }

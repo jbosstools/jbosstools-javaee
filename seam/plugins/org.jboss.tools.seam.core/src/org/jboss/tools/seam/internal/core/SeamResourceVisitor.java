@@ -91,7 +91,7 @@ public class SeamResourceVisitor implements IResourceVisitor {
 					}
 					LoadedDeclarations c = null;
 					try {
-						c = scanner.parse(f);
+						c = scanner.parse(f, p);
 					} catch (ScannerException e) {
 						SeamCorePlugin.getDefault().logError(e);
 					}

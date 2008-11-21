@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -93,6 +94,12 @@ public interface ISeamProject extends ISeamElement {
 	 * @return
 	 */
 	public ISeamPackage getPackage(ISeamComponent c);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Map<String, ISeamNamespace> getNamespaces();
 
 	/**
 	 * Returns seam component. Project can have only one ISeamComponent with

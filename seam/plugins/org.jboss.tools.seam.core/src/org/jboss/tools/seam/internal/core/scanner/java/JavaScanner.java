@@ -30,6 +30,7 @@ import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -81,7 +82,7 @@ public class JavaScanner implements IFileScanner {
 	 * @return
 	 * @throws ScannerException
 	 */
-	public LoadedDeclarations parse(IFile f) throws ScannerException {
+	public LoadedDeclarations parse(IFile f, ISeamProject sp) throws ScannerException {
 		ICompilationUnit u = null;
 		try {
 			u = getCompilationUnit(f);

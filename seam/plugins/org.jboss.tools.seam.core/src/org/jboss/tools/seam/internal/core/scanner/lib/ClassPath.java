@@ -12,9 +12,6 @@ package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -193,7 +190,7 @@ public class ClassPath {
 			LoadedDeclarations c = null;
 			try {
 				if(scanner.isLikelyComponentSource(o)) {
-					c = scanner.parse(o, new Path(p));
+					c = scanner.parse(o, new Path(p), project);
 				}
 			} catch (ScannerException e) {
 				SeamCorePlugin.getDefault().logError(e);
