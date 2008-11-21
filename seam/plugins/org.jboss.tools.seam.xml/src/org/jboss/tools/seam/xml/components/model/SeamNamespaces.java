@@ -19,7 +19,6 @@ import org.jboss.tools.common.meta.XMapping;
 import org.jboss.tools.common.meta.XModelMetaData;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.NamespaceMapping;
-import org.jboss.tools.seam.xml.SeamXMLMessages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -75,7 +74,7 @@ public class SeamNamespaces {
 				String uri = n.getNodeValue();
 				String defaultNamespace = getDefaultNamespace(uri);
 				if(defaultNamespace == null) continue;
-				mapping.addNamespace(defaultNamespace, actualNamespace);
+				mapping.addNamespace(defaultNamespace, actualNamespace, uri);
 			}
 		}
 		return mapping;
@@ -94,7 +93,7 @@ public class SeamNamespaces {
 	}
 	
 	public void validateNamespaces(XModelObject object, Element element) {
-		NamespaceMapping namespaceMapping = NamespaceMapping.load(object.get("namespaceMapping")); //$NON-NLS-1$
+		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
 		if(namespaceMapping == null) namespaceMapping = new NamespaceMapping();
 		StringBuffer loc = new StringBuffer();
 		loc.append(object.getAttributeValue("xsi:schemaLocation")); //$NON-NLS-1$

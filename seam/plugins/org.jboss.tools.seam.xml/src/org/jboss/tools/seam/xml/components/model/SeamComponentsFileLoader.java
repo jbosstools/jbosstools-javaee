@@ -34,7 +34,7 @@ public class SeamComponentsFileLoader extends SimpleWebFileLoader {
 
     protected String loadNamespace(Element element, XModelObject object) {
     	NamespaceMapping namespaceMapping = SeamNamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).getNamespaceMapping(element);
-    	object.set("namespaceMapping", namespaceMapping.toString()); //$NON-NLS-1$
+    	object.set(NamespaceMapping.ATTR_NAMESPACE_MAPPING, namespaceMapping.toString()); //$NON-NLS-1$
     	util.setNamespaceMapping(namespaceMapping);
     	
     	return super.loadNamespace(element, object);
@@ -44,7 +44,7 @@ public class SeamComponentsFileLoader extends SimpleWebFileLoader {
     	String rootName = getRootName(object);
         Element element = createRootElement(rootName, null, null);
         SeamNamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).validateNamespaces(object, element);
-		NamespaceMapping namespaceMapping = NamespaceMapping.load(object.get("namespaceMapping")); //$NON-NLS-1$
+		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
     	util.setNamespaceMapping(namespaceMapping);
         return serializeToElement(element, object);
     }
