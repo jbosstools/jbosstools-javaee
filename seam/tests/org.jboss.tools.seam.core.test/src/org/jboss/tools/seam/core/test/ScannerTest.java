@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.core.test;
 
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -44,13 +43,11 @@ import org.jboss.tools.seam.core.event.ISeamValueMap;
 import org.jboss.tools.seam.core.event.ISeamValueMapEntry;
 import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.jboss.tools.seam.internal.core.SeamProject;
-import org.jboss.tools.seam.internal.core.el.SeamPromptingProvider;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 public class ScannerTest extends TestCase {
 	IProject project = null;
@@ -98,7 +95,7 @@ public class ScannerTest extends TestCase {
 		ISeamFactory[] fs = null;
 		
 		try {
-			LoadedDeclarations ds = scanner.parse(f);
+			LoadedDeclarations ds = scanner.parse(f, seamProject);
 			cs = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 			fs = ds.getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
@@ -195,7 +192,7 @@ public class ScannerTest extends TestCase {
 		ISeamFactory[] fs = null;
 		
 		try {
-			LoadedDeclarations ds = scanner.parse(f);
+			LoadedDeclarations ds = scanner.parse(f, seamProject);
 			cs = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 			fs = ds.getFactories().toArray(new ISeamFactory[0]);
 		} catch (Exception e) {
@@ -285,7 +282,7 @@ public class ScannerTest extends TestCase {
 		ISeamJavaComponentDeclaration[] componentDeclarations = null;
 		
 		try {
-			LoadedDeclarations ds = scanner.parse(f);
+			LoadedDeclarations ds = scanner.parse(f, seamProject);
 			factories = ds.getFactories().toArray(new ISeamFactory[0]);
 			componentDeclarations = ds.getComponents().toArray(new ISeamJavaComponentDeclaration[0]);
 		} catch (Exception e) {
