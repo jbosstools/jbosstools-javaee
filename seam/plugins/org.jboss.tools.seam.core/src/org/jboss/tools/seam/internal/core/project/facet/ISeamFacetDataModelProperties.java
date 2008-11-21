@@ -277,4 +277,13 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 */
 	String JBOSS_AS_TARGET_RUNTIME = "seam.project.deployment.runtime"; //$NON-NLS-1$
 
+	/**
+	 * Default action source folder name;
+	 */
+	String DEFAULT_ACTION_SRC_FOLDER_NAME = "hot"; //$NON-NLS-1$
+
+	/**
+	 * Default model source folder name;
+	 */
+	String DEFAULT_MODEL_SRC_FOLDER_NAME = "main"; //$NON-NLS-1$
 }

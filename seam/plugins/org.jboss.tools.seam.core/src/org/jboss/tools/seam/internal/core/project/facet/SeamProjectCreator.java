@@ -473,8 +473,8 @@ public class SeamProjectCreator {
 			IVirtualFolder rootFolder = component.getRootFolder();
 			IPath srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
 
-			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.append("model").toString());
-			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.append("action").toString());
+			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.append(ISeamFacetDataModelProperties.DEFAULT_MODEL_SRC_FOLDER_NAME).toString());
+			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.append(ISeamFacetDataModelProperties.DEFAULT_ACTION_SRC_FOLDER_NAME).toString());
 		}
 
 		try {

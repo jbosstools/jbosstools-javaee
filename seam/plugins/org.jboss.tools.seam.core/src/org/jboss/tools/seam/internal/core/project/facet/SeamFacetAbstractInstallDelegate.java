@@ -321,7 +321,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		webInfClassesMetaInf = new File(webInfClasses, "META-INF"); //$NON-NLS-1$
 		webInfClassesMetaInf.mkdirs();
 		webLibFolder = new File(webContentFolder, WEB_LIBRARIES_RELATED_PATH);
-		srcFolder = isWarConfiguration(model) ? new File(warSrcRootFolder.getUnderlyingFolder().getLocation().toFile(), "model") : warSrcRootFolder.getUnderlyingFolder().getLocation().toFile(); //$NON-NLS-1$
+		srcFolder = isWarConfiguration(model) ? new File(warSrcRootFolder.getUnderlyingFolder().getLocation().toFile(), DEFAULT_MODEL_SRC_FOLDER_NAME) : warSrcRootFolder.getUnderlyingFolder().getLocation().toFile();
 		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		if(runtimeName!=null) {
 			copyFilesToWarProject(project, fv, model, monitor);
@@ -410,8 +410,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			// Copy seam project indicator
 			// ********************************************************************************************
 
-			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/action"); //$NON-NLS-1$
-			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/model"); //$NON-NLS-1$
+			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/" + DEFAULT_ACTION_SRC_FOLDER_NAME); //$NON-NLS-1$
+			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/" + DEFAULT_MODEL_SRC_FOLDER_NAME); //$NON-NLS-1$
 
 			warSrcRootFolder.delete(IVirtualFolder.FORCE, monitor);
 			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
@@ -420,7 +420,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			warSrcRootFolder.createLink(actionSrcPath, 0, null);
 			warSrcRootFolder.createLink(modelSrcPath, 0, null);					
 
-			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/action/"); //$NON-NLS-1$
+			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/" + DEFAULT_ACTION_SRC_FOLDER_NAME + "/"); //$NON-NLS-1$
 
 			//AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
 
