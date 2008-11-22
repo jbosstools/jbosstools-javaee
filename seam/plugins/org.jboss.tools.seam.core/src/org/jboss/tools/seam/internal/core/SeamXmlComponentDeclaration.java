@@ -215,7 +215,8 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 				className = XMLScanner.getImpliedClassName(c, source);
 				isClassNameGuessed = true;
 			} else {
-				className = XMLScanner.getDefaultClassName(c);
+				// FIXME
+				className = XMLScanner.getDefaultClassName(c, null, null);
 				isClassNameGuessed = true;
 			}
 		}
