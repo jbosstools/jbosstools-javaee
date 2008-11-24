@@ -59,6 +59,7 @@ import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -455,15 +456,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		String p = (String)model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
 		sessionBeanPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
-						+ p
+						+ SeamUtil.getSeamPackageName(p)
 						+ ".session"); //$NON-NLS-1$
 		entityBeanPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
-						+ p
+						+ SeamUtil.getSeamPackageName(p)
 						+ ".entity"); //$NON-NLS-1$
 		testsPkgNameditor
 				.setValue("org.domain." //$NON-NLS-1$
-						+ p
+						+ SeamUtil.getSeamPackageName(p)
 						+ ".test"); //$NON-NLS-1$
 	}
 

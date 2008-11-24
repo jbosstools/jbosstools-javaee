@@ -84,4 +84,33 @@ public class SeamUtil {
 			return null;
 		}
 	}
+	
+	/**
+	 * Converts seam project name to string which suitable for package names
+	 * @param projectNamePackage
+	 * @return
+	 */
+	public static String getSeamPackageName(String projectName){
+		if(projectName == null)
+			return null;
+		
+		String packageName = projectName.toLowerCase();
+		
+		if(packageName.indexOf(" ") >= 0)
+			packageName = packageName.replaceAll(" ", "");
+		
+		if(packageName.indexOf("-") >= 0)
+			packageName = packageName.replaceAll("-", "");
+			
+		if(packageName.indexOf("+") >= 0)
+			packageName = packageName.replaceAll("+", "");
+			
+		if(packageName.indexOf("_") >= 0)
+			packageName = packageName.replaceAll("_", "");
+			
+		while(packageName.indexOf("..") >= 0){
+			packageName = packageName.replace("..", ".");
+		}
+		return packageName;
+	}
 }

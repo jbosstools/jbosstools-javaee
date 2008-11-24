@@ -85,6 +85,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -747,8 +748,11 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS)==null) {
 			model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, warProject?ISeamFacetDataModelProperties.DEPLOY_AS_WAR:ISeamFacetDataModelProperties.DEPLOY_AS_EAR);
 		}
-		Object projectNamePackage = model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
-		IStatus status = JavaConventions.validatePackageName(projectNamePackage.toString(), CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
+		String projectNamePackage = (String)model.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
+		
+		projectNamePackage = SeamUtil.getSeamPackageName(projectNamePackage);
+		
+		IStatus status = JavaConventions.validatePackageName(projectNamePackage, CompilerOptions.VERSION_1_5, CompilerOptions.VERSION_1_5);
 		if(!status.isOK()) {
 			projectNamePackage = "project"; //$NON-NLS-1$
 		}
