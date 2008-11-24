@@ -3355,6 +3355,15 @@
     </Constraint>
     <Editor name="TreeChooser"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="include page params" xmlname="include-page-params">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
