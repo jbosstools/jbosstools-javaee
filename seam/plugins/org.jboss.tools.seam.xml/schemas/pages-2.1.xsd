@@ -397,7 +397,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.render">
-        <xs:attribute name="view-id" type="pages:view-id" />
+        <xs:attribute name="view-id" type="pages:view-id-expression" />
     </xs:attributeGroup>
     
     <xs:element name="redirect">
@@ -414,8 +414,9 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.redirect">
-        <xs:attribute name="view-id" type="pages:view-id" />
-        <xs:attribute name="url" type="pages:url" />
+        <xs:attribute name="view-id" type="pages:view-id-expression" />
+        <xs:attribute name="url" type="pages:url-expression" />
+        <xs:attribute name="include-page-params" type="pages:tf-boolean" />
     </xs:attributeGroup>
     
     <xs:element name="http-error">
@@ -457,9 +458,13 @@
     </xs:element>
 
     <xs:simpleType name="url">
-        <xs:restriction base="xs:token">
+        <xs:restriction base="xs:anyURI">
           <xs:pattern value="http://.*|https://.*"/>
         </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="url-expression">
+        <xs:union memberTypes="pages:url pages:method-expression"></xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="schemes">
@@ -473,6 +478,10 @@
         <xs:restriction base="xs:string">
             <xs:pattern value="(/.*)|\*"/>
         </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="view-id-expression">
+        <xs:union memberTypes="pages:view-id pages:method-expression"></xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="ableness">
