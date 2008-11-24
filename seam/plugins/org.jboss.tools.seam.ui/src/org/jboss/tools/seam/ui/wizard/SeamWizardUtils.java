@@ -131,7 +131,9 @@ public class SeamWizardUtils {
 
 				IResource resource = (IResource) adaptable
 						.getAdapter(IResource.class);
-				return resource.getProject();				
+				if(resource!=null) {
+					project = resource.getProject();
+				}
 			}
 		}
 

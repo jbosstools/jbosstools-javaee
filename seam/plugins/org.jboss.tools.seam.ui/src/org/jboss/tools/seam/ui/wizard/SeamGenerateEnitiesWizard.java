@@ -87,7 +87,12 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 					params.get(IParameter.SEAM_PROJECT_NAME));
 
+			
 			try {
+				
+				ISeamProject seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
+				boolean seam2 = seamProject.getRuntime().getVersion().compareTo(SeamVersion.SEAM_2_0) >= 0;
+				
 				ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 				ILaunchConfigurationType launchConfigurationType = 
 					launchManager.getLaunchConfigurationType("org.hibernate.eclipse.launch.CodeGenerationLaunchConfigurationType"); //$NON-NLS-1$
@@ -115,6 +120,10 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					wc.setAttribute(HibernateLaunchConstants.ATTR_PREFER_BASIC_COMPOSITE_IDS, true);
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_MANY_TO_MANY, true);
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_VERSIONING, true);
+
+					boolean seam21 = seamProject.getRuntime().getVersion().compareTo(SeamVersion.SEAM_2_1) >= 0;
+					// Only Seam 2.1 does not break when generating from one-to-one
+					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_ONE_TO_ONE, seam21);
 				}
 
 				SeamRuntime seamRt = getRuntime(project);
@@ -249,9 +258,6 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(project);
 				final String actionpackage = seamFacetPrefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "");
 				final String actionDir = actionpackage.replace('.','/');
-
-				ISeamProject sprj = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
-				boolean seam2 = sprj.getRuntime().getVersion().equals(SeamVersion.SEAM_2_0);
 
 				hbmtemplateAttributes = new HashMap<String, String>();
 
