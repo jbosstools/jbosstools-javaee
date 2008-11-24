@@ -90,7 +90,9 @@ public class SeamProjectCreator {
 	protected File hibernateConsolePropsFile;
 
 	protected FilterSet jdbcFilterSet;
+	protected FilterSet encodedJdbcFilterSet;
 	protected FilterSet projectFilterSet;
+	protected FilterSet encodedProjectFilterSet;
 	protected FilterSetCollection viewFilterSetCollection;
 	protected FilterSetCollection hibernateDialectFilterSet;
 	protected File dataSourceDsFile;
@@ -144,16 +146,18 @@ public class SeamProjectCreator {
 		ejbMetaInf = new File(ejbProjectFolder, "ejbModule/META-INF"); //$NON-NLS-1$		
 
 		jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
+		encodedJdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model, true);
 		projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		encodedProjectFilterSet = SeamFacetFilterSetFactory.createProjectFilterSet(model, true);
 
 		viewFilterSetCollection = new FilterSetCollection();
 		viewFilterSetCollection.addFilterSet(jdbcFilterSet);
 		viewFilterSetCollection.addFilterSet(projectFilterSet);
 
 		hibernateDialectFilterSet = new FilterSetCollection();
-		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
-		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
-		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+		hibernateDialectFilterSet.addFilterSet(encodedJdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(encodedProjectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model, true));
 
 		try {
 			ejbTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb");

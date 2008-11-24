@@ -391,9 +391,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				seamGenResFolder, webContentFolder, new AntCopyUtils.FileSetFileFilter(webInfSet), viewFilterSetCollection, false);
 
 		final FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
-		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
-		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
-		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+		hibernateDialectFilterSet.addFilterSet(encodedJdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(encodedProjectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model, true));
 
 		final IContainer source = warSrcRootFolder.getUnderlyingFolder();
 
@@ -584,9 +584,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		FilterSet projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
 
 		FilterSetCollection hibernateDialectFilterSet = new FilterSetCollection();
-		hibernateDialectFilterSet.addFilterSet(jdbcFilterSet);
-		hibernateDialectFilterSet.addFilterSet(projectFilterSet);
-		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
+		hibernateDialectFilterSet.addFilterSet(encodedJdbcFilterSet);
+		hibernateDialectFilterSet.addFilterSet(encodedProjectFilterSet);
+		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model, true));
 
 		IResource src = getSrcFolder(project);
 		if(src!=null) {
@@ -644,7 +644,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	protected FilterSet ejbFilterSet;
 	protected FilterSetCollection viewFilterSetCollection;
 	protected FilterSet jdbcFilterSet;
+	protected FilterSet encodedJdbcFilterSet;
 	protected FilterSet projectFilterSet;
+	protected FilterSet encodedProjectFilterSet;
 	protected FilterSet filtersFilterSet;
 
 	/**
@@ -677,7 +679,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 
 		jdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model);
-		projectFilterSet =  SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		encodedJdbcFilterSet = SeamFacetFilterSetFactory.createJdbcFilterSet(model, true);
+		projectFilterSet = SeamFacetFilterSetFactory.createProjectFilterSet(model);
+		encodedProjectFilterSet = SeamFacetFilterSetFactory.createProjectFilterSet(model, true);
 		filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
 
 		// ****************************************************************

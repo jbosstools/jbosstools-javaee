@@ -60,37 +60,60 @@ public class SeamFacetFilterSetFactory {
 		FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home"); //$NON-NLS-1$ //$NON-NLS-2$
 		FILTERS_TEMPLATE.addFilter("query","${query.text}"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		
 		HIBERNATE_DIALECT_TEMPLATE = new FilterSet();
 		HIBERNATE_DIALECT_TEMPLATE.addFilter("hibernate.dialect","${hibernate.dialect}"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
+	public static FilterSet createJdbcFilterSet(IDataModel values, boolean encodeValuesForPropertyFiles) {
+		return applyProperties((FilterSet)JDBC_TEMPLATE.clone(), values, encodeValuesForPropertyFiles);
+	}
+
+	public static FilterSet createProjectFilterSet(IDataModel values, boolean encodeValuesForPropertyFiles){
+		return applyProperties((FilterSet)PROJECT_TEMPLATE.clone(), values, encodeValuesForPropertyFiles);
+	}
+
+	public static FilterSet createFiltersFilterSet(IDataModel values, boolean encodeValuesForPropertyFiles) {
+		return applyProperties((FilterSet)FILTERS_TEMPLATE.clone(), values, encodeValuesForPropertyFiles);
+	}
+
+	public static FilterSet createHibernateDialectFilterSet(IDataModel values, boolean encodeValuesForPropertyFiles) {
+		return applyProperties((FilterSet)HIBERNATE_DIALECT_TEMPLATE.clone(), values, encodeValuesForPropertyFiles);
+	}
+
+	public static FilterSet createFiltersFilterSet(Map values, boolean encodeValuesForPropertyFiles) {
+		return applyProperties((FilterSet)FILTERS_TEMPLATE.clone(), values, false);
+	}
+
 	public static FilterSet createJdbcFilterSet(IDataModel values) {
-		return applyProperties((FilterSet)JDBC_TEMPLATE.clone(), values);
+		return createJdbcFilterSet(values, false);
 	}
+
 	public static FilterSet createProjectFilterSet(IDataModel values){
-		return applyProperties((FilterSet)PROJECT_TEMPLATE.clone(), values);
+		return createProjectFilterSet(values, false);
 	}
-	
+
 	public static FilterSet createFiltersFilterSet(IDataModel values) {
-		return applyProperties((FilterSet)FILTERS_TEMPLATE.clone(), values);
+		return createFiltersFilterSet(values, false);
 	}
-	
+
 	public static FilterSet createHibernateDialectFilterSet(IDataModel values) {
-		return applyProperties((FilterSet)HIBERNATE_DIALECT_TEMPLATE.clone(), values);
+		return createHibernateDialectFilterSet(values, false);
 	}
-	
+
 	public static FilterSet createFiltersFilterSet(Map values) {
-		return applyProperties((FilterSet)FILTERS_TEMPLATE.clone(), values);
+		return createFiltersFilterSet(values, false);
 	}
-	
-	private static FilterSet applyProperties(FilterSet template,IDataModel values) {
+
+	private static FilterSet applyProperties(FilterSet template, IDataModel values, boolean encodeValuesForPropertyFiles) {
 		FilterSet result = new FilterSet();
 		for (Object filter : template.getFilterHash().keySet()) {
 			String value = template.getFilterHash().get(filter).toString();
 			for (Object property : values.getAllProperties()) {
 				if(value.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
 					Object propertyValue = values.getProperty(property.toString());
+					if(encodeValuesForPropertyFiles && propertyValue!=null) {
+						propertyValue = propertyValue.toString().replace("\\", "\\\\");
+					}
 					value = value.replace("${"+property.toString()+"}",propertyValue==null?"":propertyValue.toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			}
@@ -98,14 +121,17 @@ public class SeamFacetFilterSetFactory {
 		}
 		return result;
 	}
-	
-	private static FilterSet applyProperties(FilterSet template,Map values) {
+
+	private static FilterSet applyProperties(FilterSet template, Map values, boolean encodeValuesForPropertyFiles) {
 		FilterSet result = new FilterSet();
 		for (Object filter : template.getFilterHash().keySet()) {
 			String value = template.getFilterHash().get(filter).toString();
 			for (Object property : values.keySet()){
 				if(value.contains("${"+property.toString()+"}")) { //$NON-NLS-1$ //$NON-NLS-2$
 					Object propertyValue = values.get(property.toString());
+					if(encodeValuesForPropertyFiles && propertyValue!=null) {
+						propertyValue = propertyValue.toString().replace("\\", "\\\\");
+					}
 					value = value.replace("${"+property.toString()+"}",propertyValue==null?"":propertyValue.toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			}
