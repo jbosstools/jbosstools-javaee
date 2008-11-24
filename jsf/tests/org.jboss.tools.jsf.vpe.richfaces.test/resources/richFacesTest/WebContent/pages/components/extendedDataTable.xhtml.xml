@@ -1,118 +1,168 @@
 <tests>
 	<test id="extendedDataTable">
-		<DIV STYLE="width: 580px; height: 400px;">
-			<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING="0" CELLPADDING="0"
-				BORDER="0">
-				<COLGROUP>
-					<COL WIDTH="100" />
-					<COL WIDTH="100" />
-					<COL WIDTH="100" />
-					<COL WIDTH="100" />
-				</COLGROUP>
-				<THEAD>
-					<TR CLASS="dr-table-subheader rich-table-subheader">
-						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-							<SPAN>
-								<SPAN> Flag</SPAN>
-							</SPAN>
-						</TH>
-						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-							<SPAN>
-								<SPAN> State Name</SPAN>
-							</SPAN>
-							<IMG STYLE="vertical-align: middle;"
-								SRC="/.*resources/extendedDataTable/sortable.gif/"/>
-						</TH>
-						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-							<SPAN>
-								<SPAN> State Capital</SPAN>
-							</SPAN>
-							<IMG STYLE="vertical-align: middle;"
-								SRC="/.*resources/extendedDataTable/sortable.gif/"/>
-						</TH>
-						<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-							<SPAN>
-								<SPAN> Time Zone</SPAN>
-							</SPAN>
-						</TH>
-						<TH CLASS="dr-table-subheadercell rich-table-subheadercell">
-						</TH>
-					</TR>
-					<TR CLASS="dr-table-subheader rich-table-subheader">
-						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-						</TD>
-						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-							<DIV STYLE="padding: 4px;">
-								<INPUT TYPE="text" CLASS="extendedTable-input" />
-							</DIV>
-						</TD>
-						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-							<DIV STYLE="padding: 4px;">
-								<INPUT TYPE="text" CLASS="extendedTable-input" />
-							</DIV>
-						</TD>
-						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-							SCOP="col">
-						</TD>
-						<TD CLASS="dr-table-subheadercell rich-table-subheadercell">
-						</TD>
-					</TR>
-				</THEAD>
-				<TFOOT>
-					<TR CLASS="dr-table-subfooter rich-table-subfooter">
-						<TD>
-						</TD>
-					</TR>
-				</TFOOT>
-				<TBODY>
-					<TR>
-						<TD VALIGN="top" COLSPAN="4" STYLE="padding: 0px;">
-							<TABLE WIDTH="100%" HEIGHT="100%">
-								<COLGROUP>
-									<COL WIDTH="100" />
-									<COL WIDTH="100" />
-									<COL WIDTH="100" />
-									<COL WIDTH="100" />
-									<COL />
-								</COLGROUP>
-								<TBODY>
-									<TR>
-										<TD SORTABLE="false" CLASS="dr-table-cell rich-table-cell">
-											<IMG
-												SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
-												STYLE="-moz-user-modify: read-write;" />
-										</TD>
-										<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.state}"
-											FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
-											CLASS="dr-table-cell rich-table-cell">
-											<SPAN> #{cap.state}</SPAN>
-										</TD>
-										<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.name}"
-											FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
-											CLASS="dr-table-cell rich-table-cell">
-											<SPAN> #{cap.name}</SPAN>
-										</TD>
-										<TD SORTABLE="false" CLASS="dr-table-cell rich-table-cell">
-											<SPAN> #{cap.timeZone}</SPAN>
-										</TD>
-									</TR>
-								</TBODY>
-							</TABLE>
-						</TD>
-						<TD WIDTH="17" ALIGN="right">
-							<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
-							</DIV>
-						</TD>
-					</TR>
-				</TBODY>
-			</TABLE>
-		</DIV>
+		<TABLE WIDTH="580" HEIGHT="400" CELLSPACING="0" CELLPADDING="0"
+			BORDER="0" STYLE="table-layout: fixed;">
+			<COLGROUP>
+				<COL WIDTH="100" />
+
+				<COL WIDTH="100" />
+
+				<COL WIDTH="100" />
+
+				<COL WIDTH="100" />
+
+			</COLGROUP>
+			<THEAD>
+				<TR CLASS="dr-table-subheader rich-table-subheader">
+					<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<SPAN>
+							<SPAN>Flag</SPAN>
+						</SPAN>
+					</TH>
+					<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<SPAN>
+							<SPAN>State Name</SPAN>
+						</SPAN>
+						<IMG STYLE="vertical-align: middle;"
+							SRC="/.*resources/extendedDataTable/sortable.gif/" />
+
+					</TH>
+					<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<SPAN>
+							<SPAN>State Capital</SPAN>
+						</SPAN>
+						<IMG STYLE="vertical-align: middle;"
+							SRC="/.*resources/extendedDataTable/sortable.gif/" />
+
+					</TH>
+					<TH CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<SPAN>
+							<SPAN>Time Zone</SPAN>
+						</SPAN>
+					</TH>
+					<TH CLASS="dr-table-subheadercell rich-table-subheadercell">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TH>
+				</TR>
+				<TR CLASS="dr-table-subheader rich-table-subheader">
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<DIV STYLE="padding: 4px;">
+							<INPUT TYPE="text" CLASS="extendedTable-input" />
+
+						</DIV>
+					</TD>
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<DIV STYLE="padding: 4px;">
+							<INPUT TYPE="text" CLASS="extendedTable-input" />
+
+						</DIV>
+					</TD>
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOP="col">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+				</TR>
+			</THEAD>
+			<TFOOT>
+				<TR CLASS="dr-table-subfooter rich-table-subfooter">
+					<TD
+						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
+						SCOP="col">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+					<TD
+						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
+						SCOP="col">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+					<TD
+						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
+						SCOP="col">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+					<TD
+						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
+						SCOP="col">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+					<TD
+						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter">
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+				</TR>
+			</TFOOT>
+			<TBODY>
+				<TR HEIGHT="100%">
+					<TD VALIGN="top" COLSPAN="4" STYLE="padding: 0px;">
+						<TABLE WIDTH="100%" STYLE="table-layout: fixed;">
+							<COLGROUP>
+								<COL WIDTH="100" />
+
+								<COL WIDTH="100" />
+
+								<COL WIDTH="100" />
+
+								<COL WIDTH="100" />
+
+								<COL />
+
+							</COLGROUP>
+							<TBODY>
+								<TR CLASS="dr-body-table-tr">
+									<TD SORTABLE="false" CLASS="dr-table-cell rich-table-cell">
+										<IMG
+											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
+											STYLE="-moz-user-modify: read-write;" />
+
+									</TD>
+									<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.state}"
+										FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
+										CLASS="dr-table-cell rich-table-cell"
+										VPEFLASHERCOLORATTRIBUTE="red">
+										<SPAN>#{cap.state}</SPAN>
+									</TD>
+									<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.name}"
+										FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
+										CLASS="dr-table-cell rich-table-cell">
+										<SPAN>#{cap.name}</SPAN>
+									</TD>
+									<TD SORTABLE="false" CLASS="dr-table-cell rich-table-cell">
+										<SPAN>#{cap.timeZone}</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD WIDTH="17" ALIGN="right">
+						<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
+						</DIV>
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
 	</test>
 </tests>
