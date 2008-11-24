@@ -47,6 +47,7 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 
 /**
  * Seam Generate Entities Wizard.
@@ -83,11 +84,9 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 		 */
 		@Override
 		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-			Map<String, String> params = (Map)info.getAdapter(Map.class);	
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-					params.get(IParameter.SEAM_PROJECT_NAME));
+			Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
 
-			
 			try {
 				
 				ISeamProject seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
@@ -104,7 +103,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 				//Main
 				wc.setAttribute(
 					HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
-					params.get(IParameter.HIBERNATE_CONFIGURATION_NAME));
+					params.get(IParameter.HIBERNATE_CONFIGURATION_NAME).getValueAsString());
 
 				SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
 
@@ -328,7 +327,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					//create reveng.xml file
 					IPath revengPath = project.getLocation().append(".settings").append("gen-entities.hibernate.reveng.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 					File location = revengPath.toFile();
-					org.jboss.tools.common.util.FileUtil.writeFile(location, params.get(HibernateLaunchConstants.ATTR_REVENG_TABLES));
+					org.jboss.tools.common.util.FileUtil.writeFile(location, params.get(HibernateLaunchConstants.ATTR_REVENG_TABLES).getValueAsString());
 					wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS, revengPath.toString());
 				}
 				
@@ -347,7 +346,9 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 		 */
 		@Override
 		public List<FileMapping> getFileMappings(Map<String, Object> vars) {
-			throw new UnsupportedOperationException(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_THIS_METHOD_IS_NOT_RELEVANT_IN_GENERATING_SEAM_ENTITIES);
+//			throw new UnsupportedOperationException(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_THIS_METHOD_IS_NOT_RELEVANT_IN_GENERATING_SEAM_ENTITIES);
+			// Return empty list; 
+			return new ArrayList<FileMapping>();
 		}
 	};
 

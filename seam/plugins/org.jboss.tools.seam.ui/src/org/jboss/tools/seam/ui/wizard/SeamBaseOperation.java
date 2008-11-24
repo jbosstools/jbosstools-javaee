@@ -211,21 +211,21 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 
 	public void openResultInEditor(IAdaptable info) {
 		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
-			try {
-				Map<String, Object> vars = loadParameters(info,	seamPrjSet);
-				List<FileMapping> fileMapping = getFileMappings(vars);	
+		try {
+			Map<String, Object> vars = loadParameters(info,	seamPrjSet);
+			List<FileMapping> fileMapping = getFileMappings(vars);
+			if(!fileMapping.isEmpty()) {
 				List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
 				IFile iFile = seamPrjSet.getWarProject().getWorkspace().getRoot().getFileForLocation(new Path(fileMappingCopy.get(0)[1]));
 				IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
-			} catch (CoreException e) {
-
-			} catch (BackingStoreException e) {
-
 			}
-
-
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (BackingStoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
 	}
-	
+
 	protected boolean shouldTouchServer(SeamProjectsSet seamPrjSet) {
 		return !seamPrjSet.isWarConfiguration();
 	}
@@ -244,11 +244,11 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 
 	protected IProject getProject(IAdaptable info) {
 		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);
-		
+
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(
 				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
 	}
-	
+
 	/**
 	 * @param fileMapping
 	 * @param vars

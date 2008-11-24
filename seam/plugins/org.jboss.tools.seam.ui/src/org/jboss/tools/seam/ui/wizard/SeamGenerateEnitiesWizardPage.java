@@ -41,6 +41,7 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 import org.jboss.tools.seam.ui.widget.field.RadioField;
 
 /**
@@ -238,27 +239,64 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 
 	public Object getAdapter(Class adapter) {
 		if(adapter == Map.class) {
-			Map<String,String> values = new HashMap<String, String>();
-			values.put(projectEditor.getName(), projectEditor.getValueAsString());
-			values.put(configEditor.getName(), configEditor.getValueAsString());
+			Map<String, INamedElement> values = new HashMap<String, INamedElement>();
+			values.put(projectEditor.getName(), new NamedElementImpl(projectEditor.getName(), projectEditor.getValueAsString()));
+			values.put(configEditor.getName(), new NamedElementImpl(configEditor.getName(), configEditor.getValueAsString()));
 			String mode = radios.getValue().toString();
-			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, ("reverse".equals(mode) ? "true" : "false")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			String value = "reverse".equals(mode) ? "true" : "false"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, new NamedElementImpl("reverse", value)); //$NON-NLS-1$
 			IWizardPage page2 = getWizard().getPage(SeamGenerateEntitiesTablesWizardPage.pageName);
 			if (page2 instanceof SeamGenerateEntitiesTablesWizardPage){
 				SeamGenerateEntitiesTablesWizardPage page = (SeamGenerateEntitiesTablesWizardPage)page2;
 				String filters = page.getFilters();
-				if (filters.length() > 0) values.put(HibernateLaunchConstants.ATTR_REVENG_TABLES, filters);
+				if (filters.length() > 0) values.put(HibernateLaunchConstants.ATTR_REVENG_TABLES, new NamedElementImpl("filters", filters)); //$NON-NLS-1$
 			}
 			return values;
 		}
 		return null;
 	}
-	
+
+	class NamedElementImpl implements INamedElement {
+
+		private String name;
+		private Object value;
+
+		public NamedElementImpl(String name, Object value) {
+			this.name = name;
+			this.value = value;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public Object getValue() {
+			return value;
+		}
+
+		public String getValueAsString() {
+			return value.toString();
+		}
+
+		public void setValue(Object newValue) {
+			this.value = newValue;
+		}
+
+		public void setValueAsString(String value) {
+			this.value = value;
+		}
+
+		@Override
+		public String toString() {
+			return getValueAsString();
+		}
+	}
+
 	@Override
 	public boolean canFlipToNextPage() {		
 		return "reverse".equals(radios.getValue()) && (getErrorMessage() == null);		//$NON-NLS-1$ 
 	}
-	
+
 	public String getConsoleCongigurationName(){
 		return configEditor.getValueAsString();
 	}
