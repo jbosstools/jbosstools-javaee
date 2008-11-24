@@ -11,10 +11,8 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -76,33 +74,33 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		Element sourceElement = (Element) sourceNode;
 
 		String width = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR);
+				.getAttribute(HTML.ATTR_WIDTH);
 		String height = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR);
+				.getAttribute(HTML.ATTR_HEIGHT);
 
 		// -----------CommonTable
 		nsIDOMElement tableCommon = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+				.createElement(HTML.TAG_TABLE);
 
 		VpeCreationData creationData = new VpeCreationData(tableCommon);
 
 		nsIDOMElement tr1 = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				.createElement(HTML.TAG_TR);
 
 		nsIDOMElement tr2 = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				.createElement(HTML.TAG_TR);
 
 		tableCommon.appendChild(tr1);
 		tableCommon.appendChild(tr2);
 
 		// ---------tr2
 		nsIDOMElement tr2_TD = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				.createElement(HTML.TAG_TD);
 		tr2.appendChild(tr2_TD);
 
 		nsIDOMElement tr2_td_DIV = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		tr2_td_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				.createElement(HTML.TAG_DIV);
+		tr2_td_DIV.setAttribute(HTML.ATTR_STYLE,
 				STYLE_FOR_LOW_SCROLL);
 		tr2_TD.appendChild(tr2_td_DIV);
 
@@ -110,36 +108,36 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		// ---------------------tr1------------------------
 		nsIDOMElement tr1_TD1 = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				.createElement(HTML.TAG_TD);
 		tr1.appendChild(tr1_TD1);
 
 		nsIDOMElement tr1_TD2 = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TD);
+				.createElement(HTML.TAG_TD);
 		tr1.appendChild(tr1_TD2);
 
 		nsIDOMElement tr1_td2_DIV = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-		tr1_td2_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				.createElement(HTML.TAG_DIV);
+		tr1_td2_DIV.setAttribute(HTML.ATTR_STYLE,
 				STYLE_FOR_RIGHT_SCROLL);
 		tr1_TD2.appendChild(tr1_td2_DIV);
 
 		// -------------------------------------------------------
 		nsIDOMElement div = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+				.createElement(HTML.TAG_DIV);
 		tr1_TD1.appendChild(div);
-		div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-table-hidden");
+		div.setAttribute(HTML.ATTR_CLASS, "dr-table-hidden");
 
-		String divStyle = HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
+		String divStyle = HTML.ATTR_WIDTH + " : "
 				+ (width == null ? DEFAULT_WIDTH : width) + ";"
-				+ HtmlComponentUtil.HTML_HEIGHT_ATTR + " : "
+				+ HTML.ATTR_HEIGHT + " : "
 				+ (height == null ? DEFAULT_HEIGHT : height) + ";";
 
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
+		div.setAttribute(HTML.ATTR_STYLE, divStyle);
 
 		nsIDOMElement mainTable = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+				.createElement(HTML.TAG_TABLE);
 		ComponentUtil.copyAttributes(sourceNode, mainTable);
-		mainTable.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
+		mainTable.removeAttribute(HTML.ATTR_HEIGHT);
 
 		nsIDOMElement mainTableWrapper = visualDocument.createElement(TAG_MAIN_TABLE_WRAPPER);
 		mainTableWrapper.appendChild(mainTable);
@@ -149,9 +147,9 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				"scrollableDataTable/scrollableDataTable.css",
 				"richFacesDataTable");
 		String tableClass = sourceElement
-				.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
+				.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 		mainTable
-				.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+				.setAttribute(HTML.ATTR_CLASS,
 						"dr-table rich-table "
 								+ (tableClass == null ? "" : tableClass));
 
@@ -159,8 +157,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		ArrayList<Element> columns = getColumns(sourceElement);
 		int columnsLength = getColumnsCount(sourceElement, columns);
 		nsIDOMElement colgroup = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_COLGROUP);
-		colgroup.setAttribute(HtmlComponentUtil.HTML_TAG_SPAN, String
+				.createElement(HTML.TAG_COLGROUP);
+		colgroup.setAttribute(HTML.TAG_SPAN, String
 				.valueOf(columnsLength));
 		mainTable.appendChild(colgroup);
 
@@ -172,7 +170,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, HEADER);
 		if (header != null || !columnsHeaders.isEmpty()) {
 			nsIDOMElement thead = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_THEAD);
+					.createElement(HTML.TAG_THEAD);
 			mainTable.appendChild(thead);
 			String headerClass = (String) sourceElement
 					.getAttribute(HEADER_CLASS);
@@ -182,22 +180,22 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						"dr-table-header rich-table-header",
 						"dr-table-header-continue rich-table-header-continue",
 						"dr-table-headercell rich-table-headercell",
-						headerClass, HtmlComponentUtil.HTML_TAG_TD);
+						headerClass, HTML.TAG_TD);
 			}
 			if (!columnsHeaders.isEmpty()) {
-				nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				thead.appendChild(tr);
 				String styleClass = encodeStyleClass(null,
 						"dr-table-subheader rich-table-subheader", null,
 						headerClass);
 				if (styleClass != null) {
-					tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+					tr.setAttribute(HTML.ATTR_CLASS,
 							styleClass);
 				}
 				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 						columnsHeaders,
 						"dr-table-subheadercell rich-table-subheadercell",
-						headerClass, HEADER, HtmlComponentUtil.HTML_TAG_TD);
+						headerClass, HEADER, HTML.TAG_TD);
 			}
 		}
 
@@ -206,25 +204,25 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, FOOTER);
 		if (footer != null || !columnsFooters.isEmpty()) {
 			nsIDOMElement tfoot = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TFOOT);
+					.createElement(HTML.TAG_TFOOT);
 			mainTable.appendChild(tfoot);
 			String footerClass = (String) sourceElement
 					.getAttribute(FOOTER_CLASS);
 			if (!columnsFooters.isEmpty()) {
 				nsIDOMElement tr = visualDocument
-						.createElement(HtmlComponentUtil.HTML_TAG_TR);
+						.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
 				String styleClass = encodeStyleClass(null,
 						"dr-table-subfooter rich-table-subfooter", null,
 						footerClass);
 				if (styleClass != null) {
-					tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+					tr.setAttribute(HTML.ATTR_CLASS,
 							styleClass);
 				}
 				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 						columnsFooters,
 						"dr-table-subfootercell rich-table-subfootercell",
-						footerClass, FOOTER, HtmlComponentUtil.HTML_TAG_TD);
+						footerClass, FOOTER, HTML.TAG_TD);
 			}
 			if (footer != null) {
 				encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot,
@@ -232,12 +230,12 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						"dr-table-footer rich-table-footer",
 						"dr-table-footer-continue rich-table-footer-continue",
 						"dr-table-footercell rich-table-footercell",
-						footerClass, HtmlComponentUtil.HTML_TAG_TD);
+						footerClass, HTML.TAG_TD);
 			}
 		}
 
 		nsIDOMElement tbody = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
+				.createElement(HTML.TAG_TBODY);
 		mainTable.appendChild(tbody);
 
 		for (int i = 0; i < NUM_ROW; i++) {
@@ -260,13 +258,13 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement table) {
 		// Encode caption
 		Element captionFromFacet = ComponentUtil.getFacet(sourceElement,
-				HtmlComponentUtil.HTML_TAG_CAPTION);
+				HTML.TAG_CAPTION);
 		if (captionFromFacet != null) {
 			String captionClass = (String) table.getAttribute(CAPTION_CLASS);
 			String captionStyle = (String) table.getAttribute(CAPTION_STYLE);
 
 			nsIDOMElement caption = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_CAPTION);
+					.createElement(HTML.TAG_CAPTION);
 			table.appendChild(caption);
 			if (captionClass != null && captionClass.length() > 0) {
 				captionClass = "dr-table-caption rich-table-caption "
@@ -274,10 +272,10 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			} else {
 				captionClass = "dr-table-caption rich-table-caption";
 			}
-			caption.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+			caption.setAttribute(HTML.ATTR_CLASS,
 					captionClass);
 			if (captionStyle != null && captionStyle.length() > 0) {
-				caption.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
+				caption.setAttribute(HTML.ATTR_STYLE,
 						captionStyle);
 			}
 
@@ -316,12 +314,12 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
 			}
 
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+			td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			td.setAttribute("scop", "col");
 			String colspan = column
-					.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
+					.getAttribute(HTML.ATTR_COLSPAN);
 			if (colspan != null && colspan.length() > 0) {
-				td.setAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN, colspan);
+				td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 			}
 			Element facetBody = ComponentUtil.getFacet(column, facetName);
 
@@ -360,16 +358,16 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument
-					.createElement(HtmlComponentUtil.HTML_TAG_TR);
+					.createElement(HTML.TAG_TR);
 			parentTheadOrTfood.appendChild(tr);
 
 			String styleClass = encodeStyleClass(null, skinFirstRowClass,
 					facetBodyClass, null);
 			if (styleClass != null) {
-				tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
 			String style = ComponentUtil.getHeaderBackgoundImgStyle();
-			tr.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+			tr.setAttribute(HTML.ATTR_STYLE, style);
 
 			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);
@@ -377,14 +375,14 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass,
 					null);
 			if (styleClass != null) {
-				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+				td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
 
 			// the cell spans the entire row
 			td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
 			
-			td.setAttribute(HtmlComponentUtil.HTML_SCOPE_ATTR,
-					HtmlComponentUtil.HTML_TAG_COLGROUP);
+			td.setAttribute(HTML.ATTR_SCOPE,
+					HTML.TAG_COLGROUP);
 
 			VpeChildrenInfo child = new VpeChildrenInfo(td);
 			child.addSourceChild(facetBody);
@@ -513,7 +511,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						currentLength = 0;
 					}
 					String colspanStr = column
-							.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
+							.getAttribute(HTML.ATTR_COLSPAN);
 					try {
 						int colspan = Integer.parseInt(colspanStr);
 						currentLength += colspan > 0 ? colspan : 1;
@@ -606,25 +604,25 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	// nsIDOMNode visualNode, Object data, String name) {
 	// nsIDOMElement visualElement = (nsIDOMElement) visualNode
 	// .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	// if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_WIDTH_ATTR)) {
+	// if (name.equalsIgnoreCase(HTML.ATTR_WIDTH)) {
 	// String style = visualElement
 	// .getAttribute(HtmlComponentUtil.HTML_S				// Append colspan of this column
-	// visualElement.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// style += "; " + HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
+	// visualElement.removeAttribute(HTML.ATTR_STYLE);
+	// style += "; " + HTML.ATTR_WIDTH + " : "
 	// + DEFAULT_WIDTH + ";";
 	// visualElement
-	// .setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+	// .setAttribute(HTML.ATTR_STYLE, style);
 	//
 	// } else
 	//
-	// if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_HEIGHT_ATTR)) {
+	// if (name.equalsIgnoreCase(HTML.ATTR_HEIGHT)) {
 	// String style = visualElement
-	// .getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// visualElement.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// style += "; " + HtmlComponentUtil.HTML_HEIGHT_ATTR + " : "
+	// .getAttribute(HTML.ATTR_STYLE);
+	// visualElement.removeAttribute(HTML.ATTR_STYLE);
+	// style += "; " + HTML.ATTR_HEIGHT + " : "
 	// + DEFAULT_HEIGHT + ";";
 	// visualElement
-	// .setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+	// .setAttribute(HTML.ATTR_STYLE, style);
 	//
 	// } else {
 	// visualElement.removeAttribute(name);
@@ -638,25 +636,25 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 	// String name, String value) {
 	// nsIDOMElement visualElement = (nsIDOMElement) visualNode
 	// .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	// if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_WIDTH_ATTR)) {
+	// if (name.equalsIgnoreCase(HTML.ATTR_WIDTH)) {
 	// String style = visualElement
-	// .getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// visualElement.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// style += "; " + HtmlComponentUtil.HTML_WIDTH_ATTR + " : " + value
+	// .getAttribute(HTML.ATTR_STYLE);
+	// visualElement.removeAttribute(HTML.ATTR_STYLE);
+	// style += "; " + HTML.ATTR_WIDTH + " : " + value
 	// + ";";
 	// visualElement
-	// .setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+	// .setAttribute(HTML.ATTR_STYLE, style);
 	//
 	// }
 	//
-	// if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_HEIGHT_ATTR)) {
+	// if (name.equalsIgnoreCase(HTML.ATTR_HEIGHT)) {
 	// String style = visualElement
-	// .getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// visualElement.removeAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	// style += "; " + HtmlComponentUtil.HTML_HEIGHT_ATTR + " : " + value
+	// .getAttribute(HTML.ATTR_STYLE);
+	// visualElement.removeAttribute(HTML.ATTR_STYLE);
+	// style += "; " + HTML.ATTR_HEIGHT + " : " + value
 	// + ";";
 	// visualElement
-	// .setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
+	// .setAttribute(HTML.ATTR_STYLE, style);
 	//
 	// }
 	// visualElement.setAttribute(name, value);
