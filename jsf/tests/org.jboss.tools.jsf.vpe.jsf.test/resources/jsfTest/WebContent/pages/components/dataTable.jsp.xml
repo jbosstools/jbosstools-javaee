@@ -1,41 +1,27 @@
 <tests>
 	<test id="dataTable">
-		<TABLE>
+		<TABLE STYLE="-moz-user-modify: read-only;">
 			<TR>
 				<TD>
 					<DIV>
 						<TABLE>
 							<CAPTION>
-								<BR />
+								<BR _MOZ_DIRTY="" TYPE="_moz" />
 							</CAPTION>
-							<THEAD>
-								<TR>
-									<TH>
-										<BR />
-									</TH>
-								</TR>
-							</THEAD>
-							<TFOOT>
-								<TR>
-									<TD>
-										<BR />
-									</TD>
-								</TR>
-							</TFOOT>
 							<TBODY>
 								<TR>
-									<TD>
+									<TD STYLE="border: 0px hidden ; padding: 0px;">
 										<TABLE WIDTH="100%" BORDER="0">
 											<THEAD>
 												<TR>
 													<TH>
 														<DIV>
-															<SPAN> Last Name </SPAN>
+															<SPAN>Last Name</SPAN>
 														</DIV>
 													</TH>
 													<TH>
 														<DIV>
-															<SPAN> First Name </SPAN>
+															<SPAN>First Name</SPAN>
 														</DIV>
 													</TH>
 												</TR>
@@ -44,12 +30,12 @@
 												<TR>
 													<TD>
 														<DIV>
-															<SPAN> footer </SPAN>
+															<SPAN>footer</SPAN>
 														</DIV>
 													</TD>
 													<TD>
 														<DIV>
-															<SPAN> footer </SPAN>
+															<SPAN>footer</SPAN>
 														</DIV>
 													</TD>
 												</TR>
@@ -57,16 +43,16 @@
 											<TBODY>
 												<TR>
 													<TD>
-														<SPAN> Dupont </SPAN>
+														<SPAN>Dupont</SPAN>
 													</TD>
 													<TD>
-														<SPAN> William </SPAN>
+														<SPAN>William</SPAN>
 													</TD>
 												</TR>
 											</TBODY>
 											<COLGROUP>
-												<COL />
-												<COL />
+												<COL STYLE="-moz-user-modify: read-write;"/>
+												<COL STYLE="-moz-user-modify: read-write;"/>
 											</COLGROUP>
 										</TABLE>
 									</TD>
