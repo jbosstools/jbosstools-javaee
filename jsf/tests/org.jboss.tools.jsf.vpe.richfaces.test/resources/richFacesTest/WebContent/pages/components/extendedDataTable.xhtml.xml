@@ -4,13 +4,9 @@
 			BORDER="0" STYLE="table-layout: fixed;">
 			<COLGROUP>
 				<COL WIDTH="100" />
-
 				<COL WIDTH="100" />
-
 				<COL WIDTH="100" />
-
 				<COL WIDTH="100" />
-
 			</COLGROUP>
 			<THEAD>
 				<TR CLASS="dr-table-subheader rich-table-subheader">
@@ -119,15 +115,10 @@
 						<TABLE WIDTH="100%" STYLE="table-layout: fixed;">
 							<COLGROUP>
 								<COL WIDTH="100" />
-
 								<COL WIDTH="100" />
-
 								<COL WIDTH="100" />
-
 								<COL WIDTH="100" />
-
 								<COL />
-
 							</COLGROUP>
 							<TBODY>
 								<TR CLASS="dr-body-table-tr">
@@ -135,12 +126,10 @@
 										<IMG
 											SRC="/.*org.jboss.tools.vpe/ve/unresolved_image.gif/"
 											STYLE="-moz-user-modify: read-write;" />
-
 									</TD>
 									<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.state}"
 										FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
-										CLASS="dr-table-cell rich-table-cell"
-										VPEFLASHERCOLORATTRIBUTE="red">
+										CLASS="dr-table-cell rich-table-cell">
 										<SPAN>#{cap.state}</SPAN>
 									</TD>
 									<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.name}"
