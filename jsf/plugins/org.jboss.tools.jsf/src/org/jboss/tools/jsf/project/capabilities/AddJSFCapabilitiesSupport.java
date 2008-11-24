@@ -85,7 +85,7 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
     	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 	    	monitor.beginTask("" + getTitle(), getTaskCount());
 	    	try {
-	    		XJob.waitForJob();
+	    		XJob.waitForJob(true);
 	    	} catch (InterruptedException e) {
 	    		//ignore 
 	    	}
