@@ -56,6 +56,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -368,7 +369,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultModelPackageName() {
-		return "org.domain." + getSeamProjectName() + ".entity";
+		return "org.domain." + SeamUtil.getSeamPackageName(getSeamProjectName()) + ".entity";
 	}
 
 	private String getActionPackageName() {
@@ -383,7 +384,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultActionPackageName() {
-		return "org.domain." + getSeamProjectName() + ".session";
+		return "org.domain." + SeamUtil.getSeamPackageName(getSeamProjectName()) + ".session";
 	}
 
 	private String getTestPackageName() {
@@ -398,7 +399,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultTestPackageName() {
-		return "org.domain." + getSeamProjectName() + ".test";
+		return "org.domain." + SeamUtil.getSeamPackageName(getSeamProjectName()) + ".test";
 	}
 
 	private String getActionSourceFolder() {
