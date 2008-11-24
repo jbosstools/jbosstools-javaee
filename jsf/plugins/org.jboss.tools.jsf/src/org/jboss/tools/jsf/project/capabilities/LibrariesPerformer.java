@@ -22,6 +22,7 @@ import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.util.FileUtil;
@@ -90,10 +91,35 @@ public class LibrariesPerformer extends PerformerItem {
 			ArrayList<IFile> cfjs = new ArrayList<IFile>();
 			for (int i = 0; i < conflictingLibraryReferences.length; i++) {
 				String name = conflictingLibraryReferences[i].getAttributeValue("name");
-				IFile f = r.getFile(new Path(name));
-				if(f.exists()) cfjs.add(f);
+				collectFiles(r, name, cfjs);
 			}
 			conflictingFiles = cfjs.toArray(new IFile[0]);
+		}
+	}
+
+	private void collectFiles(IContainer r, String name, ArrayList<IFile> cfjs) {
+		int wildcard = name.indexOf('*');
+		if(wildcard < 0) {
+			IFile f = r.getFile(new Path(name));
+			if(f.exists()) cfjs.add(f);
+		} else {
+			IResource[] rs = null;
+			try {
+				rs = r.members();
+			} catch (CoreException e) {
+				ModelPlugin.getPluginLog().logError(e);
+			}
+			if(rs != null) {
+				String prefix = name.substring(0, wildcard);
+				String suffix = name.substring(wildcard);
+				for (int i = 0; i < rs.length; i++) {
+					if(!(rs[i] instanceof IFile)) continue;
+					String n = rs[i].getName();
+					if(prefix.length() > 0 && !n.startsWith(prefix)) continue;
+					if(suffix.length() > 0 && !n.endsWith(suffix)) continue;
+					cfjs.add((IFile)rs[i]);
+				}
+			}
 		}
 	}
 	
