@@ -21,7 +21,6 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
@@ -45,6 +44,7 @@ import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -135,7 +135,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		TypeInfoCollector.MemberInfo member = null;
 		boolean isArray = false;
 		if(var!=null) {
-			member = resolveSeamEL(file, var.getElToken());
+			member = resolveSeamEL(file, var.getElToken(), true);
 			if(member!=null) {
 				if(!member.getType().isArray()) {
 					IType type = member.getMemberType();
@@ -218,9 +218,9 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @throws BadLocationException
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public TypeInfoCollector.MemberInfo resolveSeamEL(IFile file, ELExpression operand) throws BadLocationException, StringIndexOutOfBoundsException {
+	public TypeInfoCollector.MemberInfo resolveSeamEL(IFile file, ELExpression operand, boolean varIsUsed) throws BadLocationException, StringIndexOutOfBoundsException {
 		if(!(operand instanceof ELInvocationExpression)) return null;
-		ELOperandResolveStatus status = resolveELOperand(file, operand, true, false);
+		ELOperandResolveStatus status = resolveELOperand(file, operand, true, varIsUsed);
 		return status.getMemberOfResolvedOperand();
 	}
 
@@ -732,141 +732,20 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			ISeamProject project, IFile file, 
 			ELInvocationExpression expr) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<IJavaElement> res = new ArrayList<IJavaElement>();
-		if (expr == null 
-			|| (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION 
-					&& expr.getMemberName() == null)) {
-			return res;
-		}
+		
+		ElVarSearcher varSearcher = new ElVarSearcher(file, this);
+		List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
 
-		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
-		ScopeType scope = getScope(project, file);
-		ELInvocationExpression left = expr;
-
-		while(left != null) {
-			List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
-			resolvedVars = resolveVariables(scope, left, left == expr, true);
-			if (resolvedVars != null && !resolvedVars.isEmpty()) {
-				resolvedVariables = resolvedVars;
-				break;
-			}
-			left = (ELInvocationExpression)left.getLeft();
-		} 
-
-		if(resolvedVariables.size() == 0) {
-
-			ElVarSearcher varSearcher = new ElVarSearcher(this);
-			List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
-			String oldEl = expr.getText();
-			Var var = varSearcher.findVarForEl(oldEl, vars, true);
-			String suffix = "";
-			String newEl = oldEl;
-			if(var!=null) {
-				TypeInfoCollector.MemberInfo member = resolveSeamEL(file, var.getElToken());
-				if(member!=null && !member.getType().isArray()) {
-					IType type = member.getMemberType();
-					if(type!=null) {
-						try {
-							if(TypeInfoCollector.isInstanceofType(type, "java.util.Map")) {
-								suffix = collectionAdditionForMapDataModel;
-							} else {
-								suffix = collectionAdditionForCollectionDataModel;
-							}
-						} catch (JavaModelException e) {
-							SeamCorePlugin.getPluginLog().logError(e);
-						}
-					}
-				}
-				if(var.getElToken() != null) {
-					newEl = var.getElToken().getText() + suffix + oldEl.substring(var.getName().length());
-					ELExpression newOperand = parseOperand(newEl);
-					if(newOperand instanceof ELInvocationExpression) {
-						return getJavaElementsForELOperandTokens(project, file, (ELInvocationExpression)newOperand);
-					}
-				}
-			}
-			
-			
-		}
-		int i = 2;
-		// Here we have a list of vars for some part of expression
-		// OK. we'll proceed with members of these vars
-		if (left == expr) {
-			// First segment is the last one
-			for (ISeamContextVariable var : resolvedVariables) {
-				IMember member = SeamExpressionResolver.getMemberByVariable(var, true);
-				if (member instanceof IJavaElement){
-					res.add((IJavaElement)member);
-				}
-			}
-			return res;
-		}
-
-		// First segment is found - proceed with next tokens 
-		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
-		for (ISeamContextVariable var : resolvedVariables) {
-			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, true);
-			if (member != null && !members.contains(member)) 
-				members.add(member);
-		}
-
-		if(left != null) while(left != expr) {
-			left = (ELInvocationExpression)left.getParent();
-			if (left != expr) { // inside expression
-				members = resolveSegment(left, members);
-			} else { // Last segment
-				resolveLastSegment(expr, members, res);
-				break;
+		ELOperandResolveStatus status = resolveELOperand(file, expr, true, vars, varSearcher);
+		if (status.isOK()) {
+			MemberInfo member = status.getMemberOfResolvedOperand();
+			IJavaElement el = member.getJavaElement();
+			if (el != null) {
+				res.add(el);
+				return res;
 			}
 		}
-
 		return res;
-	}
-	
-	private List<TypeInfoCollector.MemberInfo> resolveSegment(ELInvocationExpression expr, 
-			List<TypeInfoCollector.MemberInfo> members) {
-
-		LexicalToken lt = (expr instanceof ELPropertyInvocation) 
-			? ((ELPropertyInvocation)expr).getName()
-			: (expr instanceof ELMethodInvocation) 
-			? ((ELMethodInvocation)expr).getName()
-						: null;
-		String name = lt != null ? lt.getText() : ""; // token.getText();
-		if (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION) {
-			// Find properties for the token
-			List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
-			for (TypeInfoCollector.MemberInfo mbr : members) {
-				TypeInfoCollector infos = mbr.getTypeCollector();
-				List<TypeInfoCollector.MemberInfo> properties = infos.getProperties();
-				for (TypeInfoCollector.MemberInfo property : properties) {
-					StringBuffer propertyName = new StringBuffer(property.getName());
-					if (property instanceof TypeInfoCollector.MethodInfo) { // Setter or getter
-						propertyName.delete(0, 3);
-						propertyName.setCharAt(0, Character.toLowerCase(propertyName.charAt(0)));
-					}
-					if (name.equals(propertyName.toString())) {
-						newMembers.add(property);
-					}
-				}
-			}
-			members = newMembers;
-		}
-		if (expr.getType() == ELObjectType.EL_METHOD_INVOCATION) {
-			// Find methods for the token
-			List<TypeInfoCollector.MemberInfo> newMembers = new ArrayList<TypeInfoCollector.MemberInfo>();
-			for (TypeInfoCollector.MemberInfo mbr : members) {
-				TypeInfoCollector infos = mbr.getTypeCollector();
-				List<TypeInfoCollector.MemberInfo> methods = infos.getMethods();
-				for (TypeInfoCollector.MemberInfo method : methods) {
-					if (method instanceof TypeInfoCollector.MethodInfo 
-							&& name.equals(method.getName())) {
-						newMembers.add(method);
-					}
-				}
-			}
-			members = newMembers;
-		}
-
-		return members;
 	}
 			
 
