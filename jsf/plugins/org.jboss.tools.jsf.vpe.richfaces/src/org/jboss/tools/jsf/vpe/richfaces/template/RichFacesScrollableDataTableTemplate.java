@@ -21,6 +21,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -73,70 +74,38 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		Element sourceElement = (Element) sourceNode;
 
-		String width = sourceElement
-				.getAttribute(HTML.ATTR_WIDTH);
-		String height = sourceElement
-				.getAttribute(HTML.ATTR_HEIGHT);
+		String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);		
+		if (width == null) {
+			width = DEFAULT_WIDTH;
+		} else {
+			width = VpeStyleUtil.addPxIfNecessary(width);
+		}
 
-		// -----------CommonTable
-		nsIDOMElement tableCommon = visualDocument
-				.createElement(HTML.TAG_TABLE);
-
-		VpeCreationData creationData = new VpeCreationData(tableCommon);
-
-		nsIDOMElement tr1 = visualDocument
-				.createElement(HTML.TAG_TR);
-
-		nsIDOMElement tr2 = visualDocument
-				.createElement(HTML.TAG_TR);
-
-		tableCommon.appendChild(tr1);
-		tableCommon.appendChild(tr2);
-
-		// ---------tr2
-		nsIDOMElement tr2_TD = visualDocument
-				.createElement(HTML.TAG_TD);
-		tr2.appendChild(tr2_TD);
-
-		nsIDOMElement tr2_td_DIV = visualDocument
-				.createElement(HTML.TAG_DIV);
-		tr2_td_DIV.setAttribute(HTML.ATTR_STYLE,
-				STYLE_FOR_LOW_SCROLL);
-		tr2_TD.appendChild(tr2_td_DIV);
-
-		// --------------------------------------------
-
-		// ---------------------tr1------------------------
-		nsIDOMElement tr1_TD1 = visualDocument
-				.createElement(HTML.TAG_TD);
-		tr1.appendChild(tr1_TD1);
-
-		nsIDOMElement tr1_TD2 = visualDocument
-				.createElement(HTML.TAG_TD);
-		tr1.appendChild(tr1_TD2);
-
-		nsIDOMElement tr1_td2_DIV = visualDocument
-				.createElement(HTML.TAG_DIV);
-		tr1_td2_DIV.setAttribute(HTML.ATTR_STYLE,
-				STYLE_FOR_RIGHT_SCROLL);
-		tr1_TD2.appendChild(tr1_td2_DIV);
-
-		// -------------------------------------------------------
+		String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
+		if (height == null) {
+			height = DEFAULT_HEIGHT;
+		} else {
+			height = VpeStyleUtil.addPxIfNecessary(height);
+		}
+		
+			
 		nsIDOMElement div = visualDocument
 				.createElement(HTML.TAG_DIV);
-		tr1_TD1.appendChild(div);
+
 		div.setAttribute(HTML.ATTR_CLASS, "dr-table-hidden");
 
 		String divStyle = HTML.ATTR_WIDTH + " : "
-				+ (width == null ? DEFAULT_WIDTH : width) + ";"
+				+ width + ";"
 				+ HTML.ATTR_HEIGHT + " : "
-				+ (height == null ? DEFAULT_HEIGHT : height) + ";";
+				+ height + 
+";overflow:auto;";
+VpeCreationData creationData = new VpeCreationData(div);
 
 		div.setAttribute(HTML.ATTR_STYLE, divStyle);
 
 		nsIDOMElement mainTable = visualDocument
 				.createElement(HTML.TAG_TABLE);
-		ComponentUtil.copyAttributes(sourceNode, mainTable);
+
 		mainTable.removeAttribute(HTML.ATTR_HEIGHT);
 
 		nsIDOMElement mainTableWrapper = visualDocument.createElement(TAG_MAIN_TABLE_WRAPPER);
@@ -177,16 +146,14 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			if (header != null) {
 				encodeTableHeaderOrFooterFacet(pageContext, creationData, thead,
 						columnsLength, visualDocument, header,
-						"dr-table-header rich-table-header",
-						"dr-table-header-continue rich-table-header-continue",
-						"dr-table-headercell rich-table-headercell",
+						"", "", "",//JBIDE-3204 #2:No one style or styleClass should be applyed for the footer and header of scrollableDataTable as default
 						headerClass, HTML.TAG_TD);
 			}
 			if (!columnsHeaders.isEmpty()) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				thead.appendChild(tr);
 				String styleClass = encodeStyleClass(null,
-						"dr-table-subheader rich-table-subheader", null,
+						"dr-table-subheader dr-sdt-hr", null,
 						headerClass);
 				if (styleClass != null) {
 					tr.setAttribute(HTML.ATTR_CLASS,
@@ -227,9 +194,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			if (footer != null) {
 				encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot,
 						columnsLength, visualDocument, footer,
-						"dr-table-footer rich-table-footer",
-						"dr-table-footer-continue rich-table-footer-continue",
-						"dr-table-footercell rich-table-footercell",
+						"",	"",	"",//JBIDE-3204 #2:No one style or styleClass should be applyed for the footer and header of scrollableDataTable as default
 						footerClass, HTML.TAG_TD);
 			}
 		}
@@ -237,6 +202,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement tbody = visualDocument
 				.createElement(HTML.TAG_TBODY);
 		mainTable.appendChild(tbody);
+ComponentUtil.copyAttributes(sourceNode, tbody);
 
 		for (int i = 0; i < NUM_ROW; i++) {
 			new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
@@ -366,8 +332,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			if (styleClass != null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
-			String style = ComponentUtil.getHeaderBackgoundImgStyle();
-			tr.setAttribute(HTML.ATTR_STYLE, style);
+//			String style = ComponentUtil.getHeaderBackgoundImgStyle();
+//			tr.setAttribute(HTML.ATTR_STYLE, style);
 
 			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);

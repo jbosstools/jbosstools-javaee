@@ -78,7 +78,7 @@
 	border-bottom: 1px solid;
 	border-color: #C4C0B9;
 	padding: 4px 4px 4px 4px;
-	text-align: left;
+	text-align: center;
 	font-size: 11px;
 	color: #000000;
 	font-family: Arial, Verdana, sans-serif;
@@ -114,4 +114,8 @@
 .dr-table-hidden {
 	overflow: hidden;
 	border: solid 1px #C4C0C9;
+}
+
+.dr-sdt-hr {
+	background-color:#BED6F8;
 }
