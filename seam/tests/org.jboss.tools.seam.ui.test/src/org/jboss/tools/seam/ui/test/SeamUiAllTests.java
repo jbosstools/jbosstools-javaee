@@ -22,6 +22,7 @@ import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
+import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam12EARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam12WARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam20EARNewOperationTest;
@@ -54,6 +55,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(Seam12WARNewOperationTest.class);
 		suite.addTestSuite(Seam20EARNewOperationTest.class);
 		suite.addTestSuite(Seam20WARNewOperationTest.class);
+		suite.addTestSuite(PackageNamesTest.class);
 
 		return suite;
 	}

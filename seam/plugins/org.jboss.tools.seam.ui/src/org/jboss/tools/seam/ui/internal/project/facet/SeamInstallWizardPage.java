@@ -708,4 +708,26 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	public void finishPressed() {
 		model.removeListener(validatorDelegate);
 	};
+	
+	
+	/*
+	 * test method
+	 */
+	public String getSessionBeanPkgName(){
+		return (String)sessionBeanPkgNameditor.getValue();
+	}
+	
+	/*
+	 * test method
+	 */
+	public String getEntityBeanPkgName(){
+		return (String)entityBeanPkgNameditor.getValue();
+	}
+	
+	/*
+	 * test method
+	 */
+	public String getTestsPkgName(){
+		return (String)testsPkgNameditor.getValue();
+	}
 }
