@@ -400,7 +400,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
         Dialog.applyDialogFont(parent);
         initDefaultWizardProperties();
-		((IDataModel)model.getProperty(FacetInstallDataModelProvider.MASTER_PROJECT_DM)).addListener(this);
+        Object parentDm = model.getProperty(FacetInstallDataModelProvider.MASTER_PROJECT_DM);
+        if(parentDm!=null) {
+        	((IDataModel)parentDm).addListener(this);
+        }
 	}
 
 	private boolean isNewSeamProjectWizard() {
