@@ -97,9 +97,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		String divStyle = HTML.ATTR_WIDTH + " : "
 				+ width + ";"
 				+ HTML.ATTR_HEIGHT + " : "
-				+ height + 
-";overflow:auto;";
-VpeCreationData creationData = new VpeCreationData(div);
+				+ height + ";overflow:auto;"; //$NON-NLS-1$
+		VpeCreationData creationData = new VpeCreationData(div);
 
 		div.setAttribute(HTML.ATTR_STYLE, divStyle);
 
@@ -202,7 +201,7 @@ VpeCreationData creationData = new VpeCreationData(div);
 		nsIDOMElement tbody = visualDocument
 				.createElement(HTML.TAG_TBODY);
 		mainTable.appendChild(tbody);
-ComponentUtil.copyAttributes(sourceNode, tbody);
+		ComponentUtil.copyAttributes(sourceNode, tbody);
 
 		for (int i = 0; i < NUM_ROW; i++) {
 			new RichFacesDataTableChildrenEncoder(creationData, visualDocument,
@@ -332,8 +331,6 @@ ComponentUtil.copyAttributes(sourceNode, tbody);
 			if (styleClass != null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
-//			String style = ComponentUtil.getHeaderBackgoundImgStyle();
-//			tr.setAttribute(HTML.ATTR_STYLE, style);
 
 			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);
