@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -50,6 +51,7 @@ import org.jboss.tools.common.el.core.parser.SyntaxError;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -77,6 +79,8 @@ public class SeamELValidator extends SeamValidator {
 	private SeamELCompletionEngine engine;
 	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
 	private ElVarSearcher elVarSearcher;
+	private IProject currentProject;
+	private IResource[] currentSources;
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
@@ -135,23 +139,45 @@ public class SeamELValidator extends SeamValidator {
 		return OK_STATUS;
 	}
 
+	private static final String JAVA_EXT = "java"; //$NON-NLS-1$
+
+	private boolean shouldFileBeValidated(IFile file) {
+		if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
+			// The resource is out of sync with the file system
+			// Just ignore this resource.
+			return false;
+		}
+		if(!JAVA_EXT.equalsIgnoreCase(file.getFileExtension())) {
+			return true;
+		}
+		IProject project = file.getProject();
+		if(!project.equals(currentProject)) {
+			currentProject = project;
+			currentSources = EclipseResourceUtil.getJavaSourceRoots(project);
+		}
+		for (int i = 0; i < currentSources.length; i++) {
+			if(currentSources[i].getLocation().isPrefixOf(file.getLocation())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void validateFile(IFile file) {
+		if(!shouldFileBeValidated(file)) {
+			return;
+		}
 		displaySubtask(VALIDATING_EL_FILE_MESSAGE_ID, new String[]{projectName, file.getName()});
 		elVarSearcher.setFile(file);
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
-			if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
-				// The resource is out of sync with the file system
-				// Just ignore this resource.
-				return;
-			}
 			content = FileUtil.readStream(file.getContents());
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 			return;
 		}
-		if(ext.equalsIgnoreCase("java")) { //$NON-NLS-1$
+		if(ext.equalsIgnoreCase(JAVA_EXT)) {
 			validateJava(file, content);
 		} else {
 			validateDom(file, content);

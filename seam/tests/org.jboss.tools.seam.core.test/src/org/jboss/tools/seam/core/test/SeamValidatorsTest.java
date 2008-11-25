@@ -16,7 +16,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
@@ -32,7 +31,6 @@ import org.jboss.tools.seam.internal.core.validation.ISeamValidator;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class SeamValidatorsTest extends AbstractResourceMarkerTest {
@@ -61,7 +59,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		JobUtils.waitForIdle();
 	}
 
-
 	private ISeamProject getSeamProject(IProject project) {
 		refreshProject(project);
 		
@@ -73,6 +70,16 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
+	}
+
+	/**
+	 * Test for https://jira.jboss.org/jira/browse/JBIDE-784
+	 * @throws CoreException 
+	 */
+	public void testJavaFileOutsideClassPath() throws CoreException {
+		IFile file = project.getFile("WebContent/Authenticator.java");
+		String[] messages = getMarkersMessage(file);
+		assertTrue("Problem marker was found in WebContent/Authenticator.java file. Seam EL validator should not validate it.", messages.length == 0);
 	}
 
 	/**
