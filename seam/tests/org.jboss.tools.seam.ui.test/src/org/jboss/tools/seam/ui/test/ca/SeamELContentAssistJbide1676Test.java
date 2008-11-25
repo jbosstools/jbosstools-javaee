@@ -37,6 +37,8 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 	private static final String EL_START_TEMPLATE = "#{";
 
 	private static final String[] VALID_SEAM_EL_PROPOSALS = new String[] {
+			"TestSeamELContentAssistEntityManagerFactory",
+			"fullPostList",
 			"actor",
 			"applicationContext",
 			"authenticator",

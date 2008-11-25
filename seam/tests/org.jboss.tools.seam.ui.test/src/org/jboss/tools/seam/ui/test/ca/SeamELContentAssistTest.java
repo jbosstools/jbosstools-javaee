@@ -58,7 +58,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	 */
 	public void testFrameworkComponents() {
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
-		checkProposals("/WebContent/frameworkComponents.xhtml", 684, new String[]{"fullPostList.resultList", "fullPostList.next"}, false);
+		checkProposals("/WebContent/frameworkComponents.xhtml", 698, new String[]{"fullPostList.resultList", "fullPostList.next"}, false);
 	}
 
 	/**
@@ -99,6 +99,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 
 	private static final String[] VALID_SEAM_EL_PROPOSALS = new String[] {
 			"TestSeamELContentAssistEntityManagerFactory",
+			"fullPostList",
 			"actor",
 			"applicationContext",
 			"authenticator",
@@ -528,7 +529,7 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 							if (filter.indexOf("#") == -1) {
 								filteredValidProposals = renewWithPrefixAndPostfix(filteredValidProposals, "#{", "}");
 							} else if (filter.indexOf("#{") == -1) {
-								filteredValidProposals = renewWithPrefixAndPostfix(filteredValidProposals, "{", "}");
+								filteredValidProposals = renewWithPrefixAndPostfix(filteredValidProposals, "{", /*"}"*/"");
 							}
 
 							
