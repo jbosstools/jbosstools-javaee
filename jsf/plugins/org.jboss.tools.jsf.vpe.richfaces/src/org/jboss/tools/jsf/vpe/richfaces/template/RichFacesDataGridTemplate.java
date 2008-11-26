@@ -21,6 +21,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -40,7 +41,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		initStyleClasses(sourceElement);
 
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		ComponentUtil.copyAttributes(sourceNode, table);
+		VisualDomUtil.copyAttributes(sourceNode, table);
 
 		VpeCreationData creationData = new VpeCreationData(table);
 

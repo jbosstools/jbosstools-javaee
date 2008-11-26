@@ -24,6 +24,7 @@ import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilder;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilderException;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionException;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.editor.util.VpeClassUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -63,7 +64,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		if (parentVisualNode == null) {
 			parentVisualNode = curTr;
 		}
-		ComponentUtil.copyAttributes(sourceElement, curTr);
+		VisualDomUtil.copyAttributes(sourceElement, curTr);
 
 		boolean header = false;
 		boolean footer = false;
@@ -104,7 +105,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 					curRow++;
 					curColumn = 0;
 					curTr = visualDocument.createElement(HTML.TAG_TR);
-					ComponentUtil.copyAttributes(sourceElement, curTr);
+					VisualDomUtil.copyAttributes(sourceElement, curTr);
 
 					if (header) {
 						curTr.setAttribute(HTML.ATTR_CLASS, getHeaderContinueClass());

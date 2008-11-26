@@ -16,6 +16,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -36,7 +37,7 @@ public class RichFacesDataListTemplate extends VpeAbstractTemplate {
 		nsIDOMElement unorderedList = visualDocument.createElement("ul");
 
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME, "richFacesDataList");
-		ComponentUtil.copyAttributes(sourceNode, unorderedList);
+		VisualDomUtil.copyAttributes(sourceNode, unorderedList);
 
 		ComponentUtil.correctAttribute(sourceElement, unorderedList,
 				HtmlComponentUtil.HTML_STYLECLASS_ATTR,

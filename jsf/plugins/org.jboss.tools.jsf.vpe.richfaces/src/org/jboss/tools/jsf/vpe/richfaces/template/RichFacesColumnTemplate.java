@@ -47,7 +47,7 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 		}
 
 		String columnClass = getColumnClass(sourceElement);
-		ComponentUtil.copyAttributes(sourceNode, td);
+		VisualDomUtil.copyAttributes(sourceNode, td);
 		td.setAttribute(HTML.ATTR_CLASS, columnClass);
 		final VpeCreationData creationData = new VpeCreationData(td);
 

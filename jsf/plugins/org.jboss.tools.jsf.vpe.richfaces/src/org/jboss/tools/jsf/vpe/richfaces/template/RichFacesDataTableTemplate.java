@@ -35,7 +35,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		Element sourceElement = (Element)sourceNode;
 
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		ComponentUtil.copyAttributes(sourceNode, table);
+		VisualDomUtil.copyAttributes(sourceNode, table);
 
 		VpeCreationData creationData = new VpeCreationData(table);
 

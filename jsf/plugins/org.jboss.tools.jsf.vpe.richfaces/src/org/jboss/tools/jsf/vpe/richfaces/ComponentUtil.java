@@ -35,7 +35,6 @@ import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -329,57 +328,6 @@ public class ComponentUtil {
      */
     public static List<nsIDOMNode> getChildren(nsIDOMElement visualElement) {
         return getChildren(visualElement, false);
-    }
-
-    /**
-     * Copies all attributes from source node to visual node.
-     * 
-     * @param visualNode      *
-     * param sourceNode the source node
-     * @param sourceNode the source node
-     * @param visualElement the visual element
-     */
-    public static void copyAttributes(Node sourceNode, nsIDOMElement visualElement) {
-        NamedNodeMap namedNodeMap = sourceNode.getAttributes();
-        for (int i = 0; i < namedNodeMap.getLength(); i++) {
-            Node attribute = namedNodeMap.item(i);
-            // added by Max Areshkau fix for JBIDE-1568
-            try {
-
-                visualElement.setAttribute(attribute.getNodeName(), attribute.getNodeValue());
-            } catch (XPCOMException ex) {
-                // if error-code not equals error for incorrect name throws
-                // exception
-                // error code is NS_ERROR_DOM_INVALID_CHARACTER_ERR=0x80530005
-                if (ex.errorcode != 2152923141L) {
-                    throw ex;
-                }
-                // else we ignore this exception
-            }
-        }
-    }
-
-    /**
-     * Copies attributes from source node to visual node.
-     * 
-     * @param sourceElement the source element
-     * @param attributes - list names of attributes which will copy
-     * @param visualNode      *
-     * param sourceNode * @param visualElement the visual element
-     * @param visualElement the visual element
-     */
-    public static void copyAttributes(Element sourceElement, List<String> attributes, nsIDOMElement visualElement) {
-
-        if (attributes == null)
-            return;
-
-        for (String attributeName : attributes) {
-
-            String attributeValue = sourceElement.getAttribute(attributeName);
-            if (attributeValue != null)
-                visualElement.setAttribute(attributeName, attributeValue);
-        }
-
     }
 
     /**

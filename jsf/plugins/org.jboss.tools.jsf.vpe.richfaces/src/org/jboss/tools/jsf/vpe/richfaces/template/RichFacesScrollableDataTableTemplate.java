@@ -201,7 +201,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement tbody = visualDocument
 				.createElement(HTML.TAG_TBODY);
 		mainTable.appendChild(tbody);
-		ComponentUtil.copyAttributes(sourceNode, tbody);
+		VisualDomUtil.copyAttributes(sourceNode, tbody);
 
 		for (int i = 0; i < NUM_ROW; i++) {
 			new RichFacesDataTableChildrenEncoder(creationData, visualDocument,

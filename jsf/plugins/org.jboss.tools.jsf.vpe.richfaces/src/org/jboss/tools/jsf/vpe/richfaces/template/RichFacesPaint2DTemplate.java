@@ -15,6 +15,7 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -96,7 +97,7 @@ public class RichFacesPaint2DTemplate extends VpeAbstractTemplate {
 					.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 							"imgStyleClass");
 		}
-		ComponentUtil.copyAttributes(sourceNode, img);
+		VisualDomUtil.copyAttributes(sourceNode, img);
 		VpeCreationData creationData = new VpeCreationData(img);
 		return creationData;
 	}

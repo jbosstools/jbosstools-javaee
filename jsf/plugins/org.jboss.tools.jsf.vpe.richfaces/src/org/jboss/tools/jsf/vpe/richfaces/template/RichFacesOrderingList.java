@@ -15,6 +15,7 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -541,7 +542,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		contentTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "1");
 		
-		ComponentUtil.copyAttributes(sourceElement, contentTable);
+		VisualDomUtil.copyAttributes(sourceElement, contentTable);
 		contentTable.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
 		contentTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;");
 		
