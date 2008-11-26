@@ -20,7 +20,7 @@
 
         <para>Seam preferences can be set using the Seam preference page. Click on
                     <emphasis><property>Window > Preferences > JBoss Tools > Web >
-            Seam</property>.</emphasis></para>
+                Seam</property>.</emphasis></para>
 
         <para>On this page you can manage the Seam Runtime. Use the appropriate buttons to
                 <property>Add</property> more runtimes or to <property>Remove</property> those that
@@ -37,7 +37,7 @@
 
         <para>Clicking on <property>Edit</property> button you get the form where you can change the
             path of Seam runtime home folder, modify name and version. Press
-            <property>Finish</property> to apply the changes.</para>
+                <property>Finish</property> to apply the changes.</para>
 
         <figure>
             <title>Edit Seam Runtime</title>
@@ -59,7 +59,7 @@
                 problems. For example, if you want to ignore the case when component name is
                 duplicated expand the <property>Components</property> node and select
                     <property>Ignore</property> next to <property>Duplicate component
-                name</property>. After that you won't see the error.</para>
+                    name</property>. After that you won't see the error.</para>
 
 
             <figure>
@@ -95,7 +95,7 @@
                 <title>Note:</title>
                 <para>You can open the same page by right clicking on the needed project in Package
                     Explorer, then <emphasis><property>Properties > Seam
-                    Validator</property>.</emphasis></para>
+                        Validator</property>.</emphasis></para>
             </note>
 
             <figure>
@@ -121,9 +121,6 @@
             that you are not restricted with a specific project structure. You can use the Seam
             wizards (New Action, Form, Entity, etc.) on Maven, command line seam-gen or your own
             project structure. </para>
-        <para>Moreover you are not required to use the Seam New Project wizard to benefit from Seam
-            artifact wizards. You can just enable Seam on your existing project and configure the
-            folders as you want.</para>
 
         <figure>
             <title>Properties for Seam Project</title>
@@ -133,13 +130,33 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
+        
         <tip>
             <title>Tip:</title>
-            <para>The wizard doesn&apos;t allow the renaming of the artifacts listed in the Seam Settings.
-                It&apos;s possible to do in the <property>Package Explorer</property>. See <link
-                    linkend="renaming_projects_folders">Renaming the Projects and
-            Folders</link>.</para>
+            <para>The wizard doesn&apos;t allow the renaming of the artifacts listed in the Seam
+                Settings. It&apos;s possible to do in the <property>Package Explorer</property>.
+                See <link linkend="renaming_projects_folders">Renaming the Projects and
+                    Folders</link>.</para>
+        </tip>
+        
+        <para>Also notice, you are not required to use the <property>New Seam Project wizard</property>
+            to benefit from Seam artifact wizards. You can just enable Seam on your existing project
+            by checking <property>Seam Support</property> and targeting to Seam Runtime, and then
+            configure the folders as you want.</para>
+
+        <figure>
+            <title>Properties for Seam Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/seam_preferences2_2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <tip>
+            <title>Tip:</title>
+            <para>On the figure above fields for configuring Seam artifacts are dimmed because Seam
+                Runtime is not selected.</para>
         </tip>
 
         <para>In Seam Wizards (New Action, Form, Entity, Conversation, Generate Entities) you can
