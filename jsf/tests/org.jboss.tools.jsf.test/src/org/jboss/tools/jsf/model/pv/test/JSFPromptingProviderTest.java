@@ -42,8 +42,8 @@ public class JSFPromptingProviderTest extends TestCase {
 //		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember(TEST_PROJECT_NAME);
 //		if(project==null) {
 		project = ResourcesUtils.importProject(
-				JsfTestPlugin.getDefault().getBundle(), TEST_PROJECT_PATH);
-		assertNotNull(project);
+			JsfTestPlugin.getDefault().getBundle(), TEST_PROJECT_PATH);
+			assertNotNull(project);
 //		}
 		
 		project.build(IncrementalProjectBuilder.FULL_BUILD, null);

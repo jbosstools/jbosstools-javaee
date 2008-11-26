@@ -2,14 +2,19 @@ package org.jboss.tools.jsf.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
+import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.common.model.XModelFactory;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.ui.operation.JSFProjectAdoptOperation;
@@ -44,9 +49,17 @@ public class JSFImportTest extends TestCase {
 		context.setLinkingToProjectOutsideWorkspace(false);
 		
 		
-		JSFProjectAdoptOperation operation = new JSFProjectAdoptOperation(context);
+		final JSFProjectAdoptOperation operation = new JSFProjectAdoptOperation(context);
 		try {
-			operation.run(new NullProgressMonitor());
+			WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+				@Override
+				protected void execute(IProgressMonitor monitor)
+						throws CoreException, InvocationTargetException,
+						InterruptedException {
+					operation.run(monitor);
+				}
+			};
+			op.run(null);
 		} catch (Exception ex) {
 			JUnitUtils.fail("Error in import operation", ex);
 		}
@@ -99,7 +112,7 @@ public class JSFImportTest extends TestCase {
 	}
 
 	private void clean() {
-		if(temp != null && temp.isDirectory()) {
+		if(temp !=null && temp.isDirectory()) {
 			FileUtil.clear(temp);
 			temp.delete();
 			temp = null;
