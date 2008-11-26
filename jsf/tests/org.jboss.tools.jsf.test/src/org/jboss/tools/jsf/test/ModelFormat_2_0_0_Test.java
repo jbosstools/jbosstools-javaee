@@ -38,11 +38,6 @@ public class ModelFormat_2_0_0_Test extends TestCase {
 	public void setUp() throws Exception {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStartOldFormat", false); 
 		project = provider.getProject();
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void testModelExists() {
@@ -93,11 +88,8 @@ public class ModelFormat_2_0_0_Test extends TestCase {
 		}		
 	}
 	
-	
 	protected void tearDown() throws Exception {
-		if(provider != null) {
-			provider.dispose();
-		}
+		provider.dispose();
 	}
 
 }
