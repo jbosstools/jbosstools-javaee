@@ -180,6 +180,9 @@
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetUninstallDelegate">
          </delegate>
       </action>
+      <action facet="jst.seam" type="version-change">
+      <delegate class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetVersionChangeDelegate"/>
+    </action>
       <event-handler
             facet="jst.seam"
             type="POST_INSTALL"
