@@ -625,7 +625,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 						.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON);
 			}
 		}
-
+		buttonIcon = buttonIcon.replace('\\', '/');
+		
 		// buttonClass
 		buttonClass = sourceElement.getAttribute(RichFaces.ATTR_BUTTON_CLASS);
 
