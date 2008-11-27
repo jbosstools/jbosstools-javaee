@@ -28,6 +28,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -187,7 +188,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 					return;
 				}
 			}catch(JavaModelException ex){
-				// do nothing
+				SeamGuiPlugin.getPluginLog().logError(ex);
 			}
 		}
 		setErrorMessage(null);
