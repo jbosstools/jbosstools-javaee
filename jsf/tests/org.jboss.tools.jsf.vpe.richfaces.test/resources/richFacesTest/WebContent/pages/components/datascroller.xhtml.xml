@@ -1,31 +1,33 @@
 <tests>
 	<test id="datascroller">
-		<DIV CLASS="dr-div-heigth" STYLE="width: 400px;">
-			<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0"
-				CLASS="dr-dscr-t dr-tbpnl-cntnt">
+		<DIV ALIGN="center" CLASS="rich-datascr">
+			<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0" ALIGN="center"
+				CLASS="rich-dtascroller-table">
 				<TBODY>
 					<TR>
-						<TD ALIGN="center" CLASS="dr-dscr-button">&lt;&lt;</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-button">&lt;</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-button"><BR />
-					</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-act">1</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">2</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">3</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">4</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">5</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">6</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">7</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">8</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">9</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-inact">10</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-button"><BR />
-					</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-button">&gt;</TD>
-					<TD ALIGN="center" CLASS="dr-dscr-button">&gt;&gt;</TD>
-				</TR>
-			</TBODY>
-		</TABLE>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">&#171;&#171;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">&#171;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
+							<BR _MOZ_DIRTY="" TYPE="_moz"/>
+						</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-act"> 1</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 2</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 3</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 4</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 5</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 6</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 7</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 8</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 9</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 10</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button">
+							<BR _MOZ_DIRTY="" TYPE="_moz"/>
+						</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button">&#187;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button">&#187;&#187;</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
 		</DIV>
 	</test>
 </tests>
