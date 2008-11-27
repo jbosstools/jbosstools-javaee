@@ -423,6 +423,9 @@ public class SeamUIMessages extends NLS {
 
 	public static String VIEW_FOLDER_FILED_EDITOR;
 	
+	public static String POJO_CLASS_ALREADY_EXISTS;
+	public static String ENTITY_CLASS_ALREADY_EXISTS;
+	
 	public static String FIND_DECLARATIONS_ACTION_ACTION_NAME;
 	public static String FIND_DECLARATIONS_ACTION_DESCRIPTION;
 	public static String FIND_DECLARATIONS_ACTION_MESSAGE;

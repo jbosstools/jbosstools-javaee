@@ -24,6 +24,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -32,6 +35,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
@@ -288,7 +292,23 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 			setPageComplete(true);
 			return;
 		}
-
+		
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+		
+		if(javaProject != null){
+			try{
+				IType component = javaProject.findType((String)editorRegistry.get(IParameter.SEAM_PACKAGE_NAME).getValue()+"."+editorRegistry.get(IParameter.SEAM_LOCAL_INTERFACE_NAME).getValue());
+				if(component != null){
+					setErrorMessage(null);
+					setMessage(SeamUIMessages.POJO_CLASS_ALREADY_EXISTS, IMessageProvider.WARNING);
+					setPageComplete(true);
+					return;
+				}
+			}catch(JavaModelException ex){
+				// do nothing
+			}
+		}
+		
 		setErrorMessage(null);
 		setMessage(getDefaultMessageText());
 		setPageComplete(true);
