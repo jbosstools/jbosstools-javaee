@@ -102,8 +102,11 @@ public class JBIDE2505Test extends VpeTest {
         	
 	        nsIDOMNode domNode = vpeController.getXulRunnerEditor().getLastSelectedNode();
 	        assertNotNull(domNode);
+	        
+	        //we process selections only with reasons, but when we select programticly,
+	        //we get exception with selection no reason
 	        vpeController.getVisualSelectionController().getSelection(nsISelectionController.SELECTION_NORMAL).collapse(domNode, i);
-	        vpeController.visualRefresh();
+//	        vpeController.visualRefresh();
 	        
 	        assertEquals("Cursor position doesn't equals",offset+i,styledText.getCaretOffset()); //$NON-NLS-1$
         }
