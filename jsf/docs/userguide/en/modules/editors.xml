@@ -41,8 +41,11 @@
 
             <para><property>OpenOn</property> lets you easily link directly from one resource to
                 another in your project without using the Package Explorer view (project tree). With
-                OpenOn, you can simply click on a reference to another file and the file will be
-                opened.</para>
+                OpenOn, you can simply use <emphasis>
+                    <property>F3</property>
+                </emphasis> or <emphasis>
+                    <property>Ctrl+Click</property>
+                </emphasis> on a reference to another file and the file will be opened.</para>
 
             <para>OpenOn is available for the following files:</para>
             <itemizedlist>
@@ -150,6 +153,31 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
+
+                <para>Richfaces tags <emphasis>
+                        <property>&lt;rich:insert&gt;</property>
+                    </emphasis> and <emphasis>
+                        <property>&lt;a4j:include&gt;</property>
+                    </emphasis> has also <property>OpenOn</property> support.</para>
+
+                <figure>
+                    <title>OpenOn With Richfaces Tag</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_8a.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <figure>
+                    <title>OpenOn With A4j Tag</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_8b.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
             </section>
         </section>
 
@@ -188,7 +216,7 @@
                 <listitem>
                     <para>
                         <ulink url="&esblink;#ESBContentAssist">ESB XML files</ulink>
-                       </para>
+                    </para>
                 </listitem>
             </itemizedlist>
 
@@ -423,7 +451,8 @@
 
             <section id="StrutsProjectFile46s3">
                 <title>Struts Project Files</title>
-                <para>Content Assist features are available when you work with Struts projects.</para>
+                <para>Content Assist features are available when you work with Struts
+                    projects.</para>
 
 
                 <section id="ContentAssistForStrutsConfigurationFile75">
@@ -509,7 +538,8 @@
                 <section id="ContentAssistForHTMLTags7454">
 
                     <title>Content Assist for HTML Tags</title>
-                    <para>Content assist for HTML tags has the same mechanism as for JSF tags:</para>
+                    <para>Content assist for HTML tags has the same mechanism as for JSF
+                        tags:</para>
                     <figure>
                         <title>HTML Tags Content Assist</title>
                         <mediaobject>
@@ -638,7 +668,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>Add bundle resource (property file) <property>code
-                        assist</property>:</para>
+                            assist</property>:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -695,7 +725,7 @@
 
                     <listitem>
                         <para>Restart Eclipse. You should now have code assist for the
-                        component.</para>
+                            component.</para>
                     </listitem>
                 </orderedlist>
 
@@ -709,7 +739,7 @@
                 files in either source or extra visual modes at the same time.</para>
 
             <para>The project is yours and so is the source. <property>JBoss Developer
-                Studio</property> provides you many different graphical editors to speed your
+                    Studio</property> provides you many different graphical editors to speed your
                 application development. At the same time, you always have a full control over all
                 project source files. Any changes you make in the source view immediately appear in
                 the graphical view.</para>
@@ -795,7 +825,8 @@
             </figure>
 
             <para>The view is designed in the form of a split pane with toggle buttons for quickly
-                moving between Source, Visual or Source/Visual modes as shown on the figure above.</para>
+                moving between Source, Visual or Source/Visual modes as shown on the figure
+                above.</para>
 
             <para>One more way to toggle between the various states of the split pane is using the
                 shortcuts <emphasis>
@@ -806,12 +837,12 @@
             <tip>
                 <title>Tip:</title>
                 <para>When editing large documents hiding the Visual part will speed up the
-                editing.</para>
+                    editing.</para>
             </tip>
 
             <para>It should be pointed out that, no matter in what mode you are working, you get a
                 full integration with <property>Properties</property> and <property>Outline
-                views</property>:</para>
+                    views</property>:</para>
             <figure>
                 <title>Integration with Properties and Outline Views</title>
                 <mediaobject>
@@ -822,16 +853,73 @@
             </figure>
 
             <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
-                Palette</link> to insert any tag from the list of tag libraries to the page you are
-                editing with just a click or drag-and-drop.</para>
+                    Palette</link> to insert any tag from the list of tag libraries to the page you
+                are editing with just a click or drag-and-drop.</para>
             <figure>
                 <title>Inserting Tag From the Palette</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4.png" scale="80"/>
+                        <imagedata fileref="images/visual_page/visual_page_4.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
+
+            <para><property>Visual Page Editor</property> provides the option for displaying
+                non-visual tags in Visual mode of the editor. To enable this option expand the
+                submenu in the top left corner of the Visual part and select <emphasis>
+                    <property>Show Non-visual tags</property>.</emphasis></para>
+
+            <figure>
+                <title>Enabling the Option for Showing Non-visual Tags</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_4a.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>On the figure you can see non-visual elements with gray dashed borders.</para>
+
+            <figure>
+                <title>Non-visual Tag in the VPE</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_4b.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <para>To disable this option again expand the same submenu and select <emphasis>
+                    <property>Hide Non-visual tags</property>.</emphasis></para>
+
+            <figure>
+                <title>Non-visual Tag in the VPE</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_4c.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
+            <section id="comments">
+                <title>Commenting out Code</title>
+
+                <para><property>VPE</property> supports possibility to add comments in files you are
+                    working with (JSP, XHTML, etc.):</para>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>HTML comments (<emphasis>
+                            <property>&lt;!-- --&gt;</property></emphasis>) which are output to the client
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>JSP comments (<emphasis>
+                            <property>&lt;%-- --%&gt;</property></emphasis>) which are not output to the
+                            client as part of the JSP page output</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
 
             <section id="JSPsyntaxvalidation84">
 
@@ -846,8 +934,8 @@
 
             <para>Most web pages use the cascading style sheets (CSS) to control the way they look.
                 With <property>Visual Page Editor</property> you can easily stylise your pages. In
-                this section we are going to introduce you to a powerful mechanism that <property>VPE</property> provides for
-                a complete control over pages styling. </para>
+                this section we are going to introduce you to a powerful mechanism that
+                    <property>VPE</property> provides for a complete control over pages styling. </para>
 
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
@@ -937,7 +1025,7 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
+
                 <para>To create new CSS class write its name in the <emphasis>
                         <property>Style class</property>
                     </emphasis> field and then configure style settings switching between the tabs: <emphasis>
@@ -979,8 +1067,8 @@
 
                 <para>The dialog for creating a new CSS class, which is called from <emphasis>
                         <property>New > Other... > JBoss Tools Web > CSS Class</property>,
-                </emphasis> looks the same.</para>
-                
+                    </emphasis> looks the same.</para>
+
                 <figure>
                     <title>New CSS Class Dialog</title>
                     <mediaobject>
@@ -1026,14 +1114,14 @@
             <para><emphasis>
                     <property>Tag for Display</property>
                 </emphasis> field in the <property>Template dialog</property> requires specifying a
-                type of tag. It can be SPAN, DIV, TABLE or any other html element. Here
-                it&apos;s also possible to mark weather the tag is children or not (by checking <emphasis>
+                type of tag. It can be SPAN, DIV, TABLE or any other html element. Check <emphasis>
                     <property>Children</property>
-                </emphasis>), whether it contains an IMG tag (by checking <emphasis>
-                    <property>Icon</property>
-                </emphasis>) and specify a value for it.</para>
+                </emphasis>, if you want to mark a tag as a child element.</para>
 
-            <para>What comes to the <emphasis>
+            <para>The <emphasis>
+                    <property>Value</property>
+                </emphasis> field is for setting a tag value.</para>
+            <para>As for the <emphasis>
                     <property>Style</property>
                 </emphasis> field, you can fill it out manually or make use of the button next to
                 the field to bring the <link linkend="css_dialog">CSS Dialog</link> for editing
@@ -1052,7 +1140,8 @@
                 </mediaobject>
             </figure>
 
-            <para>Here it&apos;s possible to edit or remove any listed in the table template.</para>
+            <para>Here it&apos;s possible to edit or remove any listed in the table
+                template.</para>
 
         </section>
 
@@ -1080,7 +1169,7 @@
                     <para><emphasis>
                             <property>Preferences</property>
                         </emphasis> button provides a quick access to <property>Visual Page
-                        Editor</property> preferences.</para>
+                            Editor</property> preferences.</para>
 
                     <figure>
                         <title>Visual Page Editor Preferences Window</title>
@@ -1116,7 +1205,8 @@
                         runtime. Let&apos;s look at what functionality it proposes.</para>
 
                     <para>The first two sections of the window let you define actual runtime
-                        folders. The example below will help you to clarify how this can be used.</para>
+                        folders. The example below will help you to clarify how this can be
+                        used.</para>
 
                     <para>Suppose you have the following project structure:</para>
 
@@ -1170,10 +1260,10 @@
 ]]></programlisting>
 
                     <para>This will work fine in runtime, but the <property>Visual Page
-                        Editor</property> doesn&apos;t know what
-                        <emphasis>requestContextPath</emphasis> in design time is. In order to see
-                        the necessary styles applied in design time your should add a path to your
-                        stylesheet in the <property>CSS File Path</property> section.</para>
+                            Editor</property> doesn&apos;t know what
+                            <emphasis>requestContextPath</emphasis> in design time is. In order to
+                        see the necessary styles applied in design time your should add a path to
+                        your stylesheet in the <property>CSS File Path</property> section.</para>
 
                     <para>The next <property>URI</property> section lets you add URI taglibs so that
                         the editor knows where to find the tag libraries.</para>
@@ -1196,8 +1286,8 @@
                             view</property>, you&apos;ll also see this expression. Now press <emphasis>
                             <property>Page Design Options</property>
                         </emphasis> button and set the value for the
-                        <emphasis>#{user.name}</emphasis> as
-                        <emphasis><property>World</property>.</emphasis></para>
+                            <emphasis>&quot;user.name&quot;</emphasis> as
+                                <emphasis><property>World</property>.</emphasis></para>
 
                     <figure>
                         <title>Setting the Value for the EL Expression</title>
@@ -1225,7 +1315,7 @@
 
             <para>You can find useful one more functionality provided by VPE. At the bottom of the
                     <property>Visual/Source view</property> there is a <property>Selection Tag
-                Bar</property>. It allows to see tags tree for a current component selected in
+                    Bar</property>. It allows to see tags tree for a current component selected in
                 Visual or Source mode.</para>
 
             <figure>
@@ -1240,7 +1330,7 @@
             <para>If you want to hide the <property>Selection Tag Bar</property>, use the button in
                 the form of a red cross on the lower right side. To reset it again you should check
                 the proper option in the <link linkend="vpe_preferences">VPE
-            Preferences</link>.</para>
+                Preferences</link>.</para>
         </section>
 
         <section id="page_preview">
@@ -1278,7 +1368,7 @@
             <title>Setup notes for Linux</title>
 
             <para>Linux users may need to do the following to get the <property>Visual Page
-                Editor</property> to work correctly on their machines.</para>
+                    Editor</property> to work correctly on their machines.</para>
 
             <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
                 contained in the compat-libstdc++-33.i386 package.</para>
@@ -1471,7 +1561,8 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>Content assist is available when editing the file using the Source viewer:</para>
+                <para>Content assist is available when editing the file using the Source
+                    viewer:</para>
 
                 <figure>
                     <title>Content Assist</title>
@@ -1483,7 +1574,8 @@
                 </figure>
 
                 <para>In the Source viewer, if at any point a tag is incorrect or incomplete, an
-                    error will be indicated next to the line and also in the Problems view below.</para>
+                    error will be indicated next to the line and also in the Problems view
+                    below.</para>
 
                 <figure>
                     <title>Error Reporting</title>
@@ -1524,7 +1616,8 @@
                     </mediaobject>
                 </figure>
 
-                <para>You can add any new elements right in the <property>Tree viewer</property>:</para>
+                <para>You can add any new elements right in the <property>Tree
+                    viewer</property>:</para>
 
                 <figure>
                     <title>Adding New Elements</title>
@@ -1724,7 +1817,8 @@
                 </mediaobject>
             </figure>
 
-            <para>In the Design viewer, you can drill down on an element by double-clicking on it:</para>
+            <para>In the Design viewer, you can drill down on an element by double-clicking on
+                it:</para>
 
             <figure>
                 <title>Design Viewer</title>
@@ -1735,7 +1829,8 @@
                 </mediaobject>
             </figure>
 
-            <para>Various edit options are available when you right-click an element in the diagram:</para>
+            <para>Various edit options are available when you right-click an element in the
+                diagram:</para>
 
             <figure>
                 <title>Edit Options</title>
@@ -1775,7 +1870,8 @@
 
             <title>Support for XML Schema</title>
 
-            <para>JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:</para>
+            <para>JBoss Developer Studio fully supports XML files based on schemas as well as
+                DTDs:</para>
             <figure>
                 <title>XML File</title>
                 <mediaobject>
