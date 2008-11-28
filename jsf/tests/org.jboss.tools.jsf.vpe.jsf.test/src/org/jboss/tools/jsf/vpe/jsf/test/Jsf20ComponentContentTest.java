@@ -19,8 +19,6 @@ import org.jboss.tools.vpe.ui.test.ComponentContentTest;
  *
  */
 public class Jsf20ComponentContentTest extends ComponentContentTest {
-	public static final String OUTPUT_SCRIPT_ID = "outputScript1"; //$NON-NLS-1$
-
 
 	public Jsf20ComponentContentTest(String name) {
 		super(name);
@@ -44,11 +42,11 @@ public class Jsf20ComponentContentTest extends ComponentContentTest {
 	}
 	
 	public void testOutputScript() throws Throwable {
-		performInvisibleTagTest("components/outputScript.xhtml", OUTPUT_SCRIPT_ID); //$NON-NLS-1$
+		performInvisibleTagTest("components/outputScript.xhtml", "outputScript1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testOutputStylesheet() throws Throwable {
-		performContentTest("components/outputStylesheet.xhtml"); //$NON-NLS-1$
+		performInvisibleTagTest("components/outputStylesheet.xhtml", "outputStylesheetBlue"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	protected String getTestProjectName() {
