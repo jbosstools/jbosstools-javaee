@@ -14,7 +14,10 @@ package org.jboss.tools.seam.ui.wizard;
 import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
@@ -26,6 +29,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -191,6 +195,29 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 				SeamGuiPlugin.getPluginLog().logError(ex);
 			}
 		}
+		
+		IPath webContent = InnerModelHelper.getWebInfPath(project).removeLastSegments(1);
+		
+		IPath masterPage = webContent.append(editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue()+".xhtml");
+		
+		IFile masterPageFile = ResourcesPlugin.getWorkspace().getRoot().getFile(masterPage);
+		if(masterPageFile.exists()){
+			setErrorMessage(null);
+			setMessage(SeamUIMessages.MASTER_PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
+			setPageComplete(true);
+			return;
+		}
+		
+		IPath page = webContent.append(editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue()+".xhtml");
+		
+		IFile pageFile = ResourcesPlugin.getWorkspace().getRoot().getFile(page);
+		if(pageFile.exists()){
+			setErrorMessage(null);
+			setMessage(SeamUIMessages.PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
+			setPageComplete(true);
+			return;
+		}
+		
 		setErrorMessage(null);
 		setMessage(getDefaultMessageText());
 		setPageComplete(true);

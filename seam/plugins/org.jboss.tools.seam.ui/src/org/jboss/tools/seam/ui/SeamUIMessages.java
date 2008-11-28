@@ -425,6 +425,8 @@ public class SeamUIMessages extends NLS {
 	
 	public static String POJO_CLASS_ALREADY_EXISTS;
 	public static String ENTITY_CLASS_ALREADY_EXISTS;
+	public static String PAGE_ALREADY_EXISTS;
+	public static String MASTER_PAGE_ALREADY_EXISTS;
 	
 	public static String FIND_DECLARATIONS_ACTION_ACTION_NAME;
 	public static String FIND_DECLARATIONS_ACTION_DESCRIPTION;
