@@ -12,8 +12,10 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.event.Change;
@@ -48,6 +50,10 @@ public class SeamMessagesComponent extends SeamComponent implements ISeamMessage
 		List<Change> changes = super.merge(s);
 		messagesLoader.keys = null;
 		return changes;
+	}
+	
+	public Map<String, IResource> getResourcesMap() {
+		return messagesLoader.getResources();
 	}
 
 }

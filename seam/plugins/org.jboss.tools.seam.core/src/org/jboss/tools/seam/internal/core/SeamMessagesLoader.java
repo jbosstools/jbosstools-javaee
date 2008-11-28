@@ -43,7 +43,7 @@ import org.jboss.tools.seam.core.event.ISeamValueString;
  */
 public class SeamMessagesLoader {
 	static Map<String, IResource> EMPTY = new HashMap<String, IResource>();
-	Map<String, IResource> resources = EMPTY;
+	Map<String, IResource> resources = EMPTY; // Maps the bundleName to the IResource
 	Map<String, Long> timestamps = null;
 	Set<String> keys = null;
 	
@@ -89,7 +89,7 @@ public class SeamMessagesLoader {
 		return false;		
 	}	
 	
-	private Map<String, IResource> getResources() {
+	public Map<String, IResource> getResources() {
 		ISeamProject p = object.getSeamProject();
 		if(p == null) return EMPTY;
 		IResource[] srcs = EclipseResourceUtil.getJavaSourceRoots(p.getProject());
