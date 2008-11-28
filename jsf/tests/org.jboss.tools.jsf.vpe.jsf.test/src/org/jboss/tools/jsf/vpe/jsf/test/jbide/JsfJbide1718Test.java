@@ -54,7 +54,8 @@ public class JsfJbide1718Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
-	public void testDirAttribute() throws Throwable {
+	//mareshkau, dir attributes was disabled due to JBIDE-3209
+	public void _testDirAttribute() throws Throwable {
 
 		// wait
 		TestUtil.waitForJobs();
