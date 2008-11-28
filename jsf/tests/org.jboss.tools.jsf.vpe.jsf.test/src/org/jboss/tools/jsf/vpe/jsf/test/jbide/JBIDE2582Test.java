@@ -166,7 +166,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
 
         final Node elementNode = nodeList.item(0);
 
-        SelectionUtil.setSourceSelection(controller.getPageContext(), elementNode, 0, 0);
+        SelectionUtil.setSourceSelection(controller.getPageContext(), elementNode, 1, 0);
 
         nsIDOMNode node = SelectionUtil.getLastSelectedNode(controller.getPageContext());
 

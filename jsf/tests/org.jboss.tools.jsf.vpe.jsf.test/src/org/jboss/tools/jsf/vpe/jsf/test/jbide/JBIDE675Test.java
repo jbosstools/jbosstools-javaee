@@ -295,7 +295,7 @@ public class JBIDE675Test extends VpeTest {
 		styledText.setCaretOffset(951);
 		styledText.insert("<a"); //$NON-NLS-1$
 		styledText.setCaretOffset(953);
-		for(int i=0;i<100;i++) {		
+		for(int i=0;i<10;i++) {		
 			styledText.insert(""+i); //$NON-NLS-1$
 			TestUtil.delay(30);
 		}
