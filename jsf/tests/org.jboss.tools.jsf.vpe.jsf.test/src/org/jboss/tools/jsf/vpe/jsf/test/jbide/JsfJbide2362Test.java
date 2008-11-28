@@ -164,7 +164,7 @@ public class JsfJbide2362Test extends VpeTest {
 				Node node = tagList.item(0);
 
 				SelectionUtil.setSourceSelection(controller.getPageContext(),
-						node, 0, 0);
+						node, 1, 0);
 
 				assertEquals(domMapping.getNearNodeMapping(node)
 						.getVisualNode(), xulRunnerEditor.getLastSelectedNode());
