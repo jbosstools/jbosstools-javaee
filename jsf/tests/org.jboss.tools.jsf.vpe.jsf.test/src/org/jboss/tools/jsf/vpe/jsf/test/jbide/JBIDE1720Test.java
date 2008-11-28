@@ -168,10 +168,10 @@ public class JBIDE1720Test extends VpeTest {
 		String style = select.getAttribute(HTML.ATTR_STYLE);
 		assertNotNull("Attribute style is not exist.", style);
 		assertEquals("font-size: large;", style);
-
-		String dir = select.getAttribute(HTML.ATTR_DIR);
-		assertNotNull("Attribute dir is not exist.", dir);
-		assertEquals("rtl", dir);
+//mareshkau, fix for jbide-3209
+//		String dir = select.getAttribute(HTML.ATTR_DIR);
+//		assertNotNull("Attribute dir is not exist.", dir);
+//		assertEquals("rtl", dir);
 
 		elements.clear();
 
