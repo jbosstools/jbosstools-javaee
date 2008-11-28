@@ -556,7 +556,7 @@
             </section>
         </section>
     </section>
-    <section id="RichFacesSupport" role="updated">
+    <section id="RichFacesSupport">
         <?dbhtml filename="RichFacesSupport.html"?>
         <title>RichFaces Support</title>
         <para><property>JBoss Developer Studio</property> comes with a tight integration with <ulink
