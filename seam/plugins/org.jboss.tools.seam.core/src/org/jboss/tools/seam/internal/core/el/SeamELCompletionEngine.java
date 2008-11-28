@@ -570,7 +570,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @param resource
 	 * @return
 	 */
-	private ScopeType getScope(ISeamProject project, IResource resource) {
+	public static ScopeType getScope(ISeamProject project, IResource resource) {
 		if (project == null || resource == null)
 			return null;
 		
@@ -586,7 +586,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		return null;
 	}
 
-	private List<ISeamContextVariable> resolveVariables(ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<ISeamContextVariable> resolveVariables(ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		String varName = expr.toString();
 		if (varName != null) {
