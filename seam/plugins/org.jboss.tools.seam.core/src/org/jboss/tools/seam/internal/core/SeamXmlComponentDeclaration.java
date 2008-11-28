@@ -220,7 +220,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 				while(f != null && f.getFileType() != XModelObject.FILE) f = f.getParent();
 				NamespaceMapping nm = NamespaceMapping.load(f);
 				SeamProject sp = (SeamProject)context.get("seamProject");
-				className = XMLScanner.getDefaultClassName(c, nm, sp == null ? null : sp.getNamespaces());
+				className = XMLScanner.getDefaultClassName(c, nm, sp);
 				isClassNameGuessed = true;
 			}
 		}

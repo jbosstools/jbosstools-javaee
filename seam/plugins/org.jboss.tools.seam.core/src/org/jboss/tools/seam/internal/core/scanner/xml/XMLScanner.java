@@ -19,6 +19,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.ModelUpdater;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModel;
@@ -26,6 +30,7 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.NamespaceMapping;
 import org.jboss.tools.seam.core.ISeamNamespace;
@@ -176,7 +181,7 @@ public class XMLScanner implements IFileScanner {
 		} else if(c.getModelEntity().getName().equals("FileSeamComponent12")) { //$NON-NLS-1$
 			component.setClassName(getImpliedClassName(c, source));
 		} else {
-			String className = getDefaultClassName(c, nm, sp.getNamespaces());
+			String className = getDefaultClassName(c, nm, sp);
 			if(className != null) {
 				component.setClassName(className);
 				component.setClassNameGuessed(true);
@@ -341,25 +346,43 @@ public class XMLScanner implements IFileScanner {
 	 * @param c
 	 * @return
 	 */
-	public static String getDefaultClassName(XModelObject c, NamespaceMapping nm, Map<String, ISeamNamespace> ns) {
+	public static String getDefaultClassName(XModelObject c, NamespaceMapping nm, ISeamProject sp) {
 		String s = c.getModelEntity().getXMLSubPath();
 		int d = s.indexOf(':');
 		if(d < 0) return null;
+
+		Map<String, Set<ISeamNamespace>> ns = sp == null ? null : sp.getNamespaces();
+
 		String namespace = s.substring(0, d);
 		String tag = s.substring(d + 1);
 
 		String packageName = "org.jboss.seam." + namespace;
+		String name = toCamelCase(tag, true);
 		if(nm != null) {
 			String uri = nm.getURIForDefaultNamespace(namespace);
-			if(uri != null && ns != null) {
-				ISeamNamespace n = ns.get(uri);
-				if(n != null) {
+			if(uri != null && ns != null && !ns.isEmpty()) {
+				Set<ISeamNamespace> set = ns.get(uri);
+				
+				if(set != null && !set.isEmpty()) for (ISeamNamespace n: set) {
 					String pn = n.getPackage();
-					if(pn != null && pn.length() > 0) packageName = pn;
+					if(pn == null || pn.length() == 0) continue;
+					String cn = pn + "." + name;
+					packageName = pn;
+					if(set.size() == 1) break;
+					IJavaProject jp = EclipseResourceUtil.getJavaProject(sp.getProject());
+					IType type = null;
+					try {
+						type = EclipseJavaUtil.findType(jp, cn);
+					} catch (JavaModelException e) {
+						ModelPlugin.getPluginLog().logError(e);
+					}
+					if(type != null) {
+						break;
+					}
 				}
 			}
 		}
-		String className = packageName + "." + toCamelCase(tag, true); //$NON-NLS-1$ //$NON-NLS-2$
+		String className = packageName + "." + name; //$NON-NLS-1$ 
 		return className;
 	}
 

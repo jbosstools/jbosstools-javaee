@@ -131,7 +131,7 @@ public class SeamResourceVisitor implements IResourceVisitor {
 	static long timeUsed = 0;
 	
 	void componentsLoaded(LoadedDeclarations c, IFile resource) {
-		if(c == null || c.getComponents().size() + c.getFactories().size() == 0) return;
+		if(c == null || c.getComponents().size() + c.getFactories().size() + c.getNamespaces().size() == 0) return;
 		p.registerComponents(c, resource.getFullPath());
 	}
 

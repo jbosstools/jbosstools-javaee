@@ -312,7 +312,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		usedBy.add(p);
 	}
 
-	public Map<String, ISeamNamespace> getNamespaces() {
+	public Map<String, Set<ISeamNamespace>> getNamespaces() {
 		return namespaces.namespacesByURI;
 	}
 
@@ -486,8 +486,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	private void storeNamespaces(Element root) {
 		Element namespacesElement = XMLUtilities.createElement(root, "namespaces"); //$NON-NLS-1$
-		for (ISeamNamespace n : namespaces.namespacesByURI.values()) {
-			((SeamNamespace)n).toXML(namespacesElement);
+		for (String uri : namespaces.namespacesByURI.keySet()) {
+			Set<ISeamNamespace> s = namespaces.namespacesByURI.get(uri);
+			for (ISeamNamespace n: s) {
+				((SeamNamespace)n).toXML(namespacesElement);
+			}
 		}
 	}
 
@@ -1562,15 +1565,18 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				ds.getComponents().add(d.clone());
 			}
 		}
-		for (ISeamNamespace n : namespaces.namespacesByURI.values()) {
-			IPath p = n.getSourcePath();
-			if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
-			LoadedDeclarations ds = map.get(p);
-			if(ds == null) {
-				ds = new LoadedDeclarations();
-				map.put(p, ds);
+		for (String uri : namespaces.namespacesByURI.keySet()) {
+			Set<ISeamNamespace> s = namespaces.namespacesByURI.get(uri);
+			for (ISeamNamespace n : s) {
+				IPath p = n.getSourcePath();
+				if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
+				LoadedDeclarations ds = map.get(p);
+				if(ds == null) {
+					ds = new LoadedDeclarations();
+					map.put(p, ds);
+				}
+				ds.getNamespaces().add(n);
 			}
-			ds.getNamespaces().add(n);
 		}
 		for (ISeamFactory f : factories.allFactories) {
 			IPath p = f.getSourcePath();
@@ -1670,10 +1676,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		p.getComponents().add(c);
 	}
 
-
 	class NamespaceStorage {
 		Map<IPath, Set<ISeamNamespace>> namespacesBySource = new HashMap<IPath, Set<ISeamNamespace>>();
-		Map<String, ISeamNamespace> namespacesByURI = new HashMap<String, ISeamNamespace>();
+		Map<String, Set<ISeamNamespace>> namespacesByURI = new HashMap<String, Set<ISeamNamespace>>();
 		
 		public void clear() {
 			namespacesBySource.clear();
@@ -1690,22 +1695,24 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(ns.length == 0) {
 				removePath(source);
 			} else {
-				if(sd != null) {
-					sd.clear();
-				} else {
-					sd = new HashSet<ISeamNamespace>();
-					namespacesBySource.put(source, sd);
-				}
+				//TODO replace this with merge!
+				removePath(source);
 				for (int i = 0; i < ns.length; i++) {
-					sd.add(ns[i]);
-					//TODO that will not remove old objects
-					namespacesByURI.put(ns[i].getURI(), ns[i]);
+					addNamespace(ns[i]);
 				}
 			}
 		}
 
 		public void addNamespace(ISeamNamespace n) {
-			namespacesByURI.put(n.getURI(), n);
+			String uri = n.getURI();
+			if(uri != null) {
+				Set<ISeamNamespace> s = namespacesByURI.get(uri);
+				if(s == null) {
+					s = new HashSet<ISeamNamespace>();
+					namespacesByURI.put(n.getURI(), s);
+				}
+				s.add(n);
+			}
 			IPath path = n.getSourcePath();
 			if(path != null) {
 				Set<ISeamNamespace> fs = namespacesBySource.get(path);

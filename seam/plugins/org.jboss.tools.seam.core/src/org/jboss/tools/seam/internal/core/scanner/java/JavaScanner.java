@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -91,11 +92,16 @@ public class JavaScanner implements IFileScanner {
 					NLS.bind(SeamCoreMessages.JAVA_SCANNER_CANNOT_GET_COMPILATION_UNIT_FOR,f), e);
 		}
 		if(u == null) return null;
-		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
 		ASTParser p = ASTParser.newParser(AST.JLS3);
 		p.setSource(u);
 		p.setResolveBindings(true);
+		if("package-info.java".equals(f.getFullPath().lastSegment())) {
+			PackageInfoRequestor requestor = new PackageInfoRequestor(f);
+			p.createASTs(us, new String[0], requestor, null);
+			return requestor.getDeclarations();
+		}
+		ASTRequestorImpl requestor = new ASTRequestorImpl(f);
 		p.createASTs(us, new String[0], requestor, null);
 		return requestor.getDeclarations();
 	}
@@ -108,6 +114,13 @@ public class JavaScanner implements IFileScanner {
 			if(rs[i].getFullPath().isPrefixOf(f.getFullPath())) {
 				IPath path = f.getFullPath().removeFirstSegments(rs[i].getFullPath().segmentCount());
 				IJavaElement e = javaProject.findElement(path);
+				if(e == null && path.lastSegment().equals("package-info.java")) {
+					//strange but sometimes only this works
+					IJavaElement ep = javaProject.findElement(path.removeLastSegments(1));
+					if(ep instanceof IPackageFragment) {
+						e = ((IPackageFragment)ep).getCompilationUnit("package-info.java");
+					}
+				}
 				if(e instanceof ICompilationUnit) {
 					return (ICompilationUnit)e;
 				}

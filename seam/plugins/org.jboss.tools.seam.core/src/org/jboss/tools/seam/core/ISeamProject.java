@@ -99,7 +99,7 @@ public interface ISeamProject extends ISeamElement {
 	 * 
 	 * @return
 	 */
-	public Map<String, ISeamNamespace> getNamespaces();
+	public Map<String, Set<ISeamNamespace>> getNamespaces();
 
 	/**
 	 * Returns seam component. Project can have only one ISeamComponent with
