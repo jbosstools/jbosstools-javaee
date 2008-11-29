@@ -1,7 +1,7 @@
 <tests>
 	<test id="test_el">
-<DIV
-	STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%; display: table;">
+<FORM
+	STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
 	<SPAN CLASS="message" STYLE="-moz-user-modify: read-only;">
 		Error Messages
 </SPAN>
@@ -24,6 +24,6 @@
 </SPAN>
 		</DIV>
 	</DIV>
-</DIV>
+</FORM>
 </test>
 </tests>

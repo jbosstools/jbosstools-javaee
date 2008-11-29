@@ -10,12 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template.util;
 
-import java.io.File;
-
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.jboss.tools.jsf.vpe.jsf.JsfTemplatePlugin;
 import org.jboss.tools.vpe.editor.bundle.BundleMap;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -123,8 +117,7 @@ public class ComponentUtil {
 	 */
 	public static String getBundleValue(VpePageContext pageContext, Attr attr) {
 
-		return getBundleValue(pageContext, attr.getNodeValue(),
-				((IDOMAttr) attr).getValueRegionStartOffset());
+		return getBundleValue(pageContext, attr.getNodeValue());
 
 	}
 
@@ -136,7 +129,7 @@ public class ComponentUtil {
 	 * @return
 	 */
 	public static String getBundleValue(VpePageContext pageContext,
-			String value, int offfset) {
+			String value) {
 
 		BundleMap bundle = pageContext.getBundle();
 

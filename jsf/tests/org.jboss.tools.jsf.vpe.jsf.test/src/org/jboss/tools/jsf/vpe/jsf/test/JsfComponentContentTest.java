@@ -215,6 +215,7 @@ public class JsfComponentContentTest extends ComponentContentTest {
 		performContentTest("components/view.jsp"); //$NON-NLS-1$
 	}
 
+	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_PROJECT_NAME;
 	}

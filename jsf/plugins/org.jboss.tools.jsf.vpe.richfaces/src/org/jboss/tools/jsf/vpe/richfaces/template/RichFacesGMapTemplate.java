@@ -125,13 +125,4 @@ public class RichFacesGMapTemplate extends VpeAbstractTemplate {
 		VpeCreationData creationData = new VpeCreationData(mapImg);
 		return creationData;
 	}
-
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement visualNode, Object data, String name, String value) {
-		return true;
-	}
-
-	
-
 }
