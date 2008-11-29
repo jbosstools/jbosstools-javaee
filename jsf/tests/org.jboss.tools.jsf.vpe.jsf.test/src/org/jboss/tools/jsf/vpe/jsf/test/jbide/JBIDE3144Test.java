@@ -80,7 +80,7 @@ public class JBIDE3144Test extends ComponentContentTest{
 	}
 	
 	public void testJBIDE3144Selection() throws Exception {
-		IEditorInput input = new FileEditorInput(file);
+		IEditorInput input = new FileEditorInput(this.file);
 		JSPMultiPageEditor part = openEditor(input);
 		checkSourceSelection(part);
 	}
