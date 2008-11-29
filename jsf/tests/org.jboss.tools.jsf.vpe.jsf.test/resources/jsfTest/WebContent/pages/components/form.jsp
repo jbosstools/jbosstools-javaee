@@ -9,9 +9,12 @@
 <f:view>
 	<h1><h:outputText value="form" /></h1>
 
-	<h:form id="form">
-		
+	<div id="form_test">
+	<h:form style="background-color:Red;">
+		Test1Text<div style="background-color: green">Test2<h:form>TestText3</h:form></div>
+		<h:form>Test4Text</h:form>
 	</h:form>
+	</div>
 	
 </f:view>
 </body>
