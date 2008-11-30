@@ -80,3 +80,4 @@ Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.widget.field,
  org.jboss.tools.seam.ui.wizard
 Bundle-Vendor: Red Hat, Inc.
+Import-Package: com.ibm.icu.text

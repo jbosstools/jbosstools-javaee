@@ -639,4 +639,13 @@
     <provider class="org.jboss.tools.seam.ui.views.properties.SeamELAttributeContentProposalProvider"/>
  </extension>
 
+ 
+ <extension
+         point="org.eclipse.wst.common.project.facet.core.facets">
+    <action facet="jst.seam" type="version-change">
+      	<delegate class="org.jboss.tools.seam.ui.dialog.SeamFacetVersionChangeDelegate"/>
+    </action>
+ </extension>
+ 
+ 
 </plugin>
