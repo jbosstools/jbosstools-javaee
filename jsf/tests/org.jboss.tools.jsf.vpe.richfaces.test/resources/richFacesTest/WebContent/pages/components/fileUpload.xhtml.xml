@@ -12,17 +12,17 @@
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-fileupload-button-border" STYLE="float: left;">
-							<DIV
-								CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start">
-								<B> Upload</B>
+							<DIV CLASS="rich-fileupload-button rich-fileupload-font">
+								<DIV
+									CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start">
+									<B> Upload</B>
+								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-fileupload-button-border" STYLE="float: right;">
 							<DIV CLASS="rich-fileupload-button rich-fileupload-font">
-								<A CLASS="rich-fileupload-button-selection">
-									<DIV
-										CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear">Clear All</DIV>
-								</A>
+								<DIV
+									CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear"> Clear All</DIV>
 							</DIV>
 						</DIV>
 					</TD>
