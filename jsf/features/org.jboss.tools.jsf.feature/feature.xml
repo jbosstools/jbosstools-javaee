@@ -3,7 +3,7 @@
       id="org.jboss.tools.jsf_feature"
       label="JBoss Tools JSF"
       version="2.0.0"
-      provider-name="JBoss"
+      provider-name="JBoss, a division of Red Hat."
       image="jsf.jpg">
 
    <description url="http://www.jboss.org/tools">
