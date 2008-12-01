@@ -29,7 +29,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.InnerModelHelper;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -196,7 +196,8 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			}
 		}
 		
-		IPath webContent = InnerModelHelper.getWebInfPath(project).removeLastSegments(1);
+		SeamProjectsSet seamPrjSet = new SeamProjectsSet(project);
+		IPath webContent = seamPrjSet.getViewsFolder().getFullPath();
 		
 		IPath masterPage = webContent.append(editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue()+".xhtml");
 		
