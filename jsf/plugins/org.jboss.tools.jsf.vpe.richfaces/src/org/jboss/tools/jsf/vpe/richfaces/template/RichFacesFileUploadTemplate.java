@@ -1,16 +1,11 @@
-
-
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -79,7 +74,7 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         final StyleClasses styleClasses = new StyleClasses(source);
         prepareData(source);
         VpeCreationData data = null;
-        ComponentUtil.setCSSLink(pageContext, FILE_UPLOAD_FILE_UPLOAD_CSS, RICH_FACES_FILE_UPLOAD_EXT); //$NON-NLS-1$ //$NON-NLS-2$
+        ComponentUtil.setCSSLink(pageContext, FILE_UPLOAD_FILE_UPLOAD_CSS, RICH_FACES_FILE_UPLOAD_EXT);
 
         final nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_DIV);
 
@@ -233,9 +228,23 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         }
    }
     
+    /**
+     * Stores all style-class related variables. 
+     * 
+     * @author yradtsevich
+     */
     class StyleClasses {
+		private static final String ATTR_STOP_BUTTON_CLASS = "stopButtonClass"; //$NON-NLS-1$
+		private static final String ATTR_FILE_ENTRY_CONTROL_CLASS = "fileEntryControlClass"; //$NON-NLS-1$
+		private static final String ATTR_FILE_ENTRY_CLASS = "fileEntryClass"; //$NON-NLS-1$
+		private static final String ATTR_CLEAN_BUTTON_CLASS = "cleanButtonClass"; //$NON-NLS-1$
+		private static final String ATTR_UPLOAD_BUTTON_CLASS = "uploadButtonClass"; //$NON-NLS-1$
+		private static final String ATTR_UPLOAD_LIST_CLASS = "uploadListClass"; //$NON-NLS-1$
+		private static final String ATTR_ADD_BUTTON_CLASS = "addButtonClass"; //$NON-NLS-1$
+		private static final String POSTFIX_ENABLED = ""; //$NON-NLS-1$
+    	private static final String POSTFIX_DISABLED = "Disabled"; //$NON-NLS-1$
 
-	private String addButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
+    	private String addButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
     	private String uploadButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
     	private String cleanButtonClass = "rich-fileupload-button rich-fileupload-font";  //$NON-NLS-1$
     	private String addButtonClassDiv2 = " rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-add"; //$NON-NLS-1$
@@ -244,41 +253,38 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     	private String uploadListClass = "rich-fileupload-list-overflow"; //$NON-NLS-1$
     	
     	public StyleClasses(final Element sourceElement) {
-    	    
-    	    final String addButtonClass = sourceElement.getAttribute("addButtonClass"); //$NON-NLS-1$
-
+    		final boolean disabled = RichFaces.VAL_TRUE
+    			.equalsIgnoreCase(sourceElement.getAttribute(RichFaces.ATTR_DISABLED));
+    		final String styleAttrPostfix = disabled ? POSTFIX_DISABLED : POSTFIX_ENABLED;
+    		
+    		final String addButtonClass = sourceElement.getAttribute(
+    				ATTR_ADD_BUTTON_CLASS + styleAttrPostfix);
             if (ComponentUtil.isNotBlank(addButtonClass)) {
                 this.addButtonClass += HTML.VALUE_CLASS_DELIMITER + addButtonClass;
                 this.addButtonClassDiv2 += HTML.VALUE_CLASS_DELIMITER + addButtonClass;
             }
             
-            final String uploadButtonClass = sourceElement.getAttribute("uploadButtonClass"); //$NON-NLS-1$
-            
+            final String uploadButtonClass = sourceElement.getAttribute(
+            		ATTR_UPLOAD_BUTTON_CLASS + styleAttrPostfix);
             if (ComponentUtil.isNotBlank(uploadButtonClass)) {
-        	this.uploadButtonClass += HTML.VALUE_CLASS_DELIMITER + uploadButtonClass;
-        	this.uploadButtonClass2 += HTML.VALUE_CLASS_DELIMITER + uploadButtonClass;
+            	this.uploadButtonClass += HTML.VALUE_CLASS_DELIMITER + uploadButtonClass;
+            	this.uploadButtonClass2 += HTML.VALUE_CLASS_DELIMITER + uploadButtonClass;
             }
             
-            final String cleanButtonClass = sourceElement.getAttribute("cleanButtonClass"); //$NON-NLS-1$
-            
+            final String cleanButtonClass = sourceElement.getAttribute(
+            		ATTR_CLEAN_BUTTON_CLASS + styleAttrPostfix);
             if (ComponentUtil.isNotBlank(cleanButtonClass)) {
-        	this.cleanButtonClass += HTML.VALUE_CLASS_DELIMITER + cleanButtonClass;
-        	this.cleanButtonClass2 += HTML.VALUE_CLASS_DELIMITER + cleanButtonClass;
+            	this.cleanButtonClass += HTML.VALUE_CLASS_DELIMITER + cleanButtonClass;
+            	this.cleanButtonClass2 += HTML.VALUE_CLASS_DELIMITER + cleanButtonClass;
             }
 
-            final String uploadListClass = sourceElement.getAttribute("uploadListClass"); //$NON-NLS-1$
-
+            final String uploadListClass = sourceElement.getAttribute(
+            		ATTR_UPLOAD_LIST_CLASS + styleAttrPostfix);
             if (ComponentUtil.isNotBlank(uploadListClass)) {
                 this.uploadListClass += HTML.VALUE_CLASS_DELIMITER + uploadListClass;
             }
-            
-            final String uploadControlClass = ComponentUtil.getAttribute(sourceElement, "uploadControlClass"); //$NON-NLS-1$
-            
-            if(ComponentUtil.isNotBlank(uploadControlClass)){
-                this.uploadButtonClass2+= HTML.VALUE_CLASS_DELIMITER + uploadControlClass;
-            }
     	}
-    	
+
     	public String getAddButtonClass() {
     		return addButtonClass;
     	}
@@ -308,4 +314,3 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     	}
     }
 }
-
