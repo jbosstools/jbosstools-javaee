@@ -10,6 +10,7 @@ import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -104,70 +105,59 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
         labelDiv.appendChild(visualDocument.createTextNode(this.addControlLabel));
         fileuploadButtonDiv.appendChild(labelDiv);
 
-  
-
         rootDiv.appendChild(table);
         rootDiv.appendChild(createPanelDiv(pageContext, source, visualDocument, styleClasses));
         table.appendChild(tr);
         tr.appendChild(td);
         td.appendChild(buttonBorderDiv);
         buttonBorderDiv.appendChild(fileuploadButtonDiv);
-        td.appendChild(createControl(pageContext, sourceNode, visualDocument, styleClasses.getUploadButtonClass2(),
-                uploadControlLabel, false, styleClasses));
-        td.appendChild(createControl(pageContext, sourceNode, visualDocument, styleClasses.getClearAllButtonClass2(),
-                clearAllControlLabel, true , styleClasses));
+        td.appendChild(createControl(pageContext, sourceNode, visualDocument, styleClasses.getUploadButtonClass(),
+        	styleClasses.getUploadButtonClass2(), uploadControlLabel, false, styleClasses));
+        td.appendChild(createControl(pageContext, sourceNode, visualDocument, styleClasses.getCleanButtonClass(),
+        	 styleClasses.getCleanButtonClass2(), clearAllControlLabel, true , styleClasses));
     
-
-//        DOMTreeDumper dumper = new DOMTreeDumper();
-//        dumper.dumpToStream(System.err, rootDiv);
-
         data = new VpeCreationData(rootDiv);
         return data;
     }
 
+    
     /**
-     * @param pageContext
-     * @param sourceNode
-     * @param visualDocument
-     * @return
+     * Creates the control.
+     * 
+     * @param pageContext the page context
+     * @param sourceNode the source node
+     * @param visualDocument the visual document
+     * @param secondCssClass the second css class
+     * @param thirdCssClass the third css class
+     * @param text the text
+     * @param isClearButton the is clear button
+     * @param styleClasses the style classes
+     * 
+     * @return the ns idom node
      */
     private nsIDOMNode createControl(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument,
-    		String secondCssClass,String text,boolean isClearButton, StyleClasses styleClasses) {
-        //<div class="rich-fileupload-button-border" style="float: left;">
+	    String secondCssClass, String thirdCssClass,String text,boolean isClearButton, StyleClasses styleClasses) {
+        
         final nsIDOMElement firstDiv = visualDocument.createElement(HTML.TAG_DIV);
+        final nsIDOMElement secondDiv = visualDocument.createElement(HTML.TAG_DIV);
+        final nsIDOMElement thirdDiv = visualDocument.createElement(HTML.TAG_DIV);
         
         firstDiv.setAttribute(HTML.ATTR_CLASS, "rich-fileupload-button-border"); //$NON-NLS-1$
-        
         firstDiv.setAttribute(HTML.ATTR_STYLE,"float: "+(isClearButton ? "right;" : "left;")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         
-        final nsIDOMElement secondDiv = visualDocument.createElement(HTML.TAG_DIV);
+        secondDiv.setAttribute(HTML.ATTR_CLASS, secondCssClass);
+        thirdDiv.setAttribute(HTML.ATTR_CLASS, thirdCssClass);
+
+        firstDiv.appendChild(secondDiv);
+        secondDiv.appendChild(thirdDiv);
         
         if (isClearButton) {
-            secondDiv.setAttribute(HTML.ATTR_CLASS, "rich-fileupload-button rich-fileupload-font"); //$NON-NLS-1$
-            final nsIDOMElement thirdDiv = visualDocument.createElement(HTML.TAG_DIV);
-            final nsIDOMElement aElement = visualDocument.createElement(HTML.TAG_A);
-            
-            aElement.setAttribute(HTML.ATTR_CLASS, "rich-fileupload-button-selection"); //$NON-NLS-1$
-            thirdDiv.setAttribute(HTML.ATTR_CLASS, styleClasses.getClearAllButtonClass2());
-            firstDiv.appendChild(secondDiv);
-            secondDiv.appendChild(aElement);
-            aElement.appendChild(thirdDiv);
             thirdDiv.appendChild(visualDocument.createTextNode(text));
         }else{
-            secondDiv.setAttribute(HTML.ATTR_CLASS, secondCssClass);
-
             final nsIDOMElement bDiv = visualDocument.createElement(HTML.TAG_B);
-
+            thirdDiv.appendChild(bDiv);  
             bDiv.appendChild(visualDocument.createTextNode(text));
-
-            firstDiv.appendChild(secondDiv);
-            secondDiv.appendChild(bDiv);  
         }
-        
-   
-        
-        
-            
         return firstDiv;
     }
 
@@ -245,19 +235,35 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     
     class StyleClasses {
 
-		private String addButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
+	private String addButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
     	private String uploadButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
+    	private String cleanButtonClass = "rich-fileupload-button rich-fileupload-font";  //$NON-NLS-1$
     	private String addButtonClassDiv2 = " rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-add"; //$NON-NLS-1$
-    	private String clearAllButtonClass2 = "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear"; //$NON-NLS-1$
     	private String uploadButtonClass2 = "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start "; //$NON-NLS-1$
+    	private String cleanButtonClass2 = "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear"; //$NON-NLS-1$
     	private String uploadListClass = "rich-fileupload-list-overflow"; //$NON-NLS-1$
     	
     	public StyleClasses(final Element sourceElement) {
-    		final String addButtonClass = sourceElement.getAttribute("addButtonClass"); //$NON-NLS-1$
+    	    
+    	    final String addButtonClass = sourceElement.getAttribute("addButtonClass"); //$NON-NLS-1$
 
             if (ComponentUtil.isNotBlank(addButtonClass)) {
                 this.addButtonClass += HTML.VALUE_CLASS_DELIMITER + addButtonClass;
-                this.addButtonClassDiv2 += addButtonClassDiv2 + HTML.VALUE_CLASS_DELIMITER + addButtonClass;
+                this.addButtonClassDiv2 += HTML.VALUE_CLASS_DELIMITER + addButtonClass;
+            }
+            
+            final String uploadButtonClass = sourceElement.getAttribute("uploadButtonClass"); //$NON-NLS-1$
+            
+            if (ComponentUtil.isNotBlank(uploadButtonClass)) {
+        	this.uploadButtonClass += HTML.VALUE_CLASS_DELIMITER + uploadButtonClass;
+        	this.uploadButtonClass2 += HTML.VALUE_CLASS_DELIMITER + uploadButtonClass;
+            }
+            
+            final String cleanButtonClass = sourceElement.getAttribute("cleanButtonClass"); //$NON-NLS-1$
+            
+            if (ComponentUtil.isNotBlank(cleanButtonClass)) {
+        	this.cleanButtonClass += HTML.VALUE_CLASS_DELIMITER + cleanButtonClass;
+        	this.cleanButtonClass2 += HTML.VALUE_CLASS_DELIMITER + cleanButtonClass;
             }
 
             final String uploadListClass = sourceElement.getAttribute("uploadListClass"); //$NON-NLS-1$
@@ -280,13 +286,17 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     	public String getUploadButtonClass() {
     		return uploadButtonClass;
     	}
+
+    	public String getCleanButtonClass() {
+    	    return cleanButtonClass;
+    	}
     	
     	public String getAddButtonClassDiv2() {
     		return addButtonClassDiv2;
     	}
     	
-    	public String getClearAllButtonClass2() {
-    		return clearAllButtonClass2;
+    	public String getCleanButtonClass2() {
+    		return cleanButtonClass2;
     	}
     	
     	public String getUploadButtonClass2() {
