@@ -369,6 +369,12 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			boolean isInEl = checkStartPositionInEL(viewer, offset);
 			String prefix= engine.getPrefix(viewer, offset, start, end);
 
+			// JBIDE-3290 Quick-fix - this supresses the EL-proposals suggestions
+			// in case of no "#{"-prefix is typed
+
+			if (!isInEl)
+				return NO_PROPOSALS;
+			
 			if(isInEl && (prefix == null || prefix.length() == 0)) {
 				String el = viewer.getDocument().get().substring(start, offset) + "a";
 				ELModel model = engine.getParserFactory().createParser().parse(el);
