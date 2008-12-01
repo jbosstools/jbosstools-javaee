@@ -244,11 +244,10 @@ public class ComponentUtil {
 		try {
 			uri = new URI(resolvedValue);
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
-		if (uri.isAbsolute() || (new File(resolvedValue)).exists())
+		if ((uri != null)
+				&& (uri.isAbsolute() || (new File(resolvedValue)).exists()))
 			return resolvedValue;
 
 		return Constants.FILE_PREFIX+FileUtil.getFile(resolvedValue, file).getLocation().toOSString();
