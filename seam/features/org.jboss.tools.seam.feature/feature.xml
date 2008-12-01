@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.jboss.tools.seam.feature"
-      label="SeamTools Feature"
+      label="Seam Tools"
       version="1.0.0"
       provider-name="RedHat, Inc."
       plugin="org.jboss.tools.seam.core">
 
    <description url="http://www.jboss.org/tools">
-      JBossTools Seam Feature
+      Provides tooling for JBoss Seam.
    </description>
 
    <copyright>

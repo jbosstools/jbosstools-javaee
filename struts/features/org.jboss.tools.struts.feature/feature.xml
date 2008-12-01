@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.jboss.tools.struts_feature"
-      label="StrutsTools"
+      label="JBoss Tools Struts Tools"
       version="2.0.0">
 
    <description url="http://www.jboss.org/tools">
-      StrutsTools Feature
+      JBoss Tools Struts Tools
    </description>
 
    <copyright>
