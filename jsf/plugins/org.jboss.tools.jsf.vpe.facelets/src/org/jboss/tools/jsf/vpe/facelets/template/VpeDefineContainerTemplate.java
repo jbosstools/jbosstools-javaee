@@ -18,11 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
 import org.jboss.tools.vpe.editor.VpeIncludeInfo;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -35,17 +31,17 @@ import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
 import org.jboss.tools.vpe.editor.util.FileUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.mozilla.interfaces.nsIDOMAttr;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNamedNodeMap;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
-	protected static final String ATTR_TEMPLATE = "template";
-	protected static final String NAME = "name";
-	protected static final String VALUE = "value";
 	int count = 0;
 	private static Set<Node> defineContainer = new HashSet<Node>();
 	
@@ -58,7 +54,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		String fileName = ((Element)sourceNode).getAttribute(ATTR_TEMPLATE);
+		String fileName = ((Element)sourceNode).getAttribute(Facelets.ATTR_TEMPLATE);
 		if (fileName != null && fileName.trim().length() > 0) {
 				IFile file = VpeCreatorUtil.getFile(fileName, pageContext);
 			if (file != null) {
@@ -226,9 +222,9 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		int len = sourceChildren.getLength();
 		for (int i = 0; i < len; i++) {
 			Node sourceChild = sourceChildren.item(i);
-			if (sourceChild.getNodeType() == Node.ELEMENT_NODE && "param".equals(sourceChild.getLocalName())) {
-				String name = ((Element)sourceChild).getAttribute(NAME);
-				String value = ((Element)sourceChild).getAttribute(VALUE);
+			if (sourceChild.getNodeType() == Node.ELEMENT_NODE && Facelets.TAG_PARAM.equals(sourceChild.getLocalName())) {
+				String name = ((Element)sourceChild).getAttribute(Facelets.ATTR_NAME);
+				String value = ((Element)sourceChild).getAttribute(Facelets.ATTR_VALUE);
 				paramsMap.put(name, value);
 			}
 		}
@@ -263,7 +259,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		int len = sourceChildren.getLength();
 		for (int i = 0; i < len; i++) {
 			Node sourceChild = sourceChildren.item(i);
-			if (sourceChild.getNodeType() == Node.ELEMENT_NODE && "define".equals(sourceChild.getLocalName())) {
+			if (sourceChild.getNodeType() == Node.ELEMENT_NODE && Facelets.TAG_DEFINE.equals(sourceChild.getLocalName())) {
 				if (template == null) {
 					VpeTemplateManager templateManager = pageContext.getVisualBuilder().getTemplateManager(); 
 					template = templateManager.getTemplate(pageContext, (Element)sourceChild, null);
@@ -295,7 +291,18 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 	}
 	
 	public static boolean isDefineContainer(Node sourceNode) {
-		return defineContainer.contains(sourceNode);
+		
+		//FIX https://jira.jboss.org/jira/browse/JBIDE-3187 by sdzmitrovich
+		//TODO: it is necessary to refactor facelet templates
+//		return defineContainer.contains(sourceNode);
+		while (sourceNode != null) {
+			if (defineContainer.contains(sourceNode))
+				return true;
+
+			sourceNode = sourceNode.getParentNode();
+		}
+
+		return false;
 		
 	}
 	

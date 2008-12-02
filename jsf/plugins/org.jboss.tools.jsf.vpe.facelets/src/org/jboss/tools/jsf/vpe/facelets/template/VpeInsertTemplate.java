@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.facelets.template;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
 import org.jboss.tools.vpe.editor.VpeIncludeInfo;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -40,7 +41,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 		VpeVisualDomBuilder visualBuilder = pageContext.getVisualBuilder();
 		VpeIncludeInfo includeInfo = visualBuilder.getCurrentIncludeInfo();
 		if (includeInfo != null && includeInfo.getElement() != null) {
-			String name = ((Element)sourceNode).getAttribute("name");
+			String name = ((Element)sourceNode).getAttribute(Facelets.ATTR_NAME);
 			if (name != null) {
 				name = name.trim();
 				if (name.length() <= 0) name = null;
@@ -82,15 +83,23 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 	}
 	
 	private Element findDefineElement(Element defineContainer, String defineName) {
-		Element defineElement = null; 
+		Element defineElement = null;
 		NodeList children = defineContainer.getChildNodes();
-		int len = children.getLength();
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
-			if (child.getNodeType() == Node.ELEMENT_NODE &&
-						"define".equals(child.getLocalName()) &&
-						defineName.equals(((Element)child).getAttribute("name"))) {
-				defineElement = (Element)child; 
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				Element childElement = (Element) child;
+				if (Facelets.TAG_DEFINE.equals(childElement.getLocalName())
+						&& defineName.equals(childElement
+								.getAttribute(Facelets.ATTR_NAME))) {
+					defineElement = childElement;
+
+				} else {
+					Element tempDefineElement = findDefineElement(childElement,
+							defineName);
+					if (tempDefineElement != null)
+						defineElement = tempDefineElement;
+				}
 			}
 		}
 		return defineElement;
@@ -104,7 +113,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 			if ((child.getNodeType() == Node.ELEMENT_NODE||child.getNodeType() == Node.TEXT_NODE)) {
 				
-				if(child.getNodeType() == Node.ELEMENT_NODE&&!"define".equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) {
+				if(child.getNodeType() == Node.ELEMENT_NODE&&!Facelets.TAG_DEFINE.equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) {
 					result.add(child);
 					
 				} else if(child.getNodeType() == Node.TEXT_NODE&&((Text)child).getNodeValue()!=null&&

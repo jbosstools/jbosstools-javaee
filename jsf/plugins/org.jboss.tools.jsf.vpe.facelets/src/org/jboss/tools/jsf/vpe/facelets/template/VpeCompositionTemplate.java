@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -24,7 +25,7 @@ public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument){
 
-		Attr attr = ((Element)sourceNode).getAttributeNode(VpeDefineContainerTemplate.ATTR_TEMPLATE);
+		Attr attr = ((Element)sourceNode).getAttributeNode(Facelets.ATTR_TEMPLATE);
 		if (attr != null) {
 			return super.create(pageContext, sourceNode, visualDocument);
 		} else  {
