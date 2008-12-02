@@ -76,6 +76,7 @@ import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.eclipse.wst.common.componentcore.resources.IVirtualResource;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -278,7 +279,10 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 	}
 
-	protected IVirtualFolder warSrcRootFolder;
+	private IVirtualFolder warDefaultSrcRootFolder;
+	protected IVirtualFolder warModelSrcRootFolder;
+	protected IVirtualFolder warActionSrcRootFolder;
+
 	protected File seamHomeFolder;
 	protected String seamHomePath;
 	protected File seamLibFolder;
@@ -312,7 +316,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		// get WebContents folder path from DWP model 
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-		warSrcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
+		warDefaultSrcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
 		webRootFolder = webRootVirtFolder.getUnderlyingFolder();
 
 		webContentFolder = webRootFolder.getLocation().toFile();
@@ -322,7 +326,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		webInfClassesMetaInf = new File(webInfClasses, "META-INF"); //$NON-NLS-1$
 		webInfClassesMetaInf.mkdirs();
 		webLibFolder = new File(webContentFolder, WEB_LIBRARIES_RELATED_PATH);
-		srcFolder = isWarConfiguration(model) ? new File(warSrcRootFolder.getUnderlyingFolder().getLocation().toFile(), DEFAULT_MODEL_SRC_FOLDER_NAME) : warSrcRootFolder.getUnderlyingFolder().getLocation().toFile();
+		srcFolder = isWarConfiguration(model) ? new File(warDefaultSrcRootFolder.getUnderlyingFolder().getLocation().toFile(), DEFAULT_MODEL_SRC_FOLDER_NAME) : warDefaultSrcRootFolder.getUnderlyingFolder().getLocation().toFile();
 		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		if(runtimeName!=null) {
 			copyFilesToWarProject(project, fv, model, monitor);
@@ -395,17 +399,13 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		hibernateDialectFilterSet.addFilterSet(encodedProjectFilterSet);
 		hibernateDialectFilterSet.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model, true));
 
-		final IContainer source = warSrcRootFolder.getUnderlyingFolder();
+		final IContainer source = warDefaultSrcRootFolder.getUnderlyingFolder();
 
 		// ********************************************************************************************
 		// Handle WAR configurations
 		// ********************************************************************************************
 		if (isWarConfiguration(model)) {
-			AntCopyUtils.FileSet webInfClassesSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
-			AntCopyUtils.copyFilesAndFolders(
-					seamGenResFolder, srcFolder, new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, false);
-
-			createComponentsProperties(srcFolder, "", false); //$NON-NLS-1$
+			boolean sourcesDoesNotExist = warDefaultSrcRootFolder.members().length==0;
 
 			// ********************************************************************************************
 			// Copy seam project indicator
@@ -414,14 +414,35 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			IPath actionSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/" + DEFAULT_ACTION_SRC_FOLDER_NAME); //$NON-NLS-1$
 			IPath modelSrcPath = new Path(source.getFullPath().removeFirstSegments(1) + "/" + DEFAULT_MODEL_SRC_FOLDER_NAME); //$NON-NLS-1$
 
-			warSrcRootFolder.delete(IVirtualFolder.FORCE, monitor);
-			WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
-			WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);			
+			if(sourcesDoesNotExist) {
+				// Remove old source folder and create new ones.
+				warDefaultSrcRootFolder.delete(IVirtualFolder.FORCE, monitor);
 
-			warSrcRootFolder.createLink(actionSrcPath, 0, null);
-			warSrcRootFolder.createLink(modelSrcPath, 0, null);					
+				WtpUtils.createSourceFolder(project, actionSrcPath, source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
+				WtpUtils.createSourceFolder(project, modelSrcPath, source.getFullPath().removeFirstSegments(1), null);
 
-			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1) + "/" + DEFAULT_ACTION_SRC_FOLDER_NAME + "/"); //$NON-NLS-1$
+				IVirtualComponent component = ComponentCore.createComponent(project);
+				warModelSrcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
+				warActionSrcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/dev")); //$NON-NLS-1$
+
+				warModelSrcRootFolder.createLink(modelSrcPath, 0, null);
+				warActionSrcRootFolder.createLink(actionSrcPath, 0, null);
+			} else {
+				// In case if user alrady has some resources we should not remove it.
+				actionSrcPath = source.getFullPath().removeFirstSegments(1);
+				modelSrcPath = actionSrcPath;
+				srcFolder = source.getLocation().toFile();
+				warActionSrcRootFolder = warDefaultSrcRootFolder;
+				warModelSrcRootFolder = warDefaultSrcRootFolder;
+			}
+
+			File actionsSrc = new File(project.getLocation().toFile(), actionSrcPath.toOSString());
+
+			AntCopyUtils.FileSet webInfClassesSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
+			AntCopyUtils.copyFilesAndFolders(
+					seamGenResFolder, srcFolder, new AntCopyUtils.FileSetFileFilter(webInfClassesSet), viewFilterSetCollection, false);
+
+			createComponentsProperties(srcFolder, "", false); //$NON-NLS-1$
 
 			//AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
 
