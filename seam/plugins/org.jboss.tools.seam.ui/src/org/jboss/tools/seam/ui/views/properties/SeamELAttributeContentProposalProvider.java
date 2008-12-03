@@ -25,6 +25,7 @@ import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELUtil;
+import org.jboss.tools.common.kb.KbProposal;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.attribute.IAttributeContentProposalProvider;
@@ -107,7 +108,7 @@ public class SeamELAttributeContentProposalProvider implements
 
 			if(prefix == null) prefix = "";
 			
-			List<String> suggestions = null;
+			List<KbProposal> suggestions = null;
 			try {
 				suggestions = engine.getCompletions(file, null, prefix, position, false, null, 0, contents.length());
 			} catch (BadLocationException e) {
@@ -116,12 +117,12 @@ public class SeamELAttributeContentProposalProvider implements
 			if(suggestions == null) {
 				return EMPTY;
 			}
-			List<String> uniqueSuggestions = engine.makeUnique(suggestions);
+			List<KbProposal> uniqueSuggestions = engine.makeKbUnique(suggestions);
 			
 			List<IContentProposal> list = new ArrayList<IContentProposal>();
-			for (String p: uniqueSuggestions) {
-				String label = prefix + p;
-				IContentProposal cp = makeContentProposal(p, label);
+			for (KbProposal p: uniqueSuggestions) {
+				String label = prefix + p.getReplacementString();
+				IContentProposal cp = makeContentProposal(p.getReplacementString(), label);
 				list.add(cp);
 			}
 			return list.toArray(new IContentProposal[0]);

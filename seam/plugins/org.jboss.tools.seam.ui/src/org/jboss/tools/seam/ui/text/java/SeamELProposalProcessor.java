@@ -94,20 +94,31 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		private final int fOffset;
 		private int fNewPosition;
 
+		private Image fImage;
+
 		public Proposal(String string, String prefix, int offset) {
 			this(string, prefix, offset, offset + string.length());
 		}
 
 		public Proposal(String string, String prefix, int offset, int newPosition) {
-			this(string, prefix, prefix, offset, offset + string.length());
+			this(string, prefix, prefix, offset, offset + string.length(), null);
+		}
+
+		public Proposal(String string, String prefix, int offset, int newPosition, Image image) {
+			this(string, prefix, prefix, offset, offset + string.length(), image);
 		}
 
 		public Proposal(String string, String prefix, String newPrefix, int offset, int newPosition) {
+			this(string, prefix, newPrefix, offset, newPosition, null);
+		}
+
+		public Proposal(String string, String prefix, String newPrefix, int offset, int newPosition, Image image) {
 			fString = string;
 			fPrefix = prefix;
 			fNewPrefix = newPrefix;
 			fOffset = offset;
 			fNewPosition = newPosition;
+			fImage = image;
 		}
 
 		/*
@@ -153,7 +164,9 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getImage()
 		 */
 		public Image getImage() {
-			return SharedXMLEditorPluginImageHelper.getImage(SharedXMLEditorPluginImageHelper.IMG_OBJ_ATTRIBUTE);
+			return fImage == null ? 
+					SharedXMLEditorPluginImageHelper.getImage(SharedXMLEditorPluginImageHelper.IMG_OBJ_ATTRIBUTE) :
+					fImage;
 		}
 
 		/*
@@ -424,14 +437,17 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
     		ElVarSearcher varSearcher = new ElVarSearcher(engine);
 			List<Var> vars = varSearcher.findAllVars(viewer, offset);
 			
-			//TODO
-
 			SeamELCompletionEngine fEngine= new SeamELCompletionEngine(seamProject);
-			List<String> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
-			List<String> uniqueSuggestions = fEngine.makeUnique(suggestions);
+			List<KbProposal> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
+			List<KbProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();
-			for (String string : uniqueSuggestions) {
+			for (KbProposal kbProposal : uniqueSuggestions) {
+				String string = kbProposal.getReplacementString();
+				Image image = kbProposal.hasImage() ?
+						kbProposal.getImage() : 
+						SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
+						
 				if (string.length() >= 0) {
 					string = proposalPrefix + string + proposalSufix;
 					if (string.length() > 0 && ('#' == string.charAt(0) || '$' == string.charAt(0)))
@@ -439,9 +455,9 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 					
 					if (string.startsWith("['") && string.endsWith("']") && prefix != null && prefix.endsWith(".")) {
 						String newPrefix = prefix.substring(0, prefix.length() - 1);
-						result.add(new Proposal(string, prefix, newPrefix, offset, offset - 1 + string.length() - proposalSufix.length()));
+						result.add(new Proposal(string, prefix, newPrefix, offset, offset - 1 + string.length() - proposalSufix.length(), image));
 					} else {
-						result.add(new Proposal(string, prefix, offset, offset + string.length() - proposalSufix.length()));
+						result.add(new Proposal(string, prefix, offset, offset + string.length() - proposalSufix.length(), image));
 					}
 				}
 			}
