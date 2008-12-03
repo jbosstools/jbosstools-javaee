@@ -910,13 +910,14 @@
                 <itemizedlist>
                     <listitem>
                         <para>HTML comments (<emphasis>
-                            <property>&lt;!-- --&gt;</property></emphasis>) which are output to the client
-                        </para>
+                                <property>&lt;!-- --&gt;</property>
+                            </emphasis>) which are output to the client </para>
                     </listitem>
                     <listitem>
                         <para>JSP comments (<emphasis>
-                            <property>&lt;%-- --%&gt;</property></emphasis>) which are not output to the
-                            client as part of the JSP page output</para>
+                                <property>&lt;%-- --%&gt;</property>
+                            </emphasis>) which are not output to the client as part of the JSP page
+                            output</para>
                     </listitem>
                 </itemizedlist>
             </section>
@@ -926,6 +927,21 @@
                 <title>JSP Syntax Validation</title>
                 <para>When working in JBoss Tools JSP editor you are constantly provided with
                     feedback and contextual error checking as you type.</para>
+            </section>
+
+            <section id="taglib_versions_support">
+                <title>Support for Taglib versions</title>
+
+                <para>VPE templates now support various versions of tag libraries. It means that the
+                    <property>VPE</property> takes control under those components which have different parameters or
+                    preview according to the framework version (like seam 1.2 and seam 2.0, or JSF
+                    1.1 and JSF 1.2).</para>
+
+                <para>For example, <emphasis>
+                    <property>&lt;s:decorate&gt;</property></emphasis> element in seam has different
+                    parameters in versions 1.2 and 2.0 as well as <emphasis>
+                        <property>&lt;h:outputLink&gt;</property></emphasis> JSF
+                    element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
 
