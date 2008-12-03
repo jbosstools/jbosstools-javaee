@@ -33,6 +33,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -78,6 +79,8 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
+import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
@@ -165,13 +168,7 @@ public class SeamFacetVersionChangeDialog extends TitleAreaDialog {
 		seamRuntimeCombo = new Combo(contents, SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		seamRuntimeCombo.setLayoutData(gd);
-		final SeamVersion version = SeamVersion.findByString(fv
-				.getVersionString());
-		String[] runtimeNames = getRuntimeNames(version);
-		seamRuntimeCombo.setItems(runtimeNames);
-		if (runtimeNames.length > 0) {
-			seamRuntimeCombo.select(0);
-		}
+		final SeamVersion version = refreshSeamRuntimeCombo();
 
 		Button addSeamRuntime = new Button(contents, SWT.PUSH);
 		addSeamRuntime.setText(Messages.SeamFacetVersionChangeDialog_Add);
@@ -188,7 +185,12 @@ public class SeamFacetVersionChangeDialog extends TitleAreaDialog {
 										.getRuntimes())), added, versions);
 				WizardDialog dialog = new WizardDialog(Display.getCurrent()
 						.getActiveShell(), wiz);
-				dialog.open();
+				int ok = dialog.open();
+				if ((ok == Dialog.OK) && (added.size() > 0)) {
+					SeamRuntimeManager.getInstance().addRuntime(added.get(0));
+					refreshSeamRuntimeCombo();
+				}
+				refresh();
 			}
 
 		});
@@ -244,8 +246,13 @@ public class SeamFacetVersionChangeDialog extends TitleAreaDialog {
 		added.getList().setLayoutData(gd);
 		added.getList().setFont(mainFont);
 		added.setLabelProvider(labelProvider);
-		SeamVersion newVersion = SeamRuntimeManager.getInstance()
-				.findRuntimeByName(seamRuntimeCombo.getText()).getVersion();
+		SeamVersion newVersion = null;
+		if (seamRuntimeCombo.getText().trim().length() > 0) {
+			newVersion = SeamRuntimeManager.getInstance().findRuntimeByName(
+					seamRuntimeCombo.getText()).getVersion();
+		} else {
+			newVersion = SeamVersion.findByString(fv.getVersionString());
+		}
 		IStructuredContentProvider aContentProvider = new WarFileSetProvider(
 				isWarConfiguration(), newVersion);
 		added.setContentProvider(aContentProvider);
@@ -333,6 +340,18 @@ public class SeamFacetVersionChangeDialog extends TitleAreaDialog {
 		});
 		refresh();
 		return area;
+	}
+
+	private SeamVersion refreshSeamRuntimeCombo() {
+		final SeamVersion version = SeamVersion.findByString(fv
+				.getVersionString());
+		String[] runtimeNames = getRuntimeNames(version);
+		seamRuntimeCombo.setItems(runtimeNames);
+		if (runtimeNames.length > 0 && seamRuntimeCombo.getText().trim().length() <=0 ) {
+			seamRuntimeCombo.select(0);
+		}
+		
+		return version;
 	}
 
 	private void refresh() {
