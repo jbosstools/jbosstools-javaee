@@ -111,7 +111,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 						seamProjectsSet.getModelFolder()==null?
 								"":seamProjectsSet.getModelFolder().getFullPath().toString()); //$NON-NLS-1$
 
-				boolean isReverseEngineer = "true".equals(params.get(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER)); //$NON-NLS-1$
+				boolean isReverseEngineer = "true".equals(params.get(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER).getValueAsString()); //$NON-NLS-1$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, isReverseEngineer);
 
 				if(isReverseEngineer) {
