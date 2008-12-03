@@ -27,6 +27,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -45,11 +46,15 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
+import org.jboss.tools.common.kb.KbProposal;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamMessagesComponent;
 import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo;
 
 /**
@@ -59,6 +64,11 @@ import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo
  */
 public final class SeamELCompletionEngine implements ELCompletionEngine {
 
+	private static final Image SEAM_EL_PROPOSAL_IMAGE = 
+		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
+	private static final Image SEAM_MESSAGES_PROPOSAL_IMAGE = 
+		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_MESSAGES_IMAGE_PATH);
+	
 	ISeamProject project;
 	ELParserFactory factory = ELParserUtil.getJbossFactory();
 	/**
@@ -72,8 +82,9 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		return factory;
 	}
 
+
 	/**
-	 * Create the array of suggestions. 
+	 * Create the list of suggestions. 
 	 * @param seamProject Seam project 
 	 * @param file File 
 	 * @param documentContent
@@ -96,9 +107,9 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @throws BadLocationException if accessing the current document fails
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public List<String> getCompletions(IFile file, IDocument document, CharSequence prefix, 
+	public List<KbProposal> getCompletions(IFile file, IDocument document, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
-		List<String> completions = new ArrayList<String>();
+		List<KbProposal> completions = new ArrayList<KbProposal>();
 		
 		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, vars, new ElVarSearcher(file, this));
 		if (status.isOK()) {
@@ -107,7 +118,6 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 
 		return completions;
 	}
-
 	private static final String collectionAdditionForCollectionDataModel = ".iterator().next()";
 	private static final String collectionAdditionForMapDataModel = ".entrySet().iterator().next()";
 
@@ -194,7 +204,15 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		}
 
 		if(!returnEqualedVariablesOnly && vars!=null) {
-			status.getProposals().addAll(getVarNameProposals(vars, operand.toString()));
+			List<String> varNameProposals = getVarNameProposals(vars, operand.toString());
+			if (varNameProposals != null) {
+				for (String varNameProposal : varNameProposals) {
+					KbProposal proposal = new KbProposal();
+					proposal.setReplacementString(varNameProposal);
+					proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+					status.getProposals().add(proposal);
+				}
+			}
 		}
 		return status;
 	}
@@ -326,11 +344,18 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			// no vars are resolved 
 			// the tokens are the part of var name ended with a separator (.)
 			resolvedVariables = resolveVariables(scope, expr, true, returnEqualedVariablesOnly);			
-			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			Set<KbProposal> proposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
 				if(varName.startsWith(operand.getText())) {
-					proposals.add(varName.substring(operand.getLength()));
+					KbProposal proposal = new KbProposal();
+					proposal.setReplacementString(varName.substring(operand.getLength()));
+					if (isSeamMessagesComponentVariable(var)) {
+						proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+					} else {
+						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+					}
+					proposals.add(proposal);
 				}
 			}
 			status.setProposals(proposals);
@@ -341,13 +366,27 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		// OK. we'll proceed with members of these vars
 		if (status.getResolvedTokens() == status.getTokens()) {
 			// First segment is the last one
-			Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			Set<KbProposal> proposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
-					proposals.add(varName.substring(operand.getLength()));
+					KbProposal proposal = new KbProposal();
+					proposal.setReplacementString(varName.substring(operand.getLength()));
+					if (isSeamMessagesComponentVariable(var)) {
+						proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+					} else {
+						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+					}
+					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
-					proposals.add(varName);
+					KbProposal proposal = new KbProposal();
+					proposal.setReplacementString(varName);
+					if (isSeamMessagesComponentVariable(var)) {
+						proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+					} else {
+						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+					}
+					proposals.add(proposal);
 				}
 				status.setMemberOfResolvedOperand(SeamExpressionResolver.getMemberInfoByVariable(var, true));
 			}
@@ -444,7 +483,8 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			List<TypeInfoCollector.MemberInfo> members,
 			ELOperandResolveStatus status,
 			boolean returnEqualedVariablesOnly, boolean varIsUsed) {
-		Set<String> proposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+		Set<KbProposal> kbProposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
+		
 		if (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION && ((ELPropertyInvocation)expr).getName() == null) {
 			// return all the methods + properties
 			for (TypeInfoCollector.MemberInfo mbr : members) {
@@ -458,9 +498,17 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 						if (key == null || key.length() == 0)
 							continue;
 						if (key.indexOf('.') != -1) {
-							proposals.add("['" + key + "']");
+							KbProposal proposal = new KbProposal();
+							proposal.setReplacementString("['" + key + "']");
+							proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+							
+							kbProposals.add(proposal);
 						} else {
-							proposals.add(key);
+							KbProposal proposal = new KbProposal();
+							proposal.setReplacementString(key);
+							proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+							
+							kbProposals.add(proposal);
 						}
 					}
 					continue;
@@ -472,8 +520,29 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				if (TypeInfoCollector.isNotParameterizedCollection(mbr) || TypeInfoCollector.isResourceBundle(mbr.getMemberType())) {
 					status.setMapOrCollectionOrBundleAmoungTheTokens();
 				}
-				proposals.addAll(infos.getMethodPresentationStrings());
-				proposals.addAll(infos.getPropertyPresentationStrings(status.getUnpairedGettersOrSetters()));
+				
+				Set<String> methodPresentations = 
+						infos.getMethodPresentationStrings();
+				if (methodPresentations != null) {
+					for (String presentation : methodPresentations) {
+						KbProposal proposal = new KbProposal();
+						proposal.setReplacementString(presentation);
+						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+						
+						kbProposals.add(proposal);
+					}
+				}
+				Set<String> propertyPresentations = 
+					infos.getPropertyPresentationStrings(status.getUnpairedGettersOrSetters());
+				if (propertyPresentations != null) {
+					for (String presentation : propertyPresentations) {
+						KbProposal proposal = new KbProposal();
+						proposal.setReplacementString(presentation);
+						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+						
+						kbProposals.add(proposal);
+					}
+				}
 			}
 		} else
 			if(expr.getType() != ELObjectType.EL_ARGUMENT_INVOCATION)
@@ -508,7 +577,17 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				if(returnEqualedVariablesOnly) {
 					// This is used for validation.
 					if (proposal.getPresentation().equals(filter)) {
-						proposals.add(proposal.getPresentation());
+						KbProposal kbProposal = new KbProposal();
+						kbProposal.setReplacementString(proposal.getPresentation());
+						
+						if (proposal.getMember() instanceof MessagesInfo) {
+							kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+						} else {
+							kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+						}
+						
+						kbProposals.add(kbProposal);
+
 						status.setMemberOfResolvedOperand(proposal.getMember());
 						if(status.getUnpairedGettersOrSetters()!=null) {
 							TypeInfoCollector.MethodInfo unpirMethod = status.getUnpairedGettersOrSetters().get(filter);
@@ -521,11 +600,15 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					}
 				} else if (proposal.getPresentation().startsWith(filter)) {
 					// This is used for CA.
-					proposals.add(proposal.getPresentation().substring(filter.length()));
+					KbProposal kbProposal = new KbProposal();
+					kbProposal.setReplacementString(proposal.getPresentation().substring(filter.length()));
+					kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+					
+					kbProposals.add(kbProposal);
 				}
 			}
 		}
-		status.setProposals(proposals);
+		status.setProposals(kbProposals);
 		if (status.isOK()){
 			status.setLastResolvedToken(expr);
 		}
@@ -616,16 +699,16 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @param suggestions a list of suggestions ({@link String}).
 	 * @return a list of unique completion suggestions.
 	 */
-	public List<String> makeUnique(List<String> suggestions) {
+	public List<KbProposal> makeKbUnique(List<KbProposal> suggestions) {
 		HashSet<String> present = new HashSet<String>();
-		ArrayList<String> unique= new ArrayList<String>();
+		ArrayList<KbProposal> unique= new ArrayList<KbProposal>();
 
 		if (suggestions == null)
 			return unique;
 
-		for (String item : suggestions) {
-			if (!present.contains(item)) {
-				present.add(item);
+		for (KbProposal item : suggestions) {
+			if (!present.contains(item.getReplacementString())) {
+				present.add(item.getReplacementString());
 				unique.add(item);
 			}
 		}
@@ -843,4 +926,33 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		return content.length();
 	}
 
+	public static boolean isSeamMessagesComponentVariable(ISeamContextVariable variable) {
+		if (variable instanceof SeamMessagesComponent) {
+			return true;
+		} else if (variable instanceof ISeamXmlFactory) {
+			ISeamXmlFactory factory = (ISeamXmlFactory)variable;
+			String value = factory.getValue();
+			if (value != null && value.length() > 0) {
+				if (value.startsWith("#{") || value.startsWith("${")) //$NON-NLS-1$ //$NON-NLS-2$
+					value = value.substring(2);
+				if (value.endsWith("}")) //$NON-NLS-1$
+					value = value.substring(0, value.length() - 1);
+			}
+			if (value != null && value.length() > 0) {
+				ISeamProject p = ((ISeamElement)factory).getSeamProject();
+				if (p != null) {
+					List<ISeamContextVariable> resolvedValues = SeamExpressionResolver.resolveVariables(p, null, value, true);
+					for (ISeamContextVariable var : resolvedValues) {
+						if (var.getName().equals(value)) {
+							if (var instanceof SeamMessagesComponent) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 }

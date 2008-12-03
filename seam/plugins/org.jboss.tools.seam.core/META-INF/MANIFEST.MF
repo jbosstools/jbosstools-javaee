@@ -50,7 +50,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  org.eclipse.jst.j2ee.core,
  org.eclipse.jst.jsf.facesconfig,
- org.eclipse.jst.common.frameworks
+ org.eclipse.jst.common.frameworks,
+ org.jboss.tools.common.kb;bundle-version="2.0.0"
 Bundle-Version: 2.0.0
 Export-Package: 
  org.jboss.tools.seam.core,
