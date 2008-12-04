@@ -5,8 +5,8 @@
 				CLASS="rich-dtascroller-table">
 				<TBODY>
 					<TR>
-						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">&#171;&#171;</TD>
-						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">&#171;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">««</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">«</TD>
 						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
 							<BR _MOZ_DIRTY="" TYPE="_moz"/>
 						</TD>
