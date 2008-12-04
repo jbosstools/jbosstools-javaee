@@ -476,7 +476,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		} else {
 			// In case of EAR configuration
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "messages_en.properties"), srcFolder, false); //$NON-NLS-1$
-			WtpUtils.createSourceFolder(project, source.getFullPath(), source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
+			WtpUtils.createSourceFolder(project, source.getFullPath().removeFirstSegments(1), source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
 		}
 	}
 
