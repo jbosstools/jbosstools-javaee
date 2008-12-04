@@ -24,8 +24,8 @@
                 <property>Delete</property>
             </emphasis>. Most applications have some kind of <property>CRUD</property>
             functionality, and we can assume that every programmer had to deal with
-            <property>CRUD</property> at some point. A <property>CRUD</property> application is one
-            that uses forms to get data into and out of a database. </para>
+                <property>CRUD</property> at some point. A <property>CRUD</property> application is
+            one that uses forms to get data into and out of a database. </para>
         <para> In the next section we will create <link linkend="intro">Seam</link> Web application,
             connect it to the <ulink url="http://www.hsqldb.org/">HSQL</ulink> database and add
                 <property>CRUD</property> support. </para>
@@ -37,7 +37,7 @@
         <itemizedlist>
             <listitem>
                 <para>First, you should <ulink url="http://docs.jboss.org/tools/resources/"
-                    >download</ulink> a database and start it by running <emphasis>
+                        >download</ulink> a database and start it by running <emphasis>
                         <property>./runDBServer.sh</property>
                     </emphasis> or <emphasis>
                         <property>runDBServer.bat</property>
@@ -45,8 +45,8 @@
             </listitem>
             <listitem>
                 <para>Create a new Seam Web Project using <property>New Seam Project
-                    wizard</property> or main menu <emphasis><property>File > New > Seam Web
-                        Project</property>.</emphasis></para>
+                        wizard</property> or main menu <emphasis><property>File > New > Seam Web
+                            Project</property>.</emphasis></para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -115,8 +115,7 @@
                     </emphasis> connection profile type, name it <emphasis>
                         <property>cruddb</property>
                     </emphasis> and click <emphasis>
-                        <property>Next</property>.
-                    </emphasis></para>
+                        <property>Next</property>. </emphasis></para>
             </listitem>
         </itemizedlist>
 
@@ -153,8 +152,7 @@
             <listitem>
                 <para>Now you should see the <property>New Driver Definition</property> dialog. On
                     the first tab select the <emphasis>
-                        <property>HSQLDB JBDC Driver</property>.
-                    </emphasis> Underneath in the <emphasis>
+                        <property>HSQLDB JBDC Driver</property>. </emphasis> Underneath in the <emphasis>
                         <property>Driver name</property>
                     </emphasis> field you can change its name if you need.</para>
             </listitem>
@@ -173,8 +171,8 @@
         <itemizedlist>
             <listitem>
                 <para>You may notice the note on the previous figure. It prompts that you should
-                    specify the driver of the type you pointed. Set the location of the driver by switching to the
-                    next tab and press <emphasis>
+                    specify the driver of the type you pointed. Set the location of the driver by
+                    switching to the next tab and press <emphasis>
                         <property>Add JAR/Zip</property>
                     </emphasis> button.</para>
             </listitem>
@@ -199,11 +197,10 @@
                     </emphasis> and <emphasis>
                         <property>User ID</property>
                     </emphasis> and click <emphasis>
-                        <property>OK</property>.
-                    </emphasis></para>
+                        <property>OK</property>. </emphasis></para>
             </listitem>
         </itemizedlist>
-        
+
         <figure>
             <title>Driver Definitions Properties</title>
             <mediaobject>
@@ -286,7 +283,7 @@
                     </emphasis> will be created.</para>
             </listitem>
         </itemizedlist>
-        
+
         <figure>
             <title>CRUDAPP Seam Project</title>
             <mediaobject>
@@ -297,17 +294,17 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+
         <itemizedlist>
             <listitem>
                 <para>Have a look at the created projects. You can expand
-                    <property>WEB_CONTENT</property> folder and open <property>home.xhtml</property>
-                    or <property>login.xhtml</property> with <property>JBoss Visual
-                    Editor</property>.</para>
+                        <property>WEB_CONTENT</property> folder and open
+                        <property>home.xhtml</property> or <property>login.xhtml</property> with
+                        <property>JBoss Visual Editor</property>.</para>
             </listitem>
         </itemizedlist>
         <figure>
-            <title>CRUDAPP Seam Project</title>
+            <title>login.xhtml in VPE</title>
             <mediaobject>
                 <imageobject>
                     <imagedata
@@ -342,10 +339,10 @@
                 <para>Expand <emphasis>
                         <property>cruddb</property>
                     </emphasis> nodes to view its <emphasis>
-                        <property>Schemas</property>
-                    </emphasis>, <emphasis>
-                        <property>Tables</property>
-                    </emphasis>, <emphasis>
+                        <property>Schemas</property>, </emphasis>
+                    <emphasis>
+                        <property>Tables</property>, </emphasis>
+                    <emphasis>
                         <property>Columns</property>
                     </emphasis> etc.</para>
             </listitem>
@@ -367,13 +364,13 @@
                     select <emphasis>
                         <property>New->Seam Generate Entities</property>
                     </emphasis> to create a set of <property>CRUD</property> Seam components and web
-                    pages based on existing tables in the database. In the <emphasis>
+                    pages based on existing tables in the database. On the first page of <emphasis>
                         <property>Generate Seam Entities</property>
-                    </emphasis> dialog keep everything by default and press <emphasis>
-                        <property>Finish</property>
-                    </emphasis>. </para>
+                    </emphasis> wizard keep everything by default and press <emphasis>
+                        <property>Next</property>. </emphasis></para>
             </listitem>
         </itemizedlist>
+
         <figure>
             <title>Generate Seam Entities</title>
             <mediaobject>
@@ -387,12 +384,51 @@
 
         <itemizedlist>
             <listitem>
+                <para>Click <emphasis>
+                        <property>Refresh</property></emphasis> to display all the tables from the
+                    database.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Dialog for Selecting Tables</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="images/crud_database_application/crud_database_application_18a.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>Now you can filter the tables. Use the <emphasis>
+                        <property>Include</property>
+                    </emphasis> button to include only necessary ones.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Selecting Tables</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="images/crud_database_application/crud_database_application_18b.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
                 <para>Under <emphasis>
                         <property>WebContent</property>
-                    </emphasis> folder you can find a lot of generated <property>xhtml</property>
+                    </emphasis> folder you can find all generated <property>xhtml</property>
                     files:</para>
             </listitem>
         </itemizedlist>
+
         <figure>
             <title>Entities Web Pages</title>
             <mediaobject>
@@ -417,7 +453,7 @@
                 <imageobject>
                     <imagedata
                         fileref="images/crud_database_application/crud_database_application_20.png"
-                        scale="75"/>
+                    />
                 </imageobject>
             </mediaobject>
         </figure>
@@ -425,8 +461,8 @@
         <itemizedlist>
             <listitem>
                 <para>Switch to <property>Hibernate</property> perspective with <emphasis>
-                        <property>Window->Open Perspective->Other...</property>
-                    </emphasis>. On <property>Hibernate Configurations</property> view expand the <emphasis>
+                        <property>Window->Open Perspective->Other...</property>.
+                    </emphasis> On <property>Hibernate Configurations</property> view expand the <emphasis>
                         <property>crudapp</property>
                     </emphasis> configuration. Right click on <property>Customers</property> and
                     select <emphasis>
@@ -447,13 +483,12 @@
 
         <itemizedlist>
             <listitem>
-                <para>Observe that <property>Mapping Diagram</property> is opened in the editor.
-                    Here you can see the relations between models and database tables. Select
-                        <property>Customers</property> entity model, right click and select <emphasis>
-                        <property>Open Source File</property>
-                    </emphasis>.</para>
+                <para>Observe the <property>Mapping Diagram</property> opened in the editor. Here
+                    you can see the relations between models and database tables. For better
+                    navigating on the diagram use the <property>Outline view</property>.</para>
             </listitem>
         </itemizedlist>
+
         <figure>
             <title>Mapping Diagram</title>
             <mediaobject>
@@ -467,10 +502,15 @@
 
         <itemizedlist>
             <listitem>
-                <para>This will open the <property>Customers.java</property> file in the java
-                    editor.</para>
+                <para>For example, select <property>Customers</property> entity, right click and
+                    select <emphasis>
+                        <property>Open Source File</property>.
+                    </emphasis> This will open the <property>Customers.java</property> file in the
+                    java editor. You can also do this by right-clicking on the same entity on the
+                        <property>Mapping Diagram</property>.</para>
             </listitem>
         </itemizedlist>
+
         <figure>
             <title>Entity class from Mapping Diagram</title>
             <mediaobject>
@@ -482,7 +522,7 @@
             </mediaobject>
         </figure>
 
-        <para>After that you are ready to deploy your application to J2EE application server. This
+        <para>So far, you are ready to deploy your application to JBoss Application Server. This 
             is described in the next chapter.</para>
 
     </section>
