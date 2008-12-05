@@ -35,10 +35,6 @@ import org.w3c.dom.Node;
 
 public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
-	private static final String COLUMN_CLASSES_EXPRESSION = 
-		"{@" + RichFaces.ATTR_COLUMN_CLASSES + "}"; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String ROW_CLASSES_EXPRESSION = 
-		"{@" + RichFaces.ATTR_ROW_CLASSES + "}"; //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String DEAFAULT_CELL_CLASS = "dr-subtable-cell rich-subtable-cell"; //$NON-NLS-1$
 	private static List<String> rowClasses;
 	private static List<String> columnClasses;
@@ -275,21 +271,13 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	private void initClasses(final Node sourceNode, final VpePageContext pageContext) {
-		VpeExpression rowClassesExpr;
-		VpeExpression columnClassesExpr;
-		try {
-			rowClassesExpr = VpeExpressionBuilder
-				.buildCompletedExpression(ROW_CLASSES_EXPRESSION, caseSensitive).getExpression();
-			columnClassesExpr = VpeExpressionBuilder
-				.buildCompletedExpression(COLUMN_CLASSES_EXPRESSION, caseSensitive).getExpression();
-		} catch (final VpeExpressionBuilderException e) {
-			throw new RuntimeException(e);
-		}
+		final VpeExpression exprRowClasses = RichFaces.getExprRowClasses();
+		final VpeExpression exprColumnClasses = RichFaces.getExprColumnClasses();
 
 		try {
-			rowClasses = VpeClassUtil.getClasses(rowClassesExpr, sourceNode,
+			rowClasses = VpeClassUtil.getClasses(exprRowClasses, sourceNode,
 					pageContext);
-			columnClasses = VpeClassUtil.getClasses(columnClassesExpr, sourceNode,
+			columnClasses = VpeClassUtil.getClasses(exprColumnClasses, sourceNode,
 					pageContext);
 		} catch (final VpeExpressionException e) {
 			throw new RuntimeException(e);

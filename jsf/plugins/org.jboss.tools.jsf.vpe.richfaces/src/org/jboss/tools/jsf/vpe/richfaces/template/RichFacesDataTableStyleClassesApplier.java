@@ -37,10 +37,6 @@ import org.w3c.dom.Node;
  * @author yradtsevich
  */
 public class RichFacesDataTableStyleClassesApplier {
-	private static final String COLUMN_CLASSES_EXPRESSION = 
-		"{@" + RichFaces.ATTR_COLUMN_CLASSES + "}"; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String ROW_CLASSES_EXPRESSION = 
-		"{@" + RichFaces.ATTR_ROW_CLASSES + "}"; //$NON-NLS-1$ //$NON-NLS-2$
 	private final List<String> rowClasses;
 	private final List<String> columnClasses;
 	
@@ -54,21 +50,13 @@ public class RichFacesDataTableStyleClassesApplier {
 	 */
 	public RichFacesDataTableStyleClassesApplier(final nsIDOMDocument visualDocument,
 			final VpePageContext pageContext, final Node sourceNode) {
-		VpeExpression rowClassesExpr;
-		VpeExpression columnClassesExpr;
+		final VpeExpression exprRowClasses = RichFaces.getExprRowClasses();
+		final VpeExpression exprColumnClasses = RichFaces.getExprColumnClasses();
+		
 		try {
-			rowClassesExpr = VpeExpressionBuilder
-				.buildCompletedExpression(ROW_CLASSES_EXPRESSION, true).getExpression();
-			columnClassesExpr = VpeExpressionBuilder
-				.buildCompletedExpression(COLUMN_CLASSES_EXPRESSION, true).getExpression();
-		} catch (final VpeExpressionBuilderException e) {
-			throw new RuntimeException(e);
-		}
-
-		try {
-			rowClasses = VpeClassUtil.getClasses(rowClassesExpr, sourceNode,
+			rowClasses = VpeClassUtil.getClasses(exprRowClasses, sourceNode,
 					pageContext);
-			columnClasses = VpeClassUtil.getClasses(columnClassesExpr, sourceNode,
+			columnClasses = VpeClassUtil.getClasses(exprColumnClasses, sourceNode,
 					pageContext);
 		} catch (final VpeExpressionException e) {
 			throw new RuntimeException(e);

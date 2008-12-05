@@ -11,6 +11,10 @@
 
 package org.jboss.tools.jsf.vpe.richfaces.template.util;
 
+import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
+import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilder;
+import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilderException;
+
 /**
  * contain rich faces tags and general attributes.
  * 
@@ -100,4 +104,40 @@ public class RichFaces {
 	
 	public static final String VAL_TRUE = "true"; //$NON-NLS-1$
 	public static final String VAL_FALSE = "false"; //$NON-NLS-1$
+	
+	private static VpeExpression exprColumnClasses = null;
+	/**
+	 * Returns the expression to extract style-classes from a {@code 'columnClasses'} attribute. 
+	 */
+	public static VpeExpression getExprColumnClasses() {
+		if (exprColumnClasses == null) {
+			try {
+				exprColumnClasses = VpeExpressionBuilder
+					.buildCompletedExpression("{@" + ATTR_COLUMN_CLASSES + "}", true) //$NON-NLS-1$ //$NON-NLS-2$
+					.getExpression();
+			} catch (VpeExpressionBuilderException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return exprColumnClasses;
+	}
+
+	private static VpeExpression exprRowClasses = null;
+	/**
+	 * Returns the expression to extract style-classes from a {@code 'rowClasses'} attribute. 
+	 */
+	public static VpeExpression getExprRowClasses() {
+		if (exprRowClasses == null) {
+			try {
+				exprRowClasses = VpeExpressionBuilder
+					.buildCompletedExpression("{@" + ATTR_ROW_CLASSES + "}", true) //$NON-NLS-1$ //$NON-NLS-2$
+					.getExpression();
+			} catch (VpeExpressionBuilderException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return exprRowClasses;
+	}
 }
