@@ -803,33 +803,26 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 		// prepare lists attributes
 
-		String listsHeightString = sourceElement
-				.getAttribute(ATTR_LISTS_HEIGHT);
-		try {
-			Integer.parseInt(listsHeightString);
-			listsHeight = listsHeightString;
-		} catch (NumberFormatException e) {
+		listsHeight = sourceElement.getAttribute(ATTR_LISTS_HEIGHT);
+		if (listsHeight == null) {
 			listsHeight = DEFAULT_LIST_HEIGHT;
+		} else {
+			listsHeight = VpeStyleUtil.addPxIfNecessary(listsHeight);
 		}
 
-		String sourceListWithString = sourceElement
-				.getAttribute(ATTR_SOURCE_LIST_WIDTH);
-		try {
-			Integer.parseInt(sourceListWithString);
-			sourceListsWidth = sourceListWithString;
-		} catch (NumberFormatException e) {
+		sourceListsWidth = sourceElement.getAttribute(ATTR_SOURCE_LIST_WIDTH);
+		if (sourceListsWidth == null) {
 			sourceListsWidth = DEFAULT_LIST_WIDTH;
+		} else {
+			sourceListsWidth = VpeStyleUtil.addPxIfNecessary(sourceListsWidth);
 		}
-
-		String targetListWithString = sourceElement
-				.getAttribute(ATTR_TARGET_LIST_WIDTH);
-		try {
-			Integer.parseInt(targetListWithString);
-			targetListsWidth = targetListWithString;
-		} catch (NumberFormatException e) {
+		
+		targetListsWidth = sourceElement.getAttribute(ATTR_TARGET_LIST_WIDTH);		
+		if (targetListsWidth == null) {
 			targetListsWidth = DEFAULT_LIST_WIDTH;
+		} else {
+			targetListsWidth = VpeStyleUtil.addPxIfNecessary(targetListsWidth);
 		}
-
 	}
 
 	private void clearData() {
