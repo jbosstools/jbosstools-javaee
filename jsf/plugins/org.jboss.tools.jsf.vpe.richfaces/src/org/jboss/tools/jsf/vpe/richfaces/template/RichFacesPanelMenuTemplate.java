@@ -108,7 +108,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 		String styleClass = sourceElement.getAttribute(STYLE_CLASS);
 
 		if (width != null) {
-			style += "" + "; width:" + width; //$NON-NLS-1$ //$NON-NLS-2$
+			style = "width:" + width + ";" + style; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
