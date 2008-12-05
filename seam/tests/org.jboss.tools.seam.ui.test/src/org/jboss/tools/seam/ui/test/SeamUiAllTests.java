@@ -42,7 +42,7 @@ public class SeamUiAllTests {
 
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
-		suite.addTestSuite(SeamProjectNewWizardTest.class);
+		suite.addTest(SeamProjectNewWizardTest.suite());
 		suite.addTestSuite(SeamFormNewWizardTest.class);
 		suite.addTestSuite(SeamPreferencesPageTest.class);		
 		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
