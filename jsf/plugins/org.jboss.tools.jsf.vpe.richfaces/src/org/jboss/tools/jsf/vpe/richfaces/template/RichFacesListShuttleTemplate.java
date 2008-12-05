@@ -191,8 +191,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				"rich-shuttle-button rich-shuttle-bottom"); //$NON-NLS-1$
 
 		// styles of captions
-		defaultStyleClasses.put("sourceCaption", "rich-shuttle-source-caption"); //$NON-NLS-1$ //$NON-NLS-2$
-		defaultStyleClasses.put("targetCaption", "rich-shuttle-target-caption"); //$NON-NLS-1$ //$NON-NLS-2$
+		defaultStyleClasses.put(SOURCE_CAPTION, "rich-shuttle-source-caption"); //$NON-NLS-1$ 
+		defaultStyleClasses.put(TARGET_CAPTION, "rich-shuttle-target-caption"); //$NON-NLS-1$
 
 		// styles of rows
 		defaultStyleClasses.put("sourceRow", "rich-shuttle-source-row"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -224,9 +224,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		defaultLabels.put("bottomControl", "Last"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// caption labels
-		defaultLabels.put("sourceCaption", ""); //$NON-NLS-1$ //$NON-NLS-2$
-		defaultLabels.put("targetCaption", ""); //$NON-NLS-1$ //$NON-NLS-2$
-
+		defaultLabels.put(SOURCE_CAPTION, ""); //$NON-NLS-1$
+		defaultLabels.put(TARGET_CAPTION, ""); //$NON-NLS-1$
 	}
 
 	/**
