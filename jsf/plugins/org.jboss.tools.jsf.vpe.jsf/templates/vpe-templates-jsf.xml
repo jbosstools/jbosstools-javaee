@@ -162,8 +162,8 @@
 					<vpe:drag start-enable="yes" />
 				</vpe:dnd>
 				<vpe:resize>
-					<vpe:width width-attr="width" />
-					<vpe:height height-attr="height" />
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
 				</vpe:resize>
 			</vpe:template>
 		</vpe:if>
@@ -172,8 +172,8 @@
 				height="{@height}" class="{@styleClass}" style="{@style}"
 				title="{tagstring()}" alt="{jsfvalue(@alt)}"/>
 			<vpe:resize>
-				<vpe:width width-attr="width" />
-				<vpe:height height-attr="height" />
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
 			</vpe:resize>
 		</vpe:template>
 	</vpe:tag>
@@ -625,8 +625,8 @@
 				captionClass="{@captionClass}" captionStyle="{@captionStyle}" rowClasses="{@rowClasses}" cellspacing="{@cellspacing}"
 				cellpadding="{@cellpadding}" bgcolor="{@bgcolor}"
 				title="{tagstring()}" table-size="{@columns}" />
-		<vpe:resize>
-				<vpe:width width-attr="width" />
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
 			</vpe:resize>
 			<vpe:dnd>
@@ -649,7 +649,7 @@
 				rowClasses="{@rowClasses}" frame="{@frame}" rules="{@rules}"
 				class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:resize>
-				<vpe:width width-attr="width" />
+				<vpe:width width-attr="style.width" />
 				<vpe:height height-attr="style.height" />
 			</vpe:resize>
 			<vpe:dnd>
