@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ActivationPolicy: lazy
-Bundle-Name: Seam Core Plug-in
+Bundle-Name: Seam Tools
 Bundle-ClassPath: seam-core.jar
 Bundle-Activator: org.jboss.tools.seam.core.SeamCorePlugin
 Bundle-ManifestVersion: 2
-Bundle-Vendor: Red Hat, Inc.
+Bundle-Vendor: JBoss, a division of Red Hat
 Bundle-SymbolicName: org.jboss.tools.seam.core; singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
@@ -51,7 +51,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.j2ee.core,
  org.eclipse.jst.jsf.facesconfig,
  org.eclipse.jst.common.frameworks,
- org.jboss.tools.common.kb;bundle-version="2.0.0"
+ org.jboss.tools.common.kb
 Bundle-Version: 2.0.0
 Export-Package: 
  org.jboss.tools.seam.core,
