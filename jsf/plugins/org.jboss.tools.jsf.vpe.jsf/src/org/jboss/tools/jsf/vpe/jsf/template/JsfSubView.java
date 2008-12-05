@@ -31,31 +31,15 @@ import org.w3c.dom.NodeList;
  */
 public class JsfSubView extends VpeAbstractTemplate {
 
-	private static String TABLE_WIDTH_STYLE = "width: 100%;"; //$NON-NLS-1$
-	
-	/**
-	 * Instantiates a new jsf sub view.
-	 */
-	public JsfSubView() {
-	}
+	private static String WRAPPER_DIV_STYLE = "width: 100%; display: table;"; //$NON-NLS-1$
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
-	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element)sourceNode;
-		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
-		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+		div.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, WRAPPER_DIV_STYLE);
 		
-		table.setAttribute(VpeStyleUtil.ATTRIBUTE_STYLE, TABLE_WIDTH_STYLE);
-		td.appendChild(div);
-		tr.appendChild(td);
-		table.appendChild(tr);
-		
-		VpeCreationData creationData = new VpeCreationData(table);
+		VpeCreationData creationData = new VpeCreationData(div);
 		VpeChildrenInfo divInfo = new VpeChildrenInfo(div);
 		creationData.addChildrenInfo(divInfo);
 		
