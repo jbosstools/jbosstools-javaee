@@ -3,7 +3,7 @@
       id="org.jboss.tools.jsf_feature"
       label="JBoss Tools JSF"
       version="2.0.0"
-      provider-name="JBoss, a division of Red Hat."
+      provider-name="JBoss, a division of Red Hat"
       image="jsf.jpg">
 
    <description url="http://www.jboss.org/tools">
@@ -262,12 +262,6 @@ litigation.
          version="0.0.0"/>
 
    <plugin
-         id="org.jboss.tools.jsf.vpe.tomahawk"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="org.jboss.tools.jsf.vpe.richfaces"
          download-size="0"
          install-size="0"
@@ -285,12 +279,6 @@ litigation.
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.adf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="org.jboss.tools.jsf.vpe.jsf"
