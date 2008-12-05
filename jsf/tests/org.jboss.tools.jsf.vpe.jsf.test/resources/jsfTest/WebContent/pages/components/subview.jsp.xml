@@ -1,25 +1,10 @@
 <tests>
-	<test id="subview1">
-		<TABLE
-			STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
-			<TR>
-				<TD>
-					<DIV></DIV>
-					<BR />
-				</TD>
-			</TR>
-		</TABLE>
-	</test>
-	<test id="subview2">
-		<TABLE
-			STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
-			<TR>
-				<TD>
-					<DIV>
-						<SPAN> subview content</SPAN>
-					</DIV>
-				</TD>
-			</TR>
-		</TABLE>
+	<test id="subview">
+		<DIV
+			STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%; display: table;">
+			<H4 STYLE="-moz-user-modify: read-write;">
+				<SPAN> JSF SubView Component </SPAN>
+			</H4>
+		</DIV>
 	</test>
 </tests>
