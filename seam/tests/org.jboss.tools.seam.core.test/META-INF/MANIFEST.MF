@@ -4,7 +4,7 @@ Bundle-Name: Seam Core Tests Plug-in
 Bundle-SymbolicName: org.jboss.tools.seam.core.test;singleton:=true
 Bundle-Version: 2.0.0
 Bundle-ClassPath: seam-core-tests.jar
-Bundle-Vendor: Red Hat, Inc.
+Bundle-Vendor: JBoss, a division of Red Hat
 Export-Package: org.jboss.tools.seam.core.test,
  org.jboss.tools.seam.core.test.project.facet,
  org.jboss.tools.seam.core.test.refactoring
