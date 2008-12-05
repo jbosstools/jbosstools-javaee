@@ -32,33 +32,33 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
-    private static String VALIDATION_MESSAGE = "Validation message";
+    private static String VALIDATION_MESSAGE = "Validation message"; //$NON-NLS-1$
 
-    protected static String PASSED_LABEL_ATTRIBUTE_NAME = "passedLabel";
-    protected static String LABEL_CLASS_ATTRIBUTE_NAME = "labelClass";
-    protected static String MARKER_CLASS_ATTRIBUTE_NAME = "markerClass";
-    protected static String MARKER_STYLE_ATTRIBUTE_NAME = "markerStyle";
+    protected static String PASSED_LABEL_ATTRIBUTE_NAME = "passedLabel"; //$NON-NLS-1$
+    protected static String LABEL_CLASS_ATTRIBUTE_NAME = "labelClass"; //$NON-NLS-1$
+    protected static String MARKER_CLASS_ATTRIBUTE_NAME = "markerClass"; //$NON-NLS-1$
+    protected static String MARKER_STYLE_ATTRIBUTE_NAME = "markerStyle"; //$NON-NLS-1$
 
-    protected static String ERROR_MARKER_CLASS_ATTRIBUTE_NAME = "errorMarkerClass";
-    protected static String ERROR_LABEL_CLASS_ATTRIBUTE_NAME = "errorLabelClass";
-    protected static String ERROR_CLASS_ATTRIBUTE_NAME = "errorClass";
+    protected static String ERROR_MARKER_CLASS_ATTRIBUTE_NAME = "errorMarkerClass"; //$NON-NLS-1$
+    protected static String ERROR_LABEL_CLASS_ATTRIBUTE_NAME = "errorLabelClass"; //$NON-NLS-1$
+    protected static String ERROR_CLASS_ATTRIBUTE_NAME = "errorClass"; //$NON-NLS-1$
 
-    protected static String FATAL_MARKER_CLASS_ATTRIBUTE_NAME = "fatalMarkerClass";
-    protected static String FATAL_LABEL_CLASS_ATTRIBUTE_NAME = "fatalLabelClass";
-    protected static String FATAL_CLASS_ATTRIBUTE_NAME = "fatalClass";
+    protected static String FATAL_MARKER_CLASS_ATTRIBUTE_NAME = "fatalMarkerClass"; //$NON-NLS-1$
+    protected static String FATAL_LABEL_CLASS_ATTRIBUTE_NAME = "fatalLabelClass"; //$NON-NLS-1$
+    protected static String FATAL_CLASS_ATTRIBUTE_NAME = "fatalClass"; //$NON-NLS-1$
 
-    protected static String INFO_MARKER_CLASS_ATTRIBUTE_NAME = "infoMarkerClass";
-    protected static String INFO_LABEL_CLASS_ATTRIBUTE_NAME = "infoLabelClass";
-    protected static String INFO_CLASS_ATTRIBUTE_NAME = "infoClass";
+    protected static String INFO_MARKER_CLASS_ATTRIBUTE_NAME = "infoMarkerClass"; //$NON-NLS-1$
+    protected static String INFO_LABEL_CLASS_ATTRIBUTE_NAME = "infoLabelClass"; //$NON-NLS-1$
+    protected static String INFO_CLASS_ATTRIBUTE_NAME = "infoClass"; //$NON-NLS-1$
 
-    protected static String WARN_MARKER_CLASS_ATTRIBUTE_NAME = "warnMarkerClass";
-    protected static String WARN_LABEL_CLASS_ATTRIBUTE_NAME = "warnLabelClass";
-    protected static String WARN_CLASS_ATTRIBUTE_NAME = "warnClass";
+    protected static String WARN_MARKER_CLASS_ATTRIBUTE_NAME = "warnMarkerClass"; //$NON-NLS-1$
+    protected static String WARN_LABEL_CLASS_ATTRIBUTE_NAME = "warnLabelClass"; //$NON-NLS-1$
+    protected static String WARN_CLASS_ATTRIBUTE_NAME = "warnClass"; //$NON-NLS-1$
 
-    protected static String ERROR_MESSAGE = "Error message";
-    protected static String FATAL_MESSAGE = "Fatal message";
-    protected static String INFO_MESSAGE = "Info message";
-    protected static String WARNING_MESSAGE = "Warning message";
+    protected static String ERROR_MESSAGE = "Error message"; //$NON-NLS-1$
+    protected static String FATAL_MESSAGE = "Fatal message"; //$NON-NLS-1$
+    protected static String INFO_MESSAGE = "Info message"; //$NON-NLS-1$
+    protected static String WARNING_MESSAGE = "Warning message"; //$NON-NLS-1$
 
     protected String passedLabelValue;
     protected String labelClassValue;
@@ -79,14 +79,14 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
     protected String styleValue;
     protected String styleClassValue;
 
-    protected static String[] markers = { "passedMarker", "errorMarker",
-	    "fatalMarker", "infoMarker", "warnMarker" };
+    protected static String[] markers = { "passedMarker", "errorMarker", //$NON-NLS-1$ //$NON-NLS-2$
+	    "fatalMarker", "infoMarker", "warnMarker" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-    protected static String FACET_TAG_NAME = "facet";
+    protected static String FACET_TAG_NAME = "facet"; //$NON-NLS-1$
 
-    protected static String NAME_ATTRIBUTE_NAME = "name";
+    protected static String NAME_ATTRIBUTE_NAME = "name"; //$NON-NLS-1$
 
-    private final static String MESSAGE_STYLE = "padding-left: 1px;padding-right: 1px;padding-top: 1px;padding-bottom: 1px";
+    private final static String MESSAGE_STYLE = "padding-left: 1px;padding-right: 1px;padding-top: 1px;padding-bottom: 1px"; //$NON-NLS-1$
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
@@ -146,14 +146,14 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	    nsIDOMElement span = visualDocument
 		    .createElement(HtmlComponentUtil.HTML_TAG_SPAN);
 
-	    if (styleValue != null && !styleValue.trim().equals(""))
+	    if (styleValue != null && !styleValue.trim().equals("")) //$NON-NLS-1$
 		span
 			.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 				styleValue);
-	    if (styleClassValue != null && !styleClassValue.trim().equals(""))
+	    if (styleClassValue != null && !styleClassValue.trim().equals("")) //$NON-NLS-1$
 		span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 			styleClassValue);
-	    if (labelClassValue != null && !labelClassValue.trim().equals(""))
+	    if (labelClassValue != null && !labelClassValue.trim().equals("")) //$NON-NLS-1$
 		span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 			labelClassValue);
 
@@ -231,7 +231,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
 	nsIDOMElement tbody = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-	tbody.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, "top");
+	tbody.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, "top"); //$NON-NLS-1$
 	tableHeader.appendChild(tbody);
 
 	nsIDOMElement tr = visualDocument
@@ -239,10 +239,10 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
 	tbody.appendChild(tr);
 
-	if (styleValue != null && !styleValue.trim().equals(""))
+	if (styleValue != null && !styleValue.trim().equals("")) //$NON-NLS-1$
 	    tableHeader.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 		    styleValue);
-	if (styleClassValue != null && !styleClassValue.trim().equals(""))
+	if (styleClassValue != null && !styleClassValue.trim().equals("")) //$NON-NLS-1$
 	    tableHeader.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 		    styleClassValue);
 
@@ -257,54 +257,54 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 		case 0: // passed
 
 		    if (markerClassValue != null
-			    && !markerClassValue.trim().equals(""))
+			    && !markerClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				markerClassValue);
 		    if (markerStyleValue != null
-			    && !markerStyleValue.trim().equals(""))
+			    && !markerStyleValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
 				markerStyleValue);
 		    break;
 		case 1: // error
 		    if (errorClassValue != null
-			    && !errorClassValue.trim().equals(""))
+			    && !errorClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				errorClassValue);
 		    if (errorMarkerClassValue != null
-			    && !errorMarkerClassValue.trim().equals(""))
+			    && !errorMarkerClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				errorMarkerClassValue);
 
 		    break;
 		case 2: // fatal
 		    if (fatalClassValue != null
-			    && !fatalClassValue.trim().equals(""))
+			    && !fatalClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				fatalClassValue);
 
 		    if (fatalMarkerClassValue != null
-			    && !fatalMarkerClassValue.trim().equals(""))
+			    && !fatalMarkerClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				fatalMarkerClassValue);
 
 		    break;
 		case 3: // info
 		    if (infoClassValue != null
-			    && !infoClassValue.trim().equals(""))
+			    && !infoClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				infoClassValue);
 		    if (infoMarkerClassValue != null
-			    && !infoMarkerClassValue.trim().equals(""))
+			    && !infoMarkerClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				infoMarkerClassValue);
 		    break;
 		case 4: // warn
 		    if (warnClassValue != null
-			    && !warnClassValue.trim().equals(""))
+			    && !warnClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				warnClassValue);
 		    if (warnMarkerClassValue != null
-			    && !warnMarkerClassValue.trim().equals(""))
+			    && !warnMarkerClassValue.trim().equals("")) //$NON-NLS-1$
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 				warnMarkerClassValue);
 
@@ -328,7 +328,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	nsIDOMElement td1 = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TD);
 
-	if (labelClassValue != null && !labelClassValue.trim().equals(""))
+	if (labelClassValue != null && !labelClassValue.trim().equals("")) //$NON-NLS-1$
 	    td1
 		    .setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 			    labelClassValue);
@@ -364,7 +364,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	    if (!(nodeList.item(i) instanceof Element))
 		continue;
 
-	    String facetName = nodeList.item(i).getPrefix() + ":"
+	    String facetName = nodeList.item(i).getPrefix() + ":" //$NON-NLS-1$
 		    + FACET_TAG_NAME;
 
 	    if (nodeList.item(i).getNodeName().equalsIgnoreCase(facetName)
