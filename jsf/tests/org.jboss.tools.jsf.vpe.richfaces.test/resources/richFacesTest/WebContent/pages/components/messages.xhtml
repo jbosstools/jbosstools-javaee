@@ -10,8 +10,34 @@
 </head>
 <body>
 <f:view>
-    <rich:messages id="messages">
-    </rich:messages>
+	<rich:messages id="messages" layout="table" tooltip="true"
+		showDetail="false" showSummary="true" passedLabel="No Error"
+		errorLabelClass="errorLabel" fatalLabelClass="fatalLabel"
+		infoLabelClass="infoLabel" warnLabelClass="warnLabel"
+		warnMarkerClass="markerWarn" infoMarkerClass="markerInfo"
+		errorMarkerClass="markerError" fatalMarkerClass="markerFatal"
+		errorClass="errorClass" fatalClass="fatalClass" warnClass="warnClass"
+		infoClass="infoClass" styleClass="infoClass"
+		style="color:Turquoise;text-align:center;font-size:small;font-style:italic;border-style:dotted;background-color:Orchid;font-family:Arial CE,Arial Narrow;text-decoration:line-through;font-weight:bolder;">
+		<f:facet name="errorMarker">
+
+			<h:outputText value="Error" />
+		</f:facet>
+		<f:facet name="fatalMarker">
+			<h:outputText value="Fatal" />
+		</f:facet>
+		<f:facet name="infoMarker">
+			<h:outputText value="Info" />
+		</f:facet>
+		<f:facet name="warnMarker">
+			<h:outputText value="Warning" />
+		</f:facet>
+		<f:facet name="passedMarker">
+			<h:outputText value="Passed" />
+		</f:facet>
+		<h:outputText value="#{messages.summary}">
+		</h:outputText>
+	</rich:messages>
 </f:view>
 </body>
 </html>

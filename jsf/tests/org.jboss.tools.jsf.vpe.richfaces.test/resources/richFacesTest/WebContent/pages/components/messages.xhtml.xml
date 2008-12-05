@@ -1,37 +1,57 @@
 <tests>
 	<test id="messages">
-		<TABLE>
+		<TABLE CELLSPACING="0" CELLPADDING="0"
+			STYLE="border-style: dotted; color: Turquoise; text-align: center; font-size: small; font-style: italic; background-color: Orchid; font-family: Arial CE,Arial Narrow; text-decoration: line-through; font-weight: bolder;"
+			CLASS="rich-messages infoClass">
 			<TR>
 				<TD>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
-				</TD>
-				<TD>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+					<SPAN CLASS="rich-messages-marker">
+						<DIV>
+							<SPAN> Passed </SPAN>
+						</DIV>
+					</SPAN>
+					<SPAN CLASS="rich-messages-label"> No Error </SPAN>
 				</TD>
 			</TR>
 			<TR>
-				<TD>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				<TD CLASS="errorClass">
+					<SPAN CLASS="rich-messages-marker markerError">
+						<DIV>
+							<SPAN> Error </SPAN>
+						</DIV>
+					</SPAN>
+					<SPAN CLASS="rich-messages-label errorLabel"> Error message </SPAN>
 				</TD>
-				<TD> Error message</TD>
 			</TR>
 			<TR>
-				<TD>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				<TD CLASS="fatalClass">
+					<SPAN CLASS="rich-messages-marker markerFatal">
+						<DIV>
+							<SPAN> Fatal </SPAN>
+						</DIV>
+					</SPAN>
+					<SPAN CLASS="rich-messages-label fatalLabel"> Fatal message </SPAN>
 				</TD>
-				<TD> Fatal message</TD>
 			</TR>
 			<TR>
-				<TD>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				<TD CLASS="infoClass">
+					<SPAN CLASS="rich-messages-marker markerInfo">
+						<DIV>
+							<SPAN> Info </SPAN>
+						</DIV>
+					</SPAN>
+					<SPAN CLASS="rich-messages-label infoLabel"> Info message </SPAN>
 				</TD>
-				<TD> Info message</TD>
 			</TR>
 			<TR>
-				<TD>
-					<BR _MOZ_DIRTY="" TYPE="_moz"/>
+				<TD CLASS="warnClass">
+					<SPAN CLASS="rich-messages-marker markerWarn">
+						<DIV>
+							<SPAN> Warning </SPAN>
+						</DIV>
+					</SPAN>
+					<SPAN CLASS="rich-messages-label warnLabel"> Warning message </SPAN>
 				</TD>
-				<TD> Warning message</TD>
 			</TR>
 		</TABLE>
 	</test>
