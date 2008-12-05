@@ -19,6 +19,7 @@ import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
+import org.jboss.tools.test.util.JobUtils;
 /**
  * @author dazarov
  * JBIDE-3254 tests
@@ -85,21 +86,26 @@ public class PackageNamesTest extends TestCase{
 	
 	private SeamInstallWizardPage startCreateSeamWizard(String projectName){
 		wizard = (NewProjectDataModelFacetWizard)WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
+		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME", projectName);
+
 		WizardDialog dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				wizard);
-		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME", projectName);
+
 		dialog.create();
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		// delay is needed to wait for dialog initialization is finished
+		// such as default runtime and configuration for seam wizard
+		JobUtils.delay(2000);
 		startSeamPrjWzPg = wizard.getStartingPage();
 		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
-		
 		IWizardPage webModuleWizPg = wizard.getNextPage(startSeamPrjWzPg);
 		assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
 		IWizardPage jsfCapabilitiesWizPg = wizard.getNextPage(webModuleWizPg);
 		assertNotNull("Cannot create JSF capabilities wizard page",jsfCapabilitiesWizPg);
 		SeamInstallWizardPage seamWizPg = (SeamInstallWizardPage)wizard.getNextPage(jsfCapabilitiesWizPg);
 		assertNotNull("Cannot create seam facet wizard page",seamWizPg);
-		
 		return seamWizPg;
 	}
 }

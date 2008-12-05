@@ -34,6 +34,7 @@ import org.jboss.tools.jst.firstrun.JBossASAdapterInitializer;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.test.util.JobUtils;
 import org.osgi.framework.Bundle;
 
 /**
@@ -65,20 +66,26 @@ public class SeamProjectNewWizardTest extends TestCase{
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		wizard = (NewProjectDataModelFacetWizard)WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
-		WizardDialog dialog = new WizardDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				wizard);
-		dialog.create();
-		startSeamPrjWzPg = wizard.getStartingPage();
-		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME","testName");
-		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
+
 	}
 
 	/**
 	 * 
 	 */
 	public void testSeamProjectNewWizardInstanceIsCreated() {
+		wizard = (NewProjectDataModelFacetWizard)WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
+		WizardDialog dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				wizard);
+		dialog.create();
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		JobUtils.delay(2000);
+		boolean canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
+		startSeamPrjWzPg = wizard.getStartingPage();
+		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME","testName");
+		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
 		IWizardPage webModuleWizPg = wizard.getNextPage(startSeamPrjWzPg);
 		assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
 		IWizardPage jsfCapabilitiesWizPg = wizard.getNextPage(webModuleWizPg);
@@ -94,10 +101,18 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * See http://jira.jboss.com/jira/browse/JBIDE-1111
 	 */
 	public void testJiraJbide1111() {
+		wizard = (NewProjectDataModelFacetWizard)WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_SEAM_PROJECT_WIZARD_ID);
+		WizardDialog dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				wizard);
+		dialog.create();
+		dialog.setBlockOnOpen(false);
+		
+		startSeamPrjWzPg = wizard.getStartingPage();
+		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME","testName");
+		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
 		// Check Finish button
-		boolean canFinish = wizard.canFinish();
-		assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
-		wizard.performCancel();
+	
 
 		// Create JBoss AS Runtime, Server, HSQL DB Driver
 		try {
@@ -120,21 +135,21 @@ public class SeamProjectNewWizardTest extends TestCase{
 		} catch (IOException e) {
 			fail("Cannot create Seam Runtime to test New Seam Project Wizard. " + e.getMessage());
 		}
-
-		try {
-			setUp();
-		} catch (Exception e) {
-			fail("Cannot create New Seam Project Wizard. " + e.getMessage());
-		}
+		dialog.open();
+		JobUtils.delay(2000);
 
 		// Check Finish button
-		canFinish = wizard.canFinish();
+		boolean canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled at first wizard page before user entered the project name.", canFinish);
-
+		wizard.performCancel();
+		
 		// Set project name
 		IDataModel model = wizard.getDataModel();
 		model.setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProjectNewWizardAllowsToFinishAtFirstPageProjectName");
 
+		dialog.open();
+		JobUtils.delay(2000);
+		
 		// Check Finish button
 		canFinish = wizard.canFinish();
 		assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", canFinish);

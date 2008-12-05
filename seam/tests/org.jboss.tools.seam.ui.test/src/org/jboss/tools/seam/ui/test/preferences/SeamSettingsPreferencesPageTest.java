@@ -44,9 +44,9 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 
 	IProject project = null;
 	static String PROJECT_NAME = "TestSeamSettingsPreferencesPage";
-	static String MODEL_PACKAGE_NAME = "org.domain." + PROJECT_NAME + ".entity";
-	static String ACTION_PACKAGE_NAME = "org.domain." + PROJECT_NAME + ".session";
-	static String TEST_PACKAGE_NAME = "org.domain." + PROJECT_NAME + ".test";
+	static String MODEL_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".entity").toLowerCase();
+	static String ACTION_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".session").toLowerCase();
+	static String TEST_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".test").toLowerCase();
 	static String RUNTIME_NAME = "Seam 1.2.0 Seam Settings Page Test";
 
 	public SeamSettingsPreferencesPageTest() {
@@ -108,13 +108,13 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 		assertEquals("Seam settings version 1.1 property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, ""), ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_1);
 		assertEquals("Seam runtime property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, ""), RUNTIME_NAME);
 		assertEquals("Seam deployment type property is not set", pref.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""), ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
-		assertEquals("Model package name property is not set", pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, ""), MODEL_PACKAGE_NAME);
+		assertEquals("Model package name property is not set", MODEL_PACKAGE_NAME,pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, ""));
 		assertEquals("Model source folder property is not set", pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, ""), "/" + PROJECT_NAME + "/src");
-		assertEquals("Action package name property is not set", pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, ""), ACTION_PACKAGE_NAME);
+		assertEquals("Action package name property is not set", ACTION_PACKAGE_NAME, pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, ""));
 		assertEquals("Action source folder property is not set", pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, ""), "/" + PROJECT_NAME + "/src");
 		assertEquals("Seam 'create tests' property is not set", pref.get(ISeamFacetDataModelProperties.TEST_CREATING, ""), "true");
 		assertEquals("Test project property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, ""), PROJECT_NAME);
-		assertEquals("Test package name property is not set", pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""), TEST_PACKAGE_NAME);
+		assertEquals("Test package name property is not set", TEST_PACKAGE_NAME, pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""));
 		assertEquals("Test source folder property is not set", pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ""), "/" + PROJECT_NAME + "/src");
 		assertEquals("View folder property is not set", pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), "/" + PROJECT_NAME);
 		
