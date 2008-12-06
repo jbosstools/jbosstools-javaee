@@ -57,6 +57,7 @@ public class SeamFacetPreferenceInitializer extends
 		node.put(SeamProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION, RUNTIME_CONFIG_FORMAT_VERSION);
 		node.put(SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS, "war"); //$NON-NLS-1$
 		node.put(SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE, "HSQL"); //$NON-NLS-1$
+		node.put(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS"); //$NON-NLS-1$
 		Map<String, SeamRuntime> map = new HashMap<String,SeamRuntime>();
 		
 		// Initialize Seam 1.2 Runtime from JBoss EAP
