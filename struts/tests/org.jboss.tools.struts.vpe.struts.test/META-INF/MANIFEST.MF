@@ -15,4 +15,4 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Bundle-ClassPath: struts-test.jar
 Export-Package: org.jboss.tools.struts.vpe.struts.test
-Bundle-Vendor: Red Hat, Inc.
+Bundle-Vendor: JBoss, a division of Red Hat
