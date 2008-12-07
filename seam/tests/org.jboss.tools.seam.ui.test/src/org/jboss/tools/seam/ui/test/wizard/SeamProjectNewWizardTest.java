@@ -109,7 +109,7 @@ public class SeamProjectNewWizardTest extends TestCase{
 		dialog.close();
 	}
 	
-	public static final String INIT_ERROR_MЕSSAGE = "System property ''{0}'' must be configured with -D to run these tests";
+	public static final String INIT_ERROR_MESSAGE = "System property ''{0}'' must be configured with -D to run these tests";
 	public static final String PROP_JBOSS_AS_4_2_HOME = "jbosstools.test.jboss.home.4.2";
 	public static final String JBOSS_AS_42_HOME_PATH;
 	public static final String PROP_SEAM_1_2_HOME_PATH = "jbosstools.test.seam.1.2.1.eap.home";
@@ -118,11 +118,11 @@ public class SeamProjectNewWizardTest extends TestCase{
 	static {
 		SEAM_1_2_HOME_PATH = System.getProperty(PROP_SEAM_1_2_HOME_PATH);
 		if(SEAM_1_2_HOME_PATH == null) {
-			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MЕSSAGE, PROP_SEAM_1_2_HOME_PATH));
+			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MESSAGE, PROP_SEAM_1_2_HOME_PATH));
 		}
 		JBOSS_AS_42_HOME_PATH = System.getProperty(PROP_JBOSS_AS_4_2_HOME);
 		if(JBOSS_AS_42_HOME_PATH == null) {
-			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MЕSSAGE,PROP_JBOSS_AS_4_2_HOME));
+			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MESSAGE,PROP_JBOSS_AS_4_2_HOME));
 		}
 	}
 	
