@@ -4,7 +4,7 @@ Bundle-Name: MyFaces support for JBoss Visual Page Editor Plug-in
 Bundle-SymbolicName: org.jboss.tools.jsf.vpe.myfaces;singleton:=true
 Bundle-Version: 2.1.0
 Bundle-Activator: org.jboss.tools.jsf.vpe.myfaces.MyFacesTemplatesPlugin
-Bundle-Vendor: Red Hat, Inc.
+Bundle-Vendor: JBoss, a division of Red Hat
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.common,
