@@ -4,7 +4,7 @@ Bundle-Name: JBoss Seam-gen Plug-in
 Bundle-SymbolicName: org.jboss.ide.seam.gen;singleton:=true
 Bundle-Version: 0.5.8
 Bundle-Activator: org.jboss.ide.seam.gen.SeamGenPlugin
-Bundle-Vendor: JBoss
+Bundle-Vendor: JBoss, a division of Red Hat
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
