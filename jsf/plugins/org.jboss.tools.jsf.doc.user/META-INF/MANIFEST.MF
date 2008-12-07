@@ -7,3 +7,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.help
 Eclipse-LazyStart: true
+Bundle-Vendor: JBoss, a division of Red Hat
