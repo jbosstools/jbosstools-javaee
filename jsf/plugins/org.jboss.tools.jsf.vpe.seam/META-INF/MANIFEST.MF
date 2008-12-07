@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.ui.ide,
  org.mozilla.xpcom
-Bundle-Vendor: Red Hat, Inc.
+Bundle-Vendor: JBoss, a division of Red Hat
 Eclipse-LazyStart: true
 Bundle-ClassPath: lib/antlr.jar,
  .
