@@ -10,16 +10,21 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
+import org.jboss.tools.vpe.editor.template.expression.VpeExpressionException;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VpeClassUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,22 +38,10 @@ import org.w3c.dom.NodeList;
 public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 
 	private static final String FACET_DEFINITION = "facet";
-
 	private static final String FACET_URI = "http://java.sun.com/jsf/core";
-
 	private static final String FACET_NAME_ATTR = "name";
-
 	private static final String FACET_NAME_ATTR_VALUE = "term";
-
 	private static final String STYLE_RESOURCES_PATH = "/dataDefinitionList/dataDefinitionList.css";
-
-	private static final String HEADER_CLASS_ATTR_NAME = "headerClass";
-
-	private static final String ROWCLASSES_ATTR_NAME = "rowClasses";
-
-	private static final String COLUMNCLASSES_ATTR_NAME = "columnClasses";
-
-	private static final String STYLECLASSES_ATTR_NAME = "styleClass";
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -64,7 +57,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		nsIDOMElement listElement = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DL);
+		nsIDOMElement listElement = visualDocument.createElement(HTML.TAG_DL);
 		ComponentUtil.setCSSLink(
 				pageContext, 
 				STYLE_RESOURCES_PATH,
@@ -72,41 +65,76 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 		
 		VpeCreationData creationData = new VpeCreationData(listElement);
 		
-		Element el = null;
-		Node tempNode = null;
+		Element child = null;
 		NodeList list = sourceNode.getChildNodes();
 		
 		// sets attributes for list
-		ComponentUtil.correctAttribute((Element)sourceNode, listElement, HtmlComponentUtil.HTML_STYLE_ATTR, HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
+		ComponentUtil.correctAttribute((Element)sourceNode, listElement,
+				RichFaces.ATTR_STYLE, HTML.ATTR_STYLE, null, null);
 		
-		ComponentUtil.correctAttribute((Element)sourceNode, listElement, HtmlComponentUtil.HTML_CLASS_ATTR, HtmlComponentUtil.HTML_CLASS_ATTR, null, "listClass");
+		ComponentUtil.correctAttribute((Element)sourceNode, listElement, 
+				RichFaces.ATTR_STYLE_CLASS, HTML.ATTR_CLASS, null, "listClass");
 
+		Element facetElement = null;
+		List<Element> dataDefinitionElements = new ArrayList<Element>();		
 		for (int i = 0; i < list.getLength(); i++) {
-			tempNode = list.item(i);
-			if (!(tempNode instanceof Element)) {
+			Node nodeChild = list.item(i);
+			if (!(nodeChild instanceof Element)) {
 				continue;
 			}
-			el = (Element) tempNode;
-			if (el.getLocalName().equals(FACET_DEFINITION)
-					&&(FACET_URI.equals(pageContext.getSourceTaglibUri(el)))
-					&& el.getAttribute(FACET_NAME_ATTR) != null
-					&& el.getAttribute(FACET_NAME_ATTR).equals(
+			child = (Element) nodeChild;
+			
+			if (!child.getLocalName().equals(FACET_DEFINITION)) {
+				dataDefinitionElements.add(child);				
+			} else if (facetElement == null 
+					&& (FACET_URI.equals(pageContext.getSourceTaglibUri(child)))
+					&& child.getAttribute(FACET_NAME_ATTR) != null
+					&& child.getAttribute(FACET_NAME_ATTR).equals(
 							FACET_NAME_ATTR_VALUE)) {
-				parseListFacetDefinitionElement(pageContext, sourceNode,
-						visualDocument, creationData, listElement, el);
-			} else {
-				parseListElement(pageContext, sourceNode, visualDocument,
-						creationData, listElement, el);
+				facetElement = child;
+			}
+		}
+
+		final List<String> rowClasses;
+		try {
+			final VpeExpression exprRowClasses = RichFaces.getExprRowClasses();		
+			rowClasses = VpeClassUtil.getClasses(exprRowClasses, sourceNode,
+					pageContext);
+		} catch (VpeExpressionException e) {
+			throw new RuntimeException(e);
+		}
+		
+		final int rowClassesSize = rowClasses.size();		
+		int rows = 1;
+		try {
+			rows = Integer.parseInt(((Element)sourceNode).getAttribute(RichFaces.ATTR_ROWS));
+		} catch (NumberFormatException x) {
+			// this is OK, rows still equals 1
+		}
+		
+		for (int row = 0; row < rows; row++) {		
+			if (facetElement != null) {
+				insertDtElement(sourceNode, visualDocument,
+						creationData, listElement, facetElement);
+				
+			}
+			
+			if (!dataDefinitionElements.isEmpty()) {
+				String ddClass = "columnClass";
+				if (rowClassesSize > 0) {
+					ddClass+= " " + rowClasses.get(row % rowClassesSize); //$NON-NLS-1$
+				}
+				insertDdElement(sourceNode, visualDocument,
+						creationData, listElement, dataDefinitionElements,
+						ddClass);
 			}
 		}
 		return creationData;
 	}
 
 	/**
-	 * Parses elements for list
+	 * Insert elements in list
 	 * 
-	 * @param pageContext
-	 *            Contains the information on edited page.
 	 * @param sourceNode
 	 *            The current node of the source tree.
 	 * @param visualDocument
@@ -114,25 +142,27 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 	 * @param creationData
 	 * @param parentList
 	 * @param childElement
+	 * @param styleClass class of this DD element
 	 */
-	private void parseListElement(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData creationData, nsIDOMElement parentList, Element childElement) {
-		nsIDOMElement dd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DD);
-		ComponentUtil.correctAttribute((Element) sourceNode, dd, ROWCLASSES_ATTR_NAME, HtmlComponentUtil.HTML_CLASS_ATTR, null, null);
-		if (dd.getAttribute(HtmlComponentUtil.HTML_CLASS_ATTR) == null	|| dd.getAttribute(HtmlComponentUtil.HTML_CLASS_ATTR).length() == 0) {
-			ComponentUtil.correctAttribute((Element) sourceNode, dd, COLUMNCLASSES_ATTR_NAME, HtmlComponentUtil.HTML_CLASS_ATTR, null, "columnClass");
-		}
+	private void insertDdElement(Node sourceNode,
+			nsIDOMDocument visualDocument, VpeCreationData creationData, 
+			nsIDOMElement parentList, List<Element> childElements, String styleClass) {
+		nsIDOMElement dd = visualDocument.createElement(HTML.TAG_DD);
+		
+		dd.setAttribute(HTML.ATTR_CLASS, styleClass);
+		
 		parentList.appendChild(dd);
 
 		VpeChildrenInfo vpeChildrenInfo = new VpeChildrenInfo(dd);
-		vpeChildrenInfo.addSourceChild(childElement);
+		for (Element childElement : childElements) {
+			vpeChildrenInfo.addSourceChild(childElement);
+		}
 		creationData.addChildrenInfo(vpeChildrenInfo);
 	}
 
 	/**
-	 * Parse listDataDefinition facet to HTML DT element
+	 * Insert listDataDefinition facet to HTML DT element
 	 * 
-	 * @param pageContext
-	 *            Contains the information on edited page.
 	 * @param sourceNode
 	 *            The current node of the source tree.
 	 * @param visualDocument
@@ -141,16 +171,15 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 	 * @param parentList
 	 * @facet facetElement
 	 */
-	private void parseListFacetDefinitionElement(VpePageContext pageContext,
-			Node sourceNode, nsIDOMDocument visualDocument,
+	private void insertDtElement(Node sourceNode, nsIDOMDocument visualDocument,
 			VpeCreationData creationData, nsIDOMElement parentList,
 			Element facetElement) {
-		nsIDOMElement dt = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DT);
+		nsIDOMElement dt = visualDocument.createElement(HTML.TAG_DT);
 		ComponentUtil.correctAttribute(
 				(Element) sourceNode, 
 				dt, 
-				HEADER_CLASS_ATTR_NAME,
-				HtmlComponentUtil.HTML_CLASS_ATTR,
+				RichFaces.ATTR_HEADER_CLASS,
+				HTML.ATTR_CLASS,
 				null,
 				"headerClass");
 		parentList.appendChild(dt);
@@ -158,90 +187,100 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 		child.addSourceChild(facetElement);
 		creationData.addChildrenInfo(child);
 	}
-
-	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name,
-			String value) {
-		processAttributeChanges(pageContext, sourceElement, visualDocument, visualNode, data, name);
-	}
-
-	@Override
-	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
-		processAttributeChanges(pageContext, sourceElement, visualDocument, visualNode, data, name);
-	}
-
+	
 	/**
-	 * Correct list style accordinly parameters
-	 * 
-	 * @param pageContext
-	 *            Contains the information on edited page.
-	 * @param sourceElement
-	 *            The current node of the source tree.
-	 * @param visualDocument
-	 *            The document of the visual tree.
-	 * @param visualNode
-	 * @param data
-	 * @param name
+	 * @see VpeAbstractTemplate#isRecreateAtAttrChange
 	 */
-	private void processAttributeChanges(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
-		nsIDOMElement el = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		if (HtmlComponentUtil.HTML_STYLE_ATTR.equals(name)) {
-			ComponentUtil.correctAttribute(sourceElement, el, name, name, null, null);
-		} else if (STYLECLASSES_ATTR_NAME.equals(name)) {
-			ComponentUtil.correctAttribute(sourceElement, el, name,
-					HtmlComponentUtil.HTML_CLASS_ATTR, null, "listClass");
-		} else if (HEADER_CLASS_ATTR_NAME.equals(name)) {
-			nsIDOMNodeList nodeList = el.getChildNodes();
-			nsIDOMNode temp = null;
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				temp = nodeList.item(i);
-				if ((temp != null)
-						&& (temp.getNodeName()
-								.equalsIgnoreCase(HtmlComponentUtil.HTML_TAG_DT))) {
-					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
-					ComponentUtil.correctAttribute(sourceElement, 
-							tempVisualElement,
-							HEADER_CLASS_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR,
-							null,
-							"headerClass");
-				}
-			}
-		} else if (ROWCLASSES_ATTR_NAME.equals(name)) {
-			nsIDOMNodeList nodeList = el.getChildNodes();
-			nsIDOMNode temp = null;
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				temp = nodeList.item(i);
-				if ((temp != null )
-						&& (temp.getNodeName()
-								.equalsIgnoreCase(HtmlComponentUtil.HTML_TAG_DD))) {
-					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
-					ComponentUtil.correctAttribute(sourceElement, 
-							tempVisualElement,
-							ROWCLASSES_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR,
-							null,
-							"columnClass");
-				}
-			}
-		} else if (COLUMNCLASSES_ATTR_NAME.equals(name)) {
-			nsIDOMNodeList nodeList = el.getChildNodes();
-			nsIDOMNode temp = null;
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				temp = nodeList.item(i);
-				if ((temp != null)
-						&& (temp.getNodeName()
-								.equalsIgnoreCase(HtmlComponentUtil.HTML_TAG_DD))) {
-					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-					ComponentUtil.correctAttribute(
-							sourceElement, 
-							tempVisualElement,							
-							COLUMNCLASSES_ATTR_NAME,
-							HtmlComponentUtil.HTML_CLASS_ATTR, 
-							null,
-							"columnClass");
-				}
-			}
-		}
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
 	}
+
+//	@Override
+//	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name,
+//			String value) {
+//		processAttributeChanges(pageContext, sourceElement, visualDocument, visualNode, data, name);
+//	}
+//
+//	@Override
+//	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
+//		processAttributeChanges(pageContext, sourceElement, visualDocument, visualNode, data, name);
+//	}
+//
+//	/**
+//	 * Correct list style accordinly parameters
+//	 * 
+//	 * @param pageContext
+//	 *            Contains the information on edited page.
+//	 * @param sourceElement
+//	 *            The current node of the source tree.
+//	 * @param visualDocument
+//	 *            The document of the visual tree.
+//	 * @param visualNode
+//	 * @param data
+//	 * @param name
+//	 */
+//	private void processAttributeChanges(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
+//		nsIDOMElement el = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+//		if (HTML.ATTR_STYLE.equals(name)) {
+//			ComponentUtil.correctAttribute(sourceElement, el, name, name, null, null);
+//		} else if (RichFaces.ATTR_STYLE_CLASS.equals(name)) {
+//			ComponentUtil.correctAttribute(sourceElement, el, name,
+//					HTML.ATTR_CLASS, null, "listClass");
+//		} else if (RichFaces.ATTR_HEADER_CLASS.equals(name)) {
+//			nsIDOMNodeList nodeList = el.getChildNodes();
+//			nsIDOMNode temp = null;
+//			for (int i = 0; i < nodeList.getLength(); i++) {
+//				temp = nodeList.item(i);
+//				if ((temp != null)
+//						&& (temp.getNodeName()
+//								.equalsIgnoreCase(HTML.TAG_DT))) {
+//					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+//					ComponentUtil.correctAttribute(sourceElement, 
+//							tempVisualElement,
+//							RichFaces.ATTR_HEADER_CLASS,
+//							HTML.ATTR_CLASS,
+//							null,
+//							"headerClass");
+//				}
+//			}
+//		} else if (RichFaces.ATTR_ROW_CLASSES.equals(name)) {
+//			nsIDOMNodeList nodeList = el.getChildNodes();
+//			nsIDOMNode temp = null;
+//			for (int i = 0; i < nodeList.getLength(); i++) {
+//				temp = nodeList.item(i);
+//				if ((temp != null )
+//						&& (temp.getNodeName()
+//								.equalsIgnoreCase(HTML.TAG_DD))) {
+//					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+//					ComponentUtil.correctAttribute(sourceElement, 
+//							tempVisualElement,
+//							RichFaces.ATTR_ROW_CLASSES,
+//							HTML.ATTR_CLASS,
+//							null,
+//							"columnClass");
+//				}
+//			}
+//		} else if (RichFaces.ATTR_COLUMN_CLASSES.equals(name)) {
+//			nsIDOMNodeList nodeList = el.getChildNodes();
+//			nsIDOMNode temp = null;
+//			for (int i = 0; i < nodeList.getLength(); i++) {
+//				temp = nodeList.item(i);
+//				if ((temp != null)
+//						&& (temp.getNodeName()
+//								.equalsIgnoreCase(HTML.TAG_DD))) {
+//					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+//					ComponentUtil.correctAttribute(
+//							sourceElement, 
+//							tempVisualElement,							
+//							RichFaces.ATTR_COLUMN_CLASSES,
+//							HTML.ATTR_CLASS, 
+//							null,
+//							"columnClass");
+//				}
+//			}
+//		}
+//	}
 }
