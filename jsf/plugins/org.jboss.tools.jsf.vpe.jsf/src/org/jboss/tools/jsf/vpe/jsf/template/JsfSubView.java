@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -43,28 +44,11 @@ public class JsfSubView extends VpeAbstractTemplate {
 		VpeChildrenInfo divInfo = new VpeChildrenInfo(div);
 		creationData.addChildrenInfo(divInfo);
 		
-		for (Node child : getChildren(sourceElement)) {
+		for (Node child : ComponentUtil.getChildren(sourceElement)) {
 			divInfo.addSourceChild(child);
 		}
 
 		return creationData;
-	}
-	
-	/**
-	 * Gets the children.
-	 * 
-	 * @param sourceElement the source element
-	 * 
-	 * @return the children
-	 */
-	public static List<Node> getChildren(Element sourceElement) {
-		ArrayList<Node> children = new ArrayList<Node>();
-		NodeList nodeList = sourceElement.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node child = nodeList.item(i);
-				children.add(child);
-		}
-		return children;
 	}
 	
 	/* (non-Javadoc)
