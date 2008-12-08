@@ -66,7 +66,7 @@ public class RichFaces {
 	/** The Constant ATTR_NAME. */
 	public static final String ATTR_NAME = "name"; //$NON-NLS-1$
 	public static final String ATTR_POPUP = "popup";//$NON-NLS-1$
-	/** The Constant ATTR_ROW_CLASSES. */
+	public static final String ATTR_ROWS = "rows"; //$NON-NLS-1$
 	public static final String ATTR_ROW_CLASSES = "rowClasses"; //$NON-NLS-1$
 	public static final String ATTR_SELECT_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
 	public static final String ATTR_SELECT_ITEM_VALUE = "itemValue"; //$NON-NLS-1$

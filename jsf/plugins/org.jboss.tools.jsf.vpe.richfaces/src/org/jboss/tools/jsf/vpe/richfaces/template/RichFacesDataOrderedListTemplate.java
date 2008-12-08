@@ -22,39 +22,43 @@ import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
+import org.jboss.tools.vpe.editor.util.HTML;
 
 public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
-	/** CSS_FILE_NAME */
-	final static private String CSS_FILE_NAME = "dataOrderedList/dataOrderedList.css";
+
+	private static final String ORDERED_LIST_CLASSES = "dr-list rich-orderedlist"; //$NON-NLS-1$
+	private static final String LIST_ITEM_CLASSES = "dr-list-item rich-list-item"; //$NON-NLS-1$
+	private static final String CSS_FILE_NAME = "dataOrderedList/dataOrderedList.css"; //$NON-NLS-1$
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element)sourceNode;
-		nsIDOMElement orderedList = visualDocument.createElement("ol");
+		nsIDOMElement orderedList = visualDocument.createElement(HTML.TAG_OL);
 		
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME, "richFacesDataOrderList");
 		VisualDomUtil.copyAttributes(sourceNode, orderedList);
 		
 		ComponentUtil.correctAttribute(sourceElement, orderedList,
-				HtmlComponentUtil.HTML_STYLECLASS_ATTR,
-				HtmlComponentUtil.HTML_CLASS_ATTR, 
-				"dr-list rich-orderedlist", 
-				"dr-list rich-orderedlist");
+				RichFaces.ATTR_STYLE_CLASS,
+				HTML.ATTR_CLASS, 
+				ORDERED_LIST_CLASSES, 
+				ORDERED_LIST_CLASSES);
 		ComponentUtil.correctAttribute(sourceElement, orderedList,
-				HtmlComponentUtil.HTML_STYLE_ATTR,
-				HtmlComponentUtil.HTML_STYLE_ATTR, null, null);
+				RichFaces.ATTR_STYLE,
+				HTML.ATTR_STYLE , null, null);
 
 		VpeCreationData creatorInfo = new VpeCreationData(orderedList);
 
-		int rows = 3;
+		int rows = 1;
 		try {
-			rows = Integer.parseInt(sourceElement.getAttribute(HtmlComponentUtil.HTML_ROW_ATTR));
+			rows = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_ROWS));
 		} catch (NumberFormatException x) {
-			rows = 3;
+			// this is OK, rows still equals 1
 		}
 
 		for (int i = 0; i < rows; i++) {
-			nsIDOMElement listItem = visualDocument.createElement("li");
-			listItem.setAttribute("class", "dr-list-item rich-list-item");
+			nsIDOMElement listItem = visualDocument.createElement(HTML.TAG_LI);
+			listItem.setAttribute(HTML.ATTR_CLASS, LIST_ITEM_CLASSES);
 			orderedList.appendChild(listItem);
 			
 			VpeChildrenInfo info = new VpeChildrenInfo(listItem);

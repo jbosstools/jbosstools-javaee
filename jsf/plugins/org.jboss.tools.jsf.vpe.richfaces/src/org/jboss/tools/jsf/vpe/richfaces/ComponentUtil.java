@@ -526,27 +526,33 @@ public class ComponentUtil {
     }
 
     /**
-     * Move attributes from sourceNode to html.
-     * 
-     * @param visualNode the visual node
-     * @param sourceNode the source node
-     * @param htmlAttrName the html attr name
-     * @param defValue the def value
-     * @param prefValue the pref value
-     * @param attrName the attr name
+     * Move attributes from sourceNode to targetNode.
+     *
+     * @param sourceNode source node to copy the attribute from
+     * @param targetNode target visual node
+     * @param sourceAttrName source attribute name to copy the attribute value from
+     * @param targetAttrName target attribute name
+     * @param prefValue the value that will be concatenated with source attribute and set to
+     * target attribute if the source attribute exists
+     * @param defValue the value that will be set to target attribute is the source node
+     * does not have specified attribute
      */
-    public static void correctAttribute(Element sourceNode, nsIDOMElement visualNode, String attrName, String htmlAttrName,
+    public static void correctAttribute(Element sourceNode, nsIDOMElement targetNode,
+    		String sourceAttrName, String targetAttrName,
             String prefValue, String defValue) {
-        String attrValue = ((Element) sourceNode).getAttribute(attrName);
+        String attrValue = ((Element) sourceNode).getAttribute(sourceAttrName);
         if (prefValue != null && prefValue.trim().length() > 0 && attrValue != null) {
             attrValue = prefValue.trim() + Constants.WHITE_SPACE + attrValue;
         }
         if (attrValue != null) {
-            visualNode.setAttribute(htmlAttrName, attrValue);
+            targetNode.setAttribute(targetAttrName, attrValue);
         } else if (defValue != null) {
-            visualNode.setAttribute(htmlAttrName, defValue);
-        } else
-            visualNode.removeAttribute(attrName);
+            targetNode.setAttribute(targetAttrName, defValue);
+        } else {
+        	// FIXME: probably a bugged line - 
+        	// removing source attribute from target node [commented by yradtsevich]
+            targetNode.removeAttribute(sourceAttrName);
+        }
     }
 
     /**
@@ -561,13 +567,11 @@ public class ComponentUtil {
      * @return boolean value from string
      */
     public static boolean string2boolean(String str) {
-        if ((str == null) || (Constants.EMPTY.equals(str))) {
-            return true;
-        } else if ((Constants.TRUE.equalsIgnoreCase(str))
-                || (Constants.FALSE.equalsIgnoreCase(str))) {
-            return new Boolean(str).booleanValue();
-        }
-        return true;
+    	if (Constants.FALSE.equals(str)) {
+    		return false;
+    	} else {
+    		return true;
+    	}
     }
 
     /**
