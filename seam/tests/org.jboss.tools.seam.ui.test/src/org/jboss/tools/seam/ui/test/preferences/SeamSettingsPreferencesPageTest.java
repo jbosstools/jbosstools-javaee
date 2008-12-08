@@ -46,7 +46,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 	IProject project = null;
 
 	// TODO move Build related constants to separate class accessible for all tests
-	static final String INIT_ERROR_MЕSSAGE = "System property ''{0}'' must be configured with -D to run these tests";
+	static final String INIT_ERROR_MESSAGE = "System property ''{0}'' must be configured with -D to run these tests";
 	static final String PROJECT_NAME = "TestSeamSettingsPreferencesPage";
 	static final String MODEL_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".entity").toLowerCase();
 	static final String ACTION_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".session").toLowerCase();
@@ -59,7 +59,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 	static {
 		SEAM_1_2_HOME_PATH = System.getProperty(PROP_SEAM_1_2_HOME_PATH);
 		if(SEAM_1_2_HOME_PATH == null) {
-			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MЕSSAGE, PROP_SEAM_1_2_HOME_PATH));
+			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MESSAGE, PROP_SEAM_1_2_HOME_PATH));
 		}
 	}
 	
