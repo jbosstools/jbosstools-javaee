@@ -1,17 +1,111 @@
 <tests>
 	<test id="dataDefinitionList">
-		<DL CLASS="listClass">
-			<DD CLASS="columnClass">
-				<SPAN> row=1 </SPAN>
+
+		<DL CLASS="yellow-background">
+			<DT CLASS="headerClass">
+				<DIV>
+					<SPAN>
+						TERM-VISIBLE
+</SPAN>
+				</DIV>
+			</DT>
+			<DD CLASS="columnClass red-text">
+				<SPAN>
+					col1
+</SPAN>
+				<SPAN>
+					col2
+</SPAN>
+				<SPAN>
+					col3
+</SPAN>
+				<SPAN>
+					col4
+</SPAN>
 			</DD>
-			<DD CLASS="columnClass">
-				<SPAN> row=2 </SPAN>
+			<DT CLASS="headerClass">
+				<DIV>
+					<SPAN>
+						TERM-VISIBLE
+</SPAN>
+				</DIV>
+			</DT>
+			<DD CLASS="columnClass blue-text">
+				<SPAN>
+					col1
+</SPAN>
+				<SPAN>
+					col2
+</SPAN>
+				<SPAN>
+					col3
+</SPAN>
+				<SPAN>
+					col4
+</SPAN>
 			</DD>
-			<DD CLASS="columnClass">
-				<SPAN> row=3 </SPAN>
+			<DT CLASS="headerClass">
+				<DIV>
+					<SPAN>
+						TERM-VISIBLE
+</SPAN>
+				</DIV>
+			</DT>
+			<DD CLASS="columnClass red-text">
+				<SPAN>
+					col1
+</SPAN>
+				<SPAN>
+					col2
+</SPAN>
+				<SPAN>
+					col3
+</SPAN>
+				<SPAN>
+					col4
+</SPAN>
 			</DD>
-			<DD CLASS="columnClass">
-				<SPAN> row=4 </SPAN>
+			<DT CLASS="headerClass">
+				<DIV>
+					<SPAN>
+						TERM-VISIBLE
+</SPAN>
+				</DIV>
+			</DT>
+			<DD CLASS="columnClass blue-text">
+				<SPAN>
+					col1
+</SPAN>
+				<SPAN>
+					col2
+</SPAN>
+				<SPAN>
+					col3
+</SPAN>
+				<SPAN>
+					col4
+</SPAN>
+			</DD>
+			<DT CLASS="headerClass">
+				<DIV>
+					<SPAN>
+						TERM-VISIBLE
+</SPAN>
+				</DIV>
+			</DT>
+			<DD CLASS="columnClass red-text">
+				<SPAN>
+					col1
+</SPAN>
+				<SPAN>
+					col2
+</SPAN>
+				<SPAN>
+					col3
+</SPAN>
+				<SPAN>
+					col4
+</SPAN>
 			</DD>
 		</DL>
 	</test>

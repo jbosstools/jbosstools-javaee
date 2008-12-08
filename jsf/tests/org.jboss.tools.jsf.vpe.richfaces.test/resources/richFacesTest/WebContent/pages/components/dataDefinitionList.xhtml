@@ -7,14 +7,28 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+	<style type="text/css">
+		.red-text {
+			color:red;
+		}
+		.blue-text {
+			color:blue;
+		}
+		.yellow-background {
+			background-color: yellow;
+		}
+	</style>
 </head>
 <body>
 <f:view>
-	<rich:dataDefinitionList id="dataDefinitionList" rows="5">
-		<h:outputText value="row=1" />
-		<h:outputText value="row=2" />
-		<h:outputText value="row=3" />
-		<h:outputText value="row=4" />
+	<rich:dataDefinitionList id="dataDefinitionList" rows="5"
+			styleClass="yellow-background" rowClasses="red-text, blue-text">
+		<f:facet name="term"><h:outputText value="TERM-VISIBLE"/></f:facet>
+		<f:facet name="term"><h:outputText value="TERM-INVISIBLE"/></f:facet>
+		<h:outputText value="col1" />
+		<h:outputText value="col2" />
+		<h:outputText value="col3" />
+		<h:outputText value="col4" />
 	</rich:dataDefinitionList>
 </f:view>
 </body>

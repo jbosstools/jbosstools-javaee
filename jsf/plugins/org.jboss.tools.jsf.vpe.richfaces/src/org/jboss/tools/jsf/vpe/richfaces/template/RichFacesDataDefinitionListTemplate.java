@@ -37,7 +37,10 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 
-	private static final String FACET_DEFINITION = "facet";
+	/**
+	 * 
+	 */
+	private static final String DEFAULT_DD_CLASS = "columnClass"; //$NON-NLS-1$
 	private static final String FACET_URI = "http://java.sun.com/jsf/core";
 	private static final String FACET_NAME_ATTR = "name";
 	private static final String FACET_NAME_ATTR_VALUE = "term";
@@ -84,7 +87,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 			}
 			child = (Element) nodeChild;
 			
-			if (!child.getLocalName().equals(FACET_DEFINITION)) {
+			if (!child.getLocalName().equals(RichFaces.TAG_FACET)) {
 				dataDefinitionElements.add(child);				
 			} else if (facetElement == null 
 					&& (FACET_URI.equals(pageContext.getSourceTaglibUri(child)))
@@ -120,7 +123,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 			}
 			
 			if (!dataDefinitionElements.isEmpty()) {
-				String ddClass = "columnClass";
+				String ddClass = DEFAULT_DD_CLASS; 
 				if (rowClassesSize > 0) {
 					ddClass+= " " + rowClasses.get(row % rowClassesSize); //$NON-NLS-1$
 				}
