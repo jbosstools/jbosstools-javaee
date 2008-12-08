@@ -33,10 +33,10 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
     private static final String COMPONENT_NAME = "richFacesDataTableScroller"; //$NON-NLS-1$
     private static final String STYLE_PATH = "dataTableScroller/dataTableScroller.css"; //$NON-NLS-1$
 
-    private static final String RIGHT_DOUBLE_SCROLL_SYMBOL = "»»"; //$NON-NLS-1$
-    private static final String RIGHT_SINGLE_SCROLL_SYMBOL = "»"; //$NON-NLS-1$
-    private static final String LEFT_DOUBLE_SCROLL_SYMBOL = "««"; //$NON-NLS-1$
-    private static final String LEFT_SINGLE_SCROLL_SYMBOL = "«"; //$NON-NLS-1$
+    private static final String RIGHT_DOUBLE_SCROLL_SYMBOL = "\u00BB\u00BB"; //$NON-NLS-1$
+    private static final String RIGHT_SINGLE_SCROLL_SYMBOL = "\u00BB"; //$NON-NLS-1$
+    private static final String LEFT_DOUBLE_SCROLL_SYMBOL = "\u00AB\u00AB"; //$NON-NLS-1$
+    private static final String LEFT_SINGLE_SCROLL_SYMBOL = "\u00AB"; //$NON-NLS-1$
 
     /*
      * Default cells number in datascroller.
