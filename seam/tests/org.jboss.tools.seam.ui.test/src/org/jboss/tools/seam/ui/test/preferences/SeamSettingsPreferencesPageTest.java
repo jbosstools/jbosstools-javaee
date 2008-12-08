@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.test.preferences;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 
 import junit.framework.TestCase;
 
@@ -43,12 +44,25 @@ import org.osgi.framework.Bundle;
 public class SeamSettingsPreferencesPageTest extends TestCase {
 
 	IProject project = null;
-	static String PROJECT_NAME = "TestSeamSettingsPreferencesPage";
-	static String MODEL_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".entity").toLowerCase();
-	static String ACTION_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".session").toLowerCase();
-	static String TEST_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".test").toLowerCase();
-	static String RUNTIME_NAME = "Seam 1.2.0 Seam Settings Page Test";
 
+	// TODO move Build related constants to separate class accessible for all tests
+	static final String INIT_ERROR_MЕSSAGE = "System property ''{0}'' must be configured with -D to run these tests";
+	static final String PROJECT_NAME = "TestSeamSettingsPreferencesPage";
+	static final String MODEL_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".entity").toLowerCase();
+	static final String ACTION_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".session").toLowerCase();
+	static final String TEST_PACKAGE_NAME = ("org.domain." + PROJECT_NAME + ".test").toLowerCase();
+	static final String RUNTIME_NAME = "Seam 1.2.0 Seam Settings Page Test";
+
+	public static final String PROP_SEAM_1_2_HOME_PATH = "jbosstools.test.seam.1.2.1.eap.home";
+	public static final String SEAM_1_2_HOME_PATH;
+	
+	static {
+		SEAM_1_2_HOME_PATH = System.getProperty(PROP_SEAM_1_2_HOME_PATH);
+		if(SEAM_1_2_HOME_PATH == null) {
+			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MЕSSAGE, PROP_SEAM_1_2_HOME_PATH));
+		}
+	}
+	
 	public SeamSettingsPreferencesPageTest() {
 		super("Seam Settings Preferences Page Tests");
 	}
@@ -71,13 +85,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 			seamSuport.setValue(Boolean.TRUE);
 
 			Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
-			URL seamUrl = null;
-			try {
-				seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.0"));
-			} catch (IOException e) {
-				fail("Can't resolve org.jboss.tools.seam.core.test/seam/seam-1.2.0");
-			}
-			File folder = new File(seamUrl.getPath());
+			File folder = new File(SEAM_1_2_HOME_PATH);
 			SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
 			assertNotNull("Cannot obtainSeamRuntimeManager instance", manager);
 			manager.addRuntime(RUNTIME_NAME, folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
