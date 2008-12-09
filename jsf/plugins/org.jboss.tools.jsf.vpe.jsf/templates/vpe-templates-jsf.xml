@@ -667,7 +667,7 @@
 
 	<vpe:tag name="h:column" case-sensitive="yes">
 		<vpe:if
-			test="parentname()='h:dataTable'|parentname()='x:dataTable'|parentname()='t:dataTable'|parentname()='t:newspaperTable'|parentname()='t:tree'">
+			test="parentname()='h:dataTable'|parentname()='h:panelGrid'|parentname()='x:dataTable'|parentname()='t:dataTable'|parentname()='t:newspaperTable'|parentname()='t:tree'">
 <!-- Gavr --><!-- added x: 8.02.05 -->
 			<vpe:template children="yes" modify="yes">
 				<vpe:column title="{tagstring()}" />
