@@ -286,6 +286,8 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         final nsIDOMElement rootTBody = visualDocument.createElement(HTML.TAG_TBODY);
         final nsIDOMElement rootTr = visualDocument.createElement(HTML.TAG_TR);
         final VpeCreationData creationData = new VpeCreationData(rootTable);
+        creationData.addChildrenInfo(new VpeChildrenInfo(null));
+        
         rootTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get(RichFaces.ATTR_STYLE)); //$NON-NLS-1$
         rootTable.setAttribute(HTML.ATTR_STYLE, sourceElement.getAttribute(RichFaces.ATTR_STYLE));
 

@@ -21,15 +21,22 @@
 	<h:form>
 	<a4j:commandButton eventsQueue="foo2" value="Ajax Request 2" />
 	</h:form>
-	
-	<a4j:status id="status2" for="stat2">
-    <f:facet name="start">
-        <h:graphicImage value="ajax_process.png" height="16"/>
-    </f:facet>
-    <f:facet name="stop">
-        <h:graphicImage value="ajax_stoped.png" />
-    </f:facet>
-</a4j:status>
+	<a4j:status id="status2" for="stat2" 
+			startText="START TEXT" 
+			stopText="STOP TEXT"
+			style="border-color:red;"
+			startStyle="background-color:yellow;"
+			stopStyle="border-width:3px;border-style:solid;"
+			styleClass="StyleClass"
+			startStyleClass="StartStyleClass"
+			stopStyleClass="StopStyleClass" >
+	    <f:facet name="start">
+	        <h:outputText value="FACET START OUTPUT TEXT"/>
+	    </f:facet>
+	    <f:facet name="stop">
+	        <h:outputText value="FACET STOP OUTPUT TEXT" />
+	    </f:facet>
+	</a4j:status>
 
 </f:view>
 </body>

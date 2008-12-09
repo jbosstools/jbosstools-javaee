@@ -1,22 +1,20 @@
 <tests>
 	<test id="status1">
-		<SPAN CLASS=";" STYLE="-moz-user-modify: read-only; cursor: pointer;">
-			Complete
-			<BR VPE:PSEUDO-ELEMENT="yes"
-				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+		<SPAN CLASS="" STYLE="">
+			<SPAN>
+				Complete
+			</SPAN>
 		</SPAN>
 	</test>
 	<test id="status2">
-		<SPAN CLASS=";" STYLE="-moz-user-modify: read-only; cursor: pointer;">
+		<SPAN CLASS="StyleClass StopStyleClass" STYLE="border: 3px solid red;">
+			<SPAN>
+				STOP TEXT
+			</SPAN>
 			<DIV>
-				<IMG HEIGHT="16"
-					SRC="/.*ve/unresolved_image.gif/"
-					STYLE="-moz-user-modify: read-write;"/>
-			</DIV>
-			<DIV>
-				<IMG
-					SRC="/.*ve/unresolved_image.gif/"
-					STYLE="-moz-user-modify: read-write;"/>
+				<SPAN>
+					FACET STOP OUTPUT TEXT
+				</SPAN>
 			</DIV>
 		</SPAN>
 	</test>

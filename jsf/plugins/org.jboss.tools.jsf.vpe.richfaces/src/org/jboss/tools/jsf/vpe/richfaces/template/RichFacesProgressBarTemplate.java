@@ -13,7 +13,6 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -137,11 +135,14 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
         progressDiv.appendChild(uploadDiv);
         List<Node> childrens = ComponentUtil.getChildren(source);
         final VpeCreationData data = new VpeCreationData(progressDiv);
+        data.addChildrenInfo(new VpeChildrenInfo(null));
+        
         if (childrens.size() > 0) {
             final VpeChildrenInfo info = new VpeChildrenInfo(progressDiv);
             data.addChildrenInfo(info);
             for (Node n : childrens) {
-                if (n.getNodeName().indexOf(FACET) > 1 || n.getNodeName().indexOf(OUTPUT_TEXT) > 1) {
+                if (n.getNodeName().indexOf(FACET) > 1 
+                		|| n.getNodeName().indexOf(OUTPUT_TEXT) > 1) {
                     info.addSourceChild(n);
                 }
             }

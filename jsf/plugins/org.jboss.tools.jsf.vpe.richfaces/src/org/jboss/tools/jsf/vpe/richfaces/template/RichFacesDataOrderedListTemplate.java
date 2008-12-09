@@ -48,6 +48,7 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 				HTML.ATTR_STYLE , null, null);
 
 		VpeCreationData creatorInfo = new VpeCreationData(orderedList);
+		creatorInfo.addChildrenInfo(new VpeChildrenInfo(null));
 
 		int rows = 1;
 		try {
@@ -62,8 +63,8 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 			orderedList.appendChild(listItem);
 			
 			VpeChildrenInfo info = new VpeChildrenInfo(listItem);
-			creatorInfo.addChildrenInfo(info);
 			encodeListItem(info, sourceElement);
+			creatorInfo.addChildrenInfo(info);
 		}
 		
 		return creatorInfo;
@@ -80,12 +81,6 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 				if (child.getNodeType() == Node.ELEMENT_NODE) {
 					Element childElement = (Element)child;
 					info.addSourceChild(childElement);
-				} else if (child.getNodeType() == Node.TEXT_NODE) {
-					String text = child.getNodeValue();
-					text = (text == null ? null : text.trim());
-					if (text != null && text.length() > 0) {
-						info.addSourceChild(child);
-					}
 				}
 			}
 		}

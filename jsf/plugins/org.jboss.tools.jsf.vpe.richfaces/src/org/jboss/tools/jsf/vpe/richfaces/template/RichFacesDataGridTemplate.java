@@ -44,6 +44,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		VisualDomUtil.copyAttributes(sourceNode, table);
 
 		VpeCreationData creationData = new VpeCreationData(table);
+		creationData.addChildrenInfo(new VpeChildrenInfo(null));
 
 		ComponentUtil.setCSSLink(pageContext, "dataTable/dataTable.css", "richFacesDataGrid"); //$NON-NLS-1$ //$NON-NLS-2$
 		String tableClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
@@ -105,7 +106,9 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 					if(!children.isEmpty()) {
 						VpeChildrenInfo childInfo = new VpeChildrenInfo(td);
 						for (Node child : children) {
-							childInfo.addSourceChild(child);
+							if (child.getNodeType() == Node.ELEMENT_NODE) {
+								childInfo.addSourceChild(child);
+							}
 						}
 						creationData.addChildrenInfo(childInfo);
 					}

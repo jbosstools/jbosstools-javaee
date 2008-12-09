@@ -20,8 +20,6 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
-import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilder;
-import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilderException;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionException;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
@@ -88,40 +86,45 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 			// Method was called from dataTable
 			parentVisualNode.appendChild(curTr);
 		}
+		
+		creationData.addChildrenInfo(new VpeChildrenInfo(null));
 
 		// Create mapping to Encode body
 		VpeChildrenInfo trChildrenInfo = new VpeChildrenInfo(curTr);
+		
 		final List<Node> children = ComponentUtil.getChildren(sourceElement);
 		for (final Node child : children) {
-			String nodeName = child.getNodeName();
-			if (nodeName.endsWith(':' + RichFaces.TAG_COLUMN) ||
-					nodeName.endsWith(':' + RichFaces.TAG_COLUMNS)) {
-				final boolean breakBefore = RichFaces.VAL_TRUE.equals( ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE) );
-				if (breakBefore) {
-					curRow++;
-					curColumn = 0;
-					curTr = visualDocument.createElement(HTML.TAG_TR);
-					VisualDomUtil.copyAttributes(sourceElement, curTr);
-
-					if (header) {
-						curTr.setAttribute(HTML.ATTR_CLASS, getHeaderContinueClass());
-					} else if(footer) {
-						curTr.setAttribute(HTML.ATTR_CLASS, getFooterContinueClass());
-					} else {
-						curTr.setAttribute(HTML.ATTR_CLASS, getRowClass(curRow));
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				String nodeName = child.getNodeName();
+				if (nodeName.endsWith(':' + RichFaces.TAG_COLUMN) ||
+						nodeName.endsWith(':' + RichFaces.TAG_COLUMNS)) {
+					final boolean breakBefore = RichFaces.VAL_TRUE.equals( ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE) );
+					if (breakBefore) {
+						curRow++;
+						curColumn = 0;
+						curTr = visualDocument.createElement(HTML.TAG_TR);
+						VisualDomUtil.copyAttributes(sourceElement, curTr);
+	
+						if (header) {
+							curTr.setAttribute(HTML.ATTR_CLASS, getHeaderContinueClass());
+						} else if(footer) {
+							curTr.setAttribute(HTML.ATTR_CLASS, getFooterContinueClass());
+						} else {
+							curTr.setAttribute(HTML.ATTR_CLASS, getRowClass(curRow));
+						}
+	
+						parentVisualNode.appendChild(curTr);
+						trChildrenInfo = new VpeChildrenInfo(curTr);
+						creationData.addChildrenInfo(trChildrenInfo);
 					}
-
-					parentVisualNode.appendChild(curTr);
-					trChildrenInfo = new VpeChildrenInfo(curTr);
-					creationData.addChildrenInfo(trChildrenInfo);
+	
+					final VpeChildrenInfo innerTdChildrenInfo = new VpeChildrenInfo(curTr);
+					creationData.addChildrenInfo(innerTdChildrenInfo);
+					innerTdChildrenInfo.addSourceChild(child);
+					curColumn++;
+				} else {
+					trChildrenInfo.addSourceChild(child);
 				}
-
-				final VpeChildrenInfo innerTdChildrenInfo = new VpeChildrenInfo(curTr);
-				creationData.addChildrenInfo(innerTdChildrenInfo);
-				innerTdChildrenInfo.addSourceChild(child);
-				curColumn++;
-			} else {
-				trChildrenInfo.addSourceChild(child);
 			}
 		}
 

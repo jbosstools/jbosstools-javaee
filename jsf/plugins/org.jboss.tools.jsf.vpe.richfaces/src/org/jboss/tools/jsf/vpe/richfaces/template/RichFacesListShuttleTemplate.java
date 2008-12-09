@@ -231,48 +231,34 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 	/**
 	 * "fast move" buttons block
 	 */
-	private static final List<String> fastMoveButtons;
-
-	static {
-		fastMoveButtons = new ArrayList<String>();
-		fastMoveButtons.add("copyAllControl"); //$NON-NLS-1$
-		fastMoveButtons.add("removeAllControl"); //$NON-NLS-1$
-	}
+	private static final List<String> fastMoveButtons = Arrays.asList(
+				"copyAllControl", //$NON-NLS-1$
+				"removeAllControl" //$NON-NLS-1$
+		);
 
 	/**
 	 * "move" buttons block
 	 */
-	private static final List<String> moveButtons;
-
-	static {
-		moveButtons = new ArrayList<String>();
-		moveButtons.add("copyControl"); //$NON-NLS-1$
-		moveButtons.add("removeControl"); //$NON-NLS-1$
-	}
+	private static final List<String> moveButtons = Arrays.asList(
+				"copyControl", //$NON-NLS-1$
+				"removeControl" //$NON-NLS-1$
+		);
 
 	/**
 	 * "fast order" buttons block
 	 */
-	private static final List<String> fastOrderButtons;
-
-	static {
-		fastOrderButtons = new ArrayList<String>();
-		fastOrderButtons.add("topControl"); //$NON-NLS-1$
-		fastOrderButtons.add("bottomControl"); //$NON-NLS-1$
-
-	}
+	private static final List<String> fastOrderButtons = Arrays.asList(
+			"topControl", //$NON-NLS-1$
+			"bottomControl" //$NON-NLS-1$
+		);
 
 	/**
 	 * "order" buttons block
 	 */
-	private static final List<String> orderButtons;
-
-	static {
-		orderButtons = new ArrayList<String>();
-		orderButtons.add("upControl"); //$NON-NLS-1$
-		orderButtons.add("downControl"); //$NON-NLS-1$
-
-	}
+	private static final List<String> orderButtons = Arrays.asList(
+				"upControl", //$NON-NLS-1$
+				"downControl" //$NON-NLS-1$
+		);
 
 	/**
 	 * labels for controls
@@ -379,6 +365,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				.getAttribute(RichFaces.ATTR_STYLE));
 
 		VpeCreationData creationData = new VpeCreationData(basicTable);
+		creationData.addChildrenInfo(new VpeChildrenInfo(null));
 
 		// create caption
 		nsIDOMElement caption = createCaption(visualDocument, creationData);
@@ -562,39 +549,41 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// add children to "tr" element
 		int columnCount = 0;
 		for (Node child : children) {
-			String localName = child.getLocalName();
-			if (RichFaces.TAG_COLUMN.equals(localName) || 
-					RichFaces.TAG_COLUMNS.equals(localName)) {
-
-				nsIDOMElement column = visualDocument
-						.createElement(HTML.TAG_TD);
-
-				tr.appendChild(column);
-
-				if (columnClasses.size() > 0) {
-
-					String columnClass = columnClasses.get(columnCount
-							% columnClasses.size());
-					column.setAttribute(HTML.ATTR_CLASS, columnClass);
-
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				String localName = child.getLocalName();
+				if (RichFaces.TAG_COLUMN.equals(localName) || 
+						RichFaces.TAG_COLUMNS.equals(localName)) {
+	
+					nsIDOMElement column = visualDocument
+							.createElement(HTML.TAG_TD);
+	
+					tr.appendChild(column);
+	
+					if (columnClasses.size() > 0) {
+	
+						String columnClass = columnClasses.get(columnCount
+								% columnClasses.size());
+						column.setAttribute(HTML.ATTR_CLASS, columnClass);
+	
+					}
+					nsIDOMElement columnTable = visualDocument
+							.createElement(HTML.TAG_TABLE);
+					column.appendChild(columnTable);
+	
+					nsIDOMElement columnTableTr = visualDocument
+							.createElement(HTML.TAG_TR);
+					columnTable.appendChild(columnTableTr);
+	
+					VpeChildrenInfo columnTableTrInfo = new VpeChildrenInfo(
+							columnTableTr);
+					creationData.addChildrenInfo(columnTableTrInfo);
+					columnTableTrInfo.addSourceChild(child);
+	
+					columnCount++;
+	
+					// trInfo.addSourceChild(child);
+	
 				}
-				nsIDOMElement columnTable = visualDocument
-						.createElement(HTML.TAG_TABLE);
-				column.appendChild(columnTable);
-
-				nsIDOMElement columnTableTr = visualDocument
-						.createElement(HTML.TAG_TR);
-				columnTable.appendChild(columnTableTr);
-
-				VpeChildrenInfo columnTableTrInfo = new VpeChildrenInfo(
-						columnTableTr);
-				creationData.addChildrenInfo(columnTableTrInfo);
-				columnTableTrInfo.addSourceChild(child);
-
-				columnCount++;
-
-				// trInfo.addSourceChild(child);
-
 			}
 		}
 

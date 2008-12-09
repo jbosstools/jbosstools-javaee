@@ -84,6 +84,8 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 		    styleClass);
 	}
 	VpeCreationData vpeCreationData = new VpeCreationData(visualElement);
+	vpeCreationData.addChildrenInfo(new VpeChildrenInfo(null));
+	
 	parseTree(pageContext, sourceNode, visualDocument, vpeCreationData,
 		visualElement);
 	setStylesAttributesToTree(visualElement, (Element) sourceNode);

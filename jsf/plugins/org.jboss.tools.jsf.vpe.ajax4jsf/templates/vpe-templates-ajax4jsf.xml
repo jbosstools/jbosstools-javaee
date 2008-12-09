@@ -196,11 +196,9 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:status" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<span class="{@styleClass};{@stopStyleClass}" style="{@style};{@stopStyle}" title="{tagstring()}">
-				<vpe:value expr=" {jsfvalue(@stopText)}"/>
-			</span>
-	    </vpe:template>
+	    <vpe:template children="yes" modify="yes" 
+	    		class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFStatusTemplate">
+	   	</vpe:template>
     </vpe:tag>
     
     <vpe:tag name="a4j:loadBundle" case-sensitive="yes">

@@ -50,9 +50,8 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     
     private String uploadControlLabel;
 
-    
     private String clearAllControlLabel;
-    
+
     /**
      * The Constructor.
      */

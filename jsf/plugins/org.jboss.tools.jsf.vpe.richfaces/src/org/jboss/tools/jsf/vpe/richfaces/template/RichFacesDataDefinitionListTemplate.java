@@ -66,7 +66,8 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 				STYLE_RESOURCES_PATH,
 				"dataDefinitionList");
 		
-		VpeCreationData creationData = new VpeCreationData(listElement);
+		VpeCreationData creationData = new VpeCreationData(listElement);		
+		creationData.addChildrenInfo(new VpeChildrenInfo(null));
 		
 		Element child = null;
 		NodeList list = sourceNode.getChildNodes();

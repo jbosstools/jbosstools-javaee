@@ -110,7 +110,7 @@
 		</vpe:template>
 	</vpe:tag>	
 	<vpe:tag name="rich:fileUpload" case-sensitive="yes">
-		<vpe:template children="yes" modify="no"
+		<vpe:template children="no" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesFileUploadTemplate">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
