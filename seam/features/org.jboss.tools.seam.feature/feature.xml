@@ -225,11 +225,11 @@ litigation.
    </url>
 
    <requires>
-      <import feature="org.jboss.tools.richfaces.feature"/>
-      <import feature="org.jboss.ide.eclipse.as.feature"/>
-      <import feature="org.hibernate.eclipse.feature"/>
-      <import feature="org.eclipse.datatools.connectivity.feature"/>
-      <import feature="org.eclipse.datatools.enablement.jdbc.feature"/>
+      <import feature="org.jboss.tools.richfaces.feature" version="2.0.0" match="greaterOrEqual"/>
+      <import feature="org.jboss.ide.eclipse.as.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.hibernate.eclipse.feature" version="3.2.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.datatools.connectivity.feature" version="1.6.1" match="greaterOrEqual"/>
+      <import feature="org.eclipse.datatools.enablement.jdbc.feature" version="1.6.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
