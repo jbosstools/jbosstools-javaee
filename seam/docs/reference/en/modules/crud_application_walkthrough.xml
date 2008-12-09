@@ -16,31 +16,6 @@
     <section>
         <title>Using CRUD Application</title>
         <para>To run your CRUD Application you should do the following steps:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Start JBoss Application Server if it was not started before. </para>
-            </listitem>
-        </itemizedlist>
-
-        <para>On<emphasis>
-                <property> JBossServer View </property>
-            </emphasis> right click on the <emphasis>
-                <property>JBoss Application Server</property>
-            </emphasis> and select <emphasis>
-                <property> Start </property>
-            </emphasis></para>
-
-        <figure>
-            <title>Start the Server</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata
-                        fileref="images/crud_application_walkthrough/crud_application_walkthrough_1.png"
-                        scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
 
         <itemizedlist>
             <listitem>
@@ -60,7 +35,7 @@
             <mediaobject>
                 <imageobject>
                     <imagedata
-                        fileref="images/crud_application_walkthrough/crud_application_walkthrough_2.png"
+                        fileref="images/crud_application_walkthrough/crud_application_walkthrough_1.png"
                         scale="70"/>
                 </imageobject>
             </mediaobject>
