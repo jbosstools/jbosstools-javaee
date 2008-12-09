@@ -11,7 +11,7 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -19,6 +19,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -42,28 +43,29 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
         nsIDOMDocument visualDocument) {
         Element sourceElement = (Element) sourceNode;
-        nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-
-        VpeCreationData creationData = new VpeCreationData(table);
+        nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+        nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+        div.appendChild(table);
+        VpeCreationData creationData = new VpeCreationData(div);
 
         ComponentUtil.setCSSLink(pageContext, PANEL_BAR_PANEL_BAR_CSS, "richFacesPanelBar"); //$NON-NLS-1$
 
-        String styleClass = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
-        table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
+        String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+        table.setAttribute(HTML.ATTR_CLASS,
             DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_B + ((styleClass == null) ? Constants.EMPTY : styleClass));
 
         // Set style attribute
         StringBuffer styleValue = new StringBuffer("padding: 0px; "); //$NON-NLS-1$
         styleValue.append(height(sourceElement)).append(Constants.WHITE_SPACE)
                   .append(width(sourceElement)).append(Constants.WHITE_SPACE)
-                  .append(ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR));
+                  .append(ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE));
 
         // Encode Body
         List<Node> children = ComponentUtil.getChildren(sourceElement);
         int activeId = getActiveId(sourceElement, children);
         int i = 0;
 
-        String style = ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR);
+        String style = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE);
 
         String contentClass = ComponentUtil.getAttribute(sourceElement,
                 RichFacesPanelItemTemplate.CONTENT_CLASS);
@@ -84,7 +86,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
             if (child.getNodeName().endsWith(PANEL_BAR_ITEM)) {
                 RichFacesPanelItemTemplate.encode(creationData, pageContext, (Element) child,
                     visualDocument, table, active,
-                    ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR),
+                    ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS),
                     style, headerClass, headerStyle, headerActiveClass, headerActiveStyle, contentClass,
                     contentStyle, String.valueOf(i));
 
@@ -92,8 +94,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
             }
         }
 
-        table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, styleValue.toString());
-
+        table.setAttribute(HTML.ATTR_STYLE, styleValue.toString());
         return creationData;
     }
 
@@ -103,7 +104,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
      * @return
      */
     private String height(Element sourceElement) {
-        String height = sourceElement.getAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR);
+        String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
 
         if ((height == null) || (height.length() == 0)) {
             height = PERCENT_100;
@@ -129,7 +130,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
      * @return
      */
     public String width(Element sourceElement) {
-        String width = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
+        String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);
 
         if ((width == null) || (width.length() == 0)) {
             width = PERCENT_100;
@@ -222,12 +223,13 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
     @Override
     public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement,
         nsIDOMDocument visualDocument, nsIDOMElement visualNode, Object data, String name, String value) {
-        if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_WIDTH_ATTR) ||
-                name.equalsIgnoreCase(HtmlComponentUtil.HTML_HEIGHT_ATTR) ||
-                name.equalsIgnoreCase(HtmlComponentUtil.HTML_STYLE_ATTR)) {
-            return true;
-        }
-
-        return false;
+//        if (name.equalsIgnoreCase(HTML.WIDTH_ATTR) ||
+//                name.equalsIgnoreCase(HTML.ATTR_HEIGHT) ||
+//                name.equalsIgnoreCase(HTML.ATTR_STYLE)) {
+//            return true;
+//        }
+//
+//        return false;
+        return true;
     }
 }

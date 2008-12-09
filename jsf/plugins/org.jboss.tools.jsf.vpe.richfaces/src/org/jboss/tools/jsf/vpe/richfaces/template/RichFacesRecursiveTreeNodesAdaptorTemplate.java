@@ -11,11 +11,11 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -32,23 +32,23 @@ import org.w3c.dom.NodeList;
 public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	RichFacesTreeNodeTemplate {
 
-    private static final String TREE_NAME = "tree";
+    private static final String TREE_NAME = "tree"; //$NON-NLS-1$
 
-    private final static String TREE_NODE_NAME = "treeNode";
+    private final static String TREE_NODE_NAME = "treeNode"; //$NON-NLS-1$
 
-    public final static String TREE_NODES_ADAPTOR_NAME = "treeNodesAdaptor";
+    public final static String TREE_NODES_ADAPTOR_NAME = "treeNodesAdaptor"; //$NON-NLS-1$
 
-    public final static String RECURSIVE_TREE_NODES_ADAPTOR_NAME = "recursiveTreeNodesAdaptor";
+    public final static String RECURSIVE_TREE_NODES_ADAPTOR_NAME = "recursiveTreeNodesAdaptor"; //$NON-NLS-1$
 
-    private static final String STYLE_PATH = "/tree/tree.css";
+    private static final String STYLE_PATH = "/tree/tree.css"; //$NON-NLS-1$
 
-    public static final String ICON_DIV_LINE = "/tree/divLine.gif";
+    public static final String ICON_DIV_LINE = "/tree/divLine.gif"; //$NON-NLS-1$
 
-    private static final String ADAPTER_LINES_STYLE = "background-position: left center; background-repeat: repeat-y;";
+    private static final String ADAPTER_LINES_STYLE = "background-position: left center; background-repeat: repeat-y;"; //$NON-NLS-1$
 
-    public static final String ID_ATTR_NAME = "ID";
+    public static final String ID_ATTR_NAME = "ID"; //$NON-NLS-1$
 
-    public static final String NODES_NAME = "nodes";
+    public static final String NODES_NAME = "nodes"; //$NON-NLS-1$
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
@@ -56,21 +56,21 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	    return super.create(pageContext, sourceNode, visualDocument);
 	} else {
 	    ComponentUtil.setCSSLink(pageContext, STYLE_PATH,
-		    "treeNodesAdaptor");
+		    "treeNodesAdaptor"); //$NON-NLS-1$
 	    nsIDOMElement visualElement = visualDocument
-		    .createElement(HtmlComponentUtil.HTML_TAG_DIV);
+		    .createElement(HTML.TAG_DIV);
 	    visualElement.setAttribute(ID_ATTR_NAME, TREE_NODES_ADAPTOR_NAME);
 	    if (isHasParentAdapter(sourceNode)) {
-		visualElement.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-			"dr-tree-h-ic-div");
+		visualElement.setAttribute(HTML.ATTR_CLASS,
+			"dr-tree-h-ic-div"); //$NON-NLS-1$
 		if (getShowLinesAttr(sourceNode)
 			&& (isAdapterBetweenNodes(sourceNode) || isHasNextParentAdaptorElement(sourceNode))) {
 		    String path = RichFacesTemplatesActivator
 			    .getPluginResourcePath()
 			    + ICON_DIV_LINE;
 		    visualElement.setAttribute(
-			    HtmlComponentUtil.HTML_STYLE_ATTR,
-			    "background-image: url(file://" + path + "); "
+			    HTML.ATTR_STYLE,
+			    "background-image: url(file://" + path + "); " //$NON-NLS-1$ //$NON-NLS-2$
 				    + ADAPTER_LINES_STYLE);
 		}
 	    }
@@ -96,10 +96,10 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	NodeList nodeList = sourceNode.getChildNodes();
 	Element element = null;
 	int lenght = nodeList.getLength();
-	String treeNodeName = sourceNode.getPrefix() + ":" + TREE_NODE_NAME;
-	String treeNodesAdaptorName = sourceNode.getPrefix() + ":"
+	String treeNodeName = sourceNode.getPrefix() + ":" + TREE_NODE_NAME; //$NON-NLS-1$
+	String treeNodesAdaptorName = sourceNode.getPrefix() + ":" //$NON-NLS-1$
 		+ TREE_NODES_ADAPTOR_NAME;
-	String recursiveTreeNodesAdaptorName = sourceNode.getPrefix() + ":"
+	String recursiveTreeNodesAdaptorName = sourceNode.getPrefix() + ":" //$NON-NLS-1$
 		+ RECURSIVE_TREE_NODES_ADAPTOR_NAME;
 	VpeChildrenInfo vpeChildrenInfo = null;
 	for (int i = 0; i < lenght; i++) {
@@ -127,9 +127,9 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
      * @return
      */
     public boolean isHasParentAdapter(Node sourceNode) {
-	String treeNodesAdaptorName = sourceNode.getPrefix() + ":"
+	String treeNodesAdaptorName = sourceNode.getPrefix() + ":" //$NON-NLS-1$
 		+ TREE_NODES_ADAPTOR_NAME;
-	String recursiveTreeNodesAdaptorName = sourceNode.getPrefix() + ":"
+	String recursiveTreeNodesAdaptorName = sourceNode.getPrefix() + ":" //$NON-NLS-1$
 		+ RECURSIVE_TREE_NODES_ADAPTOR_NAME;
 	Node node = sourceNode.getParentNode();
 	if (node.getNodeName().equals(treeNodesAdaptorName)
@@ -146,7 +146,7 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
      * @return
      */
     private boolean getShowLinesAttr(Node sourceNode) {
-	String treeName = sourceNode.getPrefix() + ":" + TREE_NAME;
+	String treeName = sourceNode.getPrefix() + ":" + TREE_NAME; //$NON-NLS-1$
 	do {
 	    sourceNode = sourceNode.getParentNode();
 	    if (!(sourceNode instanceof Element)) {
@@ -158,7 +158,7 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 		.getAttribute(RichFacesTreeTemplate.SHOW_LINES_ATTR_NAME);
 
 	boolean showLinesValue = true;
-	if (showLinesParam != null && showLinesParam.equalsIgnoreCase("false")) {
+	if (showLinesParam != null && showLinesParam.equalsIgnoreCase("false")) { //$NON-NLS-1$
 	    showLinesValue = false;
 	}
 	return showLinesValue;
@@ -180,11 +180,11 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	    return true;
 	}
 	NodeList childs = parentTree.getChildNodes();
-	String treeNodeName = parentTree.getPrefix() + ":"
+	String treeNodeName = parentTree.getPrefix() + ":" //$NON-NLS-1$
 		+ RichFacesTreeTemplate.TREE_NODE_NAME;
-	String treeNodesAdaptorName = parentTree.getPrefix() + ":"
+	String treeNodesAdaptorName = parentTree.getPrefix() + ":" //$NON-NLS-1$
 		+ RichFacesTreeTemplate.TREE_NODES_ADAPTOR;
-	String treeRecursiveNodesAdaptorName = parentTree.getPrefix() + ":"
+	String treeRecursiveNodesAdaptorName = parentTree.getPrefix() + ":" //$NON-NLS-1$
 		+ RichFacesTreeTemplate.TREE_RECURSIVE_NODES_ADAPTOR;
 	Node lastElement = null;
 	Node el = null;
@@ -223,7 +223,7 @@ public class RichFacesRecursiveTreeNodesAdaptorTemplate extends
 	Node beforeAdapterNode = null;
 	Node afterAdapterNode = null;
 	Node adapterNode = null;
-	String treeNodeName = sourceNode.getPrefix() + ":"
+	String treeNodeName = sourceNode.getPrefix() + ":" //$NON-NLS-1$
 		+ RichFacesTreeTemplate.TREE_NODE_NAME;
 	for (int i = 0; i < childs.getLength(); i++) {
 	    Node el = childs.item(i);

@@ -112,10 +112,12 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
 
+	nsIDOMElement div = visualDocument
+		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 	nsIDOMElement visualElement = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
 	addBasicTreeNodeAttributes(visualElement);
-
+	div.appendChild(visualElement);
 	nsIDOMElement tbody = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 
@@ -125,7 +127,7 @@ public class RichFacesTreeNodeTemplate extends VpeAbstractTemplate {
 	visualElement.appendChild(tbody);
 	tbody.appendChild(tableRow);
 
-	VpeCreationData vpeCreationData = new VpeCreationData(visualElement);
+	VpeCreationData vpeCreationData = new VpeCreationData(div);
 	createBasicTree(pageContext, visualDocument, tableRow, sourceNode,
 		vpeCreationData);
 	return vpeCreationData;
