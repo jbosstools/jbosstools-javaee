@@ -1,68 +1,40 @@
 <tests>
 	<test id="selectOneRadio1">
-		<TABLE BORDER="1">
-			<TR>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="" SIZE="" />
-						<LABEL> value1</LABEL>
-					</DIV>
-				</TD>
-			</TR>
-			<TR>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="" SIZE="" />
-						<LABEL> value2</LABEL>
-					</DIV>
-				</TD>
-			</TR>
-			<TR>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="" SIZE="" />
-						<LABEL> value3</LABEL>
-					</DIV>
-				</TD>
-			</TR>
-			<TR>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="" SIZE="" />
-						<LABEL> value4</LABEL>
-					</DIV>
-				</TD>
-			</TR>
-		</TABLE>
-	</test>
-	<test id="selectOneRadio2">
-		<TABLE>
-			<TR>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="ltr" />
-						<LABEL> value1</LABEL>
-					</DIV>
-				</TD>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="ltr" />
-						<LABEL> value2</LABEL>
-					</DIV>
-				</TD>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="ltr" />
-						<LABEL> value3</LABEL>
-					</DIV>
-				</TD>
-				<TD>
-					<DIV>
-						<INPUT TYPE="radio" DIR="ltr" />
-						<LABEL> value4</LABEL>
-					</DIV>
-				</TD>
-			</TR>
-		</TABLE>
+		<DIV >
+			<TABLE BORDER="1"  STYLE="">
+				<TR>
+					<TD>
+						<DIV STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="radio" DIR="" SIZE="" />
+							<LABEL > value1</LABEL>
+						</DIV>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<DIV STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="radio" DIR="" SIZE="" />
+							<LABEL > value2</LABEL>
+						</DIV>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<DIV STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="radio" DIR="" SIZE="" />
+							<LABEL > value3</LABEL>
+						</DIV>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<DIV STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="radio" DIR="" SIZE="" />
+							<LABEL > value4</LABEL>
+						</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+		</DIV>
 	</test>
 </tests>
