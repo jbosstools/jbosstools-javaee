@@ -1,13 +1,9 @@
 .rich-calendar-input {
-	cursor: pointer;
-	vertical-align: middle;
-	text-align: left;
 }
 
 .rich-calendar-button {
 	cursor: pointer;
 	vertical-align: middle;
-	text-align: left;
 }
 
 .rich-calendar-exterior {
@@ -55,15 +51,17 @@
 }
 
 .rich-calendar-days {
-	background: #F1EEE9 none repeat scroll 0%;
-	border-bottom: 1px solid #C4C0B9; /*panelBorderColor*/
-	border-right: 0px solid #C4C0B9; /*panelBorderColor*/
-	font-size: 11px; /*generalSizeFont*/
-	font-family: Arial, Verdana, sans-serif;
+	
+	border-bottom: 1px solid;
+	border-right: 0 solid;
 	vertical-align: middle;
 	text-align: center;
 	height: 22px;
-	vertical-align: middle;
+	border-bottom-color: #C4C0B9;
+	border-right-color: #C4C0B9;
+	background: #F1EEE9;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
 }
 
 .rich-calendar-weekends {
@@ -71,15 +69,18 @@
 }
 
 .rich-calendar-week {
-	background: #F1EEE9 none repeat scroll 0%;
-	font-family: Arial, Verdana, sans-serif;
-	font-size: 11px;
-	padding: 0pt;
-	border-bottom: 1px solid #C4C0B9;
-	border-right: 1px solid #C4C0B9;
-	text-align: center;
+	
+	border-bottom: 1px solid;
+	border-right: 1px solid;
 	vertical-align: middle;
+	text-align: center;
 	width: 25px;
+	background: #F1EEE9;
+	border-bottom-color: #C4C0B9;
+	background-color: #F1EEE9;
+	border-right-color: #C4C0B9;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
 }
 
 .rich-calendar-cell {

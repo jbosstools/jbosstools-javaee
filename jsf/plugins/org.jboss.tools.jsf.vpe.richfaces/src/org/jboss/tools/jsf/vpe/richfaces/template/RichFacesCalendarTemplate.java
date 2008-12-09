@@ -142,9 +142,15 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 	static final String ATTR_MONTH_LABELS = "monthLabels"; //$NON-NLS-1$
 	static final String ATTR_ENABLE_MANUAL_INPUT = "enableManualInput"; //$NON-NLS-1$
 	static final String ATTR_TODAY_CONTROL_MODE = "todayControlMode"; //$NON-NLS-1$
-	
-	static final String NAME_OPTIONAL_FACET_FOOTER = "optionalFooter"; //$NON-NLS-1$
-	static final String NAME_OPTIONAL_FACET_HEADER = "optionalHeader"; //$NON-NLS-1$
+
+	static final String NAME_FACET_OPTIONAL_FOOTER = "optionalFooter"; //$NON-NLS-1$
+	static final String NAME_FACET_OPTIONAL_HEADER = "optionalHeader"; //$NON-NLS-1$
+
+	static final String NAME_FACET_WEEK_DAY = "weekDay"; //$NON-NLS-1$
+	static final String NAME_FACET_WEEK_NUMBER = "weekNumber"; //$NON-NLS-1$
+
+	static final boolean FACET_SEARCH_ORDER = true; // it means that facet will
+	// be look for from end
 
 	final private static String DEFAULT_INPUT_STYLE = "vertical-align: middle;";//$NON-NLS-1$
 	final private static String POSITION_RELATIVE_STYLE = "position: relative;";//$NON-NLS-1$
@@ -238,7 +244,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "calendar"); //$NON-NLS-1$
 		nsIDOMElement wrapper = visualDocument.createElement(HTML.TAG_SPAN);
 
-		VpeCreationData creationData = new VpeCreationData(wrapper,true);
+		VpeCreationData creationData = new VpeCreationData(wrapper, true);
 
 		nsIDOMElement calendar;
 		nsIDOMElement calendarWithPopup;
@@ -306,22 +312,23 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 
 		nsIDOMElement optionalHeader = null;
 		nsIDOMElement header = null;
-		nsIDOMElement calendarBody = createCalendarBody(visualDocument);
+		nsIDOMElement calendarBody = createCalendarBody(visualDocument,
+				creationData, sourceElement);
 		nsIDOMElement footer = null;
 		nsIDOMElement optionalFooter = null;
-		
-		Element optionalHeaderFacet = ComponentUtil.getFacetElement(sourceElement,
-				NAME_OPTIONAL_FACET_HEADER,true);
-		
+
+		Element optionalHeaderFacet = ComponentUtil.getFacetElement(
+				sourceElement, NAME_FACET_OPTIONAL_HEADER, FACET_SEARCH_ORDER);
+
 		if (optionalHeaderFacet != null) {
 			optionalHeader = createCustomBlock(visualDocument,
 					optionalHeaderFacet, creationData, CSS_R_C_HEADER_OPTIONAL);
 			tableHeight += DEFAULT_OPTIONAL_CELL_HEIGHT;
 		}
-		
+
 		if (showHeader) {
 			Element headerFacet = ComponentUtil.getFacetElement(sourceElement,
-					RichFaces.NAME_FACET_HEADER,true);
+					RichFaces.NAME_FACET_HEADER, FACET_SEARCH_ORDER);
 			if (headerFacet != null) {
 				header = createCustomBlock(visualDocument, headerFacet,
 						creationData, CSS_R_C_HEADER);
@@ -346,10 +353,11 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		}
 		if (showFooter) {
 			Element footerFacet = ComponentUtil.getFacetElement(sourceElement,
-					RichFaces.NAME_FACET_FOOTER,true);
+					RichFaces.NAME_FACET_FOOTER, FACET_SEARCH_ORDER);
 			if (footerFacet != null) {
 
-				footer = createCustomBlock(visualDocument, footerFacet, creationData, CSS_R_C_FOOTER);
+				footer = createCustomBlock(visualDocument, footerFacet,
+						creationData, CSS_R_C_FOOTER);
 			} else {
 
 				List<Cell> footerContent = new ArrayList<Cell>();
@@ -365,10 +373,10 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 						footerContent);
 			}
 		}
-		
-		Element optionalFooterFacet = ComponentUtil.getFacetElement(sourceElement,
-				NAME_OPTIONAL_FACET_FOOTER,true);
-		
+
+		Element optionalFooterFacet = ComponentUtil.getFacetElement(
+				sourceElement, NAME_FACET_OPTIONAL_FOOTER, FACET_SEARCH_ORDER);
+
 		if (optionalFooterFacet != null) {
 			optionalFooter = createCustomBlock(visualDocument,
 					optionalFooterFacet, creationData, CSS_R_C_FOOTER_OPTIONAL);
@@ -378,7 +386,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		if (optionalHeader != null) {
 			tbody.appendChild(optionalHeader);
 		}
-		
+
 		if (null != header) {
 			tbody.appendChild(header);
 		}
@@ -386,7 +394,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		if (null != footer) {
 			tbody.appendChild(footer);
 		}
-		
+
 		if (optionalFooter != null) {
 			tbody.appendChild(optionalFooter);
 		}
@@ -397,45 +405,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 	}
 
 	/**
-	 * Creates the calendar optional header or footer.
-	 * 
-	 * @param visualDocument
-	 *            the visual document
-	 * @param creationData
-	 *            the creation data
-	 * @param facetBody
-	 *            the facet body
-	 * @param isHeader
-	 *            the is header
-	 * 
-	 * @return the element
-	 */
-	private nsIDOMElement createCalendarOptionalHeaderOrFooter(
-			nsIDOMDocument visualDocument, VpeCreationData creationData,
-			Element facetBody, boolean isHeader) {
-		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
-		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
-		td.setAttribute(HTML.ATTR_COLSPAN, Constants.EMPTY + COLUMN);
-		tr.appendChild(td);
-
-		if (isHeader) {
-			td.setAttribute(HTML.ATTR_CLASS, CSS_R_C_HEADER_OPTIONAL);
-		} else {
-			td.setAttribute(HTML.ATTR_CLASS, CSS_R_C_FOOTER_OPTIONAL);
-		}
-
-		VpeChildrenInfo child = new VpeChildrenInfo(td);
-		child.addSourceChild(facetBody);
-		creationData.addChildrenInfo(child);
-		return tr;
-	}
-
-	/**
 	 * 
 	 * @param visualDocument
 	 * @return Node of the visual tree.
 	 */
-	private nsIDOMElement createCalendarBody(nsIDOMDocument visualDocument) {
+	private nsIDOMElement createCalendarBody(nsIDOMDocument visualDocument,
+			VpeCreationData creationData, Element sourceElement) {
 
 		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
 
@@ -443,13 +418,17 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 
 		// Create week days row
 		if (showWeekDaysBar) {
+
+			Element weekDayFacet = ComponentUtil.getFacetElement(sourceElement,
+					NAME_FACET_WEEK_DAY, FACET_SEARCH_ORDER);
+
 			for (int i = 0; i < COLUMN; i++) {
 				nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 				if ((i == 0) && (showWeeksBar)) {
 					td.setAttribute(HTML.ATTR_CLASS, WEEK_DAY_HTML_CLASS_ATTR);
-					nsIDOMElement br = visualDocument
-							.createElement(HTML.TAG_BR);
-					td.appendChild(br);
+//					nsIDOMElement br = visualDocument
+//							.createElement(HTML.TAG_BR);
+//					td.appendChild(br);
 					weekDaysTR.appendChild(td);
 				} else if (i > 0) {
 
@@ -462,10 +441,21 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 						td.setAttribute(HTML.ATTR_CLASS,
 								WEEK_DAY_HTML_CLASS_ATTR);
 					}
-					nsIDOMText text = visualDocument
-							.createTextNode(i == 0 ? Constants.EMPTY
-									: weekDays[dayIndex]);
-					td.appendChild(text);
+
+					if (weekDayFacet != null) {
+
+						VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td);
+						childrenInfo.addSourceChild(weekDayFacet);
+						creationData.addChildrenInfo(childrenInfo);
+
+					} else {
+						nsIDOMNode weekDayNode = visualDocument
+								.createTextNode(i == 0 ? Constants.EMPTY
+										: weekDays[dayIndex]);
+
+						td.appendChild(weekDayNode);
+					}
+
 					weekDaysTR.appendChild(td);
 				}
 			}
@@ -483,6 +473,9 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		calendar.add(Calendar.DAY_OF_MONTH, -(calendar
 				.get(Calendar.DAY_OF_WEEK) - calendar.getFirstDayOfWeek()));
 
+		Element weekNumberFacet = ComponentUtil.getFacetElement(sourceElement,
+				NAME_FACET_WEEK_NUMBER, FACET_SEARCH_ORDER);
+
 		// for number of week
 		for (int i = NUM_WEEK_ON_PAGE; i > 0; i--) {
 
@@ -493,9 +486,19 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 				nsIDOMElement weekTD = visualDocument
 						.createElement(HTML.TAG_TD);
 				weekTD.setAttribute(HTML.ATTR_CLASS, CSS_R_C_WEEK);
-				nsIDOMText weekText = visualDocument.createTextNode(String
-						.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)));
-				weekTD.appendChild(weekText);
+
+				if (weekNumberFacet != null) {
+
+					VpeChildrenInfo childrenInfo = new VpeChildrenInfo(weekTD);
+					childrenInfo.addSourceChild(weekNumberFacet);
+					creationData.addChildrenInfo(childrenInfo);
+
+				} else {
+					nsIDOMText weekText = visualDocument.createTextNode(String
+							.valueOf(calendar.get(Calendar.WEEK_OF_YEAR)));
+					weekTD.appendChild(weekText);
+				}
+
 				tr.appendChild(weekTD);
 			}
 
@@ -647,17 +650,17 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		} else {
 
 			if (sourceElement.hasAttribute(RichFaces.ATTR_BUTTON_ICON))
-				buttonIcon =  ComponentUtil.getAbsoluteWorkspacePath(sourceElement
-								.getAttribute(RichFaces.ATTR_BUTTON_ICON),
-								pageContext);
+				buttonIcon = ComponentUtil.getAbsoluteWorkspacePath(
+						sourceElement.getAttribute(RichFaces.ATTR_BUTTON_ICON),
+						pageContext);
 			else {
 				buttonIcon = Constants.FILE_PREFIX
-				+ ComponentUtil
-						.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON);
+						+ ComponentUtil
+								.getAbsoluteResourcePath(DEFAULT_BUTTON_ICON);
 			}
 		}
 		buttonIcon = buttonIcon.replace('\\', '/');
-		
+
 		// buttonClass
 		buttonClass = sourceElement.getAttribute(RichFaces.ATTR_BUTTON_CLASS);
 
@@ -736,12 +739,12 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		currentDayControl = sdf.format(calendar.getTime());
 
 		// cellWidth
-		cellWidth = ComponentUtil.parseSizeAttribute(sourceElement, ATTR_CELL_WIDTH,
-				DEFAULT_CELL_WIDTH);
+		cellWidth = ComponentUtil.parseSizeAttribute(sourceElement,
+				ATTR_CELL_WIDTH, DEFAULT_CELL_WIDTH);
 
 		// cellHeight
-		cellHeight = ComponentUtil.parseSizeAttribute(sourceElement, ATTR_CELL_HEIGHT,
-				DEFAULT_CELL_HEIGHT);
+		cellHeight = ComponentUtil.parseSizeAttribute(sourceElement,
+				ATTR_CELL_HEIGHT, DEFAULT_CELL_HEIGHT);
 
 		// tableWidth
 		tableWidth = (showWeeksBar ? DEFAULT_CELL_WIDTH : 0) + cellWidth
@@ -762,7 +765,8 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 				DIRECTIONS_BOTTOM_RIGHT);
 
 		// zindex
-		zindex = ComponentUtil.parseNumberAttribute(sourceElement, RichFaces.ATTR_ZINDEX, 3);
+		zindex = ComponentUtil.parseNumberAttribute(sourceElement,
+				RichFaces.ATTR_ZINDEX, 3);
 
 		// horizontalOffset
 		horizontalOffset = ComponentUtil.parseNumberAttribute(sourceElement,
@@ -1025,7 +1029,6 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		return months;
 	}
 
-	
 	/**
 	 * 
 	 * @param visualDocument
