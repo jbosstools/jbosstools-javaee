@@ -1,5 +1,6 @@
 <tests>
 	<test id="treeNode">
+	<DIV>
 		<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
                 CLASS="dr-tree-full-width">
                 <TBODY>
@@ -22,5 +23,6 @@
                     </TR>
                 </TBODY>
             </TABLE>
+            </DIV>
 	</test>
 </tests>

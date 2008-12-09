@@ -1,7 +1,7 @@
 <tests>
 	<test id="project">
-		
-			<DIV ID="treeNodesAdaptor">
+		<DIV ID="treeNodesAdaptor" >
+			<DIV>
 				<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
 					CLASS="dr-tree-full-width">
 					<TBODY>
@@ -10,21 +10,26 @@
 								STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
 								<IMG CLASS="treePictureStyle"
 									SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
-									RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
+									RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 							</TD>
 							<TD
 								STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
 								<IMG CLASS="treePictureStyle"
 									SRC="/.*resources/tree/iconNodeWithLines.gif/"
-									RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM"/>
+									RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
 							</TD>
 							<TD CLASS="treeNodeNameStyle">
-								<A>Project: #{project.name}</A>
+								<SPAN>
+									<SPAN> Project: #{project.name} </SPAN>
+									<SPAN> : This link is disabled as it is not nested within a JSF form. </SPAN>
+								</SPAN>
 							</TD>
 						</TR>
 					</TBODY>
 				</TABLE>
-				<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
+			</DIV>
+			<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
+				<DIV>
 					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
 						CLASS="dr-tree-full-width">
 						<TBODY>
@@ -33,21 +38,26 @@
 									STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
 									<IMG CLASS="treePictureStyle"
 										SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
-										RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
+										RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 								</TD>
 								<TD
 									STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
 									<IMG CLASS="treePictureStyle"
 										SRC="/.*resources/tree/iconNodeWithLines.gif/"
-										RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM"/>
+										RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
 								</TD>
 								<TD CLASS="treeNodeNameStyle">
-									<A>Source directory: #{srcDir.name}</A>
+									<SPAN>
+										<SPAN> Source directory: #{srcDir.name} </SPAN>
+										<SPAN> : This link is disabled as it is not nested within a JSF form. </SPAN>
+									</SPAN>
 								</TD>
 							</TR>
 						</TBODY>
 					</TABLE>
-					<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
+				</DIV>
+				<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
+					<DIV>
 						<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
 							CLASS="dr-tree-full-width">
 							<TBODY>
@@ -56,21 +66,26 @@
 										STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
 										<IMG CLASS="treePictureStyle"
 											SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
-											RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
+											RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 									</TD>
 									<TD
 										STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
 										<IMG CLASS="treePictureStyle"
 											SRC="/.*resources/tree/iconNodeWithLines.gif/"
-											RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM"/>
+											RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
 									</TD>
 									<TD CLASS="treeNodeNameStyle">
-										<A>Package: #{pkg.name}</A>
+										<SPAN>
+											<SPAN> Package: #{pkg.name} </SPAN>
+											<SPAN> : This link is disabled as it is not nested within a JSF form. </SPAN>
+										</SPAN>
 									</TD>
 								</TR>
 							</TBODY>
 						</TABLE>
-						<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
+					</DIV>
+					<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
+						<DIV>
 							<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
 								CLASS="dr-tree-full-width">
 								<TBODY>
@@ -79,15 +94,18 @@
 											STYLE="/background-image: url\(.*resources//tree/rightLine.gif\); background-position: center; background-repeat: repeat-y;/">
 											<IMG CLASS="treePictureStyle"
 												SRC="/.*resources/tree/iconNotCollapsedWithLines.gif/"
-												RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM"/>
+												RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 										</TD>
 										<TD>
 											<IMG CLASS="treePictureStyle"
 												SRC="/.*resources/tree/iconLeafWithLines.gif/"
-												RICHFACESTREENODEPARAM="iconLeaf"/>
+												RICHFACESTREENODEPARAM="iconLeaf" />
 										</TD>
 										<TD CLASS="treeNodeNameStyle">
-											<A>Class: #{class.name}</A>
+											<SPAN>
+												<SPAN> Class: #{class.name} </SPAN>
+												<SPAN> : This link is disabled as it is not nested within a JSF form. </SPAN>
+											</SPAN>
 										</TD>
 									</TR>
 								</TBODY>
@@ -96,6 +114,6 @@
 					</DIV>
 				</DIV>
 			</DIV>
-		
+		</DIV>
 	</test>
 </tests>
