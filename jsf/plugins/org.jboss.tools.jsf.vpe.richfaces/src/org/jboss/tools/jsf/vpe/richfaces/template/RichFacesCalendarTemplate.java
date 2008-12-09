@@ -50,7 +50,7 @@ import org.w3c.dom.Node;
 public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		VpeToggableTemplate {
 
-	private static final WeakHashMap<Node, Object> expandedComboBoxes = new WeakHashMap<Node, Object>();
+	private static final WeakHashMap<Node, Object> expandedCalendars = new WeakHashMap<Node, Object>();
 
 	final static int COLUMN = 8;
 	final static String FILL_WIDTH = "100%"; //$NON-NLS-1$
@@ -116,8 +116,9 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 	final static String UNDEFINED = "undefined"; //$NON-NLS-1$
 	final static int DEFAULT_CELL_WIDTH = 25;
 	final static int DEFAULT_CELL_HEIGHT = 22;
+	final static int DEFAULT_OPTIONAL_CELL_HEIGHT = 26;
 
-	final static int JOINT_POINT_BOTTOM = 7;
+	final static int JOINT_POINT_BOTTOM = 5;
 	final static int JOINT_POINT_TOP = -17;
 	final static String TOP = "top"; //$NON-NLS-1$
 	final static String LEFT = "left"; //$NON-NLS-1$
@@ -141,6 +142,9 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 	static final String ATTR_MONTH_LABELS = "monthLabels"; //$NON-NLS-1$
 	static final String ATTR_ENABLE_MANUAL_INPUT = "enableManualInput"; //$NON-NLS-1$
 	static final String ATTR_TODAY_CONTROL_MODE = "todayControlMode"; //$NON-NLS-1$
+	
+	static final String NAME_OPTIONAL_FACET_FOOTER = "optionalFooter"; //$NON-NLS-1$
+	static final String NAME_OPTIONAL_FACET_HEADER = "optionalHeader"; //$NON-NLS-1$
 
 	final private static String DEFAULT_INPUT_STYLE = "vertical-align: middle;";//$NON-NLS-1$
 	final private static String POSITION_RELATIVE_STYLE = "position: relative;";//$NON-NLS-1$
@@ -234,7 +238,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "calendar"); //$NON-NLS-1$
 		nsIDOMElement wrapper = visualDocument.createElement(HTML.TAG_SPAN);
 
-		VpeCreationData creationData = new VpeCreationData(wrapper);
+		VpeCreationData creationData = new VpeCreationData(wrapper,true);
 
 		nsIDOMElement calendar;
 		nsIDOMElement calendarWithPopup;
@@ -300,16 +304,27 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 
 		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
 
+		nsIDOMElement optionalHeader = null;
 		nsIDOMElement header = null;
 		nsIDOMElement calendarBody = createCalendarBody(visualDocument);
 		nsIDOMElement footer = null;
-
+		nsIDOMElement optionalFooter = null;
+		
+		Element optionalHeaderFacet = ComponentUtil.getFacetElement(sourceElement,
+				NAME_OPTIONAL_FACET_HEADER,true);
+		
+		if (optionalHeaderFacet != null) {
+			optionalHeader = createCustomBlock(visualDocument,
+					optionalHeaderFacet, creationData, CSS_R_C_HEADER_OPTIONAL);
+			tableHeight += DEFAULT_OPTIONAL_CELL_HEIGHT;
+		}
+		
 		if (showHeader) {
-			Element headerFacet = ComponentUtil.getFacet(sourceElement,
-					RichFaces.NAME_FACET_HEADER);
+			Element headerFacet = ComponentUtil.getFacetElement(sourceElement,
+					RichFaces.NAME_FACET_HEADER,true);
 			if (headerFacet != null) {
-				header = createCalendarOptionalHeaderOrFooter(visualDocument,
-						creationData, headerFacet, true);
+				header = createCustomBlock(visualDocument, headerFacet,
+						creationData, CSS_R_C_HEADER);
 			} else {
 
 				List<Cell> headerContent = new ArrayList<Cell>();
@@ -330,12 +345,11 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 			}
 		}
 		if (showFooter) {
-			Element footerFacet = ComponentUtil.getFacet(sourceElement,
-					RichFaces.NAME_FACET_FOOTER);
+			Element footerFacet = ComponentUtil.getFacetElement(sourceElement,
+					RichFaces.NAME_FACET_FOOTER,true);
 			if (footerFacet != null) {
 
-				footer = createCalendarOptionalHeaderOrFooter(visualDocument,
-						creationData, footerFacet, false);
+				footer = createCustomBlock(visualDocument, footerFacet, creationData, CSS_R_C_FOOTER);
 			} else {
 
 				List<Cell> footerContent = new ArrayList<Cell>();
@@ -351,13 +365,30 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 						footerContent);
 			}
 		}
+		
+		Element optionalFooterFacet = ComponentUtil.getFacetElement(sourceElement,
+				NAME_OPTIONAL_FACET_FOOTER,true);
+		
+		if (optionalFooterFacet != null) {
+			optionalFooter = createCustomBlock(visualDocument,
+					optionalFooterFacet, creationData, CSS_R_C_FOOTER_OPTIONAL);
+			tableHeight += DEFAULT_OPTIONAL_CELL_HEIGHT;
+		}
 
+		if (optionalHeader != null) {
+			tbody.appendChild(optionalHeader);
+		}
+		
 		if (null != header) {
 			tbody.appendChild(header);
 		}
 		tbody.appendChild(calendarBody);
 		if (null != footer) {
 			tbody.appendChild(footer);
+		}
+		
+		if (optionalFooter != null) {
+			tbody.appendChild(optionalFooter);
 		}
 
 		table.appendChild(tbody);
@@ -749,14 +780,14 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
 		if (isExpanded(sourceNode)) {
-			expandedComboBoxes.remove(sourceNode);
+			expandedCalendars.remove(sourceNode);
 		} else {
-			expandedComboBoxes.put(sourceNode, null);
+			expandedCalendars.put(sourceNode, null);
 		}
 	}
 
 	private boolean isExpanded(Node sourceNode) {
-		return expandedComboBoxes.containsKey(sourceNode);
+		return expandedCalendars.containsKey(sourceNode);
 	}
 
 	/**
@@ -992,6 +1023,33 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 			months = formatSymbols.getMonths();
 		}
 		return months;
+	}
+
+	
+	/**
+	 * 
+	 * @param visualDocument
+	 * @param customChild
+	 * @param creationData
+	 * @param blockClass
+	 * @param content
+	 * @return
+	 */
+	private nsIDOMElement createCustomBlock(nsIDOMDocument visualDocument,
+			Node customChild, VpeCreationData creationData, String blockClass) {
+
+		nsIDOMElement blockTr = visualDocument.createElement(HTML.TAG_TR);
+		nsIDOMElement blockTd = visualDocument.createElement(HTML.TAG_TD);
+		blockTd.setAttribute(HTML.ATTR_COLSPAN, String.valueOf(COLUMN));
+		blockTd.setAttribute(HTML.ATTR_CLASS, blockClass);
+		blockTr.appendChild(blockTd);
+
+		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(blockTd);
+		childrenInfo.addSourceChild(customChild);
+
+		creationData.addChildrenInfo(childrenInfo);
+
+		return blockTr;
 	}
 
 	/**

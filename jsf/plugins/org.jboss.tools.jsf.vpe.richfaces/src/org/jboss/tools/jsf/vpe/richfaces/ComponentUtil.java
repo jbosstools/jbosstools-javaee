@@ -170,6 +170,46 @@ public class ComponentUtil {
 	}
 	return null;
     }
+    
+    
+    /**
+	 * 
+	 * @param parentElement
+	 * @param facetName
+	 * @param order
+	 *            - indicate what facet should take first or last.
+	 * @return
+	 */
+    public static Element getFacetElement(Element parentElement,
+			String facetName, boolean last) {
+
+		NodeList children = parentElement.getChildNodes();
+
+		if (children != null) {
+			
+			int index = last ? children.getLength()-1 : 0;
+			int step = last ? -1 : 1;
+			int stopIndex = last ? -1 : children.getLength();
+
+			while (index != stopIndex) {
+
+				Node child = children.item(index);
+
+				if ((child.getNodeType() == Node.ELEMENT_NODE)
+						&& RichFaces.TAG_FACET.equals(child.getLocalName())
+						&& facetName.equals(((Element) child)
+								.getAttribute(RichFaces.ATTR_NAME))) {
+					return (Element) child;
+				}
+
+				index += step;
+
+			}
+
+		}
+    	
+    	return null;
+    }
 
     /**
      * Returns true if "rendered" attribute of source element does not contain

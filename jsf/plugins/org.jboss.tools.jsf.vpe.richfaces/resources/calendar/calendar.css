@@ -146,8 +146,14 @@
 }
 
 .rich-calendar-header-optional {
-	background: #D4CFC7;
-	text-align: center;
+	border-bottom: 1px solid;
+	padding: 7px;
+	height: 22px;
+	font-weight: bold;
+	border-bottom-color: #C4C0B9;
+	background-color: #F1EEE9;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
 }
 
 .rich-calendar-footer-optional {
