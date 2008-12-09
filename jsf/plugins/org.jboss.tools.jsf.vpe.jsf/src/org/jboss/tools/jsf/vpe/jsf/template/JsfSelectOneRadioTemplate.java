@@ -35,162 +35,163 @@ import org.w3c.dom.NodeList;
 
 public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 
-	private static final String VAL_PAGE_DIRECTION = "pageDirection";
-	private static final String ATTR_LAYOUT = "layout";
-	private static final String ATTR_BORDER = "border";
-	private static final String ATTR_DISABLED_CLASS = "disabledClass";
-	private static final String ATTR_ENABLED_CLASS = "enabledClass";
-	private static final String ATTR_STYLE_CLASS = "styleClass";
+    private static final String VAL_PAGE_DIRECTION = "pageDirection";
+    private static final String ATTR_LAYOUT = "layout";
+    private static final String ATTR_BORDER = "border";
+    private static final String ATTR_DISABLED_CLASS = "disabledClass";
+    private static final String ATTR_ENABLED_CLASS = "enabledClass";
+    private static final String ATTR_STYLE_CLASS = "styleClass";
 
-	private static final String ATTR_DIR_RIGHT_TO_LEFT = "rtl";
-	private static final String ATTR_DIR_LEFT_TO_RIGHT = "ltr";
-	private static final String ATTR_DISABLED_VALUE = "disabled";
+    private static final String ATTR_DIR_RIGHT_TO_LEFT = "rtl";
+    private static final String ATTR_DIR_LEFT_TO_RIGHT = "ltr";
+    private static final String ATTR_DISABLED_VALUE = "disabled";
 
-	public JsfSelectOneRadioTemplate() {
-		super();
+    public JsfSelectOneRadioTemplate() {
+	super();
 
-	}
+    }
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument) {
+    public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
+	    nsIDOMDocument visualDocument) {
 
-		Element sourceElement = (Element) sourceNode;
+	Element sourceElement = (Element) sourceNode;
 
-		boolean layoutHorizontal = true;
+	boolean layoutHorizontal = true;
 
-		String layout = sourceElement.getAttribute(ATTR_LAYOUT);
+	String layout = sourceElement.getAttribute(ATTR_LAYOUT);
 
-		layoutHorizontal = !VAL_PAGE_DIRECTION.equalsIgnoreCase(layout);
+	layoutHorizontal = !VAL_PAGE_DIRECTION.equalsIgnoreCase(layout);
 
-		nsIDOMElement visualTable = visualDocument
-				.createElement(HTML.TAG_TABLE);
-		VpeCreationData creatorInfo = new VpeCreationData(visualTable);
+	nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+	nsIDOMElement visualTable = visualDocument.createElement(HTML.TAG_TABLE);
+	div.appendChild(visualTable);
+	VpeCreationData creatorInfo = new VpeCreationData(div);
 
-		visualTable.setAttribute(HTML.ATTR_CLASS, ComponentUtil.getAttribute(
-				sourceElement, ATTR_STYLE_CLASS));
-		visualTable.setAttribute(HTML.ATTR_STYLE, ComponentUtil.getAttribute(
-				sourceElement, HTML.ATTR_STYLE));
-		String border = sourceElement.getAttribute(ATTR_BORDER);
-		if (border != null)
-			visualTable.setAttribute(ATTR_BORDER, border);
+	visualTable.setAttribute(HTML.ATTR_CLASS, ComponentUtil.getAttribute(
+		sourceElement, ATTR_STYLE_CLASS));
+	visualTable.setAttribute(HTML.ATTR_STYLE, ComponentUtil.getAttribute(
+		sourceElement, HTML.ATTR_STYLE));
+	String border = sourceElement.getAttribute(ATTR_BORDER);
+	if (border != null)
+	    visualTable.setAttribute(ATTR_BORDER, border);
 
-		NodeList children = sourceNode.getChildNodes();
-		int count = children != null ? children.getLength() : 0;
-		if (count > 0) {
-			Node[] sourceChildren = new Node[count];
-			int childrenCount = 0;
-			for (int i = 0; i < count; i++) {
-				Node node = children.item(i);
-				int type = node.getNodeType();
-				if (type == Node.ELEMENT_NODE || type == Node.TEXT_NODE
-						&& node.getNodeValue().trim().length() > 0) {
-					sourceChildren[childrenCount] = node;
-					childrenCount++;
-				}
-			}
-			if (childrenCount > 0) {
-				int rowCount;
-				int rowLength;
-				int tableSize = childrenCount;
-				if (layoutHorizontal) {
-					rowCount = (childrenCount + tableSize - 1) / tableSize;
-					rowLength = tableSize;
-				} else {
-					rowCount = tableSize;
-					rowLength = (childrenCount + tableSize - 1) / tableSize;
-				}
-				for (int i = 0; i < rowCount; i++) {
-					nsIDOMElement visualRow = visualDocument
-							.createElement(HTML.TAG_TR);
-					for (int j = 0; j < rowLength; j++) {
-						nsIDOMElement visualCell = visualDocument
-								.createElement(HTML.TAG_TD);
-						visualRow.appendChild(visualCell);
-						int sourceIndex = layoutHorizontal ? rowLength * i + j
-								: rowCount * j + i;
-						if (sourceIndex < childrenCount) {
-							VpeChildrenInfo childrenInfo = new VpeChildrenInfo(
-									visualCell);
-							childrenInfo
-									.addSourceChild(sourceChildren[sourceIndex]);
-							creatorInfo.addChildrenInfo(childrenInfo);
-						}
-					}
-					visualTable.appendChild(visualRow);
-				}
-			}
+	NodeList children = sourceNode.getChildNodes();
+	int count = children != null ? children.getLength() : 0;
+	if (count > 0) {
+	    Node[] sourceChildren = new Node[count];
+	    int childrenCount = 0;
+	    for (int i = 0; i < count; i++) {
+		Node node = children.item(i);
+		int type = node.getNodeType();
+		if (type == Node.ELEMENT_NODE || type == Node.TEXT_NODE
+			&& node.getNodeValue().trim().length() > 0) {
+		    sourceChildren[childrenCount] = node;
+		    childrenCount++;
 		}
-		return creatorInfo;
-	}
-
-	@Override
-	public void validate(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument, VpeCreationData data) {
-		if (data.getNode() != null) {
-			applyChildAttributes((Element) sourceNode, data.getNode());
+	    }
+	    if (childrenCount > 0) {
+		int rowCount;
+		int rowLength;
+		int tableSize = childrenCount;
+		if (layoutHorizontal) {
+		    rowCount = (childrenCount + tableSize - 1) / tableSize;
+		    rowLength = tableSize;
+		} else {
+		    rowCount = tableSize;
+		    rowLength = (childrenCount + tableSize - 1) / tableSize;
 		}
-	}
-
-	private void applyChildAttributes(Element sourceElement, nsIDOMNode node) {
-		boolean disabled = false;
-		try {
-			nsIDOMNodeList list = node.getChildNodes();
-			nsIDOMElement element = (nsIDOMElement) node
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-			disabled = ComponentUtil.string2boolean(ComponentUtil.getAttribute(
-					sourceElement, HTML.ATTR_DISABLED));
-			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_INPUT)) {
-				element
-						.setAttribute(
-								HTML.ATTR_DIR,
-								(ComponentUtil.getAttribute(sourceElement,
-										HTML.ATTR_DIR).trim()
-										.equalsIgnoreCase(ATTR_DIR_RIGHT_TO_LEFT)) ? ATTR_DIR_RIGHT_TO_LEFT
-										: ((ComponentUtil.getAttribute(
-												sourceElement, HTML.ATTR_DIR)
-												.trim()
-												.equalsIgnoreCase(ATTR_DIR_LEFT_TO_RIGHT)) ? ATTR_DIR_LEFT_TO_RIGHT
-												: ""));
-				element.setAttribute(HTML.ATTR_SIZE, ComponentUtil
-						.getAttribute(sourceElement, HTML.ATTR_SIZE));
-				if (disabled
-						|| ComponentUtil
-								.string2boolean(ComponentUtil
-										.getAttribute(
-												element,
-												AbstractRadioSelectItemTemplate.ITEM_DISABLED)))
-					element.setAttribute(HTML.ATTR_DISABLED,
-							ATTR_DISABLED_VALUE);
-
+		for (int i = 0; i < rowCount; i++) {
+		    nsIDOMElement visualRow = visualDocument
+			    .createElement(HTML.TAG_TR);
+		    for (int j = 0; j < rowLength; j++) {
+			nsIDOMElement visualCell = visualDocument
+				.createElement(HTML.TAG_TD);
+			visualRow.appendChild(visualCell);
+			int sourceIndex = layoutHorizontal ? rowLength * i + j
+				: rowCount * j + i;
+			if (sourceIndex < childrenCount) {
+			    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(
+				    visualCell);
+			    childrenInfo
+				    .addSourceChild(sourceChildren[sourceIndex]);
+			    creatorInfo.addChildrenInfo(childrenInfo);
 			}
-			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_LABEL)) {
-				element
-						.setAttribute(
-								HTML.ATTR_CLASS,
-								(disabled || ComponentUtil
-										.string2boolean(ComponentUtil
-												.getAttribute(
-														element,
-														AbstractRadioSelectItemTemplate.ITEM_DISABLED))) ? ComponentUtil
-										.getAttribute(sourceElement,
-												ATTR_DISABLED_CLASS)
-										: ComponentUtil.getAttribute(
-												sourceElement,
-												ATTR_ENABLED_CLASS));
-			}
-
-			if (node.getNodeName().equalsIgnoreCase(HTML.TAG_TABLE)) {
-				element.setAttribute(HTML.ATTR_STYLE, ComponentUtil
-						.getAttribute(sourceElement, HTML.ATTR_STYLE));
-			}
-
-			for (int i = 0; i < list.getLength(); i++) {
-				applyChildAttributes(sourceElement, list.item(i));
-			}
-		} catch (XPCOMException e) {
-			// Ignore
-			return;
+		    }
+		    visualTable.appendChild(visualRow);
 		}
+	    }
 	}
+	return creatorInfo;
+    }
+
+    @Override
+    public void validate(VpePageContext pageContext, Node sourceNode,
+	    nsIDOMDocument visualDocument, VpeCreationData data) {
+	if (data.getNode() != null) {
+	    applyChildAttributes((Element) sourceNode, data.getNode());
+	}
+    }
+
+    private void applyChildAttributes(Element sourceElement, nsIDOMNode node) {
+	boolean disabled = false;
+	try {
+	    nsIDOMNodeList list = node.getChildNodes();
+	    nsIDOMElement element = (nsIDOMElement) node
+		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    disabled = ComponentUtil.string2boolean(ComponentUtil.getAttribute(
+		    sourceElement, HTML.ATTR_DISABLED));
+	    if (node.getNodeName().equalsIgnoreCase(HTML.TAG_INPUT)) {
+		element
+			.setAttribute(
+				HTML.ATTR_DIR,
+				(ComponentUtil.getAttribute(sourceElement,
+					HTML.ATTR_DIR).trim()
+					.equalsIgnoreCase(ATTR_DIR_RIGHT_TO_LEFT)) ? ATTR_DIR_RIGHT_TO_LEFT
+					: ((ComponentUtil.getAttribute(
+						sourceElement, HTML.ATTR_DIR)
+						.trim()
+						.equalsIgnoreCase(ATTR_DIR_LEFT_TO_RIGHT)) ? ATTR_DIR_LEFT_TO_RIGHT
+						: ""));
+		element.setAttribute(HTML.ATTR_SIZE, ComponentUtil
+			.getAttribute(sourceElement, HTML.ATTR_SIZE));
+		if (disabled
+			|| ComponentUtil
+				.string2boolean(ComponentUtil
+					.getAttribute(
+						element,
+						AbstractRadioSelectItemTemplate.ITEM_DISABLED)))
+		    element.setAttribute(HTML.ATTR_DISABLED,
+			    ATTR_DISABLED_VALUE);
+
+	    }
+	    if (node.getNodeName().equalsIgnoreCase(HTML.TAG_LABEL)) {
+		element
+			.setAttribute(
+				HTML.ATTR_CLASS,
+				(disabled || ComponentUtil
+					.string2boolean(ComponentUtil
+						.getAttribute(
+							element,
+							AbstractRadioSelectItemTemplate.ITEM_DISABLED))) ? ComponentUtil
+					.getAttribute(sourceElement,
+						ATTR_DISABLED_CLASS)
+					: ComponentUtil.getAttribute(
+						sourceElement,
+						ATTR_ENABLED_CLASS));
+	    }
+
+	    if (node.getNodeName().equalsIgnoreCase(HTML.TAG_TABLE)) {
+		element.setAttribute(HTML.ATTR_STYLE, ComponentUtil
+			.getAttribute(sourceElement, HTML.ATTR_STYLE));
+	    }
+
+	    for (int i = 0; i < list.getLength(); i++) {
+		applyChildAttributes(sourceElement, list.item(i));
+	    }
+	} catch (XPCOMException e) {
+	    // Ignore
+	    return;
+	}
+    }
 
 }

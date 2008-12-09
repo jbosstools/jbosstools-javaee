@@ -72,7 +72,9 @@ public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 		readAttributes(sourceNode);
 
 		Element sourceElement = (Element) sourceNode;
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+		div.appendChild(table);
 		nsIDOMElement tr = null;
 		nsIDOMElement td = null;
 
@@ -86,7 +88,7 @@ public class JsfSelectManyCheckbox extends VpeAbstractTemplate {
 			table.setAttribute(BORDER, border);
 		}
 
-		VpeCreationData creationData = new VpeCreationData(table);
+		VpeCreationData creationData = new VpeCreationData(div);
 
 		NodeList children = sourceNode.getChildNodes();
 
