@@ -11,11 +11,11 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -35,7 +35,7 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 		Element sourceElement = (Element)sourceNode;
 		nsIDOMElement orderedList = visualDocument.createElement(HTML.TAG_OL);
 		
-		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME, "richFacesDataOrderList");
+		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME, "richFacesDataOrderList"); //$NON-NLS-1$
 		VisualDomUtil.copyAttributes(sourceNode, orderedList);
 		
 		ComponentUtil.correctAttribute(sourceElement, orderedList,
@@ -56,16 +56,32 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 		} catch (NumberFormatException x) {
 			// this is OK, rows still equals 1
 		}
-
-		for (int i = 0; i < rows; i++) {
+		
+		String rowClassesString = sourceElement.getAttribute(RichFaces.ATTR_ROW_CLASSES);
+		String[] rowClasses = null;
+		if (ComponentUtil.isNotBlank(rowClassesString)) {
+		    rowClasses = rowClassesString.split(Constants.COMMA);
+		}
+		
+		/*
+		 * If rows==0 display at least one row.
+		 */
+		int i = 0;
+		do {
 			nsIDOMElement listItem = visualDocument.createElement(HTML.TAG_LI);
-			listItem.setAttribute(HTML.ATTR_CLASS, LIST_ITEM_CLASSES);
+			String rowClass = LIST_ITEM_CLASSES;
+			if ((null != rowClasses) && (rowClasses.length > 0)) {
+			    rowClass += Constants.WHITE_SPACE + rowClasses[i % rowClasses.length];
+			}
+			
+			listItem.setAttribute(HTML.ATTR_CLASS, rowClass);
 			orderedList.appendChild(listItem);
 			
 			VpeChildrenInfo info = new VpeChildrenInfo(listItem);
 			encodeListItem(info, sourceElement);
 			creatorInfo.addChildrenInfo(info);
-		}
+			i++;
+		} while (i < rows);
 		
 		return creatorInfo;
 	}
@@ -85,4 +101,14 @@ public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {
 			}
 		}
 	}
+
+
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+		Element sourceElement, nsIDOMDocument visualDocument,
+		nsIDOMElement visualNode, Object data, String name, String value) {
+	    return true;
+	}
+	
+	
 }
