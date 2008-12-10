@@ -1004,7 +1004,7 @@
                 <para>The pages you are working with in <property>VPE</property> can use external
                     stylesheets. <property>VPE</property> allows you to create new style classes in
                     existing stylesheets and/or edit them as well. For these purposes <property>CSS
-                        Style Class Dialog</property> is provided.</para>
+                        Style Class Dialog</property> is provided (hot keys - CTRL+SHIT+C).</para>
                 <para>Select the element for which you need to create or edit style class and press
                     button next to <emphasis>
                         <property>styleClass</property>
