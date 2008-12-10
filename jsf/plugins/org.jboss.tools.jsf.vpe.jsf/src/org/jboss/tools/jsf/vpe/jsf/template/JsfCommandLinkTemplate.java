@@ -14,6 +14,7 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -41,7 +42,7 @@ public class JsfCommandLinkTemplate extends AbstractOutputJsfTemplate {
 	boolean disabled = ComponentUtil.string2boolean(ComponentUtil
 		.getAttribute(element, HTML.ATTR_DISABLED));
 	String value = ComponentUtil.getAttribute(element, HTML.ATTR_VALUE);
-	boolean hasParentForm = hasParentForm(element);
+	boolean hasParentForm = hasParentForm(pageContext, element);
 	
 	if (!hasParentForm) {
 	    parentElement = visualDocument.createElement(HTML.TAG_SPAN);
@@ -79,11 +80,12 @@ public class JsfCommandLinkTemplate extends AbstractOutputJsfTemplate {
 
     }
 
-    private boolean hasParentForm(Element sourceElement) {
+    private boolean hasParentForm(VpePageContext pageContext, Element sourceElement) {
 	Node parent = sourceElement.getParentNode();
 	while (parent != null && parent instanceof Element && parent.getNodeName() != null) {
-	    if (parent.getNodeName().indexOf(H_FORM) >= 0
-		    || parent.getNodeName().indexOf(A4J_FORM) >= 0) {
+		String parentTemplateName = VpeTemplateManager.getInstance().getTemplateName(pageContext, parent);
+	    if (H_FORM.equals(parentTemplateName)
+		    || A4J_FORM.equals(parentTemplateName)) {
 		return true;
 	    }
 	    parent = parent.getParentNode();
