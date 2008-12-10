@@ -1,11 +1,11 @@
 <tests>
 	<test id="inputNumberSpinner">
-		<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" STYLE=""
-			CLASS="rich-spinner-c">
+		<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+			CLASS="dr-spnr-c rich-spinner-c">
 			<TR>
 				<TD CLASS="dr-spnr-e rich-spinner-input-container">
 					<INPUT TYPE="text" CLASS="dr-spnr-i rich-spinner-input"
-						STYLE="" SIZE="10" VALUE="50" />
+						SIZE="10" VALUE="50" />
 				</TD>
 				<TD CLASS="dr-spnr-b rich-spinner-buttons">
 					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
@@ -29,8 +29,8 @@
 		</TABLE>
 	</test>
 	<test id="inputNumberSpinnerCustomCSS">
-        <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" STYLE=""
-            CLASS="rich-spinner-c componentStyleClass">
+        <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+            CLASS="dr-spnr-c rich-spinner-c componentStyleClass">
             <TR>
                 <TD CLASS="dr-spnr-e rich-spinner-input-container">
                     <INPUT TYPE="text" CLASS="dr-spnr-i rich-spinner-input inputStyleClass"
@@ -56,5 +56,39 @@
                 </TD>
             </TR>
         </TABLE>
+    </test>
+    <test id="inputNumberSpinnerTextChild">
+        <DIV>
+            <DIV>
+                <SPAN>Text Child</SPAN>
+            </DIV>
+            <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+                CLASS="dr-spnr-c rich-spinner-c">
+                <TR>
+                    <TD CLASS="dr-spnr-e rich-spinner-input-container">
+                        <INPUT TYPE="text" CLASS="dr-spnr-i rich-spinner-input"
+                            SIZE="10" VALUE="50" />
+                    </TD>
+                    <TD CLASS="dr-spnr-b rich-spinner-buttons">
+                        <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0">
+                            <TR>
+                                <TD>
+                                    <INPUT TYPE="image" BORDER="0"
+                                        SRC="/.*resources/inputNumberSpinner/up.gif/"
+                                        CLASS="dr-spnr-bn rich-spinner-button" />
+                                </TD>
+                            </TR>
+                            <TR>
+                                <TD>
+                                    <INPUT TYPE="image" BORDER="0"
+                                        SRC="/.*resources/inputNumberSpinner/down.gif/"
+                                        CLASS="dr-spnr-bn rich-spinner-button" />
+                                </TD>
+                            </TR>
+                        </TABLE>
+                    </TD>
+                </TR>
+            </TABLE>
+        </DIV>
     </test>
 </tests>

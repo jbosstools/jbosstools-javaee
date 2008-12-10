@@ -10,8 +10,17 @@
 </head>
 <body>
 <f:view>
-	<rich:inputNumberSlider id="inputNumberSlider" value="50">
-	</rich:inputNumberSlider>
+	<rich:inputNumberSlider id="inputNumberSlider" value="50"/>
+    <rich:inputNumberSlider id="inputNumberSliderCustomCSS" value="50"
+        barClass="customBarClass" barStyle="color:red"
+        handleClass="customHandleClass" handleSelectedClass="customHandleSelectedClass"
+        inputClass="customInputClass" inputStyle="color:blue"
+        style="color:green" styleClass="customStyleClass"/>
+    <rich:inputNumberSlider id="inputNumberSpinnerTextChild" value="50"
+        barClass="customBarClass" barStyle="color:red"
+        handleClass="customHandleClass" handleSelectedClass="customHandleSelectedClass"
+        inputClass="customInputClass" inputStyle="color:blue"
+        style="color:green" styleClass="customStyleClass">Text Child</rich:inputNumberSlider>
 </f:view>
 </body>
 </html>

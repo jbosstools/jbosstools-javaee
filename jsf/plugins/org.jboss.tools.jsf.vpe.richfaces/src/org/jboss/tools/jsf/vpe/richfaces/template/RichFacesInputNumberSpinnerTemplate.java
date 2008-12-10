@@ -10,12 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.List;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.NodeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -43,8 +46,12 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	final static private String DEFAULT_INPUT_SIZE = "10px"; //$NON-NLS-1$
 	final static private String DEFAULT_ZERO_SIZE = "0px"; //$NON-NLS-1$
 	final static private String DEFAULT_WIDTH = "1%"; //$NON-NLS-1$
+	final static private String DEFAULT_CONTAINER_WRAPPER_WIDTH = "2%"; //$NON-NLS-1$
 
 	/* Default and RichFaces styles */
+	/** DEFAULT_CONTAINER_STYLE */
+	final static private String DEFAULT_CONTAINER_STYLE = "dr-spnr-c"; //$NON-NLS-1$
+
 	/** DEFAULT_INPUT_STYLE */
 	final static private String DEFAULT_INPUT_STYLE = "dr-spnr-i"; //$NON-NLS-1$
 
@@ -96,18 +103,16 @@ public class RichFacesInputNumberSpinnerTemplate extends
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument) {
-
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		// Set a css for this element
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_NAME, "richFacesInputNumberSpinner"); //$NON-NLS-1$
-
 		Element sourceElement = (Element) sourceNode;
 
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		table.setAttribute(HTML.ATTR_BORDER, DEFAULT_ZERO_SIZE);
 		table.setAttribute(HTML.ATTR_CELLPADDING, DEFAULT_ZERO_SIZE);
 		table.setAttribute(HTML.ATTR_CELLSPACING, DEFAULT_ZERO_SIZE);
+		table.setAttribute(HTML.ATTR_WIDTH, DEFAULT_CONTAINER_WRAPPER_WIDTH);
 
 		VpeElementData elementData = new VpeElementData();
 
@@ -132,14 +137,38 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		table.appendChild(row);
 
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE);
-		table.setAttribute(HTML.ATTR_STYLE, tmp);
+		if (!tmp.equals(Constants.EMPTY)) {
+			table.setAttribute(HTML.ATTR_STYLE, tmp);
+		}
 		tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
-		tmp = new StringBuffer().append(RICH_SPINNER_C_STYLE).append(Constants.WHITE_SPACE).append(tmp).toString();
+		tmp = new StringBuffer(DEFAULT_CONTAINER_STYLE).append(Constants.WHITE_SPACE).
+				append(RICH_SPINNER_C_STYLE).append(Constants.WHITE_SPACE).append(tmp).toString();
 		table.setAttribute(HTML.ATTR_CLASS, tmp);
 
-		// Create return variable contains template
-		VpeCreationData creationData = new VpeCreationData(table);
-		creationData.setElementData(elementData);
+		// ================================================================================
+		// Check if template component has children elements
+		// ================================================================================
+		List<Node> list = ComponentUtil.getChildren(sourceElement, true);
+		VpeCreationData creationData = null;
+		if (list != null && list.size() > 0) {
+	        nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_DIV);
+
+	        // this element is used to contains template children
+	        nsIDOMElement childDiv = visualDocument.createElement(HTML.TAG_DIV);
+
+			rootDiv.appendChild(childDiv);
+			rootDiv.appendChild(table);
+
+			// Create return variable contains template
+			creationData = new VpeCreationData(rootDiv);
+			VpeChildrenInfo divInfo = new VpeChildrenInfo(childDiv);
+			creationData.addChildrenInfo(divInfo);
+			for (Node child : list) {
+				divInfo.addSourceChild(child);
+			}
+		} else {
+			creationData = new VpeCreationData(table);
+		}
 
 		return creationData;
 	}
@@ -210,10 +239,12 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		nsIDOMElement inputElement = visualDocument.createElement(HTML.TAG_INPUT);
 
 		inputElement.setAttribute(HTML.ATTR_CLASS, getInputClass(sourceElement));
-		inputElement.setAttribute(HTML.ATTR_STYLE, getInputStyle(sourceElement));
+		String attrStyle = getInputStyle(sourceElement);
+		if (!attrStyle.equals(Constants.EMPTY)) {
+			inputElement.setAttribute(HTML.ATTR_STYLE, attrStyle);
+		}
 		inputElement.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 		inputElement.setAttribute(HTML.ATTR_SIZE, getInputSize(sourceElement));
-		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 		inputElement.setAttribute(HTML.ATTR_VALUE, getInputValue(sourceElement));
 
 		if ((sourceElement).hasAttribute(RichFaces.ATTR_VALUE)) {
