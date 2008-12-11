@@ -76,7 +76,6 @@ import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
-import org.eclipse.wst.common.componentcore.resources.IVirtualResource;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -852,49 +851,61 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			final IDataModel model) {
 		IScopeContext projectScope = new ProjectScope(project);
 		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
-
-		prefs.put(JBOSS_AS_DEPLOY_AS, model.getProperty(JBOSS_AS_DEPLOY_AS).toString());
 		prefs.put(SEAM_SETTINGS_VERSION, SEAM_SETTINGS_VERSION_1_1);
-		if(model.getProperty(SEAM_RUNTIME_NAME)!=null) {
-			prefs.put(SEAM_RUNTIME_NAME, model.getProperty(SEAM_RUNTIME_NAME).toString());
-		}
-		if(model.getProperty(SEAM_CONNECTION_PROFILE)!=null) {
-			prefs.put(SEAM_CONNECTION_PROFILE, model.getProperty(SEAM_CONNECTION_PROFILE).toString());
-		}
-		prefs.put(SESSION_BEAN_PACKAGE_NAME, model.getProperty(SESSION_BEAN_PACKAGE_NAME).toString());
-		prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
-		prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());
-		prefs.put(TEST_CREATING, "false"); //$NON-NLS-1$
-		prefs.put(SEAM_TEST_PROJECT, project.getName());
-
-		IVirtualComponent component = ComponentCore.createComponent(project);
-		IVirtualFolder rootFolder = component.getRootFolder();
-		IContainer webRootFolder = rootFolder.getFolder(new Path("/")).getUnderlyingFolder(); //$NON-NLS-1$
-		String webRootFolderPath = webRootFolder.getFullPath().toString();
-		IPath srcRootFolder = null;
-		if(projectType == ProjectType.WAR) {
-			srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
-		} else if(projectType == ProjectType.EJB) {
-			try {
-				srcRootFolder = getSrcFolder(project).getFullPath();
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-				srcRootFolder = new Path(""); //$NON-NLS-1$
+		boolean standaloneProject = true;
+		if(projectType==ProjectType.EJB) {
+			// Try to find parent web seam project for that ejb project.
+			ISeamProject parentWebProject = SeamUtil.findReferencingSeamWarProjectForProject(project);
+			if(parentWebProject!=null) {
+				// set parent web Seam project.
+				prefs.put(SEAM_PARENT_PROJECT, parentWebProject.getProject().getName());
+				standaloneProject = false;
 			}
 		}
-		if(projectType == ProjectType.WAR) {
-			prefs.put(WEB_CONTENTS_FOLDER, webRootFolderPath);
-		} else {
-			prefs.put(WEB_CONTENTS_FOLDER, srcRootFolder.toString());
-		}
 
-		if(!isWarConfiguration(model)) {
-			prefs.put(SEAM_EJB_PROJECT, project.getName());
-			prefs.put(SEAM_EAR_PROJECT, project.getName());
+		if(standaloneProject) {
+			prefs.put(JBOSS_AS_DEPLOY_AS, model.getProperty(JBOSS_AS_DEPLOY_AS).toString());
+			if(model.getProperty(SEAM_RUNTIME_NAME)!=null) {
+				prefs.put(SEAM_RUNTIME_NAME, model.getProperty(SEAM_RUNTIME_NAME).toString());
+			}
+			if(model.getProperty(SEAM_CONNECTION_PROFILE)!=null) {
+				prefs.put(SEAM_CONNECTION_PROFILE, model.getProperty(SEAM_CONNECTION_PROFILE).toString());
+			}
+			prefs.put(SESSION_BEAN_PACKAGE_NAME, model.getProperty(SESSION_BEAN_PACKAGE_NAME).toString());
+			prefs.put(ENTITY_BEAN_PACKAGE_NAME, model.getProperty(ENTITY_BEAN_PACKAGE_NAME).toString());
+			prefs.put(TEST_CASES_PACKAGE_NAME, model.getProperty(TEST_CASES_PACKAGE_NAME).toString());
+			prefs.put(TEST_CREATING, "false"); //$NON-NLS-1$
+			prefs.put(SEAM_TEST_PROJECT, project.getName());
+	
+			IVirtualComponent component = ComponentCore.createComponent(project);
+			IVirtualFolder rootFolder = component.getRootFolder();
+			IContainer webRootFolder = rootFolder.getFolder(new Path("/")).getUnderlyingFolder(); //$NON-NLS-1$
+			String webRootFolderPath = webRootFolder.getFullPath().toString();
+			IPath srcRootFolder = null;
+			if(projectType == ProjectType.WAR) {
+				srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
+			} else if(projectType == ProjectType.EJB) {
+				try {
+					srcRootFolder = getSrcFolder(project).getFullPath();
+				} catch (JavaModelException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+					srcRootFolder = new Path(""); //$NON-NLS-1$
+				}
+			}
+			if(projectType == ProjectType.WAR) {
+				prefs.put(WEB_CONTENTS_FOLDER, webRootFolderPath);
+			} else {
+				prefs.put(WEB_CONTENTS_FOLDER, srcRootFolder.toString());
+			}
+	
+			if(!isWarConfiguration(model)) {
+				prefs.put(SEAM_EJB_PROJECT, project.getName());
+				prefs.put(SEAM_EAR_PROJECT, project.getName());
+			}
+			prefs.put(ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.toString());
+			prefs.put(SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.toString());
+			prefs.put(TEST_SOURCE_FOLDER, srcRootFolder.toString());
 		}
-		prefs.put(ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.toString());
-		prefs.put(SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.toString());
-		prefs.put(TEST_SOURCE_FOLDER, srcRootFolder.toString());
 
 		try {
 			prefs.flush();

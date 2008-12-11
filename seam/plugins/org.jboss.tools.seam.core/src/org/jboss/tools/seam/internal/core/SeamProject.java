@@ -163,7 +163,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	public String getParentProjectName() {
 		IEclipsePreferences p = getSeamPreferences();
-		return p == null ? null : p.get("seam.parent.project", null);
+		return p == null ? null : p.get(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, null);
 	}
 	
 	public ISeamProject getParentProject() {

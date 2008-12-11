@@ -16,6 +16,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
+import org.eclipse.jst.j2ee.project.EarUtilities;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 
 /**
@@ -112,5 +114,40 @@ public class SeamUtil {
 			packageName = packageName.replace("..", ".");
 		}
 		return packageName;
+	}
+
+	/**
+	 * Finds referencing Seam war project
+	 * @param project
+	 * @return
+	 */
+	public static ISeamProject findReferencingSeamWarProjectForProject(IProject project) {
+		return findReferencingSeamWarProjectForProject(project, true);
+	}
+
+	/**
+	 * Finds referencing Seam war project
+	 * @param project
+	 * @param searchInEARs if "true" then try to search web projects in parent EAR project.
+	 * @return
+	 */
+	public static ISeamProject findReferencingSeamWarProjectForProject(IProject project, boolean searchInEARs) {
+		IProject[] referencing = J2EEProjectUtilities.getReferencingWebProjects(project);
+		for (int i = 0; i < referencing.length; i++) {
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(referencing[i], false);
+			if(seamProject!=null) {
+				return seamProject;
+			}
+		}
+		if(searchInEARs) {
+			referencing = J2EEProjectUtilities.getReferencingEARProjects(project);
+			for (int i = 0; i < referencing.length; i++) {
+				ISeamProject seamProject = findReferencingSeamWarProjectForProject(referencing[i], false);
+				if(seamProject!=null) {
+					return seamProject;
+				}
+			}
+		}
+		return null;
 	}
 }
