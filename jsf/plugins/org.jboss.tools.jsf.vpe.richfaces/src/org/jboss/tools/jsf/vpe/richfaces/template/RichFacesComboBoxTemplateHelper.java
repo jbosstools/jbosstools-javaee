@@ -34,8 +34,8 @@ import org.w3c.dom.Node;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 /**
+ * @author Eugene Stherbin
  * @author yradtsevich
- *
  */
 public class RichFacesComboBoxTemplateHelper {
 	private static final WeakHashMap<Node, Object> expandedComboBoxes = new WeakHashMap<Node, Object>();
