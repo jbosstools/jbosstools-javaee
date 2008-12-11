@@ -284,7 +284,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			}
 
 			List<IJavaElement> javaElements = findJavaElements(document, region);
-			if (javaElements != null || javaElements.size() > 0) {
+			if (javaElements != null && javaElements.size() > 0) {
 				return true;
 			}
 			
