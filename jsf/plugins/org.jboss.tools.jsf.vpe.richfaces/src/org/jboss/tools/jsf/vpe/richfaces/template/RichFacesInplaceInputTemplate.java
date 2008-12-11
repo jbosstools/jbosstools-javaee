@@ -9,7 +9,6 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
@@ -24,83 +23,75 @@ import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-
 /**
  * Template for the <rich:inplaceInput> component.
- * 
+ *
  * @author Eugene Stherbin
  */
 public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTemplate {
 
     /** The input width. */
-    protected String inputWidth;
+    protected String inputWidth = null;
 
     /**
      * The Constructor.
      */
     public RichFacesInplaceInputTemplate() {
         super();
-
     }
 
     /**
-     * Create0.
-     * 
-     * @param visualDocument the visual document
-     * @param sourceNode the source node
-     * @param pageContext the page context
-     * 
-     * @return the vpe creation data
+	 * Creates a node of the visual tree on the node of the source tree. This
+	 * visual node should not have the parent node This visual node can have child nodes.<br>
+	 * <b>Note</b>: all in-line children will be ignored, except <f:facet> tags with name "controls".
+	 * In this case save/cancel controls will be replaced with facet content.
+	 *
+	 * @param pageContext
+	 *            Contains the information on edited page.
+	 * @param sourceNode
+	 *            The current node of the source tree.
+	 * @param visualDocument
+	 *            The document of the visual tree.
+	 * @return The information on the created node of the visual tree.
      */
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
         VpeCreationData data = null;
         // <span id="j_id5" class="rich-inplace rich-inplace-view" style="">
         ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
-        final Element source = (Element) sourceNode;
-        prepareData(pageContext,source);
-        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(source, visualDocument);
-        final nsIDOMElement innerInput1 = visualDocument.createElement(HTML.TAG_INPUT);
-        data = new VpeCreationData(rootSpan);
+		// cast to Element
+		Element sourceElement = (Element) sourceNode;
 
-        String clazz = ""; //$NON-NLS-1$
-        if (this.isToggle) {
+		// prepare style classes for inplace input controls
+        prepareData(pageContext, sourceElement);
+
+        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(sourceElement, visualDocument);
+        final nsIDOMElement innerInput1 = visualDocument.createElement(HTML.TAG_INPUT);
+        data = new VpeCreationData(rootSpan, true);
+
+        if (isToggle) {
             rootSpan.appendChild(innerInput1);
             innerInput1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
             innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-field"); //$NON-NLS-1$
-            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + ";"); //$NON-NLS-1$ //$NON-NLS-2$
-            innerInput1.setAttribute(HTML.ATTR_TYPE, "text"); //$NON-NLS-1$
+            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + Constants.SEMICOLON); //$NON-NLS-1$
+            innerInput1.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
             innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
-           
+
             if (showControls) {
                 rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data));
             }
         } else {
-            innerInput1.setAttribute(HTML.ATTR_STYLE, "width: " + this.inputWidth + "; position: absolute; left: -32767px;"); //$NON-NLS-1$ //$NON-NLS-2$
-            innerInput1.setAttribute(HTML.ATTR_TYPE, "button"); //$NON-NLS-1$
-            
+            innerInput1.setAttribute(HTML.ATTR_STYLE,
+            		"width: " + this.inputWidth + "; position: absolute; left: -32767px;"); //$NON-NLS-1$ //$NON-NLS-2$
+            innerInput1.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_BUTTON);
+
             /*
              * Add empty children info to avoid children processing.
              * Only available child is "controls" facet
              */
             data.addChildrenInfo(new VpeChildrenInfo(rootSpan));
         }
-
-
         if (!isToggle) {
-            final String value = getValue();
-//            
-//            if (value.equals(DEFAULT_NULL_VALUE)) {
-//                final nsIDOMElement innerSpan = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
-//                rootSpan.appendChild(innerSpan);
-//                innerSpan.appendChild(visualDocument.createTextNode(value));
-//                innerSpan.setAttribute(HTML.ATTR_STYLE, "display: none");
-//                inner
-//                innerSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
-////                rootSpan.appendChild(visualDocument.createTextNode(value));
-////                rootSpan.setAttribute(HTML.ATTR_STYLE, rootSpan.getAttribute(HTML.ATTR_STYLE) +" ; display:none");
-//            } else {
-                rootSpan.appendChild(visualDocument.createTextNode(value));
- //           }
+            rootSpan.appendChild(visualDocument.createTextNode(getValue()));
         } else {
             innerInput1.setAttribute(HTML.ATTR_VALUE, this.sourceValue);
         }
@@ -110,10 +101,9 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         return data;
     }
 
-
     /**
      * Gets the css extension.
-     * 
+     *
      * @return the css extension
      */
     protected String getCssExtension() {
@@ -122,7 +112,7 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
 
     /**
      * Gets the css style.
-     * 
+     *
      * @return the css style
      */
     protected String getCssStyle() {
@@ -131,27 +121,25 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
 
     /**
      * Gets the css styles suffix.
-     * 
+     *
      * @return the css styles suffix
-     * 
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     * RichFacesAbstractInplaceTemplate#getCssStylesSuffix()
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssStylesSuffix()
      */
     @Override
     protected String getCssStylesSuffix() {
-        return ""; //$NON-NLS-1$
+        return Constants.EMPTY;
     }
 
     /**
      * Gets the root span classes.
-     * 
+     *
      * @return the root span classes
      */
     protected String[] getRootSpanClasses() {
         String[] rst = new String[3];
-        String clazz = ""; //$NON-NLS-1$
+        String clazz = Constants.EMPTY;
 
-        if (this.isToggle) {
+        if (isToggle) {
             rst[0] = "rich-inplace-edit"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.editClass)) {
                 clazz = this.editClass;
@@ -160,8 +148,8 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
         } else {
             rst[0] = "rich-inplace-view"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.viewClass)) {
-        	clazz = this.viewClass;
-        	rst[1] = clazz;
+            	clazz = this.viewClass;
+            	rst[1] = clazz;
             }
         }
         if (ComponentUtil.isNotBlank(this.styleClass)) {
@@ -172,20 +160,19 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
 
     /**
      * Prepare data.
-     * 
+     *
      * @param source the source
      */
-    protected void prepareData(VpePageContext pageContext,Element source) {
+    protected void prepareData(VpePageContext pageContext, Element source) {
         try {
-            this.inputWidth = String.valueOf(ComponentUtil
-		    .parseWidthHeightValue(source.getAttribute("inputWidth"))) + Constants.PIXEL; //$NON-NLS-1$
+            this.inputWidth = String.valueOf(ComponentUtil.parseWidthHeightValue(source.getAttribute("inputWidth"))) + //$NON-NLS-1$
+            	Constants.PIXEL;
         } catch (NumberFormatException e) {
             this.inputWidth = DEFAULT_INPUT_WIDTH_VALUE;
         }
         this.controlsHorizontalPositions.put("right", this.inputWidth); //$NON-NLS-1$
-        this.controlsHorizontalPositions.put(CONTROLS_VERTICAL_POSITION_DEFAULT_VALUE, "18px"); //$NON-NLS-1$
-        super.prepareData(pageContext,source);
-
+        this.controlsHorizontalPositions.put(HTML.VALUE_ALIGN_CENTER, "18px"); //$NON-NLS-1$
+        super.prepareData(pageContext, source);
     }
 
     /**
@@ -199,12 +186,11 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
     @Override
     protected String getControlPositionsSubStyles() {
         return "top: " + controlsVerticalPositions.get(this.controlsVerticalPosition) //$NON-NLS-1$
-            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + Constants.SEMICOLON;  //$NON-NLS-1$//$NON-NLS-2$
     }
 
     @Override
     protected String getMainControlsDivCssClass() {
         return "rich-inplace"+getCssStylesControlSuffix()+"-controls-set"; //$NON-NLS-1$ //$NON-NLS-2$
     }
-
 }

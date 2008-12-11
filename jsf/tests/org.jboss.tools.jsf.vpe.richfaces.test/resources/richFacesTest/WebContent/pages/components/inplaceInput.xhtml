@@ -11,9 +11,17 @@
 
 <body>
 <f:view>
-    <h:outputText value="Name: "/>
-    <rich:inplaceInput id="inplaceInput"
-        defaultLabel="click to enter your name" />
+    <rich:inplaceInput id="inplaceInput" defaultLabel="click to enter your name" />
+    <!-- rich:inplaceInput id="inplaceInputWithoutFacet" value="Mama mila ram" showControls="true"/>
+    <rich:inplaceInput id="inplaceInputWithFacet" showControls="true" value="Mama mila ramu"
+        controlsHorizontalPosition="left" controlsVerticalPosition="bottom">
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:commandButton value="Save" type="button"/>
+                <h:commandButton value="Cancel" type="button"/>
+            </h:panelGroup>
+        </f:facet>
+    </rich:inplaceInput-->
 </f:view>
 </body>
 </html>

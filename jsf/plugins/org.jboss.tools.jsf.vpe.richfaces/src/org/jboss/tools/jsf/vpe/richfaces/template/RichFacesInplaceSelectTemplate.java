@@ -9,94 +9,91 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-
 package org.jboss.tools.jsf.vpe.richfaces.template;
-
 
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.xulrunner.browser.util.DOMTreeDumper;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-
 /**
  * Template for <rich:inplaceSelect/> tag.
- * 
+ *
  * @author Eugene Stherbin
  */
 public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemplate {
 
-    private static final String _24PX = "24px";
+    private static final String SOURCE_LIST_HEIGHT = "24px"; //$NON-NLS-1$
 
     /** The Constant INPLACE_SELECT_CSS. */
-    private static final String INPLACE_SELECT_CSS = "inplaceSelect/inplaceSelect.css";
+    private static final String INPLACE_SELECT_CSS = "inplaceSelect/inplaceSelect.css"; //$NON-NLS-1$
 
     /** The Constant INPLACE_SELECT_EXT. */
-    private static final String INPLACE_SELECT_EXT = "inplaceSelect";
+    private static final String INPLACE_SELECT_EXT = "inplaceSelect"; //$NON-NLS-1$
 
-    /** The select width. */
-    private String selectWidth;
-    
     protected String sourceListHeight;
-    
+
     protected String sourceListWidth;
 
     /**
-     * Create.
-     * 
-     * @param visualDocument
-     *            the visual document
-     * @param sourceNode
-     *            the source node
-     * @param pageContext
-     *            the page context
-     * 
-     * @return the vpe creation data
+	 * Creates a node of the visual tree on the node of the source tree. This
+	 * visual node should not have the parent node This visual node can have child nodes.
+	 *
+	 * @param pageContext
+	 *            Contains the information on edited page.
+	 * @param sourceNode
+	 *            The current node of the source tree.
+	 * @param visualDocument
+	 *            The document of the visual tree.
+	 * @return The information on the created node of the visual tree.
      */
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
         VpeCreationData data = null;
         // <span id="j_id5" class="rich-inplace rich-inplace-view" style="">
         ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
-        final Element source = (Element) sourceNode;
-        prepareData(pageContext,source);
-        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(source, visualDocument);
-        data = new VpeCreationData(rootSpan);
+		// cast to Element
+        final Element sourceElement = (Element) sourceNode;
+
+		// prepare style classes for inplace input controls
+        prepareData(pageContext, sourceElement);
+
+        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(sourceElement, visualDocument);
+        data = new VpeCreationData(rootSpan, true);
 
         if (isToggle) {
-            final nsIDOMElement innerInput1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
-            final nsIDOMElement innerInput2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_INPUT);
+            final nsIDOMElement innerInput1 = visualDocument.createElement(HTML.TAG_INPUT);
+            final nsIDOMElement innerInput2 = visualDocument.createElement(HTML.TAG_INPUT);
 
             preapareInputBase(innerInput1);
             preapareInputBase(innerInput2);
             innerInput1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-            innerInput1.setAttribute("autocomplete", "off");
-            innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-field");
-            innerInput1.setAttribute(HTML.ATTR_VALUE, ((this.defaultLabel == null) ? "" : this.defaultLabel));
+            innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
+            innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-field"); //$NON-NLS-1$
+            innerInput1.setAttribute(HTML.ATTR_VALUE,
+            			((this.defaultLabel == null) ? Constants.EMPTY : this.defaultLabel));
             // TODO
-            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 1px ; width:100px");
+            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 1px ; width:100px"); //$NON-NLS-1$
             innerInput1.setAttribute(HTML.ATTR_VALUE, getValue());
-            innerInput2.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-arrow");
+            innerInput2.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-arrow"); //$NON-NLS-1$
             // TODO
-            innerInput2.setAttribute(HTML.ATTR_STYLE, "top: 2px; left: 89px;");
+            innerInput2.setAttribute(HTML.ATTR_STYLE, "top: 2px; left: 89px;"); //$NON-NLS-1$
 
             rootSpan.appendChild(innerInput1);
             rootSpan.appendChild(innerInput2);
-            if (ComponentUtil.getSelectItems(source.getChildNodes()).size() > 0) {
-                final nsIDOMElement selectList = createSelectedList(source, visualDocument);
+            if (ComponentUtil.getSelectItems(sourceElement.getChildNodes()).size() > 0) {
+                final nsIDOMElement selectList = createSelectedList(sourceElement, visualDocument);
                 rootSpan.appendChild(selectList);
             }
-            if (this.showControls) {
+            if (showControls) {
                 rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data));
             }
-
         } else {
             rootSpan.appendChild(visualDocument.createTextNode(getValue()));
         }
@@ -107,86 +104,80 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 
     /**
      * Creates the selected list.
-     * 
-     * @param visualDocument
-     *            the visual document
-     * @param source
-     *            the source
-     * 
+     *
+     * @param visualDocument the visual document
+     * @param source the source
      * @return the ns IDOM element
      */
     private nsIDOMElement createSelectedList(Element source, nsIDOMDocument visualDocument) {
         // rich-inplace-select-width-list
-        final nsIDOMElement div = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+        final nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 
-        div.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-width-list");
+        div.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-width-list"); //$NON-NLS-1$
         div.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-        div.setAttribute(HTML.ATTR_STYLE, "position: absolute; height: 100px; left: 0px; top: 22px; visibility: visible;");
+        div.setAttribute(HTML.ATTR_STYLE, "position: absolute; height: 100px; left: 0px; top: 22px; visibility: visible;"); //$NON-NLS-1$
 
-        final nsIDOMElement shadowDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+        final nsIDOMElement shadowDiv = visualDocument.createElement(HTML.TAG_DIV);
 
-        shadowDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-shadow");
-        shadowDiv.setAttribute(HTML.ATTR_STYLE, "");
+        shadowDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-shadow"); //$NON-NLS-1$
+        shadowDiv.setAttribute(HTML.ATTR_STYLE, Constants.EMPTY);
 
-        final nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-        final nsIDOMElement tr1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
-        final nsIDOMElement tr2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+        final nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+        final nsIDOMElement tr1 = visualDocument.createElement(HTML.TAG_TR);
+        final nsIDOMElement tr2 = visualDocument.createElement(HTML.TAG_TR);
 
-        final nsIDOMElement td1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-        final nsIDOMElement td2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-        final nsIDOMElement td3 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
-        final nsIDOMElement td4 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+        final nsIDOMElement td1 = visualDocument.createElement(HTML.TAG_TD);
+        final nsIDOMElement td2 = visualDocument.createElement(HTML.TAG_TD);
+        final nsIDOMElement td3 = visualDocument.createElement(HTML.TAG_TD);
+        final nsIDOMElement td4 = visualDocument.createElement(HTML.TAG_TD);
 
-        td1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-tl");
-        td2.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-tr");
-        td3.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-bl");
-        td4.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-br");
+        td1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-tl"); //$NON-NLS-1$
+        td2.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-tr"); //$NON-NLS-1$
+        td3.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-bl"); //$NON-NLS-1$
+        td4.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-shadow-br"); //$NON-NLS-1$
 
-        final nsIDOMElement img1 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-        final nsIDOMElement img2 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-        final nsIDOMElement img3 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-        final nsIDOMElement img4 = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+        final nsIDOMElement img1 = visualDocument.createElement(HTML.TAG_IMG);
+        final nsIDOMElement img2 = visualDocument.createElement(HTML.TAG_IMG);
+        final nsIDOMElement img3 = visualDocument.createElement(HTML.TAG_IMG);
+        final nsIDOMElement img4 = visualDocument.createElement(HTML.TAG_IMG);
 
         setUpImg(img1, 10, 1, 0, SPACER_GIF);
         setUpImg(img2, 1, 10, 0, SPACER_GIF);
         setUpImg(img3, 1, 10, 0, SPACER_GIF);
         setUpImg(img4, 10, 10, 0, SPACER_GIF);
 
-        final nsIDOMElement listPositionDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        listPositionDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-position");
+        final nsIDOMElement listPositionDiv = visualDocument.createElement(HTML.TAG_DIV);
+        listPositionDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-position"); //$NON-NLS-1$
         listPositionDiv.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
 
-        final nsIDOMElement listDecarationDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
-        listDecarationDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-decoration");
+        final nsIDOMElement listDecarationDiv = visualDocument.createElement(HTML.TAG_DIV);
+        listDecarationDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-decoration"); //$NON-NLS-1$
 
-        final nsIDOMElement listScrollDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
+        final nsIDOMElement listScrollDiv = visualDocument.createElement(HTML.TAG_DIV);
         final List<Element> elements = ComponentUtil.getSelectItems(source.getChildNodes());
         // added by estherbin
         // fix http://jira.jboss.com/jira/browse/JBIDE-2196
         // tramanovich comment.
-        
-        if (this.sourceListHeight == _24PX) {
+        if (this.sourceListHeight == SOURCE_LIST_HEIGHT) {
             int height = 24;
-
             if ((elements != null) && (elements.size() > 1)) {
                 height += ((elements.size() - 2) * 24)+1;
             }
-            this.sourceListHeight = String.valueOf(height) + String.valueOf("px");
+            this.sourceListHeight = String.valueOf(height) + String.valueOf(Constants.PIXEL);
         }
 
-        listScrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-scroll");
-        listScrollDiv.setAttribute(HTML.ATTR_STYLE, "height:" + this.sourceListHeight + "; width: " + this.sourceListWidth);
+        listScrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-scroll"); //$NON-NLS-1$
+        listScrollDiv.setAttribute(HTML.ATTR_STYLE, "height:" + this.sourceListHeight + "; width: " + this.sourceListWidth); //$NON-NLS-1$ //$NON-NLS-2$
 
         if (elements.size() > 0) {
             for (Element e : elements) {
-                final nsIDOMElement span = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+                final nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
 
-                span.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-item rich-inplace-select-font");
+                span.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-item rich-inplace-select-font"); //$NON-NLS-1$
                 span.appendChild(visualDocument.createTextNode(ComponentUtil.getSelectItemValue(e)));
-                span.setAttribute(HTML.ATTR_STYLE, "text-align: left;");
+                span.setAttribute(HTML.ATTR_STYLE, "text-align: left;"); //$NON-NLS-1$
                 listScrollDiv.appendChild(span);
             }
-
         }
 
         div.appendChild(shadowDiv);
@@ -201,28 +192,26 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 
         tr1.appendChild(td2);
         td1.appendChild(img1);
-        td1.appendChild(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_BR));
+        td1.appendChild(visualDocument.createElement(HTML.TAG_BR));
         td2.appendChild(img2);
-        td2.appendChild(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_BR));
+        td2.appendChild(visualDocument.createElement(HTML.TAG_BR));
 
         table.appendChild(tr2);
         tr2.appendChild(td3);
         tr2.appendChild(td4);
         td3.appendChild(img3);
-        td3.appendChild(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_BR));
+        td3.appendChild(visualDocument.createElement(HTML.TAG_BR));
         td4.appendChild(img4);
-        td4.appendChild(visualDocument.createElement(HtmlComponentUtil.HTML_TAG_BR));
+        td4.appendChild(visualDocument.createElement(HTML.TAG_BR));
 
         return div;
     }
 
     /**
      * Gets the css extension.
-     * 
+     *
      * @return the css extension
-     * 
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     *      RichFacesAbstractInplaceTemplate#getCssExtension()
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssExtension()
      */
     @Override
     protected String getCssExtension() {
@@ -231,11 +220,9 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 
     /**
      * Gets the css style.
-     * 
+     *
      * @return the css style
-     * 
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     *      RichFacesAbstractInplaceTemplate#getCssStyle()
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssStyle()
      */
     @Override
     protected String getCssStyle() {
@@ -244,34 +231,31 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 
     /**
      * Gets the css styles suffix.
-     * 
+     *
      * @return the css styles suffix
      */
     @Override
     protected String getCssStylesSuffix() {
-        return "-select";
+        return "-select"; //$NON-NLS-1$
     }
 
     /**
      * Gets the root span classes.
-     * 
+     *
      * @return the root span classes
-     * 
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.
-     *      RichFacesAbstractInplaceTemplate#getRootSpanClasses()
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getRootSpanClasses()
      */
     @Override
     protected String[] getRootSpanClasses() {
         String[] result = new String[2];
-        String clazz = "";
-
+        String clazz = Constants.EMPTY;
         if (this.isToggle) {
-            result[0] = "rich-inplace-select-edit";
+            result[0] = "rich-inplace-select-edit"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.editClass)) {
                 clazz = this.editClass;
             }
         } else {
-            result[0] = "rich-inplace-select-view";
+            result[0] = "rich-inplace-select-view"; //$NON-NLS-1$
             if (ComponentUtil.isNotBlank(this.viewClass)) {
                 clazz = this.viewClass;
             }
@@ -281,45 +265,39 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
     }
 
     /**
-     * Preapare input base.
-     * 
-     * @param innerInput
-     *            the inner input
-     * @param innerInput1
+     * Prepare input base.
+     *
+     * @param innerInput the inner input
      */
     private void preapareInputBase(nsIDOMElement innerInput) {
-        innerInput.setAttribute(HTML.ATTR_TYPE, "text");
-        innerInput.setAttribute(HtmlComponentUtil.HTML_READONLY_ATTR, "text");
-
+        innerInput.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
+        innerInput.setAttribute(HTML.ATTR_READONLY, HTML.VALUE_TYPE_TEXT);
     }
 
     /**
      * Prepare data.
-     * 
-     * @param source
-     *            the source
+     *
+     * @param pageContext VpePageContext object
+     * @param source the source
      */
     @Override
-    protected void prepareData(VpePageContext pageContext,Element source) {
-        
-        this.sourceListHeight = ComponentUtil.getAttribute(source,"listHeight");
-        this.sourceListWidth = ComponentUtil.getAttribute(source, "listWidth");
-        
+    protected void prepareData(VpePageContext pageContext, Element source) {
+        this.sourceListHeight = ComponentUtil.getAttribute(source, "listHeight"); //$NON-NLS-1$
+        this.sourceListWidth = ComponentUtil.getAttribute(source, "listWidth"); //$NON-NLS-1$
         if (ComponentUtil.isBlank(this.sourceListHeight)) {
-            this.sourceListHeight = _24PX;
+            this.sourceListHeight = SOURCE_LIST_HEIGHT;
         }
 
         if (ComponentUtil.isBlank(this.sourceListWidth)) {
-            this.sourceListWidth = String.valueOf("198px");
+            this.sourceListWidth = String.valueOf("198px"); //$NON-NLS-1$
         }
-        
-        super.prepareData(pageContext,source);
 
+        super.prepareData(pageContext, source);
     }
 
     @Override
     protected void initPositions() {
-        this.controlsVerticalPositions.put("center", "100px");
+        this.controlsVerticalPositions.put(HTML.VALUE_ALIGN_CENTER, "100px"); //$NON-NLS-1$
     }
 
     /**
@@ -330,17 +308,20 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         return this.getCssStylesSuffix();
     }
 
+    /**
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getControlPositionsSubStyles()
+     */
     @Override
     protected String getControlPositionsSubStyles() {
-    
-        return  "top:0px ; left: " + controlsVerticalPositions.get(this.controlsVerticalPosition)
-            + ";left:" + " " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + ";";
+        return  "top:0px ; left: " + controlsVerticalPositions.get(this.controlsVerticalPosition) //$NON-NLS-1$
+            + ";left: " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + Constants.SEMICOLON; //$NON-NLS-1$
     }
 
+    /**
+     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getMainControlsDivCssClass()
+     */
     @Override
     protected String getMainControlsDivCssClass() {
-        // TODO Auto-generated method stub
-        return "rich-inplace"+getCssStylesControlSuffix()+"-control-set";
+        return "rich-inplace" + getCssStylesControlSuffix() + "-control-set"; //$NON-NLS-1$ //$NON-NLS-2$
     }
-
 }
