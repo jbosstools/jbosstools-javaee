@@ -66,7 +66,7 @@ public class JBIDE1494Test extends VpeTest{
 
 			assertNotNull(h_outputText);
 
-			VpeController vpeController = getVpeController(part);
+			VpeController vpeController = TestUtil.getVpeController(part);
 			
 			VpeTemplateManager templateManager= vpeController.getPageContext().getVisualBuilder().getTemplateManager();
 			assertNotNull(templateManager);

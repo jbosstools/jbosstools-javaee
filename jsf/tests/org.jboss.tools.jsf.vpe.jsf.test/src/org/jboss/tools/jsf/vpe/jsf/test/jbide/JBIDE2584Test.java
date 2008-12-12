@@ -60,7 +60,7 @@ public class JBIDE2584Test extends VpeTest {
 		 
 		Node simpleTextNode =  TestUtil.getNodeMappingBySourcePosition(itextViewer, 14, 10);
 		
-		VpeController vpeController = getVpeController(part);
+		VpeController vpeController = TestUtil.getVpeController(part);
 
 		VpeDomMapping domMapping = vpeController.getDomMapping();
 		
@@ -99,7 +99,7 @@ public class JBIDE2584Test extends VpeTest {
 		 
 		Node simpleTextNode =  TestUtil.getNodeMappingBySourcePosition(itextViewer, 15, 27);
 		
-		VpeController vpeController = getVpeController(part);
+		VpeController vpeController = TestUtil.getVpeController(part);
 
 		VpeDomMapping domMapping = vpeController.getDomMapping();
 		

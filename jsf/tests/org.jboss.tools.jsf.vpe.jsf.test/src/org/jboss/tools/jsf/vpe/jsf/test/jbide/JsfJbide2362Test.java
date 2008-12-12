@@ -123,7 +123,7 @@ public class JsfJbide2362Test extends VpeTest {
 		JSPMultiPageEditor part = openEditor(input);
 
 		// get controller
-		VpeController controller = getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 		assertNotNull(controller);
 
 		// get dommapping

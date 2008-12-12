@@ -64,9 +64,9 @@ public class JBIDE2624Test extends VpeTest {
         // open and get editor
         JSPMultiPageEditor part = openEditor(input);
 
-        VpeController vpeController = getVpeController(part);
+        VpeController vpeController = TestUtil.getVpeController(part);
 
-        nsIDOMDocument document = getVpeVisualDocument(part);
+        nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 
         nsIDOMElement element = document.getDocumentElement();
 
@@ -82,7 +82,7 @@ public class JBIDE2624Test extends VpeTest {
         TestUtil.delay(1000);
         vpeController.visualRefresh();
         TestUtil.delay(1000);
-        document = getVpeVisualDocument(part);
+        document = TestUtil.getVpeVisualDocument(part);
         element = document.getDocumentElement();
         elements = new ArrayList<nsIDOMNode>();
         TestUtil.findAllElementsByName(element, elements, HTML.TAG_TABLE);

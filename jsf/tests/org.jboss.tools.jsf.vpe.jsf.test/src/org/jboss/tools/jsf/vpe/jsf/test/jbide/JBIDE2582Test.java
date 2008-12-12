@@ -128,7 +128,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
         JSPMultiPageEditor part = openEditor(input);
 
         // get controller
-        VpeController controller = getVpeController(part);
+        VpeController controller = TestUtil.getVpeController(part);
         assertNotNull(controller);
 
         // get dommapping

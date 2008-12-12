@@ -58,7 +58,7 @@ public class JBIDE2434Test extends VpeTest{
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		VpeController controller = getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 		controller.visualRefresh();
 		TestUtil.waitForJobs();
 		part.getVisualEditor().setVisualMode(0);

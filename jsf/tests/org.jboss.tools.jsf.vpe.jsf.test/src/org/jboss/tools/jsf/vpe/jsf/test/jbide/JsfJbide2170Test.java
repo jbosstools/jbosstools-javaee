@@ -86,7 +86,7 @@ public class JsfJbide2170Test extends VpeTest {
 		assertEquals(0, basicDoctypeString.length());
 
 		// get dom document from vpe
-		nsIDOMDocument document = getVpeVisualDocument(part);
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
 		// get doctype from vpe's dom model
@@ -131,7 +131,7 @@ public class JsfJbide2170Test extends VpeTest {
 		assertEquals(true, basicDoctypeString.length() > 0);
 
 		// get dom document
-		nsIDOMDocument document = getVpeVisualDocument(part);
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
 		// get doctype
@@ -177,7 +177,7 @@ public class JsfJbide2170Test extends VpeTest {
 		assertEquals(true, basicDoctypeString.length() > 0);
 
 		// get dom document
-		nsIDOMDocument document = getVpeVisualDocument(part);
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
 		// get doctype
@@ -223,7 +223,7 @@ public class JsfJbide2170Test extends VpeTest {
 		assertEquals(true, basicDoctypeString.length() > 0);
 
 		// get dom document
-		nsIDOMDocument document = getVpeVisualDocument(part);
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
 		// get doctype
@@ -260,7 +260,7 @@ public class JsfJbide2170Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		VpeController controller = getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 
 		// controller must be not null
 		assertNotNull(controller);
@@ -292,7 +292,7 @@ public class JsfJbide2170Test extends VpeTest {
 
 		TestUtil.delay(500);
 
-		nsIDOMDocument visualDocument = getVpeVisualDocument(part);
+		nsIDOMDocument visualDocument = TestUtil.getVpeVisualDocument(part);
 
 		nsIDOMElement element = visualDocument.getElementById(ELEMENT_ID);
 		assertNotNull(element);

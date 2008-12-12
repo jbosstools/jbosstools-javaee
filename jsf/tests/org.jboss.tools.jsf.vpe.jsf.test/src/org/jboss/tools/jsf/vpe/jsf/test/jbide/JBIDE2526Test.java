@@ -63,7 +63,7 @@ public class JBIDE2526Test extends VpeTest {
 		JSPMultiPageEditor part = openEditor(input);
 
 		// get controller
-		VpeController controller = getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 		assertNotNull(controller);
 
 		Document document = getSourceDocument(controller);

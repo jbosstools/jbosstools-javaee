@@ -79,7 +79,7 @@ public class JBIDE675Test extends VpeTest {
 			Node node = (Node) treeNode;
 			assertNotNull(node);
 
-			VpeController vpeController = getVpeController(part);
+			VpeController vpeController = TestUtil.getVpeController(part);
 
 			VpeDomMapping domMapping = vpeController.getDomMapping();
 
@@ -140,7 +140,7 @@ public class JBIDE675Test extends VpeTest {
 			Node node = (Node) treeNode;
 			assertNotNull(node);
 
-			VpeController vpeController = getVpeController(part);
+			VpeController vpeController = TestUtil.getVpeController(part);
 
 			VpeDomMapping domMapping = vpeController.getDomMapping();
 
@@ -198,7 +198,7 @@ public class JBIDE675Test extends VpeTest {
 			Node node = (Node) treeNode;
 			assertNotNull(node);
 
-			VpeController vpeController = getVpeController(part);
+			VpeController vpeController = TestUtil.getVpeController(part);
 
 			VpeDomMapping domMapping = vpeController.getDomMapping();
 

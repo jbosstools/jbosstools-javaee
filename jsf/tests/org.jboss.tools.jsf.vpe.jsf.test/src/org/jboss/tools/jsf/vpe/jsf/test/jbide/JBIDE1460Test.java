@@ -60,7 +60,7 @@ public class JBIDE1460Test extends VpeTest {
 	JSPMultiPageEditor part = openEditor(input);
 
 	// get dom document
-	nsIDOMDocument document = getVpeVisualDocument(part);
+	nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 	nsIDOMElement element = document.getDocumentElement();
 
 	// check that element is not null

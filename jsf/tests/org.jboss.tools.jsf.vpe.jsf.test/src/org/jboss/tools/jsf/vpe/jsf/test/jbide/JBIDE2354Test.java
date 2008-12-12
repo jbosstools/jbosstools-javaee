@@ -23,7 +23,7 @@ public class JBIDE2354Test extends ComponentContentTest {
 		JsfAllTests.IMPORT_PROJECT_NAME);
 	IEditorInput input = new FileEditorInput(file);
 	JSPMultiPageEditor part = openEditor(input);
-	VpeController controller = getVpeController(part);
+	VpeController controller = TestUtil.getVpeController(part);
 	
 	Event keyEvent = new Event();
 	keyEvent.widget = controller.getXulRunnerEditor().getBrowser();

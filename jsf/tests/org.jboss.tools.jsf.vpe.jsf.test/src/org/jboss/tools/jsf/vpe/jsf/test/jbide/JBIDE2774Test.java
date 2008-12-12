@@ -59,7 +59,7 @@ public class JBIDE2774Test extends VpeTest {
 		
 		Point selectionRangeBeforeRefresh = part.getSourceEditor().getTextViewer().getSelectedRange();
 		// get controller
-		VpeController controller = getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 		assertNotNull(controller);
 		
 		controller.visualRefresh();

@@ -95,7 +95,7 @@ public class JBIDE2505Test extends VpeTest {
 
         
         
-        VpeController vpeController = getVpeController(part);
+        VpeController vpeController = TestUtil.getVpeController(part);
         vpeController.sourceSelectionChanged();
         
         for (int i=0;i<10;i++) {
@@ -133,7 +133,7 @@ public class JBIDE2505Test extends VpeTest {
 
         
         
-        VpeController vpeController = getVpeController(part);
+        VpeController vpeController = TestUtil.getVpeController(part);
         vpeController.sourceSelectionChanged();
         
         for (int i=0;i<10;i++) {

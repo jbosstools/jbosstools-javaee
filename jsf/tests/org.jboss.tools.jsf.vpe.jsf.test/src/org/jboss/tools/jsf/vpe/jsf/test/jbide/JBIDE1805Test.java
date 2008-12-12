@@ -54,7 +54,7 @@ public class JBIDE1805Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		VpeController vpeController = getVpeController(part);
+		VpeController vpeController = TestUtil.getVpeController(part);
 		assertNotNull(vpeController);
 
 		// set show invisible tag's flag to false
@@ -64,7 +64,7 @@ public class JBIDE1805Test extends VpeTest {
 
 		TestUtil.waitForIdle();
 		
-		nsIDOMDocument document = getVpeVisualDocument(part);
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 		// get element
 		nsIDOMElement element = document.getElementById(ELEMENT_WRAPPER_ID);
@@ -78,7 +78,7 @@ public class JBIDE1805Test extends VpeTest {
 		vpeController.visualRefresh();
 
 		TestUtil.waitForIdle();
-		document = getVpeVisualDocument(part);
+		document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 		// get element
 		element = document.getElementById(ELEMENT_WRAPPER_ID);

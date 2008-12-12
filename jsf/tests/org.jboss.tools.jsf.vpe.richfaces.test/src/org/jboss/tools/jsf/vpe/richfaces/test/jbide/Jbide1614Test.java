@@ -60,7 +60,7 @@ public class Jbide1614Test extends VpeTest {
 	JSPMultiPageEditor part = openEditor(input);
 
 	// get dom document
-	nsIDOMDocument document = getVpeVisualDocument(part);
+	nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 	assertNotNull(document);
 
 	// get dom element
@@ -102,7 +102,7 @@ public class Jbide1614Test extends VpeTest {
 	JSPMultiPageEditor part = openEditor(input);
 
 	// get dom document
-	nsIDOMDocument document = getVpeVisualDocument(part);
+	nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 	assertNotNull(document);
 
 	// get dom element

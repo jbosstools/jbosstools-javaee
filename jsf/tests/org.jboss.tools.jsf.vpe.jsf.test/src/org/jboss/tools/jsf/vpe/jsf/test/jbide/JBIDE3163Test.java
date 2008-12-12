@@ -37,7 +37,7 @@ public class JBIDE3163Test extends VpeTest{
         		JsfAllTests.IMPORT_PROJECT_NAME);
 		IEditorInput editorInput = new FileEditorInput(file);
 		JSPMultiPageEditor part =  openEditor(editorInput);
-		VpeController controller = getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 		XulRunnerEditor xulRunnerEditor = controller.getXulRunnerEditor();
 		int position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 6);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
