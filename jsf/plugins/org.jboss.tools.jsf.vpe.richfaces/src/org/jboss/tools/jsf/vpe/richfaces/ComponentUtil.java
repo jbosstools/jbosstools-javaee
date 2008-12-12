@@ -273,13 +273,16 @@ public class ComponentUtil {
 				.replaceFirst(
 						"^\\s*(\\#|\\$)\\{facesContext.externalContext.requestContextPath\\}", Constants.EMPTY); //$NON-NLS-1$
 
-		IFile file = pageContext.getVisualBuilder().getCurrentIncludeInfo()
-				.getFile();
+		IFile file = null;
+		if (pageContext.getVisualBuilder().getCurrentIncludeInfo() != null)
+			file = pageContext.getVisualBuilder().getCurrentIncludeInfo()
+					.getFile();
+
+		if (file == null)
+			return resolvedValue;
 
 		resolvedValue = ElService.getInstance().replaceEl(file, resolvedValue);
 
-//		IPath path = new Path(resolvedValue);
-		
 		URI uri = null;
 		try {
 			uri = new URI(resolvedValue);
@@ -290,7 +293,9 @@ public class ComponentUtil {
 				&& (uri.isAbsolute() || (new File(resolvedValue)).exists()))
 			return resolvedValue;
 
-		return Constants.FILE_PREFIX+FileUtil.getFile(resolvedValue, file).getLocation().toOSString();
+		return Constants.FILE_PREFIX
+				+ FileUtil.getFile(resolvedValue, file).getLocation()
+						.toOSString();
 	}
 
     /**
