@@ -38,9 +38,9 @@ public class JBIDE3127Test extends VpeTest{
         		JsfAllTests.IMPORT_PROJECT_NAME);
         IEditorInput input = new FileEditorInput(file);
         JSPMultiPageEditor editor = openEditor(input);
+        VpeController vpeController = TestUtil.getVpeController(editor);
         int offcet  = TestUtil.getLinePositionOffcet(editor.getSourceEditor().getTextViewer(), 13, 78);
         editor.getSourceEditor().getTextViewer().setSelectedRange(offcet, 1);
-        VpeController vpeController = (VpeController)editor.getVisualEditor().getController();
         assertTrue("VE sould be visible", vpeController.isVisualEditorVisible()); //$NON-NLS-1$
         assertTrue("It's should be a div","DIV".equalsIgnoreCase(vpeController.getXulRunnerEditor().getLastSelectedNode().getNodeName()));  //$NON-NLS-1$//$NON-NLS-2$
         VpeEditorPart editorPart = ((VpeEditorPart)editor.getVisualEditor());
