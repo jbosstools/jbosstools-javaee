@@ -32,7 +32,9 @@ public class JsfFacet extends VpeAbstractTemplate {
 
     private static String JSF_CORE_URI = "http://java.sun.com/jsf/core"; //$NON-NLS-1$
     private static String JSF_HTML_URI = "http://java.sun.com/jsf/html"; //$NON-NLS-1$
-    
+    private static String RICH_FACES_URI = "http://richfaces.org/rich"; //$NON-NLS-1$
+    private static String A4J_URI = "http://richfaces.org/a4j"; //$NON-NLS-1$
+
     /*
      * (non-Javadoc)
      * 
@@ -48,28 +50,31 @@ public class JsfFacet extends VpeAbstractTemplate {
 	NodeList children = sourceNode.getChildNodes();
 	boolean jsfComponentFound = false;
 	/*
-	 * Only one JSF component may be present inside a facet tag, 
-	 * if more are present only the first one is rendered and the
-	 * other ones are ignored.  
+	 * Only one JSF component may be present inside a facet tag, if more are
+	 * present only the first one is rendered and the other ones are
+	 * ignored.
 	 */
 	for (int i = 0; i < children.getLength(); i++) {
 	    Node child = children.item(i);
 	    String sourcePrefix = child.getPrefix();
-	    List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(sourceNode,pageContext);
-	    TaglibData sourceNodeTaglib = XmlUtil.getTaglibForPrefix(sourcePrefix, taglibs);
+	    List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(sourceNode,
+		    pageContext);
+	    TaglibData sourceNodeTaglib = XmlUtil.getTaglibForPrefix(
+		    sourcePrefix, taglibs);
 	    if (null != sourceNodeTaglib) {
 		String sourceNodeUri = sourceNodeTaglib.getUri();
-		if ((child.getNodeType() == (Node.ELEMENT_NODE))
-			&& (JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri) || JSF_HTML_URI
-				.equalsIgnoreCase(sourceNodeUri))) {
+		if ((child.getNodeType() == Node.ELEMENT_NODE)
+			&& (JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri)
+				|| JSF_HTML_URI.equalsIgnoreCase(sourceNodeUri)
+				|| RICH_FACES_URI.equalsIgnoreCase(sourceNodeUri) 
+				|| A4J_URI.equalsIgnoreCase(sourceNodeUri))) {
 		    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
-		    childrenInfo.addSourceChild(children.item(i));
+		    childrenInfo.addSourceChild(child);
 		    creationData.addChildrenInfo(childrenInfo);
 		    jsfComponentFound = true;
 		    break;
 		}
 	    }
-	    
 	}
 	
 	if (!jsfComponentFound) {
