@@ -8,11 +8,16 @@
 
 <head>
 </head>
-
 <body>
 <f:view>
-<rich:paint2D id="paint2D" width="300" height="120" data="#{paintData}"
-	format="png" paint="#{paintBean.paint}" />
+<rich:paint2D id="paint2D" data="#{paintData}" format="png" paint="#{paintBean.paint}"/>
+<rich:paint2D id="paint2DWithData" width="300" height="120" data="#{paintData}"
+    format="png" paint="#{paintBean.paint}" style="color:red" styleClass="customStyleClass"/>
+<rich:paint2D id="paint2DWithDataAndChildren" width="300" height="120" data="#{paintData}"
+    format="png" paint="#{paintBean.paint}" style="color:red" styleClass="customStyleClass">
+    Mama mila ramu
+    <input type="button" value="Button"/>
+</rich:paint2D>
 </f:view>
 </body>
 </html>

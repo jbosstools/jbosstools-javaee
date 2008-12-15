@@ -440,6 +440,23 @@ public class ComponentUtil {
      * 
      * @param attributeName the attribute name
      * @param sourceElement the source element
+     * @param defaultValue the default value
+     *
+     * @return the attribute
+     */
+    public static String getAttribute(Element sourceElement, String attributeName, String defaultValue) {
+        String attribute = sourceElement.getAttribute(attributeName);
+        if (attribute == null) {
+            attribute = defaultValue;
+        }
+        return attribute;
+    }
+
+    /**
+     * Returns value of attribute.
+     * 
+     * @param attributeName the attribute name
+     * @param sourceElement the source element
      * 
      * @return the attribute
      */
@@ -525,10 +542,10 @@ public class ComponentUtil {
         String path = ElService.getInstance().replaceEl(pageContext.getVisualBuilder().getCurrentIncludeInfo().getFile(), fileImageName);
         File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
-            img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toString() + "/" //$NON-NLS-1$
+            img.setAttribute(HTML.ATTR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toString() + "/" //$NON-NLS-1$
                     + path.replace('\\', '/'));
         } else {
-            img.setAttribute(HtmlComponentUtil.HTML_ATR_SRC, undefinedImgName.replace('\\', '/'));
+            img.setAttribute(HTML.ATTR_SRC, undefinedImgName.replace('\\', '/'));
         }
     }
 

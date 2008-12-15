@@ -10,14 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.List;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -26,13 +30,23 @@ import org.w3c.dom.Node;
  */
 public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 
-	final static private String IMAGE_NAME = "spacer/spacer.gif";
+	/** IMAGE_NAME */
+	private static final String IMAGE_NAME = "/spacer/spacer.gif"; //$NON-NLS-1$
+
+	/** SPACER_CSS_FILE */
+	private static final String SPACER_CSS_FILE = "/spacer/spacer.css"; //$NON-NLS-1$
+
+	/** DEFAULT_SIZE */
+	private static final String DEFAULT_SIZE = "1px"; //$NON-NLS-1$
+
+	/** RICH_SPACER_STYLE */
+	private static final String RICH_SPACER_STYLE = "rich-spacer"; //$NON-NLS-1$
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
 	 * visual node should not have the parent node This visual node can have
 	 * child nodes.
-	 * 
+	 *
 	 * @param pageContext
 	 *            Contains the information on edited page.
 	 * @param sourceNode
@@ -41,63 +55,58 @@ public class RichFacesSpacerTemplate extends VpeAbstractTemplate {
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument) {
-
-		nsIDOMElement img = visualDocument
-				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-		ComponentUtil.setImg(img, IMAGE_NAME);
-
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+		ComponentUtil.setCSSLink(pageContext, SPACER_CSS_FILE, "spacer"); //$NON-NLS-1$
+		// convert to Element
 		Element sourceElement = (Element) sourceNode;
 
-		setData(sourceElement, img);
+		nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
+		ComponentUtil.setImg(img, IMAGE_NAME);
 
-		VpeCreationData creationData = new VpeCreationData(img);
+		// set STYLE attributes
+		String attrValue = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE);
+		if (attrValue.length() != 0) {
+			img.setAttribute(HTML.ATTR_STYLE, attrValue);
+		}
+		// set CLASS attribute
+		attrValue = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
+		String styleClass = RICH_SPACER_STYLE;
+		if (attrValue.length() != 0) {
+			styleClass += Constants.WHITE_SPACE + attrValue;
+		}
+		img.setAttribute(HTML.ATTR_CLASS, styleClass);
+		// set WIDTH attribute
+		String width = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_WIDTH, DEFAULT_SIZE);
+		img.setAttribute(HTML.ATTR_WIDTH, width);
+		// set HEIGHT attribute
+		String height = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_HEIGHT, DEFAULT_SIZE);
+		img.setAttribute(HTML.ATTR_HEIGHT, height);
+
+		// ================================================================================
+		// Check if template component has children elements
+		// ================================================================================
+		List<Node> list = ComponentUtil.getChildren(sourceElement, true);
+		VpeCreationData creationData = null;
+		if (list != null && list.size() > 0) {
+	        nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_SPAN);
+
+	        // this element is used to contains template children
+	        nsIDOMElement childDiv = visualDocument.createElement(HTML.TAG_SPAN);
+
+			rootDiv.appendChild(childDiv);
+			rootDiv.appendChild(img);
+
+			// Create return variable contains template
+			creationData = new VpeCreationData(rootDiv);
+			VpeChildrenInfo divInfo = new VpeChildrenInfo(childDiv);
+			creationData.addChildrenInfo(divInfo);
+			for (Node child : list) {
+				divInfo.addSourceChild(child);
+			}
+		} else {
+			creationData = new VpeCreationData(img);
+		}
 
 		return creationData;
-	}
-
-	private String getSize(Element sourceElement, String attributeName) {
-		String size = sourceElement.getAttribute(attributeName);
-		if (size == null || size.length() == 0) {
-			return "1px";
-		} else {
-			return size;
-		}
-	}
-
-	/**
-	 * 
-	 * @see com.exadel.vpe.editor.template.VpeAbstractTemplate#setAttribute(com.exadel.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Element, org.w3c.dom.Document, org.w3c.dom.Node,
-	 *      java.lang.Object, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public void setAttribute(VpePageContext pageContext, Element sourceElement,
-			nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
-			String name, String value) {
-		super.setAttribute(pageContext, sourceElement, visualDocument,
-				visualNode, data, name, value);
-
-		nsIDOMElement img = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-
-		setData(sourceElement, img);
-	}
-
-	/**
-	 * 
-	 * @param sourceElement
-	 * @param visualElement
-	 */
-	private void setData(Element sourceElement, nsIDOMElement visualElement) {
-
-		visualElement
-				.setAttribute("style", sourceElement.getAttribute("style"));
-		visualElement.setAttribute("class", sourceElement
-				.getAttribute("styleClass"));
-		visualElement.setAttribute("width", getSize(sourceElement, "width"));
-		visualElement.setAttribute("height", getSize(sourceElement, "height"));
-
 	}
 }

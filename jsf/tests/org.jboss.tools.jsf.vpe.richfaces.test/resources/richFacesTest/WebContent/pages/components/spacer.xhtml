@@ -5,15 +5,15 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:a4j="http://richfaces.org/a4j"
     xmlns:rich="http://richfaces.org/rich">
-
 <head>
 </head>
-
 <body>
 <f:view>
-    line1
-        <rich:spacer id="spacer" width="1" height="5" title="Here is a spacer..." />
-    line2        
+    <rich:spacer id="spacer"/>
+    <rich:spacer id="spacerCSS" styleClass="customStyleClass" style="color:red" width="100" height="200"/>
+    <rich:spacer id="spacerCSSWithChildren" styleClass="customStyleClass" style="color:red" width="100" height="200">
+        <input type="button" value="Button"/><br/>Mama mila ramu
+    </rich:spacer>
 </f:view>
 </body>
 </html>
