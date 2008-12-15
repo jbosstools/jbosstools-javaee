@@ -18,12 +18,14 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.ElementProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeListImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.TextProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
+import org.jboss.tools.jsf.vpe.jsf.template.util.proxy.JsfTemplateInvocationHandler;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
@@ -51,11 +53,12 @@ public class NodeProxyUtil {
 
 		NodeList list = document.getChildNodes();
 
-		NodeList adaptersList = getNodeAdapterList(list, offset);
+		NodeList adaptersList = (NodeList) JsfTemplateInvocationHandler
+				.createNodeListProxy(list, offset);
 
 		data.setNodelist(adaptersList);
 
-		return adaptersList;
+		return (NodeList) adaptersList;
 
 	}
 
