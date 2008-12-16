@@ -33,13 +33,18 @@ import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PageException;
 import org.jboss.tools.seam.ui.pages.editor.figures.ExceptionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.CompressNameUtil;
 
-public class ExceptionEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener, Adapter {
+public class ExceptionEditPart extends PagesEditPart implements PropertyChangeListener, EditPartListener,
+Adapter, XModelTreeListener {
 	private NodeFigure fig = null;
 
 	private boolean single = true;
@@ -129,6 +134,18 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new ViewIDDirectEditPolicy());
 	}
+	
+	public void nodeChanged(XModelTreeEvent event){
+		String path = event.getModelObject().getPath();
+		if(path.equals(SeamPagesPreference.SEAM_PAGES_EDITOR_PATH)){
+			NodeFigure.nodeLabelFont = SeamPagesPreference.getFont(SeamPagesPreference.VIEW_PATH_FONT.getValue(), NodeFigure.nodeLabelFont);
+			refreshVisuals();
+		}
+	}
+	
+    public void structureChanged(XModelTreeEvent event){
+    	
+    }
 
 	/**
 	 * Returns a newly created Figure to represent this.
@@ -241,6 +258,7 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 		if (isActive())
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
+		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 		super.activate();
 		if("<initialize>".equals(getExceptionModel().getName())){
 			getExceptionModel().setName("");
@@ -254,6 +272,7 @@ public class ExceptionEditPart extends PagesEditPart implements PropertyChangeLi
 		if (!isActive())
 			return;
 		((Notifier) getModel()).eAdapters().remove(this);
+		PreferenceModelUtilities.getPreferenceModel().removeModelTreeListener(this);
 		super.deactivate();
 	}
 	

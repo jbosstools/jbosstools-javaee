@@ -30,7 +30,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
@@ -38,7 +37,11 @@ import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.XModelUtil;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor.ModelSelectionProvider;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
@@ -48,11 +51,11 @@ import org.jboss.tools.seam.ui.pages.editor.figures.ConnectionFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.FigureFactory;
 
 public class LinkEditPart extends AbstractConnectionEditPart implements
-		PropertyChangeListener, EditPartListener {
+		PropertyChangeListener, EditPartListener, XModelTreeListener {
 	private static final Image icon = ImageDescriptor.createFromFile(
 			PagesEditor.class, "icons/shortcut.gif").createImage();
 	
-	private static final Font pathFont = new Font(null, "default", 8, SWT.NONE);
+	private static final Font pathFont = SeamPagesPreference.getFont(SeamPagesPreference.LINK_PATH_FONT.getValue(), null);
 
 	AccessibleEditPart acc;
 	
@@ -73,6 +76,14 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	public void setEditor(PagesEditor editor){
 		this.editor = editor;
 	}
+	
+	private boolean showShortcutPath(){
+		return SeamPagesPreference.SHOW_SHORTCUT_PATH.getValue().equals("yes");
+	}
+
+	private boolean showShortcutIcon(){
+		return SeamPagesPreference.SHOW_SHORTCUT_ICON.getValue().equals("yes");
+	}
 
 	public void activate() {
 		if (!isActive()) {
@@ -80,6 +91,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		}
 		super.activate();
 		addEditPartListener(this);
+		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 		Page page=null;
 		if(getLinkModel().getFromElement() instanceof Page)
 			page = (Page)getLinkModel().getFromElement();
@@ -133,15 +145,14 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			conn.add(pathLabel, pathLocator);
 
 		String text = "";
-//		if (getLink().getJSFModel().getOptions().showShortcutPath())
+		if (showShortcutPath())
 		if(getLink().getToElement() != null)
 			text = getLink().getToElement().getName();
 		
 		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
-//		if (getLink().getJSFModel().getOptions().showShortcutIcon())
+		if (showShortcutIcon())
 			shortcutLabel.setIcon(icon);
-//		shortcutLabel.setFont(getLink().getJSFModel().getOptions()
-//				.getLinkPathFont());
+		shortcutLabel.setFont(pathFont);
 		shortcutLabel.setTextAlignment(Label.LEFT);
 		shortcutLabel.setLabelAlignment(Label.LEFT);
 		shortcutLabel.setIconAlignment(Label.LEFT);
@@ -172,12 +183,23 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if(pagePart != null)
 			pagePart.removeEditPartListener(this);
 		removeEditPartListener(this);
-		//getLink().removePropertyChangeListener(this);
+		PreferenceModelUtilities.getPreferenceModel().removeModelTreeListener(this);
 		if (isActive()) {
 			((Notifier) getModel()).eAdapters().remove(this);
 		}
 		super.deactivate();
 	}
+	
+	public void nodeChanged(XModelTreeEvent event){
+		String path = event.getModelObject().getPath();
+		if(path.equals(SeamPagesPreference.SEAM_PAGES_EDITOR_PATH)){
+			linkChange(getLink());
+		}
+	}
+	
+    public void structureChanged(XModelTreeEvent event){
+    	
+    }
 
 	public void deactivateFigure() {
 		getFigure().removePropertyChangeListener(
@@ -254,16 +276,22 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	}
 
 	public void linkChange(Link source) {
+		pathLabel.setFont(SeamPagesPreference.getFont(SeamPagesPreference.LINK_PATH_FONT.getValue(), pathFont));
 		pathLabel.setText(getLink().getName());
-//		if (getLinkModel().getJSFModel().getOptions().showShortcutPath())
-		if(getLink().getToElement() != null)
-			shortcutLabel.setText(getLink().getToElement().getName());
-		else
+		
+		if (showShortcutPath()){
+			shortcutLabel.setFont(SeamPagesPreference.getFont(SeamPagesPreference.LINK_PATH_FONT.getValue(), pathFont));
+			if(getLink().getToElement() != null)
+				shortcutLabel.setText(getLink().getToElement().getName());
+			else
+				shortcutLabel.setText("");
+		}else
 			shortcutLabel.setText("");
-//		if (getLinkModel().getJSFModel().getOptions().showShortcutIcon())
+		
+		if (showShortcutIcon())
 			shortcutLabel.setIcon(icon);
-//		else
-//			shortcutLabel.setIcon(null);
+		else
+			shortcutLabel.setIcon(null);
 
 		getLinkFigure().refreshFont();
 		if (shortcut != getLink().isShortcut()) {
@@ -277,9 +305,6 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			}
 			refresh();
 		}
-
-		
-
 	}
 
 	public void childAdded(EditPart child, int index) {
@@ -331,7 +356,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			refreshVisuals();
 			((ConnectionFigure)figure).layout();
 		}
-
+		
 		/**
 		 * )
 		 * 

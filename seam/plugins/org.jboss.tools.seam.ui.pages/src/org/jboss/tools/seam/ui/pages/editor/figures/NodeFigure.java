@@ -12,12 +12,12 @@ package org.jboss.tools.seam.ui.pages.editor.figures;
 
 
 import org.eclipse.draw2d.FigureUtilities;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.gef.figures.xpl.BaseNodeFigure;
 import org.jboss.tools.common.model.ui.ModelUIImages;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
 import org.jboss.tools.seam.ui.pages.editor.figures.xpl.FixedConnectionAnchor;
 
 public class NodeFigure extends
@@ -25,7 +25,7 @@ public class NodeFigure extends
 	
 	public final static Color ghostFillColor = new Color(null, 31, 31, 31);
 	
-	public static final Font nodeLabelFont = new Font(null, "default", 8, SWT.BOLD); // TODO: use preference font mechanism for this
+	public static Font nodeLabelFont = SeamPagesPreference.getFont(SeamPagesPreference.VIEW_PATH_FONT.getValue(), null);
 	
 	public static final Color lightGrayColor = new Color(null, 0xf1, 0xf1, 0xf1);
 	

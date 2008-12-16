@@ -91,7 +91,11 @@ import org.jboss.tools.common.gef.editor.xpl.DefaultPaletteCustomizer;
 import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.jst.web.model.ReferenceObject;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
 import org.jboss.tools.seam.pages.xml.model.handlers.SelectOnDiagramHandler;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 import org.jboss.tools.seam.ui.pages.SeamUIPagesMessages;
@@ -114,7 +118,7 @@ import org.jboss.tools.seam.ui.pages.editor.edit.xpl.PagesConnectionRouter;
 import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.palette.PagesPaletteViewerPreferences;
 
-public class PagesEditor extends GEFEditor implements PagesModelListener{
+public class PagesEditor extends GEFEditor implements PagesModelListener, XModelTreeListener{
 
 	protected void createPaletteViewer(Composite parent) {
 		PaletteViewer viewer = new PaletteViewer();
@@ -291,7 +295,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	}
 
 	public void dispose() {
-		//model.removeModelListener(this);
+		PreferenceModelUtilities.getPreferenceModel().removeModelTreeListener(this);
 		super.dispose();
 	}
 
@@ -521,12 +525,11 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	public void setInput(XModelObject input) {
 	}
 
-	static private boolean switchToSelectionTool = false;
+	static private boolean switchToSelectionTool = SeamPagesPreference.ENABLE_CONTROL_MODE_ON_TRANSITION_COMPLETED.getValue().equals("yes");
 
 	public void setPagesModel(PagesModel diagram) {
 		model = diagram;
-		//model.addModelListener(this);
-		//switchToSelectionTool = model.getOptions().switchToSelectionTool();
+		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 	}
 
 	private void setSavePreviouslyNeeded(boolean value) {
@@ -644,14 +647,16 @@ public class PagesEditor extends GEFEditor implements PagesModelListener{
 	protected void hookGraphicalViewer() {
 		getSelectionSynchronizer().addViewer(getGraphicalViewer());
 	}
-
 	
-
-//	public void processChanged(boolean flag) {
-//		if (switchToSelectionTool != model.getOptions().switchToSelectionTool()) {
-//			switchToSelectionTool = model.getOptions().switchToSelectionTool();
-//			connectionCreationTool.setUnloadWhenFinished(switchToSelectionTool);
-//		}
-//	}
-
+	public void nodeChanged(XModelTreeEvent event){
+		String path = event.getModelObject().getPath();
+		if(path.equals(SeamPagesPreference.SEAM_PAGES_EDITOR_PATH)){
+			switchToSelectionTool = SeamPagesPreference.ENABLE_CONTROL_MODE_ON_TRANSITION_COMPLETED.getValue().equals("yes");
+			connectionCreationTool.setUnloadWhenFinished(switchToSelectionTool);
+		}
+	}
+	
+    public void structureChanged(XModelTreeEvent event){
+    	
+    }
 }

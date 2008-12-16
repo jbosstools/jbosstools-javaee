@@ -35,14 +35,11 @@ import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.tools.DeselectAllTracker;
 import org.eclipse.gef.tools.MarqueeDragTracker;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.event.XModelTreeListener;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
-import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
@@ -78,7 +75,6 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 */
 	public void setModel(Object model) {
 		super.setModel(model);
-		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 	}
 
 	/**
@@ -286,6 +282,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		if (isActive())
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
+		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 		super.activate();
 	}
 	
@@ -293,6 +290,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		if (!isActive())
 			return;
 		((Notifier) getModel()).eAdapters().remove(this);
+		PreferenceModelUtilities.getPreferenceModel().removeModelTreeListener(this);
 		super.deactivate();
 	}
 	

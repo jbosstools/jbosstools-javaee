@@ -40,7 +40,11 @@ import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.meta.action.XAction;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.ui.dnd.DnDUtil;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
 import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.PagesEditor;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Link;
@@ -49,7 +53,7 @@ import org.jboss.tools.seam.ui.pages.editor.figures.NodeFigure;
 import org.jboss.tools.seam.ui.pages.editor.figures.PageFigure;
 
 public class PageEditPart extends PagesEditPart implements
-		PropertyChangeListener, EditPartListener, Adapter {
+		PropertyChangeListener, EditPartListener, Adapter, XModelTreeListener {
 	private PageFigure fig = null;
 	
 	PagesEditor editor;
@@ -98,6 +102,18 @@ public class PageEditPart extends PagesEditPart implements
 
 		}
 	}
+	
+	public void nodeChanged(XModelTreeEvent event){
+		String path = event.getModelObject().getPath();
+		if(path.equals(SeamPagesPreference.SEAM_PAGES_EDITOR_PATH)){
+			NodeFigure.nodeLabelFont = SeamPagesPreference.getFont(SeamPagesPreference.VIEW_PATH_FONT.getValue(), NodeFigure.nodeLabelFont);
+			refreshVisuals();
+		}
+	}
+	
+    public void structureChanged(XModelTreeEvent event){
+    	
+    }
 
 	public boolean isGroupListenerEnable() {
 		return true;
@@ -278,6 +294,7 @@ public class PageEditPart extends PagesEditPart implements
 		if (isActive())
 			return;
 		((Notifier) getModel()).eAdapters().add(this);
+		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 		super.activate();
 		if("<initialize>".equals(getPageModel().getName())){
 			getPageModel().setName("");
@@ -291,6 +308,7 @@ public class PageEditPart extends PagesEditPart implements
 		if (!isActive())
 			return;
 		((Notifier) getModel()).eAdapters().remove(this);
+		PreferenceModelUtilities.getPreferenceModel().removeModelTreeListener(this);
 		super.deactivate();
 	}
 
