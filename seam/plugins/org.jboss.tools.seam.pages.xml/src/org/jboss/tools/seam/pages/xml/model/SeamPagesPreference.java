@@ -9,6 +9,8 @@ public class SeamPagesPreference extends WebPreference {
 	public static final Preference ENABLE_CONTROL_MODE_ON_TRANSITION_COMPLETED = new SeamPagesPreference(SEAM_PAGES_EDITOR_PATH, "enableControlModeOnTransitionCompleted");
 	public static final Preference SHOW_SHORTCUT_ICON = new SeamPagesPreference(SEAM_PAGES_EDITOR_PATH, "showShortcutIcon");
 	public static final Preference SHOW_SHORTCUT_PATH = new SeamPagesPreference(SEAM_PAGES_EDITOR_PATH, "showShortcutPath");
+	public static final Preference SHOW_GRID = new SeamPagesPreference(SEAM_PAGES_EDITOR_PATH, "Show Grid");
+	public static final Preference GRID_STEP = new SeamPagesPreference(SEAM_PAGES_EDITOR_PATH, "Grid Step");
 
 	protected SeamPagesPreference(String optionPath, String attributeName) {
 		super(optionPath, attributeName);

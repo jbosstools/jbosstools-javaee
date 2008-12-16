@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.pages.editor.edit;
 
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,24 +35,22 @@ import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.tools.DeselectAllTracker;
 import org.eclipse.gef.tools.MarqueeDragTracker;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesPreference;
+import org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.Page;
-import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesElement;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModel;
 import org.jboss.tools.seam.ui.pages.editor.ecore.pages.PagesModelListener;
 import org.jboss.tools.seam.ui.pages.editor.figures.DiagramFigure;
 
 public class PagesDiagramEditPart extends ContainerEditPart implements
-		LayerConstants, PagesModelListener, Adapter {
-	/*
-	 * 
-	 */
-	private boolean gridVisual = false;
+		LayerConstants, PagesModelListener, Adapter, XModelTreeListener{
 
-	/*
-	 * 
-	 */
-	private int gridVisualStep = 8;
 
 	/*
 	 * 
@@ -65,7 +62,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 * @return
 	 */
 	public boolean isGridVisible() {
-		return gridVisual;
+		return SeamPagesPreference.SHOW_GRID.getValue().equals("yes");
 	}
 
 	/**
@@ -73,7 +70,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 * @return
 	 */
 	public int getVisualGridStep() {
-		return gridVisualStep;
+		return Integer.parseInt(SeamPagesPreference.GRID_STEP.getValue());
 	}
 
 	/**
@@ -81,9 +78,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 */
 	public void setModel(Object model) {
 		super.setModel(model);
-		//((PagesModel) model).addModelListener(this);
-		//gridVisual = getPagesModel().getOptions().isGridVisible();
-		//gridVisualStep = getPagesModel().getOptions().getVisualGridStep();
+		PreferenceModelUtilities.getPreferenceModel().addModelTreeListener(this);
 	}
 
 	/**
@@ -216,12 +211,17 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 		return null;
 	}
 	
-	/**
-	 * 
-	 */
-	public void propertyChange(PropertyChangeEvent evt) {
+	public void nodeChanged(XModelTreeEvent event){
+		String path = event.getModelObject().getPath();
+		if(path.equals(SeamPagesPreference.SEAM_PAGES_EDITOR_PATH)){
+			refresh();
+		}
 	}
-
+	
+    public void structureChanged(XModelTreeEvent event){
+    	
+    }
+	
 	/**
 	 * 
 	 */
@@ -325,5 +325,4 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 	 */
 	public void setTarget(Notifier newTarget) {
 	}
-
 }
