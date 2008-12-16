@@ -13,10 +13,13 @@ package org.jboss.tools.seam.ui.pages.editor.edit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.draw2d.ArrowLocator;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -56,6 +59,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			PagesEditor.class, "icons/shortcut.gif").createImage();
 	
 	private static final Font pathFont = SeamPagesPreference.getFont(SeamPagesPreference.LINK_PATH_FONT.getValue(), null);
+	
 
 	AccessibleEditPart acc;
 	
@@ -118,12 +122,19 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 				new LinkEndpointEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ROLE, new LinkEditPolicy());
 	}
+	
+	PolygonDecoration arrow;
 
 	protected IFigure createFigure() {
 		if (getLink() == null)
 			return null;
 		ConnectionFigure conn = FigureFactory.createNewBendableWire(this,
 				getLink());
+		arrow = (PolygonDecoration)conn.getChildren().get(0);
+		
+		if (getLink().isShortcut())
+			conn.remove(arrow);
+		
 		PointList list = getLink().getPointList();
 		if (list.size() > 0) {
 			conn.setManual(true);
@@ -299,9 +310,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			if (shortcut) {
 				getLinkFigure().add(shortcutLabel, shortcutLocator);
 				getLinkFigure().remove(pathLabel);
+				getLinkFigure().remove(arrow);
 			} else {
 				getLinkFigure().remove(shortcutLabel);
 				getLinkFigure().add(pathLabel, pathLocator);
+				getLinkFigure().add(arrow, new ArrowLocator(getLinkFigure(), ConnectionLocator.TARGET));
 			}
 			refresh();
 		}
