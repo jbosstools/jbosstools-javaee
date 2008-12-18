@@ -53,11 +53,9 @@ import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamMessagesComponent;
 import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo;
 
 /**
@@ -929,9 +927,9 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		return content.length();
 	}
 
-	public static boolean isSeamMessagesComponentVariable(ISeamContextVariable variable) {
+	public static ISeamMessages getSeamMessagesComponentVariable(ISeamContextVariable variable) {
 		if (variable instanceof ISeamMessages) {
-			return true;
+			return (ISeamMessages)variable;
 		} else if (variable instanceof ISeamXmlFactory) {
 			ISeamXmlFactory factory = (ISeamXmlFactory)variable;
 			String value = factory.getValue();
@@ -948,7 +946,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					for (ISeamContextVariable var : resolvedValues) {
 						if (var.getName().equals(value)) {
 							if (var instanceof ISeamMessages) {
-								return true;
+								return (ISeamMessages)var;
 							}
 						}
 					}
@@ -956,9 +954,13 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			}
 		} else if(variable instanceof ISeamContextShortVariable) {
 			ISeamContextShortVariable sv = (ISeamContextShortVariable)variable;
-			return isSeamMessagesComponentVariable(sv.getOriginal());
+			return getSeamMessagesComponentVariable(sv.getOriginal());
 		}
-		return false;
+		return null;
+	}
+
+	public static boolean isSeamMessagesComponentVariable(ISeamContextVariable variable) {
+		return (null != getSeamMessagesComponentVariable(variable));
 	}
 	
 }
