@@ -3,8 +3,10 @@ package org.jboss.tools.seam.pages.xml.model;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.ui.IViewReference;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.jst.web.model.tree.WebPagesTree;
 import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramStructureHelper;
 
@@ -41,7 +43,24 @@ public class ViewIdsTree extends WebPagesTree {
 	}
 
     public XModelObject[] getChildren(XModelObject object) {
-    	if(object == root) return new XModelObject[]{webRoot, pages};
+    	if(object == root) {
+    		if(webRoot == null) {
+    			XModelObject[] rs = super.getChildren(object);
+    			if(pages == null) {
+    				return rs;
+    			} else {
+    				XModelObject[] rs1 = new XModelObject[rs.length + 1];
+    				System.arraycopy(rs, 0, rs1, 0, rs.length);
+    				rs1[rs.length] = pages;
+    				return rs1;
+    			}
+    		}
+    		if(pages == null) {
+    			return new XModelObject[]{webRoot};
+    		} else {
+    			return new XModelObject[]{webRoot, pages};
+    		}
+    	}
     	if(object == pages) return pageMap.values().toArray(new XModelObject[0]);
         return super.getChildren(object);
     }
