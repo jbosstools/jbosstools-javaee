@@ -23,11 +23,11 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -220,7 +220,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		if(headerSpacing==null) {
 			headerSpacing = ONE;
 		}
-		spaceImg.setAttribute(HTML.ATTR_STYLE, "width: " + headerSpacing + "px"); //$NON-NLS-1$ //$NON-NLS-2$
+		spaceImg.setAttribute(HTML.ATTR_STYLE, "width: " + headerSpacing + Constants.PIXEL); //$NON-NLS-1$
 	}
 	
 	private int getActiveId(Element sourceElement, List<Node> children) {
@@ -356,7 +356,10 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 				element.removeAttribute(HTML.ATTR_STYLE);
 			}
 			if (ComponentUtil.getAttribute(element, RichFacesTabTemplate.TAB_BODY_ATTR).equalsIgnoreCase(YES)) {
-				element.setAttribute(HTML.ATTR_STYLE, HTML.ATTR_DISPLAY+" : "+RichFacesTabTemplate.DISABLED_ELEMENT_STYLE+";");  //$NON-NLS-1$//$NON-NLS-2$
+			    element.setAttribute(HTML.ATTR_STYLE, HTML.ATTR_DISPLAY
+				    + Constants.COLON
+				    + RichFacesTabTemplate.DISABLED_ELEMENT_STYLE
+				    + Constants.SEMICOLON);
 			}
 			} catch (XPCOMException exeption) {
 				// Ignore
@@ -369,55 +372,14 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		}
 		
 		for (nsIDOMElement tab : storedTabHeaders) {
-			String value = tab.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
-			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, value, getChildren(tab));
-			applyAttributeValueOnChildren(
-					VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT,
-					"true", getChildren(tab)); //$NON-NLS-1$
+		    String value = tab.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
+		    ComponentUtil.applyAttributeValueOnChildren(
+			    VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, 
+			    value,ComponentUtil.getElementChildren(tab));
+		    ComponentUtil.applyAttributeValueOnChildren(
+			    VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT,
+			    Constants.TRUE, ComponentUtil.getElementChildren(tab));
 		}
-		
+
 	}
-	
-	/**
-	 * 	Sets the attribute to element children 
-	 * @param attrName attribute name
-	 * @param attrValue attribute value
-	 * @param children children
-	 */
-	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMElement> children) {
-		if (children == null || attrName == null || attrValue == null) {
-			return;
-		}
-		for (nsIDOMElement child : children) {
-			child.setAttribute(attrName, attrValue);
-			applyAttributeValueOnChildren(attrName, attrValue, getChildren(child));
-		}
-	}
-	
-	/**
-	 * Gets element children
-	 * @param element the element
-	 * @return children
-	 */
-	private List<nsIDOMElement> getChildren(nsIDOMElement element) {
-		List<nsIDOMElement> result = new ArrayList<nsIDOMElement>();
-		if (element.hasChildNodes()) {
-			nsIDOMNodeList children = element.getChildNodes();
-			if (null != children) {
-				long len = children.getLength();
-				for (int i = 0; i < len; i++) {
-					nsIDOMNode item = children.item(i);
-					try {
-						nsIDOMElement elem = (nsIDOMElement) item
-								.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-						result.add(elem);
-					} catch (XPCOMException ex) {
-						// just ignore this exception
-					}
-				}
-			}
-		}
-		return result;
-	}
-	
 }

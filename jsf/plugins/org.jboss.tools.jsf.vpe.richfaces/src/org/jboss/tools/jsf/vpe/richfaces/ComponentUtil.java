@@ -308,6 +308,57 @@ public class ComponentUtil {
         img.setAttribute(HTML.ATTR_SRC, "file://" //$NON-NLS-1$
                 + getAbsoluteResourcePath(fileImageName).replace('\\', '/'));
     }
+    
+    /**
+     * Sets the attribute to element children
+     * 
+     * @param attrName
+     *            attribute name
+     * @param attrValue
+     *            attribute value
+     * @param children
+     *            children
+     */
+    public static void applyAttributeValueOnChildren(String attrName,
+	    String attrValue, List<nsIDOMElement> children) {
+	if (children == null || attrName == null || attrValue == null) {
+	    return;
+	}
+	for (nsIDOMElement child : children) {
+	    child.setAttribute(attrName, attrValue);
+	    applyAttributeValueOnChildren(attrName, attrValue,
+		    getElementChildren(child));
+	}
+    }
+
+    /**
+     * Gets element's children of type nsIDOMElement. No text nodes will be
+     * returned.
+     * 
+     * @param element
+     *            the element
+     * @return children the list of the elements
+     */
+    public static List<nsIDOMElement> getElementChildren(nsIDOMElement element) {
+	List<nsIDOMElement> result = new ArrayList<nsIDOMElement>();
+	if (element.hasChildNodes()) {
+	    nsIDOMNodeList children = element.getChildNodes();
+	    if (null != children) {
+		long len = children.getLength();
+		for (int i = 0; i < len; i++) {
+		    nsIDOMNode item = children.item(i);
+		    try {
+			nsIDOMElement elem = (nsIDOMElement) item
+				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			result.add(elem);
+		    } catch (XPCOMException ex) {
+			// just ignore this exception
+		    }
+		}
+	    }
+	}
+	return result;
+    }
 
     /**
      * Returns all child source elements of component but facets.

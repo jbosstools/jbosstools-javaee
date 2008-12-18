@@ -7,214 +7,221 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
-import org.mozilla.interfaces.nsIDOMNodeList;
-import org.mozilla.xpcom.XPCOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
+public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate
+	implements VpeToggableTemplate {
 
-	private static Map toggleMap = new HashMap();
-	private nsIDOMElement storedHeaderDiv = null;
-	
-	private static final String COLLAPSED_STYLE ="; display: none;";
-	private static final String HEADER_NAME_FACET = "header";
-	
+    private static final String CSS_STYLE_PATH = "simpleTogglePanel/simpleTogglePanel.css"; //$NON-NLS-1$
+    private static final String COMPONENT_NAME = "richFacesSimpleTogglePanel"; //$NON-NLS-1$
+    private static final String ATTR_LABEL = "label"; //$NON-NLS-1$
+    private static final String ATTR_BODY_CLASS = "bodyClass"; //$NON-NLS-1$
+    private static final String ATTR_OPENED = "opened"; //$NON-NLS-1$
+    private static final String OPEN_MARKER_FACET_NAME = "openMarker"; //$NON-NLS-1$
+    private static final String CLOSE_MARKER_FACET_NAME = "closeMarker"; //$NON-NLS-1$
+    private static final String CSS_DR_STGLPANEL = "dr-stglpnl"; //$NON-NLS-1$
+    private static final String CSS_DR_STGLPANEL_HEADER = "dr-stglpnl-h"; //$NON-NLS-1$
+    private static final String CSS_DR_STGLPANEL_BODY = "dr-stglpnl-b"; //$NON-NLS-1$
+    private static final String CSS_RICH_STGLPANEL = "rich-stglpanel"; //$NON-NLS-1$
+    private static final String CSS_RICH_STGLPANEL_HEADER = "rich-stglpanel-header"; //$NON-NLS-1$
+    private static final String CSS_RICH_STGLPNL_MARKER = "rich-stglpnl-marker"; //$NON-NLS-1$
+    private static final String CSS_RICH_STGLPANEL_BODY = "rich-stglpanel-body"; //$NON-NLS-1$
+    private static final String COLLAPSED_STYLE = "; display: none;"; //$NON-NLS-1$
+    private static final String SWITCH_DIV_STYLE = "position : absolute; top: 0px; right: 5px;"; //$NON-NLS-1$
 
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+    private static Map toggleMap = new HashMap();
+    private nsIDOMElement storedHeaderDiv = null;
 
-		Element sourceElement = (Element)sourceNode;
 
-		nsIDOMElement div = visualDocument.createElement("div");
+    public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
+	    nsIDOMDocument visualDocument) {
 
-		VpeCreationData creationData = new VpeCreationData(div);
+	Element sourceElement = (Element) sourceNode;
 
-		ComponentUtil.setCSSLink(pageContext, "simpleTogglePanel/simpleTogglePanel.css", "richFacesSimpleTogglePanel");
-		div.setAttribute("class", "dr-stglpnl rich-stglpanel " + ComponentUtil.getAttribute(sourceElement, "styleClass"));
-		div.setAttribute("style", "width: " + ComponentUtil.getAttribute(sourceElement, "width") + ";" + ComponentUtil.getAttribute(sourceElement, "style"));
+	nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 
-		// Encode Header
-		nsIDOMElement headerDiv = visualDocument.createElement("div");
-		div.appendChild(headerDiv);
-		headerDiv.setAttribute("class", "dr-stglpnl-h rich-stglpanel-header " + ComponentUtil.getAttribute(sourceElement, "headerClass"));
-		headerDiv.setAttribute("style", "position : relative; " + ComponentUtil.getHeaderBackgoundImgStyle());
+	VpeCreationData creationData = new VpeCreationData(div);
 
-		//http://jira.jboss.com/jira/browse/JBIDE-791
-		Element firstElementOfHeaderFacet = ComponentUtil.getFacet(sourceElement, HEADER_NAME_FACET);
-		if(firstElementOfHeaderFacet != null) {
-			VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
-			headerInfo.addSourceChild(firstElementOfHeaderFacet);
-			creationData.addChildrenInfo(headerInfo);
-		} else {
-			String label = ComponentUtil.getAttribute(sourceElement, "label");
-			headerDiv.appendChild(visualDocument.createTextNode(label));
-		}
-		/////
+	ComponentUtil.setCSSLink(pageContext, CSS_STYLE_PATH, COMPONENT_NAME);
+	div.setAttribute(HTML.ATTR_CLASS, CSS_DR_STGLPANEL
+		+ Constants.WHITE_SPACE
+		+ CSS_RICH_STGLPANEL
+		+ Constants.WHITE_SPACE
+		+ ComponentUtil.getAttribute(sourceElement,
+			RichFaces.ATTR_STYLE_CLASS));
+	div.setAttribute(HTML.ATTR_STYLE, "width: " //$NON-NLS-1$
+		+ ComponentUtil.getAttribute(sourceElement, HTML.ATTR_WIDTH)
+		+ Constants.SEMICOLON
+		+ ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE));
 
-		nsIDOMElement switchDiv = visualDocument.createElement("div");
-		headerDiv.appendChild(switchDiv);
-		switchDiv.setAttribute("style", "position : absolute; top: 0px; right: 5px;");
+	// Encode Header
+	nsIDOMElement headerDiv = visualDocument.createElement(HTML.TAG_DIV);
+	div.appendChild(headerDiv);
 
-		String markerName = "openMarker";
-		char defaultMarkerCode = 187;
-		boolean opened = getActiveState(sourceElement);
-		
-		headerDiv.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, (opened ? "false" : "true"));
-		storedHeaderDiv = headerDiv;
-		
-		if(opened) {
-			markerName = "closeMarker";
-			defaultMarkerCode = 171;
-		}
-		Element markerFacet = ComponentUtil.getFacet(sourceElement, markerName);
-		if(markerFacet==null) {
-			switchDiv.appendChild(visualDocument.createTextNode("" + defaultMarkerCode));
-		} else {
-			VpeChildrenInfo switchInfo = new VpeChildrenInfo(switchDiv);
-			switchInfo.addSourceChild(markerFacet);
-			creationData.addChildrenInfo(switchInfo);
-		}
+	headerDiv.setAttribute(HTML.ATTR_CLASS, CSS_DR_STGLPANEL_HEADER
+		+ Constants.WHITE_SPACE
+		+ CSS_RICH_STGLPANEL_HEADER
+		+ Constants.WHITE_SPACE
+		+ ComponentUtil.getAttribute(sourceElement,
+			RichFaces.ATTR_HEADER_CLASS));
+	headerDiv.setAttribute(HTML.ATTR_STYLE, "position : relative; " //$NON-NLS-1$
+		+ ComponentUtil.getHeaderBackgoundImgStyle());
 
-		// Encode Body
-		//if(opened) {
-		    nsIDOMElement bodyDiv = visualDocument.createElement("div");
-			div.appendChild(bodyDiv);
-			bodyDiv.setAttribute("style", "overflow: hidden; height: " + ComponentUtil.getAttribute(sourceElement, "height") + "; width: 100%;");
+	// http://jira.jboss.com/jira/browse/JBIDE-791
+	Element firstElementOfHeaderFacet = ComponentUtil.getFacet(
+		sourceElement, RichFaces.NAME_FACET_HEADER);
+	if (firstElementOfHeaderFacet != null) {
+	    VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
+	    headerInfo.addSourceChild(firstElementOfHeaderFacet);
+	    creationData.addChildrenInfo(headerInfo);
+	} else {
+	    String label = ComponentUtil
+		    .getAttribute(sourceElement, ATTR_LABEL);
+	    headerDiv.appendChild(visualDocument.createTextNode(label));
+	}
+	// ///
 
-			nsIDOMElement table = visualDocument.createElement("table");
-			bodyDiv.appendChild(table);
-			table.setAttribute("cellpadding", "0");
-			table.setAttribute("style", "width: 100%");
-			nsIDOMElement tr = visualDocument.createElement("tr");
-			table.appendChild(tr);
-			nsIDOMElement td = visualDocument.createElement("td");
-			tr.appendChild(td);
-			td.setAttribute("class", "dr-stglpnl-b rich-stglpanel-body " + ComponentUtil.getAttribute(sourceElement, "bodyClass"));
+	nsIDOMElement switchDiv = visualDocument.createElement(HTML.TAG_DIV);
+	headerDiv.appendChild(switchDiv);
+	switchDiv.setAttribute(HTML.ATTR_STYLE, SWITCH_DIV_STYLE);
 
-			List<Node> children = ComponentUtil.getChildren(sourceElement, true);
-			VpeChildrenInfo bodyInfo = new VpeChildrenInfo(td);
-			for (Node child : children) {
-				bodyInfo.addSourceChild(child);
-			}
-			creationData.addChildrenInfo(bodyInfo);
-			
-			//http://jira.jboss.com/jira/browse/JBIDE-791
-			if(!opened) {
-				String newStyle = bodyDiv.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-				newStyle += COLLAPSED_STYLE;
-				bodyDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, newStyle);
-			}
-			//-------------------------
-		//}
-		return creationData;
+	String markerName = OPEN_MARKER_FACET_NAME;
+	char defaultMarkerCode = 187;
+	boolean opened = getActiveState(sourceElement);
+
+	headerDiv.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID,
+		(opened ? Constants.FALSE : Constants.TRUE));
+	storedHeaderDiv = headerDiv;
+
+	if (opened) {
+	    markerName = CLOSE_MARKER_FACET_NAME;
+	    defaultMarkerCode = 171;
+	}
+	Element markerFacet = ComponentUtil.getFacet(sourceElement, markerName);
+	if (markerFacet == null) {
+	    switchDiv.appendChild(visualDocument.createTextNode(Constants.EMPTY
+		    + defaultMarkerCode));
+	} else {
+	    VpeChildrenInfo switchInfo = new VpeChildrenInfo(switchDiv);
+	    switchInfo.addSourceChild(markerFacet);
+	    creationData.addChildrenInfo(switchInfo);
 	}
 
-	/**
-	 * Is invoked after construction of all child nodes of the current visual node.
-	 * @param pageContext Contains the information on edited page.
-	 * @param sourceNode The current node of the source tree.
-	 * @param visualDocument The document of the visual tree.
-	 * @param data Object <code>VpeCreationData</code>, built by a method <code>create</code>
-	 */
-	public void validate(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument, VpeCreationData data) {
-		super.validate(pageContext, sourceNode, visualDocument, data);
-		if (storedHeaderDiv == null) return;
-		String value = storedHeaderDiv.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
-		if ("true".equals(value) || "false".equals(value)) {
-			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, value, getChildren(storedHeaderDiv));
-			applyAttributeValueOnChildren(VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT, "true", getChildren(storedHeaderDiv));
-		}
-	}
+	// Encode Body
+	// if(opened) {
+	nsIDOMElement bodyDiv = visualDocument.createElement(HTML.TAG_DIV);
+	div.appendChild(bodyDiv);
+	bodyDiv.setAttribute(HTML.ATTR_STYLE, "overflow: hidden; height: " //$NON-NLS-1$
+		+ ComponentUtil.getAttribute(sourceElement, HTML.ATTR_HEIGHT)
+		+ "; width: 100%;"); //$NON-NLS-1$
 
-	/**
-	 * 	Sets the attribute to element children 
-	 * @param attrName attribute name
-	 * @param attrValue attribute value
-	 * @param children children
-	 */
-	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMElement> children) {
-		if (children == null || attrName == null || attrValue == null) {
-			return;
-		}
-		for (nsIDOMElement child : children) {
-			child.setAttribute(attrName, attrValue);
-			applyAttributeValueOnChildren(attrName, attrValue, getChildren(child));
-		}
-	}
-	
-	/**
-	 * Gets element children
-	 * @param element the element
-	 * @return children
-	 */
-	private List<nsIDOMElement> getChildren(nsIDOMElement element) {
-		List<nsIDOMElement> result = new ArrayList<nsIDOMElement>();
-		if (element.hasChildNodes()) {
-			nsIDOMNodeList children = element.getChildNodes();
-			if (null != children) {
-				long len = children.getLength();
-				for (int i = 0; i < len; i++) {
-					nsIDOMNode item = children.item(i);
-					try {
-						nsIDOMElement elem = (nsIDOMElement) item
-								.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-						result.add(elem);
-					} catch (XPCOMException ex) {
-						// just ignore this exception
-					}
-				}
-			}
-		}
-		return result;
-	}
-	
-	private boolean getActiveState(Element sourceElement) {
-		String opennedStr;
+	nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
+	bodyDiv.appendChild(table);
+	table.setAttribute(HTML.ATTR_CELLPADDING, Constants.ZERO_STRING);
+	table.setAttribute(HTML.ATTR_STYLE, "width: 100%"); //$NON-NLS-1$
+	nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
+	table.appendChild(tr);
+	nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
+	tr.appendChild(td);
+	td.setAttribute(HTML.ATTR_CLASS, CSS_DR_STGLPANEL_BODY
+		+ Constants.WHITE_SPACE + CSS_RICH_STGLPANEL_BODY
+		+ Constants.WHITE_SPACE
+		+ ComponentUtil.getAttribute(sourceElement, ATTR_BODY_CLASS));
 
-		opennedStr = (String)toggleMap.get(sourceElement);
-
-		if (opennedStr == null) {
-			opennedStr = ComponentUtil.getAttribute(sourceElement, "opened");
-		}
-		
-		if (opennedStr == null || "".equals(opennedStr)) {
-			opennedStr = "true";
-		}
-
-		return (!"false".equals(opennedStr));
+	List<Node> children = ComponentUtil.getChildren(sourceElement, true);
+	VpeChildrenInfo bodyInfo = new VpeChildrenInfo(td);
+	for (Node child : children) {
+	    bodyInfo.addSourceChild(child);
 	}
+	creationData.addChildrenInfo(bodyInfo);
 
-	public void toggle(VpeVisualDomBuilder builder, Node sourceNode, String toggleId) {
-		toggleMap.put(sourceNode, toggleId);
+	// http://jira.jboss.com/jira/browse/JBIDE-791
+	if (!opened) {
+	    String newStyle = bodyDiv.getAttribute(HTML.ATTR_STYLE);
+	    newStyle += COLLAPSED_STYLE;
+	    bodyDiv.setAttribute(HTML.ATTR_STYLE, newStyle);
 	}
+	// -------------------------
+	// }
+	return creationData;
+    }
 
-	public void stopToggling(Node sourceNode) {
-		toggleMap.remove(sourceNode);
+    /**
+     * Is invoked after construction of all child nodes of the current visual
+     * node.
+     * 
+     * @param pageContext
+     *            Contains the information on edited page.
+     * @param sourceNode
+     *            The current node of the source tree.
+     * @param visualDocument
+     *            The document of the visual tree.
+     * @param data
+     *            Object <code>VpeCreationData</code>, built by a method
+     *            <code>create</code>
+     */
+    public void validate(VpePageContext pageContext, Node sourceNode,
+	    nsIDOMDocument visualDocument, VpeCreationData data) {
+	super.validate(pageContext, sourceNode, visualDocument, data);
+	if (storedHeaderDiv == null)
+	    return;
+	String value = storedHeaderDiv
+		.getAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
+	if (Constants.TRUE.equals(value) || Constants.FALSE.equals(value)) {
+	    ComponentUtil.applyAttributeValueOnChildren(
+		    VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, value,
+		    ComponentUtil.getElementChildren(storedHeaderDiv));
+	    ComponentUtil.applyAttributeValueOnChildren(
+		    VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT,
+		    Constants.TRUE, ComponentUtil
+			    .getElementChildren(storedHeaderDiv));
 	}
-	
+    }
 
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement visualNode, Object data, String name, String value) {
-		return true;
+    private boolean getActiveState(Element sourceElement) {
+	String opennedStr;
+	opennedStr = (String) toggleMap.get(sourceElement);
+	if (opennedStr == null) {
+	    opennedStr = ComponentUtil.getAttribute(sourceElement, ATTR_OPENED);
 	}
+	if (opennedStr == null || Constants.EMPTY.equals(opennedStr)) {
+	    opennedStr = Constants.TRUE;
+	}
+	return (!Constants.FALSE.equals(opennedStr));
+    }
+
+    public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
+	    String toggleId) {
+	toggleMap.put(sourceNode, toggleId);
+    }
+
+    public void stopToggling(Node sourceNode) {
+	toggleMap.remove(sourceNode);
+    }
+
+    public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+	    Element sourceElement, nsIDOMDocument visualDocument,
+	    nsIDOMElement visualNode, Object data, String name, String value) {
+	return true;
+    }
 }
