@@ -60,50 +60,11 @@ public class SeamFacetPreferenceInitializer extends
 		node.put(SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE, "DefaultDS"); //$NON-NLS-1$
 		Map<String, SeamRuntime> map = new HashMap<String,SeamRuntime>();
 		
-		// Initialize Seam 1.2 Runtime from JBoss EAP
-		String seamGenBuildPath = getSeamGenBuildPath(SEAM_1_2_HOME);
-		File seamFolder = new File(seamGenBuildPath);
-		if(seamFolder.exists() && seamFolder.isDirectory()) {
-			SeamRuntime rt = new SeamRuntime();
-			rt.setHomeDir(seamGenBuildPath);
-			rt.setName("Seam " + SeamVersion.SEAM_1_2 + ".AP"); //$NON-NLS-1$ //$NON-NLS-2$
-			rt.setDefault(true);
-			rt.setVersion(SeamVersion.SEAM_1_2);
-			map.put(rt.getName(), rt);
-		}
-		// Initialize Seam 2.0 Runtime from JBoss EAP
-		seamGenBuildPath = getSeamGenBuildPath(SEAM_2_0_HOME);
-		seamFolder = new File(seamGenBuildPath);
-		if(seamFolder.exists() && seamFolder.isDirectory()) {
-			SeamRuntime rt = new SeamRuntime();
-			rt.setHomeDir(seamGenBuildPath);
-			rt.setName("Seam " + SeamVersion.SEAM_2_0 + ".FP"); //$NON-NLS-1$ //$NON-NLS-2$
-			rt.setDefault(true);
-			rt.setVersion(SeamVersion.SEAM_2_0);
-			map.put(rt.getName(), rt);
-		}
-		node.put(SeamProjectPreferences.RUNTIME_LIST, new SeamRuntimeListConverter().getString(map));	
 		try {
 			node.flush();
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
-	
-	private String getSeamGenBuildPath(String seamHomePath) {
-		String pluginLocation=null;
-		try {
-			pluginLocation = FileLocator.resolve(SeamCorePlugin.getDefault().getBundle().getEntry("/")).getFile(); //$NON-NLS-1$
-		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		};
-		File seamGenDir = new File(pluginLocation, seamHomePath);
-		Path  p = new Path(seamGenDir.getPath());
-		p.makeAbsolute();
-		if(p.toFile().exists()) {
-			return p.toOSString();
-		} else {
-			return ""; //$NON-NLS-1$
-		}
-	}
+
 }
