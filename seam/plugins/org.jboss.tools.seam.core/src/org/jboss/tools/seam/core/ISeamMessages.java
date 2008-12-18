@@ -32,6 +32,10 @@ public interface ISeamMessages extends ISeamContextVariable {
 	 */
 	public Collection<ISeamProperty> getProperties();
 
+	/** 
+	 * 
+	 * @return map of properties and corresponding resources
+	 */
 	public Map<String, IResource> getResourcesMap();
 
 }
