@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2008 Exadel, Inc. and Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -17,24 +17,17 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
-import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
-import org.jboss.tools.common.el.core.model.ELModel;
-import org.jboss.tools.common.el.core.model.ELObjectType;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
-import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
@@ -43,18 +36,14 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperLinkPartitionPriority;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
-import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamMessagesComponent;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -87,7 +76,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			r = getWordRegion(document, superRegion.getOffset());
 			if (r == null) return null;
 			
-			Map<String, SeamMessagesComponent> messages = findMessagesComponents(document, superRegion);
+			Map<String, ISeamMessages> messages = findMessagesComponents(document, superRegion);
 
 			if (messages != null && messages.size() > 0) {
 				String axis = getAxis(document, superRegion);
@@ -278,7 +267,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
-			Map<String, SeamMessagesComponent> messages = findMessagesComponents(document, region);
+			Map<String, ISeamMessages> messages = findMessagesComponents(document, region);
 			if (messages != null && messages.size() > 0) {
 				return true;
 			}
@@ -382,7 +371,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 		}
 	}
 	
-	public static Map<String, SeamMessagesComponent> findMessagesComponents(IDocument document, IRegion region) {
+	public static Map<String, ISeamMessages> findMessagesComponents(IDocument document, IRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(document);
@@ -424,7 +413,6 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			} else if (exp instanceof ELArgumentInvocation) {
 				propertyName = Utils.trimQuotes(
 						((ELArgumentInvocation)exp).getArgument().getArgument().getText());
-				
 			}
 			
 			if (propertyName == null)
@@ -449,44 +437,19 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				}
 			}
 
-			
 			// At the moment map contains the resolved EL parts mapped to their vars
 			// And now we need to extract SeamXmlFactory vars to the real ones 
 			// and filter out all non-SeamMessagesComponent vars
 			// Next we need to map the SeamMessagesComponent vars to properties
-			Map<String, SeamMessagesComponent> messages = new HashMap<String, SeamMessagesComponent>();
+			Map<String, ISeamMessages> messages = new HashMap<String, ISeamMessages>();
 			if (map != null && !map.isEmpty()) {
 				for (ELInvocationExpression l : map.keySet()) {
 					List<ISeamContextVariable> variables = map.get(l);
 					for (ISeamContextVariable variable : variables) {
-						if (variable instanceof SeamMessagesComponent) {
-							messages.put(propertyName, (SeamMessagesComponent)variable);
-						} else if (variable instanceof ISeamXmlFactory) {
-							ISeamXmlFactory factory = (ISeamXmlFactory)variable;
-							String value = factory.getValue();
-							if (value != null && value.length() > 0) {
-								if (value.startsWith("#{") || value.startsWith("${")) //$NON-NLS-1$ //$NON-NLS-2$
-									value = value.substring(2);
-								if (value.endsWith("}")) //$NON-NLS-1$
-									value = value.substring(0, value.length() - 1);
-							}
-							if (value != null && value.length() > 0) {
-								// TODO: Need to make sure that it's correct way to get the project and 
-								// the scope from the factory 
-								ISeamProject p = ((ISeamElement)factory).getSeamProject();
-								if (p != null) {
-									List<ISeamContextVariable> resolvedValues = SeamExpressionResolver.resolveVariables(p, null, value, true);
-									for (ISeamContextVariable var : resolvedValues) {
-										if (var.getName().equals(value)) {
-											if (var instanceof SeamMessagesComponent) {
-												messages.put(propertyName,(SeamMessagesComponent)var);
-											}
-										}
-									}
-								}
-							}
+						ISeamMessages messagesVariable = SeamELCompletionEngine.getSeamMessagesComponentVariable(variable);
+						if (messagesVariable != null) {
+							messages.put(propertyName, messagesVariable);
 						}
-	
 					}
 				}
 			}
