@@ -11,22 +11,17 @@
 package org.jboss.tools.seam.text.ext.hyperlink;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
-import org.jboss.tools.seam.internal.core.SeamMessagesComponent;
+import org.jboss.tools.seam.core.ISeamMessages;
 
 /**
  * @author Jeremy
@@ -38,7 +33,7 @@ public class SeamMessagesBeanHyperlink extends AbstractHyperlink {
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
 	protected void doHyperlink(IRegion region) {
-		Map <String, SeamMessagesComponent> messages = SeamBeanHyperlinkPartitioner.findMessagesComponents(getDocument(), region);
+		Map <String, ISeamMessages> messages = SeamBeanHyperlinkPartitioner.findMessagesComponents(getDocument(), region);
 		if (messages == null || messages.size() == 0) {
 			// Nothing to open
 			openFileFailed();
@@ -46,7 +41,7 @@ public class SeamMessagesBeanHyperlink extends AbstractHyperlink {
 		}
 			
 		for (String property : messages.keySet()) {
-			SeamMessagesComponent messagesComponent = messages.get(property);
+			ISeamMessages messagesComponent = messages.get(property);
 			Map <String, IResource> resources = messagesComponent.getResourcesMap();
 			if (resources == null || resources.size() == 0)
 				continue;
