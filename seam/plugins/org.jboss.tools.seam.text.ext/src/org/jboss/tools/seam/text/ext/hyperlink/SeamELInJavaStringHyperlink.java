@@ -27,14 +27,14 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
-import org.jboss.tools.seam.internal.core.SeamMessagesComponent;
+import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 
 public class SeamELInJavaStringHyperlink implements IHyperlink {
 
 	private final IRegion fRegion; 
 	private final IJavaElement[] fElements;
-	private final Map<String, SeamMessagesComponent> fMessages;
+	private final Map<String, ISeamMessages> fMessages;
 	/**
 	 * Creates a new Seam EL in Java string hyperlink.
 	 */
@@ -50,7 +50,7 @@ public class SeamELInJavaStringHyperlink implements IHyperlink {
 	/**
 	 * Creates a new Seam EL in Java string hyperlink for messages.
 	 */
-	SeamELInJavaStringHyperlink(IRegion region, Map<String, SeamMessagesComponent> messages) {
+	SeamELInJavaStringHyperlink(IRegion region, Map<String, ISeamMessages> messages) {
 		Assert.isNotNull(region);
 		Assert.isNotNull(messages);
 
@@ -95,14 +95,14 @@ public class SeamELInJavaStringHyperlink implements IHyperlink {
 	}
 
 	private void openMessages() {
-		Map <String, SeamMessagesComponent> messages = fMessages;
+		Map <String, ISeamMessages> messages = fMessages;
 		if (messages == null || messages.size() == 0) {
 			// Nothing to open
 			return;
 		}
 			
 		for (String property : messages.keySet()) {
-			SeamMessagesComponent messagesComponent = messages.get(property);
+			ISeamMessages messagesComponent = messages.get(property);
 			Map <String, IResource> resources = messagesComponent.getResourcesMap();
 			if (resources == null || resources.size() == 0)
 				continue;
