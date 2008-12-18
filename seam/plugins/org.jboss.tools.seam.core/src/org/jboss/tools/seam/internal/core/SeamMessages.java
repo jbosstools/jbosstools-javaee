@@ -12,8 +12,10 @@ package org.jboss.tools.seam.internal.core;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProperty;
@@ -40,6 +42,10 @@ public class SeamMessages extends SeamAnnotatedFactory implements ISeamMessages 
 		return messagesLoader.getPropertyNames();
 	}
 	
+	public Map<String, IResource> getResourcesMap() {
+		return messagesLoader.getResources();
+	}
+
 	public SeamMessages clone() throws CloneNotSupportedException {
 		SeamMessages c = (SeamMessages)super.clone();
 		return c;
