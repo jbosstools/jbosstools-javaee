@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
+ * Copyright (c) 2008 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -39,14 +39,11 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamMessagesComponent;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 
 public class SeamELInJavaStringHyperlinkDetector extends
@@ -100,7 +97,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		
 		if(range == null) range = new int[]{0, document.getLength()};
 		
-		Map<String, SeamMessagesComponent> messages = findMessagesComponents(document, file, wordRegion, range[0], range[1]);
+		Map<String, ISeamMessages> messages = findMessagesComponents(document, file, wordRegion, range[0], range[1]);
 		if (messages != null && messages.size() > 0)
 			return new IHyperlink[] {new SeamELInJavaStringHyperlink(wordRegion, messages)};
 		
@@ -138,7 +135,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		return javaElements == null ? new IJavaElement[0] : javaElements.toArray(new IJavaElement[0]);
 	}
 	
-	public static Map<String, SeamMessagesComponent> findMessagesComponents(IDocument document, IFile file, IRegion region, int start, int end) {
+	public static Map<String, ISeamMessages> findMessagesComponents(IDocument document, IFile file, IRegion region, int start, int end) {
 		IProject project = (file == null ? null : file.getProject());
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
@@ -199,39 +196,15 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		// And now we need to extract SeamXmlFactory vars to the real ones 
 		// and filter out all non-SeamMessagesComponent vars
 		// Next we need to map the SeamMessagesComponent vars to properties
-		Map<String, SeamMessagesComponent> messages = new HashMap<String, SeamMessagesComponent>();
+		Map<String, ISeamMessages> messages = new HashMap<String, ISeamMessages>();
 		if (map != null && !map.isEmpty()) {
 			for (ELInvocationExpression l : map.keySet()) {
 				List<ISeamContextVariable> variables = map.get(l);
 				for (ISeamContextVariable variable : variables) {
-					if (variable instanceof SeamMessagesComponent) {
-						messages.put(propertyName, (SeamMessagesComponent)variable);
-					} else if (variable instanceof ISeamXmlFactory) {
-						ISeamXmlFactory factory = (ISeamXmlFactory)variable;
-						String value = factory.getValue();
-						if (value != null && value.length() > 0) {
-							if (value.startsWith("#{") || value.startsWith("${")) //$NON-NLS-1$ //$NON-NLS-2$
-								value = value.substring(2);
-							if (value.endsWith("}")) //$NON-NLS-1$
-								value = value.substring(0, value.length() - 1);
-						}
-						if (value != null && value.length() > 0) {
-							// TODO: Need to make sure that it's correct way to get the project and 
-							// the scope from the factory 
-							ISeamProject p = ((ISeamElement)factory).getSeamProject();
-							if (p != null) {
-								List<ISeamContextVariable> resolvedValues = SeamExpressionResolver.resolveVariables(p, null, value, true);
-								for (ISeamContextVariable var : resolvedValues) {
-									if (var.getName().equals(value)) {
-										if (var instanceof SeamMessagesComponent) {
-											messages.put(propertyName,(SeamMessagesComponent)var);
-										}
-									}
-								}
-							}
-						}
+					ISeamMessages messagesVariable = SeamELCompletionEngine.getSeamMessagesComponentVariable(variable);
+					if (messagesVariable != null) {
+						messages.put(propertyName, messagesVariable);
 					}
-
 				}
 			}
 		}
