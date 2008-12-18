@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.HashMap;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -39,50 +38,9 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
 
-	VpeCreationData creationData;
-
-	passedLabelValue = ((Element) sourceNode)
-		.getAttribute(PASSED_LABEL_ATTRIBUTE_NAME);
-	labelClassValue = ((Element) sourceNode)
-		.getAttribute(LABEL_CLASS_ATTRIBUTE_NAME);
-	markerClassValue = ((Element) sourceNode)
-		.getAttribute(MARKER_CLASS_ATTRIBUTE_NAME);
-	markerStyleValue = ((Element) sourceNode)
-		.getAttribute(MARKER_STYLE_ATTRIBUTE_NAME);
-
-	errorMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(ERROR_MARKER_CLASS_ATTRIBUTE_NAME);
-	errorLabelClassValue = ((Element) sourceNode)
-		.getAttribute(ERROR_LABEL_CLASS_ATTRIBUTE_NAME);
-	errorClassValue = ((Element) sourceNode)
-		.getAttribute(ERROR_CLASS_ATTRIBUTE_NAME);
-
-	fatalMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(FATAL_MARKER_CLASS_ATTRIBUTE_NAME);
-	fatalLabelClassValue = ((Element) sourceNode)
-		.getAttribute(FATAL_LABEL_CLASS_ATTRIBUTE_NAME);
-	fatalClassValue = ((Element) sourceNode)
-		.getAttribute(FATAL_CLASS_ATTRIBUTE_NAME);
-
-	infoMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(INFO_MARKER_CLASS_ATTRIBUTE_NAME);
-	infoLabelClassValue = ((Element) sourceNode)
-		.getAttribute(INFO_LABEL_CLASS_ATTRIBUTE_NAME);
-	infoClassValue = ((Element) sourceNode)
-		.getAttribute(INFO_CLASS_ATTRIBUTE_NAME);
-
-	warnMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(WARN_MARKER_CLASS_ATTRIBUTE_NAME);
-	warnLabelClassValue = ((Element) sourceNode)
-		.getAttribute(WARN_LABEL_CLASS_ATTRIBUTE_NAME);
-	warnClassValue = ((Element) sourceNode)
-		.getAttribute(WARN_CLASS_ATTRIBUTE_NAME);
-
-	styleValue = ((Element) sourceNode)
-		.getAttribute(HTML.ATTR_STYLE);
-	styleClassValue = ((Element) sourceNode)
-		.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-	
+	VpeCreationData creationData = null;
+	Element sourceElement = (Element) sourceNode;
+	final Attributes attrs = new Attributes(sourceElement);
 	String styleClass = CSS_RICH_MESSAGES;
 	String layout = ((Element) sourceNode).getAttribute(LAYOUT);
 	nsIDOMElement container = null;
@@ -98,11 +56,11 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	    container = visualDocument.createElement(HTML.TAG_DL);
 	}
 	
-	if (ComponentUtil.isNotBlank(styleValue)) {
-	    container.setAttribute(HTML.ATTR_STYLE, styleValue);
+	if (ComponentUtil.isNotBlank(attrs.getStyleValue())) {
+	    container.setAttribute(HTML.ATTR_STYLE, attrs.getStyleValue());
 	}
-	if (ComponentUtil.isNotBlank(styleClassValue)) {
-	    styleClass += Constants.WHITE_SPACE + styleClassValue;
+	if (ComponentUtil.isNotBlank(attrs.getStyleClassValue())) {
+	    styleClass += Constants.WHITE_SPACE + attrs.getStyleClassValue();
 	}
 	container.setAttribute(HTML.ATTR_CLASS, styleClass);
 	
@@ -113,10 +71,10 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	for (int i = 0; i < markers.length; i++) {
 	    if (facets.containsKey(markers[i])) {
 		container.appendChild(createVisualMessage(creationData,
-			visualDocument, layout, i, (Element) facets.get(markers[i])));
+			visualDocument, layout, i, (Element) facets.get(markers[i]), attrs));
 	    } else {
 		container.appendChild(createVisualMessage(creationData,
-			visualDocument, layout, i, null));
+			visualDocument, layout, i, null, attrs));
 	    }
 	}
 	return creationData;
@@ -132,7 +90,7 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
      */
     private nsIDOMElement createVisualMessage(VpeCreationData creationData,
 	    nsIDOMDocument visualDocument, String layout, int markerNum,
-	    Element facet) {
+	    Element facet, Attributes attrs) {
 
 	String containerClass = Constants.EMPTY;
 	String markerClass = CSS_RICH_MESSAGES_MARKER;
@@ -176,60 +134,60 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	 */
 	switch (markerNum) {
 	case 0: // passed
-	    labelMessage = (passedLabelValue == null) ? Constants.EMPTY : passedLabelValue;
-	    if (ComponentUtil.isNotBlank(markerClassValue)) {
-		markerClass += Constants.WHITE_SPACE + markerClassValue;
+	    labelMessage = (attrs.getPassedLabelValue()== null) ? Constants.EMPTY : attrs.getPassedLabelValue();
+	    if (ComponentUtil.isNotBlank(attrs.getMarkerClassValue())) {
+		markerClass += Constants.WHITE_SPACE + attrs.getMarkerClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(labelClassValue)) {
-		labelClass += Constants.WHITE_SPACE + labelClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getLabelClassValue())) {
+		labelClass += Constants.WHITE_SPACE + attrs.getLabelClassValue();
 	    }
 	    break;
 	case 1: // error
 	    labelMessage = ERROR_MESSAGE;
-	    if (ComponentUtil.isNotBlank(errorClassValue)) {
-		containerClass += Constants.WHITE_SPACE + errorClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getErrorClassValue())) {
+		containerClass += Constants.WHITE_SPACE + attrs.getErrorClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(errorMarkerClassValue)) {
-		markerClass += Constants.WHITE_SPACE + errorMarkerClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getErrorMarkerClassValue())) {
+		markerClass += Constants.WHITE_SPACE + attrs.getErrorMarkerClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(errorLabelClassValue)) {
-		labelClass += Constants.WHITE_SPACE + errorLabelClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getErrorLabelClassValue())) {
+		labelClass += Constants.WHITE_SPACE + attrs.getErrorLabelClassValue();
 	    }
 	    break;
 	case 2: // fatal
 	    labelMessage = FATAL_MESSAGE;
-	    if (ComponentUtil.isNotBlank(fatalClassValue)) {
-		containerClass += Constants.WHITE_SPACE + fatalClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getFatalClassValue())) {
+		containerClass += Constants.WHITE_SPACE + attrs.getFatalClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(fatalMarkerClassValue)) {
-		markerClass += Constants.WHITE_SPACE + fatalMarkerClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getFatalMarkerClassValue())) {
+		markerClass += Constants.WHITE_SPACE + attrs.getFatalMarkerClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(fatalLabelClassValue)) {
-		labelClass += Constants.WHITE_SPACE + fatalLabelClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getFatalLabelClassValue())) {
+		labelClass += Constants.WHITE_SPACE + attrs.getFatalLabelClassValue();
 	    }
 	    break;
 	case 3: // info
 	    labelMessage = INFO_MESSAGE;
-	    if (ComponentUtil.isNotBlank(infoClassValue)) {
-		containerClass += Constants.WHITE_SPACE + infoClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getInfoClassValue())) {
+		containerClass += Constants.WHITE_SPACE + attrs.getInfoClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(infoMarkerClassValue)) {
-		markerClass += Constants.WHITE_SPACE + infoMarkerClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getInfoMarkerClassValue())) {
+		markerClass += Constants.WHITE_SPACE + attrs.getInfoMarkerClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(infoLabelClassValue)) {
-		labelClass += Constants.WHITE_SPACE + infoLabelClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getInfoLabelClassValue())) {
+		labelClass += Constants.WHITE_SPACE + attrs.getInfoLabelClassValue();
 	    }
 	    break;
 	case 4: // warn
 	    labelMessage = WARNING_MESSAGE;
-	    if (ComponentUtil.isNotBlank(warnClassValue)) {
-		containerClass += Constants.WHITE_SPACE + warnClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getWarnClassValue())) {
+		containerClass += Constants.WHITE_SPACE + attrs.getWarnClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(warnMarkerClassValue)) {
-		markerClass += Constants.WHITE_SPACE + warnMarkerClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getWarnMarkerClassValue())) {
+		markerClass += Constants.WHITE_SPACE + attrs.getWarnMarkerClassValue();
 	    }
-	    if (ComponentUtil.isNotBlank(warnLabelClassValue)) {
-		labelClass += Constants.WHITE_SPACE + warnLabelClassValue;
+	    if (ComponentUtil.isNotBlank(attrs.getWarnLabelClassValue())) {
+		labelClass += Constants.WHITE_SPACE + attrs.getWarnLabelClassValue();
 	    }
 	    break;
 	default:

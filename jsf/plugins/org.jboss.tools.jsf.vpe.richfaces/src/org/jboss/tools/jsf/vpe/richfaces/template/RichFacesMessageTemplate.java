@@ -12,12 +12,15 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.HashMap;
 
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -32,52 +35,11 @@ import org.w3c.dom.NodeList;
  */
 public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
-    private static String VALIDATION_MESSAGE = "Validation message"; //$NON-NLS-1$
-
-    protected static String PASSED_LABEL_ATTRIBUTE_NAME = "passedLabel"; //$NON-NLS-1$
-    protected static String LABEL_CLASS_ATTRIBUTE_NAME = "labelClass"; //$NON-NLS-1$
-    protected static String MARKER_CLASS_ATTRIBUTE_NAME = "markerClass"; //$NON-NLS-1$
-    protected static String MARKER_STYLE_ATTRIBUTE_NAME = "markerStyle"; //$NON-NLS-1$
-
-    protected static String ERROR_MARKER_CLASS_ATTRIBUTE_NAME = "errorMarkerClass"; //$NON-NLS-1$
-    protected static String ERROR_LABEL_CLASS_ATTRIBUTE_NAME = "errorLabelClass"; //$NON-NLS-1$
-    protected static String ERROR_CLASS_ATTRIBUTE_NAME = "errorClass"; //$NON-NLS-1$
-
-    protected static String FATAL_MARKER_CLASS_ATTRIBUTE_NAME = "fatalMarkerClass"; //$NON-NLS-1$
-    protected static String FATAL_LABEL_CLASS_ATTRIBUTE_NAME = "fatalLabelClass"; //$NON-NLS-1$
-    protected static String FATAL_CLASS_ATTRIBUTE_NAME = "fatalClass"; //$NON-NLS-1$
-
-    protected static String INFO_MARKER_CLASS_ATTRIBUTE_NAME = "infoMarkerClass"; //$NON-NLS-1$
-    protected static String INFO_LABEL_CLASS_ATTRIBUTE_NAME = "infoLabelClass"; //$NON-NLS-1$
-    protected static String INFO_CLASS_ATTRIBUTE_NAME = "infoClass"; //$NON-NLS-1$
-
-    protected static String WARN_MARKER_CLASS_ATTRIBUTE_NAME = "warnMarkerClass"; //$NON-NLS-1$
-    protected static String WARN_LABEL_CLASS_ATTRIBUTE_NAME = "warnLabelClass"; //$NON-NLS-1$
-    protected static String WARN_CLASS_ATTRIBUTE_NAME = "warnClass"; //$NON-NLS-1$
-
+    protected static String VALIDATION_MESSAGE = "Validation message"; //$NON-NLS-1$
     protected static String ERROR_MESSAGE = "Error message"; //$NON-NLS-1$
     protected static String FATAL_MESSAGE = "Fatal message"; //$NON-NLS-1$
     protected static String INFO_MESSAGE = "Info message"; //$NON-NLS-1$
     protected static String WARNING_MESSAGE = "Warning message"; //$NON-NLS-1$
-
-    protected String passedLabelValue;
-    protected String labelClassValue;
-    protected String markerClassValue;
-    protected String markerStyleValue;
-    protected String errorMarkerClassValue;
-    protected String errorLabelClassValue;
-    protected String errorClassValue;
-    protected String fatalMarkerClassValue;
-    protected String fatalLabelClassValue;
-    protected String fatalClassValue;
-    protected String infoMarkerClassValue;
-    protected String infoLabelClassValue;
-    protected String infoClassValue;
-    protected String warnMarkerClassValue;
-    protected String warnLabelClassValue;
-    protected String warnClassValue;
-    protected String styleValue;
-    protected String styleClassValue;
 
     protected static String[] markers = { "passedMarker", "errorMarker", //$NON-NLS-1$ //$NON-NLS-2$
 	    "fatalMarker", "infoMarker", "warnMarker" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -92,71 +54,27 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	    nsIDOMDocument visualDocument) {
 
 	Element sourceElement = (Element) sourceNode;
+	final Attributes attrs = new Attributes(sourceElement);
 
 	VpeCreationData creationData;
-
-	passedLabelValue = ((Element) sourceNode)
-		.getAttribute(PASSED_LABEL_ATTRIBUTE_NAME);
-	labelClassValue = ((Element) sourceNode)
-		.getAttribute(LABEL_CLASS_ATTRIBUTE_NAME);
-	markerClassValue = ((Element) sourceNode)
-		.getAttribute(MARKER_CLASS_ATTRIBUTE_NAME);
-	markerStyleValue = ((Element) sourceNode)
-		.getAttribute(MARKER_STYLE_ATTRIBUTE_NAME);
-
-	errorMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(ERROR_MARKER_CLASS_ATTRIBUTE_NAME);
-	errorLabelClassValue = ((Element) sourceNode)
-		.getAttribute(ERROR_LABEL_CLASS_ATTRIBUTE_NAME);
-	errorClassValue = ((Element) sourceNode)
-		.getAttribute(ERROR_CLASS_ATTRIBUTE_NAME);
-
-	fatalMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(FATAL_MARKER_CLASS_ATTRIBUTE_NAME);
-	fatalLabelClassValue = ((Element) sourceNode)
-		.getAttribute(FATAL_LABEL_CLASS_ATTRIBUTE_NAME);
-	fatalClassValue = ((Element) sourceNode)
-		.getAttribute(FATAL_CLASS_ATTRIBUTE_NAME);
-
-	infoMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(INFO_MARKER_CLASS_ATTRIBUTE_NAME);
-	infoLabelClassValue = ((Element) sourceNode)
-		.getAttribute(INFO_LABEL_CLASS_ATTRIBUTE_NAME);
-	infoClassValue = ((Element) sourceNode)
-		.getAttribute(INFO_CLASS_ATTRIBUTE_NAME);
-
-	warnMarkerClassValue = ((Element) sourceNode)
-		.getAttribute(WARN_MARKER_CLASS_ATTRIBUTE_NAME);
-	warnLabelClassValue = ((Element) sourceNode)
-		.getAttribute(WARN_LABEL_CLASS_ATTRIBUTE_NAME);
-	warnClassValue = ((Element) sourceNode)
-		.getAttribute(WARN_CLASS_ATTRIBUTE_NAME);
-
-	styleValue = ((Element) sourceNode)
-		.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-	styleClassValue = ((Element) sourceNode)
-		.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
 
 	HashMap<String, Node> facets = getFacelets(sourceElement);
 
 	if (facets.size() != 0) {
 	    creationData = createVisualFacets(visualDocument, sourceElement,
-		    facets);
+		    facets, attrs);
 	} else {
-	    nsIDOMElement span = visualDocument
-		    .createElement(HtmlComponentUtil.HTML_TAG_SPAN);
+	    nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
 
-	    if (styleValue != null && !styleValue.trim().equals("")) //$NON-NLS-1$
-		span
-			.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-				styleValue);
-	    if (styleClassValue != null && !styleClassValue.trim().equals("")) //$NON-NLS-1$
-		span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-			styleClassValue);
-	    if (labelClassValue != null && !labelClassValue.trim().equals("")) //$NON-NLS-1$
-		span.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-			labelClassValue);
-
+	    if (ComponentUtil.isNotBlank(attrs.getStyleValue())) {
+		span.setAttribute(HTML.ATTR_STYLE, attrs.getStyleValue());
+	    }
+	    if (ComponentUtil.isNotBlank(attrs.getStyleClassValue())) {
+		span.setAttribute(HTML.ATTR_CLASS, attrs.getStyleClassValue());
+	    }
+	    if (ComponentUtil.isNotBlank(attrs.getLabelClassValue())) {
+		span.setAttribute(HTML.ATTR_CLASS, attrs.getLabelClassValue());
+	    }
 	    creationData = new VpeCreationData(span);
 
 	    nsIDOMText passedText = visualDocument
@@ -172,21 +90,21 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
      * attribute
      * 
      * @param pageContext
-     *                Contains the information on edited page.
+     *            Contains the information on edited page.
      * @param sourceElement
-     *                The current element of the source tree.
+     *            The current element of the source tree.
      * @param visualDocument
-     *                The document of the visual tree.
+     *            The document of the visual tree.
      * @param visualNode
-     *                The current node of the visual tree.
+     *            The current node of the visual tree.
      * @param data
-     *                The arbitrary data, built by a method <code>create</code>
+     *            The arbitrary data, built by a method <code>create</code>
      * @param name
-     *                Atrribute name
+     *            Atrribute name
      * @param value
-     *                Attribute value
-     * @return <code>true</code> if it is required to re-create an element at
-     *         a modification of attribute, <code>false</code> otherwise.
+     *            Attribute value
+     * @return <code>true</code> if it is required to re-create an element at a
+     *         modification of attribute, <code>false</code> otherwise.
      */
     public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 	    Element sourceElement, nsIDOMDocument visualDocument,
@@ -197,7 +115,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
     /**
      * 
      * @param markerName
-     *                Marker name
+     *            Marker name
      * @return True if marker name correct or false
      */
     protected boolean searchInMarker(String markerName) {
@@ -220,94 +138,92 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
      * @return
      */
     private VpeCreationData createVisualFacets(nsIDOMDocument visualDocument,
-	    Element sourceElement, HashMap<String, Node> facets) {
+	    Element sourceElement, HashMap<String, Node> facets,
+	    Attributes attrs) {
 
 	nsIDOMElement tableHeader = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-	tableHeader.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-		MESSAGE_STYLE);
+		.createElement(HTML.TAG_TABLE);
+	tableHeader.setAttribute(HTML.ATTR_STYLE, MESSAGE_STYLE);
 
 	VpeCreationData creationData = new VpeCreationData(tableHeader);
 
-	nsIDOMElement tbody = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
-	tbody.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, "top"); //$NON-NLS-1$
+	nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
+	tbody.setAttribute(HTML.ATTR_VALIGN, "top"); //$NON-NLS-1$
 	tableHeader.appendChild(tbody);
 
-	nsIDOMElement tr = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TR);
+	nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 
 	tbody.appendChild(tr);
 
-	if (styleValue != null && !styleValue.trim().equals("")) //$NON-NLS-1$
-	    tableHeader.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-		    styleValue);
-	if (styleClassValue != null && !styleClassValue.trim().equals("")) //$NON-NLS-1$
-	    tableHeader.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-		    styleClassValue);
+	if (ComponentUtil.isNotBlank(attrs.getStyleValue())) {
+	    tableHeader.setAttribute(HTML.ATTR_STYLE, attrs.getStyleValue());
+	}
 
+	if (ComponentUtil.isNotBlank(attrs.getStyleClassValue())) {
+	    tableHeader.setAttribute(HTML.ATTR_CLASS, attrs
+		    .getStyleClassValue());
+	}
 	for (int i = 0; i < markers.length; i++) {
 
 	    if (facets.containsKey(markers[i])) {
 
-		nsIDOMElement td = visualDocument
-			.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 
 		switch (i) {
 		case 0: // passed
 
-		    if (markerClassValue != null
-			    && !markerClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				markerClassValue);
-		    if (markerStyleValue != null
-			    && !markerStyleValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-				markerStyleValue);
+		    if (ComponentUtil.isNotBlank(attrs.getMarkerClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getMarkerClassValue());
+		    }
+		    if (ComponentUtil.isNotBlank(attrs.getMarkerStyleValue())) {
+			td.setAttribute(HTML.ATTR_STYLE, attrs
+				.getMarkerStyleValue());
+		    }
 		    break;
 		case 1: // error
-		    if (errorClassValue != null
-			    && !errorClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				errorClassValue);
-		    if (errorMarkerClassValue != null
-			    && !errorMarkerClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				errorMarkerClassValue);
-
+		    if (ComponentUtil.isNotBlank(attrs.getErrorClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getErrorClassValue());
+		    }
+		    if (ComponentUtil.isNotBlank(attrs
+			    .getErrorMarkerClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getErrorMarkerClassValue());
+		    }
 		    break;
 		case 2: // fatal
-		    if (fatalClassValue != null
-			    && !fatalClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				fatalClassValue);
-
-		    if (fatalMarkerClassValue != null
-			    && !fatalMarkerClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				fatalMarkerClassValue);
-
+		    if (ComponentUtil.isNotBlank(attrs.getFatalClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getFatalClassValue());
+		    }
+		    if (ComponentUtil.isNotBlank(attrs
+			    .getFatalMarkerClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getFatalMarkerClassValue());
+		    }
 		    break;
 		case 3: // info
-		    if (infoClassValue != null
-			    && !infoClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				infoClassValue);
-		    if (infoMarkerClassValue != null
-			    && !infoMarkerClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				infoMarkerClassValue);
+		    if (ComponentUtil.isNotBlank(attrs.getInfoClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getInfoClassValue());
+		    }
+		    if (ComponentUtil.isNotBlank(attrs
+			    .getInfoMarkerClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getInfoMarkerClassValue());
+		    }
 		    break;
 		case 4: // warn
-		    if (warnClassValue != null
-			    && !warnClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				warnClassValue);
-		    if (warnMarkerClassValue != null
-			    && !warnMarkerClassValue.trim().equals("")) //$NON-NLS-1$
-			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				warnMarkerClassValue);
-
+		    if (ComponentUtil.isNotBlank(attrs.getWarnClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getWarnClassValue());
+		    }
+		    if (ComponentUtil.isNotBlank(attrs
+			    .getWarnMarkerClassValue())) {
+			td.setAttribute(HTML.ATTR_CLASS, attrs
+				.getWarnMarkerClassValue());
+		    }
 		    break;
 		default:
 		    break;
@@ -325,14 +241,11 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	    }
 	}
 
-	nsIDOMElement td1 = visualDocument
-		.createElement(HtmlComponentUtil.HTML_TAG_TD);
+	nsIDOMElement td1 = visualDocument.createElement(HTML.TAG_TD);
 
-	if (labelClassValue != null && !labelClassValue.trim().equals("")) //$NON-NLS-1$
-	    td1
-		    .setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-			    labelClassValue);
-
+	if (ComponentUtil.isNotBlank(attrs.getLabelClassValue())) {
+	    td1.setAttribute(HTML.ATTR_CLASS, attrs.getLabelClassValue());
+	}
 	nsIDOMText passedText = visualDocument
 		.createTextNode(VALIDATION_MESSAGE);
 	tr.appendChild(td1);
@@ -364,7 +277,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	    if (!(nodeList.item(i) instanceof Element))
 		continue;
 
-	    String facetName = nodeList.item(i).getPrefix() + ":" //$NON-NLS-1$
+	    String facetName = nodeList.item(i).getPrefix() + Constants.COLON
 		    + FACET_TAG_NAME;
 
 	    if (nodeList.item(i).getNodeName().equalsIgnoreCase(facetName)
@@ -376,5 +289,165 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 	}
 
 	return facets;
+    }
+
+    class Attributes {
+
+	private String PASSED_LABEL_ATTRIBUTE_NAME = "passedLabel"; //$NON-NLS-1$
+	private String LABEL_CLASS_ATTRIBUTE_NAME = "labelClass"; //$NON-NLS-1$
+	private String MARKER_CLASS_ATTRIBUTE_NAME = "markerClass"; //$NON-NLS-1$
+	private String MARKER_STYLE_ATTRIBUTE_NAME = "markerStyle"; //$NON-NLS-1$
+
+	private String ERROR_MARKER_CLASS_ATTRIBUTE_NAME = "errorMarkerClass"; //$NON-NLS-1$
+	private String ERROR_LABEL_CLASS_ATTRIBUTE_NAME = "errorLabelClass"; //$NON-NLS-1$
+	private String ERROR_CLASS_ATTRIBUTE_NAME = "errorClass"; //$NON-NLS-1$
+
+	private String FATAL_MARKER_CLASS_ATTRIBUTE_NAME = "fatalMarkerClass"; //$NON-NLS-1$
+	private String FATAL_LABEL_CLASS_ATTRIBUTE_NAME = "fatalLabelClass"; //$NON-NLS-1$
+	private String FATAL_CLASS_ATTRIBUTE_NAME = "fatalClass"; //$NON-NLS-1$
+
+	private String INFO_MARKER_CLASS_ATTRIBUTE_NAME = "infoMarkerClass"; //$NON-NLS-1$
+	private String INFO_LABEL_CLASS_ATTRIBUTE_NAME = "infoLabelClass"; //$NON-NLS-1$
+	private String INFO_CLASS_ATTRIBUTE_NAME = "infoClass"; //$NON-NLS-1$
+
+	private String WARN_MARKER_CLASS_ATTRIBUTE_NAME = "warnMarkerClass"; //$NON-NLS-1$
+	private String WARN_LABEL_CLASS_ATTRIBUTE_NAME = "warnLabelClass"; //$NON-NLS-1$
+	private String WARN_CLASS_ATTRIBUTE_NAME = "warnClass"; //$NON-NLS-1$
+
+	private String passedLabelValue;
+	private String labelClassValue;
+	private String markerClassValue;
+	private String markerStyleValue;
+	private String errorMarkerClassValue;
+	private String errorLabelClassValue;
+	private String errorClassValue;
+	private String fatalMarkerClassValue;
+	private String fatalLabelClassValue;
+	private String fatalClassValue;
+	private String infoMarkerClassValue;
+	private String infoLabelClassValue;
+	private String infoClassValue;
+	private String warnMarkerClassValue;
+	private String warnLabelClassValue;
+	private String warnClassValue;
+	private String styleValue;
+	private String styleClassValue;
+
+	public Attributes(final Element sourceElement) {
+	    passedLabelValue = sourceElement
+		    .getAttribute(PASSED_LABEL_ATTRIBUTE_NAME);
+	    labelClassValue = sourceElement
+		    .getAttribute(LABEL_CLASS_ATTRIBUTE_NAME);
+	    markerClassValue = sourceElement
+		    .getAttribute(MARKER_CLASS_ATTRIBUTE_NAME);
+	    markerStyleValue = sourceElement
+		    .getAttribute(MARKER_STYLE_ATTRIBUTE_NAME);
+
+	    errorMarkerClassValue = sourceElement
+		    .getAttribute(ERROR_MARKER_CLASS_ATTRIBUTE_NAME);
+	    errorLabelClassValue = sourceElement
+		    .getAttribute(ERROR_LABEL_CLASS_ATTRIBUTE_NAME);
+	    errorClassValue = sourceElement
+		    .getAttribute(ERROR_CLASS_ATTRIBUTE_NAME);
+
+	    fatalMarkerClassValue = sourceElement
+		    .getAttribute(FATAL_MARKER_CLASS_ATTRIBUTE_NAME);
+	    fatalLabelClassValue = sourceElement
+		    .getAttribute(FATAL_LABEL_CLASS_ATTRIBUTE_NAME);
+	    fatalClassValue = sourceElement
+		    .getAttribute(FATAL_CLASS_ATTRIBUTE_NAME);
+
+	    infoMarkerClassValue = sourceElement
+		    .getAttribute(INFO_MARKER_CLASS_ATTRIBUTE_NAME);
+	    infoLabelClassValue = sourceElement
+		    .getAttribute(INFO_LABEL_CLASS_ATTRIBUTE_NAME);
+	    infoClassValue = sourceElement
+		    .getAttribute(INFO_CLASS_ATTRIBUTE_NAME);
+
+	    warnMarkerClassValue = sourceElement
+		    .getAttribute(WARN_MARKER_CLASS_ATTRIBUTE_NAME);
+	    warnLabelClassValue = sourceElement
+		    .getAttribute(WARN_LABEL_CLASS_ATTRIBUTE_NAME);
+	    warnClassValue = sourceElement
+		    .getAttribute(WARN_CLASS_ATTRIBUTE_NAME);
+
+	    styleValue = sourceElement.getAttribute(HTML.ATTR_STYLE);
+	    styleClassValue = sourceElement
+		    .getAttribute(RichFaces.ATTR_STYLE_CLASS);
+
+	}
+
+	public String getErrorMarkerClassValue() {
+	    return errorMarkerClassValue;
+	}
+
+	public String getErrorLabelClassValue() {
+	    return errorLabelClassValue;
+	}
+
+	public String getErrorClassValue() {
+	    return errorClassValue;
+	}
+
+	public String getPassedLabelValue() {
+	    return passedLabelValue;
+	}
+
+	public String getLabelClassValue() {
+	    return labelClassValue;
+	}
+
+	public String getMarkerClassValue() {
+	    return markerClassValue;
+	}
+
+	public String getMarkerStyleValue() {
+	    return markerStyleValue;
+	}
+
+	public String getFatalMarkerClassValue() {
+	    return fatalMarkerClassValue;
+	}
+
+	public String getFatalLabelClassValue() {
+	    return fatalLabelClassValue;
+	}
+
+	public String getFatalClassValue() {
+	    return fatalClassValue;
+	}
+
+	public String getInfoMarkerClassValue() {
+	    return infoMarkerClassValue;
+	}
+
+	public String getInfoLabelClassValue() {
+	    return infoLabelClassValue;
+	}
+
+	public String getInfoClassValue() {
+	    return infoClassValue;
+	}
+
+	public String getWarnMarkerClassValue() {
+	    return warnMarkerClassValue;
+	}
+
+	public String getWarnLabelClassValue() {
+	    return warnLabelClassValue;
+	}
+
+	public String getWarnClassValue() {
+	    return warnClassValue;
+	}
+
+	public String getStyleValue() {
+	    return styleValue;
+	}
+
+	public String getStyleClassValue() {
+	    return styleClassValue;
+	}
+
     }
 }
