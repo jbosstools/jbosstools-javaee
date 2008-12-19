@@ -41,20 +41,20 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 	private static final String COLUMN = ':' + RichFaces.TAG_COLUMN;
 	private static final String COLUMNS = ':' + RichFaces.TAG_COLUMNS;
-	private static final String DEFAULT_HEIGHT = "500px";
-	private static final String DEFAULT_WIDTH = "700px";
-	private static final String CSS_STYLE_PATH = "scrollableDataTable/scrollableDataTable.css";
-	private static final String COMPONENT_NAME = "richFacesDataTable";
+	private static final String DEFAULT_HEIGHT = "500px"; //$NON-NLS-1$
+	private static final String DEFAULT_WIDTH = "700px"; //$NON-NLS-1$
+	private static final String CSS_STYLE_PATH = "scrollableDataTable/scrollableDataTable.css"; //$NON-NLS-1$
+	private static final String COMPONENT_NAME = "richFacesDataTable"; //$NON-NLS-1$
 
-	private static final String CSS_DR_TABLE = "dr-table";
-	private static final String CSS_DR_TABLE_HIDDEN = "dr-table-hidden";
-	private static final String CSS_RICH_SDT = "rich-sdt";
-	private static final String CSS_RICH_SDT_HEADER_CELL = "rich-sdt-header-cell";
-	private static final String CSS_RICH_SDT_HEADER_ROW = "rich-sdt-header-row";
-	private static final String CSS_RICH_SDT_COLUMN_CELL = "rich-sdt-column-cell";
-	private static final String CSS_RICH_SDT_FOOTER_CELL = "rich-sdt-footer-cell";
-	private static final String CSS_RICH_SDT_FOOTER_ROW = "rich-sdt-footer-row";
-	private static final String CSS_RICH_SDT_HSEP = "rich-sdt-hsep";
+	private static final String CSS_DR_TABLE = "dr-table"; //$NON-NLS-1$
+	private static final String CSS_DR_TABLE_HIDDEN = "dr-table-hidden"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT = "rich-sdt"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT_HEADER_CELL = "rich-sdt-header-cell"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT_HEADER_ROW = "rich-sdt-header-row"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT_COLUMN_CELL = "rich-sdt-column-cell"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT_FOOTER_CELL = "rich-sdt-footer-cell"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT_FOOTER_ROW = "rich-sdt-footer-row"; //$NON-NLS-1$
+	private static final String CSS_RICH_SDT_HSEP = "rich-sdt-hsep"; //$NON-NLS-1$
 
 	private static final int NUM_ROW = 5;
 	private static final String TAG_MAIN_TABLE_WRAPPER = "mainTable-wrapper"; //$NON-NLS-1$
@@ -156,7 +156,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				thead.appendChild(tr);
 				String styleClass = ComponentUtil.encodeStyleClass(null,
-						"dr-table-subheader dr-sdt-hr", null,
+						"dr-table-subheader dr-sdt-hr", null, //$NON-NLS-1$
 						headerClass);
 				if (styleClass != null) {
 					tr.setAttribute(HTML.ATTR_CLASS,
@@ -164,7 +164,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				}
 				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 						columnsHeaders,
-						"dr-table-subheadercell rich-table-subheadercell",
+						"dr-table-subheadercell rich-table-subheadercell", //$NON-NLS-1$
 						headerClass, RichFaces.NAME_FACET_HEADER, HTML.TAG_TD);
 			}
 		}
@@ -183,7 +183,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 						.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
 				String styleClass = ComponentUtil.encodeStyleClass(null,
-						"dr-table-subfooter rich-table-subfooter", null,
+						"dr-table-subfooter rich-table-subfooter", null, //$NON-NLS-1$
 						footerClass);
 				if (styleClass != null) {
 					tr.setAttribute(HTML.ATTR_CLASS,
@@ -191,7 +191,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				}
 				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 						columnsFooters,
-						"dr-table-subfootercell rich-table-subfootercell",
+						"dr-table-subfootercell rich-table-subfootercell", //$NON-NLS-1$
 						footerClass, RichFaces.NAME_FACET_FOOTER, HTML.TAG_TD);
 			}
 			if (footer != null) {
@@ -240,10 +240,10 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					.createElement(HTML.TAG_CAPTION);
 			table.appendChild(caption);
 			if (captionClass != null && captionClass.length() > 0) {
-				captionClass = "dr-table-caption rich-table-caption "
+				captionClass = "dr-table-caption rich-table-caption " //$NON-NLS-1$
 						+ captionClass;
 			} else {
-				captionClass = "dr-table-caption rich-table-caption";
+				captionClass = "dr-table-caption rich-table-caption"; //$NON-NLS-1$
 			}
 			caption.setAttribute(HTML.ATTR_CLASS,
 					captionClass);
@@ -275,7 +275,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			ArrayList<Element> headersOrFooters, String skinCellClass,
 			String headerClass, String facetName, String element) {
 		for (Element column : headersOrFooters) {
-			String classAttribute = facetName + "Class";
+			String classAttribute = facetName + "Class"; //$NON-NLS-1$
 			String columnHeaderClass = column.getAttribute(classAttribute);
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
@@ -288,7 +288,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			}
 
 			td.setAttribute(HTML.ATTR_CLASS, styleClass);
-			td.setAttribute("scop", "col");
+			td.setAttribute("scop", "col"); //$NON-NLS-1$ //$NON-NLS-2$
 			String colspan = column
 					.getAttribute(HTML.ATTR_COLSPAN);
 			if (colspan != null && colspan.length() > 0) {
@@ -321,8 +321,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			String skinFirstRowClass, String skinRowClass,
 			String skinCellClass, String facetBodyClass, String element) {
 		boolean isColumnGroup = facetBody.getNodeName()
-				.endsWith(":columnGroup");
-		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
+				.endsWith(":columnGroup"); //$NON-NLS-1$
+		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable"); //$NON-NLS-1$
 		if (isColumnGroup) {
 			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
@@ -409,7 +409,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		int count = 0;
 		// check for exact value in component
 		try {
-			int span = Integer.parseInt(sourceElement.getAttribute("columns"));
+			int span = Integer.parseInt(sourceElement.getAttribute("columns")); //$NON-NLS-1$
 			count = count > 0 ? span : calculateRowColumns(sourceElement, columns);
 		} catch (NumberFormatException e) {
 			count = calculateRowColumns(sourceElement, columns);
@@ -428,7 +428,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		for (Element column : columns) {
 			if (ComponentUtil.isRendered(column)) {
 				String nodeName = column.getNodeName();
-				if (nodeName.endsWith(":columnGroup")) {
+				if (nodeName.endsWith(":columnGroup")) { //$NON-NLS-1$
 					// Store max calculated value of previsous rows.
 					if (currentLength > count) {
 						count = currentLength;
@@ -443,7 +443,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					currentLength = 0;
 				} else if (nodeName.equals(sourceElement.getPrefix() + COLUMN) ||
 						nodeName.equals(sourceElement.getPrefix() + COLUMNS)) {
-					String breakBeforeStr = column.getAttribute("breakBefore");
+					String breakBeforeStr = column.getAttribute("breakBefore"); //$NON-NLS-1$
 					// For new row, save length of previsous.
 					if (Boolean.getBoolean(breakBeforeStr)) {
 						if (currentLength > count) {
