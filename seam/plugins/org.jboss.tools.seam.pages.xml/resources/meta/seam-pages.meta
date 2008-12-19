@@ -503,15 +503,19 @@
    <XModelAttribute PROPERTIES="category=advanced"
     name="no conversation view id" xmlname="no-conversation-view-id">
     <Constraint loader="Tree">
-     <value name="JSFPageTree"/>
+     <value name="SeamViewIdTree"/>
      <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+     <value name="hideRoot=true"/>
     </Constraint>
     <Editor name="TreeChooser"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced" name="login view id" xmlname="login-view-id">
     <Constraint loader="Tree">
-     <value name="JSFPageTree"/>
+     <value name="SeamViewIdTree"/>
      <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+     <value name="hideRoot=true"/>
     </Constraint>
     <Editor name="TreeChooser"/>
    </XModelAttribute>
@@ -978,8 +982,10 @@
    <XModelAttribute PROPERTIES="category=advanced"
     name="no conversation view id" xmlname="no-conversation-view-id">
     <Constraint loader="Tree">
-     <value name="JSFPageTree"/>
+     <value name="SeamViewIdTree"/>
      <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+     <value name="hideRoot=true"/>
     </Constraint>
     <Editor name="TreeChooser"/>
    </XModelAttribute>

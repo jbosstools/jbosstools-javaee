@@ -23,9 +23,10 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="view id" xmlname="view-id">
     <Constraint loader="Tree">
-     <value name="JSFPageTree"/>
+     <value name="SeamViewIdTree"/>
      <value name="extensions=jsp,html,htm,xhtml,xml"/>
      <value name="linkAction=OpenPage"/>
+     <value name="hideRoot=true"/>
     </Constraint>
     <Editor name="TreeChooser"/>
    </XModelAttribute>
