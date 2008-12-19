@@ -34,8 +34,8 @@ public class JBIDE1579Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_NAME_2BUTTONS, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME_2BUTTONS//$NON-NLS-1$
+				+ ";projectName = " + RichFacesAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -72,8 +72,8 @@ public class JBIDE1579Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_NAME_4BUTTONS, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME_4BUTTONS//$NON-NLS-1$
+				+ ";projectName = " + RichFacesAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 

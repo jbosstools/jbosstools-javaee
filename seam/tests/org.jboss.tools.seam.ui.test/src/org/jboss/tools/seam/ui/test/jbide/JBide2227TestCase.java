@@ -105,7 +105,7 @@ public class JBide2227TestCase extends VpeTest {
     protected void check(String caName, String testPagePath, int position, int numberOfProposals) throws CoreException {
         // get test page path
         IFile file = project.getFile(testPagePath);
-        assertNotNull("Could not open specified file " + file.getFullPath(), file);
+        assertNotNull("Could not open specified file. testPagePath = " + testPagePath, file);
 
         IEditorInput input = new FileEditorInput(file);
 

@@ -41,8 +41,8 @@ public class Jbide1682Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_WITH_POPUP, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_WITH_POPUP//$NON-NLS-1$
+				+ ";projectName = " + RichFacesAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -84,8 +84,8 @@ public class Jbide1682Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_WITHOUT_POPUP, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_WITHOUT_POPUP//$NON-NLS-1$
+				+ ";projectName = " + RichFacesAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 		
 		IEditorInput input = new FileEditorInput(file);
 		

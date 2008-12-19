@@ -44,6 +44,7 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JsfJbide1467Test extends VpeTest {
 
+	private static final String TEST_PAGE_NAME = "JBIDE/1467/JBIDE-1467.jsp";
 	// type of input tag
 	private static final String ATTR_TYPE_VALUE = "radio";
 
@@ -66,10 +67,10 @@ public class JsfJbide1467Test extends VpeTest {
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
-				"JBIDE/1467/JBIDE-1467.jsp", JsfAllTests.IMPORT_PROJECT_NAME);
+				TEST_PAGE_NAME, JsfAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME
+				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 

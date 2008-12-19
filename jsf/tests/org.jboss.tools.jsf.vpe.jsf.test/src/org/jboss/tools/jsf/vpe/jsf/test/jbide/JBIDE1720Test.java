@@ -52,8 +52,8 @@ public class JBIDE1720Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME1,
 				JsfAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME1//$NON-NLS-1$ 
+				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -127,8 +127,8 @@ public class JBIDE1720Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME3,
 				JsfAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME3//$NON-NLS-1$ 
+				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -207,8 +207,8 @@ public class JBIDE1720Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME2,
 				JsfAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME2//$NON-NLS-1$ 
+				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 

@@ -33,8 +33,8 @@ public class JBIDE1613Test extends VpeTest {
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_NAME, RichFacesAllTests.IMPORT_PROJECT_NAME);
 		
-		assertNotNull("Could not open specified file " + file.getFullPath(),
-				file);
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME//$NON-NLS-1$
+				+ ";projectName = " + RichFacesAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
 

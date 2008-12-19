@@ -42,7 +42,9 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE2624Test extends VpeTest {
 
-    /**
+    private static final String TEST_PAGE_NAME = "JBIDE/2624/greeting.xhtml";
+
+	/**
      * @param name
      */
     public JBIDE2624Test(String name) {
@@ -52,11 +54,10 @@ public class JBIDE2624Test extends VpeTest {
     public void testJBide2624() throws CoreException {
         // get test page path
         setException(null);
-        IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2624/greeting.xhtml", //$NON-NLS-1$
+        IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME, //$NON-NLS-1$
                 JsfAllTests.IMPORT_PROJECT_NAME);
-        assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
-                file);
-
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME
+				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
         IEditorInput input = new FileEditorInput(file);
 
         assertNotNull("Editor input is null", input); //$NON-NLS-1$

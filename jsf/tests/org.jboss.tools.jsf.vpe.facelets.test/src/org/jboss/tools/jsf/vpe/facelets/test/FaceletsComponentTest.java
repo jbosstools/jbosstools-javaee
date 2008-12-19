@@ -339,8 +339,8 @@ public class FaceletsComponentTest extends VpeTest {
 	IFile file = (IFile) TestUtil.getComponentPath(componentPage,
 		IMPORT_PROJECT_NAME);
 
-	assertNotNull("Could not open specified file " + file.getFullPath(), //$NON-NLS-1$
-		file);
+	assertNotNull("Could not open specified file. componentPage = " + componentPage//$NON-NLS-1$ 
+			+ ";projectName = " + IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 	IEditorInput input = new FileEditorInput(file);
 
