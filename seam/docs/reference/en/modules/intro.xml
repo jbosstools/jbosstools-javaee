@@ -25,7 +25,7 @@
             applications with many component frameworks.</para>
     </section>
 
-    <section revisionflag="added"> 
+    <section> 
         <title>Installation into Eclipse</title>
 
         <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
