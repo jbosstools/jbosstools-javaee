@@ -230,8 +230,8 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 						labelAttr);
 			}
 			
-			if (attrPresents(labelValue)) {
-				if (attrPresents(bundleValue)) {
+			if (ComponentUtil.isNotBlank(labelValue)) {
+				if (ComponentUtil.isNotBlank(bundleValue)) {
 					if (!labelValue.equals(bundleValue)) {
 						resultValue = bundleValue;
 					} else {
@@ -241,7 +241,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					resultValue = labelValue;
 				}
 			} else {
-				if (attrPresents(bundleValue)) {
+				if (ComponentUtil.isNotBlank(bundleValue)) {
 					resultValue = bundleValue;
 				} else {
 					resultValue = EMPTY;
@@ -274,7 +274,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 			nsIDOMElement iconCell = tdNowrapLeft;
 			nsIDOMElement emptyCell = tdRight;
-			if (attrPresents(pm_iconItemPosition)) {
+			if (ComponentUtil.isNotBlank(pm_iconItemPosition)) {
 				if (RIGHT.equalsIgnoreCase(pm_iconItemPosition)) {
 					/*
 					 * Set icon image on the right
@@ -283,7 +283,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 					emptyCell = tdNowrapLeft;
 				}
 			} 
-			if (childOfPanelMenu && attrPresents(pm_iconItemTopPosition)) {
+			if (childOfPanelMenu && ComponentUtil.isNotBlank(pm_iconItemTopPosition)) {
 				if (RIGHT.equalsIgnoreCase(pm_iconItemTopPosition)) {
 					/*
 					 * Set icon image on the right
@@ -350,7 +350,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 	 */
 	private static String[] getSpecifiedIcon(String pm_icon, String pmi_icon) {
 		String[] imgPath = {EMPTY, EMPTY};
-		if (attrPresents(pmi_icon)) {
+		if (ComponentUtil.isNotBlank(pmi_icon)) {
 			/*
 			 * Icon was set in the panelMenuItem attribute.
 			 */
@@ -358,7 +358,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			if (RichFacesPanelMenuGroupTemplate.DEFAULT_ICON_MAP.containsKey(pmi_icon)) {
 				imgPath[1] = RichFacesPanelMenuGroupTemplate.DEFAULT_ICON_MAP.get(pmi_icon);
 			}
-		} else if (attrPresents(pm_icon)) {
+		} else if (ComponentUtil.isNotBlank(pm_icon)) {
 			/*
 			 * Icon was set in the panelMenu attribute.
 			 */
@@ -447,10 +447,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		String labelCellClass = EMPTY;
 		String emptyCellClass = EMPTY;
 		
-		if (attrPresents(pmi_styleClass)) {
+		if (ComponentUtil.isNotBlank(pmi_styleClass)) {
 			tableClass += SPACE + pmi_styleClass;
 		}
-		if (attrPresents(pmi_style)) {
+		if (ComponentUtil.isNotBlank(pmi_style)) {
 			tableStyle += SPACE + pmi_style;
 		}
 		
@@ -461,10 +461,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 				tableClass += SPACE + CSS_TOP_ITEM;
 				iconCellClass += SPACE + CSS_TOP_ITEM_ICON; 
 				labelCellClass += SPACE + CSS_TOP_ITEM_LABEL; 
-				if (attrPresents(pm_disabledItemClass)) {
+				if (ComponentUtil.isNotBlank(pm_disabledItemClass)) {
 					tableClass += SPACE + pm_disabledItemClass;
 				}
-				if (attrPresents(pm_topItemStyle)) {
+				if (ComponentUtil.isNotBlank(pm_topItemStyle)) {
 					tableStyle += SPACE + pm_topItemStyle;
 				}
 			}
@@ -472,17 +472,17 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		
 		if (TRUE.equalsIgnoreCase(pmi_disabled)) {
 //			tableClass += SPACE + CSS_DISABLED_ELEMENT;
-			if ((attrPresents(pm_disabledItemClass)) 
+			if ((ComponentUtil.isNotBlank(pm_disabledItemClass)) 
 				&& !(TRUE.equalsIgnoreCase(pm_disabled))) {
 				tableClass += SPACE + pm_disabledItemClass;
 			}
-			if (attrPresents(pm_disabledItemStyle)) {
+			if (ComponentUtil.isNotBlank(pm_disabledItemStyle)) {
 				tableStyle += SPACE + pm_disabledItemStyle;
 			}
-			if (attrPresents(pmi_disabledClass)) {
+			if (ComponentUtil.isNotBlank(pmi_disabledClass)) {
 				tableClass += SPACE + pmi_disabledClass;
 			}
-			if (attrPresents(pmi_disabledStyle)) {
+			if (ComponentUtil.isNotBlank(pmi_disabledStyle)) {
 				tableStyle += SPACE + pmi_disabledStyle;
 			}
 		} 
@@ -495,27 +495,27 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 			labelCellClass = CSS_ITEM_LABEL;
 			emptyCellClass = DR_NOWARP_CLASS;
 			
-			if (attrPresents(pmi_iconClass)) {
+			if (ComponentUtil.isNotBlank(pmi_iconClass)) {
 				imgIconClass += SPACE + pmi_iconClass;
 			}
-			if (attrPresents(pmi_iconStyle)) {
+			if (ComponentUtil.isNotBlank(pmi_iconStyle)) {
 				iconCellStyle += SPACE + pmi_iconStyle;
 			}
 			if (childOfPanelMenu) {
 				tableClass += SPACE + CSS_TOP_ITEM;
 				imgIconClass += SPACE + CSS_TOP_ITEM_ICON; 
 				labelCellClass += SPACE + CSS_TOP_ITEM_LABEL; 
-				if (attrPresents(pm_topItemClass)) {
+				if (ComponentUtil.isNotBlank(pm_topItemClass)) {
 					tableClass += SPACE + pm_topItemClass;
 				}
-				if (attrPresents(pm_topItemStyle)) {
+				if (ComponentUtil.isNotBlank(pm_topItemStyle)) {
 					tableStyle += SPACE + pm_topItemStyle;
 				}
 			} else {
-				if (attrPresents(pm_itemClass)) {
+				if (ComponentUtil.isNotBlank(pm_itemClass)) {
 					tableClass += SPACE + pm_itemClass;
 				}
-				if (attrPresents(pm_itemStyle)) {
+				if (ComponentUtil.isNotBlank(pm_itemStyle)) {
 					tableStyle += SPACE + pm_itemStyle;
 				}
 			}
@@ -626,17 +626,6 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		pmi_style = sourceElement.getAttribute(STYLE);
 		pmi_styleClass = sourceElement.getAttribute(STYLE_CLASS);
 		
-	}
-	
-    /**
-     * Checks is attribute have some value.
-     * 
-     * @param attr the attribute
-     * 
-     * @return true, if successful
-     */
-    private static boolean attrPresents(String attr) {
-		return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
 	}
     
     /* (non-Javadoc)

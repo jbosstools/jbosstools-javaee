@@ -141,7 +141,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement filterTR = visualDocument.createElement(HTML.TAG_TR);
 		thead.appendChild(tr);
 		thead.appendChild(filterTR);
-		String styleClass = RichFacesDataTableTemplate.encodeStyleClass(null,
+		String styleClass = ComponentUtil.encodeStyleClass(null,
 				DR_TABLE_SUBHEADER_RICH_TABLE_SUBHEADER, null, headerClass);
 		if (styleClass != null) {
 			tr.setAttribute(HTML.ATTR_CLASS, styleClass);
@@ -157,7 +157,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		String footerClass = (String) sourceElement.getAttribute(FOOTER_CLASS);
 		nsIDOMElement tfootTR = visualDocument.createElement(HTML.TAG_TR);
 		tfoot.appendChild(tfootTR);
-		String styleFooterClass = RichFacesDataTableTemplate.encodeStyleClass(
+		String styleFooterClass = ComponentUtil.encodeStyleClass(
 				null, DR_TABLE_SUBFOOTER_RICH_TABLE_SUBFOOTER, null,
 				footerClass);
 		if (styleFooterClass != null) {
@@ -294,7 +294,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			String columnHeaderClass = column.getAttribute(classAttribute);
 			nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 			parentTr.appendChild(td);
-			styleClass = RichFacesDataTableTemplate.encodeStyleClass(null,
+			styleClass = ComponentUtil.encodeStyleClass(null,
 					skinCellClass, footerClass, columnHeaderClass);
 			td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			td.setAttribute(SCOP, COL);
@@ -353,7 +353,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			td.appendChild(span);
 
 			parentTr.appendChild(td);
-			styleClass = RichFacesDataTableTemplate.encodeStyleClass(null,
+			styleClass = ComponentUtil.encodeStyleClass(null,
 					skinCellClass, headerClass, columnHeaderClass);
 			td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			td.setAttribute(SCOP, COL);

@@ -18,6 +18,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -38,8 +39,6 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String SPACER_IMG_PATH = "menuItem/spacer.gif"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
-	private static final String EMPTY = ""; //$NON-NLS-1$
-	private static final String SPACE = " "; //$NON-NLS-1$
 	
 	/*
 	 * Constants for drop down mechanism.
@@ -124,7 +123,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		itemIconImgSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		itemIconImg = visualDocument.createElement(HTML.TAG_IMG);
 		itemLabelSpan = visualDocument.createElement(HTML.TAG_SPAN);
-		itemLabelText = visualDocument.createTextNode(EMPTY);
+		itemLabelText = visualDocument.createTextNode(Constants.EMPTY);
 		creationData = new VpeCreationData(itemMainLI);
 		
 		/*
@@ -138,27 +137,27 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		/*
 		 * Setting attributes for the drop-down mechanism
 		 */
-		itemMainLI.setAttribute(MENU_CHILD_ID, EMPTY);
+		itemMainLI.setAttribute(MENU_CHILD_ID, Constants.EMPTY);
 		
 		/*
 		 * Setting css classes
 		 */
-		String topDivClass = EMPTY;
-		String iconImgSpanClass = EMPTY;
-		String labelSpanClass = EMPTY;
+		String topDivClass = Constants.EMPTY;
+		String iconImgSpanClass = Constants.EMPTY;
+		String labelSpanClass = Constants.EMPTY;
 		
-		topDivClass += SPACE + CSS_RICH_MENU_ITEM;
-		iconImgSpanClass += SPACE + CSS_RICH_MENU_ITEM_ICON;
-		labelSpanClass += SPACE + CSS_RICH_MENU_ITEM_LABEL;
+		topDivClass += Constants.WHITE_SPACE+ CSS_RICH_MENU_ITEM;
+		iconImgSpanClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_ICON;
+		labelSpanClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_LABEL;
 		
-		if (attrPresents(mi_styleClass)) {
-			topDivClass += SPACE + mi_styleClass;
+		if (ComponentUtil.isNotBlank(mi_styleClass)) {
+			topDivClass += Constants.WHITE_SPACE + mi_styleClass;
 		}
-		if (attrPresents(mi_iconClass)) {
-			iconImgSpanClass += SPACE + mi_iconClass;
+		if (ComponentUtil.isNotBlank(mi_iconClass)) {
+			iconImgSpanClass += Constants.WHITE_SPACE + mi_iconClass;
 		}
-		if (attrPresents(mi_labelClass)) {
-			labelSpanClass += SPACE + mi_labelClass;
+		if (ComponentUtil.isNotBlank(mi_labelClass)) {
+			labelSpanClass += Constants.WHITE_SPACE + mi_labelClass;
 		}
 		
 //		itemTopDiv.setAttribute(HTML.ATTR_CLASS, topDivClass);
@@ -171,10 +170,10 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		/*
 		 * Setting css styles
 		 */
-		String topDivStyle = EMPTY;
+		String topDivStyle = Constants.EMPTY;
 		
-		if (attrPresents(mi_style)) {
-			topDivStyle += SPACE + mi_style;
+		if (ComponentUtil.isNotBlank(mi_style)) {
+			topDivStyle += Constants.WHITE_SPACE + mi_style;
 		}
 		
 //		itemTopDiv.setAttribute(HTML.ATTR_STYLE, topDivStyle);
@@ -191,7 +190,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			creationData.addChildrenInfo(childInfo);
 		} else {
 			String iconPath = sourceElement.getAttribute(ICON);
-			if (attrPresents(iconPath)) {
+			if (ComponentUtil.isNotBlank(iconPath)) {
 				/*
 				 * Add path to specified image
 				 */
@@ -215,7 +214,7 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
 		String labelValue = (valueAttr != null && valueAttr.getValue() != null) 
 					? valueAttr.getValue()
-					: EMPTY;
+					: Constants.EMPTY;
 		itemLabelText.setNodeValue(labelValue);
 		
 		/*
@@ -255,17 +254,6 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		mi_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 	}
 
-    /**
-     * Checks is attribute have some value.
-     * 
-     * @param attr the attribute
-     * 
-     * @return true, if successful
-     */
-    private static boolean attrPresents(String attr) {
-		return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
-	}
-    
 	@Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,

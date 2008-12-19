@@ -184,14 +184,14 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		labelSpanClass += SPACE + CSS_RICH_MENU_ITEM_LABEL + SPACE + CSS_RICH_MENU_GROUP_LABEL;
 		folderDivClass += SPACE + CSS_RICH_MENU_ITEM_FOLDER + SPACE + CSS_RICH_MENU_GROUP_FOLDER;
 		
-		if (attrPresents(mg_styleClass)) {
+		if (ComponentUtil.isNotBlank(mg_styleClass)) {
 			topDivClass += SPACE + mg_styleClass;
 		}
-		if (attrPresents(mg_iconClass)) {
+		if (ComponentUtil.isNotBlank(mg_iconClass)) {
 			imgSpanClass += SPACE + mg_iconClass;
 			folderDivClass += SPACE + mg_iconClass;
 		}
-		if (attrPresents(mg_labelClass)) {
+		if (ComponentUtil.isNotBlank(mg_labelClass)) {
 			labelSpanClass += SPACE + mg_labelClass;
 		}
 		
@@ -210,7 +210,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		 */
 		String topDivStyle = EMPTY;
 		
-		if (attrPresents(mg_style)) {
+		if (ComponentUtil.isNotBlank(mg_style)) {
 			topDivStyle += SPACE + mg_style;
 		}
 		
@@ -239,7 +239,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			childInfo.addSourceChild(iconFacet);
 			creationData.addChildrenInfo(childInfo);
 		} else {
-			if (attrPresents(mg_icon)) {
+			if (ComponentUtil.isNotBlank(mg_icon)) {
 				/*
 				 * Add path to specified image
 				 */
@@ -261,7 +261,7 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		/*
 		 * Add group folder icon 
 		 */
-		if (attrPresents(mg_iconFolder)) {
+		if (ComponentUtil.isNotBlank(mg_iconFolder)) {
 			/*
 			 * Add path to specified image
 			 */
@@ -329,16 +329,6 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		mg_style = sourceElement.getAttribute(HTML.ATTR_STYLE);
 		mg_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 	}
-	    /**
-	     * Checks is attribute have some value.
-	     * 
-	     * @param attr the attribute
-	     * 
-	     * @return true, if successful
-	     */
-	    private static boolean attrPresents(String attr) {
-			return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
-		}
 
 		@Override
 		public boolean isRecreateAtAttrChange(VpePageContext pageContext,

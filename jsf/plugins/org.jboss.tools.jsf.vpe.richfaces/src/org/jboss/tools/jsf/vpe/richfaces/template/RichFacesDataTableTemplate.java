@@ -80,7 +80,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			if(hasColumnWithHeader) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				thead.appendChild(tr);
-				String styleClass = encodeStyleClass(null, "dr-table-subheader rich-table-subheader", null, headerClass); //$NON-NLS-1$
+				String styleClass = ComponentUtil.encodeStyleClass(null, "dr-table-subheader rich-table-subheader", null, headerClass); //$NON-NLS-1$
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
@@ -100,7 +100,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			if(hasColumnWithFooter) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
-				String styleClass = encodeStyleClass(null, "dr-table-subfooter rich-table-subfooter", null, footerClass); //$NON-NLS-1$
+				String styleClass = ComponentUtil.encodeStyleClass(null, "dr-table-subfooter rich-table-subfooter", null, footerClass); //$NON-NLS-1$
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
@@ -158,7 +158,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			String columnHeaderClass = column.getAttribute(classAttribute);
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
-			String styleClass = encodeStyleClass(null, skinCellClass, headerClass, columnHeaderClass);
+			String styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass, headerClass, columnHeaderClass);
 			if (!RichFacesColumnTemplate.isVisible(column)) {
 				VisualDomUtil.setSubAttribute(td, HTML.ATTR_STYLE,
 						HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
@@ -200,7 +200,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			parentTheadOrTfood.appendChild(tr);
 
-			String styleClass = encodeStyleClass(null, skinFirstRowClass, facetBodyClass, null);
+			String styleClass = ComponentUtil.encodeStyleClass(null, skinFirstRowClass, facetBodyClass, null);
 			if(styleClass!=null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
@@ -210,7 +210,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);
 
-			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass, null);
+			styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass, facetBodyClass, null);
 			if(styleClass!=null) {
 				td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
@@ -255,27 +255,6 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		}
 		
 		return false;
-	}
-
-	public static String encodeStyleClass(Object parentPredefined, Object predefined, Object parent, Object custom) {
-		StringBuffer styleClass = new StringBuffer();
-		// Construct predefined classes
-		if (null != parentPredefined) {
-			styleClass.append(parentPredefined).append(Constants.WHITE_SPACE);			
-		} else if (null != predefined) {
-			styleClass.append(predefined).append(Constants.WHITE_SPACE);
-		}
-		// Append class from parent component.
-		if (null != parent) {
-			styleClass.append(parent).append(Constants.WHITE_SPACE);
-		}
-		if (null != custom) {
-			styleClass.append(custom);
-		}
-		if (styleClass.length() > 0) {
-			return styleClass.toString();
-		}
-		return null;
 	}
 
 	protected int getColumnsCount(Element sourceElement, ArrayList<Element> columns) {

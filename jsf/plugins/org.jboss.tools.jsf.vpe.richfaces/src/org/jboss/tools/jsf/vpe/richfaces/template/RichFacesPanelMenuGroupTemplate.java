@@ -316,8 +316,8 @@ VpeToggableTemplate {
 					labelAttr);
 		}
 		
-		if (attrPresents(labelValue)) {
-			if (attrPresents(bundleValue)) {
+		if (ComponentUtil.isNotBlank(labelValue)) {
+			if (ComponentUtil.isNotBlank(bundleValue)) {
 				if (!labelValue.equals(bundleValue)) {
 					resultValue = bundleValue;
 				} else {
@@ -327,7 +327,7 @@ VpeToggableTemplate {
 				resultValue = labelValue;
 			}
 		} else {
-			if (attrPresents(bundleValue)) {
+			if (ComponentUtil.isNotBlank(bundleValue)) {
 				resultValue = bundleValue;
 			} else {
 				resultValue = EMPTY;
@@ -347,7 +347,7 @@ VpeToggableTemplate {
 		 */
 		nsIDOMElement iconCell = column1;
 		nsIDOMElement emptyCell = column3;
-		if (attrPresents(pm_iconGroupPosition)) {
+		if (ComponentUtil.isNotBlank(pm_iconGroupPosition)) {
 			if (RIGHT.equalsIgnoreCase(pm_iconGroupPosition)) {
 				/*
 				 * Set icon image on the right
@@ -356,7 +356,7 @@ VpeToggableTemplate {
 				emptyCell = column1;
 			}
 		} 
-		if (childOfPanelMenu && attrPresents(pm_iconGroupTopPosition)) {
+		if (childOfPanelMenu && ComponentUtil.isNotBlank(pm_iconGroupTopPosition)) {
 			if (RIGHT.equalsIgnoreCase(pm_iconGroupTopPosition)) {
 				/*
 				 * Set icon image on the right
@@ -392,10 +392,10 @@ VpeToggableTemplate {
 				tableClass = SPACE + CSS_DR_TOP_GROUP + SPACE + CSS_GROUP;
 				tableClass += SPACE + CSS_DISABLED_ELEMENT;
 				divClass += SPACE + CSS_DR_TOP_GROUP_DIV;
-				if (attrPresents(pm_disabledGroupClass)) {
+				if (ComponentUtil.isNotBlank(pm_disabledGroupClass)) {
 					tableClass += SPACE + pm_disabledGroupClass;
 				}
-				if (attrPresents(pm_topGroupStyle)) {
+				if (ComponentUtil.isNotBlank(pm_topGroupStyle)) {
 					tableStyle += SPACE + pm_topGroupStyle;
 				}
 			}
@@ -406,18 +406,18 @@ VpeToggableTemplate {
 			
 			if (!(TRUE.equalsIgnoreCase(pm_disabled))) {
 				tableClass += SPACE + CSS_DISABLED_ELEMENT;
-				if (attrPresents(pm_disabledGroupClass)){
+				if (ComponentUtil.isNotBlank(pm_disabledGroupClass)){
 					tableClass += SPACE + pm_disabledGroupClass;
 				}
 			}
 			
-			if (attrPresents(pmg_disabledClass)) {
+			if (ComponentUtil.isNotBlank(pmg_disabledClass)) {
 				tableClass += SPACE + pmg_disabledClass;
 			} 
-			if (attrPresents(pm_disabledGroupStyle)) {
+			if (ComponentUtil.isNotBlank(pm_disabledGroupStyle)) {
 				tableStyle += SPACE + pm_disabledGroupStyle;
 			}
-			if (attrPresents(pmg_disabledStyle)) {
+			if (ComponentUtil.isNotBlank(pmg_disabledStyle)) {
 				tableStyle += SPACE + pmg_disabledStyle;
 			}
 		} 
@@ -429,16 +429,16 @@ VpeToggableTemplate {
 			labelCellClass += SPACE + CSS_GROUP_LABEL;
 			emptyCellClass += SPACE + CSS_GROUP_ICON;
 			divClass += SPACE + CSS_DR_GROUP_DIV;
-			if (attrPresents(pm_groupClass)) {
+			if (ComponentUtil.isNotBlank(pm_groupClass)) {
 				tableClass += SPACE + pm_groupClass;
 			} 
-			if (attrPresents(pm_groupStyle)) {
+			if (ComponentUtil.isNotBlank(pm_groupStyle)) {
 				tableStyle += SPACE + pm_groupStyle;
 			}
-			if (attrPresents(pmg_iconClass)) {
+			if (ComponentUtil.isNotBlank(pmg_iconClass)) {
 				iconCellClass += SPACE + pmg_iconClass;
 			}
-			if (attrPresents(pmg_iconStyle)) {
+			if (ComponentUtil.isNotBlank(pmg_iconStyle)) {
 				iconCellStyle += SPACE + pmg_iconStyle;
 			}
 			
@@ -448,28 +448,28 @@ VpeToggableTemplate {
 				labelCellClass = SPACE + CSS_TOP_GROUP_LABEL;
 				emptyCellClass = SPACE + CSS_TOP_GROUP_ICON;
 				divClass += SPACE + CSS_DR_TOP_GROUP_DIV;
-				if (attrPresents(pm_topGroupClass)) {
+				if (ComponentUtil.isNotBlank(pm_topGroupClass)) {
 					tableClass += SPACE + pm_topGroupClass;
 				} 
-				if (attrPresents(pm_topGroupStyle)) {
+				if (ComponentUtil.isNotBlank(pm_topGroupStyle)) {
 					tableStyle += pm_topGroupStyle;
 				}
-				if (attrPresents(pmg_iconClass)) {
+				if (ComponentUtil.isNotBlank(pmg_iconClass)) {
 					iconCellClass += SPACE + pmg_iconClass;
 				}
-				if (attrPresents(pmg_iconStyle)) {
+				if (ComponentUtil.isNotBlank(pmg_iconStyle)) {
 					iconCellStyle += SPACE + pmg_iconStyle;
 				}
 			} 
 		}
 		
-		if (attrPresents(pm_styleClass)) {
+		if (ComponentUtil.isNotBlank(pm_styleClass)) {
 			tableClass += SPACE + pm_styleClass;
 		}
-		if (attrPresents(pmg_styleClass)) {
+		if (ComponentUtil.isNotBlank(pmg_styleClass)) {
 			tableClass += SPACE + pmg_styleClass;
 		}
-		if (attrPresents(pmg_style)) {
+		if (ComponentUtil.isNotBlank(pmg_style)) {
 			tableStyle += SPACE + pmg_style;
 		}
 		
@@ -551,7 +551,7 @@ VpeToggableTemplate {
 		}
 
 		if (TRUE.equalsIgnoreCase(pmg_disabled)) {
-			if (attrPresents(pathIconDisabled)) {
+			if (ComponentUtil.isNotBlank(pathIconDisabled)) {
 				if (DEFAULT_ICON_MAP.containsKey(pathIconDisabled)) {
 					pathIconDisabled = DEFAULT_ICON_MAP.get(pathIconDisabled);
 					ComponentUtil.setImg(imgIcon, pathIconDisabled);
@@ -566,7 +566,7 @@ VpeToggableTemplate {
 			}
 		} else {
 			if (expanded) {
-				if (attrPresents(pathIconExpanded)) {
+				if (ComponentUtil.isNotBlank(pathIconExpanded)) {
 					if (DEFAULT_ICON_MAP.containsKey(pathIconExpanded)) {
 						pathIconExpanded = DEFAULT_ICON_MAP
 						.get(pathIconExpanded);
@@ -581,7 +581,7 @@ VpeToggableTemplate {
 					ComponentUtil.setImg(imgIcon, PANEL_MENU_GROUP_ICON_SPACER_PATH);
 				}
 			} else {
-				if (attrPresents(pathIconCollapsed)) {
+				if (ComponentUtil.isNotBlank(pathIconCollapsed)) {
 					if (DEFAULT_ICON_MAP.containsKey(pathIconCollapsed)) {
 						pathIconCollapsed = DEFAULT_ICON_MAP
 						.get(pathIconCollapsed);
@@ -661,18 +661,6 @@ VpeToggableTemplate {
 		pmg_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
 		pmg_style = sourceElement.getAttribute(STYLE);
 		pmg_styleClass = sourceElement.getAttribute(STYLE_CLASS);
-	}
-
-	
-    /**
-     * Checks is attribute have some value.
-     * 
-     * @param attr the attribute
-     * 
-     * @return true, if successful
-     */
-    private static boolean attrPresents(String attr) {
-		return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
 	}
     
 	/* (non-Javadoc)

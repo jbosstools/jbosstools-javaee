@@ -167,7 +167,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 				+ CSS_RICH_DDMENU_LABEL_UNSELECT;
 		listBorderDivClass += SPACE + CSS_RICH_MENU_LIST_BORDER;
 		
-		if (attrPresents(ddm_styleClass)) {
+		if (ComponentUtil.isNotBlank(ddm_styleClass)) {
 			labelDivClass += SPACE + ddm_styleClass;
 			listBorderDivClass += SPACE + ddm_styleClass;
 		}
@@ -190,7 +190,7 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 		cssListDivStyle += SPACE + CSS_RICH_DDEMENU_LIST_DIV_STYLE;
 		cssListBorderDivStyle += SPACE + CSS_RICH_DDEMENU_BORDER_DIV_STYLE;
 		
-		if (attrPresents(ddm_style)) {
+		if (ComponentUtil.isNotBlank(ddm_style)) {
 			cssLabelDivStyle += SPACE + ddm_style;
 		}
 		
@@ -271,17 +271,6 @@ public class RichFacesDropDownMenuTemplate extends VpeAbstractTemplate {
 			ddm_selectItemClass = sourceElement.getAttribute(SELECT_ITEM_CLASS);
 			ddm_style = sourceElement.getAttribute(HTML.ATTR_STYLE);
 			ddm_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		}
-	
-	    /**
-	     * Checks is attribute have some value.
-	     * 
-	     * @param attr the attribute
-	     * 
-	     * @return true, if successful
-	     */
-	    private static boolean attrPresents(String attr) {
-			return ((null != attr) && (!EMPTY.equalsIgnoreCase(attr)));
 		}
 	
 		@Override
