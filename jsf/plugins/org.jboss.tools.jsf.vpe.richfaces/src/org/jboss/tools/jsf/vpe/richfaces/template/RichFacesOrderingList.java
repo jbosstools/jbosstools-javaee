@@ -469,7 +469,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			if (!columnsHeaders.isEmpty()) {
 				nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 				thead.appendChild(tr);
-				String styleClass = encodeStyleClass(null,
+				String styleClass = ComponentUtil.encodeStyleClass(null,
 						CSS_HEADER_CLASS + " " + CSS_TABLE_HEADER_CLASS, null,
 						headerClass);
 				if (styleClass != null) {
@@ -495,7 +495,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				nsIDOMElement tr = visualDocument
 						.createElement(HtmlComponentUtil.HTML_TAG_TR);
 				tfoot.appendChild(tr);
-				String styleClass = encodeStyleClass(null,
+				String styleClass = ComponentUtil.encodeStyleClass(null,
 						CSS_TABLE_HEADER_CLASS + " " + CSS_TABLE_HEADER_CELL_CLASS, null,
 						footerClass);
 				if (styleClass != null) {
@@ -668,7 +668,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 					.createElement(HtmlComponentUtil.HTML_TAG_TR);
 			parentTheadOrTfood.appendChild(tr);
 
-			String styleClass = encodeStyleClass(null, skinFirstRowClass,
+			String styleClass = ComponentUtil.encodeStyleClass(null, skinFirstRowClass,
 					facetBodyClass, null);
 			if (styleClass != null) {
 				tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
@@ -679,7 +679,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);
 
-			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass,
+			styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass, facetBodyClass,
 					null);
 			if (styleClass != null) {
 				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
@@ -723,7 +723,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			td.setAttribute(HtmlComponentUtil.HTML_ATTR_BACKGROUND, "file:///"
 					+ ComponentUtil.getAbsoluteResourcePath(HEADER_CELL_BG).replace('\\', '/'));
 			
-			String styleClass = encodeStyleClass(null, skinCellClass,
+			String styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass,
 					headerClass, columnHeaderClass);
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
 			td.setAttribute("scop", "col");
@@ -776,36 +776,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			}
 		}
 		return columnsWithFacet;
-	}
-
-	/**
-	 * 
-	 * @param parentPredefined
-	 * @param predefined
-	 * @param parent
-	 * @param custom
-	 * @return
-	 */
-	private static String encodeStyleClass(Object parentPredefined,
-			Object predefined, Object parent, Object custom) {
-		StringBuffer styleClass = new StringBuffer();
-		// Construct predefined classes
-		if (null != parentPredefined) {
-			styleClass.append(parentPredefined).append(SPACE);
-		} else if (null != predefined) {
-			styleClass.append(predefined).append(SPACE);
-		}
-		// Append class from parent component.
-		if (null != parent) {
-			styleClass.append(parent).append(SPACE);
-		}
-		if (null != custom) {
-			styleClass.append(custom);
-		}
-		if (styleClass.length() > 0) {
-			return styleClass.toString();
-		}
-		return null;
 	}
 
 	/**

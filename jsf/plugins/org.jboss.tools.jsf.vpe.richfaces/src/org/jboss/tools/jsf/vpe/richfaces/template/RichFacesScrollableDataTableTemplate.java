@@ -19,6 +19,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
@@ -40,18 +41,20 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 	private static final String COLUMN = ':' + RichFaces.TAG_COLUMN;
 	private static final String COLUMNS = ':' + RichFaces.TAG_COLUMNS;
-	final static String DEFAULT_HEIGHT = "500px";
-	final static String DEFAULT_WIDTH = "700px";
-	final static String HEADER = "header";
-	final static String HEADER_CLASS = "headerClass";
-	final static String FOOTER = "footer";
-	final static String FOOTER_CLASS = "footerClass";
-	final static String CAPTION_CLASS = "captionClass";
-	final static String CAPTION_STYLE = "captionStyle";
-	final static String SPACE = " ";
+	private static final String DEFAULT_HEIGHT = "500px";
+	private static final String DEFAULT_WIDTH = "700px";
+	private static final String CSS_STYLE_PATH = "scrollableDataTable/scrollableDataTable.css";
+	private static final String COMPONENT_NAME = "richFacesDataTable";
 
-	private static String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
-	private static String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
+	private static final String CSS_DR_TABLE = "dr-table";
+	private static final String CSS_DR_TABLE_HIDDEN = "dr-table-hidden";
+	private static final String CSS_RICH_SDT = "rich-sdt";
+	private static final String CSS_RICH_SDT_HEADER_CELL = "rich-sdt-header-cell";
+	private static final String CSS_RICH_SDT_HEADER_ROW = "rich-sdt-header-row";
+	private static final String CSS_RICH_SDT_COLUMN_CELL = "rich-sdt-column-cell";
+	private static final String CSS_RICH_SDT_FOOTER_CELL = "rich-sdt-footer-cell";
+	private static final String CSS_RICH_SDT_FOOTER_ROW = "rich-sdt-footer-row";
+	private static final String CSS_RICH_SDT_HSEP = "rich-sdt-hsep";
 
 	private static final int NUM_ROW = 5;
 	private static final String TAG_MAIN_TABLE_WRAPPER = "mainTable-wrapper"; //$NON-NLS-1$
@@ -80,7 +83,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		} else {
 			width = VpeStyleUtil.addPxIfNecessary(width);
 		}
-
+		
 		String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
 		if (height == null) {
 			height = DEFAULT_HEIGHT;
@@ -92,11 +95,11 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement div = visualDocument
 				.createElement(HTML.TAG_DIV);
 
-		div.setAttribute(HTML.ATTR_CLASS, "dr-table-hidden");
+		div.setAttribute(HTML.ATTR_CLASS, CSS_DR_TABLE_HIDDEN);
 
-		String divStyle = HTML.ATTR_WIDTH + " : "
-				+ width + ";"
-				+ HTML.ATTR_HEIGHT + " : "
+		String divStyle = HTML.ATTR_WIDTH + Constants.COLON
+				+ width + Constants.SEMICOLON
+				+ HTML.ATTR_HEIGHT + Constants.COLON
 				+ height + ";overflow:auto;"; //$NON-NLS-1$
 		VpeCreationData creationData = new VpeCreationData(div);
 
@@ -111,15 +114,12 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		mainTableWrapper.appendChild(mainTable);
 		div.appendChild(mainTableWrapper);
 
-		ComponentUtil.setCSSLink(pageContext,
-				"scrollableDataTable/scrollableDataTable.css",
-				"richFacesDataTable");
+		ComponentUtil.setCSSLink(pageContext, CSS_STYLE_PATH, COMPONENT_NAME);
 		String tableClass = sourceElement
 				.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		mainTable
-				.setAttribute(HTML.ATTR_CLASS,
-						"dr-table rich-table "
-								+ (tableClass == null ? "" : tableClass));
+		mainTable.setAttribute(HTML.ATTR_CLASS, CSS_DR_TABLE
+			+ Constants.WHITE_SPACE + CSS_RICH_SDT
+			+ (tableClass == null ? Constants.EMPTY : tableClass));
 
 		// Encode colgroup definition.
 		ArrayList<Element> columns = getColumns(sourceElement);
@@ -134,24 +134,28 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		encodeCaption(creationData, sourceElement, visualDocument, mainTable);
 
 		// Encode Header
-		Element header = ComponentUtil.getFacet(sourceElement, HEADER);
-		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, HEADER);
+		Element header = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_HEADER);
+		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, RichFaces.NAME_FACET_HEADER);
 		if (header != null || !columnsHeaders.isEmpty()) {
 			nsIDOMElement thead = visualDocument
 					.createElement(HTML.TAG_THEAD);
 			mainTable.appendChild(thead);
 			String headerClass = (String) sourceElement
-					.getAttribute(HEADER_CLASS);
+					.getAttribute(RichFaces.ATTR_HEADER_CLASS);
 			if (header != null) {
-				encodeTableHeaderOrFooterFacet(pageContext, creationData, thead,
-						columnsLength, visualDocument, header,
-						"", "", "",//JBIDE-3204 #2:No one style or styleClass should be applyed for the footer and header of scrollableDataTable as default
-						headerClass, HTML.TAG_TD);
+			    /*
+			     * JBIDE-3204 #2:No one style or styleClass should be applyed
+			     * for the footer and header of scrollableDataTable as default
+			     */
+			    encodeTableHeaderOrFooterFacet(pageContext, creationData, thead,
+				    columnsLength, visualDocument, header,
+				    Constants.EMPTY, Constants.EMPTY, Constants.EMPTY,
+				    headerClass, HTML.TAG_TD);
 			}
 			if (!columnsHeaders.isEmpty()) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				thead.appendChild(tr);
-				String styleClass = encodeStyleClass(null,
+				String styleClass = ComponentUtil.encodeStyleClass(null,
 						"dr-table-subheader dr-sdt-hr", null,
 						headerClass);
 				if (styleClass != null) {
@@ -161,24 +165,24 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 						columnsHeaders,
 						"dr-table-subheadercell rich-table-subheadercell",
-						headerClass, HEADER, HTML.TAG_TD);
+						headerClass, RichFaces.NAME_FACET_HEADER, HTML.TAG_TD);
 			}
 		}
 
 		// Encode Footer
-		Element footer = ComponentUtil.getFacet(sourceElement, FOOTER);
-		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, FOOTER);
+		Element footer = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
+		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
 		if (footer != null || !columnsFooters.isEmpty()) {
 			nsIDOMElement tfoot = visualDocument
 					.createElement(HTML.TAG_TFOOT);
 			mainTable.appendChild(tfoot);
 			String footerClass = (String) sourceElement
-					.getAttribute(FOOTER_CLASS);
+					.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
 			if (!columnsFooters.isEmpty()) {
 				nsIDOMElement tr = visualDocument
 						.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
-				String styleClass = encodeStyleClass(null,
+				String styleClass = ComponentUtil.encodeStyleClass(null,
 						"dr-table-subfooter rich-table-subfooter", null,
 						footerClass);
 				if (styleClass != null) {
@@ -188,13 +192,17 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				encodeHeaderOrFooterFacets(creationData, tr, visualDocument,
 						columnsFooters,
 						"dr-table-subfootercell rich-table-subfootercell",
-						footerClass, FOOTER, HTML.TAG_TD);
+						footerClass, RichFaces.NAME_FACET_FOOTER, HTML.TAG_TD);
 			}
 			if (footer != null) {
-				encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot,
-						columnsLength, visualDocument, footer,
-						"",	"",	"",//JBIDE-3204 #2:No one style or styleClass should be applyed for the footer and header of scrollableDataTable as default
-						footerClass, HTML.TAG_TD);
+			    /*
+			     * JBIDE-3204 #2:No one style or styleClass should be applyed
+			     * for the footer and header of scrollableDataTable as default
+			     */
+			    encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot,
+				    columnsLength, visualDocument, footer,
+				    Constants.EMPTY, Constants.EMPTY, Constants.EMPTY,
+				    footerClass, HTML.TAG_TD);
 			}
 		}
 
@@ -225,8 +233,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		Element captionFromFacet = ComponentUtil.getFacet(sourceElement,
 				HTML.TAG_CAPTION);
 		if (captionFromFacet != null) {
-			String captionClass = (String) table.getAttribute(CAPTION_CLASS);
-			String captionStyle = (String) table.getAttribute(CAPTION_STYLE);
+			String captionClass = (String) table.getAttribute(RichFaces.ATTR_CAPTION_CLASS);
+			String captionStyle = (String) table.getAttribute(RichFaces.ATTR_CAPTION_STYLE);
 
 			nsIDOMElement caption = visualDocument
 					.createElement(HTML.TAG_CAPTION);
@@ -271,7 +279,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			String columnHeaderClass = column.getAttribute(classAttribute);
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
-			String styleClass = encodeStyleClass(null, skinCellClass,
+			String styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass,
 					headerClass, columnHeaderClass);
 
 			if (!RichFacesColumnTemplate.isVisible(column)) {
@@ -326,7 +334,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					.createElement(HTML.TAG_TR);
 			parentTheadOrTfood.appendChild(tr);
 
-			String styleClass = encodeStyleClass(null, skinFirstRowClass,
+			String styleClass = ComponentUtil.encodeStyleClass(null, skinFirstRowClass,
 					facetBodyClass, null);
 			if (styleClass != null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
@@ -335,7 +343,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement td = visualDocument.createElement(element);
 			tr.appendChild(td);
 
-			styleClass = encodeStyleClass(null, skinCellClass, facetBodyClass,
+			styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass, facetBodyClass,
 					null);
 			if (styleClass != null) {
 				td.setAttribute(HTML.ATTR_CLASS, styleClass);
@@ -388,36 +396,6 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			}
 		}
 		return columnsWithFacet;
-	}
-
-	/**
-	 * 
-	 * @param parentPredefined
-	 * @param predefined
-	 * @param parent
-	 * @param custom
-	 * @return
-	 */
-	public static String encodeStyleClass(Object parentPredefined,
-			Object predefined, Object parent, Object custom) {
-		StringBuffer styleClass = new StringBuffer();
-		// Construct predefined classes
-		if (null != parentPredefined) {
-			styleClass.append(parentPredefined).append(SPACE);
-		} else if (null != predefined) {
-			styleClass.append(predefined).append(SPACE);
-		}
-		// Append class from parent component.
-		if (null != parent) {
-			styleClass.append(parent).append(SPACE);
-		}
-		if (null != custom) {
-			styleClass.append(custom);
-		}
-		if (styleClass.length() > 0) {
-			return styleClass.toString();
-		}
-		return null;
 	}
 
 	/**

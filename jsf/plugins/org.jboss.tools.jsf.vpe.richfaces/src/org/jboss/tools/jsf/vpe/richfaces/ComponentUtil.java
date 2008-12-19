@@ -890,4 +890,34 @@ public class ComponentUtil {
         return value;
     }
 
+    /**
+     * Encodes style class
+     * @param parentPredefined
+     * @param predefined
+     * @param parent
+     * @param custom
+     * @return
+     */
+    public static String encodeStyleClass(Object parentPredefined,
+	    Object predefined, Object parent, Object custom) {
+	StringBuffer styleClass = new StringBuffer();
+	// Construct predefined classes
+	if (null != parentPredefined) {
+	    styleClass.append(parentPredefined).append(Constants.WHITE_SPACE);
+	} else if (null != predefined) {
+	    styleClass.append(predefined).append(Constants.WHITE_SPACE);
+	}
+	// Append class from parent component.
+	if (null != parent) {
+	    styleClass.append(parent).append(Constants.WHITE_SPACE);
+	}
+	if (null != custom) {
+	    styleClass.append(custom);
+	}
+	if (styleClass.length() > 0) {
+	    return styleClass.toString();
+	}
+	return null;
+    }
+    
 }
