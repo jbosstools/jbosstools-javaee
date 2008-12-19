@@ -135,7 +135,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		// Encode Header
 		Element header = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_HEADER);
-		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, RichFaces.NAME_FACET_HEADER);
+		ArrayList<Element> columnsHeaders = ComponentUtil.getColumnsWithFacet(columns, RichFaces.NAME_FACET_HEADER);
 		if (header != null || !columnsHeaders.isEmpty()) {
 			nsIDOMElement thead = visualDocument
 					.createElement(HTML.TAG_THEAD);
@@ -171,7 +171,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		// Encode Footer
 		Element footer = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
-		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
+		ArrayList<Element> columnsFooters = ComponentUtil.getColumnsWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
 		if (footer != null || !columnsFooters.isEmpty()) {
 			nsIDOMElement tfoot = visualDocument
 					.createElement(HTML.TAG_TFOOT);
@@ -378,24 +378,6 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			}
 		}
 		return columns;
-	}
-
-	/**
-	 * 
-	 * @param columns
-	 * @param facetName
-	 * @return list of columns with facet
-	 */
-	public static ArrayList<Element> getColumnsWithFacet(
-			ArrayList<Element> columns, String facetName) {
-		ArrayList<Element> columnsWithFacet = new ArrayList<Element>();
-		for (Element column : columns) {
-			Element body = ComponentUtil.getFacet(column, facetName);
-			if (body != null) {
-				columnsWithFacet.add(column);
-			}
-		}
-		return columnsWithFacet;
 	}
 
 	/**

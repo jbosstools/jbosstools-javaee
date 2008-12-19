@@ -919,5 +919,23 @@ public class ComponentUtil {
 	}
 	return null;
     }
-    
+
+
+	/**
+	 * Returns columns with facet.
+	 * @param columns
+	 * @param facetName
+	 * @return list of columns with facet
+	 */
+	public static ArrayList<Element> getColumnsWithFacet(
+			ArrayList<Element> columns, String facetName) {
+		ArrayList<Element> columnsWithFacet = new ArrayList<Element>();
+		for (Element column : columns) {
+			Element body = getFacet(column, facetName);
+			if (body != null) {
+				columnsWithFacet.add(column);
+			}
+		}
+		return columnsWithFacet;
+	}
 }

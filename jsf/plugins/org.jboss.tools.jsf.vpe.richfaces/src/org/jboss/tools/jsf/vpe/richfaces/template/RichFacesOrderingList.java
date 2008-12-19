@@ -453,7 +453,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		// ---------- HEADER -----------
 		// Encode Header
 		Element header = ComponentUtil.getFacet(sourceElement, HEADER);
-		ArrayList<Element> columnsHeaders = getColumnsWithFacet(columns, HEADER);
+		ArrayList<Element> columnsHeaders = ComponentUtil.getColumnsWithFacet(columns, HEADER);
 		if (header != null || !columnsHeaders.isEmpty()) {
 			String headerClass = (String) sourceElement
 					.getAttribute(HEADER_CLASS);
@@ -487,7 +487,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		// Encode Footer
 		/*
 		Element footer = ComponentUtil.getFacet(sourceElement, FOOTER);
-		ArrayList<Element> columnsFooters = getColumnsWithFacet(columns, FOOTER);
+		ArrayList<Element> columnsFooters = ComponentUtil.getColumnsWithFacet(columns, FOOTER);
 		if (footer != null || !columnsFooters.isEmpty()) {
 			String footerClass = (String) sourceElement
 					.getAttribute(FOOTER_CLASS);
@@ -758,24 +758,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			}
 		}
 		return columns;
-	}
-
-	/**
-	 * 
-	 * @param columns
-	 * @param facetName
-	 * @return list of columns with facet
-	 */
-	private static ArrayList<Element> getColumnsWithFacet(
-			ArrayList<Element> columns, String facetName) {
-		ArrayList<Element> columnsWithFacet = new ArrayList<Element>();
-		for (Element column : columns) {
-			Element body = ComponentUtil.getFacet(column, facetName);
-			if (body != null) {
-				columnsWithFacet.add(column);
-			}
-		}
-		return columnsWithFacet;
 	}
 
 	/**

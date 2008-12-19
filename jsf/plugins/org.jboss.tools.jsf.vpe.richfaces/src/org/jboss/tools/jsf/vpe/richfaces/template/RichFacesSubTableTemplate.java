@@ -193,18 +193,18 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	protected void encodeHeader(final VpePageContext pageContext, final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
-		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, "header", "dr-subtable-header rich-subtable-header", "dr-subtable-headercell rich-subtable-headercell");
+		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, RichFaces.NAME_FACET_HEADER, "dr-subtable-header rich-subtable-header", "dr-subtable-headercell rich-subtable-headercell"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	protected void encodeFooter(final VpePageContext pageContext, final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
-		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, "footer", "dr-subtable-footer rich-subtable-footer", "dr-subtable-footercell rich-subtable-footercell");
+		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, RichFaces.NAME_FACET_FOOTER, "dr-subtable-footer rich-subtable-footer", "dr-subtable-footercell rich-subtable-footercell"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	protected void encodeHeaderOrFooter(final VpePageContext pageContext, final VpeCreationData creationData,
 			final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode, 
 			final String facetName, final String trClass, final String tdClass) {
 		final ArrayList<Element> columns = RichFacesDataTableTemplate.getColumns(sourceElement);
-		//final ArrayList<Element> columnsHeaders = RichFacesDataTableTemplate.getColumnsWithFacet(columns, facetName);
+		//final ArrayList<Element> columnsHeaders = ComponentUtil.getColumnsWithFacet(columns, facetName);
 		final boolean hasColumnWithFacet = RichFacesDataTableTemplate.hasColumnWithFacet(columns, facetName);
 		if(hasColumnWithFacet) {
 			final nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
@@ -221,11 +221,11 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	private boolean isHeader(final Element sourceElement) {
-		return icludedInFacet(sourceElement, "header");
+		return icludedInFacet(sourceElement, RichFaces.NAME_FACET_HEADER);
 	}
 
 	private boolean isFooter(final Element sourceElement) {
-		return icludedInFacet(sourceElement, "footer");
+		return icludedInFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
 	}
 
 	private boolean icludedInFacet(final Element sourceElement, final String facetName) {
@@ -234,19 +234,19 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	protected String getHeaderClass() {
-		return "dr-subtable-header rich-subtable-header";
+		return "dr-subtable-header rich-subtable-header"; //$NON-NLS-1$
 	}
 
 	protected String getHeaderContinueClass() {
-		return "dr-subtable-header-continue rich-subtable-header-continue";
+		return "dr-subtable-header-continue rich-subtable-header-continue"; //$NON-NLS-1$
 	}
 
 	protected String getFooterClass() {
-		return "dr-subtable-footer rich-subtable-footer";
+		return "dr-subtable-footer rich-subtable-footer"; //$NON-NLS-1$
 	}
 
 	protected String getFooterContinueClass() {
-		return "dr-subtable-footer-continue rich-subtable-footer-continue";
+		return "dr-subtable-footer-continue rich-subtable-footer-continue"; //$NON-NLS-1$
 	}
 
 	protected String getRowClass(final int row) {
