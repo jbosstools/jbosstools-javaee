@@ -674,7 +674,7 @@
 			</vpe:template>
 		</vpe:if>
 		<vpe:if
-			test="parentname()='rich:columnGroup'|parentname()='rich:dataTable'|parentname()='rich:orderingList'|parentname()='rich:listShuttle'">
+			test="parentname()='rich:columnGroup'|parentname()='rich:dataTable'|parentname()='rich:orderingList'|parentname()='rich:listShuttle'|parentname()='rich:scrollableDataTable'">
 			<vpe:template children="yes" modify="yes"
 				namespaceIdentifier="org.jboss.tools.jsf.vpe.richfaces"
 				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesColumnTemplate">
