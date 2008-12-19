@@ -11,13 +11,8 @@
 
 <body>
 <f:view>
-<rich:scrollableDataTable id="scrollableDataTable" rowKeyVar="rkv" frozenColCount="1"
-        height="100" width="500" id="carList" rows="40"
-        columnClasses="col" value="#{dataTableScrollerBean.allCars}"
-        var="category" sortMode="single"
-        binding="#{dataTableScrollerBean.table}"
-        sortOrder="#{dataTableScrollerBean.order}"
-        selection="#{dataTableScrollerBean.selection}">
+
+<rich:scrollableDataTable id="scrollableDataTable" rowKeyVar="rkv" frozenColCount="1" height="100" width="500" id="carList" rows="40" columnClasses="col" value="#{dataTableScrollerBean.allCars}" var="category" sortMode="single" binding="#{dataTableScrollerBean.table}" sortOrder="#{dataTableScrollerBean.order}" selection="#{dataTableScrollerBean.selection}">
 
         <rich:column id="make">
             <f:facet name="header">
@@ -49,13 +44,12 @@
             </f:facet>
             <h:outputText value="#{category.vin}" />
         </rich:column>
-        <rich:column id="stock">
+        <h:column id="stock">
             <f:facet name="header">
                 <h:outputText styleClass="headerText" value="Stock" />
             </f:facet>
             <h:outputText value="#{category.stock}" />
-        </rich:column>
-    </rich:scrollableDataTable>
-</f:view>
+        </h:column>
+    </rich:scrollableDataTable></f:view>
 </body>
 </html>
