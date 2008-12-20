@@ -1,10 +1,10 @@
 <tests>
 	<test id="paint2D">
-        <IMG WIDTH="10" HEIGHT="10" SRC="/.*resources/paint2D/paint2D.gif/"
+        <IMG WIDTH="10" HEIGHT="10"
             CLASS="rich-paint2D" BGCOLOR="transparent"/>
     </test>
     <test id="paint2DWithData">
-        <IMG WIDTH="300" HEIGHT="120" SRC="/.*resources/paint2D/paint2D.gif/"
+        <IMG WIDTH="300" HEIGHT="120"
             STYLE="color: red;" CLASS="rich-paint2D customStyleClass" BGCOLOR="transparent"/>
     </test>
     <test id="paint2DWithDataAndChildren">
@@ -13,7 +13,7 @@
                 <SPAN>Mama mila ramu</SPAN>
                 <INPUT TYPE="button" VALUE="Button"/>
             </SPAN>
-            <IMG WIDTH="300" HEIGHT="120" SRC="/.*resources/paint2D/paint2D.gif/"
+            <IMG WIDTH="300" HEIGHT="120"
                 STYLE="color: red;" CLASS="rich-paint2D customStyleClass" BGCOLOR="transparent"/>
         </SPAN>
     </test>

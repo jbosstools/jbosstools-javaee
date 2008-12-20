@@ -636,7 +636,6 @@
 			<vpe:breaker type="ignore" />
 			<vpe:textFormatting use-default-formats="yes">
 			</vpe:textFormatting>
-			<vpe:pseudoContent defaultText="yes" />
 		</vpe:template>
 	</vpe:tag>
 
@@ -661,7 +660,6 @@
 			<vpe:textFormatting use-default-formats="yes">
 				<vpe:format type="BlockFormat" addChildren="deny" />
 			</vpe:textFormatting>
-			<vpe:pseudoContent defaultText="yes" />
 		</vpe:template>
 	</vpe:tag>
 
