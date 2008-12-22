@@ -529,7 +529,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			name.doFillIntoGrid(root);
 			name.addPropertyChangeListener(this);
 			version.doFillIntoGrid(root);
-			version.setValue(validSeamVersions.get(0));
+			SeamVersion sv = SeamVersion.findByString(version.getValueAsString());
+			if(!validSeamVersions.contains(sv)) {
+				version.setValue(validSeamVersions.get(0));
+			} else {
+				version.setValue(version.getValue()); // Fire change listeners;
+			}
 			version.addPropertyChangeListener(this);
 			setPageComplete(false);
 			setControl(root);
@@ -604,6 +609,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					&& current.getHomeDir().equals(homeDir.getValueAsString())) {
 				setErrorMessage(null);
 				setPageComplete(false);
+				setMessage(null);
 				return;
 			}
 
@@ -637,6 +643,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					setPageComplete(false);
 					return;
 				}
+			} else {
+				setMessage(null);
 			}
 
 			Map<String, IStatus> errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR
