@@ -106,11 +106,13 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 				if(!entity.startsWith(ENT_NAVIGATION)) continue;
 				if(entity.startsWith(ENT_NAVIGATION_RULE)) {
 					addTarget(ns[j], true);
-				} else {
-					XModelObject[] rs = ns[j].getChildren();
-					for (int k = 0; k < rs.length; k++) {
-						addTarget(rs[k], true);
+					if(!entity.endsWith(SUFF_21)) {
+						continue;
 					}
+				}
+				XModelObject[] rs = ns[j].getChildren();
+				for (int k = 0; k < rs.length; k++) {
+					addTarget(rs[k], true);
 				}
 			}
 		}
@@ -303,16 +305,19 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 					if(result == null) result = new ArrayList<XModelObject>();
 					result.add(t);
 				}
-			} else {
-				XModelObject[] rs = ns[i].getChildren();
-				for (int k = 0; k < rs.length; k++) {
-					XModelObject t = getTargetChild(rs[k]);
-					if(t != null) {
-						if(result == null) result = new ArrayList<XModelObject>();
-						result.add(t);
-					}
+				if(!entity.endsWith(SUFF_21)) {
+					continue;
 				}
 			}
+			XModelObject[] rs = ns[i].getChildren();
+			for (int k = 0; k < rs.length; k++) {
+				XModelObject t = getTargetChild(rs[k]);
+				if (t != null) {
+					if (result == null) result = new ArrayList<XModelObject>();
+					result.add(t);
+				}
+			}
+			
 		}
 		return result == null ? new XModelObject[0]
 		             : result.toArray(new XModelObject[0]);
