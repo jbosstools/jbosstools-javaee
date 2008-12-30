@@ -52,9 +52,9 @@
         <para>Clicking on <emphasis>
                 <property>New...</property>
             </emphasis> button in the <property>Target Runtime</property> section will bring you to
-            another dialog. Here, you can specify a new installed Runtime environment or the other
-            type of runtime appropriate for configuring your project. Let's create a JBoss 4.2
-            Runtime. For that after choosing it click on <emphasis>
+            another dialog. Here, you can specify a new JBoss Server Runtime environment or the
+            other type of runtime appropriate for configuring your project. Let's create one more
+            JBoss 4.2 Runtime. Hence, after choosing it click on <emphasis>
                 <property>Next</property>
             </emphasis> button.</para>
 
@@ -84,21 +84,18 @@
 
         <para> Clicking on <emphasis>
                 <property>Finish</property>
-            </emphasis> returns you to the <link linkend="figure_create_seam1">previous
-            dialog</link>. The next step is to define an installed server that you can do by
-            clicking on <emphasis>
+            </emphasis> returns you to the <link linkend="figure_create_seam1">New Seam Project
+                wizard page</link>. The next step is to define a Server that you can do
+            by clicking on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the <property>Target Server</property> section. In appeared Server
-            Dialog it's possible to select a server version. </para>
+            </emphasis> button in the <property>Target Server</property> section. In appeared <property>New Server
+                dialog</property> the last server which matches the runtime will be selected.</para>
 
-        <para> If the chosen server has already got an installed runtime, there appears a combo box
-            with all declared runtimes under the servers view. Here, you can indicate a server
-            runtime that you need. Use <emphasis>
-                <property>Installed Runtimes...</property>
-            </emphasis> button to see or edit which runtimes are installed. If there is no any
-            declared runtime for chosen server, click on <emphasis>
-                <property>Next</property>
-            </emphasis> to specify it on the next preferences page.</para>
+        <para>All declared runtimes are listed in the combo box
+            under the servers view. Here, you can indicate a server
+            runtime that you need. Click <emphasis>
+                <property>Add</property>
+            </emphasis> if you want to add a new Server Runtime.</para>
 
         <figure>
             <title>Specifying Target Server</title>
@@ -109,8 +106,7 @@
             </mediaobject>
         </figure>
 
-        <para>Next dialog allows you to verify the information for chosen server, set login
-            credentials to authorize an access to the server and specify a directory for deploying.
+        <para>Next page allows you to verify the information for chosen server.
             Leave everything as it is and click on <emphasis>
                 <property>Next</property>
             </emphasis>.</para>
@@ -124,7 +120,7 @@
             </mediaobject>
         </figure>
 
-        <para>On the last wizard step you can modify your project to configure it on server.</para>
+        <para>On the last wizard step you can modify your projects to configure them on the Server.</para>
 
         <figure>
             <title>Project Modification for Configuring on the Server</title>
@@ -139,12 +135,12 @@
         <para>Once you have the Target Server defined click on <emphasis>
                 <property>Finish</property>
             </emphasis> button to return to the first page of the <property>New Seam Project
-            wizard</property>.</para>
+                wizard</property>.</para>
 
         <tip>
             <title>Tip:</title>
             <para>We suggest that you look through our <ulink url="&aslink;">AS manager
-                guide</ulink> to find out more about runtimes and servers.</para>
+                    guide</ulink> to find out more about runtimes and servers.</para>
         </tip>
 
         <figure>
@@ -219,8 +215,8 @@
 
         <para><emphasis>
                 <property>Ok</property>
-            </emphasis> button will bring you to the <property>Web Module</property> wizard
-        form again.</para>
+            </emphasis> button will bring you to the <property>Web Module</property> wizard form
+            again.</para>
     </section>
 
     <section id="configureWebModule">
@@ -252,7 +248,8 @@
             appropriate behaviours associated with JSF. </para>
         <para>Checking <emphasis>
                 <property>Server Supplied JSF Implementation</property>
-            </emphasis> means that you will have a default JSF implementation given by server.</para>
+            </emphasis> means that you will have a default JSF implementation given by
+            server.</para>
 
         <figure>
             <title>Adding JSF Capabilities to Web Project</title>
@@ -269,7 +266,7 @@
             </emphasis> button.</para>
         <para>Here, it's necessary to type a <property>Library Name</property>, select a
                 <property>Version Supported</property> and add proper <property>Library
-            jars</property>. Then click on <emphasis>
+                jars</property>. Then click on <emphasis>
                 <property>Finish</property>
             </emphasis> to complete the choice.</para>
         <figure>
@@ -300,7 +297,7 @@
         </figure>
 
         <para>The last wizard options allows to edit a path for <property>JSF Configuration
-            File</property>, a name for <property>JSF Servlet</property>, <property>JSF Servlet
+                File</property>, a name for <property>JSF Servlet</property>, <property>JSF Servlet
                 Classname</property> and change <property>URL Mapping Patterns</property>.</para>
 
         <figure>
@@ -319,7 +316,8 @@
     <section id="seamFacet">
         <title>Configure Seam Facet Settings</title>
 
-        <para>The last wizard step is related to Seam facet and allows you to do the following:</para>
+        <para>The last wizard step is related to Seam facet and allows you to do the
+            following:</para>
         <figure>
             <title>Seam Facet Settings</title>
             <mediaobject>
