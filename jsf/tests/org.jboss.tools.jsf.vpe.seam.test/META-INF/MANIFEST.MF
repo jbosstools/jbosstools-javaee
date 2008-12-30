@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Seam Test Plug-in
-Bundle-SymbolicName: org.jboss.tools.jsf.vpe.seam.test
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.seam.test;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.jsf.vpe.seam.test.SeamTestPlugin
 Require-Bundle: org.eclipse.ui,
