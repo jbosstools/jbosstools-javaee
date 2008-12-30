@@ -98,9 +98,9 @@ public class JBIDE1713Test extends VpeTest {
 
 		TestUtil.findAllElementsByName(node, elements, HTML.TAG_DIV);
 
-		assertEquals(9, elements.size());
+		assertEquals(10, elements.size());
 
-		nsIDOMElement activeToggle = (nsIDOMElement) elements.get(4)
+		nsIDOMElement activeToggle = (nsIDOMElement) elements.get(5)
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		assertNotNull(activeToggle);
@@ -140,7 +140,7 @@ public class JBIDE1713Test extends VpeTest {
 				activeContentClass);
 
 		// check facet
-		nsIDOMElement disabledToggle = (nsIDOMElement) elements.get(6)
+		nsIDOMElement disabledToggle = (nsIDOMElement) elements.get(7)
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		assertNotNull(contentElement);
@@ -161,7 +161,7 @@ public class JBIDE1713Test extends VpeTest {
 				contentElements, HTML.TAG_IMG);
 		assertEquals(1, contentElements.size());
 
-		disabledToggle = (nsIDOMElement) elements.get(8).queryInterface(
+		disabledToggle = (nsIDOMElement) elements.get(9).queryInterface(
 				nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		assertNotNull(contentElement);
