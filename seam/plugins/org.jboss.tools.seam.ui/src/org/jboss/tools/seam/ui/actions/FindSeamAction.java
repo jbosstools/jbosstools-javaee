@@ -57,12 +57,15 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.handlers.FindSeamHandler;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
 
 /**
  * Base class for Seam Find actions
- *  
+ *
+ * @deprecated This class is subject to remove. Use {@link FindSeamHandler} instead.
+ *
  * @author Jeremy
  */
 abstract public class FindSeamAction extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2, ISelectionListener

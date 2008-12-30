@@ -17,6 +17,8 @@ import org.jboss.tools.seam.ui.search.SeamSearchScope;
 /**
  * Find Seam References action
  * 
+ * @deprecated This class is subject to remove. Use {@link FindSeamReferencesHandler} instead.
+ * 
  * @author Jeremy
  */
 public class FindSeamReferencesAction extends FindSeamAction {

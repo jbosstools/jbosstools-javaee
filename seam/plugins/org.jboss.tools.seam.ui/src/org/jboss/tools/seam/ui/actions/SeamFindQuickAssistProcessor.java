@@ -11,6 +11,7 @@
 
 package org.jboss.tools.seam.ui.actions;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -39,6 +40,8 @@ import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
+import org.jboss.tools.seam.ui.handlers.FindSeamDeclarationsHandler;
+import org.jboss.tools.seam.ui.handlers.FindSeamReferencesHandler;
 
 /**
  * Quick Assist processor. Allows invokation of Find Seam Actions from QuickFix pop-up  
@@ -141,7 +144,11 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 							new Object[] {searchString}),
 					context) {
 				public void apply(IDocument target) {
-					new FindSeamDeclarationsAction().run();
+					try {
+						new FindSeamDeclarationsHandler().execute(null);
+					} catch (ExecutionException e) {
+						SeamGuiPlugin.getPluginLog().logError(e);
+					}
 				}
 			};
 			result[1] = new ExternalActionQuickAssistProposal(
@@ -152,7 +159,11 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 							new Object[] {searchString}),
 					context) {
 				public void apply(IDocument target) {
-					new FindSeamReferencesAction().run();
+					try {
+						new FindSeamReferencesHandler().execute(null);
+					} catch (ExecutionException e) {
+						SeamGuiPlugin.getPluginLog().logError(e);
+					}
 				}
 			};
 		}
