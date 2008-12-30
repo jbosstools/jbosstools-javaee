@@ -53,6 +53,7 @@ import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
@@ -172,15 +173,14 @@ abstract public class FindSeamHandler extends AbstractHandler implements ISelect
 		if (seamProject == null)
 			return null;
 
-//		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, selectionOffset);
+		ELInvocationExpression expression = SeamELCompletionEngine.findExpressionAtOffset(
+				document, selectionOffset, 0, document.getLength()); 
 
-		ELInvocationExpression tokens = null; //TODO
-
-		if (tokens == null)
+		if (expression == null)
 			return null; // No EL Operand found
 
 		try {
-			performNewSearch(tokens, file);
+			performNewSearch(expression, file);
 		} catch (JavaModelException jme) {
 			SeamGuiPlugin.getPluginLog().logError(jme);
 		} catch (InterruptedException ie) {

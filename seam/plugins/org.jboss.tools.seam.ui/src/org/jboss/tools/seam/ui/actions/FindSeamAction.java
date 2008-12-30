@@ -55,6 +55,7 @@ import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.search.SeamSearchQuery;
 import org.jboss.tools.seam.ui.search.SeamSearchScope;
@@ -186,15 +187,14 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 		if (seamProject == null)
 			return;
 
-//		List<ELOperandToken> tokens = SeamELCompletionEngine.findTokensAtOffset(document, selectionOffset);
+		ELInvocationExpression expression = SeamELCompletionEngine.findExpressionAtOffset(
+				document, selectionOffset, 0, document.getLength()); 
 
-		ELInvocationExpression tokens = null; //TODO
-
-		if (tokens == null)
+		if (expression == null)
 			return; // No EL Operand found
 
 		try {
-			performNewSearch(tokens, file);
+			performNewSearch(expression, file);
 		} catch (JavaModelException jme) {
 			SeamGuiPlugin.getPluginLog().logError(jme);
 		} catch (InterruptedException ie) {
@@ -306,8 +306,8 @@ abstract public class FindSeamAction extends Action implements IWorkbenchWindowA
 	 */
 	abstract protected int getLimitTo();
 
-	private void performNewSearch(ELInvocationExpression tokens, IFile sourceFile) throws JavaModelException, InterruptedException {
-		SeamSearchQuery query= createQuery(tokens, sourceFile);
+	private void performNewSearch(ELInvocationExpression expression, IFile sourceFile) throws JavaModelException, InterruptedException {
+		SeamSearchQuery query= createQuery(expression, sourceFile);
 		if (query.canRunInBackground()) {
 			/*
 			 * This indirection with Object as parameter is needed to prevent the loading
