@@ -59,6 +59,10 @@ import org.jboss.tools.seam.ui.search.SeamSearchScope;
 
 abstract public class FindSeamHandler extends AbstractHandler implements ISelectionListener{
 	
+	public FindSeamHandler(){
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addSelectionListener(this);
+	}
+	
 	/**
 	 * 	@Override
 	 */
