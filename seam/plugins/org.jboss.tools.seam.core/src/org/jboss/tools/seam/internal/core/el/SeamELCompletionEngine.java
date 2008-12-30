@@ -71,7 +71,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_MESSAGES_IMAGE_PATH);
 	
 	ISeamProject project;
-	ELParserFactory factory = ELParserUtil.getJbossFactory();
+	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 	/**
 	 * Constructs SeamELCompletionEngine object
 	 */
@@ -886,11 +886,11 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @param end    end of relevant region in document
 	 * @return
 	 */
-	public ELInvocationExpression findExpressionAtOffset(IDocument document, int offset, int start, int end) {
+	public static ELInvocationExpression findExpressionAtOffset(IDocument document, int offset, int start, int end) {
 		return findExpressionAtOffset(document.get(), offset, start, end);
 	}
 
-	public ELInvocationExpression findExpressionAtOffset(String content, int offset, int start, int end) {
+	public static ELInvocationExpression findExpressionAtOffset(String content, int offset, int start, int end) {
 
 		//TODO this naive calculations should be removed; 
 		//	   this method should be called with reasonable start and end. 
