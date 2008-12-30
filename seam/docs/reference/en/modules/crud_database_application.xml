@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="crud_database_application" xreflabel="crud_database_application">
+<chapter id="crud_database_application" xreflabel="crud_database_application" role="updated">
     <?dbhtml filename="crud_database_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -31,7 +31,7 @@
                 <property>CRUD</property> support. </para>
     </section>
 
-    <section>
+    <section role="updated">
         <title>How to create the CRUD Database Application with Seam</title>
 
         <itemizedlist>

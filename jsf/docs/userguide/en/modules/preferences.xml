@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<chapter id="preferences" xreflabel="preferences">
+<chapter id="preferences" xreflabel="preferences" role="updated">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
 
@@ -344,7 +344,7 @@
 
     </section>
 
-    <section id="VisualPageEditor2">
+    <section id="VisualPageEditor2" role="updated">
         <?dbhtml filename="VisualPageEditor.html"?>
         <title>Visual Page Editor</title>
         <para><emphasis>
@@ -459,7 +459,7 @@
                 dialog</link> where you can adjust new settings.</para>
     </section>
 
-    <section id="el_variables">
+    <section id="el_variables" role="updated">
         <?dbhtml filename="el_variables.html"?>
         <title>El Variables</title>
         <para>To specify necessary EL variables globally, i. e. for all projects and resources in
@@ -978,7 +978,7 @@
 
     </section>
 
-    <section id="JBossServerPreferences">
+    <section id="JBossServerPreferences" role="updated">
         <?dbhtml filename="View.html"?>
         <title>Server Preferences</title>
         <para>Preferences for <property>JBoss Server</property> and other servers can be changed on
@@ -1053,7 +1053,7 @@
         </figure>
     </section>
 
-    <section id="XDoclet">
+    <section id="XDoclet" role="updated">
         <?dbhtml filename="XDoclet.html"?>
         <title>XDoclet</title>
         <para>The preferences for XDoclet can be changed if you click <emphasis>
