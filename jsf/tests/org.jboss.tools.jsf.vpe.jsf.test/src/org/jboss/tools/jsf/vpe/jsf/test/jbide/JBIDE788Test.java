@@ -79,7 +79,7 @@ public class JBIDE788Test extends VpeTest {
 		boolean str_exists=false;
 		for (ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();		
-			if(displayString.startsWith("${msg.")) { //$NON-NLS-1$
+			if(displayString.startsWith("msg.")) { //$NON-NLS-1$
 				str_exists=true;
 			} 
 			
@@ -115,7 +115,7 @@ public class JBIDE788Test extends VpeTest {
 		// Tests CA
 		ICompletionProposal[] results =checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",21,58);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
-		assertTrue(results.length>2);
+		assertTrue(results.length>=2);
 		for(ICompletionProposal completionProposal : results) {
 			if(completionProposal instanceof AutoContentAssistantProposal ) {
 				String displayString = ((ICompletionProposal) completionProposal).getDisplayString();

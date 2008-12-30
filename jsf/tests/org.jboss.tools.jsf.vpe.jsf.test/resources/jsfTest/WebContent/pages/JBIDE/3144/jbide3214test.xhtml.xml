@@ -6,14 +6,14 @@
 </COLGROUP>
 <TR CLASS="dr-table-firstrow rich-table-firstrow">
 <TD STYLE="background-color: green;" CLASS="dr-table-cell rich-table-cell">
-<SPAN>
+<SPAN CLASS="vpe-text">
 #{test.color}
 </SPAN>
 </TD>
 </TR>
 </TABLE>
 <DIV CLASS="dr-table-hidden" STYLE="overflow: auto; width: 100px; height: 100px;">
-<TABLE CLASS="dr-table rich-table">
+<TABLE CLASS="dr-table rich-sdt">
 <COLGROUP SPAN="1">
 </COLGROUP>
 <TBODY HEIGHT="100" STYLE="background-color: blue;" WIDTH="100px;">
@@ -50,9 +50,6 @@
 </COLGROUP>
 <TBODY>
 </TBODY>
-<SPAN>
-ssssssssss
-</SPAN>
 </TABLE>
 </DIV>
 	</test>
