@@ -459,67 +459,6 @@
       </perspective>
    </extension>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="Seam Navigation"
-            description="Seam Navigation Action Set"
-            visible="true"
-            id="org.jboss.tools.seam.ui.SeamActionSet">
-         <action
-               class="org.jboss.tools.seam.ui.actions.OpenSeamComponentAction"
-               definitionId="org.jboss.tools.seam.ui.open.component"
-               helpContextId="org.eclipse.jdt.ui.open_type_action"
-               icon="icons/open_seam_component.gif"
-               id="openComponent"
-               label="Open Seam Component"
-               menubarPath="navigate/open.ext2"
-               toolbarPath="org.eclipse.search.searchActionSet/Search"
-               tooltip="Open Seam Component">
-         </action>
-		</actionSet>
-		<actionSet
-			id="org.eclipse.search.seamSearchActionSet"
-	        label="Seam Search"
-			visible="true">
-			<!-- see http://bugs.eclipse.org/bugs/show_bug.cgi?id=15684    -->
-<!-- Note: The menu (re-) definition has to be here due to bug: -->
-<!-- =================================================================== -->
-<!-- Search Menu                                                         -->
-<!-- =================================================================== -->
-         <menu
-               label="%searchMenu.label"
-               path="navigate"
-               id="org.eclipse.search.menu">
-				<groupMarker name="internalDialogGroup"/>   <!-- not to be used by clients  -->
-				<groupMarker name="dialogGroup"/>           <!-- to be used by clients      -->
-         	<separator name="seamSearchMenuActionsGroup"/> <!-- to be used by clients -->
-				<separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
-	         	<separator name="contextMenuActionsGroup"/> <!-- to be used by clients -->
-	         	<separator name="occurencesActionsGroup"/> <!-- to be used by clients -->
-	         	<separator name="extraSearchGroup"/> <!-- to be used by clients -->
-         </menu>
-			
-         <action
-               class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction"
-					definitionId="org.jboss.tools.seam.ui.find.declarations"
-               icon="icons/find_seam_declarations.gif"
-               id="findDeclarations"
-               label="Find Seam Declarations"
-               menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
-               tooltip="Find Seam Declarations">
-         </action>
-         <action
-               class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction"
-					definitionId="org.jboss.tools.seam.ui.find.references"
-               icon="icons/find_seam_references.gif"
-               id="findReferences"
-               label="Find Seam References"
-               menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
-               tooltip="Find Seam References">
-         </action>
-      </actionSet>
-   </extension>
-   <extension
          point="org.eclipse.ui.commands">
       <command
             categoryId="org.eclipse.ui.category.navigate"
@@ -645,6 +584,81 @@
     <action facet="jst.seam" type="version-change">
       	<delegate class="org.jboss.tools.seam.ui.dialog.SeamFacetVersionChangeDelegate"/>
     </action>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+       <menuContribution
+          locationURI="menu:navigate?after=open.ext2">
+            <command
+              commandId="org.jboss.tools.seam.ui.open.component"
+                 id="openComponent"
+              mnemonic="Z"
+     icon="icons/open_seam_component.gif"
+              label="Open Seam Component"
+              tooltip="Open Seam Component" >
+       </command> 
+  </menuContribution>
+  <menuContribution
+                locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+                <toolbar
+                      id="org.eclipse.search.searchActionSet">
+                <command
+                  commandId="org.jboss.tools.seam.ui.open.component"
+                  id="openComponent"
+                  mnemonic="Z"
+      icon="icons/open_seam_component.gif"
+                  label="Open Seam Component"
+                  tooltip="Open Seam Component" >
+           </command> 
+         </toolbar>
+  </menuContribution>
+  <menuContribution
+   locationURI="menu:org.eclipse.ui.main.menu?after=navigate">
+   <menu
+     label="%searchMenu.label"
+     mnemonic="%searchMenu.label"
+     id="org.eclipse.search.menu">
+    <separator name="internalDialogGroup" visible="false"/>   <!-- not to be used by clients  -->
+    <separator name="dialogGroup" visible="false"/>           <!-- to be used by clients      -->
+           <separator name="seamSearchMenuActionsGroup"/> <!-- to be used by clients -->
+           <command
+                  commandId="org.jboss.tools.seam.ui.find.references"
+                  id="findReferences"
+                  mnemonic="G"
+      icon="icons/find_seam_references.gif"
+                  label="Find Seam References"
+                  tooltip="Find Seam References" >
+           </command> 
+           <command
+                  commandId="org.jboss.tools.seam.ui.find.declarations"
+                  id="findDeclarations"
+                  mnemonic="G"
+                  icon="icons/open_seam_component.gif"
+                  label="Find Seam Declarations"
+                  tooltip="Find Seam Declarations" >
+           </command> 
+                  
+    <separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
+           <separator name="contextMenuActionsGroup"/> <!-- to be used by clients -->
+           <separator name="occurencesActionsGroup"/> <!-- to be used by clients -->
+           <separator name="extraSearchGroup"/> <!-- to be used by clients -->
+          </menu>
+  </menuContribution>
+ </extension>
+ <extension
+       point="org.eclipse.ui.handlers">
+    <handler
+          class="org.jboss.tools.seam.ui.handlers.OpenSeamComponentHandler"
+          commandId="org.jboss.tools.seam.ui.open.component">
+    </handler>
+    <handler
+          class="org.jboss.tools.seam.ui.handlers.FindSeamReferencesHandler"
+          commandId="org.jboss.tools.seam.ui.find.references">
+    </handler>
+    <handler
+          class="org.jboss.tools.seam.ui.handlers.FindSeamDeclarationsHandler"
+          commandId="org.jboss.tools.seam.ui.find.declarations">
+    </handler>
  </extension>
  
  
