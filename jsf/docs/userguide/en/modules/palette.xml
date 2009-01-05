@@ -58,7 +58,7 @@
             </imageobject>
         </mediaobject>
     </figure>
-    <para>By default the Palette is represented in Web Development Perspective with four groups. If
+    <para>By default the Palette is represented in Web Development Perspective with five groups. If
         you can&apos;t see it, select <emphasis>
             <property>Window &gt; Show View Other... &gt; JBoss Tools Web &gt; JBoss
                 Tools Palette</property>
@@ -206,7 +206,7 @@
                         editor or the <emphasis>
                             <property>Edit...</property>
                         </emphasis> option, like it was mentioned before. In order to remove the
-                        group, right click on the group that you wish to remove and chose the <emphasis>
+                        group, right click on the group that you wish to remove and choose the <emphasis>
                             <property>Delete</property>
                         </emphasis> option or click the <emphasis>
                             <property>Delete</property>
@@ -316,6 +316,9 @@
                 </listitem>
 
             </itemizedlist>
+            
+            <para>If you have changed any abject in the tree view and you don't like the final result you can always use the <emphasis><property>Restore Defaults</property></emphasis> button. Click on it will restore defaults for the object selected and for its children.  Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.</para>
+            <para>When updating JBoss Tools the palette content is not updated.</para>
         </section>
         <section id="show_hide">
             <?dbhtml filename="Show/Hide.html"?>
