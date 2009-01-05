@@ -317,7 +317,7 @@
 
             </itemizedlist>
             
-            <para>If you have changed any abject in the tree view and you don't like the final result you can always use the <emphasis><property>Restore Defaults</property></emphasis> button. Click on it will restore defaults for the object selected and for its children.  Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.</para>
+            <para>If you have changed any abject in the tree view and you don't like the final result you can always use the <emphasis><property>Restore Defaults</property></emphasis> button. Click on it will restore defaults for the object selected and for its children elements.  Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.</para>
             <para>When updating JBoss Tools the palette content is not updated.</para>
         </section>
         <section id="show_hide">
