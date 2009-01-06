@@ -45,12 +45,9 @@
 </TR>
 </TABLE>
 </DIV>
-<TABLE STYLE="background-color: pink;" CLASS="dr-table rich-table">
-<COLGROUP SPAN="1">
-</COLGROUP>
-<TBODY>
-</TBODY>
-</TABLE>
+<SPAN STYLE="background-color: pink;">
+ssssssssss
+</SPAN>
 </DIV>
 	</test>
 </tests>
