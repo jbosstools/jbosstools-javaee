@@ -26,7 +26,6 @@ Exadel, Inc. and Red Hat, Inc. - initial API and implementation
 
    <url>
       <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable"/>
-      <discovery label="%discoverySiteName" url="http://download.jboss.org/updates/development"/>
    </url>
 
    <plugin

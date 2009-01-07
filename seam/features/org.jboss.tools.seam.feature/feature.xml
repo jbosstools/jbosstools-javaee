@@ -221,7 +221,6 @@ litigation.
 
    <url>
       <update label="JBossTools Update Site" url="http://download.jboss.org/jbosstools/updates/stable"/>
-      <discovery label="JBossTools Development Update Site" url="http://download.jboss.org/updates/development"/>
    </url>
 
    <requires>
