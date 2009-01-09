@@ -34,6 +34,7 @@ public class JsfFacet extends VpeAbstractTemplate {
     private static String JSF_HTML_URI = "http://java.sun.com/jsf/html"; //$NON-NLS-1$
     private static String RICH_FACES_URI = "http://richfaces.org/rich"; //$NON-NLS-1$
     private static String A4J_URI = "http://richfaces.org/a4j"; //$NON-NLS-1$
+    private static String FACELETS_URI = "http://java.sun.com/jsf/facelets"; //$NON-NLS-1$
 
     /*
      * (non-Javadoc)
@@ -67,7 +68,8 @@ public class JsfFacet extends VpeAbstractTemplate {
 			&& (JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri)
 				|| JSF_HTML_URI.equalsIgnoreCase(sourceNodeUri)
 				|| RICH_FACES_URI.equalsIgnoreCase(sourceNodeUri) 
-				|| A4J_URI.equalsIgnoreCase(sourceNodeUri))) {
+				|| A4J_URI.equalsIgnoreCase(sourceNodeUri)
+				|| FACELETS_URI.equalsIgnoreCase(sourceNodeUri))) {
 		    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
 		    childrenInfo.addSourceChild(child);
 		    creationData.addChildrenInfo(childrenInfo);
