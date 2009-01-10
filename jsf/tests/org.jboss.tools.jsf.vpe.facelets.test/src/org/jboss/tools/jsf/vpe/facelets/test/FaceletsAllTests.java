@@ -16,6 +16,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.jsf.vpe.facelets.test.jbide.JBIDE3416Test;
 import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
@@ -27,6 +28,7 @@ public class FaceletsAllTests {
 	// $JUnit-BEGIN$
 
 	suite.addTestSuite(FaceletsComponentTest.class);
+	suite.addTestSuite(JBIDE3416Test.class);
 
 	// $JUnit-END$
 	List<ImportBean> importProjects = new ArrayList<ImportBean>();
