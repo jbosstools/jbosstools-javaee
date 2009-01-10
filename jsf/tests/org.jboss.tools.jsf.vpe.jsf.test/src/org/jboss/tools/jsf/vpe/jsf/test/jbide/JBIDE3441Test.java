@@ -14,7 +14,6 @@ import junit.framework.Assert;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -52,15 +51,12 @@ public class JBIDE3441Test  extends VpeTest {
 
 		VpeController controller1 = openPageInVpe(TEST_PAGE_NAME_1);
 		VpeController controller2 = openPageInVpe(TEST_PAGE_NAME_2);
-		
-		Display display = Display.getCurrent();
+
 		for (int i = 0; i < 20; i++) {
 			controller1.visualRefresh();
 			controller2.visualRefresh();
-			while(display.readAndDispatch());
+			TestUtil.delay(500);
 			TestUtil.waitForJobs();
-			Thread.sleep(500);
-			
 			checkTaggedDivValue(controller1, i);
 			checkTaggedDivValue(controller2, i);	
 		}
