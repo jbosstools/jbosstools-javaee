@@ -57,8 +57,8 @@ public class JBIDE3441Test  extends VpeTest {
 			controller2.visualRefresh();
 			TestUtil.delay(500);
 			TestUtil.waitForJobs();
-			checkTaggedDivValue(controller1, i);
-			checkTaggedDivValue(controller2, i);	
+			checkTaggedDivValue(controller1);
+			checkTaggedDivValue(controller2);	
 		}
 
 		if (getException() != null) {
@@ -66,7 +66,7 @@ public class JBIDE3441Test  extends VpeTest {
 		}
 	}
 
-	private void checkTaggedDivValue(VpeController controller, int i) {
+	private void checkTaggedDivValue(VpeController controller) {
 		nsIDOMElement taggedDiv = controller.getXulRunnerEditor().getDOMDocument().getElementById(TAGGED_DIV_ID);
 		assertNotNull("taggedDiv should be not null", taggedDiv); //$NON-NLS-1$
 		nsIDOMNode innerSpan = taggedDiv.getFirstChild();
