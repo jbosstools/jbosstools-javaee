@@ -1,14 +1,38 @@
 <tests>
 	<test id="panelGroup1">
-		<SPAN>
-			<SPAN> 1</SPAN>
-			<SPAN> 2</SPAN>
+		<SPAN STYLE="-moz-user-modify: read-write;" >
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					1
+				</SPAN>
+			</SPAN>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					2
+				</SPAN>
+			</SPAN>
 		</SPAN>
 	</test>
 	<test id="panelGroup2">
-		<DIV>
-			<SPAN> 3</SPAN>
-			<SPAN> 4</SPAN>
+		<DIV STYLE="-moz-user-modify: read-write;" >
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					3
+				</SPAN>
+			</SPAN>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					4
+				</SPAN>
+			</SPAN>
 		</DIV>
 	</test>
 </tests>

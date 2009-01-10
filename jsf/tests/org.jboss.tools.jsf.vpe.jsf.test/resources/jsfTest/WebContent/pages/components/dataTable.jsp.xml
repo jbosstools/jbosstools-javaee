@@ -1,12 +1,14 @@
 <tests>
 	<test id="dataTable">
-		<TABLE STYLE="-moz-user-modify: read-only;">
+
+		<TABLE STYLE="-moz-user-modify: read-only;" >
 			<TR>
 				<TD>
 					<DIV>
 						<TABLE>
 							<CAPTION>
 								<BR _MOZ_DIRTY="" TYPE="_moz" />
+
 							</CAPTION>
 							<TBODY>
 								<TR>
@@ -16,12 +18,24 @@
 												<TR>
 													<TH>
 														<DIV>
-															<SPAN>Last Name</SPAN>
+															<SPAN CLASS="vpe-text">
+																<SPAN CLASS="vpe-text">
+																</SPAN>
+																<SPAN CLASS="vpe-text">
+																	Last Name
+																</SPAN>
+															</SPAN>
 														</DIV>
 													</TH>
 													<TH>
 														<DIV>
-															<SPAN>First Name</SPAN>
+															<SPAN CLASS="vpe-text">
+																<SPAN CLASS="vpe-text">
+																</SPAN>
+																<SPAN CLASS="vpe-text">
+																	First Name
+																</SPAN>
+															</SPAN>
 														</DIV>
 													</TH>
 												</TR>
@@ -30,12 +44,24 @@
 												<TR>
 													<TD>
 														<DIV>
-															<SPAN>footer</SPAN>
+															<SPAN CLASS="vpe-text">
+																<SPAN CLASS="vpe-text">
+																</SPAN>
+																<SPAN CLASS="vpe-text">
+																	footer
+																</SPAN>
+															</SPAN>
 														</DIV>
 													</TD>
 													<TD>
 														<DIV>
-															<SPAN>footer</SPAN>
+															<SPAN CLASS="vpe-text">
+																<SPAN CLASS="vpe-text">
+																</SPAN>
+																<SPAN CLASS="vpe-text">
+																	footer
+																</SPAN>
+															</SPAN>
 														</DIV>
 													</TD>
 												</TR>
@@ -43,16 +69,30 @@
 											<TBODY>
 												<TR>
 													<TD>
-														<SPAN>Dupont</SPAN>
+														<SPAN CLASS="vpe-text">
+															<SPAN CLASS="vpe-text">
+															</SPAN>
+															<SPAN CLASS="vpe-text">
+																Dupont
+															</SPAN>
+														</SPAN>
 													</TD>
 													<TD>
-														<SPAN>William</SPAN>
+														<SPAN CLASS="vpe-text">
+															<SPAN CLASS="vpe-text">
+															</SPAN>
+															<SPAN CLASS="vpe-text">
+																William
+															</SPAN>
+														</SPAN>
 													</TD>
 												</TR>
 											</TBODY>
 											<COLGROUP>
-												<COL STYLE="-moz-user-modify: read-write;"/>
-												<COL STYLE="-moz-user-modify: read-write;"/>
+												<COL STYLE="-moz-user-modify: read-write;" />
+
+												<COL STYLE="-moz-user-modify: read-write;" />
+
 											</COLGROUP>
 										</TABLE>
 									</TD>

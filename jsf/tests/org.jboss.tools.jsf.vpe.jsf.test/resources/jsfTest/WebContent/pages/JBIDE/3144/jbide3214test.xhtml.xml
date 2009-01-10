@@ -1,53 +1,63 @@
 <tests>
 	<test id="body_test">
-<DIV ID="body_test" STYLE="-moz-user-modify: read-write;">
-<TABLE STYLE="background-color: red;" CLASS="dr-table rich-table">
-<COLGROUP SPAN="1">
-</COLGROUP>
-<TR CLASS="dr-table-firstrow rich-table-firstrow">
-<TD STYLE="background-color: green;" CLASS="dr-table-cell rich-table-cell">
-<SPAN CLASS="vpe-text">
-#{test.color}
-</SPAN>
-</TD>
-</TR>
-</TABLE>
-<DIV CLASS="dr-table-hidden" STYLE="overflow: auto; width: 100px; height: 100px;">
-<TABLE CLASS="dr-table rich-sdt">
-<COLGROUP SPAN="1">
-</COLGROUP>
-<TBODY HEIGHT="100" STYLE="background-color: blue;" WIDTH="100px;">
-</TBODY>
-<TR CLASS="dr-table-firstrow rich-table-firstrow">
-<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell"><BR _MOZ_DIRTY="" TYPE="_moz"/>
 
-</TD>
-</TR>
-<TR CLASS="dr-table-firstrow rich-table-firstrow">
-<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell"><BR _MOZ_DIRTY="" TYPE="_moz"/>
+		<DIV ID="body_test" STYLE="-moz-user-modify: read-write;" >
+			<TABLE STYLE="" CLASS="dr-table rich-table">
+				<COLGROUP SPAN="1">
+				</COLGROUP>
+				<TR CLASS="dr-table-firstrow rich-table-firstrow">
+					<TD STYLE="" CLASS="dr-table-cell rich-table-cell">
+						<SPAN CLASS="vpe-text">
+							#{test.color}
+						</SPAN>
+					</TD>
+				</TR>
+			</TABLE>
+			<DIV CLASS="dr-table-hidden" STYLE="overflow: auto; width: 100px; height: 100px;">
+				<TABLE CLASS="dr-table rich-sdt">
+					<COLGROUP SPAN="1">
+					</COLGROUP>
+					<TBODY HEIGHT="100" STYLE="" WIDTH="100px;">
+					</TBODY>
+					<TR CLASS="dr-table-firstrow rich-table-firstrow">
+						<TD STYLE="" CLASS="dr-table-cell rich-table-cell">
+							<BR _MOZ_DIRTY="" TYPE="_moz" />
 
-</TD>
-</TR>
-<TR CLASS="dr-table-firstrow rich-table-firstrow">
-<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell"><BR _MOZ_DIRTY="" TYPE="_moz"/>
+						</TD>
+					</TR>
+					<TR CLASS="dr-table-firstrow rich-table-firstrow">
+						<TD STYLE="" CLASS="dr-table-cell rich-table-cell">
+							<BR _MOZ_DIRTY="" TYPE="_moz" />
 
-</TD>
-</TR>
-<TR CLASS="dr-table-firstrow rich-table-firstrow">
-<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell"><BR _MOZ_DIRTY="" TYPE="_moz"/>
+						</TD>
+					</TR>
+					<TR CLASS="dr-table-firstrow rich-table-firstrow">
+						<TD STYLE="" CLASS="dr-table-cell rich-table-cell">
+							<BR _MOZ_DIRTY="" TYPE="_moz" />
 
-</TD>
-</TR>
-<TR CLASS="dr-table-firstrow rich-table-firstrow">
-<TD STYLE="background-color: rgb(160, 32, 240);" CLASS="dr-table-cell rich-table-cell"><BR _MOZ_DIRTY="" TYPE="_moz"/>
+						</TD>
+					</TR>
+					<TR CLASS="dr-table-firstrow rich-table-firstrow">
+						<TD STYLE="" CLASS="dr-table-cell rich-table-cell">
+							<BR _MOZ_DIRTY="" TYPE="_moz" />
 
-</TD>
-</TR>
-</TABLE>
-</DIV>
-<SPAN STYLE="background-color: pink;">
-ssssssssss
-</SPAN>
-</DIV>
+						</TD>
+					</TR>
+					<TR CLASS="dr-table-firstrow rich-table-firstrow">
+						<TD STYLE="" CLASS="dr-table-cell rich-table-cell">
+							<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+						</TD>
+					</TR>
+				</TABLE>
+			</DIV>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+				</SPAN>
+				<SPAN CLASS="vpe-text" STYLE="">
+					ssssssssss
+				</SPAN>
+			</SPAN>
+		</DIV>
 	</test>
 </tests>
