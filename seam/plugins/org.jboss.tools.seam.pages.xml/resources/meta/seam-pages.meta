@@ -1961,7 +1961,7 @@
     </Constraint>
     <Editor name="ListString"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="log level" xmlname="logLevel">
+   <XModelAttribute PROPERTIES="category=general" name="log level" xmlname="log-level|logLevel">
     <Constraint loader="%ListEL%">
      <value/>
      <value name="info"/>
