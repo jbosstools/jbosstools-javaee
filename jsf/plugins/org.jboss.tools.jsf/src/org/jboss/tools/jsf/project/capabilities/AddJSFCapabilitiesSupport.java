@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.project.capabilities;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -132,4 +133,24 @@ public class AddJSFCapabilitiesSupport extends SpecialWizardSupport {
     	return count;
     }
 
+    public boolean isActionEnabled(String name) {
+    	if(getStepId() == 0 && FINISH.equals(name)) {
+        	IPerformerItem[] cs = performer.getChildren();
+        	for (int i = 0; i < cs.length; i++) {
+        		if(hasSelected(cs[i])) return true;
+        	}
+    		return false;
+    	}
+    	return super.isActionEnabled(name);
+    }
+
+    boolean hasSelected(IPerformerItem item) {
+    	if(!item.isSelected()) return false;
+    	IPerformerItem[] cs = item.getChildren();
+    	if(cs.length == 0) return true;
+    	for (int i = 0; i < cs.length; i++) {
+    		if(hasSelected(cs[i])) return true;
+    	}
+    	return false;
+    }
 }
