@@ -60,6 +60,7 @@ public class AddCapabilitiesScreenOne extends AbstractSpecialWizardStep {
 			if(w == null || !w.isEnabled()) return;
 			w.setSelected(!w.isSelected());
 			treeViewer.refresh(w);
+			wizard.dataChanged(validator, new Properties());
 		}
 		public boolean isSelected(Object data) {
 			IPerformerItem w = (IPerformerItem)data;
