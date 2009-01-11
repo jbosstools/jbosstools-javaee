@@ -4,6 +4,16 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
+    <xs:element name="hot-deploy-filter">
+        <xs:annotation>
+            <xs:documentation>This filter triggers a scan for hot deployable components and descriptor files on each request. The URL pattern should be set to the same pattern as used by the Faces Servlet. Note that this filter is automatically disabled when Seam debug mode is disabled.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="identity-filter">
         <xs:annotation>
             <xs:documentation>This filter provides integration between Servlet Security and the identity component.</xs:documentation>
@@ -120,6 +130,16 @@ formatted log output if desired, by adding %X{username} to the pattern.</xs:docu
         </xs:complexType>
     </xs:element>    
     
+    <xs:element name="rewrite-filter">
+        <xs:annotation>
+            <xs:documentation>This filter performs URL rewriting.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:rewrite.filter"/>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="components:string"/>
         <xs:attribute name="regex-url-pattern" type="components:string"/>
@@ -153,5 +173,16 @@ formatted log output if desired, by adding %X{username} to the pattern.</xs:docu
     <xs:attributeGroup name="attlist.session">
         <xs:attribute name="invalidate-on-scheme-change" type="components:boolean"/>
     </xs:attributeGroup>   
+    
+    <xs:attributeGroup name="rewrite.filter">
+        <xs:attribute name="view-mapping" type="components:string">
+            <xs:annotation>
+                <xs:documentation>
+                    This is the servlet mapping.  It should be set to the same pattern as used by the
+                    Faces Servlet.  If no value is specified, a pattern of *.seam will be assumed.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
    
 </xs:schema>

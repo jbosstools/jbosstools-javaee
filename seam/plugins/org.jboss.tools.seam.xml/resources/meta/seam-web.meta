@@ -335,6 +335,42 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:hot-deploy-filter" name="SeamWebHotDeployFilter21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="hot deploy filter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.hotDeployFilter" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
+   <XModelAttributeReference
+    attributes="url-pattern,disabled,regex-url-pattern"
+    entity="SeamWebContextFilter20" name="filter"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamWebContextFilter" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="web:identity-filter" name="SeamWebIdentityFilter21">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -556,6 +592,40 @@
    <XModelAttributeReference
     attributes="url-pattern,disabled,regex-url-pattern"
     entity="SeamWebContextFilter20" name="filter"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamWebContextFilter" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:rewrite-filter" name="SeamWebRewriteFilter21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="rewrite filter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.rewriteFilter" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="view-mapping" xmlname="view-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -904,6 +974,8 @@
    <XChildEntity name="SeamWebSession21"/>
    <XChildEntity name="SeamWebIdentityFilter21"/>
    <XChildEntity name="SeamWebWicketFilter21"/>
+   <XChildEntity name="SeamWebHotDeployFilter21"/>
+   <XChildEntity name="SeamWebRewriteFilter21"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -996,6 +1068,21 @@
       <EntityData EntityName="SeamWebWicketFilter21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity Filter..." kind="action" name="AddHotDeployFilter">
+      <EntityData EntityName="SeamWebHotDeployFilter21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="url-pattern" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity Filter..." kind="action" name="AddRewriteFilter">
+      <EntityData EntityName="SeamWebRewriteFilter21">
+       <AttributeData AttributeName="name"/>
       </EntityData>
      </XActionItem>
     </XActionItem>

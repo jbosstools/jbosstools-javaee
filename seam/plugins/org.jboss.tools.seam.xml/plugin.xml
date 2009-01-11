@@ -111,47 +111,85 @@
 
 
 
-
-
          <uri 
             name="http://jboss.com/products/seam/async-2.0.xsd" 
             uri="schemas/async-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/async-2.1.xsd" 
+            uri="schemas/async-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/bpm-2.0.xsd" 
             uri="schemas/bpm-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/bpm-2.1.xsd" 
+            uri="schemas/bpm-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/components-2.0.xsd" 
             uri="schemas/components-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/components-2.1.xsd" 
+            uri="schemas/components-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/core-2.0.xsd" 
             uri="schemas/core-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/core-2.1.xsd" 
+            uri="schemas/core-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/drools-2.0.xsd" 
             uri="schemas/drools-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/drools-2.1.xsd" 
+            uri="schemas/drools-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/framework-2.0.xsd" 
             uri="schemas/framework-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/framework-2.1.xsd" 
+            uri="schemas/framework-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/international-2.0.xsd" 
             uri="schemas/international-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/international-2.1.xsd" 
+            uri="schemas/international-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/jms-2.0.xsd" 
             uri="schemas/jms-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/jms-2.1.xsd" 
+            uri="schemas/jms-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/mail-2.0.xsd" 
             uri="schemas/mail-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/mail-2.1.xsd" 
+            uri="schemas/mail-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/navigation-2.0.xsd" 
             uri="schemas/navigation-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/navigation-2.1.xsd" 
+            uri="schemas/navigation-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/pageflow-2.0.xsd" 
@@ -166,16 +204,32 @@
             uri="schemas/pdf-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/pdf-2.1.xsd" 
+            uri="schemas/pdf-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/persistence-2.0.xsd" 
             uri="schemas/persistence-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/persistence-2.1.xsd" 
+            uri="schemas/persistence-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/remoting-2.0.xsd" 
             uri="schemas/remoting-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/remoting-2.1.xsd" 
+            uri="schemas/remoting-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/security-2.0.xsd" 
             uri="schemas/security-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/security-2.1.xsd" 
+            uri="schemas/security-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/spring-2.0.xsd" 
@@ -194,8 +248,16 @@
             uri="schemas/transaction-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/transaction-2.1.xsd" 
+            uri="schemas/transaction-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/web-2.0.xsd" 
             uri="schemas/web-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/web-2.1.xsd" 
+            uri="schemas/web-2.1.xsd"/>
 
 
       </catalogContribution>
