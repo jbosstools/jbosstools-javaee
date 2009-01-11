@@ -189,7 +189,8 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 			"transition",
 			"uiComponent",
 			"userPrincipal",
-			"validation"
+			"validation",
+			"interfaceTest"
 		};
 	
 	protected Set<String> getJavaStringValidELProposals() {

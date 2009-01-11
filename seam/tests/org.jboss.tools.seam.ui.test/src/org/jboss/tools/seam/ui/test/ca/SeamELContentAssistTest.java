@@ -286,7 +286,8 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 			"transition",
 			"uiComponent",
 			"userPrincipal",
-			"validation"
+			"validation",
+			"interfaceTest"
 			};
 
 	
@@ -419,7 +420,14 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		
 		return regions;
 	}
-	
+
+	/**
+	 *  Test for https://jira.jboss.org/jira/browse/JBIDE-3528
+	 */
+	public void testInterface() {
+		checkProposals("/WebContent/interfaceTest.xhtml", 359, new String[]{"interfaceTest.test.text"}, false);
+	}
+
 	public void testSeamELContentAssist() {
 		openEditor(PAGE_NAME);
 
