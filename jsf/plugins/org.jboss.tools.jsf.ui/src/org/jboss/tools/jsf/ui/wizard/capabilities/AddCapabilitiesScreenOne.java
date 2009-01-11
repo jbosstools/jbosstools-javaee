@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.wizard.capabilities;
 
+import java.util.Properties;
+
 import org.jboss.tools.common.model.ui.wizards.query.list.TreeItemSelectionManager;
 import org.jboss.tools.common.model.ui.wizards.special.AbstractSpecialWizardStep;
 import org.eclipse.jface.viewers.TreeViewer;
