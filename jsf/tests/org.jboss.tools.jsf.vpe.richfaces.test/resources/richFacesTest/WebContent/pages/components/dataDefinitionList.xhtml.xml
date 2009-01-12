@@ -1,111 +1,212 @@
 <tests>
 	<test id="dataDefinitionList">
 
+
 		<DL CLASS="yellow-background">
 			<DT CLASS="headerClass">
 				<DIV>
-					<SPAN>
-						TERM-VISIBLE
+					<SPAN CLASS="vpe-text">
+						<SPAN CLASS="vpe-text">
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							TERM-VISIBLE
 </SPAN>
+					</SPAN>
 				</DIV>
 			</DT>
 			<DD CLASS="columnClass red-text">
-				<SPAN>
-					col1
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col1
 </SPAN>
-				<SPAN>
-					col2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col2
 </SPAN>
-				<SPAN>
-					col3
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col3
 </SPAN>
-				<SPAN>
-					col4
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col4
 </SPAN>
+				</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
 				<DIV>
-					<SPAN>
-						TERM-VISIBLE
+					<SPAN CLASS="vpe-text">
+						<SPAN CLASS="vpe-text">
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							TERM-VISIBLE
 </SPAN>
+					</SPAN>
 				</DIV>
 			</DT>
 			<DD CLASS="columnClass blue-text">
-				<SPAN>
-					col1
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col1
 </SPAN>
-				<SPAN>
-					col2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col2
 </SPAN>
-				<SPAN>
-					col3
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col3
 </SPAN>
-				<SPAN>
-					col4
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col4
 </SPAN>
+				</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
 				<DIV>
-					<SPAN>
-						TERM-VISIBLE
+					<SPAN CLASS="vpe-text">
+						<SPAN CLASS="vpe-text">
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							TERM-VISIBLE
 </SPAN>
+					</SPAN>
 				</DIV>
 			</DT>
 			<DD CLASS="columnClass red-text">
-				<SPAN>
-					col1
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col1
 </SPAN>
-				<SPAN>
-					col2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col2
 </SPAN>
-				<SPAN>
-					col3
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col3
 </SPAN>
-				<SPAN>
-					col4
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col4
 </SPAN>
+				</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
 				<DIV>
-					<SPAN>
-						TERM-VISIBLE
+					<SPAN CLASS="vpe-text">
+						<SPAN CLASS="vpe-text">
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							TERM-VISIBLE
 </SPAN>
+					</SPAN>
 				</DIV>
 			</DT>
 			<DD CLASS="columnClass blue-text">
-				<SPAN>
-					col1
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col1
 </SPAN>
-				<SPAN>
-					col2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col2
 </SPAN>
-				<SPAN>
-					col3
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col3
 </SPAN>
-				<SPAN>
-					col4
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col4
 </SPAN>
+				</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
 				<DIV>
-					<SPAN>
-						TERM-VISIBLE
+					<SPAN CLASS="vpe-text">
+						<SPAN CLASS="vpe-text">
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							TERM-VISIBLE
 </SPAN>
+					</SPAN>
 				</DIV>
 			</DT>
 			<DD CLASS="columnClass red-text">
-				<SPAN>
-					col1
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col1
 </SPAN>
-				<SPAN>
-					col2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col2
 </SPAN>
-				<SPAN>
-					col3
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col3
 </SPAN>
-				<SPAN>
-					col4
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						col4
 </SPAN>
+				</SPAN>
 			</DD>
 		</DL>
 	</test>

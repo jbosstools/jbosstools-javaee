@@ -1,16 +1,65 @@
 <tests>
 	<test id="dataList">
+
 		<UL VAR="data" VALUE="#{bean.dtList}" ROWS="4" ID="dataList"
 			CLASS="dr-list rich-datalist">
 			<LI CLASS="dr-list-item rich-list-item">
-				<SPAN> field1:</SPAN>
-				<SPAN > #{data.field1}</SPAN>
-				<SPAN> field2:</SPAN>
-				<SPAN> #{data.field2}</SPAN>
-				<SPAN> field3:</SPAN>
-				<SPAN> #{data.field3}</SPAN>
-				<SPAN> number:</SPAN>
-				<SPAN> #{data.number}</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						field1:
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						#{data.field1}
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						field2:
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						#{data.field2}
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						field3:
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						#{data.field3}
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						number:
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						#{data.number}
+</SPAN>
+				</SPAN>
 			</LI>
 		</UL>
 	</test>

@@ -2,7 +2,13 @@
 	<test id="toggleControl">
 		<SPAN STYLE="color: blue; text-decoration: underline;"
 			VPE-USER-TOGGLE-ID="">
-			<SPAN> CLOSED </SPAN>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					CLOSED
+				</SPAN>
+			</SPAN>
 		</SPAN>
 	</test>
 </tests>

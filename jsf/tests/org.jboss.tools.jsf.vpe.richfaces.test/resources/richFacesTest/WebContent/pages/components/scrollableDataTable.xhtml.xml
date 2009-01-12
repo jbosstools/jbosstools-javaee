@@ -1,5 +1,6 @@
 <tests>
 	<test id="scrollableDataTable">
+
 		<DIV CLASS="dr-table-hidden" STYLE="overflow: auto; width: 500px; height: 100px;">
 			<TABLE CLASS="dr-table rich-sdt">
 				<COLGROUP SPAN="6">
@@ -8,39 +9,63 @@
 					<TR CLASS="dr-table-subheader dr-sdt-hr">
 						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 							SCOP="col">
-							<SPAN CLASS="headerText">
-								Make
-                        </SPAN>
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<SPAN CLASS="headerText">
+									Make
+</SPAN>
+							</SPAN>
 						</TD>
 						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 							SCOP="col">
-							<SPAN CLASS="headerText">
-								Model
-                        </SPAN>
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<SPAN CLASS="headerText">
+									Model
+</SPAN>
+							</SPAN>
 						</TD>
 						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 							SCOP="col">
-							<SPAN CLASS="headerText">
-								Price
-                        </SPAN>
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<SPAN CLASS="headerText">
+									Price
+</SPAN>
+							</SPAN>
 						</TD>
 						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 							SCOP="col">
-							<SPAN CLASS="headerText">
-								Mileage
-                        </SPAN>
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<SPAN CLASS="headerText">
+									Mileage
+</SPAN>
+							</SPAN>
 						</TD>
 						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 							SCOP="col">
-							<SPAN CLASS="headerText">
-								VIN
-                        </SPAN>
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<SPAN CLASS="headerText">
+									VIN
+</SPAN>
+							</SPAN>
 						</TD>
 						<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 							SCOP="col">
-							<SPAN CLASS="headerText">
-								Stock
-                        </SPAN>
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<SPAN CLASS="headerText">
+									Stock
+</SPAN>
+							</SPAN>
 						</TD>
 					</TR>
 				</THEAD>
@@ -52,162 +77,282 @@
 				</TBODY>
 				<TR CLASS="dr-table-firstrow rich-table-firstrow">
 					<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.make}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.make}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.model}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.model}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.price}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.price}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.mileage}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.mileage}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.vin}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.vin}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.stock}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.stock}
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR CLASS="dr-table-firstrow rich-table-firstrow">
 					<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.make}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.make}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.model}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.model}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.price}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.price}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.mileage}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.mileage}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.vin}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.vin}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.stock}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.stock}
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR CLASS="dr-table-firstrow rich-table-firstrow">
 					<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.make}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.make}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.model}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.model}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.price}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.price}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.mileage}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.mileage}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.vin}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.vin}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.stock}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.stock}
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR CLASS="dr-table-firstrow rich-table-firstrow">
 					<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.make}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.make}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.model}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.model}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.price}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.price}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.mileage}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.mileage}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.vin}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.vin}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.stock}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.stock}
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR CLASS="dr-table-firstrow rich-table-firstrow">
 					<TD ID="make" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.make}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.make}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="model" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.model}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.model}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="price" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.price}
-                    </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.price}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="mileage" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.mileage}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.mileage}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.vin}
-                        </SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.vin}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD ID="stock" CLASS="dr-table-cell rich-table-cell col">
-						<SPAN>
-							#{category.stock}
-                        </SPAN> 
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{category.stock}
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 			</TABLE>

@@ -1,29 +1,227 @@
 <tests>
 	<test id="dataOrderedList">
-		<OL TYPE="A" VALUE="" ROWS="5" CLASS="dr-list rich-orderedlist">
+
+		<OL TYPE="A" ID="dataOrderedList" VALUE="" ROWS="5"
+			CLASS="dr-list rich-orderedlist">
 			<LI CLASS="dr-list-item rich-list-item">
-				<SPAN> row=1 </SPAN>
-				<SPAN> row=2 </SPAN>
-				<SPAN> row=3 </SPAN>
-				<SPAN> row=4 </SPAN>
-				<SPAN> row=5 </SPAN>
-				<SPAN> row=6 </SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=1
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=2
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=3
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=4
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=5
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=6
+</SPAN>
+				</SPAN>
 			</LI>
 			<LI CLASS="dr-list-item rich-list-item">
-				<SPAN> row=1 </SPAN>
-				<SPAN> row=2 </SPAN>
-				<SPAN> row=3 </SPAN>
-				<SPAN> row=4 </SPAN>
-				<SPAN> row=5 </SPAN>
-				<SPAN> row=6 </SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=1
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=2
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=3
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=4
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=5
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=6
+</SPAN>
+				</SPAN>
 			</LI>
 			<LI CLASS="dr-list-item rich-list-item">
-				<SPAN> row=1 </SPAN>
-				<SPAN> row=2 </SPAN>
-				<SPAN> row=3 </SPAN>
-				<SPAN> row=4 </SPAN>
-				<SPAN> row=5 </SPAN>
-				<SPAN> row=6 </SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=1
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=2
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=3
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=4
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=5
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=6
+</SPAN>
+				</SPAN>
+			</LI>
+			<LI CLASS="dr-list-item rich-list-item">
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=1
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=2
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=3
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=4
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=5
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=6
+</SPAN>
+				</SPAN>
+			</LI>
+			<LI CLASS="dr-list-item rich-list-item">
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=1
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=2
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=3
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=4
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=5
+</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						row=6
+</SPAN>
+				</SPAN>
 			</LI>
 		</OL>
 	</test>
