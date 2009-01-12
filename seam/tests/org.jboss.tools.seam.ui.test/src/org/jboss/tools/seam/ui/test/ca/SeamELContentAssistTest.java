@@ -335,12 +335,14 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 	protected Set<String> getFilteredProposals(Set<String> proposals, String filter) {
 		TreeSet<String> fSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		
-		int dotIndex = getDotIndex(filter);
-		for (String proposal : proposals) {
-			if (getValidDotIndex(proposal) <= dotIndex) {
-				proposal = proposal.replace(':', '.');
-				if (proposal.startsWith(filter) ) { 
-					fSet.add(proposal);
+		if (filter != null) {
+			int dotIndex = getDotIndex(filter);
+			for (String proposal : proposals) {
+				if (getValidDotIndex(proposal) <= dotIndex) {
+					proposal = proposal.replace(':', '.');
+					if (proposal.startsWith(filter) ) { 
+						fSet.add(proposal);
+					}
 				}
 			}
 		}
@@ -526,20 +528,11 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 							String clearedFilter = filter;
 							if (filter.startsWith("#{")) {
 								clearedFilter = filter.substring(2);
-							} else if (filter.startsWith("#")) {
-								clearedFilter = filter.substring(1);
 							} else {
-								clearedFilter = "";
+								clearedFilter = null;
 							}
 								
 							Set<String> filteredValidProposals = getFilteredProposals(getPageValidProposals(), clearedFilter);
-							
-							if (filter.indexOf("#") == -1) {
-								filteredValidProposals = renewWithPrefixAndPostfix(filteredValidProposals, "#{", "}");
-							} else if (filter.indexOf("#{") == -1) {
-								filteredValidProposals = renewWithPrefixAndPostfix(filteredValidProposals, "{", /*"}"*/"");
-							}
-
 							
 							ICompletionProposal[] result= null;
 							String errorMessage = null;
