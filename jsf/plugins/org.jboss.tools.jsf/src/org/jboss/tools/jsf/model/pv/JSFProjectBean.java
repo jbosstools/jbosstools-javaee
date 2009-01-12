@@ -118,7 +118,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 			IMethod[] ms = _type.getMethods();
 			if(ms != null) for (int i = 0; i < ms.length; i++) {
 				if(ms[i].isConstructor()) continue;
-				if(!Flags.isPublic(ms[i].getFlags())) continue;				
+				if(!Flags.isPublic(ms[i].getFlags()) && !_type.isInterface()) continue;				
 				String n = ms[i].getElementName();
 				boolean isProperty = false;
 				if((isGetter(ms[i], "get") || isSetter(ms[i])) && n.length() > 3) {
