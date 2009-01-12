@@ -1,5 +1,6 @@
 <tests>
 	<test id="dataGrid">
+
 		<TABLE VALUE="#{bean.dtList}" VAR="data" COLUMNS="2" ELEMENTS="4"
 			ID="dataGrid" CLASS="dr-table rich-table">
 			<COLGROUP SPAN="2">
@@ -7,48 +8,96 @@
 			<TBODY>
 				<TR CLASS="dr-table-row rich-table-row">
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel" >
+						<DIV CLASS="dr-pnl rich-panel">
 							<DIV CLASS="dr-pnl-h rich-panel-header"
 								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN> #{data.number}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.number}
+</SPAN>
+								</SPAN>
 							</DIV>
 							<DIV CLASS="dr-pnl-b rich-panel-body">
-								<SPAN> #{data.field1}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.field1}
+</SPAN>
+								</SPAN>
 							</DIV>
 						</DIV>
 					</TD>
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel" >
+						<DIV CLASS="dr-pnl rich-panel">
 							<DIV CLASS="dr-pnl-h rich-panel-header"
 								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN> #{data.number}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.number}
+</SPAN>
+								</SPAN>
 							</DIV>
 							<DIV CLASS="dr-pnl-b rich-panel-body">
-								<SPAN> #{data.field1}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.field1}
+</SPAN>
+								</SPAN>
 							</DIV>
 						</DIV>
 					</TD>
 				</TR>
 				<TR CLASS="dr-table-row rich-table-row">
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel" >
+						<DIV CLASS="dr-pnl rich-panel">
 							<DIV CLASS="dr-pnl-h rich-panel-header"
 								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN> #{data.number}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.number}
+</SPAN>
+								</SPAN>
 							</DIV>
-							<DIV CLASS="dr-pnl-b rich-panel-body" >
-								<SPAN> #{data.field1}</SPAN>
+							<DIV CLASS="dr-pnl-b rich-panel-body">
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.field1}
+</SPAN>
+								</SPAN>
 							</DIV>
 						</DIV>
 					</TD>
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel" >
+						<DIV CLASS="dr-pnl rich-panel">
 							<DIV CLASS="dr-pnl-h rich-panel-header"
 								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN> #{data.number}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.number}
+</SPAN>
+								</SPAN>
 							</DIV>
-							<DIV CLASS="dr-pnl-b rich-panel-body" >
-								<SPAN> #{data.field1}</SPAN>
+							<DIV CLASS="dr-pnl-b rich-panel-body">
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{data.field1}
+</SPAN>
+								</SPAN>
 							</DIV>
 						</DIV>
 					</TD>

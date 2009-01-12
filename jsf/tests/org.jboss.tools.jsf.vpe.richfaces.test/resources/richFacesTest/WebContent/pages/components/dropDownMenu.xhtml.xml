@@ -1,72 +1,100 @@
 <tests>
-    <test id="dropDownMenu">
-    
-<UL VPE-DDM-MENU-TITLE-UL="" >
-<LI VPE-DDM-MENU-TITLE-LI="" CLASS="rich-ddmenu-label rich-ddmenu-label-unselect" STYLE="" >
-<DIV CLASS="dr-menu-top-div" >
-<SPAN CLASS="rich-label-text-decor" >
-Menu 1
-</SPAN>
-</DIV>
-<UL VPE-DDM-MENU-CHILDREN-UL="" CLASS="rich-menu-list-border rich-menu-list-bg" STYLE="" >
-<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="" >
-<DIV CLASS="dr-menu-item-top-div" >
-<SPAN CLASS="rich-menu-item-icon" >
-<IMG SRC="/.*resources/menuItem/spacer.gif/" />
+	<test id="dropDownMenu">
 
+		<UL VPE-DDM-MENU-TITLE-UL="">
+			<LI VPE-DDM-MENU-TITLE-LI=""
+				CLASS="rich-ddmenu-label rich-ddmenu-label-unselect" STYLE="">
+				<DIV CLASS="dr-menu-top-div">
+					<SPAN CLASS="rich-label-text-decor">
+						Menu 1
 </SPAN>
-<SPAN CLASS="rich-menu-item-label" >
-<SPAN >
-Item 1
-</SPAN>
-</SPAN>
-</DIV>
-</LI>
-<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-group" STYLE="" >
-<DIV CLASS="dr-menu-group-top-div" >
-<SPAN CLASS="rich-menu-item-icon-enabled" >
-<IMG SRC="/.*resources/menuGroup/spacer.gif/" />
+				</DIV>
+				<UL VPE-DDM-MENU-CHILDREN-UL=""
+					CLASS="rich-menu-list-border rich-menu-list-bg" STYLE="">
+					<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="">
+						<DIV CLASS="dr-menu-item-top-div">
+							<SPAN CLASS="rich-menu-item-icon">
+								<IMG
+									SRC="/.*resources/menuItem/spacer.gif/" />
 
+							</SPAN>
+							<SPAN CLASS="rich-menu-item-label">
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										Item 1
 </SPAN>
-<SPAN CLASS="rich-menu-item-label rich-menu-group-label"  >
-Group 2
-</SPAN>
-<SPAN CLASS="rich-menu-item-folder rich-menu-group-folder" STYLE="" >
-<IMG SRC="/.*resources/menuGroup/arrow.gif/"  />
-</SPAN>
-</DIV>
-<UL VPE-DDM-MENU-UL="" CLASS="rich-menu-list-border rich-menu-list-bg" >
-<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="" >
-<DIV CLASS="dr-menu-item-top-div" >
-<SPAN CLASS="rich-menu-item-icon" >
-<IMG SRC="/.*resources/menuItem/spacer.gif/"  />
+								</SPAN>
+							</SPAN>
+						</DIV>
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
 
-</SPAN>
-<SPAN CLASS="rich-menu-item-label" >
-<SPAN>
-Item 2
-</SPAN>
-</SPAN>
-</DIV>
-</LI>
-</UL>
-</LI>
-<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="" >
-<DIV CLASS="dr-menu-item-top-div" >
-<SPAN CLASS="rich-menu-item-icon" >
-<IMG SRC="/.*resources/menuItem/spacer.gif/"  />
+					</LI>
+					<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-group" STYLE="">
+						<DIV CLASS="dr-menu-group-top-div">
+							<SPAN CLASS="rich-menu-item-icon-enabled">
+								<IMG
+									SRC="/.*resources/menuGroup/spacer.gif/" />
 
+							</SPAN>
+							<SPAN CLASS="rich-menu-item-label rich-menu-group-label">
+								Group 2
 </SPAN>
-<SPAN CLASS="rich-menu-item-label" >
-<SPAN>
-Item 3
-</SPAN>
-</SPAN>
-</DIV>
-</LI>
-</UL>
-</LI>
-</UL>
+							<SPAN CLASS="rich-menu-item-folder rich-menu-group-folder"
+								STYLE="">
+								<IMG
+									SRC="/.*resources/menuGroup/arrow.gif/" />
 
-    </test>
+							</SPAN>
+						</DIV>
+						<UL VPE-DDM-MENU-UL="" CLASS="rich-menu-list-border rich-menu-list-bg">
+							<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="">
+								<DIV CLASS="dr-menu-item-top-div">
+									<SPAN CLASS="rich-menu-item-icon">
+										<IMG
+											SRC="/.*resources/menuItem/spacer.gif/" />
+
+									</SPAN>
+									<SPAN CLASS="rich-menu-item-label">
+										<SPAN CLASS="vpe-text">
+											<SPAN CLASS="vpe-text">
+											</SPAN>
+											<SPAN CLASS="vpe-text">
+												Item 2
+</SPAN>
+										</SPAN>
+									</SPAN>
+								</DIV>
+								<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+							</LI>
+						</UL>
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</LI>
+					<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="">
+						<DIV CLASS="dr-menu-item-top-div">
+							<SPAN CLASS="rich-menu-item-icon">
+								<IMG
+									SRC="/.*resources/menuItem/spacer.gif/" />
+
+							</SPAN>
+							<SPAN CLASS="rich-menu-item-label">
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										Item 3
+</SPAN>
+								</SPAN>
+							</SPAN>
+						</DIV>
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
+					</LI>
+				</UL>
+			</LI>
+		</UL>
+	</test>
 </tests>

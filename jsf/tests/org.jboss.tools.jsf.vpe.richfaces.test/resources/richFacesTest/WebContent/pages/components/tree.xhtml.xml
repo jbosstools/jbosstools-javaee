@@ -8,16 +8,26 @@
 						<TR>
 							<TD
 								STYLE="/background-image: url\(.*resources//tree/rightLine.gif\); background-position: center; background-repeat: repeat-y;/">
-								<IMG CLASS="treePictureStyle" SRC="/.*resources/tree/iconCollapsedWithLines.gif/"
+								<IMG CLASS="treePictureStyle"
+									SRC="/.*resources/tree/iconCollapsedWithLines.gif/"
 									RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
+
 							</TD>
 							<TD
 								STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
-								<IMG CLASS="treePictureStyle" SRC="/.*resources/tree/iconNodeWithLines.gif/"
+								<IMG CLASS="treePictureStyle"
+									SRC="/.*resources/tree/iconNodeWithLines.gif/"
 									RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
+
 							</TD>
 							<TD CLASS="treeNodeNameStyle">
-								<SPAN> #{item.name}</SPAN>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
+									<SPAN CLASS="vpe-text">
+										#{item.name}
+</SPAN>
+								</SPAN>
 							</TD>
 						</TR>
 					</TBODY>
@@ -31,16 +41,26 @@
 							<TR>
 								<TD
 									STYLE="/background-image: url\(.*resources//tree/rightLine.gif\); background-position: center; background-repeat: repeat-y;/">
-									<IMG CLASS="treePictureStyle" SRC="/.*resources/tree/iconCollapsedWithLines.gif/"
+									<IMG CLASS="treePictureStyle"
+										SRC="/.*resources/tree/iconCollapsedWithLines.gif/"
 										RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
+
 								</TD>
 								<TD
 									STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
-									<IMG CLASS="treePictureStyle" SRC="/.*resources/tree/iconNodeWithLines.gif/"
+									<IMG CLASS="treePictureStyle"
+										SRC="/.*resources/tree/iconNodeWithLines.gif/"
 										RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
+
 								</TD>
 								<TD CLASS="treeNodeNameStyle">
-									<SPAN> #{item.title}</SPAN>
+									<SPAN CLASS="vpe-text">
+										<SPAN CLASS="vpe-text">
+										</SPAN>
+										<SPAN CLASS="vpe-text">
+											#{item.title}
+</SPAN>
+									</SPAN>
 								</TD>
 							</TR>
 						</TBODY>
@@ -57,13 +77,22 @@
 										<IMG CLASS="treePictureStyle"
 											SRC="/.*resources/tree/iconNotCollapsedWithLines.gif/"
 											RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
+
 									</TD>
 									<TD>
-										<IMG CLASS="treePictureStyle" SRC="/.*resources/tree/iconLeafWithLines.gif/"
+										<IMG CLASS="treePictureStyle"
+											SRC="/.*resources/tree/iconLeafWithLines.gif/"
 											RICHFACESTREENODEPARAM="iconLeaf" />
+
 									</TD>
 									<TD CLASS="treeNodeNameStyle">
-										<SPAN> #{item.title}</SPAN>
+										<SPAN CLASS="vpe-text">
+											<SPAN CLASS="vpe-text">
+											</SPAN>
+											<SPAN CLASS="vpe-text">
+												#{item.title}
+</SPAN>
+										</SPAN>
 									</TD>
 								</TR>
 							</TBODY>

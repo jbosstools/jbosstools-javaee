@@ -1,28 +1,57 @@
 <tests>
 	<test id="dataTable">
+
 		<TABLE WIDTH="700" CELLSPACING="0" CELLPADDING="0" BORDER="0"
-			VAR="row" VALUE="#{bean.dtList}" ROWKEYVAR="rowKey" CLASS="dr-table rich-table">
+			VAR="row" VALUE="#{bean.dtList}" ROWKEYVAR="rowKey" ID="dataTable"
+			CLASS="dr-table rich-table">
 			<COLGROUP SPAN="1">
 			</COLGROUP>
 			<THEAD>
 				<TR CLASS="dr-table-header rich-table-header"
 					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 					<TD ROWSPAN="2" CLASS="dr-table-headercell rich-table-headercell">
-						<IMG WIDTH="1" HEIGHT="1" SRC="/.*resources/spacer/spacer.gif/"/>
+						<IMG WIDTH="1" HEIGHT="1"
+							SRC="/.*resources/spacer/spacer.gif/"
+							CLASS="rich-spacer" />
+
 					</TD>
 					<TD COLSPAN="3" CLASS="dr-table-headercell rich-table-headercell">
-						<SPAN> FIELDS</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								FIELDS
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR CLASS="dr-table-header-continue rich-table-header-continue">
 					<TD BREAKBEFORE="true" CLASS="dr-table-headercell rich-table-headercell">
-						<SPAN> field1</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								field1
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-headercell rich-table-headercell">
-						<SPAN> field2</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								field2
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-headercell rich-table-headercell">
-						<SPAN> field3</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								field3
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 			</THEAD>
@@ -30,31 +59,74 @@
 				<TR CLASS="dr-table-footer rich-table-footer">
 					<TD CLASS="dr-table-footercell rich-table-footercell">
 						<BR _MOZ_DIRTY="" TYPE="_moz" />
+
 					</TD>
 					<TD CLASS="dr-table-footercell rich-table-footercell">
-						<SPAN> footer1</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								footer1
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-footercell rich-table-footercell">
-						<SPAN> footer2</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								footer2
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-footercell rich-table-footercell">
-						<SPAN> footer3</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								footer3
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 			</TFOOT>
 			<TBODY>
 				<TR CLASS="dr-subtable-cell rich-subtable-cell">
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<SPAN> #{rowKey}</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{rowKey}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<SPAN> #{row.field1}</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{row.field1}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<SPAN> #{row.field2}</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{row.field2}
+</SPAN>
+						</SPAN>
 					</TD>
 					<TD CLASS="dr-table-cell rich-table-cell">
-						<SPAN> #{row.field3}</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{row.field3}
+</SPAN>
+						</SPAN>
 					</TD>
 				</TR>
 			</TBODY>

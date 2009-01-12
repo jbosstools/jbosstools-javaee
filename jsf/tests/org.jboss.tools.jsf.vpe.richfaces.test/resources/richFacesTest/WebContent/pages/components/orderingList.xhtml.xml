@@ -1,5 +1,6 @@
 <tests>
 	<test id="orderingList">
+
 		<TABLE WIDTH="300" HEIGHT="200" CLASS="rich-ordering-list-body">
 			<TR>
 				<TD>
@@ -19,21 +20,45 @@
 													<TD
 														BACKGROUND="/.*resources/orderingList/table_header_cell_bg.gif/"
 														CLASS="rich-ordering-list-table-header-cell" SCOP="col">
-														<SPAN> Song Name</SPAN>
+														<SPAN CLASS="vpe-text">
+															<SPAN CLASS="vpe-text">
+															</SPAN>
+															<SPAN CLASS="vpe-text">
+																Song Name
+</SPAN>
+														</SPAN>
 													</TD>
 													<TD
 														BACKGROUND="/.*resources/orderingList/table_header_cell_bg.gif/"
 														CLASS="rich-ordering-list-table-header-cell" SCOP="col">
-														<SPAN> Artist Name</SPAN>
+														<SPAN CLASS="vpe-text">
+															<SPAN CLASS="vpe-text">
+															</SPAN>
+															<SPAN CLASS="vpe-text">
+																Artist Name
+</SPAN>
+														</SPAN>
 													</TD>
 												</TR>
 											</THEAD>
 											<TR CLASS="rich-ordering-list-row">
 												<TD WIDTH="180" CLASS="dr-table-cell rich-table-cell">
-													<SPAN> You must be evil</SPAN>
+													<SPAN CLASS="vpe-text">
+														<SPAN CLASS="vpe-text">
+														</SPAN>
+														<SPAN CLASS="vpe-text">
+															You must be evil
+</SPAN>
+													</SPAN>
 												</TD>
 												<TD CLASS="dr-table-cell rich-table-cell">
-													<SPAN> Chris Rea</SPAN>
+													<SPAN CLASS="vpe-text">
+														<SPAN CLASS="vpe-text">
+														</SPAN>
+														<SPAN CLASS="vpe-text">
+															Chris Rea
+</SPAN>
+													</SPAN>
 												</TD>
 											</TR>
 										</TABLE>
@@ -42,14 +67,16 @@
 								<TD>
 									<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
 									</DIV>
-									<BR _MOZ_DIRTY="" TYPE="_moz"/>
+									<BR _MOZ_DIRTY="" TYPE="_moz" />
+
 								</TD>
 							</TR>
 							<TR>
 								<TD>
 									<DIV STYLE="overflow: scroll; width: 100%; height: 17px;">
 									</DIV>
-									<BR _MOZ_DIRTY="" TYPE="_moz"/>
+									<BR _MOZ_DIRTY="" TYPE="_moz" />
+
 								</TD>
 							</TR>
 						</TABLE>
@@ -63,7 +90,8 @@
 								<A CLASS="rich-ordering-list-button-selection">
 									<DIV CLASS="rich-ordering-list-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/orderingList/top.gif/"/>First
+											SRC="/.*resources/orderingList/top.gif/"/>
+										First
 									</DIV>
 								</A>
 							</DIV>
@@ -74,7 +102,8 @@
 								<A CLASS="rich-ordering-list-button-selection">
 									<DIV CLASS="rich-ordering-list-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/orderingList/up.gif/"/>Up
+											SRC="/.*resources/orderingList/up.gif/"/>
+										Up
 									</DIV>
 								</A>
 							</DIV>
@@ -85,7 +114,8 @@
 								<A CLASS="rich-ordering-list-button-selection">
 									<DIV CLASS="rich-ordering-list-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/orderingList/down.gif/"/>Down
+											SRC="/.*resources/orderingList/down.gif/"/>
+										Down
 									</DIV>
 								</A>
 							</DIV>
@@ -96,7 +126,8 @@
 								<A CLASS="rich-ordering-list-button-selection">
 									<DIV CLASS="rich-ordering-list-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/orderingList/bottom.gif/"/>Last
+											SRC="/.*resources/orderingList/bottom.gif/"/>
+										Last
 									</DIV>
 								</A>
 							</DIV>
