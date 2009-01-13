@@ -55,7 +55,7 @@ public class JBIDE1479Test extends VpeTest {
 
 		
 		JSPMultiPageEditor  part = openEditor(input);
-		TestUtil.waitForIdle();
+		TestUtil.waitForIdle(120*1000);
 		assertNotNull(part);
 		
 		Job job = new WorkspaceJob("Test JBIDE-1479"){ //$NON-NLS-1$
