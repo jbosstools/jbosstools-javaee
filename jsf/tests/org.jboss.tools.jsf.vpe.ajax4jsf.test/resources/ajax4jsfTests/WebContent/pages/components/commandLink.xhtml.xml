@@ -1,11 +1,14 @@
 <tests>
 	<test id="commandLink1">
-		<A DIR="" STYLE="-moz-user-modify: read-write;">
-			<SPAN>Say Hello</SPAN>
+		<A STYLE="-moz-user-modify: read-write;">
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text"></SPAN>
+				<SPAN CLASS="vpe-text">Say Hello</SPAN>
+			</SPAN>
 		</A>
 	</test>
 	<test id="commandLink2">
-		<A DIR="" STYLE="-moz-user-modify: read-write;">
+		<A STYLE="-moz-user-modify: read-write;">
 			<SPAN>Link</SPAN>
 		</A>
 	</test>
