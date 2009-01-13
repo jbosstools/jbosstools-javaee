@@ -9,8 +9,9 @@
 <f:view>
 	<h1><h:outputText value="inputText" /></h1>
 
-	<h:inputText id="inputText" value="inputText"/>
+	<h:inputText id="inputText1" value="inputText"/>
 	
+	<h:inputText id="inputText2" value="Test verbtim for h:inputSecret ">h:inputText</h:inputText>
 </f:view>
 </body>
 </html>

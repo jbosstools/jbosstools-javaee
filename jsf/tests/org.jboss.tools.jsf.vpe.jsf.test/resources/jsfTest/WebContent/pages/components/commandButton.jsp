@@ -21,6 +21,10 @@
 
 		<h:commandButton value="commandButton5" id="commandButton5" image="" />
 
+		<h:commandButton value="Fight"  id="commandButton6"><p>h:commandButton</p></h:commandButton>
+		
+		<h:commandButton value="commandButton7" id="commandButton7" type="button" disabled="true"/>
+		
 	</h:form>
 </f:view>
 </body>

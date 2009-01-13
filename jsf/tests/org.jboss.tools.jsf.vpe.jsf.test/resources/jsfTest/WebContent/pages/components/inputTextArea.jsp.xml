@@ -1,5 +1,27 @@
 <tests>
-	<test id="inputTextArea">
-		<TEXTAREA> inputTextArea </TEXTAREA>
+	<test id="inputTextArea1">
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<SPAN CLASS="vpe-text">
+				<TEXTAREA>
+					inputTextArea
+				</TEXTAREA>
+			</SPAN>
+		</SPAN>
+	</test>
+	<test id="inputTextArea2">
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					h:inputTextarea
+				</SPAN>
+			</SPAN>
+			<SPAN CLASS="vpe-text">
+				<TEXTAREA>
+					Test text for h:inputTextarea
+				</TEXTAREA>
+			</SPAN>
+		</SPAN>
 	</test>
 </tests>
