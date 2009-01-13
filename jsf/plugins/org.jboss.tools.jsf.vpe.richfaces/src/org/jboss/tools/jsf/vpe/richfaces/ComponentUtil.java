@@ -295,7 +295,7 @@ public class ComponentUtil {
 
 		return Constants.FILE_PREFIX
 				+ FileUtil.getFile(resolvedValue, file).getLocation()
-						.toOSString();
+						.toPortableString();
 	}
 
     /**
