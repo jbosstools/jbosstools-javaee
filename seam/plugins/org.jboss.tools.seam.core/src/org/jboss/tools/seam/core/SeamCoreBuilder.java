@@ -160,4 +160,9 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		return new LibraryScanner();
 	}
 
+	protected void clean(IProgressMonitor monitor) throws CoreException {
+		SeamProject sp = getSeamProject();
+		if(sp != null) sp.clean();
+	}
+
 }

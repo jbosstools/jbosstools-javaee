@@ -406,6 +406,22 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 
 	}
+
+	public void clean() {
+		File file = getStorageFile();
+		if(file != null && file.isFile()) {
+			file.delete();
+		}
+		classPath.clean();
+		postponeFiring();
+		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
+		for (int i = 0; i < ps.length; i++) {
+			pathRemoved(ps[i]);
+		}
+		packages.clear();
+		createScopes();
+		fireChanges();
+	}
 	
 	public long fullBuildTime;
 	public List<Long> statistics;

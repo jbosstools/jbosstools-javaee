@@ -31,7 +31,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemsLoader;
-import org.jboss.tools.common.model.filesystems.impl.JarSystemImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -49,7 +48,6 @@ import org.jboss.tools.seam.internal.core.scanner.ScannerException;
 public class ClassPath {
 	SeamProject project;
 	XModel model = null;
-	ClassLoader classLoader = null;
 	
 	List<String> paths = null;
 	Map<IPath, String> paths2 = new HashMap<IPath, String>();
@@ -147,8 +145,6 @@ public class ClassPath {
 				o.removeFromParent();
 			}			
 		}
-		
-		classLoader = null;
 		
 		return true;
 	}
@@ -258,6 +254,12 @@ public class ClassPath {
 	
 	public boolean hasPath(IPath path) {
 		return paths2.get(path) != null;
+	}
+
+	public void clean() {
+		paths = null;
+		if(paths2 != null) paths2.clear();
+		processedPaths.clear();
 	}
 
 }
