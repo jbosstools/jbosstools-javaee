@@ -62,11 +62,24 @@
 								<TBODY>
 									<TR VALIGN="middle">
 										<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="">
-											<INPUT CLASS="barsearch" />
+											<SPAN CLASS="vpe-text">
+												<SPAN CLASS="vpe-text">
+												</SPAN>
+												<SPAN CLASS="vpe-text">
+													<INPUT CLASS="barsearch" />
+
+												</SPAN>
+											</SPAN>
 										</TD>
 										<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="">
-											<INPUT TYPE="button" CLASS="barsearchbutton" VALUE="Search"
-												STYLE="-moz-user-modify: read-only;" />
+											<SPAN CLASS="vpe-text">
+												<SPAN CLASS="vpe-text">
+													<INPUT TYPE="button" VALUE="Search" />
+
+												</SPAN>
+												<SPAN CLASS="vpe-text">
+												</SPAN>
+											</SPAN>
 										</TD>
 									</TR>
 								</TBODY>
