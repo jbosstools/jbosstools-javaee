@@ -114,14 +114,14 @@
          point="org.eclipse.ui.views">
       <category
             id="org.jboss.tools.seam.ui"
-            name="Seam">
+            name="%ViewCategory_Seam">
       </category>
       <view
             category="org.jboss.tools.seam.ui"
             class="org.eclipse.ui.navigator.CommonNavigator"
             icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.views.SeamComponentsNavigator"
-            name="Seam Components">
+            name="%ViewName_SeamComponents">
       </view>
    </extension>
    <extension
@@ -415,20 +415,20 @@
          category="org.jboss.tools.common.model.ui.seam" 
          class="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage" 
          id="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage" 
-         name="Validator">
+         name="%PreferencePage_Validator">
       </page>
       <page
             category="org.jboss.tools.common.model.ui"
             class="org.jboss.tools.seam.ui.preferences.SeamPreferencePage"
             id="org.jboss.tools.common.model.ui.seam"
-            name="Seam">
+            name="%PreferencePage_Seam">
       </page>
    </extension>
 
    <extension
          point="org.eclipse.ui.propertyPages">
       <page
-            name="Seam Validator"
+            name="%PreferencePage_SeamValidator"
             class="org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage"
             id="org.jboss.tools.seam.ui.propertyPages.SeamValidatorPreferencePage">
          <enabledWhen>
@@ -439,7 +439,7 @@
       </page>
 
       <page
-            name="Seam Settings"
+            name="%PreferencePage_SeamSettings"
             class="org.jboss.tools.seam.ui.preferences.SeamSettingsPreferencePage"
             id="org.jboss.tools.seam.ui.propertyPages.SeamSettingsPreferencePage">
          <enabledWhen>
@@ -455,7 +455,7 @@
             class="org.jboss.tools.seam.ui.SeamPerspectiveFactory"
             icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.SeamPerspective"
-            name="Seam">
+            name="%perspective.name">
       </perspective>
    </extension>
    <extension

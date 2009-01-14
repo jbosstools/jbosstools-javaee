@@ -3,21 +3,33 @@
 <plugin>
 
    <extension point="org.eclipse.ui.preferencePages">
-      <page category="org.jboss.tools.common.model.ui" class="org.jboss.tools.jsf.ui.preferences.JSFStudioPreferencesPage" id="org.jboss.tools.jsf.ui" name="JSF">
+      <page category="org.jboss.tools.common.model.ui" 
+            class="org.jboss.tools.jsf.ui.preferences.JSFStudioPreferencesPage" 
+            id="org.jboss.tools.jsf.ui" 
+            name="%PreferencePage_JSF">
       </page>
-      <page category="org.jboss.tools.jsf.ui" class="org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage" id="org.jboss.tools.jsf.ui.project" name="Project">
+      <page category="org.jboss.tools.jsf.ui" 
+            class="org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage" 
+            id="org.jboss.tools.jsf.ui.project" 
+            name="%PreferencePage_Project">
       </page>
-      <page category="org.jboss.tools.jsf.ui" class="org.jboss.tools.jsf.ui.preferences.JSFImplementationsPreferencesPage" id="org.jboss.tools.jsf.ui.jsfimplementations" name="JSF Environment"/>
-      <page category="org.jboss.tools.jsf.ui" class="org.jboss.tools.jsf.ui.preferences.JSFPagesPreferencesPage" id="org.jboss.tools.jsf.ui.jsfpages" name="JSF Pages"/>
+      <page category="org.jboss.tools.jsf.ui" 
+            class="org.jboss.tools.jsf.ui.preferences.JSFImplementationsPreferencesPage" 
+            id="org.jboss.tools.jsf.ui.jsfimplementations" 
+            name="%PreferencePage_JSFImplementations"/>
+      <page category="org.jboss.tools.jsf.ui" 
+            class="org.jboss.tools.jsf.ui.preferences.JSFPagesPreferencesPage" 
+            id="org.jboss.tools.jsf.ui.jsfpages" 
+            name="%PreferencePage_JSFPages"/>
       <page category="org.jboss.tools.common.model.ui" 
             class="org.jboss.tools.jsf.ui.preferences.JSFCapabilitiesPreferencesPage" 
             id="org.jboss.tools.jsf.ui.capabilities" 
-            name="Custom Capabilities"/>
+            name="%PreferencePage_CustomCapabilities"/>
       <page
             category="org.jboss.tools.common.xstudio.editors"
             class="org.jboss.tools.jsf.ui.preferences.JSFFlowTabbedPreferencesPage"
             id="org.jboss.tools.jsf.ui.jsfflowdiagram"
-            name="JSF Flow Diagram"/>
+            name="%PreferencePage_JSFFlowTabbed"/>
    </extension>
    
    
@@ -62,10 +74,12 @@
    </extension>
    <extension point="org.eclipse.ui.newWizards">
       <category
-            name="JBoss Tools"
+            name="%NewWizardCat_JBossTools"
             id="org.jboss.ide.eclipse.ui.wizards">
       </category>
-      <category id="org.jboss.tools.jsf" name="JSF" parentCategory="org.jboss.tools.jst.web">
+      <category id="org.jboss.tools.jsf" 
+            name="%NewWizardCat_JSF" 
+            parentCategory="org.jboss.tools.jst.web">
       </category>
       <wizard
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
@@ -73,10 +87,10 @@
             finalPerspective="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
             icon="images/xstudio/wizards/jsf-config.gif"
             id="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
-            name="Faces Config"
+            name="%NewWizard_FacesConfig"
             project="false">
          <description>
-            	Create a Faces Config
+            	%NewWizardDescription_FacesConfig
          </description>
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
@@ -91,7 +105,7 @@
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="true">
          <description>
-            	Create a JSF Project
+            	%NewWizardDescription_JSFProject
          </description>
       </wizard>
 
@@ -99,7 +113,7 @@
    <extension point="org.eclipse.ui.importWizards">
       <category 
             id="org.jboss.tools.jsf" 
-            name="JSF" 
+            name="%ImportWizardCat_JSF" 
             parentCategory="org.jboss.tools.jst.web">
       </category>
       <wizard 
@@ -108,7 +122,7 @@
             icon="images/xstudio/wizards/import_jsf_project.gif" 
             id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
             name="%importProjectWizard.name">
-         <description>Create a new Project from a JSF project in the file system. This does not copy the project to the workspace.</description>
+         <description>%ImportWizardDescription_JSFProject</description>
       </wizard>
       <wizard 
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
@@ -116,7 +130,7 @@
             icon="images/xstudio/wizards/import_jsf_project.gif" 
             id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
             name="%importJSFWarWizard.name">
-         <description>Create a new Project from a JSF project in a WAR file. The content of WAR file will be copied to the workspace.</description>
+         <description>%ImportWizardDescription_JSFWar</description>
       </wizard>
    </extension>
    <extension point="org.eclipse.ui.popupMenus">

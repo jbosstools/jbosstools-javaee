@@ -31,7 +31,7 @@
       </xmlEditor-->
    </extension>
    <extension point="org.eclipse.ui.newWizards">
-      <category id="org.jboss.tools.struts" name="Struts" parentCategory="org.jboss.tools.jst.web">
+      <category id="org.jboss.tools.struts" name="%NewWizardCat_Struts" parentCategory="org.jboss.tools.jst.web">
       </category>
       <wizard
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
@@ -94,7 +94,7 @@
    <extension point="org.eclipse.ui.importWizards">
       <category 
             id="org.jboss.tools.struts" 
-            name="Struts" 
+            name="%ImportWizardCat_Struts" 
             parentCategory="org.jboss.tools.jst.web">
       </category>
       <wizard 
@@ -127,21 +127,30 @@
       </attributeAdapter>
    </extension>
    <extension point="org.eclipse.ui.preferencePages">
-      <page category="org.jboss.tools.common.model.ui" class="org.jboss.tools.struts.ui.preferences.StrutsStudioPreferencesPage" id="org.jboss.tools.common.xstudio" name="Struts">
+      <page category="org.jboss.tools.common.model.ui" class="org.jboss.tools.struts.ui.preferences.StrutsStudioPreferencesPage" id="org.jboss.tools.common.xstudio" 
+            name="%PreferencePage_Struts">
       </page>
-      <page category="org.jboss.tools.common.xstudio.project" class="org.jboss.tools.struts.ui.preferences.StrutsSupportPreferencesPage" id="org.jboss.tools.common.xstudio.project.strutssupport" name="Struts Support">
+      <page category="org.jboss.tools.common.xstudio.project" class="org.jboss.tools.struts.ui.preferences.StrutsSupportPreferencesPage" id="org.jboss.tools.common.xstudio.project.strutssupport" 
+            name="%PreferencePage_StrutsSupport">
       </page>
-      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.StrutsImplementationsPreferencesPage" id="org.jboss.tools.struts.ui.environments" name="Struts Environment"/>
-      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.StrutsPagesPreferencesPage" id="org.jboss.tools.jsf.ui.jsfpages" name="Struts Pages"/>
-      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.ProjectPreferencesPage" id="org.jboss.tools.common.xstudio.project" name="Project">
+      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.StrutsImplementationsPreferencesPage" id="org.jboss.tools.struts.ui.environments" 
+            name="%PreferencePage_StrutsEnvironment"/>
+      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.StrutsPagesPreferencesPage" id="org.jboss.tools.jsf.ui.jsfpages" 
+            name="%PreferencePage_StrutsPages"/>
+      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.ProjectPreferencesPage" id="org.jboss.tools.common.xstudio.project" 
+            name="%PreferencePage_Project">
       </page>
-      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.AutomationPreferencePage" id="org.jboss.tools.common.xstudio.automation" name="Automation">
+      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.AutomationPreferencePage" id="org.jboss.tools.common.xstudio.automation" 
+            name="%PreferencePage_Automation">
       </page>
-      <page category="org.jboss.tools.common.xstudio.automation" class="org.jboss.tools.struts.ui.preferences.RsourceInsetsPreferencesPage" id="org.jboss.tools.common.xstudio.automation.resource.insets" name="Resource Insets">
+      <page category="org.jboss.tools.common.xstudio.automation" class="org.jboss.tools.struts.ui.preferences.RsourceInsetsPreferencesPage" id="org.jboss.tools.common.xstudio.automation.resource.insets" 
+            name="%PreferencePage_ResourceInsets">
       </page>
-      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.CustomizationPreferencePage" id="org.jboss.tools.common.xstudio.customization" name="Customization">
+      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.CustomizationPreferencePage" id="org.jboss.tools.common.xstudio.customization" 
+            name="%PreferencePage_Customization">
       </page>
-      <page category="org.jboss.tools.common.xstudio.editors" class="org.jboss.tools.struts.ui.preferences.WebFlowTabbedPreferencesPage" id="org.jboss.tools.common.xstudio.editors.webflowdiagram" name="Struts Flow Diagram">
+      <page category="org.jboss.tools.common.xstudio.editors" class="org.jboss.tools.struts.ui.preferences.WebFlowTabbedPreferencesPage" id="org.jboss.tools.common.xstudio.editors.webflowdiagram" 
+            name="%PreferencePage_WebFlow">
       </page>
    </extension>
    <!--extension point="org.eclipse.ui.perspectives">
@@ -265,7 +274,8 @@
    
 
    <extension point="org.eclipse.ui.preferencePages">
-      <page category="org.jboss.tools.common.xstudio.automation" class="org.jboss.tools.struts.ui.preferences.PluginInsetsPreferencesPage" id="org.jboss.tools.common.xstudio.automation.plugin.insets" name="Plug-in Insets">
+      <page category="org.jboss.tools.common.xstudio.automation" class="org.jboss.tools.struts.ui.preferences.PluginInsetsPreferencesPage" id="org.jboss.tools.common.xstudio.automation.plugin.insets" 
+            name="%PreferencePage_PluginInsets">
       </page>
    </extension>
 

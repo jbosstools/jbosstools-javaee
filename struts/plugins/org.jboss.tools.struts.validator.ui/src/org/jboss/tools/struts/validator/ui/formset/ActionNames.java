@@ -11,11 +11,12 @@
 package org.jboss.tools.struts.validator.ui.formset;
 
 import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
+import org.jboss.tools.struts.validator.ui.Messages;
 
 public interface ActionNames {
 	public String ADD = XChildrenEditor.ADD;
 	public String EDIT = XChildrenEditor.EDIT;
-	public String OVERWRITE = "Override";
+	public String OVERWRITE = Messages.ActionNames_Overwrite;
 	public String DELETE = XChildrenEditor.DELETE;
-	public String DEFAULT = "Default";
+	public String DEFAULT = Messages.ActionNames_Default;
 }

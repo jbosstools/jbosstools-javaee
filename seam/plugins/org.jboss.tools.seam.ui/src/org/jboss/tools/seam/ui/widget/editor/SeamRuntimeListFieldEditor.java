@@ -418,9 +418,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	public static class SeamRuntimeWizardPage extends WizardPage implements
 			PropertyChangeListener {
 
-		private static final String SRT_NAME = "name";
-		private static final String SRT_HOMEDIR = "homeDir";
-		private static final String SRT_VERSION = "version";
+		private static final String SRT_NAME = "name"; //$NON-NLS-1$
+		private static final String SRT_HOMEDIR = "homeDir"; //$NON-NLS-1$
+		private static final String SRT_VERSION = "version"; //$NON-NLS-1$
 
 		private static final int GL_PARENT_COLUMNS = 1;
 		private static final int GL_CONTENT_COLUMNS = 3;
@@ -548,11 +548,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		 *            PropertyChangeEvent describes changes in wizard
 		 */
 		public void propertyChange(java.beans.PropertyChangeEvent evt) {
-			if ("homeDir".equals(evt.getPropertyName())) {
+			if ("homeDir".equals(evt.getPropertyName())) { //$NON-NLS-1$
 				if (name.getValueAsString() == null
-						|| "".equals(name.getValueAsString().trim())) {
+						|| "".equals(name.getValueAsString().trim())) { //$NON-NLS-1$
 					String homeDirName = homeDir.getValueAsString();
-					if (homeDirName != null && !"".equals(homeDirName.trim())) {
+					if (homeDirName != null && !"".equals(homeDirName.trim())) { //$NON-NLS-1$
 						File folder = new File(homeDirName);
 						homeDirName = folder.getName();
 					}
@@ -567,7 +567,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					}
 					if (seamVersion != null && validSeamVersions != null) {
 						for (SeamVersion ver : validSeamVersions) {
-							if (seamVersion.matches(ver.toString().substring(0,1)+ ".*")) {
+							if (seamVersion.matches(ver.toString().substring(0,1)+ ".*")) { //$NON-NLS-1$
 								version.setValue(ver.toString());
 								break;
 							}
@@ -632,8 +632,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				return;
 			} else if (!seamVersion.matches(version.getValueAsString().replace(
 					".", "\\.") + ".*")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				if(seamVersion.matches(version.getValueAsString().substring(0,1)+".*")) {
-					if(!seamVersion.matches(version.getValueAsString().substring(0,1)+"\\.1\\..*"))  {
+				if(seamVersion.matches(version.getValueAsString().substring(0,1)+".*")) { //$NON-NLS-1$
+					if(!seamVersion.matches(version.getValueAsString().substring(0,1)+"\\.1\\..*"))  { //$NON-NLS-1$
 						setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
 							+ seamVersion + "'", IMessageProvider.WARNING); //$NON-NLS-1$
 					}
@@ -672,7 +672,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		public static String getSeamVersion(String path) {
 			File seamJarFile = new File(path, "jboss-seam.jar"); //$NON-NLS-1$
 			if (!seamJarFile.exists()) {
-				seamJarFile = new File(path, "lib/jboss-seam.jar"); // hack to
+				seamJarFile = new File(path, "lib/jboss-seam.jar"); // hack to //$NON-NLS-1$
 				// make it
 				// work for
 				// seam2
@@ -1050,13 +1050,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 */
 	public class AddAction extends BaseAction {
 
-		static final String ACTION_NAME = "&Add";
-		
 		/**
 		 * Constructior create Add action with default name
 		 */
 		public AddAction() {
-			super(ACTION_NAME);
+			super(SeamUIMessages.SeamRuntimeListFieldEditor_ActionAdd);
 			// This action is always available
 			setEnabled(true);
 		}
@@ -1094,16 +1092,13 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 */
 	public class EditAction extends BaseAction {
 
-		static final String ACTION_NAME = "&Edit";
-		
-		
 		/**
 		 * Create EditAction with default name
 		 * 
 		 * @param text
 		 */
 		public EditAction() {
-			super(ACTION_NAME);
+			super(SeamUIMessages.SeamRuntimeListFieldEditor_ActionEdit);
 		}
 
 		/**
@@ -1156,12 +1151,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 */
 	public class RemoveAction extends BaseAction {
 		
-		static final String ACTION_NAME = "&Remove";
 		/**
 		 * Create DeleteAction action with default name
 		 */
 		public RemoveAction() {
-			super(ACTION_NAME);
+			super(SeamUIMessages.SeamRuntimeListFieldEditor_ActionRemove);
 		}
 
 		@Override

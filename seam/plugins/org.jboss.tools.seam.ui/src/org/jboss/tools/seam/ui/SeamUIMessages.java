@@ -464,6 +464,12 @@ public class SeamUIMessages extends NLS {
 	
 	public static String SeamQuickFixFindDeclarations;
 	public static String SeamQuickFixFindReferences;
+
+	public static String SeamRuntimeListFieldEditor_ActionAdd;
+
+	public static String SeamRuntimeListFieldEditor_ActionEdit;
+
+	public static String SeamRuntimeListFieldEditor_ActionRemove;
 	
 	static {
 		// load message values from bundle file
