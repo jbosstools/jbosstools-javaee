@@ -8,6 +8,8 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -123,6 +125,26 @@ public class SerializationTest extends TestCase {
 		
 		float timePerComponent = 1f * time / components;
 		assertTrue("Loading time per component is too large: " + timePerComponent + " ms.", timePerComponent < 10.0f);
+	}
+
+
+	public void testCleanBuild() {
+		ISeamProject sp = getSeamProject();
+		try {
+			int components_1 = sp.getComponents().size();
+			assertFalse(components_1 == 0);
+			boolean auto = ResourcesUtils.setBuildAutomatically(false);
+			sp.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+			int components_2 = sp.getComponents().size();
+			assertTrue(components_2 == 0);
+			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
+			int components_3 = sp.getComponents().size();
+			assertEquals(components_1, components_3);
+			
+			ResourcesUtils.setBuildAutomatically(auto);
+		} catch (CoreException e) {
+			JUnitUtils.fail(e.getMessage(), e);
+		}
 	}
 
 }
