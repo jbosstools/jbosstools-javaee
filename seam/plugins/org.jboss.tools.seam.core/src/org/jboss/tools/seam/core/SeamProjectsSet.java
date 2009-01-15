@@ -76,6 +76,16 @@ public class SeamProjectsSet {
 		}
 	}
 
+	/**
+	 * @return default deploy type for Seam project set
+	 */
+	public String getDefaultDeployType() {
+		if(ejb!=null && war!=ejb) {
+			return ISeamFacetDataModelProperties.DEPLOY_AS_EAR;
+		}
+		return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
+	}
+
 	public boolean isWarConfiguration() {
 		if(prefs==null) {
 			return false;
@@ -115,6 +125,10 @@ public class SeamProjectsSet {
 		return test;
 	}
 
+	public IContainer getDefaultActionFolder() {
+		return getDefaultEjbSourceFolder();
+	}
+
 	/**
 	 * 
 	 * @return the action folder (this folder is not guaranteed to exist!)
@@ -125,14 +139,20 @@ public class SeamProjectsSet {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null);
 		}
 		if(folderPath==null || folderPath.length()==0) {
-			return getSourceFolder();
+			return getDefaultActionFolder();
 		}
 
 		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
 	/**
-	 *  
+	 * @return the model folder if exists (this folder is not guaranteed to exist!)
+	 */
+	public IContainer getDefaultModelFolder() {
+		return getDefaultEjbSourceFolder();
+	}
+
+	/**
 	 * @return the model folder if exists (this folder is not guaranteed to exist!)
 	 */
 	public IContainer getModelFolder() {
@@ -141,32 +161,52 @@ public class SeamProjectsSet {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null);
 		}
 		if(folderPath==null || folderPath.length()==0) {
-			return getSourceFolder();
+			return getDefaultModelFolder();
 		}
 
 		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 	}
 
-	private IContainer getSourceFolder() {
+	public IContainer getDefaultEjbSourceFolder() {
+		return getSrc(ejb); 
+	}
+
+	public IContainer getDefaultTestSourceFolder() {
+		return getSrc(test);
+	}
+
+	public IContainer getDefaultWarSourceFolder() {
 		IFolder webSrcFolder = findWebSrcFolder();
 		if(webSrcFolder!=null) {
 			return webSrcFolder;
 		}
-		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(war);
-		if(javaProject==null) {
-			return war;
+		return getSrc(war);
+	}
+
+	private IContainer getSrc(IProject project) {
+		if(project==null) {
+			project = war;
 		}
-		try {
-			IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
-			for (int i = 0; i < roots.length; i++) {
-				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE && roots[i].isOpen()) {
-					return (IFolder)roots[i].getResource();
-				}
+		IResource resource = EclipseResourceUtil.getJavaSourceRoot(project);
+		if(resource!=null) {
+			return (IContainer) resource;
+		}
+		return project;
+	}
+
+	/**
+	 * Returns default web contents folder.
+	 * @return
+	 */
+	public IContainer getDefaultViewsFolder() {
+		IVirtualComponent com = ComponentCore.createComponent(war);
+		if(com!=null) {
+			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+			if(webRootFolder!=null) {
+				return (IFolder)webRootFolder.getUnderlyingFolder();
 			}
-		} catch (JavaModelException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
 		}
-		return (IFolder)javaProject.getResource();
+		return getWarProject();
 	}
 
 	/**
@@ -179,14 +219,7 @@ public class SeamProjectsSet {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
 		}
 		if(folderPath==null || folderPath.length()==0) {
-			IVirtualComponent com = ComponentCore.createComponent(war);
-			if(com!=null) {
-				IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-				if(webRootFolder!=null) {
-					return (IFolder)webRootFolder.getUnderlyingFolder();
-				}
-			}
-			return getWarProject();
+			return getDefaultViewsFolder();
 		}
 
 		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
@@ -202,7 +235,7 @@ public class SeamProjectsSet {
 			folderPath = prefs.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null);
 		}
 		if(folderPath==null || folderPath.length()==0) {
-			return getSourceFolder();
+			return getDefaultTestSourceFolder();
 		}
 
 		return (IContainer)ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);

@@ -85,6 +85,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private IProject warProject;
 	private IEclipsePreferences preferences;
 	private ISeamProject warSeamProject;
+	private SeamProjectsSet seamProjectSet;
 	private boolean suportSeam;
 	private boolean runtimeIsSelected;
 	private List<Group> groups = new ArrayList<Group>();
@@ -97,13 +98,18 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	public void setElement(IAdaptable element) {
 		super.setElement(element);
 		project = (IProject) getElement().getAdapter(IProject.class);
-		warProject = SeamWizardUtils.getRootSeamProject(project);
+		setWarProject(SeamWizardUtils.getRootSeamProject(project));
+	}
+
+	private void setWarProject(IProject warProject) {
+		this.warProject = warProject;
 		if(warProject!=null) {
 			preferences = SeamCorePlugin.getSeamPreferences(warProject);
 			warSeamProject = SeamCorePlugin.getSeamProject(warProject, false);
 		} else {
-			preferences = SeamCorePlugin.getSeamPreferences(project);
+			preferences = SeamCorePlugin.getSeamPreferences(this.project);
 		}
+		seamProjectSet = new SeamProjectsSet(getSeamProject());
 	}
 
 	/* (non-Javadoc)
@@ -156,13 +162,20 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		registerEditor(seamRuntimeEditor, generalGroup);
 
 		IFieldEditor projectNameEditor = 
-			IFieldEditorFactory.INSTANCE.createUneditableTextEditor(
-					IParameter.SEAM_PROJECT_NAME, 
+			SeamWizardFactory.createSeamProjectSelectionFieldEditor(
+					IParameter.SEAM_PROJECT_NAME,
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT, 
-					getPrefValue(
-							IParameter.SEAM_PROJECT_NAME, 
-							getSeamProjectName()));
-
+					getPrefValue(IParameter.SEAM_PROJECT_NAME, getSeamProjectName()),
+					false,
+					false);
+		projectNameEditor.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				IProject project = getMainProjectFromField();
+				if(project!=null) {
+					setWarProject(project);
+				}
+			}
+		});
 		registerEditor(projectNameEditor, generalGroup);
 
 		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR, true);
@@ -306,6 +319,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return root;
 	}
 
+	private IProject getMainProjectFromField() {
+		String name = getValue(IParameter.SEAM_PROJECT_NAME).trim();
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
+		if(project!=null && project.exists()) {
+			return project;
+		}
+		return null;
+	}
+
 	private boolean shouldCreateTests() {
 		String value = getPrefValue(ISeamFacetDataModelProperties.TEST_CREATING, "false");
 		return Boolean.parseBoolean(value);
@@ -352,8 +374,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultModelSourceFolder() {
-		SeamProjectsSet set = new SeamProjectsSet(project);
-		IContainer f = set.getModelFolder();
+		IContainer f = seamProjectSet.getDefaultModelFolder();
 		return f!=null?f.getFullPath().toString():"";
 	}
 
@@ -399,7 +420,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultTestPackageName() {
-		return "org.domain." + SeamUtil.getSeamPackageName(getSeamProjectName()) + ".test";
+		return "org.domain." + SeamUtil.getSeamPackageName(getSeamProject().getName()) + ".test";
 	}
 
 	private String getActionSourceFolder() {
@@ -414,8 +435,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultActionSourceFolder() {
-		SeamProjectsSet set = new SeamProjectsSet(project);
-		IContainer f = set.getActionFolder();
+		IContainer f = seamProjectSet.getDefaultActionFolder();
 		return f!=null?f.getFullPath().toString():"";
 	}
 
@@ -431,8 +451,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultTestSourceFolder() {
-		SeamProjectsSet set = new SeamProjectsSet(project);
-		IContainer f = set.getTestsFolder();
+		IContainer f = seamProjectSet.getDefaultTestSourceFolder();
 		return f!=null?f.getFullPath().toString():"";
 	}
 
@@ -448,8 +467,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultViewFolder() {
-		SeamProjectsSet set = new SeamProjectsSet(project);
-		IContainer f = set.getViewsFolder();
+		IContainer f = seamProjectSet.getDefaultViewsFolder();
 		return f!=null?f.getFullPath().toString():"";
 	}
 
@@ -487,7 +505,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		if(preferences!=null) {
 			return preferences.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
 		}
-		return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
+		return seamProjectSet.getDefaultDeployType();
 	}
 
 	private boolean warning;
@@ -529,11 +547,12 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				}
 			}
 		}
+		validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_IS_EMPTY, IParameter.SEAM_PROJECT_NAME, false);
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 		if(deployAsEar) {
-			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST,
-				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
+			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_EJB_PROJECT_DOES_NOT_EXIST, null,
+				ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, true);
 		}
 
 		String viewFolder = getValue(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).trim();
@@ -566,7 +585,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST,
 					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
-			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
+			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, null, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, true);
 			validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_IS_NOT_VALID,
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PACKAGE_HAS_WARNING,
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
@@ -611,17 +630,25 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return true;
 	}
 
-	private boolean validateProjectName(String errorMessageKey, String editorName) {
+	private boolean validateProjectName(String errorMessageKeyForNonexistedProject, String errorMessageKeyForEmptyProject, String editorName, boolean canBeEmpty) {
 		String projectName = getValue(editorName).trim();
-		if(projectName.length()>0) {
-			if(!ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).exists()) {
+		if(projectName.length()==0) {
+			if(!canBeEmpty) {
 				if(!error) {
-					setErrorMessage(NLS.bind(errorMessageKey, new String[]{projectName}));
+					setErrorMessage(errorMessageKeyForEmptyProject);
+					setValid(false);
 				}
 				error = true;
 				setValid(false);
 				return false;
 			}
+		} else if(!ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).exists()) {
+			if(!error) {
+				setErrorMessage(NLS.bind(errorMessageKeyForNonexistedProject, new String[]{projectName}));
+			}
+			error = true;
+			setValid(false);
+			return false;
 		}
 		return true;
 	}
@@ -655,7 +682,19 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getSeamProjectName() {
-		return warProject!=null ? warProject.getName() : project.getName();
+		return getSeamProject().getName();
+	}
+
+	private String getDefaultTestProjectName() {
+		IProject testProject = seamProjectSet.getTestProject();
+		if(testProject!=null) {
+			return testProject.getName();
+		}
+		return getSeamProjectName();
+	}
+
+	private IProject getSeamProject() {
+		return warProject!=null ? warProject : project;
 	}
 
 	private String getTestProjectName() {
@@ -686,19 +725,24 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	@Override
 	public boolean performOk() {
 		if (isSeamSupported()) {
-			addSeamSupport();
-			storeSettigs();
+			addSeamSupport(project);
+			addSeamSupport(warProject);
+			storeSettings();
 		} else {
 			removeSeamSupport();
 		}
 		return true;
 	}
 
-	private void storeSettigs() {
+	private void storeSettings() {
+		IScopeContext projectScope = new ProjectScope(project);
+		IEclipsePreferences childProjectPrefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 		IEclipsePreferences prefs = preferences;
 		if(prefs==null) {
-			IScopeContext projectScope = new ProjectScope(project);
-			prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+			prefs = childProjectPrefs;
+		}
+		if(project!=getSeamProject()) {
+			childProjectPrefs.put(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, getValue(IParameter.SEAM_PROJECT_NAME));
 		}
 
 		prefs.put(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, 
@@ -732,6 +776,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		try {
 			prefs.flush();
+			if(prefs!=childProjectPrefs) {
+				childProjectPrefs.flush();
+			}
 		} catch (BackingStoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
@@ -815,7 +862,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	protected void performDefaults() {
 		getEditor(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT).setValue(Boolean.TRUE);
 		getEditor(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).setValue(getDefaultRuntimeName());
-		getEditor(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS).setValue(ISeamFacetDataModelProperties.DEPLOY_AS_WAR);
+		IProject mainProject = SeamWizardUtils.getRootSeamProject(project);
+		getEditor(IParameter.SEAM_PROJECT_NAME).setValue(mainProject!=null?mainProject.getName():project.getName());
+		getEditor(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS).setValue(seamProjectSet.getDefaultDeployType());
+		getEditor(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).setValue(seamProjectSet.getEjbProject()==null?project.getName():seamProjectSet.getEjbProject().getName());
 		getEditor(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).setValue(getDefaultViewFolder());
 		getEditor(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).setValue(getDefaultConnectionProfile());
 		getEditor(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER).setValue(getDefaultModelSourceFolder());
@@ -823,7 +873,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		getEditor(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER).setValue(getDefaultActionSourceFolder());
 		getEditor(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).setValue(getDefaultActionPackageName());
 		getEditor(ISeamFacetDataModelProperties.TEST_CREATING).setValue(Boolean.TRUE);
-		getEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setValue(project.getName());
+		getEditor(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setValue(getDefaultTestProjectName());
 		getEditor(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setValue(getDefaultTestSourceFolder());
 		getEditor(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setValue(getDefaultTestPackageName());
 		setEnabledSeamSuport(true);
@@ -831,7 +881,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private String getDefaultRuntimeName() {
-		SeamRuntime runtime = SeamRuntimeManager.getDefaultRuntimeForProject(warProject!=null?warProject:project);
+		SeamRuntime runtime = SeamRuntimeManager.getDefaultRuntimeForProject(getSeamProject());
 		if(runtime==null) {
 			List<String> names = getRuntimeNames();
 			if(names.size()>0) {
@@ -875,7 +925,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 	}
 
-	private void addSeamSupport() {
+	private void addSeamSupport(IProject project) {
+		if(project==null) {
+			return;
+		}
 		try {
 			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
 		} catch (CoreException e) {
