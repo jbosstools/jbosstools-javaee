@@ -37,6 +37,15 @@
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledGroup/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledItem/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconInactive/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/saveControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
@@ -66,6 +75,15 @@
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledGroup/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledItem/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconInactive/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/saveControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
@@ -100,6 +118,15 @@
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledGroup/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledItem/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconInactive/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/saveControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
@@ -129,6 +156,15 @@
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledGroup/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledItem/" />
          			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconInactive/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/saveControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
