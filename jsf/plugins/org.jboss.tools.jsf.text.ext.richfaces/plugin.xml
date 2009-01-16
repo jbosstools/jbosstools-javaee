@@ -17,6 +17,16 @@
          			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
          			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolder/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolderDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconCollapsed/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconExpanded/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconLeaf/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
@@ -26,6 +36,16 @@
          			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
          			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolder/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolderDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconCollapsed/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconExpanded/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconLeaf/" />
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
@@ -40,6 +60,16 @@
          			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
          			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolder/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolderDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconCollapsed/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconExpanded/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconLeaf/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
@@ -49,6 +79,16 @@
          			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
          			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolder/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolderDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconCollapsed/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconExpanded/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconLeaf/" />
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
