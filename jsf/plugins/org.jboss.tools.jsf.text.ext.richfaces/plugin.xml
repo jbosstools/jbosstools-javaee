@@ -13,12 +13,18 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadStyle/src/" />
+         			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadStyle/src/" />
+         			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
          		</partitionType>
          	</contentType>
@@ -30,12 +36,18 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" >
          			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadStyle/src/" />
+         			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" >
          			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadStyle/src/" />
+         			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
          			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
          		</partitionType>
          	</contentType>
