@@ -287,5 +287,16 @@
 	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
-
+	
+	<!-- Since RichFaces 3.3.0 -->
+	<vpe:tag name="a4j:queue" case-sensitive="yes">
+		<vpe:if test="tld_version('min=3.3')">
+			<vpe:template children="no" modify="no">
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no"/>
+				</vpe:dnd>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
 </vpe:templates>

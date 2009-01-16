@@ -1,0 +1,41 @@
+.richfacesSimpleSkin {
+	position:relative;
+}
+
+.richfacesSimpleSkin table.mceLayout {
+	background:#ECF4FE none repeat scroll 0 0;
+	border:1px solid #BED6F8;
+}
+
+.richfacesSimpleSkin * {
+	background:transparent none repeat scroll 0 0;
+	border:0 none;
+	color:#000000;
+	cursor:default;
+	font-weight:normal;
+	margin:0;
+	padding:0;
+	text-decoration:none;
+	white-space:nowrap;
+}
+
+.mceToolbar, .mceToolbarTable {
+	height:26px;
+}
+
+.mceToolbarTable {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.mceIframeContainer {
+	background:#FFFFFF none repeat scroll 0 0;
+}
+div.mce_panel {
+	display:block;
+	height:22px;
+	width:215px;
+	background-repeat:no-repeat;
+	background-image: url(editor_toolbar.gif);
+}

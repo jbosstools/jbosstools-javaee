@@ -737,5 +737,17 @@
 	<vpe:tag name="rich:hotKey" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"/>
 	</vpe:tag>
-	
+
+	<!-- Since RichFaces 3.3.0 -->
+	<vpe:tag name="rich:editor" case-sensitive="yes">
+		<vpe:if test="tld_version('min=3.3')">
+			<vpe:template children="no" modify="no"
+				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesEditorTemplate">
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="no"/>
+				</vpe:dnd>
+			</vpe:template>
+		</vpe:if>
+    </vpe:tag>
 </vpe:templates>
