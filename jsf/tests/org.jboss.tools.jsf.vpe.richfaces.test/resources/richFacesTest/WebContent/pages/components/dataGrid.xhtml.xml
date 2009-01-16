@@ -105,4 +105,57 @@
 			</TBODY>
 		</TABLE>
 	</test>
+
+
+	<test id="dataGrid2">
+		<TABLE VALUE="#{bean.dtList}" VAR="data" ID="dataGrid2"
+			CLASS="dr-table rich-table">
+			<COLGROUP SPAN="1">
+			</COLGROUP>
+			<TBODY>
+				<TR CLASS="dr-table-row rich-table-row">
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN CLASS="vpe-text">
+							AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{data.field1}
+</SPAN>
+						</SPAN>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-row rich-table-row">
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN CLASS="vpe-text">
+							AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{data.field1}
+</SPAN>
+						</SPAN>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-row rich-table-row">
+					<TD CLASS="dr-table-cell rich-table-cell">
+						<SPAN CLASS="vpe-text">
+							AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</SPAN>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN CLASS="vpe-text">
+								#{data.field1}
+</SPAN>
+						</SPAN>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+	</test>
 </tests>

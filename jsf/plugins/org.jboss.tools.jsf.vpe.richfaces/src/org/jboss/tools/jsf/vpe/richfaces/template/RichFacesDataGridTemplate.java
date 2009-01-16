@@ -30,7 +30,12 @@ import org.w3c.dom.Node;
 
 public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 
+    	/*
+    	 * https://jira.jboss.org/jira/browse/JBIDE-3491
+    	 * Set default table size when no attributes are specified.
+    	 */
 	private int defaultRows = 3;
+	private int defaultColumns = 1;
 	private String[] rowClasses;
 	private String[] columnClasses;
 
@@ -88,11 +93,16 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
 		table.appendChild(tbody);
 
-		// Create mapping to Encode body
-		List<Node> children = ComponentUtil.getChildren(sourceElement);
+		/*
+		 * https://jira.jboss.org/jira/browse/JBIDE-3491
+		 * Add text nodes to children list too.
+		 */
+		//Create mapping to Encode body
+		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		sourceElement.getAttribute(RichFaces.ATTR_ELEMENTS);
 
 		int elementsCount = getElementsCount(sourceElement, columnsLength);
+		
 		if(columnsLength>0) {
 			int rowIndex = 0;
 			for(int elementIndex = 0; elementIndex<elementsCount; rowIndex++) {
@@ -106,9 +116,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 					if(!children.isEmpty()) {
 						VpeChildrenInfo childInfo = new VpeChildrenInfo(td);
 						for (Node child : children) {
-							if (child.getNodeType() == Node.ELEMENT_NODE) {
-								childInfo.addSourceChild(child);
-							}
+						    childInfo.addSourceChild(child);
 						}
 						creationData.addChildrenInfo(childInfo);
 					}
@@ -151,11 +159,11 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 	}
 
 	protected int getColumnsCount(Element sourceElement) {
-		int count = 0;
+		int count = defaultColumns;
 		// check for exact value in component
 		try {
 			int span = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_COLUMNS));
-			count = span > 0 ? span : 0;
+			count = span > 0 ? span : defaultColumns;
 		} catch (NumberFormatException e) {
 			// Ignore wrong formatted attribute 
 		}
@@ -163,7 +171,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 	}
 
 	protected int getElementsCount(Element sourceElement, int columnCount) {
-		int elements = 0;
+		int elements = columnCount * defaultRows;
 		// check for exact value in component
 		try {
 			int span = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_ELEMENTS));
