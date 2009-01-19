@@ -33,7 +33,7 @@
             category="org.jboss.tools.common.xstudio.editors"
             class="org.jboss.tools.seam.ui.pages.editor.SeamPagesPreferencesPage"
             id="org.jboss.tools.seam.ui.pages.diagram"
-            name="Seam Pages Diagram"/>
+            name="%PreferencePage_SeamPagesDiagram"/>
    </extension>
 
 </plugin>
