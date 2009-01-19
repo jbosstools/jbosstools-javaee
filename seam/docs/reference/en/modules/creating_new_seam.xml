@@ -153,8 +153,7 @@
         </figure>
 
         <para>The last section on this wizard step is <property>Configuration</property>. Here, you
-            can select one of the pre-defined project configurations either associated with Seam 1.2
-            or with Seam 2.0. Furthermore, you can create your own configuration by pressing the <emphasis>
+            can select one of the pre-defined project configurations either associated with Seam 1.2, Seam 2.0 or with Seam 2.1. Furthermore, you can create your own configuration by pressing the <emphasis>
                 <property>Modify...</property>
             </emphasis> button. It will open the dialog which allows to configure your own set of
             facets for adding extra functionality to your project.</para>
