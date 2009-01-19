@@ -39,6 +39,13 @@ public class RichFacesEditorTemplate extends VpeAbstractTemplate {
 		VpeCreationData creationData = new VpeCreationData(mainElement);
 		return creationData;
 	}
+	
+	@Override
+	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
+	}
 }
 
 /**
