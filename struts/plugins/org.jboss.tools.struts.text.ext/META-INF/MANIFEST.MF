@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
-Bundle-Name: Struts Text Editors Extensions
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: strutsextensions.jar
 Bundle-Activator: org.jboss.tools.struts.text.ext.StrutsExten
  sionsPlugin

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
-Bundle-Name: Jsf Text Editors Extensions
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: jsfextensions.jar
 Bundle-Activator: org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin
 Bundle-ManifestVersion: 2

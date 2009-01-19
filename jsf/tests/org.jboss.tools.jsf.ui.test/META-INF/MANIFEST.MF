@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: JSF UI Test Plug-in
+Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.ui.test
 Bundle-Version: 1.0.0
-Bundle-Vendor: JBoss, a division of Red Hat
+Bundle-Vendor: %Bundle-Vendor.0
 Require-Bundle: org.junit
+Bundle-Localization: plugin

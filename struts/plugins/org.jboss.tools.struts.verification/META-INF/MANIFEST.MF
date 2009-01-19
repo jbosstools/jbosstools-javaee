@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
-Bundle-Name: Struts Verification
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: struts-verification.jar
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.struts.verification; singleton:=true

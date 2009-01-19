@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
-Bundle-Name: Richfaces Text Editors Extensions
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: jsfrichfacesextensions.jar
 Bundle-Activator: org.jboss.tools.jsf.text.ext.richfaces.RichfacesExtensionsPlugin
 Bundle-ManifestVersion: 2

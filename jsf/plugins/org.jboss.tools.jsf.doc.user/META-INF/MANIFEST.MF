@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: JSF and Struts Guide Plug-in
+Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.doc.user;singleton:=true
 Bundle-Version: 1.0.0
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.help
 Eclipse-LazyStart: true
-Bundle-Vendor: JBoss, a division of Red Hat
+Bundle-Vendor: %Bundle-Vendor.0
+Bundle-Localization: plugin

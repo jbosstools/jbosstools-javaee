@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: JSF Tests Plug-in
+Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.test;singleton:=true
 Bundle-Version: 2.0.0
 Bundle-ClassPath: jsf-tests.jar,
  lib/xmlunit1.0.jar
-Bundle-Vendor: JBoss, a division of Red Hat
+Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.custommonkey.xmlunit,
  org.jboss.tools.jsf.test
 Require-Bundle: 
@@ -23,4 +23,5 @@ Require-Bundle:
  org.eclipse.ui.ide
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
+Bundle-Localization: plugin
 

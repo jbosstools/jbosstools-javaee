@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Seam User Guide Plug-in
+Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.seam.doc.user;singleton:=true
 Bundle-Version: 1.0.0
 Require-Bundle: org.eclipse.help
-Bundle-Vendor: JBoss, a division of Red Hat
+Bundle-Vendor: %Bundle-Vendor.0
+Bundle-Localization: plugin

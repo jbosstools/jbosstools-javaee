@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Seam Core Tests Plug-in
+Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.seam.core.test;singleton:=true
 Bundle-Version: 2.0.0
 Bundle-ClassPath: seam-core-tests.jar
-Bundle-Vendor: JBoss, a division of Red Hat
+Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.seam.core.test,
  org.jboss.tools.seam.core.test.project.facet,
  org.jboss.tools.seam.core.test.refactoring
@@ -37,3 +37,4 @@ Require-Bundle:
  org.eclipse.wst.validation,
  org.eclipse.jdt.launching
 Provide-Package: org.jboss.tools.seam.core.test
+Bundle-Localization: plugin

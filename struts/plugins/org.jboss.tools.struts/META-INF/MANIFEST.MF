@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
-Bundle-Name: org.jboss.tools.struts
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: struts.jar
 Bundle-Activator: org.jboss.tools.struts.StrutsModelPlugin
 Bundle-Vendor: %providerName

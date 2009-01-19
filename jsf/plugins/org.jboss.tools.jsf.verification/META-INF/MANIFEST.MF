@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Name: JSF Verification
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: jsf-verification.jar
 Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActiva
  tor

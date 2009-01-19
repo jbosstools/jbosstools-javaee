@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ActivationPolicy: lazy
-Bundle-Name: Seam Tools
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: seam-core.jar
 Bundle-Activator: org.jboss.tools.seam.core.SeamCorePlugin
 Bundle-ManifestVersion: 2
-Bundle-Vendor: JBoss, a division of Red Hat
+Bundle-Vendor: %Bundle-Vendor.0
 Bundle-SymbolicName: org.jboss.tools.seam.core; singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,

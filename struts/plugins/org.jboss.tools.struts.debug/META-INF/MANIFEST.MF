@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
-Bundle-Name: Red Hat Struts Debugger
+Bundle-Name: %Bundle-Name.0
 Bundle-ClassPath: strutsdebug.jar
 Bundle-Activator: org.jboss.tools.struts.debug.internal.StrutsDebugPlugin
 Bundle-Vendor: %providerName
