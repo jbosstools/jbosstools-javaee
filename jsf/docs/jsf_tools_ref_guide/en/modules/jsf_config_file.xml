@@ -121,31 +121,103 @@
 
         <title>Tree View</title>
 
-        <para>The Tree view for the editor displays all JSF application artifacts referenced in the
-            configuration file in a tree format. By selecting any node you can see and edit its
-            properties which will appear in the right-hand area. For example, a Managed Bean:</para>
+        <para>You can find it more convenient to edit your JSF Configuration file in the Tree view of
+            the <property>VPE</property>.</para>
+
+        <para>The view displays all JSF application artifacts referenced in the configuration file
+            in a tree format. By selecting any node on the left, you can see and edit its properties
+            which will appear in the right-hand area. Let&apos;s look at the structure of this
+            tree more closely.</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Under the <emphasis>
+                        <property>Application</property>
+                    </emphasis> node you can adjust JSF application specific settings such as
+                    internationalization, possibility to set extensions, add property and variable
+                    resolvers, etc.</para>
+            </listitem>
+        </itemizedlist>
+
         <figure>
-            <title>Tree View</title>
+            <title>JSF Application Specific Settings</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_25.png"/>
+                    <imagedata fileref="images/jsf_support/jsf_support_24a.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
 
-        <para>To edit some artifact, right-click any node and select one of the available actions in
-            the context menu. You can also edit in the properties window to the right:</para>
+        <itemizedlist>
+            <listitem>
+                <para>The <emphasis>
+                        <property>Components</property>
+                    </emphasis> node is for registering custom JSF components. Right-click and
+                    choose <emphasis>
+                        <property>New > Component</property>
+                    </emphasis> or just press the <emphasis>
+                        <property>Add</property>
+                    </emphasis> button in the right-hand area to add a new component to the JSF
+                    Configuration file.</para>
+            </listitem>
+        </itemizedlist>
+
         <figure>
-            <title>Editing in Tree View</title>
+            <title>Registering a New JSF Component</title>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_26.png"/>
+                    <imagedata fileref="images/jsf_support/jsf_support_24b.png"/>
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>The same way you can create a new artifact:</para>
+
+                <para>In the <property>Add Component wizard</property> you should set a component
+                    type and point to a component class by using the <emphasis>
+                        <property>Browse</property>
+                    </emphasis> button or create a new class for this component by using the <emphasis>
+                        <property>Component-Class</property>
+                    </emphasis> link.</para>
+
         <figure>
-            <title>Creating a New Artifact in Tree View</title>
+            <title>Adding a New JSF Component to the JSF Configuration File</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_24c.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>Use the <emphasis>
+                        <property>Render Kit</property>
+                    </emphasis> node to create and register a set of related renderers for custom
+                    JSF components.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Adding a New JSF Component to the JSF Configuration File</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_24d.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>Under the <emphasis>
+                        <property>Converters</property>
+                    </emphasis> node you can create a converter class for your JSF application
+                    either with id or for a proper class. How to do that see the <link
+                        linkend="CreateAndRegisterACustomConverter94230">Create and Register a
+                        Custom Converter</link> section.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Creating a New Custom Converter</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_support/jsf_support_59.png"/>
@@ -153,8 +225,110 @@
             </mediaobject>
         </figure>
 
-        <para>In the <property>Tree</property> view you can also edit the properties of the selected
-            element with the help of the Properties view as shown below:</para>
+        <itemizedlist>
+            <listitem>
+                <para>The <emphasis>
+                        <property>Managed Bean</property>
+                    </emphasis> node is meant for creating and registering Bean classes in your JSF
+                    application. Read more on the topic in the <link linkend="managed_beans">Managed
+                        Beans</link> chapter.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Managed Beans</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_26.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>Use the <emphasis>
+                        <property>Navigation Rules</property>
+                    </emphasis> node to configure a navigation between the pages in your
+                    application: create a new navigation rule and adjust necessary properties for it
+                    in the right-hand area.</para>
+            </listitem>
+        </itemizedlist>
+        <tip>
+            <title>Tip:</title>
+            <para>The same you can do in the <link linkend="Diagram9553">Diagram view</link> of the
+                JSF Configuration file editor.</para>
+        </tip>
+
+        <figure>
+            <title>Configuring Navigation Rules</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_26a.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>Under the <emphasis>
+                        <property>Referenced Beans</property>
+                    </emphasis> node you can add a new Referenced Bean and configure various
+                    properties for it. To learn more on this refer to the <link
+                        linkend="referenced_beans">Create and Register Referenced Beans</link>
+                    section.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Referenced Beans</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_26b.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>The <emphasis>
+                        <property>Validators</property>
+                    </emphasis> node is needed to create validator classes for organizing the
+                    validation of your application data. You can read more on the topic in the <link
+                        linkend="CreateAndRegisterACustomValidator5632">Create and Register a Custom
+                        Validator</link> section.</para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Validators</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_26c.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <itemizedlist>
+            <listitem>
+                <para>The <emphasis>
+                        <property>Extensions</property>
+                    </emphasis> node is for setting extensions for your <emphasis>
+                        <property>faces-config.xml</property>.</emphasis></para>
+            </listitem>
+        </itemizedlist>
+
+        <figure>
+            <title>Adding Extensions</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/jsf_support/jsf_support_26d.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>In the <property>Tree view</property> you can also edit the properties of the selected
+            element with the help of the <property>Properties view</property> as shown below:</para>
+
         <figure>
             <title>Properties View </title>
             <mediaobject>
@@ -209,8 +383,8 @@
             <title>Open On</title>
             <para>The JSF configuration file editor comes with a very useful OpenOn navigating
                 feature. More fully you can read about it in our <ulink
-                    url="&jsflink;#OpenOnSelection4Hyperlinknavigation"
-                    >Visual Web Tools Guide</ulink>.</para>
+                    url="&jsflink;#OpenOnSelection4Hyperlinknavigation">Visual Web Tools
+                    Guide</ulink>.</para>
         </section>
 
         <section id="ContentAssist976">
@@ -237,7 +411,7 @@
                 greatly reduces your development time as it allows you to catch many of the errors
                 during development.</para>
             <para>Errors will be reported by <link linkend="jsf_project_verification">
-                verification</link> facility:</para>
+                    verification</link> facility:</para>
             <figure>
                 <title>Error Reporting in Source View</title>
                 <mediaobject>

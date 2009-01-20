@@ -251,7 +251,7 @@
         </figure>
     </section>
     
-    <section>
+    <section id="referenced_beans">
         <title>Create and Register Referenced Beans</title>      
         
         <para>Creation of Referenced Beans is similar to creation of Custom
