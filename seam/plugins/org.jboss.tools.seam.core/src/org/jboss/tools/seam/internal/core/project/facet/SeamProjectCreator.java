@@ -19,6 +19,7 @@ import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -256,9 +257,10 @@ public class SeamProjectCreator {
 			IProjectFacet sf = ProjectFacetsManager.getProjectFacet("jst.ejb");  
 			IProjectFacetVersion pfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(sf);
 			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
-
+			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
 			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + earProjectName, earProjectName, monitor, false);
+			WtpUtils.reconfigure(earProjectToBeImported, monitor);
 		}
 
 		IProject testProjectToBeImported = wsRoot.getProject(testProjectName);
@@ -270,10 +272,12 @@ public class SeamProjectCreator {
 		if (!testLevel.equals(level)) {
 			JavaFacetUtils.setCompilerLevel(testProjectToBeImported, level);
 		}
-
+		testProjectToBeImported.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(testProjectToBeImported, consoleName);
 
 		createSeamProjectPreferenes();
+		WtpUtils.reconfigure(seamWebProject, monitor);
+		WtpUtils.reconfigure(testProjectToBeImported, monitor);
 	}
 
 	/**

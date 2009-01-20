@@ -30,9 +30,12 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModelStatus;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.JavaElementInfo;
+import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.ui.util.CoreUtility;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.ui.PreferenceConstants;
@@ -175,6 +178,11 @@ public class WtpUtils {
 			if(outputFolder != null) {
 				CoreUtility.createDerivedFolder(project.getFolder(outputFolder), true, true, new NullProgressMonitor());
 			}
+			IFolder newSourceFolder= javaProject.getProject().getFolder(path);
+			if (!newSourceFolder.exists()) {
+				CoreUtility.createFolder(newSourceFolder, true, true, new NullProgressMonitor()); 			
+			}
+			
 			IClasspathEntry newEntry = JavaCore.newSourceEntry(newSourceFolderPath,new Path[]{},new Path[]{},outputFolder!=null?project.getFullPath().append(outputFolder):null);
 			
 			if (projectEntryIndex != -1) {
@@ -197,11 +205,6 @@ public class WtpUtils {
 				} else {
 					return null;
 				}
-			}
-			
-			IFolder newSourceFolder= javaProject.getProject().getFolder(path);
-			if (!newSourceFolder.exists()) {
-				CoreUtility.createFolder(newSourceFolder, true, true, new NullProgressMonitor()); 			
 			}
 			
 			javaProject.setRawClasspath(newClasspathEntries, newOutputLocation, new NullProgressMonitor());
@@ -258,6 +261,25 @@ public class WtpUtils {
 			}
 		}
 		jProject.setRawClasspath(cps, monitor);
+	}
+
+	public static void reconfigure(IProject project, IProgressMonitor monitor) throws CoreException {
+		if (project == null || !project.exists() || !project.isOpen() || !project.hasNature(JavaCore.NATURE_ID)) {
+			return;
+		}
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		IJavaProject javaProject = JavaCore.create(project);
+		if (javaProject != null && javaProject.exists() && javaProject.isOpen() && javaProject instanceof JavaProject) {
+			Object object = ((JavaProject) javaProject).getElementInfo();
+			if (object instanceof JavaElementInfo) {
+				// copied from JavaProject.buildStructure(...)
+				JavaElementInfo info = (JavaElementInfo) object;
+				IClasspathEntry[] resolvedClasspath = ((JavaProject) javaProject).getResolvedClasspath();
+				IPackageFragmentRoot[] children = ((JavaProject) javaProject).computePackageFragmentRoots(resolvedClasspath,false, null /* no reverse map */);
+				info.setChildren(children);
+				((JavaProject) javaProject).getPerProjectInfo().rememberExternalLibTimestamps();
+			}
+		}
 	}
 
 }
