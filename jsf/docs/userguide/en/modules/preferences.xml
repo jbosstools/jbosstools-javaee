@@ -1021,23 +1021,6 @@
             </mediaobject>
         </figure>
 
-        <para>Navigate to <emphasis>
-                <property>Server > JBoss Server View</property>
-            </emphasis> to set preferences for <property>JBoss Servers view</property>. On this page
-            you can enable or disable any of the listed view extensions, change their sequence order
-            and also edit preferences specific to each view extension. For example, <emphasis>
-                <property>Event Log</property>
-            </emphasis> preferences:</para>
-
-        <figure>
-            <title>JBoss Server View Preferences</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_39.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
         <para>Going to <emphasis>
                 <property>Server > Audio</property>
             </emphasis> you can enable/disable the sound notification for different Server states
