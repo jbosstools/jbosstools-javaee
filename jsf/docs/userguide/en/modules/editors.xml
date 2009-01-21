@@ -1103,7 +1103,7 @@
 
             <para>To call the <property>Template dialog</property> for a tag, right-click on it in
                 Visual mode and select <emphasis>
-                    <property>Template</property>
+                    <property>Setup Template for &lt;tag name&gt;</property>
                 </emphasis> option.</para>
 
             <figure>
