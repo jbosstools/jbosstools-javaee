@@ -10,11 +10,13 @@
 <!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
 <!ENTITY seam_editors SYSTEM "modules/seam_editors.xml">
 <!ENTITY seam_view SYSTEM "modules/seam_view.xml">
- <!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">
+<!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">
+<!ENTITY adding_seam_support_to_ear_project  SYSTEM "modules/adding_seam_support_to_ear_project.xml">
 <!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
 <!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
 <!ENTITY business_application SYSTEM "modules/business_application.xml">
 <!ENTITY testng SYSTEM "modules/testng.xml">
+
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -69,6 +71,7 @@
 &seam_editors;
 &seam_view;
 &seam_preferences;
+&adding_seam_support_to_ear_project;
 &crud_database_application;
 &crud_application_walkthrough;
 &testng;

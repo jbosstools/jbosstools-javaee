@@ -64,7 +64,7 @@
         <para>The project layout for EAR projects is:</para>
 
         <figure>
-            <title>Project Layout for WAR projects</title>
+            <title>Project Layout for EAR projects</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/directory_structure/directory_structure_2.png"
