@@ -8,10 +8,10 @@ import org.jboss.tools.common.util.WorkbenchUtils;
 
 import junit.framework.TestCase;
 
-public class JsFileNewWizardTest extends TestCase {
-	public void testJsFileNewWizardTestIsCreated() {
+public class HtmlFileNewWizardTest extends TestCase {
+	public void testHtmlFileNewWizardTestIsCreated() {
 		IWizard
-		aWizard = WorkbenchUtils.findWizardByDefId("org.jboss.tools.jst.web.ui.wizards.newfile.NewJSFileWizard");
+		aWizard = WorkbenchUtils.findWizardByDefId("org.jboss.tools.common.model.ui.wizard.newfile.NewHTMLFileWizard");
 		
 		WizardDialog dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
