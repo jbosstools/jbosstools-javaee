@@ -321,6 +321,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private IProject getMainProjectFromField() {
 		String name = getValue(IParameter.SEAM_PROJECT_NAME).trim();
+		if(name.length()==0) {
+			return null;
+		}
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 		if(project!=null && project.exists()) {
 			return project;

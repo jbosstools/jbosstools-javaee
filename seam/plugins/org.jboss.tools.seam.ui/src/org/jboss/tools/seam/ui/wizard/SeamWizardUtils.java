@@ -71,8 +71,8 @@ public class SeamWizardUtils {
 			String parentProjectName = seamProject.getParentProjectName();
 
 			IProject targetProject = null;
-			if (parentProjectName == null) {
-				targetProject = project;				
+			if (parentProjectName == null || parentProjectName.trim().length()==0) {
+				targetProject = project;
 			} else {
 				targetProject = ResourcesPlugin.getWorkspace().getRoot().getProject(parentProjectName);
 			}
