@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="seam_preferences" xreflabel="seam_preferences" role="updated">
+<chapter id="seam_preferences" xreflabel="seam_preferences">
     <!-- mark as new -->
     <?dbhtml filename="seam_preferences.html"?>
     <chapterinfo>
@@ -111,7 +111,7 @@
         </section>
     </section>
 
-    <section id="project_pref" role="updated">
+    <section id="project_pref">
         <title>Project Preferences</title>
 
         <para>Once Seam project is created you can modify its settings. Right click on Seam project
