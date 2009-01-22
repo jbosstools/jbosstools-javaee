@@ -655,8 +655,8 @@
                 <para>Follow these steps to set what is available for code assist:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds code assist for JSF pre-defined objects, such as
-                                <![CDATA[value=]]><emphasis role="italic">
+                        <para>Adds code assist for JSF pre-defined objects, such as <![CDATA[value=]]><emphasis
+                                role="italic">
                                 <property>&quot;#{param}&quot;</property>
                             </emphasis>:</para>
                     </listitem>
@@ -933,16 +933,15 @@
                 <title>Support for Taglib versions</title>
 
                 <para>VPE templates now support various versions of tag libraries. It means that the
-                        <property>VPE</property> takes control under those components which have
-                    different parameters or preview according to the framework version (like seam
-                    1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
+                    <property>VPE</property> takes control under those components which have different parameters or
+                    preview according to the framework version (like seam 1.2 and seam 2.0, or JSF
+                    1.1 and JSF 1.2).</para>
 
                 <para>For example, <emphasis>
-                        <property>&lt;s:decorate&gt;</property>
-                    </emphasis> element in seam has different parameters in versions 1.2 and 2.0 as
-                    well as <emphasis>
-                        <property>&lt;h:outputLink&gt;</property>
-                    </emphasis> JSF element has different preview in versions 1.1 and 1.2.</para>
+                    <property>&lt;s:decorate&gt;</property></emphasis> element in seam has different
+                    parameters in versions 1.2 and 2.0 as well as <emphasis>
+                        <property>&lt;h:outputLink&gt;</property></emphasis> JSF
+                    element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
 
@@ -1610,101 +1609,46 @@
 
             <title>Graphical Web Application File (web.xml) Editor</title>
 
-            <para>The Web Application File editor is provided for work with a deployment descriptor
-                file: <emphasis>
-                    <property>web.xml</property>.</emphasis></para>
-
-
-            <para>The editor comes with the same features you will find in all other <property>JBoss
-                    Developer Studio</property> editors:</para>
+            <para>The Web Application File editor comes with the same features you will find in all
+                other JBoss Developer Studio editors:</para>
 
             <itemizedlist>
                 <listitem>
-                    <para>graphical and source edit modes: Tree view and Source view</para>
+                    <para>Graphical and source edit modes</para>
                 </listitem>
                 <listitem>
-                    <para>validation and error checking</para>
+                    <para>Validation and error checking</para>
                 </listitem>
             </itemizedlist>
-
             <section id="TreeView1">
                 <title>Tree View</title>
 
-                <para>In the Tree view all elements of the <emphasis>
-                        <property>web.xml</property>
-                    </emphasis> file are organized as a list of extendable nodes on the left. You
-                    can configure all nodes and their properties with the help of the right-hand
-                    area. You can add any new elements right in the Tree
-                        view:</para>
-                    
-                    <figure>
-                        <title>Adding a New Element</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/more_editors/more_editors_11.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-                <para>Let&apos;s examine the editor nodes more closely:</para>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>Select the <emphasis>
-                                <property>Context Params</property>
-                            </emphasis> node to see all registered in <emphasis>
-                                <property>web.xml</property>
-                            </emphasis> parameters. To create a new one, click <emphasis>
-                                <property>Add</property></emphasis> on the right-hand
-                            area or right-click the node and go to <emphasis>
-                                <property>New > Context Param...</property>.</emphasis></para>
-                    </listitem>
-                </itemizedlist>
-
                 <figure>
-                    <title>Context Params</title>
+                    <title>Tree View</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_10a.png"/>
+                            <imagedata fileref="images/more_editors/more_editors_10.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
-                <para>The appeared wizard asks to set the parameter name and point to its value.</para>
-                
-                <figure>
-                    <title>New Context Param Wizard</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_10b.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                
-                <itemizedlist>
-                    <listitem>
-                        <para>Click <emphasis>
-                            <property>Filters</property></emphasis> if you need to set a Filter and Filter mappings for your web application.</para>
-                    </listitem>
-                </itemizedlist>
-                
-                <figure>
-                    <title>Filters</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/more_editors/more_editors_10c.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                
-                <para></para>
 
+                <para>You can add any new elements right in the <property>Tree
+                    viewer</property>:</para>
+
+                <figure>
+                    <title>Adding New Elements</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/more_editors/more_editors_11.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
             </section>
             <section id="SourceView2">
 
                 <title>Source View</title>
 
-                <para>Switch to the <property>Source view</property>to edit the web.xml file by
+                <para>Switch to the <property>Source viewer </property>to edit the web.xml file by
                     hand at any time:</para>
 
                 <figure>
