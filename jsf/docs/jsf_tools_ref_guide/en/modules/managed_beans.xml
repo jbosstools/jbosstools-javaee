@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="managed_beans" role="updated">
+<chapter id="managed_beans">
     <?dbhtml filename="managed_beans.html"?>
     <chapterinfo>
         <keywordset>
@@ -30,7 +30,7 @@
 
     <para>Thus, in this section we will guides you through all this possibilities.</para>
 
-    <section id="CodeGenerationForManagedBeans421" role="updated">
+    <section id="CodeGenerationForManagedBeans421">
 
         <title>Code Generation for Managed Beans</title>
 
@@ -158,7 +158,7 @@
             The next section will show you how to add an existing Bean into a JSF configuration
             file.</para>
     </section>
-    <section id="AddExistingJavaBeansToAJSFConfigurationFile74332" role="updated">
+    <section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
 
         <title>Add Existing Java Beans to a JSF Configuration File</title>
         <para>If you already have a Java bean you can easily add it to a <property>JSF configuration
