@@ -605,7 +605,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener, XModel
 			if(fileXML == null || !object.getPath().startsWith(fileXML.getPath())) {
 				return;
 			}
-			if(!diagramXML.getPath().startsWith(object.getPath())) {
+			if(!object.getPath().startsWith(diagramXML.getPath())) {
 				object = SelectOnDiagramHandler.getItemOnDiagram(object);
 				if(object == null) return;
 			}
