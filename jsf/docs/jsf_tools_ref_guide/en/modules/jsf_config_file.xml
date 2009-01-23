@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="jsf_config_file">
+<chapter id="jsf_config_file" role="updated">
     <?dbhtml filename="jsf_config_file.html"?>
     <chapterinfo>
         <keywordset>
@@ -117,7 +117,7 @@
             </mediaobject>
         </figure>
     </section>
-    <section id="TreeView11123">
+    <section id="TreeView11123" role="updated">
 
         <title>Tree View</title>
 
