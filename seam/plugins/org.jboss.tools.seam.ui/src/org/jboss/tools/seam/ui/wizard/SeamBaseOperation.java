@@ -113,22 +113,6 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 				FileUtils.getFileUtils().copyFile(new File(mapping[0]), file[index],filters,true);
 				index++;
 			}
-
-//			Display.getCurrent().asyncExec(new Runnable() {
-//				/* (non-Javadoc)
-//				 * @see java.lang.Runnable#run()
-//				 */
-//				public void run() {
-//					if(file.length > 0){
-//						IFile iFile = seamPrjSet.getWarProject().getWorkspace().getRoot().getFileForLocation(new Path(file[0].getAbsolutePath()));
-//						try {
-//							IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
-//						} catch (PartInitException e) {
-//							SeamGuiPlugin.getPluginLog().logError(e);
-//						}
-//					}					
-//				}
-//			});
 			if(shouldTouchServer(seamPrjSet)) {
 				WebUtils.changeTimeStamp(seamPrjSet.getWarProject());
 			}
@@ -209,20 +193,43 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		return vars;
 	}
 
-	public void openResultInEditor(IAdaptable info) {
-		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
+	public void openResultInEditor(final IAdaptable info) {
+		final IProject project = getProject(info);
+		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(project);
+		Map<String, Object> parameters = null;
 		try {
-			Map<String, Object> vars = loadParameters(info,	seamPrjSet);
-			List<FileMapping> fileMapping = getFileMappings(vars);
-			if(!fileMapping.isEmpty()) {
-				List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
+			parameters = loadParameters(info, seamPrjSet);
+		} catch (BackingStoreException e) {
+			SeamGuiPlugin.getPluginLog().logError(e);
+			return;
+		}
+		final Map<String, Object> vars = parameters;
+		final List<FileMapping> fileMappings = getFileMappings(parameters);
+		Display display = Display.getCurrent();
+		if(display!=null) {
+			display.asyncExec(new Runnable() {
+				/* (non-Javadoc)
+				 * @see java.lang.Runnable#run()
+				 */
+				public void run() {
+					openResultInEditorInCurrentThread(info, project, seamPrjSet, vars, fileMappings);
+				}
+			});
+		} else {
+			// If we run this methods from test environment then don't use asyncExec.
+			openResultInEditorInCurrentThread(info, project, seamPrjSet, parameters, fileMappings);
+		}
+	}
+
+	private static void openResultInEditorInCurrentThread(IAdaptable info, IProject project, SeamProjectsSet seamPrjSet, Map<String, Object> parameters, List<FileMapping> fileMappings) {
+		try {
+			if(!fileMappings.isEmpty()) {
+				List<String[]> fileMappingCopy = applyVariables(fileMappings, parameters);
 				IFile iFile = seamPrjSet.getWarProject().getWorkspace().getRoot().getFileForLocation(new Path(fileMappingCopy.get(0)[1]));
 				IDE.openEditor(SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), iFile);
 			}
-		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		} catch (BackingStoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (PartInitException e) {
+			SeamGuiPlugin.getPluginLog().logError(e);
 		}
 	}
 
