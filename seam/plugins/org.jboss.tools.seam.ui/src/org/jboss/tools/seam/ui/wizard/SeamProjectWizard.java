@@ -10,16 +10,24 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
 import org.eclipse.swt.SWT;
@@ -48,15 +56,21 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectEvent;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectListener;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
+import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.ui.ServerUIUtil;
+import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
+import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
+import org.jboss.tools.seam.internal.core.project.facet.DataSourceXmlDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
 
@@ -201,28 +215,81 @@ public class SeamProjectWizard extends WebProjectWizard {
 	 */
     protected void performFinish(final IProgressMonitor monitor) throws CoreException {
     	super.performFinish(monitor);
-		IProject project = this.getFacetedProject().getProject();
 
+    	// Create ear, ejb, test projects
+		IProject warProject = this.getFacetedProject().getProject();
 		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		IDataModel model = page.getConfig();
-
 		String seamVersionString = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
 		SeamVersion seamVersion = SeamVersion.parseFromString(seamVersionString);
 		SeamProjectCreator creator = null;
 		if(seamVersion == SeamVersion.SEAM_1_2) {
-			creator = new SeamProjectCreator(model, project);
+			creator = new SeamProjectCreator(model, warProject);
 		} else if(seamVersion == SeamVersion.SEAM_2_0) {
-			creator = new Seam2ProjectCreator(model, project);
+			creator = new Seam2ProjectCreator(model, warProject);
 		} else if(seamVersion == SeamVersion.SEAM_2_1) {
-			creator = new Seam2ProjectCreator(model, project);
+			creator = new Seam2ProjectCreator(model, warProject);
 		} else {
 			throw new RuntimeException("Can't get seam version from seam facet model");
 		}
 
 		creator.execute(monitor);
+
+		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
+		IProject earProject = null;
+		IProject ejbProject = null;
+		List<IProject> projects = new ArrayList<IProject>();
+
+		// build projects. We need to build it before publishing on server.
+		if(deployAsEar) {
+			String ejbProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
+			String earProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT);
+			IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+			earProject = wsRoot.getProject(earProjectName);
+			ejbProject = wsRoot.getProject(ejbProjectName);
+			projects.add(earProject);
+			projects.add(ejbProject);
+		}
+		projects.add(warProject);
+		buildProjects(projects, monitor);
+
+		// copy JDBC driver to server libraries folder;
+		// register project on the selected server;
+		// deploy datasource xml file to the selected server;
+
+		IServer server = (IServer) model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+		if (server != null) {
+			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
+			if (jbs != null) {
+				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
+				String configFolder = jbs.getConfigDirectory();
+				AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
+			} 
+
+			RegistrationHelper.runRegisterInServerJob(warProject, server);
+
+			IPath filePath = new Path("resources").append(warProject.getName() + "-ds.xml");
+
+			if (deployAsEar) {
+				new DataSourceXmlDeployer(earProject, server, filePath).schedule();
+			} else {
+				new DataSourceXmlDeployer(warProject, server, filePath).schedule();
+			}			
+		}
 	}
 
-	class SeamWebProjectFirstPage extends WebProjectFirstPage {
+    private void buildProjects(List<IProject> projects, IProgressMonitor monitor) {
+		J2EEComponentClasspathUpdater.getInstance().forceUpdate(projects);
+		try {
+			for (IProject project : projects) {
+				project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+			}
+		} catch (CoreException e) {
+			SeamGuiPlugin.getPluginLog().logError(e);
+		}
+	}
+
+    class SeamWebProjectFirstPage extends WebProjectFirstPage {
 		@Override
 		protected String getInfopopID() {
 			return ISeamHelpContextIds.NEW_SEAM_PROJECT;

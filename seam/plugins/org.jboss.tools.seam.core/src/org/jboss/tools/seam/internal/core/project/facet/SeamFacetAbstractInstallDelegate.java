@@ -765,6 +765,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			createSeamProjectPreferenes(project, model);
 			EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
 		}
+
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
