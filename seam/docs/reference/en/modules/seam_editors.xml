@@ -17,8 +17,7 @@
 
         <title>Content Assist</title>
 
-        <para><property>Content Assist</property> (Ctrl + space) is available when using expression
-            language in:</para>
+        <para><property>Content Assist</property> (Ctrl + Space) is available when using EL variables in the following file formats:</para>
         <itemizedlist>
             <listitem>
                 <para>JSP</para>
@@ -34,7 +33,7 @@
             </listitem>
         </itemizedlist>
 
-        <para>The Seam components are available in content assist.</para>
+        <para>Notice, the code completion for the Seam components shows the proposals marked with Seam icon.</para>
 
         <figure>
             <title>Content Assist</title>
