@@ -1,6 +1,13 @@
 package org.jboss.tools.jsf.ui.test;
 
+import java.util.ArrayList;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.util.WorkbenchUtils;
 
 
@@ -14,10 +21,16 @@ public class FacesConfigNewWizardTest extends WizardTest {
 	}
 	
 	public void testFacesConfigNewWizardValidation() {
-		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		IWizard wizard = getWizardWithoutSelection();
 		
+		boolean canFinish = wizard.canFinish();
 		
-		System.out.println("Wizard - "+wizard.getClass());
+		assertFalse("Finish button is enabled at first wizard page.", canFinish);
+	}
+	
+	public void testFacesConfigNewWizardValidation2() {
+		IWizard wizard = getWizardOnProject();
+		
 		boolean canFinish = wizard.canFinish();
 		
 		// Assert Finish button is enabled by default if wizard is called on Project
