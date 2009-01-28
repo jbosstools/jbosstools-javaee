@@ -220,6 +220,28 @@
                 </listitem>
             </itemizedlist>
 
+            <para>Notice, that code completion for EL variables has icons illustrating what they are from.
+                Currently it&apos;s performed for resource bundles, JSF and Seam components.</para>
+            
+            <figure>
+                <title>JSF Content Assist</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/editors_features/editors_features_8d.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <figure>
+                <title>Seam Content Assist</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/editors_features/editors_features_8c.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <para>Also, as you can see, the ranking and sorting are available in EL code completions.</para>
 
             <section id="JSFProjectFiles3087">
 
@@ -567,7 +589,7 @@
                         <title>JavaScript Tags Content Assist</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/ediors_features/editors_features_27.png"
+                                <imagedata fileref="images/editors_features/editors_features_27.png"
                                     scale="75"/>
                             </imageobject>
                         </mediaobject>
@@ -581,7 +603,15 @@
                 <title>RichFaces components</title>
                 <para>JBDS indeed provides code completion for <ulink
                         url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework
-                    components. All you have to do is to install RichFaces libraries into your
+                        components.</para>
+                
+                <tip>
+                    <title>Tip:</title>
+                    
+                    <para>RichFaces 3.2 is now fully supported in code completion.</para>
+                 </tip>
+                    
+                    <para>All you have to do is to install RichFaces libraries into your
                     project. See <ulink
                         url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
                         >here</ulink> how to install it.</para>
@@ -655,8 +685,8 @@
                 <para>Follow these steps to set what is available for code assist:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Adds code assist for JSF pre-defined objects, such as <![CDATA[value=]]><emphasis
-                                role="italic">
+                        <para>Adds code assist for JSF pre-defined objects, such as
+                                <![CDATA[value=]]><emphasis role="italic">
                                 <property>&quot;#{param}&quot;</property>
                             </emphasis>:</para>
                     </listitem>
@@ -933,15 +963,16 @@
                 <title>Support for Taglib versions</title>
 
                 <para>VPE templates now support various versions of tag libraries. It means that the
-                    <property>VPE</property> takes control under those components which have different parameters or
-                    preview according to the framework version (like seam 1.2 and seam 2.0, or JSF
-                    1.1 and JSF 1.2).</para>
+                        <property>VPE</property> takes control under those components which have
+                    different parameters or preview according to the framework version (like seam
+                    1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
 
                 <para>For example, <emphasis>
-                    <property>&lt;s:decorate&gt;</property></emphasis> element in seam has different
-                    parameters in versions 1.2 and 2.0 as well as <emphasis>
-                        <property>&lt;h:outputLink&gt;</property></emphasis> JSF
-                    element has different preview in versions 1.1 and 1.2.</para>
+                        <property>&lt;s:decorate&gt;</property>
+                    </emphasis> element in seam has different parameters in versions 1.2 and 2.0 as
+                    well as <emphasis>
+                        <property>&lt;h:outputLink&gt;</property>
+                    </emphasis> JSF element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
 
