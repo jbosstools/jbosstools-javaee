@@ -1,13 +1,7 @@
 <tests>
 	<test id="facet">
-		<DIV >
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-				</SPAN>
-				<SPAN CLASS="vpe-text">
-					Last Name
-				</SPAN>
-			</SPAN>
+		<DIV>
+			<SPAN> Last Name</SPAN>
 		</DIV>
 	</test>
 </tests>

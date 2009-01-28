@@ -3,13 +3,7 @@
 		<DIV>
 			<SPAN STYLE="color: blue; text-decoration: underline;"
 				VPE-USER-TOGGLE-ID="">
-				<SPAN CLASS="vpe-text">
-					<SPAN CLASS="vpe-text">
-					</SPAN>
-					<SPAN CLASS="vpe-text">
-						CLOSED
-					</SPAN>
-				</SPAN>
+				<SPAN> CLOSED </SPAN>
 			</SPAN>
 		</DIV>
 	</test>

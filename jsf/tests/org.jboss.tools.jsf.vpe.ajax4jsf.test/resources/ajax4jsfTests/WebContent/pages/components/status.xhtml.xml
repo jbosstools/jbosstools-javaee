@@ -1,6 +1,6 @@
 <tests>
 	<test id="status1">
-		<SPAN>
+		<SPAN CLASS="" STYLE="">
 			<SPAN>
 				Complete
 			</SPAN>
@@ -12,12 +12,8 @@
 				STOP TEXT
 			</SPAN>
 			<DIV>
-				<SPAN CLASS="vpe-text">
-					<SPAN CLASS="vpe-text">
-					</SPAN>
-					<SPAN CLASS="vpe-text">
-						FACET STOP OUTPUT TEXT
-					</SPAN>
+				<SPAN>
+					FACET STOP OUTPUT TEXT
 				</SPAN>
 			</DIV>
 		</SPAN>

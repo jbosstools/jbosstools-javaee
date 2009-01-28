@@ -1,74 +1,17 @@
 <tests>
 	<test id="commandButton1">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="commandButton" />
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
+		<input type="button" value="commandButton"/>
 	</test>
 	<test id="commandButton2">
-
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="commandButton1" />
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
+		<input type="button" value="commandButton1" />
 	</test>
 	<test id="commandButton3">
-
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="commandButton3" />
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
+		<input type="reset" value="commandButton3" />
 	</test>
 	<test id="commandButton4">
-
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="commandButton4" />
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
+		<input type="submit" value="commandButton4" />
 	</test>
 	<test id="commandButton5">
-
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="commandButton5" />
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
-	</test>
-	<test id="commandButton6">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="Fight" />
-				<P STYLE="-moz-user-modify: read-write;">
-					<SPAN CLASS="vpe-text">
-						h:commandButton
-                    </SPAN>
-				</P>
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
-	</test>
-	<test id="commandButton7">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<INPUT TYPE="button" VALUE="commandButton7" DISABLED="disabled" />
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-		</SPAN>
+		<input type="image"  SRC="/.*ve/unresolved_image.gif/" />
 	</test>
 </tests>

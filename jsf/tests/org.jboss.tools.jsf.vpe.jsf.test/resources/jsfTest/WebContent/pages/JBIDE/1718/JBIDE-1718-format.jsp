@@ -5,11 +5,9 @@
 </head>
 <body>
 <f:view>
-	<b>
-		<h:outputFormat value="{0}">
-			<f:param value="paramValue" />
-		</h:outputFormat>
-	</b>
+	<b><h:outputFormat value="{0}"
+	><f:param value="paramValue" 
+	/></h:outputFormat></b>
 </f:view>
 </body>
 </html>

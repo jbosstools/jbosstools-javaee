@@ -1,25 +1,19 @@
 <tests>
-	<test id="menuItem">
+    <test id="menuItem">
 
-		<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="">
-			<DIV CLASS="dr-menu-item-top-div">
-				<SPAN CLASS="rich-menu-item-icon">
-					<IMG
-						SRC="/.*resources/menuItem/spacer.gif/" />
+<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="" >
+<DIV CLASS="dr-menu-item-top-div" >
+<SPAN CLASS="rich-menu-item-icon" >
+<IMG SRC="/.*resources/menuItem/spacer.gif/" />
 
-				</SPAN>
-				<SPAN CLASS="rich-menu-item-label">
-					<SPAN CLASS="vpe-text">
-						<SPAN CLASS="vpe-text">
-						</SPAN>
-						<SPAN CLASS="vpe-text">
-							Item 1
-						</SPAN>
-					</SPAN>
-				</SPAN>
-			</DIV>
-			<BR _MOZ_DIRTY="" TYPE="_moz" />
+</SPAN>
+<SPAN CLASS="rich-menu-item-label" >
+<SPAN >
+Item 1
+</SPAN>
+</SPAN>
+</DIV>
+</LI>
 
-		</LI>
-	</test>
+    </test>
 </tests>

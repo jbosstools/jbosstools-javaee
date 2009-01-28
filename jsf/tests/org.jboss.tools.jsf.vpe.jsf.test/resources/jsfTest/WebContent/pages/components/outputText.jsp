@@ -12,7 +12,7 @@
 	<h:outputText value="outputText1" id="outputText1" />
 	<h:outputText value="outputText2" id="outputText2" escape="true" />
 	<h:outputText value="outputText3" id="outputText3" escape="false" />
-	<h:outputText value="4" id="outputText4">outputText</h:outputText>
+
 </f:view>
 </body>
 </html>

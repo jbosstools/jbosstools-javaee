@@ -16,10 +16,8 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMHTMLTextAreaElement;
@@ -27,7 +25,6 @@ import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 
@@ -35,22 +32,16 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 			nsIDOMDocument visualDocument) {
 
 		Element sourceElement = (Element) sourceNode;
-		/*
-		 * https://jira.jboss.org/jira/browse/JBIDE-3512
-		 * Container for correct children encoding was added.
-		 * Author: dmaliarevich
-		 */
-		nsIDOMElement contentSpan = VisualDomUtil.createBorderlessContainer(visualDocument);
-		nsIDOMElement firstSpan = VisualDomUtil.createBorderlessContainer(visualDocument);
-		nsIDOMElement lastSpan = VisualDomUtil.createBorderlessContainer(visualDocument);
-		nsIDOMElement textArea = visualDocument.createElement(HTML.TAG_TEXTAREA);
+
+		nsIDOMElement textArea = visualDocument
+				.createElement(HTML.TAG_TEXTAREA);
 		
 // Commented as fix for JBIDE-3012.		
 //		((nsIDOMHTMLTextAreaElement) textArea
 //				.queryInterface(nsIDOMHTMLTextAreaElement.NS_IDOMHTMLTEXTAREAELEMENT_IID))
 //				.setReadOnly(true);
 
-		VpeCreationData creationData = new VpeCreationData(contentSpan);
+		VpeCreationData creationData = new VpeCreationData(textArea);
 
 		copyGeneralJsfAttributes(sourceElement, textArea);
 		ComponentUtil.copyDisabled(sourceElement, textArea);
@@ -77,17 +68,7 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 		}
 		textArea.appendChild(text);
 		creationData.setElementData(elementData);
-		VpeChildrenInfo spanInfo = new VpeChildrenInfo(firstSpan);
-		creationData.addChildrenInfo(spanInfo);
-		NodeList nodeList = sourceElement.getChildNodes();
-		for (int i = 0; i < nodeList.getLength(); i++) {
-		    Node child = nodeList.item(i);
-		    spanInfo.addSourceChild(child);
-		}
-		
-		contentSpan.appendChild(firstSpan);
-		contentSpan.appendChild(lastSpan);
-		lastSpan.appendChild(textArea);
+
 		return creationData;
 	}
 

@@ -1,44 +1,13 @@
 <tests>
 	<test id="outputText1">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-				outputText1
-			</SPAN>
-		</SPAN>
-		<SPAN>outputText1</SPAN>
+		<SPAN> outputText1</SPAN>
 	</test>
 	<test id="outputText2">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-		</SPAN>
-		<SPAN CLASS="vpe-text">
-			outputText2
-		</SPAN>
-		</SPAN>
+		<SPAN> outputText2</SPAN>
 	</test>
 	<test id="outputText3">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-					outputText3
-				</SPAN>
-			</SPAN>
-		</SPAN>
-	</test>
-	<test id="outputText4">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-					outputText
-				</SPAN>
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-				4
-			</SPAN>
+		<SPAN>
+			<SPAN> outputText3</SPAN>
 		</SPAN>
 	</test>
 </tests>

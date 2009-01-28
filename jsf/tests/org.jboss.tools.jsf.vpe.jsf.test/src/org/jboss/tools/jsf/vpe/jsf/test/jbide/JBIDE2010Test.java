@@ -59,10 +59,10 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
 
-        assertEquals("Number of divs should be equals 3", 3, elements.size()); //$NON-NLS-1$
+        assertEquals("Count of divs should be equals 1", 1, elements.size()); //$NON-NLS-1$
         final nsIDOMElement spanOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
-        assertEquals("Style attribute should be substituted", VALUE_4, spanOne.getLastChild().getFirstChild().getNodeValue()); //$NON-NLS-1$
+        assertEquals("Style attribute should be substituted", VALUE_4, spanOne.getFirstChild().getNodeValue()); //$NON-NLS-1$
 
     }
     

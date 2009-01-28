@@ -44,9 +44,9 @@ public class JBIDE2505Test extends VpeTest {
 		setException(null);
 
         //test for element node
-		testCaretManupulationWithoutElSubstitution("JBIDE/2505/testJBIDE2505.jsp", 11, 34); //$NON-NLS-1$
+		testCaretManupulationWithoutElSubstitution("JBIDE/2505/testJBIDE2505.jsp",11, 34); //$NON-NLS-1$
         //test for sourceNode
-		testCaretManupulationWithoutElSubstitution("JBIDE/2505/testJBIDE2505.jsp", 12, 58); //$NON-NLS-1$
+		testCaretManupulationWithoutElSubstitution("JBIDE/2505/testJBIDE2505.jsp",12, 58); //$NON-NLS-1$
         if(getException()!=null) {
         	throw getException();
         }

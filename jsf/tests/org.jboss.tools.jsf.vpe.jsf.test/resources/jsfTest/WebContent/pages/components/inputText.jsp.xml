@@ -1,23 +1,5 @@
 <tests>
-	<test id="inputText1">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-				<INPUT VALUE="inputText" />
-			</SPAN>
-		</SPAN>
-	</test>
-	<test id="inputText2">
-		<SPAN CLASS="vpe-text">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-					h:inputText
-				</SPAN>
-			</SPAN>
-			<SPAN CLASS="vpe-text">
-				<INPUT VALUE="Test verbtim for h:inputSecret " />
-			</SPAN>
-		</SPAN>
+	<test id="inputText">
+		<input />
 	</test>
 </tests>

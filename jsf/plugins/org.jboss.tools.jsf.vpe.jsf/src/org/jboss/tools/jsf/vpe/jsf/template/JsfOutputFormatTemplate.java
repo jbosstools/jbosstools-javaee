@@ -21,7 +21,6 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Attr;
@@ -73,24 +72,16 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		// create container
-		nsIDOMElement mainContainer = VisualDomUtil.createBorderlessContainer(visualDocument);
+		// create span element
+		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+
 		// creation data
-		VpeCreationData creationData = new VpeCreationData(mainContainer);
-		
-		VisualDomUtil.appendChildrenInsertionPoint(element, mainContainer, creationData, visualDocument);
-		
-		// create container for values of attributes, for tag body
-		// and append them them to main container
-		nsIDOMElement attributeValueContainer = VisualDomUtil.createBorderlessContainer(visualDocument);
-		mainContainer.appendChild(attributeValueContainer);
-
-
+		VpeCreationData creationData = new VpeCreationData(span);
 
 		// copy attributes
-		copyOutputJsfAttributes(attributeValueContainer, element);
+		copyOutputJsfAttributes(span, element);
 
-		processOutputAttribute(pageContext, visualDocument, element, attributeValueContainer,
+		processOutputAttribute(pageContext, visualDocument, element, span,
 				creationData);
 
 		return creationData;

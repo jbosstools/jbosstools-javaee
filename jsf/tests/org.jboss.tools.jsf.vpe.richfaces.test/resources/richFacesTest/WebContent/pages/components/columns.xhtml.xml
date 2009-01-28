@@ -1,14 +1,7 @@
 <tests>
 	<test id="columns">
-		<TD VALUE="#{bookList.books}" VAR="label" ID="columns"
-			CLASS="dr-table-cell rich-table-cell">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-				</SPAN>
-				<SPAN CLASS="vpe-text">
-					#{book.price}
-				</SPAN>
-			</SPAN>
+		<TD CLASS="dr-table-cell rich-table-cell">
+			<SPAN> #{book.price}</SPAN>
 		</TD>
 	</test>
 </tests>

@@ -1,45 +1,35 @@
 <tests>
-	<test id="menuGroup">
-		<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-group" STYLE="">
-			<DIV CLASS="dr-menu-group-top-div">
-				<SPAN CLASS="rich-menu-item-icon-enabled">
-					<IMG
-						SRC="/.*resources/menuGroup/spacer.gif/" />
+    <test id="menuGroup">
 
-				</SPAN>
-				<SPAN CLASS="rich-menu-item-label rich-menu-group-label">
-					Group 2
+<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-group" STYLE="" >
+<DIV CLASS="dr-menu-group-top-div" >
+<SPAN CLASS="rich-menu-item-icon-enabled" >
+<IMG SRC="/.*resources/menuGroup/spacer.gif/" />
+
 </SPAN>
-				<SPAN CLASS="rich-menu-item-folder rich-menu-group-folder"
-					STYLE="">
-					<IMG
-						SRC="/.*resources/menuGroup/arrow.gif/" />
-
-				</SPAN>
-			</DIV>
-			<UL VPE-DDM-MENU-UL="" CLASS="rich-menu-list-border rich-menu-list-bg">
-				<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="">
-					<DIV CLASS="dr-menu-item-top-div">
-						<SPAN CLASS="rich-menu-item-icon">
-							<IMG
-								SRC="/.*resources/menuItem/spacer.gif/" />
-
-						</SPAN>
-						<SPAN CLASS="rich-menu-item-label">
-							<SPAN CLASS="vpe-text">
-								<SPAN CLASS="vpe-text">
-								</SPAN>
-								<SPAN CLASS="vpe-text">
-									Item 2
+<SPAN CLASS="rich-menu-item-label rich-menu-group-label"  >
+Group 2
 </SPAN>
-							</SPAN>
-						</SPAN>
-					</DIV>
-					<BR _MOZ_DIRTY="" TYPE="_moz" />
+<SPAN CLASS="rich-menu-item-folder rich-menu-group-folder" STYLE="" >
+<IMG SRC="/.*resources/menuGroup/arrow.gif/"  />
+</SPAN>
+</DIV>
+<UL VPE-DDM-MENU-UL="" CLASS="rich-menu-list-border rich-menu-list-bg" >
+<LI VPE-DDM-MENU-LI="" CLASS="rich-menu-item" STYLE="" >
+<DIV CLASS="dr-menu-item-top-div" >
+<SPAN CLASS="rich-menu-item-icon" >
+<IMG SRC="/.*resources/menuItem/spacer.gif/"  />
 
-				</LI>
-			</UL>
-			<BR _MOZ_DIRTY="" TYPE="_moz" />
-		</LI>
-	</test>
+</SPAN>
+<SPAN CLASS="rich-menu-item-label" >
+<SPAN>
+Item 2
+</SPAN>
+</SPAN>
+</DIV>
+</LI>
+</UL>
+</LI>
+
+    </test>
 </tests>

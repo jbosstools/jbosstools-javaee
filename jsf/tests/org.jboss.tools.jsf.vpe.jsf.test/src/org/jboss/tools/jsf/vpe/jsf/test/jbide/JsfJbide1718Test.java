@@ -282,21 +282,24 @@ public class JsfJbide1718Test extends VpeTest {
 		// disabled="true", so number of "a" tags must be one
 		assertEquals(1, spanElements.size());
 
-		nsIDOMNode outputFormat = spanElements.get(0);
+		nsIDOMNode span = spanElements.get(0);
 
-		nsIDOMNodeList outputFormatChildren = outputFormat.getChildNodes();
-		assertNotNull(outputFormatChildren);
-		assertEquals(outputFormatChildren.getLength(), 2);
-		
-		nsIDOMNode fParamContainer = outputFormatChildren.item(1);
-		assertNotNull(fParamContainer);
-		
-		nsIDOMNodeList fParamContainerChildren = fParamContainer.getChildNodes();
-		assertNotNull(fParamContainerChildren);
-		assertTrue(fParamContainerChildren.getLength() > 0);
-		
-		nsIDOMNode text = fParamContainerChildren.item(0);
-		assertEquals("paramValue", text.getNodeValue());
+		nsIDOMNodeList children = span.getChildNodes();
+		assertNotNull(children);
+
+		boolean isFind = false;
+		for (int i = 0; i < children.getLength(); i++) {
+
+			nsIDOMNode text = children.item(i);
+
+			if ("paramValue".equals(text.getNodeValue())) { //$NON-NLS-1$
+				isFind = true;
+				break;
+			}
+
+			assertEquals(true, isFind);
+
+		}
 
 		// check exception
 		if (getException() != null) {

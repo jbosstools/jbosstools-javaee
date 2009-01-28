@@ -1,47 +1,22 @@
 <tests>
 	<test id="column1">
-		<TD COLSPAN="3" ID="column1" CLASS="dr-table-headercell rich-table-headercell">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-				</SPAN>
-				<SPAN CLASS="vpe-text">
-					FIELDS
-				</SPAN>
-			</SPAN>
+		<TD COLSPAN="3" CLASS="dr-table-headercell rich-table-headercell">
+			<SPAN> FIELDS</SPAN>
 		</TD>
 	</test>
 	<test id="column2">
-		<TD BREAKBEFORE="true" ID="column2"
-			CLASS="dr-table-headercell rich-table-headercell">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-				</SPAN>
-				<SPAN CLASS="vpe-text">
-					field1
-				</SPAN>
-			</SPAN>
+		<TD BREAKBEFORE="true" CLASS="dr-table-headercell rich-table-headercell">
+			<SPAN> field1</SPAN>
 		</TD>
 	</test>
 	<test id="column3">
-		<TD ID="column3" CLASS="dr-table-cell rich-table-cell">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-				</SPAN>
-				<SPAN CLASS="vpe-text">
-					#{row.field1}
-				</SPAN>
-			</SPAN>
+		<TD CLASS="dr-table-cell rich-table-cell">
+			<SPAN> #{row.field1}</SPAN>
 		</TD>
 	</test>
 	<test id="column4">
-		<TD ID="column4" CLASS="dr-table-footercell rich-table-footercell">
-			<SPAN CLASS="vpe-text">
-				<SPAN CLASS="vpe-text">
-				</SPAN>
-				<SPAN CLASS="vpe-text">
-					footer1
-				</SPAN>
-			</SPAN>
+		<TD CLASS="dr-table-footercell rich-table-footercell">
+			<SPAN> footer1</SPAN>
 		</TD>
 	</test>
 </tests>

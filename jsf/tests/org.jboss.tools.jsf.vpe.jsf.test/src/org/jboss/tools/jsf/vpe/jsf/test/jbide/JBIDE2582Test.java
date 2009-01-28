@@ -170,7 +170,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
 
         nsIDOMNode node = SelectionUtil.getLastSelectedNode(controller.getPageContext());
 
-        assertEquals("Node names should be equals.", "Hello", node.getLastChild().getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Node names should be equals", "Hello", node.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
 
     }
 
