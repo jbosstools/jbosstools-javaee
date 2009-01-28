@@ -72,7 +72,10 @@ class RichFacesEditorTemplateHelper {
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "editor"); //$NON-NLS-1$
 		// create nodes
 		nsIDOMElement mainSpan = visualDocument.createElement(HTML.TAG_SPAN); {
-			mainSpan.setAttribute(HTML.ATTR_CLASS, "richfacesSimpleSkin");
+			mainSpan.setAttribute(HTML.ATTR_CLASS, "richfacesSimpleSkin"); //$NON-NLS-1$
+			
+			// Yahor Radtsevich: Fix of JBIDE-3653: inFlasher doesn't shows for rich:editor component
+			mainSpan.setAttribute(HTML.ATTR_STYLE, "display: table;"); //$NON-NLS-1$
 		}
 		nsIDOMElement mainTable = createMainTable();
 		nsIDOMElement textContainer = createTextContainer();
