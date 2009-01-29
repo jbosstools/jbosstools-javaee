@@ -823,10 +823,12 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		ELOperandResolveStatus status = resolveELOperand(file, expr, true, vars, varSearcher);
 		if (status.isOK()) {
 			MemberInfo member = status.getMemberOfResolvedOperand();
-			IJavaElement el = member.getJavaElement();
-			if (el != null) {
-				res.add(el);
-				return res;
+			if (member != null) {
+				IJavaElement el = member.getJavaElement();
+				if (el != null) {
+					res.add(el);
+					return res;
+				}
 			}
 		}
 		return res;
