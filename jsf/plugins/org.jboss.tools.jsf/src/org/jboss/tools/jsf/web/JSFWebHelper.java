@@ -142,6 +142,14 @@ public class JSFWebHelper {
 				set.add(o);
 			}
 		}
+		XModelObject[] js = fs.getChildren("FileSystemJar");
+		for (XModelObject o: js) {
+			XModelObject c = o.getChildByPath("META-INF/faces-config.xml");
+			if(c != null && !set.contains(c)) {
+				list.add(c);
+				set.add(c);
+			}
+		}
 	}
 
 	public static void registerConfigFile(XModel model, String path, ConfigFilesData data) throws XModelException {
