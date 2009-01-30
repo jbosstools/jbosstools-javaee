@@ -48,6 +48,7 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.kb.KbProposal;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -369,7 +370,15 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		if (status.getResolvedTokens() == status.getTokens()) {
 			// First segment is the last one
 			Set<KbProposal> proposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
+			// In some cases there may be a few references to the same variable name.
+			// For example @Factory and @DataModel. We should use @DataModel instead of @Factory
+			// method which returns null.
+			// See https://jira.jboss.org/jira/browse/JBIDE-3694
+			TypeInfoCollector.MemberInfo bijectedAttribute = null;
 			for (ISeamContextVariable var : resolvedVariables) {
+				if(var instanceof IBijectedAttribute) {
+					bijectedAttribute = SeamExpressionResolver.getMemberInfoByVariable(var, true);
+				}
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
 					KbProposal proposal = new KbProposal();
@@ -390,7 +399,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					}
 					proposals.add(proposal);
 				}
-				status.setMemberOfResolvedOperand(SeamExpressionResolver.getMemberInfoByVariable(var, true));
+				status.setMemberOfResolvedOperand(bijectedAttribute!=null?bijectedAttribute:SeamExpressionResolver.getMemberInfoByVariable(var, true));
 			}
 			status.setLastResolvedToken(expr);
 			status.setProposals(proposals);
