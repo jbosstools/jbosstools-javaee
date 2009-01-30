@@ -28,6 +28,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -403,10 +404,22 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			if (member != null && !members.contains(member)) 
 				members.add(member);
 		}
+		//process segments one by one
 		if(left != null) while(left != expr) {
 			left = (ELInvocationExpression)left.getParent();
 			if (left != expr) { // inside expression
-				members = resolveSegment(left, members, status, returnEqualedVariablesOnly, varIsUsed);
+				if(left instanceof ELArgumentInvocation) {
+					String s = "#{" + left.getLeft().toString() + collectionAdditionForCollectionDataModel + "}";
+					ELParser p = factory.createParser();
+					ELInvocationExpression expr1 = (ELInvocationExpression)p.parse(s).getInstances().get(0).getExpression();
+					members = resolveSegment(expr1.getLeft(), members, status, returnEqualedVariablesOnly, varIsUsed);
+					members = resolveSegment(expr1, members, status, returnEqualedVariablesOnly, varIsUsed);
+					if(status.getLastResolvedToken() == expr1) {
+						status.setLastResolvedToken(left);
+					}
+				} else {				
+					members = resolveSegment(left, members, status, returnEqualedVariablesOnly, varIsUsed);
+				}
 			} else { // Last segment
 				resolveLastSegment((ELInvocationExpression)operand, members, status, returnEqualedVariablesOnly, varIsUsed);
 				break;
@@ -575,6 +588,76 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				// We do expect nothing but name for method tokens (No round brackets)
 				String filter = expr.getMemberName();
 				if(filter == null) filter = "";
+				if(returnEqualedVariablesOnly) {
+					// This is used for validation.
+					if (proposal.getPresentation().equals(filter)) {
+						KbProposal kbProposal = new KbProposal();
+						kbProposal.setReplacementString(proposal.getPresentation());
+						
+						if (proposal.getMember() instanceof MessagesInfo) {
+							kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+						} else {
+							kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+						}
+						
+						kbProposals.add(kbProposal);
+
+						status.setMemberOfResolvedOperand(proposal.getMember());
+						if(status.getUnpairedGettersOrSetters()!=null) {
+							TypeInfoCollector.MethodInfo unpirMethod = status.getUnpairedGettersOrSetters().get(filter);
+							status.clearUnpairedGettersOrSetters();
+							if(unpirMethod!=null) {
+								status.getUnpairedGettersOrSetters().put(filter, unpirMethod);
+							}
+						}
+						break;
+					}
+				} else if (proposal.getPresentation().startsWith(filter)) {
+					// This is used for CA.
+					KbProposal kbProposal = new KbProposal();
+					kbProposal.setReplacementString(proposal.getPresentation().substring(filter.length()));
+					kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
+					
+					kbProposals.add(kbProposal);
+				}
+			}
+		} else if(expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION) {
+			Set<TypeInfoCollector.MemberPresentation> proposalsToFilter = new TreeSet<TypeInfoCollector.MemberPresentation>(TypeInfoCollector.MEMBER_PRESENTATION_COMPARATOR);
+			boolean isMessages = false;
+			for (TypeInfoCollector.MemberInfo mbr : members) {
+				if (mbr instanceof MessagesInfo) {
+					isMessages = true;
+					Collection<String> keys = ((MessagesInfo)mbr).getKeys();
+					for (String key : keys) {
+						proposalsToFilter.add(new TypeInfoCollector.MemberPresentation(key, mbr));
+					}
+					continue;
+				}
+				if (mbr.getMemberType() == null) continue;
+				try {
+					if(TypeInfoCollector.isInstanceofType(mbr.getMemberType(), "java.util.Map")) {
+						status.setMapOrCollectionOrBundleAmoungTheTokens();
+						//if map/collection is parameterized, we might return member info for value type. 
+						return;
+					}
+				} catch (JavaModelException jme) {
+					//ignore
+				}
+				status.setMemberOfResolvedOperand(mbr);
+			}
+
+			String filter = expr.getMemberName();
+			if(filter == null) filter = "";
+			if((filter.startsWith("'") || filter.startsWith("\""))
+				&& (filter.endsWith("'") || filter.endsWith("\""))) {
+				filter = filter.substring(1, filter.length() - 1);
+			} else {
+				//Value is set as expression itself, we cannot compute it
+				if(isMessages) status.setMapOrCollectionOrBundleAmoungTheTokens();
+				return;
+			}
+			
+			for (TypeInfoCollector.MemberPresentation proposal : proposalsToFilter) {
 				if(returnEqualedVariablesOnly) {
 					// This is used for validation.
 					if (proposal.getPresentation().equals(filter)) {
