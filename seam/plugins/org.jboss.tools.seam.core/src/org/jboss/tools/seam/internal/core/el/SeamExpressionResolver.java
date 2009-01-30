@@ -21,12 +21,18 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.text.BadLocationException;
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInstance;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.parser.ELParser;
+import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.Type;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeMemberInfo;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -252,10 +258,10 @@ public class SeamExpressionResolver {
 	 * @param variable
 	 * @return
 	 */
-	public static TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable variable, boolean onlyEqualNames) {
+	public static TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable variable, boolean onlyEqualNames, SeamELCompletionEngine engine) {
 		TypeInfoCollector.MemberInfo member = null;
 		if(variable instanceof ISeamContextShortVariable) {
-			return getMemberInfoByVariable(((ISeamContextShortVariable)variable).getOriginal(), onlyEqualNames);
+			return getMemberInfoByVariable(((ISeamContextShortVariable)variable).getOriginal(), onlyEqualNames, engine);
 		}
 		if(variable instanceof ISeamMessages) {
 			MemberInfo info = null;;
@@ -329,12 +335,28 @@ public class SeamExpressionResolver {
 				ISeamProject project = ((ISeamElement)factory).getSeamProject();
 //				ISeamProject project = getSeamProject(factory.getResource());
 				if (project != null) {
-					List<ISeamContextVariable> resolvedValues = resolveVariables(project, null /* factory.getScope()*/, value, onlyEqualNames);
+					List<ISeamContextVariable> resolvedValues = resolveVariables(project, null /* factory.getScope()*/, value, onlyEqualNames); 
 					for (ISeamContextVariable var : resolvedValues) {
 						if (var.getName().equals(value)) {
-							member = getMemberInfoByVariable(var, onlyEqualNames);
+							member = getMemberInfoByVariable(var, onlyEqualNames, engine);
 							break;
 						}
+					}
+				}
+			}
+			if(member == null) {
+				ELParser p = ELParserUtil.getJbossFactory().createParser();
+				ELModel m = p.parse(factory.getValue());
+				ELInstance i = m.getInstances().size() == 0 ? null : m.getInstances().get(0);
+				ELExpression ex = i == null ? null : i.getExpression();
+				if(ex instanceof ELInvocationExpression) {
+					ELInvocationExpression expr = (ELInvocationExpression)ex;
+					try {
+						member = engine.resolveSeamEL(null, expr, false);
+					} catch (StringIndexOutOfBoundsException e) {
+						e.printStackTrace();
+					} catch (BadLocationException e) {
+						e.printStackTrace();
 					}
 				}
 			}

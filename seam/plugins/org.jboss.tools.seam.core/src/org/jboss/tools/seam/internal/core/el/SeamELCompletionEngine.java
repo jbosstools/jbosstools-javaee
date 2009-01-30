@@ -190,6 +190,10 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				} else {
 					// Last resolved token is token outside "var" prefix. Correct last resolved token.
 					int oldLastResolvedTokenStart = newLastResolvedToken.getInvocationStartPosition() - var.getElToken().getText().length() - suffix.length() + var.getName().length();
+					if(newLastResolvedToken.getLeft() == null) {
+						//In this case we do not need to take into account difference in length of var and its expression.
+						oldLastResolvedTokenStart = newLastResolvedToken.getInvocationStartPosition();
+					}
 					ELInvocationExpression l = (ELInvocationExpression)operand;
 					while(l != null) {
 						if(l.getInvocationStartPosition() - l.getStartPosition() <= oldLastResolvedTokenStart) {
@@ -377,7 +381,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			TypeInfoCollector.MemberInfo bijectedAttribute = null;
 			for (ISeamContextVariable var : resolvedVariables) {
 				if(var instanceof IBijectedAttribute) {
-					bijectedAttribute = SeamExpressionResolver.getMemberInfoByVariable(var, true);
+					bijectedAttribute = SeamExpressionResolver.getMemberInfoByVariable(var, true, this);
 				}
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
@@ -399,7 +403,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					}
 					proposals.add(proposal);
 				}
-				status.setMemberOfResolvedOperand(bijectedAttribute!=null?bijectedAttribute:SeamExpressionResolver.getMemberInfoByVariable(var, true));
+				status.setMemberOfResolvedOperand(bijectedAttribute!=null?bijectedAttribute:SeamExpressionResolver.getMemberInfoByVariable(var, true, this));
 			}
 			status.setLastResolvedToken(expr);
 			status.setProposals(proposals);
@@ -409,7 +413,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		// First segment is found - proceed with next tokens 
 		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
 		for (ISeamContextVariable var : resolvedVariables) {
-			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, returnEqualedVariablesOnly);
+			TypeInfoCollector.MemberInfo member = SeamExpressionResolver.getMemberInfoByVariable(var, returnEqualedVariablesOnly, this);
 			if (member != null && !members.contains(member)) 
 				members.add(member);
 		}
