@@ -559,51 +559,5 @@
             </section>
         </section>
     </section>
-    <section id="RichFacesSupport">
-        <?dbhtml filename="RichFacesSupport.html"?>
-        <title>RichFaces Support</title>
-        <para><property>JBoss Developer Studio</property> comes with a tight integration with <ulink
-                url="http://labs.jboss.com/jbossrichfaces/">RichFaces component framework</ulink>.
-            RichFaces and Ajax4jsf tag libraries in <link linkend="palette">JBoss Tools
-            Palette</link> always exist.</para>
-
-        <figure>
-            <title>RichFaces Components</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/palette/palette_13.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>To start using <property>RichFaces</property> components as well as
-            <property>Ajax4jsf</property> ones in JBDS you should first put <emphasis>
-                <property>richfaces-*.jar</property>
-            </emphasis> files into the <emphasis>
-                <property>/lib</property>
-            </emphasis> folder of your project.</para>
-        <!-- this palette is not dynamic and is not changed from file to file. -->
-
-        <note>
-            <title>Note:</title>
-
-            <para>Currant version of <property>JBoss Developer Studio</property> (i. e. 1.1.0GA)
-                includes <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces
-                3.2.2</ulink>. The JBoss Tools 3.0.0.beta1 comes with <ulink
-                    url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces 3.1.3</ulink> and
-                partly support 3.2 version of the component framework. If you need to use the latest
-                version of the component framework you should import it into the Palette like any
-                other <link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">custom tag
-                library</link>.</para>
-        </note>
-
-        <section>
-            <title>Relevant Resources Links</title>
-            <para>It may be helpful for you to look through the <ulink
-                    url="http://docs.jboss.org/tools/movies/demos/rich_faces_demo/rich_faces_demo.htm"
-                    >movie</ulink> which covers a creation of a jsf application with simple content
-                using the RichFaces components.</para>
-        </section>
-
-    </section>
+    
 </chapter>
