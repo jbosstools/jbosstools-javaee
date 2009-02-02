@@ -86,6 +86,11 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 		performInvisibleTagTest("components/push.xhtml", "push"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
+	public void testQueue() throws Throwable {
+		performInvisibleTagTest(
+				"components/queue.jsp", "a4jQueue"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
 	public void _testRegion() throws Throwable {
 		performContentTest("components/region.xhtml");//$NON-NLS-1$
 	}

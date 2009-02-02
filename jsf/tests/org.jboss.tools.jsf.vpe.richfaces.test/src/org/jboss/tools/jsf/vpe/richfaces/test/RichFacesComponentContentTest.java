@@ -251,6 +251,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/progressBar.xhtml");//$NON-NLS-1$
 	}
 
+	public void testEditor() throws Throwable {
+		performContentTest("components/editor.jsp"); //$NON-NLS-1$
+	}
+
 	public void testScrollableDataTable() throws Throwable {
 		performContentTest("components/scrollableDataTable.xhtml");//$NON-NLS-1$
 	}
