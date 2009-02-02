@@ -40,7 +40,6 @@
     
     <vpe:tag name="a4j:keepAlive" case-sensitive="yes">
 	    <vpe:template children="no" modify="no">
-			<nobr><vpe:value expr="{@beanName}"/></nobr>	    
 	    </vpe:template>
     </vpe:tag>
     
