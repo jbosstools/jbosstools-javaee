@@ -66,6 +66,7 @@ public class SeamBigProjectTest extends TestCase {
 		JobUtils.waitForIdle();
 		//To ensure that the project is built.
 		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
 	}
 	
 	private File getTemplateFile() {
