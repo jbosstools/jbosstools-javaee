@@ -154,30 +154,6 @@
                     </mediaobject>
                 </figure>
 
-                <para>Richfaces tags <emphasis>
-                        <property>&lt;rich:insert&gt;</property>
-                    </emphasis> and <emphasis>
-                        <property>&lt;a4j:include&gt;</property>
-                    </emphasis> has also <property>OpenOn</property> support.</para>
-
-                <figure>
-                    <title>OpenOn With Richfaces Tag</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_8a.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <figure>
-                    <title>OpenOn With A4j Tag</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_8b.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
             </section>
         </section>
 
@@ -595,76 +571,8 @@
                         </mediaobject>
                     </figure>
                 </section>
-
-
             </section>
-            <section id="ContentAssistForRF">
-
-                <title>RichFaces components</title>
-                <para>JBDS indeed provides code completion for <ulink
-                        url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework
-                        components.</para>
-                
-                <tip>
-                    <title>Tip:</title>
-                    
-                    <para>RichFaces 3.2 is now fully supported in code completion.</para>
-                 </tip>
-                    
-                    <para>All you have to do is to install RichFaces libraries into your
-                    project. See <ulink
-                        url="http://labs.jboss.com/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html/GettingStarted.html"
-                        >here</ulink> how to install it.</para>
-                <figure>
-                    <title>Content Assist for RichFaces Components</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_29.png"
-                                scale="65"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <itemizedlist>
-                    <listitem>
-                        <para>To insert a RichFaces component on a page expand <emphasis>
-                                <property>JBoss RichFaces</property>
-                            </emphasis> group on the palette</para>
-                    </listitem>
-                    <listitem>
-                        <para>Click on some component</para>
-                    </listitem>
-                    <listitem>
-                        <para>Put the needed attributes in the <emphasis>
-                                <property>Insert Tag</property>
-                            </emphasis> dialog and click <emphasis>
-                                <property>Finish</property>
-                            </emphasis> button <figure>
-                                <title>Insert Tag</title>
-                                <mediaobject>
-                                    <imageobject>
-                                        <imagedata
-                                            fileref="images/editors_features/editors_features_30.png"
-                                            scale="75"/>
-                                    </imageobject>
-                                </mediaobject>
-                            </figure>
-                        </para>
-                    </listitem>
-                </itemizedlist>
-                <para>The RichFaces tag will be inserted on your page displayed in source and visual
-                    modes: </para>
-                <figure>
-                    <title>RichFaces Component</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_31.png"
-                                scale="75"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </section>
-
-
+        
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
