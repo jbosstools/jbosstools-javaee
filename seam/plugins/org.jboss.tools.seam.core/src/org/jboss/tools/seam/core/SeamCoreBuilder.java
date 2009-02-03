@@ -90,6 +90,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			
 			if(sp.getClassPath().update()) {
 				sp.getClassPath().process();
+			} else if(sp.getClassPath().hasToUpdateProjectDependencies()) {
+				sp.getClassPath().validateProjectDependencies();
 			}
 
 			TypeInfoCollector.cleanCache();

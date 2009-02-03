@@ -225,6 +225,30 @@ public class ClassPath {
 		}
 	}
 
+	public boolean hasToUpdateProjectDependencies() {
+		List<SeamProject> ps = null;
+		
+		try {
+			ps = getSeamProjects(project.getProject());
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		if(ps != null) {
+			Set<SeamProject> set = project.getSeamProjects();
+			Set<SeamProject> removable = new HashSet<SeamProject>();
+			removable.addAll(set);
+			removable.removeAll(ps);
+			ps.removeAll(set);
+			for (SeamProject p : ps) {
+				return true;
+			}
+			for (SeamProject p : removable) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	void componentsLoaded(LoadedDeclarations c, IPath path) {
 		if(c == null) return;
 		project.registerComponents(c, path);

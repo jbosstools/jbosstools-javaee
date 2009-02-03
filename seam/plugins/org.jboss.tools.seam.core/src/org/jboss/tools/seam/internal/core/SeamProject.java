@@ -327,7 +327,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
 		for (int i = 0; i < ps.length; i++) {
 			IPath pth = ps[i];
-			if(p.getSourcePath().isPrefixOf(pth)) {
+			if(p.getSourcePath().isPrefixOf(pth) || (p.isPathLoaded(pth) && !pth.toString().endsWith(".jar"))) {
 				pathRemoved(pth);
 			}
 		}
@@ -1009,6 +1009,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		if(changes != null) c.revalidate(changes); 
 		fireChanges(changes);
+	}
+
+	public boolean isPathLoaded(IPath source) {
+		return sourcePaths2.containsKey(source);
 	}
 
 	/**
