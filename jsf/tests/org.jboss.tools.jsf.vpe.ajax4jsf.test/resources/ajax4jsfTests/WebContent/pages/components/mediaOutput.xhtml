@@ -7,13 +7,26 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+<style type="">
+.dotted-border {
+	border-style:dotted;border-color:orchid;
+}
+</style>
 </head>
 
 <body>
 <f:view>
-	<a4j:mediaOutput id="mediaOutput" element="img" cacheable="false" session="true"
+	<a4j:mediaOutput id="mediaOutput1" element="img" cacheable="false" session="true"
 		createContent="#{paintBean.paint}" value="#{paintData}"
 		mimeType="image/jpeg" />
+	<a4j:mediaOutput id="mediaOutput2" element="img" cacheable="false" session="true"
+		createContent="#{paintBean.paint}" value="#{paintData}" border="20" align="right"
+		style="background-color:green;" styleClass="dotted-border"
+		mimeType="image/jpeg" dir="RTL"/>
+	<a4j:mediaOutput id="mediaOutput3" element="a" cacheable="false" session="true" uriAttribute="href"
+		createContent="#{paintBean.paint}" value="#{paintData}"
+		style="background-color:green;" styleClass="dotted-border"
+		mimeType="image/jpeg" dir="RTL"/>
 </f:view>
 </body>
 </html>

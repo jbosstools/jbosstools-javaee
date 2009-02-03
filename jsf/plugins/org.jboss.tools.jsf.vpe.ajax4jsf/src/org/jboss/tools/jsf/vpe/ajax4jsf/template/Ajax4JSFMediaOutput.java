@@ -7,10 +7,12 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.ajax4jsf.template;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -18,49 +20,63 @@ import org.jboss.tools.jsf.vpe.ajax4jsf.Activator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * The template for {@code <a4j:mediaOutput>} tag.
+ *
+ * @author dmaliarevich
+ * @author dsakovich
+ * @author yradtsevich
+ */
 public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
+    private static final String IMG_PATH = "mediaOutput/mediaOutput.jpg"; //$NON-NLS-1$
+    
+    private static final List<String> SAME_ATTRIBUTES_LIST;
+    static {
+    	String []sameAttributes = {HTML.ATTR_ALIGN, HTML.ATTR_BORDER, HTML.ATTR_DIR,
+    		HTML.ATTR_HSPACE, HTML.ATTR_ID,  HTML.ATTR_STYLE, HTML.ATTR_VSPACE};
+    	for (int i = 0; i < sameAttributes.length; i++) {
+    		sameAttributes[i] = sameAttributes[i].toLowerCase();
+    	}
+    	SAME_ATTRIBUTES_LIST = Arrays.asList(sameAttributes);
+    }
 
-	public static final String ALT_MEDIA_OTPUT = "	mediaOutput";
-
-	public static final String HTML_TAG_DIV = "DIV";
-	public static final String HTML_TAG_IMG = "IMG";
-	
-    public static final String ATTR_WIDTH = "WIDTH";
-    public static final String ATTR_HEIGHT = "HEIGHT";
-    public static final String ATTR_SRC = "src";
-    public static final String ATTR_ALT = "alt";
-	
-    public static final String IMG_PATH = "mediaOutput/mediaOutput.jpg";
-	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
-		
-		nsIDOMElement mainDiv = visualDocument
-			.createElement(HTML_TAG_DIV);
-		nsIDOMElement img = visualDocument
-			.createElement(HTML_TAG_IMG);
-		
-		img.setAttribute(ATTR_SRC, "file:///" + getAbsoluteResourcePath(IMG_PATH).replace('\\', '/'));
-		img.setAttribute(ATTR_ALT, ALT_MEDIA_OTPUT);
-		img.setAttribute(ATTR_WIDTH, "100");
-		img.setAttribute(ATTR_HEIGHT, "50");
-		
-		mainDiv.appendChild(img);
-		
-		return new VpeCreationData(mainDiv);
+
+		Element sourceElement = (Element) sourceNode;
+		nsIDOMElement mainTag = createMainTag(visualDocument, sourceElement);
+
+		String uriAttribute = sourceElement.getAttribute(Ajax4JSF.ATTR_URI_ATTRIBUTE);
+		if (uriAttribute == null || "".equals(uriAttribute)) { //$NON-NLS-1$
+			uriAttribute = HTML.ATTR_SRC;
+		}
+
+		mainTag.setAttribute(uriAttribute, "file:///" + getAbsoluteResourcePath(IMG_PATH).replace('\\', '/')); //$NON-NLS-1$
+
+		VisualDomUtil.copyAttributes(sourceElement, SAME_ATTRIBUTES_LIST, mainTag);
+
+		String styleClass = sourceElement.getAttribute(Ajax4JSF.ATTR_STYLE_CLASS);
+		if (styleClass != null) {
+			mainTag.setAttribute(HTML.ATTR_CLASS, styleClass);
+		}
+
+		return new VpeCreationData(mainTag);
 	}
-	
+
+	@Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
-	
+
 	public static String getAbsoluteResourcePath(String resourcePathInPlugin) {
 		String pluginPath = Activator.getPluginResourcePath();
 		IPath pluginFile = new Path(pluginPath);
@@ -68,9 +84,23 @@ public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
 		if (file.exists()) {
 			return file.getAbsolutePath();
 		} else {
-			throw new RuntimeException("Can't get path for "
-					+ resourcePathInPlugin);
+			throw new RuntimeException("Can't get path for " + resourcePathInPlugin);  //$NON-NLS-1$
 		}
 	}
-	
+
+	/**
+	 * Creates HTML element with tag-name specified in {@code element} attribute of
+	 * {@code sourceElement}, or if the attribute is not present {@code 'img'} is used.
+	 */
+	private static nsIDOMElement createMainTag(nsIDOMDocument visualDocument,
+			Element sourceElement) {
+		String element = sourceElement.getAttribute(Ajax4JSF.ATTR_ELEMENT);
+
+		if (element == null || "".equals(element)) { //$NON-NLS-1$
+			element = HTML.TAG_IMG;
+		}
+
+		nsIDOMElement mainTag = visualDocument.createElement(element);
+		return mainTag;
+	}
 }
