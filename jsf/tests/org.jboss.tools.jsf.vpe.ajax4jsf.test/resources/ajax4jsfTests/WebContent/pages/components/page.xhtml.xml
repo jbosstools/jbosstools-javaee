@@ -1,5 +1,11 @@
 <tests>
 	<test id="page">
-		
+		<DIV>
+			<SPAN CLASS="red">
+				<SPAN CLASS="vpe-text">
+					Red Text
+				</SPAN>
+			</SPAN>
+		</DIV>
 	</test>
 </tests>
