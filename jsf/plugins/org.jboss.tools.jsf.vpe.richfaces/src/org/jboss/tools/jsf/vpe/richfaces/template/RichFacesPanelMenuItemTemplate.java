@@ -144,7 +144,10 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		Element panelMenuParent = getItemParent(elementToPass, true);
 		
 		String childId = (String) elementToPass.getUserData(VPE_PANEL_MENU_ITEM_ID);
-		
+		//fix for JBIDE-3737
+		if(childId==null) {
+			childId = "";//$NON-NLS-1$
+		}
 		readPanelMenuAttributes(panelMenuParent);
 		readPanelMenuItemAttributes(itemSourceElement);
 		
