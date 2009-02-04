@@ -20,7 +20,7 @@
             3.3</ulink> is fully supported in the current version of <property>JBoss Developer Studio</property> (i. e. 2.0.0.GA) and <property>JBoss Tools 3.0.0.GA</property>.</para>
     </note>
     
-    <para>The following features are implemented and fully supported for the currant version of the RichFaces components:</para>
+    <para>The following features are implemented and fully supported for the current version of the RichFaces components:</para>
     
     <itemizedlist>
         <listitem><para><link linkend="ContentAssistForRF">Content Assist</link></para></listitem>
