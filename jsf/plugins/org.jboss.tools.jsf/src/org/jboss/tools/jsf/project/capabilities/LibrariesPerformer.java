@@ -86,7 +86,7 @@ public class LibrariesPerformer extends PerformerItem {
 		jarPerformers = l2.toArray(new JarPerformer[0]);
 		
 		conflictingFiles = null;
-		IContainer r = (IContainer)lib.getAdapter(IResource.class);
+		IContainer r = lib == null ? null : (IContainer)lib.getAdapter(IResource.class);
 		if(conflictingLibraryReferences != null && lib != null && r != null) {
 			ArrayList<IFile> cfjs = new ArrayList<IFile>();
 			for (int i = 0; i < conflictingLibraryReferences.length; i++) {
