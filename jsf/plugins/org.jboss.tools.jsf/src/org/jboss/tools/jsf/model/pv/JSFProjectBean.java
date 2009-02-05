@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.model.pv;
 
 import java.util.*;
+
 import org.eclipse.jdt.core.*;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
@@ -92,6 +93,9 @@ public class JSFProjectBean extends RegularObjectImpl {
 		for (int i = 0; i < cs.length; i++) map.put(cs[i].getPathPart(), cs[i]);
 		if(type != null) {
 			IType _type = type;
+			
+			Set<IType> interfaces = new HashSet<IType>();
+			
 			while(_type != null) {
 			IField[] fs = _type.getFields();
 			if(fs != null) for (int i = 0; i < fs.length; i++) {
@@ -156,12 +160,64 @@ public class JSFProjectBean extends RegularObjectImpl {
 					properties.add(n);
 				}
 			}
-			
+
+				String[] is = _type.getSuperInterfaceNames();
+				for (int i = 0; i < is.length; i++) {
+					String in = EclipseJavaUtil.resolveType(_type, is[i]);
+					if(in != null && in.length() > 0) {
+						IType it = beans.getType(in);
+						if(it != null) interfaces.add(it);
+					}
+				}
+
 				String sc = _type.getSuperclassName();
 				if(sc == null || sc.length() == 0 || "java.lang.Object".equals(sc)) break;
 				sc = EclipseJavaUtil.resolveType(_type, sc);
 				if(sc == null || sc.length() == 0 || "java.lang.Object".equals(sc)) break;
 				_type = beans.getType(sc);
+
+			}
+
+			Set<IType> allInterfaces = new HashSet<IType>();
+			
+			while(!interfaces.isEmpty()) {
+				allInterfaces.addAll(interfaces);
+				Set<IType> interfaces2 = new HashSet<IType>();
+			
+				for (IType t : interfaces) {
+					IField[] fs = t.getFields();
+					if (fs != null)	for (int i = 0; i < fs.length; i++) {
+						String n = fs[i].getElementName();
+						if (properties.contains(n)) continue;
+						JSFProjectBeanMember c = (JSFProjectBeanMember) map.get(n);
+						if (c != null && !c.getModelEntity().getName().equals("JSFProjectBeanProperty")) {
+							c.removeFromParent();
+							map.remove(n);
+							c = null;
+						}
+						if (c != null) {
+							map.remove(n);
+							String typeName = EclipseJavaUtil.getMemberTypeAsString(fs[i]);
+							c.setType(beans.getType(typeName));
+							if (typeName == null) typeName = "";
+							c.setAttributeValue("class name", typeName);
+							c.setAttributeValue("declaring class", fs[i].getDeclaringType().getFullyQualifiedName());
+						} else {
+							c = createMember(n, fs[i], "JSFProjectBeanProperty");
+						}
+						properties.add(n);
+					}
+
+					String[] is = t.getSuperInterfaceNames();
+					for (int i = 0; i < is.length; i++) {
+						String in = EclipseJavaUtil.resolveType(_type, is[i]);
+						if(in != null && in.length() > 0) {
+							IType it = beans.getType(in);
+							if(it != null && !allInterfaces.contains(it)) interfaces2.add(it);
+						}
+					}
+				}
+				interfaces = interfaces2;			
 			}
 		} else if(beanList.length > 0) {
 			XModelObject[] ps = beanList[0].getChildren();
