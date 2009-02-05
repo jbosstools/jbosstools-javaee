@@ -2,8 +2,6 @@ package org.jboss.tools.jsf.ui.test;
 
 import java.util.ArrayList;
 
-import javax.swing.text.View;
-
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
@@ -13,9 +11,11 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.model.ui.wizard.newfile.NewFileContextEx;
+import org.jboss.tools.common.model.ui.wizard.newfile.NewFileWizardEx;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -75,7 +75,6 @@ public abstract class WizardTest extends TestCase {
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				wizard);
 		dialog.setBlockOnOpen(false);
-		//dialog.
 		dialog.open();
 
 //		System.out.println("\nWizard ID - "+id);
@@ -98,8 +97,35 @@ public abstract class WizardTest extends TestCase {
 		
 	}
 	
-	public IWizard getWizardWithoutSelection(){
+	public IWizard getWizard(){
 		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		
+		dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				wizard);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		
+		return wizard;
+	}
+	
+	public IWizard getWizard(String folder, String name){
+		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		
+		NewFileWizardEx wiz = (NewFileWizardEx)wizard;
+		
+		NewFileContextEx context = wiz.getFileContext();
+		
+		SpecialWizardSupport support = context.getSupport();
+		
+		ArrayList<IProject> list = new ArrayList<IProject>();
+		
+		StructuredSelection selection = new StructuredSelection(list);
+		
+		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
+		
+		support.setAttributeValue(0, "folder", folder);
+		support.setAttributeValue(0, "name", name);
 		
 		dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -128,5 +154,90 @@ public abstract class WizardTest extends TestCase {
 		dialog.open();
 		
 		return wizard;
+	}
+	
+	public IWizard getWizardOnProject(String name){
+		ArrayList<IProject> list = new ArrayList<IProject>();
+		
+		list.add(project);
+		
+		StructuredSelection selection = new StructuredSelection(list);
+		
+		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		
+		NewFileWizardEx wiz = (NewFileWizardEx)wizard;
+		
+		NewFileContextEx context = wiz.getFileContext();
+		
+		SpecialWizardSupport support = context.getSupport();
+		
+		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
+		
+		support.setAttributeValue(0, "name", name);
+		
+		dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				wizard);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		
+		return wizard;
+	}
+	
+	protected void validateFolderAndName(){
+		IWizard wizard = getWizardOnProject("aaa");
+		
+		
+		boolean canFinish = wizard.canFinish();
+		
+		// Assert Finish button is enabled by default if wizard is called on Project
+		assertTrue("Finish button is disabled at first wizard page.", canFinish);
+		
+		dialog.close();
+		
+		// Assert Finish button is disabled and error is present if 
+		// 		Folder field is empty
+		// 		All other fields are correct
+		
+		wizard = getWizard("","aaa");
+		canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled when folder field is empty.", canFinish);
+		
+		dialog.close();
+		
+		
+		// Assert Finish button is disabled and error is present if 
+		// 		Folder field points to folder that doesn't exist
+		// 		All other fields are correct
+		
+		wizard = getWizard("anyFolder","aaa");
+		canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled when folders field points to folder that does not exist", canFinish);
+		
+		dialog.close();
+		
+		// Assert Finish button is disabled and error is present if
+		//		Folder field is correct
+		//		Name field is empty
+		
+		wizard = getWizardOnProject("");
+		canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled when name field is empty.", canFinish);
+		
+		dialog.close();
+		
+		// Assert Finish button is disabled and error is present if
+		//		Folder field is correct
+		//		Name field contains forbidden characters
+		
+		wizard = getWizardOnProject("?-/");
+		canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled when name field contains forbiden characters.", canFinish);
+		
+		dialog.close();
+		
+		// Assert Finish button is disabled and error is present if
+		//		Folder field is correct
+		//		Name field contains file name that already exists
 	}
 }

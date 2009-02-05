@@ -12,5 +12,7 @@ Require-Bundle: org.junit,
  org.jboss.tools.common.test;bundle-version="2.0.0",
  org.eclipse.ui.workbench;bundle-version="3.4.0",
  org.jboss.tools.jsf.ui;bundle-version="2.0.0",
- org.jboss.tools.jst.web.ui;bundle-version="2.0.0"
+ org.jboss.tools.jst.web.ui;bundle-version="2.0.0",
+ org.jboss.tools.jst.jsp;bundle-version="2.0.0",
+ org.jboss.tools.common.model.ui;bundle-version="2.0.0"
 Bundle-Localization: plugin

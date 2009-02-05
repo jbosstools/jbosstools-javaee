@@ -12,7 +12,7 @@ public class CssClassNewWizardTest extends WizardTest {
 	}
 	
 	public void testCssClassNewWizardValidation() {
-		IWizard wizard = getWizardWithoutSelection();
+		IWizard wizard = getWizard();
 		
 		boolean canFinish = wizard.canFinish();
 		
@@ -25,7 +25,7 @@ public class CssClassNewWizardTest extends WizardTest {
 		boolean canFinish = wizard.canFinish();
 		
 		// Assert Finish button is enabled by default if wizard is called on Project
-		assertTrue("Finish button is disabled at first wizard page.", canFinish);
+		assertFalse("Finish button is disabled at first wizard page.", canFinish);
 		
 		// Assert Finish button is disabled and error is present if 
 		// 		Folder field is empty
