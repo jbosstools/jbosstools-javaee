@@ -207,6 +207,9 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
+		if(IParameter.SEAM_PROJECT_NAME.equals(event.getPropertyName())) {
+			rootSeamProject = SeamWizardUtils.getRootSeamProject(getSelectedProject());
+		}
 		doFillDefaults(event);
 		doValidate(event);
 	}
@@ -448,6 +451,10 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		if(getSelectedProject()==null ||
 		SeamCorePlugin.getSeamPreferences(getSelectedProject().getProject())==null) return true;
 		return "war".equals(SeamCorePlugin.getSeamPreferences(getSelectedProject().getProject()).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,"war")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	public String getRootSeamProject() {
+		return rootSeamProject!=null?rootSeamProject.getName():null;
 	}
 
 	public abstract String getDefaultMessageText();

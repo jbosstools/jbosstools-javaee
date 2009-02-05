@@ -26,6 +26,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 
 /**
@@ -65,7 +66,9 @@ public class SeamWizardUtils {
 		if (project != null) {
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
 			if (seamProject == null) {
-				return null;
+				// Maybe it is EAR? Then it doesn't have Seam nature and we should try to find child Seam WAR project.
+				ISeamProject warProject = SeamUtil.findReferencingSeamWarProjectForProject(project);
+				return warProject!=null?warProject.getProject():null;
 			}
 
 			String parentProjectName = seamProject.getParentProjectName();

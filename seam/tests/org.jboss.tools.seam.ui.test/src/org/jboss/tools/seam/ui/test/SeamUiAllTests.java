@@ -27,6 +27,7 @@ import org.jboss.tools.seam.ui.test.wizard.Seam12EARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam12WARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam20EARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam20WARNewOperationTest;
+import org.jboss.tools.seam.ui.test.wizard.SeamActionNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -43,6 +44,9 @@ public class SeamUiAllTests {
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTest(SeamProjectNewWizardTest.suite());
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamActionNewWizardTest.class), "org.jboss.tools.seam.core.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
+
 		suite.addTestSuite(SeamFormNewWizardTest.class);
 		suite.addTestSuite(SeamPreferencesPageTest.class);		
 		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
