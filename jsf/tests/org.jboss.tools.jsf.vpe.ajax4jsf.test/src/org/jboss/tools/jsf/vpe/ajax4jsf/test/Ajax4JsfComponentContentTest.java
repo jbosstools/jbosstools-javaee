@@ -26,7 +26,7 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	}
 	
 	public void testKeepAlive() throws Throwable {
-		performContentTest("components/keepAlive.xhtml");//$NON-NLS-1$
+		performInvisibleTagTest("components/keepAlive.xhtml","keepAlive");//$NON-NLS-1$
 	}
 	
 	public void testActionparam() throws Throwable {
