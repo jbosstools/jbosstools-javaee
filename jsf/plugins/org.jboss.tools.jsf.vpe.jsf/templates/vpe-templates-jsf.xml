@@ -237,7 +237,7 @@
 		<!--else-->
 			<vpe:if test="not(attrpresent('image'))">
 				<vpe:if test="(@type='')">
-					<vpe:template children="no" modify="no">z
+					<vpe:template children="no" modify="no">
 						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
 							class="{@styleClass}" style="{@style}" 
 							title="{tagstring()}" dir="{@dir}"/>
