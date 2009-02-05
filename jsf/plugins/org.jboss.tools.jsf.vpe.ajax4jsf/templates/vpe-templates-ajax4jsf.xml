@@ -54,8 +54,8 @@
     
     <vpe:tag name="a4j:commandLink" case-sensitive="yes">
 	    <vpe:template children="yes" modify="yes">
-			<vpe:a class="{@styleClass}" 
-			style="{@style}" dir="{@dir}" title="{tagstring()}"/>
+	    	<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}"
+	    		style="{@style}" dir="{@dir}" title="{tagstring()}"/>	    	
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">
@@ -247,7 +247,7 @@
     
     <vpe:tag name="a4j:htmlCommandLink" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<vpe:a class="{@styleClass}" 
+			<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}"  
 			style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
