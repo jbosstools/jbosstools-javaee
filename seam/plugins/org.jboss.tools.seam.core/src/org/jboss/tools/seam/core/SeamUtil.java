@@ -152,13 +152,15 @@ public class SeamUtil {
 			}
 			IVirtualComponent comp = ComponentCore.createComponent(project);
 			IVirtualReference[] refComponents = null;
-			refComponents = comp.getReferences();
-			for (IVirtualReference virtualReference : refComponents) {
-				IVirtualComponent component = virtualReference.getReferencedComponent();
-				if(component!=null && !component.isBinary() && JavaEEProjectUtilities.isDynamicWebComponent(component)) {
-					ISeamProject seamProject = SeamCorePlugin.getSeamProject(component.getProject(), false);
-					if(seamProject!=null) {
-						return seamProject;
+			if(comp!=null) {
+				refComponents = comp.getReferences();
+				for (IVirtualReference virtualReference : refComponents) {
+					IVirtualComponent component = virtualReference.getReferencedComponent();
+					if(component!=null && !component.isBinary() && JavaEEProjectUtilities.isDynamicWebComponent(component)) {
+						ISeamProject seamProject = SeamCorePlugin.getSeamProject(component.getProject(), false);
+						if(seamProject!=null) {
+							return seamProject;
+						}
 					}
 				}
 			}
