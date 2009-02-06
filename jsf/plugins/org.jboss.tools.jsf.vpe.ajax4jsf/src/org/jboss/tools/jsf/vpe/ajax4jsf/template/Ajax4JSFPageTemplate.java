@@ -27,6 +27,7 @@ public class Ajax4JSFPageTemplate extends VpeAbstractBodyTemplate {
 	private static final Map<String, String> ATTRIBUTES_MAP = new TreeMap<String, String>();
 	{
 		ATTRIBUTES_MAP.put(Ajax4JSF.ATTR_DIR, HTML.ATTR_DIR);
+		ATTRIBUTES_MAP.put(Ajax4JSF.ATTR_ID, HTML.ATTR_ID);
 		ATTRIBUTES_MAP.put(Ajax4JSF.ATTR_STYLE, HTML.ATTR_STYLE);
 		ATTRIBUTES_MAP.put(Ajax4JSF.ATTR_STYLE_CLASS, HTML.ATTR_CLASS);
 	}
