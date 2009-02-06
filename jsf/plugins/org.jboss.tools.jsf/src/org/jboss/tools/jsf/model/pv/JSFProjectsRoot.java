@@ -33,6 +33,7 @@ public class JSFProjectsRoot extends ExtraRootImpl implements WebProjectNode {
     protected void onSetEntity(String entity) {
     	super.onSetEntity(entity);
     	getFileSystems();
+		getModel().addModelTreeListener(new JsfTreeListener());
 	}
 	
 	public boolean isLoaded() {
