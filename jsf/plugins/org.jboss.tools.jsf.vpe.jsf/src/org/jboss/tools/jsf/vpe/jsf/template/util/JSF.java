@@ -33,6 +33,8 @@ public class JSF {
 
 	public static final String ATTR_FOR = "for"; //$NON-NLS-1$
 
+	public static final String ATTR_ID = "id";//$NON-NLS-1$
+
 	public static final String ATTR_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
 	
 	public static final String ATTR_ITEM_VALUE = "itemValue"; //$NON-NLS-1$

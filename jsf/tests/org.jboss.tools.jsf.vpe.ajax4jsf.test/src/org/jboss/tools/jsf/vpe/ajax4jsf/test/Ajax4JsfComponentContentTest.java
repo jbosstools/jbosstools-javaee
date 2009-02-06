@@ -81,7 +81,7 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	}
 	
 	public void testPage() throws Throwable {
-		performContentTest("components/page.xhtml");//$NON-NLS-1$
+		performContentTest("components/page/page.xhtml");//$NON-NLS-1$
 	}
 	
 	public void testPoll() throws Throwable {

@@ -7,10 +7,6 @@
     <vpe:tag name="a4j:page" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes" hasImaginaryBorder="yes"
 		  class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFPageTemplate">
-			<vpe:resize>
-				<vpe:width width-attr="style.width" />
-				<vpe:height height-attr="style.height" />
-			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />
@@ -54,8 +50,8 @@
     
     <vpe:tag name="a4j:commandLink" case-sensitive="yes">
 	    <vpe:template children="yes" modify="yes">
-	    	<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}"
-	    		style="{@style}" dir="{@dir}" title="{tagstring()}"/>	    	
+			<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}" 
+			style="{@style}" dir="{@dir}" title="{tagstring()}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>
 				<vpe:drop container="yes">
@@ -247,7 +243,7 @@
     
     <vpe:tag name="a4j:htmlCommandLink" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}"  
+			<vpe:a class="{@styleClass}" value="{jsfvalue(@value)}" 
 			style="{@style}" title="{tagstring()}" dir="{@dir}"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes"/>

@@ -10,42 +10,30 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
-import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
-import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
+import org.jboss.tools.vpe.editor.template.VpeAbstractBodyTemplate;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.html.template.HtmlBodyTemplate;
-import org.mozilla.interfaces.nsIDOMDocument;
-import org.mozilla.interfaces.nsIDOMElement;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 /**
- * A wrapper of VpeAbstractTemplate. Does the same, but ignores all attributes except id.
+ * The template of h:body. 
+ * 
+ * Omits all attributes except 'id' 
+ * 
+ * @see VpeAbstractBodyTemplate
  * @author yradtsevich
- * @see HtmlBodyTemplate
  */
-public class JsfBodyTemplate extends VpeAbstractTemplate {
-	public static final String ID_ID = "id"; //$NON-NLS-1$
-	
-	private final HtmlBodyTemplate htmlBodyTemplate = new HtmlBodyTemplate();
-	
-	/**
-	 * @see org.jboss.tools.vpe.html.template.HtmlBodyTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
-	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument) {
-		sourceNode = sourceNode.cloneNode(true);
-		NamedNodeMap attributes = sourceNode.getAttributes();
-		int length  = attributes.getLength();
-		for (int i = 0; i < length; i++) {
-			Node attribute = attributes.item(i);
+public class JsfBodyTemplate extends VpeAbstractBodyTemplate {
 
-			if(!attribute.getNodeName().equalsIgnoreCase(ID_ID)) {
-				attributes.removeNamedItem(attribute.getNodeName());
-			}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getTargetAttributeName(String sourceAttributeName) {
+		if (sourceAttributeName.equals(JSF.ATTR_ID)) {
+			return HTML.ATTR_ID;
+		} else {
+			return null;
 		}
-		
-		return htmlBodyTemplate.create(pageContext, sourceNode, visualDocument);
 	}
 }

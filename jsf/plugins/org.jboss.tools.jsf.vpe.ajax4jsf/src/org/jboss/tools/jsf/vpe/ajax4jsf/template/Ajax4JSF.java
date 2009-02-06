@@ -18,5 +18,8 @@ package org.jboss.tools.jsf.vpe.ajax4jsf.template;
 public final class Ajax4JSF {
 	public static final String ATTR_ELEMENT = "element"; //$NON-NLS-1$
 	public static final String ATTR_URI_ATTRIBUTE = "uriAttribute"; //$NON-NLS-1$
+	public static final String ATTR_ID = "id"; //$NON-NLS-1$
+	public static final String ATTR_DIR = "dir"; //$NON-NLS-1$
+	public static final String ATTR_STYLE = "style"; //$NON-NLS-1$
 	public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 }
