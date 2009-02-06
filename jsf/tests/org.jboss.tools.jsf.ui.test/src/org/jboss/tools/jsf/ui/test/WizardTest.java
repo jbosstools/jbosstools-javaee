@@ -239,5 +239,11 @@ public abstract class WizardTest extends TestCase {
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
 		//		Name field contains file name that already exists
+		
+		wizard = getWizardOnProject("abc");
+		canFinish = wizard.canFinish();
+		assertFalse("Finish button is enabled when name field contains file name that already exists.", canFinish);
+		
+		dialog.close();
 	}
 }
