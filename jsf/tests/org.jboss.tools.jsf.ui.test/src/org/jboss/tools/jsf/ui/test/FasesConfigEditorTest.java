@@ -23,7 +23,6 @@ public class FasesConfigEditorTest extends TestCase {
 	 */
 	public void testFacesConfigEditorIsOpened() {
 		IEditorPart facesConfigEditor = WorkbenchUtils.openEditor("/TestWizards/WebContent/WEB-INF/faces-config.xml");
-		System.out.println(facesConfigEditor.getClass().getName());
 		assertTrue(facesConfigEditor instanceof EditorPartWrapper);
 		EditorPartWrapper facesConfigEditorWrap = (EditorPartWrapper)facesConfigEditor;
 		assertTrue(facesConfigEditorWrap.getEditor() instanceof FacesConfigEditor);
