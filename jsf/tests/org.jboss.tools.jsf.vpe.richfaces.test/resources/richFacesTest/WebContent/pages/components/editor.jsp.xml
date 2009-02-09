@@ -1,8 +1,8 @@
 <tests>
 	<test id="richEditor">
-		<SPAN CLASS="richfacesSimpleSkin" STYLE="display: table;">
+		<SPAN CLASS="richfacesSimpleSkin blue-border" STYLE="border: 5px dotted ; display: table;">
 			<TABLE CELLSPACING="0" CELLPADDING="0" CLASS="mceLayout"
-				STYLE="width: 400px; height: 300px;">
+				STYLE="width: 391px; height: 347px;">
 				<TR STYLE="height: 100%;">
 					<TD>
 						<DIV CLASS="mceIframeContainer" STYLE="height: 100%;">

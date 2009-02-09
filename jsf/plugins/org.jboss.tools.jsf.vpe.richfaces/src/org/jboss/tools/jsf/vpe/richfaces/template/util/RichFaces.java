@@ -84,6 +84,7 @@ public class RichFaces {
 	public static final String ATTR_VISIBLE = "visible"; //$NON-NLS-1$
 	/** The Constant ATTR_WIDTH. */
 	public static final String ATTR_WIDTH = "width"; //$NON-NLS-1$
+	public static final String ATTR_HEIGHT = "height"; //$NON-NLS-1$
 	
 	public static final String ATTR_HORIZONTAL_OFFSET = "horizontalOffset"; //$NON-NLS-1$
 	public static final String ATTR_VERTICAL_OFFSET = "verticalOffset"; //$NON-NLS-1$

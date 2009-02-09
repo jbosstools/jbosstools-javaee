@@ -5,11 +5,16 @@
 
 <html>
 <head>
+<style type="text/css">
+	.blue-border {
+		color:blue;
+	}
+</style>
 </head>
 <body>
 <f:view>
 <h:form>
-	<rich:editor id="richEditor"/>
+	<rich:editor id="richEditor" width="391" height="347" styleClass="blue-border" style="border: 5px dotted;"/>
 </h:form>
 </f:view>
 

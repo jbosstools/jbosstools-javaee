@@ -11,10 +11,12 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -31,9 +33,10 @@ public class RichFacesEditorTemplate extends VpeAbstractTemplate {
 	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		
-		RichFacesEditorTemplateHelper editorTemplateHelper = new RichFacesEditorTemplateHelper(
-					pageContext, (Element) sourceNode, visualDocument
-				);
+		RichFacesEditorTemplateHelper editorTemplateHelper = 
+			new RichFacesEditorTemplateHelper(
+				pageContext, (Element) sourceNode, visualDocument
+			);
 		nsIDOMElement mainElement = editorTemplateHelper.create();
 		
 		VpeCreationData creationData = new VpeCreationData(mainElement);
@@ -70,12 +73,23 @@ class RichFacesEditorTemplateHelper {
 
 	public nsIDOMElement create() {
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "editor"); //$NON-NLS-1$
+
+		String style = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
+		if (style == null) {
+			style = ""; //$NON-NLS-1$
+		}
+		String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+		if (styleClass == null) {
+			styleClass = ""; //$NON-NLS-1$
+		}
+
 		// create nodes
 		nsIDOMElement mainSpan = visualDocument.createElement(HTML.TAG_SPAN); {
-			mainSpan.setAttribute(HTML.ATTR_CLASS, "richfacesSimpleSkin"); //$NON-NLS-1$
-			
+			mainSpan.setAttribute(HTML.ATTR_CLASS, "richfacesSimpleSkin " + styleClass); //$NON-NLS-1$
+
 			// Yahor Radtsevich: Fix of JBIDE-3653: inFlasher doesn't shows for rich:editor component
-			mainSpan.setAttribute(HTML.ATTR_STYLE, "display: table;"); //$NON-NLS-1$
+			// (style "display: table;" has been added)
+			mainSpan.setAttribute(HTML.ATTR_STYLE, "display: table;" + style); //$NON-NLS-1$
 		}
 		nsIDOMElement mainTable = createMainTable();
 		nsIDOMElement textContainer = createTextContainer();
@@ -92,19 +106,31 @@ class RichFacesEditorTemplateHelper {
 
 	/**
 	 * Creates {@code
-	 * 	<table cellspacing="0" cellpadding="0" class="mceLayout" style="width: 400px; height: 300px;"/>
+	 * 	<table cellspacing="0" cellpadding="0" class="mceLayout" style="width: ???px; height: ???px;"/>
 	 * }
 	 * @return created element
 	 */
 	private nsIDOMElement createMainTable() {
+		// evaluate width and height
+		String style = "width: 183px; height: 100px;"; //$NON-NLS-1$
+		String width = sourceElement.getAttribute(RichFaces.ATTR_WIDTH);
+		if (width != null) {
+			width = VpeStyleUtil.addPxIfNecessary(width);
+			style = VpeStyleUtil.setParameterInStyle(style, HTML.STYLE_PARAMETER_WIDTH, width);
+		}
+		String height = sourceElement.getAttribute(RichFaces.ATTR_HEIGHT);
+		if (height != null) {
+			height = VpeStyleUtil.addPxIfNecessary(height);
+			style = VpeStyleUtil.setParameterInStyle(style, HTML.STYLE_PARAMETER_HEIGHT, height);
+		}
+		
 		nsIDOMElement mainTable = visualDocument.createElement(HTML.TAG_TABLE); {
 			mainTable.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
 			mainTable.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
 			mainTable.setAttribute(HTML.ATTR_CLASS, "mceLayout"); //$NON-NLS-1$
-			// TODO: change the witdh and height attributes 
-			mainTable.setAttribute(HTML.ATTR_STYLE, "width: 400px; height: 300px;"); //$NON-NLS-1$
+			mainTable.setAttribute(HTML.ATTR_STYLE, style);
 		}
-		
+
 		return mainTable;
 	}
 	

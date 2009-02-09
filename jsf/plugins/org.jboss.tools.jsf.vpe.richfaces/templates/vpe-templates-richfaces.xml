@@ -743,6 +743,10 @@
 		<vpe:if test="tld_version('min=3.3')">
 			<vpe:template children="no" modify="no"
 				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesEditorTemplate">
+				<vpe:resize>
+					<vpe:width width-attr="width" />
+					<vpe:height height-attr="height" />
+				</vpe:resize>
 				<vpe:dnd>
 					<vpe:drag start-enable="yes" />
 					<vpe:drop container="no"/>
