@@ -14,7 +14,7 @@ package org.jboss.tools.jsf.ui.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class JSFUiAllTests {
+public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests");
@@ -28,7 +28,7 @@ public class JSFUiAllTests {
 		suite.addTestSuite(JspFileNewWizardTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
 		suite.addTestSuite(XhtmlFileNewWizardTest.class);
-
-		return suite;
+		
+		return new TestWizardsProject(suite);
 	}
 }

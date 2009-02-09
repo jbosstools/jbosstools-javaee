@@ -38,8 +38,6 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamFacetInstallDelegateTest.class);
 		suite.addTest(SeamValidatorsAllTests.suite());
 		suite.addTest(SeamRefactoringAllTests.suite());
-
-		// Seam 2 tests can't run on hudson for now ;(
 		suite.addTestSuite(Seam2FacetInstallDelegateTest.class);
 
 		return suite;

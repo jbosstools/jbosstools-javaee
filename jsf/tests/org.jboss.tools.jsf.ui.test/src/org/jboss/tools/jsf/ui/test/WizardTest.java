@@ -24,7 +24,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public abstract class WizardTest extends TestCase {
 	protected String id;
 	protected IProject project;
-	
+	protected boolean projectRemovalRequired = false;
 	protected WizardDialog dialog;
 	
 	public WizardTest(String id){
@@ -35,37 +35,8 @@ public abstract class WizardTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
        
-		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestWizards");
-		if(project == null) {
-			ProjectImportTestSetup setup = new ProjectImportTestSetup(
-					this,
-					"org.jboss.tools.jsf.ui.test",
-					"projects/TestWizards",
-					"TestWizards");
-			project = setup.importProject();
-		}
-		this.project = project.getProject();
-		JobUtils.waitForIdle();
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		if(dialog != null)
-			dialog.close();
-		
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		try {
-			JobUtils.waitForIdle();
-			if(project != null){
-				project.close(new NullProgressMonitor());
-				project.delete(true, new NullProgressMonitor());
-				project = null;
-				JobUtils.waitForIdle();
-			}
-		} finally {
-			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		}
-		
+		project = new TestWizardsProject().importProject();
+
 	}
 
 	public void wizardIsCreated() {
