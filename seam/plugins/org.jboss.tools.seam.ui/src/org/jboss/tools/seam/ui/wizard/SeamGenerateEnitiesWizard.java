@@ -36,6 +36,8 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
+import org.hibernate.console.ConsoleConfiguration;
+import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -366,4 +368,18 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 		}
 		return seamRt;
 	}
+
+	@Override
+	public boolean performFinish() {
+		boolean result = super.performFinish();
+		if (result){
+			String ccName = ((SeamGenerateEnitiesWizardPage) page1).getConsoleCongigurationName();
+			ConsoleConfiguration config = KnownConfigurations.getInstance().find(ccName);
+			//fix for JBIDE-3599
+			if (config != null) config.reset();
+		}
+		return result;
+	}
+	
+	
 }
