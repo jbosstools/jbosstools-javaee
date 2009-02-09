@@ -11,8 +11,19 @@
 
 <body>
 <f:view>
-	<a4j:log id="log" popup="false" level="ALL"
-		style="width: 800px; height: 300px;"></a4j:log>
+	<a4j:log id="log" popup="false" level="ALL"/>
+    <a4j:log id="compliteLog" title="XXX" popup="false"
+        style="color:red; overflow:auto; background-color:red; width: 400px; height: 100px"
+        styleClass="myClass">
+        <f:verbatim>f:verbatim</f:verbatim>
+        Over Text For loadStyle
+    </a4j:log>
+    <a4j:log id="compliteLog2" title="XXX" popup="false"
+        style="color:red; overflow:auto; background-color:red;"
+        styleClass="myClass" width="350px" height="250px">
+        <f:verbatim>f:verbatim</f:verbatim>
+        Over Text For loadStyle
+    </a4j:log>
 </f:view>
 </body>
 </html>

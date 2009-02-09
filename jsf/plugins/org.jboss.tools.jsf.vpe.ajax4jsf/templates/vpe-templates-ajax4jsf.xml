@@ -225,8 +225,10 @@
 	    </vpe:template>
     </vpe:tag>
     
-    <vpe:tag name="a4j:log" case-sensitive="yes">
-	    <vpe:template children="no" modify="no" >
+	<vpe:tag name="a4j:log" case-sensitive="yes">
+	    <vpe:template children="yes" modify="no"
+	       class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFLogTemplate">
+	       <vpe:pseudoContent defaultText="no" />
 	    </vpe:template>
     </vpe:tag>
     

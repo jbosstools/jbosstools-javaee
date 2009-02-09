@@ -70,7 +70,7 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	}
 	
 	public void testLog() throws Throwable {
-		performInvisibleTagTest("components/log.xhtml", "log"); //$NON-NLS-1$ //$NON-NLS-2$
+		performContentTest("components/log.xhtml"); //$NON-NLS-1$
 	}
 	
 	public void testMediaOutput() throws Throwable {
