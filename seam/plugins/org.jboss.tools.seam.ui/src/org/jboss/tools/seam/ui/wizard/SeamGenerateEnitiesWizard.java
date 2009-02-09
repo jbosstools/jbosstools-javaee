@@ -57,7 +57,7 @@ import org.jboss.tools.seam.ui.widget.editor.INamedElement;
  */
 public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWizard {
 
-	IWizardPage page1 = new SeamGenerateEnitiesWizardPage();
+	SeamGenerateEnitiesWizardPage page1 = new SeamGenerateEnitiesWizardPage();
 	IWizardPage page2 = new SeamGenerateEntitiesTablesWizardPage();
 
 	public void createPageControls(Composite pageContainer) {
@@ -373,7 +373,7 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 	public boolean performFinish() {
 		boolean result = super.performFinish();
 		if (result){
-			String ccName = ((SeamGenerateEnitiesWizardPage) page1).getConsoleCongigurationName();
+			String ccName = page1.getConsoleCongigurationName();
 			ConsoleConfiguration config = KnownConfigurations.getInstance().find(ccName);
 			//fix for JBIDE-3599
 			if (config != null) config.reset();
