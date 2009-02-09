@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="directory_str" xreflabel="directory_str" >
+<chapter id="directory_str" xreflabel="directory_str">
     <?dbhtml filename="directory_structure.html"?>
     <chapterinfo>
         <keywordset>
@@ -55,7 +55,8 @@
             tests via <emphasis><property>Run As > TestNG Test</property>.</emphasis></para>
         <para>In order to deploy WAR project on server, right-click on the project and select <emphasis>
                 <property>Run As &gt; Run on Server</property>.</emphasis> Studio will deploy
-            WAR project into one web application on server to <property>deploy</property> folder.</para>
+            WAR project into one web application on server to <property>deploy</property>
+            folder.</para>
 
     </section>
 
@@ -83,6 +84,65 @@
             and <property>war</property> modules of the EAR project.</para>
     </section>
 
+    <section id="seam_version_changing">
+        <title>Changing the Seam Version</title>
+
+        <para>To upgrade or downgrade your projects Seam version use the facet preferences. You
+            should right-click your project and choose <emphasis>
+                <property>Project Facets</property>
+            </emphasis> category. Next select <emphasis>
+                <property>Seam</property>
+            </emphasis> and change its version to needed one.</para>
+
+        <figure>
+            <title>Changing the Seam Facet Version</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/directory_structure/directory_structure_3.png"
+                        scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>After pressing <emphasis>
+                <property>Apply</property>
+            </emphasis> the wizard for adjusting new Seam runtime settings appears.</para>
+
+        <figure>
+            <title>Changing the Seam Facet Version</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/directory_structure/directory_structure_4.png"
+                        scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>If you need to update the libraries for you project, check the <emphasis>
+                <property>Update libraries</property>
+            </emphasis> option. All libraries you checked will be removed and the libraries from the
+            new Seam distribution will be added after clicking <emphasis>
+                <property>Ok</property>.</emphasis></para>
+
+        <figure>
+            <title>Changing the Seam Facet Version</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/directory_structure/directory_structure_5.png"
+                        scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <note>
+            <title>Note:</title>
+
+            <para>The note "Seam configuration files and their XSDs won&apos;t be changed" is meant that
+                the libraries, Seam facet and runtime version will be changed, but configuration files that refer to
+                the old version will have to be manually updated.</para>
+        </note>
+    </section>
+
     <section id="renaming_projects_folders">
         <title>Renaming the Projects and Folders</title>
 
@@ -107,9 +167,9 @@
             </emphasis> (or <emphasis>
                 <property>Shift + Alt + V</property>
             </emphasis>), if you need to move
-            <emphasis>&lt;project_name&gt;/WebContent</emphasis> folder,
-            <emphasis>&lt;project_name&gt;/ejbModule</emphasis> folder or
-            <emphasis>&lt;project_name&gt;/test-src</emphasis> folder in the other place
+                <emphasis>&lt;project_name&gt;/WebContent</emphasis> folder,
+                <emphasis>&lt;project_name&gt;/ejbModule</emphasis> folder or
+                <emphasis>&lt;project_name&gt;/test-src</emphasis> folder in the other place
             within the Project structure.</para>
     </section>
 </chapter>
