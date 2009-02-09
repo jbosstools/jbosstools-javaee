@@ -59,7 +59,7 @@ public class LibraryScanner implements IFileScanner {
 	}
 
 	public boolean isRelevant(IFile f) {
-		if(f.getName().endsWith(".jar")) return true; //$NON-NLS-1$
+		if(EclipseResourceUtil.isJar(f.getName())) return true;
 		return false;
 	}
 

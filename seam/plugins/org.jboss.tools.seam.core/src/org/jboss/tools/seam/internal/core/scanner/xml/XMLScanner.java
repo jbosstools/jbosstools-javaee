@@ -314,7 +314,7 @@ public class XMLScanner implements IFileScanner {
 	}
 	
 	public static String getImpliedClassName(XModelObject c, IPath path) {
-		if(path.toString().endsWith(".jar")) { //$NON-NLS-1$
+		if(EclipseResourceUtil.isJar(path.toString())) {
 			String suffix = ".component"; //$NON-NLS-1$
 			String cn = c.getAttributeValue("name"); //$NON-NLS-1$
 			if(cn.endsWith(suffix)) cn = cn.substring(0, cn.length() - suffix.length());

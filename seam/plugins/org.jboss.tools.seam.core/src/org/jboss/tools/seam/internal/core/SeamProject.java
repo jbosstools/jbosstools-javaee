@@ -36,6 +36,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -327,7 +328,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
 		for (int i = 0; i < ps.length; i++) {
 			IPath pth = ps[i];
-			if(p.getSourcePath().isPrefixOf(pth) || (p.isPathLoaded(pth) && !pth.toString().endsWith(".jar"))) {
+			if(p.getSourcePath().isPrefixOf(pth) || (p.isPathLoaded(pth) && !EclipseResourceUtil.isJar(pth.toString()))) {
 				pathRemoved(pth);
 			}
 		}
@@ -776,7 +777,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		if(ns.length == 0 && components.length == 0 && factories.length == 0 && ds.getImports().size() == 0) {
 			pathRemoved(source);
-			if(source.toString().endsWith(".jar")) {
+			if(EclipseResourceUtil.isJar(source.toString())) {
 				if(!sourcePaths.contains(source)) sourcePaths.add(source);
 				sourcePaths2.put(source, ds);
 			}
@@ -945,7 +946,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) throws CloneNotSupportedException {
 		if(usedBy.size() == 0) return;
-		if(source.toString().endsWith(".jar")) return; //$NON-NLS-1$
+		if(EclipseResourceUtil.isJar(source.toString())) return;
 		
 		for (SeamProject p : usedBy) {
 			p.resolve();
@@ -1060,7 +1061,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	public void firePathRemovedToDependentProjects(IPath source) {
 		if(usedBy.size() == 0) return;
-		if(source.toString().endsWith(".jar")) return; //$NON-NLS-1$
+		if(EclipseResourceUtil.isJar(source.toString())) return;
 		
 		for (SeamProject p : usedBy) {
 			p.resolve();
@@ -1576,7 +1577,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		for (ISeamComponent c : components.allComponentsSet) {
 			for (ISeamComponentDeclaration d : c.getAllDeclarations()) {
 				IPath p = d.getSourcePath();
-				if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
+				if(p == null || EclipseResourceUtil.isJar(p.toString())) continue;
 				LoadedDeclarations ds = map.get(p);
 				if(ds == null) {
 					ds = new LoadedDeclarations();
@@ -1589,7 +1590,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			Set<ISeamNamespace> s = namespaces.namespacesByURI.get(uri);
 			for (ISeamNamespace n : s) {
 				IPath p = n.getSourcePath();
-				if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
+				if(p == null || EclipseResourceUtil.isJar(p.toString())) continue;
 				LoadedDeclarations ds = map.get(p);
 				if(ds == null) {
 					ds = new LoadedDeclarations();
@@ -1600,7 +1601,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		for (ISeamFactory f : factories.allFactories) {
 			IPath p = f.getSourcePath();
-			if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
+			if(p == null || EclipseResourceUtil.isJar(p.toString())) continue;
 			LoadedDeclarations ds = map.get(p);
 			if(ds == null) {
 				ds = new LoadedDeclarations();
@@ -1610,7 +1611,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		for (String s: imports.keySet()) {
 			IPath p = new Path(s);
-			if(p == null || p.toString().endsWith(".jar")) continue; //$NON-NLS-1$
+			if(p == null || EclipseResourceUtil.isJar(p.toString())) continue;
 			LoadedDeclarations ds = map.get(p);
 			if(ds == null) {
 				ds = new LoadedDeclarations();
@@ -2083,5 +2084,5 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			return byPath.get(p);
 		}
 	}
-	
+
 }
