@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<vpe:templates xmlns:vpe="http://org.jboss.org/tools/vpe/template"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<vpe:template-taglib uri="http://java.sun.com/jstl/core" prefix="c" />
+
+	<vpe:tag name="c:out" case-sensitive="yes">
+		<vpe:template children="no" modify="no"
+			class="org.jboss.tools.jsf.vpe.jstl.template.JstlOutTemplate">
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
+		</vpe:template>
+	</vpe:tag>
+	
+	<!-- Default template -->
+	<vpe:template children="yes" modify="no">
+		<vpe:any value="{name()}" title="{tagstring()}"/>
+	</vpe:template>
+</vpe:templates>
