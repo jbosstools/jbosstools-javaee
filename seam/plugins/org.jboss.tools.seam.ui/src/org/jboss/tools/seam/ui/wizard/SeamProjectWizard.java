@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -57,6 +58,8 @@ import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectEvent;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectListener;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.server.core.IServer;
+import org.eclipse.wst.server.core.IServerLifecycleListener;
+import org.eclipse.wst.server.core.ServerCore;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
@@ -379,13 +382,35 @@ public class SeamProjectWizard extends WebProjectWizard {
         	return pageComplete;
 	    }
 
-		public boolean launchNewServerWizard(Shell shell, IDataModel model, String serverTypeID) {
+		public boolean launchNewServerWizard(Shell shell, final IDataModel model, String serverTypeID) {
 			DataModelPropertyDescriptor[] preAdditionDescriptors = model.getValidPropertyDescriptors(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 			IRuntime rt = (IRuntime)model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
 
-			boolean isOK = ServerUIUtil.showNewServerWizard(shell, serverTypeID, null, (rt == null ? null : null));
-			if (isOK && model != null) {
+			IServerLifecycleListener serverListener = new IServerLifecycleListener() {
+				public void serverAdded(IServer server) {
+					DataModelPropertyDescriptor[] descriptors = model.getValidPropertyDescriptors(IFacetProjectCreationDataModelProperties.FACET_RUNTIME);
+					for (int i = 0; i < descriptors.length; i++) {
+						if(server.getRuntime().getName().equals(descriptors[i].getPropertyDescription())) {
+							model.setProperty(IFacetProjectCreationDataModelProperties.FACET_RUNTIME, descriptors[i].getPropertyValue());
+							model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, descriptors[i].getPropertyValue());
+						}
+					}
+					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, server);
+				}
+				public void serverChanged(IServer server) {
+				}
+				public void serverRemoved(IServer server) {
+				}
+			};
 
+			ServerCore.addServerLifecycleListener(serverListener);
+			boolean isOK = false;
+			try {
+				isOK = ServerUIUtil.showNewServerWizard(shell, serverTypeID, null, (rt == null ? null : null));
+			} finally {
+				ServerCore.removeServerLifecycleListener(serverListener);
+			}
+			if (isOK && model != null) {
 				DataModelPropertyDescriptor[] postAdditionDescriptors = model.getValidPropertyDescriptors(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 				Object[] preAddition = new Object[preAdditionDescriptors.length];
 				for (int i = 0; i < preAddition.length; i++) {
