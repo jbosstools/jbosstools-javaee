@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.project.facet;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -48,7 +49,7 @@ public class DataSourceXmlDeployer extends Job {
 		// deployment. It should run after ear project created and imported into 
 		// workspace
 		setUser(true);
-		setRule(project);
+		setRule(ResourcesPlugin.getWorkspace().getRoot());
 		this.s = s; 
 		this.deploy = deploy;
 	}
