@@ -21,19 +21,15 @@ import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.model.helpers.page.link.Links;
 
 public class LinkRecognizer {
-	private static LinkRecognizer instance;
+	
 	private static Object lock = new Object();
 	
 	public static LinkRecognizer getInstance() {
-		if(instance == null) {
-			synchronized(lock) {
-				if(instance == null) {
-					instance = new LinkRecognizer();
-				}
-			}
-			instance.init();
-		}
-		return instance; 
+		return LinkRecognizerHolder.INSTANCE;
+	}
+	
+	public static class LinkRecognizerHolder {
+		public static LinkRecognizer INSTANCE = new LinkRecognizer();
 	}
 	
 	long timeStamp = 0;
