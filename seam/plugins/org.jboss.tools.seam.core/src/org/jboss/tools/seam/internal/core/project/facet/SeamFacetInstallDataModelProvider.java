@@ -85,6 +85,7 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
 		names.add(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		names.add(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO);
+		names.add(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS);
 
 		return names;
 	}
@@ -115,6 +116,9 @@ public class SeamFacetInstallDataModelProvider extends
 		} else if (DB_DEFAULT_SCHEMA_NAME.equals(propertyName)) {
 			return EMPTY_STRING;
 		} else if(JBOSS_AS_TARGET_RUNTIME.equals(propertyName)) {
+			return null;
+		}
+		else if(JBOSS_AS_TARGET_RUNTIME.equals(propertyName)) {
 			return null;
 		}
 		return super.getDefaultProperty(propertyName);

@@ -180,7 +180,13 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			// untouched, this abstract class just listen to eclipse log and show an
 			// error dialog if there were records logged from seam.core plugin
 			startListening();
-			doExecute(project,fv,config,monitor);		
+			doExecute(project,fv,config,monitor);
+			IDataModel model = (IDataModel) config;
+			boolean createEarProjects = model.getBooleanProperty(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS);
+			if (createEarProjects) {
+		    	// Create ear, ejb, test projects JBIDE-3782
+				getProjectCreator(model, project).execute(monitor);
+			}
 		} finally {
 			stopListening();
 		}
@@ -1159,4 +1165,6 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}, modelPath);
 
 	}
+	
+	protected abstract SeamProjectCreator getProjectCreator(IDataModel model, IProject project);
 }

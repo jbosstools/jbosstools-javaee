@@ -286,4 +286,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		displayNameObj.setValue(displayName);
 		filter.getDisplayNames().add(displayNameObj);
 	}
+
+	@Override
+	protected SeamProjectCreator getProjectCreator(IDataModel model,
+			IProject project) {
+		return new SeamProjectCreator(model,project);
+	}
 }

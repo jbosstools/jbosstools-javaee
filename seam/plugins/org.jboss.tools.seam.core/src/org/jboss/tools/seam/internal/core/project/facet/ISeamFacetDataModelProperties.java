@@ -286,4 +286,6 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * Default model source folder name;
 	 */
 	String DEFAULT_MODEL_SRC_FOLDER_NAME = "main"; //$NON-NLS-1$
+
+	String CREATE_EAR_PROJECTS = "create.ear.projects"; //$NON-NLS-1$
 }

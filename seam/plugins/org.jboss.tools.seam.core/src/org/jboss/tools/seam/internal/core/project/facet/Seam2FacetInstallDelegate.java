@@ -254,4 +254,10 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		// Security
 		addSecurityConstraint(webApp);
 	}
+	
+	@Override
+	protected SeamProjectCreator getProjectCreator(IDataModel model,
+			IProject project) {
+		return new Seam2ProjectCreator(model,project);
+	}
 }
