@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -25,6 +26,7 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.ResourceUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
@@ -68,6 +70,8 @@ VpeToggableTemplate {
 	private static final String CSS_TOP_GROUP_LABEL = "rich-pmenu-top-group-self-label"; //$NON-NLS-1$
 	private static final String CSS_DR_GROUP_DIV = "dr-pmenu-group-div"; //$NON-NLS-1$
 	private static final String CSS_GROUP = "rich-pmenu-group"; //$NON-NLS-1$
+	private static final String CSS_TOP_GROUP = "rich-pmenu-top-group"; //$NON-NLS-1$
+	private static final String CSS_TOP_GROUP_DIV = "rich-pmenu-top-group-div"; //$NON-NLS-1$
 	private static final String CSS_GROUP_ICON = "rich-pmenu-group-self-icon"; //$NON-NLS-1$
 	private static final String CSS_GROUP_LABEL = "rich-pmenu-group-self-label"; //$NON-NLS-1$
 	private static final String CSS_HOVERED_ELEMENT = "rich-pmenu-hovered-element"; //$NON-NLS-1$
@@ -87,12 +91,8 @@ VpeToggableTemplate {
 	private static final String TRUE = "true"; //$NON-NLS-1$
 	private static final String RIGHT = "right"; //$NON-NLS-1$
 	private static final String LEFT = "right"; //$NON-NLS-1$
-	private static final String SPACE = " "; //$NON-NLS-1$
-	private static final String EMPTY = ""; //$NON-NLS-1$
 
 	private static final String WIDTH_100_PERSENTS = "width: 100%; "; //$NON-NLS-1$
-	private static final String MARGIN_TOP = "margin-top: 3px; "; //$NON-NLS-1$
-	private static final String NO_SIZE_VALUE = "0"; //$NON-NLS-1$
 	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
 	
 	/*
@@ -160,9 +160,9 @@ VpeToggableTemplate {
 //                && (groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
 //            srcNode = (Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
 //        }
-		nsIDOMElement creationDataDiv = visualDocument
-				.createElement(HTML.TAG_DIV);
-		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
+//		nsIDOMElement creationDataDiv = visualDocument
+//				.createElement(HTML.TAG_DIV);
+//		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
 		//added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605 issue.
 		final Element elementToPass = (srcNode != null ? srcNode : groupSourceElement);
 		
@@ -175,8 +175,8 @@ VpeToggableTemplate {
 		int childGroupCount = 1;
 	
 
-        Element anySuitableParent = getGroupParent(elementToPass, false);
-        Element panelMenuParent = getGroupParent(elementToPass, true);
+		Element anySuitableParent = getGroupParent(elementToPass, false);
+		Element panelMenuParent = getGroupParent(elementToPass, true);
 		
 		readPanelMenuGroupAttributes(groupSourceElement);
 		readPanelMenuAttributes(panelMenuParent);
@@ -188,7 +188,8 @@ VpeToggableTemplate {
 		}
 		nsIDOMElement div = visualDocument
 				.createElement(HTML.TAG_DIV);
-		creationDataDiv.appendChild(div);
+		VpeCreationData creationData = new VpeCreationData(div);
+//		creationDataDiv.appendChild(div);
 		div.setAttribute(COMPONENT_ATTR_VPE_SUPPORT, NAME_COMPONENT);
 		div.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, childId);
 
@@ -240,21 +241,21 @@ VpeToggableTemplate {
 			Element anySuitableParent, Element groupSourceElement,
 			nsIDOMDocument visualDocument, nsIDOMElement div, 
 			boolean expanded, String activeChildId) {
-		String tableStyle = MARGIN_TOP;
-		String tableClass = EMPTY;
-		String iconCellClass = EMPTY;
-		String iconCellStyle = EMPTY;
-		String labelCellClass = EMPTY;
-		String emptyCellClass = EMPTY;
-		String divClass = EMPTY;
+		String tableStyle = Constants.EMPTY;
+		String tableClass = Constants.EMPTY;
+		String iconCellClass = Constants.EMPTY;
+		String iconCellStyle = Constants.EMPTY;
+		String labelCellClass = Constants.EMPTY;
+		String emptyCellClass = Constants.EMPTY;
+		String divClass = Constants.EMPTY;
 
 		nsIDOMElement table = visualDocument
 				.createElement(HTML.TAG_TABLE);
 		div.appendChild(table);
 
-		table.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$
-		table.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
-		table.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$
+		table.setAttribute(HTML.ATTR_CELLSPACING, Constants.ZERO_STRING);
+		table.setAttribute(HTML.ATTR_CELLPADDING, Constants.ZERO_STRING);
+		table.setAttribute(HTML.ATTR_BORDER, Constants.ZERO_STRING);
 
 		nsIDOMElement tableBodyRow = visualDocument
 				.createElement(HTML.TAG_TR);
@@ -304,9 +305,9 @@ VpeToggableTemplate {
 		 * Group Label Routine.
 		 */
 		Attr labelAttr = null;
-		String labelValue = EMPTY;
-		String bundleValue = EMPTY;
-		String resultValue = EMPTY;
+		String labelValue = Constants.EMPTY;
+		String bundleValue = Constants.EMPTY;
+		String resultValue = Constants.EMPTY;
 		if (groupSourceElement.hasAttribute(LABEL)) {
 			labelAttr = groupSourceElement.getAttributeNode(LABEL);
 		}
@@ -330,7 +331,7 @@ VpeToggableTemplate {
 			if (ComponentUtil.isNotBlank(bundleValue)) {
 				resultValue = bundleValue;
 			} else {
-				resultValue = EMPTY;
+				resultValue = Constants.EMPTY;
 			}
 		}
 		nsIDOMText text = visualDocument.createTextNode(resultValue);
@@ -386,91 +387,95 @@ VpeToggableTemplate {
 		/*
 		 * Group Style Classes Routine
 		 */
-		tableClass += SPACE + CSS_GROUP + SPACE + CSS_DR_GROUP;
+		if (childOfPanelMenu) {
+		    tableClass += Constants.WHITE_SPACE + CSS_DR_TOP_GROUP
+		    	+ Constants.WHITE_SPACE + CSS_TOP_GROUP
+		    	+ Constants.WHITE_SPACE + CSS_GROUP;
+		    divClass += Constants.WHITE_SPACE + CSS_DR_TOP_GROUP_DIV
+		    	+ Constants.WHITE_SPACE + CSS_TOP_GROUP_DIV;
+		} else {
+		    tableClass += Constants.WHITE_SPACE + CSS_GROUP
+		    	+ Constants.WHITE_SPACE + CSS_DR_GROUP;
+		    divClass += Constants.WHITE_SPACE + CSS_DR_GROUP_DIV;
+		}
+		 
 		if (TRUE.equalsIgnoreCase(pm_disabled)) {
 			if (childOfPanelMenu) {
-				tableClass = SPACE + CSS_DR_TOP_GROUP + SPACE + CSS_GROUP;
-				tableClass += SPACE + CSS_DISABLED_ELEMENT;
-				divClass += SPACE + CSS_DR_TOP_GROUP_DIV;
+				tableClass += Constants.WHITE_SPACE + CSS_DISABLED_ELEMENT;
 				if (ComponentUtil.isNotBlank(pm_disabledGroupClass)) {
-					tableClass += SPACE + pm_disabledGroupClass;
+					tableClass += Constants.WHITE_SPACE + pm_disabledGroupClass;
 				}
 				if (ComponentUtil.isNotBlank(pm_topGroupStyle)) {
-					tableStyle += SPACE + pm_topGroupStyle;
+					tableStyle += Constants.WHITE_SPACE + pm_topGroupStyle;
 				}
 			}
 		}
 		
 		if ((TRUE.equalsIgnoreCase(pmg_disabled))) {
-			tableClass += SPACE + CSS_GROUP + SPACE + CSS_DR_GROUP;
-			
 			if (!(TRUE.equalsIgnoreCase(pm_disabled))) {
-				tableClass += SPACE + CSS_DISABLED_ELEMENT;
+				tableClass += Constants.WHITE_SPACE + CSS_DISABLED_ELEMENT;
 				if (ComponentUtil.isNotBlank(pm_disabledGroupClass)){
-					tableClass += SPACE + pm_disabledGroupClass;
+					tableClass += Constants.WHITE_SPACE + pm_disabledGroupClass;
 				}
 			}
 			
 			if (ComponentUtil.isNotBlank(pmg_disabledClass)) {
-				tableClass += SPACE + pmg_disabledClass;
+				tableClass += Constants.WHITE_SPACE + pmg_disabledClass;
 			} 
 			if (ComponentUtil.isNotBlank(pm_disabledGroupStyle)) {
-				tableStyle += SPACE + pm_disabledGroupStyle;
+				tableStyle += Constants.WHITE_SPACE + pm_disabledGroupStyle;
 			}
 			if (ComponentUtil.isNotBlank(pmg_disabledStyle)) {
-				tableStyle += SPACE + pmg_disabledStyle;
+				tableStyle += Constants.WHITE_SPACE + pmg_disabledStyle;
 			}
 		} 
 		
 		if (!(TRUE.equalsIgnoreCase(pm_disabled))
 				&& (!(TRUE.equalsIgnoreCase(pmg_disabled)))) {
-			tableClass = SPACE + CSS_DR_GROUP + SPACE + CSS_GROUP;
-			iconCellClass = SPACE + CSS_GROUP_ICON;
-			labelCellClass += SPACE + CSS_GROUP_LABEL;
-			emptyCellClass += SPACE + CSS_GROUP_ICON;
-			divClass += SPACE + CSS_DR_GROUP_DIV;
-			if (ComponentUtil.isNotBlank(pm_groupClass)) {
-				tableClass += SPACE + pm_groupClass;
-			} 
-			if (ComponentUtil.isNotBlank(pm_groupStyle)) {
-				tableStyle += SPACE + pm_groupStyle;
-			}
+			tableClass = Constants.WHITE_SPACE + CSS_DR_GROUP + Constants.WHITE_SPACE + CSS_GROUP;
+			iconCellClass = Constants.WHITE_SPACE + CSS_GROUP_ICON;
+			labelCellClass += Constants.WHITE_SPACE + CSS_GROUP_LABEL;
+			emptyCellClass += Constants.WHITE_SPACE + CSS_GROUP_ICON;
+			
 			if (ComponentUtil.isNotBlank(pmg_iconClass)) {
-				iconCellClass += SPACE + pmg_iconClass;
+				iconCellClass += Constants.WHITE_SPACE + pmg_iconClass;
 			}
 			if (ComponentUtil.isNotBlank(pmg_iconStyle)) {
-				iconCellStyle += SPACE + pmg_iconStyle;
+				iconCellStyle += Constants.WHITE_SPACE + pmg_iconStyle;
 			}
 			
 			if (childOfPanelMenu) {
-				tableClass = SPACE + CSS_DR_TOP_GROUP + SPACE + CSS_GROUP;
-				iconCellClass = SPACE + CSS_GROUP_ICON + SPACE + CSS_TOP_GROUP_ICON; 
-				labelCellClass = SPACE + CSS_TOP_GROUP_LABEL;
-				emptyCellClass = SPACE + CSS_TOP_GROUP_ICON;
-				divClass += SPACE + CSS_DR_TOP_GROUP_DIV;
+				tableClass = Constants.WHITE_SPACE + CSS_DR_TOP_GROUP + Constants.WHITE_SPACE + CSS_GROUP;
+				iconCellClass = Constants.WHITE_SPACE + CSS_GROUP_ICON + Constants.WHITE_SPACE + CSS_TOP_GROUP_ICON; 
+				labelCellClass = Constants.WHITE_SPACE + CSS_TOP_GROUP_LABEL;
+				emptyCellClass = Constants.WHITE_SPACE + CSS_TOP_GROUP_ICON;
 				if (ComponentUtil.isNotBlank(pm_topGroupClass)) {
-					tableClass += SPACE + pm_topGroupClass;
+					tableClass += Constants.WHITE_SPACE + pm_topGroupClass;
 				} 
 				if (ComponentUtil.isNotBlank(pm_topGroupStyle)) {
 					tableStyle += pm_topGroupStyle;
 				}
 				if (ComponentUtil.isNotBlank(pmg_iconClass)) {
-					iconCellClass += SPACE + pmg_iconClass;
+					iconCellClass += Constants.WHITE_SPACE + pmg_iconClass;
 				}
 				if (ComponentUtil.isNotBlank(pmg_iconStyle)) {
-					iconCellStyle += SPACE + pmg_iconStyle;
+					iconCellStyle += Constants.WHITE_SPACE + pmg_iconStyle;
 				}
-			} 
+			} else {
+			    	if (ComponentUtil.isNotBlank(pm_groupClass)) {
+					tableClass += Constants.WHITE_SPACE + pm_groupClass;
+			    	} 
+			    	if (ComponentUtil.isNotBlank(pm_groupStyle)) {
+					tableStyle += Constants.WHITE_SPACE + pm_groupStyle;
+				}
+			}
 		}
-		
-		if (ComponentUtil.isNotBlank(pm_styleClass)) {
-			tableClass += SPACE + pm_styleClass;
-		}
+
 		if (ComponentUtil.isNotBlank(pmg_styleClass)) {
-			tableClass += SPACE + pmg_styleClass;
+			tableClass += Constants.WHITE_SPACE + pmg_styleClass;
 		}
 		if (ComponentUtil.isNotBlank(pmg_style)) {
-			tableStyle += SPACE + pmg_style;
+			tableStyle += Constants.WHITE_SPACE + pmg_style;
 		}
 		
 		iconCell.setAttribute(HTML.ATTR_CLASS, iconCellClass);
@@ -490,8 +495,8 @@ VpeToggableTemplate {
 	private static void setDefaultImgAttributes(nsIDOMElement element) {
 		element.setAttribute(HTML.ATTR_WIDTH,
 				DEFAULT_SIZE_VALUE);
-		element.setAttribute(VSPACE, NO_SIZE_VALUE);
-		element.setAttribute(HSPACE, NO_SIZE_VALUE);
+		element.setAttribute(VSPACE, Constants.ZERO_STRING);
+		element.setAttribute(HSPACE, Constants.ZERO_STRING);
 		element.setAttribute(HTML.ATTR_HEIGHT,
 				DEFAULT_SIZE_VALUE);
 	}
@@ -626,15 +631,15 @@ VpeToggableTemplate {
 		/*
 		 *	rich:panelMenu style classes for groups
 		 */ 
-		pm_disabled = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED);
+		pm_disabled = sourceParentElement.getAttribute(HTML.ATTR_DISABLED);
 		pm_disabledGroupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_GROUP_CLASS);
 		pm_disabledGroupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_GROUP_STYLE);
 		pm_topGroupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_GROUP_CLASS);
 		pm_topGroupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_GROUP_STYLE);
 		pm_groupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.GROUP_CLASS);
 		pm_groupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.GROUP_STYLE);
-		pm_style = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.STYLE);
-		pm_styleClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.STYLE_CLASS);
+		pm_style = sourceParentElement.getAttribute(RichFaces.ATTR_STYLE);
+		pm_styleClass = sourceParentElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 	}
 	
 	/**

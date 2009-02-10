@@ -1,3 +1,8 @@
+.rich-pmenu-group{
+	/*padding: 0px;
+	height: 20px;
+	width: 100%;*/
+}
 .rich-pmenu-group-icon {
 	width: 16;
 	height: 16;
@@ -7,14 +12,12 @@
 }
 
 .dr-pmenu-top-group-div, .dr-pmenu-group-div {
-	margin-bottom: 3px;
-	padding: 1px;
+	border:1px solid #C4C0B9;
+    margin-bottom:3px;
+    overflow:hidden;
+    padding:1px;
+    width:100%;
 	cursor: pointer;
-}
-.rich-pmenu-group{
-	padding: 0px;
-	height: 20px;
-	width: 100%;
 }
 
 .dr-pmenu-top-group, .dr-pmenu-group {
@@ -24,10 +27,14 @@
 	font-weight: bold;
 	background-position: left top;
 	background-repeat: repeat-x;
-	padding: 0px;
+	cursor: pointer;
 	height: 20px;
-	width: 100%;
+	adding:2px 1px 2px 2px;
 }
+
+.dr-pmenu-top-group {
+    background-image: url(topGroupBkgImg.png);	
+}	
 
 .rich-pmenu-top-group-self-label, .rich-pmenu-group-self-label {
 	padding-left: 5px;

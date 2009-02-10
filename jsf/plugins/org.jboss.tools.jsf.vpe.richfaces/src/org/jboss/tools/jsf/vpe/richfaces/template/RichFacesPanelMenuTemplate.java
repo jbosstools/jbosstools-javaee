@@ -14,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -33,12 +34,20 @@ import org.w3c.dom.Node;
  */
 public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 	
+    	/*
+     	* Path to default css style sheet.
+     	*/
+    	private static final String CSS_STYLE_PATH = "/panelMenu/style.css"; //$NON-NLS-1$
+
+    	/*
+     	* Component name
+     	*/
+    	private static final String COMPONENT_NAME = "panelMenu"; //$NON-NLS-1$
+
 	/*
 	 *	rich:panelMenu attributes
 	 */ 
-	public static final String DISABLED = "disabled"; //$NON-NLS-1$
 	public static final String EXPAND_SINGLE = "expandSingle"; //$NON-NLS-1$
-	public static final String WIDTH = "width"; //$NON-NLS-1$
 	
 	/*
 	 *	rich:panelMenu attributes for groups
@@ -63,12 +72,6 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 	public static final String ICON_ITEM_TOP_POSITION = "iconItemTopPosition"; //$NON-NLS-1$
 	
 	/*
-	 *	rich:panelMenu style classes
-	 */ 
-	public static final String STYLE = "style"; //$NON-NLS-1$
-	public static final String STYLE_CLASS = "styleClass"; //$NON-NLS-1$
-	
-	/*
 	 *	rich:panelMenu style classes for groups
 	 */ 
 	public static final String DISABLED_GROUP_CLASS = "disabledGroupClass"; //$NON-NLS-1$
@@ -91,7 +94,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 	/*
 	 *	rich:panelMenu css styles
 	 */ 
-	public static final String CSS_PANEL_MENU = "rich-panel-menu"; //$NON-NLS-1$
+	public static final String CSS_PMENU = "rich-pmenu"; //$NON-NLS-1$
 
 	private static final String PANEL_MENU_GROUP_END = ":panelMenuGroup"; //$NON-NLS-1$
 	private static final String PANEL_MENU_ITEM_END = ":panelMenuItem"; //$NON-NLS-1$
@@ -102,26 +105,31 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
+		ComponentUtil.setCSSLink(pageContext, CSS_STYLE_PATH, COMPONENT_NAME);
+	    
 		Element sourceElement = (Element) sourceNode;
-		String width = sourceElement.getAttribute(WIDTH);
-		String style = sourceElement.getAttribute(STYLE);
-		String styleClass = sourceElement.getAttribute(STYLE_CLASS);
-
-		if (width != null) {
-			style = "width:" + width + ";" + style; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
+		String widthAttr = sourceElement.getAttribute(HTML.ATTR_WIDTH);
+		String styleAttr = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
+		String styleClassAttr = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+		String style = Constants.EMPTY;
+		String styleClass = CSS_PMENU;
+		
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		VpeCreationData vpeCreationData = new VpeCreationData(div);
-		div.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, "0"); //$NON-NLS-1$
-		
-		if (style != null) {
-			div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, MARGIN_TOP + style);
-		}
+		div.setAttribute(HTML.ATTR_BORDER, Constants.ZERO_STRING);
 
-		if (styleClass != null) {
-			div.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+		if (widthAttr != null) {
+		    style += "width:" + widthAttr + "; "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		if (styleAttr != null) {
+		    style += styleAttr;
+		}
+		div.setAttribute(HTML.ATTR_STYLE, style);
+
+		if (styleClassAttr != null) {
+		    styleClass += Constants.WHITE_SPACE + styleClassAttr;
+		}
+		div.setAttribute(HTML.ATTR_CLASS, styleClass);
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int i = 1;

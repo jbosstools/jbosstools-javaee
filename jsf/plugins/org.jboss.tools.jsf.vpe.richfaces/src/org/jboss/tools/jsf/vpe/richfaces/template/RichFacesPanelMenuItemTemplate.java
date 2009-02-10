@@ -585,7 +585,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 		/*
 		 *	rich:panelMenu attributes for items
 		 */ 
-		pm_disabled = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED);
+		pm_disabled = sourceParentElement.getAttribute(HTML.ATTR_DISABLED);
 		pm_iconItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM);
 		pm_iconDisabledItem = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLED_ITEM);
 		pm_iconItemPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_ITEM_POSITION);
