@@ -209,6 +209,8 @@ public class SeamProjectWizard extends WebProjectWizard {
 	public boolean performFinish() {
 		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		page.finishPressed();
+		IDataModel model = page.getConfig();
+		model.setProperty(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS, Boolean.TRUE);       
 		return super.performFinish();
 	}
 
@@ -219,24 +221,9 @@ public class SeamProjectWizard extends WebProjectWizard {
     protected void performFinish(final IProgressMonitor monitor) throws CoreException {
     	super.performFinish(monitor);
 
-    	// Create ear, ejb, test projects
 		IProject warProject = this.getFacetedProject().getProject();
 		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		IDataModel model = page.getConfig();
-		String seamVersionString = model.getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
-		SeamVersion seamVersion = SeamVersion.parseFromString(seamVersionString);
-		SeamProjectCreator creator = null;
-		if(seamVersion == SeamVersion.SEAM_1_2) {
-			creator = new SeamProjectCreator(model, warProject);
-		} else if(seamVersion == SeamVersion.SEAM_2_0) {
-			creator = new Seam2ProjectCreator(model, warProject);
-		} else if(seamVersion == SeamVersion.SEAM_2_1) {
-			creator = new Seam2ProjectCreator(model, warProject);
-		} else {
-			throw new RuntimeException("Can't get seam version from seam facet model");
-		}
-
-		creator.execute(monitor);
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 		IProject earProject = null;
