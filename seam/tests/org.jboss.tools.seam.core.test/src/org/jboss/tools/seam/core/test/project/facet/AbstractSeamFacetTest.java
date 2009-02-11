@@ -111,6 +111,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		    JobUtils.waitForIdle(); 
 			for (IResource r : this.resourcesToCleanup) {
 				try {
+					System.out.println("Deleting resource " + r.getLocation());
 					r.delete(true, null);
 					JobUtils.waitForIdle();
 				} catch(Exception e) {
