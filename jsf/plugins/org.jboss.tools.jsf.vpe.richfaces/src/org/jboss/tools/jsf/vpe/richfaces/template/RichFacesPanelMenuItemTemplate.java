@@ -277,7 +277,7 @@ public class RichFacesPanelMenuItemTemplate extends VpeAbstractTemplate {
 
 			nsIDOMElement iconCell = tdNowrapLeft;
 			nsIDOMElement emptyCell = tdRight;
-			if (ComponentUtil.isNotBlank(pm_iconItemPosition)) {
+			if (!childOfPanelMenu && ComponentUtil.isNotBlank(pm_iconItemPosition)) {
 				if (RIGHT.equalsIgnoreCase(pm_iconItemPosition)) {
 					/*
 					 * Set icon image on the right

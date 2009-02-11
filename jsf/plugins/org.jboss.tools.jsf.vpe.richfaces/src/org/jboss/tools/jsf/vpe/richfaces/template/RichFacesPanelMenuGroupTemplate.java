@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.RichFacesFileUploadTemplate.StyleClasses;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
@@ -48,7 +49,6 @@ VpeToggableTemplate {
 	/*
 	 * pich:panelMenuGroup attributes
 	 */
-	private static final String DISABLED = "disabled"; //$NON-NLS-1$
 	private static final String DISABLED_CLASS = "disabledClass"; //$NON-NLS-1$
 	private static final String DISABLED_STYLE = "disabledStyle"; //$NON-NLS-1$
 	private static final String ICON_CLASS = "iconClass"; //$NON-NLS-1$
@@ -95,46 +95,6 @@ VpeToggableTemplate {
 	private static final String WIDTH_100_PERSENTS = "width: 100%; "; //$NON-NLS-1$
 	private static final String DEFAULT_SIZE_VALUE = "16"; //$NON-NLS-1$
 	
-	/*
-	 *	rich:panelMenu attributes for groups
-	 */ 
-	private String pm_iconGroupPosition;
-	private String pm_iconGroupTopPosition;
-	private String pm_iconCollapsedGroup;
-	private String pm_iconCollapsedTopGroup;
-	private String pm_iconExpandedGroup;
-	private String pm_iconExpandedTopGroup;
-	private String pm_iconDisableGroup;
-	private String pm_iconTopDisableGroup;
-	private String pm_expandSingle;
-	
-	/*
-	 *	rich:panelMenu style classes for groups
-	 */ 
-	private String pm_disabled;
-	private String pm_disabledGroupClass;
-	private String pm_disabledGroupStyle;
-	private String pm_topGroupClass;
-	private String pm_topGroupStyle;
-	private String pm_groupClass;
-	private String pm_groupStyle;
-	private String pm_style;
-	private String pm_styleClass;
-	
-	/*
-	 * pich:panelMenuGroup attributes
-	 */
-	private String pmg_disabledStyle;
-	private String pmg_disabledClass;
-	private String pmg_disabled;
-	private String pmg_iconClass;
-	private String pmg_iconStyle;
-	private String pmg_iconExpanded;
-	private String pmg_iconCollapsed;
-	private String pmg_iconDisabled;
-	private String pmg_style;
-	private String pmg_styleClass;
-	
 	private List<String> expandedIds = new ArrayList<String>();
 	
 	static {
@@ -152,34 +112,18 @@ VpeToggableTemplate {
 	@SuppressWarnings("unchecked")
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
-		
 		Element groupSourceElement =  (Element) sourceNode;
-		Element srcNode = null;
-		
-//		if ((groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) != null)
-//                && (groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE) instanceof Element)) {
-//            srcNode = (Element) groupSourceElement.getUserData(VpeVisualDomBuilder.SRC_NODE);
-//        }
-//		nsIDOMElement creationDataDiv = visualDocument
-//				.createElement(HTML.TAG_DIV);
-//		VpeCreationData creationData = new VpeCreationData(creationDataDiv); 
-		//added by estherbin fixed https://jira.jboss.org/jira/browse/JBIDE-1605 issue.
-		final Element elementToPass = (srcNode != null ? srcNode : groupSourceElement);
-		
-		expandedIds = (List<String>) elementToPass.getUserData(VPE_EXPANDED_TOGGLE_IDS);
-		String childId = (String) elementToPass.getUserData(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
+		expandedIds = (List<String>) groupSourceElement.getUserData(VPE_EXPANDED_TOGGLE_IDS);
+		String childId = (String) groupSourceElement.getUserData(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID);
 		
 		/*
 		 * Counts child groups in a parent group 
 		 */
 		int childGroupCount = 1;
-	
 
-		Element anySuitableParent = getGroupParent(elementToPass, false);
-		Element panelMenuParent = getGroupParent(elementToPass, true);
-		
-		readPanelMenuGroupAttributes(groupSourceElement);
-		readPanelMenuAttributes(panelMenuParent);
+		Element anySuitableParent = getGroupParent(groupSourceElement, false);
+		Element panelMenuParent = getGroupParent(groupSourceElement, true);
+		final Attributes attrs = new Attributes(groupSourceElement, panelMenuParent);
 	
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, NAME_COMPONENT);
 		boolean expanded = false;
@@ -189,12 +133,11 @@ VpeToggableTemplate {
 		nsIDOMElement div = visualDocument
 				.createElement(HTML.TAG_DIV);
 		VpeCreationData creationData = new VpeCreationData(div);
-//		creationDataDiv.appendChild(div);
 		div.setAttribute(COMPONENT_ATTR_VPE_SUPPORT, NAME_COMPONENT);
 		div.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, childId);
 
 		buildTable(pageContext, anySuitableParent, groupSourceElement,
-				visualDocument, div, expanded, childId);
+				visualDocument, div, expanded, childId, attrs);
 		
 		nsIDOMElement childSpan = visualDocument
 		.createElement(HTML.TAG_SPAN);
@@ -240,7 +183,7 @@ VpeToggableTemplate {
 	private void buildTable(VpePageContext pageContext,
 			Element anySuitableParent, Element groupSourceElement,
 			nsIDOMDocument visualDocument, nsIDOMElement div, 
-			boolean expanded, String activeChildId) {
+			boolean expanded, String activeChildId, Attributes attrs) {
 		String tableStyle = Constants.EMPTY;
 		String tableClass = Constants.EMPTY;
 		String iconCellClass = Constants.EMPTY;
@@ -348,8 +291,8 @@ VpeToggableTemplate {
 		 */
 		nsIDOMElement iconCell = column1;
 		nsIDOMElement emptyCell = column3;
-		if (ComponentUtil.isNotBlank(pm_iconGroupPosition)) {
-			if (RIGHT.equalsIgnoreCase(pm_iconGroupPosition)) {
+		if (!childOfPanelMenu && ComponentUtil.isNotBlank(attrs.getPm_iconGroupPosition())) {
+			if (RIGHT.equalsIgnoreCase(attrs.getPm_iconGroupPosition())) {
 				/*
 				 * Set icon image on the right
 				 */
@@ -357,14 +300,14 @@ VpeToggableTemplate {
 				emptyCell = column1;
 			}
 		} 
-		if (childOfPanelMenu && ComponentUtil.isNotBlank(pm_iconGroupTopPosition)) {
-			if (RIGHT.equalsIgnoreCase(pm_iconGroupTopPosition)) {
+		if (childOfPanelMenu && ComponentUtil.isNotBlank(attrs.getPm_iconGroupTopPosition())) {
+			if (RIGHT.equalsIgnoreCase(attrs.getPm_iconGroupTopPosition())) {
 				/*
 				 * Set icon image on the right
 				 */
 				iconCell = column3;
 				emptyCell = column1;
-			} else if (LEFT.equalsIgnoreCase(pm_iconGroupTopPosition)) {
+			} else if (LEFT.equalsIgnoreCase(attrs.getPm_iconGroupTopPosition())) {
 				iconCell = column1;
 				emptyCell = column3;
 			}
@@ -382,7 +325,7 @@ VpeToggableTemplate {
 		emptyCell.appendChild(imgSpacer);
 
 		setIcon(pageContext, anySuitableParent, groupSourceElement,
-				imgIcon, expanded);
+				imgIcon, expanded, attrs);
 
 		/*
 		 * Group Style Classes Routine
@@ -399,49 +342,49 @@ VpeToggableTemplate {
 		    divClass += Constants.WHITE_SPACE + CSS_DR_GROUP_DIV;
 		}
 		 
-		if (TRUE.equalsIgnoreCase(pm_disabled)) {
+		if (TRUE.equalsIgnoreCase(attrs.getPm_disabled())) {
 			if (childOfPanelMenu) {
 				tableClass += Constants.WHITE_SPACE + CSS_DISABLED_ELEMENT;
-				if (ComponentUtil.isNotBlank(pm_disabledGroupClass)) {
-					tableClass += Constants.WHITE_SPACE + pm_disabledGroupClass;
+				if (ComponentUtil.isNotBlank(attrs.getPm_disabledGroupClass())) {
+					tableClass += Constants.WHITE_SPACE + attrs.getPm_disabledGroupClass();
 				}
-				if (ComponentUtil.isNotBlank(pm_topGroupStyle)) {
-					tableStyle += Constants.WHITE_SPACE + pm_topGroupStyle;
+				if (ComponentUtil.isNotBlank(attrs.getPm_topGroupStyle())) {
+					tableStyle += Constants.WHITE_SPACE + attrs.getPm_topGroupStyle();
 				}
 			}
 		}
 		
-		if ((TRUE.equalsIgnoreCase(pmg_disabled))) {
-			if (!(TRUE.equalsIgnoreCase(pm_disabled))) {
+		if ((TRUE.equalsIgnoreCase(attrs.getPmg_disabled()))) {
+			if (!(TRUE.equalsIgnoreCase(attrs.getPm_disabled()))) {
 				tableClass += Constants.WHITE_SPACE + CSS_DISABLED_ELEMENT;
-				if (ComponentUtil.isNotBlank(pm_disabledGroupClass)){
-					tableClass += Constants.WHITE_SPACE + pm_disabledGroupClass;
+				if (ComponentUtil.isNotBlank(attrs.getPm_disabledGroupClass())){
+					tableClass += Constants.WHITE_SPACE + attrs.getPm_disabledGroupClass();
 				}
 			}
 			
-			if (ComponentUtil.isNotBlank(pmg_disabledClass)) {
-				tableClass += Constants.WHITE_SPACE + pmg_disabledClass;
+			if (ComponentUtil.isNotBlank(attrs.getPmg_disabledClass())) {
+				tableClass += Constants.WHITE_SPACE + attrs.getPmg_disabledClass();
 			} 
-			if (ComponentUtil.isNotBlank(pm_disabledGroupStyle)) {
-				tableStyle += Constants.WHITE_SPACE + pm_disabledGroupStyle;
+			if (ComponentUtil.isNotBlank(attrs.getPm_disabledGroupStyle())) {
+				tableStyle += Constants.WHITE_SPACE + attrs.getPm_disabledGroupStyle();
 			}
-			if (ComponentUtil.isNotBlank(pmg_disabledStyle)) {
-				tableStyle += Constants.WHITE_SPACE + pmg_disabledStyle;
+			if (ComponentUtil.isNotBlank(attrs.getPmg_disabledStyle())) {
+				tableStyle += Constants.WHITE_SPACE + attrs.getPmg_disabledStyle();
 			}
 		} 
 		
-		if (!(TRUE.equalsIgnoreCase(pm_disabled))
-				&& (!(TRUE.equalsIgnoreCase(pmg_disabled)))) {
+		if (!(TRUE.equalsIgnoreCase(attrs.getPm_disabled()))
+				&& (!(TRUE.equalsIgnoreCase(attrs.getPmg_disabled())))) {
 			tableClass = Constants.WHITE_SPACE + CSS_DR_GROUP + Constants.WHITE_SPACE + CSS_GROUP;
 			iconCellClass = Constants.WHITE_SPACE + CSS_GROUP_ICON;
 			labelCellClass += Constants.WHITE_SPACE + CSS_GROUP_LABEL;
 			emptyCellClass += Constants.WHITE_SPACE + CSS_GROUP_ICON;
 			
-			if (ComponentUtil.isNotBlank(pmg_iconClass)) {
-				iconCellClass += Constants.WHITE_SPACE + pmg_iconClass;
+			if (ComponentUtil.isNotBlank(attrs.getPmg_iconClass())) {
+				iconCellClass += Constants.WHITE_SPACE + attrs.getPmg_iconClass();
 			}
-			if (ComponentUtil.isNotBlank(pmg_iconStyle)) {
-				iconCellStyle += Constants.WHITE_SPACE + pmg_iconStyle;
+			if (ComponentUtil.isNotBlank(attrs.getPmg_iconStyle())) {
+				iconCellStyle += Constants.WHITE_SPACE + attrs.getPmg_iconStyle();
 			}
 			
 			if (childOfPanelMenu) {
@@ -449,33 +392,33 @@ VpeToggableTemplate {
 				iconCellClass = Constants.WHITE_SPACE + CSS_GROUP_ICON + Constants.WHITE_SPACE + CSS_TOP_GROUP_ICON; 
 				labelCellClass = Constants.WHITE_SPACE + CSS_TOP_GROUP_LABEL;
 				emptyCellClass = Constants.WHITE_SPACE + CSS_TOP_GROUP_ICON;
-				if (ComponentUtil.isNotBlank(pm_topGroupClass)) {
-					tableClass += Constants.WHITE_SPACE + pm_topGroupClass;
+				if (ComponentUtil.isNotBlank(attrs.getPm_topGroupClass())){
+					tableClass += Constants.WHITE_SPACE + attrs.getPm_topGroupClass();
 				} 
-				if (ComponentUtil.isNotBlank(pm_topGroupStyle)) {
-					tableStyle += pm_topGroupStyle;
+				if (ComponentUtil.isNotBlank(attrs.getPm_topGroupStyle())) {
+					tableStyle += attrs.getPm_topGroupStyle();
 				}
-				if (ComponentUtil.isNotBlank(pmg_iconClass)) {
-					iconCellClass += Constants.WHITE_SPACE + pmg_iconClass;
+				if (ComponentUtil.isNotBlank(attrs.getPmg_iconClass())) {
+					iconCellClass += Constants.WHITE_SPACE + attrs.getPmg_iconClass();
 				}
-				if (ComponentUtil.isNotBlank(pmg_iconStyle)) {
-					iconCellStyle += Constants.WHITE_SPACE + pmg_iconStyle;
+				if (ComponentUtil.isNotBlank(attrs.getPmg_iconStyle())) {
+					iconCellStyle += Constants.WHITE_SPACE + attrs.getPmg_iconStyle();
 				}
 			} else {
-			    	if (ComponentUtil.isNotBlank(pm_groupClass)) {
-					tableClass += Constants.WHITE_SPACE + pm_groupClass;
+			    	if (ComponentUtil.isNotBlank(attrs.getPm_groupClass())) {
+					tableClass += Constants.WHITE_SPACE + attrs.getPm_groupClass();
 			    	} 
-			    	if (ComponentUtil.isNotBlank(pm_groupStyle)) {
-					tableStyle += Constants.WHITE_SPACE + pm_groupStyle;
+			    	if (ComponentUtil.isNotBlank(attrs.getPm_groupStyle())) {
+					tableStyle += Constants.WHITE_SPACE + attrs.getPm_groupStyle();
 				}
 			}
 		}
 
-		if (ComponentUtil.isNotBlank(pmg_styleClass)) {
-			tableClass += Constants.WHITE_SPACE + pmg_styleClass;
+		if (ComponentUtil.isNotBlank(attrs.getPmg_styleClass())) {
+			tableClass += Constants.WHITE_SPACE + attrs.getPmg_styleClass();
 		}
-		if (ComponentUtil.isNotBlank(pmg_style)) {
-			tableStyle += Constants.WHITE_SPACE + pmg_style;
+		if (ComponentUtil.isNotBlank(attrs.getPmg_style())) {
+			tableStyle += Constants.WHITE_SPACE + attrs.getPmg_style();
 		}
 		
 		iconCell.setAttribute(HTML.ATTR_CLASS, iconCellClass);
@@ -536,26 +479,26 @@ VpeToggableTemplate {
 	}
 
 	private void setIcon(VpePageContext pageContext, Node anySuitableParent,
-			Element groupSourceElement, nsIDOMElement imgIcon, boolean expanded) {
-		String pathIconExpanded = pmg_iconExpanded;
-		String pathIconCollapsed = pmg_iconCollapsed;
-		String pathIconDisabled = pmg_iconDisabled;
+			Element groupSourceElement, nsIDOMElement imgIcon, boolean expanded, Attributes attrs) {
+		String pathIconExpanded = attrs.getPmg_iconExpanded();
+		String pathIconCollapsed = attrs.getPmg_iconCollapsed();
+		String pathIconDisabled = attrs.getPmg_iconDisabled();
 
 		if ((anySuitableParent != null)
 				&& (anySuitableParent.getNodeName()
 						.endsWith(PANEL_MENU_END_TAG))) {
 			if (pathIconExpanded == null) {
-				pathIconExpanded = pm_iconExpandedTopGroup;
+				pathIconExpanded = attrs.getPm_iconExpandedTopGroup();
 			}
 			if (pathIconCollapsed == null) {
-				pathIconCollapsed = pm_iconCollapsedTopGroup;
+				pathIconCollapsed = attrs.getPm_iconCollapsedTopGroup();
 			}
 			if (pathIconDisabled == null) {
-				pathIconDisabled = pm_iconTopDisableGroup;
+				pathIconDisabled = attrs.getPm_iconTopDisableGroup();
 			}
 		}
 
-		if (TRUE.equalsIgnoreCase(pmg_disabled)) {
+		if (TRUE.equalsIgnoreCase(attrs.getPmg_disabled())) {
 			if (ComponentUtil.isNotBlank(pathIconDisabled)) {
 				if (DEFAULT_ICON_MAP.containsKey(pathIconDisabled)) {
 					pathIconDisabled = DEFAULT_ICON_MAP.get(pathIconDisabled);
@@ -604,93 +547,27 @@ VpeToggableTemplate {
 		}
 	}
 	
-	/**
-	 * Read attributes from the source element.
-	 * 
-	 * @param sourceNode the source node
-	 */
-	private void readPanelMenuAttributes(Element sourceParentElement) {
-		
-		if (null == sourceParentElement) {
-			return;
-		}
-
-		/*
-		 *	rich:panelMenu attributes for groups
-		 */ 
-		pm_iconGroupPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_GROUP_POSITION);
-		pm_iconGroupTopPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_GROUP_TOP_POSITION);
-		pm_iconCollapsedGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_COLLAPSED_GROUP);
-		pm_iconCollapsedTopGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_COLLAPSED_TOP_GROUP);
-		pm_iconExpandedGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_EXPANDED_GROUP);
-		pm_iconExpandedTopGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_EXPANDED_TOP_GROUP);
-		pm_iconDisableGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLE_GROUP);
-		pm_iconTopDisableGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_TOP_DISABLE_GROUP);
-		pm_expandSingle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.EXPAND_SINGLE);
-		
-		/*
-		 *	rich:panelMenu style classes for groups
-		 */ 
-		pm_disabled = sourceParentElement.getAttribute(HTML.ATTR_DISABLED);
-		pm_disabledGroupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_GROUP_CLASS);
-		pm_disabledGroupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_GROUP_STYLE);
-		pm_topGroupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_GROUP_CLASS);
-		pm_topGroupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_GROUP_STYLE);
-		pm_groupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.GROUP_CLASS);
-		pm_groupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.GROUP_STYLE);
-		pm_style = sourceParentElement.getAttribute(RichFaces.ATTR_STYLE);
-		pm_styleClass = sourceParentElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-	}
-	
-	/**
-	 * Read attributes from the source element.
-	 * 
-	 * @param sourceNode the source node
-	 */
-	private void readPanelMenuGroupAttributes(Element sourceElement) {
-		
-		if (null == sourceElement) {
-			return;
-		}
-		
-		/*
-		 * pich:panelMenuGroup attributes
-		 */
-		pmg_disabledStyle = sourceElement.getAttribute(DISABLED_STYLE);
-		pmg_disabledClass = sourceElement.getAttribute(DISABLED_CLASS);
-		pmg_disabled = sourceElement.getAttribute(DISABLED);
-		pmg_iconClass = sourceElement.getAttribute(ICON_CLASS);
-		pmg_iconStyle = sourceElement.getAttribute(ICON_STYLE);
-		pmg_iconExpanded = sourceElement.getAttribute(ICON_EXPANDED);
-		pmg_iconCollapsed = sourceElement.getAttribute(ICON_COLLAPSED);
-		pmg_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
-		pmg_style = sourceElement.getAttribute(STYLE);
-		pmg_styleClass = sourceElement.getAttribute(STYLE_CLASS);
-	}
-    
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeToggableTemplate#toggle(org.jboss.tools.vpe.editor.VpeVisualDomBuilder, org.w3c.dom.Node, java.lang.String)
 	 */
 	@SuppressWarnings("unchecked")
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
-		if ((null != sourceNode) && (sourceNode instanceof Element)) {
-			Element sourceElement = (Element)  sourceNode;
-			pmg_disabled = sourceElement.getAttribute(DISABLED);
-			Element panelMenu = getGroupParent(sourceElement, true);
-			if (null != panelMenu) {
-				pm_disabled = panelMenu.getAttribute(DISABLED);
-				pm_expandSingle = panelMenu.getAttribute(RichFacesPanelMenuTemplate.EXPAND_SINGLE);
-			}
-		}
+	    
+	    Element groupSourceElement =  (Element) sourceNode;
+	    Element panelMenuParent = getGroupParent(groupSourceElement, true);
+	    
+	    String pmg_disabled = groupSourceElement.getAttribute(HTML.ATTR_DISABLED);
+	    String pm_disabled = panelMenuParent.getAttribute(HTML.ATTR_DISABLED);
+	    String pm_expandSingle = panelMenuParent.getAttribute(RichFacesPanelMenuTemplate.EXPAND_SINGLE);
 		
 		/*
 		 * Do nothing when panel menu or panel group are disabled.
 		 */
-//		if ((TRUE.equalsIgnoreCase(pm_disabled))
-//				|| (TRUE.equalsIgnoreCase(pmg_disabled))) {
-//			return;
-//		}
+		if ((TRUE.equalsIgnoreCase(pm_disabled))
+				|| (TRUE.equalsIgnoreCase(pmg_disabled))) {
+			return;
+		}
 		
 		expandedIds = (List<String>) sourceNode.getUserData(VPE_EXPANDED_TOGGLE_IDS);
 		if (null == expandedIds) {
@@ -787,5 +664,231 @@ VpeToggableTemplate {
 	    Element sourceElement, int offset, int length, Object data) {
 	VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
 	sourceBuilder.setSelection(sourceElement, 0, 0);
+    }
+    
+    class Attributes {
+	
+	/*
+	 *	rich:panelMenu attributes for groups
+	 */ 
+	private String pm_iconGroupPosition;
+	private String pm_iconGroupTopPosition;
+	private String pm_iconCollapsedGroup;
+	private String pm_iconCollapsedTopGroup;
+	private String pm_iconExpandedGroup;
+	private String pm_iconExpandedTopGroup;
+	private String pm_iconDisableGroup;
+	private String pm_iconTopDisableGroup;
+	private String pm_expandSingle;
+	
+	/*
+	 *	rich:panelMenu style classes for groups
+	 */ 
+	private String pm_disabled;
+	private String pm_disabledGroupClass;
+	private String pm_disabledGroupStyle;
+	private String pm_topGroupClass;
+	private String pm_topGroupStyle;
+	private String pm_groupClass;
+	private String pm_groupStyle;
+	private String pm_style;
+	private String pm_styleClass;
+	
+	/*
+	 * pich:panelMenuGroup attributes
+	 */
+	private String pmg_disabledStyle;
+	private String pmg_disabledClass;
+	private String pmg_disabled;
+	private String pmg_iconClass;
+	private String pmg_iconStyle;
+	private String pmg_iconExpanded;
+	private String pmg_iconCollapsed;
+	private String pmg_iconDisabled;
+	private String pmg_style;
+	private String pmg_styleClass;
+	
+	public Attributes(final Element panelGroupElement, final Element panelMenuElement) {
+	    readPanelMenuGroupAttributes(panelGroupElement);
+	    readPanelMenuAttributes(panelMenuElement);
+	    
+	}
+	
+	/**
+	 * Read attributes from the source element.
+	 * 
+	 * @param sourceNode the source node
+	 */
+	private void readPanelMenuAttributes(Element sourceParentElement) {
+		
+		if (null == sourceParentElement) {
+			return;
+		}
+
+		/*
+		 *	rich:panelMenu attributes for groups
+		 */ 
+		pm_iconGroupPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_GROUP_POSITION);
+		pm_iconGroupTopPosition = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_GROUP_TOP_POSITION);
+		pm_iconCollapsedGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_COLLAPSED_GROUP);
+		pm_iconCollapsedTopGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_COLLAPSED_TOP_GROUP);
+		pm_iconExpandedGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_EXPANDED_GROUP);
+		pm_iconExpandedTopGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_EXPANDED_TOP_GROUP);
+		pm_iconDisableGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLE_GROUP);
+		pm_iconTopDisableGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_TOP_DISABLE_GROUP);
+		pm_expandSingle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.EXPAND_SINGLE);
+		
+		/*
+		 *	rich:panelMenu style classes for groups
+		 */ 
+		pm_disabled = sourceParentElement.getAttribute(HTML.ATTR_DISABLED);
+		pm_disabledGroupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_GROUP_CLASS);
+		pm_disabledGroupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.DISABLED_GROUP_STYLE);
+		pm_topGroupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_GROUP_CLASS);
+		pm_topGroupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.TOP_GROUP_STYLE);
+		pm_groupClass = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.GROUP_CLASS);
+		pm_groupStyle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.GROUP_STYLE);
+		pm_style = sourceParentElement.getAttribute(RichFaces.ATTR_STYLE);
+		pm_styleClass = sourceParentElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+	}
+	
+	/**
+	 * Read attributes from the source element.
+	 * 
+	 * @param sourceNode the source node
+	 */
+	private void readPanelMenuGroupAttributes(Element sourceElement) {
+		
+		if (null == sourceElement) {
+			return;
+		}
+		
+		/*
+		 * pich:panelMenuGroup attributes
+		 */
+		pmg_disabledStyle = sourceElement.getAttribute(DISABLED_STYLE);
+		pmg_disabledClass = sourceElement.getAttribute(DISABLED_CLASS);
+		pmg_disabled = sourceElement.getAttribute(HTML.ATTR_DISABLED);
+		pmg_iconClass = sourceElement.getAttribute(ICON_CLASS);
+		pmg_iconStyle = sourceElement.getAttribute(ICON_STYLE);
+		pmg_iconExpanded = sourceElement.getAttribute(ICON_EXPANDED);
+		pmg_iconCollapsed = sourceElement.getAttribute(ICON_COLLAPSED);
+		pmg_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
+		pmg_style = sourceElement.getAttribute(STYLE);
+		pmg_styleClass = sourceElement.getAttribute(STYLE_CLASS);
+	}
+
+	public String getPm_iconGroupPosition() {
+	    return pm_iconGroupPosition;
+	}
+
+	public String getPm_iconGroupTopPosition() {
+	    return pm_iconGroupTopPosition;
+	}
+
+	public String getPm_iconCollapsedGroup() {
+	    return pm_iconCollapsedGroup;
+	}
+
+	public String getPm_iconCollapsedTopGroup() {
+	    return pm_iconCollapsedTopGroup;
+	}
+
+	public String getPm_iconExpandedGroup() {
+	    return pm_iconExpandedGroup;
+	}
+
+	public String getPm_iconExpandedTopGroup() {
+	    return pm_iconExpandedTopGroup;
+	}
+
+	public String getPm_iconDisableGroup() {
+	    return pm_iconDisableGroup;
+	}
+
+	public String getPm_iconTopDisableGroup() {
+	    return pm_iconTopDisableGroup;
+	}
+
+	public String getPm_expandSingle() {
+	    return pm_expandSingle;
+	}
+
+	public String getPm_disabled() {
+	    return pm_disabled;
+	}
+
+	public String getPm_disabledGroupClass() {
+	    return pm_disabledGroupClass;
+	}
+
+	public String getPm_disabledGroupStyle() {
+	    return pm_disabledGroupStyle;
+	}
+
+	public String getPm_topGroupClass() {
+	    return pm_topGroupClass;
+	}
+
+	public String getPm_topGroupStyle() {
+	    return pm_topGroupStyle;
+	}
+
+	public String getPm_groupClass() {
+	    return pm_groupClass;
+	}
+
+	public String getPm_groupStyle() {
+	    return pm_groupStyle;
+	}
+
+	public String getPm_style() {
+	    return pm_style;
+	}
+
+	public String getPm_styleClass() {
+	    return pm_styleClass;
+	}
+
+	public String getPmg_disabledStyle() {
+	    return pmg_disabledStyle;
+	}
+
+	public String getPmg_disabledClass() {
+	    return pmg_disabledClass;
+	}
+
+	public String getPmg_disabled() {
+	    return pmg_disabled;
+	}
+
+	public String getPmg_iconClass() {
+	    return pmg_iconClass;
+	}
+
+	public String getPmg_iconStyle() {
+	    return pmg_iconStyle;
+	}
+
+	public String getPmg_iconExpanded() {
+	    return pmg_iconExpanded;
+	}
+
+	public String getPmg_iconCollapsed() {
+	    return pmg_iconCollapsed;
+	}
+
+	public String getPmg_iconDisabled() {
+	    return pmg_iconDisabled;
+	}
+
+	public String getPmg_style() {
+	    return pmg_style;
+	}
+
+	public String getPmg_styleClass() {
+	    return pmg_styleClass;
+	}
+	
     }
 }
