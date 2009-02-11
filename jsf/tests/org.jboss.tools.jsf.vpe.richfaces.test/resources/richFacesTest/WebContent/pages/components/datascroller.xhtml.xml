@@ -1,7 +1,7 @@
 <tests>
 	<test id="datascroller">
-		<DIV ALIGN="center" CLASS="rich-datascr">
-			<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0" ALIGN="center"
+		<DIV ALIGN="right" CLASS="rich-datascr">
+			<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0"
 				CLASS="rich-dtascroller-table">
 				<TBODY>
 					<TR>

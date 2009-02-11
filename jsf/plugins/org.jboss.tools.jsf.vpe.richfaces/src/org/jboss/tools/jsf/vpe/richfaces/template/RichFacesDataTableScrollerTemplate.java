@@ -125,7 +125,12 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	 */
 	creationData.addChildrenInfo(new VpeChildrenInfo(div));
 	
-	div.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_CENTER);
+	String align = sourceElement.getAttribute(RichFaces.ATTR_ALIGN);
+	if (align == null) {
+		align = HTML.VALUE_ALIGN_CENTER;
+	}
+	div.setAttribute(HTML.ATTR_ALIGN, align);
+
 	div.setAttribute(HTML.ATTR_CLASS, styleClass);
 	if (ComponentUtil.isNotBlank(style)) {
 	    div.setAttribute(HTML.ATTR_STYLE, style);
@@ -138,7 +143,6 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	table.appendChild(tbody);
 	div.appendChild(table);
 
-	table.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_CENTER);
 	table.setAttribute(HTML.ATTR_CLASS, tableStyleClass);
 	if (ComponentUtil.isNotBlank(tableStyle)) {
 	    table.setAttribute(HTML.ATTR_STYLE, tableStyle);
