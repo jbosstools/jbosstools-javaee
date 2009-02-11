@@ -85,6 +85,7 @@
     </section>
 
     <section id="seam_version_changing">
+
         <title>Changing the Seam Version</title>
 
         <para>To upgrade or downgrade your projects Seam version use the facet preferences. You
@@ -137,10 +138,37 @@
         <note>
             <title>Note:</title>
 
-            <para>The note "Seam configuration files and their XSDs won&apos;t be changed" is meant that
-                the libraries, Seam facet and runtime version will be changed, but configuration files that refer to
-                the old version will have to be manually updated.</para>
+            <para>The note "Seam configuration files and their XSDs won&apos;t be changed" is
+                meant that the libraries, Seam facet and runtime version will be changed, but
+                configuration files that refer to the old version will have to be manually
+                updated.</para>
         </note>
+    </section>
+
+    <section id="changing_seam_parent_project">
+        <title>Changing Seam Parent Project</title>
+
+        <para>Starting from the 2.0.0.CR2 version of <property>JBoss Tools</property> it is possible
+            to change the Seam parent project. In earlier versions this was only controllable at a
+            project creation time, now it can be changed for existing projects too.</para>
+
+        <para>Go to your project preferences and select <emphasis>
+                <property>Seam Settings</property>
+            </emphasis> category on the left. Press the <emphasis>
+                <property>Browse</property>
+            </emphasis> button next to the <emphasis>
+                <property>Main Seam Project</property>
+            </emphasis> section to select the other Seam parent project.</para>
+
+        <figure>
+            <title>Changing Seam Parent Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/directory_structure/directory_structure_6.png"
+                        scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
     </section>
 
     <section id="renaming_projects_folders">
