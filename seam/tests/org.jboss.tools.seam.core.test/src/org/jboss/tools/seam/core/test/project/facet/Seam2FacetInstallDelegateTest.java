@@ -22,8 +22,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.resources.IResourceProxyVisitor;
-import org.eclipse.core.resources.IResourceVisitor;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -32,7 +30,6 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.EventManager;
-import org.eclipse.wst.validation.internal.ValOperationManager;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -60,7 +57,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		ValidationFramework.getDefault().suspendAllValidation(true);
 		
 		ws.removeResourceChangeListener( EventManager.getManager() );
-		ws.removeResourceChangeListener( ValOperationManager.getDefault() );
+// 		commented to run tests on wtp 3.0.4 build		
+//		ws.removeResourceChangeListener( ValManager.getDefault() );
 		//EventManager.getManager().shutdown(); 
 		
 		suspendXJobs = XJob.isSuspended();
@@ -95,8 +93,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		ws.addResourceChangeListener(EventManager.getManager(), 
 				IResourceChangeEvent.PRE_CLOSE | IResourceChangeEvent.PRE_DELETE | 
 				IResourceChangeEvent.POST_BUILD | IResourceChangeEvent.PRE_BUILD | IResourceChangeEvent.POST_CHANGE);
-		ws.addResourceChangeListener(ValOperationManager.getDefault(), 
-				IResourceChangeEvent.POST_BUILD | IResourceChangeEvent.PRE_BUILD);
+//		ws.addResourceChangeListener(ValOperationManager.getDefault(), 
+//				IResourceChangeEvent.POST_BUILD | IResourceChangeEvent.PRE_BUILD);
 
 	}
 
