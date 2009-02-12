@@ -801,7 +801,35 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
+            <para>
+                
+                You can insert a tag/component from the pallet into either the Source  or the Visual part  by calling a context menu and selecting <property>Insert around</property>, <property>Insert before</property>, <property>Insert after</property> or <property>Replace With</property>, 
+                pointing to <property>From Palette</property>, picking the type of the tag and finally choosing the tag you want to insert.
+                
+            </para>
+            
+            <para>The image below illustrates how you can insert a tag into the Source part.</para>
+            <figure>
+                <title>Inserting a tag into the Source part  </title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_23a.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <para>And this is how a tag is inserted using a context menu in the Visual part.</para>
+            
+            <figure>
+                <title>Inserting a tag into the Visual part</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_23b.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            
             <para><property>Visual Page Editor</property> provides the option for displaying
                 non-visual tags in Visual mode of the editor. To enable this option expand the
                 submenu in the top left corner of the Visual part and select <emphasis>
