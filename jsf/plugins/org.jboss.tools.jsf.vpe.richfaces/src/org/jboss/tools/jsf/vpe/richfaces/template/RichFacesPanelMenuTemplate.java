@@ -58,8 +58,8 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 	public static final String ICON_COLLAPSED_TOP_GROUP = "iconCollapsedTopGroup"; //$NON-NLS-1$
 	public static final String ICON_EXPANDED_GROUP = "iconExpandedGroup"; //$NON-NLS-1$
 	public static final String ICON_EXPANDED_TOP_GROUP = "iconExpandedTopGroup"; //$NON-NLS-1$
-	public static final String ICON_DISABLE_GROUP = "iconDisableGroup"; //$NON-NLS-1$
-	public static final String ICON_TOP_DISABLE_GROUP = "iconTopDisableGroup"; //$NON-NLS-1$
+	public static final String ICON_DISABLED_GROUP = "iconDisabledGroup"; //$NON-NLS-1$
+	public static final String ICON_TOP_DISABLED_GROUP = "iconTopDisabledGroup"; //$NON-NLS-1$
 	
 	/*
 	 *	rich:panelMenu attributes for items
@@ -130,10 +130,14 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 		    styleClass += Constants.WHITE_SPACE + styleClassAttr;
 		}
 		div.setAttribute(HTML.ATTR_CLASS, styleClass);
-
+		
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int i = 1;
-		List<String> expandedIds = new ArrayList<String>();
+		List<String> expandedIds = (List<String>) sourceNode
+			.getUserData(RichFacesPanelMenuGroupTemplate.VPE_EXPANDED_TOGGLE_IDS);
+		if (null == expandedIds) {
+		    expandedIds = new ArrayList<String>();
+		}
 		for (Node child : children) {
 			if (child.getNodeName().endsWith(PANEL_MENU_GROUP_END)) {
 				child.setUserData(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(i), null);

@@ -136,7 +136,7 @@ VpeToggableTemplate {
 		div.setAttribute(COMPONENT_ATTR_VPE_SUPPORT, NAME_COMPONENT);
 		div.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, childId);
 
-		buildTable(pageContext, anySuitableParent, groupSourceElement,
+		buildTable(pageContext, anySuitableParent, panelMenuParent, groupSourceElement,
 				visualDocument, div, expanded, childId, attrs);
 		
 		nsIDOMElement childSpan = visualDocument
@@ -181,7 +181,7 @@ VpeToggableTemplate {
 	}
 
 	private void buildTable(VpePageContext pageContext,
-			Element anySuitableParent, Element groupSourceElement,
+			Element anySuitableParent, Element panelMenuParent, Element groupSourceElement,
 			nsIDOMDocument visualDocument, nsIDOMElement div, 
 			boolean expanded, String activeChildId, Attributes attrs) {
 		String tableStyle = Constants.EMPTY;
@@ -324,8 +324,8 @@ VpeToggableTemplate {
 		iconCell.appendChild(imgIcon);
 		emptyCell.appendChild(imgSpacer);
 
-		setIcon(pageContext, anySuitableParent, groupSourceElement,
-				imgIcon, expanded, attrs);
+		setIcon(pageContext, panelMenuParent, groupSourceElement,
+				imgIcon, expanded, childOfPanelMenu, attrs);
 
 		/*
 		 * Group Style Classes Routine
@@ -478,25 +478,31 @@ VpeToggableTemplate {
 		return parent;
 	}
 
-	private void setIcon(VpePageContext pageContext, Node anySuitableParent,
-			Element groupSourceElement, nsIDOMElement imgIcon, boolean expanded, Attributes attrs) {
+	private void setIcon(VpePageContext pageContext, Node panelMenuParent,
+			Element groupSourceElement, nsIDOMElement imgIcon,
+			boolean expanded, boolean childOfPanelMenu, Attributes attrs) {
 		String pathIconExpanded = attrs.getPmg_iconExpanded();
 		String pathIconCollapsed = attrs.getPmg_iconCollapsed();
 		String pathIconDisabled = attrs.getPmg_iconDisabled();
-
-		if ((anySuitableParent != null)
-				&& (anySuitableParent.getNodeName()
-						.endsWith(PANEL_MENU_END_TAG))) {
+			
 			if (pathIconExpanded == null) {
+			    if (childOfPanelMenu) {
 				pathIconExpanded = attrs.getPm_iconExpandedTopGroup();
+			    } 
+			    pathIconExpanded = attrs.getPm_iconExpandedGroup();
 			}
 			if (pathIconCollapsed == null) {
+			    if (childOfPanelMenu) {
 				pathIconCollapsed = attrs.getPm_iconCollapsedTopGroup();
+			    } 
+			    pathIconCollapsed = attrs.getPm_iconCollapsedGroup();
 			}
 			if (pathIconDisabled == null) {
-				pathIconDisabled = attrs.getPm_iconTopDisableGroup();
+			    if (childOfPanelMenu) {
+				pathIconDisabled = attrs.getPm_iconTopDisabledGroup();
+			    } 
+			    pathIconDisabled = attrs.getPm_iconDisabledGroup();
 			}
-		}
 
 		if (TRUE.equalsIgnoreCase(attrs.getPmg_disabled())) {
 			if (ComponentUtil.isNotBlank(pathIconDisabled)) {
@@ -560,7 +566,6 @@ VpeToggableTemplate {
 	    String pmg_disabled = groupSourceElement.getAttribute(HTML.ATTR_DISABLED);
 	    String pm_disabled = panelMenuParent.getAttribute(HTML.ATTR_DISABLED);
 	    String pm_expandSingle = panelMenuParent.getAttribute(RichFacesPanelMenuTemplate.EXPAND_SINGLE);
-		
 		/*
 		 * Do nothing when panel menu or panel group are disabled.
 		 */
@@ -636,6 +641,8 @@ VpeToggableTemplate {
 			}
 		}
 		sourceNode.setUserData(VPE_EXPANDED_TOGGLE_IDS, expandedIds, null);
+		panelMenuParent.setUserData(VPE_EXPANDED_TOGGLE_IDS, expandedIds, null);
+		builder.updateNode(panelMenuParent);
 	}
 
 	/* (non-Javadoc)
@@ -677,8 +684,8 @@ VpeToggableTemplate {
 	private String pm_iconCollapsedTopGroup;
 	private String pm_iconExpandedGroup;
 	private String pm_iconExpandedTopGroup;
-	private String pm_iconDisableGroup;
-	private String pm_iconTopDisableGroup;
+	private String pm_iconDisabledGroup;
+	private String pm_iconTopDisabledGroup;
 	private String pm_expandSingle;
 	
 	/*
@@ -734,8 +741,8 @@ VpeToggableTemplate {
 		pm_iconCollapsedTopGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_COLLAPSED_TOP_GROUP);
 		pm_iconExpandedGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_EXPANDED_GROUP);
 		pm_iconExpandedTopGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_EXPANDED_TOP_GROUP);
-		pm_iconDisableGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLE_GROUP);
-		pm_iconTopDisableGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_TOP_DISABLE_GROUP);
+		pm_iconDisabledGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_DISABLED_GROUP);
+		pm_iconTopDisabledGroup = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.ICON_TOP_DISABLED_GROUP);
 		pm_expandSingle = sourceParentElement.getAttribute(RichFacesPanelMenuTemplate.EXPAND_SINGLE);
 		
 		/*
@@ -802,12 +809,12 @@ VpeToggableTemplate {
 	    return pm_iconExpandedTopGroup;
 	}
 
-	public String getPm_iconDisableGroup() {
-	    return pm_iconDisableGroup;
+	public String getPm_iconDisabledGroup() {
+	    return pm_iconDisabledGroup;
 	}
 
-	public String getPm_iconTopDisableGroup() {
-	    return pm_iconTopDisableGroup;
+	public String getPm_iconTopDisabledGroup() {
+	    return pm_iconTopDisabledGroup;
 	}
 
 	public String getPm_expandSingle() {

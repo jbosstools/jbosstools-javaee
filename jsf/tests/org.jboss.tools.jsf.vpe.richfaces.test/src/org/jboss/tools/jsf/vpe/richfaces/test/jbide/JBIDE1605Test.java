@@ -38,7 +38,7 @@ public class JBIDE1605Test extends VpeTest {
     private static final String PAGE = "components/panelMenuGroup/jbide1605.xhtml"; //$NON-NLS-1$
     
     /** The Constant COUNT_OF_DIVS. */
-    private static final int COUNT_OF_DIVS = 16;
+    private static final int COUNT_OF_DIVS = 13;
     
     /**
      * The Constructor.
