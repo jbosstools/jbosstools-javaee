@@ -25,6 +25,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathContainer;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
@@ -210,7 +214,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		page.finishPressed();
 		IDataModel model = page.getConfig();
-		model.setProperty(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS, Boolean.TRUE);       
+		model.setProperty(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS, Boolean.TRUE);
 		return super.performFinish();
 	}
 
@@ -241,6 +245,11 @@ public class SeamProjectWizard extends WebProjectWizard {
 			projects.add(ejbProject);
 		}
 		projects.add(warProject);
+
+		if(ejbProject != null) {
+			provideClassPath(projects, ejbProject);
+		}
+		
 		buildProjects(projects, monitor);
 
 		// copy JDBC driver to server libraries folder;
@@ -268,10 +277,50 @@ public class SeamProjectWizard extends WebProjectWizard {
 		}
 	}
 
-    private void buildProjects(List<IProject> projects, IProgressMonitor monitor) {
-		J2EEComponentClasspathUpdater.getInstance().forceUpdate(projects);
+    private void provideClassPath(List<IProject> projects, IProject ejbProject) throws CoreException {
+    	if(ejbProject == null) return;
+		int k = 0;
+		while(k < 50) {
+			k++;
+			J2EEComponentClasspathUpdater.getInstance().forceUpdate(projects, false);
+			try {
+				boolean ok = checkClassPath(ejbProject);
+//				System.out.println("-->" + k);
+				if(ok) break;
+			} catch(CoreException ee1) {
+				break;
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+		}
+//		System.out.println("SeamProjectWizard: Class path provided in " + k + " iterations.");
+    }
+
+	public static boolean checkClassPath(IProject project) throws CoreException {
+		if(project == null || !project.isAccessible() || !project.hasNature(JavaCore.NATURE_ID)) return false;
+		IJavaProject javaProject = JavaCore.create(project);		
+		IClasspathEntry[] es = javaProject.getRawClasspath();
+		for (int i = 0; i < es.length; i++) {
+			if(es[i].getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
+				IPath p = es[i].getPath();
+				//"org.eclipse.jst.j2ee.internal.module.container"
+				if(p.toString().startsWith("org.eclipse.jst.j2ee")) {
+					IClasspathContainer c = JavaCore.getClasspathContainer(p, javaProject);
+					if(c == null) return false;
+					IClasspathEntry[] cs = c.getClasspathEntries();
+					return cs != null && cs.length > 0;
+				}
+			}
+		}
+		return true;
+ 	}
+
+	private void buildProjects(List<IProject> projects, IProgressMonitor monitor) {
+   		J2EEComponentClasspathUpdater.getInstance().forceUpdate(projects, false);
 		try {
 			for (IProject project : projects) {
+				project.build(IncrementalProjectBuilder.CLEAN_BUILD, monitor);
 				project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 			}
 		} catch (CoreException e) {
