@@ -736,7 +736,7 @@
         <para>Current VPE version has three tabs: <property>Visual/Source</property>,
                 <property>Source</property> and <property>Preview</property>. To switch between the
             views you can use tabs at the bottom of the VPE or the shortcuts <emphasis>
-                <property>Ctrl + PageUp/Ctrl + PageDown</property>.</emphasis></para>
+                <property>Ctrl + PageUp/Ctrl + PageDown</property></emphasis>.</para>
 
         <figure>
             <title>Visual Page Editor</title>
@@ -888,6 +888,43 @@
                 </itemizedlist>
             </section>
 
+<section id="codefolding">
+    <title>Using Code Folding</title>
+    <para>
+        <property>Visual Page Editor</property> lets you collapse (hide) and expand (show) sections of your code to make it easier to navigate and read.
+        
+    </para>
+    <para>Code folding can be enabled by 
+        right-clicking on the left margin on the Source part of  Visual 
+        Page Editor, selecting <property>Folding</property> and checking the <property>Enable Folding</property> checkbox or using the <emphasis><property>Ctrl+Numpad_Divide</property></emphasis> shortcut.</para>
+    <para>When the code folding is enabled a minus sing will 
+    appear on the left margin of the editor next to each opening block tag. </para>
+    
+    <figure>
+        <title>Enabled Code Folding </title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/visual_page/visual_page_24a.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    <para>Click the minus sign to collapse a block tag.</para>
+    
+    <para>When the minus sing is clicked on the appropriate tag collapses and a plus sing is displayed on the left margin as well as 
+    a gray rectangle  two dots appears after opening and closing tags. </para>
+    
+    <figure>
+        <title>Collapsed Code</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/visual_page/visual_page_24b.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+</section>
+            
             <section id="JSPsyntaxvalidation84">
 
                 <title>JSP Syntax Validation</title>
@@ -899,7 +936,7 @@
                 <title>Support for Taglib versions</title>
 
                 <para>VPE templates now support various versions of tag libraries. It means that the
-                        <property>VPE</property> takes control under those components which have
+                        <property>VPE</property> takes control over those components which have
                     different parameters or preview according to the framework version (like seam
                     1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
 
