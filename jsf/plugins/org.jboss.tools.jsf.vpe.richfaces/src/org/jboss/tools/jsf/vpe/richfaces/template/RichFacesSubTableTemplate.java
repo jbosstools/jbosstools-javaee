@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -33,7 +34,7 @@ import org.w3c.dom.Node;
 
 public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
-	private static final String DEAFAULT_CELL_CLASS = "dr-subtable-cell rich-subtable-cell"; //$NON-NLS-1$
+	private static final String DEAFAULT_CELL_CLASS = "dr-subtable-cell"; //$NON-NLS-1$
 	private static List<String> rowClasses;
 	private static List<String> columnClasses;
 	
@@ -146,40 +147,37 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		nsIDOMNode visualNode = creationData.getNode();
 		if (visualNode != null && visualNode.getNodeName().equals(HTML.TAG_TBODY)) {
 			// we are called by VpeVisualDomBuilder			
-			addStylesToCells(visualDocument, visualNode.getChildNodes());
+			addStylesToCells(visualDocument, visualNode);
 		} else {
-			// we are called by a validator of another template
-			// TODO: this case should be removed when no one template will call the method
-			final List<VpeChildrenInfo> childrenInfoList = creationData.getChildrenInfoList();
-			if (childrenInfoList != null) {
-				for (final VpeChildrenInfo childrenInfo : childrenInfoList) {
-					final List<Node> sourceChildren = childrenInfo.getSourceChildren();
-					if (sourceChildren != null 
-							&& sourceChildren.size() > 0 
-							&& sourceChildren.get(0).getParentNode() == sourceNode) {
-						final nsIDOMNodeList visualChildren = childrenInfo.getVisualParent().getChildNodes();
-						addStylesToCells(visualDocument, visualChildren);
-					}
-				}
-			}			
+			RuntimeException e = new RuntimeException("This is probably a bug. The main tag of subTable shuld be 'TBODY'.");//$NON-NLS-1$
+			RichFacesTemplatesActivator.getPluginLog().logError(e);
 		}
 	}
 	
-	/** Adds HTML style classes names to all TDs from the list <code>visualChildren</code>
-	 * according to <code>columnClasses</code> attribute of the tag. */
-	private void addStylesToCells(nsIDOMDocument visualDocument, nsIDOMNodeList visualChildren) {
-		int column = 0;
-		for (int i = 0; i < visualChildren.getLength(); i++) {
-			final nsIDOMNode visualChild = visualChildren.item(i);
-			if ( visualChild.getNodeType() == nsIDOMNode.ELEMENT_NODE && HTML.TAG_TD.equalsIgnoreCase(visualChild.getNodeName()) ) {
-				final nsIDOMNode tableCell = visualChild;
-				nsIDOMNode columnStyle = tableCell.getAttributes().getNamedItem(HTML.ATTR_CLASS);
-				if (columnStyle == null) {
-					columnStyle = visualDocument.createAttribute(HTML.ATTR_CLASS);
+	/**
+	 * Adds HTML style classes names to all TDs from the <code>rowsContainer</code>
+	 * according to <code>columnClasses</code> attribute of the tag.
+	 */
+	private void addStylesToCells(nsIDOMDocument visualDocument, nsIDOMNode rowsContainer) {
+		nsIDOMNodeList rowsContainerChildren = rowsContainer.getChildNodes();
+		for (int j = 0; j < rowsContainerChildren.getLength(); j++) {
+			nsIDOMNode tBodyChild = rowsContainerChildren.item(j);
+			if (tBodyChild.getNodeType() == nsIDOMNode.ELEMENT_NODE && HTML.TAG_TR.equalsIgnoreCase(tBodyChild.getNodeName())) {
+				nsIDOMNodeList rowChildren = tBodyChild.getChildNodes();
+				int column = 0;
+				for (int i = 0; i < rowChildren.getLength(); i++) {
+					final nsIDOMNode visualChild = rowChildren.item(i);
+					if ( visualChild.getNodeType() == nsIDOMNode.ELEMENT_NODE && HTML.TAG_TD.equalsIgnoreCase(visualChild.getNodeName()) ) {
+						final nsIDOMNode tableCell = visualChild;
+						nsIDOMNode columnStyle = tableCell.getAttributes().getNamedItem(HTML.ATTR_CLASS);
+						if (columnStyle == null) {
+							columnStyle = visualDocument.createAttribute(HTML.ATTR_CLASS);
+						}
+						columnStyle.setNodeValue(columnStyle.getNodeValue() + HTML.VALUE_CLASS_DELIMITER
+								+ getColumnClass(column));
+						column++;
+					}
 				}
-				columnStyle.setNodeValue(columnStyle.getNodeValue() + HTML.VALUE_CLASS_DELIMITER
-						+ getColumnClass(column));
-				column++;
 			}
 		}
 	}
