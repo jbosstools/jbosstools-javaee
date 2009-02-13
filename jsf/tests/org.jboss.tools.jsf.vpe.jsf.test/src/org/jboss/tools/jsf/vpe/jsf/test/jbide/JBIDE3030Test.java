@@ -39,7 +39,7 @@ public class JBIDE3030Test extends VpeTest {
 		fileNames.add(jbide3030Path+"test.jsp"); //$NON-NLS-1$ 
 		fileNames.add(jbide3030Path+"test.html");  //$NON-NLS-1$
 		fileNames.add(jbide3030Path+"test.xhtml"); //$NON-NLS-1$
-		fileNames.add(jbide3030Path+"jbide3385.jsp");
+		fileNames.add(jbide3030Path+"jbide3385.jsp"); //$NON-NLS-1$
 	}
 	
 	
