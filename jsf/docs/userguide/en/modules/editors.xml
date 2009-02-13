@@ -897,7 +897,13 @@
     <para>Code folding can be enabled by 
         right-clicking on the left margin on the Source part of  Visual 
         Page Editor, selecting <property>Folding</property> and checking the <property>Enable Folding</property> checkbox or using the <emphasis><property>Ctrl+Numpad_Divide</property></emphasis> shortcut.</para>
-    <para>When the code folding is enabled a minus sing will 
+    <para>When the code folding is enabled a minus sing (
+        <inlinemediaobject>   
+            <imageobject>
+                <imagedata fileref="images/visual_page/visual_page_23c.png"/>
+            </imageobject>
+         </inlinemediaobject>
+        ) will 
     appear on the left margin of the editor next to each opening block tag. </para>
     
     <figure>
@@ -911,8 +917,23 @@
     
     <para>Click the minus sign to collapse a block tag.</para>
     
-    <para>When the minus sing is clicked on the appropriate tag collapses and a plus sing is displayed on the left margin as well as 
-    a gray rectangle  two dots appears after opening and closing tags. </para>
+    <para>When the minus sing is clicked on the appropriate tag collapses and a plus sing (
+        <inlinemediaobject>   
+            <imageobject>
+                <imagedata fileref="images/visual_page/visual_page_23d.png"/>
+            </imageobject>
+        </inlinemediaobject>  
+        ) is displayed on the left margin as well as 
+    a gray rectangle  two dots 
+    (
+        <inlinemediaobject>   
+            <imageobject>
+                <imagedata fileref="images/visual_page/visual_page_23e.png"/>
+            </imageobject>
+        </inlinemediaobject>  
+        )
+    
+    appears after opening and closing tags. </para>
     
     <figure>
         <title>Collapsed Code</title>
