@@ -39,6 +39,7 @@
             where the required datasource and driver libraries need to go.</para>
         <para>Let&apos;s get through the wizard step-by-step. First, you should enter a name and
             a location directory for your new project.</para>
+
         <figure id="figure_create_seam1">
             <title>New Seam Project Wizard</title>
             <mediaobject>
@@ -48,13 +49,14 @@
             </mediaobject>
         </figure>
 
+        <para>On the figure above you can see the runtime and the server already created.</para>
 
-        <para>Clicking on <emphasis>
+        <para>If you need to create a new runtime, click on the <emphasis>
                 <property>New...</property>
-            </emphasis> button in the <property>Target Runtime</property> section will bring you to
-            another dialog. Here, you can specify a new JBoss Server Runtime environment or the
-            other type of runtime appropriate for configuring your project. Let's create one more
-            JBoss 4.2 Runtime. Hence, after choosing it click on <emphasis>
+            </emphasis> button in the <property>Target Runtime</property> section. It brings up the
+            wizard where you can specify a new JBoss Server Runtime environment or the other type of
+            runtime appropriate for configuring your project. Let's create one more JBoss 4.2
+            Runtime. Hence, after choosing it click on <emphasis>
                 <property>Next</property>
             </emphasis> button.</para>
 
@@ -85,15 +87,17 @@
         <para> Clicking on <emphasis>
                 <property>Finish</property>
             </emphasis> returns you to the <link linkend="figure_create_seam1">New Seam Project
-                wizard page</link>. The next step is to define a Server that you can do
-            by clicking on <emphasis>
+            wizard page</link>.</para>
+            
+            <para>The next step is to define a Server that you can do by clicking
+            on <emphasis>
                 <property>New...</property>
-            </emphasis> button in the <property>Target Server</property> section. In appeared <property>New Server
-                dialog</property> the last server which matches the runtime will be selected.</para>
+            </emphasis> button in the <property>Target Server</property> section. In appeared
+                <property>New Server dialog</property> the last server which matches the runtime
+            will be selected.</para>
 
-        <para>All declared runtimes are listed in the combo box
-            under the servers view. Here, you can indicate a server
-            runtime that you need. Click <emphasis>
+        <para>All declared runtimes are listed in the combo box under the servers view. Here, you
+            can indicate a server runtime that you need. Click <emphasis>
                 <property>Add</property>
             </emphasis> if you want to add a new Server Runtime.</para>
 
@@ -106,8 +110,8 @@
             </mediaobject>
         </figure>
 
-        <para>Next page allows you to verify the information for chosen server.
-            Leave everything as it is and click on <emphasis>
+        <para>Next page allows you to verify the information for chosen server. Leave everything as
+            it is and click on <emphasis>
                 <property>Next</property>
             </emphasis>.</para>
 
@@ -120,7 +124,8 @@
             </mediaobject>
         </figure>
 
-        <para>On the last wizard step you can modify your projects to configure them on the Server.</para>
+        <para>On the last wizard step you can modify your projects to configure them on the
+            Server.</para>
 
         <figure>
             <title>Project Modification for Configuring on the Server</title>
@@ -153,7 +158,9 @@
         </figure>
 
         <para>The last section on this wizard step is <property>Configuration</property>. Here, you
-            can select one of the pre-defined project configurations either associated with Seam 1.2, Seam 2.0 or with Seam 2.1. Furthermore, you can create your own configuration by pressing the <emphasis>
+            can select one of the pre-defined project configurations either associated with Seam
+            1.2, Seam 2.0 or with Seam 2.1. Furthermore, you can create your own configuration by
+            pressing the <emphasis>
                 <property>Modify...</property>
             </emphasis> button. It will open the dialog which allows to configure your own set of
             facets for adding extra functionality to your project.</para>
