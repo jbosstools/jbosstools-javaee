@@ -83,7 +83,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
    <XModelAttributeReference
-    attributes="action,view id,switch,no conversation view id,conversation required,login required,scheme,timeout,bundle,conversation"
+    attributes="action,view id,switch,no conversation view id,conversation required,login required,scheme,timeout,bundle,conversation,restrict,description"
     entity="SeamPage12" name="page"/>
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
@@ -222,7 +222,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
    <XModelAttributeReference
-    attributes="action,view id,switch,no conversation view id,conversation required,login required,scheme,timeout,bundle,conversation"
+    attributes="action,view id,switch,no conversation view id,conversation required,login required,scheme,timeout,bundle,conversation,restrict,description"
     entity="SeamPage12" name="page"/>
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
@@ -364,7 +364,7 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
    <XModelAttributeReference
-    attributes="action,view id,switch,no conversation view id,conversation required,login required,scheme,timeout,bundle,conversation"
+    attributes="action,view id,switch,no conversation view id,conversation required,login required,scheme,timeout,bundle,conversation,restrict,description"
     entity="SeamPage12" name="page"/>
    <XModelAttribute PROPERTIES="category=advanced"
     name="concurrent request timeout" xmlname="concurrent-request-timeout"/>
