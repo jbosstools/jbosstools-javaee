@@ -18,10 +18,6 @@
 		<vpe:template children="yes" modify="yes">
 			<div id="{@id}" class="{@styleClass}" style="{@style}" title="{tagstring()}">
             </div>
-			<vpe:resize>
-				<vpe:width width-attr="style.width" />
-				<vpe:height height-attr="style.height" />
-			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />
