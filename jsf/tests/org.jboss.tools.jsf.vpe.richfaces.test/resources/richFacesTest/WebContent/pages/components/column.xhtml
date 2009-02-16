@@ -7,6 +7,10 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+<style>
+	.redText {color:red;}
+	.blueText {color:blue;}
+</style>
 </head>
 <body>
 <h1>column</h1>
@@ -35,7 +39,7 @@
 		</f:facet>
 
 
-		<rich:columnGroup>
+		<rich:columnGroup columnClasses="redText, blueText">
 			<rich:column>
 				<h:outputText value="#{rowKey}" />
 			</rich:column>
@@ -57,7 +61,6 @@
 
 
 		<f:facet name="footer">
-
 			<rich:columnGroup>
 				<rich:column></rich:column>
 				<rich:column id="column4">
@@ -72,7 +75,6 @@
 
 			</rich:columnGroup>
 		</f:facet>
-
 	</rich:dataTable>
 </h:form>
 </body>
