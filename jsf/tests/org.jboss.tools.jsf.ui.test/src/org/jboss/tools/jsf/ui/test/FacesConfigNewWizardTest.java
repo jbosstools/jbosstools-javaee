@@ -73,7 +73,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		wizard.performFinish();
 		
-		dialog.close();
+		//dialog.close();
 		
 		JobUtils.waitForIdle();
 		
@@ -111,7 +111,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
 		
-		support.setAttributeValue(0, "name", "faces-config22");
+		support.setAttributeValue(0, "name", "faces-config11");
 		support.setAttributeValue(0, "folder", "/TestWizards/WebContent/WEB-INF");
 		support.setAttributeValue(0, "register in web.xml", "yes");
 		
@@ -122,6 +122,8 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		dialog.open();
 		
 		boolean canFinish = wizard.canFinish();
+		
+		System.out.println("Message - "+dialog.getCurrentPage().getErrorMessage());
 		
 		assertTrue("Finish button is disabled.", canFinish);
 		

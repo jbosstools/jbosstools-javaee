@@ -7,7 +7,9 @@ public class CssClassNewWizardTest extends WizardTest {
 	public CssClassNewWizardTest(){
 		super("org.jboss.tools.jst.web.ui.wizards.newfile.NewCSSClassWizard");
 	}
+	
 	public void testCssClassNewWizardTestIsCreated() {
+		needClose = false;
 		wizardIsCreated();
 	}
 	

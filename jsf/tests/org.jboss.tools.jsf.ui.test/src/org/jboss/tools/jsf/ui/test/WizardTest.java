@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -17,15 +15,15 @@ import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ui.wizard.newfile.NewFileContextEx;
 import org.jboss.tools.common.model.ui.wizard.newfile.NewFileWizardEx;
 import org.jboss.tools.common.util.WorkbenchUtils;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.jst.jsp.outline.cssdialog.CSSClassDialog;
 
 public abstract class WizardTest extends TestCase {
 	protected String id;
 	protected IProject project;
 	protected boolean projectRemovalRequired = false;
 	protected WizardDialog dialog;
+	
+	protected boolean needClose = true;
 	
 	public WizardTest(String id){
 		this.id = id;
@@ -34,42 +32,49 @@ public abstract class WizardTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-       
+		
 		project = new TestWizardsProject().importProject();
 
 	}
-
+	
 	public void wizardIsCreated() {
 		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		
+		ArrayList<IProject> list = new ArrayList<IProject>();
+		
+		StructuredSelection selection = new StructuredSelection(list);
+		
+		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
 		
 		dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				wizard);
 		dialog.setBlockOnOpen(false);
+		
 		dialog.open();
 
-//		System.out.println("\nWizard ID - "+id);
-//		System.out.println("Wizard Class - "+wizard.getClass());
-//		
-//		System.out.println("Pages - "+wizard.getPages().length);
-//		
-//		for(int i = 0; i < wizard.getPages().length;i++){
-//			System.out.println("Wizard Page Class - "+wizard.getPages()[i].getClass());
-//		}
-		
 		try {
 			IWizardPage startPage = wizard.getStartingPage();
 			assertNotNull(startPage);
+			
+			
 		}catch(Exception ex){
+			ex.printStackTrace();
 			fail(ex.getMessage());
-		} finally {
-			dialog.close();
+		}finally{
+			if(needClose)
+				dialog.close();
 		}
-		
 	}
 	
 	public IWizard getWizard(){
 		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		
+		ArrayList<IProject> list = new ArrayList<IProject>();
+		
+		StructuredSelection selection = new StructuredSelection(list);
+		
+		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
 		
 		dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -164,7 +169,7 @@ public abstract class WizardTest extends TestCase {
 		// Assert Finish button is enabled by default if wizard is called on Project
 		assertTrue("Finish button is disabled at first wizard page.", canFinish);
 		
-		dialog.close();
+		wizard.performCancel();
 		
 		// Assert Finish button is disabled and error is present if 
 		// 		Folder field is empty
@@ -174,7 +179,7 @@ public abstract class WizardTest extends TestCase {
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when folder field is empty.", canFinish);
 		
-		dialog.close();
+		wizard.performCancel();
 		
 		
 		// Assert Finish button is disabled and error is present if 
@@ -185,7 +190,7 @@ public abstract class WizardTest extends TestCase {
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when folders field points to folder that does not exist", canFinish);
 		
-		dialog.close();
+		wizard.performCancel();
 		
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
@@ -195,7 +200,7 @@ public abstract class WizardTest extends TestCase {
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when name field is empty.", canFinish);
 		
-		dialog.close();
+		wizard.performCancel();
 		
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
@@ -205,7 +210,7 @@ public abstract class WizardTest extends TestCase {
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when name field contains forbiden characters.", canFinish);
 		
-		dialog.close();
+		wizard.performCancel();
 		
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
@@ -215,6 +220,6 @@ public abstract class WizardTest extends TestCase {
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when name field contains file name that already exists.", canFinish);
 		
-		dialog.close();
+		wizard.performCancel();
 	}
 }
