@@ -256,6 +256,7 @@
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesDataTableScrollerTemplate">
 			<vpe:resize>
 				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
 			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
