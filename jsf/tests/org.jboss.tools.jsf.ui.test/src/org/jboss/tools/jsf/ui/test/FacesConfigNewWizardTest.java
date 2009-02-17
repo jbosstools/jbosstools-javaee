@@ -123,7 +123,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		boolean canFinish = wizard.canFinish();
 		
-		System.out.println("Message - "+dialog.getCurrentPage().getErrorMessage());
+		//System.out.println("Message - "+dialog.getCurrentPage().getErrorMessage());
 		
 		assertTrue("Finish button is disabled.", canFinish);
 		
