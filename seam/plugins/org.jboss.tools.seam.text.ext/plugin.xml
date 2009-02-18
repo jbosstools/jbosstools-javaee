@@ -187,6 +187,19 @@
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
          		</partitionType>
          	</contentType>
+         	
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/view-id/" />
+					<axis path="*/*-view-id/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/view-id/" />
+					<axis path="*/*-view-id/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 		
    </extension>
@@ -275,6 +288,13 @@
 			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
 			</contenttypeidentifier>
+			
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+         	</contenttypeidentifier>
+         	<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+         	</contenttypeidentifier>
 		</hyperlink>
 		
    </extension>
