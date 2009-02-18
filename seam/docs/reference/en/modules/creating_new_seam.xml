@@ -10,21 +10,34 @@
     </chapterinfo>
     <title>Creating a New Seam Project via the New Seam Project wizard</title>
     <para>In this chapter we provide you with the necessary steps to start working with Seam
-        Framework.</para>
+    Framework.</para>
+    
     <para>At first, we suggest setting the specific Seam perspective that combines a number of
         different views and editors needed for work with resources concerned. For that select <emphasis>
             <property>Window > Open Perspective > Other > Seam</property>
         </emphasis> or you can also access it through the button in the right top corner.</para>
 
     <figure>
-        <title>Seam Perspective</title>
+        <title>Seam Perspective Icon</title>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/create_new_seam/create_seam_0.png" scale="70"/>
+                <imagedata fileref="images/create_new_seam/create_seam_0.png"/>
             </imageobject>
         </mediaobject>
     </figure>
+    
+    <para>Also the <emphasis>
+        <property>Open Web Browser</property></emphasis> action is directly available in the <property>Seam perspective</property>.</para>
 
+    <figure>
+        <title>Embedded Web Browser Button</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/create_new_seam/create_seam_01.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
     <section id="standaloneSeam" role="updated">
         <title>Create standalone Seam Web Project</title>
         <para>The best way to get started with Seam is to organise a simple Seam Project and
