@@ -108,7 +108,7 @@
         <para>Validation of various possible problematic definitions is implemented for Seam
             applications.</para>
 
-        <para>If an issue is found it will be showed in the standard <property>Problems
+        <para>If an issue is found it will be shown in the standard <property>Problems
                 View</property>.</para>
 
         <figure>
@@ -137,7 +137,7 @@
         </figure>
 
         <para>On WTP projects validation are enabled by default and thus executed automatically, but
-            on normal Java projects you will have to go and add the Validation builder to your
+            on normal Java projects you will have to go and add the Validation builder of your
             project . It is available in the properties of your project under
                 <property>Validation</property>. The validations can be run manually by clicking
                 <property>Validate</property> via the context menu on your project which will
