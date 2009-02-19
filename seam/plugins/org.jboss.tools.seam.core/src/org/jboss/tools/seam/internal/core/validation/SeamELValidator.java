@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -23,12 +24,19 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
+import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -81,6 +89,7 @@ public class SeamELValidator extends SeamValidator {
 	private ElVarSearcher elVarSearcher;
 	private IProject currentProject;
 	private IResource[] currentSources;
+	private IContainer webRootFolder;
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
@@ -147,20 +156,40 @@ public class SeamELValidator extends SeamValidator {
 			// Just ignore this resource.
 			return false;
 		}
-		if(!JAVA_EXT.equalsIgnoreCase(file.getFileExtension())) {
-			return true;
-		}
 		IProject project = file.getProject();
 		if(!project.equals(currentProject)) {
+			IFacetedProject facetedProject = null;
+			try {
+				facetedProject = ProjectFacetsManager.create(project);
+			} catch (CoreException e) {
+				SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+			}
+			webRootFolder = null;
+			if(facetedProject!=null && facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET)!=null) {
+				IVirtualComponent component = ComponentCore.createComponent(project);
+				if(component!=null) {
+					IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+					webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+				}
+			}
 			currentProject = project;
 			currentSources = EclipseResourceUtil.getJavaSourceRoots(project);
 		}
+		// Validate all files from java source folders.
 		for (int i = 0; i < currentSources.length; i++) {
 			if(currentSources[i].getLocation().isPrefixOf(file.getLocation())) {
 				return true;
 			}
 		}
-		return false;
+		// If *.java is out of Java Source path then ignore it.
+		if(JAVA_EXT.equalsIgnoreCase(file.getFileExtension())) {
+			return false;
+		}
+		// Otherwise validate only files from Web-Content (in case of WTP project)
+		if(webRootFolder!=null) {
+			return webRootFolder.getLocation().isPrefixOf(file.getLocation());
+		}
+		return true;
 	}
 
 	private void validateFile(IFile file) {
