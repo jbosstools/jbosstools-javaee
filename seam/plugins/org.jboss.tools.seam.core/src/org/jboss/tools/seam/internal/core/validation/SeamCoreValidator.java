@@ -10,12 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -124,9 +122,15 @@ public class SeamCoreValidator extends SeamValidator {
 		// Collect all resources which we must validate.
 		Set<IPath> resources = new HashSet<IPath>(); // Resources which we have to validate.
 		Set<IPath> newResources = new HashSet<IPath>(); // New (unlinked) resources file
+		boolean validateUnnamedResources = false;
 		for(IFile currentFile : changedFiles) {
 			if(reporter.isCancelled()) {
 				break;
+			}
+			if(!validateUnnamedResources) {
+				String fileName = currentFile.getName().toLowerCase();
+				// We need to check only file names here. 
+				validateUnnamedResources = fileName.endsWith(".java") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$
 			}
 			if (checkFileExtension(currentFile)) {
 				validateXMLVersion(currentFile);
@@ -175,14 +179,16 @@ public class SeamCoreValidator extends SeamValidator {
 			validateFactory(linkedResource, markedDuplicateFactoryNames);
 		}
 
-		// Validate all unnamed resources.
-		Set<IPath> unnamedResources = validationContext.getUnnamedCoreResources();
-		newResources.addAll(unnamedResources);
-		for (IPath path : newResources) {
-			displaySubtask(VALIDATING_RESOURCE_MESSAGE_ID, new String[]{projectName, path.toString()});
-			Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
-			for (SeamJavaComponentDeclaration d : declarations) {
-				validateMethodsOfUnknownComponent(d);
+		// If changed files are *.java or component.xml then re-validate all unnamed resources.
+		if(validateUnnamedResources) {
+			Set<IPath> unnamedResources = validationContext.getUnnamedCoreResources();
+			newResources.addAll(unnamedResources);
+			for (IPath path : newResources) {
+				displaySubtask(VALIDATING_RESOURCE_MESSAGE_ID, new String[]{projectName, path.toString()});
+				Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
+				for (SeamJavaComponentDeclaration d : declarations) {
+					validateMethodsOfUnknownComponent(d);
+				}
 			}
 		}
 
