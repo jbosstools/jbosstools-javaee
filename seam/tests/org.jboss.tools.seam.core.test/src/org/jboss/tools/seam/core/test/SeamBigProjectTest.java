@@ -83,15 +83,15 @@ public class SeamBigProjectTest extends TestCase {
 	
 	public void testBigProject() {
 		ISeamProject sp = getSeamProject();
-		Set<ISeamComponent> cs = sp.getComponents();
-		int components = cs.size();
+		ISeamComponent[] cs = sp.getComponents();
+		int components = cs.length;
 		if(components < 500) {
 			fail("Found only " + components + " components. Must be more than 500.");
 		}
 		SeamProject impl = (SeamProject)sp;
 		System.out.println("Full build of " + components + " components completed in " + impl.fullBuildTime + "ms");
 		long time = impl.reload();
-		System.out.println("Reloaded " + sp.getComponents().size() + " components in " + time + "ms");
+		System.out.println("Reloaded " + sp.getComponents().length + " components in " + time + "ms");
 		List<Long> statistics = impl.statistics;
 		impl.statistics = null;
 		assertTrue("Statistics contains less than 500 items", statistics.size() >= 500);
@@ -133,7 +133,7 @@ public class SeamBigProjectTest extends TestCase {
 		provider.dispose();
 	}
 
-	private void generateLongXHTML(Set<ISeamComponent> cs) {
+	private void generateLongXHTML(ISeamComponent[] cs) {
 		StringBuffer sb = new StringBuffer();
 		
 		IFolder webContent = project.getFolder("WebContent");

@@ -65,7 +65,7 @@ public class SerializationTest extends TestCase {
 	public void testXMLSerialization() {
 		Element root = XMLUtilities.createDocumentElement("root");
 		ISeamProject seamProject = getSeamProject();
-		Set<ISeamComponent> cs = seamProject.getComponents();
+		ISeamComponent[] cs = seamProject.getComponents();
 		for (ISeamComponent c: cs) {
 			Set<ISeamComponentDeclaration> ds = c.getAllDeclarations();
 			for (ISeamComponentDeclaration d: ds) {
@@ -92,7 +92,7 @@ public class SerializationTest extends TestCase {
 				root.removeChild(e);
 			}
 		}
-		Set<ISeamFactory> fs = seamProject.getFactories();
+		ISeamFactory[] fs = seamProject.getFactories();
 		for (ISeamFactory f: fs) {
 			Properties context = new Properties();
 			context.put(SeamXMLConstants.ATTR_PATH, f.getSourcePath());
@@ -120,7 +120,7 @@ public class SerializationTest extends TestCase {
 		ISeamProject sp = getSeamProject();
 		
 		long time = ((SeamProject)sp).reload();
-		int components = sp.getComponents().size();
+		int components = sp.getComponents().length;
 		System.out.print("Reloaded " + components + " components in " + time + " ms");
 		
 		float timePerComponent = 1f * time / components;
@@ -131,14 +131,15 @@ public class SerializationTest extends TestCase {
 	public void testCleanBuild() {
 		ISeamProject sp = getSeamProject();
 		try {
-			int components_1 = sp.getComponents().size();
-			assertFalse(components_1 == 0);
 			boolean auto = ResourcesUtils.setBuildAutomatically(false);
+			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
+			int components_1 = sp.getComponents().length;
+			assertFalse(components_1 == 0);
 			sp.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
-			int components_2 = sp.getComponents().size();
+			int components_2 = sp.getComponents().length;
 			assertTrue(components_2 == 0);
 			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
-			int components_3 = sp.getComponents().size();
+			int components_3 = sp.getComponents().length;
 			assertEquals(components_1, components_3);
 			
 			ResourcesUtils.setBuildAutomatically(auto);
