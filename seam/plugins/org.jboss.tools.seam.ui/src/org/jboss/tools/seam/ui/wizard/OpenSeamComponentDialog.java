@@ -128,11 +128,8 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project,
 					true);
 			if (seamProject != null) {
-				Iterator<ISeamComponent> iter = seamProject.getComponents()
-						.iterator();
-				while (iter.hasNext()) {
-					ISeamComponent component = iter.next();
-
+				ISeamComponent[] iter = seamProject.getComponents();
+				for (ISeamComponent component: iter) {
 					if (SeamReferencedFilter
 							.isComponentDeclaredInThisProject(component))
 						contentProvider.add(new SeamComponentWrapper(component

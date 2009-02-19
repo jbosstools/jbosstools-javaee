@@ -73,7 +73,7 @@ public class SeamLinkHelper implements ILinkHelper {
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(jp.getProject(), true);
 			if(seamProject == null) return null;
 			IType type = cf.getType();
-			Set<ISeamComponent> cs = seamProject.getComponents();
+			ISeamComponent[] cs = seamProject.getComponents();
 			for (ISeamComponent c : cs) {
 				ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
 				IMember m = d.getSourceMember();
