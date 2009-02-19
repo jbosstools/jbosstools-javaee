@@ -16,14 +16,7 @@ import org.eclipse.wst.sse.core.internal.document.StructuredDocumentFactory;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.ElementProxy;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeListImpl;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.NodeProxy;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.TextProxy;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
 import org.jboss.tools.jsf.vpe.jsf.template.util.proxy.JsfTemplateInvocationHandler;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
@@ -67,35 +60,6 @@ public class NodeProxyUtil {
 
 		return reparseAttributeValue(data, attr.getValue(), ((IDOMAttr) attr)
 				.getValueRegionStartOffset() + 1);
-
-	}
-
-	static public NodeProxy getNodeAdapter(Node node, int basicOffset) {
-		if (node == null)
-			return null;
-
-		if (node instanceof IDOMText)
-			return new TextProxy((IDOMText) node, basicOffset);
-		else if (node instanceof IDOMElement)
-			return new ElementProxy((IDOMElement) node, basicOffset);
-		else
-			return new NodeProxy(node, basicOffset);
-	}
-
-	static public NodeList getNodeAdapterList(NodeList nodeList, int basicOffset) {
-
-		NodeListImpl newNodeList = new NodeListImpl();
-
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-
-			// if node is only html tag
-			if (node.getPrefix() == null)
-				newNodeList.appendNode(getNodeAdapter(node, basicOffset));
-
-		}
-
-		return newNodeList;
 
 	}
 
