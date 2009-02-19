@@ -201,7 +201,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			return null;
 		}
 		SeamProject p = (SeamProject)getSeamProject();
-		return p == null ? null : p.getAllJavaComponentDeclarations().get(superclass);
+		return p == null ? null : p.getJavaComponentDeclaration(superclass);
 	}
 
 	public Set<IRole> getRoles() {

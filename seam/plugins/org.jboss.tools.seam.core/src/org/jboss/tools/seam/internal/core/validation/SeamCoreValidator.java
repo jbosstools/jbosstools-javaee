@@ -185,8 +185,8 @@ public class SeamCoreValidator extends SeamValidator {
 			newResources.addAll(unnamedResources);
 			for (IPath path : newResources) {
 				displaySubtask(VALIDATING_RESOURCE_MESSAGE_ID, new String[]{projectName, path.toString()});
-				Set<SeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
-				for (SeamJavaComponentDeclaration d : declarations) {
+				Set<ISeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
+				for (ISeamJavaComponentDeclaration d : declarations) {
 					validateMethodsOfUnknownComponent(d);
 				}
 			}
@@ -200,14 +200,14 @@ public class SeamCoreValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
 	public IStatus validateAll() throws ValidationException {
-		Set<ISeamComponent> components = Collections.unmodifiableSet(seamProject.getComponents());
+		ISeamComponent[] components = seamProject.getComponents();
 		for (ISeamComponent component : components) {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}
 			validateComponent(component);
 		}
-		Set<ISeamFactory> factories = Collections.unmodifiableSet(seamProject.getFactories());
+		ISeamFactory[] factories = seamProject.getFactories();
 		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
 		for (ISeamFactory factory : factories) {
 			if(reporter.isCancelled()) {
@@ -216,9 +216,8 @@ public class SeamCoreValidator extends SeamValidator {
 			validateFactory(factory, markedDuplicateFactoryNames);
 		}
 
-		Map<String,SeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).getAllJavaComponentDeclarations();
-		Collection<SeamJavaComponentDeclaration> values = declarations.values();
-		for (SeamJavaComponentDeclaration d : values) {
+		ISeamJavaComponentDeclaration[] values = ((SeamProject)seamProject).getAllJavaComponentDeclarations();
+		for (ISeamJavaComponentDeclaration d : values) {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}

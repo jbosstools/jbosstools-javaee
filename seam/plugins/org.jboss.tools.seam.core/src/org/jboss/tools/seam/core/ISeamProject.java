@@ -140,7 +140,7 @@ public interface ISeamProject extends ISeamElement {
 	/**
 	 * @return Set of all ISeamComponents of project
 	 */
-	public Set<ISeamComponent> getComponents();
+	public ISeamComponent[] getComponents();
 
 	/**
 	 * Adds component into project
@@ -199,7 +199,7 @@ public interface ISeamProject extends ISeamElement {
 	/**
 	 * @return all factories methods of project
 	 */
-	public Set<ISeamFactory> getFactories();
+	public ISeamFactory[] getFactories();
 
 	/**
 	 * @return Factories methods of project by name and scope
