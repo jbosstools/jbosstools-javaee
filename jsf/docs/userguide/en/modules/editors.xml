@@ -1231,23 +1231,58 @@
                 <listitem>
                     <para><emphasis>
                             <property>Page Design Options</property>
-                        </emphasis> button leads to window which helps you to specify necessary
-                        references to resources. Here is what this window looks like.</para>
+                        </emphasis> button leads to the window which helps you to specify necessary
+                        references to the resources. It is represented by a window with 4 tabs. The first one, <emphasis><property>Actual Run-Time folders</property></emphasis>, is used to replace absolute and relative path values when generating a preview: </para> 
                     <figure>
-                        <title>Page Design Options</title>
+                        <title>Page Design Options: Actual Run-Time folders</title>
                         <mediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/visual_page_10.png"/>
                             </imageobject>
                         </mediaobject>
                     </figure>
+                    
+                    
+                    <para>The second tab, <emphasis><property>Included CSS files</property></emphasis>, is used to add CSS files to be linked by Visual Page Editor when generating a preview:</para> 
+                        
+                    <figure>
+                        <title>Page Design Options: Included CSS files</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_10_2.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    
+                    
+                    
+                    
+                    <para>The third one, <emphasis><property>Included tag libs</property></emphasis>,  can be used to add Taglibs that can be used by the editor for getting appropriate templates to generate a preview:</para>
+                        
+                    <figure>
+                        <title>Page Design Options: Included tag libs</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_10_3.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    
+                        <para>And finally, the <emphasis><property>Substituted El expressions</property></emphasis> tab is used to add El expressions that will be substituted by the editor when generating a preview:</para>
+                    
+                    <figure>
+                        <title>Page Design Options: Substituted El expressions</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_10_4.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                   
 
-                    <para>This dialog lets you set resources which are usually only resolved in
-                        runtime. Let&apos;s look at what functionality it proposes.</para>
-
-                    <para>The first two sections of the window let you define actual runtime
+                    <para>The first two tabs of the window let you define actual runtime
                         folders. The example below will help you to clarify how this can be
-                        used.</para>
+                        done.</para>
 
                     <para>Suppose you have the following project structure:</para>
 
@@ -1282,18 +1317,7 @@
                             pages&apos;</emphasis> and you will see the image appeared.</para>
                     <para/>
 
-                    <para id="el_exp_para">In the bottom part of the window you can set a path to
-                        included css files, tag libs and substituted EL expressions.</para>
-                    <figure>
-                        <title>Bottom Part of the Page Design Options</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_11.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-                    <para>Let&apos; consider an example. For instance, the definition of your
+                                       <para>Let&apos; consider an example for other tabs. For instance, the definition of your
                         CSS on the page is the next:</para>
 
                     <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
