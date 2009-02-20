@@ -185,7 +185,7 @@ public class SeamValidationContext {
 				}
 			}
 		}
-		result.addAll(elLinks.getUnnamedResources());
+//		result.addAll(elLinks.getUnnamedResources());
 		return result;
 	}
 

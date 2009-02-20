@@ -11,10 +11,8 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -59,7 +57,6 @@ import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
-import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
 
@@ -130,10 +127,9 @@ public class SeamCoreValidator extends SeamValidator {
 			if(!validateUnnamedResources) {
 				String fileName = currentFile.getName().toLowerCase();
 				// We need to check only file names here. 
-				validateUnnamedResources = fileName.endsWith(".java") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$
+				validateUnnamedResources = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$
 			}
 			if (checkFileExtension(currentFile)) {
-				validateXMLVersion(currentFile);
 				// Get all variable names which were linked with this resource.
 				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath());
 				if(oldVariablesNamesOfChangedFile!=null) {
@@ -171,12 +167,20 @@ public class SeamCoreValidator extends SeamValidator {
 		// Validate all collected linked resources.
 		// Remove all links between collected resources and variables names because they will be linked again during validation.
 		validationContext.removeLinkedCoreResources(resources);
+
+		IFile[] filesToValidate = new IFile[resources.size()];
+		int i = 0;
+		// We have to remove markers from all collected source files first
 		for (IPath linkedResource : resources) {
-			// Remove markers from collected source file
-			IFile sourceFile = root.getFile(linkedResource);
-			reporter.removeMessageSubset(validationManager, sourceFile, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
+			filesToValidate[i] = root.getFile(linkedResource);
+			removeAllMessagesFromResource(filesToValidate[i++]);
+		}
+		i = 0;
+		// Then we can validate them
+		for (IPath linkedResource : resources) {
 			validateComponent(linkedResource, checkedComponents, newResources);
 			validateFactory(linkedResource, markedDuplicateFactoryNames);
+			validateXMLVersion(filesToValidate[i++]);
 		}
 
 		// If changed files are *.java or component.xml then re-validate all unnamed resources.
@@ -184,10 +188,16 @@ public class SeamCoreValidator extends SeamValidator {
 			Set<IPath> unnamedResources = validationContext.getUnnamedCoreResources();
 			newResources.addAll(unnamedResources);
 			for (IPath path : newResources) {
-				displaySubtask(VALIDATING_RESOURCE_MESSAGE_ID, new String[]{projectName, path.toString()});
-				Set<ISeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
-				for (ISeamJavaComponentDeclaration d : declarations) {
-					validateMethodsOfUnknownComponent(d);
+				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				if(file!=null && file.exists()) {
+					if(!resources.contains(path)) {
+						removeAllMessagesFromResource(file);
+					}
+					displaySubtask(VALIDATING_RESOURCE_MESSAGE_ID, new String[]{projectName, path.toString()});
+					Set<ISeamJavaComponentDeclaration> declarations = ((SeamProject)seamProject).findJavaDeclarations(path);
+					for (ISeamJavaComponentDeclaration d : declarations) {
+						validateMethodsOfUnknownComponent(d);
+					}
 				}
 			}
 		}
@@ -200,12 +210,19 @@ public class SeamCoreValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
 	public IStatus validateAll() throws ValidationException {
+		removeAllMessagesFromResource(seamProject.getProject());
 		ISeamComponent[] components = seamProject.getComponents();
 		for (ISeamComponent component : components) {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}
-			validateComponent(component);
+			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
+			for (ISeamComponentDeclaration seamComponentDeclaration : declarations) {
+				if(project == seamComponentDeclaration.getResource().getProject()) {
+					validateComponent(component);
+					break;
+				}
+			}
 		}
 		ISeamFactory[] factories = seamProject.getFactories();
 		Set<String> markedDuplicateFactoryNames = new HashSet<String>();
@@ -213,7 +230,9 @@ public class SeamCoreValidator extends SeamValidator {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}
-			validateFactory(factory, markedDuplicateFactoryNames);
+			if(project == factory.getResource().getProject()) {
+				validateFactory(factory, markedDuplicateFactoryNames);
+			}
 		}
 
 		ISeamJavaComponentDeclaration[] values = ((SeamProject)seamProject).getAllJavaComponentDeclarations();
@@ -222,7 +241,9 @@ public class SeamCoreValidator extends SeamValidator {
 				return OK_STATUS;
 			}
 			displaySubtask(VALIDATING_CLASS_MESSAGE_ID, new String[]{projectName, d.getClassName()});
-			validateMethodsOfUnknownComponent(d);
+			if(project == d.getResource().getProject()) {
+				validateMethodsOfUnknownComponent(d);
+			}
 		}
 
 		return OK_STATUS;

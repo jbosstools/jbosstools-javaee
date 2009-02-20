@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.wst.validation.internal.core.Message;
+import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
@@ -158,7 +159,8 @@ public class ValidationErrorManager implements IValidationErrorManager {
 			}
 		}
 
-		reporter.addMessage(validationManager, message);
+		WorkbenchReporter.addMessage(target, this.getClass(), message);
+//		reporter.addMessage(validationManager, message);
 	}
 
 	/*
@@ -188,7 +190,8 @@ public class ValidationErrorManager implements IValidationErrorManager {
 					e);
 			return;
 		}
-		reporter.addMessage(validationManager, message);
+		WorkbenchReporter.addMessage(target, this.getClass(), message);
+//		reporter.addMessage(validationManager, message);
 	}
 
 	/*
@@ -219,7 +222,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 */
 	public void removeMessagesFromResources(Set<IResource> resources) {
 		for (IResource r : resources) {
-			reporter.removeMessageSubset(validationManager, r, getMarkerId());
+			WorkbenchReporter.removeAllMessages(r, new String[]{this.getClass().getName()}, null);
 		}
 	}
 
@@ -228,7 +231,8 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#removeAllMessagesFromResource(org.eclipse.core.resources.IResource)
 	 */
 	public void removeAllMessagesFromResource(IResource resource) {
-		reporter.removeAllMessages(validationManager, resource);
+//		reporter.removeAllMessages(validationManager, resource);
+		WorkbenchReporter.removeAllMessages(resource, new String[]{this.getClass().getName()}, null);
 	}
 
 	/*

@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -114,17 +116,34 @@ public class SeamELValidator extends SeamValidator {
 		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
 		Set<IPath> files = validationContext.getElResourcesForValidation(changedFiles);
 		validationContext.removeLinkedElResources(files);
+
+		Set<IFile> filesToValidate = new HashSet<IFile>();
+		boolean containsJavaOrComponentsXml = false;
 		for (IPath path : files) {
-			if(!reporter.isCancelled()) {
-				validationContext.removeUnnamedElResource(path);
-				IFile file = wsRoot.getFile(path);
-				if(file.exists()) {
-					reporter.removeMessageSubset(validationManager, file, ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
-					validateFile(file);
+			IFile file = wsRoot.getFile(path);
+			if(file.exists()) {
+				filesToValidate.add(file);
+				if(!containsJavaOrComponentsXml) {
+					String fileName = file.getName().toLowerCase();
+					containsJavaOrComponentsXml = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 				}
 			}
 		}
 
+		if(containsJavaOrComponentsXml) {
+			Set<IPath> unnamedResources = validationContext.getUnnamedElResources();
+			for (IPath path : unnamedResources) {
+				IFile file = wsRoot.getFile(path);
+				if(file.exists()) {
+					filesToValidate.add(file);
+				}
+			}
+		}
+		for (IFile file : filesToValidate) {
+			if(!reporter.isCancelled()) {
+				validateFile(file);
+			}
+		}
 		validationContext.clearOldVariableNameForElValidation();
 		return OK_STATUS;
 	}
@@ -196,6 +215,7 @@ public class SeamELValidator extends SeamValidator {
 		if(!shouldFileBeValidated(file)) {
 			return;
 		}
+		WorkbenchReporter.removeAllMessages(file, new String[]{this.getClass().getName()}, null);
 		displaySubtask(VALIDATING_EL_FILE_MESSAGE_ID, new String[]{projectName, file.getName()});
 		elVarSearcher.setFile(file);
 		String ext = file.getFileExtension();
@@ -354,14 +374,14 @@ public class SeamELValidator extends SeamValidator {
 				SeamELOperandResolveStatus status = 
 					engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
-				if(status.getUsedVariables().size()==0 && status.isError()) {
+				if(status.isError()) {
 					// Save resources with unknown variables names
 					validationContext.addUnnamedElResource(file.getFullPath());
-				} else {
-					// Save links between resource and used variables names
-					for(ISeamContextVariable variable: status.getUsedVariables()) {
-						validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
-					}
+				}
+
+				// Save links between resource and used variables names
+				for(ISeamContextVariable variable: status.getUsedVariables()) {
+					validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
 				}
 
 				// Check pair for getter/setter

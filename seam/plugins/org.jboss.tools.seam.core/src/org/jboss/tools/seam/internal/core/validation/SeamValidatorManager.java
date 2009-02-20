@@ -62,7 +62,7 @@ public class SeamValidatorManager implements IValidatorJob {
 			if(changedFiles.size()>0) {
 				status = validate(validators, changedFiles);
 			} else {
-				reporter.removeAllMessages(this);
+//				reporter.removeAllMessages(this);
 				validationContext.clearAllResourceLinks();
 				status = validateAll(validators);
 			}

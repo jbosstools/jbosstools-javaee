@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.validation;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 
