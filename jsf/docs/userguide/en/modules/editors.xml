@@ -196,9 +196,10 @@
                 </listitem>
             </itemizedlist>
 
-            <para>Notice, that code completion for EL variables has icons illustrating what they are from.
-                Currently it&apos;s performed for resource bundles, JSF and Seam components.</para>
-            
+            <para>Notice, that code completion for EL variables has icons illustrating what they are
+                from. Currently it&apos;s performed for resource bundles, JSF and Seam
+                components.</para>
+
             <figure>
                 <title>JSF Content Assist</title>
                 <mediaobject>
@@ -207,7 +208,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            
+
             <figure>
                 <title>Seam Content Assist</title>
                 <mediaobject>
@@ -216,8 +217,9 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            
-            <para>Also, as you can see, the ranking and sorting are available in EL code completions.</para>
+
+            <para>Also, as you can see, the ranking and sorting are available in EL code
+                completions.</para>
 
             <section id="JSFProjectFiles3087">
 
@@ -572,7 +574,7 @@
                     </figure>
                 </section>
             </section>
-        
+
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
@@ -736,7 +738,8 @@
         <para>Current VPE version has three tabs: <property>Visual/Source</property>,
                 <property>Source</property> and <property>Preview</property>. To switch between the
             views you can use tabs at the bottom of the VPE or the shortcuts <emphasis>
-                <property>Ctrl + PageUp/Ctrl + PageDown</property></emphasis>.</para>
+                <property>Ctrl + PageUp/Ctrl + PageDown</property>
+            </emphasis>.</para>
 
         <figure>
             <title>Visual Page Editor</title>
@@ -801,25 +804,25 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>
-                
-                You can insert a tag/component from the pallet into either the Source  or the Visual part  by calling a context menu and selecting <property>Insert around</property>, <property>Insert before</property>, <property>Insert after</property> or <property>Replace With</property>, 
-                pointing to <property>From Palette</property>, picking the type of the tag and finally choosing the tag you want to insert.
-                
-            </para>
-            
+            <para> You can insert a tag/component from the pallet into either the Source or the
+                Visual part by calling a context menu and selecting <property>Insert
+                    around</property>, <property>Insert before</property>, <property>Insert
+                    after</property> or <property>Replace With</property>, pointing to
+                    <property>From Palette</property>, picking the type of the tag and finally
+                choosing the tag you want to insert. </para>
+
             <para>The image below illustrates how you can insert a tag into the Source part.</para>
             <figure>
-                <title>Inserting a tag into the Source part  </title>
+                <title>Inserting a tag into the Source part </title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/visual_page_23a.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-            
+
             <para>And this is how a tag is inserted using a context menu in the Visual part.</para>
-            
+
             <figure>
                 <title>Inserting a tag into the Visual part</title>
                 <mediaobject>
@@ -828,8 +831,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            
-            
+
+
             <para><property>Visual Page Editor</property> provides the option for displaying
                 non-visual tags in Visual mode of the editor. To enable this option expand the
                 submenu in the top left corner of the Visual part and select <emphasis>
@@ -888,64 +891,57 @@
                 </itemizedlist>
             </section>
 
-<section id="codefolding">
-    <title>Using Code Folding</title>
-    <para>
-        <property>Visual Page Editor</property> lets you collapse (hide) and expand (show) sections of your code to make it easier to navigate and read.
-        
-    </para>
-    <para>Code folding can be enabled by 
-        right-clicking on the left margin on the Source part of  Visual 
-        Page Editor, selecting <property>Folding</property> and checking the <property>Enable Folding</property> checkbox or using the <emphasis><property>Ctrl+Numpad_Divide</property></emphasis> shortcut.</para>
-    <para>When the code folding is enabled a minus sing (
-        <inlinemediaobject>   
-            <imageobject>
-                <imagedata fileref="images/visual_page/visual_page_23c.png"/>
-            </imageobject>
-         </inlinemediaobject>
-        ) will 
-    appear on the left margin of the editor next to each opening block tag. </para>
-    
-    <figure>
-        <title>Enabled Code Folding </title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/visual_page/visual_page_24a.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <para>Click the minus sign to collapse a block tag.</para>
-    
-    <para>When the minus sing is clicked on the appropriate tag collapses and a plus sing (
-        <inlinemediaobject>   
-            <imageobject>
-                <imagedata fileref="images/visual_page/visual_page_23d.png"/>
-            </imageobject>
-        </inlinemediaobject>  
-        ) is displayed on the left margin as well as 
-    a gray rectangle  two dots 
-    (
-        <inlinemediaobject>   
-            <imageobject>
-                <imagedata fileref="images/visual_page/visual_page_23e.png"/>
-            </imageobject>
-        </inlinemediaobject>  
-        )
-    
-    appears after opening and closing tags. </para>
-    
-    <figure>
-        <title>Collapsed Code</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/visual_page/visual_page_24b.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-</section>
-            
+            <section id="codefolding">
+                <title>Using Code Folding</title>
+                <para>
+                    <property>Visual Page Editor</property> lets you collapse (hide) and expand
+                    (show) sections of your code to make it easier to navigate and read. </para>
+                <para>Code folding can be enabled by right-clicking on the left margin on the Source
+                    part of Visual Page Editor, selecting <property>Folding</property> and checking
+                    the <property>Enable Folding</property> checkbox or using the <emphasis>
+                        <property>Ctrl+Numpad_Divide</property>
+                    </emphasis> shortcut.</para>
+                <para>When the code folding is enabled a minus sing ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_23c.png"/>
+                        </imageobject>
+                    </inlinemediaobject> ) will appear on the left margin of the editor next to each
+                    opening block tag. </para>
+
+                <figure>
+                    <title>Enabled Code Folding </title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_24a.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para>Click the minus sign to collapse a block tag.</para>
+
+                <para>When the minus sing is clicked on the appropriate tag collapses and a plus
+                    sing ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_23d.png"/>
+                        </imageobject>
+                    </inlinemediaobject> ) is displayed on the left margin as well as a gray
+                    rectangle two dots ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_23e.png"/>
+                        </imageobject>
+                    </inlinemediaobject> ) appears after opening and closing tags. </para>
+
+                <figure>
+                    <title>Collapsed Code</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_24b.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+            </section>
+
             <section id="JSPsyntaxvalidation84">
 
                 <title>JSP Syntax Validation</title>
@@ -1029,7 +1025,8 @@
                 <para>The pages you are working with in <property>VPE</property> can use external
                     stylesheets. <property>VPE</property> allows you to create new style classes in
                     existing stylesheets and/or edit them as well. For these purposes <property>CSS
-                        Style Class Dialog</property> is provided (hot keys - CTRL+SHIT+C).</para>
+                        Style Class Dialog</property> is provided (hot keys - <emphasis>
+                            <property>CTRL+SHIT+C</property>).</emphasis></para>
                 <para>Select the element for which you need to create or edit style class and press
                     button next to <emphasis>
                         <property>styleClass</property>
@@ -1055,7 +1052,7 @@
                     </mediaobject>
                 </figure>
                 <para>First, you should specify the CSS file where you are going to put your style
-                    class. Do this by pressing button next to the <emphasis>
+                    class. Do this by pressing the button next to the <emphasis>
                         <property>CSS file</property>
                     </emphasis> field.</para>
                 <figure>
@@ -1089,22 +1086,56 @@
                     </mediaobject>
                 </figure>
 
-                <para><emphasis>
-                        <property>Quick Edit</property>
-                    </emphasis> gives a preview of the properties which are set for the existing
+                <para>The <emphasis>
+                        <property>Edited properties</property>
+                    </emphasis> tab gives a preview of the properties which are set for the existing
                     style class. You can easily modify them with the help of this wizard.</para>
 
                 <figure>
-                    <title>Quick Edit</title>
+                    <title>Edited Properties</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/visual_page_21.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
+                
+                <para>If the style class isn&apos;t chosen, the tab doesn&apos;t show any properties.</para>
+                
+                <figure>
+                    <title>Edited Properties</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/edited_properties.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+                <para>The <emphasis>
+                        <property>Preview tab</property>
+                    </emphasis> is for observing the content of the chosen CSS file. This tab is hidden if no CSS file is chosen.</para>
 
-                <para>Preview at the top of the <property>CSS Style Class Dialog</property>
-                    visualizes the result.</para>
+                <figure>
+                    <title>Preview Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/preview_tab.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+
+                <para>At the top of the <property>CSS Style Class Dialog</property>
+                    you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <emphasis>
+                        <property>Ctrl + Tab</property>.</emphasis></para>
+                
+                <figure>
+                    <title>Editing the Preview</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/preview_box.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
 
                 <para>The dialog for creating a new CSS class, which is called from <emphasis>
                         <property>New > Other... > JBoss Tools Web > CSS Class</property>,
@@ -1232,7 +1263,11 @@
                     <para><emphasis>
                             <property>Page Design Options</property>
                         </emphasis> button leads to the window which helps you to specify necessary
-                        references to the resources. It is represented by a window with 4 tabs. The first one, <emphasis><property>Actual Run-Time folders</property></emphasis>, is used to replace absolute and relative path values when generating a preview: </para> 
+                        references to the resources. It is represented by a window with 4 tabs. The
+                        first one, <emphasis>
+                            <property>Actual Run-Time folders</property>
+                        </emphasis>, is used to replace absolute and relative path values when
+                        generating a preview: </para>
                     <figure>
                         <title>Page Design Options: Actual Run-Time folders</title>
                         <mediaobject>
@@ -1241,10 +1276,13 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    
-                    
-                    <para>The second tab, <emphasis><property>Included CSS files</property></emphasis>, is used to add CSS files to be linked by Visual Page Editor when generating a preview:</para> 
-                        
+
+
+                    <para>The second tab, <emphasis>
+                            <property>Included CSS files</property>
+                        </emphasis>, is used to add CSS files to be linked by Visual Page Editor
+                        when generating a preview:</para>
+
                     <figure>
                         <title>Page Design Options: Included CSS files</title>
                         <mediaobject>
@@ -1253,12 +1291,15 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    
-                    
-                    
-                    
-                    <para>The third one, <emphasis><property>Included tag libs</property></emphasis>,  can be used to add Taglibs that can be used by the editor for getting appropriate templates to generate a preview:</para>
-                        
+
+
+
+
+                    <para>The third one, <emphasis>
+                            <property>Included tag libs</property>
+                        </emphasis>, can be used to add Taglibs that can be used by the editor for
+                        getting appropriate templates to generate a preview:</para>
+
                     <figure>
                         <title>Page Design Options: Included tag libs</title>
                         <mediaobject>
@@ -1267,9 +1308,12 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    
-                        <para>And finally, the <emphasis><property>Substituted El expressions</property></emphasis> tab is used to add El expressions that will be substituted by the editor when generating a preview:</para>
-                    
+
+                    <para>And finally, the <emphasis>
+                            <property>Substituted El expressions</property>
+                        </emphasis> tab is used to add El expressions that will be substituted by
+                        the editor when generating a preview:</para>
+
                     <figure>
                         <title>Page Design Options: Substituted El expressions</title>
                         <mediaobject>
@@ -1278,11 +1322,10 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                   
 
-                    <para>The first two tabs of the window let you define actual runtime
-                        folders. The example below will help you to clarify how this can be
-                        done.</para>
+
+                    <para>The first two tabs of the window let you define actual runtime folders.
+                        The example below will help you to clarify how this can be done.</para>
 
                     <para>Suppose you have the following project structure:</para>
 
@@ -1317,8 +1360,8 @@
                             pages&apos;</emphasis> and you will see the image appeared.</para>
                     <para/>
 
-                                       <para>Let&apos; consider an example for other tabs. For instance, the definition of your
-                        CSS on the page is the next:</para>
+                    <para>Let&apos; consider an example for other tabs. For instance, the
+                        definition of your CSS on the page is the next:</para>
 
                     <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
     href="#{facesContext.externalContext.requestContextPath}/style.css"/>
