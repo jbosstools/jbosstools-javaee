@@ -19,6 +19,7 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
@@ -45,7 +46,7 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "x.y.z");
 		
 		final IFacetedProject fproj = createSeamProject("customProject",createSeamDataModel);
-		
+		JobUtils.waitForIdle(500);
 		assertTrue(fproj.getProject().findMember("src/action/x/y/z").exists());
 	}
 	

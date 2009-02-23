@@ -25,8 +25,10 @@ import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam12EARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam12WARNewOperationTest;
+import org.jboss.tools.seam.ui.test.wizard.Seam12XOperationsTestSuite;
 import org.jboss.tools.seam.ui.test.wizard.Seam20EARNewOperationTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam20WARNewOperationTest;
+import org.jboss.tools.seam.ui.test.wizard.Seam20XOperationsTestSuite;
 import org.jboss.tools.seam.ui.test.wizard.SeamActionNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
@@ -54,13 +56,9 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
-
-		suite.addTestSuite(Seam12EARNewOperationTest.class);
-		suite.addTestSuite(Seam12WARNewOperationTest.class);
-		suite.addTestSuite(Seam20EARNewOperationTest.class);
-		suite.addTestSuite(Seam20WARNewOperationTest.class);
 		suite.addTestSuite(PackageNamesTest.class);
-
+		suite.addTest(Seam20XOperationsTestSuite.suite());
+		suite.addTest(Seam12XOperationsTestSuite.suite());
 		return suite;
 	}
 }
