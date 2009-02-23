@@ -1,9 +1,21 @@
 package org.jboss.tools.jsf.ui.test;
 
+import java.util.ArrayList;
+
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.util.WorkbenchUtils;
 
 
 public class CssClassNewWizardTest extends WizardTest {
+	
+	
+	private static String CSS_FILE_PATH="WebContent/pages/main.css";  //$NON-NLS-1$
+	
 	public CssClassNewWizardTest(){
 		super("org.jboss.tools.jst.web.ui.wizards.newfile.NewCSSClassWizard");
 	}
@@ -48,6 +60,24 @@ public class CssClassNewWizardTest extends WizardTest {
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
 		//		Name field contains file name that already exists
+	}
+	
+	public void testCssClassEditing() {
+		
+		ArrayList<IResource> list = new ArrayList<IResource>();
+		IResource cssFile = project.findMember(CSS_FILE_PATH);
+		assertNotNull(cssFile);
+		list.add(cssFile);
+		StructuredSelection selection = new StructuredSelection(list);
+		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		
+		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
+		
+		dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				wizard);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
 	}
 
 }
