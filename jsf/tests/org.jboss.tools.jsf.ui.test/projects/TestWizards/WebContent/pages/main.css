@@ -1,0 +1,49 @@
+.evenRow {
+	text-align: center;
+	background-color: green;
+	font-style: italic;
+	color: DodgerBlue;
+	background-image:
+		url('http://www.google.ru/intl/en_com/images/logo_plain.png');
+	text-decoration: underline;
+	font-family: Bodoni MT, Bodoni MT Condensed;
+	background-repeat: no-repeat;
+	margin: 0;
+	padding: 10px;
+	background: #FEFEFE url("images/img13.gif") repeat-x;
+	font-weight: normal;
+	letter-spacing: -1px;
+	font-size: 2.2em;
+	margin-bottom: 2em;
+	line-height: 200%;
+	border-left: 5px solid #DDDDDD;
+	height: 42px;
+	text-transform: lowercase;
+	display: block;
+	border-bottom: 3px solid #59C0F8;
+	border-top: 3px solid #59C0F8;
+	float: right;
+	padding-left: 30px;
+	border-style: double;
+	border-color: red;
+}
+
+.oddRow {
+	text-align: right;
+	background-color: blue;
+	font-style: oblique;
+}
+
+.btn {
+	color: DodgerBlue;
+	text-align: right;
+	font-style: oblique;
+	font-family: Bodoni MT, Bodoni MT Condensed;
+	text-decoration: underline;
+	background-repeat: no-repeat;
+}
+
+.btn {
+	background-image:
+		url('http://www.google.ru/intl/en_com/images/logo_plain.png')
+}

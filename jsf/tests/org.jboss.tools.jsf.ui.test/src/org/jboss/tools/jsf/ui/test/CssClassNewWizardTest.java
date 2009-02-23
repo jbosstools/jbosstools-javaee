@@ -6,9 +6,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.util.WorkbenchUtils;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 
 public class CssClassNewWizardTest extends WizardTest {
@@ -63,21 +65,54 @@ public class CssClassNewWizardTest extends WizardTest {
 	}
 	
 	public void testCssClassEditing() {
-		
+
 		ArrayList<IResource> list = new ArrayList<IResource>();
 		IResource cssFile = project.findMember(CSS_FILE_PATH);
 		assertNotNull(cssFile);
 		list.add(cssFile);
 		StructuredSelection selection = new StructuredSelection(list);
 		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
-		
-		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
-		
-		dialog = new WizardDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				wizard);
+
+		((IWorkbenchWizard) wizard).init(PlatformUI.getWorkbench(), selection);
+
+		dialog = new WizardDialog(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), wizard);
 		dialog.setBlockOnOpen(false);
 		dialog.open();
+
+		boolean canFinish = wizard.canFinish();
+
+		assertTrue("Finish button is disabled.", canFinish); //$NON-NLS-1$
+
+		wizard.performFinish();
+
+	}
+	
+	public void testCssClassWithEditor() {
+
+		IResource cssFile = project.findMember(CSS_FILE_PATH);
+		
+		IEditorPart facesConfigEditor = WorkbenchUtils.openEditor(cssFile
+				.getFullPath().toString());
+		
+		assertTrue(facesConfigEditor instanceof StructuredTextEditor);
+		
+//		ArrayList<IResource> list = new ArrayList<IResource>();
+
+//		assertNotNull(cssFile);
+//		list.add(cssFile);
+//		StructuredSelection selection = new StructuredSelection(list);
+		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+//
+//		((IWorkbenchWizard) wizard).init(PlatformUI.getWorkbench(), selection);
+
+		dialog = new WizardDialog(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), wizard);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+
+		wizard.performCancel();
+
 	}
 
 }

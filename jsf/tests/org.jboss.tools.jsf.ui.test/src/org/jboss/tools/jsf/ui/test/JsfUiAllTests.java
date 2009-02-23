@@ -21,6 +21,7 @@ public class JsfUiAllTests {
 
 		suite.addTestSuite(CssClassNewWizardTest.class);
 		suite.addTestSuite(CssFileNewWizardTest.class);
+		suite.addTestSuite(CSSStyleDialogTest.class);
 		suite.addTestSuite(FacesConfigNewWizardTest.class);
 		suite.addTestSuite(FasesConfigEditorTest.class);
 		suite.addTestSuite(HtmlFileNewWizardTest.class);
