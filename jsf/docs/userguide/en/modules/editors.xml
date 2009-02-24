@@ -1229,7 +1229,7 @@
                         <imagedata fileref="images/visual_page/icon_1.png"/>
                     </imageobject>
                 </inlinemediaobject>
-                )
+                ),
                 
                 
                 
@@ -1268,7 +1268,20 @@
                 <listitem id="vpe_preferences">
                     <para><emphasis>
                             <property>Preferences</property>
-                        </emphasis> button provides a quick access to <property>Visual Page
+                    </emphasis> button
+                        (
+                        <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_1.png"/>
+                            </imageobject>
+                        </inlinemediaobject>
+                        )
+                        
+                        
+                        
+                        
+                        
+                        provides a quick access to <property>Visual Page
                             Editor</property> preferences.</para>
 
                     <figure>
@@ -1284,17 +1297,44 @@
                 <listitem>
                     <para>Clicking on <emphasis>
                             <property>Refresh</property>
-                        </emphasis> button you refresh the displayed information.</para>
+                    </emphasis> button 
+                        
+                        
+                        (
+                        <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_2.png"/>
+                            </imageobject>
+                        </inlinemediaobject>
+                        ) 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        you refresh the displayed information.</para>
                 </listitem>
 
                 <listitem>
                     <para><emphasis>
                             <property>Page Design Options</property>
-                        </emphasis> button leads to a window which helps you  specify necessary
+                    </emphasis> button 
+                        ( 
+                        <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_3.png"/>
+                            </imageobject>
+                        </inlinemediaobject>
+                        )
+                        
+                        
+                        leads to a window which helps you  specify necessary
                         references of the resources. It is represented by a window with 4 tabs. The
                         first one, <emphasis>
-                            <property>Actual Run-Time folders</property>
-                        </emphasis>, is used to replace absolute and relative path values when
+                            <property>Actual Run-Time folders</property>,
+                        </emphasis> is used to replace absolute and relative path values when
                         generating a preview: </para>
                     <figure>
                         <title>Page Design Options: Actual Run-Time folders</title>
