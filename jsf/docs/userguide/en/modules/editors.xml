@@ -1222,10 +1222,38 @@
             <title>Advanced Settings</title>
 
             <para>In the left vertical pane of the Visual part there are three buttons: <emphasis>
-                    <property>Preferences</property>, </emphasis><emphasis>
+                    <property>Preferences</property>, </emphasis>
+                (
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_1.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                )
+                
+                
+                
+                
+                <emphasis>
                     <property>Refresh</property>
-                </emphasis> and <emphasis>
-                    <property>Page Design Options</property>.</emphasis></para>
+                </emphasis>
+                (
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_2.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                )
+         and <emphasis>
+                    <property>Page Design Options</property> </emphasis>( 
+                    <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/icon_3.png"/>
+                        </imageobject>
+                    </inlinemediaobject>
+                    )
+                    
+                    .</para>
 
             <figure>
                 <title>Buttons on the Visual Part of VPE</title>
@@ -1262,8 +1290,8 @@
                 <listitem>
                     <para><emphasis>
                             <property>Page Design Options</property>
-                        </emphasis> button leads to the window which helps you to specify necessary
-                        references to the resources. It is represented by a window with 4 tabs. The
+                        </emphasis> button leads to a window which helps you  specify necessary
+                        references of the resources. It is represented by a window with 4 tabs. The
                         first one, <emphasis>
                             <property>Actual Run-Time folders</property>
                         </emphasis>, is used to replace absolute and relative path values when
@@ -1325,7 +1353,7 @@
 
 
                     <para>The first two tabs of the window let you define actual runtime folders.
-                        The example below will help you to clarify how this can be done.</para>
+                        The example below will help you understand how this can be done.</para>
 
                     <para>Suppose you have the following project structure:</para>
 
