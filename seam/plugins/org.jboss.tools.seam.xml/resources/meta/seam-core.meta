@@ -768,6 +768,23 @@
    <XModelAttributeReference
     attributes="debug,jndi-pattern,transaction-management-enabled,user-transaction-name"
     entity="SeamCoreInit20" name="init"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="distributable" xmlname="distributable">
+    <Constraint loader="%ListEL%">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-enabled" xmlname="security-enabled">
+    <Constraint loader="%ListEL%">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
