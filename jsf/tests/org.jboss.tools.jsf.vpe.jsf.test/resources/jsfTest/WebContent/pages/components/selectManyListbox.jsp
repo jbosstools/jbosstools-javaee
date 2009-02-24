@@ -11,7 +11,8 @@
 
 	<h:outputText value="selectManyListbox:" />
 
-	<h:selectManyListbox value="someValue" id="selectManyListbox">
+	<h:selectManyListbox value="someValue" id="selectManyListbox"
+		style="color:red" styleClass="myClass" dir="ltr">
 		<f:selectItem itemLabel="value1" itemValue="value1" />
 		<f:selectItem itemLabel="value2" itemValue="value2" />
 	</h:selectManyListbox>

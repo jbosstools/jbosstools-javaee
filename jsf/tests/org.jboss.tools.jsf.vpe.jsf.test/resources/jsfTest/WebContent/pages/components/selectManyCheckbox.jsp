@@ -19,6 +19,7 @@
 	</h:selectManyCheckbox>
 
 	<h:selectManyCheckbox value="someValue" layout="lineDirection"
+		style="color:red" styleClass="myClass" border="2"
 		id="selectManyCheckbox2">
 		<f:selectItem itemLabel="check1" />
 		<f:selectItem itemLabel="check2" />

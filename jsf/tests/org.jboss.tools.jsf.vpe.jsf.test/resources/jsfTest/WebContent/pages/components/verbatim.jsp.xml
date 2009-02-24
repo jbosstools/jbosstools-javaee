@@ -7,9 +7,12 @@
 	<test id="verbatim2">
 		<SPAN>
 			<SPAN></SPAN>
-			<SPAN></SPAN> 
+			<SPAN></SPAN>
 				&lt;input type="button" value="button" /&gt; 
 			<SPAN></SPAN>
 		</SPAN>
+	</test>
+	<test id="verbatim3">
+		<SPAN><SPAN></SPAN>&lt;input type="button" value="button" /&gt;</SPAN>
 	</test>
 </tests>

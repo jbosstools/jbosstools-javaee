@@ -15,6 +15,7 @@
 		<h:commandLink id="commandLink2" value="commandLink2" disabled="false" />
 
 	</h:form>
+		<h:commandLink id="commandLink3" value="commandLink3" disabled="false" />
 </f:view>
 </body>
 </html>

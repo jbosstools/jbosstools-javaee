@@ -13,4 +13,7 @@
 	<test id="outputFormat4">
 		<SPAN> outputFormat4 </SPAN>
 	</test>
+	<test id="outputFormat5">
+		<SPAN > You have visited us 2 times.</SPAN>
+	</test>
 </tests>

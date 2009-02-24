@@ -1,8 +1,13 @@
 <tests>
 	<test id="selectManyListbox">
-		<SELECT MULTIPLE="multiple" SIZE="2">
-			<OPTION> value1</OPTION>
-			<OPTION> value2</OPTION>
+		<SELECT CLASS="myClass" STYLE="color: red;" MULTIPLE="multiple"
+			SIZE="2">
+			<OPTION>
+				value1
+			</OPTION>
+			<OPTION>
+				value2
+			</OPTION>
 		</SELECT>
 	</test>
 </tests>

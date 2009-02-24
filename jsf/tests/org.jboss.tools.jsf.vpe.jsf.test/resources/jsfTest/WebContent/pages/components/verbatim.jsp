@@ -14,6 +14,8 @@
 	<f:verbatim escape="true" id="verbatim2">
 		<input type="button" value="button" />
 	</f:verbatim>
+	<f:verbatim escape="true" id="verbatim3"
+	><input type="button" value="button" /></f:verbatim>
 </f:view>
 </body>
 </html>

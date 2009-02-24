@@ -5,4 +5,14 @@
 	<test id="commandLink2">
 		<a>commandLink2</a>
 	</test>
+	<test id="commandLink3">
+		<SPAN >
+			<SPAN>
+				commandLink3
+			</SPAN>
+			<SPAN>
+				: This link is disabled as it is not nested within a JSF form.
+			</SPAN>
+		</SPAN>
+	</test>
 </tests>

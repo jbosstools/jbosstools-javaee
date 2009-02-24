@@ -34,5 +34,46 @@
 				</TR>
 			</TABLE>
 		</DIV>
+	</test >
+	<test id="selectManyCheckbox2">
+		<DIV>
+			<TABLE BORDER="2" STYLE="color: red;" CLASS="myClass">
+				<TR>
+					<TD>
+						<SPAN STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="checkbox" />
+		
+							<LABEL>
+								<SPAN>
+									check1
+								</SPAN>
+							</LABEL>
+						</SPAN>
+					</TD>
+					<TD>
+						<SPAN STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="checkbox" />
+		
+							<LABEL>
+								<SPAN>
+									check2
+								</SPAN>
+							</LABEL>
+						</SPAN>
+					</TD>
+					<TD>
+						<SPAN STYLE="-moz-user-modify: read-write;">
+							<INPUT TYPE="checkbox" />
+		
+							<LABEL>
+								<SPAN>
+									check3
+								</SPAN>
+							</LABEL>
+						</SPAN>
+					</TD>
+				</TR>
+			</TABLE>
+		</DIV>
 	</test>
 </tests>

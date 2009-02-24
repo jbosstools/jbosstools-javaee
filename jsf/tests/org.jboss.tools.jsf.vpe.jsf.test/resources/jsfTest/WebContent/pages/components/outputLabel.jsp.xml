@@ -10,4 +10,11 @@
 			<SPAN> outputLabel3</SPAN>
 		</LABEL>
 	</test>
+	<test id="outputLabel4">
+		<LABEL>
+			<SPAN CLASS="vpe-text">
+				outputLabel4
+			</SPAN>
+		</LABEL>
+	</test>
 </tests>
