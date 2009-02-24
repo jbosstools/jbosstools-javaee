@@ -171,7 +171,6 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 				String choice = getChoice(parametres[2]);
 				if (choice != null)
 					value = choice.replaceAll("[\\{\\}]", ""); //$NON-NLS-1$//$NON-NLS-2$
-				;
 
 			}
 		}

@@ -10,9 +10,6 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -24,7 +21,6 @@ import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -10,10 +10,6 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
 
 /**
  * @author yradtsevich

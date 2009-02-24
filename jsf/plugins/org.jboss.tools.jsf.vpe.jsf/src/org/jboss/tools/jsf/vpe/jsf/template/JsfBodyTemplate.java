@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.template.VpeAbstractBodyTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.html.template.HtmlBodyTemplate;
 
 /**
  * The template of h:body. 

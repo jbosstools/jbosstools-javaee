@@ -11,8 +11,6 @@
 package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.jboss.tools.jsf.vpe.jsf.template.AbstractOutputJsfTemplate;
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;

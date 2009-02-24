@@ -11,14 +11,12 @@
 package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
-import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -140,13 +138,6 @@ abstract public class AbstractCheckboxSelectItemTemplate extends AbstractSelectI
 		disabled = source.getAttribute(JSF.ATTR_DISABLED);
 		enabledClass = source.getAttribute(JSF.ATTR_ENABLED_CLASS);
 		disabledClass = source.getAttribute(JSF.ATTR_DISABLED_CLASS);
-	}
-
-	@Override
-	public void setSourceAttributeSelection(VpePageContext pageContext,
-			Element sourceElement, int offset, int length, Object data) {
-		VpeSourceDomBuilder sourceBuilder = pageContext.getSourceBuilder();
-		sourceBuilder.setSelection(sourceElement, 0, 0);
 	}
 
 	@Override

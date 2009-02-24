@@ -11,12 +11,8 @@
 package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.jboss.tools.jsf.vpe.jsf.template.AbstractOutputJsfTemplate;
-import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.mozilla.interfaces.nsIDOMDocument;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * This class is the base class for all templates of 

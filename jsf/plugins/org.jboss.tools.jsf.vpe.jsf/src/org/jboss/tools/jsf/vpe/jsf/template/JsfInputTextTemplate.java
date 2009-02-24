@@ -60,12 +60,6 @@ public class JsfInputTextTemplate extends AbstractEditableJsfTemplate {
 		return creationData;
 	}
 
-	@Override
-    public Attr getOutputAttributeNode(Element element) {
-        // TODO Auto-generated method stub
-        return  element.getAttributeNode(JSF.ATTR_VALUE);
-    }
-
     @Override
 	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
