@@ -346,7 +346,7 @@
                         </mediaobject>
                     </figure>
                     
-                    <para>Code Assist can also provide you access to the beans located in jar archives.</para>
+                    <para>Code Assist can also provide you with access to the beans located in jar archives.</para>
                     
                     <title>Code Assist: accessing beans in jar archives</title>
                     <mediaobject>
