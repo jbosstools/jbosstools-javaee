@@ -10,20 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.test.wizard;
 
-import junit.framework.TestSuite;
-
 /**
- * 
  * @author eskimo
+ *
  */
-public class Seam20XOperationsTestSuite {
-	
-	public static TestSuite suite() {
-		TestSuite suite = new TestSuite();
-		suite.setName("Seam 2.0.X Operations Test");
-		suite.addTestSuite(Seam20EARNewOperationTest.class);
-		suite.addTestSuite(Seam20WARNewOperationTest.class);
-		return suite;
-	}
-	
+public class Seam20XOperationsTestSuiteFP extends
+		Seam20XOperationsTestSuite201GA {
+
 }

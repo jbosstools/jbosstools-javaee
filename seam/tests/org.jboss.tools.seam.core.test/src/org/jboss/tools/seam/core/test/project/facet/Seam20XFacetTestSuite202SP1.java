@@ -17,10 +17,5 @@ import junit.framework.TestSuite;
  * @author eskimo
  *
  */
-public class Seam20XTestSuite {
-	public static TestSuite suite() {
-		TestSuite suite = new TestSuite("Seam 2.0.X tests");
-		suite.addTestSuite(Seam2FacetInstallDelegateTest.class);
-		return suite;
-	}
+public class Seam20XFacetTestSuite202SP1 extends Seam20XFacetTestSuite201GA {
 }

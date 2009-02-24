@@ -13,8 +13,8 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.seam.core.test.project.facet.Seam12XTestSuite;
-import org.jboss.tools.seam.core.test.project.facet.Seam20XTestSuite;
+import org.jboss.tools.seam.core.test.project.facet.Seam12XFacetTestSuite121EAP;
+import org.jboss.tools.seam.core.test.project.facet.Seam20XFacetTestSuite201GA;
 import org.jboss.tools.seam.core.test.project.facet.Seam2FacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamFacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
@@ -39,8 +39,6 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
 		suite.addTest(SeamValidatorsAllTests.suite());
 		suite.addTest(SeamRefactoringAllTests.suite());
-		suite.addTest(Seam12XTestSuite.suite());
-		suite.addTest(Seam20XTestSuite.suite());
 		return suite;
 	}
 }

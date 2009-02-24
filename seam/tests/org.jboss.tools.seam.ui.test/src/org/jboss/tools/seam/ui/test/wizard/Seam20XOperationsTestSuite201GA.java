@@ -13,15 +13,17 @@ package org.jboss.tools.seam.ui.test.wizard;
 import junit.framework.TestSuite;
 
 /**
+ * 
  * @author eskimo
- *
  */
-public class Seam12XOperationsTestSuite {
+public class Seam20XOperationsTestSuite201GA {
+	
 	public static TestSuite suite() {
 		TestSuite suite = new TestSuite();
-		suite.setName("Seam 1.2.X Operations Tests");
-		suite.addTestSuite(Seam12EARNewOperationTest.class);
-		suite.addTestSuite(Seam12WARNewOperationTest.class);
+		suite.setName("Seam 2.0.X Operations Test");
+		suite.addTestSuite(Seam20EARNewOperationTest.class);
+		suite.addTestSuite(Seam20WARNewOperationTest.class);
 		return suite;
 	}
+	
 }
