@@ -345,6 +345,18 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
+                    
+                    <para>Code Assist can also provide you access to the beans located in jar archives.</para>
+                    
+                    <title>Code Assist: accessing beans in jar archives</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_14_a.png"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                    
+                    
                 </section>
                 <section id="ContentAssistWithinJSFGraphicalEditor44">
 
