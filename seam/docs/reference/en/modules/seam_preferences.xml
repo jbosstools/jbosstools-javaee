@@ -59,7 +59,7 @@
                 problems. For example, if you want to ignore the case when component name is
                 duplicated expand the <property>Components</property> node and select
                     <property>Ignore</property> next to <property>Duplicate component
-                    name</property>. After that you won't see the error.</para>
+                    name</property>. After that you won&apos;t see the error.</para>
 
 
             <figure>
@@ -71,8 +71,22 @@
                 </mediaobject>
             </figure>
 
+            <para>Notice, that in the <emphasis>
+                    <property>Expression language</property>
+                </emphasis> section there is now a preference for setting severity of EL
+                Syntax. You can select whether the Seam validator displays an error, a warning or just ignore the EL Syntax error.</para>
+            
+            <figure>
+                <title>Severity Preference for EL Syntax</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_preferences/el_syntax_error.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+
             <para>In the upper right corner of the page there is a <property>Configure Project
-                    Specific</property> link. Clicking on it you get the form where you can choose a
+                    Specific Settings</property> link. Clicking on it you get the form where you can choose a
                 project for specific setting. Project specific configuration allows you to have
                 different validator settings for each project. Check the <property>Show only
                     projects with project specific settings</property> if you want to see the
@@ -130,7 +144,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+
         <tip>
             <title>Tip:</title>
             <para>The wizard doesn&apos;t allow the renaming of the artifacts listed in the Seam
@@ -138,11 +152,11 @@
                 See <link linkend="renaming_projects_folders">Renaming the Projects and
                     Folders</link>.</para>
         </tip>
-        
-        <para>Also notice, you are not required to use the <property>New Seam Project wizard</property>
-            to benefit from Seam artifact wizards. You can just enable Seam on your existing project
-            by checking <property>Seam Support</property> and targeting to Seam Runtime, and then
-            configure the folders as you want.</para>
+
+        <para>Also notice, you are not required to use the <property>New Seam Project
+                wizard</property> to benefit from Seam artifact wizards. You can just enable Seam on
+            your existing project by checking <property>Seam Support</property> and targeting to
+            Seam Runtime, and then configure the folders as you want.</para>
 
         <figure>
             <title>Properties for Seam Project</title>
@@ -152,7 +166,7 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
+
         <tip>
             <title>Tip:</title>
             <para>On the figure above fields for configuring Seam artifacts are dimmed because Seam
