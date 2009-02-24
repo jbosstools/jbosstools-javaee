@@ -348,6 +348,7 @@
                     
                     <para>Code Assist can also provide you with access to the beans located in jar archives.</para>
                     
+                    <figure>
                     <title>Code Assist: accessing beans in jar archives</title>
                     <mediaobject>
                         <imageobject>
@@ -355,7 +356,7 @@
                             />
                         </imageobject>
                     </mediaobject>
-                    
+                    </figure>
                     
                 </section>
                 <section id="ContentAssistWithinJSFGraphicalEditor44">
