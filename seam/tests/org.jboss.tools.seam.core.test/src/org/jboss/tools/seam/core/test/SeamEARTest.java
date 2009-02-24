@@ -100,7 +100,8 @@ public class SeamEARTest extends TestCase {
 		String type = null;
 		String version = null;
 		String runtimeId = null;
-		IPath jbossAsLocationPath = new Path(System.getProperty("jbosstools.test.jboss.home.4.2"));
+		IPath jbossAsLocationPath = new Path(System.getProperty("jbosstools.test.jboss.home.4.2",
+				"C:/jbdevstudio/jboss-eap/jboss-as"));
 		IRuntimeType[] runtimeTypes = ServerUtil.getRuntimeTypes(null, null, "org.jboss.ide.eclipse.as.runtime.42");
 		if (runtimeTypes.length > 0) {
 			runtime = runtimeTypes[0].createRuntime(null, new NullProgressMonitor());

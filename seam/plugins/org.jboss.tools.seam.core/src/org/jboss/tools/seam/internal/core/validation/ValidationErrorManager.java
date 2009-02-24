@@ -159,7 +159,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 			}
 		}
 
-		WorkbenchReporter.addMessage(target, this.getClass(), message);
+		WorkbenchReporter.addMessage(target, this.getClass(), message, null, ""+message.getLineNumber());
 //		reporter.addMessage(validationManager, message);
 	}
 
@@ -190,7 +190,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 					e);
 			return;
 		}
-		WorkbenchReporter.addMessage(target, this.getClass(), message);
+		WorkbenchReporter.addMessage(target, this.getClass(), message, null, ""+message.getLineNumber());
 //		reporter.addMessage(validationManager, message);
 	}
 
