@@ -14,7 +14,7 @@ import java.util.*;
 import org.jboss.tools.common.model.*;
 
 public class Links {
-	Set<String> tags;
+	Set<String> tags = new HashSet<String>();
 	String[] tagsArray;
 	Map<String,Link[]> links = new HashMap<String,Link[]>();
 	ArrayList<LinksListener> listeners = new ArrayList<LinksListener>();
