@@ -16,6 +16,7 @@ import java.io.File;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -50,9 +51,11 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		SeamRuntimeManager.getInstance().addRuntime(getSeamRTName(), folder.getAbsolutePath(), getSeamRTVersion(getSeamRTName()), true);
 		SeamRuntime sr = SeamRuntimeManager.getInstance().findRuntimeByName(getSeamRTName());
 		assertNotNull("An error occured while getting the SEAM RUN-TIME for: " + getSeamRTName(), sr);
-
-		createSeamWarProject(SEAM_WAR_PROJECTNAME);
 		
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(SEAM_WAR_PROJECTNAME);
+		if(project==null) {
+			createSeamWarProject(SEAM_WAR_PROJECTNAME);
+		}
 		try {
 			JobUtils.waitForIdle();
 		} catch (Exception e) {

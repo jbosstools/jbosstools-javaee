@@ -15,6 +15,7 @@ import java.io.File;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -55,8 +56,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		SeamRuntimeManager.getInstance().addRuntime(getSeamRTName(), folder.getAbsolutePath(), getSeamRTVersion(getSeamRTName()), true);
 		SeamRuntime sr = SeamRuntimeManager.getInstance().findRuntimeByName(getSeamRTName());
 		assertNotNull("An error occured while getting the SEAM RUN-TIME for: " + getSeamRTName(), sr);
-
-		if (earProject == null && earEjbProject == null && earEarProject == null && testProject == null)
+		
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(SEAM_EAR_PROJECTNAME);
+		if (project== null && earProject == null && earEjbProject == null && earEarProject == null && testProject == null)
 			createSeamEarProject(SEAM_EAR_PROJECTNAME);
 		
 		try {

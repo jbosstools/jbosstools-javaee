@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.resources.IResourceProxyVisitor;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -56,7 +57,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		suspendAllValidation = ValidationFramework.getDefault().isSuspended();
 		ValidationFramework.getDefault().suspendAllValidation(true);
 		
-		ws.removeResourceChangeListener( EventManager.getManager() );
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener( EventManager.getManager() );
 // 		commented to run tests on wtp 3.0.4 build		
 //		ws.removeResourceChangeListener( ValManager.getDefault() );
 		//EventManager.getManager().shutdown(); 
@@ -68,20 +69,18 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
 		seam2FacetVersion = seam2Facet.getVersion("2.0");
 		
-		
 		File folder = getSeamHomeFolder();
 		
 		SeamRuntimeManager.getInstance().addRuntime(SEAM_2_0_0, folder.getAbsolutePath(), SeamVersion.SEAM_2_0, true);
 		SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_0_0);
-	
-		warProject = createSeamWarProject("warprj");
-		earProject = createSeamEarProject("earprj");
+		IProject war = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("warprj");
+		warProject = (war!=null ? ProjectFacetsManager.create(war, false,
+				null): createSeamWarProject("warprj"));
+		IProject ear = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("earprj");
+		earProject = (ear!=null? ProjectFacetsManager.create(ear, false,
+				null):createSeamEarProject("earprj"));
 		
-		warProject.getProject().getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
-		
-		
-		
-		super.setUp();
+		//warProject.getProject().getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
 	}
 	
 	@Override
@@ -90,7 +89,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		ValidationFramework.getDefault().suspendAllValidation(suspendAllValidation);
 		XJob.setSuspended(suspendXJobs);
 		
-		ws.addResourceChangeListener(EventManager.getManager(), 
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(EventManager.getManager(), 
 				IResourceChangeEvent.PRE_CLOSE | IResourceChangeEvent.PRE_DELETE | 
 				IResourceChangeEvent.POST_BUILD | IResourceChangeEvent.PRE_BUILD | IResourceChangeEvent.POST_CHANGE);
 //		ws.addResourceChangeListener(ValOperationManager.getDefault(), 
@@ -349,7 +348,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	}
 	
 	public void testCreateEar() throws CoreException, IOException {
-		
 		
 	}
 		

@@ -38,6 +38,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -71,6 +72,7 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	private static final IUndoableOperation CREATE_SEAM_ENTITY = new SeamEntityCreateOperation();
 
 	protected final Set<IResource> resourcesToCleanup = new HashSet<IResource>();
+	private boolean suspendAllValidation = false;
 
 	private static final IProjectFacet seamFacet;
 
@@ -84,12 +86,17 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	}
 	
 	protected void setUp() throws Exception {
-		
+		suspendAllValidation  = ValidationFramework.getDefault().isSuspended();
+		ValidationFramework.getDefault().suspendAllValidation(true);
 			JobUtils.waitForIdle();
-		
-			
-		
-		
+	}
+	
+
+	@Override
+	protected void tearDown() throws Exception {
+		// TODO Auto-generated method stub
+		super.tearDown();
+		ValidationFramework.getDefault().suspendAllValidation(suspendAllValidation);
 	}
 
 	abstract protected IProject getProject();
