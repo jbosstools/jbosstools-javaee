@@ -27,7 +27,6 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
-import org.jboss.tools.seam.internal.core.validation.ISeamValidator;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -35,6 +34,8 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	IProject project = null;
+	
+	public static final String MARKER_TYPE = "org.eclipse.wst.validation.problemmarker";
 
 	public SeamValidatorsTest() {
 		super("Seam Validator Tests");
@@ -91,7 +92,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile testJSP = project.getFile("WebContent/test.jsp");
 		testJSP.touch(null);
 		JobUtils.waitForIdle();
-		assertMarkerIsNotCreated(testJSP, null, "actor cannot be resolved");
+		assertMarkerIsNotCreated(testJSP, MARKER_TYPE, "actor cannot be resolved");
 	}
 
 	public void testVarAttributes() throws CoreException {
@@ -106,7 +107,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1696
 		IFile subclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java");
-		assertMarkerIsCreated(subclassComponentFile, null, "Stateful component \"testComponentJBIDE1696\" must have a method marked @Remove", 25);
+		assertMarkerIsCreated(subclassComponentFile, MARKER_TYPE, "Stateful component \"testComponentJBIDE1696\" must have a method marked @Remove", 25);
 		IFile superclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.java");
 		IFile superclassComponentFileWithRemove = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
 		try{
@@ -121,15 +122,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public void testJiraJbide1631() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
-		IFile jbide1631XHTMLFile = project.getFile("WebContent/JBIDE-1631.xhtml");
-		refreshProject(project);
-		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo1\" cannot be resolved", 16 );
-		assertMarkerIsCreated(jbide1631XHTMLFile, null, "\"foo2\" cannot be resolved", 16 );
+		String jbide1631XHTMLFile = "WebContent/JBIDE-1631.xhtml";
+		String jbide1631XHTMLFile2 = "WebContent/JBIDE-1631.1";
+		
+		assertMarkerIsCreated(jbide1631XHTMLFile, jbide1631XHTMLFile2, "\"foo1\" cannot be resolved", 16 );
+		assertMarkerIsCreated(project.getFile(jbide1631XHTMLFile), MARKER_TYPE, "\"foo2\" cannot be resolved", 16 );
 	}
 
 	public void testComponentsValidator() {
-		ISeamProject seamProject = getSeamProject(project);
-
 		IFile bbcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java");
 		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
 		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
@@ -305,8 +305,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testEntitiesValidator() {
-		ISeamProject seamProject = getSeamProject(project);
-		
 		IFile abcEntityFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.java");
 		
 		int number = getMarkersNumber(abcEntityFile);
@@ -340,7 +338,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		final String TARGET_FILE_NAME 
 			= "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java";
 		
-		ISeamProject seamProject = getSeamProject(project);
 		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 
 		final String NEW_CONTENT_FILE_NAME6 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6";
@@ -428,7 +425,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,"Duplicate @Remove method \"removeMethod2\"", 22);
 
-		IFile componentsFileWithSTComponent = project.getFile("WebContent/WEB-INF/components.2");
+		//IFile componentsFileWithSTComponent = project.getFile("WebContent/WEB-INF/components.2");
 		try {
 			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, null);
 		}catch(Exception ex){
@@ -450,7 +447,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile targetFile = project.getFile(targetPath);
 		targetFile.setContents(newContentFile.getContents(), true, false, null);
 		refreshProject(project);
-		assertMarkerIsCreated(targetFile, ISeamValidator.SEAM_RESOURCE_MESSAGE_ID, pattern, line);
+		assertMarkerIsCreated(targetFile, MARKER_TYPE, pattern, line);
 	}
 	
 	/**
@@ -463,7 +460,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			String pattern, int line) throws CoreException {
 		
 		IFile targetFile = project.getFile(targetPath);
-		assertMarkerIsCreated(targetFile, ISeamValidator.SEAM_RESOURCE_MESSAGE_ID, pattern, line);
+		assertMarkerIsCreated(targetFile, MARKER_TYPE, pattern, line);
 	}
 
 	/**
@@ -478,8 +475,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	public void testFactoriesValidator() {
-		ISeamProject seamProject = getSeamProject(project);
-		
 		IFile Component12File = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.java");
 		
 		refreshProject(project);
@@ -513,8 +508,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testBijectionsValidator() {
-		ISeamProject seamProject = getSeamProject(project);
-		
 		IFile selectionTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java");
 		IFile selectionIndexTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java");
 		
@@ -620,8 +613,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 		System.out.println("UNKNOWN_EL_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME));
 
-		ISeamProject seamProject = getSeamProject(project);
-		
 		IFile contextVariableTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java");
 		
 		refreshProject(project);
@@ -687,8 +678,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		System.out.println("UNKNOWN_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_VARIABLE_NAME));
 		System.out.println("UNPAIRED_GETTER_OR_SETTER value- "+store.getString(SeamPreferences.UNPAIRED_GETTER_OR_SETTER));
 
-		ISeamProject seamProject = getSeamProject(project);
-		
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
 		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
 		
