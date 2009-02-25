@@ -11,13 +11,30 @@
 package org.jboss.tools.seam.core.test.project.facet;
 
 
+import org.eclipse.wst.validation.ValidationFramework;
+
+import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 public class Seam12XFacetTestSuite121EAP {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam 1.2.X tests");
-		suite.addTestSuite(SeamFacetInstallDelegateTest.class);
+		suite.addTest(new TestSetup(new TestSuite(SeamFacetInstallDelegateTest.class)) {
+
+			private boolean suspendAllValidation ;
+
+			@Override
+			protected void setUp() throws Exception {
+				suspendAllValidation = ValidationFramework.getDefault().isSuspended();
+				ValidationFramework.getDefault().suspendAllValidation(true);
+			}
+
+			@Override
+			protected void tearDown() throws Exception {
+				ValidationFramework.getDefault().suspendAllValidation(suspendAllValidation);
+			}
+		});
 		return suite;
 	}
 }
