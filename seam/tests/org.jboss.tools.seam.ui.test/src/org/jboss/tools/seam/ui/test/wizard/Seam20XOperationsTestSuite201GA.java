@@ -20,7 +20,7 @@ import junit.framework.TestSuite;
  */
 public class Seam20XOperationsTestSuite201GA {
 	
-	public static final Test suite() {
+	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.setName("Seam 2.0.X Operations Test");
 		suite.addTest(

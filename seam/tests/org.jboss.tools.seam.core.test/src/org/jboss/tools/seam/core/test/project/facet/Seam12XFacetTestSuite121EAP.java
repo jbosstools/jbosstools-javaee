@@ -11,10 +11,11 @@
 package org.jboss.tools.seam.core.test.project.facet;
 
 
+import junit.framework.Test;
 import junit.framework.TestSuite;
 
 public class Seam12XFacetTestSuite121EAP {
-	public static TestSuite suite() {
+	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam 1.2.X tests");
 		suite.addTestSuite(SeamFacetInstallDelegateTest.class);
 		return suite;

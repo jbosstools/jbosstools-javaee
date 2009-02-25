@@ -47,7 +47,7 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		final IFacetedProject fproj = createSeamProject("customProject",createSeamDataModel);
 		JobUtils.waitForIdle(500);
-		assertTrue(fproj.getProject().findMember("src/action/x/y/z").exists());
+		assertTrue(fproj.getProject().findMember("src/hot/x/y/z").exists());
 	}
 	
 	public void testJiraJbide1544() throws CoreException, IOException {
@@ -59,7 +59,7 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME, catalogName);
 		createSeamDataModel.setProperty(ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME, schemaName);		
 		IFacetedProject fproj = createSeamProject("customSchemaAndCatalog",createSeamDataModel);
-		IFile  persistence = (IFile)fproj.getProject().findMember("src/model/META-INF/persistence.xml");
+		IFile  persistence = (IFile)fproj.getProject().findMember("src/main/META-INF/persistence.xml");
 		assertTrue(persistence.exists());
 		boolean schemaExists = ResourcesUtils.findLineInFile(persistence, ".*" +
 					NLS.bind(
@@ -89,7 +89,7 @@ public class SeamFacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		createSeamDataModel = createSeamDataModel("war");
 		fproj = createSeamProject("noSchemaAndCatalog",createSeamDataModel);
-		persistence = (IFile)fproj.getProject().findMember("src/model/META-INF/persistence.xml");
+		persistence = (IFile)fproj.getProject().findMember("src/main/META-INF/persistence.xml");
 		assertTrue(persistence.exists());
 		schemaExists = ResourcesUtils.findLineInFile(persistence, ".*" +
 					NLS.bind(

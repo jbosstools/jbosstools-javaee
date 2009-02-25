@@ -317,8 +317,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		IProject warProject = warPs.getWarProject();
 		assertTrue(warProject.exists());
 		
-		assertNotNull(warProject.findMember("src/model/seam.properties"));
-		IResource findMember = warProject.findMember("src/action/seam.properties");
+		assertNotNull(warProject.findMember("src/main/seam.properties"));
+		IResource findMember = warProject.findMember("src/hot/seam.properties");
 		assertNotNull(findMember);
 		assertTrue(findMember instanceof IFile);
 		
