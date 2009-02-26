@@ -720,9 +720,11 @@ public class SeamCoreValidator extends SeamValidator {
 			for (ISeamComponentMethod method : methods) {
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();
-				ISeamTextSourceReference methodNameLocation = getNameLocation(method);
-				addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, preferenceKey, new String[]{methodName}, methodNameLocation, method.getResource());
-				validationContext.addUnnamedCoreResource(declaration.getSourcePath());
+				if(declaration.getSourcePath().equals(javaMethod.getPath())) {
+					ISeamTextSourceReference methodNameLocation = getNameLocation(method);
+					addError(sufixMessageId + NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID, preferenceKey, new String[]{methodName}, methodNameLocation, method.getResource());
+					validationContext.addUnnamedCoreResource(declaration.getSourcePath());
+				}
 			}
 		} else {
 			validationContext.removeUnnamedCoreResource(declaration.getSourcePath());
