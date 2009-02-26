@@ -58,7 +58,6 @@ abstract public class AbstractCheckboxSelectItemTemplate extends AbstractSelectI
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
 		// create span element
 		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
-		nsIDOMElement labelSpan = visualDocument.createElement(HTML.TAG_SPAN);
 
 		VpeCreationData creationData = new VpeCreationData(span);
 
@@ -78,11 +77,10 @@ abstract public class AbstractCheckboxSelectItemTemplate extends AbstractSelectI
 			label.setAttribute(HTML.ATTR_CLASS, enabledClass);
 		}
 
-		label.appendChild(labelSpan);
 		span.appendChild(input);
 		span.appendChild(label);
 
-		processOutputAttribute(pageContext, visualDocument, element, labelSpan,
+		processOutputAttribute(pageContext, visualDocument, element, label,
 				creationData);
 
 		return creationData;

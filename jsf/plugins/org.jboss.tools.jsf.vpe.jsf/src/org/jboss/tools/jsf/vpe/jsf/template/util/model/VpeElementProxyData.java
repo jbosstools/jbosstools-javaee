@@ -3,6 +3,10 @@ package org.jboss.tools.jsf.vpe.jsf.template.util.model;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.w3c.dom.NodeList;
 
+/**
+ * TODO check if this class is necessary
+ *
+ */
 public class VpeElementProxyData extends VpeElementData {
 
 	// private IStructuredModel model;

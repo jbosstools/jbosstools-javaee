@@ -150,7 +150,7 @@ public abstract class AbstractOutputJsfTemplate extends
 		creationData.setElementData(elementData);
 	}
 	
-	@Deprecated
+//	@Deprecated
 //	protected String prepareAttrValue(VpePageContext pageContext,
 //			Element parent, Attr attr) {
 //
