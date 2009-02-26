@@ -6,44 +6,25 @@
 				</DIV>
 				<DIV STYLE="-moz-user-modify: read-only;">
 					<TABLE STYLE="-moz-user-modify: read-only;">
+					<THEAD>
 						<TR>
-							<TD>
+							<TH>
 								<DIV>
-									<TABLE BORDER="5">
-										<THEAD>
-											<TR>
-												<TH COLSPAN="1">
-													<DIV STYLE="-moz-user-modify: read-only;">
-														<FORM
-															STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; background-color: yellow; text-align: left;">
-															<SPAN CLASS="vpe-text">
-																&#187;
-                                                            </SPAN>
-															<A STYLE="text-decoration: none;">Home</A>
-															<SPAN CLASS="vpe-text">
-																&#187;
-                                                            </SPAN>
-															<A STYLE="text-decoration: none;">CRM</A>
-														</FORM>
-													</DIV>
-												</TH>
-											</TR>
-										</THEAD>
-										<TBODY>
-											<TR>
-												<TD>
-													<DIV CLASS="pageBody" STYLE="-moz-user-modify: read-only;">
-														<BR VPE:PSEUDO-ELEMENT="yes"
-															STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
-
-													</DIV>
-												</TD>
-											</TR>
-										</TBODY>
-									</TABLE>
+									<FORM>
+										<SPAN CLASS="vpe-text">
+											&#187;
+                                                       </SPAN>
+										<A STYLE="text-decoration: none;">Home</A>
+										<SPAN CLASS="vpe-text">
+											&#187;
+                                                       </SPAN>
+										<A STYLE="text-decoration: none;">CRM</A>
+									
+									</FORM>
 								</DIV>
-							</TD>
+							</TH>
 						</TR>
+						</THEAD>
 					</TABLE>
 					<SPAN STYLE="color: red; font-weight: bold; -moz-user-modify: read-only;">
 						Error Messages
