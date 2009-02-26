@@ -27,6 +27,7 @@ public interface ISeamXmlComponentDeclaration extends ISeamPropertiesDeclaration
 	public final static String AUTO_CREATE = "auto-create"; //$NON-NLS-1$
 	public final static String JNDI_NAME = "jndi-name"; //$NON-NLS-1$
 	public final static String STARTUP = "startup"; //$NON-NLS-1$
+	public final static String STARTUP_DEPENDS = "startupDepends"; //$NON-NLS-1$
 
 	/**
 	 * @return scope type

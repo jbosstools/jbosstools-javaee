@@ -112,6 +112,7 @@ public class XMLScanner implements IFileScanner {
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.AUTO_CREATE);
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.JNDI_NAME);
 		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.STARTUP);
+		COMMON_ATTRIBUTES.add(ISeamXmlComponentDeclaration.STARTUP_DEPENDS);
 		
 		INTERNAL_ATTRIBUTES.add("NAME"); //$NON-NLS-1$
 		INTERNAL_ATTRIBUTES.add("EXTENSION"); //$NON-NLS-1$
