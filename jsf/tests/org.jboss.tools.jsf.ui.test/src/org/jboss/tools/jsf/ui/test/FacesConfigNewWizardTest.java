@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -27,7 +28,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		wizardIsCreated();
 	}
 	
-	public void testFacesConfigNewWizardValidation() {
+	public void _testFacesConfigNewWizardValidation() {
 		IWizard wizard = getWizard();
 		
 		boolean canFinish = wizard.canFinish();
@@ -72,8 +73,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		assertTrue("Finish button is disabled.", canFinish);
 		
 		wizard.performFinish();
-		
-		//dialog.close();
+		dialog.close();
 		
 		JobUtils.waitForIdle();
 		
@@ -98,6 +98,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		// Assert that new file was registered in web.xml if 'Register in web.xml is set'
 		
 		ArrayList<IProject> list = new ArrayList<IProject>();
+		list.add((IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestWizards"));
 		
 		StructuredSelection selection = new StructuredSelection(list);
 		
@@ -111,7 +112,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		((IWorkbenchWizard)wizard).init(PlatformUI.getWorkbench(), selection);
 		
-		support.setAttributeValue(0, "name", "faces-config11");
+		support.setAttributeValue(0, "name", "faces-config22");
 		support.setAttributeValue(0, "folder", "/TestWizards/WebContent/WEB-INF");
 		support.setAttributeValue(0, "register in web.xml", "yes");
 		
@@ -120,10 +121,10 @@ public class FacesConfigNewWizardTest extends WizardTest {
 				wizard);
 		dialog.setBlockOnOpen(false);
 		dialog.open();
-		
+		JobUtils.delay(6000);
 		boolean canFinish = wizard.canFinish();
 		
-		//System.out.println("Message - "+dialog.getCurrentPage().getErrorMessage());
+		System.out.println("Message - "+dialog.getCurrentPage().getErrorMessage());
 		
 		assertTrue("Finish button is disabled.", canFinish);
 		
