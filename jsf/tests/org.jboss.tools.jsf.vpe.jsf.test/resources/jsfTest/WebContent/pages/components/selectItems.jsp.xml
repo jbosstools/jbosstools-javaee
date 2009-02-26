@@ -2,9 +2,7 @@
 	<test id="selectItems1">
 		<SPAN STYLE="-moz-user-modify: read-write;">
 			<INPUT TYPE="checkbox"/>
-			<LABEL>
-				<SPAN>someValue</SPAN>
-			</LABEL>
+			<LABEL>someValue</LABEL>
 		</SPAN>
 	</test>
 	<test id="selectItems2">

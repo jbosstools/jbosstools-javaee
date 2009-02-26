@@ -6,9 +6,7 @@
 					<TD>
 						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
-							<LABEL>
-								<SPAN> check1</SPAN>
-							</LABEL>
+							<LABEL> check1 </LABEL>
 						</SPAN>
 					</TD>
 				</TR>
@@ -16,9 +14,7 @@
 					<TD>
 						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
-							<LABEL>
-								<SPAN> check2</SPAN>
-							</LABEL>
+							<LABEL> check2 </LABEL>
 						</SPAN>
 					</TD>
 				</TR>
@@ -26,9 +22,7 @@
 					<TD>
 						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
-							<LABEL>
-								<SPAN> check3</SPAN>
-							</LABEL>
+							<LABEL>check3</LABEL>
 						</SPAN>
 					</TD>
 				</TR>
@@ -43,33 +37,21 @@
 						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 		
-							<LABEL>
-								<SPAN>
-									check1
-								</SPAN>
-							</LABEL>
+							<LABEL>check1</LABEL>
 						</SPAN>
 					</TD>
 					<TD>
 						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 		
-							<LABEL>
-								<SPAN>
-									check2
-								</SPAN>
-							</LABEL>
+							<LABEL>check2</LABEL>
 						</SPAN>
 					</TD>
 					<TD>
 						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 		
-							<LABEL>
-								<SPAN>
-									check3
-								</SPAN>
-							</LABEL>
+							<LABEL>check3</LABEL>
 						</SPAN>
 					</TD>
 				</TR>

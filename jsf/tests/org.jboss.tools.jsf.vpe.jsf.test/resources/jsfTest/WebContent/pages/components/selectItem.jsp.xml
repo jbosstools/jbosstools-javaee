@@ -3,11 +3,7 @@
 		<SPAN>
 			<INPUT TYPE="checkbox" />
 
-			<LABEL CLASS="myClass1">
-				<SPAN>
-					check1
-				</SPAN>
-			</LABEL>
+			<LABEL CLASS="myClass1">check1</LABEL>
 		</SPAN>
 	</test>
 	<test id="selectItem2">
@@ -64,11 +60,7 @@
 	<test id="selectItem4">
 		<SPAN >
 			<INPUT TYPE="checkbox" DIR="ltr" />
-			<LABEL CLASS="myClass">
-				<SPAN>
-					check1
-				</SPAN>
-			</LABEL>
+			<LABEL CLASS="myClass">check1</LABEL>
 		</SPAN>
 	</test>
 </tests>
