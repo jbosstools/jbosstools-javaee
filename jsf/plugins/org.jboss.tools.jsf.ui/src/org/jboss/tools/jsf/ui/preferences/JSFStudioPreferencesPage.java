@@ -13,7 +13,9 @@ package org.jboss.tools.jsf.ui.preferences;
 import org.jboss.tools.common.model.ui.preferences.CompanyPreferencesPage;
 
 public class JSFStudioPreferencesPage extends CompanyPreferencesPage {
-
+	
+	public static final String ID = "org.jboss.tools.jsf.ui";
+	
 	protected String getKey() {
 		return "JSFSTUDIO";
 	}

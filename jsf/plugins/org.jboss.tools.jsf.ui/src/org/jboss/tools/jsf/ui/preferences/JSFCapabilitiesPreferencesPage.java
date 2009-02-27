@@ -26,6 +26,9 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.project.capabilities.JSFCapabilities;
 
 public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IWorkbenchPreferencePage {
+	
+	public static final String ID = "org.jboss.tools.jsf.ui.capabilities";
+	
 	static String[] CAPABILITIES_HEADER = new String[]{"name"};
 	static String[] FILE_ADDITIONS_HEADER = new String[]{"label"};
 	static String[] LIB_REFERENCE_HEADER = new String[]{"name"};

@@ -17,6 +17,9 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.web.JSFTemplate;
 
 public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implements IWorkbenchPreferencePage {
+
+	public static final String ID = "org.jboss.tools.jsf.ui.jsfflowdiagram";
+	
 	public static String JSF_EDITOR_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram";
 	public static String JSF_ADD_VIEW_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram/Add View";
 	

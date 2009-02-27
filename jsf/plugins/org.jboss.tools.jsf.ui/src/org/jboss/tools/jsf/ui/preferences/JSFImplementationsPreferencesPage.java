@@ -20,6 +20,8 @@ import org.jboss.tools.jst.web.project.helpers.AbstractWebProjectTemplate;
  */
 public class JSFImplementationsPreferencesPage extends AbstractImplementationsPreferencesPage {
 
+	public static final String ID = "org.jboss.tools.jsf.ui.jsfimplementations";
+
 	public JSFImplementationsPreferencesPage() {
 		super();
 	}

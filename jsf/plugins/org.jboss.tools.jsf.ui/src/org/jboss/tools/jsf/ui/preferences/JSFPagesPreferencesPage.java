@@ -19,6 +19,8 @@ import org.jboss.tools.jst.web.project.helpers.AbstractWebProjectTemplate;
  */
 public class JSFPagesPreferencesPage extends AbstractPagesPreferencesPage {
 
+	public static final String ID = "org.jboss.tools.jsf.ui.jsfpages";
+
 	protected AbstractWebProjectTemplate createHelper() {
 		return JSFTemplate.getInstance();
 	}

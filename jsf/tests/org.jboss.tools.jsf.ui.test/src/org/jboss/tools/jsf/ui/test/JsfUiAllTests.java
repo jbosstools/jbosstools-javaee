@@ -11,6 +11,8 @@
 
 package org.jboss.tools.jsf.ui.test;
 
+import org.jboss.tools.jsf.ui.preferences.JSFCapabilitiesPreferencesPage;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -18,7 +20,7 @@ public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests");
-
+		suite.addTestSuite(JSFCapabilitiesPreferencesPage.class);
 		suite.addTestSuite(CssClassNewWizardTest.class);
 		suite.addTestSuite(CssFileNewWizardTest.class);
 		suite.addTestSuite(CSSStyleDialogTest.class);
