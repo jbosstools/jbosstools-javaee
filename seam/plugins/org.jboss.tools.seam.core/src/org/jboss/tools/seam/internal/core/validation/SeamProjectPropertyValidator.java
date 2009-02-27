@@ -91,6 +91,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			}
 		}
 
+		finishValidating();
 		return OK_STATUS;
 	}
 
@@ -289,7 +290,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidator#cleanup(org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	public void cleanup(IReporter reporter) {
-		finishValidating();
+//		finishValidating();
 	}
 
 	/* (non-Javadoc)
