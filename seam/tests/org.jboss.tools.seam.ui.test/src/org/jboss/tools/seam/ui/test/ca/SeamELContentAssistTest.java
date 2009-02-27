@@ -10,6 +10,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -45,6 +46,10 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy);
 		project = provider.getProject();
 		project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		JobUtils.waitForIdle();
+		//To ensure that the project is built.
+		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
 	}
 
 	protected void tearDown() throws Exception {
