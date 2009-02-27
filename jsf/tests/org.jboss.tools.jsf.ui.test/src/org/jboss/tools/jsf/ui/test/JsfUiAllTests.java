@@ -31,6 +31,7 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JspFileNewWizardTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
 		suite.addTestSuite(XhtmlFileNewWizardTest.class);
+		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		
 		return new TestWizardsProject(suite);
 	}
