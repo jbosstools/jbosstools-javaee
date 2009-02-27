@@ -11,63 +11,33 @@
 package org.jboss.tools.seam.ui.test.preferences;
 
 import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.jface.preference.PreferenceManager;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.ui.preferences.SeamPreferencePage;
 import org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage;
 import org.jboss.tools.test.util.WorkbenchUtils;
-
-import junit.framework.TestCase;
+import org.jboss.tools.tests.PreferencePageTest;
 
 /**
  * @author eskimo
  *
  */
 
-public class SeamPreferencesPageTest extends TestCase {
+public class SeamPreferencesPageTest extends PreferencePageTest {
 
 
 	/**
 	 * Test that preference page is showed up without errors
 	 */
 	public void testShowSeamPreferencePage() {
-		
-		PreferenceDialog prefDialog = 
-			WorkbenchUtils.createPreferenceDialog(
-					SeamPreferencePage.SEAM_PREFERENCES_ID);
-
-		try {
-			prefDialog.setBlockOnOpen(false);
-			prefDialog.open();
-			
-			Object selectedPage = prefDialog.getSelectedPage();
-			assertTrue("Selected page is not an instance of SeamPreferencePage", selectedPage instanceof SeamPreferencePage);
-		} finally {
-			prefDialog.close();
-		}
+		doDefaultTest(SeamPreferencePage.SEAM_PREFERENCES_ID, SeamPreferencePage.class);
 	}
 	
 	/**
 	 * Test that preference page is showed up without errors
 	 */
 	public void testShowSeamValidationPreferencePage() {
-		
-		PreferenceDialog prefDialog = 
-			WorkbenchUtils.createPreferenceDialog(
-					SeamValidatorPreferencePage.PREF_ID);
-
-		try {
-			prefDialog.setBlockOnOpen(false);
-			prefDialog.open();
-			
-			Object selectedPage = prefDialog.getSelectedPage();
-			assertTrue("Selected page is not an instance of SeamValidatorPreferencePage", selectedPage instanceof SeamValidatorPreferencePage);
-		} finally {
-			prefDialog.close();
-		}
+		doDefaultTest(SeamValidatorPreferencePage.PREF_ID, SeamValidatorPreferencePage.class);
 	}
 	
 	public void testJiraJbide1490 () {
