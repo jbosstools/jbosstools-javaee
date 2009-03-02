@@ -26,6 +26,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
+import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 
 import com.sun.org.apache.regexp.internal.recompile;
@@ -84,11 +85,19 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 		public VpeCreationData create() {
 			nsIDOMElement mainElement = createMainElement();			
 			vpeCreationData = new VpeCreationData(mainElement);
-			nsIDOMElement stopTextElement = createStopTextElement();
-			if (stopTextElement != null) {
-				mainElement.appendChild(createStopTextElement());
+			final VpeChildrenInfo childrenInfo = new VpeChildrenInfo(mainElement);
+			vpeCreationData.addChildrenInfo(childrenInfo);
+
+			Element stopFacet = ComponentUtil.getFacet(sourceElement, STOP_FACET_NAME);
+			if (stopFacet != null) {
+				childrenInfo.addSourceChild(stopFacet);
+			} else {
+				nsIDOMElement stopTextElement = createStopTextElement();
+				if (stopTextElement != null) {
+					mainElement.appendChild(createStopTextElement());
+				}
 			}
-			addChildrenInfo(mainElement);
+
 			return vpeCreationData;
 		}
 		

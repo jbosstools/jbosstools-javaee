@@ -9,13 +9,8 @@
 	<test id="status2">
 		<SPAN CLASS="StyleClass StopStyleClass" STYLE="border: 3px solid red;">
 			<SPAN>
-				STOP TEXT
+				FACET STOP OUTPUT TEXT
 			</SPAN>
-			<DIV>
-				<SPAN>
-					FACET STOP OUTPUT TEXT
-				</SPAN>
-			</DIV>
 		</SPAN>
 	</test>
 </tests>
