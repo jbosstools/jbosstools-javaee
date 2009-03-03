@@ -746,7 +746,7 @@
 
         <para><property>JBoss Developer Studio</property> comes with a powerful and customizable
                 <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
-            develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
+            develop an application using any technology: JSF, Struts, JSP, HTML and others. Double-click on the necessary file in the Package Explorer view to open it in the Visual Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).</para>
 
         <para>Current VPE version has three tabs: <property>Visual/Source</property>,
                 <property>Source</property> and <property>Preview</property>. To switch between the
@@ -817,7 +817,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para> You can insert a tag/component from the pallet into either the Source or the
+            <para> You can insert a tag/component from the palette into either the Source or the
                 Visual part by calling a context menu and selecting <property>Insert
                     around</property>, <property>Insert before</property>, <property>Insert
                     after</property> or <property>Replace With</property>, pointing to
@@ -1377,8 +1377,7 @@
 
 
                     <para>The third one, <emphasis>
-                            <property>Included tag libs</property>
-                        </emphasis>, can be used to add Taglibs that can be used by the editor for
+                            <property>Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
                         getting appropriate templates to generate a preview:</para>
 
                     <figure>
