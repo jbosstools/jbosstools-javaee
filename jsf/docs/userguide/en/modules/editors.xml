@@ -1086,9 +1086,9 @@
                     <emphasis>
                         <property>Boxes</property>, </emphasis>
                     <emphasis>
-                        <property>Property Sheet</property>. </emphasis>To add existing styling to
-                    the chosen element expand the list of the existed style classes and point to the
-                    necessary one.</para>
+                        <property>Property Sheet</property>. </emphasis>The list of already exisiting classes with names begining with the symbols printed will be displayed on standard "Ctrl+Space" key combination. To add existing styling to
+                    the chosen element just point to the
+                    necessary one. Then click on the <emphasis><property>Apply</property></emphasis> button, this will create a new class or apply the changes without closing the window.</para>
 
                 <figure>
                     <title>Style Class Selection</title>
