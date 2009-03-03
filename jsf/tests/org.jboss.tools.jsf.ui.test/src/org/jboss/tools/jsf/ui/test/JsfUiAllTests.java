@@ -20,7 +20,6 @@ public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests");
-		suite.addTestSuite(JSFCapabilitiesPreferencesPage.class);
 		suite.addTestSuite(CssClassNewWizardTest.class);
 		suite.addTestSuite(CssFileNewWizardTest.class);
 		suite.addTestSuite(CSSStyleDialogTest.class);
