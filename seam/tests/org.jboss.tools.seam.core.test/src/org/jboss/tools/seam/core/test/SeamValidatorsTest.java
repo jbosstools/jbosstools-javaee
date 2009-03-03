@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -103,7 +104,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	public void testJiraJbide1696() throws CoreException {
-		getSeamProject(project);
+		//getSeamProject(project);
 		
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1696
 		IFile subclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java");
@@ -837,5 +838,18 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		} catch (CoreException e) {
 			// ignore
 		}
+	}
+	
+	public static int getMarkersNumber(IResource resource){
+		try{
+			IMarker[] markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+			for(int i=0;i<markers.length;i++){
+				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
+			}
+			return markers.length;
+		}catch(CoreException ex){
+			JUnitUtils.fail("Can'r get problem markers", ex);
+		}
+		return -1;
 	}
 }
