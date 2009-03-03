@@ -100,6 +100,19 @@
             </mediaobject>
         </figure>
 
+        <para>OpenOn is also supported in Page Descriptors(page.xml). You can <property>Ctrl + left click</property> on the bean to open navigate to the bean you clicked on. </para>
+
+        <figure>
+            <title>OpenOn in page.xml file</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2a.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+
+
     </section>
 
     <section id="SeamValidation">
