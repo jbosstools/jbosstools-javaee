@@ -16,7 +16,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.launching.IVMInstall;
@@ -26,11 +25,12 @@ import org.eclipse.wst.server.core.IRuntimeType;
 import org.eclipse.wst.server.core.IRuntimeWorkingCopy;
 import org.eclipse.wst.server.core.ServerUtil;
 import org.eclipse.wst.server.core.internal.RuntimeWorkingCopy;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author V.Kabanovich
@@ -41,25 +41,20 @@ public class SeamEARTest extends TestCase {
 	IProject projectWAR = null;
 	IProject projectEJB = null;
 	
-	TestProjectProvider providerEAR = null;
-	TestProjectProvider providerWAR = null;
-	TestProjectProvider providerEJB = null;
-	
 	boolean makeCopy = true;
-
+	ProjectImportTestSetup setup;
+	
 	public SeamEARTest() {}
 
 	protected void setUp() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		createRuntime("JBoss 4.2 Runtime");
-		JobUtils.waitForIdle();
-		providerEAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ear", makeCopy);
-		projectEAR = providerEAR.getProject();
-		JobUtils.waitForIdle();
-		providerEJB = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1-ejb", makeCopy);
-		projectEJB = providerEJB.getProject();
-		JobUtils.waitForIdle();
-		providerWAR = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "Test1", makeCopy);
-		projectWAR = providerWAR.getProject();
+		setup = new ProjectImportTestSetup(this, "org.jboss.tools.seam.core.test", new String[]{"projects/Test1-ejb", "projects/Test1-ear", "projects/Test1"}, new String[]{"Test1-ejb", "Test1-ear", "Test1"});
+		IProject[] projects = setup.importProjects();
+		projectEAR = projects[1];
+		projectEJB = projects[2];
+		projectWAR = projects[0];
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		JobUtils.waitForIdle();
 	}
 
@@ -89,10 +84,8 @@ public class SeamEARTest extends TestCase {
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
 	}
 	
-	protected void tearDown() throws CoreException {
-		providerWAR.dispose();
-		providerEJB.dispose();
-		providerEAR.dispose();
+	protected void tearDown() throws Exception {
+		setup.deleteProjects();
 	}
 	
 	private static IRuntime createRuntime(String runtimeName) throws CoreException {
