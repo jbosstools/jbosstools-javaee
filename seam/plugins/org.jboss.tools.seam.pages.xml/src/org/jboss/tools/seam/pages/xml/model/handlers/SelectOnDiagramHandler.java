@@ -28,14 +28,20 @@ public class SelectOnDiagramHandler extends AbstractHandler implements SeamPages
 	public SelectOnDiagramHandler() {}
 
 	public boolean isEnabled(XModelObject object) {
-		return (object != null && object.isActive());
+		if(object == null || !object.isActive()) return false;
+		XModelObject f = object.getParent();
+		while(f != null && f.getFileType() != XModelObject.FILE) f = f.getParent();
+		if(f == null || !f.getModelEntity().getName().startsWith(SeamPagesConstants.ENT_FILE_SEAM_PAGES)) {
+			return false;
+		}
+		return true;
 	}
 
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(object == null) return;
 		XModelObject item = getItemOnDiagram(object);
 		if(item == null) return;
-		FindObjectHelper.findModelObject(item, FindObjectHelper.IN_EDITOR_ONLY, "Diagram");
+		FindObjectHelper.findModelObject(item, FindObjectHelper.IN_EDITOR_ONLY, "Graphical");
 		FindObjectHelper.findModelObject(object, FindObjectHelper.IN_EDITOR_ONLY);
 	}
 
