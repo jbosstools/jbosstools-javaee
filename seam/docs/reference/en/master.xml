@@ -39,8 +39,10 @@
          <title>Seam Dev Tools Reference Guide</title>
          <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
          <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
-         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
-         <author><firstname>Michael</firstname><surname>Sorokin</surname></author>
+        <author><firstname>Michael</firstname><surname>Sorokin</surname></author>
+
+ <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
+         
          <pubdate>April 2008</pubdate>
          <copyright>
              <year>2007</year>
