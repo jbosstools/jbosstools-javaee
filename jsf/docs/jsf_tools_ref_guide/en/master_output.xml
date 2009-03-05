@@ -1980,7 +1980,7 @@
         reference introduces you to wizards for creating and importing JSF projects, JSF
         Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
     
-    <para>If you have questions or good suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&op=viewforum&f=201">JBoss
+    <para>If you have questions or good suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
 

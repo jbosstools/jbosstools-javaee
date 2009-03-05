@@ -3024,7 +3024,7 @@
         
         <para>In conclusion, the main goal of this document is to get you know with a full featureset
             that <property moreinfo="none">JBoss Tools</property> provides to support Seam development. Thus if you have
-            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&op=viewforum&f=201">JBoss
+            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
                 Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
             future leaving your vote on our page <ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture">here</ulink>. </para>
         

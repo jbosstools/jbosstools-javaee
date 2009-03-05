@@ -1331,7 +1331,7 @@ org.apache.struts.validator.ValidatorForm
 
     <para>To find out all the features of <property moreinfo="none">JBoss Tools</property> for working with Struts
         refer to our <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink>. If you
-        still have questions you are always welcome on <ulink url="http://www.jboss.com/index.html?module=bb&op=viewforum&f=201">JBoss
+        still have questions you are always welcome on <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
 

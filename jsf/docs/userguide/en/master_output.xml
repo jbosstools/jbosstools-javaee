@@ -185,7 +185,7 @@
        components in any web application. Support for RichFaces and Ajax4jsf libraries in JBoss
        Tools Palette. Rendering RichFaces components in Visual Page Editor.</entry>
       <entry>
-       <link linkend="RichFacesSupport">RichFaces support</link>
+       <link linkend="RichFacesSupport"> RichFaces support</link>
       </entry>
      </row>
     </tbody>
@@ -4332,7 +4332,7 @@ buttons below.</para>
             representing and editing web resources you are working with.</para>
 
         <para>If there's anything we didn't cover or you can't figure
-            out, please feel free to visit our <ulink url="http://www.jboss.com/index.html?module=bb&op=viewforum&f=258">JBoss Developer Studio Users Forum</ulink> or <ulink url="http://www.jboss.com/index.html?module=bb&op=viewforum&f=201">JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
+            out, please feel free to visit our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss Developer Studio Users Forum</ulink> or <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
             your suggestions and comments.</para>
     </section>
 

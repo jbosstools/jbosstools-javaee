@@ -791,7 +791,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         finally run it on the <property moreinfo="none">JBoss Server</property>.</para>
 
     <para>Find out more features on JSF tooling in our <ulink url="../../jsf_tools_ref_guide/html_single/index.html">JSF Tools
-            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&op=viewforum&f=201">JBoss
+            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
         
