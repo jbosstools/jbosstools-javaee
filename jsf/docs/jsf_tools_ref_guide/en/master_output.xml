@@ -902,7 +902,7 @@
                         </section>
 </chapter>
     
-<chapter id="jsf_config_file" role="updated" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
+<chapter id="jsf_config_file"  xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
     <?dbhtml filename="jsf_config_file.html"?>
     <chapterinfo>
         <keywordset>
@@ -1020,7 +1020,7 @@
             </mediaobject>
         </figure>
     </section>
-    <section id="TreeView11123" role="updated">
+    <section id="TreeView11123" >
 
         <title>Tree View</title>
 

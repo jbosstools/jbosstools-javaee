@@ -111,7 +111,7 @@
 </chapter>
 
 
-<chapter id="create_seam" role="updated" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/creating_new_seam.xml" xreflabel="create_seam">
+<chapter id="create_seam" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/creating_new_seam.xml" xreflabel="create_seam">
     <?dbhtml filename="create_new_seam.html"?>
     <chapterinfo>
         <keywordset>
