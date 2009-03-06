@@ -625,7 +625,7 @@ public class PagesEditor extends GEFEditor implements PagesModelListener, XModel
 				PagesDiagramEditPart diagram = (PagesDiagramEditPart) getScrollingGraphicalViewer()
 						.getRootEditPart().getChildren().get(0);
 				FreeformViewport vp = diagram.getFreeformViewport();
-				if (vp != null && part instanceof PagesEditPart) {
+				if (vp != null && part instanceof PagesEditPart && part != diagram) {
 					PagesEditPart pagesPart = (PagesEditPart) part;
 					NodeFigure fig = (NodeFigure)pagesPart.getFigure();
 					if (fig.getLocation().x == 0 && fig.getLocation().y == 0) {
