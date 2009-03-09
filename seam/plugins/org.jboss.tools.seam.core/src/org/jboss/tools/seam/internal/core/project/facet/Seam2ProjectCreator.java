@@ -160,14 +160,26 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		if(getVersion() == SeamVersion.SEAM_2_1) {
 			Properties seamProperties = new Properties();
 			File testSeamPropertiesFile = new File(testSrcDir, "seam.properties");
+			FileInputStream inStream = null;
+			FileOutputStream out = null;
 			try {
-				seamProperties.load(new FileInputStream(testSeamPropertiesFile));
+				inStream = new FileInputStream(testSeamPropertiesFile);
+				seamProperties.load(inStream);
 				seamProperties.setProperty("org.jboss.seam.core.init.debug", "false"); //$NON-NLS-1$ //$NON-NLS-2$
-				seamProperties.store(new FileOutputStream(testSeamPropertiesFile), "debug is explicitly disabled in test to avoid JBIDE-3623");
+				
+				out = new FileOutputStream(testSeamPropertiesFile);
+				seamProperties.store(out, "debug is explicitly disabled in test to avoid JBIDE-3623");
 			} catch (FileNotFoundException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
+			} finally {
+				if(inStream!=null) {
+					try { inStream.close();	} catch (IOException e) { /**ignore*/ }					
+					}									
+				if(out!=null) {
+					try { out.close();	} catch (IOException e) { /**ignore*/ }
+				}
 			}
 		}
 
