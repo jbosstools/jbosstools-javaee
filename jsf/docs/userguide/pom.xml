@@ -27,7 +27,6 @@
 				<xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-release.xsl</xsl-single>
 				<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-release.xsl</xsl-chunked>
 				<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
-				<cssdir>../../../documentation/jbosstools-jdocbook-style/src/main/com/css/</cssdir>
 			</properties>
 		</profile>
 		<profile>
@@ -132,7 +131,7 @@
         <xsl-single>classpath:/xslt/org/jboss/tools/xhtml-single.xsl</xsl-single>
 	<xsl-chunked>classpath:/xslt/org/jboss/tools/xhtml.xsl</xsl-chunked>
 	<xsl-pdf>classpath:/xslt/org/jboss/tools/pdf.xsl</xsl-pdf>
-        <cssdir>../../../documentation/jbosstools-jdocbook-style/src/main/org/css/</cssdir>
+        <cssdir>../../../documentation/jbosstools-jdocbook-style/src/main/com/css/</cssdir>
 	<master>master.xml</master>
         <translation>en-US</translation>
     </properties> 
