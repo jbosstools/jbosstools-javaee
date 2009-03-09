@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.common.project.facet.JavaFacetUtils;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -44,6 +45,7 @@ import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.osgi.service.prefs.BackingStoreException;
 
 /**
@@ -178,6 +180,11 @@ public class SeamProjectCreator {
 		}
 
 		droolsLibFolder = new File(seamHomePath, SeamFacetInstallDelegate.DROOLS_LIB_SEAM_RELATED_PATH);
+	}
+
+	public SeamVersion getVersion() {
+		String seamVersionString = getModel().getProperty(IFacetDataModelProperties.FACET_VERSION_STR).toString();
+		return SeamVersion.parseFromString(seamVersionString);
 	}
 
 	public IDataModel getModel() {

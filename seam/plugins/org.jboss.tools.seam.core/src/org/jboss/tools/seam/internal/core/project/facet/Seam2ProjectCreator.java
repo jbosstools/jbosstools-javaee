@@ -11,8 +11,12 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.tools.ant.types.FilterSet;
@@ -24,6 +28,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 
 /**
  * @author Alexey Kazakov
@@ -149,6 +154,22 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 				seamPropertiesFile,
 				testSrcDir, //$NON-NLS-1$
 				new FilterSetCollection(filterSet), true);
+
+		// Add "org.jboss.seam.core.init.debug=false" for Seam 2.1
+		// to seam.properties file to avoid https://jira.jboss.org/jira/browse/JBIDE-3623
+		if(getVersion() == SeamVersion.SEAM_2_1) {
+			Properties seamProperties = new Properties();
+			File testSeamPropertiesFile = new File(testSrcDir, "seam.properties");
+			try {
+				seamProperties.load(new FileInputStream(testSeamPropertiesFile));
+				seamProperties.setProperty("org.jboss.seam.core.init.debug", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+				seamProperties.store(new FileOutputStream(testSeamPropertiesFile), "debug is explicitly disabled in test to avoid JBIDE-3623");
+			} catch (FileNotFoundException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
 
 		AntCopyUtils.copyFiles(
 				new File(seamRuntime.getHomeDir(), "lib"), //$NON-NLS-1$
