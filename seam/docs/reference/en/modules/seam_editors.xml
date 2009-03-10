@@ -218,7 +218,7 @@
               <listitem><para><emphasis role="bold">Page</emphasis> creates a new page element on the diagram</para></listitem>
               <listitem><para><emphasis role="bold">Exception</emphasis> creates a new exception element on the diagram</para></listitem>
               <listitem><para><emphasis role="bold">Auto Layout</emphasis> formats the layout of the diagram automatically</para></listitem>
-              <listitem><para><emphasis role="bold">Select Element</emphasis> calls the <property>Select Element Wizard</property> with a filter to perform a quick search  through  the <property>pages</property> file  </para></listitem>
+              <listitem><para><emphasis role="bold">Select Element</emphasis> calls the <property>Select Element Wizard</property> with a filter to perform a quick search  through  the <property>pages.xml</property> file  </para></listitem>
           </itemizedlist>
           <para>Rightclicking on a <emphasis>
                         <property>&lt;page&gt;</property>
@@ -229,8 +229,8 @@
       <itemizedlist>
           <listitem><para><emphasis role="bold">Rule</emphasis> defines a new navigation rule for the element </para></listitem>
           <listitem><para><emphasis role="bold">Param</emphasis> adds a <emphasis>
-                        <property>&lt;param&gt;</property> tag
-                    </emphasis> to the <emphasis>
+                        <property>&lt;param&gt;</property> 
+          </emphasis> tag to the <emphasis>
                         <property>&lt;page&gt;</property>
                     </emphasis> element</para></listitem>
       </itemizedlist>
@@ -290,7 +290,7 @@
             </figure>
             
             
-            <para>The Tree mode shows a tree for every element in the pages.xml file. You can get a quick overview of the whole file and selecting an element the related element is highlighted in the Graphical, Tree or Source page of Seam Pages Editor.</para>
+            <para>The Tree mode shows a tree for every element in the pages.xml file. You can get a quick overview of the whole file. When selecting an element in the Outline view the  related element is highlighted in the Graphical, Tree or Source page of Seam Pages Editor.</para>
      
      
      
@@ -424,12 +424,25 @@
                 </mediaobject>
             </figure>
         </section>
-    </section>
 
+        
+    </section>
+        <section>
+            <title>Content Assist for Page Descriptors</title>
+            
+            <para>Content Assist ( CA ) is available for Page Descriptors, 
+                <property>.page.xml</property> and <property>page.xml</property> files. 
+                Content Assist lets you easily compose a Page Descriptor file by suggesting elements and attributes. The suggestions are context dependent, which means that CA provides only the elements, attributes and in some cases values for the attributes,  suitable in a particular place of your Page Descriptor. 
+                
+            </para>
+            <para>
+                Seam Pages Editor also supports  code completion in EL-expressions suggesting you possible bean properties and methods. 
+            </para>
+        </section>
     <section id="OpenOn">
         <title>OpenOn</title>
 
-        <para><property>OpenOn</property> let's you easily navigate through your project without
+        <para><property>OpenOn</property> lets you easily navigate through your project without
             using the Package Explorer or Project Explorer. After pressing <emphasis>
                 <property>Ctrl + left click</property>
             </emphasis> (or just F3) you will see a corresponding method or class.</para>
@@ -443,10 +456,11 @@
             </mediaobject>
         </figure>
 
-        <para>OpenOn is also supported in Page Descriptors(page.xml). You can <property>Ctrl + left click</property> on the bean to open navigate to the bean you clicked on. </para>
+        <para>OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
+            You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to  navigate to the file you clicked on. </para>
 
         <figure>
-            <title>OpenOn in page.xml file</title>
+            <title>OpenOn in .page.xml file</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_editors/seam_editors_2a.png"/>
