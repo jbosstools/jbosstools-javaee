@@ -82,6 +82,12 @@
             about all modules and deploy EAR project into one enterprise application on server to
                 <property>deploy</property> folder. EAR application keeps <property>ejb</property>
             and <property>war</property> modules of the EAR project.</para>
+      
+        <note><title>Note:</title>
+            <para>The <property>WAR</property> generated for <property>EARs</property> is now configured to utilize Seam hot-deployment (<emphasis><property>WEB-INF/dev</property></emphasis>) similar to standalone <property>WAR</property> projects.</para>
+        
+        </note>
+        
     </section>
 
     <section id="seam_version_changing">
