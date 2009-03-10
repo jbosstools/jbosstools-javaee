@@ -35,13 +35,13 @@
         <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <year>2009</year>
-            <holder>JBoss, a division of Red Hat</holder>
+            <year><diffmk:wrapper diffmk:change="changed">2009</diffmk:wrapper></year>
+            <holder><diffmk:wrapper diffmk:change="changed">JBoss, a division of Red Hat</diffmk:wrapper></holder>
         </copyright>
 
-          <releaseinfo>
+          <releaseinfo><diffmk:wrapper diffmk:change="changed">
             Version: 3.0.0.GA
-            </releaseinfo>
+            </diffmk:wrapper></releaseinfo>
 
 
 <abstract>
