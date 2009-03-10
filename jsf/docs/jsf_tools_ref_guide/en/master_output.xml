@@ -36,12 +36,12 @@
         <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <year>2009</year>
-            <holder>JBoss, a division of Red Hat</holder>
+            <year><diffmk:wrapper diffmk:change="changed">2009</diffmk:wrapper></year>
+            <holder><diffmk:wrapper diffmk:change="changed">JBoss, a division of Red Hat</diffmk:wrapper></holder>
         </copyright>
-        <releaseinfo>
+        <releaseinfo><diffmk:wrapper diffmk:change="changed">
             Version: 3.0.0.GA
-        </releaseinfo>
+        </diffmk:wrapper></releaseinfo>
 
 <abstract>
    <title></title>
@@ -902,7 +902,7 @@
                         </section>
 </chapter>
     
-<chapter id="jsf_config_file"  xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
+<chapter id="jsf_config_file" role="updated" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
     <?dbhtml filename="jsf_config_file.html"?>
     <chapterinfo>
         <keywordset>
@@ -1020,7 +1020,7 @@
             </mediaobject>
         </figure>
     </section>
-    <section id="TreeView11123" >
+    <section id="TreeView11123" role="updated">
 
         <title>Tree View</title>
 
