@@ -43,7 +43,7 @@ import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
 public class SeamProjectPropertyValidator implements IValidatorJob {
 
 	protected static final String VALIDATING_PROJECT = "VALIDATING_PROJECT";
-	protected static final String INVALID_RUNTIME = "INVALID_RUNTIME";
+	protected static final String INVALID_SEAM_RUNTIME = "INVALID_SEAM_RUNTIME";
 	protected static final String INVALID_WEBFOLDER = "INVALID_WEBFOLDER";
 	protected static final String INVALID_PARENT_PROJECT = "INVALID_PARENT_PROJECT";
 	protected static final String INVALID_EJB_PROJECT = "INVALID_EJB_PROJECT";
@@ -247,7 +247,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			String seamRuntimeName = pref.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, null);
 			if(seamRuntimeName!=null && seamRuntimeName.length()>0 && (SeamRuntimeManager.getInstance().findRuntimeByName(seamRuntimeName) == null)) {
 				// Mark unknown runtime
-				errorManager.addError(INVALID_RUNTIME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{seamRuntimeName!=null?seamRuntimeName:"", project.getName()}, project);
+				errorManager.addError(INVALID_SEAM_RUNTIME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{seamRuntimeName!=null?seamRuntimeName:"", project.getName()}, project);
 			}
 
 			if(ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(pref.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, null))) {
