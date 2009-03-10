@@ -535,7 +535,7 @@
 	<extension point="org.eclipse.ui.ide.markerResolution">
   		<markerResolutionGenerator
      		class="org.jboss.tools.seam.ui.marker.MarkerResolutionGenerator"
-     		markerType="org.jboss.tools.seam.core.seamProjectProblem"/>
+     		markerType="org.eclipse.wst.validation.problemmarker"/>
 	</extension>
 
 <!-- Refactorng -->

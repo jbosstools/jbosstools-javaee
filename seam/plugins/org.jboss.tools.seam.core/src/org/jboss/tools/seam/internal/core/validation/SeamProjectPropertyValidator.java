@@ -43,7 +43,7 @@ import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
 public class SeamProjectPropertyValidator implements IValidatorJob {
 
 	protected static final String VALIDATING_PROJECT = "VALIDATING_PROJECT";
-	protected static final String INVALID_SEAM_RUNTIME = "INVALID_SEAM_RUNTIME";
+	public static final String INVALID_SEAM_RUNTIME = "INVALID_SEAM_RUNTIME";
 	protected static final String INVALID_WEBFOLDER = "INVALID_WEBFOLDER";
 	protected static final String INVALID_PARENT_PROJECT = "INVALID_PARENT_PROJECT";
 	protected static final String INVALID_EJB_PROJECT = "INVALID_EJB_PROJECT";
