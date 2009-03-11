@@ -113,13 +113,13 @@ public class SeamRuntimeManager {
 	 * 		SeamRuntime
 	 */
 	public void addRuntime(SeamRuntime runtime) {
-		if (runtimes.size() == 0) {
-			runtime.setDefault(true);
-		}
-
 		SeamRuntime oldDefaultRuntime = getDefaultRuntime(runtime.getVersion());
-		if (oldDefaultRuntime != null && runtime.isDefault()) {
-			oldDefaultRuntime.setDefault(false);
+		if (oldDefaultRuntime != null) {
+			if(runtime.isDefault()) {
+				oldDefaultRuntime.setDefault(false);
+			}
+		} else {
+			runtime.setDefault(true);
 		}
 		runtimes.put(runtime.getName(), runtime);
 		save();
