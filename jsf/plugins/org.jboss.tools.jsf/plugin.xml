@@ -371,4 +371,34 @@
       </event-handler>
    </extension>
 
+   <extension id="xhtml" name="%XHTML_Validator.name" 
+   		point="org.eclipse.wst.validation.validatorV2">
+      <validator
+            build="true"
+            class="org.jboss.tools.jsf.web.validation.XHTMLSyntaxValidator"
+            manual="true"
+            sourceid="org.eclipse.wst.xml.ui.internal.validation.DelegatingSourceValidatorForXML"
+            version="3"
+            markerId="org.eclipse.wst.xml.core.validationMarker"
+            >
+         <include>
+            <rules>
+            
+               	<contentType id="org.eclipse.wst.html.core.htmlsource"/>
+				<contentType id="org.eclipse.jst.jsp.core.jspfragmentsource"/>
+         		<contentType id="org.eclipse.jst.jsp.core.tagsource"/>
+               
+               <fileext
+                     caseSensitive="false"
+                     ext="xhtml">
+               </fileext>
+               <fileext
+                     caseSensitive="false"
+                     ext="jsf">
+               </fileext>
+            </rules>
+         </include>
+      </validator>
+   </extension>
+
 </plugin>
