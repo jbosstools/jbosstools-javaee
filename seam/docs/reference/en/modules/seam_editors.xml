@@ -220,17 +220,17 @@
               <listitem><para><emphasis role="bold">Auto Layout</emphasis> formats the layout of the diagram automatically</para></listitem>
               <listitem><para><emphasis role="bold">Select Element</emphasis> calls the <property>Select Element Wizard</property> with a filter to perform a quick search  through  the <property>pages.xml</property> file  </para></listitem>
           </itemizedlist>
-          <para>Rightclicking on a <emphasis>
+          <para>Rightclicking on a selected<emphasis>
                         <property>&lt;page&gt;</property>
                     </emphasis> element calls a context menu where you can choose the following options if you click on the <emphasis role="bold">New</emphasis> menu item:  </para>
       
       
       
       <itemizedlist>
-          <listitem><para><emphasis role="bold">Rule</emphasis> defines a new navigation rule for the element </para></listitem>
-          <listitem><para><emphasis role="bold">Param</emphasis> adds a <emphasis>
+          <listitem><para><emphasis role="bold">Rule</emphasis> opens the <property>Add Navigation Rule</property> dialog in which you can browse your project for a view page to set the view-id in the navigation rule  and specify <emphasis role="bold">render</emphasis> or <emphasis role="bold">redirect</emphasis> navigation options </para></listitem>
+          <listitem><para><emphasis role="bold">Param</emphasis> calls a dialog box where you can define a parameter (using the  <emphasis>
                         <property>&lt;param&gt;</property> 
-          </emphasis> tag to the <emphasis>
+          </emphasis> tag) for the <emphasis>
                         <property>&lt;page&gt;</property>
                     </emphasis> element</para></listitem>
       </itemizedlist>
