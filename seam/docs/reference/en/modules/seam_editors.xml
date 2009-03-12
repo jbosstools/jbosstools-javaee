@@ -234,6 +234,26 @@
                         <property>&lt;page&gt;</property>
                     </emphasis> element</para></listitem>
       </itemizedlist>
+          
+          
+          <section>
+              <title>Seam Pages Diagram Preferences</title>
+              
+              
+              
+              <para>In order to customize the layout of Diagram you can go to  
+                  <property>Window > Preferences > JBoss Tools > Web > Seam > Editors > Seam Pages Diagram</property>.
+              </para>
+              
+               <figure>
+                   <title>Preferences of Seam Pages Diagram</title>
+                   <mediaobject>
+                       <imageobject>
+                           <imagedata fileref="images/seam_editors/seam_editors_11.png"/>
+                       </imageobject>
+                   </mediaobject>
+               </figure>
+          </section>
       </section>
         
         
@@ -307,9 +327,12 @@
         
         
         </section>
+
         
         
     </section>
+    
+    
     
     
     <section>
