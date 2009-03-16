@@ -80,6 +80,46 @@ public enum SelectItemType {
 		public boolean isDisabledItem(Element element) {
 			return false;
 		}
+	},
+	
+	/**
+	 * Reflects the tag-type {@code <s:enumItem>} and provides operations on it. 
+	 */
+	ENUM_ITEM {
+	    
+	    private final String LABEL = "label"; //$NON-NLS-1$
+	    private final String ENUM_VALUE = "enumValue"; //$NON-NLS-1$
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Attr getOutputAttributeNode(Element element) {
+			Attr outputAttributeNode;
+			
+			if (element.hasAttribute(JSF.ATTR_ITEM_LABEL)) {
+				outputAttributeNode = element.getAttributeNode(JSF.ATTR_ITEM_LABEL);
+			} else if (element.hasAttribute(LABEL)) {
+				outputAttributeNode = element.getAttributeNode(LABEL);
+			} else if (element.hasAttribute(JSF.ATTR_ITEM_VALUE)) {
+			    outputAttributeNode = element.getAttributeNode(JSF.ATTR_ITEM_VALUE);
+			} else if (element.hasAttribute(ENUM_VALUE)) {
+				outputAttributeNode = element.getAttributeNode(ENUM_VALUE);
+			} else if (element.hasAttribute(JSF.ATTR_VALUE)) {
+				outputAttributeNode = element.getAttributeNode(JSF.ATTR_VALUE);
+			} else {
+				outputAttributeNode = null;
+			}
+			return outputAttributeNode;
+		}
+		
+		/**
+		 * Returns value of the attribute {@code disabledItem} of the {@code element}
+		 */
+		@Override
+		public boolean isDisabledItem(Element element) {
+			return ComponentUtil.string2boolean(ComponentUtil
+					.getAttribute(element, JSF.ATTR_ITEM_DISABLED));
+		}
 	};
 	
 	/**
