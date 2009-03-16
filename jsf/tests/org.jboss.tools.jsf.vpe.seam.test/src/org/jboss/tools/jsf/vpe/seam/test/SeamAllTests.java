@@ -27,14 +27,18 @@ import org.jboss.tools.vpe.ui.test.VpeTestSetup;
  */
 
 public class SeamAllTests {
+    
+    public static final String IMPORT_PROJECT_NAME = "SeamTest"; //$NON-NLS-1$
+    
     public static Test suite() {
-	TestSuite suite = new TestSuite("Tests for Vpe Seam components"); // $NON-NLS-1$
+	TestSuite suite = new TestSuite("Tests for Vpe Seam components"); //$NON-NLS-1$
 	// $JUnit-BEGIN$
 	suite.addTestSuite(SeamComponentTest.class);
+	suite.addTestSuite(SeamComponentContentTest.class);
 	// $JUnit-END$
 	List<ImportBean> importProjects = new ArrayList<ImportBean>();
 	ImportBean importBean = new ImportBean();
-	importBean.setImportProjectName(SeamComponentTest.IMPORT_PROJECT_NAME);
+	importBean.setImportProjectName(SeamAllTests.IMPORT_PROJECT_NAME);
 	importBean.setImportProjectPath(SeamTestPlugin.getPluginResourcePath());
 	importProjects.add(importBean);
 	return new VpeTestSetup(suite, importProjects);

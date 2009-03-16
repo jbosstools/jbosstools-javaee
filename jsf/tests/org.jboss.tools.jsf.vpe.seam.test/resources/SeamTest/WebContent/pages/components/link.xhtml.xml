@@ -1,0 +1,10 @@
+<tests>
+	<test id="id1">
+		<SPAN
+			STYLE="color: blue; text-decoration: underline; -moz-user-modify: read-write;">
+			Link
+			<BR VPE:PSEUDO-ELEMENT="yes"
+				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+		</SPAN>
+	</test>
+</tests>

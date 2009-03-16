@@ -1,0 +1,7 @@
+<tests>
+	<test id="id1">
+		<OPTION>
+			#{testClass.list}
+        </OPTION>
+	</test>
+</tests>

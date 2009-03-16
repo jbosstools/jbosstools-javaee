@@ -1,0 +1,11 @@
+<tests>
+	<test id="id1">
+		<DIV STYLE="-moz-user-modify: read-write;">
+			<H1 STYLE="-moz-user-modify: read-write;">
+				<SPAN CLASS="vpe-text">
+					s:cache
+                </SPAN>
+			</H1>
+		</DIV>
+	</test>
+</tests>

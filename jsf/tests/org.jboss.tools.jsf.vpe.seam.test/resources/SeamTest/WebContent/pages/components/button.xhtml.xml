@@ -1,0 +1,5 @@
+<tests>
+	<test id="id1">
+		<INPUT TYPE="submit" VALUE=" " STYLE="-moz-user-modify: read-only;"/>
+	</test>
+</tests>

@@ -1,0 +1,12 @@
+<tests>
+	<test id="id1">
+			<SPAN>
+				<OL>
+					<LI>
+						{blog.text}
+                    </LI>
+				</OL>
+				<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+			</SPAN>
+	</test>
+</tests>

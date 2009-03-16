@@ -1,0 +1,9 @@
+<tests>
+	<test id="id1">
+		<SPAN CLASS="required" STYLE="-moz-user-modify: read-write;">
+			<SPAN CLASS="vpe-text">
+				*
+            </SPAN>
+		</SPAN>
+	</test>
+</tests>
