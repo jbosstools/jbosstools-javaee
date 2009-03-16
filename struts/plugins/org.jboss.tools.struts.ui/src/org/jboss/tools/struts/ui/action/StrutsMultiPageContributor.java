@@ -28,6 +28,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
+import org.eclipse.wst.sse.ui.internal.actions.StructuredTextEditorActionConstants;
 import org.jboss.tools.common.gef.action.ActionRegistrySupport;
 import org.jboss.tools.struts.ui.editor.StrutsConfigGuiEditor;
 
@@ -47,6 +48,8 @@ public class StrutsMultiPageContributor extends AbstractMultiPageContributor {
 	}
 	
 	public void init(IActionBars bars) {
+		if(registrySupport != null) registrySupport.dispose();
+		registrySupport = new ActionRegistrySupport();
 		registrySupport.setPage(getPage());
 		super.init(bars);
 		registrySupport.buildGEFActions();
@@ -56,7 +59,6 @@ public class StrutsMultiPageContributor extends AbstractMultiPageContributor {
 		registrySupport.contributeGEFToToolBar(bars.getToolBarManager());
 		bars.getToolBarManager().add(new Separator());
 		bars.getToolBarManager().add(registrySupport.getAction(GEFActionConstants.MATCH_WIDTH));
-		
 		initEditMenu(bars);
 	}
 
@@ -102,6 +104,7 @@ public class StrutsMultiPageContributor extends AbstractMultiPageContributor {
 				actionBars.setGlobalActionHandler(ActionFactory.PRINT.getId(), (registry != null) ? registry.getAction("Print_Diagram") : (editor != null) ? getAction(editor, ActionFactory.PRINT.getId()) : null);
 				actionBars.setGlobalActionHandler(ActionFactory.REVERT.getId(), getAction(editor, ITextEditorActionConstants.REVERT));
 				actionBars.setGlobalActionHandler(ActionFactory.SAVE.getId(), getAction(editor, ITextEditorActionConstants.SAVE));
+				actionBars.setGlobalActionHandler(StructuredTextEditorActionConstants.ACTION_NAME_CONTENTASSIST_PROPOSALS, getAction(editor, StructuredTextEditorActionConstants.ACTION_NAME_CONTENTASSIST_PROPOSALS));				
 			} else {
 				actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), null);
 				actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), null);
