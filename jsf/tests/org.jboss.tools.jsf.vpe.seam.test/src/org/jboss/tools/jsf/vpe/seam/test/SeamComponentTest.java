@@ -23,56 +23,132 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 public class SeamComponentTest extends VpeTest {
 
     // import project name
-    public static final String IMPORT_PROJECT_NAME = "SeamTest";
+    public static final String IMPORT_PROJECT_NAME = "SeamTest"; //$NON-NLS-1$
 
     public SeamComponentTest(String name) {
 	super(name);
 	setCheckWarning(false);
     }
 
-    public void testButton() throws Throwable {
+    public void testCache() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/button.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/cache.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testConversationId() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/conversationId.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testConversationPropagation() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/conversationPropagation.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testConvertDateTime() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/convertDateTime.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testConvertEntity() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/convertEntity.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testConvertEnum() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/convertEnum.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDecorate() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/decorate.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/decorate.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testDiv() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/div.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/div.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
+    
+    public void testDefaultAction() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/defaultAction.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testEnumItem() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/enumItem.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testFileUpload() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/fileUpload.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
     public void testFormattedText() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/formattedText.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/formattedText.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testFragment() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/fragment.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testGraphicImage() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/graphicImage.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testLabel() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/label.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testLink() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/link.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testMessage() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/message.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testRemote() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/remote.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testSelectDate() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/message.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testSelectItems() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/message.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testValidate() throws Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/validate.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
     public void testSpan() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/span.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/span.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
-    public void testLabel() throws Throwable {
+    public void testValidateAll() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/label.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/validateAll.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
-
-    public void testLink() throws Throwable {
-	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/link.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-    }
-
-    public void testMessage() throws Throwable {
-	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/message.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
-    }
-
+    
     public void testAllComponentsOnSinglePage() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/seamtest.xhtml", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		"components/seamtest.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
 }

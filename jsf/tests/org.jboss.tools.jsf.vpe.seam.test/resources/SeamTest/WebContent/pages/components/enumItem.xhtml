@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+</head>
+<body>
+<h1>s:enumItem</h1>
+<h:selectOneRadio id="radioList" layout="lineDirection" value="ONCE">
+	<s:enumItem enumValue="ONCE" label="Only Once"  id="id1"  />
+	<s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
+	<s:enumItem enumValue="HOURLY" label="Every Hour" />
+	<s:enumItem enumValue="DAILY" label="Every Day" />
+	<s:enumItem enumValue="WEEKLY" label="Every Week" />
+	<s:enumItem itemValue="WEEKLY" itemLabel="Every Week2" />
+	<s:enumItem itemValue="WEEKLY" itemLabel="iL-Every Week"
+		enumValue="WEEKLY" label="l-Every Week" />
+	<s:enumItem itemValue="WEEKLY" enumValue="WEEKLY" label="l-Every Week" />
+	<s:enumItem enumValue="WEEKLY" label="l-Every Week" />
+	<s:enumItem enumValue="WEEKLY" />
+
+</h:selectOneRadio>
+
+<h:selectManyListbox id="radioList" layout="lineDirection" value="ONCE">
+	<s:enumItem itemValue="WEEKLY" itemLabel="iL-Every Week"
+		enumValue="WEEKLY" label="l-Every Week"  id="id2" />
+	<s:enumItem enumValue="ONCE" label="Only Once" />
+	<s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
+	<s:enumItem enumValue="HOURLY" label="Every Hour" />
+	<s:enumItem enumValue="DAILY" label="Every Day" />
+	<s:enumItem enumValue="WEEKLY" label="Every Week" />
+</h:selectManyListbox>
+
+
+<h:selectManyCheckbox id="radioList" layout="lineDirection" value="ONCE">
+	<s:enumItem itemValue="WEEKLY" itemLabel="iL-Every Week"
+		enumValue="WEEKLY" label="l-Every Week" />
+	<s:enumItem enumValue="ONCE" label="Only Once" id="id3"  />
+	<s:enumItem enumValue="EVERY_MINUTE" label="Every Minute" />
+	<s:enumItem enumValue="HOURLY" label="Every Hour" />
+	<s:enumItem enumValue="DAILY" label="Every Day" />
+	<s:enumItem enumValue="WEEKLY" label="Every Week" />
+</h:selectManyCheckbox>
+
+</body>
+</html>
