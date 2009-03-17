@@ -112,6 +112,7 @@ public class JsfTreeListener implements XModelTreeListener {
 		WebProjectNode n = getProjectRoot(model);
 		if(n == null) return;
 		WebProjectNode b = (WebProjectNode)n.getChildByPath(name);
+		if(b == null) return;
 		b.invalidate();
 	}
 }
