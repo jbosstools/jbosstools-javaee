@@ -739,6 +739,31 @@
             </mediaobject>
         </figure>
     </section>
+    
+    <section id="SeamPagesDiagram">
+        <?dbhtml filename="SeamPagesDiagram.html"?>
+        <title>Seam Pages Diagram</title>
+        
+        
+        
+        <para>In order to customize the layout of the Diagram used for editing and composing <property>page.xml</property> file in <property>Graphical mode</property>  of <property>Seam Pages Editor</property>    you can go to  
+            <property>Window > Preferences > JBoss Tools > Web > Seam > Editors > Seam Pages Diagram</property>.
+        </para>
+        
+        <figure>
+            <title>Preferences of Seam Pages Diagram</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_44.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+    </section>
+    
+    
+    
+    
 
     <section id="Struts">
         <?dbhtml filename="Struts.html"?>
