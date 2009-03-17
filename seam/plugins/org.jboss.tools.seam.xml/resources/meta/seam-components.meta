@@ -633,7 +633,8 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
      <EntityData EntityName="SeamEvent">
       <AttributeData AttributeName="type"/>
      </EntityData>
@@ -691,7 +692,8 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
      <EntityData EntityName="SeamEvent">
       <AttributeData AttributeName="type"/>
      </EntityData>
@@ -817,7 +819,8 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
      <EntityData EntityName="SeamEvent">
       <AttributeData AttributeName="type"/>
      </EntityData>
@@ -875,7 +878,8 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
      <EntityData EntityName="SeamEvent">
       <AttributeData AttributeName="type"/>
      </EntityData>
@@ -1002,13 +1006,15 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
      <EntityData EntityName="SeamEvent20">
       <AttributeData AttributeName="type"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Import..." kind="action" name="AddImport">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Import..." kind="action" name="AddImport">
      <EntityData EntityName="SeamImport">
       <AttributeData AttributeName="import"/>
      </EntityData>
@@ -1138,13 +1144,15 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Event..." kind="action" name="AddEvent">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
      <EntityData EntityName="SeamEvent20">
       <AttributeData AttributeName="type"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Import..." kind="action" name="AddImport">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Import..." kind="action" name="AddImport">
      <EntityData EntityName="SeamImport">
       <AttributeData AttributeName="import"/>
      </EntityData>
