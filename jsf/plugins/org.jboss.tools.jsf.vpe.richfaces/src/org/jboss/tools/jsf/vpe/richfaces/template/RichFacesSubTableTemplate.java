@@ -301,9 +301,9 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getNodeForUptate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object) */
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getNodeForUpdate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object) */
 	@Override
-	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
+	public Node getNodeForUpdate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMNode visualNode, Object data) {
 		Node parent = sourceNode.getParentNode();
 		return parent;

@@ -148,17 +148,6 @@ public class VpeMyFacesDataScrollerTemplate extends VpeAbstractTemplate {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#getNodeForUptate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode, java.lang.Object)
-	 */
-	@Override
-	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode,
-			nsIDOMNode visualNode, Object data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override

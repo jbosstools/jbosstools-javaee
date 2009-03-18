@@ -222,7 +222,7 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 	
 
 	@Override
-	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode, nsIDOMNode visualNode, Object data) {
+	public Node getNodeForUpdate(VpePageContext pageContext, Node sourceNode, nsIDOMNode visualNode, Object data) {
 		String prefix = sourceNode.getPrefix();
 		if (prefix == null) {
 			return null;

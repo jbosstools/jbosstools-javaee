@@ -39,7 +39,7 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 	}
 	
 	@Override
-	public Node getNodeForUptate(VpePageContext pageContext, Node sourceNode, nsIDOMNode visualNode, Object data) {
+	public Node getNodeForUpdate(VpePageContext pageContext, Node sourceNode, nsIDOMNode visualNode, Object data) {
 		return sourceNode.getParentNode();
 	}
 
