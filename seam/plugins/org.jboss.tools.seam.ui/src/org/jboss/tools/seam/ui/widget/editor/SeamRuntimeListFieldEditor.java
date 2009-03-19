@@ -67,6 +67,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -558,16 +559,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					}
 					name.setValue(homeDirName);
 
-					String seamVersion = getSeamVersion(homeDir
-							.getValueAsString());
+					String seamVersion = SeamUtil.getSeamVersionFromManifest(homeDir.getValueAsString());
 					if (seamVersion == null) {
 						setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
 						setPageComplete(false);
 						return;
 					}
-					if (seamVersion != null && validSeamVersions != null) {
+					if (validSeamVersions != null) {
 						for (SeamVersion ver : validSeamVersions) {
-							if (seamVersion.matches(ver.toString().substring(0,1)+ ".*")) { //$NON-NLS-1$
+							if(SeamUtil.areSeamVersionsMatched(ver.toString(), seamVersion)) {
 								version.setValue(ver.toString());
 								break;
 							}
@@ -575,7 +575,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					}
 				}
 			}
-			
+
 			if (name.getValueAsString() == null || "".equals(//$NON-NLS-1$
 					name.getValueAsString().toString().trim())) {
 				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME_CANNOT_BE_EMPTY);
@@ -620,7 +620,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				return;
 			}
 
-			String seamVersion = getSeamVersion(homeDir.getValueAsString());
+			String seamVersion = SeamUtil.getSeamVersionFromManifest(homeDir.getValueAsString());
 			if (seamVersion == null) {
 				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
 				setPageComplete(false);
@@ -630,19 +630,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 						IMessageProvider.WARNING);
 				setPageComplete(true);
 				return;
-			} else if (!seamVersion.matches(version.getValueAsString().replace(
-					".", "\\.") + ".*")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				if(seamVersion.matches(version.getValueAsString().substring(0,1)+".*")) { //$NON-NLS-1$
-					if(!seamVersion.matches(version.getValueAsString().substring(0,1)+"\\.1\\..*"))  { //$NON-NLS-1$
-						setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
-							+ seamVersion + "'", IMessageProvider.WARNING); //$NON-NLS-1$
-					}
-				} else {
-					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
-							+ seamVersion + "'"); //$NON-NLS-1$
-					setPageComplete(false);
-					return;
-				}
+			} else if(!SeamUtil.areSeamVersionsMatched(version.getValueAsString(), seamVersion)) {
+				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
+					+ seamVersion + "'"); //$NON-NLS-1$
+				setPageComplete(false);
+				return;
 			} else {
 				setMessage(null);
 			}
@@ -659,59 +651,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 			setErrorMessage(null);
 			setPageComplete(true);
-		}
-
-		/**
-		 * Return Seam runtime version obtained form jboss-seam.jar manifest
-		 * 'Seam Version' property
-		 * 
-		 * @param path
-		 *            path to Seam home folder
-		 * @return String value of 'Seam Version' manifest property
-		 */
-		public static String getSeamVersion(String path) {
-			File seamJarFile = new File(path, "jboss-seam.jar"); //$NON-NLS-1$
-			if (!seamJarFile.exists()) {
-				seamJarFile = new File(path, "lib/jboss-seam.jar"); // hack to //$NON-NLS-1$
-				// make it
-				// work for
-				// seam2
-				if (!seamJarFile.exists()) {
-					return null;
-				}
-			}
-			InputStream str = null;
-			ZipFile seamJar;
-			try {
-				seamJar = new ZipFile(seamJarFile);
-
-				ZipFileStructureProvider provider = new ZipFileStructureProvider(
-						seamJar);
-				ZipEntry entry = seamJar.getEntry("META-INF/MANIFEST.MF"); //$NON-NLS-1$
-				str = provider.getContents(entry);
-
-				Properties manifest = new Properties();
-				manifest.load(str);
-				Object sv = manifest
-						.get(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_SEAM_VERSION);
-				return sv == null ? "" : sv.toString(); //$NON-NLS-1$
-
-			} catch (IOException e) {
-				SeamCorePlugin
-						.getPluginLog()
-						.logError(
-								SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_READ_JAR_FILE,
-								e);
-			} finally {
-				if (str != null) {
-					try {
-						str.close();
-					} catch (IOException e) {
-						SeamGuiPlugin.getPluginLog().logError(e);
-					}
-				}
-			}
-			return ""; //$NON-NLS-1$
 		}
 
 		/**

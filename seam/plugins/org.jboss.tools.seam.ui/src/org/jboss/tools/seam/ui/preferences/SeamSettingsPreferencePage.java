@@ -67,7 +67,6 @@ import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
@@ -959,28 +958,14 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			String jarLocation = getJBossSeamJarLocation();
 			if(jarLocation != null) {
 				String folder = new File(jarLocation).getParent();
-				String vs = SeamRuntimeListFieldEditor.SeamRuntimeWizardPage.getSeamVersion(folder);
-				SeamVersion v = findMatchingVersion(vs);
+				String vs = SeamUtil.getSeamVersionFromManifest(folder);
+				SeamVersion v = SeamVersion.findMatchingVersion(vs);
 				if(v != null) {
 					return new SeamVersion[]{v};
 				}
 			}
 		}
 		return SeamVersion.ALL_VERSIONS;
-	}
-
-	private SeamVersion findMatchingVersion(String vs) {
-		if(vs == null) return null;
-		if(vs.matches(SeamVersion.SEAM_1_2.toString().replace(".", "\\.") + ".*")) {
-			return SeamVersion.SEAM_1_2;
-		}
-		if(vs.matches(SeamVersion.SEAM_2_0.toString().replace(".", "\\.") + ".*")) {
-			return SeamVersion.SEAM_2_0;
-		}
-		if(vs.matches(SeamVersion.SEAM_2_1.toString().replace(".", "\\.") + ".*")) {
-			return SeamVersion.SEAM_2_1;
-		}
-		return null;
 	}
 
 	private String getJBossSeamJarLocation() {

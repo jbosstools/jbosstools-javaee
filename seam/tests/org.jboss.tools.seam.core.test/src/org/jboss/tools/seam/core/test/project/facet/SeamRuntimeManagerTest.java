@@ -16,6 +16,7 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -81,6 +82,17 @@ public class SeamRuntimeManagerTest extends TestCase {
 		assertNotNull("Cannot find runtime 'Seam 1.2.1'",srt);
 		srt = manager.findRuntimeByName("Seam 1.2.0");
 		assertNotNull("Cannot find runtime 'Seam 1.2.0'",srt);
+	}
+
+	public void testMatchedRuntimes() {
+		assertTrue(SeamUtil.areSeamVersionsMatched("2.1", "2.1.1.GA"));
+		assertFalse(SeamUtil.areSeamVersionsMatched("1.2", "2.1.1.GA"));
+		assertFalse(SeamUtil.areSeamVersionsMatched("2.0", "2.1.1.GA"));
+		assertTrue(SeamUtil.areSeamVersionsMatched("2.0", "2.0.1.SP1"));
+		assertTrue(SeamUtil.areSeamVersionsMatched("1.2", "1.2.1.GA"));
+		assertTrue(SeamUtil.areSeamVersionsMatched("1.2", "1.2.0"));
+		assertTrue(SeamUtil.areSeamVersionsMatched("2", "2.0.0"));
+		assertFalse(SeamUtil.areSeamVersionsMatched("2.1", "2.0.0"));
 	}
 
 	/**

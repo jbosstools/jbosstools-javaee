@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.project.facet;
 
 import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.seam.core.SeamUtil;
 
 /**
  * Seam Versions enumeration
@@ -89,6 +90,27 @@ public enum SeamVersion {
 			return SEAM_2_0;
 		} else if (SEAM_2_1.toString().equals(version)) {
 			return SEAM_2_1;
+		}
+		return null;
+	}
+
+	/**
+	 * Find matching version
+	 * @param vs
+	 * @return
+	 */
+	public static SeamVersion findMatchingVersion(String vs) {
+		if(vs == null) {
+			return null;
+		}
+		if(SeamUtil.areSeamVersionsMatched(SeamVersion.SEAM_1_2.toString(), vs)) {
+			return SeamVersion.SEAM_1_2;
+		}
+		if(SeamUtil.areSeamVersionsMatched(SeamVersion.SEAM_2_0.toString(), vs)) {
+			return SeamVersion.SEAM_2_0;
+		}
+		if(SeamUtil.areSeamVersionsMatched(SeamVersion.SEAM_2_1.toString(), vs)) {
+			return SeamVersion.SEAM_2_1;
 		}
 		return null;
 	}

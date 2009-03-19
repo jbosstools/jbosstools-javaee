@@ -12,6 +12,7 @@ package org.jboss.tools.seam.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
@@ -68,11 +69,50 @@ public class SeamUtil {
 	 * @return
 	 */
 	public static String getSeamVersionFromManifest(SeamRuntime runtime) {
-		File jarFile = new File(runtime.getLibDir(), seamJarName);
+		return getSeamVersionFromManifest(runtime.getHomeDir());
+	}
+
+	/**
+	 * Returns trimmed Seam version from <SeamHome>/lib/jboss-seam.jar/META-INF/MANIFEST.MF
+	 * @param depth - number of segments of Seam version string. 
+	 * @param seamHome
+	 * @return
+	 */
+	public static String getSeamVersionFromManifest(String seamHome, int depth) {
+		return trimSeamVersion(getSeamVersionFromManifest(seamHome), depth);
+	}
+
+	/**
+	 * Returns true if two versions are matched.
+	 * For example "2.1.1.GA" matches "2.1"
+	 * @param version1
+	 * @param version2
+	 * @return
+	 */
+	public static boolean areSeamVersionsMatched(String version1, String version2) {
+		String longerVersion = version1.length()>version2.length()?version1:version2;
+		String shorterVersion = longerVersion==version1?version2:version1;
+		StringTokenizer sSt = new StringTokenizer(shorterVersion, ".", false);
+		StringTokenizer lSt = new StringTokenizer(longerVersion, ".", false);
+		while (sSt.hasMoreElements() && lSt.hasMoreElements()) {
+			if(!sSt.nextToken().equals(lSt.nextToken())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Returns Seam version from <SeamHome>/lib/jboss-seam.jar/META-INF/MANIFEST.MF
+	 * @param seamHome
+	 * @return
+	 */
+	public static String getSeamVersionFromManifest(String seamHome) {
+		File jarFile = new File(seamHome, "lib/" + seamJarName);
 		if(!jarFile.isFile()) {
-			jarFile = new File(runtime.getHomeDir(), seamJarName);
+			jarFile = new File(seamHome, seamJarName);
 			if(!jarFile.isFile()) {
-				SeamCorePlugin.getPluginLog().logWarning(jarFile.getAbsolutePath() + " as well as " + new File(runtime.getLibDir(), seamJarName).getAbsolutePath() + " don't exist for Seam Runtime " + runtime.getName());
+				SeamCorePlugin.getPluginLog().logWarning(jarFile.getAbsolutePath() + " as well as " + new File(seamHome, "lib/" + seamJarName).getAbsolutePath() + " don't exist.");
 				return null;
 			}
 		}
@@ -89,7 +129,30 @@ public class SeamUtil {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Trims Seam version string.
+	 * For example "2.1.0.SP1" will be trimmed to 2.1 (depth=2); "2.1.1.GA" -> "2.1.1" (depth=3); "2.0.0.SP1" -> "2.0.0.SP1" (depth<1)
+	 * @param fullSeamVersion
+	 * @param depth - number of segments of Seam version string.
+	 * @return
+	 */
+	public static String trimSeamVersion(String fullSeamVersion, int depth) {
+		if(fullSeamVersion==null || depth<1) {
+			return fullSeamVersion;
+		}
+		StringBuffer version = new StringBuffer();
+		StringTokenizer st = new StringTokenizer(fullSeamVersion, ".", false);
+		while (st.hasMoreElements() && depth>0) {
+			version.append(st.nextToken());
+			depth--;
+			if(st.hasMoreElements() && depth>0) {
+				version.append('.');
+			}
+		}
+		return version.toString();
+	}
+
 	/**
 	 * Converts seam project name to string which suitable for package names
 	 * @param projectNamePackage
