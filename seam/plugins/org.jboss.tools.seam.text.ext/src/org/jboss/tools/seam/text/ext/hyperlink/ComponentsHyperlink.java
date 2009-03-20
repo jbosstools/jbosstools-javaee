@@ -24,6 +24,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 import org.w3c.dom.Node;
 
@@ -96,15 +97,9 @@ public class ComponentsHyperlink extends AbstractHyperlink {
 	}
 
 	private IProject getEarProject() {
-		IVirtualComponent component = ComponentCore
-				.createComponent(getProject());
-		IVirtualComponent[] vComponents = component.getReferencingComponents();
-		for (IVirtualComponent vc : vComponents) {
-			if (vc instanceof EARVirtualComponent) {
-				return ((EARVirtualComponent) vc).getProject();
-			}
-		}
-		return null;
+		SeamProjectsSet projectsSet = SeamProjectsSet.create(getProject());
+		
+		return projectsSet.getEarProject();
 	}
 
 	private IProject getProject() {
