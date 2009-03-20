@@ -164,6 +164,14 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	}
 
 	/**
+	 * @see org.jboss.tools.seam.core.ISeamComponent#isStateless()
+	 */
+	public boolean isStateless() {
+		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
+		return (javaDeclaration != null) && javaDeclaration.isStateless();
+	}
+
+	/**
 	 * @see org.jboss.tools.seam.core.ISeamContextVariable#getName()
 	 */
 	public String getName() {
@@ -371,5 +379,4 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 			}
 		}
 	}
-
 }

@@ -219,7 +219,11 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public boolean isStateful() {
 		return isOfType(BeanType.STATEFUL);
 	}
-	
+
+	public boolean isStateless() {
+		return isOfType(BeanType.STATELESS);
+	}
+
 	public void removeBijectedAttribute(IBijectedAttribute attribute) {
 		bijectedAttributes.remove(attribute);
 	}

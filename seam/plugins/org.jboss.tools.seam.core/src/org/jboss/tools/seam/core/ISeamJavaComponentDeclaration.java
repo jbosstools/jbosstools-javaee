@@ -67,9 +67,14 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 	public boolean isOfType(BeanType type);
 
 	/**
-	 * @return true if class marked as Stateful
+	 * @return true if class marked as stateful session bean
 	 */
 	public boolean isStateful();
+
+	/**
+	 * @return true if class marked as stateless session bean
+	 */
+	public boolean isStateless();
 
 	/**
 	 * @return true if class marked as Entity

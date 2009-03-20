@@ -76,9 +76,14 @@ public interface ISeamComponent extends ISeamContextVariable {
 	public Set<IBijectedAttribute> getBijectedAttributesByType(BijectedAttributeType type);
 
 	/**
-	 * @return true if component marked as Stateful
+	 * @return true if component marked as stateful sessian bean
 	 */
 	public boolean isStateful();
+
+	/**
+	 * @return true if component marked as stateless session bean
+	 */
+	public boolean isStateless();
 
 	/**
 	 * @return true if component marked as Entity

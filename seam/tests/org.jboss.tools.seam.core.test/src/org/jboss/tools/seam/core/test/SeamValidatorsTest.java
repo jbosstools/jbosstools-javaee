@@ -384,8 +384,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 		refreshProject(project);
 
-		// Only component class can have @Destroy method
-		System.out.println("Test - Only component class can have @Destroy method");
+		// Only JavaBeans and stateful session beans support @Destroy methods
+		System.out.println("Test - Only JavaBeans and stateful session beans support @Destroy methods");
 
 		final String NEW_CONTENT_FILE_NAME9 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.9";
 		assertMarkerIsCreated(

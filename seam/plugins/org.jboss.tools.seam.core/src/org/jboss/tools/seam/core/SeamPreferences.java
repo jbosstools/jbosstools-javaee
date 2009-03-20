@@ -84,7 +84,7 @@ public class SeamPreferences {
 	// Mark duplicated @Unwrap methods within one component.
 	public static final String DUPLICATE_UNWRAP = createSeverityOption("duplicateUnwrap"); //$NON-NLS-1$
 	// Mark all @Destroy methods which are not declared in components' classes.
-	public static final String DESTROY_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("destroyDoesNotBelongToComponent"); //$NON-NLS-1$
+	public static final String DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN = createSeverityOption("destroyMethodBelongsToStatelessSessionBean"); //$NON-NLS-1$
 	// Mark all @Create methods which are not declared in components' classes.
 	public static final String CREATE_DOESNT_BELONG_TO_COMPONENT = createSeverityOption("createDoesNotBelongToComponent"); //$NON-NLS-1$
 	// Mark all @Unwrap methods which are not declared in components' classes.
@@ -185,7 +185,7 @@ public class SeamPreferences {
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_DESTROY)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_CREATE)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, DUPLICATE_UNWRAP)) &&
-		SeamPreferences.IGNORE.equals(getProjectPreference(project, DESTROY_DOESNT_BELONG_TO_COMPONENT)) &&
+		SeamPreferences.IGNORE.equals(getProjectPreference(project, DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, CREATE_DOESNT_BELONG_TO_COMPONENT)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, UNWRAP_DOESNT_BELONG_TO_COMPONENT)) &&
 		SeamPreferences.IGNORE.equals(getProjectPreference(project, OBSERVER_DOESNT_BELONG_TO_COMPONENT)) &&

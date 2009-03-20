@@ -75,6 +75,7 @@ public class SeamCoreValidator extends SeamValidator {
 	protected static final String CREATE_METHOD_SUFIX_MESSAGE_ID = "CREATE"; //$NON-NLS-1$
 	protected static final String UNWRAP_METHOD_SUFIX_MESSAGE_ID = "UNWRAP"; //$NON-NLS-1$
 	protected static final String OBSERVER_METHOD_SUFIX_MESSAGE_ID = "OBSERVER"; //$NON-NLS-1$
+	protected static final String DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_ID = "DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN"; //$NON-NLS-1$
 	protected static final String NONCOMPONENTS_METHOD_SUFIX_MESSAGE_ID = "_DOESNT_BELONG_TO_COMPONENT"; //$NON-NLS-1$
 	protected static final String STATEFUL_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "STATEFUL_COMPONENT_WRONG_SCOPE"; //$NON-NLS-1$
 	protected static final String ENTITY_COMPONENT_WRONG_SCOPE_MESSAGE_ID = "ENTITY_COMPONENT_WRONG_SCOPE"; //$NON-NLS-1$
@@ -621,6 +622,7 @@ public class SeamCoreValidator extends SeamValidator {
 		validateStatefulComponent(component);
 		validateDuplicateComponentMethods(component);
 		validateEntityComponent(component);
+		validateDestroyMethod(component);
 	}
 
 	private void validateBijections(ISeamJavaComponentDeclaration declaration) {
@@ -702,7 +704,6 @@ public class SeamCoreValidator extends SeamValidator {
 			IMember member = declaration.getSourceMember();
 			try {
 				if(member!=null && !Flags.isAbstract(member.getFlags())) {
-					validateMethodOfUnknownComponent(SeamComponentMethodType.DESTROY, declaration, DESTROY_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.DESTROY_DOESNT_BELONG_TO_COMPONENT);
 					validateMethodOfUnknownComponent(SeamComponentMethodType.CREATE, declaration, CREATE_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.CREATE_DOESNT_BELONG_TO_COMPONENT);
 					validateMethodOfUnknownComponent(SeamComponentMethodType.UNWRAP, declaration, UNWRAP_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.UNWRAP_DOESNT_BELONG_TO_COMPONENT);
 					validateMethodOfUnknownComponent(SeamComponentMethodType.OBSERVER, declaration, OBSERVER_METHOD_SUFIX_MESSAGE_ID, SeamPreferences.OBSERVER_DOESNT_BELONG_TO_COMPONENT);
@@ -712,6 +713,22 @@ public class SeamCoreValidator extends SeamValidator {
 			}
 		}
 		validationContext.removeUnnamedCoreResource(declaration.getSourcePath());
+	}
+
+	private void validateDestroyMethod(ISeamComponent component) {
+		if(component.isStateless()) {
+			ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
+			Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(SeamComponentMethodType.DESTROY);
+			for (ISeamComponentMethod method : methods) {
+				IMethod javaMethod = (IMethod)method.getSourceMember();
+				String methodName = javaMethod.getElementName();
+				if(javaDeclaration.getSourcePath().equals(javaMethod.getPath())) {
+					validationContext.addLinkedCoreResource(component.getName(), javaDeclaration.getSourcePath());
+					ISeamTextSourceReference methodNameLocation = getNameLocation(method);
+					addError(DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_ID, SeamPreferences.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, new String[]{methodName}, methodNameLocation, method.getResource());
+				}
+			}
+		}
 	}
 
 	private void validateMethodOfUnknownComponent(SeamComponentMethodType methodType, ISeamJavaComponentDeclaration declaration, String sufixMessageId, String preferenceKey) {
