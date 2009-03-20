@@ -202,6 +202,23 @@
          	</contentType>
 		</hyperlinkPartitioner>
 		
+		<!-- JBIDE-4002 <bpm:process-definitions> and <bpm:pageflow-definitions> in components.xml -->
+		<!-- JBIDE-3901 <drools:rule-files> in components.xml -->
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.seam.text.ext.hyperlink.ComponentsHyperlinkPartitioner"
+         	class="org.jboss.tools.seam.text.ext.hyperlink.ComponentsHyperlinkPartitioner">
+        	
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
+         			<!-- TODO replace bpm with [http://jboss.com/products/seam/bpm] -->
+					<axis path="*/bpm:process-definitions/value/" />
+					<!-- TODO replace bpm with [http://jboss.com/products/seam/bpm] -->
+					<axis path="*/bpm:pageflow-definitions/value/" />
+					<!-- TODO replace drools with [http://http://jboss.com/products/seam/drools] -->
+					<axis path="*/drools:rule-files/value/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
    </extension>
    
 	<extension 
@@ -297,6 +314,16 @@
          	</contenttypeidentifier>
 		</hyperlink>
 		
+		<!-- JBIDE-4002 <bpm:process-definitions> and <bpm:pageflow-definitions> in components.xml -->
+		<!-- JBIDE-3901 <drools:rule-files> in components.xml -->
+		<hyperlink 
+			class="org.jboss.tools.seam.text.ext.hyperlink.ComponentsHyperlink" 
+	  		id="org.jboss.tools.seam.text.ext.hyperlink.ComponentsHyperlink">
+         	<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.seam.text.ext.BPM_DEFINITION" />
+				<partitiontype id="org.jboss.tools.seam.text.ext.DROOLS_RULE_DEFINITION" />
+         	</contenttypeidentifier>
+		</hyperlink>
    </extension>
 
 	<extension

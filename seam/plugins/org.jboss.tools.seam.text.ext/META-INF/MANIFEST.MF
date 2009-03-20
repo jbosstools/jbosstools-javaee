@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.ui.ide,
  org.jboss.tools.jsf,
  org.jboss.tools.seam.core,
  org.eclipse.jdt.ui,
- org.jboss.tools.jsf.text.ext
+ org.jboss.tools.jsf.text.ext,
+ org.eclipse.jst.j2ee;bundle-version="1.1.200"
 Export-Package: org.jboss.tools.seam.text.ext,
  org.jboss.tools.seam.text.ext.hyperlink
 Bundle-Version: 2.0.0
