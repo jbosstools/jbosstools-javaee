@@ -115,4 +115,29 @@
 
       </catalogContribution>
    </extension>
+
+   <extension
+         point="org.eclipse.ltk.core.refactoring.renameParticipants">
+
+      <renameParticipant
+            class="org.jboss.tools.seam.pages.xml.model.refactoring.SeamPagesRenamePageParticipant"
+            id="org.jboss.tools.seam.pages.xml.model.refactoring.SeamPagesRenamePageParticipant"
+            name="seampages-RenamePageParticipant">
+         <enablement>
+            <with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.jboss.tools.seam.core.seamnature"/>
+               </iterate>
+            </with>
+            <with variable="element">
+                <or>
+                   <instanceof value="org.eclipse.core.resources.IFile"/>
+                   <instanceof value="org.jboss.tools.common.model.filesystems.impl.FileAnyImpl"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+
+   </extension>
+
 </plugin>

@@ -18,6 +18,9 @@ public class SeamPagesXMLMessages extends NLS {
 	public static String THE_VIEW_WITH_PATH_IS_ALREADY_CREATED;
 	public static String TEMPLATE_IS_NOT_FOUND;
 
+	public static String PAGES_CONFIG_CHANGES;
+	public static String UPDATE_REFERENCE_TO_PAGE;
+
 	private SeamPagesXMLMessages() {
 	}
 
