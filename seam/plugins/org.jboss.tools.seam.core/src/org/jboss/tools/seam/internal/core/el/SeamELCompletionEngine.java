@@ -15,12 +15,17 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
@@ -48,17 +53,22 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.kb.KbProposal;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
+import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo;
+import org.w3c.dom.Element;
 
 /**
  * Utility class used to collect info for EL
@@ -787,6 +797,25 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			}
 			return newResolvedVars;
 		}
+		else if(varName != null && (varName.startsWith("\"") || varName.startsWith("'"))
+								&& (varName.endsWith("\"") || varName.endsWith("'"))) {
+			IJavaProject jp = EclipseResourceUtil.getJavaProject(this.project.getProject());
+			try {
+				IType type = jp.findType("java.lang.String");
+				if(type != null) {
+					IMethod m = type.getMethod("toString", new String[0]);
+					if(m != null) {
+						ISeamContextVariable v = new StringVariable(m);
+						List<ISeamContextVariable> newResolvedVars = new ArrayList<ISeamContextVariable>();
+						newResolvedVars.add(v);
+						return newResolvedVars;
+					}
+				}
+			} catch (JavaModelException e) {
+				//ignore
+			}
+			
+		}
 		return new ArrayList<ISeamContextVariable>(); 
 	}
 
@@ -1062,3 +1091,59 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	}
 	
 }
+
+class StringVariable implements ISeamContextVariable, ISeamJavaSourceReference {
+	IMember member;
+	public StringVariable(IMember member) {
+		this.member = member;
+	}
+	public ScopeType getScope() {
+		return ScopeType.APPLICATION;
+	}
+	public void setName(String name) {
+	}
+	public void setScope(ScopeType type) {
+	}
+	public ISeamTextSourceReference getLocationFor(String path) {
+		return null;
+	}
+	public String getName() {
+		return "String";
+	}
+	public ISeamElement getParent() {
+		return null;
+	}
+	public IResource getResource() {
+		return null;
+	}
+	public ISeamProject getSeamProject() {
+		return null;
+	}
+	public IPath getSourcePath() {
+		return null;
+	}
+	public void loadXML(Element element, Properties context) {
+	}
+	public List<Change> merge(ISeamElement s) {
+		return null;
+	}
+	public Element toXML(Element parent, Properties context) {
+		return null;
+	}
+	public Object getAdapter(Class adapter) {
+		return null;
+	}
+	public IMember getSourceMember() {
+		return member;
+	}
+	public int getLength() {
+		return 0;
+	}
+	public int getStartPosition() {
+		return 0;
+	}
+	public StringVariable clone() throws CloneNotSupportedException {
+		throw new CloneNotSupportedException();
+	}
+}
+
