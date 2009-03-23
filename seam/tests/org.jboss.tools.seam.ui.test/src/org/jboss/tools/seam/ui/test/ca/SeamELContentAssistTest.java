@@ -591,4 +591,36 @@ public class SeamELContentAssistTest extends ContentAssistantTestCase {
 		closeEditor();
 
 	}
+
+	private static final String PAGE_HOME_NAME = "/WebContent/home.xhtml";
+
+	public void testContentAssistForInvocationOnString() {
+		openEditor(PAGE_HOME_NAME);
+
+		List<IRegion> regionsToTest = getELRegionsToTest(document);
+		if (regionsToTest != null) {
+			for (IRegion region : regionsToTest) {
+				int startOffset = region.getOffset() + 2;
+				int offset = startOffset + 10;
+
+				ICompletionProposal[] result= null;
+				String errorMessage = null;
+
+				IContentAssistProcessor p= TestUtil.getProcessor(viewer, offset, contentAssistant);
+				if (p != null) {
+					try {
+						result= p.computeCompletionProposals(viewer, offset);
+					} catch (Throwable x) {
+						x.printStackTrace();
+					}
+					errorMessage= p.getErrorMessage();
+				}
+				assertNotNull("Proposals were not created.", result);
+				assertEquals("Incorrect number of proposals for #{'aa'.subst|ring(1)}", 3, result.length);
+			}
+		
+		}
+		closeEditor();
+	}
+
 }
