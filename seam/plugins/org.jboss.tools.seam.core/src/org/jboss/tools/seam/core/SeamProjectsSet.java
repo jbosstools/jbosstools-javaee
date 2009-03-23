@@ -208,6 +208,21 @@ public class SeamProjectsSet {
 		}
 		return getWarProject();
 	}
+	
+	/**
+	 * Returns default ear contents folder.
+	 * @return
+	 */
+	public IContainer getDefaultEarViewsFolder() {
+		IVirtualComponent com = ComponentCore.createComponent(ear);
+		if(com!=null) {
+			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+			if(webRootFolder!=null) {
+				return (IFolder)webRootFolder.getUnderlyingFolder();
+			}
+		}
+		return getWarProject();
+	}
 
 	/**
 	 * Returns web contents folder.

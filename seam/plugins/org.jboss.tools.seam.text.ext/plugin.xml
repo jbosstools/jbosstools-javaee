@@ -214,6 +214,7 @@
 					<axis path="*/bpm:process-definitions/value/" />
 					<!-- TODO replace bpm with [http://jboss.com/products/seam/bpm] -->
 					<axis path="*/bpm:pageflow-definitions/value/" />
+					<axis path="*/component/property/value/" />
 					<!-- TODO replace drools with [http://http://jboss.com/products/seam/drools] -->
 					<axis path="*/drools:rule-files/value/" />
          		</partitionType>

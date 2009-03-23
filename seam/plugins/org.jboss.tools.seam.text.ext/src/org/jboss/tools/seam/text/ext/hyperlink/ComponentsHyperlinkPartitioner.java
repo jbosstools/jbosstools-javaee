@@ -32,6 +32,12 @@ public class ComponentsHyperlinkPartitioner extends
 
 	static final String processDefinitionsNodeName = "bpm:process-definitions";
 	static final String pageflowDefinitionsNodeName = "bpm:pageflow-definitions";
+	
+	static final String propertyNodeName = "property";
+	static final String propertyAttributeName = "name";
+	
+	static final String propertyAtt1 = "processDefinitions";
+	static final String propertyAtt2 = "pageflowDefinitions";
 
 	static final String droolsRuleFileNodeName = "drools:rule-files";
 
@@ -43,8 +49,7 @@ public class ComponentsHyperlinkPartitioner extends
 			if (xmlDocument == null)
 				return null;
 
-			Node node = Utils.findNodeForOffset(xmlDocument, superOffset); // #
-																			// text
+			Node node = Utils.findNodeForOffset(xmlDocument, superOffset); // #text
 
 			return node;
 		} finally {
@@ -71,6 +76,15 @@ public class ComponentsHyperlinkPartitioner extends
 			} else if (parentNode.getNodeName().equalsIgnoreCase(
 					droolsRuleFileNodeName)) {
 				return DROOLS_RULE_PARTITION;
+			} else if(parentNode.getNodeName().equalsIgnoreCase(
+					propertyNodeName)) {
+				Node attribute = parentNode.getAttributes().getNamedItem(propertyAttributeName);
+				if(attribute != null){
+					if(attribute.getNodeValue().equalsIgnoreCase(propertyAtt1)
+							|| attribute.getNodeValue().equalsIgnoreCase(propertyAtt2)){
+						return BPM_DEFINITION_PARTITION;
+					}
+				}
 			}
 		}
 

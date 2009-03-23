@@ -11,9 +11,11 @@
 
 package org.jboss.tools.seam.text.ext.hyperlink;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -27,7 +29,6 @@ import org.w3c.dom.Node;
 
 public class ComponentsHyperlink extends AbstractHyperlink {
 	private String hyperlinkText = "";
-	private static final String folder = "EarContent/";
 
 	private String partitionType = null;
 
@@ -84,19 +85,40 @@ public class ComponentsHyperlink extends AbstractHyperlink {
 	}
 
 	private void doBpmDefinitionHyperlink(IRegion region) {
-		IProject earProject = getEarProject();
-		if (earProject == null)
-			return;
-
-		IFile file = earProject.getFile(folder + hyperlinkText);
+		IFile file = findDefinitionFile();
 		if (file != null)
 			openFileInEditor(file);
 	}
-
-	private IProject getEarProject() {
+	
+	private IFile findDefinitionFile(){
+		IFile file;
 		SeamProjectsSet projectsSet = SeamProjectsSet.create(getProject());
 		
-		return projectsSet.getEarProject();
+		IContainer webContent = projectsSet.getDefaultViewsFolder();
+		
+		if(webContent != null){
+			file = webContent.getFile(new Path(hyperlinkText));
+			if(file != null && file.exists())
+				return file;
+		}
+		
+		IContainer earContent = projectsSet.getDefaultEarViewsFolder();
+		
+		if(earContent != null){
+			file = earContent.getFile(new Path(hyperlinkText));
+			if(file != null && file.exists())
+				return file;
+		}
+		
+		IContainer ejbSource = projectsSet.getDefaultEjbSourceFolder();
+		
+		if(ejbSource != null){
+			file = ejbSource.getFile(new Path(hyperlinkText));
+			if(file != null && file.exists())
+				return file;
+		}
+		
+		return null;
 	}
 
 	private IProject getProject() {
