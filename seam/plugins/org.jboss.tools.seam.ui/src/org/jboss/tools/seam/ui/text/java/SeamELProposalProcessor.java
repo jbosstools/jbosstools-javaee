@@ -619,7 +619,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		IDocument doc= viewer.getDocument();
 		if (doc == null || offset > doc.getLength())
 			return false;
-
+int quotaCount = 0;
 		while (--offset >= startIndex) {
 			if ('}' == doc.getChar(offset))
 				return false;
@@ -630,14 +630,16 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 					backslashCount++;
 				}
 				if (backslashCount%2 == 0)
-					return false;
+					quotaCount++;
 			}
 
 			if ('{' == doc.getChar(offset) &&
 					(offset - 1) >= 0 && 
 					('#' == doc.getChar(offset - 1) || 
 							'$' == doc.getChar(offset - 1))) {
-				return true;
+				if(quotaCount % 2 == 0) {
+					return true;
+				}
 			}
 		}
 		return false;
