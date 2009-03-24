@@ -70,18 +70,26 @@ public class ComponentsHyperlink extends AbstractHyperlink {
 	}
 
 	private void doDroolsRuleHyperlink(IRegion region) {
+		IFile file = findDroolsRuleFile();
+		if (file != null)
+			openFileInEditor(file);
+	}
+	
+	private IFile findDroolsRuleFile(){
+		IFile file;
+		
 		IProject project = getProject();
 		IResource[] sources = EclipseResourceUtil.getJavaSourceRoots(project);
 
 		for (IResource resource : sources) {
 			String path = resource.getFullPath().removeFirstSegments(1)
 					+ hyperlinkText;
-			IFile file = project.getFile(path);
-			if (file.exists()) {
-				openFileInEditor(file);
-				return;
-			}
+			file = project.getFile(path);
+			if(file != null && file.exists())
+				return file;
 		}
+		
+		return findDefinitionFile();
 	}
 
 	private void doBpmDefinitionHyperlink(IRegion region) {
