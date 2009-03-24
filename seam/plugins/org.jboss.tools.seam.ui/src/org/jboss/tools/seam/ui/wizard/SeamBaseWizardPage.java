@@ -442,9 +442,14 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 	 * @return
 	 */
 	public IProject getSelectedProject() {
-		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(
-				editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
-		return (IProject)project;
+		String projectName = editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValueAsString();
+		if(projectName!=null && projectName.trim().length()>0) {
+			IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(projectName);
+			if(project!=null && project instanceof IProject) {
+				return (IProject)project;
+			}
+		}
+		return null;
 	}
 
 	public boolean isWar() {
