@@ -376,8 +376,6 @@
     <section id="SeamEditors">
     <title>Main Features of Seam Editors</title>
 
-    
-    
     <para>In this chapter you will know what Seam Editors features are and how to work with them. </para>
 
     <section id="ContentAssist">
@@ -513,6 +511,10 @@
             </mediaobject>
         </figure>
 
+        <note>
+            <title>Note:</title>
+            <para>Please note, only files within source path and web content are validated, meaning temporary files or test files are not included.</para>
+        </note>
 
         <para>In the preferences page for Seam Validator you can see and modify the validator
             behavior. Go to <emphasis>
