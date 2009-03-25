@@ -29,4 +29,6 @@ public class Jstl {
 	public static final String ATTR_ADD_CONTROL_LABEL = "addControlLabel"; //$NON-NLS-1$
 
 	public static final String TAG_OUT = "out"; //$NON-NLS-1$
+
+	public static final String ATTR_URL = "url"; //$NON-NLS-1$
 }

@@ -55,38 +55,52 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		String fileName = ((Element)sourceNode).getAttribute(Facelets.ATTR_TEMPLATE);
-		if (fileName != null && fileName.trim().length() > 0) {
-				IFile file = VpeCreatorUtil.getFile(fileName, pageContext);
-			if (file != null) {
-				if (!pageContext.getVisualBuilder().isFileInIncludeStack(file)) {
-					registerDefine(pageContext, sourceNode);
-					Document document = pageContext.getVisualBuilder().getIncludeDocuments().get(file);
-					if (document == null) {
-						document = VpeCreatorUtil.getDocumentForRead(file);
-						if (document != null)
-							pageContext.getVisualBuilder().getIncludeDocuments().put(file, document);
-					}
-					//Document document = VpeCreatorUtil.getDocumentForRead(file, pageContext);
-					if (document != null) {
-						VpeCreationData creationData = createInclude(document,
-								visualDocument);
-						creationData.setData(new TemplateFileInfo(file));
-						pageContext.getVisualBuilder().pushIncludeStack(
-								new VpeIncludeInfo((Element) sourceNode, file,
-										document));
-						//we should add only real nodem, sourceNode can be a proxy
-						//so
-						if(sourceNode.getFirstChild()!=null) {
-							defineContainer.add(sourceNode.getFirstChild().getParentNode());
-						}
-						return creationData;
-					}
-				}
-			}
+		VpeCreationData creationData = createTemplate(fileName, pageContext, sourceNode, visualDocument);
+		if (null != creationData) {
+		    return creationData;
 		}
-		VpeCreationData creationData = createStub(fileName, (Element)sourceNode, visualDocument);
+		creationData = createStub(fileName, (Element)sourceNode, visualDocument);
 		creationData.setData(null);
 		return creationData;
+	}
+	
+	public VpeCreationData createTemplate(String fileName, VpePageContext pageContext,
+		Node sourceNode, nsIDOMDocument visualDocument) {
+	    if (fileName != null && fileName.trim().length() > 0) {
+		IFile file = VpeCreatorUtil.getFile(fileName, pageContext);
+		if (file != null) {
+		    if (!pageContext.getVisualBuilder().isFileInIncludeStack(file)) {
+			registerDefine(pageContext, sourceNode);
+			Document document = pageContext.getVisualBuilder()
+			.getIncludeDocuments().get(file);
+			if (document == null) {
+			    document = VpeCreatorUtil.getDocumentForRead(file);
+			    if (document != null)
+				pageContext.getVisualBuilder()
+				.getIncludeDocuments().put(file, document);
+			}
+			// Document document =
+			// VpeCreatorUtil.getDocumentForRead(file, pageContext);
+			if (document != null) {
+			    VpeCreationData creationData = createInclude(document,
+				    visualDocument);
+			    creationData.setData(new TemplateFileInfo(file));
+			    pageContext.getVisualBuilder().pushIncludeStack(
+				    new VpeIncludeInfo((Element) sourceNode, file,
+					    document));
+			    // we should add only real nodem, sourceNode can be a
+			    // proxy
+			    // so
+			    if (sourceNode.getFirstChild() != null) {
+				defineContainer.add(sourceNode.getFirstChild()
+					.getParentNode());
+			    }
+			    return creationData;
+			}
+		    }
+		}
+	    }
+	    return null;
 	}
 	
 	private String replacePattern(String origStr, String target,
