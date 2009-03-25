@@ -36,6 +36,7 @@
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/facelets]:composition/template/" />
          			<axis path="*/[http://java.sun.com/jsf/facelets]:decorate/template/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:decorate/template/" />
          			<axis path="*/[http://java.sun.com/jsf/facelets]:include/src/" />
          		</partitionType>
          	</contentType>
@@ -43,6 +44,7 @@
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/facelets]:composition/template/" />
          			<axis path="*/[http://java.sun.com/jsf/facelets]:decorate/template/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:decorate/template/" />
          			<axis path="*/[http://java.sun.com/jsf/facelets]:include/src/" />
          		</partitionType>
          	</contentType>
