@@ -20,6 +20,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -71,8 +72,13 @@ public class ComponentsHyperlink extends AbstractHyperlink {
 
 	private void doDroolsRuleHyperlink(IRegion region) {
 		IFile file = findDroolsRuleFile();
+		
+		IEditorPart part = null;
 		if (file != null)
-			openFileInEditor(file);
+			part = openFileInEditor(file);
+		
+		if (part == null)
+			openFileFailed();
 	}
 	
 	private IFile findDroolsRuleFile(){
@@ -94,8 +100,12 @@ public class ComponentsHyperlink extends AbstractHyperlink {
 
 	private void doBpmDefinitionHyperlink(IRegion region) {
 		IFile file = findDefinitionFile();
+		IEditorPart part = null;
 		if (file != null)
-			openFileInEditor(file);
+			part = openFileInEditor(file);
+		
+		if (part == null)
+			openFileFailed();
 	}
 	
 	private IFile findDefinitionFile(){
