@@ -291,7 +291,7 @@ node enter, and you will see action1. The Outline view may be hidden or on the l
 <orderedlist continuation="continues">
 <listitem>Double click on action1 to bring up the wizard. Select Handler on the left and enter
  com.mydomain.EclipseCon.process. CheckInventoryAction as the class and bean as the type as shown
-  below. You can can also search for the class by clicking on the <emphasis>Browse...</emphasis> button.</listitem>
+  below. You can also search for the class by clicking on the <emphasis>Browse...</emphasis> button.</listitem>
 </orderedlist>
 <figure>
 <title>Action Handler</title>
