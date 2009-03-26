@@ -58,7 +58,7 @@
 
         <listitem>
             <para>
-                <link linkend="JSFPropject">JSF Propject</link>
+                <link linkend="JSFPropject">JSF Project</link>
             </para>
         </listitem>
 
@@ -594,7 +594,7 @@
         </itemizedlist>
 
         <figure>
-            <title>New JSF Propject Preferences</title>
+            <title>New JSF Project Preferences</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_13.png"/>
@@ -611,7 +611,7 @@
             </emphasis> or not.</para>
 
         <figure>
-            <title>Import JSF Propject Preferences</title>
+            <title>Import JSF Project Preferences</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_14.png"/>
@@ -786,7 +786,7 @@
         <title>Struts Automation</title>
         <para>On <emphasis>
                 <property>Automation</property>
-            </emphasis> panel you can modify default text for the Tilel Struts plug-in element, the
+            </emphasis> panel you can modify default text for the Title Struts plug-in element, the
             Validator Struts plug-in element, and error message resource files.</para>
         <figure>
             <title>Struts Automatic</title>
@@ -981,7 +981,7 @@
                 <property>JBoss Tools > Web > Verification</property>
             </emphasis> page.</para>
         <para>On Rules Configuration tab of <emphasis>
-                <property>Verifcation</property>
+                <property>Verification</property>
             </emphasis> panel you can determine JSF and Struts rules.</para>
         <figure>
             <title>Verification</title>

@@ -118,7 +118,7 @@ locate what you are looking for and develop.</para>
 </figure>
 <para>Drag and drop it inside the commandButton tag:</para>
 <figure>
-<title>Naviagation Rule in CommandButton Tag</title>
+<title>Navigation Rule in CommandButton Tag</title>
 <mediaobject> 
         <imageobject>
             <imagedata fileref="images/web_projects/web_projects_8.png"/>

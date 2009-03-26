@@ -80,7 +80,7 @@
      <row>
       <entry>JBoss Tools Palette</entry>
       <entry>Organizing various tags by groups, inserting tags into a jsp or xhtml page with one
-       click, adding custom or 3rd party tag libraries into the palette, easy controling the number
+       click, adding custom or 3rd party tag libraries into the palette, easy controlling the number
        of tag groups shown on the palette.</entry>
       <entry>
        <link linkend="palette">jboss tools palette</link>
@@ -123,7 +123,7 @@
       <entry>Possibility of inserting any tag onto the page you are editing by just drag-and-droping
        it from the palette to this page. Adding any properties, managed bean attributes, navigation
        rules, tag library file declarations, jsp files from web projects view by clicking them and
-       draging to source code.</entry>
+       dragging to source code.</entry>
       <entry>
        <link linkend="visual_page">visual page editor</link>
        <link linkend="DragAndDrop">drag-and-drop</link>
