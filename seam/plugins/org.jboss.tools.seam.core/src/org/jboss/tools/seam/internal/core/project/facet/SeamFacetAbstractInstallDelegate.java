@@ -68,6 +68,7 @@ import org.eclipse.jst.javaee.web.ServletMapping;
 import org.eclipse.jst.javaee.web.WebApp;
 import org.eclipse.jst.javaee.web.WebFactory;
 import org.eclipse.jst.javaee.web.WebResourceCollection;
+import org.eclipse.jst.jsf.core.internal.project.facet.JSFUtils;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
@@ -145,7 +146,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		//.include("WEB-INF/web\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/jboss-web\\.xml") //$NON-NLS-1$
-		.include("WEB-INF/faces-config\\.xml") //$NON-NLS-1$
+//		.include("WEB-INF/faces-config\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/componets\\.xml"); //$NON-NLS-1$
 
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
@@ -341,6 +342,31 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 	}
 
+	protected String getFacesConfigPath(WebApp webApp) {
+		if(webApp==null) {
+			return JSFUtils.JSF_DEFAULT_CONFIG_PATH;
+		}
+		File facesConfig = new File(webContentFolder, JSFUtils.JSF_DEFAULT_CONFIG_PATH);
+		if(facesConfig.exists()) {
+			return JSFUtils.JSF_DEFAULT_CONFIG_PATH;
+		}
+		String path = null;
+		Iterator it = webApp.getContextParams().iterator();
+		while (it.hasNext()) {
+			ParamValue cp = (ParamValue) it.next();
+			if (cp != null && cp.getParamName()!= null && cp.getParamName().trim().equals(JSFUtils.JSF_CONFIG_CONTEXT_PARAM)) {
+				path = cp.getParamValue().trim();
+				if(path.length()>0) {
+					facesConfig = new File(webContentFolder, path);
+					if(facesConfig.exists()) {
+						return path;
+					}
+				}
+			}
+		}
+		return JSFUtils.JSF_DEFAULT_CONFIG_PATH;
+	}
+
 	/**
 	 * 
 	 * @param project
@@ -382,19 +408,15 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		// *******************************************************************
 		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
 
-		configureWebXml(project);
+		WebApp webApp = configureWebXml(project);
 
 		AntCopyUtils.copyFileToFile(
 				componentsFile,
 				new File(webInfFolder, "components.xml"), //$NON-NLS-1$
 				new FilterSetCollection(projectFilterSet), false);
 
-		File facesConfig = new File(webContentFolder, "WEB-INF/faces-config.xml"); //$NON-NLS-1$
-		IPath webConfigPath = webContentPath.append("WEB-INF").append("faces-config.xml"); //$NON-NLS-1$ //$NON-NLS-2$
-		String webConfigName = webConfigPath.removeFirstSegments(1).toString();
-		if(facesConfig.exists()) {
-			configureFacesConfigXml(project, monitor, webConfigName);
-		}
+		String facesConfigPath = getFacesConfigPath(webApp);
+		configureFacesConfigXml(project, monitor, facesConfigPath);
 
 		AntCopyUtils.copyFilesAndFolders(
 				seamGenResFolder, webContentFolder, new AntCopyUtils.FileSetFileFilter(webInfSet), viewFilterSetCollection, false);
@@ -1134,13 +1156,13 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 
 	protected abstract void configure(WebApp webApp);
 
-	protected void configureWebXml(final IProject project) {
+	protected WebApp configureWebXml(final IProject project) {
 		IModelProvider modelProvider = ModelProviderManager
 				.getModelProvider(project);
 		Object modelObject = modelProvider.getModelObject();
 		if (!(modelObject instanceof WebApp)) {
 			// TODO log
-			return;
+			return null;
 		}
 		IPath modelPath = new Path("WEB-INF").append("web.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 		boolean exists = project.getProjectRelativePath().append(modelPath)
@@ -1163,7 +1185,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 
 		}, modelPath);
-
+		return (WebApp)modelObject;
 	}
 	
 	protected abstract SeamProjectCreator getProjectCreator(IDataModel model, IProject project);
