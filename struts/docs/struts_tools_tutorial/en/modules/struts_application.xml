@@ -94,7 +94,7 @@
         <?dbhtml filename="CreatingtheApplicationComponents.html"?>
         <title>Creating the Application Components</title>
         <para>Now, we will design the application by creating the individual components as
-            placeholders first. (We dont have to complete all of the details inside the components
+            placeholders first. (We don't have to complete all of the details inside the components
             until afterwards.)</para>
         <section id="CreatingJSPPagePlaceholders">
             <title>Creating JSP Page Placeholders</title>
@@ -131,7 +131,7 @@
 
                     <listitem>
                         <para>Right-click the pages folder and select <emphasis>
-                                <property>New &gt; Fila &gt; JSP...</property>
+                                <property>New &gt; File &gt; JSP...</property>
                             </emphasis>
                         </para>
                     </listitem>
