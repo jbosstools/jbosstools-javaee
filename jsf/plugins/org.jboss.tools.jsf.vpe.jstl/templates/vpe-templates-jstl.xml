@@ -42,14 +42,14 @@
 	</vpe:tag>
 
 	<vpe:tag name="c:forEach" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<div />
+		<vpe:template children="yes" modify="yes"
+		      class="org.jboss.tools.jsf.vpe.jstl.template.JstlForEachTemplate">
 		</vpe:template>
 	</vpe:tag>
 
 	<vpe:tag name="c:forTokens" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes">
-			<div />
+		<vpe:template children="yes" modify="yes"
+		      class="org.jboss.tools.jsf.vpe.jstl.template.JstlForTokensTemplate">
 		</vpe:template>
 	</vpe:tag>
 
