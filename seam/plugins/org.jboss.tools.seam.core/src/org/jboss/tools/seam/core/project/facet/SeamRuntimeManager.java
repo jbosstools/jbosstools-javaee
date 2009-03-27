@@ -42,8 +42,6 @@ public class SeamRuntimeManager {
 
 	private Map<String, SeamRuntime> runtimes = new HashMap<String, SeamRuntime>();
 
-	private SeamRuntime defaultRt = null;
-
 	/**
 	 * Private constructor
 	 */
