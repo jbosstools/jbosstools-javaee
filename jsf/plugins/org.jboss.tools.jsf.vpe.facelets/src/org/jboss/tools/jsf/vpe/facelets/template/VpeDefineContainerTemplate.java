@@ -262,7 +262,7 @@ public abstract class VpeDefineContainerTemplate extends VpeAbstractTemplate {
 		}
 	}
 	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement visualNode, Object data, String name, String value) {	
+	public boolean recreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMElement visualNode, Object data, String name, String value) {	
 
 		return true;
 	}

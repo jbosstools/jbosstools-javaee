@@ -231,11 +231,11 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	}
 
 	/**
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(VpePageContext, Element,
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#recreateAtAttrChange(VpePageContext, Element,
 	 * nsIDOMDocument, nsIDOMElement, Object, String, String)
 	 */
 	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+	public boolean recreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;

@@ -73,9 +73,9 @@ public class JBIDE1494Test extends VpeTest{
 			Set<?>  dependencySet = new HashSet();
 			VpeTemplate h_output_template = templateManager.getTemplate(vpeController.getPageContext(),h_outputText, dependencySet);
 			
-			assertNotNull(h_output_template.getTextFormatingData());
+			assertNotNull(h_output_template.getTextFormattingData());
 			//text formating for h:output
-			assertEquals(7,h_output_template.getTextFormatingData().getAllFormatData().length);
+			assertEquals(7,h_output_template.getTextFormattingData().getAllFormatData().length);
 	
 			Node h_dataTable = (Node) ContentAssistUtils.getNodeAt(part
 					.getSourceEditor().getTextViewer(), 473);
@@ -86,9 +86,9 @@ public class JBIDE1494Test extends VpeTest{
 			
 			VpeTemplate h_data_Table = templateManager.getTemplate(vpeController.getPageContext(),h_dataTable , dependencySet);
 	
-			assertNotNull(h_data_Table.getTextFormatingData());
+			assertNotNull(h_data_Table.getTextFormattingData());
 			
-			assertEquals(8,h_data_Table.getTextFormatingData().getAllFormatData().length);
+			assertEquals(8,h_data_Table.getTextFormattingData().getAllFormatData().length);
 
 			Node span =(Node) ContentAssistUtils.getNodeAt(part
 					.getSourceEditor().getTextViewer(), 615);
@@ -98,7 +98,7 @@ public class JBIDE1494Test extends VpeTest{
 			VpeTemplate spanTemplate = templateManager.getTemplate(vpeController.getPageContext(),span, dependencySet);
 		
 			assertNotNull(spanTemplate);
-			assertEquals(10,spanTemplate.getTextFormatingData().getAllFormatData().length);
+			assertEquals(10,spanTemplate.getTextFormattingData().getAllFormatData().length);
 	}
 	
 

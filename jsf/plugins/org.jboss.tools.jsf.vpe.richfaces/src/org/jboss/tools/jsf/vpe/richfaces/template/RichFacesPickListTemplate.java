@@ -553,7 +553,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      * @return true, if is recreate at attr change
      */
     @Override
-    public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument,
+    public boolean recreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument,
             nsIDOMElement visualNode, Object data, String name, String value) {
         // TODO Auto-generated method stub
         return true;

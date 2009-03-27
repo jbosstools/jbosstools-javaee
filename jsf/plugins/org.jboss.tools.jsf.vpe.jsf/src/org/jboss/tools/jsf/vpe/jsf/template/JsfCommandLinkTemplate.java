@@ -94,7 +94,7 @@ public class JsfCommandLinkTemplate extends AbstractOutputJsfTemplate {
     }
     
     @Override
-    public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+    public boolean recreateAtAttrChange(VpePageContext pageContext,
 	    Element sourceElement, nsIDOMDocument visualDocument,
 	    nsIDOMElement visualNode, Object data, String name, String value) {
 	return true;

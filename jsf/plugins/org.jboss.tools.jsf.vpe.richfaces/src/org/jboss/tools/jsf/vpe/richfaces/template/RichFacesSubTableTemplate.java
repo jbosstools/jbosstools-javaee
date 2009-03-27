@@ -293,7 +293,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String) */
 	@Override
-	public boolean isRecreateAtAttrChange(final VpePageContext pageContext,
+	public boolean recreateAtAttrChange(final VpePageContext pageContext,
 			final Element sourceElement, final nsIDOMDocument visualDocument,
 			final nsIDOMElement visualNode, final Object data, final String name, final String value) {
 		return true;

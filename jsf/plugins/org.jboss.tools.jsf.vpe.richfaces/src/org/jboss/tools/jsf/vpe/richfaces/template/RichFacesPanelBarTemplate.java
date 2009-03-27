@@ -221,7 +221,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
     }
 
     @Override
-    public boolean isRecreateAtAttrChange(VpePageContext pageContext, Element sourceElement,
+    public boolean recreateAtAttrChange(VpePageContext pageContext, Element sourceElement,
         nsIDOMDocument visualDocument, nsIDOMElement visualNode, Object data, String name, String value) {
 //        if (name.equalsIgnoreCase(HTML.WIDTH_ATTR) ||
 //                name.equalsIgnoreCase(HTML.ATTR_HEIGHT) ||

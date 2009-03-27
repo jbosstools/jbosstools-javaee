@@ -197,7 +197,7 @@ public abstract class AbstractOutputJsfTemplate extends
 	}
 
 	@Override
-	public nsIDOMNode getVisualNodeByBySourcePosition(
+	public nsIDOMNode getVisualNodeBySourcePosition(
 			VpeElementMapping elementMapping, int focusPosition,
 			int anchorPosition, VpeDomMapping domMapping) {
 		nsIDOMNode node = null;
@@ -216,7 +216,7 @@ public abstract class AbstractOutputJsfTemplate extends
 			if (nodeMapping != null) {
 
 				if (nodeMapping instanceof VpeElementMapping) {
-					node = super.getVisualNodeByBySourcePosition(
+					node = super.getVisualNodeBySourcePosition(
 							(VpeElementMapping) nodeMapping, focusPosition,
 							anchorPosition, domMapping);
 				} else {
@@ -226,7 +226,7 @@ public abstract class AbstractOutputJsfTemplate extends
 		}
 
 		if (node == null) {
-			node = super.getVisualNodeByBySourcePosition(elementMapping,
+			node = super.getVisualNodeBySourcePosition(elementMapping,
 					focusPosition, anchorPosition, domMapping);
 		}
 		return node;

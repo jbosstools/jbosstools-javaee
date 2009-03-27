@@ -112,7 +112,7 @@ public class VpeMyFacesDataScrollerTemplate extends VpeAbstractTemplate {
 	public void removeAttribute(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name) {
 	}
 
-	public String[] getOutputAtributeNames() {
+	public String[] getOutputAttributeNames() {
 		return null;
 	}
 
@@ -151,7 +151,7 @@ public class VpeMyFacesDataScrollerTemplate extends VpeAbstractTemplate {
 	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+	public boolean recreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNde, Object data, String name, String value) {
 		// TODO Auto-generated method stub

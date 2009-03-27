@@ -311,7 +311,7 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
      * @return <code>true</code> if it is required to re-create an element at
      *         a modification of attribute, <code>false</code> otherwise.
      */
-    public boolean isRecreateAtAttrChange(VpePageContext pageContext,
+    public boolean recreateAtAttrChange(VpePageContext pageContext,
 	    Element sourceElement, nsIDOMDocument visualDocument,
 	    nsIDOMElement visualNode, Object data, String name, String value) {
 	return true;
