@@ -11,8 +11,10 @@
 package org.jboss.tools.jsf.model.handlers;
 
 import java.util.*;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.XFileObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -23,6 +25,9 @@ import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebProject;
 import org.jboss.tools.jsf.web.pattern.JSFUrlPattern;
 import org.jboss.tools.jst.web.project.WebProject;
+import org.jboss.tools.jst.web.tld.TaglibData;
+import org.jboss.tools.jst.web.tld.VpeTaglibManager;
+import org.jboss.tools.jst.web.tld.VpeTaglibManagerProvider;
 import org.jboss.tools.jst.web.tld.model.TLDUtil;
 
 public class JSPAdopt implements XAdoptManager {
@@ -90,13 +95,47 @@ public class JSPAdopt implements XAdoptManager {
 	}
 	
 	static String NO_JSF_URL = 
-		"+include+jsp:include+jsp:directive.include+ui:include+ui:composition+ui:decorate+";
+		"+include+jsp:include+jsp:directive.include+ui:include+ui:composition+ui:decorate+s:decorate+";
+	static Map<String, String> PREFIXES = new HashMap<String, String>();
+	{
+		PREFIXES.put("http://jboss.com/products/seam/taglib", "s");
+		PREFIXES.put("http://java.sun.com/jsf/facelets", "ui");
+	}
 	
 	boolean applyPattern(Properties p) {
 		if(p == null) return true;
 		String tag = p.getProperty("context:tagName");
+		if(tag == null) return true;
+		int q = tag.indexOf(':');
+		if(q >= 0) {
+			String dp = tag.substring(0, q);
+			ISourceViewer sv = (ISourceViewer)p.get("viewer");
+			String uri = getURI(sv, dp);
+			if(uri != null) {
+				String dp1 = PREFIXES.get(uri);
+				if(dp1 != null && !dp1.equals(dp)) {
+					tag = dp1 + tag.substring(q);
+				}
+			}
+		}
 		if(NO_JSF_URL.indexOf("+" + tag + "+") >= 0) return false;		
 		return true;
+	}
+	private static String getURI(ISourceViewer viewer, String prefix) {
+		VpeTaglibManager tldManager = null;
+		if((tldManager == null) && (viewer instanceof VpeTaglibManagerProvider)) {
+			tldManager = ((VpeTaglibManagerProvider)viewer).getTaglibManager();
+			if(tldManager != null) {
+				List list = tldManager.getTagLibs();
+				for (int i = 0; i < list.size(); i++) {
+					TaglibData data = (TaglibData)list.get(i);
+					if(prefix.equals(data.getPrefix())) {
+						return data.getUri();
+					}
+				}
+			}			
+		}
+		return null;
 	}
 
     protected boolean isAdoptableFile(XModelObject object) {
