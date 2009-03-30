@@ -294,7 +294,7 @@ class SFUtil extends XModelObjectLoaderUtil {
 		return super.isSaveable(entity, n, v, dv);
 	}
 
-	public String getAttribute(Element element, String xmlname) {
+	public String getAttribute(Element element, String xmlname, XAttribute attr) {
 		if("attribute-names".equals(xmlname))
 			return loadArray(element, "attribute-name");
 		if("redirect".equals(xmlname))
@@ -302,7 +302,7 @@ class SFUtil extends XModelObjectLoaderUtil {
 		if("value.#text".equals(xmlname)) {
 		   if(XMLUtil.getUniqueChild(element, "null-value") != null) return "null-value";
 		}
-		return super.getAttribute(element, xmlname);
+		return super.getAttribute(element, xmlname, attr);
 	}
 
 	public void saveAttribute(Element element, String xmlname, String value) {
