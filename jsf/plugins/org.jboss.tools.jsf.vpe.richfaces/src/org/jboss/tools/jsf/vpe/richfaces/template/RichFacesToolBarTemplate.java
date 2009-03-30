@@ -456,25 +456,17 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 				}
 			}
 			
-			if (isItemSeparatorExists() && !isLeftItemsExists()) {
-			    if (rightToolBarItems.size() > 0)
+			// yradtsevich: JBIDE-4058:
+			// There should be no trailing separator after the left toolbar group
+			// and no leading separator at the beginning of the right toolbar group 
+			if (isItemSeparatorExists() && !leftToolBarItems.isEmpty()) {
+		       leftToolBarItems.remove(leftToolBarItems.size()-1);
+			}
+			if (isItemSeparatorExists() && !rightToolBarItems.isEmpty()) {
 				rightToolBarItems.remove(0);
 			}
-			
-			if (isItemSeparatorExists() && !isRightItemsExists()) {
-			   if (leftToolBarItems.size() > 0)
-			       leftToolBarItems.remove(leftToolBarItems.size()-1);
-			}
-		}
-		
-		public boolean isLeftItemsExists() {
-			return !leftToolBarItems.isEmpty();
 		}
 
-		public boolean isRightItemsExists() {
-			return !rightToolBarItems.isEmpty();
-		}
-		
 		public Iterator<SourceToolBarItem> getLeftItemsIterator() {
 			return leftToolBarItems.iterator();
 		}
