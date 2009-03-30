@@ -33,12 +33,12 @@ public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamP
 		return super.isSaveable(entity, n, v, dv);
 	}
 
-    public String getAttribute(Element element, String xmlname) {
+    public String getAttribute(Element element, String xmlname, XAttribute attr) {
         int i = xmlname.indexOf('|');
-        if(i < 0) return super.getAttribute(element, xmlname);
-        String v = super.getAttribute(element, xmlname.substring(0, i));
+        if(i < 0) return super.getAttribute(element, xmlname, attr);
+        String v = super.getAttribute(element, xmlname.substring(0, i), attr);
         return (v != null && v.length() > 0) ? v :
-               super.getAttribute(element, xmlname.substring(i + 1));
+               super.getAttribute(element, xmlname.substring(i + 1), attr);
     }
 
     public void saveAttribute(Element element, String xmlname, String value) {
