@@ -16,23 +16,31 @@ import java.util.HashSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.model.FileFacesConfigImpl;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
@@ -45,17 +53,27 @@ import org.w3c.dom.Text;
 /**
  * @author Jeremy
  */
-public class BundleBasenameHyperlink extends AbstractHyperlink {
-
+public class BundleBasenameHyperlink extends ClassHyperlink {
+	private static final String FILESYSTEMS = "/FileSystems/";
+	private static final String LIB = "/lib-";
+	private static final String SEPARATOR = "/";
+	
 	protected void doHyperlink(IRegion region) {
 		try {
 			String fileName = getBundleBasename(region);
-			IFile fileToOpen = getFileToOpen(fileName, "properties");
-			if (fileToOpen != null) {
-				IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IDE.openEditor(workbenchPage,fileToOpen,true);
-			} else 
-				openFileFailed();
+			XModelObject mo = getXModelObjectToOpen(fileName);
+			if (mo != null) {
+				// Open XModelObject in editor
+				FindObjectHelper.findModelObject(mo, FindObjectHelper.IN_EDITOR_ONLY);
+			} else {
+				IFile fileToOpen = getFileToOpen(fileName, "properties");
+				if (fileToOpen != null) {
+					IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					IDE.openEditor(workbenchPage,fileToOpen,true);
+				} else {
+					super.doHyperlink(region);
+				}
+			}
 		} catch (CoreException x) {
 			// could not open editor
 			openFileFailed();
@@ -72,8 +90,7 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 		}
 	}
 
-	private String[] getBundles() {
-		XModelObject fcObject = EclipseResourceUtil.createObjectForResource(getFile());
+	private XModelObject[] getBundles(XModelObject fcObject) {
 		if (fcObject == null)
 			return null;
 		
@@ -91,8 +108,27 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 		
 		((WebProjectNode)rbObjects).invalidate();
 		
-		ArrayList<String> bundlesPaths = new ArrayList<String>();
+		ArrayList<XModelObject> resourceBundles = new ArrayList<XModelObject>();
 		XModelObject[] bundles = ((WebProjectNode)rbObjects).getTreeChildren();
+		for (int i = 0; bundles != null && i < bundles.length; i++) {
+			String res = XModelObjectLoaderUtil.getResourcePath(bundles[i]);
+			if (res != null) {
+				resourceBundles.add(bundles[i]);
+			}
+		}
+
+		return (resourceBundles.size() == 0 ? 
+				null : resourceBundles.toArray(new XModelObject[0]));
+		
+	}
+	
+	private String[] getBundles() {
+		XModelObject fcObject = EclipseResourceUtil.createObjectForResource(getFile());
+		if (fcObject == null)
+			return null;
+		
+		ArrayList<String> bundlesPaths = new ArrayList<String>();
+		XModelObject[] bundles = getBundles(fcObject);
 		for (int i = 0; bundles != null && i < bundles.length; i++) {
 			String res = XModelObjectLoaderUtil.getResourcePath(bundles[i]);
 			if (res != null) {
@@ -106,13 +142,20 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 	}
 	
 	private String[] getOrderedLocales() {
-		HashSet<String> allLocales = new HashSet<String>();
-		ArrayList<String> supportedLocales = new ArrayList<String>();
-		ArrayList<String> langs = new ArrayList<String>();  
-
 		XModelObject fcObject = EclipseResourceUtil.createObjectForResource(getFile());
 		if (fcObject == null)
 			return null;
+		
+		return getOrderedLocales(fcObject); 
+	}
+	
+	private String[] getOrderedLocales(XModelObject fcObject) {
+		if (fcObject == null)
+			return null;
+
+		HashSet<String> allLocales = new HashSet<String>();
+		ArrayList<String> supportedLocales = new ArrayList<String>();
+		ArrayList<String> langs = new ArrayList<String>();  
 		
 		XModelObject lcObject = (fcObject != null ? 
 				fcObject.getChildByPath("application/Locale Config") : null);
@@ -203,6 +246,53 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 		return supportedLocales.toArray(new String[0]);
 	}
 	
+	private XModelObject getXModelObjectToOpen(String fileName) {
+		// Search thru the XModelObject for Faces Config
+		String baseLocation = getBaseLocation();
+		if (baseLocation == null)
+			return null;
+		
+		int index = baseLocation.indexOf(FILESYSTEMS);
+		if (index == -1)
+			return null;
+		
+		String projectName = baseLocation.substring(1, index);
+		String path = baseLocation.substring(index + 1);
+
+		IProject project = null;
+		try {
+			project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		} catch (Throwable x) {
+			return null;
+		}
+		IModelNature modelNature = EclipseResourceUtil.getModelNature(project);
+		if (modelNature == null || modelNature.getModel() == null)
+			return null;
+		
+		XModelObject xmo = modelNature.getModel().getByPath(path);
+		
+		if (xmo instanceof FileFacesConfigImpl) {
+			XModelObject fcObject = xmo;
+		
+			String[] orderedLocales = getOrderedLocales(fcObject);
+			XModelObject[] bundles = getBundles(fcObject);
+			for (int l = 0; orderedLocales != null && l < orderedLocales.length; l++) {
+				String name = fileName + (orderedLocales[l].length() == 0 ? "" :
+								"_" + orderedLocales[l]);
+
+				for (int i = 0; bundles != null && i < bundles.length; i++) {
+					String bundleName = XModelObjectLoaderUtil.getResourcePath(bundles[i]);
+
+					if (bundleName.equals(name)) {
+							return bundles[i];
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 	private IFile getFileToOpen(String fileName, String fileExt) {
 		if (fileName == null)
 			return null;
@@ -280,7 +370,7 @@ public class BundleBasenameHyperlink extends AbstractHyperlink {
 		return fLastRegion;
 	}
 
-	private IRegion getRegion(int offset) {
+	public IRegion getRegion(int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(getDocument());
 		try {
