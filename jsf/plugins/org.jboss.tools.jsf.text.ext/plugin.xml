@@ -180,6 +180,7 @@
          			<axis path="/faces-config/application/state-manager/" />
          			<axis path="/faces-config/application/property-resolver/" />
          			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/application/el-resolver/" />
          			<axis path="/faces-config/factory/application-factory/" />
          			<axis path="/faces-config/factory/faces-context-factory/" />
          			<axis path="/faces-config/factory/lifecycle-factory/" />
@@ -208,6 +209,7 @@
          			<axis path="/faces-config/application/state-manager/" />
          			<axis path="/faces-config/application/property-resolver/" />
          			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/application/el-resolver/" />
          			<axis path="/faces-config/factory/application-factory/" />
          			<axis path="/faces-config/factory/faces-context-factory/" />
          			<axis path="/faces-config/factory/lifecycle-factory/" />
@@ -236,6 +238,7 @@
          			<axis path="/faces-config/application/state-manager/" />
          			<axis path="/faces-config/application/property-resolver/" />
          			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/application/el-resolver/" />
          			<axis path="/faces-config/factory/application-factory/" />
          			<axis path="/faces-config/factory/faces-context-factory/" />
          			<axis path="/faces-config/factory/lifecycle-factory/" />
@@ -264,6 +267,7 @@
          			<axis path="/faces-config/application/state-manager/" />
          			<axis path="/faces-config/application/property-resolver/" />
          			<axis path="/faces-config/application/variable-resolver/" />
+         			<axis path="/faces-config/application/el-resolver/" />
          			<axis path="/faces-config/factory/application-factory/" />
          			<axis path="/faces-config/factory/faces-context-factory/" />
          			<axis path="/faces-config/factory/lifecycle-factory/" />
