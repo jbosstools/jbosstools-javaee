@@ -10,9 +10,21 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.core.refactoring.Refactoring;
+import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
+import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
+import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
 /**
  * @author Alexey Kazakov
@@ -20,6 +32,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 public class RenameComponentWizard extends RefactoringWizard {
 
 	private ISeamComponent component;
+	private String componentName;
 
 	public RenameComponentWizard(Refactoring refactoring, ISeamComponent component) {
 		super(refactoring, WIZARD_BASED_USER_INTERFACE);
@@ -32,6 +45,51 @@ public class RenameComponentWizard extends RefactoringWizard {
 	@Override
 	protected void addUserInputPages() {
 	    setDefaultPageTitle(getRefactoring().getName());
-//	    addPage( new RenamePropertyInputPage( info ) );
+	    RenameComponentProcessor processor= (RenameComponentProcessor) getRefactoring().getAdapter(RenameComponentProcessor.class);
+	    addPage(new RenameComponentWizardPage(processor));
+	}
+	
+	class RenameComponentWizardPage extends UserInputWizardPage{
+		private RenameComponentProcessor processor;
+		
+		public RenameComponentWizardPage(RenameComponentProcessor processor){
+			super("");
+			this.processor = processor;
+		}
+
+		public void createControl(Composite parent) {
+			Composite container = new Composite(parent, SWT.NULL);
+			container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+	        GridLayout layout = new GridLayout();
+	        container.setLayout(layout);
+	        layout.numColumns = 2;
+	        
+	        String defaultName = component.getName();
+	        IFieldEditor editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, "Seam component name:", defaultName);
+	        editor.doFillIntoGrid(container);
+
+	        setControl(container);
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.ltk.ui.refactoring.UserInputWizardPage#performFinish()
+		 */
+		protected boolean performFinish() {
+			initializeRefactoring();
+			return super.performFinish();
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.ltk.ui.refactoring.UserInputWizardPage#getNextPage()
+		 */
+		public IWizardPage getNextPage() {
+			initializeRefactoring();
+			return super.getNextPage();
+		}
+		
+		private void initializeRefactoring() {
+			processor.setComponent(component);
+		}
+		
 	}
 }
