@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %PluginName
+Bundle-SymbolicName: org.jboss.tools.jsf.vpe.jstl.test;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.jboss.tools.jsf.vpe.jstl.test.JstlTestPlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.junit;bundle-version="3.8.2"
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: vpe-jstl-test.jar
+Import-Package: org.jboss.tools.tests,
+ org.jboss.tools.vpe.ui.test

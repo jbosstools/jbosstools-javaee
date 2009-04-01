@@ -1,0 +1,45 @@
+<tests>
+	<test id="id1">
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+				========
+            </SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+				========
+            </SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+			<SPAN CLASS="vpe-text">
+				========
+            </SPAN>
+			<BR STYLE="-moz-user-modify: read-write;" />
+
+		</SPAN>
+	</test>
+</tests>

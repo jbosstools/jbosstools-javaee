@@ -1,0 +1,15 @@
+<tests>
+	<test id="id1">
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+				Some ${ailment}
+            </SPAN>
+			<SPAN CLASS="vpe-text">
+				Some ${ailment}
+            </SPAN>
+			<SPAN CLASS="vpe-text">
+				Some ${ailment}
+            </SPAN>
+		</SPAN>
+	</test>
+</tests>
