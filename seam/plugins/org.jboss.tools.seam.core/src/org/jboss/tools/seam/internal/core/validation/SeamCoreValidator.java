@@ -719,6 +719,9 @@ public class SeamCoreValidator extends SeamValidator {
 		if(component.isStateless()) {
 			ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
 			Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(SeamComponentMethodType.DESTROY);
+			if(methods==null) {
+				return;
+			}
 			for (ISeamComponentMethod method : methods) {
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();
