@@ -17,14 +17,12 @@ public class SeamUIPagesMessages extends NLS{
 	
 	public static String PAGESDIAGRAM_SELECT;
 	public static String PAGESDIAGRAM_MARQUEE;
-	public static String PAGESDIAGRAM_CREATE_NEW_CONNECTION;
 	public static String SEAM_UI_PAGES_PLUGIN_NO_MESSAGES;
 
 	public static String PAGES_DIAGRAM_VIEW_TEMPLATE;
 	public static String PAGES_DIAGRAM_EXCEPTION_TEMPLATE;
 
 	public static String SEAM_PAGES_EDITOR_TITLE;
-	public static String SEAM_PAGES_EDITOR_SOURCE_TAB;
 	public static String SEAM_PAGES_EDITOR_DIAGRAM_TAB;
 	
 	public static ResourceBundle getResourceBundle() {
