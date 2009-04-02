@@ -199,7 +199,7 @@
     
         <vpe:tag name="x:out" case-sensitive="yes">
         <vpe:template children="no" modify="no"
-            class="org.jboss.tools.jsf.vpe.jstl.template.JstlOutTemplate">
+            class="org.jboss.tools.jsf.vpe.jstl.template.JstlXOutTemplate">
             <vpe:textFormatting use-default-formats="yes">
             </vpe:textFormatting>
         </vpe:template>

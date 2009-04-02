@@ -31,4 +31,6 @@ public class Jstl {
 	public static final String TAG_OUT = "out"; //$NON-NLS-1$
 
 	public static final String ATTR_URL = "url"; //$NON-NLS-1$
+
+	public static final String ATTR_SELECT = "select"; //$NON-NLS-1$
 }
