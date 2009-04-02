@@ -101,12 +101,6 @@ public class StrutsUIMessages extends NLS {
 	public static String REOPEN;
 	public static String OVERWRITE;
 	public static String APPLICATION_NAME_AND_WEBXML_FOLDER;
-	public static String ENTER_PATH_TO_EXISTING_FOLDER;
-	public static String IMPORT_WEB_PROJECT;
-	public static String ENTER_PROJECT_NAME_AND_SELECT_THE_FOLDER;
-	public static String STEP1_PROJECTNAME_AND_LOCATION;
-	public static String SPECIFY_EXISTING_FOLDER;
-	public static String STEP2_FOLDERS;
 	public static String CREATE_WEB_PROJECT;
 	public static String ENTER_PROJECTNAME_AND_CONFIGURATIONFILE_VERSION;
 	public static String STEP1_PROJECTNAME_AND_VERSION;
@@ -194,5 +188,4 @@ public class StrutsUIMessages extends NLS {
 	public static String DIAGRAM_TOOLBAR_ADD_GLOBAL_FORWARD;
 	public static String DIAGRAM_TOOLBAR_ADD_GLOBAL_EXCEPTION;
 	public static String DIAGRAM_TOOLBAR_ADD_PAGE;
-	public static String DIAGRAM_TOOLBAR_VIEW_TEMPLATE;
 }
