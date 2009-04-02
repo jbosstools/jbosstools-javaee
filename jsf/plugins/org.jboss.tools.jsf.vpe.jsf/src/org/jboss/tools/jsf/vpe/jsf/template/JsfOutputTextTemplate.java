@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -39,7 +40,7 @@ public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 		Element element = (Element) sourceNode;
 
 		// create span element
-		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument);
 
 		// creation data
 		VpeCreationData creationData = new VpeCreationData(span);
