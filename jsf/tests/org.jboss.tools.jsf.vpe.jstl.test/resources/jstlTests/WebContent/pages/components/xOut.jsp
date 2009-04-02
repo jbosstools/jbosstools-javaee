@@ -11,20 +11,10 @@
 	<h1>c:import</h1>
 	<c:import url="books.xml" var="url" />
 	-----------------------------------------------<br>
-	<h1>x:parse</h1>
 	<x:parse xml="${url}" var="doc" />
-
-	<h1>x:forEach & x:out</h1>
-	<x:forEach var="n" select="$doc/books/book">
-		<x:out select="$n/title" id="id1"/>
-		<br>
-		<x:out select="$n/author" />
-		<br>
- 		========  
- 		<br>
-	</x:forEach>
-	
+		
 	<h1>x:out</h1>
-	<x:out select="$doc/books" id="id2"/>
+	<x:out select="$doc/books" id="id1"/>
+	
 </body>
 </html>

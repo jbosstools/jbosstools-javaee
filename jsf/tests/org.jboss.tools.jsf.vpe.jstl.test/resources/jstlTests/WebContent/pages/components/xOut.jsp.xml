@@ -1,6 +1,7 @@
 <tests>
 	<test id="id1">
 		<SPAN CLASS="vpe-text">
-		</SPAN>
+            $doc/books
+        </SPAN>
 	</test>
 </tests>
