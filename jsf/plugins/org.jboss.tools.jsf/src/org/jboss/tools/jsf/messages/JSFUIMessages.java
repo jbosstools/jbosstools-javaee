@@ -77,9 +77,7 @@ public class JSFUIMessages extends NLS {
 	public static String PROJECT_ALREADY_HAS_SOME_OF_LIBRARIES_INCLUDED;
 	public static String PROJECT_ALREADY_HAS_SOME_OF_LIBRARIES_INCLUDED_2;
 	public static String PROJECT_HAS_COFLICTING_LIBRARIES;
-	public static String CONTINUE;
 	public static String OVERWRITE;
-	public static String CANNOT_LOAD_JSF_CAPABILITIES;
 	public static String CONFIGURATION_FILE_ISNOT_FOUND_IN_PROJECT;
 	public static String FILE_EXISTS;
 	public static String CREATE_NEW_JSF_PROJECT;
@@ -90,17 +88,12 @@ public class JSFUIMessages extends NLS {
 	public static String OF_NORMAL_SIZE;
 	public static String PRINT;
 	public static String ZOOM;
-	public static String ALL;
 	public static String SELECT_ALL;
 	public static String UNSELECT_ALL;
 	public static String SELECTED_PAGES;
 	public static String PRINT_PREVIEW;
 	public static String LIBRARY_SETS;
 	public static String CONFIGURATION_FILE_ADDITIONS;
-	public static String SHOW_DIAGRAM_NAVIGATOR;
-	public static String DIAGRAM_NAVIGATOR;
-	public static String SHOW_TREE;
-	public static String TREE;
 	public static String DELETE_JAVA_SOURCE;
 	
 	static {
