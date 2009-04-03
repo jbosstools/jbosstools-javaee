@@ -112,9 +112,7 @@
     </vpe:tag>
         
     <vpe:tag name="s:defaultAction" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes" >
-        	<span class="vpe-text"/>
-        </vpe:template>
+        <vpe:template children="no" modify="no"/>
     </vpe:tag>
     
     <vpe:tag name="s:enumItem" case-sensitive="yes">
