@@ -12,15 +12,12 @@ package org.jboss.tools.seam.ui.wizard;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.core.refactoring.Refactoring;
-import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
@@ -33,6 +30,7 @@ public class RenameComponentWizard extends RefactoringWizard {
 
 	private ISeamComponent component;
 	private String componentName;
+	private IFieldEditor editor;
 
 	public RenameComponentWizard(Refactoring refactoring, ISeamComponent component) {
 		super(refactoring, WIZARD_BASED_USER_INTERFACE);
@@ -65,7 +63,7 @@ public class RenameComponentWizard extends RefactoringWizard {
 	        layout.numColumns = 2;
 	        
 	        String defaultName = component.getName();
-	        IFieldEditor editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, "Seam component name:", defaultName);
+	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, "Seam component name:", defaultName);
 	        editor.doFillIntoGrid(container);
 
 	        setControl(container);
@@ -88,7 +86,7 @@ public class RenameComponentWizard extends RefactoringWizard {
 		}
 		
 		private void initializeRefactoring() {
-			processor.setComponent(component);
+			processor.setNewComponentName(editor.getValueAsString());
 		}
 		
 	}

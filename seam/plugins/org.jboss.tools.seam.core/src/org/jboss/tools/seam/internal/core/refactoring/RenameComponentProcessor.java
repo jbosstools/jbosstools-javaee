@@ -14,9 +14,17 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
@@ -24,6 +32,9 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
+import org.eclipse.text.edits.ReplaceEdit;
+import org.eclipse.text.edits.TextEdit;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -32,9 +43,12 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Alexey Kazakov
  */
 public class RenameComponentProcessor extends RenameProcessor {
+	private static final String ANNOTATION_NAME = "Name";//"org.jboss.seam.annotations.Name";
 
 	private IFile file;
 	private ISeamComponent component;
+	private IAnnotation annotation;
+	private String newName;
 
 	/**
 	 * @param component Renamed component
@@ -59,6 +73,44 @@ public class RenameComponentProcessor extends RenameProcessor {
 
 	public void setComponent(ISeamComponent component) {
 		this.component = component;
+	}
+	
+	public void setNewComponentName(String componentName){
+		if(file == null) return;
+		
+		this.newName = componentName;
+		
+		annotation = getAnnotation(file);
+	}
+	
+	private IAnnotation getAnnotation(IFile file){
+		try{
+			ICompilationUnit unit = getCompilationUnit(file);
+			for(IType type : unit.getAllTypes()){
+				for(IAnnotation annotation : type.getAnnotations()){
+					if(annotation.getElementName().equals(ANNOTATION_NAME))
+						return annotation;
+					}
+			}
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	private ICompilationUnit getCompilationUnit(IFile file) throws CoreException {
+		IProject project = file.getProject();
+		IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
+		for (IResource resource : EclipseResourceUtil.getJavaSourceRoots(project)) {
+			if(resource.getFullPath().isPrefixOf(file.getFullPath())) {
+				IPath path = file.getFullPath().removeFirstSegments(resource.getFullPath().segmentCount());
+				IJavaElement element = javaProject.findElement(path);
+				if(element instanceof ICompilationUnit) {
+					return (ICompilationUnit)element;
+				}
+			}
+		}
+		return null;
 	}
 
 	/*
@@ -93,7 +145,12 @@ public class RenameComponentProcessor extends RenameProcessor {
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		return new TextFileChange(file.getName(), file);
+		if(annotation == null)
+			return null;
+		TextFileChange change = new TextFileChange(file.getName(), file);
+		TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "@"+annotation.getElementName()+"(\""+newName+"\")");
+		change.setEdit(edit);
+		return change;
 	}
 
 	/*
