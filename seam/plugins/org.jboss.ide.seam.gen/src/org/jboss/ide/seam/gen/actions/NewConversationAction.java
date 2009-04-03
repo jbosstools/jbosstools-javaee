@@ -3,7 +3,7 @@ package org.jboss.ide.seam.gen.actions;
 public class NewConversationAction extends NewActionAction {
 
 	protected String getTarget() {
-		return "new-conversation";
+		return "new-conversation"; //$NON-NLS-1$
 	}
 	
 

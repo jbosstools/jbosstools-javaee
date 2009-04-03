@@ -19,7 +19,7 @@ public class SetupDeluxeAction extends SeamGenAction implements
 	protected static final String CODEGEN = "Code generation";
 	
 	protected String getTarget() {
-		return "setup";
+		return "setup"; //$NON-NLS-1$
 	}
 
 	public Set getGroups() {

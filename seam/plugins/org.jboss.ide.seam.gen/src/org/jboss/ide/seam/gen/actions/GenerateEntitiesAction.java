@@ -3,7 +3,7 @@ package org.jboss.ide.seam.gen.actions;
 public class GenerateEntitiesAction extends SeamGenAction {
 
 	protected String getTarget() {
-		return "generate-entities";
+		return "generate-entities"; //$NON-NLS-1$
 	}
 
 }

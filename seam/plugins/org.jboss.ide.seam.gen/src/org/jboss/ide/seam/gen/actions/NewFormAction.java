@@ -8,7 +8,7 @@ public class NewFormAction extends NewActionAction {
 	}
 	
 	protected String getTarget() {
-		return "new-form";
+		return "new-form"; //$NON-NLS-1$
 	}
 	
 	public String getTitle() {

@@ -9,7 +9,7 @@ import org.jboss.ide.seam.gen.SeamGenProperty;
 public class NewEntityAction extends SeamGenAction {
 
 	protected String getTarget() {
-		return "new-entity";
+		return "new-entity"; //$NON-NLS-1$
 	}
 
 	public String getTitle() {
@@ -22,17 +22,17 @@ public class NewEntityAction extends SeamGenAction {
 	
 	protected Map getQuestions() {
 		Map properties = new LinkedHashMap();
-		properties.put( "entity.name", new SeamGenProperty("Entity class name") );
-		properties.put( "masterPage.name", new SeamGenProperty("Master page name") {
+		properties.put( "entity.name", new SeamGenProperty("Entity class name") ); //$NON-NLS-1$
+		properties.put( "masterPage.name", new SeamGenProperty("Master page name") { //$NON-NLS-1$
 			public String getDefaultValue(Properties others) {
-				String property = others.getProperty( "entity.name", "" );
+				String property = others.getProperty( "entity.name", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 				return lower(property) + "List";
 			}
 		});
 			
-		properties.put( "page.name", new SeamGenProperty("Page name") {
+		properties.put( "page.name", new SeamGenProperty("Page name") { //$NON-NLS-1$
 			public String getDefaultValue(Properties others) {
-				String property = others.getProperty( "entity.name", "" );
+				String property = others.getProperty( "entity.name", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 				return lower(property);
 			}
 		});

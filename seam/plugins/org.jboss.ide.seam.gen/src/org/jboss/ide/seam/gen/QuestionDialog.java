@@ -109,7 +109,7 @@ public class QuestionDialog extends TitleAreaDialog {
 		
 		ILaunchConfiguration configuration;
 		try {
-			configuration = SeamGenAction.findLaunchConfig( "seamgen" );
+			configuration = SeamGenAction.findLaunchConfig( "seamgen" ); //$NON-NLS-1$
 			if(configuration!=null) {
 				existing = SeamGenAction.getSeamGenProperties( configuration );
 			}
@@ -134,7 +134,7 @@ public class QuestionDialog extends TitleAreaDialog {
 				composite = defaultComposite;
 			}
 			Label label = new Label(composite, SWT.NONE);
-			label.setText( sgp.getDescription() + ":" );
+			label.setText( sgp.getDescription() + ":" ); //$NON-NLS-1$
 			
 			
 			
