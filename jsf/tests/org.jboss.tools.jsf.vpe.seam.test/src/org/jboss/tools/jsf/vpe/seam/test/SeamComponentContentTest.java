@@ -23,7 +23,7 @@ public class SeamComponentContentTest extends ComponentContentTest {
     }
     
     public void testConversationId() throws Throwable {
-	performInvisibleTagTest("components/conversationId.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+	performContentTest("components/conversationId.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public void testConvertDateTime() throws Throwable {
@@ -103,8 +103,14 @@ public class SeamComponentContentTest extends ComponentContentTest {
     }
     
     public void testValidateAll() throws Throwable {
-	performInvisibleTagTest("components/validateAll.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+	performContentTest("components/validateAll.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-
+    public void testValidateFormattedText() throws Throwable{
+    performInvisibleTagTest("components/validateFormattedText.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+    
+    public void testTaskId() throws Throwable{
+        performInvisibleTagTest("components/taskId.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+        }
 }

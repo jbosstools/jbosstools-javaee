@@ -147,6 +147,16 @@ public class SeamComponentTest extends VpeTest {
 		"components/validateAll.xhtml", SeamAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
     
+    public void testValidateFormattedText() throws Throwable {
+    performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+    	"components/validateFormattedText.xhtml", SeamAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testTaskId() throws Throwable {
+    performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+    	"components/taskId.xhtml", SeamAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
     public void testAllComponentsOnSinglePage() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/seamtest.xhtml", SeamAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
