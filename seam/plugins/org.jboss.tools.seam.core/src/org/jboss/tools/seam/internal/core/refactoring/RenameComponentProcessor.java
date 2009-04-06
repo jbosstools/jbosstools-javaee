@@ -34,6 +34,7 @@ import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -43,7 +44,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Alexey Kazakov
  */
 public class RenameComponentProcessor extends RenameProcessor {
-	private static final String ANNOTATION_NAME = "Name";//"org.jboss.seam.annotations.Name";
+	private static final String ANNOTATION_NAME = "org.jboss.seam.annotations.Name";
 
 	private IFile file;
 	private ISeamComponent component;
@@ -88,7 +89,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 			ICompilationUnit unit = getCompilationUnit(file);
 			for(IType type : unit.getAllTypes()){
 				for(IAnnotation annotation : type.getAnnotations()){
-					if(annotation.getElementName().equals(ANNOTATION_NAME))
+					if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(ANNOTATION_NAME))
 						return annotation;
 					}
 			}
