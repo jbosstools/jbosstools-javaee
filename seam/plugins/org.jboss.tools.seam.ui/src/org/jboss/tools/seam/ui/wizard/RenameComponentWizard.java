@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
@@ -63,7 +64,7 @@ public class RenameComponentWizard extends RefactoringWizard {
 	        layout.numColumns = 2;
 	        
 	        String defaultName = component.getName();
-	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, "Seam component name:", defaultName);
+	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, defaultName);
 	        editor.doFillIntoGrid(container);
 
 	        setControl(container);
