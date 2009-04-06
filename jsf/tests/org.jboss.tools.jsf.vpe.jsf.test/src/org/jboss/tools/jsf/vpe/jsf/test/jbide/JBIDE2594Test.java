@@ -30,10 +30,8 @@ import org.jboss.tools.vpe.editor.util.ElService;
  */
 public class JBIDE2594Test extends CommonJBIDE2010Test {
     
-    /**
-     * 
-     */
     protected static final String KEY_6 = "global.value1"; //$NON-NLS-1$
+    private static final String KEY_1_POSTFIX = "images/smalle.gif"; //$NON-NLS-1$
     protected Map<String, String> globalElMap = new HashMap<String, String>();
 
     /**
@@ -43,9 +41,30 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
         super(name);
     }
     
+    @Override
+    protected void setUp() throws Exception {
+    	super.setUp();
+    	IPath path = Platform.getLocation();
+    	
+    	assertNotNull("Path can't be null",path); //$NON-NLS-1$
+    	
+    	globalElMap.put(KEY_1, "/override/global/value/"); //$NON-NLS-1$
+    	globalElMap.put(KEY_6, "/global/value1/"); //$NON-NLS-1$
+    	
+    	ResourceReference[] entries = new ResourceReference[globalElMap.size()];
+    	int i = 0;
+    	for (Entry<String, String> string : globalElMap.entrySet()) {
+    		entries[i] = new ResourceReference(string.getKey(), ResourceReference.GLOBAL_SCOPE);
+    		entries[i].setProperties(string.getValue());
+    		i++;
+    	}
+    	setGlobalValues(entries, path);	
+    }
     
-    
-    
+    protected void setGlobalValues(ResourceReference[] entries,IPath path) {
+    	GlobalELReferenceList.getInstance().setAllResources(path, entries);
+    }
+
     public void testReplaceGlobalElVariable(){
         String replaceString= "#{"+KEY_6+"}"+"images/test.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String replacedString = ElService.getInstance().replaceEl(file, replaceString);
@@ -60,43 +79,11 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
      * @throws CoreException the core exception
      */
     public void testOverrideLocalVariable() throws CoreException {
-        String string1 = "${"+KEY_1+"}"+"/images/smalle.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String string1 = "${" + KEY_1 + "}" + KEY_1_POSTFIX; //$NON-NLS-1$ //$NON-NLS-2$
         String replacedValue = ElService.getInstance().replaceEl(file, string1);
 
-        assertEquals("Should be equals " + globalElMap.get(KEY_1) + "/images/smalle.gif", replacedValue, globalElMap.get(KEY_1) //$NON-NLS-1$ //$NON-NLS-2$
-                + "/images/smalle.gif"); //$NON-NLS-1$
-
+        assertEquals(elValuesMap.get(KEY_1) + KEY_1_POSTFIX, replacedValue);
     }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        IPath path = Platform.getLocation();
-        
-        assertNotNull("Path can't be null",path); //$NON-NLS-1$
-        
-        globalElMap.put(KEY_1, "/override/global/value/"); //$NON-NLS-1$
-        globalElMap.put(KEY_6, "/global/value1/"); //$NON-NLS-1$
-        
-        ResourceReference[] entries = new ResourceReference[globalElMap.size()];
-        int i = 0;
-        for (Entry<String, String> string : globalElMap.entrySet()) {
-
-            entries[i] = new ResourceReference(string.getKey(), ResourceReference.GLOBAL_SCOPE);
-            entries[i].setProperties(string.getValue());
-            i++;
-        }
-        setGlobalValues(entries, path);
-        
-        
-    }
-
-
-    protected void setGlobalValues(ResourceReference[] entries,IPath path) {
-        GlobalELReferenceList.getInstance().setAllResources(path, entries);
-    }
-
-
 
     @Override
     protected void tearDown() throws Exception {
