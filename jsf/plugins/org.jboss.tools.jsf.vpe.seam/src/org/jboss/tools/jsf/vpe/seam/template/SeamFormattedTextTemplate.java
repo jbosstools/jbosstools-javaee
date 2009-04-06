@@ -18,6 +18,7 @@ import org.jboss.tools.jsf.vpe.seam.SeamTemplatesActivator;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIComponentManager;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -37,7 +38,7 @@ import antlr.TokenStreamException;
  */
 public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 
-	private static final String CID_DOMPARSER = "@mozilla.org/xmlextras/domparser;1";
+	private static final String CID_DOMPARSER = "@mozilla.org/xmlextras/domparser;1"; //$NON-NLS-1$
 
 	/**
 	 * component manager
@@ -58,49 +59,58 @@ public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument) {
+		nsIDOMDocument visualDocument) {
 
-		Element sourceElement = (Element) sourceNode;
-		String valueT = sourceElement.getAttribute("value");
-		// complex test case:
-        //Reader r = new InputStreamReader( SeamFormattedTextTemplate.class.getResourceAsStream("SeamTextTest2.txt") );
-        StringReader r = new StringReader(valueT);
-        SeamTextLexer lexer = new SeamTextLexer(r);
-        SeamTextParser parser = new SeamTextParser(lexer);
-        try {
-			parser.startRule();
-		} catch (RecognitionException e) {
-			SeamTemplatesActivator.getPluginLog().logError(e);
-		} catch (TokenStreamException e) {
-			SeamTemplatesActivator.getPluginLog().logError(e);
+	    Element sourceElement = (Element) sourceNode;
+	    /*
+	     * Fixes https://jira.jboss.org/jira/browse/JBIDE-4104
+	     * When there is no value attribute string reader
+	     * will be created with empty value.
+	     */
+	    String valueT = ""; //$NON-NLS-1$
+	    if (sourceElement.hasAttribute(HTML.ATTR_VALUE)) {
+		valueT = sourceElement.getAttribute(HTML.ATTR_VALUE);
+	    }
+	    
+	    StringReader r = new StringReader(valueT);
+	    SeamTextLexer lexer = new SeamTextLexer(r);
+	    SeamTextParser parser = new SeamTextParser(lexer);
+	    try {
+		parser.startRule();
+	    } catch (RecognitionException e) {
+		SeamTemplatesActivator.getPluginLog().logError(e);
+	    } catch (TokenStreamException e) {
+		SeamTemplatesActivator.getPluginLog().logError(e);
+	    }
+
+	    nsIDOMParser parserDom = parserDom = (nsIDOMParser) getComponentManager()
+	    .createInstanceByContractID(CID_DOMPARSER, null,
+		    nsIDOMParser.NS_IDOMPARSER_IID);
+
+	    String strDoc = "<HTML><BODY>" + parser.toString() + "</BODY></HTML>"; //$NON-NLS-1$ //$NON-NLS-2$
+	    nsIDOMDocument domDoc = parserDom.parseFromString(strDoc,
+	    "application/xhtml+xml"); //$NON-NLS-1$
+	    nsIDOMNode patronItem = null, nodeTmp = null;
+	    nsIDOMNodeList list = null;
+	    if (null != domDoc.getDocumentElement()) {
+		list = domDoc.getDocumentElement().getChildNodes();
+		long i = 0;
+		for (; i < list.getLength(); i++) {
+		    nodeTmp = list.item(i);
+		    if (HTML.TAG_BODY.equalsIgnoreCase(nodeTmp.getNodeName())) {
+			patronItem = nodeTmp.cloneNode(true);
+			break;
+		    }
 		}
-		
-		nsIDOMParser parserDom = parserDom = (nsIDOMParser)getComponentManager().
-        		createInstanceByContractID(CID_DOMPARSER, null, nsIDOMParser.NS_IDOMPARSER_IID);
-		
-		String strDoc = "<HTML><BODY>" + parser.toString() + "</BODY></HTML>";
-		nsIDOMDocument domDoc = parserDom.parseFromString(strDoc, "application/xhtml+xml");
-		nsIDOMNode patronItem = null, nodeTmp = null;
-		nsIDOMNodeList list = null;
-		if ( null != domDoc.getDocumentElement()) {
-			list = domDoc.getDocumentElement().getChildNodes();
-			long i = 0;
-			for (; i < list.getLength(); i++) {
-				nodeTmp = list.item(i);
-				if ("BODY".equalsIgnoreCase(nodeTmp.getNodeName())) {
-					patronItem = nodeTmp.cloneNode(true);
-					break;
-				}
-			}
-		}
-		if (null != patronItem) {
-			list = patronItem.getChildNodes();
-			//mainItem = visualDocument.createElement("DIV");
-			patronItem = visualDocument.createElement("SPAN");
-			createCopyChildren(visualDocument, patronItem, list);
-		}
-		VpeCreationData creationData = new VpeCreationData(patronItem);
-		return creationData;
+	    }
+	    if (null != patronItem) {
+		list = patronItem.getChildNodes();
+		// mainItem = visualDocument.createElement("DIV");
+		patronItem = visualDocument.createElement(HTML.TAG_SPAN);
+		createCopyChildren(visualDocument, patronItem, list);
+	    }
+	    VpeCreationData creationData = new VpeCreationData(patronItem);
+	    return creationData;
 	}
 
 	public void createCopyChildren(nsIDOMDocument visualDocument,
@@ -111,11 +121,11 @@ public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 			nodeTmp = listCopyChildren.item(i);
 			// remark: cloneNode true/false - is not suitable function here
 			//nodeTmp2 = nodeTmp.cloneNode(false);
-			if (nodeTmp.getNodeName().startsWith("#text")) {
+			if (nodeTmp.getNodeName().startsWith("#text")) { //$NON-NLS-1$
 				nodeTmp2 = visualDocument.createTextNode(nodeTmp.getNodeValue());
 			}
 			else {
-				if (!nodeTmp.getNodeName().startsWith("#")) {
+				if (!nodeTmp.getNodeName().startsWith("#")) { //$NON-NLS-1$
 					nodeTmp2 = visualDocument.createElement(nodeTmp.getNodeName());
 				}
 			}
