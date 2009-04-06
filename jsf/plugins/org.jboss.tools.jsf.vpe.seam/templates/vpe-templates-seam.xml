@@ -161,7 +161,8 @@
     
     <vpe:tag name="s:fileUpload" case-sensitive="yes">
         <vpe:template children="no" modify="no">
-                <input type="file" style="{@style}" class="{@styleClass}" title="{tagstring()}"/>
+                <input type="file" style="{@style}" class="{@styleClass}"
+	                   title="{tagstring()}" size="{@size}" />
             <vpe:dnd>
                 <vpe:drag start-enable="yes" />
                 <vpe:drop container="no" />
