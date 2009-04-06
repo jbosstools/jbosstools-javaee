@@ -1,12 +1,50 @@
 <tests>
 	<test id="id1">
-			<SPAN>
-				<OL>
-					<LI>
-						{blog.text}
+		<SPAN>
+			<OL>
+				<LI>
+					{blog.text}
                     </LI>
-				</OL>
-				<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
-			</SPAN>
+			</OL>
+			<BR VPE:PSEUDO-ELEMENT="yes"
+				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+		</SPAN>
+	</test>
+	<test id="id2">
+		<SPAN>
+			<SPAN CLASS="vpe-text">
+				It's easy to make *emphasis*, |monospace|,~deleted text~, super^scripts^ or _underlines_.
+        </SPAN>
+		</SPAN>
+	</test>
+
+	<test id="id3">
+		<SPAN>
+			<P>
+				It's easy to make
+				<B>
+					emphasis
+                </B>
+				,
+				<TT>
+					monospace
+                </TT>
+				,
+				<DEL>
+					deleted text
+                </DEL>
+				, super
+				<SUP>
+					scripts
+                </SUP>
+				or
+				<U>
+					underlines
+                </U>
+				.
+			</P>
+			<BR VPE:PSEUDO-ELEMENT="yes"
+				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+		</SPAN>
 	</test>
 </tests>
