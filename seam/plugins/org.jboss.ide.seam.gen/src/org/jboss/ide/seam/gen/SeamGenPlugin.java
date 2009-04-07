@@ -27,7 +27,7 @@ import org.osgi.framework.BundleContext;
 public class SeamGenPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.ide.seam.gen";
+	public static final String PLUGIN_ID = "org.jboss.ide.seam.gen"; //$NON-NLS-1$
 
 	// The shared instance
 	private static SeamGenPlugin plugin;
@@ -36,7 +36,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public SeamGenPlugin() {
-		plugin = this;
+		setPlugin(this);
 	}
 
 	/*
@@ -51,7 +51,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 	private void initSeamGen() {
 		ILaunchConfiguration config=null;
 		try {
-			config = findLaunchConfig("seamgen");
+			config = findLaunchConfig("seamgen"); //$NON-NLS-1$
 		} catch (CoreException e1) {
 			logError("Exception occured during search in Launch Configuration list.", e1);
 		}
@@ -71,7 +71,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 		}
 	}
 	
-	private static final String JBOSS_AS_HOME = "../../../../jboss-eap/jboss-as";
+	private static final String JBOSS_AS_HOME = "../../../../jboss-eap/jboss-as"; //$NON-NLS-1$
 	
 	static public String assumeJBossASHome() {
 		String pluginLocation=null;
@@ -86,7 +86,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 		if(p.toFile().exists()) {
 			return p.toOSString();
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		plugin = null;
+		setPlugin(null);
 		super.stop(context);
 	}
 
@@ -124,6 +124,10 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 	 */
 	public static SeamGenPlugin getDefault() {
 		return plugin;
+	}
+
+	private static void setPlugin(SeamGenPlugin plugin) {
+		SeamGenPlugin.plugin = plugin;
 	}
 
 	
