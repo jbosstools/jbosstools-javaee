@@ -18,17 +18,12 @@ import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1645Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;
 import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
+import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
-import org.jboss.tools.seam.ui.test.wizard.Seam12EARNewOperationTest;
-import org.jboss.tools.seam.ui.test.wizard.Seam12WARNewOperationTest;
-import org.jboss.tools.seam.ui.test.wizard.Seam12XOperationsTestSuite121EAP;
-import org.jboss.tools.seam.ui.test.wizard.Seam20EARNewOperationTest;
-import org.jboss.tools.seam.ui.test.wizard.Seam20WARNewOperationTest;
-import org.jboss.tools.seam.ui.test.wizard.Seam20XOperationsTestSuite201GA;
 import org.jboss.tools.seam.ui.test.wizard.SeamActionNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
@@ -57,6 +52,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
 		suite.addTestSuite(PackageNamesTest.class);
+		suite.addTestSuite(JBide3989Test.class);
 		return suite;
 	}
 }
