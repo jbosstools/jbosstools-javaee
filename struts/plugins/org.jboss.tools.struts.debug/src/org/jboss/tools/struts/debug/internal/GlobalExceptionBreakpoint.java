@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.struts.debug.internal.condition.GlobalExceptionCondition;
 import org.jboss.tools.jst.web.debug.DebugMessages;
@@ -42,7 +43,7 @@ public class GlobalExceptionBreakpoint extends ActionExceptionBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("GlobalExceptionBreakpoint.name", new String[]{getMarker().getResource().getName(), getExceptionTypeName()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.GlobalExceptionBreakpoint_name, (new String[]{getMarker().getResource().getName(), getExceptionTypeName()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.jst.web.debug.internal.JspLineBreakpoint;
 import org.jboss.tools.jst.web.debug.DebugMessages;
@@ -29,7 +30,7 @@ public class PageEnterBreakpoint extends JspLineBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("PageEnterBreakpoint.name", new String[]{getPattern()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.PageEnterBreakpoint_name, (new String[]{getPattern()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.jst.web.debug.DebugMessages;
 
@@ -43,7 +44,7 @@ public class ActionEnterBreakpoint extends ActionBreakpoint {
 
     public String getLabelText() {
     	try {
-            return DebugMessages.getString("ActionEnterBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath()}); //$NON-NLS-1$
+            return NLS.bind(DebugMessages.ActionEnterBreakpoint_name, (new String[]{getMarker().getResource().getName(), getActionMappingPath()})); 
         } catch (CoreException e) {
             StrutsDebugPlugin.log(e);
             return "error";

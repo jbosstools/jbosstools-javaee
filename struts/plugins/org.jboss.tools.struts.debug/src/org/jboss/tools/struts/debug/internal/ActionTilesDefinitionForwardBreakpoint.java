@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.jdt.internal.debug.core.model.JDIStackFrame;
 import org.eclipse.jdt.internal.debug.core.model.JDIThread;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.jst.web.debug.DebugMessages;
 
@@ -59,7 +60,7 @@ public class ActionTilesDefinitionForwardBreakpoint extends ActionForwardBreakpo
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("ActionTilesDefinitionForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.ActionTilesDefinitionForwardBreakpoint_name, (new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

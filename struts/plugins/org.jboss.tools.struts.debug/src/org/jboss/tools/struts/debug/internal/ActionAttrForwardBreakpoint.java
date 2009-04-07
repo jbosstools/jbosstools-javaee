@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.struts.debug.internal.condition.ActionAttrForwardCondition;
 import org.jboss.tools.jst.web.debug.DebugMessages;
@@ -59,7 +60,7 @@ public class ActionAttrForwardBreakpoint extends ActionConditionBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("ActionForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.ActionForwardBreakpoint_name, (new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

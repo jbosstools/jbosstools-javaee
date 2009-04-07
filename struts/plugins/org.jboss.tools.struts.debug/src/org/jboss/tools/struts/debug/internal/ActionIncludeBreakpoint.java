@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.struts.debug.internal.condition.ActionIncludeCondition;
 import org.jboss.tools.jst.web.debug.DebugMessages;
@@ -58,7 +59,7 @@ public class ActionIncludeBreakpoint extends ActionConditionBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("ActionIncludeBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getIncludeName()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.ActionIncludeBreakpoint_name, (new String[]{getMarker().getResource().getName(), getActionMappingPath(), getIncludeName()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

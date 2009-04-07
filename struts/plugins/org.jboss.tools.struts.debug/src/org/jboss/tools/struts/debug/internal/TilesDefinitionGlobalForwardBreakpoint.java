@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.struts.debug.internal.condition.GlobalForwardCondition;
 import org.jboss.tools.jst.web.debug.DebugMessages;
@@ -41,7 +42,7 @@ public class TilesDefinitionGlobalForwardBreakpoint extends ActionTilesDefinitio
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("TilesDefinitionGlobalForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getForwardName()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.TilesDefinitionGlobalForwardBreakpoint_name, (new String[]{getMarker().getResource().getName(), getForwardName()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

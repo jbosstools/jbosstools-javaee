@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.struts.debug.internal.condition.ActionExceptionCondition;
 import org.jboss.tools.jst.web.debug.DebugMessages;
@@ -63,7 +64,7 @@ public class ActionExceptionBreakpoint extends ActionConditionBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString("ActionExceptionBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getExceptionTypeName()}); //$NON-NLS-1$
+			return NLS.bind(DebugMessages.ActionExceptionBreakpoint_name, (new String[]{getMarker().getResource().getName(), getActionMappingPath(), getExceptionTypeName()})); 
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";
