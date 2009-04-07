@@ -10,9 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -25,6 +29,12 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
+import org.eclipse.jdt.ui.text.IJavaPartitions;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.rules.IToken;
+import org.eclipse.jface.text.rules.Token;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
@@ -34,17 +44,46 @@ import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.model.ELInstance;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.el.core.parser.ELParser;
+import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.parser.SyntaxError;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Alexey Kazakov
  */
 public class RenameComponentProcessor extends RenameProcessor {
 	private static final String ANNOTATION_NAME = "org.jboss.seam.annotations.Name";
+	private static final String JAVA_EXT = "java";
+	private static final String XML_EXT = "xml";
+	private static final String XHTML_EXT = "xhtml";
+	private static final String JSP_EXT = "jsp";
+	private static final String PROPERTIES_EXT = "properties";
 
 	private IFile file;
 	private ISeamComponent component;
@@ -82,6 +121,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 		this.newName = componentName;
 		
 		annotation = getAnnotation(file);
+		
+		findReferences();
 	}
 	
 	private IAnnotation getAnnotation(IFile file){
@@ -112,6 +153,188 @@ public class RenameComponentProcessor extends RenameProcessor {
 			}
 		}
 		return null;
+	}
+	
+	// we need to find references in .java .xml .xhtml .jsp .properties files
+	private void findReferences(){
+		SeamProjectsSet projectsSet = new SeamProjectsSet(file.getProject());
+		
+		IProject warProject = projectsSet.getWarProject();
+		if(warProject != null)
+			scan(warProject);
+		
+		IProject earProject = projectsSet.getEarProject();
+		if(earProject != null)
+			scan(earProject);
+		
+		// TODO Here can be several ejb projects
+		IProject ejbProject = projectsSet.getEjbProject();
+		if(ejbProject != null)
+			scan(ejbProject);
+		
+	}
+	
+	private void scan(IProject project){
+		try{
+			for(IResource resource : project.members()){
+				if(resource instanceof IFolder)
+					scan((IFolder) resource);
+				else if(resource instanceof IFile)
+					scan((IFile) resource);
+			}
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+	}
+	
+	private void scan(IFolder folder){
+		System.out.println("Scan folder - "+folder.getName());
+		try{
+			for(IResource resource : folder.members()){
+				if(resource instanceof IFolder)
+					scan((IFolder) resource);
+				else if(resource instanceof IFile)
+					scan((IFile) resource);
+			}
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+	}
+	
+	private void scan(IFile file){
+		System.out.println("Scan file - "+file.getName());
+		String ext = file.getFileExtension();
+		String content = null;
+		try {
+			content = FileUtil.readStream(file.getContents());
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+			return;
+		}
+		if(ext.equalsIgnoreCase(JAVA_EXT))
+			scanJava(file, content);
+		else if(ext.equalsIgnoreCase(XML_EXT) || ext.equalsIgnoreCase(XHTML_EXT))
+			scanDOM(file, content);
+		else if(ext.equalsIgnoreCase(JSP_EXT))
+			scanJsp(file, content);
+		else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
+			scanProperties(file, content);
+		
+	}
+	
+	private void scanJava(IFile file, String content){
+		try {
+			FastJavaPartitionScanner scaner = new FastJavaPartitionScanner();
+			Document document = new Document(content);
+			scaner.setRange(document, 0, document.getLength());
+			IToken token = scaner.nextToken();
+			while(token!=null && token!=Token.EOF) {
+				if(IJavaPartitions.JAVA_STRING.equals(token.getData())) {
+					int length = scaner.getTokenLength();
+					int offset = scaner.getTokenOffset();
+					String value = document.get(offset, length);
+					if(value.indexOf('{')>-1) {
+						scanString(file, value, offset);
+					}
+				}
+				token = scaner.nextToken();
+			}
+		} catch (BadLocationException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+	}
+	
+	private void scanDOM(IFile file, String content){
+		varListForCurentValidatedNode.clear();
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if(manager == null) {
+			return;
+		}
+		IStructuredModel model = null;		
+		try {
+			model = manager.getModelForRead(file);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				IDOMDocument document = domModel.getDocument();
+				validateChildNodes(file, document);
+			}
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+        } catch (IOException e) {
+        	SeamCorePlugin.getDefault().logError(e);
+		} finally {
+			if (model != null) {
+				model.releaseFromRead();
+			}
+		}
+	}
+	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
+	private ElVarSearcher elVarSearcher;
+
+	private void validateChildNodes(IFile file, Node parent) {
+		String preferenceValue = SeamPreferences.getProjectPreference(file.getProject(), SeamPreferences.CHECK_VARS);
+		NodeList children = parent.getChildNodes();
+		for(int i=0; i<children.getLength(); i++) {
+			Node curentValidatedNode = children.item(i);
+			Var var = null;
+			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
+				if (SeamPreferences.ENABLE.equals(preferenceValue)) {
+					var = elVarSearcher.findVar(curentValidatedNode);
+				}
+				if(var!=null) {
+					varListForCurentValidatedNode.add(var);
+				}
+				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
+			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
+				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
+			}
+			validateChildNodes(file, curentValidatedNode);
+			if(var!=null) {
+				varListForCurentValidatedNode.remove(var);
+			}
+		}
+	}
+
+	private void validateNodeContent(IFile file, IStructuredDocumentRegion node, String regionType) {
+		ITextRegionList regions = node.getRegions();
+		for(int i=0; i<regions.size(); i++) {
+			ITextRegion region = regions.get(i);
+			if(region.getType() == regionType) {
+				String text = node.getFullText(region);
+				if(text.indexOf("{")>-1) { //$NON-NLS-1$
+					int offset = node.getStartOffset() + region.getStart();
+					scanString(file, text, offset);
+				}
+			}
+		}
+	}
+
+	private void scanString(IFile file, String string, int offset) {
+		System.out.println("Validate String - "+string);
+		int startEl = string.indexOf("#{"); //$NON-NLS-1$
+		if(startEl>-1) {
+			ELParser parser = ELParserUtil.getJbossFactory().createParser();
+			ELModel model = parser.parse(string);
+			for (ELInstance instance : model.getInstances()) {
+				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
+					if(ie instanceof ELPropertyInvocation){
+						
+					}
+				}
+			}
+		}
+	}
+	
+	private ELPropertyInvocation findComponent(ELInvocationExpression ie){
+		return null;
+	}
+
+	private void scanJsp(IFile file, String content){
+		
+	}
+
+	private void scanProperties(IFile file, String content){
+		
 	}
 
 	/*
