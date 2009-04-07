@@ -20,8 +20,6 @@ import org.jboss.tools.jst.web.debug.DebugMessages;
 
 public class GlobalForwardBreakpoint extends ActionForwardBreakpoint {
 
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "GlobalForwardBreakpoint.name";
-
 	public GlobalForwardBreakpoint(){
 	}
 
@@ -40,7 +38,7 @@ public class GlobalForwardBreakpoint extends ActionForwardBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getForwardName()});
+			return DebugMessages.getString("GlobalForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getForwardName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

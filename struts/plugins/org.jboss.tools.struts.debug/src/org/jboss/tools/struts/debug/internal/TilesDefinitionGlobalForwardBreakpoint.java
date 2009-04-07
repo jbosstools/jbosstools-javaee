@@ -23,8 +23,6 @@ import org.jboss.tools.jst.web.debug.DebugMessages;
  */
 public class TilesDefinitionGlobalForwardBreakpoint extends ActionTilesDefinitionForwardBreakpoint {
 
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "TilesDefinitionGlobalForwardBreakpoint.name";
-
 	public TilesDefinitionGlobalForwardBreakpoint(){
 	}
 
@@ -43,7 +41,7 @@ public class TilesDefinitionGlobalForwardBreakpoint extends ActionTilesDefinitio
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getForwardName()});
+			return DebugMessages.getString("TilesDefinitionGlobalForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getForwardName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

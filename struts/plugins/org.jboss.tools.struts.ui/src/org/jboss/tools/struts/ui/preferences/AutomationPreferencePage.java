@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.preferences;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -40,11 +38,9 @@ public class AutomationPreferencePage extends PreferencePage implements IWorkben
 	protected Control createContents(Composite parent)  {
 		noDefaultAndApplyButton();
 		StyledText newControl = new StyledText(parent,SWT.WRAP);
-		newControl.setText(ResourceBundle.getBundle(this.getClass().getPackage().getName()+".preferences").getString("AUTOMATION_PD"));
+		newControl.setText(Messages.getString("AUTOMATION_PD")); //$NON-NLS-1$
 		newControl.setBackground(parent.getBackground());
 		newControl.setEditable(false);
 		return newControl;
-
-
 	}
 }

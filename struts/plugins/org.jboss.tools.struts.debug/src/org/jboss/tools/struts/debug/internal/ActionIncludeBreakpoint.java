@@ -25,11 +25,9 @@ public class ActionIncludeBreakpoint extends ActionConditionBreakpoint {
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor";
-	private static final String BREAKPOINT_METHOD_NAME = "processForward";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionMapping;)Z";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionIncludeBreakpoint.name";
-
+	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_NAME = "processForward"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionMapping;)Z"; //$NON-NLS-1$
 	public ActionIncludeBreakpoint() {
 	}
 
@@ -51,16 +49,16 @@ public class ActionIncludeBreakpoint extends ActionConditionBreakpoint {
 	}
 
 	protected String getIncludeName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_INCLUDE_NAME, "");
+		return ensureMarker().getAttribute(ATTR_INCLUDE_NAME, ""); //$NON-NLS-1$
 	}
 
 	protected String getActionMappingPath() throws CoreException {
-		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, "");
+		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, ""); //$NON-NLS-1$
 	}
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath(), getIncludeName()});
+			return DebugMessages.getString("ActionIncludeBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getIncludeName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

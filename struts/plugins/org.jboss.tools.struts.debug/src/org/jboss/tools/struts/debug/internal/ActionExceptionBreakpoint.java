@@ -22,10 +22,9 @@ public class ActionExceptionBreakpoint extends ActionConditionBreakpoint {
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor";
-	private static final String BREAKPOINT_METHOD_NAME = "processException";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Exception;Lorg/apache/struts/action/ActionForm;Lorg/apache/struts/action/ActionMapping;)Lorg/apache/struts/action/ActionForward;";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionExceptionBreakpoint.name";
+	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_NAME = "processException"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Exception;Lorg/apache/struts/action/ActionForm;Lorg/apache/struts/action/ActionMapping;)Lorg/apache/struts/action/ActionForward;"; //$NON-NLS-1$
 
 	public ActionExceptionBreakpoint() { 
 	}
@@ -51,20 +50,20 @@ public class ActionExceptionBreakpoint extends ActionConditionBreakpoint {
 	}
 
 	public String getActionTypeName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_ACTION_TYPE_NAME, "");
+		return ensureMarker().getAttribute(ATTR_ACTION_TYPE_NAME, ""); //$NON-NLS-1$
 	}
 
 	public String getExceptionTypeName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_EXCEPTION_TYPE_NAME, "");
+		return ensureMarker().getAttribute(ATTR_EXCEPTION_TYPE_NAME, ""); //$NON-NLS-1$
 	}
 
 	protected String getActionMappingPath() throws CoreException {
-		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, "");
+		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, ""); //$NON-NLS-1$
 	}
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath(), getExceptionTypeName()});
+			return DebugMessages.getString("ActionExceptionBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getExceptionTypeName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

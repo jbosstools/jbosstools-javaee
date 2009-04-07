@@ -42,7 +42,7 @@ import com.sun.jdi.event.LocatableEvent;
  */
 public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 
-	private static final String ACTION_CONDITION_BREAKPOINT_MANAGER = "org.jboss.tools.struts.debug.actionConditionBreakpointManager";
+	private static final String ACTION_CONDITION_BREAKPOINT_MANAGER = "org.jboss.tools.struts.debug.actionConditionBreakpointManager"; //$NON-NLS-1$
 	private static boolean suspend = false;
 
 	protected Map fSuspendEvents = new HashMap();
@@ -126,7 +126,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 			return true;
 		}
 		if (thread.isPerformingEvaluation()) {
-			StrutsDebugPlugin.log("Thread alraedy is performing evaluation.");
+			StrutsDebugPlugin.log("Thread is already performing evaluation.");
 			// If an evaluation is already being computed for this thread,
 			// we can't perform another
 			return !suspendForEvent(event, thread);
@@ -157,7 +157,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 			IJavaProject project = getJavaProject();
 			IAstEvaluationEngine engine = getEvaluationEngine(target, project);
 			if (project == null) {
-				StrutsDebugPlugin.log("Struts debbuger: Java project is NULL!!!");
+				StrutsDebugPlugin.log("Struts debugger: Java project is NULL!!!");
 				return threadResumeQuiet(jdiThread);
 			}
 			if (engine == null) {
@@ -218,7 +218,7 @@ public abstract class ActionConditionBreakpoint extends ActionBreakpoint {
 					// Suspend when the condition evaluates true
 					IJavaPrimitiveValue javaValue = (IJavaPrimitiveValue)value;
 					if (isConditionSuspendOnTrue()) {
-						if (javaValue.getJavaType().getName().equals("boolean") && javaValue.getBooleanValue()) {
+						if (javaValue.getJavaType().getName().equals("boolean") && javaValue.getBooleanValue()) { //$NON-NLS-1$
 							suspendForCondition(event, thread);
 							getActionConditionBreakpointManager().setStopHandleBreakpoints(true);
 							return;

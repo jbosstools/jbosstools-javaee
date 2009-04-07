@@ -14,10 +14,11 @@ import org.jboss.tools.common.model.ui.preferences.CompanyPreferencesPage;
 
 public class JSFStudioPreferencesPage extends CompanyPreferencesPage {
 	
-	public static final String ID = "org.jboss.tools.jsf.ui";
+	public static final String ID = "org.jboss.tools.jsf.ui"; //$NON-NLS-1$
 	
-	protected String getKey() {
-		return "JSFSTUDIO";
+	@Override
+	protected String getPrefsName() {
+		return Messages.getString("JSFSTUDIO"); //$NON-NLS-1$
 	}
 
 }

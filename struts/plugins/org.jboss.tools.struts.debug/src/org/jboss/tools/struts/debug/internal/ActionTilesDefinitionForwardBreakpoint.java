@@ -28,10 +28,9 @@ public class ActionTilesDefinitionForwardBreakpoint extends ActionForwardBreakpo
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.tiles.TilesRequestProcessor";
-	private static final String BREAKPOINT_METHOD_NAME = "processTilesDefinition";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljava/lang/String;ZLjavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)Z";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionTilesDefinitionForwardBreakpoint.name";
+	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.tiles.TilesRequestProcessor"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_NAME = "processTilesDefinition"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljava/lang/String;ZLjavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)Z"; //$NON-NLS-1$
 
 	public ActionTilesDefinitionForwardBreakpoint() {
 	}
@@ -51,7 +50,7 @@ public class ActionTilesDefinitionForwardBreakpoint extends ActionForwardBreakpo
 	protected JDIStackFrame computeNewStackFrame(JDIThread jdiThread) throws DebugException {
 	    List frames = jdiThread.computeNewStackFrames();
 		JDIStackFrame frame = (JDIStackFrame)frames.get(2);
-		if("process".equals(frame.getMethodName())) {
+		if("process".equals(frame.getMethodName())) { //$NON-NLS-1$
 		    // RequestProcessor
 			return frame;
 		}
@@ -60,7 +59,7 @@ public class ActionTilesDefinitionForwardBreakpoint extends ActionForwardBreakpo
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()});
+			return DebugMessages.getString("ActionTilesDefinitionForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

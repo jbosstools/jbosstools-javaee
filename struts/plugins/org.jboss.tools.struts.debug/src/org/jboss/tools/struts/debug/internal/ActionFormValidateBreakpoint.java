@@ -24,10 +24,8 @@ public class ActionFormValidateBreakpoint extends ActionFormBreakpoint {
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_METHOD_NAME = "processValidate";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionForm;Lorg/apache/struts/action/ActionMapping;)Z";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionFormValidateBreakpoint.name";
-
+	private static final String BREAKPOINT_METHOD_NAME = "processValidate"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionForm;Lorg/apache/struts/action/ActionMapping;)Z"; //$NON-NLS-1$
 	public ActionFormValidateBreakpoint() {
 	}
 
@@ -45,7 +43,7 @@ public class ActionFormValidateBreakpoint extends ActionFormBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath()});
+			return DebugMessages.getString("ActionFormValidateBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

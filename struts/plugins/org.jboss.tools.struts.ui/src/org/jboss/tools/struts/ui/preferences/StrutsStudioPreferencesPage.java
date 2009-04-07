@@ -17,8 +17,9 @@ import org.jboss.tools.common.model.ui.preferences.CompanyPreferencesPage;
  */
 public class StrutsStudioPreferencesPage extends CompanyPreferencesPage {
 
-	protected String getKey() {
-		return "XSTUDIO_PD";
+	@Override
+	protected String getPrefsName() {
+		return Messages.getString("XSTUDIO_PD"); //$NON-NLS-1$
 	}
 
 }

@@ -26,10 +26,9 @@ public class ActionForwardBreakpoint extends ActionConditionBreakpoint {
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor";
-	private static final String BREAKPOINT_METHOD_NAME = "processForwardConfig";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/config/ForwardConfig;)V";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionForwardBreakpoint.name";
+	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_NAME = "processForwardConfig"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/config/ForwardConfig;)V"; //$NON-NLS-1$
 
 	public ActionForwardBreakpoint() {
 	}
@@ -58,13 +57,13 @@ public class ActionForwardBreakpoint extends ActionConditionBreakpoint {
 	protected JDIStackFrame computeNewStackFrame(JDIThread jdiThread) throws DebugException {
 	    List frames = jdiThread.computeNewStackFrames();
 		JDIStackFrame frame = (JDIStackFrame)frames.get(1);
-		if("process".equals(frame.getMethodName())) {
+		if("process".equals(frame.getMethodName())) { //$NON-NLS-1$
 		    // RequestProcessor
 			return frame;
-		} else if ("processForwardConfig".equals(frame.getMethodName())) {
+		} else if ("processForwardConfig".equals(frame.getMethodName())) { //$NON-NLS-1$
 		    // TilesRequestProcessor
 		    frame = (JDIStackFrame)frames.get(2);
-			if("process".equals(frame.getMethodName())) {
+			if("process".equals(frame.getMethodName())) { //$NON-NLS-1$
 			    // RequestProcessor
 				return frame;
 			}
@@ -73,20 +72,20 @@ public class ActionForwardBreakpoint extends ActionConditionBreakpoint {
 	}
 
 	protected String getActionTypeName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_ACTION_TYPE_NAME, "");
+		return ensureMarker().getAttribute(ATTR_ACTION_TYPE_NAME, ""); //$NON-NLS-1$
 	}
 
 	protected String getForwardName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_FORWARD_NAME, "");
+		return ensureMarker().getAttribute(ATTR_FORWARD_NAME, ""); //$NON-NLS-1$
 	}
 
 	protected String getActionMappingPath() throws CoreException {
-		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, "");
+		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, ""); //$NON-NLS-1$
 	}
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()});
+			return DebugMessages.getString("ActionForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

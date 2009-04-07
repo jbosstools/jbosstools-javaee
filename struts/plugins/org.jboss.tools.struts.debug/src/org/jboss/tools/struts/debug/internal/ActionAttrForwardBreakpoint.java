@@ -25,10 +25,9 @@ public class ActionAttrForwardBreakpoint extends ActionConditionBreakpoint {
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor";
-	private static final String BREAKPOINT_METHOD_NAME = "processForward";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionMapping;)Z";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionForwardBreakpoint.name";
+	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_NAME = "processForward"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionMapping;)Z"; //$NON-NLS-1$
 
 	public ActionAttrForwardBreakpoint() {
 	}
@@ -51,16 +50,16 @@ public class ActionAttrForwardBreakpoint extends ActionConditionBreakpoint {
 	}
 
 	protected String getForwardName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_FORWARD_NAME, "");
+		return ensureMarker().getAttribute(ATTR_FORWARD_NAME, ""); //$NON-NLS-1$
 	}
 
 	protected String getActionMappingPath() throws CoreException {
-		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, "");
+		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, ""); //$NON-NLS-1$
 	}
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()});
+			return DebugMessages.getString("ActionForwardBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath(), getForwardName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

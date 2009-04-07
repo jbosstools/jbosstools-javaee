@@ -20,7 +20,6 @@ import org.jboss.tools.jst.web.debug.DebugMessages;
 
 public class GlobalExceptionBreakpoint extends ActionExceptionBreakpoint {
 
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "GlobalExceptionBreakpoint.name";
 
 	public GlobalExceptionBreakpoint() {
 	}
@@ -43,7 +42,7 @@ public class GlobalExceptionBreakpoint extends ActionExceptionBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getExceptionTypeName()});
+			return DebugMessages.getString("GlobalExceptionBreakpoint.name", new String[]{getMarker().getResource().getName(), getExceptionTypeName()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

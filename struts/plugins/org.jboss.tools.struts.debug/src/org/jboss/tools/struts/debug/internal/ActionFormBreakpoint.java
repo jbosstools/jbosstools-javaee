@@ -25,7 +25,7 @@ import org.jboss.tools.struts.debug.internal.condition.ActionFormCondition;
  */
 public abstract class ActionFormBreakpoint extends ActionConditionBreakpoint {
 
-	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor";
+	private static final String BREAKPOINT_CLASS_NAME = "org.apache.struts.action.RequestProcessor"; //$NON-NLS-1$
 
 	public ActionFormBreakpoint() {
 	}
@@ -36,7 +36,7 @@ public abstract class ActionFormBreakpoint extends ActionConditionBreakpoint {
 
 	protected JDIStackFrame computeNewStackFrame(JDIThread jdiThread) throws DebugException {
 		JDIStackFrame frame = (JDIStackFrame)jdiThread.computeNewStackFrames().get(1);
-		if("process".equals(frame.getMethodName())) {
+		if("process".equals(frame.getMethodName())) { //$NON-NLS-1$
 			return frame;
 		}
 		return null;
@@ -48,6 +48,6 @@ public abstract class ActionFormBreakpoint extends ActionConditionBreakpoint {
 	}
 
 	protected String getActionMappingPath() throws CoreException {
-		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, "");
+		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, ""); //$NON-NLS-1$
 	}
 }

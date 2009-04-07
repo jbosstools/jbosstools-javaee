@@ -24,9 +24,8 @@ public class ActionFormPopulateBreakpoint extends ActionFormBreakpoint {
 
 	private static IActionConditionBreakpointManager actionConditionBreakpointManager = new ActionConditionBreakpointManager();
 
-	private static final String BREAKPOINT_METHOD_NAME = "processPopulate";
-	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionForm;Lorg/apache/struts/action/ActionMapping;)V";
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionFormPopulateBreakpoint.name";
+	private static final String BREAKPOINT_METHOD_NAME = "processPopulate"; //$NON-NLS-1$
+	private static final String BREAKPOINT_METHOD_SIGNATURE = "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Lorg/apache/struts/action/ActionForm;Lorg/apache/struts/action/ActionMapping;)V"; //$NON-NLS-1$
 
 	public ActionFormPopulateBreakpoint() {
 	}
@@ -45,7 +44,7 @@ public class ActionFormPopulateBreakpoint extends ActionFormBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath()});
+			return DebugMessages.getString("ActionFormPopulateBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";

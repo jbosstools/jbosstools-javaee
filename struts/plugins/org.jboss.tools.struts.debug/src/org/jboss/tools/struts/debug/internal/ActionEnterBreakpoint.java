@@ -19,10 +19,8 @@ import org.jboss.tools.jst.web.debug.DebugMessages;
 
 public class ActionEnterBreakpoint extends ActionBreakpoint {
 
-	public static final String BREAKPOINT_METHOD_NAME = "execute";
-	public static final String BREAKPOINT_METHOD_SIGNATURE = "(Lorg/apache/struts/action/ActionMapping;Lorg/apache/struts/action/ActionForm;Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)Lorg/apache/struts/action/ActionForward;";
-
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "ActionEnterBreakpoint.name";
+	public static final String BREAKPOINT_METHOD_NAME = "execute"; //$NON-NLS-1$
+	public static final String BREAKPOINT_METHOD_SIGNATURE = "(Lorg/apache/struts/action/ActionMapping;Lorg/apache/struts/action/ActionForm;Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)Lorg/apache/struts/action/ActionForward;"; //$NON-NLS-1$
 
 	public ActionEnterBreakpoint() {
 	}
@@ -36,16 +34,16 @@ public class ActionEnterBreakpoint extends ActionBreakpoint {
 	}
 
 	protected String getActionMappingPath() throws CoreException {
-		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, "");
+		return ensureMarker().getAttribute(ActionBreakpoint.ATTR_ACTION_MAPPING_PATH, ""); //$NON-NLS-1$
 	}
 
 	protected String getActionTypeName() throws CoreException {
-		return ensureMarker().getAttribute(ATTR_ACTION_TYPE_NAME, "");
+		return ensureMarker().getAttribute(ATTR_ACTION_TYPE_NAME, ""); //$NON-NLS-1$
 	}
 
     public String getLabelText() {
     	try {
-            return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getMarker().getResource().getName(), getActionMappingPath()});
+            return DebugMessages.getString("ActionEnterBreakpoint.name", new String[]{getMarker().getResource().getName(), getActionMappingPath()}); //$NON-NLS-1$
         } catch (CoreException e) {
             StrutsDebugPlugin.log(e);
             return "error";

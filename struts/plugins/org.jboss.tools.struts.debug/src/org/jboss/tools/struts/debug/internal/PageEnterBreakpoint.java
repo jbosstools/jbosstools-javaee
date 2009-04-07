@@ -20,8 +20,6 @@ import org.jboss.tools.jst.web.debug.DebugMessages;
 
 public class PageEnterBreakpoint extends JspLineBreakpoint {
 
-	private static final String BREAKPOINT_LABEL_TEXT_KEY = "PageEnterBreakpoint.name";
-
 	public PageEnterBreakpoint() throws CoreException {
 	}
 
@@ -31,7 +29,7 @@ public class PageEnterBreakpoint extends JspLineBreakpoint {
 
 	public String getLabelText() {
 		try {
-			return DebugMessages.getString(BREAKPOINT_LABEL_TEXT_KEY, new String[]{getPattern()});
+			return DebugMessages.getString("PageEnterBreakpoint.name", new String[]{getPattern()}); //$NON-NLS-1$
 		} catch (CoreException e) {
             StrutsDebugPlugin.log(e);
 			return "error";
