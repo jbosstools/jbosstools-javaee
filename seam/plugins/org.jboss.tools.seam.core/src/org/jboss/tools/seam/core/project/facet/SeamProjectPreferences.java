@@ -44,7 +44,7 @@ public class SeamProjectPreferences {
 			+ ".project.default.deployment.type"; //$NON-NLS-1$
 
 	/**
-	 * Last selected deployment type
+	 * Last selected Seam configuration template
 	 */
 	public static final String SEAM_CONFIG_TEMPLATE = SeamCorePlugin.PLUGIN_ID
 			+ ".project.facet.config.template"; //$NON-NLS-1$
