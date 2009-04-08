@@ -10,9 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -256,7 +260,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 			if (model instanceof IDOMModel) {
 				IDOMModel domModel = (IDOMModel) model;
 				IDOMDocument document = domModel.getDocument();
-				validateChildNodes(file, document);
+				scanChildNodes(file, document);
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
@@ -269,20 +273,20 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 	}
 
-	private void validateChildNodes(IFile file, Node parent) {
+	private void scanChildNodes(IFile file, Node parent) {
 		NodeList children = parent.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
 			Node curentValidatedNode = children.item(i);
 			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
-				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
+				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
 			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
-				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
+				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
 			}
-			validateChildNodes(file, curentValidatedNode);
+			scanChildNodes(file, curentValidatedNode);
 		}
 	}
 
-	private void validateNodeContent(IFile file, IStructuredDocumentRegion node, String regionType) {
+	private void scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType) {
 		ITextRegionList regions = node.getRegions();
 		for(int i=0; i<regions.size(); i++) {
 			ITextRegion region = regions.get(i);
@@ -342,7 +346,21 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 
 	private void scanProperties(IFile file, String content){
-		
+		//System.out.println("ScanProperties "+file.getName());
+		try{
+			FileInputStream fis = new FileInputStream(new File(file.getLocationURI()));
+			PropertyResourceBundle rb = new PropertyResourceBundle(fis);
+			for(String key : rb.keySet()){
+				//System.out.println("Key - "+key+" Val - "+rb.getString(key));
+				String value = rb.getString(key);
+				if(value.indexOf('{')>-1)
+					scanString(file, value, 0);
+			}
+		}catch(FileNotFoundException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}catch(IOException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
 	}
 
 	/*
