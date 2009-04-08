@@ -101,7 +101,8 @@
     </vpe:tag>
     
     <vpe:tag name="s:decorate" case-sensitive="yes">
-            <vpe:template children="yes" modify="yes" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets" class="org.jboss.tools.jsf.vpe.facelets.template.VpeDecorateTemplate">
+            <vpe:template children="yes" modify="yes"
+	               class="org.jboss.tools.jsf.vpe.seam.template.SeamDecorateTemplate">
             </vpe:template>
     </vpe:tag>
     

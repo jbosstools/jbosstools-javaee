@@ -14,6 +14,7 @@ import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.VpeDefineContainerTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -27,7 +28,7 @@ public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 
 		Attr attr = ((Element)sourceNode).getAttributeNode(Facelets.ATTR_TEMPLATE);
 		if (attr != null) {
-			return super.create(pageContext, sourceNode, visualDocument);
+			return super.createTemplate(attr.getNodeValue(), pageContext, sourceNode, visualDocument);
 		} else  {
 			nsIDOMElement composition = visualDocument.createElement(HTML.TAG_DIV);
 			return new VpeCreationData(composition);
