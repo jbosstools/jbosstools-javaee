@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <vpe:template-taglib uri="http://jboss.com/products/seam/taglib"
         prefix="s" />
-
+        
    	<vpe:tag name="s:button" case-sensitive="yes">
 		<!-- This is a very big if-statement. 
 		     Its goal is to add support of 'disabled property'
@@ -280,8 +280,9 @@
     </vpe:tag>
 
     <vpe:tag name="s:remote" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes" />
-        <span class="vpe-text"/>
+        <vpe:template children="yes" modify="yes">
+            <span class="vpe-text"/>
+        </vpe:template>
     </vpe:tag>
 
     <vpe:tag name="s:selectDate" case-sensitive="yes">
