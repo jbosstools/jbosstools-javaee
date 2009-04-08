@@ -25,10 +25,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		setCheckWarning(false);
 	}
 
-	/**
-	 * 
-	 * @throws Throwable
-	 */
+	public void testJbide1605() throws Throwable {
+		performContentTest("components/panelMenuGroup/jbide1605.xhtml"); //$NON-NLS-1$
+	}
+
 	public void testAjaxValidator() throws Throwable {
 		performInvisibleTagTest(
 				"components/ajaxValidator.xhtml", "ajaxValidator");//$NON-NLS-1$ //$NON-NLS-2$
