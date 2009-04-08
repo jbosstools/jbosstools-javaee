@@ -43,6 +43,7 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.wst.sse.core.StructuredModelManager;
@@ -294,6 +295,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 			}
 		}
 	}
+	
+	TextFileChange lastChange = null;
 
 	private void scanString(IFile file, String string, int offset) {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
@@ -304,10 +307,14 @@ public class RenameComponentProcessor extends RenameProcessor {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
 					ELPropertyInvocation pi = findComponentReference(ie);
 					if(pi != null){
-						TextFileChange change = new TextFileChange(file.getName(), file);
-						TextEdit edit = new ReplaceEdit(offset+pi.getStartPosition(), pi.getEndPosition()-pi.getStartPosition(), newName);
-						change.setEdit(edit);
-						changes.add(change);
+						if(lastChange == null || lastChange.getFile() != file){
+							lastChange = new TextFileChange(file.getName(), file);
+							MultiTextEdit root = new MultiTextEdit();
+							lastChange.setEdit(root);
+							changes.add(lastChange);
+						}
+						TextEdit edit = new ReplaceEdit(offset+pi.getStartPosition(), pi.getName().getStart()+pi.getName().getLength()-pi.getStartPosition(), newName);
+						lastChange.addEdit(edit);
 					}
 				}
 			}
@@ -318,7 +325,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		ELInvocationExpression invExp = invocationExpression;
 		while(invExp != null){
 			if(invExp instanceof ELPropertyInvocation){
-				if(((ELPropertyInvocation)invExp).getQualifiedName().equals(component.getName()))
+				if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(component.getName()))
 						return (ELPropertyInvocation)invExp;
 				else
 					invExp = invExp.getLeft();
