@@ -83,7 +83,7 @@ public class SeamComponentContentTest extends ComponentContentTest {
     }
     
     public void testRemote() throws Throwable {
-	performInvisibleTagTest("components/remote.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+	performContentTest("components/remote.xhtml"); //$NON-NLS-1$
     }
     
     public void testSelectDate() throws Throwable {
