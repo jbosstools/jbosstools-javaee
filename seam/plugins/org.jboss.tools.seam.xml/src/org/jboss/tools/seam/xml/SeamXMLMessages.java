@@ -1,22 +1,18 @@
 package org.jboss.tools.seam.xml;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.eclipse.osgi.util.NLS;
 
-public class SeamXMLMessages {
-	private static final String BUNDLE_NAME = "org.jboss.tools.seam.xml.messages"; //$NON-NLS-1$
+public final class SeamXMLMessages extends NLS {
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+	private static final String BUNDLE_NAME = "org.jboss.tools.seam.xml.messages";//$NON-NLS-1$
 
 	private SeamXMLMessages() {
+		// Do not instantiate
 	}
 
-	public static String getString(String key) {
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
+	public static String SEAM_XML_PLUGIN_NO_MESSAGE;
+
+	static {
+		NLS.initializeMessages(BUNDLE_NAME, SeamXMLMessages.class);
 	}
 }
