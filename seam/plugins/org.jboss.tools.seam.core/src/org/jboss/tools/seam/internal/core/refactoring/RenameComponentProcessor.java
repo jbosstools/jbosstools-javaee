@@ -36,6 +36,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
@@ -122,6 +123,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		
 		annotation = getAnnotation(file);
 		
+		changes.clear();
 		findReferences();
 	}
 	
@@ -188,7 +190,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void scan(IFolder folder){
-		System.out.println("Scan folder - "+folder.getName());
 		try{
 			for(IResource resource : folder.members()){
 				if(resource instanceof IFolder)
@@ -202,7 +203,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void scan(IFile file){
-		System.out.println("Scan file - "+file.getName());
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
@@ -245,7 +245,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void scanDOM(IFile file, String content){
-		varListForCurentValidatedNode.clear();
 		IModelManager manager = StructuredModelManager.getModelManager();
 		if(manager == null) {
 			return;
@@ -268,30 +267,17 @@ public class RenameComponentProcessor extends RenameProcessor {
 			}
 		}
 	}
-	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
-	private ElVarSearcher elVarSearcher;
 
 	private void validateChildNodes(IFile file, Node parent) {
-		String preferenceValue = SeamPreferences.getProjectPreference(file.getProject(), SeamPreferences.CHECK_VARS);
 		NodeList children = parent.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
 			Node curentValidatedNode = children.item(i);
-			Var var = null;
 			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
-				if (SeamPreferences.ENABLE.equals(preferenceValue)) {
-					var = elVarSearcher.findVar(curentValidatedNode);
-				}
-				if(var!=null) {
-					varListForCurentValidatedNode.add(var);
-				}
 				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
 			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
 				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
 			}
 			validateChildNodes(file, curentValidatedNode);
-			if(var!=null) {
-				varListForCurentValidatedNode.remove(var);
-			}
 		}
 	}
 
@@ -310,22 +296,37 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 
 	private void scanString(IFile file, String string, int offset) {
-		System.out.println("Validate String - "+string);
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
 		if(startEl>-1) {
 			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
 			for (ELInstance instance : model.getInstances()) {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
-					if(ie instanceof ELPropertyInvocation){
-						
+					ELPropertyInvocation pi = findComponentReference(ie);
+					if(pi != null){
+						TextFileChange change = new TextFileChange(file.getName(), file);
+						TextEdit edit = new ReplaceEdit(offset+pi.getStartPosition(), pi.getEndPosition()-pi.getStartPosition(), newName);
+						change.setEdit(edit);
+						changes.add(change);
 					}
 				}
 			}
 		}
 	}
 	
-	private ELPropertyInvocation findComponent(ELInvocationExpression ie){
+	private ELPropertyInvocation findComponentReference(ELInvocationExpression invocationExpression){
+		ELInvocationExpression invExp = invocationExpression;
+		while(invExp != null){
+			if(invExp instanceof ELPropertyInvocation){
+				if(((ELPropertyInvocation)invExp).getQualifiedName().equals(component.getName()))
+						return (ELPropertyInvocation)invExp;
+				else
+					invExp = invExp.getLeft();
+				
+			}else{
+				invExp = invExp.getLeft();
+			}
+		}
 		return null;
 	}
 
@@ -361,6 +362,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 		return result;
 	}
+	
+	private ArrayList<Change> changes = new ArrayList<Change>();
 
 	/*
 	 * (non-Javadoc)
@@ -371,10 +374,13 @@ public class RenameComponentProcessor extends RenameProcessor {
 			OperationCanceledException {
 		if(annotation == null)
 			return null;
+		CompositeChange root = new CompositeChange("Rename Seam Component");
 		TextFileChange change = new TextFileChange(file.getName(), file);
 		TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "@"+annotation.getElementName()+"(\""+newName+"\")");
 		change.setEdit(edit);
-		return change;
+		root.add(change);
+		root.addAll(changes.toArray(new Change[0]));
+		return root;
 	}
 
 	/*
