@@ -347,20 +347,20 @@ public class RenameComponentProcessor extends RenameProcessor {
 
 	private void scanProperties(IFile file, String content){
 		//System.out.println("ScanProperties "+file.getName());
-		try{
-			FileInputStream fis = new FileInputStream(new File(file.getLocationURI()));
-			PropertyResourceBundle rb = new PropertyResourceBundle(fis);
-			for(String key : rb.keySet()){
-				//System.out.println("Key - "+key+" Val - "+rb.getString(key));
-				String value = rb.getString(key);
-				if(value.indexOf('{')>-1)
-					scanString(file, value, 0);
-			}
-		}catch(FileNotFoundException ex){
-			SeamCorePlugin.getDefault().logError(ex);
-		}catch(IOException ex){
-			SeamCorePlugin.getDefault().logError(ex);
-		}
+//		try{
+//			FileInputStream fis = new FileInputStream(new File(file.getLocationURI()));
+//			PropertyResourceBundle rb = new PropertyResourceBundle(fis);
+//			for(String key : rb.keySet()){
+//				//System.out.println("Key - "+key+" Val - "+rb.getString(key));
+//				String value = rb.getString(key);
+//				if(value.indexOf('{')>-1)
+//					scanString(file, value, 0);
+//			}
+//		}catch(FileNotFoundException ex){
+//			SeamCorePlugin.getDefault().logError(ex);
+//		}catch(IOException ex){
+//			SeamCorePlugin.getDefault().logError(ex);
+//		}
 	}
 
 	/*
