@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -21,9 +24,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -41,17 +41,47 @@ public class SeamProjectsSet {
 	IProject war;
 	IProject ejb;
 	IProject test;
+	IProject[] childProjects = new IProject[0];
 	IEclipsePreferences prefs;
 
 	/**
-	 * @param project
+	 * @param project EAR, EJB or Web Seam project
 	 * @return
 	 */
 	public static SeamProjectsSet create(IProject project) {
 		return new SeamProjectsSet(project);
 	}
 
-	public SeamProjectsSet(IProject warProject) {
+	/**
+	 * @param project EAR, EJB or Web Seam project
+	 */
+	public SeamProjectsSet(IProject project) {
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
+		if(seamProject==null) {
+			// maybe the project is EAR? If so it doesn't have seam nature.
+			ISeamProject warProject = SeamUtil.findReferencingSeamWarProjectForProject(project);
+			if(warProject!=null) {
+				initWebProject(warProject.getProject());
+			}
+		} else {
+			IScopeContext projectScope = new ProjectScope(project);
+			IEclipsePreferences preferences = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+			if(preferences!=null) {
+				String parentProjectName = preferences.get(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, null);
+				if(parentProjectName==null) {
+					// The project is main web seam project.
+					initWebProject(project);
+				} else {
+					IProject warProject = ResourcesPlugin.getWorkspace().getRoot().getProject(parentProjectName);
+					if(warProject!=null) {
+						initWebProject(warProject);
+					}
+				}
+			}
+		}
+	}
+
+	public void initWebProject(IProject warProject) {
 		IScopeContext projectScope = new ProjectScope(warProject);
 		prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 
@@ -73,7 +103,32 @@ public class SeamProjectsSet {
 			if(testName!=null && !"".equals(testName)) { //$NON-NLS-1$
 				test = (IProject)warProject.getWorkspace().getRoot().findMember(testName);
 			}
+
+			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			Set<IProject> childProjectSet = new HashSet<IProject>();
+			for (int i = 0; i < projects.length; i++) {
+				ISeamProject seamProject = SeamCorePlugin.getSeamProject(projects[i], false);
+				if(seamProject!=null) {
+					projectScope = new ProjectScope(projects[i]);
+					IEclipsePreferences preferences = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
+					if(preferences!=null) {
+						String parentProjectName = preferences.get(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, null);
+						if(parentProjectName!=null && parentProjectName.equals(warProject.getName())) {
+							childProjectSet.add(projects[i]);
+						}
+					}
+				}
+			}
+			childProjects = childProjectSet.toArray(new IProject[childProjectSet.size()]);
 		}
+	}
+
+
+	/**
+	 * @return all child projects for web seam project.
+	 */
+	public IProject[] getChildProjects() {
+		return childProjects;
 	}
 
 	/**
