@@ -1,11 +1,13 @@
 package org.jboss.tools.jsf.ui.test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
@@ -19,7 +21,7 @@ public class CssClassNewWizardTest extends WizardTest {
 	private static String CSS_FILE_PATH="WebContent/pages/main.css";  //$NON-NLS-1$
 	
 	public CssClassNewWizardTest(){
-		super("org.jboss.tools.jst.web.ui.wizards.newfile.NewCSSClassWizard");
+		super("org.jboss.tools.jst.web.ui.wizards.newfile.NewCSSClassWizard"); //$NON-NLS-1$
 	}
 	
 	public void testCssClassNewWizardTestIsCreated() {
@@ -32,7 +34,7 @@ public class CssClassNewWizardTest extends WizardTest {
 		
 		boolean canFinish = wizard.canFinish();
 		
-		assertFalse("Finish button is enabled at first wizard page.", canFinish);
+		assertFalse("Finish button is enabled at first wizard page.", canFinish); //$NON-NLS-1$
 	}
 	
 	public void testCssClassNewWizardValidation2() {
@@ -41,7 +43,7 @@ public class CssClassNewWizardTest extends WizardTest {
 		boolean canFinish = wizard.canFinish();
 		
 		// Assert Finish button is enabled by default if wizard is called on Project
-		assertFalse("Finish button is disabled at first wizard page.", canFinish);
+		assertFalse("Finish button is disabled at first wizard page.", canFinish); //$NON-NLS-1$
 		
 		// Assert Finish button is disabled and error is present if 
 		// 		Folder field is empty
@@ -79,11 +81,45 @@ public class CssClassNewWizardTest extends WizardTest {
 				.getActiveWorkbenchWindow().getShell(), wizard);
 		dialog.setBlockOnOpen(false);
 		dialog.open();
+		
+		assertFalse("Finish button is not disabled.", wizard.canFinish()); //$NON-NLS-1$
+		assertFalse("Next button is not disabled.", wizard.getContainer().getCurrentPage().canFlipToNextPage()); //$NON-NLS-1$
+		
+		try {
+			
 
-		boolean canFinish = wizard.canFinish();
+			Field selectFileTextField = wizard.getContainer().getCurrentPage()
+					.getClass().getDeclaredField("selectFileText"); //$NON-NLS-1$
+			selectFileTextField.setAccessible(true);
+			Text selectFileText = (Text) selectFileTextField.get(wizard
+					.getContainer().getCurrentPage());
+			selectFileText.setText(cssFile.getFullPath().toString());
+			Field classNameTextField = wizard.getContainer().getCurrentPage()
+					.getClass().getDeclaredField("classNameText"); //$NON-NLS-1$
+			classNameTextField.setAccessible(true);
+			Text classNameTextText = (Text) classNameTextField.get(wizard
+					.getContainer().getCurrentPage());
+			classNameTextText.setText("newCSS"); //$NON-NLS-1$
+			
+			
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		assertTrue("Finish button is disabled.", canFinish); //$NON-NLS-1$
-
+		assertTrue("Next button is disabled.", wizard.getContainer().getCurrentPage().canFlipToNextPage()); //$NON-NLS-1$
+		assertFalse("Finish button is not disabled.", wizard.canFinish()); //$NON-NLS-1$
+		wizard.getContainer().showPage(wizard.getNextPage(wizard.getContainer().getCurrentPage()));
+		assertTrue("Finish button is  disabled.", wizard.canFinish()); //$NON-NLS-1$
 		wizard.performFinish();
 
 	}
