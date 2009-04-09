@@ -364,7 +364,10 @@ public class RenameComponentProcessor extends RenameProcessor {
 		
 		CompositeChange root = new CompositeChange("Rename Seam Component");
 		TextFileChange change = new TextFileChange(file.getName(), file);
-		TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "@"+annotation.getElementName()+"(\""+newName+"\")");
+		
+		String annotationText = annotation.getSource().replace(component.getName(), newName);
+		
+		TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
 		change.setEdit(edit);
 		root.add(change);
 		root.addAll(changes.toArray(new Change[0]));
