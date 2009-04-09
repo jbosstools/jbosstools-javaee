@@ -18,14 +18,12 @@ import org.eclipse.osgi.util.NLS;
  */
 
 public class JSFTextExtMessages {
-
+	private static final String BUNDLE_NAME = "org.jboss.tools.jsf.text.ext.JSFTextExtMessages"; //$NON-NLS-1$
 	
 	private JSFTextExtMessages() { }
 	
 	static {
-		NLS.initializeMessages(
-				"org.jboss.tools.jsf.text.ext.JSFTextExtMessages", 
-				JSFTextExtMessages.class);
+		NLS.initializeMessages(BUNDLE_NAME, JSFTextExtMessages.class);
 	}
 	
 	public static String Converter;

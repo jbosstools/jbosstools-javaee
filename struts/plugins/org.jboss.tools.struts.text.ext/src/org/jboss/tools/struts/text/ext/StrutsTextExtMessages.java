@@ -18,14 +18,12 @@ import org.eclipse.osgi.util.NLS;
  */
 
 public class StrutsTextExtMessages {
+	private static final String BUNDLE_NAME = "org.jboss.tools.struts.text.ext.StrutsTextExtMessages"; //$NON-NLS-1$
 
-	
 	private StrutsTextExtMessages() { }
 	
 	static {
-		NLS.initializeMessages(
-				"org.jboss.tools.struts.text.ext.StrutsTextExtMessages", 
-				StrutsTextExtMessages.class);
+		NLS.initializeMessages(BUNDLE_NAME, StrutsTextExtMessages.class);
 	}
 
 	public static String OpenTagLibrary;
