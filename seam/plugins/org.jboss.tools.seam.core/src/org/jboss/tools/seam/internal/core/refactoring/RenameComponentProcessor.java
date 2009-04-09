@@ -10,13 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -66,16 +61,12 @@ import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
-import org.jboss.tools.common.el.core.parser.SyntaxError;
-import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
-import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -170,15 +161,10 @@ public class RenameComponentProcessor extends RenameProcessor {
 		if(warProject != null)
 			scan(warProject);
 		
-		IProject earProject = projectsSet.getEarProject();
-		if(earProject != null)
-			scan(earProject);
-		
-		// TODO Here can be several ejb projects
-		IProject ejbProject = projectsSet.getEjbProject();
-		if(ejbProject != null)
-			scan(ejbProject);
-		
+		for(IProject project : projectsSet.getChildProjects()){
+			if(project != null)
+				scan(project);
+		}
 	}
 	
 	private void scan(IProject project){
@@ -218,10 +204,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 		if(ext.equalsIgnoreCase(JAVA_EXT))
 			scanJava(file, content);
-		else if(ext.equalsIgnoreCase(XML_EXT) || ext.equalsIgnoreCase(XHTML_EXT))
+		else if(ext.equalsIgnoreCase(XML_EXT) || ext.equalsIgnoreCase(XHTML_EXT) || ext.equalsIgnoreCase(JSP_EXT))
 			scanDOM(file, content);
-		else if(ext.equalsIgnoreCase(JSP_EXT))
-			scanJsp(file, content);
 		else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
 			scanProperties(file, content);
 		
@@ -339,10 +323,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 			}
 		}
 		return null;
-	}
-
-	private void scanJsp(IFile file, String content){
-		
 	}
 
 	private void scanProperties(IFile file, String content){
