@@ -152,21 +152,17 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 		return null;
 	}
-	
+
 	// we need to find references in .java .xml .xhtml .jsp .properties files
 	private void findReferences(){
 		SeamProjectsSet projectsSet = new SeamProjectsSet(file.getProject());
-		
-		IProject warProject = projectsSet.getWarProject();
-		if(warProject != null)
-			scan(warProject);
-		
-		for(IProject project : projectsSet.getChildProjects()){
-			if(project != null)
-				scan(project);
+
+		IProject[] projects = projectsSet.getAllProjects();
+		for (int i = 0; i < projects.length; i++) {
+			scan(projects[i]);
 		}
 	}
-	
+
 	private void scan(IProject project){
 		try{
 			for(IResource resource : project.members()){
