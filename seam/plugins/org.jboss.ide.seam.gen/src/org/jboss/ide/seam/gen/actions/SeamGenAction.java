@@ -311,15 +311,26 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 			
 			if(!empties.isEmpty()) {
 				File createTempFile = null;
+				FileOutputStream fos = null;
 				try {				
 					createTempFile = File.createTempFile( "seamgenempty", "properties" );
-					empties.store( new FileOutputStream(createTempFile), "File used to send intentionally empty valued properties" );
+					fos = new FileOutputStream(createTempFile);
+					empties.store( fos, "File used to send intentionally empty valued properties" );
 				}
 				catch (FileNotFoundException e) {
 					SeamGenPlugin.logError( "Error while running " + getTarget(), e );
 				}
 				catch (IOException e) {
 					SeamGenPlugin.logError( "Error while running " + getTarget(), e );
+				}
+				finally {
+					if (fos != null) {
+						try {
+							fos.close();
+						} catch (IOException e) {
+							// ignore
+						}
+					}
 				}
 
 				if(createTempFile!=null) {
@@ -431,12 +442,14 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 			}
 			catch (Exception e) {
 				SeamGenPlugin.logError( "Error while loading seamgen properties", e );
+			}
+			finally {
 				if(fileInputStream!=null)
 					try {
 						fileInputStream.close();
 					}
 					catch (IOException e1) {
-						SeamGenPlugin.logError( "Error while closing seamgen properties", e );
+						SeamGenPlugin.logError( "Error while closing seamgen properties", e1 );
 					}
 			}
 			return p;
