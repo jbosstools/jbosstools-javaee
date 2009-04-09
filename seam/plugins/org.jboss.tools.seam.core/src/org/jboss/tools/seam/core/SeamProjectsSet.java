@@ -125,10 +125,22 @@ public class SeamProjectsSet {
 
 
 	/**
-	 * @return all child projects for web seam project.
+	 * @return all child projects of main web seam project.
 	 */
 	public IProject[] getChildProjects() {
 		return childProjects;
+	}
+
+	/**
+	 * @return all Seam projects of one application
+	 */
+	public IProject[] getAllProjects() {
+		IProject[] projects = new IProject[childProjects.length + 1];
+		for (int i = 0; i < childProjects.length; i++) {
+			projects[i] = childProjects[i];
+		}
+		projects[childProjects.length] = war;
+		return projects;
 	}
 
 	/**
