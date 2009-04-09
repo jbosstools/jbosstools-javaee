@@ -118,9 +118,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 		this.newName = componentName;
 		
 		annotation = getAnnotation(file);
-		
-		changes.clear();
-		findReferences();
 	}
 	
 	private IAnnotation getAnnotation(IFile file){
@@ -361,6 +358,10 @@ public class RenameComponentProcessor extends RenameProcessor {
 			OperationCanceledException {
 		if(annotation == null)
 			return null;
+		
+		changes.clear();
+		findReferences();
+		
 		CompositeChange root = new CompositeChange("Rename Seam Component");
 		TextFileChange change = new TextFileChange(file.getName(), file);
 		TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "@"+annotation.getElementName()+"(\""+newName+"\")");
