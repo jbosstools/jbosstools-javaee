@@ -144,7 +144,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 				if (controls != null) anyLabel = controls[0];
 			}
 			if (PROPERTY_CLASS.equals(propertyEditor.getAttributeName())) {
-				IPropertyFieldEditor wraper = new JavaHyperlinkLineFieldEditor(settings);
+				IPropertyFieldEditor wraper = (IPropertyFieldEditor)propertyEditor.getFieldEditor(composite);
 				ExtendedFieldEditor fe = (ExtendedFieldEditor)wraper;
 				fe.setLabelText(propertyEditor.getLabelText());
 				wraper.setPropertyEditor(propertyEditor);
