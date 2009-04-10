@@ -144,7 +144,9 @@ public class SeamProjectWizard extends WebProjectWizard {
 		getFacetedProjectWorkingCopy().addListener(new IFacetedProjectListener() {
 			public void handleEvent(IFacetedProjectEvent event) {
 				IPreset preset = getFacetedProjectWorkingCopy().getSelectedPreset();
-				setSeamConfigTemplate(templates.get(preset.getId()));
+				if(preset!=null) {
+					setSeamConfigTemplate(templates.get(preset.getId()));
+				}
 			}
 		}, IFacetedProjectEvent.Type.SELECTED_PRESET_CHANGED);
 		getFacetedProjectWorkingCopy().addListener(new IFacetedProjectListener() {
