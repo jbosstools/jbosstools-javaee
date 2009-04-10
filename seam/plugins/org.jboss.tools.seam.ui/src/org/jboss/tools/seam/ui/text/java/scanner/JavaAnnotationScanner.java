@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -192,7 +193,7 @@ public class JavaAnnotationScanner {
 		}
 		
 		IType type = null;
-		AnnotatedASTNode<TypeDeclaration> annotatedType = null;
+		AnnotatedASTNode<AbstractTypeDeclaration> annotatedType = null;
 		Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = null;
 		Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = null;
 		
