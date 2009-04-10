@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
@@ -142,7 +143,14 @@ public class SeamXMLHelper implements SeamXMLConstants {
 		IJavaProject jp = JavaCore.create(project);
 		if(jp != null) {
 			try {
-				return jp.findType(name);
+				IType type = jp.findType(name.replace('$', '.'));
+				if(type == null && name.indexOf('$') >= 0) {
+					int ii = name.lastIndexOf('.');
+					String pack = (ii < 0) ? "" : name.substring(0, ii);
+					String cls = name.substring(ii + 1);
+					type = jp.findType(pack, cls.replace('$', '.'), new NullProgressMonitor());
+				}
+				return type;
 			} catch (JavaModelException e) {
 				//ignore
 			}

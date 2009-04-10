@@ -19,8 +19,11 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -47,7 +50,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 		public IType type;
 		int innerLock = 0;
 		
-		public AnnotatedASTNode<TypeDeclaration> annotatedType = null;
+		public AnnotatedASTNode<AbstractTypeDeclaration> annotatedType = null;
 		public Set<AnnotatedASTNode<FieldDeclaration>> annotatedFields = new HashSet<AnnotatedASTNode<FieldDeclaration>>();
 		public Set<AnnotatedASTNode<MethodDeclaration>> annotatedMethods = new HashSet<AnnotatedASTNode<MethodDeclaration>>();
 
@@ -85,7 +88,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	public boolean hasSeamComponent() {
 		return root.hasSeamComponent();
 	}
-	
+
 	public boolean visit(SingleMemberAnnotation node) {
 		if(current.innerLock > 0) return false;
 		String type = resolveType(node);
@@ -142,6 +145,18 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 	}
 
 	public boolean visit(TypeDeclaration node) {
+		return _visit(node);
+	}
+	
+	public boolean visit(EnumDeclaration node) {
+		return _visit(node);
+	}
+
+	public boolean visit(AnnotationTypeDeclaration node) {
+		return _visit(node);
+	}
+
+	private boolean _visit(AbstractTypeDeclaration node) {
 		if(current == null) {
 			String n = node.getName().getFullyQualifiedName();
 			if(n != null && n.indexOf('.') < 0) n = EclipseJavaUtil.resolveType(root.type, n);
@@ -150,7 +165,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 			current = root;
 		}
 		if(current.annotatedType == null) {
-			current.annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
+			current.annotatedType = new AnnotatedASTNode<AbstractTypeDeclaration>(node);
 			current.currentAnnotatedNode = current.annotatedType;
 		} else {
 			String n = node.getName().getFullyQualifiedName();
@@ -182,14 +197,23 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 				d.parent = current;
 				current.children.add(d);
 				current = d;
-				current.annotatedType = new AnnotatedASTNode<TypeDeclaration>(node);
+				current.annotatedType = new AnnotatedASTNode<AbstractTypeDeclaration>(node);
 				current.currentAnnotatedNode = current.annotatedType;
 			}			
 		}
 		return true;
 	}
-	
+
 	public void endVisit(TypeDeclaration node) {
+		_endVisit(node);
+	}
+	public void endVisit(AnnotationTypeDeclaration node) {
+		_endVisit(node);
+	}
+	public void endVisit(EnumDeclaration node) {
+		_endVisit(node);
+	}
+	public void _endVisit(AbstractTypeDeclaration node) {
 		if(current == null) return;
 		if(current.currentAnnotatedNode != null && current.currentAnnotatedNode.node == node) {
 			current.currentAnnotatedNode = null;
