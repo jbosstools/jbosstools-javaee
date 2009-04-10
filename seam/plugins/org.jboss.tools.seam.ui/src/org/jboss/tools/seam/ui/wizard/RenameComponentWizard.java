@@ -10,17 +10,29 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
+
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.core.refactoring.Refactoring;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
+import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
@@ -66,14 +78,32 @@ public class RenameComponentWizard extends RefactoringWizard {
 	        String defaultName = component.getName();
 	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, defaultName);
 	        editor.doFillIntoGrid(container);
-
+	        
+	        ((CompositeEditor)editor).addPropertyChangeListener(new PropertyChangeListener(){
+	        	public void propertyChange(PropertyChangeEvent evt){
+	        		validatePage();
+	        	}
+	        });
 	        setControl(container);
+		}
+		
+		protected final void validatePage() {
+			Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(editor.getValueAsString(), null);
+			if(errors.size()>0) {
+				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
+				setPageComplete(false);
+				return;
+			}
+			setErrorMessage("");
+			RefactoringStatus status= new RefactoringStatus();
+			setPageComplete(status);
 		}
 		
 		/* (non-Javadoc)
 		 * @see org.eclipse.ltk.ui.refactoring.UserInputWizardPage#performFinish()
 		 */
 		protected boolean performFinish() {
+			
 			initializeRefactoring();
 			return super.performFinish();
 		}
