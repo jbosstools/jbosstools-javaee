@@ -465,6 +465,12 @@ public class ScannerTest extends TestCase {
 		assertTrue("Component inner_JBIDE_1374 declared in inner static class is not found.", c != null);
 	}
 	
+	public void testInnerClassInAnnotationType_JBIDE_4144() {
+		ISeamProject seamProject = getSeamProject();
+		ISeamComponent c = seamProject.getComponent("inner_JBIDE_4144");
+		assertTrue("Component inner_JBIDE_4144 declared in inner static class inside an annotation type is not found.", c != null);
+	}
+	
 	public void testInstallWithoutPrecedence_JBIDE_2052() {
 		ISeamProject seamProject = getSeamProject();
 		ISeamComponent c = seamProject.getComponent("installWithoutPrecedence_JBIDE_2052");
