@@ -81,6 +81,9 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private static final String XHTML_EXT = "xhtml";
 	private static final String JSP_EXT = "jsp";
 	private static final String PROPERTIES_EXT = "properties";
+	private static final String COMPONENTS_FILE = "components.xml";
+	private static final String COMPONENT_NODE = "component";
+	private static final String NAME_NODE = "name";
 
 	private IFile file;
 	private ISeamComponent component;
@@ -238,6 +241,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 				IDOMModel domModel = (IDOMModel) model;
 				IDOMDocument document = domModel.getDocument();
 				scanChildNodes(file, document);
+				if(file.getName().equals(COMPONENTS_FILE))
+					scanChildComponent(file, document);
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
@@ -248,6 +253,31 @@ public class RenameComponentProcessor extends RenameProcessor {
 				model.releaseFromRead();
 			}
 		}
+	}
+	
+	private void scanChildComponent(IFile file, Node parent) {
+		NodeList children = parent.getChildNodes();
+		for(int i=0; i<children.getLength(); i++) {
+			Node curentValidatedNode = children.item(i);
+			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType() && curentValidatedNode.getNodeName().equals(COMPONENT_NODE)) {
+				scanComponentNode(file, curentValidatedNode);
+			}
+			scanChildComponent(file, curentValidatedNode);
+		}
+	}
+	
+	private void scanComponentNode(IFile file, Node node) {
+		Node nameNode = node.getAttributes().getNamedItem("name");
+		if(nameNode != null){
+			if(nameNode.getNodeValue().equals(component.getName())){
+				IStructuredDocumentRegion region =  ((IDOMNode)node).getFirstStructuredDocumentRegion();
+				checkLastChange(file);
+				
+				TextEdit edit = new ReplaceEdit(region.getStartOffset(), region.getLength(), region.getFullText().replace(component.getName(), newName));
+				lastChange.addEdit(edit);
+			}
+		}
+		
 	}
 
 	private void scanChildNodes(IFile file, Node parent) {
@@ -278,6 +308,15 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	TextFileChange lastChange = null;
+	
+	private void checkLastChange(IFile file){
+		if(lastChange == null || lastChange.getFile() != file){
+			lastChange = new TextFileChange(file.getName(), file);
+			MultiTextEdit root = new MultiTextEdit();
+			lastChange.setEdit(root);
+			changes.add(lastChange);
+		}
+	}
 
 	private void scanString(IFile file, String string, int offset) {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
@@ -288,12 +327,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
 					ELPropertyInvocation pi = findComponentReference(ie);
 					if(pi != null){
-						if(lastChange == null || lastChange.getFile() != file){
-							lastChange = new TextFileChange(file.getName(), file);
-							MultiTextEdit root = new MultiTextEdit();
-							lastChange.setEdit(root);
-							changes.add(lastChange);
-						}
+						checkLastChange(file);
 						TextEdit edit = new ReplaceEdit(offset+pi.getStartPosition(), pi.getName().getStart()+pi.getName().getLength()-pi.getStartPosition(), newName);
 						lastChange.addEdit(edit);
 					}
