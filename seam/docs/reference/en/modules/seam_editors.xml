@@ -36,7 +36,10 @@
             You can edit the pages.xml file in three modes: Graphical, Tree and Source.
             
         </para>
-      
+        <para>
+            Seam Pages Editor supports synchronization with Package Explorer.This means that while renaming files in the Package Explorer all the changes immediately affect the pages.xml file.
+            
+        </para>
       <section>
           <title>Graphical Mode</title>
    
