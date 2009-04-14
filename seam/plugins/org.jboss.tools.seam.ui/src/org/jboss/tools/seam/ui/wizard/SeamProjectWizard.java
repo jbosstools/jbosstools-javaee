@@ -73,6 +73,9 @@ import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.DataSourceXmlDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -121,11 +124,15 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return firstPage;
 	}
 
+	private static final String templateJstSeam1 = "template.jst.seam"; //$NON-NLS-1$
+	private static final String templateJstSeam2 = "template.jst.seam2"; //$NON-NLS-1$
+	private static final String templateJstSeam21 = "template.jst.seam21"; //$NON-NLS-1$
+
 	private static final Map<String, String> templates = new HashMap<String, String>();
 	static {
-		templates.put("jst.seam.preset", "template.jst.seam");
-		templates.put("jst.seam2.preset", "template.jst.seam2");
-		templates.put("jst.seam21.preset", "template.jst.seam21");
+		templates.put("jst.seam.preset", templateJstSeam1); //$NON-NLS-1$
+		templates.put("jst.seam2.preset", templateJstSeam2); //$NON-NLS-1$
+		templates.put("jst.seam21.preset", templateJstSeam21); //$NON-NLS-1$
 	}
 
 	private void setSeamConfigTemplate(String seamConfigTemplate) {
@@ -225,6 +232,20 @@ public class SeamProjectWizard extends WebProjectWizard {
 
 	protected IFacetedProjectTemplate getTemplate() {
 		seamConfigTemplate = SeamCorePlugin.getDefault().getPluginPreferences().getString(SeamProjectPreferences.SEAM_CONFIG_TEMPLATE);
+		if(seamConfigTemplate==null || seamConfigTemplate.length()==0) {
+			SeamRuntime runtime = SeamRuntimeManager.getInstance().getLatestSeamRuntime();
+			if(runtime!=null) {
+				if(runtime.getVersion()==SeamVersion.SEAM_1_2) {
+					seamConfigTemplate = templateJstSeam1;
+				} else if(runtime.getVersion()==SeamVersion.SEAM_2_0) {
+					seamConfigTemplate = templateJstSeam2;
+				} else {
+					seamConfigTemplate = templateJstSeam21;
+				}
+			} else {
+				seamConfigTemplate = templateJstSeam21;
+			}
+		}
 		return ProjectFacetsManager.getTemplate(seamConfigTemplate);
 	}
 
