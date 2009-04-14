@@ -11,15 +11,21 @@
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.jboss.tools.jst.web.tld.TaglibData;
+import org.jboss.tools.jst.web.tld.VpeTaglibManager;
+import org.jboss.tools.jst.web.tld.VpeTaglibManagerProvider;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,39 +87,35 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
-			TaglibManagerWrapper tmw = new TaglibManagerWrapper();
-			tmw.init(getDocument(), region.getOffset());
-			
-			if (!tmw.exists()) return null;
-			String prefix = tmw.getCorePrefix();
-			if (prefix == null || prefix.length() == 0) return null;
-
-			String nodeToFind = prefix + PREFIX_SEPARATOR + VIEW_TAGNAME; 
-			
 			smw.init(getDocument());
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
+			String[] prefixes = getLoadBundleTagPrefixes(region);
+			if(prefixes == null) return null;
+
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 			if (!(n instanceof Attr) ) return null; 
 
 			Element el = ((Attr)n).getOwnerElement();
 			
 			Element jsfCoreViewTag = null;
-			while (el != null) {
-				if (nodeToFind.equals(el.getNodeName())) {
-					jsfCoreViewTag = el;
-					break;
+			for (String prefix : prefixes) {
+				String nodeToFind = prefix + PREFIX_SEPARATOR + VIEW_TAGNAME; 
+	
+				while (el != null) {
+					if (nodeToFind.equals(el.getNodeName())) {
+						jsfCoreViewTag = el;
+						break;
+					}
+					Node parent = el.getParentNode();
+					el = (parent instanceof Element ? (Element)parent : null); 
 				}
-				if(!(el.getParentNode() instanceof Element)) {
-					break;
-				}
-				el = (Element)el.getParentNode();
 			}
 			
 			if (jsfCoreViewTag == null || !jsfCoreViewTag.hasAttribute(LOCALE_ATTRNAME)) return null;
 			
-			String locale = Utils.trimQuotes(((Attr)jsfCoreViewTag.getAttributeNode(LOCALE_ATTRNAME)).getValue());
+			String locale = Utils.trimQuotes((jsfCoreViewTag.getAttributeNode(LOCALE_ATTRNAME)).getValue());
 			if (locale == null || locale.length() == 0) return null;
 			return locale;
 		} finally {
@@ -132,6 +134,32 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 			return  MessageFormat.format(Messages.OpenA, Messages.Bundle);
 		
 		return MessageFormat.format(Messages.OpenBundle, baseName);
+	}
+
+	protected String[] getLoadBundleTagPrefixes(IRegion region) {
+		TaglibManagerWrapper tmw = new TaglibManagerWrapper();
+		tmw.init(getDocument(), region.getOffset());
+		if(tmw.exists()) {
+			return new String[] { tmw.getCorePrefix() };
+		} else {
+			VpeTaglibManager taglibManager = getTaglibManager();
+			if(taglibManager == null) return null;
+			TaglibData[] data = (TaglibData[])taglibManager.getTagLibs().toArray(new TaglibData[0]);
+			ArrayList<String> prefixes = new ArrayList<String>();
+			for (int i = 0; i < data.length; i++) {
+				if("http://java.sun.com/jsf/core".equals(data[i].getUri())) 
+					prefixes.add(data[i].getPrefix());
+			}			
+		}		
+		return null;
+	}
+
+	private VpeTaglibManager getTaglibManager() {
+		IEditorPart editor = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if(editor instanceof VpeTaglibManagerProvider) {
+			return ((VpeTaglibManagerProvider)editor).getTaglibManager();
+		}
+		return null;
 	}
 
 }

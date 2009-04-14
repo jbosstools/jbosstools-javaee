@@ -32,6 +32,10 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
  */
 public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer {
 	public static final String JSP_LOADBUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_LOADBUNDLE";
+	
+	protected String getPartitionType() {
+		return JSP_LOADBUNDLE_PARTITION;
+	}
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -51,7 +55,7 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			
 			String axis = getAxis(document, superRegion);
 			String contentType = superRegion.getContentType();
-			String type = JSP_LOADBUNDLE_PARTITION;
+			String type = getPartitionType();
 			int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
 			int offset = superRegion.getOffset();
 			
@@ -147,14 +151,21 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			String name = lbTag.getTagName();
 			int column = name.indexOf(":");
 			if (column == -1) return false;
-			String prefix = name.substring(0, column);
-			if (prefix == null || prefix.trim().length() == 0) return false;
+			String usedPrefix = name.substring(0, column);
+			if (usedPrefix == null || usedPrefix.trim().length() == 0) return false;
 			
-			TaglibManagerWrapper tmw = new TaglibManagerWrapper();
-			tmw.init(document, region.getOffset());
-			if(!tmw.exists()) return true; //xhtml
-			
-			if (!prefix.equals(tmw.getCorePrefix())) return false;
+			String[] prefixes = getLoadBundleTagPrefixes(document, region.getOffset());
+			if (prefixes == null) return true; //xhtml
+
+			boolean prefixIsAbleToBeUsed = false;
+			for (String prefix : prefixes) {
+				if (usedPrefix.equals(prefix)) {
+					prefixIsAbleToBeUsed = true;
+					break;
+				}
+			}
+			if (!prefixIsAbleToBeUsed)
+				return false;
 
 			Attr lbTagVar = lbTag.getAttributeNode("var");
 			Attr lbTagBasename = lbTag.getAttributeNode("basename");
@@ -168,6 +179,14 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 		} finally {
 			smw.dispose();
 		}
+	}
+
+	protected String[] getLoadBundleTagPrefixes(IDocument document, int offset) {
+		TaglibManagerWrapper tmw = new TaglibManagerWrapper();
+		tmw.init(document, offset);
+		if(!tmw.exists()) return null;
+		
+		return new String[] {tmw.getCorePrefix()};
 	}
 
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.model.XModel;
@@ -91,20 +92,21 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			
 			String bundleProp = getDocument().get(region.getOffset(), region.getLength());
 			
-			String prefix = getPrefix(region);
-			if(prefix == null) return null;
+			String[] prefixes = getLoadBundleTagPrefixes(region);
+			if(prefixes == null) return null;
 			
 			// Find loadBundle tag
 			List<Element> lbTags = new ArrayList<Element>();
-			NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle");
-			for (int i = 0; list != null && i < list.getLength(); i++) {
-				Element el = (Element)list.item(i);
-				int end = Utils.getValueEnd(el);
-				if (end >= 0 && end < region.getOffset()) {
-					lbTags.add(el);
+			for (String prefix : prefixes) {
+				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle");
+				for (int i = 0; list != null && i < list.getLength(); i++) {
+					Element el = (Element)list.item(i);
+					int end = Utils.getValueEnd(el);
+					if (end >= 0 && end < region.getOffset()) {
+						lbTags.add(el);
+					}
 				}
 			}
-	
 			for (int i = 0; i < lbTags.size(); i++) {
 				Element el = (Element)lbTags.get(i);
 				Attr var = el.getAttributeNode("var");
@@ -129,18 +131,20 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			smw.dispose();
 		}
 	}
-	
-	private String getPrefix(IRegion region) {
+
+	protected String[] getLoadBundleTagPrefixes(IRegion region) {
 		TaglibManagerWrapper tmw = new TaglibManagerWrapper();
 		tmw.init(getDocument(), region.getOffset());
 		if(tmw.exists()) {
-			return tmw.getCorePrefix();
+			return new String[] { tmw.getCorePrefix() };
 		} else {
 			VpeTaglibManager taglibManager = getTaglibManager();
 			if(taglibManager == null) return null;
 			TaglibData[] data = (TaglibData[])taglibManager.getTagLibs().toArray(new TaglibData[0]);
+			ArrayList<String> prefixes = new ArrayList<String>();
 			for (int i = 0; i < data.length; i++) {
-				if("http://java.sun.com/jsf/core".equals(data[i].getUri())) return data[i].getPrefix();
+				if("http://java.sun.com/jsf/core".equals(data[i].getUri())) 
+					prefixes.add(data[i].getPrefix());
 			}			
 		}		
 		return null;
@@ -159,34 +163,34 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 	private static final String PREFIX_SEPARATOR = ":";
 
 	private String getPageLocale(IRegion region) {
+		if(getDocument() == null || region == null) return null;
+
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(getDocument());
-
-			TaglibManagerWrapper tmw = new TaglibManagerWrapper();
-			tmw.init(getDocument(), region.getOffset());
-			if(!tmw.exists()) return null;
-			String prefix = tmw.getCorePrefix();
-	
-			if (prefix == null || prefix.length() == 0) return null;
-
-			String nodeToFind = prefix + PREFIX_SEPARATOR + VIEW_TAGNAME; 
-			
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
+			String[] prefixes = getLoadBundleTagPrefixes(region);
+			if(prefixes == null) return null;
+
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 			if (!(n instanceof Attr) ) return null; 
 
 			Element el = ((Attr)n).getOwnerElement();
 			
 			Element jsfCoreViewTag = null;
-			while (el != null) {
-				if (nodeToFind.equals(el.getNodeName())) {
-					jsfCoreViewTag = el;
-					break;
+			for (String prefix : prefixes) {
+				String nodeToFind = prefix + PREFIX_SEPARATOR + VIEW_TAGNAME; 
+	
+				while (el != null) {
+					if (nodeToFind.equals(el.getNodeName())) {
+						jsfCoreViewTag = el;
+						break;
+					}
+					Node parent = el.getParentNode();
+					el = (parent instanceof Element ? (Element)parent : null); 
 				}
-				el = (Element)el.getParentNode();
 			}
 			
 			if (jsfCoreViewTag == null || !jsfCoreViewTag.hasAttribute(LOCALE_ATTRNAME)) return null;

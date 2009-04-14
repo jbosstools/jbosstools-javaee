@@ -46,8 +46,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			if (xmlDocument == null) return null;
 			
 			Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
-			if (!recognize(document, superRegion)) return null;
-
+			
 			IHyperlinkRegion r = getRegion(document, superRegion.getOffset());
 			if (r == null) return null;
 

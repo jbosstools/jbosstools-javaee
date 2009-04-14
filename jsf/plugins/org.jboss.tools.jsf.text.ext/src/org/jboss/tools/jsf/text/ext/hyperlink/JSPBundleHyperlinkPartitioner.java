@@ -37,6 +37,10 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
  */
 public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer {
 	public static final String JSP_BUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE";
+	
+	protected String getPartitionType() {
+		return JSP_BUNDLE_PARTITION;
+	}
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -55,7 +59,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			
 			String axis = getAxis(document, superRegion);
 			String contentType = superRegion.getContentType();
-			String type = JSP_BUNDLE_PARTITION;
+			String type = getPartitionType();
 			int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
 			int offset = superRegion.getOffset();
 			
@@ -178,41 +182,40 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			}
 			
 			
-			if (sVar != null && sProp != null) return true;
+			if (sVar == null || sProp == null) return false;
 			
-			TaglibManagerWrapper tmw = new TaglibManagerWrapper();
-			tmw.init(document, region.getOffset());
-			if(!tmw.exists()) return false;
-			
-			String prefix = tmw.getCorePrefix();
-			
-			if (prefix == null) return false;
-			
-			// Find loadBundle tag
-			List<Element> lbTags = new ArrayList<Element>();
-			NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle");
-			for (int i = 0; list != null && i < list.getLength(); i++) {
-				Element el = (Element)list.item(i);
-				int end = Utils.getValueEnd(el);
-				if (end >= 0 && end < region.getOffset()) {
-					lbTags.add(el);
-				}
-			}
+			String[] prefixes = getLoadBundleTagPrefixes(document, region.getOffset());
+			if (prefixes == null) return false;
 
-			Element lbTag = null;
-			for (int i = 0; i < lbTags.size(); i++) {
-				Element el = lbTags.get(i);
-				Attr var = el.getAttributeNode("var");
-				
-				if (bundleProp.startsWith(var.getValue())) {
-					lbTag = el;
-					break;
+			for (String prefix : prefixes) {
+				// Find loadBundle tag
+				List<Element> lbTags = new ArrayList<Element>();
+				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle");
+				for (int i = 0; list != null && i < list.getLength(); i++) {
+					Element el = (Element)list.item(i);
+					int end = Utils.getValueEnd(el);
+					if (end >= 0 && end < region.getOffset()) {
+						lbTags.add(el);
+					}
 				}
+	
+				Element lbTag = null;
+				for (int i = 0; i < lbTags.size(); i++) {
+					Element el = lbTags.get(i);
+					Attr var = el.getAttributeNode("var");
+					
+					if (sVar.equals(var.getValue())) {
+						lbTag = el;
+						break;
+					}
+				}
+				if (lbTag != null) return true;
 			}
-			if (lbTag == null) return false;
-			
-			return true;
+			return false;
 		} catch (BadLocationException x) {
+			JSFExtensionsPlugin.log("", x);
+			return false;
+		} catch (Exception x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
 		} finally {
@@ -220,4 +223,11 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 		}
 	}
 
+	protected String[] getLoadBundleTagPrefixes(IDocument document, int offset) {
+		TaglibManagerWrapper tmw = new TaglibManagerWrapper();
+		tmw.init(document, offset);
+		if(!tmw.exists()) return null;
+		
+		return new String[] {tmw.getCorePrefix()};
+	}
 }
