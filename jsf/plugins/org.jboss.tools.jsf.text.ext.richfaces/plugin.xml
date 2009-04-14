@@ -169,5 +169,61 @@
          	</contentType>
 		</hyperlinkPartitioner>
 
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesJSPLoadBundleHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesJSPLoadBundleHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesJSPBundleHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesJSPBundleHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
 	</extension>	
+
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlink"
+		id="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlink"
+		name="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlink">
+	
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesLoadBundleHyperlink" 
+			id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesLoadBundleHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE" />
+			</contenttypeidentifier>
+		</hyperlink>
+	
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesBundleHyperlink" 
+			id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesBundleHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_BUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_BUNDLE" />
+			</contenttypeidentifier>
+		</hyperlink>
+	</extension>
+		
 </plugin>

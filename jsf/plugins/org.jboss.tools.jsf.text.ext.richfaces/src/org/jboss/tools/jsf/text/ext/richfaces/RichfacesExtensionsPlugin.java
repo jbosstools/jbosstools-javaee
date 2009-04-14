@@ -52,14 +52,6 @@ public class RichfacesExtensionsPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * This method is called when the plug-in is stopped
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-		plugin = null;
-	}
-
-	/**
 	 * Returns the shared instance.
 	 */
 	public static RichfacesExtensionsPlugin getDefault() {
