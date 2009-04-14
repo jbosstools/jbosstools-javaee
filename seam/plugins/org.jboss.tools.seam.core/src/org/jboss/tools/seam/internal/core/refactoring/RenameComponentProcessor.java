@@ -83,7 +83,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private static final String PROPERTIES_EXT = "properties";
 	private static final String COMPONENTS_FILE = "components.xml";
 	private static final String COMPONENT_NODE = "component";
-	private static final String NAME_NODE = "name";
+	private static final String FACTORY_NODE = "factory";
+	private static final String NAME_ATTRIBUTE = "name";
 
 	private IFile file;
 	private ISeamComponent component;
@@ -257,9 +258,11 @@ public class RenameComponentProcessor extends RenameProcessor {
 	
 	private void scanChildComponent(IFile file, Node parent) {
 		NodeList children = parent.getChildNodes();
-		for(int i=0; i<children.getLength(); i++) {
+		for (int i = 0; i < children.getLength(); i++) {
 			Node curentValidatedNode = children.item(i);
-			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType() && curentValidatedNode.getNodeName().equals(COMPONENT_NODE)) {
+			if (Node.ELEMENT_NODE == curentValidatedNode.getNodeType()
+					&& (curentValidatedNode.getNodeName().equals(COMPONENT_NODE)
+						|| curentValidatedNode.getNodeName().equals(FACTORY_NODE))) {
 				scanComponentNode(file, curentValidatedNode);
 			}
 			scanChildComponent(file, curentValidatedNode);
@@ -267,7 +270,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void scanComponentNode(IFile file, Node node) {
-		Node nameNode = node.getAttributes().getNamedItem("name");
+		Node nameNode = node.getAttributes().getNamedItem(NAME_ATTRIBUTE);
 		if(nameNode != null){
 			if(nameNode.getNodeValue().equals(component.getName())){
 				IStructuredDocumentRegion region =  ((IDOMNode)node).getFirstStructuredDocumentRegion();
