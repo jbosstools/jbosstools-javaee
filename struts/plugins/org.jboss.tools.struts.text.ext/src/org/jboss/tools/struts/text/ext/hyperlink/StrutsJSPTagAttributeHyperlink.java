@@ -242,11 +242,9 @@ public class StrutsJSPTagAttributeHyperlink extends AbstractHyperlink {
 		String tagName = getTagName(fLastRegion);
 		String attrName = getTagAttributeName(fLastRegion);
 		if (tagName == null || attrName == null)
-			return  MessageFormat.format(StrutsTextExtMessages.OpenTagLibrary, StrutsTextExtMessages.TagAttribute);
-		
-		String tagAttr = MessageFormat.format(StrutsTextExtMessages.ForTagAttribute, attrName, tagName);
-		
-		return MessageFormat.format(StrutsTextExtMessages.OpenTagLibrary, tagAttr);
+			return StrutsTextExtMessages.OpenTagLibraryForAnAttribute;
+
+		return MessageFormat.format(StrutsTextExtMessages.OpenTagLibraryForAttributeName, attrName, tagName);
 	}
 
 }

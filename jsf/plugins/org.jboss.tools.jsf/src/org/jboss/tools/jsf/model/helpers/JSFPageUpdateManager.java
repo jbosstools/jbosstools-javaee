@@ -10,10 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.helpers;
 
-import java.util.*;
-import org.jboss.tools.common.model.*;
-import org.jboss.tools.common.model.event.*;
-import org.jboss.tools.jsf.JSFModelPlugin;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.common.model.XJob;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelConstants;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.event.XModelTreeEvent;
+import org.jboss.tools.common.model.event.XModelTreeListener;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.FacesProcessImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
@@ -155,7 +161,7 @@ public class JSFPageUpdateManager implements XModelTreeListener, Runnable, JSFCo
     class PageUpdateRunnable implements XJob.XRunnable {
 
 		public String getId() {
-			return JSFUIMessages.JSF_PAGE_UPDATE + XModelConstants.getWorkspace(model);
+			return NLS.bind(JSFUIMessages.JSF_PAGE_UPDATE, XModelConstants.getWorkspace(model));
 		}
 
 		public void run() {

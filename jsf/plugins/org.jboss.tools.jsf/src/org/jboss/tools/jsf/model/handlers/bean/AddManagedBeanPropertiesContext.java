@@ -10,18 +10,26 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.handlers.bean;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.*;
-
-import org.jboss.tools.common.java.generation.*;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.common.java.generation.JavaPropertyGenerator;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
-import org.jboss.tools.jsf.model.helpers.bean.*;
+import org.jboss.tools.jsf.model.helpers.bean.BeanHelper;
 
 public class AddManagedBeanPropertiesContext {
 	IType type = null;
@@ -129,12 +137,12 @@ public class AddManagedBeanPropertiesContext {
 	private String getMessage(boolean getter, boolean setter, String name){
 				
 		if(!getter && !setter) {
-			return JSFUIMessages.ADD_GETTER_SETTER_FOR_PROPERTY + names;
+			return NLS.bind(JSFUIMessages.ADD_GETTER_SETTER_FOR_PROPERTY, names);
 		}
 		if (!getter && setter){
-			return JSFUIMessages.ADD_GETTER_FOR_PROPERTY + names;
+			return NLS.bind(JSFUIMessages.ADD_GETTER_FOR_PROPERTY, names);
 		}
-		return  JSFUIMessages.ADD_SETTER_FOR_PROPERTY + names;
+		return NLS.bind(JSFUIMessages.ADD_SETTER_FOR_PROPERTY, names);
 	}
 	
 	class PropertyData {

@@ -11,6 +11,8 @@
 package org.jboss.tools.struts.model.handlers;
 
 import java.util.*;
+
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
 import org.jboss.tools.common.model.XModelException;
@@ -80,7 +82,10 @@ public class CreateStrutsConfigSupport extends CreateFileSupport implements Stru
 	protected void execute() throws XModelException {
 		Properties p0 = extractStepData(0);
 		XUndoManager undo = getTarget().getModel().getUndoManager();
-		XTransactionUndo u = new XTransactionUndo(StrutsUIMessages.CREATE_STRUTS_CONFIG + getTarget().getAttributeValue("element type")+" "+getTarget().getPresentationString(), XTransactionUndo.ADD); //$NON-NLS-2$ //$NON-NLS-3$
+		XTransactionUndo u = new XTransactionUndo(
+				NLS.bind(StrutsUIMessages.CREATE_STRUTS_CONFIG, 
+					getTarget().getAttributeValue("element type")+" "+getTarget().getPresentationString()),   //$NON-NLS-1$//$NON-NLS-2$
+				XTransactionUndo.ADD);
 		undo.addUndoable(u);
 		try {
 			doExecute(p0);

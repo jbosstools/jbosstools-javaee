@@ -10,9 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.handlers;
 
-import java.util.*;
-import org.jboss.tools.common.meta.action.impl.handlers.*;
-import org.jboss.tools.common.model.*;
+import java.util.Properties;
+
+import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
+import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.DeleteFileHandler;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.JSFConstants;
@@ -38,7 +43,7 @@ public class DeleteRuleHandler extends DefaultRemoveHandler implements JSFConsta
 		}
 		ServiceDialog d = object.getModel().getService();
 		Properties dp = new Properties();
-		dp.setProperty(ServiceDialog.DIALOG_MESSAGE, JSFUIMessages.DELETE + DefaultCreateHandler.title(object, false) + "?");
+		dp.setProperty(ServiceDialog.DIALOG_MESSAGE, NLS.bind(JSFUIMessages.DELETE_TITLE_QUESTION, DefaultCreateHandler.title(object, false)));
 		dp.put(ServiceDialog.CHECKED, Boolean.FALSE);
 		dp.setProperty(ServiceDialog.CHECKBOX_MESSAGE, JSFUIMessages.DELETE_FILE_FROM_DISK);
 		if(!d.openConfirm(dp)) return;

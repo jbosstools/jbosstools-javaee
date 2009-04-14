@@ -26,11 +26,10 @@ public class StrutsTextExtMessages {
 		NLS.initializeMessages(BUNDLE_NAME, StrutsTextExtMessages.class);
 	}
 
-	public static String OpenTagLibrary;
-	public static String Tag; 
-	public static String TagAttribute; 
-	public static String ForTag;
-	public static String ForTagAttribute;
+	public static String OpenTagLibraryForATag;
+	public static String OpenTagLibraryForTagName;
+	public static String OpenTagLibraryForAnAttribute;
+	public static String OpenTagLibraryForAttributeName;
 	public static String OpenAction;
 	public static String Action;
 	public static String OpenActionMapping;

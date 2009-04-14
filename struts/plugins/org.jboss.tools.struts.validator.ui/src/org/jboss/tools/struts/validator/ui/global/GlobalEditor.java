@@ -29,8 +29,6 @@ import org.jboss.tools.struts.validator.ui.internal.ValidatorManager;
 import org.jboss.tools.struts.validator.ui.internal.ValidatorCommand;
 
 public class GlobalEditor implements SelectionListener, CommandBarListener  {
-	static String ADD = StrutsUIMessages.ADD;
-	static String DELETE = StrutsUIMessages.DELETE;
 	protected Composite control; 
 	protected ComboModel combomodel = new ComboModel();
 	protected Combo combo;
@@ -102,9 +100,9 @@ public class GlobalEditor implements SelectionListener, CommandBarListener  {
 	protected void createCommadBar() {
 		bar.getLayout().asToolBar = true;
 		bar.getLayout().iconsOnly = true;
-		bar.setCommands(new String[]{ADD, DELETE});
-		bar.setImage(ADD, FEditorConstants.IMAGE_CREATE);
-		bar.setImage(DELETE, FEditorConstants.IMAGE_DELETE);
+		bar.setCommands(new String[]{StrutsUIMessages.ADD, StrutsUIMessages.DELETE});
+		bar.setImage(StrutsUIMessages.ADD, FEditorConstants.IMAGE_CREATE);
+		bar.setImage(StrutsUIMessages.DELETE, FEditorConstants.IMAGE_DELETE);
 		bar.createControl(control);
 		bar.addCommandBarListener(this);
 	}
@@ -158,7 +156,7 @@ public class GlobalEditor implements SelectionListener, CommandBarListener  {
 
 	public void action(String name) {
 		if(root == null || !root.isActive()) return;
-		if(ADD.equals(name)) {
+		if(StrutsUIMessages.ADD.equals(name)) {
 			Set set = getKeys();
 			invoke("CreateActions.AddGlobal", root); //$NON-NLS-1$
 			Object added = getAddedKey(set);
@@ -166,7 +164,7 @@ public class GlobalEditor implements SelectionListener, CommandBarListener  {
 				combomodel.setSelectedItem(added);
 				widgetSelected(null);
 			}			 
-		} else if(DELETE.equals(name)) {
+		} else if(StrutsUIMessages.DELETE.equals(name)) {
 			if(selected != null)
 			invoke("DeleteActions.Delete", selected); //$NON-NLS-1$
 		}
@@ -216,8 +214,8 @@ public class GlobalEditor implements SelectionListener, CommandBarListener  {
 
 	public void updateCommandsEnabled() {
 		boolean enabled = root != null && root.isObjectEditable();
-		bar.setEnabled(ADD, enabled);
-		bar.setEnabled(DELETE, enabled);
+		bar.setEnabled(StrutsUIMessages.ADD, enabled);
+		bar.setEnabled(StrutsUIMessages.DELETE, enabled);
 	}
 
 	public ValidatorCommand getCommand(int cmd) {

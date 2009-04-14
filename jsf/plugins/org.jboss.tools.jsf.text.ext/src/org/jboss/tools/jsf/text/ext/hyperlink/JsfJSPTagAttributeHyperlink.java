@@ -217,11 +217,9 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 		String tagName = getTagName(fLastRegion);
 		String attrName = getTagAttributeName(fLastRegion);
 		if (tagName == null || attrName == null)
-			return  MessageFormat.format(JSFTextExtMessages.OpenTagLibrary, JSFTextExtMessages.TagAttribute);
+			return JSFTextExtMessages.OpenTagLibraryForAnAttribute;
 		
-		String tagAttr = MessageFormat.format(JSFTextExtMessages.ForTagAttribute, attrName, tagName);
-		
-		return MessageFormat.format(JSFTextExtMessages.OpenTagLibrary, tagAttr);
+		return MessageFormat.format(JSFTextExtMessages.OpenTagLibraryForAttributeName, attrName, tagName);
 	}
 
 }

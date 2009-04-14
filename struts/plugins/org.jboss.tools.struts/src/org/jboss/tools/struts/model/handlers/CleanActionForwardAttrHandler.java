@@ -11,6 +11,8 @@
 package org.jboss.tools.struts.model.handlers;
 
 import java.util.*;
+
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.struts.StrutsConstants;
@@ -33,7 +35,7 @@ public class CleanActionForwardAttrHandler extends AbstractHandler implements St
         if(object == null) return false;
         String attr = getAttribute(object);
         if(attr == null) return false;
-        ((XActionImpl)action).setDisplayName(StrutsUIMessages.CLEAN_ATTRIBUTE + attr);
+        ((XActionImpl)action).setDisplayName(NLS.bind(StrutsUIMessages.CLEAN_ATTRIBUTE, attr));
         return true;
     }
 

@@ -11,7 +11,7 @@
 package org.jboss.tools.struts.model.helpers.open;
 
 import org.eclipse.core.resources.IFile;
-
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
@@ -23,9 +23,9 @@ public class OpenForwardTargetHelper {
 		XModelObject f = EclipseResourceUtil.getObjectByResource(file);
 		if(f == null) return null; //
 		XModelObject context = f.getChildByPath(objectPath);
-		if(context == null) return StrutsUIMessages.CANNOT_FIND_OBJECT + objectPath;
+		if(context == null) return NLS.bind(StrutsUIMessages.CANNOT_FIND_OBJECT, objectPath);
 		XModelObject target = JumpByForwardPathHandler.findWithContext(targetPath, context);
-		if(target == null) return StrutsUIMessages.CANNOT_FIND_RESOURCE + targetPath;
+		if(target == null) return NLS.bind(StrutsUIMessages.CANNOT_FIND_RESOURCE, targetPath);
 		JumpByForwardPathHandler.doOpenTarget(target);
 		return null;
 	}

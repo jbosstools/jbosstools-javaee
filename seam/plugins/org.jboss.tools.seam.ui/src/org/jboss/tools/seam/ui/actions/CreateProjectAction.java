@@ -11,20 +11,20 @@
 
 package org.jboss.tools.seam.ui.actions;
 
-import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
-import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.SeamUiImages;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
+import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.SeamUiImages;
 
 /**
  * @author Jeremy
@@ -72,8 +72,8 @@ public class CreateProjectAction extends Action implements
 			SeamGuiPlugin
 					.getPluginLog()
 					.logError(
-							SeamUIMessages.CREATE_PROJECT_ACTION_UNABLE_TO_CREATE_WIZARD
-									+ SEAM_CREATE_PROJECT_WIZARD_ID + "'"); //$NON-NLS-1$
+							NLS.bind(SeamUIMessages.CREATE_PROJECT_ACTION_UNABLE_TO_CREATE_WIZARD,
+									SEAM_CREATE_PROJECT_WIZARD_ID));
 
 		}
 	}

@@ -123,13 +123,13 @@ public class ValidatorFactory {
 			File folder = new File(folderPath);
 
 			if (!folder.exists())
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_FOLDER
-						+ folderPath
-						+ SeamUIMessages.VALIDATOR_FACTORY_DOES_NOT_EXISTS));
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
+						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST,
+						folderPath)));
 			if (!folder.isDirectory())
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_PATH
-						+ folderPath
-						+ SeamUIMessages.VALIDATOR_FACTORY_POINTS_TO_FILE));
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
+						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_PATH_POINTS_TO_FILE,
+						folderPath)));
 			return NO_ERRORS;
 		}
 	};
@@ -156,8 +156,7 @@ public class ValidatorFactory {
 					errors = createErrorMap();
 					errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-									SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO
-											+ SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
+									SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
 				}
 			} else {
 				File seamJarFile = new File(value.toString(), "jboss-seam.jar"); //$NON-NLS-1$
@@ -165,8 +164,7 @@ public class ValidatorFactory {
 					errors = createErrorMap();
 					errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-									SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO
-											+ SeamUIMessages.VALIDATOR_FACTORY_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
+									SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
 				}
 			}
 
@@ -191,8 +189,7 @@ public class ValidatorFactory {
 			if (!new File(value.toString(), "bin/twiddle.jar").isFile()) { //$NON-NLS-1$
 				errors.put(ISeamFacetDataModelProperties.JBOSS_AS_HOME,
 					new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-						SeamUIMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_POINT_TO_LOCATION_THAT_DOES_NOT
-							+ SeamUIMessages.VALIDATOR_FACTORY_LOOK_LIKE_JBOSS_AS_HOME_FOLDER));
+						SeamUIMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_POINT_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_JBOSS_AS_HOME_FOLDER));
 			}
 			return errors;
 		}
@@ -311,8 +308,8 @@ public class ValidatorFactory {
 			IProblem[] problems = compilationUnit.getProblems();
 
 			if (problems.length > 0) {
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, targetName
-						+ SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID2));
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
+						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
 			}
 
 			return NO_ERRORS;
@@ -333,8 +330,8 @@ public class ValidatorFactory {
 
 			if ("".equals(value) //$NON-NLS-1$
 					|| !project.getLocation().isValidSegment(value.toString()))
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, targetName
-						+ SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID2));
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
+						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
 
 			return NO_ERRORS;
 		}
@@ -351,9 +348,9 @@ public class ValidatorFactory {
 
 			if (project == null || !(project instanceof IProject)
 					|| !project.exists()) {
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_PROJECT
-						+ value
-						+ SeamUIMessages.VALIDATOR_FACTORY_DOES_NOT_EXIST));
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
+						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_PROJECT_DOES_NOT_EXIST,
+						value)));
 			} else {
 				IProject selection = (IProject) project;
 				try {
@@ -366,9 +363,9 @@ public class ValidatorFactory {
 							// .class)).hasProjectFacet(ProjectFacetsManager
 							// .getProjectFacet("jst.web"))
 							|| ""	.equals(SeamCorePlugin.getSeamPreferences(selection).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) { //$NON-NLS-1$
-						return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PROJECT
-								+ project.getName()
-								+ SeamUIMessages.VALIDATOR_FACTORY_IS_NOT_A_SEAM_WEB_PROJECT));
+						return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
+								NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PROJECT_IS_NOT_A_SEAM_WEB_PROJECT,
+								project.getName())));
 					} else {
 						// TODO validate project(s) structure
 					}
@@ -408,9 +405,9 @@ public class ValidatorFactory {
 				if (driverClass == null || "".equals(driverClass)) { //$NON-NLS-1$
 					return createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED
-									+ value
-									+ SeamUIMessages.VALIDATOR_FACTORY_CONNECTION_PROFILE));
+							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
+									NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED_CONNECTION_PROFILE,
+									value)));
 				}
 			}
 			return NO_ERRORS;

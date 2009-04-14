@@ -33,6 +33,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
@@ -132,7 +133,8 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 					seamRt = getRuntime(project);
 				}
 				if(seamRt == null) {
-					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_FIND_SEAM_RUNTIME + project.getName()));
+					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
+							NLS.bind(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_FIND_SEAM_RUNTIME, project.getName())));
 				}
 				String seamTemplatesRoot = seamRt.getTemplatesDir();
 

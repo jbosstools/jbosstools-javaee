@@ -230,8 +230,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					return ((List<SeamRuntime>) inputElement).toArray();
 				} else {
 					throw new IllegalArgumentException(
-							SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_INPUTELEMENT_MUST_BE
-									+ SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_AN_INSTANCEOF_OF_LIST);
+							SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_INPUTELEMENT_MUST_BE_LIST);
 				}
 			}
 
@@ -594,9 +593,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					continue;
 				}
 				if (rt.getName().equals(name.getValueAsString())) {
-					setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME
-							+ name.getValueAsString()
-							+ SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_ALREADY_EXISTS);
+					setErrorMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME_ALREADY_EXISTS,
+							name.getValueAsString()));
 					setPageComplete(false);
 					return;
 				}
@@ -631,8 +629,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				setPageComplete(true);
 				return;
 			} else if(!SeamUtil.areSeamVersionsMatched(version.getValueAsString(), seamVersion)) {
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION
-					+ seamVersion + "'"); //$NON-NLS-1$
+				setErrorMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
+					seamVersion));
 				setPageComplete(false);
 				return;
 			} else {

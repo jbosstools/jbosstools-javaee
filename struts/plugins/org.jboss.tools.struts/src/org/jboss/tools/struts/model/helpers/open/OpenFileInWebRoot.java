@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.model.helpers.open;
 
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.util.FindObjectHelper;
@@ -19,7 +20,7 @@ public class OpenFileInWebRoot {
 
 	public String run(XModel model, String path) {
 		XModelObject f = XModelImpl.getByRelativePath(model, path);
-		if(f == null) return StrutsUIMessages.CANNOT_FIND_RESOURCE + path;
+		if(f == null) return NLS.bind(StrutsUIMessages.CANNOT_FIND_RESOURCE, path);
 		FindObjectHelper.findModelObject(f, FindObjectHelper.EVERY_WHERE);
 		return null;
 	}

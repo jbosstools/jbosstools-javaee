@@ -77,7 +77,9 @@ public class StrutsDeleteHandler extends DefaultRemoveHandler implements StrutsC
             return;
         }
         XUndoManager undo = object.getModel().getUndoManager();
-        XTransactionUndo u = new XTransactionUndo(StrutsUIMessages.DELETE + DefaultCreateHandler.title(object, false), XTransactionUndo.REMOVE);
+        XTransactionUndo u = new XTransactionUndo(
+        		NLS.bind(StrutsUIMessages.DELETE_NAME, 
+        			DefaultCreateHandler.title(object, false)), XTransactionUndo.REMOVE);
         undo.addUndoable(u);
         try {
             if (referers != null && referers.size() > 0) {

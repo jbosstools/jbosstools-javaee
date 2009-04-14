@@ -11,6 +11,8 @@
 package org.jboss.tools.struts.validators.model.handlers;
 
 import java.util.Properties;
+
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
@@ -28,7 +30,7 @@ public class DeleteValidationFileHandler extends DeleteFileHandler {
 
 			ServiceDialog d = object.getModel().getService();
 			Properties pd = new Properties();
-			String message = StrutsUIMessages.DELETE + FileAnyImpl.toFileName(object);
+			String message = NLS.bind(StrutsUIMessages.DELETE_NAME, FileAnyImpl.toFileName(object));
 			pd.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
 			pd.setProperty(ServiceDialog.CHECKBOX_MESSAGE, checkboxMessage);
 			pd.put(ServiceDialog.CHECKED, new Boolean(true));

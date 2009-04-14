@@ -41,7 +41,6 @@ public class DeleteModuleHandler extends AbstractHandler {
 		String message = NLS.bind(StrutsUIMessages.DELETE_MODULE,SyncProjectContext.getModuleDisplayName(modulename)); //$NON-NLS-2$
 		if(cs.length > 0) {
 			String cbm = StrutsUIMessages.DELETE_STRUTS_CONFIGFILE;
-			if(cs.length > 1) cbm += "s"; //$NON-NLS-1$
 			Properties dp = new Properties();
 			dp.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
 			dp.setProperty(ServiceDialog.CHECKBOX_MESSAGE, cbm);

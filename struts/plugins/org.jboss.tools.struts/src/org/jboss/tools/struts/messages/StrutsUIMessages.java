@@ -39,6 +39,7 @@ public class StrutsUIMessages extends NLS {
 	public static String DELETE_REFERENCE_FROM_WEBXML;
 	public static String ACTION_IS_REFERENCED_REMOVE_REFERENCES;
 	public static String DELETE;
+	public static String DELETE_NAME;
 	public static String WARNING;
 	public static String CANNOT_FIND_OBJECT_BY_PATH;
 	public static String MODULE_NAME;
@@ -114,6 +115,7 @@ public class StrutsUIMessages extends NLS {
 	public static String ALREADY_EXISTS;
 	public static String ADD_FORMSET;
 	public static String ADD;
+	public static String ADD_NAME;
 	public static String ADD_MESSAGES_FROM_TEMPLATE;
 	public static String ADD_PLUGIN_BY_TEMPLATE;
 	public static String PLUGIN_FOR_CLASS_EXISTS;
@@ -121,6 +123,7 @@ public class StrutsUIMessages extends NLS {
 	public static String WRONG_TEXT_IN_PLUGIN_OPTION;
 	public static String DELETE_MODULE;
 	public static String DELETE_STRUTS_CONFIGFILE;
+	public static String DELETE_STRUTS_CONFIGFILE_NAME;
 	public static String LINK_IS_CONFIRMED_1;
 	public static String LINK_IS_CONFIRMED_2;
 	public static String BUNDLE_ID_ISNOT_SPECIFIED;

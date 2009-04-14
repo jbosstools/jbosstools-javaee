@@ -10,13 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.plugins.model.handlers;
 
-import java.util.*;
-import org.jboss.tools.common.model.*;
-import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import java.util.Properties;
+
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.XActionInvoker;
-import org.jboss.tools.common.meta.action.impl.*;
+import org.jboss.tools.common.meta.action.impl.AbstractHandler;
+import org.jboss.tools.common.meta.action.impl.XActionImpl;
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
-import org.jboss.tools.struts.model.handlers.*;
+import org.jboss.tools.struts.model.handlers.OpenMessageResourcesHandler;
 
 public class AddMessagesThroughStrutsResourcesHandler extends AbstractHandler {
 
@@ -29,7 +33,7 @@ public class AddMessagesThroughStrutsResourcesHandler extends AbstractHandler {
 	
 	boolean validateActionName() {
 		XModelObject rs = AddMessagesHandler.getTemplate(PreferenceModelUtilities.getPreferenceModel(), 0);
-		String dn = (rs != null) ? StrutsUIMessages.ADD + AddMessagesHandler.getTemplateName(rs)
+		String dn = (rs != null) ? NLS.bind(StrutsUIMessages.ADD_NAME, AddMessagesHandler.getTemplateName(rs))
 				: StrutsUIMessages.ADD_MESSAGES_FROM_TEMPLATE;
 		((XActionImpl)action).setDisplayName(dn);
 		return rs != null;

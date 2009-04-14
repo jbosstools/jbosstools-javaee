@@ -607,9 +607,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 								new Status(
 										IStatus.ERROR,
 										SeamCorePlugin.PLUGIN_ID,
-										SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_FOR
-												+ targetName
-												+ SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_IS_NOT_VALID));
+										NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_NOT_VALID,
+												targetName)));
 			} else if (status.getSeverity() == IStatus.WARNING) {
 				return ValidatorFactory
 						.createErrormessage(
@@ -617,9 +616,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 								new Status(
 										IStatus.WARNING,
 										SeamCorePlugin.PLUGIN_ID,
-										SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_FOR
-												+ targetName
-												+ SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_IS_NOT_VALID));
+										NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_NOT_VALID,
+												targetName)));
 			}
 			return ValidatorFactory.NO_ERRORS;
 		}
@@ -674,9 +672,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 								new Status(
 										IStatus.ERROR,
 										SeamCorePlugin.PLUGIN_ID,
-										SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT
-												+ testProjectName
-												+ SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+										NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
+												testProjectName)));
 			} else if (status.getSeverity() == IStatus.WARNING) {
 				return ValidatorFactory
 						.createErrormessage(
@@ -684,9 +681,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 								new Status(
 										IStatus.WARNING,
 										SeamCorePlugin.PLUGIN_ID,
-										SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT
-												+ testProjectName
-												+ SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+										NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
+												testProjectName)));
 			}
 			if (ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(deployAs)) {
 				final String earProjectName = projectName + "-ear"; //$NON-NLS-1$
@@ -699,9 +695,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 									new Status(
 											IStatus.ERROR,
 											SeamCorePlugin.PLUGIN_ID,
-											SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT
-													+ earProjectName
-													+ SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+											NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT_ALREADY_EXISTS,
+													earProjectName)));
 				} else if (status.getSeverity() == IStatus.WARNING) {
 					return ValidatorFactory
 							.createErrormessage(
@@ -709,9 +704,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 									new Status(
 											IStatus.WARNING,
 											SeamCorePlugin.PLUGIN_ID,
-											SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT
-													+ earProjectName
-													+ SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+											NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT_ALREADY_EXISTS,
+													earProjectName)));
 				}
 
 				final String ejbProjectName = projectName + "-ejb"; //$NON-NLS-1$
@@ -724,9 +718,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 									new Status(
 											IStatus.ERROR,
 											SeamCorePlugin.PLUGIN_ID,
-											SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT
-													+ ejbProjectName
-													+ SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+											NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT_ALREADY_EXISTS,
+													ejbProjectName)));
 				} else if (status.getSeverity() == IStatus.WARNING) {
 					return ValidatorFactory
 							.createErrormessage(
@@ -734,9 +727,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 									new Status(
 											IStatus.WARNING,
 											SeamCorePlugin.PLUGIN_ID,
-											SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT
-													+ ejbProjectName
-													+ SeamUIMessages.VALIDATOR_FACTORY_PROJECT_ALREADY_EXISTS));
+											NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT_ALREADY_EXISTS,
+													ejbProjectName)));
 				}
 			}
 			return ValidatorFactory.NO_ERRORS;

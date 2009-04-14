@@ -11,9 +11,13 @@
 package org.jboss.tools.jsf.model.handlers.refactoring;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.*;
-import org.eclipse.ltk.core.refactoring.*;
-
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -39,7 +43,7 @@ public class JSFRenamePathDiagramChange extends CompositeChange {
 			final XModelObject page = pages[i];
 			add(new Change() {
 				public String getName() {
-					return JSFUIMessages.UPDATE_REFERENCE_TO_PAGE + page.getAttributeValue("path");
+					return NLS.bind(JSFUIMessages.UPDATE_REFERENCE_TO_PAGE, page.getAttributeValue("path"));
 				}
 				public void initializeValidationData(IProgressMonitor pm) {
 				}

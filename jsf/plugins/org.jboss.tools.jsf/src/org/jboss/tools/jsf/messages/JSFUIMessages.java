@@ -38,6 +38,7 @@ public class JSFUIMessages extends NLS {
 	public static String THE_VIEW_EXISTS;
 	public static String CONFIRMATION;
 	public static String DELETE;
+	public static String DELETE_TITLE_QUESTION;
 	public static String DELETE_FILE_FROM_DISK;
 	public static String PASTE;
 	public static String SELECT_BEAN;

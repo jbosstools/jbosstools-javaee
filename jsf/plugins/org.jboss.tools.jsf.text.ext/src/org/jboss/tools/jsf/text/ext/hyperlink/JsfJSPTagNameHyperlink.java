@@ -169,11 +169,9 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 	public String getHyperlinkText() {
 		String tagName = getTagName(fLastRegion);
 		if (tagName == null)
-			return  MessageFormat.format(JSFTextExtMessages.OpenTagLibrary, JSFTextExtMessages.Tag);
+			return JSFTextExtMessages.OpenTagLibraryForATag;
 		
-		String tag = MessageFormat.format(JSFTextExtMessages.ForTag, tagName);
-		
-		return MessageFormat.format(JSFTextExtMessages.OpenTagLibrary, tag);
+		return MessageFormat.format(JSFTextExtMessages.OpenTagLibraryForTagName, tagName);
 	}
 
 }

@@ -11,6 +11,7 @@
 package org.jboss.tools.struts.model.helpers.open;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.*;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
@@ -22,7 +23,7 @@ public class OpenObjectByPath {
 		XModelObject f = EclipseResourceUtil.getObjectByResource(file);
 		if(f == null) return null; //
 		XModelObject o = f.getChildByPath(objectPath);
-		if(o == null) return StrutsUIMessages.CANNOT_FIND_OBJECT + objectPath;
+		if(o == null) return NLS.bind(StrutsUIMessages.CANNOT_FIND_OBJECT, objectPath);
 		FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
 		return null;
 	}

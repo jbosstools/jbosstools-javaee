@@ -11,8 +11,13 @@
 package org.jboss.tools.struts.model.handlers;
 
 import java.util.Properties;
-import org.jboss.tools.common.model.*;
-import org.jboss.tools.common.model.filesystems.impl.*;
+
+import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.DeleteFileHandler;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
@@ -27,7 +32,8 @@ public class DeleteStrutsConfigHandler extends DeleteFileHandler {
 		if(StrutsWebHelper.isConfigRegistered(object.getModel(), uri)) {
 			ServiceDialog d = object.getModel().getService();
 			Properties pd = new Properties();
-			String message = StrutsUIMessages.DELETE_STRUTS_CONFIGFILE + FileAnyImpl.toFileName(object);
+			String message = NLS.bind(StrutsUIMessages.DELETE_STRUTS_CONFIGFILE_NAME, 
+				FileAnyImpl.toFileName(object));
 			pd.setProperty(ServiceDialog.DIALOG_MESSAGE, message);
 			pd.setProperty(ServiceDialog.CHECKBOX_MESSAGE, StrutsUIMessages.DELETE_REFERENCE_FROM_WEBXML);
 			pd.put(ServiceDialog.CHECKED, new Boolean(true));

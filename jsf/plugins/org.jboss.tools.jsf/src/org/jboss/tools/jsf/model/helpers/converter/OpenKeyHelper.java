@@ -29,7 +29,7 @@ public class OpenKeyHelper {
 		if(model == null) return null;
 		if(bundle == null || bundle.length() == 0) return JSFUIMessages.BUNDLE_IS_NOT_SPECIFIED;
 		XModelObject[] bs = findBundles(model, bundle, locale);
-		if(bs.length == 0) return JSFUIMessages.CANNOT_FIND_BUNDLE + bundle;
+		if(bs.length == 0) return NLS.bind(JSFUIMessages.CANNOT_FIND_BUNDLE, bundle);
 		FindObjectHelper.findModelObject(bs[0], FindObjectHelper.EVERY_WHERE);
 		return null;
 	}
@@ -39,7 +39,7 @@ public class OpenKeyHelper {
 		if(key == null || key.length() == 0) return JSFUIMessages.KEY_ISNOT_SPECIFIED;
 		if(bundle == null || bundle.length() == 0) return JSFUIMessages.BUNDLE_IS_NOT_SPECIFIED;
 		XModelObject[] bs = findBundles(model, bundle, locale);
-		if(bs.length == 0) return JSFUIMessages.CANNOT_FIND_BUNDLE + bundle;
+		if(bs.length == 0) return NLS.bind(JSFUIMessages.CANNOT_FIND_BUNDLE, bundle);
 		XModelObject c = null;
 		for (int i = 0; i < bs.length && c == null; i++) {
 			c = findKey(model, bs[i], key);
