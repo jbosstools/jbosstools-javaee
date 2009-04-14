@@ -1,13 +1,11 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
 Bundle-Name: %Bundle-Name.0
-Bundle-ClassPath: jsfextensions.jar
-Bundle-Activator: org.jboss.tools.jsf.text.ext.facelets.Facel
- etsExtensionsPlugin
+Bundle-ClassPath: jsffaceletsextensions.jar
+Bundle-Activator: org.jboss.tools.jsf.text.ext.facelets.FaceletsExtensionsPlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
-Bundle-SymbolicName: org.jboss.tools.jsf.text.ext.facelets; s
- ingleton:=true
+Bundle-SymbolicName: org.jboss.tools.jsf.text.ext.facelets; singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: 
  org.eclipse.ui,org.eclipse.core.runtime,
