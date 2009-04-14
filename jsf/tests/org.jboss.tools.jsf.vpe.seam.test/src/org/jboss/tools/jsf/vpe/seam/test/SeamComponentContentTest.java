@@ -98,6 +98,18 @@ public class SeamComponentContentTest extends ComponentContentTest {
 	performContentTest("components/span.xhtml"); //$NON-NLS-1$
     }
     
+    public void testTransformImageSize() throws Throwable {
+	performContentTest("components/transformImageSize.xhtml"); //$NON-NLS-1$
+    }
+    
+    public void testTransformImageBlur() throws Throwable {
+	performInvisibleTagTest("components/transformImageBlur.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+    
+    public void testTransformImageType() throws Throwable {
+	performInvisibleTagTest("components/transformImageType.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+    
     public void testValidate() throws Throwable {
 	performInvisibleTagTest("components/validate.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
     }

@@ -1,7 +1,6 @@
 <tests>
 	<test id="id1">
 		<IMG
-			SRC="/.*ve/unresolved_image.gif/"
-			STYLE="-moz-user-modify: read-write;" />
+			SRC="/.*ve/unresolved_image.gif/"/>
 	</test>
 </tests>
