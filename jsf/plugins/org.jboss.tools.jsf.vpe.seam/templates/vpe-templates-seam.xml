@@ -190,29 +190,7 @@
     </vpe:tag>
     
        <vpe:tag name="s:graphicImage" case-sensitive="yes">
-        <vpe:if test="attrpresent('value')">
-            <vpe:template children="no" modify="yes">
-                <img src="{src(jsfvalue(@value))}" width="{@width}"
-                    height="{@height}" class="{@styleClass}" style="{@style}"
-                    title="{tagstring()}" alt="{jsfvalue(@alt)}"/>
-                <vpe:dnd>
-                    <vpe:drag start-enable="yes" />
-                </vpe:dnd>
-                <vpe:resize>
-                    <vpe:width width-attr="style.width" />
-                    <vpe:height height-attr="style.height" />
-                </vpe:resize>
-            </vpe:template>
-        </vpe:if>
-        <vpe:template children="no" modify="yes">
-            <img src="{src(jsfvalue(@url))}" width="{@width}"
-                height="{@height}" class="{@styleClass}" style="{@style}"
-                title="{tagstring()}" alt="{jsfvalue(@alt)}"/>
-            <vpe:resize>
-                <vpe:width width-attr="style.width" />
-                <vpe:height height-attr="style.height" />
-            </vpe:resize>
-        </vpe:template>
+            <vpe:template children="no" modify="yes" class="org.jboss.tools.jsf.vpe.seam.template.SeamGraphicImageTemplate" />
     </vpe:tag>
     
     <vpe:tag name="s:label" case-sensitive="yes">

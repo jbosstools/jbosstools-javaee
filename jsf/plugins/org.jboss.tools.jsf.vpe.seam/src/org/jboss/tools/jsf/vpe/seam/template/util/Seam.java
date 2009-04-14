@@ -20,5 +20,6 @@ public class Seam {
     
     public static final String ATTR_TEMPLATE = "template"; //$NON-NLS-1$
     public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
+    public static final String ATTR_URL = "url"; //$NON-NLS-1$
     
 }
