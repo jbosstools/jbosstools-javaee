@@ -411,7 +411,18 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
+        <para> Content Assist is also available for  the  <emphasis
+            role="italic">
+            <property>&quot;jsfc &quot;</property>
+        </emphasis> attribute, it lets you select from a list of possible attribute values. Whereas, JSF components appear above all other components in the list.</para>
+        <figure>
+            <title>Content Assist for the &quot;jsfc&quot; attribute</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_12.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
         <note>
             <title>Note:</title>
 
