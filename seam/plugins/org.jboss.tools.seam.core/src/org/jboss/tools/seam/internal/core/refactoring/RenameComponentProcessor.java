@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core.refactoring;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -357,6 +358,39 @@ public class RenameComponentProcessor extends RenameProcessor {
 
 	private void scanProperties(IFile file, String content){
 		scanString(file, content, 0);
+		StringTokenizer tokenizer = new StringTokenizer(content, "= \t\r\n\f", true);
+		
+		String lastToken = "\n";
+		int offset = 0;
+		boolean comment = false;
+		boolean key = true;
+		
+		while(tokenizer.hasMoreTokens()){
+			String token = tokenizer.nextToken(".#= \t\r\n\f");//$NON-NLS-1$
+			if(token.equals("\r"))
+				token = "\n";
+			
+			if(token.equals("#") && lastToken.equals("\n"))
+				comment = true;
+			else if(token.equals("\n") && comment)
+				comment = false;
+			
+			if(!comment){
+				if(!token.equals("\n") && lastToken.equals("\n"))
+					key = true;
+				else if(key && (token.equals("=") || token.equals(" ")))
+					key = false;
+				
+				if(key && token.equals(component.getName())){
+					checkLastChange(file);
+					TextEdit edit = new ReplaceEdit(offset, token.length(), newName);
+					lastChange.addEdit(edit);
+				}
+			}
+			
+			lastToken = token;
+			offset += token.length();
+		}
 	}
 
 	/*
