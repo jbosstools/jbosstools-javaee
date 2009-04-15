@@ -62,6 +62,9 @@
     <vpe:tag name="ui:include" case-sensitive="yes">
 	    <vpe:template children="yes" file="{@src}" class="org.jboss.tools.vpe.editor.template.VpeIncludeTemplate"/>
     </vpe:tag>
+	<vpe:tag name="vpeCustomTemplate" case-sensitive="yes">
+		<vpe:template children="yes" class="org.jboss.tools.vpe.editor.template.VpeCustomTemplate"></vpe:template>
+	</vpe:tag>
 
     <vpe:tag name="ui:debug" case-sensitive="yes" >
 		<vpe:template children="yes" modify="yes">

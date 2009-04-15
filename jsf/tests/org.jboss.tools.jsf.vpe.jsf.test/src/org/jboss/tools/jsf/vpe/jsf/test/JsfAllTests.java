@@ -44,6 +44,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3030Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3127Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3144Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3163Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3197Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3376Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3396Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3441Test;
@@ -77,6 +78,7 @@ public class JsfAllTests {
 
 	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 	public static final String IMPORT_JSF_20_PROJECT_NAME = "jsf2test"; //$NON-NLS-1$
+	public static final String IMPORT_CUSTOM_FACELETS_PROJECT = "customFaceletsTestProject";//$NON-NLS-1$
 	
 	public static Test suite() {
 
@@ -133,6 +135,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE3482Test.class);
 		suite.addTestSuite(JBIDE3632Test.class);
 		suite.addTestSuite(JBIDE3650Test.class);
+		suite.addTestSuite(JBIDE3197Test.class);
 		
 		// $JUnit-END$
 		// added by Max Areshkau
@@ -148,6 +151,11 @@ public class JsfAllTests {
 		importBeanJsf20.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(importBeanJsf20);
 
+		ImportBean customFaceletsTestProject = new ImportBean();
+		customFaceletsTestProject.setImportProjectName(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		customFaceletsTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(customFaceletsTestProject);
+		
 		return new VpeTestSetup(suite, projectToImport);
 
 	}
