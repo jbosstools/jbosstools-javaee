@@ -29,12 +29,11 @@ Require-Bundle:
  org.eclipse.ltk.core.refactoring,
  org.eclipse.ltk.ui.refactoring,
  org.eclipse.jdt.core,
- org.eclipse.jdt.ui,
  org.eclipse.ui.ide,
  org.eclipse.jface,
  org.eclipse.jdt.core.manipulation,
  org.eclipse.jst.jsf.core,
  org.eclipse.wst.validation,
- org.eclipse.jdt.launching
-Provide-Package: org.jboss.tools.seam.core.test
+ org.eclipse.jdt.launching,
+ org.eclipse.jdt.ui
 Bundle-Localization: plugin
