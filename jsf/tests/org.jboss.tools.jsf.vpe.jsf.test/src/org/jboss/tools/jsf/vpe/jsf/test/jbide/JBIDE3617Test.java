@@ -73,32 +73,4 @@ public class JBIDE3617Test extends VpeTest {
         	throw getException();
         }
 	}
-
-	/**
-	 * Opens specified file in VPE editor
-	 * 
-	 * @param projectName the name of the project
-	 * @param fileName the name of the file
-	 * 
-	 * @return VpeController
-	 * @throws Throwable
-	 */
-	private VpeController openInVpe(String projectName, String fileName) throws Throwable {
-        // get test page path
-        IFile file = (IFile) TestUtil.getComponentPath(fileName,
-        		projectName);
-		assertNotNull("Could not open specified file. componentPage = " + fileName//$NON-NLS-1$ 
-				+ ";projectName = " + projectName, file);//$NON-NLS-1$
-
-        IEditorInput input = new FileEditorInput(file);
-
-        assertNotNull("Editor input is null", input); //$NON-NLS-1$
-
-        // open and get editor
-        JSPMultiPageEditor part = openEditor(input);
-
-        VpeController vpeController = TestUtil.getVpeController(part);
-
-	    return vpeController;
-	}
 }
