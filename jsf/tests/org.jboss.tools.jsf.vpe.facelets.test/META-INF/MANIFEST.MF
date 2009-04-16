@@ -11,8 +11,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  org.eclipse.ui.ide,
  org.jboss.tools.common,
+ org.jboss.tools.common.text.ext,
  org.jboss.tools.vpe.ui.test,
  org.jboss.tools.jst.jsp,
+ org.jboss.tools.jst.web,
  org.jboss.tools.vpe.xulrunner,
  org.mozilla.xpcom
 Eclipse-LazyStart: true
