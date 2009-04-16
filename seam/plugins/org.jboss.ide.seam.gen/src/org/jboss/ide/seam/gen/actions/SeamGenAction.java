@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.ant.internal.ui.IAntUIConstants;
-import org.eclipse.ant.internal.ui.launchConfigurations.IAntLaunchConfigurationConstants;
+import org.eclipse.ant.ui.launching.IAntLaunchConfigurationConstants;
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.core.resources.IProject;
@@ -245,7 +245,7 @@ public abstract class SeamGenAction implements IWorkbenchWindowActionDelegate {
 		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType( "org.eclipse.ant.AntLaunchConfigurationType" );
 		ILaunchConfigurationWorkingCopy wc = launchConfigurationType.newInstance( null, "seamgen" );
 		wc.setAttribute( "process_factory_id", "org.eclipse.ant.ui.remoteAntProcessFactory" );
-		wc.setAttribute(IAntUIConstants.ATTR_DEFAULT_VM_INSTALL, true);
+		wc.setAttribute(IAntLaunchConfigurationConstants.ATTR_DEFAULT_VM_INSTALL, true);
 		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, "org.eclipse.ant.internal.ui.antsupport.InternalAntRunner");
 		
 		wc.setAttribute("org.eclipse.debug.core.appendEnvironmentVariables", true);
