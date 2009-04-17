@@ -47,7 +47,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		ArrayList<Element> columns = getColumns(sourceElement);
 		int columnsLength = getColumnsCount(sourceElement, columns);
 		nsIDOMElement colgroup = visualDocument.createElement(HTML.TAG_COLGROUP);
-		colgroup.setAttribute(HTML.TAG_SPAN, String.valueOf(columnsLength));
+		colgroup.setAttribute(HTML.ATTR_SPAN, String.valueOf(columnsLength));
 		table.appendChild(colgroup);
 
 		String columnsWidth = sourceElement.getAttribute(RichFaces.ATTR_COLUMNS_WIDTH);

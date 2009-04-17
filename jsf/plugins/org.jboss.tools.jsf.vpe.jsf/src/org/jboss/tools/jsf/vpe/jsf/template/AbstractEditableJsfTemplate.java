@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -25,7 +26,7 @@ import org.w3c.dom.Element;
  * 
  * @author Sergey Dzmitrovich
  */
-public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate  {
+public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate {
 
 	/**
 	 * Gets the output attribute node.
@@ -43,11 +44,11 @@ public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate  {
 	 * Contains JSF attributes and appropriate HTML attributes 
 	 * content of that does not have to be modified in templates.
 	 */
-    static final private Map<String, String> attributes = new HashMap<String, String>();
-
+    static final private Map<String, String> attributes 
+    		= new HashMap<String, String>();
 	static {
-		attributes.put("style", HTML.ATTR_STYLE); //$NON-NLS-1$
-		attributes.put("styleClass", HTML.ATTR_CLASS); //$NON-NLS-1$
+		attributes.put(JSF.ATTR_STYLE, HTML.ATTR_STYLE);
+		attributes.put(JSF.ATTR_STYLE_CLASS, HTML.ATTR_CLASS);
 	}
 
 	/**

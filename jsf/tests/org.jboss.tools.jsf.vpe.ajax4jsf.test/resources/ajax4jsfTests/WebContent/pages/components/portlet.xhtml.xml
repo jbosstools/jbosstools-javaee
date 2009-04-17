@@ -1,7 +1,7 @@
 <tests>
 	<test id="portlet">
-		<SPAN STYLE="-moz-user-modify: read-only;">
-			<SPAN> ....</SPAN>
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text"> ....</SPAN>
 		</SPAN>
 	</test>
 </tests>

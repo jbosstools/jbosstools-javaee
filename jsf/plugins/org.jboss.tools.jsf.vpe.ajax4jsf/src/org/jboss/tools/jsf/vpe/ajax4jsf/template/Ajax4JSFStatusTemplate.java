@@ -17,6 +17,7 @@ import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMAttr;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -146,7 +147,7 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 			
 			Attr stopTextAttribute = sourceElement.getAttributeNode(ATTR_STOP_TEXT);
 			if (stopTextAttribute != null) {
-				visualElement = visualDocument.createElement(HTML.TAG_SPAN);
+				visualElement = VisualDomUtil.createBorderlessContainer(visualDocument);
 				nsIDOMText textNode = visualDocument.createTextNode(
 						stopTextAttribute.getNodeValue());
 				visualElement.appendChild(textNode);

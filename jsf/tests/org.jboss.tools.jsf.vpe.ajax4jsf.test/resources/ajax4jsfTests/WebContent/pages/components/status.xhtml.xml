@@ -1,14 +1,14 @@
 <tests>
 	<test id="status1">
-		<SPAN CLASS="" STYLE="">
-			<SPAN>
+		<SPAN>
+			<SPAN CLASS="vpe-text">
 				Complete
 			</SPAN>
 		</SPAN>
 	</test>
 	<test id="status2">
 		<SPAN CLASS="StyleClass StopStyleClass" STYLE="border: 3px solid red;">
-			<SPAN>
+			<SPAN CLASS="vpe-text">
 				FACET STOP OUTPUT TEXT
 			</SPAN>
 		</SPAN>

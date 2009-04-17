@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -406,11 +407,12 @@ public abstract class RichFacesAbstractTreeTemplate extends VpeAbstractTemplate 
 	    Element sourceElement = (Element) sourceNode;
 	    String nodes = sourceElement
 		    .getAttribute(RichFacesRecursiveTreeNodesAdaptorTemplate.NODES_NAME);
-	    nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+	    nsIDOMElement textContainer = VisualDomUtil
+	    		.createBorderlessContainer(visualDocument);
 	    nsIDOMText text = visualDocument
 		    .createTextNode((nodes == null) ? Constants.EMPTY : nodes);
-	    span.appendChild(text);
-	    nodeTitle.appendChild(span);
+	    textContainer.appendChild(text);
+	    nodeTitle.appendChild(textContainer);
 	} else {
 	    VpeChildrenInfo tdInfo = new VpeChildrenInfo(nodeTitle);
 

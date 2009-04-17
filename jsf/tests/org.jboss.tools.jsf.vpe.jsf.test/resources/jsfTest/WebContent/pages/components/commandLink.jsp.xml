@@ -1,16 +1,16 @@
 <tests>
 	<test id="commandLink1">
-		<span>commandLink1</span>
+		<span CLASS="vpe-text">commandLink1</span>
 	</test>
 	<test id="commandLink2">
 		<a>commandLink2</a>
 	</test>
 	<test id="commandLink3">
-		<SPAN >
-			<SPAN>
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
 				commandLink3
 			</SPAN>
-			<SPAN>
+			<SPAN CLASS="vpe-text">
 				: This link is disabled as it is not nested within a JSF form.
 			</SPAN>
 		</SPAN>

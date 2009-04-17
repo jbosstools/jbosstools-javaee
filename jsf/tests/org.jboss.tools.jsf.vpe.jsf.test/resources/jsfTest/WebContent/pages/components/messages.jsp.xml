@@ -1,5 +1,9 @@
 <tests>
 	<test id="messages">
-		<span> Error Messages </span>
+		<UL>
+			<LI>
+				Error Messages
+			</LI>
+		</UL>
 	</test>
 </tests>

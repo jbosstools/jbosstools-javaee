@@ -126,8 +126,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		int columnsLength = getColumnsCount(sourceElement, columns);
 		nsIDOMElement colgroup = visualDocument
 				.createElement(HTML.TAG_COLGROUP);
-		colgroup.setAttribute(HTML.TAG_SPAN, String
-				.valueOf(columnsLength));
+		colgroup.setAttribute(HTML.ATTR_SPAN,
+				String.valueOf(columnsLength));
 		mainTable.appendChild(colgroup);
 
 		// Encode Caption

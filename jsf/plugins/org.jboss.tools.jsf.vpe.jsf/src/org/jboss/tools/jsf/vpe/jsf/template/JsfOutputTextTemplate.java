@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -27,6 +27,16 @@ import org.w3c.dom.Node;
  * 
  */
 public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
+	/**
+	 * If at least one of these attributes is present,
+	 * {@code sourceNode} should be rendered in {@code SPAN}
+	 * visual node.
+	 * 
+	 * @see #isSpanNeeding(Element)
+	 */
+	private static final String[] spanMarkers = {
+			JSF.ATTR_STYLE, JSF.ATTR_STYLE_CLASS, JSF.ATTR_ID,
+			JSF.ATTR_DIR, JSF.ATTR_TITLE, JSF.ATTR_LANG};
 
 	/*
 	 * (non-Javadoc)
@@ -39,28 +49,46 @@ public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 
 		Element element = (Element) sourceNode;
 
-		// create span element
-		nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument);
+		// create container
+		final nsIDOMElement container;
+		if (isSpanNeeding(element)) {
+			container = visualDocument.createElement(HTML.TAG_SPAN);
+		} else {
+			container = VisualDomUtil.createBorderlessContainer(visualDocument);
+		}
 
 		// creation data
-		VpeCreationData creationData = new VpeCreationData(span);
+		VpeCreationData creationData = new VpeCreationData(container);
 
 		// copy attributes
-		copyOutputJsfAttributes(span, element);
+		copyOutputJsfAttributes(container, element);
 
-		processOutputAttribute(pageContext, visualDocument, element, span,
+		processOutputAttribute(pageContext, visualDocument, element, container,
 				creationData);
 
 		return creationData;
 
 	}
 
+	/**
+	 * Returns {@code true} if given {@code element} should be
+	 * rendered in {@code SPAN} tag, otherwise returns {@code false}.
+	 * 
+	 * @see #spanMarkers
+	 */
+	private boolean isSpanNeeding(Element element) {
+		for (String spanMarker : spanMarkers) {
+			if (element.hasAttribute(spanMarker)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean recreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
-
 		return true;
 	}
-
 }

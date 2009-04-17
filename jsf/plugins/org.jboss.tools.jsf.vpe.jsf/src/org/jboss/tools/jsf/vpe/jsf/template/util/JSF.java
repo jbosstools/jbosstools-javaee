@@ -57,6 +57,10 @@ public class JSF {
 
 	public static final String ATTR_ITEM_DISABLED = "itemDisabled"; //$NON-NLS-1$
 
-	public static final String ATTR_LAYOUT = "layout";//$NON-NLS-1$
+	public static final String ATTR_LAYOUT = "layout"; //$NON-NLS-1$
+
+	public static final String ATTR_TITLE = "title"; //$NON-NLS-1$
+
+	public static final String ATTR_LANG = "lang"; //$NON-NLS-1$
 
 }

@@ -3,6 +3,12 @@
 
 <html>
 <head>
+<style type="text/css">
+	span {
+		color: yellow;
+		background-color: green;
+	}
+</style>
 </head>
 <body>
 

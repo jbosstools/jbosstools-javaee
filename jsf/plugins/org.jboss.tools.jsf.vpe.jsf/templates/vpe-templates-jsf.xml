@@ -22,7 +22,7 @@
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="yes" modify="yes">
-			<span title="{tagstring()}" />
+			<span title="{tagstring()}" class="vpe-text"/>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes" />
@@ -609,10 +609,17 @@
 				<vpe:breaker type="ignore" />
 			</vpe:template>
 		</vpe:if>
+		<vpe:if test="attrpresent('style')|attrpresent('styleClass')|attrpresent('id')">
+			<vpe:template children="yes" modify="yes">
+				<span style="{@style}" class="{@styleClass}"
+					title="{tagstring()}" />
+				<vpe:breaker type="ignore" />
+			</vpe:template>
+		</vpe:if>
 		<vpe:template children="yes" modify="yes">
-			<span style="{@style}" class="{@styleClass}"
-				title="{tagstring()}" />
-			<vpe:breaker type="ignore" />
+				<span class="vpe-text"
+					title="{tagstring()}" />
+				<vpe:breaker type="ignore" />
 		</vpe:template>
 	</vpe:tag>
 
@@ -819,9 +826,9 @@
 
 	<vpe:tag name="h:message">
 		<vpe:template children="no" modify="no">
-			<span class="{@styleClass}" style="{@style}">
-				Error Message
-			</span>
+			<ul class="{@styleClass}" style="{@style}">
+				<li>Error Message</li>
+			</ul>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />
@@ -833,9 +840,9 @@
 
 	<vpe:tag name="h:messages">
 		<vpe:template children="no" modify="no">
-			<span class="{@styleClass}" style="{@style}">
-				Error Messages
-			</span>
+			<ul class="{@styleClass}" style="{@style}">
+				<li>Error Messages</li>
+			</ul>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />

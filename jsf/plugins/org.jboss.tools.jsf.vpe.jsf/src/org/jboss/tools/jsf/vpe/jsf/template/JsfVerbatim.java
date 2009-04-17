@@ -19,6 +19,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -34,10 +35,8 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools
-	 * .vpe.editor.context.VpePageContext, org.w3c.dom.Node,
-	 * org.mozilla.interfaces.nsIDOMDocument)
+	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate
+	 * 			#create(VpePageContext, Node, nsIDOMDocument)
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -45,13 +44,14 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 		Element element = (Element) sourceNode;
 
 		// create span
-		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		nsIDOMElement mainContainer = VisualDomUtil
+				.createBorderlessContainer(visualDocument);
 
 		// get children
 		NodeList list = element.getChildNodes();
 
 		// creation data
-		VpeCreationData creationData = new VpeCreationData(span);
+		VpeCreationData creationData = new VpeCreationData(mainContainer);
 
 		// for each child
 		for (int i = 0; i < list.getLength(); i++) {
@@ -59,25 +59,25 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 			Node child = list.item(i);
 
 			// create span for child
-			nsIDOMElement childSpan = visualDocument
-					.createElement(HTML.TAG_SPAN);
-			span.appendChild(childSpan);
+			nsIDOMElement childContainer = VisualDomUtil
+					.createBorderlessContainer(visualDocument);
+			mainContainer.appendChild(childContainer);
 
 			// if child is text or not html tag
-			if ((child.getNodeType() == Node.ELEMENT_NODE && child.getPrefix() != null)
-					|| (child.getNodeType() == Node.TEXT_NODE)) {
+			if ((child.getNodeType() == Node.ELEMENT_NODE 
+					&& child.getPrefix() != null)
+					|| child.getNodeType() == Node.TEXT_NODE) {
 
 				// create children info and add to creationData
-				VpeChildrenInfo childSpanInfo = new VpeChildrenInfo(childSpan);
+				VpeChildrenInfo childSpanInfo = new VpeChildrenInfo(childContainer);
 				childSpanInfo.addSourceChild(child);
 				creationData.addChildrenInfo(childSpanInfo);
-
 			} else {
 				// get text by positions and add to span
 				String text = NodesManagingUtil.getSourceText(pageContext,
 						((IDOMNode) child).getStartOffset(), ((IDOMNode) child)
 								.getEndOffset() - 1);
-				span.appendChild(visualDocument.createTextNode(text));
+				mainContainer.appendChild(visualDocument.createTextNode(text));
 			}
 
 		}
@@ -97,16 +97,13 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.jboss.tools.vpe.editor.template.VpeAbstractTemplate#
-	 * isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 * org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument,
-	 * org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String,
-	 * java.lang.String)
+	 * @see VpeAbstractTemplate#isRecreateAtAttrChange(
+	 * 		VpePageContext, Element, nsIDOMDocument,
+	 * 		nsIDOMElement, Object, String, String)
 	 */
 	public boolean recreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMElement visualNode, Object data, String name, String value) {
 		return true;
 	}
-
 }

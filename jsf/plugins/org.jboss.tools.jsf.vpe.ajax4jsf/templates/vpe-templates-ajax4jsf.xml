@@ -271,7 +271,7 @@
     
     <vpe:tag name="a4j:portlet" case-sensitive="yes">
 	    <vpe:template children="yes" modify="no">
-	    	<span>
+	    	<span class="vpe-text">
 			</span>
 	    </vpe:template>
     </vpe:tag>

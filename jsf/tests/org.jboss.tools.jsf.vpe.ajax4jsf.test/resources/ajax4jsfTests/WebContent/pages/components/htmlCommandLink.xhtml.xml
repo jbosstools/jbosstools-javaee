@@ -1,7 +1,5 @@
 <tests>
 	<test id="htmlCommandLink">
-		<A DIR="" STYLE="-moz-user-modify: read-write;">
-			<SPAN>value</SPAN>
-		</A>
+		<A><SPAN CLASS="vpe-text">value</SPAN></A>
 	</test>
 </tests>
