@@ -25,9 +25,11 @@
 						</TR>
 						</THEAD>
 					</TABLE>
-					<SPAN STYLE="color: red; font-weight: bold; -moz-user-modify: read-only;">
-						Error Messages
-                    </SPAN>
+					<UL STYLE="color: red; font-weight: bold; -moz-user-modify: read-only;">
+						<LI>
+							Error Messages
+						</LI>
+					</UL>
 				</DIV>
 			</DIV>
 		</DIV>
