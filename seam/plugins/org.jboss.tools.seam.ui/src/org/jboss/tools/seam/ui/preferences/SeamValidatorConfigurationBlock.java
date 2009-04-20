@@ -18,12 +18,15 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock;
 import org.eclipse.jdt.internal.ui.preferences.ScrolledPageContent;
-import org.eclipse.jdt.internal.ui.util.PixelConverter;
 import org.eclipse.jdt.internal.ui.wizards.IStatusChangeListener;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,6 +38,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
+//import org.jboss.tools.seam.ui.xpl.PixelConverter;
 
 /**
  * Find in SeamPreferences the instruction to Framework for Severity preferences
@@ -155,7 +159,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static final String ENABLED= JavaCore.ENABLED;
 	private static final String DISABLED= JavaCore.DISABLED;
 
-	private PixelConverter fPixelConverter;
+	//private PixelConverter fPixelConverter;
 
 	private static Key[] getKeys() {
 		ArrayList<Key> keys = new ArrayList<Key>();
@@ -176,7 +180,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 
 	@Override
 	protected Control createContents(Composite parent) {
-		fPixelConverter = new PixelConverter(parent);
+		//fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
 
 		Composite mainComp = new Composite(parent, SWT.NONE);
@@ -188,12 +192,21 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 
 		Composite commonComposite = createStyleTabContent(mainComp);
 		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
-		gridData.heightHint = fPixelConverter.convertHeightInCharsToPixels(20);
+		gridData.heightHint = convertHeightInCharsToPixels(parent,20);
 		commonComposite.setLayoutData(gridData);
 
 		validateSettings(null, null, null);
 
 		return mainComp;
+	}
+
+	private int convertHeightInCharsToPixels(Control control,int chars) {
+		Font font = control.getFont();
+		GC gc = new GC(font.getDevice());
+		gc.setFont(font);
+		FontMetrics fFontMetrics = gc.getFontMetrics();
+		gc.dispose();
+		return Dialog.convertHeightInCharsToPixels(fFontMetrics, chars);
 	}
 
 	private Composite createStyleTabContent(Composite folder) {
