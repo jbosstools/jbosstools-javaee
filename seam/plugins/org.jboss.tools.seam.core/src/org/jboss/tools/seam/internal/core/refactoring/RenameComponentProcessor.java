@@ -145,18 +145,20 @@ public class RenameComponentProcessor extends RenameProcessor {
 		return null;
 	}
 	
-	private List<IAnnotation> getAnnotations(IFile file, String annotationName){
+	private List<IAnnotation> getAnnotations(IFile file, String[] annotationNames){
 		ArrayList<IAnnotation> annotations = new ArrayList<IAnnotation>();
 		try{
 			ICompilationUnit unit = getCompilationUnit(file);
 			for(IType type : unit.getAllTypes()){
 				for(IAnnotation annotation : type.getAnnotations()){
-					if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(ANNOTATION_NAME))
+					for(String annotationName : annotationNames){
+					if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName))
 						annotations.add(annotation);
 					}
+				}
 			}
 			for(IJavaElement element : unit.getChildren()){
-				List<IAnnotation> list =  getAnnotations(element, annotationName);
+				List<IAnnotation> list =  getAnnotations(element, annotationNames);
 				annotations.addAll(list);
 				
 			}
@@ -166,14 +168,16 @@ public class RenameComponentProcessor extends RenameProcessor {
 		return annotations;
 	}
 	
-	private List<IAnnotation> getAnnotations(IJavaElement element, String annotationName){
+	private List<IAnnotation> getAnnotations(IJavaElement element, String[] annotationNames){
 		IType type = (IType)element.getAncestor(IJavaElement.TYPE);
 		ArrayList<IAnnotation> annotations = new ArrayList<IAnnotation>();
 		if(element instanceof IAnnotatable){
 			try{
 				for(IAnnotation annotation : ((IAnnotatable)element).getAnnotations()){
-					if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName)){
-						annotations.add(annotation);
+					for(String annotationName : annotationNames){
+						if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName)){
+							annotations.add(annotation);
+						}
 					}
 				}
 			}catch(JavaModelException ex){
@@ -183,9 +187,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 		if(element instanceof IParent){
 			try{
 				for(IJavaElement child : ((IParent)element).getChildren()){
-					List<IAnnotation> list =  getAnnotations(child, annotationName);
+					List<IAnnotation> list =  getAnnotations(child, annotationNames);
 					annotations.addAll(list);
-					
 				}
 			}catch(JavaModelException ex){
 				SeamCorePlugin.getDefault().logError(ex);
@@ -267,12 +270,23 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void lookingForAnnotations(IFile file){
-		List<IAnnotation> annotations = getAnnotations(file, ANNOTATION_IN);
+		String source;
+		List<IAnnotation> annotations = getAnnotations(file, new String[]{ANNOTATION_IN, ANNOTATION_FACTORY});
 		for(IAnnotation annotation : annotations){
-			if(annotation.getParent().getElementType() == IJavaElement.FIELD){
-				//System.out.println("@In for field - "+annotation.getElementName());
+			source = "";
+			int memberValueNumber = 0;
+			try{
+				source = annotation.getSource();
+				memberValueNumber = annotation.getMemberValuePairs().length;
+			}catch(JavaModelException ex){
+				SeamCorePlugin.getDefault().logError(ex);
+			}
+			
+			if(source.indexOf("\""+component.getName()+"\"") >= 0){
+				createChange(annotation);
+			}else if(annotation.getParent().getElementType() == IJavaElement.FIELD){
 				IField field = (IField)annotation.getParent();
-				if(annotation.getElementName().indexOf("\"") < 0 && field.getElementName().equals(component.getName())){
+				if(memberValueNumber == 0 && field.getElementName().equals(component.getName())){
 					
 //					RenameFieldProcessor fieldProcessor = new RenameFieldProcessor(field);
 //					fieldProcessor.setUpdateReferences(true);
@@ -284,20 +298,11 @@ public class RenameComponentProcessor extends RenameProcessor {
 //					}catch(CoreException ex){
 //						SeamCorePlugin.getDefault().logError(ex);
 //					}
-					try{
-						String annotationText = "@In(\""+newName+"\")";
-					
-						TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
-						TextFileChange change = getChange(file);
-						change.addEdit(edit);
-					}catch(JavaModelException ex){
-						SeamCorePlugin.getDefault().logError(ex);
-					}
+					createChange(annotation);
 				}
 			}else if(annotation.getParent().getElementType() == IJavaElement.METHOD){
-				//System.out.println("@In for method - "+annotation.getElementName());
 				IMethod method = (IMethod)annotation.getParent();
-				if(annotation.getElementName().indexOf("\"") < 0 && method.getElementName().equals(component.getName())){
+				if(memberValueNumber == 0 && getFieldName(method.getElementName()).equals(component.getName())){
 //					TextChangeManager man = new TextChangeManager();
 //					RenameNonVirtualMethodProcessor methodProcessor = new RenameNonVirtualMethodProcessor(method);
 //					methodProcessor.setUpdateReferences(true);
@@ -309,26 +314,38 @@ public class RenameComponentProcessor extends RenameProcessor {
 //					}catch(CoreException ex){
 //						SeamCorePlugin.getDefault().logError(ex);
 //					}
-					try{
-						String annotationText = "@In(\""+newName+"\")";
-					
-						TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
-						TextFileChange change = getChange(file);
-						change.addEdit(edit);
-					}catch(JavaModelException ex){
-						SeamCorePlugin.getDefault().logError(ex);
-					}
+					createChange(annotation);
 				}
 			}
 		}
-		annotations = getAnnotations(file, ANNOTATION_FACTORY);
-		for(IAnnotation annotation : annotations){
-			if(annotation.getParent().getElementType() == IJavaElement.FIELD){
-				//System.out.println("@Factory for field - "+annotation.getElementName());
-			}else if(annotation.getParent().getElementType() == IJavaElement.METHOD){
-				//System.out.println("@Factory for method - "+annotation.getElementName());
-			}
+	}
+	
+	private void createChange(IAnnotation annotation){
+		try{
+			String annotationText = annotation.getSource();
+			//String annotationText = "@In(\""+newName+"\")";
+			int open = annotationText.indexOf("(");
+			if(open >= 0){
+				annotationText = annotationText.substring(0, open) + "(\""+newName+"\")";
+			}else
+				annotationText += "(\""+newName+"\")";
+		
+			TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
+			TextFileChange change = getChange(file);
+			change.addEdit(edit);
+		}catch(JavaModelException ex){
+			SeamCorePlugin.getDefault().logError(ex);
 		}
+	}
+	
+	private String getFieldName(String methodName){
+		if(methodName.startsWith("is") || methodName.startsWith("get") || methodName.startsWith("set")){
+			if(methodName.startsWith("is"))
+				return methodName.substring(2,3).toLowerCase()+methodName.substring(3);
+			else
+				return methodName.substring(3,4).toLowerCase()+methodName.substring(4);
+		}else
+			return "";
 	}
 	
 	private void scanJava(IFile file, String content){
