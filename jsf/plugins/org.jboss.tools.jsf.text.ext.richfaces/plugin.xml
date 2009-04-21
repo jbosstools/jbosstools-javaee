@@ -196,6 +196,124 @@
          	</contentType>
 		</hyperlinkPartitioner>
 
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPForIDHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPForIDHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/a4j]:*/focus/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/focus/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/focus/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/focus/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/reRender/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/reRender/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/reRender/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/reRender/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/status/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/status/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/status/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/status/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/for/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/for/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/for/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/for/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:effect/targetId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:effect/targetId/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:toggleControl/panelId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:toggleControl/panelId/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/dragIndicator/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/dragIndicator/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/process/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/process/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/similarityGroupingId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/similarityGroupingId/" />
+
+					<axis path="*/[http://richfaces.org/rich]:progressBar/reRenderAfterComplete/" />
+
+					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:componentControl/attachTo/" />
+					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:contextMenu/attachTo/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/a4j]:*/focus/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/focus/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/focus/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/focus/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/reRender/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/reRender/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/reRender/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/reRender/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/status/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/status/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/status/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/status/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/for/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/for/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/for/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/for/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:effect/targetId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:effect/targetId/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:toggleControl/panelId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:toggleControl/panelId/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/dragIndicator/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/dragIndicator/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/process/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/process/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/similarityGroupingId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/similarityGroupingId/" />
+
+					<axis path="*/[http://richfaces.org/rich]:progressBar/reRenderAfterComplete/" />
+
+					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:componentControl/attachTo/" />
+					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:contextMenu/attachTo/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPConverterHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPConverterHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		    <axis path="*/[http://richfaces.org/a4j]:*/converter/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/converter/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/converter/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/converter/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/rowKeyConverter/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/rowKeyConverter/" />
+          		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		    <axis path="*/[http://richfaces.org/a4j]:*/converter/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/converter/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/converter/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/converter/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/rowKeyConverter/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/rowKeyConverter/" />
+          		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
 	</extension>	
 
 	<extension 

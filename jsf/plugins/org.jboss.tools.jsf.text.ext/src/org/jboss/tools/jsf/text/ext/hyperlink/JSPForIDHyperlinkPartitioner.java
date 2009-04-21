@@ -103,9 +103,60 @@ public class JSPForIDHyperlinkPartitioner extends AbstractHyperlinkPartitioner /
 			int propStart = bStart + start;
 			int propLength = bEnd - bStart;
 			
+			
 			if (propStart > offset || propStart + propLength < offset) return null;
-	
-			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
+
+			// Find an ID (suppose that there may be a list of commas-separated IDs)
+			int bIdStart = offset;
+			int bIdEnd = offset;
+			
+			//find start of bean property
+			while (bIdStart >= propStart) { 
+				if (!Character.isJavaIdentifierPart(sb.charAt(bIdStart - start)) &&
+						sb.charAt(bIdStart - start) != ' ') {
+					bIdStart++;
+					break;
+				}
+			
+				if (bIdStart == 0) break;
+				bIdStart--;
+			}
+			
+			// find end of bean property
+			while (bIdEnd < propStart + propLength) { 
+				if (!Character.isJavaIdentifierPart(sb.charAt(bIdEnd - start)) &&
+						sb.charAt(bIdEnd - start) != ' ')
+					break;
+				bIdEnd++;
+			}
+			
+			// Skip leading spaces
+			while (bIdStart < bIdEnd) {
+				if (Character.isJavaIdentifierPart(sb.charAt(bIdStart - start))) {
+					break;
+				}
+			
+				bIdStart++;
+			}
+
+			// Skip trailing spaces
+			while (bIdEnd > bIdStart) {
+				if (Character.isJavaIdentifierPart(sb.charAt(bIdEnd - 1 - start))) {
+					break;
+				}
+			
+				bIdEnd--;
+			}
+
+			
+			int idStart = bIdStart;
+			int idLength = bIdEnd - bIdStart;
+			
+			if (idStart > offset || idStart + idLength < offset) return null;
+			
+			
+			
+			IHyperlinkRegion region = new HyperlinkRegion(idStart, idLength, null, null, null);
 			return region;
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);

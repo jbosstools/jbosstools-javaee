@@ -18,6 +18,8 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
+import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.StructuredSelectionHelper;
@@ -169,8 +171,56 @@ public class ForIDHyperlink extends AbstractHyperlink {
 			final int propLength = bEnd - bStart;
 			
 			if (propStart > offset || propStart + propLength < offset) return null;
-	
-			return new Region(propStart,propLength);
+
+			// Find an ID (suppose that there may be a list of commas-separated IDs)
+			int bIdStart = offset;
+			int bIdEnd = offset;
+			
+			//find start of bean property
+			while (bIdStart >= propStart) { 
+				if (!Character.isJavaIdentifierPart(sb.charAt(bIdStart - start)) &&
+						sb.charAt(bIdStart - start) != ' ') {
+					bIdStart++;
+					break;
+				}
+			
+				if (bIdStart == 0) break;
+				bIdStart--;
+			}
+			// find end of bean property
+			while (bIdEnd < propStart + propLength) { 
+				if (!Character.isJavaIdentifierPart(sb.charAt(bIdEnd - start)) &&
+						sb.charAt(bIdEnd - start) != ' ')
+					break;
+				bIdEnd++;
+			}
+			
+			// Skip leading spaces
+			while (bIdStart < bIdEnd) {
+				if (Character.isJavaIdentifierPart(sb.charAt(bIdStart - start))) {
+					break;
+				}
+			
+				bIdStart++;
+			}
+
+			// Skip trailing spaces
+			while (bIdEnd > bIdStart) {
+				if (Character.isJavaIdentifierPart(sb.charAt(bIdEnd - 1 - start))) {
+					break;
+				}
+			
+				bIdEnd--;
+			}
+
+			int idStart = bIdStart;
+			int idLength = bIdEnd - bIdStart;
+			
+			if (idStart > offset || idStart + idLength < offset) return null;
+			
+			
+			
+			return new Region(idStart,idLength);
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return null;
