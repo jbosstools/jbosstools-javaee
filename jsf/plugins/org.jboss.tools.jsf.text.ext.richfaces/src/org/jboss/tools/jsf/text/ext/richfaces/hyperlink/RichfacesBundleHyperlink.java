@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.jsf.text.ext.richfaces.hyperlink;
 
 import java.util.ArrayList;
@@ -11,6 +22,11 @@ import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.jst.web.tld.VpeTaglibManager;
 import org.jboss.tools.jst.web.tld.VpeTaglibManagerProvider;
 
+/**
+ * 
+ * @author Victor Rubezhny
+ *
+ */
 public class RichfacesBundleHyperlink extends BundleHyperlink {
 
 	protected String[] getLoadBundleTagPrefixes(IRegion region) {
