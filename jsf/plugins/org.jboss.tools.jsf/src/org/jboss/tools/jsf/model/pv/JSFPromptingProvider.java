@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.model.pv;
 
 import java.util.*;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -34,11 +35,34 @@ import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 
 public class JSFPromptingProvider implements IWebPromptingProvider {
-	
+	static Set<String> SUPPORTED_IDS = new HashSet<String>();
+	static {
+		SUPPORTED_IDS.add(JSF_BUNDLES);
+		SUPPORTED_IDS.add(JSF_REGISTERED_BUNDLES);
+		SUPPORTED_IDS.add(JSF_BUNDLE_PROPERTIES);
+		SUPPORTED_IDS.add(JSF_MANAGED_BEANS);
+		SUPPORTED_IDS.add(JSF_BEAN_PROPERTIES);
+		SUPPORTED_IDS.add(JSF_BEAN_METHODS);
+		SUPPORTED_IDS.add(JSF_BEAN_ADD_PROPERTY);
+		SUPPORTED_IDS.add(JSF_VIEW_ACTIONS);
+		SUPPORTED_IDS.add(JSF_BEAN_OPEN);
+		SUPPORTED_IDS.add(JSF_GET_PATH);
+		SUPPORTED_IDS.add(JSF_OPEN_ACTION);
+		SUPPORTED_IDS.add(JSF_OPEN_CONVERTOR);
+		SUPPORTED_IDS.add(JSF_OPEN_VALIDATOR);
+		SUPPORTED_IDS.add(JSF_OPEN_RENDER_KIT);
+		SUPPORTED_IDS.add(JSF_OPEN_CLASS_PROPERTY);
+		SUPPORTED_IDS.add(JSF_OPEN_TAG_LIBRARY);
+		SUPPORTED_IDS.add(JSF_OPEN_BUNDLE);
+		SUPPORTED_IDS.add(JSF_OPEN_KEY);
+		SUPPORTED_IDS.add(JSF_GET_URL);
+		SUPPORTED_IDS.add(JSF_CONVERT_URL_TO_PATH);
+		SUPPORTED_IDS.add(JSF_GET_TAGLIBS);
+	}
 	public final String PROVIDER_ID = "jsf";
 
 	public boolean isSupporting(String id) {
-		return id != null && id.startsWith(PROVIDER_ID);
+		return id != null && SUPPORTED_IDS.contains(id);
 	}
 
 	public List<Object> getList(XModel model, String id, String prefix, Properties properties) {
