@@ -14,15 +14,26 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -195,6 +206,84 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 				new AntCopyUtils.FileSetFileFilter(includeLibs));
 
 		SeamFacetAbstractInstallDelegate.createComponentsProperties(testSrcDir, "", true); //$NON-NLS-1$
+	}
+
+	@Override
+	protected void fillManifests() {
+		try {
+			File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
+				/* (non-Javadoc)
+				 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+				 */
+				public boolean accept(File dir, String name) {
+					return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
+				}
+			});
+			String earJarsStrWar = ""; //$NON-NLS-1$
+			String earJarsStrEjb = ""; //$NON-NLS-1$
+			for (File file : earJars) {
+				earJarsStrWar += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
+				if (isJBossSeamJar(file)) {
+					jbossSeamPath = file.getAbsolutePath();
+				} else {
+					earJarsStrEjb += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+
+			FilterSetCollection manifestFilterColWar = new FilterSetCollection(projectFilterSet);
+			FilterSet manifestFilter = new FilterSet();
+			manifestFilter.addFilter("earLibs", earJarsStrWar); //$NON-NLS-1$
+			manifestFilterColWar.addFilterSet(manifestFilter);
+		
+			FilterSetCollection manifestFilterColEjb = new FilterSetCollection(projectFilterSet);
+			FilterSet manifestFilterEjb = new FilterSet();
+			manifestFilterEjb.addFilter("earLibs", earJarsStrEjb); //$NON-NLS-1$
+			manifestFilterColEjb.addFilterSet(manifestFilterEjb);
+		
+			AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
+			AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+	}
+
+	private boolean isJBossSeamJar(File file) {
+		String regex = "(jboss-seam){1}(-[0-9][0-9\\.]+){0,1}(.jar){1}";
+		return Pattern.matches(regex, file.getName());
+	}
+
+	@Override
+	protected void configureEjbClassPath(IProject ejbProject, IProgressMonitor monitor) throws CoreException {
+		if (jbossSeamPath != null && jbossSeamPath.trim().length() > 0
+				&& new File(jbossSeamPath).exists()) {
+			IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+			IJavaProject ejbJavaProject = JavaCore
+					.create(ejbProject);
+			if (ejbJavaProject != null) {
+				if (!ejbJavaProject.isOpen()) {
+					ejbJavaProject.open(monitor);
+				}
+				IClasspathEntry[] cps = ejbJavaProject.getRawClasspath();
+				IClasspathEntry[] entries = new IClasspathEntry[cps.length + 1];
+				for (int i = 0; i < cps.length; i++) {
+					entries[i] = cps[i];
+				}
+				IPath path = new Path(jbossSeamPath);
+				IFile[] files = wsRoot.findFilesForLocation(path);
+				IFile f = null;
+				if (files != null && files.length > 0) {
+					f=files[0];
+				} else {
+					f = wsRoot.getFile(path);
+				}
+				if (f.exists()) {
+					path = f.getFullPath();
+				}
+				entries[cps.length] = JavaCore.newLibraryEntry(path, null,
+						null);
+				ejbJavaProject.setRawClasspath(entries, monitor);
+			}
+		}
 	}
 
 	@Override

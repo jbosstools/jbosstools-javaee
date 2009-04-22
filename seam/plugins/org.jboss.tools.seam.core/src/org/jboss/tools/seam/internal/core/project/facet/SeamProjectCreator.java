@@ -14,12 +14,10 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -31,9 +29,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jst.common.project.facet.JavaFacetUtils;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.wst.common.componentcore.ComponentCore;
@@ -113,7 +108,7 @@ public class SeamProjectCreator {
 	protected File ejbMetaInf;
 
 	protected File droolsLibFolder;
-	private String jbossSeamPath;
+	protected String jbossSeamPath;
 
 	/**
 	 * @param model Seam facet data model
@@ -209,6 +204,36 @@ public class SeamProjectCreator {
 		return SeamFacetInstallDelegate.JBOSS_EAR_CONTENT;
 	}
 
+	protected void fillManifests() {
+		try {
+			File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
+				/* (non-Javadoc)
+				 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+				 */
+				public boolean accept(File dir, String name) {
+					return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
+				}
+			});
+			String earJarsStr = ""; //$NON-NLS-1$
+			for (File file : earJars) {
+				earJarsStr += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
+			}
+
+			FilterSetCollection manifestFilterCol = new FilterSetCollection(projectFilterSet);
+			FilterSet manifestFilter = new FilterSet();
+			manifestFilter.addFilter("earLibs", earJarsStr); //$NON-NLS-1$
+			manifestFilterCol.addFilterSet(manifestFilter);
+			AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterCol, true); //$NON-NLS-1$
+			AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterCol, true); //$NON-NLS-1$
+		} catch (IOException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+	}
+
+	protected void configureEjbClassPath(IProject ejbProject, IProgressMonitor monitor) throws CoreException {
+		// Do nothing special for Seam 1.2
+	}
+
 	/**
 	 * Creates test project for seam web project in case of WAR deployment and test, EAR and EJB projects in case of EAR deployment.
 	 * @param monitor
@@ -222,41 +247,7 @@ public class SeamProjectCreator {
 			createEjbProject();
 			createEarProject();
 
-			try {
-				File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
-					/* (non-Javadoc)
-					 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
-					 */
-					public boolean accept(File dir, String name) {
-						return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
-					}
-				});
-				String earJarsStrWar = ""; //$NON-NLS-1$
-				String earJarsStrEjb = ""; //$NON-NLS-1$
-				for (File file : earJars) {
-					earJarsStrWar += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
-					if (isJBossSeamJar(file)) {
-						jbossSeamPath = file.getAbsolutePath();
-					} else {
-						earJarsStrEjb += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
-					}
-				}
-
-				FilterSetCollection manifestFilterColWar = new FilterSetCollection(projectFilterSet);
-				FilterSet manifestFilter = new FilterSet();
-				manifestFilter.addFilter("earLibs", earJarsStrWar); //$NON-NLS-1$
-				manifestFilterColWar.addFilterSet(manifestFilter);
-			
-				FilterSetCollection manifestFilterColEjb = new FilterSetCollection(projectFilterSet);
-				FilterSet manifestFilterEjb = new FilterSet();
-				manifestFilterEjb.addFilter("earLibs", earJarsStrEjb); //$NON-NLS-1$
-				manifestFilterColEjb.addFilterSet(manifestFilterEjb);
-			
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
-			} catch (IOException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+			fillManifests();
 		}
 
 		SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(seamWebProject, consoleName);
@@ -284,35 +275,9 @@ public class SeamProjectCreator {
 			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
 			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + earProjectName, earProjectName, monitor, false);
-			if (jbossSeamPath != null && jbossSeamPath.trim().length() > 0
-					&& new File(jbossSeamPath).exists()) {
-				IJavaProject ejbJavaProject = JavaCore
-						.create(ejbProjectToBeImported);
-				if (ejbJavaProject != null) {
-					if (!ejbJavaProject.isOpen()) {
-						ejbJavaProject.open(monitor);
-					}
-					IClasspathEntry[] cps = ejbJavaProject.getRawClasspath();
-					IClasspathEntry[] entries = new IClasspathEntry[cps.length + 1];
-					for (int i = 0; i < cps.length; i++) {
-						entries[i] = cps[i];
-					}
-					IPath path = new Path(jbossSeamPath);
-					IFile[] files = wsRoot.findFilesForLocation(path);
-					IFile f = null;
-					if (files != null && files.length > 0) {
-						f=files[0];
-					} else {
-						f = wsRoot.getFile(path);
-					}
-					if (f.exists()) {
-						path = f.getFullPath();
-					}
-					entries[cps.length] = JavaCore.newLibraryEntry(path, null,
-							null);
-					ejbJavaProject.setRawClasspath(entries, monitor);
-				}
-			}
+
+			configureEjbClassPath(ejbProjectToBeImported, monitor);
+
 			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
 			WtpUtils.reconfigure(earProjectToBeImported, monitor);
 		}
@@ -332,11 +297,6 @@ public class SeamProjectCreator {
 		createSeamProjectPreferenes();
 		WtpUtils.reconfigure(seamWebProject, monitor);
 		WtpUtils.reconfigure(testProjectToBeImported, monitor);
-	}
-
-	private boolean isJBossSeamJar(File file) {
-		String regex = "(jboss-seam){1}(-[0-9][0-9\\.]+){0,1}(.jar){1}";
-		return Pattern.matches(regex, file.getName());
 	}
 
 	/**
