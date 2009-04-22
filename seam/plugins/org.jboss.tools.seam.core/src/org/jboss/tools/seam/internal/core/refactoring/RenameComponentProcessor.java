@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -72,9 +73,15 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.internal.core.BijectedAttribute;
+import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -100,6 +107,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private IFile file=null;
 	private ISeamComponent component;
 	private String newName;
+	private ISeamProject seamProject;
 
 	/**
 	 * @param component Renamed component
@@ -108,7 +116,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		super();
 		this.file = file;
 		IProject project = file.getProject();
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if (seamProject != null) {
 			Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
 			if (components.size() > 0) {
@@ -152,8 +160,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 			for(IType type : unit.getAllTypes()){
 				for(IAnnotation annotation : type.getAnnotations()){
 					for(String annotationName : annotationNames){
-					if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName))
-						annotations.add(annotation);
+						if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName))
+							annotations.add(annotation);
 					}
 				}
 			}
@@ -175,9 +183,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 			try{
 				for(IAnnotation annotation : ((IAnnotatable)element).getAnnotations()){
 					for(String annotationName : annotationNames){
-						if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName)){
+						if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(annotationName))
 							annotations.add(annotation);
-						}
 					}
 				}
 			}catch(JavaModelException ex){
@@ -215,7 +222,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 
 	// we need to find references in .java .xml .xhtml .jsp .properties files
-	private void findReferences(){
+	private void findELReferences(){
 		SeamProjectsSet projectsSet = new SeamProjectsSet(file.getProject());
 
 		IProject[] projects = projectsSet.getAllProjects();
@@ -261,7 +268,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 		if(ext.equalsIgnoreCase(JAVA_EXT)){
 			scanJava(file, content);
-			lookingForAnnotations(file);
+			//lookingForAnnotations(file);
 		} else if(ext.equalsIgnoreCase(XML_EXT) || ext.equalsIgnoreCase(XHTML_EXT) || ext.equalsIgnoreCase(JSP_EXT))
 			scanDOM(file, content);
 		else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
@@ -283,7 +290,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 			}
 			
 			if(source.indexOf("\""+component.getName()+"\"") >= 0){
-				createChange(annotation);
+				changeAnnotation(annotation);
 			}else if(annotation.getParent().getElementType() == IJavaElement.FIELD){
 				IField field = (IField)annotation.getParent();
 				if(memberValueNumber == 0 && field.getElementName().equals(component.getName())){
@@ -298,7 +305,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 //					}catch(CoreException ex){
 //						SeamCorePlugin.getDefault().logError(ex);
 //					}
-					createChange(annotation);
+					changeAnnotation(annotation);
 				}
 			}else if(annotation.getParent().getElementType() == IJavaElement.METHOD){
 				IMethod method = (IMethod)annotation.getParent();
@@ -314,13 +321,52 @@ public class RenameComponentProcessor extends RenameProcessor {
 //					}catch(CoreException ex){
 //						SeamCorePlugin.getDefault().logError(ex);
 //					}
-					createChange(annotation);
+					changeAnnotation(annotation);
 				}
 			}
 		}
 	}
 	
-	private void createChange(IAnnotation annotation){
+	private void findDeclarations() throws CoreException{
+		if(component.getJavaDeclaration() != null)
+			renameJavaDeclaration(component.getJavaDeclaration());
+		
+		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
+		Iterator<ISeamXmlComponentDeclaration> iter = xmlDecls.iterator();
+		while(iter.hasNext()){
+			ISeamXmlComponentDeclaration xmlDecl = iter.next();
+			if(xmlDecl != null)
+				renameXMLDeclaration(xmlDecl);
+		}
+	}
+	
+	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
+		IFile file = (IFile)javaDecl.getResource();
+		if(file != null){
+			IAnnotation annotation = getNameAnnotation(file);
+			if(annotation != null){
+				TextFileChange change = getChange(file);
+				
+				String annotationText = annotation.getSource().replace(component.getName(), newName);
+				
+				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
+				change.addEdit(edit);
+			}
+		}
+	}
+	
+	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl){
+		IFile file = (IFile)xmlDecl.getResource();
+		if(file != null){
+			ISeamTextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			
+			TextFileChange change = getChange(file);
+			TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newName);
+			change.addEdit(edit);
+		}
+	}
+	
+	private void changeAnnotation(IAnnotation annotation){
 		try{
 			String annotationText = annotation.getSource();
 			//String annotationText = "@In(\""+newName+"\")";
@@ -382,8 +428,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 				IDOMModel domModel = (IDOMModel) model;
 				IDOMDocument document = domModel.getDocument();
 				scanChildNodes(file, document);
-				if(file.getName().equals(COMPONENTS_FILE))
-					scanChildComponent(file, document);
+				//if(file.getName().equals(COMPONENTS_FILE))
+				//	scanChildComponent(file, document);
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
@@ -580,21 +626,27 @@ public class RenameComponentProcessor extends RenameProcessor {
 			OperationCanceledException {
 		rootChange = new CompositeChange("Rename Seam Component");
 		
-		if(file != null){
-			IAnnotation annotation = getNameAnnotation(file);
-			if(annotation != null){
-				TextFileChange change = getChange(file);
-				
-				String annotationText = annotation.getSource().replace(component.getName(), newName);
-				
-				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
-				change.addEdit(edit);
-			}
-		}
+		findDeclarations();
 		
-		findReferences();
+		findAnnotations();
+		
+		findELReferences();
+		
 		
 		return rootChange;
+	}
+	
+	private void findAnnotations(){
+		Set<ISeamContextVariable> variables = seamProject.getVariablesByName(component.getName());
+		
+		Iterator<ISeamContextVariable> iter = variables.iterator();
+		while(iter.hasNext()){
+			ISeamContextVariable var = iter.next();
+			System.out.println("var - "+var.getClass());
+			if(var instanceof BijectedAttribute){
+				System.out.println("Bijected...");
+			}
+		}
 	}
 
 	/*
