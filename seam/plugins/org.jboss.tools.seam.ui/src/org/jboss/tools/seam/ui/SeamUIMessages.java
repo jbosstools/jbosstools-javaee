@@ -281,6 +281,8 @@ public class SeamUIMessages extends NLS {
 	public static String VALIDATOR_FACTORY_LOCAL_INTERFACE_NAME_IS_NOT_VALID;
 
 	public static String VALIDATOR_FACTORY_NAME_IS_NOT_VALID;
+	
+	public static String VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS;
 
 	public static String VALIDATOR_FACTORY_PATH_POINTS_TO_FILE;
 

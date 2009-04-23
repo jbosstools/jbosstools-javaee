@@ -14,7 +14,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -26,6 +28,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
@@ -42,10 +46,12 @@ public class RenameComponentWizard extends RefactoringWizard {
 	private ISeamComponent component;
 	private String componentName;
 	private IFieldEditor editor;
+	private ISeamProject seamProject;
 
 	public RenameComponentWizard(Refactoring refactoring, ISeamComponent component) {
 		super(refactoring, WIZARD_BASED_USER_INTERFACE);
 		this.component = component;
+		seamProject = SeamCorePlugin.getSeamProject((IProject)component.getResource(), true);
 	}
 
 	/* (non-Javadoc)
@@ -83,10 +89,11 @@ public class RenameComponentWizard extends RefactoringWizard {
 	        	}
 	        });
 	        setControl(container);
+	        setPageComplete(false);
 		}
 		
 		protected final void validatePage() {
-			Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(editor.getValueAsString(), null);
+			Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(editor.getValueAsString(), seamProject);
 			if(errors.size()>0) {
 				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
 				setPageComplete(false);

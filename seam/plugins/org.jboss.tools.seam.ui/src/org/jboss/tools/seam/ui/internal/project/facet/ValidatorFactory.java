@@ -35,6 +35,7 @@ import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.jdt.internal.corext.util.Messages;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -246,8 +247,15 @@ public class ValidatorFactory {
 	public static final IValidator SEAM_COMPONENT_NAME_VALIDATOR = new IValidator() {
 
 		public Map<String, IStatus> validate(Object value, Object context) {
-			IStatus status = JavaConventions.validateClassFileName(value
-					.toString()
+			String name = value.toString();
+			if(context != null && context instanceof ISeamProject){
+				ISeamProject seamProject = (ISeamProject)context;
+				ISeamComponent component = seamProject.getComponent(name);
+				if(component != null)
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
+			}
+			
+			IStatus status = JavaConventions.validateClassFileName(name
 					+ ".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			if (status.isOK()) {
 				return NO_ERRORS;
