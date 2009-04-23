@@ -381,6 +381,8 @@ public class SeamUIMessages extends NLS {
 	public static String SeamRuntimeListFieldEditor_ActionEdit;
 
 	public static String SeamRuntimeListFieldEditor_ActionRemove;
+
+	public static String RENAME_SEAM_COMPONENT;
 	
 	static {
 		// load message values from bundle file

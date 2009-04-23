@@ -661,5 +661,9 @@
     </handler>
  </extension>
  
+   <extension point="org.jboss.tools.common.model.classes">
+      <xclass id="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"
+              class="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"/>
+   </extension>
  
 </plugin>

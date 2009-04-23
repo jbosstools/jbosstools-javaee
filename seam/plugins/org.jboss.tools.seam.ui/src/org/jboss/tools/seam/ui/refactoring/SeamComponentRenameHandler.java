@@ -60,18 +60,23 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 					component = components.iterator().next();
 				}
 			}
-			RenameComponentProcessor processor = new RenameComponentProcessor(component);
-			RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
-			RenameComponentWizard wizard = new RenameComponentWizard(refactoring, component);
-			RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
-			try {
-				String titleForFailedChecks = "TestTestTest"; //$NON-NLS-1$
-				op.run(activeShell, titleForFailedChecks);
-			} catch (final InterruptedException irex) {
-				// operation was canceled
-			}
+			
+			invokeRenameWizard(component, activeShell);
 
 		}
 		return null;
+	}
+
+	public static void invokeRenameWizard(ISeamComponent component, Shell activeShell) {
+		RenameComponentProcessor processor = new RenameComponentProcessor(component);
+		RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
+		RenameComponentWizard wizard = new RenameComponentWizard(refactoring, component);
+		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
+		try {
+			String titleForFailedChecks = "TestTestTest"; //$NON-NLS-1$
+			op.run(activeShell, titleForFailedChecks);
+		} catch (final InterruptedException irex) {
+			// operation was canceled
+		}
 	}
 }

@@ -21,6 +21,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.navigator.CommonActionProvider;
 import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.jboss.tools.seam.core.IOpenableElement;
+import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamElement;
 
 /**
@@ -45,6 +46,11 @@ public class SeamActionProvider extends CommonActionProvider {
 				menu.add(action);
 			}
 
+		}
+		if(e instanceof ISeamComponent) {
+			ISeamComponent component = (ISeamComponent)e;
+			RenameComponentAction action = new RenameComponentAction(component);
+			menu.add(action);
 		}
     }
 
