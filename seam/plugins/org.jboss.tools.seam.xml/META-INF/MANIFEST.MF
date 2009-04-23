@@ -9,6 +9,7 @@ Bundle-SymbolicName: org.jboss.tools.seam.xml;singleton:=true
 Bundle-Localization: plugin
 Provide-Package: org.jboss.tools.seam.xml,
  org.jboss.tools.seam.xml.components.model,
+ org.jboss.tools.seam.xml.components.model.handlers,
  org.jboss.tools.seam.xml.components.model.constraint
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ui.ide,

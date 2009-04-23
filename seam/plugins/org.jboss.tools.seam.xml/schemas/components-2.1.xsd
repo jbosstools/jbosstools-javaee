@@ -219,6 +219,11 @@
                 <xs:documentation>The property name</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+	<xs:attribute name="type" type="components:string" >
+            <xs:annotation>
+                <xs:documentation>Concrete type to use if the property is multi-valued</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:attributeGroup>
     
 
@@ -344,7 +349,16 @@
             <xs:enumeration value="APPLICATION"/>
         </xs:restriction>
     </xs:simpleType>
-      
+    <xs:simpleType name="implementationType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="hash"/>
+            <xs:enumeration value="linked"/>
+            <xs:enumeration value="tree"/>
+            <xs:enumeration value="HASH"/>
+            <xs:enumeration value="LINKED"/>
+            <xs:enumeration value="TREE"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="precedenceType">
         <xs:restriction base="xs:int">
             <xs:enumeration value="0"/>

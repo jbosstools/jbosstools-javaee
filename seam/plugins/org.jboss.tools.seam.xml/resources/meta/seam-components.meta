@@ -1363,7 +1363,11 @@
      PROPERTIES="actionList=CreateActions" displayName="Property..."
      kind="action" name="AddAnyProperty"/>
    </XActionItem>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.xml.components.model.handlers.RenameComponentHandler"
+     displayName="Rename Seam Component" kind="action" name="Rename"/>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -1500,7 +1504,11 @@
      PROPERTIES="actionList=CreateActions" displayName="Property..."
      kind="action" name="AddAnyProperty"/>
    </XActionItem>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.xml.components.model.handlers.RenameComponentHandler"
+     displayName="Rename Seam Component" kind="action" name="Rename"/>
+   </XActionItem>
    <XActionItemReference entity="SeamComponent" name="CopyActions" path="CopyActions"/>
    <XActionItemReference entity="SeamComponent" name="DeleteActions" path="DeleteActions"/>
    <XActionItemReference entity="SeamComponent" name="Properties" path="Properties"/>
@@ -1563,7 +1571,11 @@
      PROPERTIES="actionList=CreateActions" displayName="Property..."
      kind="action" name="AddAnyProperty"/>
    </XActionItem>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.seam.xml.components.model.handlers.RenameComponentHandler"
+     displayName="Rename Seam Component" kind="action" name="Rename"/>
+   </XActionItem>
    <XActionItemReference entity="SeamComponent" name="CopyActions" path="CopyActions"/>
    <XActionItemReference entity="SeamComponent" name="DeleteActions" path="DeleteActions"/>
    <XActionItemReference entity="SeamComponent" name="Properties" path="Properties"/>

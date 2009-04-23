@@ -53,6 +53,9 @@
 		<xclass id="org.jboss.tools.seam.xml.components.model.constraint.ListIntELConstraint"
 			class="org.jboss.tools.seam.xml.components.model.constraint.ListIntELConstraint"/>
 
+		<xclass id="org.jboss.tools.seam.xml.components.model.handlers.RenameComponentHandler"
+			class="org.jboss.tools.seam.xml.components.model.handlers.RenameComponentHandler"/>
+
 		<xclass id="org.jboss.tools.seam.xml.components.model.SeamPromptingProvider"
 			class="org.jboss.tools.seam.xml.components.model.SeamPromptingProvider"/>
 

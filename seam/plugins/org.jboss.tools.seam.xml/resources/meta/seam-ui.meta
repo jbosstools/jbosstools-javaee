@@ -50,7 +50,9 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
    <XActionItemReference entity="SeamRemotingConfig20"
     name="CopyActions" path="CopyActions"/>
    <XActionItemReference entity="SeamRemotingConfig20"
@@ -87,7 +89,9 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
    <XActionItemReference entity="SeamRemotingConfig20"
     name="CopyActions" path="CopyActions"/>
    <XActionItemReference entity="SeamRemotingConfig20"
@@ -123,7 +127,9 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
    <XActionItemReference entity="SeamRemotingConfig20"
     name="CopyActions" path="CopyActions"/>
    <XActionItemReference entity="SeamRemotingConfig20"

@@ -12,22 +12,23 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="faces-security-events">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="security:attlist.faces-security-events"/>
-        </xs:complexType>    
-    </xs:element>
-    
     <xs:attributeGroup name="attlist.identity">
         <xs:attribute name="authenticate-method" type="components:expressionType"/>
         <xs:attribute name="remember-me" type="components:boolean"/>
         <xs:attribute name="jaas-config-name" type="components:string"/>
     </xs:attributeGroup>
     
-    <xs:attributeGroup name="attlist.faces-security-events">
+    <xs:element name="remember-me">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="security:attlist.remember-me"/>
+        </xs:complexType>    
+    </xs:element>
+    
+    <xs:attributeGroup name="attlist.remember-me">
         <xs:attribute name="cookie-max-age" type="components:int"/>
-    </xs:attributeGroup>   
+        <xs:attribute name="enabled" type="components:boolean"/>
+    </xs:attributeGroup>
     
     <xs:element name="identity-manager">
         <xs:complexType mixed="true">
