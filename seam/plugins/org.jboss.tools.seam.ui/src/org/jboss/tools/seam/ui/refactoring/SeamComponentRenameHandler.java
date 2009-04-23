@@ -10,16 +10,22 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.refactoring;
 
+import java.util.Set;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
@@ -43,9 +49,20 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 		if (input instanceof IFileEditorInput) {
 			IFile file = ((IFileEditorInput)input).getFile();
 			Shell activeShell = HandlerUtil.getActiveShell(event);
-			RenameComponentProcessor processor = new RenameComponentProcessor(file);
+			
+			IProject project = file.getProject();
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+			ISeamComponent component=null;
+			if (seamProject != null) {
+				Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
+				if (components.size() > 0) {
+					// This is a component which we want to rename.
+					component = components.iterator().next();
+				}
+			}
+			RenameComponentProcessor processor = new RenameComponentProcessor(component);
 			RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
-			RenameComponentWizard wizard = new RenameComponentWizard(refactoring, processor.getComponent());
+			RenameComponentWizard wizard = new RenameComponentWizard(refactoring, component);
 			RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 			try {
 				String titleForFailedChecks = "TestTestTest"; //$NON-NLS-1$

@@ -107,23 +107,23 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private IFile file=null;
 	private ISeamComponent component;
 	private String newName;
-	private ISeamProject seamProject;
+	//private ISeamProject seamProject;
 
 	/**
 	 * @param component Renamed component
 	 */
-	public RenameComponentProcessor(IFile file) {
+	public RenameComponentProcessor(ISeamComponent component) {
 		super();
-		this.file = file;
-		IProject project = file.getProject();
-		seamProject = SeamCorePlugin.getSeamProject(project, true);
-		if (seamProject != null) {
-			Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
-			if (components.size() > 0) {
-				// This is a component which we want to rename.
-				component = components.iterator().next();
-			}
-		}
+		this.component = component;
+//		IProject project = file.getProject();
+//		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+//		if (seamProject != null) {
+//			Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
+//			if (components.size() > 0) {
+//				// This is a component which we want to rename.
+//				component = components.iterator().next();
+//			}
+//		}
 	}
 
 	public ISeamComponent getComponent() {
@@ -341,7 +341,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
-		IFile file = (IFile)javaDecl.getResource();
+		file = (IFile)javaDecl.getResource();
 		if(file != null){
 			IAnnotation annotation = getNameAnnotation(file);
 			if(annotation != null){
@@ -356,7 +356,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl){
-		IFile file = (IFile)xmlDecl.getResource();
+		file = (IFile)xmlDecl.getResource();
 		if(file != null){
 			ISeamTextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			
@@ -628,7 +628,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		
 		findDeclarations();
 		
-		findAnnotations();
+		//findAnnotations();
 		
 		findELReferences();
 		
@@ -636,18 +636,18 @@ public class RenameComponentProcessor extends RenameProcessor {
 		return rootChange;
 	}
 	
-	private void findAnnotations(){
-		Set<ISeamContextVariable> variables = seamProject.getVariablesByName(component.getName());
-		
-		Iterator<ISeamContextVariable> iter = variables.iterator();
-		while(iter.hasNext()){
-			ISeamContextVariable var = iter.next();
-			System.out.println("var - "+var.getClass());
-			if(var instanceof BijectedAttribute){
-				System.out.println("Bijected...");
-			}
-		}
-	}
+//	private void findAnnotations(){
+//		Set<ISeamContextVariable> variables = seamProject.getVariablesByName(component.getName());
+//		
+//		Iterator<ISeamContextVariable> iter = variables.iterator();
+//		while(iter.hasNext()){
+//			ISeamContextVariable var = iter.next();
+//			System.out.println("var - "+var.getClass());
+//			if(var instanceof BijectedAttribute){
+//				System.out.println("Bijected...");
+//			}
+//		}
+//	}
 
 	/*
 	 * (non-Javadoc)
