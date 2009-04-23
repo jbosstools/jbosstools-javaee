@@ -73,15 +73,13 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
-import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
-import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
-import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
+import org.jboss.tools.seam.internal.core.validation.SeamContextValidationHelper;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -107,7 +105,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private IFile declarationFile=null;
 	private ISeamComponent component;
 	private String newName;
-	//private ISeamProject seamProject;
+	SeamContextValidationHelper coreHelper = new SeamContextValidationHelper();
 
 	/**
 	 * @param component Renamed component
@@ -336,20 +334,11 @@ public class RenameComponentProcessor extends RenameProcessor {
 	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
 		declarationFile = (IFile)javaDecl.getResource();
-		if(declarationFile != null){
-//			ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-//			if(location != null){
-//				TextFileChange change = getChange(declarationFile);
-//				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newName);
-//				change.addEdit(edit);
-//			}
-			IAnnotation annotation = getNameAnnotation(declarationFile);
-			if(annotation != null){
+		if(declarationFile != null && !coreHelper.isJar(javaDecl)){
+			ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			if(location != null){
 				TextFileChange change = getChange(declarationFile);
-				
-				String annotationText = annotation.getSource().replace(component.getName(), newName);
-				
-				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationText);
+				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\"");
 				change.addEdit(edit);
 			}
 		}
@@ -357,12 +346,30 @@ public class RenameComponentProcessor extends RenameProcessor {
 	
 	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl){
 		declarationFile = (IFile)xmlDecl.getResource();
-		if(declarationFile != null){
+		if(declarationFile != null && !coreHelper.isJar(xmlDecl)){
+			String content = null;
+			try {
+				content = FileUtil.readStream(declarationFile.getContents());
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				return;
+			}
 			ISeamTextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null){
-				TextFileChange change = getChange(declarationFile);
-				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newName);
-				change.addEdit(edit);
+				String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
+				if(text.startsWith("<")){
+					int position = text.lastIndexOf("/>");
+					if(position < 0){
+						position = text.lastIndexOf(">");
+					}
+					TextFileChange change = getChange(declarationFile);
+					TextEdit edit = new ReplaceEdit(location.getStartPosition()+position, 0, " name=\""+newName+"\"");
+					change.addEdit(edit);
+				}else{
+					TextFileChange change = getChange(declarationFile);
+					TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newName);
+					change.addEdit(edit);
+				}
 			}
 		}
 	}
