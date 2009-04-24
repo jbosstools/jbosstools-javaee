@@ -2,7 +2,7 @@
 <test id="correctCustomTags">
 <DIV ID="correctCustomTags" STYLE="-moz-user-modify: read-write;" >
 <!-- Test case when custom template defined -->
-<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;" >
 <TABLE BORDER="0" STYLE="margin-right: auto; margin-left: auto; -moz-user-modify: read-only;">
 <TBODY>
 <TR>
@@ -22,7 +22,7 @@
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;" >
 <SPAN STYLE="-moz-user-modify: read-only;">
 <SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
-${echo}
+Echo
 </SPAN>
 </SPAN>
 </DIV>

@@ -11,7 +11,7 @@
   <tag-name>paginator</tag-name>
   <source>components/paginator.xhtml</source>
  </tag>
-  <tag>
-  <tag-name>test1</tag-name>
- </tag>
+<!--  <tag>-->
+<!--  <tag-name>test1</tag-name>-->
+<!-- </tag>-->
 </facelet-taglib>

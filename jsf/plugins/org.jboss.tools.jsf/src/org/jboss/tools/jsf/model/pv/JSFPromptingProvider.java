@@ -59,7 +59,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		SUPPORTED_IDS.add(JSF_CONVERT_URL_TO_PATH);
 		SUPPORTED_IDS.add(JSF_GET_TAGLIBS);
 	}
-	public final String PROVIDER_ID = "jsf";
+	public final static String PROVIDER_ID = "jsf"; //$NON-NLS-1$
 
 	public boolean isSupporting(String id) {
 		return id != null && SUPPORTED_IDS.contains(id);
