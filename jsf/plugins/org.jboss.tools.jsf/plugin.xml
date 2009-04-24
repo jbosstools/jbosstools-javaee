@@ -11,6 +11,7 @@
       </meta>
       <meta path="meta/jsfwizards.meta">
       </meta>
+      <meta path="meta/facelet-taglib.meta"/>
    </extension>
    <extension point="org.jboss.tools.common.model.keys">
       <keys path="help/keys-jsf.properties"/>
@@ -358,6 +359,13 @@
 
 		<xclass id="org.jboss.tools.jsf.web.JSFTemplate"
 			class="org.jboss.tools.jsf.web.JSFTemplate"/>
+			
+			
+		<xclass id="org.jboss.tools.jsf.facelet.model.FaceletTaglibEntityRecognizer"
+			class="org.jboss.tools.jsf.facelet.model.FaceletTaglibEntityRecognizer"/>
+		<xclass id="org.jboss.tools.jsf.facelet.model.FaceletTaglibLoader"
+			class="org.jboss.tools.jsf.facelet.model.FaceletTaglibLoader"/>
+
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.core.facets">
