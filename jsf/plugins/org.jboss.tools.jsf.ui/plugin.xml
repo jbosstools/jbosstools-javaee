@@ -34,9 +34,23 @@
    
    
    <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
-      <xmlEditor class="org.jboss.tools.jsf.ui.editor.FacesConfigEditor" contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor" entities="FacesConfig,FacesConfig11,FacesConfig12" icon="images/xstudio/editors/jsf.gif" name="%editors.jsf.name">
+      <xmlEditor 
+            class="org.jboss.tools.jsf.ui.editor.FacesConfigEditor" 
+            contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor" 
+            entities="FacesConfig,FacesConfig11,FacesConfig12" 
+            icon="images/xstudio/editors/jsf.gif" 
+            name="%editors.jsf.name">
+      </xmlEditor>
+
+      <xmlEditor 
+            class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
+            contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
+            entities="FileFaceletTaglib" 
+            icon="images/xstudio/editors/jsf.gif" 
+            name="FaceletTaglib">
       </xmlEditor>
    </extension>
+
    <extension point="org.eclipse.ui.editors">
       <editor
             contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor"
@@ -320,6 +334,9 @@
 			class="org.jboss.tools.jsf.ui.editor.form.ApplicationConfigForm"/>
 		<xclass id="org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"
 			class="org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"/>
+
+		<xclass id="org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+			class="org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
