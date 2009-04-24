@@ -255,13 +255,17 @@ public class ValidatorFactory {
 					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
 			}
 			
-			IStatus status = JavaConventions.validateClassFileName(name
-					+ ".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			if (status.isOK()) {
-				return NO_ERRORS;
-			} else {
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
+			String[] segs = name.split("\\.");
+			for(String segm : segs){
+				if(!segm.trim().equals(segm))
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
+				
+				IStatus status = JavaConventions.validateClassFileName(segm
+						+ ".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				if (!status.isOK())
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
 			}
+			return NO_ERRORS;
 		}
 	};
 
