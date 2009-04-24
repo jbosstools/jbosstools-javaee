@@ -98,6 +98,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private static final String PROPERTIES_EXT = "properties";
 	
 	private static final String COMPONENTS_FILE = "components.xml";
+	private static final String SEAM_PROPERTIES_FILE = "seam.properties";
 	private static final String COMPONENT_NODE = "component";
 	private static final String FACTORY_NODE = "factory";
 	private static final String NAME_ATTRIBUTE = "name";
@@ -565,7 +566,11 @@ public class RenameComponentProcessor extends RenameProcessor {
 
 	private void scanProperties(IFile file, String content){
 		scanString(file, content, 0);
-		StringTokenizer tokenizer = new StringTokenizer(content, ".#= \t\r\n\f", true);
+		
+		if(!file.getName().equals(SEAM_PROPERTIES_FILE))
+			return;
+		
+		StringTokenizer tokenizer = new StringTokenizer(content, "#= \t\r\n\f", true);
 		
 		String lastToken = "\n";
 		int offset = 0;
@@ -573,7 +578,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		boolean key = true;
 		
 		while(tokenizer.hasMoreTokens()){
-			String token = tokenizer.nextToken(".#= \t\r\n\f"); //$NON-NLS-1$
+			String token = tokenizer.nextToken("#= \t\r\n\f"); //$NON-NLS-1$
 			if(token.equals("\r"))
 				token = "\n";
 			
@@ -588,9 +593,10 @@ public class RenameComponentProcessor extends RenameProcessor {
 				else if(key && (token.equals("=") || token.equals(" ")))
 					key = false;
 				
-				if(key && token.equals(component.getName())){
+				if(key && token.startsWith(component.getName())){
+					String changeText = token.replaceFirst(component.getName(), newName);
 					TextFileChange change = getChange(file);
-					TextEdit edit = new ReplaceEdit(offset, token.length(), newName);
+					TextEdit edit = new ReplaceEdit(offset, token.length(), changeText);
 					change.addEdit(edit);
 				}
 			}
