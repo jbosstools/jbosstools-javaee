@@ -413,8 +413,11 @@
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="save=always;category=general"
-    name="library-class" xmlname="library-class.#text">
+   <XModelAttribute PROPERTIES="category=general" name="library-class" xmlname="library-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="taglib namespace" xmlname="namespace.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">

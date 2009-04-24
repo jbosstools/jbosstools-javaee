@@ -409,4 +409,12 @@
       </validator>
    </extension>
 
+    <extension point="org.eclipse.wst.xml.core.catalogContributions">
+      <catalogContribution id="default">
+         <public 
+         	publicId="-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN" 
+         	uri="dtds/facelet-taglib_1_0.dtd"/>
+      </catalogContribution>
+  </extension>
+
 </plugin>

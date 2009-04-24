@@ -10,7 +10,7 @@ public class FaceletTaglibLoader extends SimpleWebFileLoader {
 	public FaceletTaglibLoader() {}
 
 	protected boolean isCheckingDTD() {
-		return false;
+		return true;
 	}
 
 	protected XModelObjectLoaderUtil createUtil() {
