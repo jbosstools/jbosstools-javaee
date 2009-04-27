@@ -13,6 +13,9 @@ package org.jboss.tools.jsf.model.pv;
 import java.util.*;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
 public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	private static final long serialVersionUID = 7805053632320764494L;
@@ -34,6 +37,12 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 
 	protected List<XModelObject> collect(Iterator<XModelObject> rs) {
 		List<XModelObject> list = super.collect(rs);
+
+		XModelObject faceletTaglib = getFaceletTaglibs();
+		if(faceletTaglib != null && faceletTaglib.getAttributeValue("uri") != null) {
+			list.add(faceletTaglib);
+		}
+
 		Iterator<XModelObject> it = list.iterator();
 		Set<String> set = new HashSet<String>();
 		while(it.hasNext()) {
@@ -46,6 +55,18 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 			}
 		}
 		return list;
+	}
+
+	private XModelObject getFaceletTaglibs() {
+		XModelObject webxml = getModel().getByPath("/web.xml");
+		XModelObject webRoot = FileSystemsHelper.getWebRoot(getModel());
+		if(webxml == null || webRoot == null) return null;
+		XModelObject cp = WebAppHelper.findWebAppContextParam(webxml, "facelets.LIBRARIES");
+		if(cp == null) return null;
+		String value = cp.getAttributeValue("param-value");
+		if(value == null || value.length() == 0) return null;
+		if(value.startsWith("/")) value = value.substring(1);
+		return webRoot.getChildByPath(value);
 	}
 
 	static String TLD_ENTITIES = ".FileTLD_PRO.FileTLD_1_2.FileTLD_2_0.FileTLD_2_1.";

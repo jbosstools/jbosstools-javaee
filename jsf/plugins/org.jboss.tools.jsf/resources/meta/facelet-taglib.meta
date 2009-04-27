@@ -256,9 +256,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="save=always;category=general"
-    name="source" xmlname="#text">
-    <Editor name="Note2"/>
-   </XModelAttribute>
+    name="source" xmlname="#text"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -314,9 +312,28 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
-    PROPERTIES="attribute=handler-class" displayName="Open Handler"
-    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Component..."
+     kind="action" name="AddComponent">
+     <EntityData EntityName="FaceletTaglibComponent">
+      <AttributeData AttributeName="component-type"/>
+      <AttributeData AttributeName="renderer-type" Mandatory="no"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Converter..."
+     kind="action" name="AddConverter">
+     <EntityData EntityName="FaceletTaglibConverter">
+      <AttributeData AttributeName="converter-id"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
@@ -327,13 +344,13 @@
     <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
      ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
-   <XActionItem displayName="move" kind="list" name="MoveActions">
-    <XActionItem HIDE="always" HandlerClassName="%Move%"
-     ICON="action.move" displayName="Move" kind="action" name="Move"/>
-   </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
      displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
   </XActionItem>
   <XDependencies/>
@@ -413,16 +430,6 @@
    <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general" name="library-class" xmlname="library-class.#text">
-    <Editor name="AccessibleJava"/>
-   </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general"
-    name="taglib namespace" xmlname="namespace.#text">
-    <Editor name="AccessibleJava"/>
-   </XModelAttribute>
-   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
-    <Editor name="Note"/>
-   </XModelAttribute>
    <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
     <Editor name="Uneditable"/>
    </XModelAttribute>
@@ -438,6 +445,20 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute default="false" name="expanded" visibility="false">
+    <Constraint loader="List">
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="library-class" xmlname="library-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="uri" xmlname="namespace.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
    <XModelAttribute name="encoding">
     <Constraint loader="ListString">
      <value name="ISO-8859-1"/>
@@ -483,6 +504,9 @@
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions"/>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.jst.web.tld.model.handlers.ExpandTLDHandler"
+    ICON="action.empty" displayName="Set Expanded" kind="action" name="SetExpanded"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
