@@ -53,6 +53,24 @@
          	</contentType>
 		</hyperlinkPartitioner>
 
+   		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.seam.hyperlink.JSPNavigationCaseHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPNavigationCaseHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
+
 		<hyperlinkPartitioner 
          	class="org.jboss.tools.common.text.ext.hyperlink.xml.XMLElementHyperlinkPartitioner" 
          	id="org.jboss.tools.common.text.ext.hyperlink.xml.XMLElementHyperlinkPartitioner">
