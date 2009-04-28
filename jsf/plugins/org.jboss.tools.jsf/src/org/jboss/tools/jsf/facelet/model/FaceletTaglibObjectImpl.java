@@ -10,17 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.facelet.model;
 
-import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.impl.CustomizedObjectImpl;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class FaceletTaglibEntityRecognizer implements EntityRecognizer, FaceletTaglibConstants {
+public class FaceletTaglibObjectImpl extends CustomizedObjectImpl {
+	private static final long serialVersionUID = 1L;
 
-    public String getEntityName(String ext, String body) {
-        if (body == null) return null;
-        if (body.indexOf(DOC_PUBLICID) > 0) return ENT_FACELET_TAGLIB;
-        return null;
-    }
+	public String getPresentationString() {
+		String element = getAttributeValue("element type");
+		return element != null ? element : super.getPresentationString();
+	}
 
 }

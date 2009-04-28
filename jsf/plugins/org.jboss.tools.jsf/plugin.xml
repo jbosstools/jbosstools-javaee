@@ -365,6 +365,10 @@
 			class="org.jboss.tools.jsf.facelet.model.FaceletTaglibEntityRecognizer"/>
 		<xclass id="org.jboss.tools.jsf.facelet.model.FaceletTaglibLoader"
 			class="org.jboss.tools.jsf.facelet.model.FaceletTaglibLoader"/>
+		<xclass id="org.jboss.tools.jsf.facelet.model.FaceletTaglibObjectImpl"
+			class="org.jboss.tools.jsf.facelet.model.FaceletTaglibObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.facelet.model.AddTagHandler"
+			class="org.jboss.tools.jsf.facelet.model.AddTagHandler"/>
 
    </extension>
    <extension

@@ -10,6 +10,9 @@
   <MAPPING name="FilteredTreeConstraints"/>
   <MAPPING name="FilteredTrees"/>
   <MAPPING name="Handlers"/>
+  <MAPPING name="Implementations">
+   <PAIR name="FT_TagDecl" value="org.jboss.tools.jsf.facelet.model.FaceletTaglibObjectImpl"/>
+  </MAPPING>
   <MAPPING name="Recognizers">
    <PAIR name="xml$41" value="org.jboss.tools.jsf.facelet.model.FaceletTaglibEntityRecognizer"/>
   </MAPPING>
@@ -34,7 +37,7 @@
   </GROUP>
  </ICONS>
  <GlobalActions kind="list"/>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
   XMLSUBPATH="component" name="FaceletTaglibComponent">
   <XChildrenEntities/>
@@ -87,7 +90,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
   XMLSUBPATH="converter" name="FaceletTaglibConverter">
   <XChildrenEntities/>
@@ -188,7 +191,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
   XMLSUBPATH="handler-class" name="FaceletTaglibHandler">
   <XChildrenEntities/>
@@ -238,7 +241,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
   XMLSUBPATH="source" name="FaceletTaglibSource">
   <XChildrenEntities/>
@@ -248,7 +251,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="handler" loader="ElementType" name="element type">
+   <XModelAttribute default="source" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" default="declaration"
@@ -316,6 +319,13 @@
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
      PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Handler..." kind="action" name="AddHandler">
+     <EntityData EntityName="FaceletTaglibHandler">
+      <AttributeData AttributeName="handler-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
      WizardClassName="%Default%" displayName="Component..."
      kind="action" name="AddComponent">
      <EntityData EntityName="FaceletTaglibComponent">
@@ -331,6 +341,22 @@
      <EntityData EntityName="FaceletTaglibConverter">
       <AttributeData AttributeName="converter-id"/>
       <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Validator..."
+     kind="action" name="AddValidator">
+     <EntityData EntityName="FaceletTaglibValidator">
+      <AttributeData AttributeName="validator-id"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Source..." kind="action" name="AddSource">
+     <EntityData EntityName="FaceletTaglibSource">
+      <AttributeData AttributeName="source"/>
      </EntityData>
     </XActionItem>
    </XActionItem>
@@ -355,7 +381,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
   XMLSUBPATH="validator" name="FaceletTaglibValidator">
   <XChildrenEntities/>
@@ -503,7 +529,25 @@
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions"/>
+    kind="list" name="CreateActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.facelet.model.AddTagHandler"
+     ICON="action.empty" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Tag..." kind="action" name="AddTag">
+     <EntityData EntityName="FaceletTaglibTag">
+      <AttributeData AttributeName="tag-name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%CreateInCollapsed%"
+     ICON="action.empty" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Function..." kind="action" name="AddFunction">
+     <EntityData EntityName="FaceletTaglibFunction">
+      <AttributeData AttributeName="function-name"/>
+      <AttributeData AttributeName="function-class"/>
+      <AttributeData AttributeName="function-signature"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem HIDE="disabled"
     HandlerClassName="org.jboss.tools.jst.web.tld.model.handlers.ExpandTLDHandler"
     ICON="action.empty" displayName="Set Expanded" kind="action" name="SetExpanded"/>
@@ -539,7 +583,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItemReference entity="FileFaceletTaglib" name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileFaceletTaglib" name="CreateActions"/>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
      displayName="Properties..." kind="action" name="Properties"/>
