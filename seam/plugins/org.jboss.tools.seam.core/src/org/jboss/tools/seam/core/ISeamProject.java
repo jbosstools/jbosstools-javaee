@@ -197,6 +197,19 @@ public interface ISeamProject extends ISeamElement {
 	public Set<ISeamContextVariable> getVariablesByPath(IPath path);
 
 	/**
+	 * Utility method collecting all bijected attributes in java declarations.
+	 * @return set of all bijections in Seam project.
+	 */
+	public Set<IBijectedAttribute> getBijectedAttributes();
+
+	/**
+	 * Utility method collecting all bijections of given type in java declarations.
+	 * @param type
+	 * @return set of all bijections of given type in Seam project.
+	 */
+	public Set<IBijectedAttribute> getBijectedAttributesByType(BijectedAttributeType type);
+
+	/**
 	 * @return all factories methods of project
 	 */
 	public ISeamFactory[] getFactories();

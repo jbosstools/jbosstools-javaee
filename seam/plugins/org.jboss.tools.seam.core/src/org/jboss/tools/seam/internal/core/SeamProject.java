@@ -38,6 +38,8 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -1306,6 +1308,26 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(isVisibleInScope(v, scope, addVisibleScopes)) {
 				result.add(v);
 			}
+		}
+		return result;
+	}
+
+	public Set<IBijectedAttribute> getBijectedAttributes() {
+		Set<IBijectedAttribute> result = new HashSet<IBijectedAttribute>();
+		ISeamJavaComponentDeclaration[] ds = components.getJavaDeclarationsArray();
+		for (ISeamJavaComponentDeclaration d: ds) {
+			Set<IBijectedAttribute> as = d.getBijectedAttributes();
+			if(as != null) result.addAll(as);
+		}
+		return result;
+	}
+
+	public Set<IBijectedAttribute> getBijectedAttributesByType(BijectedAttributeType type) {
+		Set<IBijectedAttribute> result = new HashSet<IBijectedAttribute>();
+		ISeamJavaComponentDeclaration[] ds = components.getJavaDeclarationsArray();
+		for (ISeamJavaComponentDeclaration d: ds) {
+			Set<IBijectedAttribute> as = d.getBijectedAttributesByType(type);
+			if(as != null) result.addAll(as);
 		}
 		return result;
 	}
