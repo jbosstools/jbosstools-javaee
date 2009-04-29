@@ -1332,6 +1332,20 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		return result;
 	}
 
+	public Set<IBijectedAttribute> getBijectedAttributesByName(String name, BijectedAttributeType type) {
+		Set<IBijectedAttribute> result = new HashSet<IBijectedAttribute>();
+		ISeamJavaComponentDeclaration[] ds = components.getJavaDeclarationsArray();
+		for (ISeamJavaComponentDeclaration d: ds) {
+			Set<IBijectedAttribute> as = d.getBijectedAttributes();
+			for (IBijectedAttribute a: as) {
+				if(name != null && !name.equals(a.getName())) continue;
+				if(type != null && !a.isOfType(type)) continue;
+				result.add(a);
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * 
 	 * @param v

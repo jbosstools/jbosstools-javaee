@@ -210,6 +210,15 @@ public interface ISeamProject extends ISeamElement {
 	public Set<IBijectedAttribute> getBijectedAttributesByType(BijectedAttributeType type);
 
 	/**
+	 * Utility method collecting all bijections of given name and type in java declarations.
+	 * Parameters name and/or type can be set to null, then bijections with any 
+	 * name and/or type is returned.
+	 * @param name
+	 * @param type
+	 * @return
+	 */
+	public Set<IBijectedAttribute> getBijectedAttributesByName(String name, BijectedAttributeType type);
+	/**
 	 * @return all factories methods of project
 	 */
 	public ISeamFactory[] getFactories();
