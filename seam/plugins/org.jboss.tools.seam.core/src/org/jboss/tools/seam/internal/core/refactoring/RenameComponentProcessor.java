@@ -72,8 +72,12 @@ import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -325,9 +329,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 			renameJavaDeclaration(component.getJavaDeclaration());
 		
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
-		Iterator<ISeamXmlComponentDeclaration> iter = xmlDecls.iterator();
-		while(iter.hasNext()){
-			ISeamXmlComponentDeclaration xmlDecl = iter.next();
+		
+		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
 			if(xmlDecl != null)
 				renameXMLDeclaration(xmlDecl);
 		}
@@ -646,22 +649,61 @@ public class RenameComponentProcessor extends RenameProcessor {
 		
 		findELReferences();
 		
-		
 		return rootChange;
 	}
 	
-//	private void findAnnotations(){
-//		Set<ISeamContextVariable> variables = seamProject.getVariablesByName(component.getName());
-//		
-//		Iterator<ISeamContextVariable> iter = variables.iterator();
-//		while(iter.hasNext()){
-//			ISeamContextVariable var = iter.next();
-//			System.out.println("var - "+var.getClass());
-//			if(var instanceof BijectedAttribute){
-//				System.out.println("Bijected...");
-//			}
-//		}
-//	}
+	private void findAnnotations(){
+		// find @In annotations
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(declarationFile.getProject(), true);
+		
+		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(component.getName(), BijectedAttributeType.IN);
+		
+		for(IBijectedAttribute inAtt : inSet){
+			System.out.println("@In - "+inAtt.getValue());
+			
+			String content = null;
+			try {
+				content = FileUtil.readStream(((IFile)inAtt.getResource()).getContents());
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				return;
+			}
+			
+			ISeamTextSourceReference location = inAtt.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			if(location != null){
+				String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
+				System.out.println("Text - "+text);
+				TextFileChange change = getChange((IFile)inAtt.getResource());
+				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\"");
+				change.addEdit(edit);
+			}
+		}
+		
+		// find @Factory annotations
+		
+		Set<ISeamFactory> factorySet = seamProject.getFactoriesByName(component.getName());
+		
+		for(ISeamFactory factory : factorySet){
+			System.out.println("@Factory - "+factory.getName());
+			
+			String content = null;
+			try {
+				content = FileUtil.readStream(((IFile)factory.getResource()).getContents());
+			} catch (CoreException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+				return;
+			}
+			
+			ISeamTextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			if(location != null){
+				String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
+				System.out.println("Text - "+text);
+				TextFileChange change = getChange((IFile)factory.getResource());
+				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\"");
+				change.addEdit(edit);
+			}
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
