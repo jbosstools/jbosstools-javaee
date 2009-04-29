@@ -15,13 +15,19 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.ui.JavaUI;
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.model.ServiceDialog;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
@@ -111,4 +117,18 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 
 	}
 
+	public void open() {
+		if(javaSource == null) return;
+		if(!javaSource.exists()) {
+			ServiceDialog d = PreferenceModelUtilities.getPreferenceModel().getService();
+			d.showDialog("Warning", "Member " + javaSource.getElementName() + " does not exist.", new String[]{SpecialWizardSupport.OK}, null, ServiceDialog.WARNING);
+			return;
+		}
+		try {
+			JavaUI.openInEditor(javaSource);
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+	}
+	
 }
