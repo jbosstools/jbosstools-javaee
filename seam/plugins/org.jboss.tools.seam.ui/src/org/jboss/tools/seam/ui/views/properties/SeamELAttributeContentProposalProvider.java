@@ -25,10 +25,10 @@ import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELUtil;
-import org.jboss.tools.common.kb.KbProposal;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.attribute.IAttributeContentProposalProvider;
+import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -108,7 +108,7 @@ public class SeamELAttributeContentProposalProvider implements
 
 			if(prefix == null) prefix = "";
 			
-			List<KbProposal> suggestions = null;
+			List<TextProposal> suggestions = null;
 			try {
 				suggestions = engine.getCompletions(file, null, prefix, position, false, null, 0, contents.length());
 			} catch (BadLocationException e) {
@@ -117,10 +117,10 @@ public class SeamELAttributeContentProposalProvider implements
 			if(suggestions == null) {
 				return EMPTY;
 			}
-			List<KbProposal> uniqueSuggestions = engine.makeKbUnique(suggestions);
+			List<TextProposal> uniqueSuggestions = engine.makeKbUnique(suggestions);
 			
 			List<IContentProposal> list = new ArrayList<IContentProposal>();
-			for (KbProposal p: uniqueSuggestions) {
+			for (TextProposal p: uniqueSuggestions) {
 				String label = prefix + p.getReplacementString();
 				IContentProposal cp = makeContentProposal(p.getReplacementString(), label);
 				list.add(cp);

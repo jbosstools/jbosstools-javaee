@@ -52,8 +52,8 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
-import org.jboss.tools.common.kb.KbProposal;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
@@ -120,9 +120,9 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @throws BadLocationException if accessing the current document fails
 	 * @throws StringIndexOutOfBoundsException
 	 */
-	public List<KbProposal> getCompletions(IFile file, IDocument document, CharSequence prefix, 
+	public List<TextProposal> getCompletions(IFile file, IDocument document, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
-		List<KbProposal> completions = new ArrayList<KbProposal>();
+		List<TextProposal> completions = new ArrayList<TextProposal>();
 		
 		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, vars, new ElVarSearcher(file, this));
 		if (status.isOK()) {
@@ -224,7 +224,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			List<String> varNameProposals = getVarNameProposals(vars, operand.toString());
 			if (varNameProposals != null) {
 				for (String varNameProposal : varNameProposals) {
-					KbProposal proposal = new KbProposal();
+					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varNameProposal);
 					proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
 					status.getProposals().add(proposal);
@@ -361,11 +361,11 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			// no vars are resolved 
 			// the tokens are the part of var name ended with a separator (.)
 			resolvedVariables = resolveVariables(scope, expr, true, returnEqualedVariablesOnly);			
-			Set<KbProposal> proposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
+			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
 				if(varName.startsWith(operand.getText())) {
-					KbProposal proposal = new KbProposal();
+					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					if (isSeamMessagesComponentVariable(var)) {
 						proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
@@ -383,7 +383,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		// OK. we'll proceed with members of these vars
 		if (status.getResolvedTokens() == status.getTokens()) {
 			// First segment is the last one
-			Set<KbProposal> proposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
+			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 			// In some cases there may be a few references to the same variable name.
 			// For example @Factory and @DataModel. We should use @DataModel instead of @Factory
 			// method which returns null.
@@ -395,7 +395,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				}
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
-					KbProposal proposal = new KbProposal();
+					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					if (isSeamMessagesComponentVariable(var)) {
 						proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
@@ -404,7 +404,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					}
 					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
-					KbProposal proposal = new KbProposal();
+					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
 					if (isSeamMessagesComponentVariable(var)) {
 						proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
@@ -520,7 +520,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 			List<TypeInfoCollector.MemberInfo> members,
 			ELOperandResolveStatus status,
 			boolean returnEqualedVariablesOnly, boolean varIsUsed) {
-		Set<KbProposal> kbProposals = new TreeSet<KbProposal>(KbProposal.KB_PROPOSAL_ORDER);
+		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 		
 		if (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION && ((ELPropertyInvocation)expr).getName() == null) {
 			// return all the methods + properties
@@ -535,13 +535,13 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 						if (key == null || key.length() == 0)
 							continue;
 						if (key.indexOf('.') != -1) {
-							KbProposal proposal = new KbProposal();
+							TextProposal proposal = new TextProposal();
 							proposal.setReplacementString("['" + key + "']");
 							proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
 							
 							kbProposals.add(proposal);
 						} else {
-							KbProposal proposal = new KbProposal();
+							TextProposal proposal = new TextProposal();
 							proposal.setReplacementString(key);
 							proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
 							
@@ -562,7 +562,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 						infos.getMethodPresentationStrings();
 				if (methodPresentations != null) {
 					for (String presentation : methodPresentations) {
-						KbProposal proposal = new KbProposal();
+						TextProposal proposal = new TextProposal();
 						proposal.setReplacementString(presentation);
 						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
 						
@@ -573,7 +573,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					infos.getPropertyPresentationStrings(status.getUnpairedGettersOrSetters());
 				if (propertyPresentations != null) {
 					for (String presentation : propertyPresentations) {
-						KbProposal proposal = new KbProposal();
+						TextProposal proposal = new TextProposal();
 						proposal.setReplacementString(presentation);
 						proposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
 						
@@ -614,7 +614,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				if(returnEqualedVariablesOnly) {
 					// This is used for validation.
 					if (proposal.getPresentation().equals(filter)) {
-						KbProposal kbProposal = new KbProposal();
+						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal.getPresentation());
 						
 						if (proposal.getMember() instanceof MessagesInfo) {
@@ -637,7 +637,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					}
 				} else if (proposal.getPresentation().startsWith(filter)) {
 					// This is used for CA.
-					KbProposal kbProposal = new KbProposal();
+					TextProposal kbProposal = new TextProposal();
 					kbProposal.setReplacementString(proposal.getPresentation().substring(filter.length()));
 					kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
 					
@@ -684,7 +684,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 				if(returnEqualedVariablesOnly) {
 					// This is used for validation.
 					if (proposal.getPresentation().equals(filter)) {
-						KbProposal kbProposal = new KbProposal();
+						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal.getPresentation());
 						
 						if (proposal.getMember() instanceof MessagesInfo) {
@@ -707,7 +707,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 					}
 				} else if (proposal.getPresentation().startsWith(filter)) {
 					// This is used for CA.
-					KbProposal kbProposal = new KbProposal();
+					TextProposal kbProposal = new TextProposal();
 					kbProposal.setReplacementString(proposal.getPresentation().substring(filter.length()));
 					kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
 					
@@ -825,14 +825,14 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @param suggestions a list of suggestions ({@link String}).
 	 * @return a list of unique completion suggestions.
 	 */
-	public List<KbProposal> makeKbUnique(List<KbProposal> suggestions) {
+	public List<TextProposal> makeKbUnique(List<TextProposal> suggestions) {
 		HashSet<String> present = new HashSet<String>();
-		ArrayList<KbProposal> unique= new ArrayList<KbProposal>();
+		ArrayList<TextProposal> unique= new ArrayList<TextProposal>();
 
 		if (suggestions == null)
 			return unique;
 
-		for (KbProposal item : suggestions) {
+		for (TextProposal item : suggestions) {
 			if (!present.contains(item.getReplacementString())) {
 				present.add(item.getReplacementString());
 				unique.add(item);

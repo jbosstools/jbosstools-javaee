@@ -54,16 +54,14 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.AbstractContentAssistProcessor;
-import org.eclipse.wst.xml.ui.internal.contentassist.XMLRelevanceConstants;
 import org.eclipse.wst.xml.ui.internal.util.SharedXMLEditorPluginImageHelper;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELUtil;
-import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
-import org.jboss.tools.common.kb.KbProposal;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
+import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.text.ext.IEditorWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -285,7 +283,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 		 * Returns the relevance of the proposal
 		 */
 		public int getRelevance() {
-			return KbProposal.R_JSP_JSF_EL_VARIABLE_ATTRIBUTE_VALUE+10;
+			return TextProposal.R_JSP_JSF_EL_VARIABLE_ATTRIBUTE_VALUE+10;
 		}
 
 	}
@@ -438,11 +436,11 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			List<Var> vars = varSearcher.findAllVars(viewer, offset);
 			
 			SeamELCompletionEngine fEngine= new SeamELCompletionEngine(seamProject);
-			List<KbProposal> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
-			List<KbProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
+			List<TextProposal> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars, start, end);
+			List<TextProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();
-			for (KbProposal kbProposal : uniqueSuggestions) {
+			for (TextProposal kbProposal : uniqueSuggestions) {
 				String string = kbProposal.getReplacementString();
 				Image image = kbProposal.hasImage() ?
 						kbProposal.getImage() : 
