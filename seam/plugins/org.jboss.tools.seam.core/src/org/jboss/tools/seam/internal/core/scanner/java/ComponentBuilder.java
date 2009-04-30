@@ -124,7 +124,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo factoryName = ValueInfo.getValueInfo(a, null);
 			if(factoryName == null) {
 				factoryName = new ValueInfo();
-				factoryName.value = toPropertyName(m.getName().getIdentifier());
+				factoryName.value = toPropertyName(m.getName().getIdentifier(), "get");
 				factoryName.valueLength = m.getName().getLength();
 				factoryName.valueStartPosition = m.getName().getStartPosition();
 			}
@@ -153,12 +153,12 @@ public class ComponentBuilder implements SeamAnnotations {
 		}
 	}
 	
-	private String toPropertyName(String methodName) {
+	private String toPropertyName(String methodName, String prefix) {
 		if(methodName == null) {
 			return methodName;
 		}
-		if(methodName.startsWith("get") && methodName.length() > 3) {
-			String root = methodName.substring(3);
+		if(methodName.startsWith(prefix) && methodName.length() > prefix.length()) {
+			String root = methodName.substring(prefix.length());
 			return root.substring(0, 1).toLowerCase() + root.substring(1);
 		} 
 		return methodName;
@@ -195,6 +195,9 @@ public class ComponentBuilder implements SeamAnnotations {
 				name.valueStartPosition = m.getStartPosition();
 				name.valueLength = m.getLength();
 				name.value = m.getName().getIdentifier();
+				if(in != null) {
+					name.value = toPropertyName(name.value, "set");
+				}
 			}
 			
 			att.setName(name);
