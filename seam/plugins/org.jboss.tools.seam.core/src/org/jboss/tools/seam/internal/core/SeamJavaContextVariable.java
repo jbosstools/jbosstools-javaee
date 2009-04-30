@@ -99,8 +99,8 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		} else if(javaSource instanceof IMethod) {
 			SeamXMLHelper.saveMethod(element, (IMethod)javaSource, TAG_JAVA_SOURCE, context);
 		} else if(javaSource instanceof IType) {
-			Element ce = XMLUtilities.createElement(parent, TAG_JAVA_SOURCE);
-			element.setAttribute(SeamXMLConstants.ATTR_CLASS, SeamXMLConstants.CLS_TYPE);
+			Element ce = XMLUtilities.createElement(element, TAG_JAVA_SOURCE);
+			ce.setAttribute(SeamXMLConstants.ATTR_CLASS, SeamXMLConstants.CLS_TYPE);
 			SeamXMLHelper.saveType(ce, (IType)javaSource, context);
 		}
 
