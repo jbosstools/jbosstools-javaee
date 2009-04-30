@@ -78,7 +78,11 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		};
 		return reference;
 	}
-	
+
+	public void addAttribute(String path, IValueInfo value) {
+		attributes.put(path, value);
+	}
+
 	public void setName(IValueInfo value) {
 		attributes.put(ISeamXmlComponentDeclaration.NAME, value);
 		name = value == null ? null : value.getValue();
