@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
@@ -97,6 +98,8 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 			SeamXMLHelper.saveField(element, (IField)javaSource, TAG_JAVA_SOURCE, context);
 		} else if(javaSource instanceof IMethod) {
 			SeamXMLHelper.saveMethod(element, (IMethod)javaSource, TAG_JAVA_SOURCE, context);
+		} else if(javaSource instanceof IType) {
+			SeamXMLHelper.saveType(element, (IType)javaSource, TAG_JAVA_SOURCE, context);
 		}
 
 		return element;
@@ -112,6 +115,8 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 				javaSource = SeamXMLHelper.loadField(c, context);
 			} else if(SeamXMLConstants.CLS_METHOD.equals(cls)) {
 				javaSource = SeamXMLHelper.loadMethod(c, context);
+			} else if(SeamXMLConstants.CLS_TYPE.equals(cls)) {
+				javaSource = SeamXMLHelper.loadType(c, context);
 			}
 		}
 
