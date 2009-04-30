@@ -220,6 +220,26 @@
          	</contentType>
 		</hyperlinkPartitioner>
 		
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPForwardHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPForwardHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+		
+		
+		<!-- 
+			The following definitions are subject to move into another plugin
+			bacause of bpm and drools are not the basics of seam 
+		-->
 		<!-- JBIDE-4002 <bpm:process-definitions> and <bpm:pageflow-definitions> in components.xml -->
 		<!-- JBIDE-3901 <drools:rule-files> in components.xml -->
 		<hyperlinkPartitioner 
@@ -353,6 +373,13 @@
             name="%SeamELInJavaStringHyperlinkDetector"
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
+      <hyperlinkDetector
+            class="org.jboss.tools.seam.text.ext.hyperlink.SeamComponentHyperlinkDetector"
+            id="org.jboss.tools.seam.text.ext.hyperlink.SeamComponentHyperlinkDetector"
+            name="Seam Component"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+      
    </extension>
 
 
