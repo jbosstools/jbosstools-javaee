@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.seam.text.ext.hyperlink;
 
 import java.text.MessageFormat;
@@ -20,6 +30,11 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.text.ext.SeamExtMessages;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 
+/**
+ * 
+ * @author Victor Rubezhny
+ *
+ */
 public class SeamComponentHyperlink implements IHyperlink {
 
 	private IRegion fRegion; 
