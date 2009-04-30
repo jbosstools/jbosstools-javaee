@@ -19,6 +19,7 @@ import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModel
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
 import org.jboss.tools.test.util.JobUtils;
 
@@ -68,7 +69,7 @@ public class PackageNamesTest extends TestCase{
 		// delay is needed to wait for dialog initialization is finished
 		// such as default runtime and configuration for seam wizard
 		JobUtils.delay(2000);
-		seamWizPg = (SeamInstallWizardPage)wizard.getPages()[3];
+		seamWizPg = (SeamInstallWizardPage)wizard.getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 	}
 
 	public void testProjectNameWithUnderlines() {
