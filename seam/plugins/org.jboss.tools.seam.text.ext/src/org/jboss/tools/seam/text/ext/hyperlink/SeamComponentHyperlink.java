@@ -165,7 +165,7 @@ public class SeamComponentHyperlink implements IHyperlink {
 	 * @see IHyperlink#getHyperlinkText()
 	 */
 	public String getHyperlinkText() {
-		return MessageFormat.format(SeamExtMessages.OpenAs, fName, fLabel);
+		return MessageFormat.format(SeamExtMessages.OpenSeamDeclarationAs, fName, fLabel);
 	}
 
 	
