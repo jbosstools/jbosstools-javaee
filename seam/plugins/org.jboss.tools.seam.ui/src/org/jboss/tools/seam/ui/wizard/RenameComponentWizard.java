@@ -51,7 +51,8 @@ public class RenameComponentWizard extends RefactoringWizard {
 	public RenameComponentWizard(Refactoring refactoring, ISeamComponent component) {
 		super(refactoring, WIZARD_BASED_USER_INTERFACE);
 		this.component = component;
-		seamProject = SeamCorePlugin.getSeamProject((IProject)component.getResource(), true);
+		if(component != null)
+			seamProject = SeamCorePlugin.getSeamProject((IProject)component.getResource(), true);
 	}
 
 	/* (non-Javadoc)
