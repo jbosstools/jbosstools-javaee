@@ -386,6 +386,8 @@ public class SeamUIMessages extends NLS {
 
 	public static String RENAME_SEAM_COMPONENT;
 	
+	public static String SEAM_COMPONENT_RENAME_HANDLER_ERROR;
+	
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		

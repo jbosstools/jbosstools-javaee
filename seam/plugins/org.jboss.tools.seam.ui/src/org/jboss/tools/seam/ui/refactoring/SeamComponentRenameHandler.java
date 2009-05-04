@@ -28,6 +28,8 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 
 /**
@@ -68,12 +70,14 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 	}
 
 	public static void invokeRenameWizard(ISeamComponent component, Shell activeShell) {
+		if(!SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
+			return;
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
 		RenameComponentWizard wizard = new RenameComponentWizard(refactoring, component);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		try {
-			String titleForFailedChecks = "TestTestTest"; //$NON-NLS-1$
+			String titleForFailedChecks = SeamUIMessages.SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 			op.run(activeShell, titleForFailedChecks);
 		} catch (final InterruptedException irex) {
 			// operation was canceled
