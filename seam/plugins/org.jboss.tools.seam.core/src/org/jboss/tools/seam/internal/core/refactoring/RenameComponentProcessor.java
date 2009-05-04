@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -72,7 +73,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * @author Alexey Kazakov
+ * @author Alexey Kazakov, Daniel Azarov
  */
 public class RenameComponentProcessor extends RenameProcessor {
 	private static final String JAVA_EXT = "java";
@@ -121,9 +122,9 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 	}
 
-	private void scan(IProject project){
+	private void scan(IContainer container){
 		try{
-			for(IResource resource : project.members()){
+			for(IResource resource : container.members()){
 				if(resource instanceof IFolder)
 					scan((IFolder) resource);
 				else if(resource instanceof IFile)
@@ -133,20 +134,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 			SeamCorePlugin.getDefault().logError(ex);
 		}
 	}
-	
-	private void scan(IFolder folder){
-		try{
-			for(IResource resource : folder.members()){
-				if(resource instanceof IFolder)
-					scan((IFolder) resource);
-				else if(resource instanceof IFile)
-					scan((IFile) resource);
-			}
-		}catch(CoreException ex){
-			SeamCorePlugin.getDefault().logError(ex);
-		}
-	}
-	
+
 	private void scan(IFile file){
 		String ext = file.getFileExtension();
 		String content = null;
@@ -162,18 +150,16 @@ public class RenameComponentProcessor extends RenameProcessor {
 			scanDOM(file, content);
 		else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
 			scanProperties(file, content);
-		
 	}
-	
+
 	private void findDeclarations() throws CoreException{
 		if(component.getJavaDeclaration() != null)
 			renameJavaDeclaration(component.getJavaDeclaration());
-		
+
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
-		
+
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
-			if(xmlDecl != null)
-				renameXMLDeclaration(xmlDecl);
+			renameXMLDeclaration(xmlDecl);
 		}
 	}
 	
@@ -318,7 +304,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		while(invExp != null){
 			if(invExp instanceof ELPropertyInvocation){
 				if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(component.getName()))
-						return (ELPropertyInvocation)invExp;
+					return (ELPropertyInvocation)invExp;
 				else
 					invExp = invExp.getLeft();
 				
@@ -497,8 +483,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 			TextEdit edit = new ReplaceEdit(location.getStartPosition()+location.getLength(), 0, newText);
 			change.addEdit(edit);
 		}
-		
-		
 	}
 
 	/*
