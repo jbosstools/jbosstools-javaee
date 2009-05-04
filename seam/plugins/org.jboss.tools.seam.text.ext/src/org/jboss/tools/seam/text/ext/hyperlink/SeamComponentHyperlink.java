@@ -39,7 +39,7 @@ import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 public class SeamComponentHyperlink implements IHyperlink {
 
 	private IRegion fRegion; 
-	private ISeamContextVariable fVariable;
+	private String fResourceName;
 	private IJavaElement fElement;
 	private IOpenableElement fOpenable;
 	private String fLabel;
@@ -48,14 +48,13 @@ public class SeamComponentHyperlink implements IHyperlink {
 	/**
 	 * Creates a new Seam Component hyperlink.
 	 */
-	SeamComponentHyperlink(IRegion region, ISeamContextVariable variable, IJavaElement element, String name) {
+	SeamComponentHyperlink(IRegion region, String resourceName, IJavaElement element, String name) {
 		Assert.isNotNull(region);
-		Assert.isNotNull(variable);
 		Assert.isNotNull(element);
 		Assert.isNotNull(name);
 
 		fRegion = region;
-		fVariable = variable;
+		fResourceName = resourceName;
 		fElement = element;
 		fOpenable = null;
 		fLabel = SeamExtMessages.SeamFactory;
@@ -65,14 +64,13 @@ public class SeamComponentHyperlink implements IHyperlink {
 	/**
 	 * Creates a new Seam Component hyperlink.
 	 */
-	SeamComponentHyperlink(IRegion region, ISeamContextVariable variable, ISeamComponent element, String name) {
+	SeamComponentHyperlink(IRegion region, String resourceName, ISeamComponent element, String name) {
 		Assert.isNotNull(region);
-		Assert.isNotNull(variable);
 		Assert.isNotNull(element);
 		Assert.isNotNull(name);
 
 		fRegion = region;
-		fVariable = variable;
+		fResourceName = resourceName;
 		fElement = null;
 		fLabel = SeamExtMessages.SeamComponent;
 		fName = name;
@@ -95,14 +93,13 @@ public class SeamComponentHyperlink implements IHyperlink {
 	/**
 	 * Creates a new Seam Component hyperlink.
 	 */
-	SeamComponentHyperlink(IRegion region, ISeamContextVariable variable, IBijectedAttribute element, String name) {
+	SeamComponentHyperlink(IRegion region, String resourceName, IBijectedAttribute element, String name) {
 		Assert.isNotNull(region);
-		Assert.isNotNull(variable);
 		Assert.isNotNull(element);
 		Assert.isNotNull(name);
 
 		fRegion = region;
-		fVariable = variable;
+		fResourceName = resourceName;
 		fElement = element.getSourceMember();
 		fLabel = SeamExtMessages.SeamBijected;
 		fName = name;
@@ -112,15 +109,14 @@ public class SeamComponentHyperlink implements IHyperlink {
 	/**
 	 * Creates a new Seam Component hyperlink.
 	 */
-	SeamComponentHyperlink(IRegion region, ISeamContextVariable variable, IRole element, String name) {
+	SeamComponentHyperlink(IRegion region, String resourceName, IRole element, String name) {
 		Assert.isNotNull(region);
-		Assert.isNotNull(variable);
 		Assert.isNotNull(element);
 		Assert.isTrue(element instanceof IOpenableElement);
 		Assert.isNotNull(name);
 
 		fRegion = region;
-		fVariable = variable;
+		fResourceName = resourceName;
 		fElement = null;
 		fOpenable = (IOpenableElement)element;
 		fLabel = SeamExtMessages.SeamRole;
@@ -176,12 +172,8 @@ public class SeamComponentHyperlink implements IHyperlink {
 	 */
 	public String getHyperlinkText() {
 		String formattedIn = "";
-		if (fVariable.getResource() != null) {
-			String resourceName = fVariable.getResource().getName();
-			
-			if (resourceName != null && resourceName.trim().length() > 0) {
-				formattedIn = MessageFormat.format(SeamExtMessages.InResource, resourceName);
-			}
+		if (fResourceName != null && fResourceName.trim().length() > 0) {
+			formattedIn = MessageFormat.format(SeamExtMessages.InResource, fResourceName);
 		}
 		return MessageFormat.format(SeamExtMessages.OpenSeamDeclarationAs, fName, fLabel, formattedIn);
 	}

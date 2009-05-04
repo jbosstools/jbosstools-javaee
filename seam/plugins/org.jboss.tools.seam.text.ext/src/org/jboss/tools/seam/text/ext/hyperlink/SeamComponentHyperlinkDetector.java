@@ -41,6 +41,7 @@ import org.jboss.tools.common.text.ext.hyperlink.HyperlinkBuilder;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamMessages;
@@ -170,18 +171,38 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 									}
 									if (javaElements != null) {
 										for (IJavaElement javaElement : javaElements) {
-											hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, javaElement, nameToSearch));
+											String resourceName = null;
+											if (javaElement.getResource() != null) {
+												resourceName=javaElement.getResource().getName();
+											}
+											hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, javaElement, nameToSearch));
 										}
 									}
 								} else if (var instanceof ISeamComponent) {
-									var.getResource().getName();
-									hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, (ISeamComponent)var, nameToSearch));
+									String resourceName = null;
+									ISeamComponent comp = (ISeamComponent)var;
+									Set<ISeamComponentDeclaration> decls = comp.getAllDeclarations();
+									for (ISeamComponentDeclaration decl : decls) {
+										if (decl.getResource() != null) {
+											resourceName = decl.getResource().getName();
+											break;
+										}
+									}
+									hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (ISeamComponent)var, nameToSearch));
 								} else if (var instanceof IRole) {
-									hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, (IRole)var, nameToSearch));
+									String resourceName = null;
+									if (var.getResource() != null) {
+										resourceName = var.getResource().getName();
+									}
+									hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (IRole)var, nameToSearch));
 								} else if (var instanceof IBijectedAttribute) {
+									String resourceName = null;
+									if (var.getResource() != null) {
+										resourceName = var.getResource().getName();
+									}
 									IBijectedAttribute attr = (IBijectedAttribute)var;
 									if (attr.getSourceMember() != null) {
-										hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, (IBijectedAttribute)var, nameToSearch));
+										hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (IBijectedAttribute)var, nameToSearch));
 									}
 								}
 							}
