@@ -170,17 +170,18 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 									}
 									if (javaElements != null) {
 										for (IJavaElement javaElement : javaElements) {
-											hyperlinks.add(new SeamComponentHyperlink(wordRegion, javaElement, nameToSearch));
+											hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, javaElement, nameToSearch));
 										}
 									}
 								} else if (var instanceof ISeamComponent) {
-									hyperlinks.add(new SeamComponentHyperlink(wordRegion, (ISeamComponent)var, nameToSearch));
+									var.getResource().getName();
+									hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, (ISeamComponent)var, nameToSearch));
 								} else if (var instanceof IRole) {
-									hyperlinks.add(new SeamComponentHyperlink(wordRegion, (IRole)var, nameToSearch));
+									hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, (IRole)var, nameToSearch));
 								} else if (var instanceof IBijectedAttribute) {
 									IBijectedAttribute attr = (IBijectedAttribute)var;
 									if (attr.getSourceMember() != null) {
-										hyperlinks.add(new SeamComponentHyperlink(wordRegion, (IBijectedAttribute)var, nameToSearch));
+										hyperlinks.add(new SeamComponentHyperlink(wordRegion, var, (IBijectedAttribute)var, nameToSearch));
 									}
 								}
 							}
