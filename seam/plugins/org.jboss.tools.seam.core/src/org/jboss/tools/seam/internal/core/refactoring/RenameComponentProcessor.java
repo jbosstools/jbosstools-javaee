@@ -64,6 +64,7 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
@@ -76,13 +77,13 @@ import org.w3c.dom.NodeList;
  * @author Alexey Kazakov, Daniel Azarov
  */
 public class RenameComponentProcessor extends RenameProcessor {
-	private static final String JAVA_EXT = "java";
-	private static final String XML_EXT = "xml";
-	private static final String XHTML_EXT = "xhtml";
-	private static final String JSP_EXT = "jsp";
-	private static final String PROPERTIES_EXT = "properties";
+	private static final String JAVA_EXT = "java"; //$NON-NLS-1$
+	private static final String XML_EXT = "xml"; //$NON-NLS-1$
+	private static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
+	private static final String JSP_EXT = "jsp"; //$NON-NLS-1$
+	private static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
 	
-	private static final String SEAM_PROPERTIES_FILE = "seam.properties";
+	private static final String SEAM_PROPERTIES_FILE = "seam.properties"; //$NON-NLS-1$
 
 	private IFile declarationFile=null;
 	private ISeamComponent component;
@@ -169,7 +170,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 			ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null){
 				TextFileChange change = getChange(declarationFile);
-				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\"");
+				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 				change.addEdit(edit);
 			}
 		}
@@ -321,27 +322,27 @@ public class RenameComponentProcessor extends RenameProcessor {
 		if(!file.getName().equals(SEAM_PROPERTIES_FILE))
 			return;
 		
-		StringTokenizer tokenizer = new StringTokenizer(content, "#= \t\r\n\f", true);
+		StringTokenizer tokenizer = new StringTokenizer(content, "#= \t\r\n\f", true); //$NON-NLS-1$
 		
-		String lastToken = "\n";
+		String lastToken = "\n"; //$NON-NLS-1$
 		int offset = 0;
 		boolean comment = false;
 		boolean key = true;
 		
 		while(tokenizer.hasMoreTokens()){
 			String token = tokenizer.nextToken("#= \t\r\n\f"); //$NON-NLS-1$
-			if(token.equals("\r"))
-				token = "\n";
+			if(token.equals("\r")) //$NON-NLS-1$
+				token = "\n"; //$NON-NLS-1$
 			
-			if(token.equals("#") && lastToken.equals("\n"))
+			if(token.equals("#") && lastToken.equals("\n")) //$NON-NLS-1$ //$NON-NLS-2$
 				comment = true;
-			else if(token.equals("\n") && comment)
+			else if(token.equals("\n") && comment) //$NON-NLS-1$
 				comment = false;
 			
 			if(!comment){
-				if(!token.equals("\n") && lastToken.equals("\n"))
+				if(!token.equals("\n") && lastToken.equals("\n")) //$NON-NLS-1$ //$NON-NLS-2$
 					key = true;
-				else if(key && (token.equals("=") || token.equals(" ")))
+				else if(key && (token.equals("=") || token.equals(" "))) //$NON-NLS-1$ //$NON-NLS-2$
 					key = false;
 				
 				if(key && token.startsWith(component.getName())){
@@ -377,7 +378,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
 		if(component==null) {
-			result.addFatalError("This is not a Seam Component.");
+			result.addFatalError(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_THIS_IS_NOT_A_SEAM_COMPONENT);
 		}
 		return result;
 	}
@@ -389,7 +390,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		rootChange = new CompositeChange("Rename Seam Component");
+		rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_RENAME_SEAM_COMPONENT);
 		
 		findDeclarations();
 		
@@ -440,13 +441,13 @@ public class RenameComponentProcessor extends RenameProcessor {
 		TextFileChange change = getChange(file);
 		
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
-		if(text.startsWith("<")){
-			int position = text.lastIndexOf("/>");
+		if(text.startsWith("<")){ //$NON-NLS-1$
+			int position = text.lastIndexOf("/>"); //$NON-NLS-1$
 			if(position < 0){
-				position = text.lastIndexOf(">");
+				position = text.lastIndexOf(">"); //$NON-NLS-1$
 			}
 			
-			TextEdit edit = new ReplaceEdit(location.getStartPosition()+position, 0, " name=\""+newName+"\"");
+			TextEdit edit = new ReplaceEdit(location.getStartPosition()+position, 0, " name=\""+newName+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 			change.addEdit(edit);
 		}else{
 			TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newName);
@@ -466,20 +467,20 @@ public class RenameComponentProcessor extends RenameProcessor {
 		TextFileChange change = getChange(file);
 		
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
-		int openBracket = text.indexOf("(");
+		int openBracket = text.indexOf("("); //$NON-NLS-1$
 		if(openBracket > 0){
-			int openQuote = text.indexOf("\"", openBracket);
+			int openQuote = text.indexOf("\"", openBracket); //$NON-NLS-1$
 			if(openQuote > 0){
 				String newText = text.replace(component.getName(), newName);
 				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newText);
 				change.addEdit(edit);
 			}else{
-				String newText = "\""+newName+"\"";
+				String newText = "\""+newName+"\""; //$NON-NLS-1$ //$NON-NLS-2$
 				TextEdit edit = new ReplaceEdit(location.getStartPosition()+openBracket+1, 0, newText);
 				change.addEdit(edit);
 			}
 		}else{
-			String newText = "(\""+newName+"\")";
+			String newText = "(\""+newName+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
 			TextEdit edit = new ReplaceEdit(location.getStartPosition()+location.getLength(), 0, newText);
 			change.addEdit(edit);
 		}
@@ -509,7 +510,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	 */
 	@Override
 	public String getProcessorName() {
-		return "Rename Seam Component";
+		return SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_RENAME_SEAM_COMPONENT;
 	}
 
 	/*
