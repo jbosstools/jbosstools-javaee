@@ -24,7 +24,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.jboss.tools.vpe.resref;bundle-version="2.0.0",
  org.jboss.tools.common.el.ui;bundle-version="1.0.0",
- org.jboss.tools.common.el.core;bundle-version="2.0.0"
+ org.jboss.tools.common.el.core;bundle-version="2.0.0",
+ org.jboss.tools.common.model.ui;bundle-version="2.0.0"
 Bundle-ClassPath: jsf-test.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

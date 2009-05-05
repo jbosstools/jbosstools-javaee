@@ -50,6 +50,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3396Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3441Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3473Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3482Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3519Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3617Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3632Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3650Test;
@@ -86,6 +87,7 @@ public class JsfAllTests {
 		// $JUnit-BEGIN$
 		suite.addTestSuite(JsfComponentTest.class);
 		suite.addTestSuite(Jsf20ComponentContentTest.class);
+		suite.addTestSuite(JBIDE3519Test.class);
 		suite.addTestSuite(JBIDE4037Test.class);
 		suite.addTestSuite(JBIDE3734Test.class);
 		suite.addTestSuite(JBIDE3617Test.class);
