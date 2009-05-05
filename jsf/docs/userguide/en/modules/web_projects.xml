@@ -68,7 +68,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-    <para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <emphasis><property>#{Message.header}</property></emphasis> automatically.</para>
+    <para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <code>#{Message.header}</code> automatically.</para>
   <figure>
 <title>Inserted Property</title>
 <mediaobject> 
@@ -78,7 +78,7 @@ locate what you are looking for and develop.</para>
 </mediaobject>
 </figure>
 <para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case,
- JBoss Developer Studio will place the complete tag <emphasis><property>&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
+ JBoss Developer Studio will place the complete tag <code>&lt;h:outputText value="#{Message.header}"/&gt;</code> in the page.</para>
  </section>
 <section id="ForManagedBeanAttributes">
 
@@ -93,7 +93,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Once again, JBoss Developer Studio adds the correct expression, <emphasis>#{user.name}</emphasis>.</para>
+<para>Once again, JBoss Developer Studio adds the correct expression, <code>#{user.name}</code>.</para>
 <figure>
 <title>Added Expression</title>
 <mediaobject> 

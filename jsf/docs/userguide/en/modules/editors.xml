@@ -609,9 +609,8 @@
                 <itemizedlist>
                     <listitem>
                         <para>Adds code assist for JSF pre-defined objects, such as
-                                <![CDATA[value=]]><emphasis role="italic">
-                                <property>&quot;#{param}&quot;</property>
-                            </emphasis>:</para>
+                                <code>value=&quot;#{param}&quot;</code>
+                            :</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -891,14 +890,12 @@
 
                 <itemizedlist>
                     <listitem>
-                        <para>HTML comments (<emphasis>
-                                <property>&lt;!-- --&gt;</property>
-                            </emphasis>) which are output to the client </para>
+                        <para>HTML comments (<code>&lt;!-- --&gt;</code>) which are output to the client </para>
                     </listitem>
                     <listitem>
-                        <para>JSP comments (<emphasis>
-                                <property>&lt;%-- --%&gt;</property>
-                            </emphasis>) which are not output to the client as part of the JSP page
+                        <para>JSP comments (<code>
+                               &lt;%-- --%&gt;
+                            </code>) which are not output to the client as part of the JSP page
                             output</para>
                     </listitem>
                 </itemizedlist>
@@ -970,12 +967,12 @@
                     different parameters or preview according to the framework version (like seam
                     1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
 
-                <para>For example, <emphasis>
-                        <property>&lt;s:decorate&gt;</property>
-                    </emphasis> element in seam has different parameters in versions 1.2 and 2.0 as
-                    well as <emphasis>
-                        <property>&lt;h:outputLink&gt;</property>
-                    </emphasis> JSF element has different preview in versions 1.1 and 1.2.</para>
+                <para>For example, <code>
+                        &lt;s:decorate&gt;
+                    </code> element in seam has different parameters in versions 1.2 and 2.0 as
+                    well as 
+                        <code>&lt;h:outputLink&gt;</code>
+                     JSF element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
 
