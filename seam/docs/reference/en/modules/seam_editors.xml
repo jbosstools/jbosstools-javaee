@@ -75,9 +75,9 @@
                     </imageobject>
                     </mediaobject>
                 </entry>
-                <entry><para>A yellow box with a solid border represents a <emphasis>
-                        <property>&lt;page&gt;</property>
-                    </emphasis> element.
+                <entry><para>A yellow box with a solid border represents a <code>
+                        &lt;page&gt;
+                    </code> element.
                 </para></entry>
             </row> 
                 <row>
@@ -95,9 +95,9 @@
                         </inlinemediaobject>)
                         
                         
-                        on the <emphasis>
-                        <property>&lt;page&gt;</property>
-                    </emphasis> element reveals a box that lists the parameters for the page.</para>
+                        on the <code>
+                        &lt;page&gt;
+                    </code> element reveals a box that lists the parameters for the page.</para>
                     </entry>
                 
                 </row> 
@@ -132,7 +132,7 @@
                             <imagedata fileref="images/seam_editors/element_exception.png"/>
                         </imageobject>
                     </mediaobject></entry>
-                    <entry>  <para>An &lt;exception&gt; is represented by a blue box with a orange diamond.</para></entry>
+                    <entry>  <para>An <code>&lt;exception&gt;</code> is represented by a blue box with a orange diamond.</para></entry>
                 </row> 
             
             
@@ -223,19 +223,19 @@
               <listitem><para><emphasis role="bold">Auto Layout</emphasis> formats the layout of the diagram automatically</para></listitem>
               <listitem><para><emphasis role="bold">Select Element</emphasis> calls the <property>Select Element Wizard</property> with a filter to perform a quick search  through  the <property>pages.xml</property> file  </para></listitem>
           </itemizedlist>
-          <para>Rightclicking on a selected<emphasis>
-                        <property>&lt;page&gt;</property>
-                    </emphasis> element calls a context menu where you can choose the following options if you click on the <emphasis role="bold">New</emphasis> menu item:  </para>
+          <para>Rightclicking on a selected
+                        <code>&lt;page&gt;</code>
+                     element calls a context menu where you can choose the following options if you click on the <emphasis role="bold">New</emphasis> menu item:  </para>
       
       
       
       <itemizedlist>
           <listitem><para><emphasis role="bold">Rule</emphasis> opens the <property>Add Navigation Rule</property> dialog in which you can browse your project for a view page to set the view-id in the navigation rule  and specify <emphasis role="bold">render</emphasis> or <emphasis role="bold">redirect</emphasis> navigation options </para></listitem>
-          <listitem><para><emphasis role="bold">Param</emphasis> calls a dialog box where you can define a parameter (using the  <emphasis>
-                        <property>&lt;param&gt;</property> 
-          </emphasis> tag) for the <emphasis>
-                        <property>&lt;page&gt;</property>
-                    </emphasis> element</para></listitem>
+          <listitem><para><emphasis role="bold">Param</emphasis> calls a dialog box where you can define a parameter (using the  
+                        <code>&lt;param&gt;</code> 
+           tag) for the 
+                        <code>&lt;page&gt;</code>
+                     element</para></listitem>
       </itemizedlist>
           
           
