@@ -69,18 +69,14 @@
         <itemizedlist>
             <listitem>
                 <para>In the diagram, select the connection icon third from the top along
-                    the upper left side of the diagram</para>
+                    the upper left side of the diagram (<inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/jsf_application/jsf_application_3.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) to get an arrow cursor with a two-pronged plug at the arrow&apos;s bottom.</para>
             </listitem>
         </itemizedlist>
-        <figure>
-            <title>Connection Icon</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_application/jsf_application_3.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>to get an arrow cursor with a two-pronged plug at the arrow&apos;s bottom.</para>
+           
         <itemizedlist>
             <listitem>
                 <para>Click on the <emphasis>
@@ -108,5 +104,5 @@
             </listitem>
         </itemizedlist>
     </section>
-    
+   
 </chapter>
