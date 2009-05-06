@@ -244,16 +244,6 @@
         <para>Thus with Seam tooling you can easily take advantage of TestNG framework. As you can
             see, it generates its own TestNG project as a separate module within which you can
             easily monitor the tests execution and their output.</para>
-        
-        <para>In conclusion, the main goal of this document is to get you know with a full featureset
-            that <property>JBoss Tools</property> provides to support Seam development. Thus if you have
-            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink
-                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
-                Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
-            future leaving your vote on our page <ulink
-                url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture"
-                >here</ulink>. </para>
-        
-        <para>A set of movies on Seam tooling is available <ulink url="http://docs.jboss.org/tools/movies">here</ulink>.</para>
+     
     </section>
 </chapter>
