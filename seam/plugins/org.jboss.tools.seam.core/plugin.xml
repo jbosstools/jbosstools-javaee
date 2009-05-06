@@ -419,11 +419,29 @@
             id="org.jboss.tools.seam.internal.core.refactoring.SeamProjectRenameParticipant"
             name="seam-RenameProjectParticipant">
          <enablement>
-            <with variable="element">
-                <or>
-                   <instanceof value="org.eclipse.core.resources.IProject"/>
-                </or>
-            </with>
+	         <and>
+	         	<or>
+		            <with variable="processorIdentifier">
+		                <or>
+		                	<equals
+		                          value="org.eclipse.jdt.ui.renameJavaProjectProcessor">
+		                    </equals>
+		                </or>
+		            </with>
+		            <with variable="processorIdentifier">
+		                <or>
+		                	<equals
+		                          value="org.eclipse.ltk.core.refactoring.renameResourceProcessor">
+		                    </equals>
+		                </or>
+		            </with>
+	         	</or>
+	            <with variable="element">
+	                <or>
+	                   <instanceof value="org.eclipse.core.resources.IProject"/>
+	                </or>
+	            </with>
+	         </and>
          </enablement>
       </renameParticipant>
       <renameParticipant
