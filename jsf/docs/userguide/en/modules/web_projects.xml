@@ -201,17 +201,30 @@ Simply right-click any node in the tree and select an appropriate action from th
 
 <title>Expanding Tag Library Files</title>
 
-<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Expand</property></emphasis>. The TLD file will now be expanded.</para>
+<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Set Expanded</property></emphasis>:</para>
+    
+    <figure>
+        <title>Expanding Tag Library File</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="images/web_projects/web_projects_15a.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    <para> The TLD file will now be expanded:</para>
 
+    <figure>
+        <title>Expanded File</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata fileref="images/web_projects/web_projects_15b.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
 <para>You can then select any tag and drag it onto a JSP page.</para>
-<figure>
-<title>Expanding Tag Library File</title>
-<mediaobject> 
-        <imageobject>
-            <imagedata fileref="images/web_projects/web_projects_15.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+
 </section>
 <section id="DragAndDropTagLibrariesOnToRedHatPalette">
 
