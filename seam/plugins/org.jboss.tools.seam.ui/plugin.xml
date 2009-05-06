@@ -613,10 +613,14 @@
          </toolbar>
   </menuContribution>
   <menuContribution
-   locationURI="menu:org.eclipse.ui.main.menu?after=navigate">
+     locationURI="menu:org.eclipse.ui.main.menu?after=navigate">
+   <!-- Note: The menu (re-) definition has to be here due to bug: -->
+   <!-- see http://bugs.eclipse.org/bugs/show_bug.cgi?id=15684    -->
+   <!-- =================================================================== -->
+   <!-- Search Menu                                                         -->
+   <!-- =================================================================== -->
    <menu
      label="%searchMenu.label"
-     mnemonic="%searchMenu.label"
      id="org.eclipse.search.menu">
     <separator name="internalDialogGroup" visible="false"/>   <!-- not to be used by clients  -->
     <separator name="dialogGroup" visible="false"/>           <!-- to be used by clients      -->
