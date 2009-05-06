@@ -18,26 +18,21 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 import junit.framework.TestCase;
 
-public class SeamComponentRefactoringTest  extends TestCase {
-	static String warProjectName = "RenameComponentTestProject-war";
-	static String ejbProjectName = "RenameComponentTestProject-ejb";
+public class SeamComponentRefactoringTest extends TestCase {
+	static String warProjectName = "RenameComponentWarTestProject";
 	static IProject warProject;
-	static IProject ejbProject;
 	static ISeamProject seamWarProject;
-	static ISeamProject seamEjbProject;
+	
+	public SeamComponentRefactoringTest(){
+		super("Seam Component Refactoring Test");
+	}
 	
 	protected void setUp() throws Exception {
 		if(warProject==null) {
 			warProject = ProjectImportTestSetup.loadProject(warProjectName);
 		}
-		if(ejbProject==null) {
-			ejbProject = ProjectImportTestSetup.loadProject(ejbProjectName);;
-		}
 		if(seamWarProject==null) {
 			seamWarProject = loadSeamProject(warProject);
-		}
-		if(seamEjbProject==null) {
-			seamEjbProject = loadSeamProject(ejbProject);
 		}
 	}
 	
@@ -49,13 +44,52 @@ public class SeamComponentRefactoringTest  extends TestCase {
 	}
 	
 	public void testSeamComponentRename() throws CoreException {
-		ISeamComponent[] components = seamWarProject.getComponents();
-		for(ISeamComponent component : components){
-			System.out.println("Seam Component - "+component.getName());
-		}
-		
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
-		renameComponent(seamWarProject, "abc", "tre", list);
+		
+		TestChangeStructure structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/TestComponent.java",
+				113, 6, "\"best\"");
+		list.add(structure);
+		
+		structure = new TestChangeStructure("/WebContent/WEB-INF/components.xml",
+				1455, 6, "best");
+		list.add(structure);
+		structure = new TestChangeStructure("/WebContent/WEB-INF/components.xml",
+				2530, 4, "best");
+		list.add(structure);
+		
+		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+				413, 0, "(\"best\")");
+		list.add(structure);
+		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+				436, 11, "@In(\"best\")");
+		list.add(structure);
+		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+				471, 16, "@Factory(\"best\")");
+		list.add(structure);
+		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+				545, 0, "(\"best\")");
+		list.add(structure);
+		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+				597, 4, "best");
+		list.add(structure);
+		
+		structure = new TestChangeStructure("/WebContent/WEB-INF/dev/seam.properties",
+				0, 10, "best.value");
+		list.add(structure);
+		
+		structure = new TestChangeStructure("/WebContent/login.xhtml",
+				1033, 4, "best");
+		list.add(structure);
+		
+		structure = new TestChangeStructure("/WebContent/test.jsp",
+				227, 4, "best");
+		list.add(structure);
+		
+		structure = new TestChangeStructure("/WebContent/test.properties",
+				29, 4, "best");
+		list.add(structure);
+		
+		renameComponent(seamWarProject, "test", "best", list);
 	}
 	
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList) throws CoreException{
@@ -76,9 +110,10 @@ public class SeamComponentRefactoringTest  extends TestCase {
 		processor.setNewComponentName(newName);
 		Change change = processor.createChange(new NullProgressMonitor());
 		change.perform(new NullProgressMonitor());
+		JobUtils.waitForIdle();
 		
 		// Test results
-		assertNull(seamProject.getComponent(componentName));
+		//assertNull(seamProject.getComponent(componentName));
 		assertNotNull(seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = seamProject.getProject().getFile(changeStructure.getFileName());
