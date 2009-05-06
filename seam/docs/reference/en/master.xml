@@ -16,7 +16,7 @@
 <!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
 <!ENTITY business_application SYSTEM "modules/business_application.xml">
 <!ENTITY testng SYSTEM "modules/testng.xml">
-
+<!ENTITY seam_faq SYSTEM "modules/seam_faq.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -77,6 +77,7 @@
 &crud_database_application;
 &crud_application_walkthrough;
 &testng;
+&seam_faq;
     <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
     
 </book>    
