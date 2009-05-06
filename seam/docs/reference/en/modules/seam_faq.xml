@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="seam_faq" xreflabel="seam_faq">
+    <?dbhtml filename="vwt_faq.html"?>
+    <title>FAQ</title>
+    
+    <section id="seam_question_1">
+        <title>How to get Code Assist for Seam specific resources in an externally generated
+            project?</title>
+        
+        <para>To get Code Assist for Seam specific resources in an externally generated project, you
+            should enable Seam features in Project Preferences. Right click an imported project and
+            navigate <emphasis>
+                <property>Properties > Seam Settings</property>.</emphasis> Check <emphasis>
+                    <property>Seam support</property>
+                </emphasis> box to enable all available <link linkend="project_pref">Seam
+                    Settings</link>.</para>
+    </section>
+    
+    <section id="seam_question_2">
+        <title>How to import an example Seam project from jboss-eap directory?</title>
+        
+        <para>To import an example Seam project from <emphasis>
+            <property>jboss-eap</property>
+        </emphasis> into your working directory, you should perform the following steps:</para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>Go to <emphasis>
+                    <property>New > Other > Java Project from Existing Buildfile</property>
+                </emphasis></para>
+            </listitem>
+            
+            <listitem>
+                <para>Point to the <emphasis>
+                    <property>build.xml</property>
+                </emphasis> of any chosen project by pressing <emphasis>
+                    <property>Browse</property>
+                </emphasis> button</para>
+            </listitem>
+            
+            <listitem>
+                <para>Hit <emphasis>
+                    <property>Finish</property>
+                </emphasis> to open the project</para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>As these seam examples are non WTP projects, next you should enable Seam support for
+            them. To do that, right click the project and go to <emphasis>
+                <property>Properties > Seam Settings</property>.</emphasis></para>
+    </section>
+    
+    <section id="seam_question_3">
+        <title>How to change the deploy folders for Seam source code from src/hot and src/main?</title>
+        
+        <para>You should right-click the project, select <emphasis>
+            <property>Properties &gt; Java Build Path</property>,</emphasis> then switch to the <emphasis>
+                <property>Source tab</property>,</emphasis> select the output folder for <emphasis>
+                    <property>src/hot</property></emphasis> (<emphasis>
+                        <property>src/main</property>)</emphasis>  and click <emphasis>
+                    <property>Edit</property></emphasis> to change their output location.</para>
+        
+        <para>In conclusion, the main goal of this document is to get you know with a full featureset
+            that <property>JBoss Tools</property> provides to support Seam development. Thus if you have
+            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink
+                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+                Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
+            future leaving your vote on our page <ulink
+                url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture"
+                >here</ulink>. </para>
+        
+        <para>A set of movies on Seam tooling is available <ulink url="http://docs.jboss.org/tools/movies">here</ulink>.</para>
+    </section>
+</chapter>
