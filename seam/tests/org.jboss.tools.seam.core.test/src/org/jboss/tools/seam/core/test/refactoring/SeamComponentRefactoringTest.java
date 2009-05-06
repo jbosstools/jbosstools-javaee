@@ -73,8 +73,8 @@ public class SeamComponentRefactoringTest extends TestCase {
 				597, 4, "best");
 		list.add(structure);
 		
-		structure = new TestChangeStructure("/WebContent/WEB-INF/dev/seam.properties",
-				0, 10, "best.value");
+		structure = new TestChangeStructure("/RenameComponentWarTestProject/src/hot/seam.properties",
+				0, 4, "best");
 		list.add(structure);
 		
 		structure = new TestChangeStructure("/WebContent/login.xhtml",
