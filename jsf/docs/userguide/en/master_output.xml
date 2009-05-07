@@ -10,6 +10,7 @@
 <!ENTITY richfaces_support SYSTEM "modules/richfaces_support.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
 <!ENTITY preferences SYSTEM "modules/preferences.xml">
+<!ENTITY vwt_faq SYSTEM "modules/vwt_faq.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -31,11 +32,11 @@
         <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <year><diffmk:wrapper diffmk:change="changed">2009</diffmk:wrapper></year>
-            <holder><diffmk:wrapper diffmk:change="changed">JBoss, a division of Red Hat</diffmk:wrapper></holder>
+            <year>2009</year>
+            <holder>JBoss, a division of Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 2.0.0.GA
+            Version: 2.0.1.GA
            </diffmk:wrapper></releaseinfo>
 <abstract>
    <title></title>
@@ -128,9 +129,9 @@
 
      <row>
       <entry>JBoss Tools Palette</entry>
-      <entry>Organizing various tags by groups, inserting tags into a jsp or xhtml page with one
-       click, adding custom or 3rd party tag libraries into the palette, easy controling the number
-       of tag groups shown on the palette.</entry>
+      <entry><diffmk:wrapper diffmk:change="changed">Organizing various tags by groups, inserting tags into a jsp or xhtml page with one
+       click, adding custom or 3rd party tag libraries into the palette, easy controlling the number
+       of tag groups shown on the palette.</diffmk:wrapper></entry>
       <entry>
        <link linkend="palette">jboss tools palette</link>
       </entry>
@@ -169,10 +170,10 @@
 
      <row>
       <entry>Drag-and-Drop</entry>
-      <entry>Possibility of inserting any tag onto the page you are editing by just drag-and-droping
+      <entry><diffmk:wrapper diffmk:change="changed">Possibility of inserting any tag onto the page you are editing by just drag-and-droping
        it from the palette to this page. Adding any properties, managed bean attributes, navigation
        rules, tag library file declarations, jsp files from web projects view by clicking them and
-       draging to source code.</entry>
+       dragging to source code.</diffmk:wrapper></entry>
       <entry>
        <link linkend="visual_page">visual page editor</link>
        <link linkend="DragAndDrop">drag-and-drop</link>
@@ -185,7 +186,7 @@
        components in any web application. Support for RichFaces and Ajax4jsf libraries in JBoss
        Tools Palette. Rendering RichFaces components in Visual Page Editor.</entry>
       <entry>
-       <link linkend="RichFacesSupport">RichFaces support</link>
+       <link linkend="richfaces_support">RichFaces support</link>
       </entry>
      </row>
     </tbody>
@@ -195,8 +196,8 @@
 
 <section>
  <title>Other relevant resources on the topic</title>
- <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
- <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+ <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at</diffmk:wrapper><diffmk:wrapper diffmk:change="changed">http://docs.jboss.org/tools</diffmk:wrapper><diffmk:wrapper diffmk:change="changed"> in the corresponding release directory.</diffmk:wrapper></para>
+ <para><diffmk:wrapper diffmk:change="changed">The latest documentation builds are available at </diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/nightly-docs/"><diffmk:wrapper diffmk:change="changed">http://download.jboss.org/jbosstools/nightly-docs</diffmk:wrapper></ulink>.</para>
 </section>
 
 </chapter>
@@ -424,9 +425,9 @@
                 </listitem>
             </itemizedlist>
 
-            <para><diffmk:wrapper diffmk:change="changed">Notice, that code completion for EL variables has icons illustrating what they are
+            <para>Notice, that code completion for EL variables has icons illustrating what they are
                 from. Currently it's performed for resource bundles, JSF and Seam
-                components.</diffmk:wrapper></para>
+                components.</para>
 
             <figure float="0">
                 <title>JSF Content Assist</title>
@@ -446,8 +447,8 @@
                 </mediaobject>
             </figure>
 
-            <para><diffmk:wrapper diffmk:change="changed">Also, as you can see, the ranking and sorting are available in EL code
-                completions.</diffmk:wrapper></para>
+            <para>Also, as you can see, the ranking and sorting are available in EL code
+                completions.</para>
 
             <section id="JSFProjectFiles3087">
 
@@ -568,13 +569,13 @@
                         </mediaobject>
                     </figure>
                     
-                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Code Assist can also provide you with access to the beans located in jar archives.</diffmk:wrapper></para>
+                    <para>Code Assist can also provide you with access to the beans located in jar archives.</para>
                     
-                    <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Code Assist: accessing beans in jar archives</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_14_a.png"></imagedata>
+                    <figure float="0">
+                    <title>Code Assist: accessing beans in jar archives</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_14_a.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                     </figure>
@@ -798,7 +799,7 @@
                         </mediaobject>
                     </figure>
                 </section>
-            
+            </section>
 
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
@@ -821,9 +822,8 @@
                 <itemizedlist>
                     <listitem>
                         <para>Adds code assist for JSF pre-defined objects, such as
-                                <![CDATA[value=]]><emphasis role="italic">
-                                <property moreinfo="none">"#{param}"</property>
-                            </emphasis>:</para>
+                                <code diffmk:change="added"><diffmk:wrapper diffmk:change="added">value="#{param}"</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added">
+                            :</diffmk:wrapper></para>
                     </listitem>
                 </itemizedlist>
                 <programlisting format="linespecific" role="XML"><![CDATA[<AttributeType ...>
@@ -961,7 +961,7 @@
                 <property moreinfo="none">Source</property> and <property moreinfo="none">Preview</property>. To switch between the
             views you can use tabs at the bottom of the VPE or the shortcuts <emphasis>
                 <property moreinfo="none">Ctrl + PageUp/Ctrl + PageDown</property>
-            </emphasis><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+            </emphasis>.</para>
 
         <figure float="0">
             <title>Visual Page Editor</title>
@@ -1026,30 +1026,30 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> You can insert a tag/component from the palette into either the Source or the
-                Visual part by calling a context menu and selecting </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Insert
-                    around</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Insert before</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Insert
-                    after</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> or </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Replace With</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, pointing to
-                    </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">From Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, picking the type of the tag and finally
-                choosing the tag you want to insert. </diffmk:wrapper></para>
+            <para><diffmk:wrapper diffmk:change="changed"> You can insert a tag/component from the palette into either the Source or the
+                Visual part by calling a context menu and selecting </diffmk:wrapper><property moreinfo="none">Insert
+                    around</property>, <property moreinfo="none">Insert before</property>, <property moreinfo="none">Insert
+                    after</property> or <property moreinfo="none">Replace With</property>, pointing to
+                    <property moreinfo="none">From Palette</property>, picking the type of the tag and finally
+                choosing the tag you want to insert. </para>
 
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The image below illustrates how you can insert a tag into the Source part.</diffmk:wrapper></para>
-            <figure diffmk:change="added" float="0">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Inserting a tag into the Source part </diffmk:wrapper></title>
-                <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_23a.png"></imagedata>
+            <para>The image below illustrates how you can insert a tag into the Source part.</para>
+            <figure float="0">
+                <title>Inserting a tag into the Source part </title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_23a.png"></imagedata>
                     </imageobject>
                 </mediaobject>
             </figure>
 
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">And this is how a tag is inserted using a context menu in the Visual part.</diffmk:wrapper></para>
+            <para>And this is how a tag is inserted using a context menu in the Visual part.</para>
 
-            <figure diffmk:change="added" float="0">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Inserting a tag into the Visual part</diffmk:wrapper></title>
-                <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_23b.png"></imagedata>
+            <figure float="0">
+                <title>Inserting a tag into the Visual part</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_23b.png"></imagedata>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -1100,64 +1100,62 @@
 
                 <itemizedlist>
                     <listitem>
-                        <para>HTML comments (<emphasis>
-                                <property moreinfo="none">&lt;!-- --&gt;</property>
-                            </emphasis>) which are output to the client </para>
+                        <para>HTML comments (<code diffmk:change="added">&lt;!-- --&gt;</code>) which are output to the client </para>
                     </listitem>
                     <listitem>
-                        <para>JSP comments (<emphasis>
-                                <property moreinfo="none">&lt;%-- --%&gt;</property>
-                            </emphasis>) which are not output to the client as part of the JSP page
+                        <para>JSP comments (<code diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                               &lt;%-- --%&gt;
+                            </diffmk:wrapper></code>) which are not output to the client as part of the JSP page
                             output</para>
                     </listitem>
                 </itemizedlist>
             </section>
 
-            <section diffmk:change="added" id="codefolding">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Using Code Folding</diffmk:wrapper></title>
-                <para diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> lets you collapse (hide) and expand
-                    (show) sections of your code to make it easier to navigate and read. </diffmk:wrapper></para>
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Code folding can be enabled by right-clicking on the left margin on the Source
-                    part of Visual Page Editor, selecting </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Folding</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and checking
-                    the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Enable Folding</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> checkbox or using the </diffmk:wrapper><emphasis diffmk:change="added">
-                        <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Numpad_Divide</diffmk:wrapper></property>
-                    </emphasis><diffmk:wrapper diffmk:change="added"> shortcut.</diffmk:wrapper></para>
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">When the code folding is enabled a minus sing ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_23c.png"></imagedata>
+            <section id="codefolding">
+                <title>Using Code Folding</title>
+                <para>
+                    <property moreinfo="none">Visual Page Editor</property> lets you collapse (hide) and expand
+                    (show) sections of your code to make it easier to navigate and read. </para>
+                <para>Code folding can be enabled by right-clicking on the left margin on the Source
+                    part of Visual Page Editor, selecting <property moreinfo="none">Folding</property> and checking
+                    the <property moreinfo="none">Enable Folding</property> checkbox or using the <emphasis>
+                        <property moreinfo="none">Ctrl+Numpad_Divide</property>
+                    </emphasis> shortcut.</para>
+                <para>When the code folding is enabled a minus sing ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_23c.png"></imagedata>
                         </imageobject>
-                    </inlinemediaobject><diffmk:wrapper diffmk:change="added"> ) will appear on the left margin of the editor next to each
-                    opening block tag. </diffmk:wrapper></para>
+                    </inlinemediaobject> ) will appear on the left margin of the editor next to each
+                    opening block tag. </para>
 
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Enabled Code Folding </diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_24a.png"></imagedata>
+                <figure float="0">
+                    <title>Enabled Code Folding </title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_24a.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
 
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Click the minus sign to collapse a block tag.</diffmk:wrapper></para>
+                <para>Click the minus sign to collapse a block tag.</para>
 
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">When the minus sing is clicked on the appropriate tag collapses and a plus
-                    sing ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_23d.png"></imagedata>
+                <para>When the minus sing is clicked on the appropriate tag collapses and a plus
+                    sing ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_23d.png"></imagedata>
                         </imageobject>
-                    </inlinemediaobject><diffmk:wrapper diffmk:change="added"> ) is displayed on the left margin as well as a gray
-                    rectangle two dots ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_23e.png"></imagedata>
+                    </inlinemediaobject> ) is displayed on the left margin as well as a gray
+                    rectangle two dots ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_23e.png"></imagedata>
                         </imageobject>
-                    </inlinemediaobject><diffmk:wrapper diffmk:change="added"> ) appears after opening and closing tags. </diffmk:wrapper></para>
+                    </inlinemediaobject> ) appears after opening and closing tags. </para>
 
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Collapsed Code</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_24b.png"></imagedata>
+                <figure float="0">
+                    <title>Collapsed Code</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_24b.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1175,16 +1173,16 @@
                 <title>Support for Taglib versions</title>
 
                 <para>VPE templates now support various versions of tag libraries. It means that the
-                        <property moreinfo="none">VPE</property><diffmk:wrapper diffmk:change="changed"> takes control over those components which have
+                        <property moreinfo="none">VPE</property> takes control over those components which have
                     different parameters or preview according to the framework version (like seam
-                    1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</diffmk:wrapper></para>
+                    1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
 
-                <para>For example, <emphasis>
-                        <property moreinfo="none">&lt;s:decorate&gt;</property>
-                    </emphasis> element in seam has different parameters in versions 1.2 and 2.0 as
-                    well as <emphasis>
-                        <property moreinfo="none">&lt;h:outputLink&gt;</property>
-                    </emphasis> JSF element has different preview in versions 1.1 and 1.2.</para>
+                <para>For example, <code diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                        &lt;s:decorate&gt;
+                    </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> element in seam has different parameters in versions 1.2 and 2.0 as
+                    well as 
+                        </diffmk:wrapper><code diffmk:change="added">&lt;h:outputLink&gt;</code><diffmk:wrapper diffmk:change="added">
+                     JSF element has different preview in versions 1.1 and 1.2.</diffmk:wrapper></para>
             </section>
         </section>
 
@@ -1247,8 +1245,8 @@
                 <para>The pages you are working with in <property moreinfo="none">VPE</property> can use external
                     stylesheets. <property moreinfo="none">VPE</property> allows you to create new style classes in
                     existing stylesheets and/or edit them as well. For these purposes <property moreinfo="none">CSS
-                        Style Class Dialog</property><diffmk:wrapper diffmk:change="added"> is provided (hot keys - </diffmk:wrapper><emphasis diffmk:change="added">
-                            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">CTRL+SHIT+C</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">).</diffmk:wrapper></emphasis></para>
+                        Style Class Dialog</property> is provided (hot keys - <emphasis>
+                            <property moreinfo="none">CTRL+SHIT+C</property>).</emphasis></para>
                 <para>Select the element for which you need to create or edit style class and press
                     button next to <emphasis>
                         <property moreinfo="none">styleClass</property>
@@ -1273,8 +1271,8 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para><diffmk:wrapper diffmk:change="changed">First, you should specify the CSS file where you are going to put your style
-                    class. Do this by pressing the button next to the </diffmk:wrapper><emphasis>
+                <para>First, you should specify the CSS file where you are going to put your style
+                    class. Do this by pressing the button next to the <emphasis>
                         <property moreinfo="none">CSS file</property>
                     </emphasis> field.</para>
                 <figure float="0">
@@ -1295,7 +1293,7 @@
                     <emphasis>
                         <property moreinfo="none">Boxes</property>, </emphasis>
                     <emphasis>
-                        <property moreinfo="none">Property Sheet</property>. </emphasis><diffmk:wrapper diffmk:change="added">The list of already exisiting classes with names begining with the symbols printed will be displayed on standard "Ctrl+Space" key combination. To add existing styling to
+                        <property moreinfo="none">Property Sheet</property>. </emphasis><diffmk:wrapper diffmk:change="added">The list of already existing classes with names beginning with the symbols printed will be displayed on standard "Ctrl+Space" key combination. To add existing styling to
                     the chosen element just point to the
                     necessary one. Each time you select any class it is displayed in the Preview tab. Click on the </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Apply</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> button will apply the changes without closing the window.</diffmk:wrapper></para>
 
@@ -1308,13 +1306,13 @@
                     </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><emphasis>
-                        <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Edited properties</diffmk:wrapper></property>
-                    </emphasis><diffmk:wrapper diffmk:change="changed"> tab gives a preview of the properties which are set for the existing
-                    style class. You can easily modify them with the help of this wizard.</diffmk:wrapper></para>
+                <para>The <emphasis>
+                        <property moreinfo="none">Edited properties</property>
+                    </emphasis> tab gives a preview of the properties which are set for the existing
+                    style class. You can easily modify them with the help of this wizard.</para>
 
                 <figure float="0">
-                    <title><diffmk:wrapper diffmk:change="changed">Edited Properties</diffmk:wrapper></title>
+                    <title>Edited Properties</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/visual_page_21.png"></imagedata>
@@ -1322,39 +1320,39 @@
                     </mediaobject>
                 </figure>
                 
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If the style class isn't chosen, the tab doesn't show any properties.</diffmk:wrapper></para>
+                <para>If the style class isn't chosen, the tab doesn't show any properties.</para>
                 
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Edited Properties</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/edited_properties.png"></imagedata>
+                <figure float="0">
+                    <title>Edited Properties</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/edited_properties.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
                 
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><emphasis diffmk:change="added">
-                        <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Preview tab</diffmk:wrapper></property>
-                    </emphasis><diffmk:wrapper diffmk:change="added"> is for observing the content of the chosen CSS file. This tab is hidden if no CSS file is chosen.</diffmk:wrapper></para>
+                <para>The <emphasis>
+                        <property moreinfo="none">Preview tab</property>
+                    </emphasis> is for observing the content of the chosen CSS file. This tab is hidden if no CSS file is chosen.</para>
 
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Preview Tab</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/preview_tab.png"></imagedata>
+                <figure float="0">
+                    <title>Preview Tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/preview_tab.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="changed">At the top of the </diffmk:wrapper><property moreinfo="none">CSS Style Class Dialog</property><diffmk:wrapper diffmk:change="added">
-                    you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use </diffmk:wrapper><emphasis diffmk:change="added">
-                        <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + Tab</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis></para>
+                <para>At the top of the <property moreinfo="none">CSS Style Class Dialog</property>
+                    you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <emphasis>
+                        <property moreinfo="none">Ctrl + Tab</property>.</emphasis></para>
                 
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Editing the Preview</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/preview_box.png"></imagedata>
+                <figure float="0">
+                    <title>Editing the Preview</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/preview_box.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
@@ -1444,38 +1442,38 @@
             <title>Advanced Settings</title>
 
             <para>In the left vertical pane of the Visual part there are three buttons: <emphasis>
-                    <property moreinfo="none">Preferences</property></emphasis><diffmk:wrapper diffmk:change="added">
+                    <property moreinfo="none">Preferences</property></emphasis>
                 (
-                </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/visual_page/icon_1.png"></imagedata>
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_1.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject><diffmk:wrapper diffmk:change="added">
+                </inlinemediaobject>
                 ),
                 
                 
                 
                 
-                </diffmk:wrapper><emphasis>
+                <emphasis>
                     <property moreinfo="none">Refresh</property>
-                </emphasis><diffmk:wrapper diffmk:change="added">
+                </emphasis>
                 (
-                </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/visual_page/icon_2.png"></imagedata>
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_2.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject><diffmk:wrapper diffmk:change="added">
+                </inlinemediaobject>
                 )
-         and </diffmk:wrapper><emphasis>
-                    <property moreinfo="none">Page Design Options</property> </emphasis><diffmk:wrapper diffmk:change="added">( 
-                    </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/visual_page/icon_3.png"></imagedata>
+         and <emphasis>
+                    <property moreinfo="none">Page Design Options</property> </emphasis>( 
+                    <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/icon_3.png"></imagedata>
                         </imageobject>
-                    </inlinemediaobject><diffmk:wrapper diffmk:change="added">
+                    </inlinemediaobject>
                     )
                     
-                    .</diffmk:wrapper></para>
+                    .</para>
 
             <figure float="0">
                 <title>Buttons on the Visual Part of VPE</title>
@@ -1490,20 +1488,20 @@
                 <listitem id="vpe_preferences">
                     <para><emphasis>
                             <property moreinfo="none">Preferences</property>
-                    </emphasis><diffmk:wrapper diffmk:change="added"> button
+                    </emphasis> button
                         (
-                        </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/visual_page/icon_1.png"></imagedata>
+                        <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_1.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">
+                        </inlinemediaobject>
                         )
                         
                         
                         
                         
                         
-                        provides a quick access to </diffmk:wrapper><property moreinfo="none">Visual Page
+                        provides a quick access to <property moreinfo="none">Visual Page
                             Editor</property> preferences.</para>
 
                     <figure float="0">
@@ -1519,15 +1517,15 @@
                 <listitem>
                     <para>Clicking on <emphasis>
                             <property moreinfo="none">Refresh</property>
-                    </emphasis><diffmk:wrapper diffmk:change="added"> button 
+                    </emphasis> button 
                         
                         
                         (
-                        </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/visual_page/icon_2.png"></imagedata>
+                        <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_2.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">
+                        </inlinemediaobject>
                         ) 
                         
                         
@@ -1536,30 +1534,30 @@
                         
                         
                         
-                        you refresh the displayed information.</diffmk:wrapper></para>
+                        you refresh the displayed information.</para>
                 </listitem>
 
                 <listitem>
                     <para><emphasis>
                             <property moreinfo="none">Page Design Options</property>
-                    </emphasis><diffmk:wrapper diffmk:change="added"> button 
+                    </emphasis> button 
                         ( 
-                        </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/visual_page/icon_3.png"></imagedata>
+                        <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_3.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">
+                        </inlinemediaobject>
                         )
                         
                         
                         leads to a window which helps you  specify necessary
                         references of the resources. It is represented by a window with 4 tabs. The
-                        first one, </diffmk:wrapper><emphasis diffmk:change="added">
-                            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Actual Run-Time folders</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">,
-                        </diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="changed"> is used to replace absolute and relative path values when
-                        generating a preview: </diffmk:wrapper></para>
+                        first one, <emphasis>
+                            <property moreinfo="none">Actual Run-Time folders</property>,
+                        </emphasis> is used to replace absolute and relative path values when
+                        generating a preview: </para>
                     <figure float="0">
-                        <title><diffmk:wrapper diffmk:change="changed">Page Design Options: Actual Run-Time folders</diffmk:wrapper></title>
+                        <title>Page Design Options: Actual Run-Time folders</title>
                         <mediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/visual_page_10.png"></imagedata>
@@ -1568,16 +1566,16 @@
                     </figure>
 
 
-                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The second tab, </diffmk:wrapper><emphasis diffmk:change="added">
-                            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Included CSS files</diffmk:wrapper></property>
-                        </emphasis><diffmk:wrapper diffmk:change="added">, is used to add CSS files to be linked by Visual Page Editor
-                        when generating a preview:</diffmk:wrapper></para>
+                    <para>The second tab, <emphasis>
+                            <property moreinfo="none">Included CSS files</property>
+                        </emphasis>, is used to add CSS files to be linked by Visual Page Editor
+                        when generating a preview:</para>
 
-                    <figure diffmk:change="added" float="0">
-                        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Page Design Options: Included CSS files</diffmk:wrapper></title>
-                        <mediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_10_2.png"></imagedata>
+                    <figure float="0">
+                        <title>Page Design Options: Included CSS files</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_10_2.png"></imagedata>
                             </imageobject>
                         </mediaobject>
                     </figure>
@@ -1585,36 +1583,36 @@
 
 
 
-                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The third one, </diffmk:wrapper><emphasis diffmk:change="added">
-                            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Included tag libs</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">, can be used to add Taglibs that can be used by the editor for
-                        getting appropriate templates to generate a preview:</diffmk:wrapper></para>
+                    <para>The third one, <emphasis>
+                            <property moreinfo="none">Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
+                        getting appropriate templates to generate a preview:</para>
 
-                    <figure diffmk:change="added" float="0">
-                        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Page Design Options: Included tag libs</diffmk:wrapper></title>
-                        <mediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_10_3.png"></imagedata>
+                    <figure float="0">
+                        <title>Page Design Options: Included tag libs</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_10_3.png"></imagedata>
                             </imageobject>
                         </mediaobject>
                     </figure>
 
-                    <para><diffmk:wrapper diffmk:change="added">And finally, the </diffmk:wrapper><emphasis diffmk:change="added">
-                            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Substituted El expressions</diffmk:wrapper></property>
-                        </emphasis><diffmk:wrapper diffmk:change="added"> tab is used to add El expressions that will be substituted by
-                        the editor when generating a preview:</diffmk:wrapper></para>
+                    <para id="el_exp_para">And finally, the <emphasis>
+                            <property moreinfo="none">Substituted El expressions</property>
+                        </emphasis> tab is used to add El expressions that will be substituted by
+                        the editor when generating a preview:</para>
 
-                    <figure diffmk:change="added" float="0">
-                        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Page Design Options: Substituted El expressions</diffmk:wrapper></title>
-                        <mediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_10_4.png"></imagedata>
+                    <figure float="0">
+                        <title>Page Design Options: Substituted El expressions</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_10_4.png"></imagedata>
                             </imageobject>
                         </mediaobject>
                     </figure>
 
 
-                    <para><diffmk:wrapper diffmk:change="changed">The first two tabs of the window let you define actual runtime folders.
-                        The example below will help you understand how this can be done.</diffmk:wrapper></para>
+                    <para>The first two tabs of the window let you define actual runtime folders.
+                        The example below will help you understand how this can be done.</para>
 
                     <para>Suppose you have the following project structure:</para>
 
@@ -1649,8 +1647,8 @@
                             pages'</emphasis> and you will see the image appeared.</para>
                     <para></para>
 
-                    <para><diffmk:wrapper diffmk:change="changed">Let' consider an example for other tabs. For instance, the
-                        definition of your CSS on the page is the next:</diffmk:wrapper></para>
+                    <para>Let' consider an example for other tabs. For instance, the
+                        definition of your CSS on the page is the next:</para>
 
                     <programlisting format="linespecific" role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
     href="#{facesContext.externalContext.requestContextPath}/style.css"/>
@@ -2278,11 +2276,9 @@
         </section>
     </section>
 
-</section>
+</chapter>
 
-
- 
-</chapter>    
+    
 <chapter id="palette" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/palette.xml" xreflabel="palette">
     <?dbhtml filename="palette.html"?>
     <chapterinfo>
@@ -2845,100 +2841,101 @@
 </chapter>
 
     
-<chapter diffmk:change="added" id="richfaces_support" role="new" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/richfaces_support.xml" xreflabel="richfaces_support">
-    <chapterinfo diffmk:change="added">
-        <keywordset diffmk:change="added">
-            <keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio</diffmk:wrapper></keyword>
-            <keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBDS</diffmk:wrapper></keyword>
-            <keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">RichFaces</diffmk:wrapper></keyword>
+<chapter id="richfaces_support" role="new" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/richfaces_support.xml" xreflabel="richfaces_support">
+    <?dbhtml filename="editors.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>JBDS</keyword>
+            <keyword>RichFaces</keyword>
         </keywordset>
     </chapterinfo>
     
     <title>RichFaces Support</title>
     
-    <para><property moreinfo="none">JBoss Developer Studio</property> comes with a tight integration with <ulink url="http://labs.jboss.com/jbossrichfaces/">RichFaces component framework</ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+    <para><property moreinfo="none">JBoss Developer Studio</property> comes with a tight integration with <ulink url="http://labs.jboss.com/jbossrichfaces/">RichFaces component framework</ulink>.</para>
     
-    <note diffmk:change="added">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note:</diffmk:wrapper></title>
-        <para diffmk:change="added"><ulink diffmk:change="added" url="http://www.jboss.org/jbossrichfaces/downloads/"><diffmk:wrapper diffmk:change="added">RichFaces
-            3.3</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> is fully supported in the current version of </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> (i. e. 2.0.0.GA) and </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools 3.0.0.GA</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+    <note>
+        <title>Note:</title>
+        <para><ulink url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces
+            3.3</ulink> is fully supported in the current version of <property moreinfo="none">JBoss Developer Studio</property><diffmk:wrapper diffmk:change="changed"> (i. e. 2.0.1.GA) and </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">JBoss Tools 3.0.1.GA</diffmk:wrapper></property>.</para>
     </note>
     
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The following features are implemented and fully supported for the current version of the RichFaces components:</diffmk:wrapper></para>
+    <para>The following features are implemented and fully supported for the current version of the RichFaces components:</para>
     
-    <itemizedlist diffmk:change="added">
-        <listitem diffmk:change="added"><para diffmk:change="added"><link diffmk:change="added" linkend="ContentAssistForRF"><diffmk:wrapper diffmk:change="added">Content Assist</diffmk:wrapper></link></para></listitem>
-        <listitem diffmk:change="added"><para diffmk:change="added"><link diffmk:change="added" linkend="RF_openOn"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></link></para></listitem>
-        <listitem diffmk:change="added"><para diffmk:change="added"><link diffmk:change="added" linkend="RF_in_palette"><diffmk:wrapper diffmk:change="added">Representing in JBoss Tools Palette</diffmk:wrapper></link></para></listitem>
+    <itemizedlist>
+        <listitem><para><link linkend="ContentAssistForRF">Content Assist</link></para></listitem>
+        <listitem><para><link linkend="RF_openOn">OpenOn</link></para></listitem>
+        <listitem><para><link linkend="RF_in_palette">Representing in JBoss Tools Palette</link></para></listitem>
      </itemizedlist>
     
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">All you have to do is to </diffmk:wrapper><ulink diffmk:change="added" url="http://www.jboss.org/jbossrichfaces/downloads/"><diffmk:wrapper diffmk:change="added">download</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> and install RichFaces libraries into your
-        project, i. e. just put </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">richfaces-*.jar</diffmk:wrapper></property>
-        </emphasis><diffmk:wrapper diffmk:change="added"> files into the </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">/lib</diffmk:wrapper></property>
-        </emphasis><diffmk:wrapper diffmk:change="added"> project folder. Also how to get started with </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">RichFaces</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> you can find in </diffmk:wrapper><ulink diffmk:change="added" url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html#GettingStarted"><diffmk:wrapper diffmk:change="added">RichFaces documentation</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+    <para>All you have to do is to <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">download</ulink> and install RichFaces libraries into your
+        project, i. e. just put <emphasis>
+            <property moreinfo="none">richfaces-*.jar</property>
+        </emphasis> files into the <emphasis>
+            <property moreinfo="none">/lib</property>
+        </emphasis> project folder. Also how to get started with <property moreinfo="none">RichFaces</property> you can find in <ulink url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html#GettingStarted">RichFaces documentation</ulink>.</para>
     
-    <section diffmk:change="added" id="ContentAssistForRF">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Code Assist for RichFaces</diffmk:wrapper></title>
+    <section id="ContentAssistForRF">
+        <title>Code Assist for RichFaces</title>
         
-        <para diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBDS/JBoss Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> indeed provide code completion for </diffmk:wrapper><ulink diffmk:change="added" url="http://www.jboss.org/jbossrichfaces"><diffmk:wrapper diffmk:change="added">RichFaces</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> framework
-            components.</diffmk:wrapper></para>
+        <para><property moreinfo="none">JBDS/JBoss Tools</property> indeed provide code completion for <ulink url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework
+            components.</para>
         
-        <tip diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tip:</diffmk:wrapper></title>
+        <tip>
+            <title>Tip:</title>
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">RichFaces 3.3 is now fully supported in code completion.</diffmk:wrapper></para>
+            <para>RichFaces 3.3 is now fully supported in code completion.</para>
         </tip>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for RichFaces Components</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_29.png" scale="65"></imagedata>
+        <figure float="0">
+            <title>Content Assist for RichFaces Components</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/editors_features/editors_features_29.png" scale="65"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
         
     </section>
     
-    <section diffmk:change="added" id="RF_openOn">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn for RichFaces</diffmk:wrapper></title>
+    <section id="RF_openOn">
+        <title>OpenOn for RichFaces</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Working with </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.jsp/.xhtml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> pages in </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">VPE</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> you can also take the advantage of </diffmk:wrapper><emphasis diffmk:change="added">
-                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> feature for the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">RichFaces</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> components.</diffmk:wrapper></para>
+        <para>Working with <emphasis>
+            <property moreinfo="none">.jsp/.xhtml</property></emphasis> pages in <property moreinfo="none">VPE</property> you can also take the advantage of <emphasis>
+                <property moreinfo="none">OpenOn</property></emphasis> feature for the <property moreinfo="none">RichFaces</property> components.</para>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For example, </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Richfaces</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> tags </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;rich:insert&gt;</diffmk:wrapper></property>
-        </emphasis><diffmk:wrapper diffmk:change="added"> and </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;a4j:include&gt;</diffmk:wrapper></property>
-        </emphasis><diffmk:wrapper diffmk:change="added"> has </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> support.</diffmk:wrapper></para>
+        <para>For example, <property moreinfo="none">Richfaces</property><diffmk:wrapper diffmk:change="added"> tags 
+            </diffmk:wrapper><code diffmk:change="added">&lt;rich:insert&gt;</code><diffmk:wrapper diffmk:change="added">
+         and </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+            &lt;a4j:include&gt;&gt;</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added">
+        has </diffmk:wrapper><property moreinfo="none">OpenOn</property> support.</para>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn With Richfaces Tag</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_8a.png"></imagedata>
+        <figure float="0">
+            <title>OpenOn With Richfaces Tag</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/editors_features/editors_features_8a.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn With A4j Tag</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_8b.png"></imagedata>
+        <figure float="0">
+            <title>OpenOn With A4j Tag</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/editors_features/editors_features_8b.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
     </section>
     
-    <section diffmk:change="added" id="RF_in_palette">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">RichFaces in the JBoss Tools Palette</diffmk:wrapper></title>
+    <section id="RF_in_palette">
+        <title>RichFaces in the JBoss Tools Palette</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">RichFaces and Ajax4jsf tag libraries always exist in </diffmk:wrapper><link linkend="palette">JBoss Tools
-            Palette</link><diffmk:wrapper diffmk:change="changed">.</diffmk:wrapper></para>
+        <para><diffmk:wrapper diffmk:change="changed">RichFaces and</diffmk:wrapper><link linkend="palette">JBoss Tools
+            Palette</link>.</para>
         
         <figure float="0">
             <title>RichFaces Components</title>
@@ -2949,45 +2946,45 @@
             </mediaobject>
         </figure>
       
-        <para><diffmk:wrapper diffmk:change="changed">To insert a </diffmk:wrapper><property moreinfo="none">RichFaces</property><diffmk:wrapper diffmk:change="added"> component on a page:</diffmk:wrapper></para>
-        <itemizedlist diffmk:change="added">
-            <listitem diffmk:change="added">
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">expand </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">JBoss RichFaces</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="added"> group on the palette</diffmk:wrapper></para>
+        <para>To insert a <property moreinfo="none">RichFaces</property> component on a page:</para>
+        <itemizedlist>
+            <listitem>
+                <para>expand <emphasis>
+                    <property moreinfo="none">JBoss RichFaces</property>
+                </emphasis> group on the palette</para>
             </listitem>
             
-            <listitem diffmk:change="added">
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">click on some component</diffmk:wrapper></para>
+            <listitem>
+                <para>click on some component</para>
             </listitem>
             
-            <listitem diffmk:change="added">
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">put the needed attributes in the </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Insert Tag</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="changed"> dialog and click </diffmk:wrapper><emphasis>
-                    <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Finish</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="changed"> button 
-                </diffmk:wrapper></para>
+            <listitem>
+                <para>put the needed attributes in the <emphasis>
+                    <property moreinfo="none">Insert Tag</property>
+                </emphasis> dialog and click <emphasis>
+                    <property moreinfo="none">Finish</property>
+                </emphasis> button 
+                </para>
             </listitem>
         </itemizedlist>
         
-                    <figure diffmk:change="added" float="0">
-                    <title><diffmk:wrapper diffmk:change="changed">Inserting Tag</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_30.png" scale="75"></imagedata>
+                    <figure float="0">
+                    <title>Inserting Tag</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_30.png" scale="75"></imagedata>
                         </imageobject>
                     </mediaobject>
                     </figure>
                     
-        <para><diffmk:wrapper diffmk:change="changed">The </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">RichFaces</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> component will be inserted on your page and displayed in source and visual
-        modes:</diffmk:wrapper></para>
+        <para>The <property moreinfo="none">RichFaces</property> component will be inserted on your page and displayed in source and visual
+        modes:</para>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">RichFaces Component</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_31.png" scale="75"></imagedata>
+        <figure float="0">
+            <title>RichFaces Component</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/editors_features/editors_features_31.png" scale="75"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -2997,8 +2994,8 @@
     <section>
         <title>Relevant Resources Links</title>
         
-        <para><diffmk:wrapper diffmk:change="added">To get more in-depth information on </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">RichFaces</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> framework refer to </diffmk:wrapper><ulink diffmk:change="added" url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html"><diffmk:wrapper diffmk:change="added">RichFaces Developer Guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">It may be also helpful for you to look through the </diffmk:wrapper><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/"><diffmk:wrapper diffmk:change="added">movies</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> where there are ones that demonstrate the usage of RichFaces components.</diffmk:wrapper></para>
+        <para>To get more in-depth information on <property moreinfo="none">RichFaces</property> framework refer to <ulink url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html">RichFaces Developer Guide</ulink>.</para>
+        <para>It may be also helpful for you to look through the <ulink url="http://docs.jboss.org/tools/movies/">movies</ulink> where there are ones that demonstrate the usage of RichFaces components.</para>
     </section>
 </chapter>
     
@@ -3071,7 +3068,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-    <para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <emphasis><property moreinfo="none">#{Message.header}</property></emphasis> automatically.</para>
+    <para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <code diffmk:change="added">#{Message.header}</code> automatically.</para>
   <figure float="0">
 <title>Inserted Property</title>
 <mediaobject> 
@@ -3081,7 +3078,7 @@ locate what you are looking for and develop.</para>
 </mediaobject>
 </figure>
 <para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case,
- JBoss Developer Studio will place the complete tag <emphasis><property moreinfo="none">&lt;h:outputText value="#{Message.header}"/&gt;</property></emphasis> in the page.</para>
+ JBoss Developer Studio will place the complete tag <code diffmk:change="added">&lt;h:outputText value="#{Message.header}"/&gt;</code> in the page.</para>
  </section>
 <section id="ForManagedBeanAttributes">
 
@@ -3096,7 +3093,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>Once again, JBoss Developer Studio adds the correct expression, <emphasis>#{user.name}</emphasis>.</para>
+<para>Once again, JBoss Developer Studio adds the correct expression, <code diffmk:change="added">#{user.name}</code>.</para>
 <figure float="0">
 <title>Added Expression</title>
 <mediaobject> 
@@ -3121,7 +3118,7 @@ locate what you are looking for and develop.</para>
 </figure>
 <para>Drag and drop it inside the commandButton tag:</para>
 <figure float="0">
-<title>Naviagation Rule in CommandButton Tag</title>
+<title><diffmk:wrapper diffmk:change="changed">Navigation Rule in CommandButton Tag</diffmk:wrapper></title>
 <mediaobject> 
         <imageobject>
             <imagedata fileref="images/web_projects/web_projects_8.png"></imagedata>
@@ -3204,17 +3201,31 @@ Simply right-click any node in the tree and select an appropriate action from th
 
 <title>Expanding Tag Library Files</title>
 
-<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property moreinfo="none">Expand</property></emphasis>. The TLD file will now be expanded.</para>
+<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Set Expanded</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">:</diffmk:wrapper></para>
+    
+    <figure float="0">
+        <title>Expanding Tag Library File</title>
+        <mediaobject> 
+            <imageobject>
+                <imagedata diffmk:change="added" fileref="images/web_projects/web_projects_15a.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> The TLD file will now be expanded:</diffmk:wrapper></para>
 
-<para>You can then select any tag and drag it onto a JSP page.</para>
-<figure float="0">
-<title>Expanding Tag Library File</title>
-<mediaobject> 
-        <imageobject>
-            <imagedata fileref="images/web_projects/web_projects_15.png"></imagedata>
-        </imageobject>
-</mediaobject>
-</figure>
+    <figure diffmk:change="added" float="0">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Expanded File</diffmk:wrapper></title>
+        <mediaobject diffmk:change="added"> 
+            <imageobject diffmk:change="added">
+                <imagedata diffmk:change="added" fileref="images/web_projects/web_projects_15b.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    
+<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can then select any tag and drag it onto a JSP page.</diffmk:wrapper></para>
+
 </section>
 <section id="DragAndDropTagLibrariesOnToRedHatPalette">
 
@@ -3307,7 +3318,7 @@ buttons below.</para>
 
         <listitem>
             <para>
-                <link linkend="JSFPropject">JSF Propject</link>
+                <link linkend="JSFPropject"><diffmk:wrapper diffmk:change="changed">JSF Project</diffmk:wrapper></link>
             </para>
         </listitem>
 
@@ -3839,7 +3850,7 @@ buttons below.</para>
         </itemizedlist>
 
         <figure float="0">
-            <title>New JSF Propject Preferences</title>
+            <title><diffmk:wrapper diffmk:change="changed">New JSF Project Preferences</diffmk:wrapper></title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_13.png"></imagedata>
@@ -3856,7 +3867,7 @@ buttons below.</para>
             </emphasis> or not.</para>
 
         <figure float="0">
-            <title>Import JSF Propject Preferences</title>
+            <title><diffmk:wrapper diffmk:change="changed">Import JSF Project Preferences</diffmk:wrapper></title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_14.png"></imagedata>
@@ -3984,6 +3995,31 @@ buttons below.</para>
             </mediaobject>
         </figure>
     </section>
+    
+    <section diffmk:change="added" id="SeamPagesDiagram">
+        <?dbhtml filename="SeamPagesDiagram.html"?>
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages Diagram</diffmk:wrapper></title>
+        
+        
+        
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In order to customize the layout of the Diagram used for editing and composing </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">page.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> file in </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Graphical mode</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">  of </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Seam Pages Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">    you can go to  
+            </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Window &gt; Preferences &gt; JBoss Tools &gt; Web &gt; Seam &gt; Editors &gt; Seam Pages Diagram</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.
+        </diffmk:wrapper></para>
+        
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Preferences of Seam Pages Diagram</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/preferences/preferences_44.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+    </section>
+    
+    
+    
+    
 
     <section id="Struts">
         <?dbhtml filename="Struts.html"?>
@@ -4006,8 +4042,8 @@ buttons below.</para>
         <title>Struts Automation</title>
         <para>On <emphasis>
                 <property moreinfo="none">Automation</property>
-            </emphasis> panel you can modify default text for the Tilel Struts plug-in element, the
-            Validator Struts plug-in element, and error message resource files.</para>
+            </emphasis><diffmk:wrapper diffmk:change="changed"> panel you can modify default text for the Title Struts plug-in element, the
+            Validator Struts plug-in element, and error message resource files.</diffmk:wrapper></para>
         <figure float="0">
             <title>Struts Automatic</title>
             <mediaobject>
@@ -4201,7 +4237,7 @@ buttons below.</para>
                 <property moreinfo="none">JBoss Tools &gt; Web &gt; Verification</property>
             </emphasis> page.</para>
         <para>On Rules Configuration tab of <emphasis>
-                <property moreinfo="none">Verifcation</property>
+                <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Verification</diffmk:wrapper></property>
             </emphasis> panel you can determine JSF and Struts rules.</para>
         <figure float="0">
             <title>Verification</title>
@@ -4472,4 +4508,57 @@ buttons below.</para>
         </figure>
     </section>
 -->
+</chapter>
+ 
+    
+<chapter diffmk:change="added" id="vwt_faq" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/vwt_faq.xml" xreflabel="vwt_faq">
+    <?dbhtml filename="vwt_faq.html"?>
+    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">FAQ</diffmk:wrapper></title>
+
+    <section diffmk:change="added" id="question_1">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">What should I do if Visual Page Editor does not start under Linux?</diffmk:wrapper></title>
+        
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> The </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> requires the library libstdc++.so.5. This library is
+            contained in the compat-libstdc++-33.i386 package.</diffmk:wrapper></para>
+        
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To install this package on Fedora Core or Red Hat Enterprise Linux run the
+                    following command:</diffmk:wrapper></para>
+                <programlisting diffmk:change="added" format="linespecific" role="JAVA"><diffmk:wrapper diffmk:change="added"><![CDATA[yum install compat-libstdc++-33.i386
+]]></diffmk:wrapper></programlisting>
+            </listitem>  
+            
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On any other rpm based distributions download libstdc++.so.5 and run the
+                    following command:</diffmk:wrapper></para>
+                <programlisting diffmk:change="added" format="linespecific" role="JAVA"><diffmk:wrapper diffmk:change="added"><![CDATA[rpm -Uvh compat-libstdc++-33.i386
+]]></diffmk:wrapper></programlisting>
+            </listitem>
+            
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On Debian based distributives run the following command: </diffmk:wrapper></para>
+                <programlisting diffmk:change="added" format="linespecific" role="JAVA"><diffmk:wrapper diffmk:change="added"><![CDATA[apt-get install compat-libstdc++-33.i386
+]]></diffmk:wrapper></programlisting>
+            </listitem>     
+        </itemizedlist>
+        
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> In case you have the library installed and you still have issue with starting the
+            </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> then close all browser views/editors and leave one </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page
+            Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> open and restart eclipse. This should force a load of the right XULRunner
+            viewer.</diffmk:wrapper></para>
+    </section>
+    
+    <section diffmk:change="added" id="question_2">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">How do I change the auto-formating preferences for the Visual Page Editor?</diffmk:wrapper></title>
+
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss HTML/JSP editor uses basic eclipse HTML formatter to format files. So if you
+            want to change preferences of formatter for the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, you should change it
+            for eclipse html editor (open </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Window &gt;
+                Preferences</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">,</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> then choose </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Web &gt; HTML Files &gt; Editor</diffmk:wrapper></property>
+            </emphasis><diffmk:wrapper diffmk:change="added">).</diffmk:wrapper></para>
+    </section>
+
+
 </chapter></book>

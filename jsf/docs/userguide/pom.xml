@@ -15,9 +15,9 @@
 			<id>release</id>
 			<properties>
 				<master>master_output.xml</master>
-				<xsl-single>classpath:/xslt/org/jboss/tools/xhtml-single-release.xsl</xsl-single>
-				<xsl-chunked>classpath:/xslt/org/jboss/tools/xhtml-release.xsl</xsl-chunked>
-				<xsl-pdf>classpath:/xslt/org/jboss/tools/pdf.xsl</xsl-pdf>
+				<xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-release.xsl</xsl-single>
+				<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-release.xsl</xsl-chunked>
+				<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
 			</properties>
 		</profile>
         <profile>
@@ -34,9 +34,9 @@
 			<id>diffmk</id>
 			<properties>
 				<master>master_output.xml</master>
-				<xsl-single>classpath:/xslt/org/jboss/tools/xhtml-single-diff.xsl</xsl-single>
-				<xsl-chunked>classpath:/xslt/org/jboss/tools/xhtml-diff.xsl</xsl-chunked>
-				<xsl-pdf>classpath:/xslt/org/jboss/tools/pdf-diff.xsl</xsl-pdf>
+				<xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-diff.xsl</xsl-single>
+				<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-diff.xsl</xsl-chunked>
+				<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf-diff.xsl</xsl-pdf>
 			</properties>
 		</profile>
 	</profiles>
@@ -134,9 +134,9 @@
 
     <properties>
         <stylesdir>../../../documentation/jbosstools-docbook-xslt/src/main/resources/</stylesdir>
-        <xsl-single>classpath:/xslt/org/jboss/tools/xhtml-single.xsl</xsl-single>
-	<xsl-chunked>classpath:/xslt/org/jboss/tools/xhtml.xsl</xsl-chunked>
-	<xsl-pdf>classpath:/xslt/org/jboss/tools/pdf.xsl</xsl-pdf>
+        <xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single.xsl</xsl-single>
+	<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml.xsl</xsl-chunked>
+	<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
         <cssdir>../../../documentation/jbosstools-jdocbook-style/src/main/com/css/</cssdir>
 	<master>master.xml</master>
         <translation>en-US</translation>

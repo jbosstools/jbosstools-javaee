@@ -35,12 +35,12 @@
         <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <year><diffmk:wrapper diffmk:change="changed">2009</diffmk:wrapper></year>
-            <holder><diffmk:wrapper diffmk:change="changed">JBoss, a division of Red Hat</diffmk:wrapper></holder>
+            <year>2009</year>
+            <holder>JBoss, a division of Red Hat</holder>
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.0.0.GA
+            Version: 3.0.1.GA
             </diffmk:wrapper></releaseinfo>
 
 
@@ -83,8 +83,8 @@
   
   <section>
     <title>Other relevant resources on the topic</title>
-    <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
-    <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+    <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at</diffmk:wrapper><diffmk:wrapper diffmk:change="changed">http://docs.jboss.org/tools</diffmk:wrapper><diffmk:wrapper diffmk:change="changed"> in the corresponding release directory.</diffmk:wrapper></para>
+    <para><diffmk:wrapper diffmk:change="changed">The latest documentation builds are available at </diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/nightly-docs/"><diffmk:wrapper diffmk:change="changed">http://download.jboss.org/jbosstools/nightly-docs</diffmk:wrapper></ulink>.</para>
   </section>
   
 </chapter>
@@ -260,19 +260,15 @@
         <title>Creating the Transition (Navigation Rule)</title>
         <itemizedlist>
             <listitem>
-                <para>In the diagram, select the connection icon third from the top along
-                    the upper left side of the diagram</para>
+                <para><diffmk:wrapper diffmk:change="added">In the diagram, select the connection icon third from the top along
+                    the upper left side of the diagram (</diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                        <imageobject>
+                            <imagedata fileref="images/jsf_application/jsf_application_3.png"></imagedata>
+                        </imageobject>
+                    </inlinemediaobject><diffmk:wrapper diffmk:change="added">) to get an arrow cursor with a two-pronged plug at the arrow's bottom.</diffmk:wrapper></para>
             </listitem>
         </itemizedlist>
-        <figure float="0">
-            <title>Connection Icon</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_application/jsf_application_3.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>to get an arrow cursor with a two-pronged plug at the arrow's bottom.</para>
+           
         <itemizedlist>
             <listitem>
                 <para>Click on the <emphasis>
@@ -300,10 +296,10 @@
             </listitem>
         </itemizedlist>
     </section>
-    
+   
 </chapter>
     
-<chapter id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
+<chapter diffmk:change="added" id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
     <?dbhtml filename="adding_managed_bean.html"?>
     <chapterinfo>
         <keywordset>
@@ -548,7 +544,7 @@
 <body>
 <f:view>
 <h:form id="greeting">
-<para>Please enter a name:</para>
+Please enter name:
 <h:inputText id="name" value="#{personBean.name}"/>
 <h:commandButton value=" Say Hello " action="greeting"/>
 </h:form>
@@ -741,19 +737,16 @@ Hello <h:outputText value="#{personBean.name}"/>!
             </listitem>
             
             <listitem>
-                <para>Click the Run icon or right click your project folder and select <emphasis>
+                <para><diffmk:wrapper diffmk:change="added">Click the Run icon(</diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/jsf_application/jsf_application_10.png"></imagedata>
+                    </imageobject>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">) or right click your project folder and select </diffmk:wrapper><emphasis>
                     <property moreinfo="none">Run As &gt; Run on Server</property>
                 </emphasis>:</para>
             </listitem>
         </itemizedlist>
-        <figure float="0">
-            <title>Run Icon</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_application/jsf_application_10.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
+      
         <para>This is the equivalent of launching the browser and typing <emphasis>
             <property moreinfo="none">http://localhost:8080/jsfHello</property>
         </emphasis> into your browser. Our <property moreinfo="none">JSF application</property> should now
