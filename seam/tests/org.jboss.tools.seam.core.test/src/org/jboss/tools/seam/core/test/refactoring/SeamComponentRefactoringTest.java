@@ -19,7 +19,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 import junit.framework.TestCase;
 
 public class SeamComponentRefactoringTest extends TestCase {
-	static String warProjectName = "RenameComponentWarTestProject";
+	static String warProjectName = "SeamWebWarTestProject";
 	static IProject warProject;
 	static ISeamProject seamWarProject;
 	
@@ -46,34 +46,34 @@ public class SeamComponentRefactoringTest extends TestCase {
 	public void testSeamComponentRename() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 		
-		TestChangeStructure structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/TestComponent.java",
+		TestChangeStructure structure = new TestChangeStructure("/src/action/org/domain/SeamWebWarTestProject/session/TestComponent.java",
 				113, 6, "\"best\"");
 		list.add(structure);
 		
 		structure = new TestChangeStructure("/WebContent/WEB-INF/components.xml",
-				1455, 6, "best");
+				2660, 6, "best");
 		list.add(structure);
 		structure = new TestChangeStructure("/WebContent/WEB-INF/components.xml",
-				2530, 4, "best");
+				2756, 4, "best");
 		list.add(structure);
 		
-		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+		structure = new TestChangeStructure("/src/action/org/domain/SeamWebWarTestProject/session/TestSeamComponent.java",
 				413, 0, "(\"best\")");
 		list.add(structure);
-		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+		structure = new TestChangeStructure("/src/action/org/domain/SeamWebWarTestProject/session/TestSeamComponent.java",
 				436, 11, "@In(\"best\")");
 		list.add(structure);
-		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+		structure = new TestChangeStructure("/src/action/org/domain/SeamWebWarTestProject/session/TestSeamComponent.java",
 				471, 16, "@Factory(\"best\")");
 		list.add(structure);
-		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+		structure = new TestChangeStructure("/src/action/org/domain/SeamWebWarTestProject/session/TestSeamComponent.java",
 				545, 0, "(\"best\")");
 		list.add(structure);
-		structure = new TestChangeStructure("/src/hot/org/domain/renamecomponentwartestproject/session/Authenticator.java",
+		structure = new TestChangeStructure("/src/action/org/domain/SeamWebWarTestProject/session/TestSeamComponent.java",
 				597, 4, "best");
 		list.add(structure);
 		
-		structure = new TestChangeStructure("/RenameComponentWarTestProject/src/hot/seam.properties",
+		structure = new TestChangeStructure("/src/seam.properties",
 				0, 4, "best");
 		list.add(structure);
 		
@@ -81,7 +81,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 				1033, 4, "best");
 		list.add(structure);
 		
-		structure = new TestChangeStructure("/WebContent/test.jsp",
+		structure = new TestChangeStructure("/WebContent/refactoring_test.jsp",
 				227, 4, "best");
 		list.add(structure);
 		
@@ -113,7 +113,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 		JobUtils.waitForIdle();
 		
 		// Test results
-		//assertNull(seamProject.getComponent(componentName));
+		assertNull(seamProject.getComponent(componentName));
 		assertNotNull(seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = seamProject.getProject().getFile(changeStructure.getFileName());

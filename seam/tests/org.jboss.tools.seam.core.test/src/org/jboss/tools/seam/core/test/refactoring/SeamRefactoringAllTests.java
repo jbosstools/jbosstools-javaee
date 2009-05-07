@@ -28,8 +28,8 @@ public class SeamRefactoringAllTests {
 				new String[]{"RefactoringTestProject-war", "RefactoringTestProject-ejb", "RefactoringTestProject-test"}));
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamComponentRefactoringTest.class),
 				"org.jboss.tools.seam.core.test",
-				new String[]{"projects/RenameComponentWarTestProject"},
-				new String[]{"RenameComponentWarTestProject"}));
+				new String[]{"projects/SeamWebWarTestProject"},
+				new String[]{"SeamWebWarTestProject"}));
 		return suite;
 	}
 }

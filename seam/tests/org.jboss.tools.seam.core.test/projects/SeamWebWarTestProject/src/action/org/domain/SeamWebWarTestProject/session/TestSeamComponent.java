@@ -1,4 +1,4 @@
-package org.domain.renamecomponentwartestproject.session;
+package org.domain.SeamWebWarTestProject.session;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -8,8 +8,8 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 
 
-@Name("authenticator")
-public class Authenticator
+@Name("component")
+public class TestSeamComponent
 {
     @Logger Log log;
     

@@ -1,4 +1,4 @@
-package org.domain.renamecomponentwartestproject.session;
+package org.domain.SeamWebWarTestProject.session;
 
 import org.jboss.seam.annotations.*;
 
