@@ -110,7 +110,7 @@ public class SeamELAttributeContentProposalProvider implements
 			
 			List<TextProposal> suggestions = null;
 			try {
-				suggestions = engine.getCompletions(file, null, prefix, position, false, null, 0, contents.length());
+				suggestions = engine.getCompletions(file, null, prefix, position, false, null);
 			} catch (BadLocationException e) {
 				SeamGuiPlugin.getPluginLog().logError(e);
 			}

@@ -47,13 +47,16 @@ import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
@@ -75,7 +78,7 @@ import org.w3c.dom.Element;
  * 
  * @author Jeremy
  */
-public final class SeamELCompletionEngine implements ELCompletionEngine {
+public final class SeamELCompletionEngine implements ELCompletionEngine, ELResolver {
 
 	private static final Image SEAM_EL_PROPOSAL_IMAGE = 
 		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
@@ -84,6 +87,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	
 	ISeamProject project;
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
+
 	/**
 	 * Constructs SeamELCompletionEngine object
 	 */
@@ -91,10 +95,60 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		this.project = project;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELCompletionEngine#getParserFactory()
+	 */
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELResolver#getCompletions(java.lang.String, boolean, int, org.jboss.tools.common.el.core.resolver.ELContext)
+	 */
+	public List<TextProposal> getCompletions(String elString, boolean returnEqualedVariablesOnly, int position, ELContext context) {
+		IDocument document = null;
+		if(context instanceof IPageContext) {
+			IPageContext pageContext = (IPageContext)context;
+			document = pageContext.getDocument();
+		}
+		List<Var> vars = new ArrayList<Var>();
+		Var[] array = context.getVars();
+		for (int i = 0; i < array.length; i++) {
+			vars.add(array[i]);
+		}
+		List<TextProposal> proposals = null;
+		try {
+			 proposals = getCompletions(context.getResource(), document, elString.subSequence(0, elString.length()), position, returnEqualedVariablesOnly, vars);
+		} catch (StringIndexOutOfBoundsException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (BadLocationException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return proposals;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELResolver#resolveELOperand(org.jboss.tools.common.el.core.model.ELExpression, org.jboss.tools.common.el.core.resolver.ELContext, boolean)
+	 */
+	public ELOperandResolveStatus resolveELOperand(ELExpression operand, ELContext context, boolean returnEqualedVariablesOnly) {
+		List<Var> vars = new ArrayList<Var>();
+		Var[] array = context.getVars();
+		for (int i = 0; i < array.length; i++) {
+			vars.add(array[i]);
+		}
+		ELOperandResolveStatus status = null;
+		try {
+			status = resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, vars, context.getVarSearcher());
+		} catch (StringIndexOutOfBoundsException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		} catch (BadLocationException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return status;
+	}
 
 	/**
 	 * Create the list of suggestions. 
@@ -105,8 +159,6 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @param position Offset of the prefix 
 	 * @param vars - 'var' attributes which can be used in this EL. Can be null.
 	 * @param returnEqualedVariablesOnly 'false' if we get proposals for mask  
-	 * @param start  start of relevant region in document
-	 * @param end    end of relevant region in document
 	 *  for example:
 	 *   we have 'variableName.variableProperty', 'variableName.variableProperty1', 'variableName.variableProperty2'  
 	 *   prefix is 'variableName.variableProperty'
@@ -121,7 +173,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	 * @throws StringIndexOutOfBoundsException
 	 */
 	public List<TextProposal> getCompletions(IFile file, IDocument document, CharSequence prefix, 
-			int position, boolean returnEqualedVariablesOnly, List<Var> vars, int start, int end) throws BadLocationException, StringIndexOutOfBoundsException {
+			int position, boolean returnEqualedVariablesOnly, List<Var> vars) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<TextProposal> completions = new ArrayList<TextProposal>();
 		
 		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, vars, new ElVarSearcher(file, this));
@@ -958,52 +1010,6 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 		}
 		return res;
 	}
-			
-
-	private void resolveLastSegment(ELInvocationExpression expr, 
-			List<TypeInfoCollector.MemberInfo> members,
-			List<IJavaElement> res
-			) {
-		List<IJavaElement> javaElements = new ArrayList<IJavaElement>();
-		if(expr.getType() != ELObjectType.EL_ARGUMENT_INVOCATION) {
-			// return filtered methods + properties 
-			List<TypeInfoCollector.MemberInfo> javaElementInfosToFilter = new ArrayList<TypeInfoCollector.MemberInfo>(); 
-			for (TypeInfoCollector.MemberInfo mbr : members) {
-				TypeInfoCollector infos = mbr.getTypeCollector();
-				javaElementInfosToFilter.addAll(infos.getMethods());
-				javaElementInfosToFilter.addAll(infos.getProperties());
-			}
-
-			for (TypeInfoCollector.MemberInfo info : javaElementInfosToFilter) {
-				// We do expect nothing but name for method tokens (No round brackets)
-				String filter = expr.getMemberName();
-				if(filter == null) filter = "";
-
-				// This is used for validation.
-				if (info.getName().equals(filter)) {
-					javaElements.add(info.getJavaElement());
-				} else {
-					if (info instanceof TypeInfoCollector.MethodInfo) {
-						TypeInfoCollector.MethodInfo methodInfo = (TypeInfoCollector.MethodInfo)info;
-						if(methodInfo.isGetter() || methodInfo.isSetter()) {
-							StringBuffer name = new StringBuffer(methodInfo.getName());
-							if(methodInfo.getName().startsWith("i")) { //$NON-NLS-1$
-								name.delete(0, 2);
-							} else {
-								name.delete(0, 3);
-							}
-							name.setCharAt(0, Character.toLowerCase(name.charAt(0)));
-							String propertyName = name.toString();
-							if (propertyName.equals(filter)) {
-								javaElements.add(methodInfo.getJavaElement());
-							}
-						}
-					}
-				}
-			}
-		}
-		res.addAll(javaElements);
-	}
 
 	/**
 	 * 
@@ -1089,7 +1095,6 @@ public final class SeamELCompletionEngine implements ELCompletionEngine {
 	public static boolean isSeamMessagesComponentVariable(ISeamContextVariable variable) {
 		return (null != getSeamMessagesComponentVariable(variable));
 	}
-	
 }
 
 class StringVariable implements ISeamContextVariable, ISeamJavaSourceReference {
@@ -1146,4 +1151,3 @@ class StringVariable implements ISeamContextVariable, ISeamJavaSourceReference {
 		throw new CloneNotSupportedException();
 	}
 }
-
