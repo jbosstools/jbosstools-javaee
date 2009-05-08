@@ -36,6 +36,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
 	public static final AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
 		.include("antlr-runtime.jar") //$NON-NLS-1$
+		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
 		.include("jboss-seam.jar") //$NON-NLS-1$
@@ -76,7 +77,6 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("richfaces-impl\\.jar") //$NON-NLS-1$
 		.include("richfaces-ui\\.jar") //$NON-NLS-1$
-		.include("commons-beanutils\\.jar") //$NON-NLS-1$
 		.include("commons-digester\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
