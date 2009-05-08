@@ -209,9 +209,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                     <listitem>
                         <para>Drag it and drop it between the quotes for the <emphasis role="italic">
                                 <property>&quot;action&quot;</property>
-                            </emphasis> attribute to the <emphasis role="bold">
-                                <property>&lt;html:form&gt;</property>
-                            </emphasis> element in the Source pane of the editor</para>
+                            </emphasis> attribute to the 
+                                <code>&lt;html:form&gt;</code>
+                            element in the Source pane of the editor</para>
                     </listitem>
                     <listitem>
                         <para>Then type this text on a new line just below this line:</para>
@@ -265,9 +265,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                     <listitem>
                         <para>Right-click the <emphasis>
                                 <property>submit</property>
-                            </emphasis> button and select <emphasis role="bold">
-                                <property>&lt;html:submit&gt;</property>
-                            </emphasis> Attributes from the context menu</para>
+                            </emphasis> button and select 
+                                <code>&lt;html:submit&gt;</code>
+                             Attributes from the context menu</para>
                     </listitem>
                     <listitem>
                         <para>In the Attributes dialog box, select the <emphasis>
@@ -340,9 +340,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                             </emphasis> folder in the <property>JBoss Tools Palette</property> to open it</para>
                     </listitem>
                     <listitem>
-                        <para>Position the cursor inside the <emphasis role="bold">
-                                <property>&lt;p&gt;</property>
-                            </emphasis> element</para>
+                        <para>Position the cursor inside the 
+                                <code>&lt;p&gt;</code>
+                            element</para>
                     </listitem>
                     <listitem>
                         <para>Click on <emphasis>

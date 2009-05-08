@@ -92,35 +92,25 @@ server side validation. You need to enable validation as a part of the project, 
     <listitem><para>In the JBoss Tools Palette view to the right, open the Struts HTML folder and click on the javascript tag</para></listitem>
 <listitem><para>Back in the editor, just in front of the closing slash for this inserted tag, hit Ctrl+Space and select &quot;formName&quot; from the prompting menu</para></listitem>
 <listitem><para>Over in the Web Projects view, select GetNameForm under the <emphasis><property>StrutsHello &gt; Configuration &gt; default &gt; struts-config.xml &gt; form-beans</property></emphasis> node, drag it, and drop it between the quotes in the editor</para></listitem>
-<listitem><para>Modify the <emphasis role="bold"><property>&lt;html:form&gt;</property></emphasis> tag by inserting this attribute:</para></listitem>
+<listitem><para>Modify the <code>&lt;html:form&gt;</code> tag by inserting this attribute:</para></listitem>
 </itemizedlist>
 <programlisting role="XML"><![CDATA[onsubmit="return validateGetNameForm(this)"
 ]]></programlisting>
 <para></para>
 <para>The file should now look like this:</para>
 <programlisting role="XML"><![CDATA[
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<html:html>
-<head>
-	<title>Input name</title>
-	<html:javascript formName="GetNameForm"/>
-</head>
-<body>
-	<html:form action="/greeting.do" onsubmit="return
-		<para>validateGetNameForm(this)"></para>
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td><b>Input name:</b></td>
-			</tr>
-			<tr>
-				<td>
-					<html:text property="name" />
-					<html:submit value=" Say Hello! " />
-				</td>
-			</tr>
-		</table>
-	</html:form>
-</body>
+<%@ taglib uri="/WEB-INF/struts-html" prefix="html" %>
+
+<html:html >
+    <head>
+        <html:javascript formName="GetNameForm"/>
+	    <title></title>
+    </head>
+    <body>
+        <html:form action="/greeting.do" onsubmit="return validateGetNameForm(this)">
+            Input name:<html:text property="name"/><html:submit value="Say Hello!"/>
+         </html:form>
+    </body>
 </html:html>
 ]]></programlisting>
 <itemizedlist>
@@ -150,34 +140,26 @@ server side validation. You need to enable validation as a part of the project, 
 <title>Editing the JSP File</title>
 <itemizedlist>
 <listitem><para>Reopen inputname.jsp for editing</para></listitem>
-<listitem><para>Delete the <emphasis role="italic"><property>&quot;onsubmit&quot;</property></emphasis> attribute in the <emphasis role="bold"><property>&lt;html:form&gt;</property></emphasis> element that you put in for client-side validation</para></listitem>
+<listitem><para>Delete the <emphasis role="italic"><property>&quot;onsubmit&quot;</property></emphasis> attribute in the <code>&lt;html:form&gt;</code> element that you put in for client-side validation</para></listitem>
 
-<listitem><para>Add an <emphasis role="bold"><property>&lt;html:errors&gt;</property></emphasis> tag after the <emphasis role="bold"><property>&lt;html:form&gt;</property></emphasis> tag</para></listitem>
+<listitem><para>Add an <code>&lt;html:errors/&gt;</code> tag after the 
+    <code>&lt;html:form&gt;</code>
+     tag</para></listitem>
 </itemizedlist>
 <para>The JSP file should now look like this:</para>
 
-<programlisting role="XML"><![CDATA[<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<html:html>
+    <programlisting role="XML"><![CDATA[<%@ taglib uri="/WEB-INF/struts-html" prefix="html" %>
+<html:html >
 <head>
-	<title>Input name</title>
-	<html:javascript formName="GetNameForm"/>
-</head>
-<body>
-	<html:form action="/greeting.do">
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td><b>Input name:</b></td>
-			</tr>
-			<tr>
-				<td>
-					<html:text property="name" />
-					<html:submit value=" Say Hello! " />
-				</td>
-			</tr>
-		</table>
-	</html:form>
-	<html:errors />
-</body>
+    <html:javascript formName="GetNameForm"/>
+    	<title></title>
+    </head>
+    <body>
+        <html:form action="/greeting.do" >Input name:<html:text property="name"/>
+            <html:submit value="Say Hello!"/>
+        </html:form>
+        <html:errors/>
+    </body>
 </html:html>
 ]]></programlisting>
 
@@ -242,11 +224,11 @@ org.apache.struts.validator.ValidatorForm
 	}
 	
 	// public ActionErrors validate(ActionMapping actionMapping,
-		HttpServletRequest request) 
-	{
-		// ActionErrors errors = new ActionErrors();
-		// return errors;
-		// }
+	//	HttpServletRequest request) 
+	//{
+	// ActionErrors errors = new ActionErrors();
+	// return errors;
+	// }
     }
 ]]></programlisting>
 
