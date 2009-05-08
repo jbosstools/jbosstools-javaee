@@ -469,14 +469,26 @@ public class RenameComponentProcessor extends RenameProcessor {
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
 		int openBracket = text.indexOf("("); //$NON-NLS-1$
 		if(openBracket > 0){
+			int closeBracket = text.indexOf(")", openBracket); //$NON-NLS-1$
 			int openQuote = text.indexOf("\"", openBracket); //$NON-NLS-1$
-			if(openQuote > 0){
+			int equals = text.indexOf("=", openBracket); //$NON-NLS-1$
+			int value = text.indexOf("value", openBracket); //$NON-NLS-1$
+			
+			if(closeBracket == openBracket+1){ // empty brackets
+				String newText = "\""+newName+"\""; //$NON-NLS-1$ //$NON-NLS-2$
+				TextEdit edit = new ReplaceEdit(location.getStartPosition()+openBracket+1, 0, newText);
+				change.addEdit(edit);
+			}else if(value > 0){ // construction value="name" found so change name
 				String newText = text.replace(component.getName(), newName);
 				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newText);
 				change.addEdit(edit);
-			}else{
-				String newText = "\""+newName+"\""; //$NON-NLS-1$ //$NON-NLS-2$
+			}else if(equals > 0){ // other parameters are found
+				String newText = "value=\""+newName+"\","; //$NON-NLS-1$ //$NON-NLS-2$
 				TextEdit edit = new ReplaceEdit(location.getStartPosition()+openBracket+1, 0, newText);
+				change.addEdit(edit);
+			}else{ // other cases
+				String newText = text.replace(component.getName(), newName);
+				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newText);
 				change.addEdit(edit);
 			}
 		}else{
