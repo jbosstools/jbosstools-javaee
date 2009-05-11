@@ -37,12 +37,12 @@
         <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-             <year><diffmk:wrapper diffmk:change="changed">2009</diffmk:wrapper></year>
-             <holder><diffmk:wrapper diffmk:change="changed">JBoss, a division of Red Hat</diffmk:wrapper></holder>
+             <year>2009</year>
+             <holder>JBoss, a division of Red Hat</holder>
          </copyright>
-         <releaseinfo><diffmk:wrapper diffmk:change="changed">
+         <releaseinfo>
              Version: 3.0.0.GA
-        </diffmk:wrapper></releaseinfo>
+        </releaseinfo>
 
 <abstract>
    <title></title>
@@ -142,10 +142,10 @@
 
                     <row>
                         <entry><para>Verification and Validation</para></entry>
-                        <entry><para>All occuring errors will be immediately reported by verification
+                        <entry><para><diffmk:wrapper diffmk:change="changed">All occurring errors will be immediately reported by verification
                             feature, no matter in what view you are working. Constant validation and
                             errors checking allows to catch many of the errors during development
-                            process that significantly reduces development time.</para></entry>
+                            process that significantly reduces development time.</diffmk:wrapper></para></entry>
                         <entry>
                             <link linkend="project_verification">verification and validation</link>
                         </entry>
@@ -420,9 +420,9 @@
             </mediaobject>
         </figure>
 
-        <para>When done, you can open end edit the struts-config.xml file using usefull Struts
+        <para><diffmk:wrapper diffmk:change="changed">When done, you can open end edit the struts-config.xml file using useful Struts
             configuration file editor provided by JBDS. (The Struts configuration is shown below in
-            the Tree viewer).</para>
+            the Tree viewer).</diffmk:wrapper></para>
 
         <figure float="0">
             <title>Struts-config.xml File</title>
@@ -1257,6 +1257,7 @@
 
         <para>If you'd like to contribute your feedback is always appreciated. You can
                 leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">Forum</ulink>.</para>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on </diffmk:wrapper><ulink diffmk:change="added" url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201"><diffmk:wrapper diffmk:change="added">JBoss forum</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
 </chapter>
 
 </book>
