@@ -80,7 +80,7 @@
      <row>
       <entry>JBoss Tools Palette</entry>
       <entry>Organizing various tags by groups, inserting tags into a jsp or xhtml page with one
-       click, adding custom or 3rd party tag libraries into the palette, easy controling the number
+       click, adding custom or 3rd party tag libraries into the palette, easy controlling the number
        of tag groups shown on the palette.</entry>
       <entry>
        <link linkend="palette">jboss tools palette</link>
@@ -123,7 +123,7 @@
       <entry>Possibility of inserting any tag onto the page you are editing by just drag-and-droping
        it from the palette to this page. Adding any properties, managed bean attributes, navigation
        rules, tag library file declarations, jsp files from web projects view by clicking them and
-       draging to source code.</entry>
+       dragging to source code.</entry>
       <entry>
        <link linkend="visual_page">visual page editor</link>
        <link linkend="DragAndDrop">drag-and-drop</link>
@@ -146,8 +146,8 @@
 
 <section>
  <title>Other relevant resources on the topic</title>
- <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://www.jboss.com/products/devstudio/docs">here</ulink>.</para>
- <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+ <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+ <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
 </section>
 
 </chapter>

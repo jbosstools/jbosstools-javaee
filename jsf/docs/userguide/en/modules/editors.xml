@@ -609,9 +609,8 @@
                 <itemizedlist>
                     <listitem>
                         <para>Adds code assist for JSF pre-defined objects, such as
-                                <![CDATA[value=]]><emphasis role="italic">
-                                <property>&quot;#{param}&quot;</property>
-                            </emphasis>:</para>
+                                <code>value=&quot;#{param}&quot;</code>
+                            :</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -746,7 +745,7 @@
 
         <para><property>JBoss Developer Studio</property> comes with a powerful and customizable
                 <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
-            develop an application using any technology: JSF, Struts, JSP, HTML and others.</para>
+            develop an application using any technology: JSF, Struts, JSP, HTML and others. Double-click on the necessary file in the Package Explorer view to open it in the Visual Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).</para>
 
         <para>Current VPE version has three tabs: <property>Visual/Source</property>,
                 <property>Source</property> and <property>Preview</property>. To switch between the
@@ -817,7 +816,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para> You can insert a tag/component from the pallet into either the Source or the
+            <para> You can insert a tag/component from the palette into either the Source or the
                 Visual part by calling a context menu and selecting <property>Insert
                     around</property>, <property>Insert before</property>, <property>Insert
                     after</property> or <property>Replace With</property>, pointing to
@@ -891,14 +890,12 @@
 
                 <itemizedlist>
                     <listitem>
-                        <para>HTML comments (<emphasis>
-                                <property>&lt;!-- --&gt;</property>
-                            </emphasis>) which are output to the client </para>
+                        <para>HTML comments (<code>&lt;!-- --&gt;</code>) which are output to the client </para>
                     </listitem>
                     <listitem>
-                        <para>JSP comments (<emphasis>
-                                <property>&lt;%-- --%&gt;</property>
-                            </emphasis>) which are not output to the client as part of the JSP page
+                        <para>JSP comments (<code>
+                               &lt;%-- --%&gt;
+                            </code>) which are not output to the client as part of the JSP page
                             output</para>
                     </listitem>
                 </itemizedlist>
@@ -970,12 +967,12 @@
                     different parameters or preview according to the framework version (like seam
                     1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
 
-                <para>For example, <emphasis>
-                        <property>&lt;s:decorate&gt;</property>
-                    </emphasis> element in seam has different parameters in versions 1.2 and 2.0 as
-                    well as <emphasis>
-                        <property>&lt;h:outputLink&gt;</property>
-                    </emphasis> JSF element has different preview in versions 1.1 and 1.2.</para>
+                <para>For example, <code>
+                        &lt;s:decorate&gt;
+                    </code> element in seam has different parameters in versions 1.2 and 2.0 as
+                    well as 
+                        <code>&lt;h:outputLink&gt;</code>
+                     JSF element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
 
@@ -1086,9 +1083,9 @@
                     <emphasis>
                         <property>Boxes</property>, </emphasis>
                     <emphasis>
-                        <property>Property Sheet</property>. </emphasis>To add existing styling to
-                    the chosen element expand the list of the existed style classes and point to the
-                    necessary one.</para>
+                        <property>Property Sheet</property>. </emphasis>The list of already existing classes with names beginning with the symbols printed will be displayed on standard "Ctrl+Space" key combination. To add existing styling to
+                    the chosen element just point to the
+                    necessary one. Each time you select any class it is displayed in the Preview tab. Click on the <emphasis><property>Apply</property></emphasis> button will apply the changes without closing the window.</para>
 
                 <figure>
                     <title>Style Class Selection</title>
@@ -1377,8 +1374,7 @@
 
 
                     <para>The third one, <emphasis>
-                            <property>Included tag libs</property>
-                        </emphasis>, can be used to add Taglibs that can be used by the editor for
+                            <property>Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
                         getting appropriate templates to generate a preview:</para>
 
                     <figure>

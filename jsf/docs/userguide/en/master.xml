@@ -10,6 +10,7 @@
 <!ENTITY richfaces_support SYSTEM "modules/richfaces_support.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
 <!ENTITY preferences SYSTEM "modules/preferences.xml">
+<!ENTITY vwt_faq SYSTEM "modules/vwt_faq.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -36,7 +37,7 @@
             <holder>JBoss, a division of Red Hat</holder>
         </copyright>
         <releaseinfo>
-            Version: 2.0.0.GA
+            Version: 2.0.1.GA
            </releaseinfo>
 <abstract>
    <title/>
@@ -56,4 +57,5 @@
     &richfaces_support;
     &web_projects;
     &preferences; 
+    &vwt_faq;
 </book>    

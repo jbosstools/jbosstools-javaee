@@ -17,7 +17,7 @@
     <note>
         <title>Note:</title>
         <para><ulink url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces
-            3.3</ulink> is fully supported in the current version of <property>JBoss Developer Studio</property> (i. e. 2.0.0.GA) and <property>JBoss Tools 3.0.0.GA</property>.</para>
+            3.3</ulink> is fully supported in the current version of <property>JBoss Developer Studio</property> (i. e. 2.0.1.GA) and <property>JBoss Tools 3.0.1.GA</property>.</para>
     </note>
     
     <para>The following features are implemented and fully supported for the current version of the RichFaces components:</para>
@@ -69,11 +69,11 @@
             <property>.jsp/.xhtml</property></emphasis> pages in <property>VPE</property> you can also take the advantage of <emphasis>
                 <property>OpenOn</property></emphasis> feature for the <property>RichFaces</property> components.</para>
         
-        <para>For example, <property>Richfaces</property> tags <emphasis>
-            <property>&lt;rich:insert&gt;</property>
-        </emphasis> and <emphasis>
-            <property>&lt;a4j:include&gt;</property>
-        </emphasis> has <property>OpenOn</property> support.</para>
+        <para>For example, <property>Richfaces</property> tags 
+            <code>&lt;rich:insert&gt;</code>
+         and <code>
+            &lt;a4j:include&gt;></code>
+        has <property>OpenOn</property> support.</para>
         
         <figure>
             <title>OpenOn With Richfaces Tag</title>
@@ -97,7 +97,7 @@
     <section id="RF_in_palette">
         <title>RichFaces in the JBoss Tools Palette</title>
         
-        <para>RichFaces and Ajax4jsf tag libraries always exist in <link linkend="palette">JBoss Tools
+        <para>RichFaces and<link linkend="palette">JBoss Tools
             Palette</link>.</para>
         
         <figure>

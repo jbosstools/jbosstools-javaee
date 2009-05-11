@@ -155,7 +155,7 @@
 <body>
 <f:view>
 <h:form id="greeting">
-<para>Please enter a name:</para>
+Please enter name:
 <h:inputText id="name" value="#{personBean.name}"/>
 <h:commandButton value=" Say Hello " action="greeting"/>
 </h:form>
