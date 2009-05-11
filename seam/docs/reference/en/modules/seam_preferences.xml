@@ -73,9 +73,10 @@
 
             <para>Notice, that in the <emphasis>
                     <property>Expression language</property>
-                </emphasis> section there is now a preference for setting severity of EL
-                Syntax. You can select whether the Seam validator displays an error, a warning or just ignore the EL Syntax error.</para>
-            
+                </emphasis> section there is now a preference for setting severity of EL Syntax. You
+                can select whether the Seam validator displays an error, a warning or just ignore
+                the EL Syntax error.</para>
+
             <figure>
                 <title>Severity Preference for EL Syntax</title>
                 <mediaobject>
@@ -86,9 +87,9 @@
             </figure>
 
             <para>In the upper right corner of the page there is a <property>Configure Project
-                    Specific Settings</property> link. Clicking on it you get the form where you can choose a
-                project for specific setting. Project specific configuration allows you to have
-                different validator settings for each project. Check the <property>Show only
+                    Specific Settings</property> link. Clicking on it you get the form where you can
+                choose a project for specific setting. Project specific configuration allows you to
+                have different validator settings for each project. Check the <property>Show only
                     projects with project specific settings</property> if you want to see the
                 projects that have been already set. Click on <property>Ok</property>.</para>
 
@@ -129,7 +130,7 @@
         <title>Project Preferences</title>
 
         <para>Once Seam project is created you can modify its settings. Right click on Seam project
-            in Project Explorer and select <emphasis><property>Properties > Seam
+            in Project Explorer and select <emphasis><property>Properties &gt; Seam
                 Settings</property>.</emphasis></para>
         <para>This project properties page allows you to have a flexible project layout. It means
             that you are not restricted with a specific project structure. You can use the Seam
@@ -185,8 +186,42 @@
                 </imageobject>
             </mediaobject>
         </figure>
+    </section>
 
+    <section id="add_custom_capabilities">
+        <title>Adding Custom Capabilities</title>
 
+        <para><property>JBoss Tools</property> provides a possibility to add custom capabilities to any Seam project,
+            i.e. add a support of additional frameworks built on top of JSF, such as <itemizedlist>
+                <listitem><para>ADF</para></listitem>
+                <listitem><para>Facelets</para></listitem>
+                <listitem><para>JBoss Rich Faces (versions 3.1, 3.2, 3.3)</para></listitem>
+            </itemizedlist>
+        </para>
+        <para>To enable it, you should call the context menu for a Seam project and select <emphasis><property>JBoss
+            Tools &gt; Add Custom Capabilities</property>.</emphasis> Then check the needed modules and press
+            <emphasis><property>Finish</property>.</emphasis></para>
+        
+        <figure>
+            <title>Adding Custom Capabilities to Seam Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/addCustomCapabilities.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <para>The next page displays all the updates that have been made to the project.</para>
+        
+        <figure>
+            <title>Adding Custom Capabilities to Seam Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/addCustomCapabilities2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
     </section>
 
 </chapter>

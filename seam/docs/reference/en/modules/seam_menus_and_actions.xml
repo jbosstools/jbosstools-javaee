@@ -178,7 +178,7 @@
 
             <title>Find Seam References/Declarations</title>
 
-            <para>To find EL expretions both in <emphasis>
+            <para>To find EL expressions both in <emphasis>
                     <property>.java</property>
                 </emphasis> and <emphasis>
                     <property>.xhtml</property>

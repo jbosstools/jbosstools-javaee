@@ -98,7 +98,7 @@
         <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that dependent on other project.</para>
         
         <figure>
-            <title>Available Custimozations</title>
+            <title>Available Customizations</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_view/seam_view_7.png"/>
