@@ -45,7 +45,7 @@
         </itemizedlist>
         <para>The Java files will be generated in a <emphasis>
             <property>JavaSource > sample</property>
-        </emphasis> folder that you can see in the Package Explorer view under the
+        </emphasis> folder that you can see in the <property>Package Explorer view</property> under the
             &quot;StrutsHello&quot; node. One Action stub and one FormBean stub will have
             been generated.</para>
     </chapter>

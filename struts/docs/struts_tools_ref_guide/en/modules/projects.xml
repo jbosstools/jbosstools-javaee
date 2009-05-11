@@ -253,7 +253,7 @@
             </mediaobject>
         </figure>
 
-        <para>When done, you can open end edit the struts-config.xml file using usefull Struts
+        <para>When done, you can open end edit the struts-config.xml file using useful Struts
             configuration file editor provided by JBDS. (The Struts configuration is shown below in
             the Tree viewer).</para>
 

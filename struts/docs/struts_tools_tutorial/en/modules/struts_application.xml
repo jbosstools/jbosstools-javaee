@@ -11,7 +11,7 @@
     
     <title>Creating a Simple Struts Application</title>
     
-    <para>Firstly, we assume that you have already launched Eclipse with JBoss Tools installed and
+    <para>Firstly, we assume that you have already launched Eclipse with <property>JBoss Tools</property> installed and
         also that the <property>Web Development perspective</property> is the current perspective. (If not, make it
         active by selecting <emphasis>
             <property>Window &gt; Open Perspective &gt; Other &gt; Web
@@ -24,31 +24,27 @@
         <itemizedlist>
             <listitem>
                 <para>Go to the menu bar and select <emphasis>
-                    <property>File &gt; New &gt; Project...</property>
-                </emphasis>.</para>
-            </listitem>
-            <listitem>
-                <para>Select <emphasis>
-                    <property>JBoss Tools Web &gt; Struts &gt; Struts Project</property>
-                </emphasis> in the New Project dialog box</para>
-            </listitem>
-            <listitem>
-                <para>Click <emphasis>
-                    <property>Next </property>
+                    <property>File &gt; New &gt; Struts Project</property>
                 </emphasis></para>
             </listitem>
             <listitem>
-                <para>Enter &quot;StrutsHello&quot; as the project name</para>
+                <para>Next enter &quot;StrutsHello&quot; as the project name</para>
             </listitem>
             <listitem>
-                <para>Leave everything else as is, and click <emphasis>
+                <para>Leave everything else as it is, and click <emphasis>
                     <property>Next</property>
                 </emphasis></para>
             </listitem>
             <listitem>
+                <para>If you have server runtime already defined, just pass to next point. Otherwise in the <emphasis>
+                    <property>Runtime</property></emphasis> section click the <emphasis>
+                        <property>New</property></emphasis> button and target at needed server runtime environment. Click <emphasis>
+                            <property>Finish</property>.</emphasis></para>
+             </listitem>
+            <listitem>
                 <para>Click <emphasis>
                     <property>Next</property>
-                </emphasis> again</para>
+                </emphasis></para>
             </listitem>
             <listitem>
                 <para>Make sure that <emphasis>
@@ -57,13 +53,13 @@
                     <property>struts-html.tld</property>
                 </emphasis>, and <emphasis>
                     <property>struts-logic.tld</property>
-                </emphasis> are checked in the list of included tag libraries and then click <emphasis>
+                </emphasis> are checked in the list of included tag libraries and then hit <emphasis>
                     <property>Finish</property>
                 </emphasis></para>
             </listitem>
         </itemizedlist>
-        <para>A &quot;StrutsHello&quot; node should appear in the upper-left Package
-            Explorer view.</para>
+        <para>A &quot;StrutsHello&quot; node should appear in the <property>Package
+            Explorer view</property>.</para>
         <itemizedlist>
             <listitem>
                 <para>Click the plus sign next to <emphasis>
@@ -73,12 +69,14 @@
             <listitem>
                 <para>Click the plus sign next to <emphasis>
                     <property>WebContent</property>
-                </emphasis> under StrutsHello</para>
+                </emphasis> under <emphasis>
+                    <property>StrutsHello</property></emphasis></para>
             </listitem>
             <listitem>
                 <para>Click the plus sign next to <emphasis>
                     <property>WEB-INF</property>
-                </emphasis> under WebContent</para>
+                </emphasis> under <emphasis>
+                    <property>WebContent</property></emphasis></para>
             </listitem>
             <listitem>
                 <para>Then, double-click on the <emphasis>
@@ -94,7 +92,7 @@
         <?dbhtml filename="CreatingtheApplicationComponents.html"?>
         <title>Creating the Application Components</title>
         <para>Now, we will design the application by creating the individual components as
-            placeholders first. (We dont have to complete all of the details inside the components
+            placeholders first. (We don't have to complete all of the details inside the components
             until afterwards.)</para>
         <section id="CreatingJSPPagePlaceholders">
             <title>Creating JSP Page Placeholders</title>
@@ -105,7 +103,7 @@
                 <title>Creating the Page Placeholders</title>
                 <itemizedlist>
                     <listitem>
-                        <para>Bring the Web Projects view to the front of the Package Explorer view
+                        <para>Bring the <property>Web Projects view</property> to the front of the <property>Package Explorer view</property>
                             by selecting the <emphasis>
                                 <property>Web Projects</property>
                             </emphasis> tab next to that tab.</para>
@@ -113,7 +111,7 @@
                     <listitem>
                         <para>Right-click the <emphasis>
                                 <property>StrutsHello > WEB-ROOT (WebContent)</property>
-                            </emphasis> folder in the Web Projects view and select <emphasis>
+                            </emphasis> folder in the <property>Web Projects view</property> and select <emphasis>
                                 <property>New > Folder...</property>
                             </emphasis></para>
                     </listitem>
@@ -130,8 +128,9 @@
                     </listitem>
 
                     <listitem>
-                        <para>Right-click the pages folder and select <emphasis>
-                                <property>New &gt; Fila &gt; JSP...</property>
+                        <para>Right-click the <emphasis>
+                            <property>pages</property></emphasis> folder and select <emphasis>
+                                <property>New &gt; File &gt; JSP...</property>
                             </emphasis>
                         </para>
                     </listitem>
@@ -146,14 +145,16 @@
                             </emphasis> button</para>
                     </listitem>
                     <listitem>
-                        <para>Right-click the pages folder again and select <emphasis>
+                        <para>Right-click the <emphasis>
+                            <property>pages</property></emphasis> folder again and select <emphasis>
                                 <property>New > File > JSP...</property>
                             </emphasis></para>
                     </listitem>
                     <listitem>
                         <para>For Name type in <emphasis>
                                 <property>greeting</property>
-                            </emphasis>, for Template leave as Blank, and then click on the <emphasis>
+                        </emphasis>, for Template leave as <emphasis>
+                            <property>Blank</property>,</emphasis> and then click on the <emphasis>
                                 <property>Finish</property>
                             </emphasis> button</para>
                     </listitem>
@@ -167,18 +168,18 @@
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>struts-config.xml</property>
-                            </emphasis> tab in the Editing area to bring the diagram to the
+                            </emphasis> tab in the editing area to bring the diagram to the
                         front</para>
                     </listitem>
                     <listitem>
                         <para>Click on the <emphasis>
                                 <property>inputname.jsp</property>
-                            </emphasis> page in the Web Projects view, drag it onto the diagram, and
+                            </emphasis> page in the <property>Web Projects view</property>, drag it onto the diagram, and
                             drop it</para>
                     </listitem>
                     <listitem><para>Click on the <emphasis>
                             <property>greeting.jsp</property>
-                        </emphasis> page in the Web Projects view, drag it onto the diagram, and
+                        </emphasis> page in the <property>Web Projects view</property>, drag it onto the diagram, and
                         drop it to the right of the <emphasis>
                             <property>/pages/inputname.jsp</property>
                         </emphasis> icon with some extra space</para></listitem>
@@ -193,7 +194,7 @@
             <itemizedlist>
                 <listitem>
                     <para>Right-click between the two icons and select <emphasis>
-                            <property>Add > Action</property>
+                            <property>New > Action</property>
                         </emphasis></para>
                 </listitem>
                 <listitem>
@@ -240,14 +241,18 @@
             <para>The <emphasis>
                     <property>/greeting</property>
                 </emphasis> action should appear in four places, in the diagram, under the
-                action-mappings node, under the struts-config.xml node in Tree view, in Web Projects
-                view and in the Outline view. Also, note the asterisk to the right of the name,
-                struts-config.xml, in the Outline view showing that the file has been changed, but
+                <emphasis>
+                    <property>action-mappings</property></emphasis> node, under the <emphasis>
+                        <property>struts-config.xml</property></emphasis> node in Tree view, in <property>Web Projects
+                view</property> and in the <property>Outline view</property>. Also, note the asterisk to the right of the name,
+                <emphasis>
+                    <property>struts-config.xml</property>,</emphasis> in the <property>Outline view</property> showing that the file has been changed, but
                 not saved to disk.</para>
         </section>
         <section id="CreatingaLink">
             <title>Creating a Link</title>
-            <para>Let&apos;s now create a link from the inputname.jsp page to the action.</para>
+            <para>Let&apos;s now create a link from the <emphasis>
+                <property>inputname.jsp</property></emphasis> page to the action.</para>
             <itemizedlist>
                 <listitem>
                     <para>On the left-hand side of the diagram in the column of icons, click on this
@@ -300,7 +305,8 @@
                 </listitem>
                 <listitem>
                     <para>That&apos;s it. A link will be drawn from the actions new greeting
-                        forward to the greeting.jsp JSP page. Note that the forwards name will be
+                        forward to the <emphasis>
+                            <property>greeting.jsp</property></emphasis> JSP page. Note that the forwards name will be
                         set based on the name of the target JSP file name. If you don&apos;t
                         like it, you can easily change it</para>
                 </listitem>
@@ -312,12 +318,13 @@
                 </listitem>
                 <listitem>
                     <para>Expand the <emphasis>
-                            <property>struts-config.xml/action-mappings//greeting</property>
+                            <property>struts-config.xml/action-mappings/ /greeting</property>
                         </emphasis> node and then select the greeting forward</para>
                 </listitem>
                 <listitem>
                     <para>In the Properties Editor to the right, change the text to
-                        &quot;sayHello&quot; in the Name field</para>
+                        &quot;sayHello&quot; in the <emphasis>
+                            <property>Name</property></emphasis> field</para>
                 </listitem>
                 <listitem>
                     <para>Select the <emphasis>
@@ -333,13 +340,14 @@
             <itemizedlist>
                 <listitem>
                     <para>Somewhere in the top-left corner of diagram, right-click and select <emphasis>
-                            <property> Add > Global Forward...</property>
+                            <property>New > Global Forward</property>
                         </emphasis></para>
                 </listitem>
                 <listitem>
                     <para>Enter <emphasis>
                             <property>getName</property>
-                        </emphasis> in the Name field</para>
+                    </emphasis> in the <emphasis>
+                        <property>Name</property></emphasis> field</para>
                 </listitem>
                 <listitem>
                     <para>Select the <emphasis>
@@ -389,7 +397,8 @@
             <para>One last thing that we need to do is to create a form bean.</para>
             <itemizedlist>
                 <listitem>
-                    <para>Switch to the Tree viewer in the editor for the struts-config.xml file, by
+                    <para>Switch to the Tree viewer in the editor for the <emphasis>
+                        <property>struts-config.xml</property></emphasis> file, by
                         selecting the <emphasis>
                             <property>Tree</property>
                         </emphasis> tab at the bottom of the editor window</para>
@@ -417,7 +426,8 @@
                         </emphasis> from the menu bar</para>
                 </listitem>
             </itemizedlist>
-            <para>Note the disappearance of the asterisk next to the name, struts-config.xml.</para>
+            <para>Note the disappearance of the asterisk next to the name, <emphasis>
+                <property>struts-config.xml</property>.</emphasis></para>
         </section>
     </section>
 </chapter>

@@ -84,7 +84,7 @@
 
                     <row>
                         <entry><para>Verification and Validation</para></entry>
-                        <entry><para>All occuring errors will be immediately reported by verification
+                        <entry><para>All occurring errors will be immediately reported by verification
                             feature, no matter in what view you are working. Constant validation and
                             errors checking allows to catch many of the errors during development
                             process that significantly reduces development time.</para></entry>
