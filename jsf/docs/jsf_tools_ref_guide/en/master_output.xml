@@ -36,11 +36,11 @@
         <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <year><diffmk:wrapper diffmk:change="changed">2009</diffmk:wrapper></year>
-            <holder><diffmk:wrapper diffmk:change="changed">JBoss, a division of Red Hat</diffmk:wrapper></holder>
+            <year>2009</year>
+            <holder>JBoss, a division of Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.0.0.GA
+            Version: 3.0.1.GA
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -161,8 +161,8 @@
     </section>
     <section>
         <title>Other relevant resources on the topic</title>
-        <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://docs.jboss.org/tools/">here</ulink>.</para>
-        <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+        <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at</diffmk:wrapper><ulink url="http://docs.jboss.org/tools/"><diffmk:wrapper diffmk:change="changed">http://docs.jboss.org/tools</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="changed"> in the corresponding release directory.</diffmk:wrapper></para>
+        <para><diffmk:wrapper diffmk:change="changed">The latest documentation builds are available at </diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/nightly-docs/"><diffmk:wrapper diffmk:change="changed">http://download.jboss.org/jbosstools/nightly-docs</diffmk:wrapper></ulink>.</para>
     </section>
 </chapter>
 
