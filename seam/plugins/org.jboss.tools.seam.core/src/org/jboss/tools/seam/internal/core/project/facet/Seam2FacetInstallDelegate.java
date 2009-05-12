@@ -165,7 +165,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			for (Iterator iterator = applications.iterator(); iterator.hasNext();) {
 				ApplicationType application = (ApplicationType) iterator.next();
 				EList localeConfigs = application.getLocaleConfig();
-				if(localeConfigs.size()>0) {
+				if(!localeConfigs.isEmpty()) {
 					localeConfigExists = true;
 					break;
 				}

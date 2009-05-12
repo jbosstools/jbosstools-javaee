@@ -144,7 +144,7 @@ public class TextFieldEditor extends BaseFieldEditor implements PropertyChangeLi
      */
     private String checkCollection(Object value){
     	
-    	return value != null && (((Collection)value).size() > 0) ? prepareCollectionToString((Collection)value) : ""; //$NON-NLS-1$
+    	return value != null && (!((Collection)value).isEmpty()) ? prepareCollectionToString((Collection)value) : ""; //$NON-NLS-1$
     }
     
     /*

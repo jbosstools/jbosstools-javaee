@@ -469,7 +469,7 @@ public class SeamSearchVisitor {
 					if (fVarMatchers[i] != null && fVarMatchers[i].getFile() != null)
 						fileList.add(fVarMatchers[i].getFile());
 				}
-				if (fileList.size() > 0) {
+				if (!fileList.isEmpty()) {
 					files = fileList.toArray(new IFile[0]);
 				}
 			}

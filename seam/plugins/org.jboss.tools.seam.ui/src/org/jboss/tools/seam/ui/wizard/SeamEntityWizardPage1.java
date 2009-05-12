@@ -146,7 +146,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_ENTITY_CLASS_NAME).getValue(), null);
 
-		if(errors.size()>0) {
+		if(!errors.isEmpty()) {
 			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_CLASS_NAME));
 			setPageComplete(false);
 			return;
@@ -155,7 +155,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		IFieldEditor editor = editorRegistry.get(IParameter.SEAM_PACKAGE_NAME);
 		if(editor!=null) {
 			errors = ValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(editor.getValue(), null);
-			if(errors.size()>0) {
+			if(!errors.isEmpty()) {
 				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage()); //$NON-NLS-1$
 				setPageComplete(false);
 				return;
@@ -165,7 +165,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project,project});
 
-		if(errors.size()>0) {
+		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return;
@@ -174,7 +174,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
 				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
 
-		if(errors.size()>0) {
+		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return;

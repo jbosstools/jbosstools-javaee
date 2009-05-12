@@ -162,7 +162,7 @@ public class PageFigure extends NodeFigure implements HandleBounds{
 			g.drawString(page.getName(), 27, 3);			
 		}
 		
-		if(page.getChildren().size() != 0){
+		if(!page.getChildren().isEmpty()){
 			if(page.isParamsVisible()){
 				g.drawImage(minusImage, 4, height-12);
 			}else{

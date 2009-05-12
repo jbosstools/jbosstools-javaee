@@ -54,14 +54,14 @@ public class SeamValueMapEntry extends SeamObject implements ISeamValueMapEntry 
 		SeamValueMapEntry e = (SeamValueMapEntry)s;
 		
 		List<Change> keyChanges = key.merge(e.key);
-		if(keyChanges != null && keyChanges.size() > 0) {
+		if(keyChanges != null && !keyChanges.isEmpty()) {
 			Change keyChange = new Change(this, "key", key, key); //$NON-NLS-1$
 			keyChange.addChildren(keyChanges);
 			changes = Change.addChange(changes, keyChange);
 		}
 		
 		List<Change> valueChanges = value.merge(e.value);
-		if(valueChanges != null && valueChanges.size() > 0) {
+		if(valueChanges != null && !valueChanges.isEmpty()) {
 			Change valueChange = new Change(this, "value", value, value); //$NON-NLS-1$
 			valueChange.addChildren(valueChanges);
 			changes = Change.addChange(changes, valueChange);

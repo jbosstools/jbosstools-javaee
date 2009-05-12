@@ -186,7 +186,7 @@ public class SeamFacetVersionChangeDialog extends TitleAreaDialog {
 				WizardDialog dialog = new WizardDialog(Display.getCurrent()
 						.getActiveShell(), wiz);
 				int ok = dialog.open();
-				if ((ok == Dialog.OK) && (added.size() > 0)) {
+				if (ok == Dialog.OK && !added.isEmpty()) {
 					SeamRuntimeManager.getInstance().addRuntime(added.get(0));
 					refreshSeamRuntimeCombo();
 				}

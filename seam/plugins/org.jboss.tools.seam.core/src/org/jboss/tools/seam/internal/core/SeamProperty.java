@@ -76,7 +76,7 @@ public class SeamProperty extends AbstractSeamDeclaration implements ISeamProper
 			changes = Change.addChange(changes, new Change(this, SeamXMLConstants.ATTR_VALUE, old, value));
 		} else {	
 			List<Change> cs = ((SeamObject)value).merge((SeamObject)d.value);
-			if(cs != null && cs.size() > 0) {
+			if(cs != null && !cs.isEmpty()) {
 				Change c = new Change(this, SeamXMLConstants.ATTR_VALUE, value, value);
 				c.addChildren(cs);
 				changes = Change.addChange(changes, c);

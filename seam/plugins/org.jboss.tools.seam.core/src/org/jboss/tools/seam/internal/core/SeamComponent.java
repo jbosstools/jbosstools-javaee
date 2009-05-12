@@ -246,7 +246,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 	}
 
 	public ISeamJavaComponentDeclaration getJavaDeclaration() {
-		if(javaDeclarations.size() == 0) return null;
+		if(javaDeclarations.isEmpty()) return null;
 		return javaDeclarations.iterator().next();
 	}
 

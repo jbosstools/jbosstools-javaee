@@ -45,7 +45,7 @@ public class ConnectionFigure extends PolylineConnection implements Connection, 
 	}
 
 	public void refreshFont() {
-		if (getChildren().size() > 0 && getChildren().get(0) instanceof Label) {
+		if (!getChildren().isEmpty() && getChildren().get(0) instanceof Label) {
 			Label label = (Label) getChildren().get(0);
 //			label.setFont(editPart.getLinkModel().getJSFModel().getOptions()
 //					.getLinkPathFont());

@@ -347,7 +347,7 @@ public class SeamExpressionResolver {
 			if(member == null) {
 				ELParser p = ELParserUtil.getJbossFactory().createParser();
 				ELModel m = p.parse(factory.getValue());
-				ELInstance i = m.getInstances().size() == 0 ? null : m.getInstances().get(0);
+				ELInstance i = m.getInstances().isEmpty() ? null : m.getInstances().get(0);
 				ELExpression ex = i == null ? null : i.getExpression();
 				if(ex instanceof ELInvocationExpression) {
 					ELInvocationExpression expr = (ELInvocationExpression)ex;

@@ -50,7 +50,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	Set<Object> updateLocks = new HashSet<Object>();
 	
 	public boolean isUpdateLocked() {
-		return updateLocks.size() > 0;
+		return !updateLocks.isEmpty();
 	}
 	
 	public void addUpdateLock(Object lock) {

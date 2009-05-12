@@ -59,7 +59,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 		AnnotatedASTNode<MethodDeclaration> currentAnnotatedMethod = null;
 		
 		public boolean hasSeamComponentItself() {
-			if(annotatedFields.size() > 0 || annotatedMethods.size() > 0) return true;
+			if(!annotatedFields.isEmpty() || !annotatedMethods.isEmpty()) return true;
 			if(annotatedType != null && annotatedType.getAnnotations() != null) return true;
 			return false;
 		}

@@ -234,7 +234,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 			
 			if(getPagesModel().getChildren().get(i) instanceof Page){
 				Page page = (Page)getPagesModel().getChildren().get(i);
-				if(page.getChildren().size() > 0 && page.isParamsVisible()){
+				if(!page.getChildren().isEmpty() && page.isParamsVisible()){
 					PageWrapper wrapper = page.getParamList();
 					list.add(wrapper);
 				}
@@ -262,7 +262,7 @@ public class PagesDiagramEditPart extends ContainerEditPart implements
 			if (val != null && val.booleanValue())
 				snapStrategies.add(new SnapToGrid(this));
 
-			if (snapStrategies.size() == 0)
+			if (snapStrategies.isEmpty())
 				return null;
 			if (snapStrategies.size() == 1)
 				return (SnapToHelper) snapStrategies.get(0);

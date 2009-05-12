@@ -351,7 +351,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateComponent(IPath sourceFilePath, Set<ISeamComponent> checkedComponents, Set<IPath> unnamedResources) {
 		Set<ISeamComponent> components = seamProject.getComponentsByPath(sourceFilePath);
-		if(components.size()==0) {
+		if(components.isEmpty()) {
 			unnamedResources.add(sourceFilePath);
 			return;
 		}
@@ -591,7 +591,7 @@ public class SeamCoreValidator extends SeamValidator {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
 		ISeamTextSourceReference classNameLocation = getNameLocation(javaDeclaration);
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
-		if(methods==null || methods.size()==0) {
+		if(methods==null || methods.isEmpty()) {
 			addError(STATEFUL_COMPONENT_DOES_NOT_CONTAIN_METHOD_SUFIX_MESSAGE_ID + postfixMessageId, preferenceKey, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource());
 		}
 	}
@@ -736,7 +736,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	private void validateMethodOfUnknownComponent(SeamComponentMethodType methodType, ISeamJavaComponentDeclaration declaration, String sufixMessageId, String preferenceKey) {
 		Set<ISeamComponentMethod> methods = declaration.getMethodsByType(methodType);
-		if(methods!=null && methods.size()>0) {
+		if(methods!=null && !methods.isEmpty()) {
 			for (ISeamComponentMethod method : methods) {
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();

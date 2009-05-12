@@ -39,7 +39,7 @@ public class RadioField extends BaseField implements SelectionListener {
 		}
 
 		radios = new Button[values.size()];
-		if(defaultValue==null && values.size()>0) {
+		if(defaultValue==null && !values.isEmpty()) {
 			defaultValue = values.get(0);
 		}
 		for (int i = 0; i < radios.length; i++) {

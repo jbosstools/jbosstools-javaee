@@ -89,7 +89,7 @@ public class SeamPropertiesDeclaration extends SeamComponentDeclaration
 			} else {
 				String oldName = p1.getName();
 				List<Change> cc = p1.merge(p2);
-				if(cc != null && cc.size() > 0) children.addChildren(cc);
+				if(cc != null && !cc.isEmpty()) children.addChildren(cc);
 				if(oldName != null && !oldName.equals(p1.getName())) {
 					properties.remove(oldName);
 					addProperty(p1);

@@ -223,7 +223,7 @@ public class PageEditPart extends PagesEditPart implements
 		int height = getVisualHeight() + getPageModel().getOutputLinks().size()
 				* NodeFigure.LINK_HEIGHT;
 
-		if (getPageModel().getOutputLinks().size() == 0)
+		if (getPageModel().getOutputLinks().isEmpty())
 			height = getVisualHeight() + NodeFigure.LINK_HEIGHT;
 		
 		String name = getPageModel().getName();

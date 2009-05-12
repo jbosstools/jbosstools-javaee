@@ -57,7 +57,7 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 			ISeamComponent component=null;
 			if (seamProject != null) {
 				Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
-				if (components.size() > 0) {
+				if (!components.isEmpty()) {
 					// This is a component which we want to rename.
 					component = components.iterator().next();
 				}

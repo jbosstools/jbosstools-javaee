@@ -34,7 +34,7 @@ public class SeamMessagesBeanHyperlink extends AbstractHyperlink {
 	 */
 	protected void doHyperlink(IRegion region) {
 		Map <String, ISeamMessages> messages = SeamBeanHyperlinkPartitioner.findMessagesComponents(getDocument(), region);
-		if (messages == null || messages.size() == 0) {
+		if (messages == null || messages.isEmpty()) {
 			// Nothing to open
 			openFileFailed();
 			return;
@@ -43,7 +43,7 @@ public class SeamMessagesBeanHyperlink extends AbstractHyperlink {
 		for (String property : messages.keySet()) {
 			ISeamMessages messagesComponent = messages.get(property);
 			Map <String, IResource> resources = messagesComponent.getResourcesMap();
-			if (resources == null || resources.size() == 0)
+			if (resources == null || resources.isEmpty())
 				continue;
 			
 			for (String bundle : resources.keySet()) {

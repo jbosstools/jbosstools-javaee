@@ -833,7 +833,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 			if(names.contains(defaultDs)) {
 				model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, defaultDs);
-			} else if(names.size()>0) {
+			} else if(!names.isEmpty()) {
 				model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, names.get(0));
 			}
 		}

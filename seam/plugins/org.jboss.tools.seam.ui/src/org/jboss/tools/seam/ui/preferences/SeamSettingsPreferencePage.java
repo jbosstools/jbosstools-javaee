@@ -493,7 +493,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private String getDefaultConnectionProfile() {
 		List<String> names = getProfileNameList();
-		return names.size()>0?names.get(0):"";
+		return !names.isEmpty()?names.get(0):"";
 	}
 
 	private String getEjbProjectName() {
@@ -536,7 +536,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				return;
 			}
 			Map<String, IStatus> errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(value, null);
-			if(errors.size()>0) {
+			if(!errors.isEmpty()) {
 				IStatus status = errors.get(IValidator.DEFAULT_ERROR);
 				if(IStatus.ERROR == status.getSeverity()) {
 					setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
@@ -886,7 +886,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		SeamRuntime runtime = SeamRuntimeManager.getDefaultRuntimeForProject(getSeamProject());
 		if(runtime==null) {
 			List<String> names = getRuntimeNames();
-			if(names.size()>0) {
+			if(!names.isEmpty()) {
 				return names.get(0);
 			}
 			return "";

@@ -98,7 +98,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if(range == null) range = new int[]{0, document.getLength()};
 		
 		Map<String, ISeamMessages> messages = findMessagesComponents(document, file, wordRegion, range[0], range[1]);
-		if (messages != null && messages.size() > 0)
+		if (messages != null && !messages.isEmpty())
 			return new IHyperlink[] {new SeamELInJavaStringHyperlink(wordRegion, messages)};
 		
 		IJavaElement[] elements = findJavaElements(document, file, wordRegion, range[0], range[1]);

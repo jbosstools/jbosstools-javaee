@@ -460,7 +460,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 				}
 			}
 
-			if (result == null || result.size() == 0) {
+			if (result == null || result.isEmpty()) {
 				return NO_PROPOSALS;
 			}
 			ICompletionProposal[] resultArray = result.toArray(new ICompletionProposal[result.size()]);

@@ -66,7 +66,7 @@ public class SeamJavaPackageRenameChange extends SeamProjectChange {
 	 */
 	@Override
 	public boolean isRelevant() {
-		return relevantPropertyIndexes.size()>0;
+		return !relevantPropertyIndexes.isEmpty();
 	}
 
 	/* (non-Javadoc)

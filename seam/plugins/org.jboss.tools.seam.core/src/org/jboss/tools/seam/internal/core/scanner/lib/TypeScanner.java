@@ -163,7 +163,7 @@ public class TypeScanner implements SeamAnnotations {
 				types.put(t, v);
 			}
 		}
-		if(types.size() > 0) {
+		if(!types.isEmpty()) {
 			component.setTypes(types);
 		}
 
@@ -239,7 +239,7 @@ public class TypeScanner implements SeamAnnotations {
 				types.add(BijectedAttributeType.values()[i]);
 			}
 		}
-		if(as.size() == 0) return;
+		if(as.isEmpty()) return;
 		
 		boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
 

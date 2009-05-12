@@ -96,7 +96,7 @@ public class SeamELInJavaStringHyperlink implements IHyperlink {
 
 	private void openMessages() {
 		Map <String, ISeamMessages> messages = fMessages;
-		if (messages == null || messages.size() == 0) {
+		if (messages == null || messages.isEmpty()) {
 			// Nothing to open
 			return;
 		}
@@ -104,7 +104,7 @@ public class SeamELInJavaStringHyperlink implements IHyperlink {
 		for (String property : messages.keySet()) {
 			ISeamMessages messagesComponent = messages.get(property);
 			Map <String, IResource> resources = messagesComponent.getResourcesMap();
-			if (resources == null || resources.size() == 0)
+			if (resources == null || resources.isEmpty())
 				continue;
 			
 			for (String bundle : resources.keySet()) {

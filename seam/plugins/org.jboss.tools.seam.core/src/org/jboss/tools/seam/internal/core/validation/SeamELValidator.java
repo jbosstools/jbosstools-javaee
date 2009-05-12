@@ -332,7 +332,7 @@ public class SeamELValidator extends SeamValidator {
 			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
 			List<SyntaxError> errors = model.getSyntaxErrors();
-			if(errors.size() > 0) {
+			if(!errors.isEmpty()) {
 				for (SyntaxError error: errors) {
 					//TODO 1) make message more informative
 					//     2) create other preference 
@@ -345,7 +345,7 @@ public class SeamELValidator extends SeamValidator {
 				if (reporter.isCancelled()) {
 					return;
 				}
-				if(i.getErrors().size() > 0) {
+				if(!i.getErrors().isEmpty()) {
 					//Already reported syntax problem in this piece of EL.
 					continue;
 				}
@@ -385,7 +385,7 @@ public class SeamELValidator extends SeamValidator {
 				}
 
 				// Check pair for getter/setter
-				if(status.getUnpairedGettersOrSetters().size()>0) {
+				if(!status.getUnpairedGettersOrSetters().isEmpty()) {
 					TypeInfoCollector.MethodInfo unpairedMethod = status.getUnpairedGettersOrSetters().values().iterator().next();
 					String methodName = unpairedMethod.getName();
 					String propertyName = status.getUnpairedGettersOrSetters().keySet().iterator().next();

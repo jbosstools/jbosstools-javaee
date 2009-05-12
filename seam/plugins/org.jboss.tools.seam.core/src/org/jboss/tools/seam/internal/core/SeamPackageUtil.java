@@ -111,7 +111,7 @@ public class SeamPackageUtil {
 	
 	public static void collectAllPackages(Map<String, ISeamPackage> packages, Collection<ISeamPackage> list) {
 		for (ISeamPackage p : packages.values()) {
-			if(p.getComponents().size() > 0) list.add(p);
+			if(!p.getComponents().isEmpty()) list.add(p);
 			collectAllPackages(p.getPackages(), list);
 		}
 	}

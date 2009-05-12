@@ -69,7 +69,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		projectEditor.addPropertyChangeListener(this);
 		if(projectName!=null && projectName.length()>0) {
 			Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
-			if(errors.size()>0) {
+			if(!errors.isEmpty()) {
 				IStatus message = errors.get(IValidator.DEFAULT_ERROR);
 				if(message.getSeverity()==IStatus.ERROR) {
 					setErrorMessage(message.getMessage());
@@ -199,7 +199,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		Map<String, IStatus> errors;
 		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
 		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
-		if(errors.size()>0) {
+		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
 			return false;
@@ -210,7 +210,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	private void validate() {
 		Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
 
-		if(errors.size()>0 || !isProjectSettingsOk()) {
+		if(!errors.isEmpty() || !isProjectSettingsOk()) {
 			IStatus errorMessage = errors.get(IValidator.DEFAULT_ERROR);
 			if(errorMessage==null) {
 				setErrorMessage(SeamUIMessages.VALIDATOR_INVALID_SETTINGS);

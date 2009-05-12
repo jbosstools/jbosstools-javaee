@@ -104,7 +104,7 @@ public class ComponentBuilder implements SeamAnnotations {
 					types.put(BeanType.values()[i], v);
 				}
 			}
-			if(types.size() > 0) {
+			if(!types.isEmpty()) {
 				component.setTypes(types);
 			}
 		}
@@ -171,7 +171,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
 			Annotation main = getBijectedType(n, as, types);
 
-			if(as.size() == 0) continue;
+			if(as.isEmpty()) continue;
 			boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
 			
 			MethodDeclaration m = n.getNode();
@@ -213,7 +213,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		for (AnnotatedASTNode<FieldDeclaration> n: annotatedFields) {
 			Annotation main = getBijectedType(n, as, types);
 
-			if(as.size() == 0) continue;
+			if(as.isEmpty()) continue;
 			boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
 			
 			FieldDeclaration m = n.getNode();

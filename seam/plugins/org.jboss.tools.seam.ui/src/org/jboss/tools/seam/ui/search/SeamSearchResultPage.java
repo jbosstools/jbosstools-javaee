@@ -431,7 +431,7 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 		}
 		
 		public void dragStart(DragSourceEvent event) {
-			event.doit= convertSelection().size() > 0;
+			event.doit= !convertSelection().isEmpty();
 		}
 		
 		public void dragSetData(DragSourceEvent event) {

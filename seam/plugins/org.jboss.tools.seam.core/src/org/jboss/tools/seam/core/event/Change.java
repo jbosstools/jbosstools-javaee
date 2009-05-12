@@ -83,7 +83,7 @@ public class Change {
 	 * @return
 	 */
 	public boolean isChildrenAffected() {
-		return children != null && children.size() > 0;
+		return children != null && !children.isEmpty();
 	}
 	
 	/**

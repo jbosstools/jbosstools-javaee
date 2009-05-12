@@ -62,7 +62,7 @@ public class SeamProjectRenameChange extends SeamProjectChange {
 	 */
 	@Override
 	public boolean isRelevant() {
-		return relevantProjectNameProperties.size() > 0 || relevantSourceFolderProperties.size() > 0;
+		return !relevantProjectNameProperties.isEmpty() || !relevantSourceFolderProperties.isEmpty();
 	}
 
 	/*

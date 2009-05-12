@@ -21,6 +21,7 @@ import org.hibernate.cfg.reveng.dialect.MetaDataDialect;
 import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.exception.SQLExceptionConverter;
 import org.hibernate.util.StringHelper;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
  * @author Vitali
@@ -104,6 +105,7 @@ public class JDBCTablesColumnsReader {
 					metadataDialect.close(tableIterator);
 				}
 			} catch (Exception ignore) {
+				SeamGuiPlugin.getPluginLog().logError(ignore);
 			}
 		}
 	}
@@ -151,6 +153,7 @@ public class JDBCTablesColumnsReader {
 					metadataDialect.close(columnIterator);
 				}
 			} catch (Exception ignore) {
+				SeamGuiPlugin.getPluginLog().logError(ignore);
 			}
 		}
 	}
@@ -192,6 +195,7 @@ public class JDBCTablesColumnsReader {
 		try {
 			currentCatalog = info.getConnectionProvider().getConnection().getCatalog();
 		} catch (SQLException ignore) {
+			SeamGuiPlugin.getPluginLog().logError(ignore);
 		}
 	}
 }

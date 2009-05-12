@@ -518,7 +518,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			element.setAttribute(ATTR_CLASS_NAME, className);
 		}
 		
-		if(bijectedAttributes.size() > 0) {
+		if(!bijectedAttributes.isEmpty()) {
 			Element b = XMLUtilities.createElement(element, "bijected");
 			for (IBijectedAttribute a: bijectedAttributes) {
 				SeamObject o = (SeamObject)a;
@@ -526,7 +526,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			}
 		}
 		
-		if(componentMethods.size() > 0) {
+		if(!componentMethods.isEmpty()) {
 			Element b = XMLUtilities.createElement(element, "methods");
 			for (ISeamComponentMethod a: componentMethods) {
 				SeamObject o = (SeamObject)a;
@@ -534,7 +534,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			}
 		}
 
-		if(roles.size() > 0) {
+		if(!roles.isEmpty()) {
 			Element b = XMLUtilities.createElement(element, "roles");
 			for (IRole a: roles) {
 				SeamObject o = (SeamObject)a;

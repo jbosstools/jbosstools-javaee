@@ -146,11 +146,7 @@ public class SeamPagesPageRefUpdateManager implements XModelTreeListener, Runnab
             }
             if(stopped) break;
             if(!isLocked()) {
-                try {
-                	updateAll();
-                } catch (Exception t) {
-        			SeamPagesXMLPlugin.log("Error while running page update", t);
-                }
+            	updateAll();
             }
         }
     }

@@ -223,7 +223,7 @@ abstract public class FindSeamHandler extends AbstractHandler implements ISelect
 			tokens = tokens.getLeft();
 		}
 		
-		if (variables.size() != 0) {
+		if (!variables.isEmpty()) {
 			// Some variable/variables are found - perform search for their declarations
 			varNames = new String[variables.size()];
 			for (int i = 0; i < variables.size(); i++) {

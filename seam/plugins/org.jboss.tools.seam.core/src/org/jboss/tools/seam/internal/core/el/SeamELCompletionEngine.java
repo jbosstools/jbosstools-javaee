@@ -292,7 +292,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		ELParser p = factory.createParser();
 		ELModel model = p.parse(el);
 		List<ELInstance> is = model.getInstances();
-		if(is.size() == 0) return null;
+		if(is.isEmpty()) return null;
 		return is.get(0).getExpression();
 	}
 
@@ -402,7 +402,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		}
 
 		// Save all resolved variables. It's useful for incremental validation.
-		if(resolvedVariables != null && resolvedVariables.size() > 0) {
+		if(resolvedVariables != null && !resolvedVariables.isEmpty()) {
 			status.setUsedVariables(resolvedVariables);
 		}
 
@@ -539,7 +539,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 				}
 			}
 			members = newMembers;
-			if (members != null && members.size() > 0)
+			if (members != null && !members.isEmpty())
 				status.setLastResolvedToken(expr);
 		}
 		if (expr.getType() == ELObjectType.EL_METHOD_INVOCATION) {
@@ -562,7 +562,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 				}
 			}
 			members = newMembers;
-			if (members != null && members.size() > 0)
+			if (members != null && !members.isEmpty())
 				status.setLastResolvedToken(expr);
 		}
 		return members;
@@ -834,7 +834,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		if (varName != null) {
 			resolvedVars = SeamExpressionResolver.resolveVariables(project, scope, varName, onlyEqualNames);
 		}
-		if (resolvedVars != null && resolvedVars.size() > 0) {
+		if (resolvedVars != null && !resolvedVars.isEmpty()) {
 			List<ISeamContextVariable> newResolvedVars = new ArrayList<ISeamContextVariable>();
 			for (ISeamContextVariable var : resolvedVars) {
 				if(!isFinal) {

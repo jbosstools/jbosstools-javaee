@@ -500,7 +500,7 @@ public class SeamWizardFactory {
 					.getActiveShell(), wiz);
 			dialog.open();
 
-			if (added.size() > 0) {
+			if (!added.isEmpty()) {
 				SeamRuntimeManager.getInstance().addRuntime(added.get(0));
 				List<String> runtimes = getRuntimeNames(sv);
 				getFieldEditor().setValue(added.get(0).getName());
@@ -574,7 +574,7 @@ public class SeamWizardFactory {
 			configurationNames.add(configs[i].getName());
 		}
 		if(defaultSelection==null) {
-			if(configurationNames.size()>0) {
+			if(!configurationNames.isEmpty()) {
 				defaultSelection = configurationNames.get(0);
 			} else {
 				defaultSelection = ""; //$NON-NLS-1$

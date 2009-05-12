@@ -120,7 +120,7 @@ public class SeamMessagesLoader {
 				}
 			}
 		}
-		if(ds.size() == 0) {
+		if(ds.isEmpty()) {
 			names.add("messages");
 		}
 		return getResources(names, srcs);

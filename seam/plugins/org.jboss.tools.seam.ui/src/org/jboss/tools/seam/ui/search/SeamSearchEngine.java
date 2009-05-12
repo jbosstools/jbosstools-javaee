@@ -104,7 +104,7 @@ public abstract class SeamSearchEngine {
 				String variableName = tokens.getText();   //SeamSearchVisitor.tokensToString(tokens);
 				
 				Set<ISeamContextVariable> variables = seamProject.getVariablesByName(variableName);
-				if (variables != null && variables.size() > 0) {
+				if (variables != null && !variables.isEmpty()) {
 					return search(javaScope, requestor, sourceFile, variables.toArray(new ISeamContextVariable[0]), monitor);
 				}
 
@@ -120,7 +120,7 @@ public abstract class SeamSearchEngine {
 					return Status.OK_STATUS;
 				}
 
-				if (elements != null && elements.size() > 0) {
+				if (elements != null && !elements.isEmpty()) {
 					return search(javaScope, requestor, sourceFile, elements.toArray(new IJavaElement[0]), monitor);
 				}
 				

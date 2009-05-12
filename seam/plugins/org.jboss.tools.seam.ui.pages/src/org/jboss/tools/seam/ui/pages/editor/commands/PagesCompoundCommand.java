@@ -29,7 +29,7 @@ public class PagesCompoundCommand extends Command {
 	}
 	
 	public boolean canExecute() {
-		if(elements.size() > 0){
+		if(!elements.isEmpty()){
 			XModelObject[] objects = (XModelObject[])elements.toArray(new XModelObject[]{});
 			XModelObject object= objects[0];
 			if(elements.size() == 1) objects = null;

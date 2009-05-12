@@ -62,7 +62,7 @@ public class SeamFolderMoveChange extends SeamProjectChange {
 	 */
 	@Override
 	public boolean isRelevant() {
-		return relevantProperties.size()>0;
+		return !relevantProperties.isEmpty();
 	}
 
 	/* (non-Javadoc)

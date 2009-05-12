@@ -35,7 +35,7 @@ public class SeamViewHyperlink extends LinkHyperlink {
 		
 		if (xModel != null) {
 			List list = provider.getList(xModel, WebPromptingProvider.JSF_GET_PATH, filename, null);
-			if (list != null && list.size() > 0) {
+			if (list != null && !list.isEmpty()) {
 				for (Iterator i = list.iterator(); i.hasNext();) {
 					Object o = i.next();
 					if (o instanceof String) {

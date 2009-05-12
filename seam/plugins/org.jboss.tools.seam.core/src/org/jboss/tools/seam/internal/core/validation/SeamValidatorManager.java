@@ -59,7 +59,7 @@ public class SeamValidatorManager implements IValidatorJob {
 			ISeamValidator[] validators = new ISeamValidator[]{coreValidator, elValidator};
 
 			Set<IFile> changedFiles = coreHelper.getChangedFiles();
-			if(changedFiles.size()>0) {
+			if(!changedFiles.isEmpty()) {
 				status = validate(validators, changedFiles);
 			} else {
 //				reporter.removeAllMessages(this);

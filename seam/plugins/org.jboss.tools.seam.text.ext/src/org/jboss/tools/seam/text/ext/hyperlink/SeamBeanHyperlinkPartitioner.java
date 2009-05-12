@@ -78,7 +78,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			Map<String, ISeamMessages> messages = findMessagesComponents(document, superRegion);
 
-			if (messages != null && messages.size() > 0) {
+			if (messages != null && !messages.isEmpty()) {
 				String axis = getAxis(document, superRegion);
 				String contentType = superRegion.getContentType();
 				String type = SEAM_MESSAGES_BEAN_PARTITION;
@@ -91,7 +91,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			}
 			
 			List<IJavaElement> javaElements = findJavaElements(document, superRegion);
-			if (javaElements != null && javaElements.size() > 0) {///
+			if (javaElements != null && !javaElements.isEmpty()) {///
 				String axis = getAxis(document, superRegion);
 				String contentType = superRegion.getContentType();
 				String type = SEAM_BEAN_PARTITION;
@@ -268,12 +268,12 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
 			Map<String, ISeamMessages> messages = findMessagesComponents(document, region);
-			if (messages != null && messages.size() > 0) {
+			if (messages != null && !messages.isEmpty()) {
 				return true;
 			}
 
 			List<IJavaElement> javaElements = findJavaElements(document, region);
-			if (javaElements != null && javaElements.size() > 0) {
+			if (javaElements != null && !javaElements.isEmpty()) {
 				return true;
 			}
 			
@@ -324,7 +324,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			}
 
 			//Do not need it, vars handled in getJavaElementsForELOperandTokens
-			if (javaElements == null || javaElements.size() == 0) {
+			if (javaElements == null || javaElements.isEmpty()) {
 				// Try to find a local Var (a pair of variable-value attributes)
 				ElVarSearcher varSearcher = new ElVarSearcher(file, engine);
 				// Find a Var in the EL 

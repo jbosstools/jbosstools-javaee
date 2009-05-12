@@ -210,7 +210,7 @@ public class SeamXMLHelper implements SeamXMLConstants {
 	}
 
 	public static void saveMap(Element parent, Map<String, IValueInfo> map, String child, Properties context) {
-		if(map == null || map.size() == 0) return;
+		if(map == null || map.isEmpty()) return;
 		Element element = XMLUtilities.createElement(parent, child);
 		for (String name: map.keySet()) {
 			IValueInfo value = map.get(name);

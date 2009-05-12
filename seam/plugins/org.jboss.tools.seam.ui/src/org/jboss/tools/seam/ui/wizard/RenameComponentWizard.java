@@ -95,7 +95,7 @@ public class RenameComponentWizard extends RefactoringWizard {
 		
 		protected final void validatePage() {
 			Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(editor.getValueAsString(), seamProject);
-			if(errors.size()>0) {
+			if(!errors.isEmpty()) {
 				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
 				setPageComplete(false);
 				return;

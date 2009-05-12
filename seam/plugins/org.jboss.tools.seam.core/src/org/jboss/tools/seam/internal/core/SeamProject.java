@@ -526,7 +526,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			Element pathElement = XMLUtilities.createElement(sourcePathsElement, "path"); //$NON-NLS-1$
 			pathElement.setAttribute("value", path.toString()); //$NON-NLS-1$
 			List<ISeamComponentDeclaration> cs = ds.getComponents();
-			if(cs != null && cs.size() > 0) {
+			if(cs != null && !cs.isEmpty()) {
 				Element cse = XMLUtilities.createElement(pathElement, "components"); //$NON-NLS-1$
 				for (ISeamComponentDeclaration d: cs) {
 					SeamObject o = (SeamObject)d;
@@ -534,7 +534,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				}
 			}
 			List<ISeamFactory> fs = ds.getFactories();
-			if(fs != null && fs.size() > 0) {
+			if(fs != null && !fs.isEmpty()) {
 				Element cse = XMLUtilities.createElement(pathElement, "factories"); //$NON-NLS-1$
 				for (ISeamFactory d: fs) {
 					SeamObject o = (SeamObject)d;
@@ -542,7 +542,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				}
 			}
 			List<String> imports = ds.getImports();
-			if(imports != null && imports.size() > 0) {
+			if(imports != null && !imports.isEmpty()) {
 				Element cse = XMLUtilities.createElement(pathElement, "imports"); //$NON-NLS-1$
 				for (String d: imports) {
 					Element e = XMLUtilities.createElement(cse, SeamXMLConstants.TAG_IMPORT); //$NON-NLS-1$
@@ -777,7 +777,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		ISeamComponentDeclaration[] components = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
 		ISeamFactory[] factories = ds.getFactories().toArray(new ISeamFactory[0]);
 		
-		if(ns.length == 0 && components.length == 0 && factories.length == 0 && ds.getImports().size() == 0) {
+		if(ns.length == 0 && components.length == 0 && factories.length == 0 && ds.getImports().isEmpty()) {
 			pathRemoved(source);
 			if(EclipseResourceUtil.isJar(source.toString())) {
 				if(!sourcePaths.contains(source)) sourcePaths.add(source);
@@ -792,7 +792,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			namespaces.addPath(source, ns);
 		}
 		
-		if(ds.getImports().size() > 0) {
+		if(!ds.getImports().isEmpty()) {
 			setImports(source.toString(), ds.getImports());
 		} else {
 			removeImports(source.toString());
@@ -828,7 +828,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				if(isClassNameChanged(currentClassName, loadedClassName)) {
 					this.components.onClassNameChanged(currentClassName, loadedClassName, current);
 				}
-				if(changes != null && changes.size() > 0) {
+				if(changes != null && !changes.isEmpty()) {
 					Change cc = new Change(c, null, null, null);
 					cc.addChildren(changes);
 					List<Change> cchanges = Change.addChange(null, cc);
@@ -947,7 +947,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @throws CloneNotSupportedException
 	 */
 	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) throws CloneNotSupportedException {
-		if(usedBy.size() == 0) return;
+		if(usedBy.isEmpty()) return;
 		if(EclipseResourceUtil.isJar(source.toString())) return;
 		
 		for (SeamProject p : usedBy) {
@@ -1062,7 +1062,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 
 	public void firePathRemovedToDependentProjects(IPath source) {
-		if(usedBy.size() == 0) return;
+		if(usedBy.isEmpty()) return;
 		if(EclipseResourceUtil.isJar(source.toString())) return;
 		
 		for (SeamProject p : usedBy) {
@@ -1134,7 +1134,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	private boolean isComponentEmpty(SeamComponent c) {
-		if(c.getAllDeclarations().size() == 0) return true;
+		if(c.getAllDeclarations().isEmpty()) return true;
 		for (ISeamComponentDeclaration d: c.getAllDeclarations()) {
 			if(c.getName().equals(d.getName())) return false;
 		}
@@ -1512,7 +1512,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param changes
 	 */
 	void fireChanges(List<Change> changes) {
-		if(changes == null || changes.size() == 0) return;
+		if(changes == null || changes.isEmpty()) return;
 		if(postponedChanges != null) {
 			postponedChanges.addAll(changes);
 			return;

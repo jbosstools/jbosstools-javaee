@@ -210,7 +210,7 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 					}
 				}
 			}
-			if (hyperlinks != null && hyperlinks.size() > 0) {
+			if (hyperlinks != null && !hyperlinks.isEmpty()) {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
 		} catch (JavaModelException jme) {

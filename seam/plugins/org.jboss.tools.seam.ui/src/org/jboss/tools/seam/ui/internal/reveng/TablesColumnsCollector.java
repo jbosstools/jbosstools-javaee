@@ -301,7 +301,7 @@ public class TablesColumnsCollector {
 	 */
 	public static final Bounds binaryBoundsSearch(List list, String prefix) {
 		Bounds bounds = new Bounds();
-		if (0 == list.size()) {
+		if (list.isEmpty()) {
 			bounds.nL = bounds.nH = 0;
 			return bounds;
 		}

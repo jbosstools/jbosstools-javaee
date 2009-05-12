@@ -77,7 +77,7 @@ public class CompositeEditor extends BaseFieldEditor implements PropertyChangeLi
 
 	@Override
 	public Object[] getEditorControls() {
-			if(controls.size()>0) return controls.toArray();
+			if(!controls.isEmpty()) return controls.toArray();
 			else throw new IllegalStateException(SeamUIMessages.COMPOSITE_EDITOR_THIS_METOD_CAN_BE_INVOKED);
 	}
 

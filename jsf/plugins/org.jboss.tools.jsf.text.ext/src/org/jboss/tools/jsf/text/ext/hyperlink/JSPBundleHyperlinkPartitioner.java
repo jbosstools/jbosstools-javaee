@@ -215,9 +215,6 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x);
 			return false;
-		} catch (Exception x) {
-			JSFExtensionsPlugin.log("", x);
-			return false;
 		} finally {
 			smw.dispose();
 		}

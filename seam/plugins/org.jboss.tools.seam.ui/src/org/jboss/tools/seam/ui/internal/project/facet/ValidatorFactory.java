@@ -142,7 +142,7 @@ public class ValidatorFactory {
 		public Map<String, IStatus> validate(Object value, Object context) {
 			Map<String, IStatus> errors = FILE_SYSTEM_FOLDER_EXISTS.validate(
 					value, context);
-			if (errors.size() > 0) {
+			if (!errors.isEmpty()) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
 					SeamUIMessages.VALIDATOR_FACTORY_SEAM_HOME_FOLDER_DOES_NOT_EXISTS));
@@ -180,7 +180,7 @@ public class ValidatorFactory {
 		public Map<String, IStatus> validate(Object value, Object context) {
 			Map<String, IStatus> errors = FILE_SYSTEM_FOLDER_EXISTS.validate(
 					value, context);
-			if (errors.size() > 0) {
+			if (!errors.isEmpty()) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_AS_HOME,
 						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,

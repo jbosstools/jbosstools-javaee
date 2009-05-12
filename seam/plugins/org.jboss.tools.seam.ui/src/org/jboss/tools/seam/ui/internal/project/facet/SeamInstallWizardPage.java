@@ -546,7 +546,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					.getSeamRuntimeDefaultValue(model);
 			if (defaultRnt != null && runtimes.contains(defaultRnt)) {
 				newValue = defaultRnt;
-			} else if (runtimes.size() > 0) {
+			} else if (!runtimes.isEmpty()) {
 				newValue = runtimes.get(0);
 			}
 		} else {
