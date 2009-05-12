@@ -882,6 +882,14 @@
                 </mediaobject>
             </figure>
 
+            <para>You can also switch on this option in the VPE preferences,  having clicked on the  <emphasis><property>Preferences</property>
+            </emphasis> button
+                (<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_1.png"/>
+                    </imageobject>
+                </inlinemediaobject>).</para>
+
             <section id="comments">
                 <title>Commenting out Code</title>
 
