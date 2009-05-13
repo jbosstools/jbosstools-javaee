@@ -18,12 +18,12 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -42,8 +42,6 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String CHILD_ITEM_NAME = ":menuItem"; //$NON-NLS-1$
 	private static final String ICON_FACET_NAME = "icon"; //$NON-NLS-1$
 	private static final String ICON_DISABLED_FACET_NAME = "iconDisabled"; //$NON-NLS-1$
-	private static final String EMPTY = ""; //$NON-NLS-1$
-	private static final String SPACE = " "; //$NON-NLS-1$
 
 	/*
 	 * Constants for drop down mechanism.
@@ -72,61 +70,21 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_LIST_BORDER_DIV_STYLE = ""; //$NON-NLS-1$
 	private static final String CSS_MENU_GROUP_TOP_DIV = "dr-menu-group-top-div"; //$NON-NLS-1$
 	
-	/*
-	 * rich:menuGroup attributes names
-	 */
-	private static final String DIRECTION = "direction"; //$NON-NLS-1$
-	private static final String ICON = "icon"; //$NON-NLS-1$
-	private static final String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
-	private static final String ICON_FOLDER = "iconFolder"; //$NON-NLS-1$
-	private static final String ICON_FOLDER_DISABLED = "iconFolderDisabled"; //$NON-NLS-1$
-	
-	/*
-	 * rich:menuGroup css styles and classes attributes names
-	 */
-	private static final String ICON_CLASS = "iconClass"; //$NON-NLS-1$
-	private static final String ICON_STYLE = "iconStyle"; //$NON-NLS-1$
-	private static final String LABEL_CLASS = "labelClass"; //$NON-NLS-1$
-	private static final String SELECT_CLASS = "selectClass"; //$NON-NLS-1$
-	private static final String SELECT_STYLE = "selectStyle"; //$NON-NLS-1$
-	
-	/*
-	 * rich:menuGroup attributes
-	 */
-	private String mg_direction;
-	private String mg_disabled;
-	private String mg_icon;
-	private String mg_iconDisabled;
-	private String mg_iconFolder;
-	private String mg_iconFolderDisabled;
-	private String mg_value;
-
-	/*
-	 * rich:menuGroup css styles and classes attributes
-	 */
-	private String mg_iconClass;
-	private String mg_iconStyle;
-	private String mg_labelClass;
-	private String mg_selectClass;
-	private String mg_selectStyle;
-	private String mg_style;
-	private String mg_styleClass;
-	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = null;
 		Element sourceElement = (Element)sourceNode;
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
-		readMenuGroupAttributes(sourceElement);
+		final Attributes attrs = new Attributes(sourceElement);
 		
 		/*
 		 * MenuGroup component structure.
 		 * In order of  nesting.
 		 */
 		nsIDOMElement ddmMainUL;
-	    nsIDOMElement grMainLI;
-	    nsIDOMElement grChildrenUL;
-	    nsIDOMElement ddmChildrenLI;
+		nsIDOMElement grMainLI;
+		nsIDOMElement grChildrenUL;
+		nsIDOMElement ddmChildrenLI;
 		
 		nsIDOMElement grTopDiv;
 		nsIDOMElement grImgSpan;
@@ -141,14 +99,14 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		/*
 		 * Creating visual elements
 		 */
-	    grMainLI = visualDocument.createElement(HTML.TAG_LI);
-	    grChildrenUL = visualDocument.createElement(HTML.TAG_UL);
+		grMainLI = visualDocument.createElement(HTML.TAG_LI);
+		grChildrenUL = visualDocument.createElement(HTML.TAG_UL);
 		grTopDiv = visualDocument.createElement(HTML.TAG_DIV);
 		grImgSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		grImg = visualDocument.createElement(HTML.TAG_IMG);
 		grFolderImg = visualDocument.createElement(HTML.TAG_IMG);
 		grLabelSpan = visualDocument.createElement(HTML.TAG_SPAN);
-		grLabelText = visualDocument.createTextNode(EMPTY);
+		grLabelText = visualDocument.createTextNode(Constants.EMPTY);
 		grFolderImgSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		grListBorderDiv = visualDocument.createElement(HTML.TAG_DIV);
 		grListBgDiv = visualDocument.createElement(HTML.TAG_DIV);
@@ -168,31 +126,31 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		/*
 		 * Setting attributes for the drop-down mechanism
 		 */
-		grMainLI.setAttribute(MENU_CHILD_ID, EMPTY);
-	    grChildrenUL.setAttribute(MENU_PARENT_ID, EMPTY);
+		grMainLI.setAttribute(MENU_CHILD_ID, Constants.EMPTY);
+		grChildrenUL.setAttribute(MENU_PARENT_ID, Constants.EMPTY);
 	    
 		/*
 		 * Setting css classes
 		 */
-		String topDivClass = EMPTY;
-		String imgSpanClass = EMPTY;
-		String labelSpanClass = EMPTY;
-		String folderDivClass = EMPTY;
+		String topDivClass = Constants.EMPTY;
+		String imgSpanClass = Constants.EMPTY;
+		String labelSpanClass = Constants.EMPTY;
+		String folderDivClass = Constants.EMPTY;
 		
-		topDivClass += SPACE + CSS_RICH_MENU_GROUP;
-		imgSpanClass += SPACE + CSS_RICH_MENU_ITEM_ICON_ENABLED;
-		labelSpanClass += SPACE + CSS_RICH_MENU_ITEM_LABEL + SPACE + CSS_RICH_MENU_GROUP_LABEL;
-		folderDivClass += SPACE + CSS_RICH_MENU_ITEM_FOLDER + SPACE + CSS_RICH_MENU_GROUP_FOLDER;
+		topDivClass += Constants.WHITE_SPACE + CSS_RICH_MENU_GROUP;
+		imgSpanClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_ICON_ENABLED;
+		labelSpanClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_LABEL + Constants.WHITE_SPACE + CSS_RICH_MENU_GROUP_LABEL;
+		folderDivClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_FOLDER + Constants.WHITE_SPACE + CSS_RICH_MENU_GROUP_FOLDER;
 		
-		if (ComponentUtil.isNotBlank(mg_styleClass)) {
-			topDivClass += SPACE + mg_styleClass;
+		if (ComponentUtil.isNotBlank(attrs.getStyleClass())) {
+			topDivClass += Constants.WHITE_SPACE + attrs.getStyleClass();
 		}
-		if (ComponentUtil.isNotBlank(mg_iconClass)) {
-			imgSpanClass += SPACE + mg_iconClass;
-			folderDivClass += SPACE + mg_iconClass;
+		if (ComponentUtil.isNotBlank(attrs.getIconClass())) {
+			imgSpanClass += Constants.WHITE_SPACE + attrs.getIconClass();
+			folderDivClass += Constants.WHITE_SPACE + attrs.getIconClass();
 		}
-		if (ComponentUtil.isNotBlank(mg_labelClass)) {
-			labelSpanClass += SPACE + mg_labelClass;
+		if (ComponentUtil.isNotBlank(attrs.getLabelClass())) {
+			labelSpanClass += Constants.WHITE_SPACE + attrs.getLabelClass();
 		}
 		
 //		grTopDiv.setAttribute(HTML.ATTR_CLASS, topDivClass);
@@ -204,29 +162,30 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 //		grListBorderDiv.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BORDER);
 //		grListBgDiv.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BG);
 		grChildrenUL.setAttribute(HTML.ATTR_CLASS, CSS_RICH_MENU_LIST_BORDER
-				+ SPACE + CSS_RICH_MENU_LIST_BG);
+				+ Constants.WHITE_SPACE + CSS_RICH_MENU_LIST_BG);
 		/*
 		 * Setting css styles
 		 */
-		String topDivStyle = EMPTY;
+		String topDivStyle = Constants.EMPTY;
 		
-		if (ComponentUtil.isNotBlank(mg_style)) {
-			topDivStyle += SPACE + mg_style;
+		if (ComponentUtil.isNotBlank(attrs.getStyle())) {
+			topDivStyle += Constants.WHITE_SPACE + attrs.getStyle();
 		}
 		
 		grMainLI.setAttribute(HTML.ATTR_STYLE, topDivStyle);
 		grFolderImgSpan.setAttribute(HTML.ATTR_STYLE, CSS_RICH_LIST_FOLDER_DIV_STYLE);
 //		grListBorderDiv.setAttribute(HTML.ATTR_STYLE, CSS_RICH_LIST_BORDER_DIV_STYLE);
 //		grChildrenUL.setAttribute(HTML.ATTR_STYLE,
-//				CSS_RICH_LIST_FOLDER_DIV_STYLE + SPACE
+//				CSS_RICH_LIST_FOLDER_DIV_STYLE + Constants.WHITE_SPACE
 //						+ CSS_RICH_LIST_BORDER_DIV_STYLE);
 		
 		/*
 		 * Encode label value
 		 */
-		Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
-    	String labelValue = valueAttr != null
-				&& valueAttr.getValue() != null ? valueAttr.getValue() : EMPTY;
+		String labelValue = Constants.EMPTY;
+		if (ComponentUtil.isNotBlank(attrs.getValue())) {
+		    labelValue = attrs.getValue();
+		}
 		grLabelText.setNodeValue(labelValue);
 		
 		/*
@@ -239,11 +198,11 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 			childInfo.addSourceChild(iconFacet);
 			creationData.addChildrenInfo(childInfo);
 		} else {
-			if (ComponentUtil.isNotBlank(mg_icon)) {
+			if (ComponentUtil.isNotBlank(attrs.getIcon())) {
 				/*
 				 * Add path to specified image
 				 */
-				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(mg_icon, pageContext, true);
+				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(attrs.getIcon(), pageContext, true);
 				grImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 			} else {
 				/*
@@ -261,11 +220,11 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		/*
 		 * Add group folder icon 
 		 */
-		if (ComponentUtil.isNotBlank(mg_iconFolder)) {
+		if (ComponentUtil.isNotBlank(attrs.getIconFolder())) {
 			/*
 			 * Add path to specified image
 			 */
-			String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(mg_iconFolder, pageContext, true);
+			String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(attrs.getIconFolder(), pageContext, true);
 			grFolderImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 		} else {
 			/*
@@ -304,14 +263,58 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
-	/**
-	 * Read attributes from the source element.
-	 * 
-	 * @param sourceNode the source node
-	 */
-	private void readMenuGroupAttributes(Element sourceElement) {
+	@Override
+	public boolean recreateAtAttrChange(VpePageContext pageContext,
+		Element sourceElement, nsIDOMDocument visualDocument,
+		nsIDOMElement visualNode, Object data, String name, String value) {
+	    return true;
+	}
+
+	class Attributes {
+
+	    /*
+	     * rich:menuGroup attributes names
+	     */
+	    private String DIRECTION = "direction"; //$NON-NLS-1$
+	    private String ICON = "icon"; //$NON-NLS-1$
+	    private String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
+	    private String ICON_FOLDER = "iconFolder"; //$NON-NLS-1$
+	    private String ICON_FOLDER_DISABLED = "iconFolderDisabled"; //$NON-NLS-1$
+
+	    /*
+	     * rich:menuGroup css styles and classes attributes names
+	     */
+	    private String ICON_CLASS = "iconClass"; //$NON-NLS-1$
+	    private String ICON_STYLE = "iconStyle"; //$NON-NLS-1$
+	    private String LABEL_CLASS = "labelClass"; //$NON-NLS-1$
+	    private String SELECT_CLASS = "selectClass"; //$NON-NLS-1$
+	    private String SELECT_STYLE = "selectStyle"; //$NON-NLS-1$
+
+	    /*
+	     * rich:menuGroup attributes
+	     */
+	    private String mg_icon;
+	    private String mg_iconFolder;
+	    private String mg_direction;
+	    private String mg_disabled;
+	    private String mg_iconDisabled;
+	    private String mg_iconFolderDisabled;
+	    private String mg_value;
+
+	    /*
+	     * rich:menuGroup css styles and classes attributes
+	     */
+	    private String mg_iconClass;
+	    private String mg_iconStyle;
+	    private String mg_labelClass;
+	    private String mg_selectClass;
+	    private String mg_selectStyle;
+	    private String mg_style;
+	    private String mg_styleClass;
+
+	    public Attributes(final Element sourceElement) {
 		if (null == sourceElement) {
-			return;
+		    return;
 		}
 		mg_direction = sourceElement.getAttribute(DIRECTION);
 		mg_disabled = sourceElement.getAttribute(HTML.ATTR_DISABLED);
@@ -328,13 +331,40 @@ public class RichFacesMenuGroupTemplate extends VpeAbstractTemplate {
 		mg_selectStyle = sourceElement.getAttribute(SELECT_STYLE);
 		mg_style = sourceElement.getAttribute(HTML.ATTR_STYLE);
 		mg_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-	}
+	    }
 
-		@Override
-		public boolean recreateAtAttrChange(VpePageContext pageContext,
-				Element sourceElement, nsIDOMDocument visualDocument,
-				nsIDOMElement visualNode, Object data, String name, String value) {
-			return true;
-		}
-	    
+	    public String getIconClass() {
+		return mg_iconClass;
+	    }
+
+	    public String getLabelClass() {
+		return mg_labelClass;
+	    }
+
+	    public String getStyle() {
+		return mg_style;
+	    }
+
+	    public String getStyleClass() {
+		return mg_styleClass;
+	    }
+
+	    public String getIcon() {
+		return mg_icon;
+	    }
+
+	    public String getIconFolder() {
+		return mg_iconFolder;
+	    }
+
+	    public String getIconStyle() {
+		return mg_iconStyle;
+	    }
+
+	    public String getValue() {
+		return mg_value;
+	    }
+
+	}
+		
 }

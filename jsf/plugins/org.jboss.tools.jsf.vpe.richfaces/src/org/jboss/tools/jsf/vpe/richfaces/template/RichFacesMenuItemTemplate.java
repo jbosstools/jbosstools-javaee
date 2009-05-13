@@ -24,12 +24,10 @@ import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
-
 	
 	/*
 	 * rich:menuItem constants
@@ -62,46 +60,12 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 	private static final String CSS_RICH_MENU_ITEM_ICON_SELECTED = "rich-menu-item-icon-selected"; //$NON-NLS-1$
 	private static final String CSS_MENU_ITEM_TOP_DIV = "dr-menu-item-top-div"; //$NON-NLS-1$
 	
-	/*
-	 * rich:menuItem attributes names
-	 */
-	private static final String ICON = "icon"; //$NON-NLS-1$
-
-	/*
-	 * rich:menuItem css styles and classes attributes names
-	 */
-	private static final String ICON_CLASS = "iconClass"; //$NON-NLS-1$
-	private static final String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
-	private static final String ICON_STYLE = "iconStyle"; //$NON-NLS-1$
-	private static final String LABEL_CLASS = "labelClass"; //$NON-NLS-1$
-	private static final String SELECT_STYLE = "selectStyle"; //$NON-NLS-1$
-	private static final String SELECT_CLASS = "selectClass"; //$NON-NLS-1$
-	
-	/*
-	 * rich:menuItem attributes 
-	 */
-	private String mi_disabled;
-	private String mi_icon;
-	private String mi_value;
-	
-	/*
-	 * rich:menuItem css styles and classes attributes
-	 */
-	private String mi_iconClass;
-	private String mi_iconDisabled;
-	private String mi_iconStyle;
-	private String mi_labelClass;
-	private String mi_selectClass;
-	private String mi_selectStyle;
-	private String mi_style;
-	private String mi_styleClass;
-	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		VpeCreationData creationData = null;
 		Element sourceElement = (Element)sourceNode;
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, COMPONENT_NAME);
-		readMenuItemAttributes(sourceElement);
+		final Attributes attrs = new Attributes(sourceElement);
 		
 		/*
 		 * MenuItem component structure.
@@ -150,14 +114,14 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		iconImgSpanClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_ICON;
 		labelSpanClass += Constants.WHITE_SPACE + CSS_RICH_MENU_ITEM_LABEL;
 		
-		if (ComponentUtil.isNotBlank(mi_styleClass)) {
-			topDivClass += Constants.WHITE_SPACE + mi_styleClass;
+		if (ComponentUtil.isNotBlank(attrs.getStyleClass())) {
+			topDivClass += Constants.WHITE_SPACE + attrs.getStyleClass();
 		}
-		if (ComponentUtil.isNotBlank(mi_iconClass)) {
-			iconImgSpanClass += Constants.WHITE_SPACE + mi_iconClass;
+		if (ComponentUtil.isNotBlank(attrs.getIconClass())) {
+			iconImgSpanClass += Constants.WHITE_SPACE + attrs.getIconClass();
 		}
-		if (ComponentUtil.isNotBlank(mi_labelClass)) {
-			labelSpanClass += Constants.WHITE_SPACE + mi_labelClass;
+		if (ComponentUtil.isNotBlank(attrs.getLabelClass())) {
+			labelSpanClass += Constants.WHITE_SPACE + attrs.getLabelClass();
 		}
 		
 //		itemTopDiv.setAttribute(HTML.ATTR_CLASS, topDivClass);
@@ -172,8 +136,8 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		 */
 		String topDivStyle = Constants.EMPTY;
 		
-		if (ComponentUtil.isNotBlank(mi_style)) {
-			topDivStyle += Constants.WHITE_SPACE + mi_style;
+		if (ComponentUtil.isNotBlank(attrs.getStyle())) {
+			topDivStyle += Constants.WHITE_SPACE + attrs.getStyle();
 		}
 		
 //		itemTopDiv.setAttribute(HTML.ATTR_STYLE, topDivStyle);
@@ -189,12 +153,11 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 			childInfo.addSourceChild(iconFacet);
 			creationData.addChildrenInfo(childInfo);
 		} else {
-			String iconPath = sourceElement.getAttribute(ICON);
-			if (ComponentUtil.isNotBlank(iconPath)) {
+			if (ComponentUtil.isNotBlank(attrs.getIcon())) {
 				/*
 				 * Add path to specified image
 				 */
-				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(iconPath, pageContext, true);
+				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(attrs.getIcon(), pageContext, true);
 				itemIconImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 			} else {
 				/*
@@ -211,10 +174,10 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		/*
 		 * Encode label and icon value
 		 */
-		Attr valueAttr = sourceElement.getAttributeNode(HTML.ATTR_VALUE);
-		String labelValue = (valueAttr != null && valueAttr.getValue() != null) 
-					? valueAttr.getValue()
-					: Constants.EMPTY;
+		String labelValue = Constants.EMPTY;
+		if (ComponentUtil.isNotBlank(attrs.getValue())) {
+		    labelValue = attrs.getValue();
+		}
 		itemLabelText.setNodeValue(labelValue);
 		
 		/*
@@ -229,21 +192,58 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		
 		return creationData;
 	}
+
+	@Override
+	public boolean recreateAtAttrChange(VpePageContext pageContext,
+			Element sourceElement, nsIDOMDocument visualDocument,
+			nsIDOMElement visualNode, Object data, String name, String value) {
+		return true;
+	}
 	
-	
-	/**
-	 * Read attributes from the source element.
-	 * 
-	 * @param sourceNode the source node
-	 */
-	private void readMenuItemAttributes(Element sourceElement) {
+	class Attributes {
+
+	    /*
+	     * rich:menuItem attributes names
+	     */
+	    private String ICON = "icon"; //$NON-NLS-1$
+
+	    /*
+	     * rich:menuItem css styles and classes attributes names
+	     */
+	    private String ICON_CLASS = "iconClass"; //$NON-NLS-1$
+	    private String ICON_DISABLED = "iconDisabled"; //$NON-NLS-1$
+	    private String ICON_STYLE = "iconStyle"; //$NON-NLS-1$
+	    private String LABEL_CLASS = "labelClass"; //$NON-NLS-1$
+	    private String SELECT_STYLE = "selectStyle"; //$NON-NLS-1$
+	    private String SELECT_CLASS = "selectClass"; //$NON-NLS-1$
+
+	    /*
+	     * rich:menuItem attributes 
+	     */
+	    private String mi_disabled;
+	    private String mi_icon;
+	    private String mi_value;
+
+	    /*
+	     * rich:menuItem css styles and classes attributes
+	     */
+	    private String mi_iconClass;
+	    private String mi_iconDisabled;
+	    private String mi_iconStyle;
+	    private String mi_labelClass;
+	    private String mi_selectClass;
+	    private String mi_selectStyle;
+	    private String mi_style;
+	    private String mi_styleClass;
+
+	    public Attributes(final Element sourceElement) {
 		if (null == sourceElement) {
-			return;
+		    return;
 		}
 		mi_disabled = sourceElement.getAttribute(HTML.ATTR_DISABLED);
 		mi_icon = sourceElement.getAttribute(ICON);
 		mi_value = sourceElement.getAttribute(HTML.ATTR_VALUE);
-		
+
 		mi_iconClass = sourceElement.getAttribute(ICON_CLASS);
 		mi_iconDisabled = sourceElement.getAttribute(ICON_DISABLED);
 		mi_iconStyle = sourceElement.getAttribute(ICON_STYLE);
@@ -252,13 +252,32 @@ public class RichFacesMenuItemTemplate extends VpeAbstractTemplate {
 		mi_selectStyle = sourceElement.getAttribute(SELECT_STYLE);
 		mi_style = sourceElement.getAttribute(HTML.ATTR_STYLE);
 		mi_styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-	}
+	    }
 
-	@Override
-	public boolean recreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement visualNode, Object data, String name, String value) {
-		return true;
+	    public String getIconClass() {
+		return mi_iconClass;
+	    }
+
+	    public String getLabelClass() {
+		return mi_labelClass;
+	    }
+
+	    public String getStyle() {
+		return mi_style;
+	    }
+
+	    public String getStyleClass() {
+		return mi_styleClass;
+	    }
+
+	    public String getIcon() {
+		return mi_icon;
+	    }
+
+	    public String getValue() {
+		return mi_value;
+	    }
+
 	}
 
 }
