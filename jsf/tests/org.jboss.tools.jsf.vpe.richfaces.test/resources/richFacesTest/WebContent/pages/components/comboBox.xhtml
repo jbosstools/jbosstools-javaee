@@ -7,6 +7,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+	<link rel="stylesheet" href="main.css" type="text/css"/>
 </head>
 <body>
 <h1>comboBox</h1>
@@ -48,5 +49,25 @@
 	<f:selectItem itemValue="suggestion 5" />
 </rich:comboBox>
 
+<rich:panel styleClass="btn" id="complexCombo">
+	<f:facet name="header">
+    	<h:outputText value="Combo Box"/>
+    </f:facet>
+	<form>
+		<rich:comboBox defaultLabel="Enter some value" width="150">
+    		<f:selectItem itemValue="item 1"/>
+    		<f:selectItem itemValue="item 2"/>
+    		<f:selectItem itemValue="item 3"/>
+    		<f:selectItem itemValue="item 4"/>
+    		<f:selectItem itemValue="item 5" />
+			<f:selectItem itemValue="item 6" escape="false"/>
+    		<f:selectItem itemValue="item 7" itemDisabled="true"/>
+			<f:selectItem itemValue="item 8" itemDescription="some descriprion"/>
+    		<f:selectItem itemValue="item 10"/>
+    		<f:selectItem itemValue="item 11"/>
+    		<f:selectItem itemValue="item 12"/>
+  		</rich:comboBox>
+    </form>
+</rich:panel>	
 </body>
 </html>

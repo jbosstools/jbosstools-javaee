@@ -33,7 +33,8 @@
 									CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/pickList/arrow_copy.gif/"/> Copy
+											SRC="/.*resources/pickList/arrow_remove.gif/" />
+										Remove
 									</DIV>
 								</DIV>
 							</DIV>
@@ -43,7 +44,8 @@
 									CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/pickList/arrow_remove.gif/"/> Remove
+											SRC="/.*resources/pickList/arrow_copy_all.gif/" />
+										Copy all
 									</DIV>
 								</DIV>
 							</DIV>
@@ -53,7 +55,8 @@
 									CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/pickList/arrow_remove_all.gif/"/> Remove All
+											SRC="/.*resources/pickList/arrow_copy.gif/" />
+										Copy
 									</DIV>
 								</DIV>
 							</DIV>
@@ -63,7 +66,8 @@
 									CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/pickList/arrow_copy_all.gif/"/> Copy all
+											SRC="/.*resources/pickList/arrow_remove_all.gif/" />
+										Remove All
 									</DIV>
 								</DIV>
 							</DIV>
@@ -75,12 +79,12 @@
 								CLASS="rich-picklist-body">
 								<TR>
 									<TD STYLE="border: 0px none ; padding: 0px;">
-										<BR _MOZ_DIRTY="" TYPE="_moz"/>
+										<BR _MOZ_DIRTY="" TYPE="_moz" />
 									</TD>
 								</TR>
 							</TABLE>
 						</DIV>
-						<BR _MOZ_DIRTY="" TYPE="_moz"/>
+						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 				</TR>
 			</TBODY>
