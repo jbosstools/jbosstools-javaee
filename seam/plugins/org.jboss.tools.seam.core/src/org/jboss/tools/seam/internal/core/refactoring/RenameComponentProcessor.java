@@ -417,14 +417,15 @@ public class RenameComponentProcessor extends RenameProcessor {
 		Set<ISeamFactory> factorySet = seamProject.getFactoriesByName(component.getName());
 		
 		for(ISeamFactory factory : factorySet){
-			ISeamTextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
-			if(location != null){
-				IFile file = (IFile)factory.getResource();
-				
-				if(file.getFileExtension().equalsIgnoreCase(XML_EXT))
-					changeXMLNode(location, file);
-				else
+			IFile file = (IFile)factory.getResource();
+			if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
+				ISeamTextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
+				if(location != null)
 					changeAnnotation(location, file);
+			}else{
+				ISeamTextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+				if(location != null)
+					changeXMLNode(location, file);
 			}
 		}
 	}
