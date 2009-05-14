@@ -1310,9 +1310,25 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
+                
+                    <para>The available preferences are as follows:</para>
+                    <itemizedlist>
+                        <listitem><para>Show Border for Unknown Tags</para></listitem>
+                        <listitem><para>Show Non-Visual Tags</para></listitem>
+                        <listitem><para>Show Resource Bundles Usage as EL Expressions</para></listitem>
+                        <listitem><para>Always Prompt for Tag Attributes During Tag Insert</para></listitem>
+                        <listitem><para>Show Selection Tag Bar</para></listitem>
+                        <listitem><para>Always Hide Selection Bar without Prompt</para></listitem>
+                        <listitem><para>Default Editor Tab: <emphasis>Visual/Source</emphasis>, <emphasis>Source</emphasis> or <emphasis>Preview</emphasis></para></listitem>
+                        <listitem><para>Size of Visual Editor Pane 0-100%</para></listitem>
+                    </itemizedlist> <para>Click on the <emphasis><property>Apply</property></emphasis> button to apply the changes or on the <emphasis><property>Restore Defaults</property></emphasis> button to cancel the changes and set the default preferences.</para>  
+                             
                 </listitem>
 
+
+
                 <listitem>
+                    
                     <para>Clicking on <emphasis>
                             <property>Refresh</property>
                     </emphasis> button 
