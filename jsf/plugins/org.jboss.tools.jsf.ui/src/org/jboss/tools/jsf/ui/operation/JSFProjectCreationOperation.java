@@ -35,6 +35,7 @@ import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.jst.web.context.RegisterServerContext;
+import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.project.helpers.IWebProjectTemplate;
 import org.jboss.tools.jst.web.project.helpers.NewWebProjectContext;
 import org.jboss.tools.jst.web.ui.operation.WebProjectCreationOperation;
@@ -140,6 +141,12 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 			projectFile = null;
 		}
 		model.getProperties().put(XModelConstants.AUTOLOAD, new JSFAutoLoad());
+	
+		try {
+			EclipseResourceUtil.addNatureToProject(getProject(), IKbProject.NATURE_ID);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 }
