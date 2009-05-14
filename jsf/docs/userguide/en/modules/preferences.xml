@@ -431,7 +431,13 @@
                             editor</entry>
                         <entry>Visual/Source</entry>
                     </row>
-
+                    <row>
+                        <entry>Visual/Source Editors Splitting</entry>
+                        <entry>The option allows to choose one of the following
+                            Visual,Source layouts - Vertical Source on top, Vertical Visual on top,Horizontal Source to the left or Horizontal Visual to the left ,as a default one when opening the
+                            Visual/Source view</entry>
+                        <entry>Vertical Source on top</entry>
+                    </row>
                     <row>
                         <entry>Size of Visual Editor Pane 0 – 100% </entry>
                         <entry>With the help of this scroll bar you can adjust the percentage rating
