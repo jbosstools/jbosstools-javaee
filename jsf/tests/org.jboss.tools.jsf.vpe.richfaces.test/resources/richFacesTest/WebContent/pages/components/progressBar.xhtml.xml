@@ -7,9 +7,33 @@
 				STYLE="height: 13px; width: 60%;">
 				<DIV
 					STYLE="height: 13px; font-weight: bold; position: relative; text-align: center;">
-					#{progressBarBean.currentValue} %
+					#{progressBarBean.currentValue} % </DIV>
+			</DIV>
 		</DIV>
-</DIV>
-</DIV>
-    </test>
+	</test>
+	<test id="progressBar1">
+		<DIV CLASS="dr-pnl rich-panel">
+			<DIV CLASS="dr-pnl-h rich-panel-header"
+				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+				<SPAN CLASS="vpe-text">
+					Progress Bar
+				</SPAN>
+			</DIV>
+			<DIV CLASS="dr-pnl-b rich-panel-body">
+				<DIV
+					CLASS="rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell btn"
+					STYLE="color: red; text-align: left;">
+					<DIV CLASS="rich-progress-bar-height rich-progress-bar-uploaded null"
+						STYLE="color: red; width: 60%;">
+					</DIV>
+				</DIV>
+				<BUTTON STYLE="margin: 9px 0px 5px; -moz-user-modify: read-only;"
+					ID="button">
+					<SPAN CLASS="vpe-text">
+						Start Progress
+					</SPAN>
+				</BUTTON>
+			</DIV>
+		</DIV>
+	</test>
 </tests>
