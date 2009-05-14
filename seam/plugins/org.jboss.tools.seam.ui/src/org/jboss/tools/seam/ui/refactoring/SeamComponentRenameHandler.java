@@ -17,6 +17,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
@@ -24,6 +25,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
@@ -54,17 +56,21 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 			
 			IProject project = file.getProject();
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-			ISeamComponent component=null;
 			if (seamProject != null) {
 				Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
-				if (!components.isEmpty()) {
-					// This is a component which we want to rename.
-					component = components.iterator().next();
+				for(ISeamComponent component : components){
+					ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
+					if(declaration != null){
+						IResource resource = declaration.getResource();
+						if(resource != null && resource.getFullPath().equals(file.getFullPath())){
+							if(declaration.getName().equals(component.getName())){
+								invokeRenameWizard(component, activeShell);
+								return null;
+							}
+						}
+					}
 				}
 			}
-			
-			invokeRenameWizard(component, activeShell);
-
 		}
 		return null;
 	}
