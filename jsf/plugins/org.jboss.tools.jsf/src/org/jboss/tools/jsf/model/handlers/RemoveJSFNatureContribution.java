@@ -1,10 +1,15 @@
 package org.jboss.tools.jsf.model.handlers;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.meta.action.SpecialWizard;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
 public class RemoveJSFNatureContribution implements SpecialWizard {
@@ -36,6 +41,15 @@ public class RemoveJSFNatureContribution implements SpecialWizard {
 			String name = params[i].getAttributeValue("param-name");
 			if(name != null && name.startsWith("javax.faces.")) {
 				DefaultRemoveHandler.removeFromParent(params[i]);
+			}
+		}
+
+		IProject project = EclipseResourceUtil.getProject(model.getRoot());
+		if(project != null) {
+			try {
+				EclipseResourceUtil.removeNatureFromProject(project, IKbProject.NATURE_ID);
+			} catch (CoreException e) {
+				JSFModelPlugin.getPluginLog().logError(e);
 			}
 		}
 		

@@ -17,6 +17,8 @@ import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jst.web.kb.IKbProject;
 
 /**
  * 
@@ -33,7 +35,8 @@ public class PostInstallJsfFacetDelegate implements IDelegate  {
 			writeXModel(project);
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			
-			EclipseResourceUtil.addNatureToProject(project, "org.jboss.tools.jsf.jsfnature");
+			EclipseResourceUtil.addNatureToProject(project, JSFNature.NATURE_ID);
+			EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
 	}
 	
 	private void writeXModel(IProject project) {
