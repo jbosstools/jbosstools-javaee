@@ -429,7 +429,17 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 	}
 	
+	private boolean isBadLocation(ISeamTextSourceReference location){
+		if(location.getStartPosition() == 0 && location.getLength() == 0)
+			return true;
+		else
+			return false;
+	}
+	
 	private void changeXMLNode(ISeamTextSourceReference location, IFile file){
+		if(isBadLocation(location))
+			return;
+		
 		String content = null;
 		try {
 			content = FileUtil.readStream(file.getContents());
@@ -456,6 +466,9 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void changeAnnotation(ISeamTextSourceReference location, IFile file){
+		if(isBadLocation(location))
+			return;
+
 		String content = null;
 		try {
 			content = FileUtil.readStream(file.getContents());
