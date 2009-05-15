@@ -95,6 +95,10 @@ public class SeamComponentRefactoringTest extends TestCase {
 				0, 4, "best");
 		list.add(structure);
 		
+		structure = new TestChangeStructure(warProject, "/WebContent/test.xhtml",
+				1088, 4, "best");
+		list.add(structure);
+		
 		structure = new TestChangeStructure(warProject, "/WebContent/test.jsp",
 				227, 4, "best");
 		list.add(structure);
@@ -103,18 +107,16 @@ public class SeamComponentRefactoringTest extends TestCase {
 				29, 4, "best");
 		list.add(structure);
 		
-		structure = new TestChangeStructure(earProject, "/EarContent/test.jsp",
-				227, 4, "best");
-		list.add(structure);
-		
-		structure = new TestChangeStructure(earProject, "/EarContent/test.properties",
-				29, 4, "best");
-		list.add(structure);
+//		structure = new TestChangeStructure(earProject, "/EarContent/test.jsp",
+//				227, 4, "best");
+//		list.add(structure);
+//		
+//		structure = new TestChangeStructure(earProject, "/EarContent/test.properties",
+//				29, 4, "best");
+//		list.add(structure);
 		
 		/*
-		structure = new TestChangeStructure("/WebContent/login.xhtml",
-				1033, 4, "best");
-		list.add(structure);
+		
 		*/
 		renameComponent(seamEjbProject, "test", "best", list);
 	}
