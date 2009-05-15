@@ -100,6 +100,7 @@ import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -111,7 +112,6 @@ import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
@@ -849,7 +849,7 @@ public class SeamSearchVisitor {
 								IResource resource = decl.getResource(); 
 								String name = decl.getName();
 								
-								ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
+								ITextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
 								if (textSourceReference != null) {
 									int offset = textSourceReference.getStartPosition();
 									int length = textSourceReference.getLength();
@@ -878,7 +878,7 @@ public class SeamSearchVisitor {
 						IResource resource = decl.getResource();
 						String name = decl.getName();
 						
-						ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
+						ITextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
 						if (textSourceReference != null) {
 							int offset = textSourceReference.getStartPosition();
 							int length = textSourceReference.getLength();
@@ -906,7 +906,7 @@ public class SeamSearchVisitor {
 							IResource resource = decl.getResource();
 							String name = decl.getName();
 							
-							ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
+							ITextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
 							if (textSourceReference != null) {
 								int offset = textSourceReference.getStartPosition();
 								int length = textSourceReference.getLength();
@@ -927,7 +927,7 @@ public class SeamSearchVisitor {
 						IResource resource = decl.getResource();
 						String name = decl.getName();
 						
-						ISeamTextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
+						ITextSourceReference textSourceReference = decl.getLocationFor(AbstractSeamDeclaration.PATH_OF_NAME);
 						if (textSourceReference != null) {
 							int offset = textSourceReference.getStartPosition();
 							int length = textSourceReference.getLength();
