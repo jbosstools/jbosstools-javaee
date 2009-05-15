@@ -354,6 +354,12 @@ litigation.
          version="0.0.0"/>
 
    <plugin
+         id="org.jboss.tools.jst.web.kb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
          id="org.jboss.tools.jst.web.tiles"
          download-size="0"
          install-size="0"
