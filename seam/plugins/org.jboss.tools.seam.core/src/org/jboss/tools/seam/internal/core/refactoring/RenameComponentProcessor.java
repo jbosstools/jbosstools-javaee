@@ -168,7 +168,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		declarationFile = (IFile)javaDecl.getResource();
 		if(declarationFile != null && !coreHelper.isJar(javaDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null){
+			if(location != null && !isBadLocation(location)){
 				TextFileChange change = getChange(declarationFile);
 				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 				change.addEdit(edit);
