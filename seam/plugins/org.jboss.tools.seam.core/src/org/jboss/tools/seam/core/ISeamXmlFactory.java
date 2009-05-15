@@ -10,11 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+
 /**
  * Represents <factory> element in components.xml
  * @author Alexey Kazakov
  */
-public interface ISeamXmlFactory extends ISeamFactory, ISeamTextSourceReference {
+public interface ISeamXmlFactory extends ISeamFactory, ITextSourceReference {
 
 	/**
 	 * @return string value of 'value' attribute

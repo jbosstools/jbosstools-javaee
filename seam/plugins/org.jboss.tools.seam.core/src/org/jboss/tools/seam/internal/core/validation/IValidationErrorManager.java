@@ -14,8 +14,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 
 /**
  * @author Alexey Kazakov
@@ -31,7 +31,7 @@ public interface IValidationErrorManager {
 	 * @param target
 	 */
 	void addError(String messageId, String preferenceKey,
-			String[] messageArguments, ISeamTextSourceReference location,
+			String[] messageArguments, ITextSourceReference location,
 			IResource target);
 
 	/**
@@ -53,7 +53,7 @@ public interface IValidationErrorManager {
 	 * @param target
 	 */
 	void addError(String messageId, String preferenceKey,
-			ISeamTextSourceReference location, IResource target);
+			ITextSourceReference location, IResource target);
 
 	/**
 	 * Adds a marker to the resource

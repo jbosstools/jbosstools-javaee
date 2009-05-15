@@ -1,8 +1,8 @@
 package org.jboss.tools.seam.internal.core;
 
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ScopeType;
 
 public class SeamContextShortVariable extends SeamObject implements ISeamContextShortVariable {
@@ -36,7 +36,7 @@ public class SeamContextShortVariable extends SeamObject implements ISeamContext
 		throw new CloneNotSupportedException();
 	}
 
-	public ISeamTextSourceReference getLocationFor(String path) {
+	public ITextSourceReference getLocationFor(String path) {
 		return original.getLocationFor(path);
 	}
 }

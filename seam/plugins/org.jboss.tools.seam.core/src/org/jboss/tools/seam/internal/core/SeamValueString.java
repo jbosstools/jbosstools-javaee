@@ -13,9 +13,10 @@ package org.jboss.tools.seam.internal.core;
 import java.util.List;
 import java.util.Properties;
 
+import org.jboss.tools.common.model.project.ext.IValueInfo;
+import org.jboss.tools.common.model.project.ext.event.Change;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.IValueInfo;
-import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.core.event.ISeamValueString;
 import org.w3c.dom.Element;
 
@@ -67,7 +68,7 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 		Element element = super.toXML(parent, context);
 		
 		if(value != null) {
-			SeamXMLHelper.saveValueInfo(element, value, context);
+			XMLStoreHelper.saveValueInfo(element, value, context);
 		}
 
 		return element;
@@ -75,7 +76,7 @@ public class SeamValueString extends SeamObject implements ISeamValueString {
 	
 	public void loadXML(Element element, Properties context) {
 		super.loadXML(element, context);
-		setValue(SeamXMLHelper.loadValueInfo(element, context));
+		setValue(XMLStoreHelper.loadValueInfo(element, context));
 	}
 
 }

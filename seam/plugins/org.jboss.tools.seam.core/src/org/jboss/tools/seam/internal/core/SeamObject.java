@@ -22,10 +22,11 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 /**
@@ -167,14 +168,14 @@ public class SeamObject implements ISeamElement {
 				eid.setAttribute(SeamXMLConstants.ATTR_CLASS, SeamXMLConstants.CLS_STRING);
 				eid.setAttribute(SeamXMLConstants.ATTR_VALUE, id.toString());
 			} else if(id instanceof IType) {
-				SeamXMLHelper.saveType(element, ((IType)id), SeamXMLConstants.TAG_ID, context);
+				XMLStoreHelper.saveType(element, ((IType)id), SeamXMLConstants.TAG_ID, context);
 			} else if(id instanceof IField) {
-				SeamXMLHelper.saveField(element, ((IField)id), SeamXMLConstants.TAG_ID, context);
+				XMLStoreHelper.saveField(element, ((IField)id), SeamXMLConstants.TAG_ID, context);
 			} else if(id instanceof IMethod) {
-				SeamXMLHelper.saveMethod(element, ((IMethod)id), SeamXMLConstants.TAG_ID, context);
+				XMLStoreHelper.saveMethod(element, ((IMethod)id), SeamXMLConstants.TAG_ID, context);
 			} else if(id instanceof XModelObject) {
 				XModelObject o = (XModelObject)id;
-				SeamXMLHelper.saveModelObject(element, o, SeamXMLConstants.TAG_ID, context);
+				XMLStoreHelper.saveModelObject(element, o, SeamXMLConstants.TAG_ID, context);
 			}
 		}
 		return element;
@@ -193,13 +194,13 @@ public class SeamObject implements ISeamElement {
 			if(SeamXMLConstants.CLS_STRING.equals(cls)) {
 				id = e_id.getAttribute("string");
 			} else if(SeamXMLConstants.CLS_TYPE.equals(cls)) {
-				id = SeamXMLHelper.loadType(e_id, context);
+				id = XMLStoreHelper.loadType(e_id, context);
 			} else if(SeamXMLConstants.CLS_FIELD.equals(cls)) {
-				id = SeamXMLHelper.loadField(e_id, context);
+				id = XMLStoreHelper.loadField(e_id, context);
 			} else if(SeamXMLConstants.CLS_METHOD.equals(cls)) {
-				id = SeamXMLHelper.loadMethod(e_id, context);
+				id = XMLStoreHelper.loadMethod(e_id, context);
 			} else if(SeamXMLConstants.CLS_MODEL_OBJECT.equals(cls)) {
-				id = SeamXMLHelper.loadModelObject(e_id, context);
+				id = XMLStoreHelper.loadModelObject(e_id, context);
 			}
 		}
 	}

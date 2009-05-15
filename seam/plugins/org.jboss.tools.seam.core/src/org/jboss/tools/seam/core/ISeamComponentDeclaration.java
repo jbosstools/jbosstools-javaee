@@ -10,11 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+
 /**
  * Represents declaration of seam component.
  * @author Alexey Kazakov
  */
-public interface ISeamComponentDeclaration extends ISeamDeclaration, ISeamTextSourceReference {
+public interface ISeamComponentDeclaration extends ISeamDeclaration, ITextSourceReference {
 
 	public ISeamComponentDeclaration clone() throws CloneNotSupportedException;
 

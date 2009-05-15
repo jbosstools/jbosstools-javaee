@@ -24,12 +24,12 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
@@ -66,7 +66,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 			Set<ISeamComponentDeclaration> declarations = ((ISeamComponent)element).getAllDeclarations();
 			for (Object o : declarations) {
 				SeamComponentDeclaration d = (SeamComponentDeclaration)o;
-				ISeamTextSourceReference location = d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+				ITextSourceReference location = d.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 				if(!SeamCoreValidator.isEmptyLocation(location)) {
 					return d.getResource();
 				}
@@ -79,7 +79,7 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 * @param seam model element
 	 * @return location of name attribute
 	 */
-	public ISeamTextSourceReference getLocationOfName(ISeamElement element) {
+	public ITextSourceReference getLocationOfName(ISeamElement element) {
 		return getLocationOfAttribute(element, SeamComponentDeclaration.PATH_OF_NAME);
 	}
 
@@ -87,8 +87,8 @@ public class SeamValidationHelper extends WorkbenchContext {
 	 * @param seam model element
 	 * @return location of attribute
 	 */
-	public ISeamTextSourceReference getLocationOfAttribute(ISeamElement element, String attributeName) {
-		ISeamTextSourceReference location = null;
+	public ITextSourceReference getLocationOfAttribute(ISeamElement element, String attributeName) {
+		ITextSourceReference location = null;
 		if(element instanceof AbstractContextVariable) {
 			location = ((AbstractContextVariable)element).getLocationFor(attributeName);
 		} else if(element instanceof ISeamComponent) {
@@ -102,8 +102,8 @@ public class SeamValidationHelper extends WorkbenchContext {
 		} else if(element instanceof SeamComponentDeclaration) {
 			location = ((SeamComponentDeclaration)element).getLocationFor(attributeName);
 		}
-		if(SeamCoreValidator.isEmptyLocation(location) && element instanceof ISeamTextSourceReference) {
-			location = (ISeamTextSourceReference)element;
+		if(SeamCoreValidator.isEmptyLocation(location) && element instanceof ITextSourceReference) {
+			location = (ITextSourceReference)element;
 		}
 		return location;
 	}

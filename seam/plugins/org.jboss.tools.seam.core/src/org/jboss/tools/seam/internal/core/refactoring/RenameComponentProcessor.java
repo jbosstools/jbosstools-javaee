@@ -55,6 +55,7 @@ import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -62,7 +63,6 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -167,7 +167,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
 		declarationFile = (IFile)javaDecl.getResource();
 		if(declarationFile != null && !coreHelper.isJar(javaDecl)){
-			ISeamTextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null){
 				TextFileChange change = getChange(declarationFile);
 				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -179,7 +179,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl){
 		declarationFile = (IFile)xmlDecl.getResource();
 		if(declarationFile != null && !coreHelper.isJar(xmlDecl)){
-			ISeamTextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null)
 				changeXMLNode(location, declarationFile);
 		}
@@ -408,7 +408,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(component.getName(), BijectedAttributeType.IN);
 		
 		for(IBijectedAttribute inAtt : inSet){
-			ISeamTextSourceReference location = inAtt.getLocationFor(SeamAnnotations.IN_ANNOTATION_TYPE);
+			ITextSourceReference location = inAtt.getLocationFor(SeamAnnotations.IN_ANNOTATION_TYPE);
 			if(location != null)
 				changeAnnotation(location, (IFile)inAtt.getResource());
 		}
@@ -419,25 +419,25 @@ public class RenameComponentProcessor extends RenameProcessor {
 		for(ISeamFactory factory : factorySet){
 			IFile file = (IFile)factory.getResource();
 			if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
-				ISeamTextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
+				ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
 				if(location != null)
 					changeAnnotation(location, file);
 			}else{
-				ISeamTextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+				ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
 				if(location != null)
 					changeXMLNode(location, file);
 			}
 		}
 	}
 	
-	private boolean isBadLocation(ISeamTextSourceReference location){
+	private boolean isBadLocation(ITextSourceReference location){
 		if(location.getStartPosition() == 0 && location.getLength() == 0)
 			return true;
 		else
 			return false;
 	}
 	
-	private void changeXMLNode(ISeamTextSourceReference location, IFile file){
+	private void changeXMLNode(ITextSourceReference location, IFile file){
 		if(isBadLocation(location))
 			return;
 		
@@ -466,7 +466,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		}
 	}
 	
-	private void changeAnnotation(ISeamTextSourceReference location, IFile file){
+	private void changeAnnotation(ITextSourceReference location, IFile file){
 		if(isBadLocation(location))
 			return;
 

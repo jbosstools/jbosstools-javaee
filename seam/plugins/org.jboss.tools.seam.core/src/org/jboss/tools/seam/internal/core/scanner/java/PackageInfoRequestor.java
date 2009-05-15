@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.seam.internal.core.SeamNamespace;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 

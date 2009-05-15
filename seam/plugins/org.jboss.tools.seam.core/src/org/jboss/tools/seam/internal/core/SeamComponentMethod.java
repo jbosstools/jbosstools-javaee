@@ -18,10 +18,10 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 /**

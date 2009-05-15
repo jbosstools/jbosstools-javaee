@@ -31,9 +31,10 @@ import org.eclipse.jdt.internal.compiler.env.IBinaryElementValuePair;
 import org.eclipse.jdt.internal.compiler.env.IBinaryField;
 import org.eclipse.jdt.internal.compiler.env.IBinaryMethod;
 import org.eclipse.jdt.internal.compiler.impl.Constant;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
+import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
-import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
@@ -46,7 +47,6 @@ import org.jboss.tools.seam.internal.core.SeamMessages;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
-import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 public class TypeScanner implements SeamAnnotations {
 

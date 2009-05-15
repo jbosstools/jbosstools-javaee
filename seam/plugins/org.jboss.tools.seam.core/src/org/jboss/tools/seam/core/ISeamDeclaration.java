@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 
 /**
  * @author Viacheslav Kabanovich
@@ -28,6 +29,6 @@ public interface ISeamDeclaration extends ISeamElement, IAdaptable {
 	 * e.g. if you need source reference for @Name you have to 
 	 * invoke getLocationFor("name");
 	 */
-	public ISeamTextSourceReference getLocationFor(String path);
+	public ITextSourceReference getLocationFor(String path);
 
 }

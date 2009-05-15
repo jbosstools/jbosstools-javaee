@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
-import org.jboss.tools.seam.core.IValueInfo;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 /**

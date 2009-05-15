@@ -27,6 +27,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jst.web.model.helpers.InnerModelHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;

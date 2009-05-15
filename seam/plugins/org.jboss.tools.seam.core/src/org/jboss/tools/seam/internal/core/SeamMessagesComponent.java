@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamMessages;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 /**

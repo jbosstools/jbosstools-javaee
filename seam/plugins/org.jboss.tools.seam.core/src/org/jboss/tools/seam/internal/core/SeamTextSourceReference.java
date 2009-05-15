@@ -10,12 +10,12 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 
 /**
  * @author Alexey Kazakov
  */
-public class SeamTextSourceReference implements ISeamTextSourceReference {
+public class SeamTextSourceReference implements ITextSourceReference {
 
 	private int length;
 	private int startPosition;

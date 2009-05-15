@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
+import org.jboss.tools.common.model.project.ext.event.Change;
+import org.jboss.tools.common.model.project.ext.event.IChangeVisitor;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 

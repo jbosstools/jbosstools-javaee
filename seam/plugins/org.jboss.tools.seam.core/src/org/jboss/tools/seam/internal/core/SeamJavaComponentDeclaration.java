@@ -26,8 +26,11 @@ import org.eclipse.jdt.ui.JavaUI;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -38,12 +41,10 @@ import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
-import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamComponentPrecedenceType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
@@ -503,14 +504,14 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 				if(v == null) continue;
 				Element e_type = XMLUtilities.createElement(e_types, "bean-type");
 				e_type.setAttribute(SeamXMLConstants.ATTR_NAME, t.toString());
-				SeamXMLHelper.saveValueInfo(e_type, v, context);
+				XMLStoreHelper.saveValueInfo(e_type, v, context);
 			}
 		}
 		
 		element.setAttribute(SeamXmlComponentDeclaration.PRECEDENCE, "" + precedence);
 		
 		if(type != null && type != id) {
-			SeamXMLHelper.saveType(element, type, "type", context);
+			XMLStoreHelper.saveType(element, type, "type", context);
 		}
 		if(type != null) context.put(SeamXMLConstants.ATTR_TYPE, type);
 		
@@ -565,7 +566,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 					continue;
 				}
 				if(t == null) continue;
-				IValueInfo value = SeamXMLHelper.loadValueInfo(e_type[i], context);
+				IValueInfo value = XMLStoreHelper.loadValueInfo(e_type[i], context);
 				if(value != null) {
 					types.put(t, value);
 				}
@@ -585,7 +586,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		
 		Element e_type = XMLUtilities.getUniqueChild(element, "type");
 		if(e_type != null) {
-			type = SeamXMLHelper.loadType(e_type, context);
+			type = XMLStoreHelper.loadType(e_type, context);
 		} else if(id instanceof IType) {
 			type = (IType)id;
 		}

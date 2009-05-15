@@ -10,12 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.seam.core.event.ISeamValue;
 
 /**
  * A property of Seam Component defined in component.xml or seam.properties files
  */
-public interface ISeamProperty extends ISeamDeclaration, ISeamTextSourceReference {
+public interface ISeamProperty extends ISeamDeclaration, ITextSourceReference {
 
 	/**
 	 * @return value of this property

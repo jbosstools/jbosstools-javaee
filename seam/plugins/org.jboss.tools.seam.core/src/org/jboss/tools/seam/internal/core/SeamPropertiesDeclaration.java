@@ -28,13 +28,13 @@ import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 public class SeamPropertiesDeclaration extends SeamComponentDeclaration

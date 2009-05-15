@@ -17,11 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.ScopeType;
-import org.jboss.tools.seam.core.event.Change;
 
 public class SeamScope extends SeamObject implements ISeamScope {
 	//Contains all components for that scope.

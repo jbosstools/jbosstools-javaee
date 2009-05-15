@@ -23,8 +23,8 @@ import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 
@@ -76,7 +76,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 *      org.eclipse.core.resources.IResource)
 	 */
 	public void addError(String messageId, String preferenceKey,
-			String[] messageArguments, ISeamTextSourceReference location,
+			String[] messageArguments, ITextSourceReference location,
 			IResource target) {
 		addError(messageId, preferenceKey, messageArguments, location
 				.getLength(), location.getStartPosition(), target);
@@ -91,7 +91,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 *      org.eclipse.core.resources.IResource)
 	 */
 	public void addError(String messageId, String preferenceKey,
-			ISeamTextSourceReference location, IResource target) {
+			ITextSourceReference location, IResource target) {
 		addError(messageId, preferenceKey, new String[0], location, target);
 	}
 

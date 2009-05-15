@@ -25,11 +25,12 @@ import org.eclipse.jdt.ui.JavaUI;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 public abstract class SeamJavaContextVariable extends AbstractContextVariable implements ISeamJavaSourceReference {
@@ -95,13 +96,13 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		Element element = super.toXML(parent, context);
 		
 		if(javaSource instanceof IField) {
-			SeamXMLHelper.saveField(element, (IField)javaSource, TAG_JAVA_SOURCE, context);
+			XMLStoreHelper.saveField(element, (IField)javaSource, TAG_JAVA_SOURCE, context);
 		} else if(javaSource instanceof IMethod) {
-			SeamXMLHelper.saveMethod(element, (IMethod)javaSource, TAG_JAVA_SOURCE, context);
+			XMLStoreHelper.saveMethod(element, (IMethod)javaSource, TAG_JAVA_SOURCE, context);
 		} else if(javaSource instanceof IType) {
 			Element ce = XMLUtilities.createElement(element, TAG_JAVA_SOURCE);
 			ce.setAttribute(SeamXMLConstants.ATTR_CLASS, SeamXMLConstants.CLS_TYPE);
-			SeamXMLHelper.saveType(ce, (IType)javaSource, context);
+			XMLStoreHelper.saveType(ce, (IType)javaSource, context);
 		}
 
 		return element;
@@ -114,11 +115,11 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		if(c != null) {
 			String cls = c.getAttribute(SeamXMLConstants.ATTR_CLASS);
 			if(SeamXMLConstants.CLS_FIELD.equals(cls)) {
-				javaSource = SeamXMLHelper.loadField(c, context);
+				javaSource = XMLStoreHelper.loadField(c, context);
 			} else if(SeamXMLConstants.CLS_METHOD.equals(cls)) {
-				javaSource = SeamXMLHelper.loadMethod(c, context);
+				javaSource = XMLStoreHelper.loadMethod(c, context);
 			} else if(SeamXMLConstants.CLS_TYPE.equals(cls)) {
-				javaSource = SeamXMLHelper.loadType(c, context);
+				javaSource = XMLStoreHelper.loadType(c, context);
 			}
 		}
 

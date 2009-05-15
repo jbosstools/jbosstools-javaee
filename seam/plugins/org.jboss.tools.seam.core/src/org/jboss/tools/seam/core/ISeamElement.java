@@ -15,7 +15,7 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.seam.core.event.Change;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.w3c.dom.Element;
 
 /**

@@ -54,6 +54,8 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jst.web.kb.IPageContext;
@@ -65,11 +67,9 @@ import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.event.Change;
 import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo;
 import org.w3c.dom.Element;
 
@@ -1109,7 +1109,7 @@ class StringVariable implements ISeamContextVariable, ISeamJavaSourceReference {
 	}
 	public void setScope(ScopeType type) {
 	}
-	public ISeamTextSourceReference getLocationFor(String path) {
+	public ITextSourceReference getLocationFor(String path) {
 		return null;
 	}
 	public String getName() {

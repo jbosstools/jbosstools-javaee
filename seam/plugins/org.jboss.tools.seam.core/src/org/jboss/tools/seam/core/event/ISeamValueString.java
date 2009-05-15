@@ -10,7 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core.event;
 
-import org.jboss.tools.seam.core.IValueInfo;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
 
 /**
  * @author Viacheslav Kabanovich

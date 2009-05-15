@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamPackage;
-import org.jboss.tools.seam.core.event.Change;
 
 public class SeamPackageUtil {
 	

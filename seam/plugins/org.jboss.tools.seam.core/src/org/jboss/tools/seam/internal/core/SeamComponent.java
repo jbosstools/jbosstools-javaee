@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
@@ -27,11 +29,9 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamPropertiesDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
-import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich
@@ -89,7 +89,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 		return null;
 	}
 
-	public ISeamTextSourceReference getLocationFor(String path) {
+	public ITextSourceReference getLocationFor(String path) {
 		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
 		if(javaDeclaration != null) return javaDeclaration.getLocationFor(path);
 		Set<ISeamXmlComponentDeclaration> xml = getXmlDeclarations();

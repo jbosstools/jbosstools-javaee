@@ -18,19 +18,20 @@ import java.util.Properties;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
+import org.jboss.tools.common.model.project.ext.event.Change;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
-import org.jboss.tools.seam.core.IValueInfo;
-import org.jboss.tools.seam.core.event.Change;
 import org.w3c.dom.Element;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public abstract class AbstractSeamDeclaration extends SeamObject implements ISeamDeclaration, ISeamTextSourceReference, IOpenableElement {
+public abstract class AbstractSeamDeclaration extends SeamObject implements ISeamDeclaration, ITextSourceReference, IOpenableElement {
 	public static final String PATH_OF_NAME = "name"; //$NON-NLS-1$
 
 	protected String name;
@@ -65,9 +66,9 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 	 * e.g. if you need source reference for @Name you have to 
 	 * invoke getLocationFor("name");
 	 */
-	public ISeamTextSourceReference getLocationFor(String path) {
+	public ITextSourceReference getLocationFor(String path) {
 		final IValueInfo valueInfo = attributes.get(path);
-		ISeamTextSourceReference reference = new ISeamTextSourceReference() {
+		ITextSourceReference reference = new ITextSourceReference() {
 			public int getLength() {
 				return valueInfo != null ? valueInfo.getLength() : 0;
 			}
@@ -116,7 +117,7 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		XModelObject old = pushModelObject(context);
 
 		if(name != null) element.setAttribute(SeamXMLConstants.ATTR_NAME, name);
-		SeamXMLHelper.saveMap(element, attributes, "attributes", context);
+		XMLStoreHelper.saveMap(element, attributes, "attributes", context);
 
 		popModelObject(context, old);
 
@@ -131,7 +132,7 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 		if(element.hasAttribute(SeamXMLConstants.ATTR_NAME)) {
 			name = element.getAttribute(SeamXMLConstants.ATTR_NAME);
 		}
-		SeamXMLHelper.loadMap(element, attributes, "attributes", context);
+		XMLStoreHelper.loadMap(element, attributes, "attributes", context);
 
 		popModelObject(context, old);
 	}

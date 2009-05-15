@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
+import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ScopeType;
-import org.jboss.tools.seam.core.event.Change;
 
 /**
  * @author Viacheslav Kabanovich

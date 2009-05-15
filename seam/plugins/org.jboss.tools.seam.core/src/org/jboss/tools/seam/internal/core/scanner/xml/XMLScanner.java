@@ -30,16 +30,18 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
+import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.NamespaceMapping;
+import org.jboss.tools.jst.web.model.helpers.InnerModelHelper;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLValueInfo;
 import org.jboss.tools.seam.core.ISeamNamespace;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.ISeamValue;
 import org.jboss.tools.seam.core.event.ISeamValueString;
-import org.jboss.tools.seam.internal.core.InnerModelHelper;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamValueList;
 import org.jboss.tools.seam.internal.core.SeamValueMap;
@@ -50,7 +52,6 @@ import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
-import org.jboss.tools.seam.internal.core.scanner.java.ValueInfo;
 
 /**
  * @author Viacheslav Kabanovich

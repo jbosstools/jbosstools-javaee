@@ -29,10 +29,11 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
+import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
-import org.jboss.tools.seam.core.IValueInfo;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
@@ -82,9 +83,9 @@ public class ComponentBuilder implements SeamAnnotations {
 				component.setName(ValueInfo.getValueInfo(as[i].getAnnotation(), null));
 			} else if(SCOPE_ANNOTATION_TYPE.equals(type)) {
 				ValueInfo scope = ValueInfo.getValueInfo(as[i].getAnnotation(), null);
-				if(scope != null && scope.value != null) {
-					int q = scope.value.lastIndexOf('.');
-					if(q >= 0) scope.value = scope.value.substring(q + 1).toLowerCase();
+				if(scope != null && scope.getValue() != null) {
+					int q = scope.getValue().lastIndexOf('.');
+					if(q >= 0) scope.setValue(scope.getValue().substring(q + 1).toLowerCase());
 				}
 				component.setScope(scope);
 			} else if(INSTALL_ANNOTATION_TYPE.equals(type)) {
@@ -98,7 +99,7 @@ public class ComponentBuilder implements SeamAnnotations {
 				Annotation a = findAnnotation(annotatedType, BeanType.values()[i].getAnnotationType());
 				if(a != null) {
 					ValueInfo v = new ValueInfo();
-					v.value = "true"; //$NON-NLS-1$
+					v.setValue("true"); //$NON-NLS-1$
 					v.valueStartPosition = a.getStartPosition();
 					v.valueLength = a.getLength();
 					types.put(BeanType.values()[i], v);
@@ -124,7 +125,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo factoryName = ValueInfo.getValueInfo(a, null);
 			if(factoryName == null) {
 				factoryName = new ValueInfo();
-				factoryName.value = toPropertyName(m.getName().getIdentifier(), "get");
+				factoryName.setValue(toPropertyName(m.getName().getIdentifier(), "get"));
 				factoryName.valueLength = m.getName().getLength();
 				factoryName.valueStartPosition = m.getName().getStartPosition();
 			}
@@ -144,7 +145,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			}
 
 			ValueInfo _a = new ValueInfo();
-			_a.value = FACTORY_ANNOTATION_TYPE;
+			_a.setValue(FACTORY_ANNOTATION_TYPE);
 			_a.valueStartPosition = a.getStartPosition();
 			_a.valueLength = a.getLength();
 			factory.addAttribute(FACTORY_ANNOTATION_TYPE, _a);
@@ -181,7 +182,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			Annotation in = as.get(BijectedAttributeType.IN);
 			if(in != null) {
 				ValueInfo _in = new ValueInfo();
-				_in.value = IN_ANNOTATION_TYPE;
+				_in.setValue(IN_ANNOTATION_TYPE);
 				_in.valueStartPosition = in.getStartPosition();
 				_in.valueLength = in.getLength();
 				att.addAttribute(IN_ANNOTATION_TYPE, _in);
@@ -190,13 +191,13 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo name = ValueInfo.getValueInfo(main, null);
 			att.setValue(name);
 			if(name == null || isDataModelSelectionType
-				|| name.value == null || name.value.length() == 0) {
+				|| name.getValue() == null || name.getValue().length() == 0) {
 				name = new ValueInfo();
 				name.valueStartPosition = m.getStartPosition();
 				name.valueLength = m.getLength();
-				name.value = m.getName().getIdentifier();
+				name.setValue(m.getName().getIdentifier());
 				if(in != null) {
-					name.value = toPropertyName(name.value, "set");
+					name.setValue(toPropertyName(name.getValue(), "set"));
 				}
 			}
 			
@@ -223,7 +224,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			Annotation in = as.get(BijectedAttributeType.IN);
 			if(in != null) {
 				ValueInfo _in = new ValueInfo();
-				_in.value = IN_ANNOTATION_TYPE;
+				_in.setValue(IN_ANNOTATION_TYPE);
 				_in.valueStartPosition = in.getStartPosition();
 				_in.valueLength = in.getLength();
 				att.addAttribute(IN_ANNOTATION_TYPE, _in);
@@ -232,11 +233,11 @@ public class ComponentBuilder implements SeamAnnotations {
 			ValueInfo name = ValueInfo.getValueInfo(main, null);
 			att.setValue(name);
 			if(name == null || isDataModelSelectionType
-					|| name.value == null || name.value.length() == 0) {
+					|| name.getValue() == null || name.getValue().length() == 0) {
 				name = new ValueInfo();
 				name.valueStartPosition = m.getStartPosition();
 				name.valueLength = m.getLength();
-				name.value = getFieldName(m);
+				name.setValue(getFieldName(m));
 			}
 			
 			att.setName(name);

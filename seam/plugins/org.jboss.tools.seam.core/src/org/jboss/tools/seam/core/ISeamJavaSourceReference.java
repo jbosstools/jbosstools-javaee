@@ -11,12 +11,13 @@
 package org.jboss.tools.seam.core;
 
 import org.eclipse.jdt.core.IMember;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 
 /**
  * An interface of seam tools model object that has associated source object in JDT model
  * @author Alexey Kazakov
  */
-public interface ISeamJavaSourceReference extends ISeamTextSourceReference {
+public interface ISeamJavaSourceReference extends ITextSourceReference {
 
 	public IMember getSourceMember();
 }
