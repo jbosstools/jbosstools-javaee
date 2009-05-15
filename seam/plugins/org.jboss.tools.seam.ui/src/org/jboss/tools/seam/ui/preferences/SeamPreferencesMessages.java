@@ -124,6 +124,7 @@ public class SeamPreferencesMessages extends NLS {
 	
 	//Section Factories
 	public static String SeamValidatorConfigurationBlock_section_factory;
+	public static String SeamValidatorConfigurationBlock_pb_duplicateVariableName_label;
 	public static String SeamValidatorConfigurationBlock_pb_unknownFactoryName_label;
 	
 	//Section Bijections
@@ -133,7 +134,6 @@ public class SeamPreferencesMessages extends NLS {
 	
 	//Section Context variables
 	public static String SeamValidatorConfigurationBlock_section_variable;
-	public static String SeamValidatorConfigurationBlock_pb_duplicateVariableName_label;
 	public static String SeamValidatorConfigurationBlock_pb_unknownVariableName_label;
 
 	//Seam Expression language

@@ -636,15 +636,15 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		String[] messages = getMarkersMessage(contextVariableTestFile);
 		
-		assertEquals("Not all problem markers 'Duplicate variable name' was found", 4, messages.length);
+		assertEquals("Not all problem markers 'Duplicate variable name' was found", 2, messages.length);
 		
 		for(int i=0;i<4;i++)
 			assertEquals("Problem marker 'Duplicate variable name' not found", "Duplicate variable name: \"messageList\"", messages[i]);
 		
 		int[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
 		
-		for(int i=0;i<4;i++)
-			assertTrue("Problem marker has wrong line number", (lineNumbers[i] == 16)||(lineNumbers[i] == 17)||(lineNumbers[i] == 36)||(lineNumbers[i] == 41));
+		for(int i=0;i<2;i++)
+			assertTrue("Problem marker has wrong line number", (lineNumbers[i] == 36)||(lineNumbers[i] == 41));
 		
 		// Unknown variable name
 		System.out.println("Test - Unknown variable name");

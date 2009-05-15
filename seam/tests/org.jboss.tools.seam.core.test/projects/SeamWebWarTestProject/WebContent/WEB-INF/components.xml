@@ -59,5 +59,6 @@
    <security:identity authenticate-method="#{test.operate}"
                       security-rules="#{securityRules}"
                       remember-me="true"/>
-                      
+
+	<factory name="authenticator"/>                      
 </components>

@@ -103,6 +103,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static SectionDescription SECTION_FACTORY = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_factory,
 		new String[][]{
+			{SeamPreferences.DUPLICATE_VARIABLE_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateVariableName_label},
 			{SeamPreferences.UNKNOWN_FACTORY_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownFactoryName_label},
 		}
 	);
@@ -118,7 +119,6 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static SectionDescription SECTION_VARIABLE = new SectionDescription(
 		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_variable,
 		new String[][]{
-			{SeamPreferences.DUPLICATE_VARIABLE_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_duplicateVariableName_label},
 			{SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unknownVariableName_label},
 		}
 	);

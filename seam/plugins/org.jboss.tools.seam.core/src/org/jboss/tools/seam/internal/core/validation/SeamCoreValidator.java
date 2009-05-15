@@ -312,7 +312,7 @@ public class SeamCoreValidator extends SeamValidator {
 		boolean unknownVariable = true;
 		boolean firstDuplicateVariableWasMarked = false;
 		for (ISeamContextVariable variable : variables) {
-			if(variable instanceof ISeamFactory || variable instanceof ISeamComponent || variable instanceof IRole) {
+			if(variable instanceof ISeamFactory) {
 				if(variable!=factory && !markedDuplicateFactoryNames.contains(factoryName) && 
 					(factoryScope == variable.getScope() || factoryScope.getPriority()>variable.getScope().getPriority())) {
 					// Duplicate factory name. Mark it.
