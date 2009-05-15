@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -32,7 +33,6 @@ import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
-import org.jboss.tools.seam.core.ISeamTextSourceReference;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
@@ -495,7 +495,7 @@ public class ScannerTest extends TestCase {
 		
 		String MY_COMPONENT = "myComponent";
 		assertNotNull("XML declaration for component " + MY_COMPONENT + " is not found in components.xml.", xml);
-		ISeamTextSourceReference location = xml.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+		ITextSourceReference location = xml.getLocationFor(ISeamXmlComponentDeclaration.NAME);
 		assertNotNull("Location of declaration of component " + MY_COMPONENT + " in components.xml is not found.", location);
 		assertTrue("Location should not point to 0", location.getStartPosition() > 0 && location.getLength() > 0);
 	}
