@@ -1238,9 +1238,9 @@
         <section id="AdvancedSettings954">
 
             <title>Advanced Settings</title>
-
-            <para>In the left vertical pane of the Visual part there are three buttons: <emphasis>
-                    <property>Preferences</property></emphasis>
+            
+            <para>In the left vertical pane of the Visual part there are four buttons: <emphasis>
+                <property>Preferences</property></emphasis>
                 (
                 <inlinemediaobject>
                     <imageobject>
@@ -1262,16 +1262,45 @@
                     </imageobject>
                 </inlinemediaobject>
                 )
-         and <emphasis>
+                ,<emphasis>
                     <property>Page Design Options</property> </emphasis>( 
-                    <inlinemediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/icon_3.png"/>
-                        </imageobject>
-                    </inlinemediaobject>
-                    )
-                    
-                    .</para>
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_3.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                )
+                and some of the next buttons:
+                <emphasis>
+                    <property>Vertical Source on top</property> </emphasis>( 
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/source_top.png"/>
+                    </imageobject>
+                </inlinemediaobject>),
+                <emphasis>
+                    <property>Vertical Visual on top</property> </emphasis>( 
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/source_bottom.png"/>
+                    </imageobject>
+                </inlinemediaobject>),
+                <emphasis>
+                    <property>Horizontal Source to the left</property> </emphasis>( 
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/source_left.png"/>
+                    </imageobject>
+                </inlinemediaobject>),
+                <emphasis>
+                    <property>Horizontal Visual to the left</property> </emphasis>( 
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/source_right.png"/>
+                    </imageobject>
+                </inlinemediaobject>),
+                depending on the current Visual/Source layout
+                .</para>
 
             <figure>
                 <title>Buttons on the Visual Part of VPE</title>
@@ -1519,7 +1548,57 @@
                         </mediaobject>
                     </figure>
                 </listitem>
-
+                <listitem id="splitting_buttons">
+                    <para><emphasis>
+                        <property>Visual/Source Editors splitting buttons</property></emphasis>
+                        provide the possibility to choose one of the four possible  layouts for the Visual/Source Editor.
+                       </para>
+                    
+                  
+                    <para>The available layouts and corresponding buttons are as follows:</para>
+                    <itemizedlist>
+                        <listitem><para>Vertical Source on top(<inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/source_top.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para></listitem>
+                        <listitem><para>Vertical Visual on top ( <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/source_bottom.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para></listitem>
+                        <listitem><para>Horizontal Source to the left (  <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/source_left.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para></listitem>
+                        <listitem><para>Horizontal Visual to the left ( <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/source_right.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para></listitem>
+                      
+                    </itemizedlist>
+                    <figure>
+                        <title>Visual Page Editor Before Layout Changing </title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_24.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                    Note, at the current view there is only <emphasis>
+                        <property> one</property></emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>
+                            <property>in a clockwise direction</property></emphasis>. 
+                    <figure>
+                        <title>Visual Page Editor After Layout Changing </title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_25.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </listitem>
             </itemizedlist>
 
             <para>You can find useful one more functionality provided by VPE. At the bottom of the
