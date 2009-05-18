@@ -24,6 +24,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		super(name);
 		setCheckWarning(false);
 	}
+	
+	public void testJBIDE3740() throws Throwable {
+		performContentTest("components/panelMenu/JBIDE3740.xhtml"); //$NON-NLS-1$
+	}
 
 	public void testJbide1605() throws Throwable {
 		performContentTest("components/panelMenuGroup/jbide1605.xhtml"); //$NON-NLS-1$
@@ -252,7 +256,7 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testEditor() throws Throwable {
-		performContentTest("components/editor.jsp"); //$NON-NLS-1$
+		performContentTest("components/editor.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testScrollableDataTable() throws Throwable {
@@ -319,6 +323,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/treeNodesAdaptor.xhtml");//$NON-NLS-1$
 	}
 
+	public void testDataTableSpacerDataScroller() throws Throwable {
+		performContentTest("components/dataTable&Spacer&DataScroller.xhtml");//$NON-NLS-1$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;

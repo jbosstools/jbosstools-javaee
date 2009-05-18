@@ -8,8 +8,13 @@
 
 <head>
 <style>
-	.redText {color:red;}
-	.blueText {color:blue;}
+.redText {
+	color: red;
+}
+
+.blueText {
+	color: blue;
+}
 </style>
 </head>
 <body>
@@ -76,6 +81,59 @@
 			</rich:columnGroup>
 		</f:facet>
 	</rich:dataTable>
+	<rich:panel id="column5">
+		<f:facet name="header">
+			<h:outputText value="Column" />
+		</f:facet>
+		<rich:dataTable id="table1" value="#{bookList.bookList}" var="book"
+			style="text-align:center;color:Orchid;font-style:italic;font-size:small;border-style:dotted;background-color:Turquoise;border-color:Orchid;text-decoration:underline;font-family:Arial;border-width:thick;font-weight:bolder"
+			columnClasses="evenRow, oddRow" sortMode="multi">
+			<f:facet name="header">
+				<h:outputText value="#{msg.pageTitle}" />
+			</f:facet>
+			<f:facet name="footer">
+				<h:outputText value="#{msg.priceColumnName}" />
+			</f:facet>
+			<rich:column sortBy="#{book.price}" id="col2" styleClass="btn">
+				<f:facet name="header">
+					<h:outputText value="#{msg.priceColumnName}" />
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText value="#{msg.priceColumnName}" />
+				</f:facet>
+				<h:outputText value="#{book.price}" />
+			</rich:column>
+			<rich:column id="col3" sortBy="#{book.numOfCopies}" visible="false"
+				breakBefore="true">
+				<f:facet name="footer">
+					<h:outputText value="#{msg.titleColumnName}" />
+				</f:facet>
+				<f:facet name="header">
+					<h:outputText value="#{msg.titleColumnName}" />
+				</f:facet>
+				<h:outputText value="#{book.numOfCopies}" />
+			</rich:column>
+			<rich:column sortBy="#{book.price}" id="col4"
+				style="text-align:center;color:Turquoise;font-style:italic;font-size:small;border-style:dotted;background-color:PaleVioletRed;border-color:Cornsilk;text-decoration:line-through;font-family:Bookman Old Style;border-width:thick;font-weight:bold;">
+				<f:facet name="header">
+					<h:outputText value="#{msg.priceColumnName}" />
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText value="#{msg.priceColumnName}" />
+				</f:facet>
+				<h:outputText value="#{book.price}" />
+			</rich:column>
+			<rich:column id="col5" sortBy="#{book.numOfCopies}" visible="true">
+				<f:facet name="footer">
+					<h:outputText value="#{msg.titleColumnName}" />
+				</f:facet>
+				<f:facet name="header">
+					<h:outputText value="#{msg.titleColumnName}" />
+				</f:facet>
+				<h:outputText value="#{book.numOfCopies}" />
+			</rich:column>
+		</rich:dataTable>
+	</rich:panel>
 </h:form>
 </body>
 </html>

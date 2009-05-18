@@ -1,0 +1,43 @@
+<tests>
+	<test id="editor">
+		<DIV CLASS="dr-pnl rich-panel">
+			<DIV CLASS="dr-pnl-h rich-panel-header"
+				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+				<SPAN CLASS="vpe-text">
+					Editor
+				</SPAN>
+			</DIV>
+			<DIV CLASS="dr-pnl-b rich-panel-body">
+				<SPAN CLASS="richfacesSimpleSkin" STYLE="display: table; background-color: red;">
+					<TABLE CELLSPACING="0" CELLPADDING="0" CLASS="mceLayout"
+						STYLE="width: 264px; height: 200px;">
+						<TR STYLE="height: 100%;">
+							<TD>
+								<DIV CLASS="mceIframeContainer" STYLE="height: 100%;">
+									<TABLE BORDER="0" STYLE="width: 100%; height: 100%;">
+										<TR>
+											<TD>
+											</TD>
+										</TR>
+									</TABLE>
+								</DIV>
+							</TD>
+						</TR>
+						<TR>
+							<TD CLASS="mceToolbar">
+								<TABLE CELLSPACING="0" CELLPADDING="0" CLASS="mceToolbarTable">
+									<TR>
+										<TD>
+											<DIV CLASS="mce_panel">
+											</DIV>
+										</TD>
+									</TR>
+								</TABLE>
+							</TD>
+						</TR>
+					</TABLE>
+				</SPAN>
+			</DIV>
+		</DIV>
+	</test>
+</tests>
