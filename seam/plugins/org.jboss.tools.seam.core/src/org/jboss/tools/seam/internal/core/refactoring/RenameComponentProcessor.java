@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -20,6 +21,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
@@ -152,15 +154,42 @@ public class RenameComponentProcessor extends RenameProcessor {
 		else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
 			scanProperties(file, content);
 	}
+	
+	ArrayList<IPath> files = new ArrayList<IPath>();
 
 	private void findDeclarations() throws CoreException{
-		if(component.getJavaDeclaration() != null)
-			renameJavaDeclaration(component.getJavaDeclaration());
+		files.clear();
+		findDeclarations(component);
+		
+		SeamProjectsSet projectsSet = new SeamProjectsSet(declarationFile.getProject());
+
+		IProject[] projects = projectsSet.getAllProjects();
+		for (IProject project : projects) {
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+			if(seamProject != null){
+				ISeamComponent comp = seamProject.getComponent(component.getName());
+				if(comp != null)
+					findDeclarations(comp);
+			}
+		}
+	}
+	
+	private void findDeclarations(ISeamComponent component) throws CoreException{
+		if(component.getJavaDeclaration() != null){
+			if(!files.contains(component.getJavaDeclaration().getResource().getFullPath())){
+				files.add(component.getJavaDeclaration().getResource().getFullPath());
+				renameJavaDeclaration(component.getJavaDeclaration());
+			}
+			
+		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
 
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
-			renameXMLDeclaration(xmlDecl);
+			if(!files.contains(xmlDecl.getResource().getFullPath())){
+				files.add(xmlDecl.getResource().getFullPath());
+				renameXMLDeclaration(xmlDecl);
+			}
 		}
 	}
 	
