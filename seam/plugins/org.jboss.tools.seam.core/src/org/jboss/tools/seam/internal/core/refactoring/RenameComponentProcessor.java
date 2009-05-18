@@ -118,8 +118,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 		SeamProjectsSet projectsSet = new SeamProjectsSet(declarationFile.getProject());
 
 		IProject[] projects = projectsSet.getAllProjects();
-		for (int i = 0; i < projects.length; i++) {
-			scan(projects[i]);
+		for (IProject project : projects) {
+			scan(project);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 		declarationFile = (IFile)xmlDecl.getResource();
 		if(declarationFile != null && !coreHelper.isJar(xmlDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null)
+			if(location != null && !isBadLocation(location))
 				changeXMLNode(location, declarationFile);
 		}
 	}
