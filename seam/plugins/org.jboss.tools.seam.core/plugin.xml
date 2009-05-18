@@ -492,4 +492,11 @@
             class="org.jboss.tools.seam.internal.core.el.VariableResolver"
             id="org.jboss.tools.seam.el.variableresolver"/>
    </extension>
+
+   <extension
+         point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="seamELResolver">
+         	<project-nature id="org.jboss.tools.seam.core.seamnature"/>
+         </el-resolver>
+   </extension>
 </plugin>
