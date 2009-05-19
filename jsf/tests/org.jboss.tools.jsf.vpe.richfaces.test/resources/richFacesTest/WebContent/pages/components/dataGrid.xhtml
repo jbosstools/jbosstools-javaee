@@ -7,6 +7,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+	<link href="/WebContent/pages/components/main.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h1>dataGrid</h1>
@@ -25,7 +26,39 @@
             AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             <h:outputText value="#{data.field1}" />
 	</rich:dataGrid>
-
+	<rich:panel id="dataGrid3">
+		<f:facet name="header">
+			<h:outputText value="Data Grid and Data Scroller" />
+		</f:facet>
+			<rich:dataGrid value="#{dataTableScrollerBean.allCars}" var="car"
+				columns="3" elements="9" width="600px" styleClass="btn"
+				align="center" bgcolor="color:red" border="15" captionClass="btn"
+				headerClass="evenRow" footerClass="oddRow">
+				<f:facet name="header">
+					<h:outputText value="Header of Data Grid" />
+				</f:facet>
+				<rich:panel bodyClass="pbody"
+					style=" width : 270px; height : 180px;">
+					<f:facet name="header">
+						<h:outputText value="#{car.make} #{car.model}"></h:outputText>
+					</f:facet>
+					<h:panelGrid columns="2" rowClasses="evenRow, oddRow">
+						<h:outputText value="Price:" styleClass="label"></h:outputText>
+						<h:outputText value="#{car.price}" />
+						<h:outputText value="Mileage:" styleClass="label"></h:outputText>
+						<h:outputText value="#{car.mileage}" />
+						<h:outputText value="VIN:" styleClass="label"></h:outputText>
+						<h:outputText value="#{car.vin}" />
+						<h:outputText value="Stock:" styleClass="label"></h:outputText>
+						<h:outputText value="#{car.stock}" />
+					</h:panelGrid>
+				</rich:panel>
+				<f:facet name="footer">
+					<rich:datascroller
+						style="text-align:center; color:Orchid;font-style:italic;border-style:dotted;background-color:DarkViolet;border-color:Cornsilk;text-decoration:underline;font-family:Bodoni MT Black;border-font-weight:bolder; width : 824px; height:45"></rich:datascroller>
+				</f:facet>
+			</rich:dataGrid>
+	</rich:panel>
 </h:form>
 </body>
 </html>

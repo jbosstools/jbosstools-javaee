@@ -7,24 +7,160 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+<link href="/WebContent/pages/components/main.css" rel="stylesheet"
+	type="text/css" />
 </head>
 <body>
 <f:view>
-    <rich:toolBar id="toolBar" itemSeparator="line">
-        <rich:toolBarGroup>
-            <h:outputLabel value="Edit" for="edit" />
-        </rich:toolBarGroup>
-        <rich:toolBarGroup>
-            <h:outputLabel value="Find" for="find" />
-        </rich:toolBarGroup>
-        <rich:toolBarGroup>
-            <h:outputLabel value="Filter" for="filter" />
-        </rich:toolBarGroup>
-        <rich:toolBarGroup location="right">
-            <h:inputText styleClass="barsearch" />
-            <h:commandButton styleClass="barsearchbutton" value="Search" />
-        </rich:toolBarGroup>
-    </rich:toolBar>
+	<rich:toolBar id="toolBar" itemSeparator="line">
+		<rich:toolBarGroup>
+			<h:outputLabel value="Edit" for="edit" />
+		</rich:toolBarGroup>
+		<rich:toolBarGroup>
+			<h:outputLabel value="Find" for="find" />
+		</rich:toolBarGroup>
+		<rich:toolBarGroup>
+			<h:outputLabel value="Filter" for="filter" />
+		</rich:toolBarGroup>
+		<rich:toolBarGroup location="right">
+			<h:inputText styleClass="barsearch" />
+			<h:commandButton styleClass="barsearchbutton" value="Search" />
+		</rich:toolBarGroup>
+	</rich:toolBar>
+	<rich:panel id="toolBar2">
+		<f:facet name="header">
+			<h:outputText value="Tool Bar &amp; Tool Bar  Group" />
+		</f:facet>
+		<rich:toolBar contentClass="btn" height="26" itemSeparator="line"
+			separatorClass="btn" styleClass="btn">
+			<rich:toolBarGroup
+				style="font-style:italic;background-color:Cornsilk;text-decoration:overline;font-family:Arial Narrow;font-weight:bolder;"
+				width="500">
+				<h:graphicImage value="images/icons/create_doc.gif" styleClass="pic" />
+				<h:graphicImage value="images/icons/create_folder.gif"
+					styleClass="pic" />
+				<h:graphicImage value="images/icons/copy.gif" styleClass="pic" />
+			</rich:toolBarGroup>
+			<rich:toolBarGroup location="right">
+				<h:graphicImage value="images/icons/save.gif" styleClass="pic" />
+				<h:graphicImage value="images/icons/save_as.gif" styleClass="pic" />
+				<h:graphicImage value="images/icons/save_all.gif" styleClass="pic" />
+			</rich:toolBarGroup>
+			<rich:toolBarGroup location="right">
+				<h:graphicImage value="images/icons/find.gif" styleClass="pic" />
+				<h:graphicImage value="images/icons/filter.gif" styleClass="pic" />
+			</rich:toolBarGroup>
+		</rich:toolBar>
+		<h:form>
+			<rich:toolBar height="34"
+				contentStyle="color:PaleVioletRed;font-size:medium;font-style:italic;background-color:FloralWhite;font-family:Arial TUR;font-weight:bolder;"
+				itemSeparator="line" styleClass="evenRow" separatorClass="btn">
+				<rich:toolBarGroup itemSeparator="grid">
+					<h:graphicImage id="edit" value="images/icons/edit.gif" />
+					<h:outputLabel value="Edit" for="edit" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup>
+					<h:graphicImage id="find" value="images/icons/find.gif" />
+					<h:outputLabel value="Find" for="find" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup>
+					<h:graphicImage id="filter" value="images/icons/filter.gif" />
+					<h:outputLabel value="Filter" for="filter" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+					<h:inputText styleClass="barsearch" />
+					<h:commandButton styleClass="barsearchbutton"
+						onclick="return false;" value="Search" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</h:form>
+		<h:form>
+			<h:panelGrid columns="3" width="100%" cellpadding="0" cellspacing="0"
+				style="margin-bottom : 4px">
+				<rich:panel bodyClass="rich-laguna-panel-no-header">
+					<h:panelGrid columns="8">
+						<h:outputText value="Group Separator:" />
+						<a4j:commandLink value="Line" reRender="bar">
+							<a4j:actionparam name="gs" value="line"
+								assignTo="#{tbBean.groupSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="Grid" reRender="bar">
+							<a4j:actionparam name="gs" value="grid"
+								assignTo="#{tbBean.groupSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="Disc" reRender="bar">
+							<a4j:actionparam name="gs" value="disc"
+								assignTo="#{tbBean.groupSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="Square" reRender="bar">
+							<a4j:actionparam name="gs" value="square"
+								assignTo="#{tbBean.groupSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="None" reRender="bar">
+							<a4j:actionparam name="gs" value="none"
+								assignTo="#{tbBean.groupSeparator}" />
+						</a4j:commandLink>
+					</h:panelGrid>
+				</rich:panel>
+				<h:panelGroup style="padding-left : 4px">
+					<br />
+				</h:panelGroup>
+				<rich:panel bodyClass="rich-laguna-panel-no-header">
+					<h:panelGrid columns="8">
+						<h:outputText value="Group Item Separator:" />
+						<a4j:commandLink value="Line" reRender="bar">
+							<a4j:actionparam name="gs" value="line"
+								assignTo="#{tbBean.groupItemSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="Grid" reRender="bar">
+							<a4j:actionparam name="gs" value="grid"
+								assignTo="#{tbBean.groupItemSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="Disc" reRender="bar">
+							<a4j:actionparam name="gs" value="disc"
+								assignTo="#{tbBean.groupItemSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="Square" reRender="bar">
+							<a4j:actionparam name="gs" value="square"
+								assignTo="#{tbBean.groupItemSeparator}" />
+						</a4j:commandLink>
+
+						<a4j:commandLink value="None" reRender="bar">
+							<a4j:actionparam name="gs" value="none"
+								assignTo="#{tbBean.groupItemSeparator}" />
+						</a4j:commandLink>
+					</h:panelGrid>
+				</rich:panel>
+			</h:panelGrid>
+		</h:form>
+
+		<rich:toolBar contentClass="btn"
+			contentStyle="color:PaleVioletRed;font-size:medium;font-style:italic;background-color:FloralWhite;font-family:Arial TUR;font-weight:bolder;"
+			id="bar" height="30" itemSeparator="#{tbBean.groupSeparator}"
+			style="color:Cornsilk;font-style:italic;background-color:Orchid;text-decoration:underline;font-family:Arial Narrow,Bodoni MT;font-weight:bold;">
+			<rich:toolBarGroup itemSeparator="#{tbBean.groupItemSeparator}">
+				<h:outputText value="Group1.1"></h:outputText>
+				<h:outputText value="Group1.2"></h:outputText>
+				<h:outputText value="Group1.3"></h:outputText>
+			</rich:toolBarGroup>
+			<rich:toolBarGroup itemSeparator="#{tbBean.groupItemSeparator}">
+				<h:outputText value="Group2.1"></h:outputText>
+				<h:outputText value="Group2.2"></h:outputText>
+			</rich:toolBarGroup>
+			<rich:toolBarGroup location="right"
+				itemSeparator="#{tbBean.groupItemSeparator}">
+				<h:outputText value="Group3.1"></h:outputText>
+				<h:outputText value="Group3.2"></h:outputText>
+			</rich:toolBarGroup>
+		</rich:toolBar>
+	</rich:panel>
 </f:view>
 </body>
 </html>

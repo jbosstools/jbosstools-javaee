@@ -4,7 +4,7 @@
 			CLASS="dr-list rich-datalist">
 			<LI CLASS="dr-list-item rich-list-item">
 				<SPAN> field1:</SPAN>
-				<SPAN > #{data.field1}</SPAN>
+				<SPAN> #{data.field1}</SPAN>
 				<SPAN> field2:</SPAN>
 				<SPAN> #{data.field2}</SPAN>
 				<SPAN> field3:</SPAN>
@@ -13,5 +13,43 @@
 				<SPAN> #{data.number}</SPAN>
 			</LI>
 		</UL>
+	</test>
+	<test id="dataList2">
+		<DIV CLASS="dr-pnl rich-panel">
+			<DIV CLASS="dr-pnl-h rich-panel-header"
+				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+				<SPAN CLASS="vpe-text">
+					Data List
+				</SPAN>
+			</DIV>
+			<DIV CLASS="dr-pnl-b rich-panel-body">
+				<UL ID="list" VAR="book" VALUE="#{bookList.bookList}" ROWS="3"
+					ROWCLASSES="evenRow, oddRow" STYLECLASS="btn" CLASS="dr-list rich-datalist btn">
+					<LI CLASS="dr-list-item rich-list-item evenRow">
+						<SPAN CLASS="vpe-text">
+							#{book.name}
+						</SPAN>
+						<BR STYLE="-moz-user-modify: read-write;" />
+
+						<SPAN CLASS="evenRow">
+							Price:
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							#{book.price} $$
+						</SPAN>
+						<BR STYLE="-moz-user-modify: read-write;" />
+
+						<SPAN CLASS="oddRow">
+							Number of copies:
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							#{book.numOfCopies}
+						</SPAN>
+						<BR STYLE="-moz-user-modify: read-write;" />
+
+					</LI>
+				</UL>
+			</DIV>
+		</DIV>
 	</test>
 </tests>
