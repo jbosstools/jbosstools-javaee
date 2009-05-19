@@ -67,14 +67,14 @@ public class SeamComponentRefactoringTest extends TestCase {
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestComponent.java",
 				89, 6, "\"best\"");
 		list.add(structure);
-		/*
-		structure = new TestChangeStructure("/WebContent/WEB-INF/components.xml",
-				2660, 6, "best");
+		
+		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml",
+				1106, 4, "best");
 		list.add(structure);
-		structure = new TestChangeStructure("/WebContent/WEB-INF/components.xml",
-				2756, 4, "best");
+		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml",
+				1934, 4, "best");
 		list.add(structure);
-		*/
+		
 		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
 				420, 11, "@In(\"best\")");
 		list.add(structure);
@@ -107,17 +107,6 @@ public class SeamComponentRefactoringTest extends TestCase {
 				29, 4, "best");
 		list.add(structure);
 		
-//		structure = new TestChangeStructure(earProject, "/EarContent/test.jsp",
-//				227, 4, "best");
-//		list.add(structure);
-//		
-//		structure = new TestChangeStructure(earProject, "/EarContent/test.properties",
-//				29, 4, "best");
-//		list.add(structure);
-		
-		/*
-		
-		*/
 		renameComponent(seamEjbProject, "test", "best", list);
 	}
 	

@@ -13,6 +13,8 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
 
    <core:init debug="true" jndi-pattern="Test1/#{ejbName}/local"/>
+   
+   <component class="org.domain.Test1.session.TestComponent" name="test" />
      
    <core:manager concurrent-request-timeout="500" 
                  conversation-timeout="120000" 
@@ -32,6 +34,9 @@
    </drools:rule-base>
 
    <security:identity authenticate-method="#{authenticator.authenticate}"
+                           security-rules="#{securityRules}"/>
+                           
+   <security:identity authenticate-method="#{test.value}"
                            security-rules="#{securityRules}"/>
    
    <event type="org.jboss.seam.notLoggedIn">
