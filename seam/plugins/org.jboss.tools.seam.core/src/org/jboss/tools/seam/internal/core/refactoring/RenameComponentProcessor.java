@@ -91,6 +91,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	private ISeamComponent component;
 	private String newName;
 	SeamContextValidationHelper coreHelper = new SeamContextValidationHelper();
+	SeamProjectsSet projectsSet;
 
 	/**
 	 * @param component Renamed component
@@ -117,8 +118,6 @@ public class RenameComponentProcessor extends RenameProcessor {
 		if(declarationFile == null)
 			return;
 		
-		SeamProjectsSet projectsSet = new SeamProjectsSet(declarationFile.getProject());
-
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
 			scan(project);
@@ -159,9 +158,9 @@ public class RenameComponentProcessor extends RenameProcessor {
 
 	private void findDeclarations() throws CoreException{
 		files.clear();
-		findDeclarations(component);
+		findDeclarations(component, true);
 		
-		SeamProjectsSet projectsSet = new SeamProjectsSet(declarationFile.getProject());
+		projectsSet = new SeamProjectsSet(declarationFile.getProject());
 
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
@@ -169,18 +168,18 @@ public class RenameComponentProcessor extends RenameProcessor {
 			if(seamProject != null){
 				ISeamComponent comp = seamProject.getComponent(component.getName());
 				if(comp != null)
-					findDeclarations(comp);
+					findDeclarations(comp, false);
 			}
 		}
 	}
 	
-	private void findDeclarations(ISeamComponent component) throws CoreException{
+	private void findDeclarations(ISeamComponent component, boolean force) throws CoreException{
 		if(component.getJavaDeclaration() != null){
 			if(!files.contains(component.getJavaDeclaration().getResource().getFullPath())){
 				files.add(component.getJavaDeclaration().getResource().getFullPath());
 				renameJavaDeclaration(component.getJavaDeclaration());
-			}
-			
+			}else if(force)
+				renameJavaDeclaration(component.getJavaDeclaration());
 		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
@@ -189,7 +188,8 @@ public class RenameComponentProcessor extends RenameProcessor {
 			if(!files.contains(xmlDecl.getResource().getFullPath())){
 				files.add(xmlDecl.getResource().getFullPath());
 				renameXMLDeclaration(xmlDecl);
-			}
+			}else if(force)
+				renameXMLDeclaration(xmlDecl);
 		}
 	}
 	
@@ -431,15 +431,33 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void findAnnotations(){
-		// find @In annotations
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(declarationFile.getProject(), true);
+		files.clear();
+		findAnnotations(seamProject, true);
 		
+		IProject[] projects = projectsSet.getAllProjects();
+		for (IProject project : projects) {
+			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
+			if(sProject != null){
+				findAnnotations(sProject, false);
+			}
+		}
+		
+	}
+	
+	private void findAnnotations(ISeamProject seamProject, boolean force){
+		// find @In annotations
 		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(component.getName(), BijectedAttributeType.IN);
 		
 		for(IBijectedAttribute inAtt : inSet){
 			ITextSourceReference location = inAtt.getLocationFor(SeamAnnotations.IN_ANNOTATION_TYPE);
-			if(location != null)
-				changeAnnotation(location, (IFile)inAtt.getResource());
+			if(location != null){
+				if(!files.contains(inAtt.getResource().getFullPath())){
+					files.add(inAtt.getResource().getFullPath());
+					changeAnnotation(location, (IFile)inAtt.getResource());
+				}else if(force)
+					changeAnnotation(location, (IFile)inAtt.getResource());
+			}
 		}
 		
 		// find @Factory annotations
@@ -449,12 +467,22 @@ public class RenameComponentProcessor extends RenameProcessor {
 			IFile file = (IFile)factory.getResource();
 			if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
 				ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
-				if(location != null)
-					changeAnnotation(location, file);
+				if(location != null){
+					if(!files.contains(file.getFullPath())){
+						files.add(file.getFullPath());
+						changeAnnotation(location, file);
+					}else if(force)
+						changeAnnotation(location, file);
+				}
 			}else{
 				ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
-				if(location != null)
-					changeXMLNode(location, file);
+				if(location != null){
+					if(!files.contains(file.getFullPath())){
+						files.add(file.getFullPath());
+						changeXMLNode(location, file);
+					}else if(force)
+						changeXMLNode(location, file);
+				}
 			}
 		}
 	}
