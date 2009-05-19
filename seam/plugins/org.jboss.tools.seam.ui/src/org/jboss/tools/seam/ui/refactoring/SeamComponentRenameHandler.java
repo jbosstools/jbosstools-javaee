@@ -18,6 +18,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
@@ -48,11 +50,11 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IEditorPart editor = HandlerUtil.getActiveEditor(event);
+		Shell activeShell = HandlerUtil.getActiveShell(event);
 
 		IEditorInput input = editor.getEditorInput();
 		if (input instanceof IFileEditorInput) {
 			IFile file = ((IFileEditorInput)input).getFile();
-			Shell activeShell = HandlerUtil.getActiveShell(event);
 			
 			IProject project = file.getProject();
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
@@ -72,12 +74,20 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 				}
 			}
 		}
+		invokeRenameWizard(null, activeShell);
 		return null;
 	}
 
 	public static void invokeRenameWizard(ISeamComponent component, Shell activeShell) {
 		if(!SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
 			return;
+		
+		try {
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+		} catch (InterruptedException e) {
+			// do nothing
+		}
+		
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
 		RenameComponentWizard wizard = new RenameComponentWizard(refactoring, component);
