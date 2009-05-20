@@ -317,14 +317,16 @@
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
      PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
      WizardClassName="%Default%" displayName="Handler..." kind="action" name="AddHandler">
      <EntityData EntityName="FaceletTaglibHandler">
       <AttributeData AttributeName="handler-class"/>
      </EntityData>
     </XActionItem>
-    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
      PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
      WizardClassName="%Default%" displayName="Component..."
      kind="action" name="AddComponent">
@@ -334,7 +336,8 @@
       <AttributeData AttributeName="handler-class" Mandatory="no"/>
      </EntityData>
     </XActionItem>
-    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
      PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
      WizardClassName="%Default%" displayName="Converter..."
      kind="action" name="AddConverter">
@@ -343,7 +346,8 @@
       <AttributeData AttributeName="handler-class" Mandatory="no"/>
      </EntityData>
     </XActionItem>
-    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
      PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
      WizardClassName="%Default%" displayName="Validator..."
      kind="action" name="AddValidator">
@@ -352,7 +356,8 @@
       <AttributeData AttributeName="handler-class" Mandatory="no"/>
      </EntityData>
     </XActionItem>
-    <XActionItem HandlerClassName="%DefaultReplaceUnique%" ICON="empty"
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
      PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
      WizardClassName="%Default%" displayName="Source..." kind="action" name="AddSource">
      <EntityData EntityName="FaceletTaglibSource">
