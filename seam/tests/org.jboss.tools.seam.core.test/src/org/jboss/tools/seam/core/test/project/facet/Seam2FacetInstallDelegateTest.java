@@ -169,7 +169,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		Set<String> onlyInWar = new HashSet<String>();
 		Set<String> onlyInEar = new HashSet<String>();
 		Set<String> onlyInEjbSrc = new HashSet<String>();		
-		
+
+		onlyInEar.add("commons-beanutils.jar");
 		onlyInEar.add("jboss-seam.jar");
 		onlyInEar.add("antlr-runtime.jar");
 		onlyInEar.add("drools-compiler.jar");
@@ -180,7 +181,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInEar.add("jbpm-jpdl.jar");
 		onlyInEar.add("META-INF");
 		
-		onlyInWar.add("commons-beanutils.jar");
 		onlyInWar.add("commons-digester.jar");
 		onlyInWar.add("jboss-seam-debug.jar");
 		onlyInWar.add("jboss-seam-ioc.jar");
