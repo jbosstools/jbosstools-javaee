@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
@@ -48,6 +49,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.dialogs.PropertyPage;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
@@ -377,7 +381,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private String getDefaultModelSourceFolder() {
 		IContainer f = seamProjectSet.getDefaultModelFolder();
-		return f!=null?f.getFullPath().toString():"";
+		return f!=null?f.getFullPath().toString():getDefaultSrcFolder();
 	}
 
 	private String getModelPackageName() {
@@ -438,7 +442,15 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private String getDefaultActionSourceFolder() {
 		IContainer f = seamProjectSet.getDefaultActionFolder();
-		return f!=null?f.getFullPath().toString():"";
+		return f!=null?f.getFullPath().toString():getDefaultSrcFolder();
+	}
+
+	private String getDefaultSrcFolder() {
+		IResource resource = EclipseResourceUtil.getJavaSourceRoot(project);
+		if(resource!=null) {
+			return ((IContainer) resource).getFullPath().toString();
+		}
+		return project.getFullPath().toString();
 	}
 
 	private String getTestSourceFolder() {
@@ -454,7 +466,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private String getDefaultTestSourceFolder() {
 		IContainer f = seamProjectSet.getDefaultTestSourceFolder();
-		return f!=null?f.getFullPath().toString():"";
+		return f!=null?f.getFullPath().toString():getDefaultSrcFolder();
 	}
 
 	private String getViewFolder() {
@@ -470,7 +482,17 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private String getDefaultViewFolder() {
 		IContainer f = seamProjectSet.getDefaultViewsFolder();
-		return f!=null?f.getFullPath().toString():"";
+		if(f!=null) {
+			return f.getFullPath().toString();
+		}
+		IVirtualComponent com = ComponentCore.createComponent(project);
+		if(com!=null) {
+			IVirtualFolder webRootFolder = com.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+			if(webRootFolder!=null) {
+				return webRootFolder.getUnderlyingFolder().getFullPath().toString();
+			}
+		}
+		return project.getFullPath().toString();
 	}
 
 	private List<String> getProfileNameList() {
@@ -543,7 +565,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 					setValid(false);
 					return;
 				} else {
-					setMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
+					setMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage(), IMessageProvider.WARNING);
 					warning = true;
 					setValid(true);
 				}
@@ -567,16 +589,19 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				error = true;
 				setValid(false);
 			}
+		} else {
+			setMessage(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_VIEW_FOLDER_IS_EMPTY, IMessageProvider.WARNING);
+			warning = true;
 		}
 
-		validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST,
+		validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_SOURCE_FOLDER_IS_EMPTY,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
 		validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_IS_NOT_VALID,
 				SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MODEL_PACKAGE_HAS_WARNING,
 				ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME);
 
-		validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST,
+		validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_SOURCE_FOLDER_IS_EMPTY,
 				ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER,
 				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME);
 		validateJavaPackageName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_ACTION_PACKAGE_IS_NOT_VALID,
@@ -584,7 +609,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME);
 
 		if(isTestEnabled()) {
-			validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST,
+			validateSourceFolder(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_SOURCE_FOLDER_IS_EMPTY,
 					ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER,
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME);
 			validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_TEST_PROJECT_DOES_NOT_EXIST, null, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, true);
@@ -655,7 +680,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return true;
 	}
 
-	private boolean validateSourceFolder(String errorMessageKey, String sourceFolderEditorName, String packageEditorName) {
+	private boolean validateSourceFolder(String errorMessageKey, String warningMessage, String sourceFolderEditorName, String packageEditorName) {
 		String sourceFolder = getValue(sourceFolderEditorName).trim();
 		if(sourceFolder.length()>0) {
 			IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolder);
@@ -671,6 +696,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				editorRegistry.get(packageEditorName).setEnabled(true);
 			}
 		} else {
+			setMessage(warningMessage, IMessageProvider.WARNING);
+			warning = true;
 			editorRegistry.get(packageEditorName).setEnabled(false);
 		}
 		return true;
