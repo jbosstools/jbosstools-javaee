@@ -354,7 +354,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
+            <para>You can also open Seam Component from the other component where the required one is declared in <code>@In </code> by using
+                <link linkend="OpenOn">OpenOn</link> (<property>Ctrl + left click</property> and select <property>Open Declaration of Seam Component for seam_component in Seam_class.java</property> ).</para>
         </section>
 
     </section>

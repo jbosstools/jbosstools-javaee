@@ -503,6 +503,26 @@
             </mediaobject>
         </figure>
 
+<para>
+    OpenOn is also supported  in seam components where <property> In annotation</property> is presented.
+    After pressing <property>Ctrl + left click</property> on  the seam component specified in <code>@In </code> you will get the possibility to open the file where the  component is declarated as well as 
+    all of the seam components where it is used in the next declarations:</para>
+    <itemizedlist>
+        <listitem>@Out</listitem>
+        <listitem>@DataModel</listitem>
+        <listitem>@Role</listitem>
+        <listitem>@Roles</listitem> 
+     </itemizedlist>
+        
+        <figure>
+            <title>OpenOn in Seam Component</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2b.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
 
 
     </section>
