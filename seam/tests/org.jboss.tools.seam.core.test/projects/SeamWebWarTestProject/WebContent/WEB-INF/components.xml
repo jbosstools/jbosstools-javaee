@@ -52,7 +52,7 @@
       <core:pageflow-definitions></core:pageflow-definitions>
    </core:jbpm>
    -->
-   <component class="org.domain.renamecomponentwartestproject.session.TestComponent" name="test" />
+   <component class="org.domain.SeamWebWarTestProject.session.TestComponent" name="test" />
    
    <factory name="test" />
    
