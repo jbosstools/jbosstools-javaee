@@ -160,6 +160,9 @@ public class RenameComponentProcessor extends RenameProcessor {
 		files.clear();
 		findDeclarations(component, true);
 		
+		if(declarationFile == null)
+			return;
+		
 		projectsSet = new SeamProjectsSet(declarationFile.getProject());
 
 		IProject[] projects = projectsSet.getAllProjects();
@@ -431,6 +434,9 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void findAnnotations(){
+		if(declarationFile == null)
+			return;
+		
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(declarationFile.getProject(), true);
 		files.clear();
 		findAnnotations(seamProject, true);
