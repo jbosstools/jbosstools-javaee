@@ -21,7 +21,7 @@ import org.jboss.tools.common.text.ext.util.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-@SuppressWarnings("restriction")
+
 public class ComponentsHyperlinkPartitioner extends
 		AbstractHyperlinkPartitioner {
 	public static final String BPM_DEFINITION_PARTITION = "org.jboss.tools.seam.text.ext.BPM_DEFINITION";
