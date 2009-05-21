@@ -77,6 +77,18 @@
       </entry>
      </row>
 
+
+     <row>
+      <entry>Multiple Editors</entry>
+      <entry>An extensive collection of specialized editors for different file types: properties, TLD, web.xml, tiles, and so on: Graphical Properties Editor,
+       Graphical TLD Editor, Graphical Web Application File (web.xml) Editor, CSS Editor, JavaScript Editor, XSD Editor, Support for XML Schema.</entry>
+      <entry>
+       <link linkend="more_editors">more editors</link>
+      </entry>
+     </row>
+
+
+
      <row>
       <entry>JBoss Tools Palette</entry>
       <entry>Organizing various tags by groups, inserting tags into a jsp or xhtml page with one
@@ -139,6 +151,16 @@
        <link linkend="RichFacesSupport">RichFaces support</link>
       </entry>
      </row>
+   
+     <row>
+      <entry>Flexible Configuration</entry>
+      <entry>Various features of JBoss Developer Studio can be easily configured via the Preferences screen.</entry>
+      <entry>
+       <link linkend="preferences">preferences</link>
+      </entry>
+     </row>
+    
+    
     </tbody>
    </tgroup>
   </table>
