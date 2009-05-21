@@ -638,7 +638,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		assertEquals("Not all problem markers 'Duplicate variable name' was found", 2, messages.length);
 		
-		for(int i=0;i<4;i++)
+		for(int i=0;i<2;i++)
 			assertEquals("Problem marker 'Duplicate factory name' not found", "Duplicate factory name: \"messageList\"", messages[i]);
 		
 		int[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
