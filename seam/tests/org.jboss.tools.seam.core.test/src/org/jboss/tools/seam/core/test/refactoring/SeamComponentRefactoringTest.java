@@ -8,6 +8,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -122,12 +124,16 @@ public class SeamComponentRefactoringTest extends TestCase {
 			content = FileUtil.readStream(file.getContents());
 			assertNotSame(changeStructure.getText(), content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength()));
 		}
+
+		if(component.getJavaDeclaration() == null)
+			fail("Component 'test' does not have java declaration");
 		
 		// Rename Seam Component
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewComponentName(newName);
-		Change change = processor.createChange(new NullProgressMonitor());
-		change.perform(new NullProgressMonitor());
+		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
+		
+		rootChange.perform(new NullProgressMonitor());
 		JobUtils.waitForIdle();
 		
 		// Test results
