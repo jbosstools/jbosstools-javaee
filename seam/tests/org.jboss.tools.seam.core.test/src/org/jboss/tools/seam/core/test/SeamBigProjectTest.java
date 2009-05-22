@@ -103,7 +103,7 @@ public class SeamBigProjectTest extends TestCase {
 		System.out.println("First 200 paths are loaded in " + t1 + "ms");
 		System.out.println("Last 200 paths are loaded in " + t2 + "ms");
 		double d = 1d * t2 / t1;
-		if(d > 2d) {
+		if(d > 5d) {
 			fail("It takes " + d + " times longer to load path in the end " 
 				+ "of seam model loading than in the beginning.\n"
 				+ "That implies that time depends as N*N on the number of components N.");
