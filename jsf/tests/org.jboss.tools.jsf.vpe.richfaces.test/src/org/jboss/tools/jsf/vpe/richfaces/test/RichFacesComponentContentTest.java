@@ -32,6 +32,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	public void testJbide1605() throws Throwable {
 		performContentTest("components/panelMenuGroup/jbide1605.xhtml"); //$NON-NLS-1$
 	}
+	
+	public void testJbide4309() throws Throwable {
+		performContentTest("components/inplaceSelect/JBIDE4309.xhtml"); //$NON-NLS-1$
+	}
+
 
 	public void testAjaxValidator() throws Throwable {
 		performInvisibleTagTest(

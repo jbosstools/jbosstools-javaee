@@ -1,0 +1,7 @@
+<tests>
+	<test id="id1">
+		<SPAN VPE-USER-TOGGLE-ID="false"
+			CLASS="rich-inplace-select rich-inplace-select-view" STYLE="display: inline;">
+		</SPAN>
+	</test>
+</tests>
