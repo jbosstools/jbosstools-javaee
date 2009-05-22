@@ -29,7 +29,16 @@
     
     <bookinfo>
         <title>JSF Tools Tutorial</title>
-        
+            <corpauthor>
+                <inlinemediaobject>
+                    <imageobject role="fo">
+                        <imagedata format="PNG" fileref="images/jbosstools_logo.png" />
+                    </imageobject>	
+                    <imageobject role="html">
+                        <imagedata/>
+                    </imageobject>	
+                </inlinemediaobject>           
+            </corpauthor>
         <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
