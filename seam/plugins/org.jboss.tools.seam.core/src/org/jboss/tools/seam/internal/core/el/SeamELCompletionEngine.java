@@ -141,7 +141,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		}
 		ELOperandResolveStatus status = null;
 		try {
-			status = resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, vars, context.getVarSearcher());
+			status = resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, vars, new ElVarSearcher(context.getResource(), this));
 		} catch (StringIndexOutOfBoundsException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		} catch (BadLocationException e) {
