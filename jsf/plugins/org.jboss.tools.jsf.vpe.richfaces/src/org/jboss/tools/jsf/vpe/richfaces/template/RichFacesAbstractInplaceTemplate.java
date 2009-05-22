@@ -67,51 +67,22 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     /** The Constant VPE_USER_TOGGLE_ID_ATTR. */
     public static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id"; //$NON-NLS-1$
 
-    private static final String DEFAULT_LAYOUT = "inline"; //$NON-NLS-1$
-
-    private static final String ALTERNATE_LAYOUT = "block"; //$NON-NLS-1$
-
     /** The button images. */
     protected final Map<String, String> buttonImages = new HashMap<String, String>();
 
-    /** The controls horizontal position. */
-    protected String controlsHorizontalPosition;
 
     /** The controls horizontal positions. */
     protected final Map<String, String> controlsHorizontalPositions = new HashMap<String, String>();
 
-    /** The controls vertical position. */
-    protected String controlsVerticalPosition;
-
-    /** The default label. */
-    protected String defaultLabel;
-
-    /** The edit class. */
-    protected String editClass;
-    /** The view class. */
-    protected String viewClass;
-    /** The control class. */
-    protected String controlClass;
-
     /** The is show input. */
     protected boolean isToggle = false;
-
-    /** The show controls. */
-    protected boolean showControls;
-
-    /** The source value. */
-    protected String sourceValue;
+    
 
     /** The Constant SPACER_GIF. */
     protected final String SPACER_GIF = getCssExtension() + "/spacer.gif"; //$NON-NLS-1$
 
-    /** The style class. */
-    protected String styleClass;
-
     protected String sourceCancelButtonIcon;
     protected String sourceApplyButtonIcon;
-
-    protected String sourceLayout;
 
     /**
      * The Constructor.
@@ -130,14 +101,14 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      * @param source the source
      * @return the ns IDOM element
      */
-    protected nsIDOMElement createRootSpanTemplateMethod(Element source, nsIDOMDocument visualDocument) {
+    protected nsIDOMElement createRootSpanTemplateMethod(Element source, nsIDOMDocument visualDocument, Attributes attrs) {
         final nsIDOMElement rootSpan = visualDocument.createElement(HTML.TAG_SPAN);
         // if(!(this.showControls && this.isToggle)){
         rootSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
         // }
 //        final String rootClass = MessageFormat.format(defaultStyleClasses.get("rootSpan"), getRootSpanClasses()); //$NON-NLS-1$
         String rootStyleClass = "rich-inplace" + getCssStylesSuffix(); //$NON-NLS-1$
-        for (String sc : getRootSpanClasses()) {
+        for (String sc : getRootSpanClasses(attrs)) {
             if (ComponentUtil.isNotBlank(sc)) {
             	rootStyleClass += Constants.WHITE_SPACE + sc;
             }
@@ -147,7 +118,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         if (this.isToggle) {
             style = "position: relative;"; //$NON-NLS-1$
         }
-        rootSpan.setAttribute(HTML.ATTR_STYLE, style + "; display:" + this.sourceLayout + Constants.SEMICOLON); //$NON-NLS-1$
+        rootSpan.setAttribute(HTML.ATTR_STYLE, style + "; display: " + attrs.getLayout() + Constants.SEMICOLON); //$NON-NLS-1$
         return rootSpan;
     }
 
@@ -177,19 +148,20 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      *
      * @return the root span classes
      */
-    protected abstract String[] getRootSpanClasses();
+    protected abstract String[] getRootSpanClasses(Attributes attrs);
 
     /**
      * Gets the value.
      *
      * @return the value
      */
-    protected String getValue() {
+    protected String getValue(Attributes attrs) {
         String rst = Constants.EMPTY;
-        if (ComponentUtil.isNotBlank(this.defaultLabel)) {
-            rst = this.defaultLabel;
-        } else if (ComponentUtil.isBlank(this.defaultLabel) && ComponentUtil.isNotBlank(this.sourceValue)) {
-            rst = this.sourceValue;
+        if (ComponentUtil.isNotBlank(attrs.getDefaultLabel())) {
+            rst = attrs.getDefaultLabel();
+	} else if (ComponentUtil.isBlank(attrs.getDefaultLabel())
+		&& ComponentUtil.isNotBlank(attrs.getValue())) {
+            rst = attrs.getValue();
         } else {
             rst = Constants.WHITE_SPACE;
         }
@@ -231,65 +203,11 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     }
 
     /**
-     * Checks if is in key set.
-     *
-     * @param map the map
-     * @param value2 the value2
-     * @return true, if is in key set
-     */
-    protected boolean isInKeySet(Map<String, String> map, String value2) {
-        boolean rst = false;
-        for (String key : map.keySet()) {
-            if (key.equalsIgnoreCase(value2)) {
-                rst = true;
-                break;
-            }
-        }
-        return rst;
-    }
-
-    /**
      * Prepare data.
      *
      * @param source the source
      */
-    protected void prepareData(VpePageContext pageContext,Element source) {
-        this.styleClass = source.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-        this.editClass = source.getAttribute("editClass"); //$NON-NLS-1$
-        this.viewClass = source.getAttribute("viewClass"); //$NON-NLS-1$
-        this.controlClass = source.getAttribute("controlClass"); //$NON-NLS-1$
-        this.sourceValue = source.getAttribute(RichFaces.ATTR_VALUE);
-        this.sourceLayout = ComponentUtil.getAttribute(source, "layout"); //$NON-NLS-1$
-        if(ComponentUtil.isBlank(this.sourceLayout) || (!this.sourceLayout.equalsIgnoreCase(DEFAULT_LAYOUT) && 
-                !this.sourceLayout.equalsIgnoreCase(ALTERNATE_LAYOUT)) ) {
-            this.sourceLayout = DEFAULT_LAYOUT;
-        }
-        this.defaultLabel = source.getAttribute("defaultLabel"); //$NON-NLS-1$
-        if (ComponentUtil.isBlank(this.sourceValue)) {
-            this.sourceValue = Constants.WHITE_SPACE;
-        }
-//        if ((source.getAttributeNode("value") != null) && ComponentUtil.isNotBlank(this.sourceValue)
-//                && (this.sourceValue != DEFAULT_NULL_VALUE) && this.sourceValue.startsWith("#{")) {
-//            this.sourceValue = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("value"));
-//        }
-//
-//        if ((source.getAttributeNode("defaultLabel") != null) && ComponentUtil.isNotBlank(this.defaultLabel)
-//                && (this.defaultLabel != DEFAULT_NULL_VALUE) && this.defaultLabel.startsWith("#{")) {
-//            this.defaultLabel = ComponentUtil.getBundleValue(pageContext, source.getAttributeNode("defaultLabel"));
-//        }
-        
-        this.showControls = Boolean.parseBoolean(source.getAttribute("showControls")); //$NON-NLS-1$
-        this.controlsVerticalPosition = source.getAttribute("controlsVerticalPosition"); //$NON-NLS-1$
-        if (ComponentUtil.isBlank(this.controlsVerticalPosition) || !isInKeySet(controlsVerticalPositions, this.controlsVerticalPosition)) {
-            this.controlsVerticalPosition = HTML.VALUE_ALIGN_CENTER;
-        }
-        this.controlsHorizontalPosition = source.getAttribute("controlsHorizontalPosition"); //$NON-NLS-1$
-
-        if (ComponentUtil.isBlank(this.controlsHorizontalPosition)
-                || !isInKeySet(controlsHorizontalPositions, this.controlsHorizontalPosition)) {
-            this.controlsHorizontalPosition = HTML.VALUE_ALIGN_RIGHT;
-        }
-        
+    protected void prepareData(VpePageContext pageContext, Element source) {
         prepareImages(source);
     }
 
@@ -307,16 +225,6 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
                 this.buttonImages.put(key, defaultButtonImages.get(key));
             }
         }
-    }
-
-    /**
-     * Read attributes.
-     *
-     * @param source the source
-     */
-    protected void readAttributes(Element source) {
-        this.styleClass = ComponentUtil.getAttribute(source, RichFaces.ATTR_STYLE_CLASS);
-        this.sourceValue = ComponentUtil.getAttribute(source, RichFaces.ATTR_VALUE);
     }
 
     /**
@@ -342,15 +250,15 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      * @param spanRoot the span root
      * @param source the source
      */
-    protected void setUpSpanRoot(nsIDOMElement spanRoot, Element source, nsIDOMDocument visualDocument) {
-        if (this.styleClass.length() > 0) {
-            spanRoot.setAttribute(HTML.ATTR_CLASS, this.styleClass);
+    protected void setUpSpanRoot(nsIDOMElement spanRoot, Element source, nsIDOMDocument visualDocument, Attributes attrs) {
+        if (attrs.getStyleClass().length() > 0) {
+            spanRoot.setAttribute(HTML.ATTR_CLASS, attrs.getStyleClass());
         } else {
             spanRoot.setAttribute(HTML.ATTR_CLASS, RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS);
         }
         String value = Constants.WHITE_SPACE;
-        if (this.sourceValue.length() > 0) {
-            value = this.sourceValue;
+        if (attrs.getValue().length() > 0) {
+            value = attrs.getValue();
         }
         final nsIDOMText text = visualDocument.createTextNode(value);
         spanRoot.appendChild(text);
@@ -382,7 +290,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 
     protected abstract String getCssStylesControlSuffix(); 
 
-    protected abstract String getControlPositionsSubStyles();
+    protected abstract String getControlPositionsSubStyles(Attributes attrs);
 
     protected abstract String getMainControlsDivCssClass();
 
@@ -397,11 +305,11 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected nsIDOMElement createControlsDiv(VpePageContext pageContext,
 	    Node sourceNode, nsIDOMDocument visualDocument,
-	    VpeCreationData creationData) {
+	    VpeCreationData creationData, Attributes attrs) {
         final nsIDOMElement element = visualDocument.createElement(HTML.TAG_DIV);
 
         element.setAttribute(HTML.ATTR_CLASS, getMainControlsDivCssClass());
-        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; " + getControlPositionsSubStyles()); //$NON-NLS-1$
+        element.setAttribute(HTML.ATTR_STYLE, "position: absolute; " + getControlPositionsSubStyles(attrs)); //$NON-NLS-1$
         final nsIDOMElement divShadov = visualDocument.createElement(HTML.TAG_DIV);
 
         divShadov.setAttribute(HTML.ATTR_CLASS, "rich-inplace" + getCssStylesSuffix() + "-shadow"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -448,8 +356,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 		    applyButtonImg.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
 	
 		    String applyButtonClass = "rich-inplace" + getCssStylesSuffix() + "-control"; //$NON-NLS-1$ //$NON-NLS-2$
-		    if (ComponentUtil.isNotBlank(controlClass)) {
-		    	applyButtonClass += Constants.EMPTY + controlClass;
+		    if (ComponentUtil.isNotBlank(attrs.getControlClass())) {
+		    	applyButtonClass += Constants.EMPTY + attrs.getControlClass();
 		    }
 		    applyButtonImg.setAttribute(HTML.ATTR_CLASS, applyButtonClass);
 	
@@ -469,8 +377,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 		    cancelButtonImg.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_IMAGE);
 	
 		    String cancelButtonClass = "rich-inplace" + getCssStylesSuffix() + "-control"; //$NON-NLS-1$ //$NON-NLS-2$
-		    if (ComponentUtil.isNotBlank(controlClass)) {
-		    	cancelButtonClass += Constants.EMPTY + controlClass;
+		    if (ComponentUtil.isNotBlank(attrs.getControlClass())) {
+		    	cancelButtonClass += Constants.EMPTY + attrs.getControlClass();
 		    }
 		    cancelButtonImg.setAttribute(HTML.ATTR_CLASS, cancelButtonClass);
 	
@@ -512,4 +420,133 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 
         return element;
     }
+    
+    class Attributes {
+
+	/*
+	 * Attributes names
+	 */
+	private final String EDIT_CLASS = "editClass"; //$NON-NLS-1$
+	private final String VIEW_CLASS = "viewClass"; //$NON-NLS-1$
+	private final String CONTROL_CLASS = "controlClass"; //$NON-NLS-1$
+	private final String SHOW_CONTROLS = "showControls"; //$NON-NLS-1$
+	private final String LAYOUT = "layout"; //$NON-NLS-1$
+	private final String CONTROLS_HORIZONTAL_POSOSITION = "controlsHorizontalPosition"; //$NON-NLS-1$
+	private final String CONTROLS_VERTICAL_POSITION = "controlsVerticalPosition"; //$NON-NLS-1$
+	private final String DEFAULT_LABEL = "defaultLabel"; //$NON-NLS-1$
+
+	private final String DEFAULT_VALUE = Constants.WHITE_SPACE;
+
+	/*
+	 * Attributes
+	 */
+	private String editClass;
+	private String viewClass;
+	private String controlClass;
+	private boolean showControls;
+	private String layout;
+	private String value;
+	private String controlsHorizontalPosition;
+	private String controlsVerticalPosition;
+	private String defaultLabel;
+	private String styleClass;
+
+	public Attributes(final Element sourceElement) {
+	    if (null == sourceElement) {
+		return;
+	    }
+	    editClass = sourceElement.getAttribute(EDIT_CLASS);
+	    viewClass = sourceElement.getAttribute(VIEW_CLASS);
+	    controlClass = sourceElement.getAttribute(CONTROL_CLASS);
+	    showControls = Boolean.parseBoolean(sourceElement.getAttribute(SHOW_CONTROLS));
+	    layout = sourceElement.getAttribute(LAYOUT);
+	    value = sourceElement.getAttribute(HTML.ATTR_VALUE);
+	    controlsHorizontalPosition = sourceElement.getAttribute(CONTROLS_HORIZONTAL_POSOSITION);
+	    controlsVerticalPosition = sourceElement.getAttribute(CONTROLS_VERTICAL_POSITION);
+	    defaultLabel = sourceElement.getAttribute(DEFAULT_LABEL);
+	    styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+
+	    /*
+	     * Setting default value when needed.
+	     */
+	    if (ComponentUtil.isBlank(value)) {
+		value = DEFAULT_VALUE;
+	    }
+	    if (ComponentUtil.isBlank(layout)
+		    || (!(layout.equalsIgnoreCase(HTML.VALUE_INLINE)) 
+			    && !(layout.equalsIgnoreCase(HTML.VALUE_BLOCK)))) {
+		layout = HTML.VALUE_INLINE;
+	    }
+	    if (ComponentUtil.isBlank(controlsVerticalPosition)
+		    || !isInKeySet(controlsVerticalPositions,
+			    controlsVerticalPosition)) {
+		this.controlsVerticalPosition = HTML.VALUE_ALIGN_CENTER;
+	    }
+	    if (ComponentUtil.isBlank(controlsHorizontalPosition)
+		    || !isInKeySet(controlsHorizontalPositions,
+			    controlsHorizontalPosition)) {
+		this.controlsHorizontalPosition = HTML.VALUE_ALIGN_RIGHT;
+	    }
+	}
+
+
+	/**
+	 * Checks if the value is in the map's key set.
+	 *
+	 * @param map the map
+	 * @param value the value
+	 * @return true, if the value is in
+	 */
+	protected boolean isInKeySet(Map<String, String> map, String value) {
+	    boolean rst = false;
+	    for (String key : map.keySet()) {
+		if (key.equalsIgnoreCase(value)) {
+		    rst = true;
+		    break;
+		}
+	    }
+	    return rst;
+	}
+
+	public String getEditClass() {
+	    return editClass;
+	}
+
+	public String getViewClass() {
+	    return viewClass;
+	}
+
+	public String getLayout() {
+	    return layout;
+	}
+
+	public String getControlClass() {
+	    return controlClass;
+	}
+
+	public boolean isShowControls() {
+	    return showControls;
+	}
+
+	public String getValue() {
+	    return value;
+	}
+
+	public String getControlsHorizontalPosition() {
+	    return controlsHorizontalPosition;
+	}
+
+	public String getControlsVerticalPosition() {
+	    return controlsVerticalPosition;
+	}
+
+	public String getDefaultLabel() {
+	    return defaultLabel;
+	}
+
+	public String getStyleClass() {
+	    return styleClass;
+	}	
+    }
+    
 }

@@ -60,11 +60,12 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
 		// cast to Element
         final Element sourceElement = (Element) sourceNode;
+        final Attributes attrs = new Attributes(sourceElement);
+        
+	// prepare images
+        prepareImages(sourceElement);
 
-		// prepare style classes for inplace input controls
-        prepareData(pageContext, sourceElement);
-
-        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(sourceElement, visualDocument);
+        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(sourceElement, visualDocument, attrs);
         data = new VpeCreationData(rootSpan, true);
 
         if (isToggle) {
@@ -77,10 +78,10 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
             innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
             innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-field"); //$NON-NLS-1$
             innerInput1.setAttribute(HTML.ATTR_VALUE,
-            			((this.defaultLabel == null) ? Constants.EMPTY : this.defaultLabel));
+            			((attrs.getDefaultLabel() == null) ? Constants.EMPTY : attrs.getDefaultLabel()));
             // TODO
             innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 1px ; width:100px"); //$NON-NLS-1$
-            innerInput1.setAttribute(HTML.ATTR_VALUE, getValue());
+            innerInput1.setAttribute(HTML.ATTR_VALUE, getValue(attrs));
             innerInput2.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-arrow"); //$NON-NLS-1$
             // TODO
             innerInput2.setAttribute(HTML.ATTR_STYLE, "top: 2px; left: 89px;"); //$NON-NLS-1$
@@ -91,11 +92,11 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
                 final nsIDOMElement selectList = createSelectedList(sourceElement, visualDocument);
                 rootSpan.appendChild(selectList);
             }
-            if (showControls) {
-                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data));
+            if (attrs.isShowControls()) {
+                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data, attrs));
             }
         } else {
-            rootSpan.appendChild(visualDocument.createTextNode(getValue()));
+            rootSpan.appendChild(visualDocument.createTextNode(getValue(attrs)));
         }
 //         DOMTreeDumper d = new DOMTreeDumper();
 //         d.dumpToStream(System.err, rootSpan);
@@ -246,21 +247,24 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getRootSpanClasses()
      */
     @Override
-    protected String[] getRootSpanClasses() {
-        String[] result = new String[2];
+    protected String[] getRootSpanClasses(Attributes attrs) {
+        String[] result = new String[3];
         String clazz = Constants.EMPTY;
         if (this.isToggle) {
             result[0] = "rich-inplace-select-edit"; //$NON-NLS-1$
-            if (ComponentUtil.isNotBlank(this.editClass)) {
-                clazz = this.editClass;
+            if (ComponentUtil.isNotBlank(attrs.getEditClass())) {
+                clazz = attrs.getEditClass();
             }
         } else {
             result[0] = "rich-inplace-select-view"; //$NON-NLS-1$
-            if (ComponentUtil.isNotBlank(this.viewClass)) {
-                clazz = this.viewClass;
+            if (ComponentUtil.isNotBlank(attrs.getViewClass())) {
+                clazz = attrs.getViewClass();
             }
         }
         result[1] = clazz;
+        if (ComponentUtil.isNotBlank(attrs.getStyleClass())) {
+            result[2] = attrs.getStyleClass();
+        }
         return result;
     }
 
@@ -292,7 +296,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
             this.sourceListWidth = String.valueOf("198px"); //$NON-NLS-1$
         }
 
-        super.prepareData(pageContext, source);
+        super.prepareImages(source);
     }
 
     @Override
@@ -312,9 +316,9 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
      * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getControlPositionsSubStyles()
      */
     @Override
-    protected String getControlPositionsSubStyles() {
-        return  "top:0px ; left: " + controlsVerticalPositions.get(this.controlsVerticalPosition) //$NON-NLS-1$
-            + ";left: " + controlsHorizontalPositions.get(this.controlsHorizontalPosition) + Constants.SEMICOLON; //$NON-NLS-1$
+    protected String getControlPositionsSubStyles(Attributes attrs) {
+        return  "top:0px ; left: " + controlsVerticalPositions.get(attrs.getControlsVerticalPosition()) //$NON-NLS-1$
+            + ";left: " + controlsHorizontalPositions.get(attrs.getControlsHorizontalPosition()) + Constants.SEMICOLON; //$NON-NLS-1$
     }
 
     /**
