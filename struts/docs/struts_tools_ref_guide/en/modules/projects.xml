@@ -267,4 +267,10 @@
         </figure>
     </section>
 
+    <section>
+        <title>Relevant Resources Links</title>
+        
+        <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
+            be used in various scenarios while developing Struts applications in our <ulink url="&jsflink;">Visual Web Tools guide</ulink>.</para>
+    </section>
 </chapter>
