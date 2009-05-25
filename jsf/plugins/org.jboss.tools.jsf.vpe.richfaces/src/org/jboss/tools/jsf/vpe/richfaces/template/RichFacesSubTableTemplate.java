@@ -145,7 +145,11 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		initClasses(sourceNode, pageContext);
 		
 		nsIDOMNode visualNode = creationData.getNode();
-		if (visualNode != null && visualNode.getNodeName().equals(HTML.TAG_TBODY)) {
+		/*
+		 * https://jira.jboss.org/jira/browse/JBIDE-4311
+		 * Tag name can be in any case.
+		 */
+		if (visualNode != null && visualNode.getNodeName().equalsIgnoreCase(HTML.TAG_TBODY)) {
 			// we are called by VpeVisualDomBuilder			
 			addStylesToCells(visualDocument, visualNode);
 		} else {
