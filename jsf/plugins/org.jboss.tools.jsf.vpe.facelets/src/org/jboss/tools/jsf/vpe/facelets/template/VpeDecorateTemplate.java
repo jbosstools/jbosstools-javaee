@@ -10,10 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -23,5 +27,16 @@ public class VpeDecorateTemplate extends org.jboss.tools.vpe.editor.template.Vpe
 		Node sourceNode, nsIDOMDocument visualDocument) {
 	    String fileName = ((Element)sourceNode).getAttribute(Facelets.ATTR_TEMPLATE);
 	    return createTemplate(fileName, pageContext, sourceNode, visualDocument);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getSourceRegionForOpenOn(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode)
+	 */
+	@Override
+	public IRegion getSourceRegionForOpenOn(VpePageContext pageContext,
+			Node sourceNode, nsIDOMNode domNode) {
+			Element sourceElement = (Element) sourceNode;
+			Node paramAttr = sourceElement.getAttributeNode(Facelets.ATTR_TEMPLATE);
+			return new Region(NodesManagingUtil.getStartOffsetNode(paramAttr),0);			
 	}
 }

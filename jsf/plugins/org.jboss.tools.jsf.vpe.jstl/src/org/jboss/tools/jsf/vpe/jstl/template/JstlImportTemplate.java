@@ -10,11 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jstl.template;
 
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.jboss.tools.jsf.vpe.jstl.template.util.Jstl;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeDefineContainerTemplate;
+import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -26,4 +30,14 @@ public class JstlImportTemplate extends VpeDefineContainerTemplate {
 	return createTemplate(fileName, pageContext, sourceNode, visualDocument);
     }
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getSourceRegionForOpenOn(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode)
+	 */
+	@Override
+	public IRegion getSourceRegionForOpenOn(VpePageContext pageContext,
+			Node sourceNode, nsIDOMNode domNode) {
+			Element sourceElement = (Element) sourceNode;
+			Node paramAttr = sourceElement.getAttributeNode(Jstl.ATTR_URL);
+			return new Region(NodesManagingUtil.getStartOffsetNode(paramAttr),0);			
+	}
 }

@@ -1,13 +1,17 @@
 package org.jboss.tools.jsf.vpe.seam.template;
 
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.seam.template.util.Seam;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeDefineContainerTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -42,5 +46,14 @@ public class SeamDecorateTemplate extends VpeDefineContainerTemplate {
 	
 	return creationData;
     }
-
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getSourceRegionForOpenOn(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode)
+	 */
+	@Override
+	public IRegion getSourceRegionForOpenOn(VpePageContext pageContext,
+			Node sourceNode, nsIDOMNode domNode) {
+			Element sourceElement = (Element) sourceNode;
+			Node paramAttr = sourceElement.getAttributeNode(Seam.ATTR_TEMPLATE);
+			return new Region(NodesManagingUtil.getStartOffsetNode(paramAttr),0);			
+	}
 }

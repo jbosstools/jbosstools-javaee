@@ -10,14 +10,18 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeDefineContainerTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,12 +41,12 @@ public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 	
 	protected VpeCreationData createStub(String fileName, Node sourceElement, nsIDOMDocument visualDocument) {
 		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);
-		container.setAttribute("style", "border: 1px dashed #2A7F00");
+		container.setAttribute("style", "border: 1px dashed #2A7F00"); //$NON-NLS-1$ //$NON-NLS-2$
 		VpeVisualDomBuilder.markIncludeElement(container);
 
 		nsIDOMElement title = visualDocument.createElement(HTML.TAG_DIV);
 		nsIDOMElement tag = visualDocument.createElement(HTML.TAG_SPAN);
-		tag.setAttribute("class", "__any__tag__caption");
+		tag.setAttribute("class", "__any__tag__caption"); //$NON-NLS-1$ //$NON-NLS-2$
 		tag.appendChild(visualDocument.createTextNode(sourceElement.getNodeName()));
 		title.appendChild(tag);
 		if (fileName != null) {
@@ -52,8 +56,16 @@ public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 		
 		return new VpeCreationData(container);
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getSourceRegionForOpenOn(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMNode)
+	 */
 	@Override
-	public boolean recreateAtAttrChange(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument,nsIDOMElement visualNode, Object data, String name, String value) {
-		return true;
+	public IRegion getSourceRegionForOpenOn(VpePageContext pageContext,
+			Node sourceNode, nsIDOMNode domNode) {
+			Element sourceElement = (Element) sourceNode;
+			Node paramAttr = sourceElement.getAttributeNode(Facelets.ATTR_TEMPLATE);
+			return new Region(NodesManagingUtil.getStartOffsetNode(paramAttr),0);			
 	}
+
 }
