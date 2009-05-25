@@ -1,5 +1,7 @@
 package org.jboss.ide.seam.gen.actions;
 
+import org.jboss.ide.seam.gen.Messages;
+
 public class NewFormAction extends NewActionAction {
 	/**
 	 * The constructor.
@@ -12,12 +14,11 @@ public class NewFormAction extends NewActionAction {
 	}
 	
 	public String getTitle() {
-		return "Create new form";
+		return Messages.NewFormAction_Title;
 	}
 	
 	public String getDescription() {
-		return "Create a form with a single input field and related\n" +
-				"Java interface, SLSB with key Seam/EJB3 annotations.";
+		return Messages.NewFormAction_Description;
 	}
 
 

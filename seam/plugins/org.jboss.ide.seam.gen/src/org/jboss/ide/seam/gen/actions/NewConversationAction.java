@@ -1,5 +1,7 @@
 package org.jboss.ide.seam.gen.actions;
 
+import org.jboss.ide.seam.gen.Messages;
+
 public class NewConversationAction extends NewActionAction {
 
 	protected String getTarget() {
@@ -8,13 +10,11 @@ public class NewConversationAction extends NewActionAction {
 	
 
 	public String getTitle() {
-		return "Create new conversation";
+		return Messages.NewConversationAction_Title;
 	}
 	
 	public String getDescription() {
-		return "Create a set of classes managing a conversation.\n";
-		        
+		return Messages.NewConversationAction_Description;
 	}
-
 
 }

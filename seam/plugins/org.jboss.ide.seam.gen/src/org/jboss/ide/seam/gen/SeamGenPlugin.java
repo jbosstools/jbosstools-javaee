@@ -2,6 +2,7 @@ package org.jboss.ide.seam.gen;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -53,19 +54,22 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 		try {
 			config = findLaunchConfig("seamgen"); //$NON-NLS-1$
 		} catch (CoreException e1) {
-			logError("Exception occured during search in Launch Configuration list.", e1);
+			logError(Messages.SeamGenPlugin_ExceptionDuringSearch, e1);
 		}
 		File buildXmlPath = null;
 		if(config==null) {
 			try {
-				Bundle plugin = Platform.getBundle("org.jboss.tools.seam.core");
+				Bundle plugin = Platform.getBundle("org.jboss.tools.seam.core"); //$NON-NLS-1$
 				if(plugin==null) return;
-				String seamHome = new ScopedPreferenceStore(new InstanceScope(),plugin.getSymbolicName()).getString("org.jboss.tools.seam.core.project.facet.seamhome");
-				buildXmlPath = new File(seamHome+File.separator+"seam-gen"+File.separator+"build.xml");
+				String seamHome = new ScopedPreferenceStore(new InstanceScope(),plugin.getSymbolicName()).getString("org.jboss.tools.seam.core.project.facet.seamhome"); //$NON-NLS-1$
+				buildXmlPath = new File(seamHome+File.separator+"seam-gen"+File.separator+"build.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(buildXmlPath.exists())
 					SeamGenAction.createSeamgenLaunchConfig(buildXmlPath.getAbsolutePath());
 			} catch (CoreException e) {
-				logError("Cannot create configuration for Seam-Gen tool. Seamgen build.xml file: " + buildXmlPath, e);
+				logError(MessageFormat
+						.format(
+								Messages.SeamGenPlugin_CannotCreateConfig,
+								buildXmlPath), e);
 				return;
 			}
 		}
@@ -76,7 +80,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 	static public String assumeJBossASHome() {
 		String pluginLocation=null;
 		try {
-			pluginLocation = FileLocator.resolve(SeamGenPlugin.getDefault().getBundle().getEntry("/")).getFile();
+			pluginLocation = FileLocator.resolve(SeamGenPlugin.getDefault().getBundle().getEntry("/")).getFile(); //$NON-NLS-1$
 		} catch (IOException e) {
 			SeamGenPlugin.log(new Status(IStatus.ERROR,SeamGenPlugin.PLUGIN_ID,e.getMessage(),e));
 		};
@@ -96,7 +100,7 @@ public class SeamGenPlugin extends AbstractUIPlugin {
 	
 	static public ILaunchConfiguration findLaunchConfig(String name) throws CoreException {
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType( "org.eclipse.ant.AntLaunchConfigurationType" );
+		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType( "org.eclipse.ant.AntLaunchConfigurationType" ); //$NON-NLS-1$
 		ILaunchConfiguration[] launchConfigurations = launchManager.getLaunchConfigurations( launchConfigurationType );
 
 		for (int i = 0; i < launchConfigurations.length; i++) { // can't believe there is no look up by name API

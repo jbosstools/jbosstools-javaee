@@ -3,6 +3,7 @@ package org.jboss.ide.seam.gen;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -116,7 +117,7 @@ public class QuestionDialog extends TitleAreaDialog {
 			
 		}
 		catch (CoreException e1) {
-			SeamGenPlugin.logError( "Error while preloading build.properties", e1 );
+			SeamGenPlugin.logError( Messages.QuestionDialog_ErrorPreloading, e1 );
 		}
 		
 		
@@ -160,7 +161,7 @@ public class QuestionDialog extends TitleAreaDialog {
 					text.setLayoutData(data);
 
 					Button button = new Button(composite, SWT.PUSH);
-					button.setText("Browse...");
+					button.setText(Messages.QuestionDialog_BrowseButton);
 					button.addSelectionListener(new SelectionAdapter() {
 						public void widgetSelected(SelectionEvent e) {
 							String paths = null;
@@ -190,7 +191,7 @@ public class QuestionDialog extends TitleAreaDialog {
 			}
 			label = new Label(composite, SWT.NONE);
 			label.setVisible(false);
-			label.setText( "                       " );
+			label.setText( "                       " ); //$NON-NLS-1$
 			
 			propertyToDefaultLabel.put( name, label );
 						
@@ -211,8 +212,8 @@ public class QuestionDialog extends TitleAreaDialog {
 	
 	protected String chooseExternalFile(Shell shell) {
 		FileDialog dialog= new FileDialog(shell, SWT.SINGLE);
-		dialog.setText("Select file"); 
-		dialog.setFilterExtensions(new String[] {"*.jar;*.zip"});
+		dialog.setText(Messages.QuestionDialog_SelectFileDialogText); 
+		dialog.setFilterExtensions(new String[] {"*.jar;*.zip"}); //$NON-NLS-1$
 		//dialog.setFilterPath(lastUsedPath);
 		
 		String res= dialog.open();
@@ -222,7 +223,7 @@ public class QuestionDialog extends TitleAreaDialog {
 
 	protected String chooseExternalDirectory(Shell shell) {
 		DirectoryDialog dialog= new DirectoryDialog(shell, SWT.SINGLE);
-		dialog.setText("Select directory"); 
+		dialog.setText(Messages.QuestionDialog_SelectDirectoryDialogText); 
 		
 		String res= dialog.open();
 		return res;			
@@ -246,9 +247,9 @@ public class QuestionDialog extends TitleAreaDialog {
 			} else {
 				Button t = (Button) element.getValue();
 				if(t.getSelection()) {
-					text = "y";
+					text = "y"; //$NON-NLS-1$
 				} else {
-					text = "n";
+					text = "n"; //$NON-NLS-1$
 				}
 			}
 			SeamGenProperty sgp = (SeamGenProperty) questions.get( element.getKey() );
@@ -305,7 +306,7 @@ public class QuestionDialog extends TitleAreaDialog {
 				Label defaultLabel = (Label) propertyToDefaultLabel.get( element.getKey() );
 				
 				String defaultValue = gp.getDefaultValue( properties );
-				defaultLabel.setText( defaultValue==null?"":defaultValue );
+				defaultLabel.setText( defaultValue==null?"":defaultValue ); //$NON-NLS-1$
 				
 				String text2 = getText( element, defaultLabel );
 				
@@ -316,7 +317,8 @@ public class QuestionDialog extends TitleAreaDialog {
 						haveNoWarning = false;
 						button.setEnabled( false );
 					} else if(gp.isRequired() && text2.trim().length()==0 && defaultLabel.getText().trim().length()==0 ) {
-						setMessage( "'" + gp.getDescription() + "' requires a value", IMessageProvider.ERROR );
+						setMessage( MessageFormat.format(Messages.QuestionDialog_SeamGenPropertyRequiresAValue,
+								gp.getDescription()), IMessageProvider.ERROR );
 						haveNoWarning = false;
 						button.setEnabled( false );
 					}	
@@ -354,9 +356,9 @@ public class QuestionDialog extends TitleAreaDialog {
 			Button b = (Button) object;
 			b.setToolTipText( defaultText.getText() );
 			if(b.getSelection()) {
-				return "y";
+				return "y"; //$NON-NLS-1$
 			} else {
-				return "n";
+				return "n"; //$NON-NLS-1$
 			}
 			
 		} else {

@@ -12,7 +12,7 @@ public class SeamGenProperty {
 
 	private String defaultPropertyName;
 
-	public static final String GENERAL = "General";
+	public static final String GENERAL = Messages.SeamGenProperty_GeneralGroup;
 	public final static int TEXT = 0;
 	public final static int JAR = 1;
 	public final static int DIR = 2;
@@ -36,18 +36,18 @@ public class SeamGenProperty {
 	}
 	
 	public String getDefaultValue(Properties others) {
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 	
 	protected String upper(String name)
 	{
-		if(name==null || name.length()==0) return "";
+		if(name==null || name.length()==0) return ""; //$NON-NLS-1$
 		return name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 
 	protected String lower(String name) {
 		if ( name == null || name.length() == 0 )
-			return "";
+			return ""; //$NON-NLS-1$
 		return name.substring( 0, 1 ).toLowerCase() + name.substring( 1 );
 	}
 	
@@ -66,9 +66,9 @@ public class SeamGenProperty {
 	
 	public void applyValue(Properties existing, Control control) {
 			if(getDefaultPropertyName()==null) return;
-			String property = "";
+			String property = ""; //$NON-NLS-1$
 			if(existing == null || existing.get(getDefaultPropertyName())==null) {
-				property = getDefaultValue(existing)==null?"":getDefaultValue(existing);
+				property = getDefaultValue(existing)==null?"":getDefaultValue(existing); //$NON-NLS-1$
 			} else {
 				property = existing.getProperty( getDefaultPropertyName() );
 			}
@@ -76,13 +76,13 @@ public class SeamGenProperty {
 				if(control instanceof Text) {
 					((Text)control).setText( property );
 				} else if (control instanceof Button) {
-					if("y".equalsIgnoreCase( property )) {
+					if("y".equalsIgnoreCase( property )) { //$NON-NLS-1$
 						((Button)control).setSelection( true );
 					} else {
 						((Button)control).setSelection( false );
 					}
 				} else {
-					System.out.println(getDefaultPropertyName() + " " + property);
+					System.out.println(getDefaultPropertyName() + " " + property); //$NON-NLS-1$
 				}
 			}
 	}

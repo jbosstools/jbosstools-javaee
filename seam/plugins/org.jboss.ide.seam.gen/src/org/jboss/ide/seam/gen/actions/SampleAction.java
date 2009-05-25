@@ -31,8 +31,8 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		MessageDialog.openInformation(
 			window.getShell(),
-			"JBoss Seam-gen Plug-in",
-			"Hello, Eclipse world");
+			"JBoss Seam-gen Plug-in", //$NON-NLS-1$
+			"Hello, Eclipse world"); //$NON-NLS-1$
 	}
 
 	/**
