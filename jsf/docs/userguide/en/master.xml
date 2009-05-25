@@ -10,7 +10,9 @@
 <!ENTITY richfaces_support SYSTEM "modules/richfaces_support.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
 <!ENTITY preferences SYSTEM "modules/preferences.xml">
+<!ENTITY context_menu_preferences SYSTEM "modules/context_menu_preferences.xml">
 <!ENTITY vwt_faq SYSTEM "modules/vwt_faq.xml">
+<!ENTITY conclusion SYSTEM "modules/conclusion.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -57,5 +59,7 @@
     &richfaces_support;
     &web_projects;
     &preferences; 
+    &context_menu_preferences;
     &vwt_faq;
+    &conclusion;
 </book>    
