@@ -73,10 +73,11 @@ public class JBIDE675Test extends VpeTest {
 
 		for (int i = 0; i < 20; i++) {
 
-			styledText.setCaretOffset(339);
-			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(part
-					.getSourceEditor().getTextViewer(), 339);
-			Node node = (Node) treeNode;
+			int offset =TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 8, 21);
+			styledText.setCaretOffset(offset);
+			Node node = (Node) ContentAssistUtils.getNodeAt(part
+					.getSourceEditor().getTextViewer(), offset);
+
 			assertNotNull(node);
 
 			VpeController vpeController = TestUtil.getVpeController(part);
