@@ -103,7 +103,6 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE788Test.class);
 		suite.addTestSuite(JBIDE1105Test.class);
 		suite.addTestSuite(JBIDE1744Test.class);
-		suite.addTestSuite(JBIDE675Test.class);
 		suite.addTestSuite(JBIDE1460Test.class);
 		suite.addTestSuite(JBIDE1720Test.class);
 		suite.addTestSuite(JsfJbide1718Test.class);
@@ -140,6 +139,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE3650Test.class);
 		suite.addTestSuite(JBIDE3197Test.class);
 		suite.addTestSuite(JBIDE4373Test.class);
+		suite.addTestSuite(JBIDE675Test.class);
 		
 		// $JUnit-END$
 		// added by Max Areshkau
