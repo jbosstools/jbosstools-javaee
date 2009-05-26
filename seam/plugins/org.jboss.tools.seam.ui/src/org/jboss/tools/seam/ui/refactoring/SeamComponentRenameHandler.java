@@ -51,6 +51,8 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IEditorPart editor = HandlerUtil.getActiveEditor(event);
 		Shell activeShell = HandlerUtil.getActiveShell(event);
+		
+		saveAndBuild();
 
 		IEditorInput input = editor.getEditorInput();
 		if (input instanceof IFileEditorInput) {
@@ -79,14 +81,7 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 	}
 
 	public static void invokeRenameWizard(ISeamComponent component, Shell activeShell) {
-		if(!SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
-			return;
-		
-		try {
-			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-		} catch (InterruptedException e) {
-			// do nothing
-		}
+		saveAndBuild();
 		
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
@@ -97,6 +92,17 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 			op.run(activeShell, titleForFailedChecks);
 		} catch (final InterruptedException irex) {
 			// operation was canceled
+		}
+	}
+	
+	private static void saveAndBuild(){
+		if(!SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
+			return;
+		
+		try {
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+		} catch (InterruptedException e) {
+			// do nothing
 		}
 	}
 }
