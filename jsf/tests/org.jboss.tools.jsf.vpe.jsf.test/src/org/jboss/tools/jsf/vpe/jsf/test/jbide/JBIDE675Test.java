@@ -304,8 +304,7 @@ public class JBIDE675Test extends VpeTest {
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				
-				 part.close(false);
-				 part.dispose();
+				part.close(false);
 				return Status.OK_STATUS;
 			}};
 			job.setPriority(Job.SHORT);

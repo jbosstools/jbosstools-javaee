@@ -31,7 +31,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE3030Test extends VpeTest {
 
-	private static  Set<String> fileNames = new HashSet<String>();;
+	private static  Set<String> fileNames = new HashSet<String>();
 
 	static {
 		String jbide3030Path= JsfTestPlugin.getPluginResourcePath()
