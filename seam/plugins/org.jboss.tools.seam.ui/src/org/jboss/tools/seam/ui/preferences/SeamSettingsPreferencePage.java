@@ -57,6 +57,8 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
@@ -947,8 +949,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private void removeSeamSupport() {
 		try {
-			EclipseResourceUtil.removeNatureFromProject(project,
-					ISeamProject.NATURE_ID);
+			EclipseResourceUtil.removeNatureFromProject(project, ISeamProject.NATURE_ID);
+			if(!project.hasNature(JSFNature.NATURE_ID)) {
+				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
+			}
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
@@ -960,6 +964,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		}
 		try {
 			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
+			if(!project.hasNature(IKbProject.NATURE_ID)) {
+				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
+			}
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
