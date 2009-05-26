@@ -487,9 +487,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		// Unknown factory name
 		System.out.println("Test - Unknown factory name");
 		
-		IFile ñomponent12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
+		IFile component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
 		try{
-			component12File.setContents(ñomponent12File2.getContents(), true, false, null);
+			component12File.setContents(component12File2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
 					"'Component12File2.2'", ex);
@@ -508,9 +508,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		assertEquals("Problem marker has wrong line number", 24, lineNumbers[0]);
 
-		ñomponent12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateFactory");
+		component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateFactory");
 		try{
-			component12File.setContents(ñomponent12File2.getContents(), true, false, null);
+			component12File.setContents(component12File2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
 					"'DuplicateFactory'", ex);
