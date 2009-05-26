@@ -3,13 +3,13 @@ package org.jboss.tools.seam.core.test.refactoring;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -17,8 +17,6 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-
-import junit.framework.TestCase;
 
 public class SeamComponentRefactoringTest extends TestCase {
 	static String warProjectName = "Test1";
@@ -56,6 +54,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 	
 	private ISeamProject loadSeamProject(IProject project) throws CoreException {
 		JobUtils.waitForIdle();
+
 		System.out.println("Project - "+project);
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		assertNotNull("Seam project for " + project.getName() + " is null", seamProject);
@@ -113,7 +112,6 @@ public class SeamComponentRefactoringTest extends TestCase {
 	}
 	
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList) throws CoreException{
-		
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);
 		assertNotNull(component);
@@ -125,9 +123,8 @@ public class SeamComponentRefactoringTest extends TestCase {
 			assertNotSame(changeStructure.getText(), content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength()));
 		}
 
-		if(component.getJavaDeclaration() == null)
-			fail("Component 'test' does not have java declaration");
-		
+		assertNotNull("Component " + component.getName() + " does not have java declaration.", component.getJavaDeclaration());
+
 		// Rename Seam Component
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewComponentName(newName);

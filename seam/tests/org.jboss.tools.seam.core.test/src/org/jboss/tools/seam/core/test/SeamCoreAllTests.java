@@ -13,10 +13,6 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.seam.core.test.project.facet.Seam12XFacetTestSuite121EAP;
-import org.jboss.tools.seam.core.test.project.facet.Seam20XFacetTestSuite201GA;
-import org.jboss.tools.seam.core.test.project.facet.Seam2FacetInstallDelegateTest;
-import org.jboss.tools.seam.core.test.project.facet.SeamFacetInstallDelegateTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
 import org.jboss.tools.seam.core.test.refactoring.SeamRefactoringAllTests;

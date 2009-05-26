@@ -477,19 +477,19 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	public void testFactoriesValidator() {
-		IFile Component12File = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.java");
+		IFile ñomponent12File = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.java");
 		
 		refreshProject(project);
 		
-		int number = getMarkersNumber(Component12File);
+		int number = getMarkersNumber(ñomponent12File);
 		assertTrue("Problem marker was found in Component12.java", number == 0);
 
 		// Unknown factory name
 		System.out.println("Test - Unknown factory name");
 		
-		IFile Component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
+		IFile ñomponent12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.2");
 		try{
-			Component12File.setContents(Component12File2.getContents(), true, false, null);
+			ñomponent12File.setContents(ñomponent12File2.getContents(), true, false, null);
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
 					"'Component12File2.2'", ex);
@@ -497,18 +497,31 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		refreshProject(project);
 		
-		number = getMarkersNumber(Component12File);
+		number = getMarkersNumber(ñomponent12File);
 		assertFalse("Problem marker 'Unknown factory name' was not found", number == 0);
 		
-		String[] messages = getMarkersMessage(Component12File);
+		String[] messages = getMarkersMessage(ñomponent12File);
 
 		assertEquals("Problem marker 'Unknown factory name' was not found", "Factory method \"messageList2\" with a void return type must have an associated @Out/Databinder", messages[0]);
 		
-		int[] lineNumbers = getMarkersNumbersOfLine(Component12File);
+		int[] lineNumbers = getMarkersNumbersOfLine(ñomponent12File);
 		
 		assertEquals("Problem marker has wrong line number", 24, lineNumbers[0]);
+
+		ñomponent12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateFactory");
+		try{
+			ñomponent12File.setContents(ñomponent12File2.getContents(), true, false, null);
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
+					"'DuplicateFactory'", ex);
+		}
+
+		refreshProject(project);
+
+		number = getMarkersNumber(ñomponent12File);
+		assertEquals("Duplicate factory name markers were not found", 2, number);
 	}
-	
+
 	public void testBijectionsValidator() {
 		IFile selectionTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java");
 		IFile selectionIndexTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java");

@@ -36,7 +36,6 @@ import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
-import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
@@ -284,22 +283,13 @@ public class SeamCoreValidator extends SeamValidator {
 	private void validateAnnotatedFactory(ISeamAnnotatedFactory factory, Set<String> markedDuplicateFactoryNames) {
 		IMember sourceMember = factory.getSourceMember();
 		if(sourceMember instanceof IMethod) {
-			IMethod method = (IMethod)sourceMember;
-			try {
-				String returnType = method.getReturnType();
-				if("V".equals(returnType)) { //$NON-NLS-1$
-					// return type is void
-					String factoryName = factory.getName();
-					if(factoryName==null) {
-						// Unknown factory name
-						SeamCorePlugin.getDefault().logError(NLS.bind(SeamCoreMessages.SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME,factory.getResource()));
-						return;
-					}
-					validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
-				}
-			} catch (JavaModelException e) {
-				SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
+			String factoryName = factory.getName();
+			if(factoryName==null) {
+				// Unknown factory name
+				SeamCorePlugin.getDefault().logError(NLS.bind(SeamCoreMessages.SEAM_CORE_VALIDATOR_FACTORY_METHOD_MUST_HAVE_NAME,factory.getResource()));
+				return;
 			}
+			validateFactoryName(factory, factoryName, markedDuplicateFactoryNames, true);
 		} else {
 			// factory must be java method!
 			// JDT should mark it.
@@ -341,7 +331,23 @@ public class SeamCoreValidator extends SeamValidator {
 		if(firstDuplicateVariableWasMarked) {
 			markedDuplicateFactoryNames.add(factoryName);
 		}
-		if(unknownVariable && validateUnknownName) {
+		boolean voidReturnType = false;
+		if(factory instanceof ISeamAnnotatedFactory) {
+			IMember sourceMember = ((ISeamAnnotatedFactory)factory).getSourceMember();
+			if(sourceMember instanceof IMethod) {
+				IMethod method = (IMethod)sourceMember;
+				try {
+					String returnType = method.getReturnType();
+					if("V".equals(returnType)) { //$NON-NLS-1$
+						// return type is void
+						voidReturnType = true;
+					}
+				} catch (JavaModelException e) {
+					SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
+				}
+			}
+		}
+		if(unknownVariable && validateUnknownName && voidReturnType) {
 			// mark unknown factory name
 			// save link to factory resource
 			validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath());
