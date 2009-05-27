@@ -124,7 +124,7 @@ public class SerializationTest extends TestCase {
 		System.out.print("Reloaded " + components + " components in " + time + " ms");
 		
 		float timePerComponent = 1f * time / components;
-		assertTrue("Loading time per component is too large: " + timePerComponent + " ms.", timePerComponent < 10.0f);
+		assertTrue("Loading time per component is too large: " + timePerComponent + " ms.", timePerComponent < 20.0f);
 	}
 
 
