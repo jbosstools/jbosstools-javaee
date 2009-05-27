@@ -116,16 +116,11 @@ server side validation. You need to enable validation as a part of the project, 
 <itemizedlist>
 <listitem><para>Select<emphasis><property> File > Save </property></emphasis>from the menu bar</para></listitem>
 <listitem><para>Start JBoss Application Server by clicking on its icon (a right-pointing arrow) in the toolbar</para></listitem>
-<listitem><para>Click the Run icon or right click your project folder and select <emphasis><property>Run As &gt; Run on Server</property></emphasis></para></listitem>
+    <listitem><para>Click the Run icon(<inlinemediaobject> <imageobject>
+        <imagedata fileref="images/struts_validation/struts_validation_1.png"/>
+    </imageobject></inlinemediaobject>) or right click your project folder and select <emphasis><property>Run As &gt; Run on Server</property></emphasis></para></listitem>
 </itemizedlist>
-<figure>
-    <title>Run Icon</title>
-<mediaobject> 
-        <imageobject>
-            <imagedata fileref="images/struts_validation/struts_validation_1.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
+
 <itemizedlist><listitem><para>In the browser window, click on the &quot;Say Hello!&quot; button without having entered any name in the form</para></listitem></itemizedlist>
 <para>A JavaScript error message should be displayed in an alert box.</para>
 </section>

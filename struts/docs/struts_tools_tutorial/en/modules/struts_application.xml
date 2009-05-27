@@ -255,19 +255,15 @@
                 <property>inputname.jsp</property></emphasis> page to the action.</para>
             <itemizedlist>
                 <listitem>
-                    <para>On the left-hand side of the diagram in the column of icons, click on this
-                        icon:</para>
+                    <para>On the left-hand side of the diagram in the column of icons, click on the Create New Connection
+                        icon( <inlinemediaobject> 
+                            <imageobject>
+                                <imagedata fileref="images/struts_application/struts_application_1.png"/>
+                            </imageobject>
+                       </inlinemediaobject>).</para>
                 </listitem>
             </itemizedlist>
-            <figure>
-                <title>Create New Connection Icon</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/struts_application/struts_application_1.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <itemizedlist>
+             <itemizedlist>
                 <listitem>
                     <para>In the connect-the-components mode you are in now, click on the <emphasis>
                             <property>/pages/inputname.jsp</property>
@@ -283,18 +279,16 @@
             <para>Next, we are going to create a forward for the action.</para>
             <itemizedlist>
                 <listitem>
-                    <para>On the left-hand side of the diagram in the column of icons, click on this
-                        icon, again:</para>
+                    <para>On the left-hand side of the diagram in the column of icons, click on 
+                        the Create New Connection
+                        icon( <inlinemediaobject> 
+                            <imageobject>
+                                <imagedata fileref="images/struts_application/struts_application_1.png"/>
+                            </imageobject>
+                        </inlinemediaobject>), again.</para>
                 </listitem>
             </itemizedlist>
-            <figure>
-                <title>Create New Connection Icon</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/struts_application/struts_application_1.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+           
             <itemizedlist>
                 <listitem>
                     <para>Click on the <emphasis>
