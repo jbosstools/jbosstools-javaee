@@ -146,11 +146,11 @@ public class RenameComponentProcessor extends RenameProcessor {
 			SeamCorePlugin.getPluginLog().logError(e);
 			return;
 		}
-		if(ext.equalsIgnoreCase(JAVA_EXT)){
+		if(JAVA_EXT.equalsIgnoreCase(ext)){
 			scanJava(file, content);
-		} else if(ext.equalsIgnoreCase(XML_EXT) || ext.equalsIgnoreCase(XHTML_EXT) || ext.equalsIgnoreCase(JSP_EXT))
+		} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
 			scanDOM(file, content);
-		else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
+		else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
 			scanProperties(file, content);
 	}
 	
