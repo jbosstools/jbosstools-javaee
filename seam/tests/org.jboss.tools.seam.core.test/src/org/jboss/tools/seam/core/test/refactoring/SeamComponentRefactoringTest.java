@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -27,55 +28,52 @@ public class SeamComponentRefactoringTest extends TestCase {
 	static IProject ejbProject;
 	static ISeamProject seamWarProject;
 	static ISeamProject seamEjbProject;
-	
+
 	public SeamComponentRefactoringTest(){
 		super("Seam Component Refactoring Test");
 	}
-	
+
 	protected void setUp() throws Exception {
-		if(warProject==null) {
-			warProject = ProjectImportTestSetup.loadProject(warProjectName);
-		}
-		if(seamWarProject==null) {
-			seamWarProject = loadSeamProject(warProject);
-		}
-		
-		if(earProject==null) {
-			earProject = ProjectImportTestSetup.loadProject(earProjectName);
-		}
-		
-		if(ejbProject==null) {
-			ejbProject = ProjectImportTestSetup.loadProject(ejbProjectName);
-		}
-		if(seamEjbProject==null) {
-			seamEjbProject = loadSeamProject(ejbProject);
-		}
+		loadProjects();
+		List<IProject> projectList = new ArrayList<IProject>();
+		projectList.add(ejbProject);
+		projectList.add(warProject);
+		J2EEComponentClasspathUpdater.getInstance().forceUpdate(projectList);
+		loadProjects();
 	}
-	
+
+	private void loadProjects() throws Exception {
+		earProject = ProjectImportTestSetup.loadProject(earProjectName);
+		ejbProject = ProjectImportTestSetup.loadProject(ejbProjectName);
+		warProject = ProjectImportTestSetup.loadProject(warProjectName);
+		seamEjbProject = loadSeamProject(ejbProject);
+		seamWarProject = loadSeamProject(warProject);
+	}
+
 	private ISeamProject loadSeamProject(IProject project) throws CoreException {
 		JobUtils.waitForIdle();
 
 		System.out.println("Project - "+project);
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		assertNotNull("Seam project for " + project.getName() + " is null", seamProject);
-		
+
 		return seamProject;
 	}
-	
+
 	public void testSeamComponentRename() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
-		
+
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestComponent.java",
 				89, 6, "\"best\"");
 		list.add(structure);
-		
+
 		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml",
 				1106, 4, "best");
 		list.add(structure);
 		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml",
 				1934, 4, "best");
 		list.add(structure);
-		
+
 		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
 				420, 11, "@In(\"best\")");
 		list.add(structure);
@@ -91,26 +89,26 @@ public class SeamComponentRefactoringTest extends TestCase {
 		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
 				589, 4, "best");
 		list.add(structure);
-		
+
 		structure = new TestChangeStructure(ejbProject, "/ejbModule/seam.properties",
 				0, 4, "best");
 		list.add(structure);
-		
+
 		structure = new TestChangeStructure(warProject, "/WebContent/test.xhtml",
 				1088, 4, "best");
 		list.add(structure);
-		
+
 		structure = new TestChangeStructure(warProject, "/WebContent/test.jsp",
 				227, 4, "best");
 		list.add(structure);
-		
+
 		structure = new TestChangeStructure(warProject, "/WebContent/test.properties",
 				29, 4, "best");
 		list.add(structure);
-		
+
 		renameComponent(seamEjbProject, "test", "best", list);
 	}
-	
+
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList) throws CoreException{
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);
@@ -129,10 +127,10 @@ public class SeamComponentRefactoringTest extends TestCase {
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewComponentName(newName);
 		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-		
+
 		rootChange.perform(new NullProgressMonitor());
 		JobUtils.waitForIdle();
-		
+
 		// Test results
 		assertNull(seamProject.getComponent(componentName));
 		assertNotNull(seamProject.getComponent(newName));
@@ -144,14 +142,14 @@ public class SeamComponentRefactoringTest extends TestCase {
 			assertEquals(changeStructure.getText(), content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength()));
 		}
 	}
-	
+
 	class TestChangeStructure{
 		private IProject project;
 		private String fileName;
 		private int offset;
 		private int length;
 		private String text;
-		
+
 		public TestChangeStructure(IProject project, String fileName, int offset, int length, String text){
 			this.project = project;
 			this.fileName = fileName;
@@ -159,23 +157,23 @@ public class SeamComponentRefactoringTest extends TestCase {
 			this.length = length;
 			this.text = text;
 		}
-		
+
 		public IProject getProject(){
 			return project;
 		}
-		
+
 		public String getFileName(){
 			return fileName;
 		}
-		
+
 		public int getOffset(){
 			return offset;
 		}
-		
+
 		public int getLength(){
 			return length;
 		}
-		
+
 		public String getText(){
 			return text;
 		}

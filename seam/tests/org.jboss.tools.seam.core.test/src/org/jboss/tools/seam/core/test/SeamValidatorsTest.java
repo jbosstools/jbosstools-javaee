@@ -482,7 +482,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		refreshProject(project);
 		
 		int number = getMarkersNumber(component12File);
-		assertTrue("Problem marker was found in Component12.java", number == 0);
+		assertEquals("Problem marker was found in Component12.java", 0, number);
 
 		// Unknown factory name
 		System.out.println("Test - Unknown factory name");
