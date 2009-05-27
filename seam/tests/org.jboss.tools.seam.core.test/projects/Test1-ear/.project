@@ -3,8 +3,8 @@
 	<name>Test1-ear</name>
 	<comment></comment>
 	<projects>
-		<project>seamtestproject-ejb</project>
-		<project>seamtestproject</project>
+		<project>Test1-ejb</project>
+		<project>Test1</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
