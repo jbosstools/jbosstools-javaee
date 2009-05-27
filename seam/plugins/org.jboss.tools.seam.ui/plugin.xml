@@ -553,6 +553,13 @@
 	                style="push"
 	                tooltip="Rename Seam Component">
 		        </command>
+		        <command
+	                commandId="org.jboss.tools.seam.ui.refactoring.variable"
+	                id="org.jboss.tools.seam.ui.open.component.submenu2"
+	                label="Rename Seam Context Variable"
+	                style="push"
+	                tooltip="Rename Seam Context Variable">
+		        </command>
        		</menu>
     	</menuContribution>
 	</extension> 
@@ -564,6 +571,11 @@
             description="Seam Component Renaming"
             name="Seam Component Renaming">
       </command>
+      <command
+            id="org.jboss.tools.seam.ui.refactoring.variable"
+            description="Seam Context Variable Renaming"
+            name="Seam Context Variable Renaming">
+      </command>
 	</extension>
 
 	<extension
@@ -571,6 +583,9 @@
  		<handler
   			commandId="org.jboss.tools.seam.ui.refactoring.component"
   			class="org.jboss.tools.seam.ui.refactoring.SeamComponentRenameHandler"/>
+		<handler
+			commandId="org.jboss.tools.seam.ui.refactoring.variable"
+			class="org.jboss.tools.seam.ui.refactoring.SeamContextVariableRenameHandler"/>
 	</extension>
 
  <extension

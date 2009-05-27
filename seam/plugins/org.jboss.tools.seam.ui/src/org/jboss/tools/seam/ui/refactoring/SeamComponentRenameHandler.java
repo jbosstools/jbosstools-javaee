@@ -12,14 +12,11 @@ package org.jboss.tools.seam.ui.refactoring;
 
 import java.util.Set;
 
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
@@ -32,14 +29,13 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring;
-import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 
 /**
  * @author Alexey Kazakov
  */
-public class SeamComponentRenameHandler extends AbstractHandler {
+public class SeamComponentRenameHandler extends SeamAbstractHandler {
 
 	/*
 	 * (non-Javadoc)
@@ -92,17 +88,6 @@ public class SeamComponentRenameHandler extends AbstractHandler {
 			op.run(activeShell, titleForFailedChecks);
 		} catch (final InterruptedException irex) {
 			// operation was canceled
-		}
-	}
-	
-	private static void saveAndBuild(){
-		if(!SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
-			return;
-		
-		try {
-			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-		} catch (InterruptedException e) {
-			// do nothing
 		}
 	}
 }
