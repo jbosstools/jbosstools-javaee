@@ -26,20 +26,20 @@
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -54,20 +54,20 @@
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -82,27 +82,27 @@
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -115,14 +115,14 @@
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -140,11 +140,11 @@
 should be applied for
 				rich:panelMenuGroup inside rich:panelMenuGroup as for items
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -170,20 +170,20 @@ should be applied for
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -198,20 +198,20 @@ should be applied for
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -226,27 +226,27 @@ should be applied for
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -259,14 +259,14 @@ should be applied for
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -283,12 +283,10 @@ should be applied for
 									<SPAN CLASS="vpe-text">
 										isn't applied correctly
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
-
 						</TD>
 					</TR>
 					<TR STYLE="-moz-user-modify: read-write;">
@@ -315,20 +313,20 @@ should be applied for
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -343,20 +341,20 @@ should be applied for
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -371,27 +369,27 @@ should be applied for
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -404,14 +402,14 @@ should be applied for
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -436,11 +434,11 @@ should be applied for
 									<SPAN CLASS="vpe-text">
 										interaction (it's incorrect, too)
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -468,19 +466,19 @@ should be applied for
 																<TD>
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	 >
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD>
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -495,19 +493,19 @@ should be applied for
 																<TD>
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	 >
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD>
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -522,26 +520,26 @@ should be applied for
 																<TD>
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	 >
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD>
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -554,14 +552,14 @@ should be applied for
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -591,11 +589,11 @@ button
 				change disabled style of a component. Names of groups become black
 				color again.
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -621,20 +619,20 @@ button
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -649,20 +647,20 @@ button
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -677,27 +675,27 @@ button
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -710,14 +708,14 @@ button
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -732,11 +730,11 @@ button
 should work only for rich:panelMenuGroup
 				inside rich:panelMenuGroup
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -764,20 +762,20 @@ should work only for rich:panelMenuGroup
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -792,20 +790,20 @@ should work only for rich:panelMenuGroup
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -820,27 +818,27 @@ should work only for rich:panelMenuGroup
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -853,14 +851,14 @@ should work only for rich:panelMenuGroup
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -890,11 +888,11 @@ should work only for rich:panelMenuGroup
 									<SPAN CLASS="vpe-text">
 										interaction
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -925,19 +923,19 @@ should work only for rich:panelMenuGroup
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/grid.gif/"
 																		CLASS="rich-pmenu-item-icon rich-pmenu-top-item-icon" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-item-label rich-pmenu-top-item-label">
 																	Item 0.0
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="" CLASS="dr-pmenu-nowrap">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuItem/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -952,20 +950,20 @@ should work only for rich:panelMenuGroup
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -980,20 +978,20 @@ should work only for rich:panelMenuGroup
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1008,27 +1006,27 @@ should work only for rich:panelMenuGroup
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -1041,14 +1039,14 @@ should work only for rich:panelMenuGroup
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -1113,11 +1111,11 @@ doesn't work correctly, it
 doesn't
 				work correctly, it mustn't be applied for topItems.
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -1148,18 +1146,18 @@ doesn't
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/chevron.gif/"
 																		  />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"  >
 																	Item 0.0
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE=""  >
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuItem/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1174,19 +1172,19 @@ doesn't
 																<TD>
 																	<IMG
 																		SRC="/.*ve/unresolved_image.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	 >
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD>
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1201,20 +1199,20 @@ doesn't
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1229,27 +1227,27 @@ doesn't
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -1262,14 +1260,14 @@ doesn't
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -1283,11 +1281,11 @@ doesn't
 									<SPAN CLASS="vpe-text">
 										doesn't work.
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -1319,18 +1317,18 @@ doesn't
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/chevron.gif/"
 																		  />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"  >
 																	Item 0.0
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE=""  >
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuItem/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1345,19 +1343,19 @@ doesn't
 																<TD>
 																	<IMG
 																		SRC="/.*ve/unresolved_image.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	 >
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD>
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1372,20 +1370,20 @@ doesn't
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1400,27 +1398,27 @@ doesn't
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -1433,14 +1431,14 @@ doesn't
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -1455,11 +1453,11 @@ doesn't
 isn't applied correctly for top
 				groups
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>
@@ -1490,18 +1488,18 @@ isn't applied correctly for top
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/chevron.gif/"
 																		  />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"  >
 																	Item 0.0
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE=""  >
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuItem/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1516,18 +1514,18 @@ isn't applied correctly for top
 																<TD>
 																	<IMG
 																		SRC="/.*ve/unresolved_image.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;">
 																	Group 1
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD>
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1542,20 +1540,20 @@ isn't applied correctly for top
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 2
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
@@ -1570,27 +1568,27 @@ isn't applied correctly for top
 																	CLASS="rich-pmenu-group-self-icon rich-pmenu-top-group-self-icon">
 																	<IMG
 																		SRC="/.*resources/panelMenuGroup/chevronDown.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD STYLE="width: 100%;"
 																	CLASS="rich-pmenu-top-group-self-label">
 																	Group 3
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 																<TD
 																	CLASS="rich-pmenu-top-group-self-icon">
 																	<IMG WIDTH="16" VSPACE="0" HSPACE="0" HEIGHT="16"
 																		SRC="/.*resources/panelMenuGroup/spacer.gif/" />
-																	<BR _MOZ_DIRTY="" TYPE="_moz" />
+																	
 
 																</TD>
 															</TR>
 														</TABLE>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 											<TD CLASS="cols">
@@ -1603,14 +1601,14 @@ isn't applied correctly for top
 														</DIV>
 													</DIV>
 												</DIV>
-												<BR _MOZ_DIRTY="" TYPE="_moz" />
+												
 
 											</TD>
 										</TR>
 									</TBODY>
 								</TABLE>
 							</FORM>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 						<TD STYLE="-moz-user-modify: read-write;">
@@ -1625,11 +1623,11 @@ isn't applied correctly for top
 isn't applied correctly for top
 				groups
 </SPAN>
-									<BR _MOZ_DIRTY="" TYPE="_moz" />
+									
 
 								</LI>
 							</UL>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
+							
 
 						</TD>
 					</TR>

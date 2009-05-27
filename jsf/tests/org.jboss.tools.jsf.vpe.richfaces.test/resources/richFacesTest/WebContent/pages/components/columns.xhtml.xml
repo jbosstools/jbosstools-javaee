@@ -26,8 +26,6 @@
 								<SPAN CLASS="vpe-text">
 									Cars Available
 								</SPAN>
-								<BR _MOZ_DIRTY="" TYPE="_moz" />
-
 							</TD>
 						</TR>
 						<TR CLASS="dr-table-subheader rich-table-subheader">
@@ -41,7 +39,6 @@
 								<IMG
 									SRC="/.*resources/column/sortable.gif/"
 									STYLE="vertical-align: middle;" />
-								<BR _MOZ_DIRTY="" TYPE="_moz" />
 
 							</TD>
 						</TR>
@@ -58,8 +55,6 @@
 							<SPAN STYLE="font-style: italic;">
 								#{model[ind].price}$
 							</SPAN>
-							<BR _MOZ_DIRTY="" TYPE="_moz" />
-
 						</TD>
 					</TR>
 				</TABLE>
