@@ -79,6 +79,8 @@ public class JBIDE4373Test extends VpeTest{
 
 	}
 	/**
+	 *  Test openOn mechanism for VpeDefineContainerTemplate 
+	 *  in facelets' ui:composition template (VpeCompositionTemplate).
 	 * 
 	 * @throws CoreException
 	 */
@@ -91,4 +93,129 @@ public class JBIDE4373Test extends VpeTest{
 		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		assertEquals("facelets.taglib.xml file should be opened","common.xhtml", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	/**
+	 * Test openOn mechanism for VpeDefineContainerTemplate 
+	 * in facelets' ui:decorate template (VpeDecorateTemplate). 
+	 * 
+	 * @throws CoreException
+	 */
+	public void testOpenOnForUiDecorate() throws CoreException {
+		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "ui-decorate.xhtml"); //$NON-NLS-1$
+		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 33);
+		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+		vpeController.getSourceBuilder().openOn(domNode);
+		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertEquals("/templates/insert.xhtml file should be opened","insert.xhtml", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeDefineContainerTemplate
+	 *  in facelets' ui:define template (VpeDefineTemplate). 
+	 * 
+	 * @throws CoreException
+	 */
+	public void testOpenOnForUiDefine() throws CoreException {
+	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "ui-define.xhtml"); //$NON-NLS-1$
+	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 6, 40);
+	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+	    nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+	    vpeController.getSourceBuilder().openOn(domNode);
+	    IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	    assertEquals("/templates/insert.xhtml file should be opened","insert.xhtml", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeDefineContainerTemplate 
+	 * in JSTL's c:import template (JstlImportTemplate). 
+	 * 
+	 * @throws CoreException
+	 */
+	public void _testOpenOnForCImport() throws CoreException {
+	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "c-import.xhtml"); //$NON-NLS-1$
+	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 12, 25);
+	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+	    nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+	    vpeController.getSourceBuilder().openOn(domNode);
+	    IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	    assertEquals("import.html file should be opened","import.html", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeDefineContainerTemplate 
+	 * in Seam's s:decorate template (SeamDecorateTemplate). 
+	 * 
+	 * @throws CoreException
+	 */
+	public void testOpenOnForSDecorate() throws CoreException {
+		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "s-decorate.xhtml"); //$NON-NLS-1$
+		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 33);
+		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+		vpeController.getSourceBuilder().openOn(domNode);
+		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertEquals("/templates/insert.xhtml file should be opened","insert.xhtml", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeIncludeTemplate in ajax4jsf a4j:include. 
+	 * 
+	 * @throws CoreException
+	 */
+	public void testOpenOnForA4JInclude() throws CoreException {
+		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "a4j-include.xhtml"); //$NON-NLS-1$
+		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 15, 55);
+		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+		vpeController.getSourceBuilder().openOn(domNode);
+		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertEquals("/pages/import.html file should be opened","import.html", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeIncludeTemplate in facelets' ui:include. 
+	 * 
+	 * @throws CoreException
+	 */
+	public void testOpenOnForUiInclude() throws CoreException {
+	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "ui-include-relative.xhtml"); //$NON-NLS-1$
+	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 27);
+	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+	    nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+	    vpeController.getSourceBuilder().openOn(domNode);
+	    IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	    assertEquals("/pages/import.html file should be opened","import.html", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeIncludeTemplate in jsp's jsp:directive.include. 
+	 * 
+	 * @throws CoreException
+	 */
+	public void _testOpenOnForJspDirectiveInclude() throws CoreException {
+	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "jsp-directive-include-relative.jsp"); //$NON-NLS-1$
+	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 46);
+	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+	    nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+	    vpeController.getSourceBuilder().openOn(domNode);
+	    IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	    assertEquals("jsp-include.jsp file should be opened","jsp-include.jsp", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	/**
+	 * Test openOn mechanism for VpeIncludeTemplate in jsp's jsp:include. 
+	 * 
+	 * @throws CoreException
+	 */
+	public void _testOpenOnForJspInclude() throws CoreException {
+	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "jsp-include-relative.jsp"); //$NON-NLS-1$
+	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 36);
+	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+	    nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+	    vpeController.getSourceBuilder().openOn(domNode);
+	    IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	    assertEquals("jsp-include.jsp file should be opened","jsp-include.jsp", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
 }
