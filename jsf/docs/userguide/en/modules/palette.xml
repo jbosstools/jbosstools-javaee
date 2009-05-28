@@ -98,14 +98,9 @@
                 new one, as well.</para>
             <para>To open the editor, click on the <emphasis>
                     <property>Palette Editor</property>
-                </emphasis> icon: <figure>
-                    <title>Palette Editor Icon</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/palette/palette_7.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+            </emphasis> icon(<inlinemediaobject> <imageobject>
+                <imagedata fileref="images/palette/palette_7.png"/>
+            </imageobject></inlinemediaobject>).
             </para>
             <para>The window has two parts. There is a reflected grouped list of components on the
                 left side of the palette editor. Each group is divided into multiple groups, every
@@ -331,17 +326,12 @@
                 <listitem>
                     <para>Click <emphasis>
                             <property>Show/Hide</property>
-                        </emphasis> button, at the top right side of the JBoss Tools Palette.</para>
+                    </emphasis> button(<inlinemediaobject>  <imageobject>
+                        <imagedata fileref="images/palette/palette_10.png"/>
+                    </imageobject></inlinemediaobject>), at the top right side of the JBoss Tools Palette.</para>
                 </listitem>
             </itemizedlist>
-            <figure>
-                <title>Show/Hide Button</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/palette/palette_10.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
+         
             <itemizedlist>
                 <listitem>
                     <para>In the dialog Show/Hide Drawers check the groups the libraries of which
@@ -528,16 +518,10 @@
                 <title>Import Button</title>
                 <para>The same you can do with <emphasis>
                         <property>Import</property>
-                    </emphasis> button. You can see this button at the top right side of the JBoss
-                    Tools Palette.</para>
-                <figure>
-                    <title>Import Button</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/palette/palette_6.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+                </emphasis> button(<inlinemediaobject> <imageobject>
+                    <imagedata fileref="images/palette/palette_6.png"/>
+                </imageobject></inlinemediaobject>).You can see this button at the top right side of the JBoss Tools Palette.
+              </para>
                 <para>By clicking on the <emphasis>
                         <property>Import button</property>
                     </emphasis> you will see the Import Tag window a similar like in the <link
