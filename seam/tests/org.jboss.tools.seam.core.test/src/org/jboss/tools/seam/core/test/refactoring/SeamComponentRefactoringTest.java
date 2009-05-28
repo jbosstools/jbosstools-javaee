@@ -53,7 +53,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 	private ISeamProject loadSeamProject(IProject project) throws CoreException {
 		JobUtils.waitForIdle();
 
-		System.out.println("Project - "+project);
+		//System.out.println("Project - "+project);
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		assertNotNull("Seam project for " + project.getName() + " is null", seamProject);
 
@@ -138,7 +138,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
 			content = FileUtil.readStream(file.getContents());
-			System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
+			//System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
 			assertEquals(changeStructure.getText(), content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength()));
 		}
 	}
