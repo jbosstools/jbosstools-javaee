@@ -31,7 +31,7 @@
         <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
 
         <para>Seam is a one module of JBoss Tools project. Since Seam has a dependence on other JBoss Tools modules we recommend you to install
-            a bundle of all <ulink url="http://labs.jboss.com/tools/download/index.html">JBoss Tools plug-ins</ulink>. Installation instruction you can find on JBoss Wiki in <ulink url="http://labs.jboss.com/wiki/InstallingJBossTools">InstallingJBossTools</ulink> section.</para>
+            a bundle of all <ulink url="http://labs.jboss.com/tools/download.html">JBoss Tools plug-ins</ulink>. Installation instruction you can find on JBoss Wiki in <ulink url="http://labs.jboss.com/wiki/InstallingJBossTools">InstallingJBossTools</ulink> section.</para>
         
     </section>
 
