@@ -34,6 +34,12 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.jboss.tools.common.el.core.model.ELInstance;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.el.core.parser.ELParser;
+import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -51,6 +57,8 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 	private static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
 	private static final String JSP_EXT = "jsp"; //$NON-NLS-1$
 	private static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
+	
+	String selectedText = "";
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -72,9 +80,9 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 		if(sel instanceof TextSelection && editor.getEditorInput() instanceof FileEditorInput){
 			TextSelection selection = (TextSelection)sel;
 			
-			String text = selection.getText();
+			selectedText = selection.getText();
 			
-			System.out.println("Selection text - "+text);
+			System.out.println("Selection text - "+selectedText);
 		
 			FileEditorInput input = (FileEditorInput)editor.getEditorInput();
 		
@@ -88,11 +96,11 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 				SeamCorePlugin.getPluginLog().logError(e);
 				return null;
 			}
-			if(ext.equalsIgnoreCase(JAVA_EXT)){
+			if(JAVA_EXT.equalsIgnoreCase(ext)){
 				findContextVariableInJava(file, content, selection);
-			} else if(ext.equalsIgnoreCase(XML_EXT) || ext.equalsIgnoreCase(XHTML_EXT) || ext.equalsIgnoreCase(JSP_EXT))
+			} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
 				findContextVariableInDOM(file, content, selection);
-			else if(ext.equalsIgnoreCase(PROPERTIES_EXT))
+			else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
 				findContextVariableInProperties(file, content, selection);
 		}
 		return null;
@@ -110,7 +118,7 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 					int offset = scaner.getTokenOffset();
 					String value = document.get(offset, length);
 					if(value.indexOf('{')>-1) {
-						//scanString(file, value, offset);
+						scanString(file, value, offset);
 					}
 				}
 				token = scaner.nextToken();
@@ -118,6 +126,38 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 		} catch (BadLocationException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
+	}
+	
+	private void scanString(IFile file, String string, int offset) {
+		int startEl = string.indexOf("#{"); //$NON-NLS-1$
+		if(startEl>-1) {
+			ELParser parser = ELParserUtil.getJbossFactory().createParser();
+			ELModel model = parser.parse(string);
+			for (ELInstance instance : model.getInstances()) {
+				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
+					ELPropertyInvocation pi = findComponentReference(ie);
+					if(pi != null){
+						
+					}
+				}
+			}
+		}
+	}
+	
+	private ELPropertyInvocation findComponentReference(ELInvocationExpression invocationExpression){
+		ELInvocationExpression invExp = invocationExpression;
+		while(invExp != null){
+			if(invExp instanceof ELPropertyInvocation){
+				if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(selectedText))
+					return (ELPropertyInvocation)invExp;
+				else
+					invExp = invExp.getLeft();
+				
+			}else{
+				invExp = invExp.getLeft();
+			}
+		}
+		return null;
 	}
 	
 	private void findContextVariableInDOM(IFile file, String content, TextSelection selection){
