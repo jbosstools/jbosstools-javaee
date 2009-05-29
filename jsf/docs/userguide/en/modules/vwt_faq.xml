@@ -30,11 +30,28 @@
 ]]></programlisting>
             </listitem>     
         </itemizedlist>
-        
+     
         <para> In case you have the library installed and you still have issue with starting the
             <property>Visual Page Editor</property> then close all browser views/editors and leave one <property>Visual Page
             Editor</property> open and restart eclipse. This should force a load of the right XULRunner
             viewer.</para>
+        <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
+            in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should: 
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</para>
+            </listitem>  
+            <listitem>
+                <para>Copy <property>libswt-xulrunner-gtk-3449.so</property> file to your Fedora Eclipse location. </para>
+            </listitem>  
+            
+            <listitem>
+                <para>Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line: </para>
+                <programlisting role="JAVA"><![CDATA[-Dswt.library.path=/usr/lib/eclipse 
+]]></programlisting><para>,where <code>/usr/lib/eclipse</code> is the path to  your eclipse folder.</para>
+            </listitem>     
+        </itemizedlist>
     </section>
     
     <section id="question_2">
