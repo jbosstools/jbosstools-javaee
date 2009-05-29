@@ -494,10 +494,7 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private boolean isBadLocation(ITextSourceReference location){
-		if(location.getStartPosition() == 0 && location.getLength() == 0)
-			return true;
-		else
-			return false;
+		return location.getStartPosition() == 0 && location.getLength() == 0;
 	}
 	
 	private void changeXMLNode(ITextSourceReference location, IFile file){
