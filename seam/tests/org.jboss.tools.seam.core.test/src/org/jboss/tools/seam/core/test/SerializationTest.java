@@ -81,7 +81,7 @@ public class SerializationTest extends TestCase {
 				} else if(SeamXMLConstants.CLS_PROPERTIES.equals(cls)) {
 					d2 = new SeamPropertiesDeclaration();
 				}
-				assertTrue("Cannot restore declaration " + d.getName() + " " + d.getClass().getName(), d2 != null);
+				assertNotNull("Cannot restore declaration " + d.getName() + " " + d.getClass().getName(), d2);
 				d2.loadXML(e, context);
 				List<Change> changes = d2.merge(d);
 				if(changes != null && changes.size() > 0) {
@@ -104,7 +104,7 @@ public class SerializationTest extends TestCase {
 			} else if(SeamXMLConstants.CLS_JAVA.equals(cls)) {
 				f2 = new SeamAnnotatedFactory();
 			}
-			assertTrue("Cannot restore factory declaration " + f.getName() + " " + f.getClass().getName(), f2 != null);
+			assertNotNull("Cannot restore factory declaration " + f.getName() + " " + f.getClass().getName(), f2);
 			f2.loadXML(e, context);
 			List<Change> changes = f2.merge(f);
 			if(changes != null && changes.size() > 0) {
@@ -113,20 +113,18 @@ public class SerializationTest extends TestCase {
 				System.out.println(f.getName() + " " + f.getClass().getName() + " " + changes.size());
 			}
 		}
-		
 	}
-	
+
 	public void testLoadSerializedModelTime() {
 		ISeamProject sp = getSeamProject();
-		
+
 		long time = ((SeamProject)sp).reload();
 		int components = sp.getComponents().length;
 		System.out.print("Reloaded " + components + " components in " + time + " ms");
-		
-		float timePerComponent = 1f * time / components;
-		assertTrue("Loading time per component is too large: " + timePerComponent + " ms.", timePerComponent < 20.0f);
-	}
 
+		float timePerComponent = 1f * time / components;
+		assertTrue("Loading time per component is too large: " + timePerComponent + " ms.", timePerComponent < 30.0f);
+	}
 
 	public void testCleanBuild() {
 		ISeamProject sp = getSeamProject();
@@ -137,15 +135,14 @@ public class SerializationTest extends TestCase {
 			assertFalse(components_1 == 0);
 			sp.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
 			int components_2 = sp.getComponents().length;
-			assertTrue(components_2 == 0);
+			assertEquals(components_2, 0);
 			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
 			int components_3 = sp.getComponents().length;
 			assertEquals(components_1, components_3);
-			
+
 			ResourcesUtils.setBuildAutomatically(auto);
 		} catch (CoreException e) {
 			JUnitUtils.fail(e.getMessage(), e);
 		}
 	}
-
 }
