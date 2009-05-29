@@ -1,0 +1,50 @@
+.rich-page-header {
+	min-height: 40px;
+	padding: 0 20px;
+	background-color: #EDEAE6;
+	background-image: url(bkg-header.png);
+	background-position: left top;
+	background-repeat: repeat-x;
+	border-bottom: 1px solid #FFFFFF;
+	color: #DFDCD5;
+}
+
+.rich-page-header-content {
+	color: #000000;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+}
+
+.rich-page-subheader {
+	padding: 0 20px;
+	background-color: #EDEAE6;
+	border-bottom: 1px solid #FFFFFF;
+	color: #DFDCD5;
+}
+
+.rich-page-sidebar {
+	vertical-align: top;
+}
+
+.rich-page-content {
+	background-color: #FFFFFF;
+	border: 2px solid #C4C0B9;
+}
+
+.rich-page-main {
+	border-top: 2px solid #C4C0B9;
+}
+
+.rich-page-body {
+	vertical-align: top;
+}
+
+.rich-page-footer {
+	background-color: #C4C0B9;
+	background-image: url(bkg-footer.png);
+	background-position: left center;
+	background-repeat: repeat-x;
+	border-top: 1px solid #FFFFFF;
+	padding: 20px 0;
+	text-align: center;
+}

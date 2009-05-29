@@ -147,7 +147,7 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	public static nsIDOMElement getHeaderIcon(VpePageContext pageContext, Element column, nsIDOMDocument visualDocument) {
 	    String sortable = ComponentUtil.getAttribute(column, RichFaces.ATTR_SORTABLE);
 	    String sortBy = column.getAttribute(RichFaces.ATTR_SORT_BY);
-	    if (RichFaces.VAL_TRUE.equals(sortable) || sortBy != null) {
+	    if (RichFaces.VALUE_TRUE.equals(sortable) || sortBy != null) {
 			nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
 			String sortIcon = column.getAttribute(RichFaces.ATTR_SORT_ICON);
 			if (sortIcon != null) {
@@ -166,7 +166,7 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 
 	public static boolean isBreakBefore(Node child) {
 		String breakBeforeVal = ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE);
-		boolean breakBefore = breakBeforeVal != null && breakBeforeVal.equalsIgnoreCase(RichFaces.VAL_TRUE);
+		boolean breakBefore = breakBeforeVal != null && breakBeforeVal.equalsIgnoreCase(RichFaces.VALUE_TRUE);
 		return breakBefore;
 	}
 	
@@ -176,6 +176,6 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	 * @param column should be not {@code null}
 	 */
 	public static boolean isVisible(Element column) {
-		return !RichFaces.VAL_FALSE.equals(column.getAttribute(RichFaces.ATTR_VISIBLE));
+		return !RichFaces.VALUE_FALSE.equals(column.getAttribute(RichFaces.ATTR_VISIBLE));
 	}
 }

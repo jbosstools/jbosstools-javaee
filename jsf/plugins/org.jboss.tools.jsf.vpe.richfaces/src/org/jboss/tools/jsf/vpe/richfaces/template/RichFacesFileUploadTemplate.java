@@ -252,7 +252,7 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     	private String uploadListClass = "rich-fileupload-list-overflow"; //$NON-NLS-1$
     	
     	public StyleClasses(final Element sourceElement) {
-    		final boolean disabled = RichFaces.VAL_TRUE
+    		final boolean disabled = RichFaces.VALUE_TRUE
     			.equalsIgnoreCase(sourceElement.getAttribute(RichFaces.ATTR_DISABLED));
     		final String styleAttrPostfix = disabled ? POSTFIX_DISABLED : POSTFIX_ENABLED;
     		

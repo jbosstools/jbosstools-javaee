@@ -755,4 +755,24 @@
 			</vpe:template>
 		</vpe:if>
     </vpe:tag>
+    
+    <!-- Since RichFaces 3.3.1 -->
+    <vpe:tag name="rich:page" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesPageTemplate">
+		</vpe:template>
+	</vpe:tag>
+
+    <vpe:tag name="rich:layout" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" 
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesLayoutTemplate">
+		</vpe:template>
+	</vpe:tag>
+
+    <vpe:tag name="rich:layoutPanel" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" 
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesLayoutPanelTemplate">
+		</vpe:template>
+	</vpe:tag>
+    
 </vpe:templates>
