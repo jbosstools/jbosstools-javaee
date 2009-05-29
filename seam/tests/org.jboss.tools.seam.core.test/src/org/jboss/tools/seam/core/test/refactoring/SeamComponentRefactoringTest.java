@@ -10,7 +10,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
-import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -121,10 +120,11 @@ public class SeamComponentRefactoringTest extends TestCase {
 	}
 
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList) throws CoreException{
+		JobUtils.waitForIdle();
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);
-		assertNotNull(component);
-		assertNull(seamProject.getComponent(newName));
+		assertNotNull("Can't load component " + componentName, component);
+		assertNull("There is unexisted component in seam project: " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
@@ -140,28 +140,28 @@ public class SeamComponentRefactoringTest extends TestCase {
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewComponentName(newName);
 		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-		
+
 		for(int i = 0; i < rootChange.getChildren().length;i++){
 			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
-			
+
 			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
 			
 			TestChangeStructure change = findChange(changeList, fileChange.getFile());
 			if(change != null){
-				if(change.size() != edit.getChildrenSize()){
-					System.out.println("File - "+fileChange.getFile().getName());
-					System.out.println("Edit size - "+edit.getChildrenSize());
-				}
+//				if(change.size() != edit.getChildrenSize()){
+//					System.out.println("File - "+fileChange.getFile().getName());
+//					System.out.println("Edit size - "+edit.getChildrenSize());
+//				}
 				assertEquals(change.size(), edit.getChildrenSize());
 			}
 		}
-		
+
 		rootChange.perform(new NullProgressMonitor());
 		JobUtils.waitForIdle();
 
 		// Test results
-		assertNull(seamProject.getComponent(componentName));
-		assertNotNull(seamProject.getComponent(newName));
+		assertNull("There is unexisted component in seam project: " + componentName, seamProject.getComponent(componentName));
+		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
