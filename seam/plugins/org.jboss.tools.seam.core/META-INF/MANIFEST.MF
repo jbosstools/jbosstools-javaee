@@ -52,7 +52,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.jsf.facesconfig,
  org.eclipse.jst.common.frameworks,
  org.jboss.tools.common.kb,
- org.jboss.tools.jst.web.kb;bundle-version="1.0.0"
+ org.jboss.tools.jst.web.kb
 Bundle-Version: 2.0.0
 Export-Package: 
  org.jboss.tools.seam.core,
