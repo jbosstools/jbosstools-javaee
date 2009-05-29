@@ -124,7 +124,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);
 		assertNotNull("Can't load component " + componentName, component);
-		assertNull("There is unexisted component in seam project: " + newName, seamProject.getComponent(newName));
+		assertNull("There is unexpected component in seam project: " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
@@ -160,7 +160,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 		JobUtils.waitForIdle();
 
 		// Test results
-		assertNull("There is unexisted component in seam project: " + componentName, seamProject.getComponent(componentName));
+		assertNull("There is unexpected component in seam project: " + componentName, seamProject.getComponent(componentName));
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
