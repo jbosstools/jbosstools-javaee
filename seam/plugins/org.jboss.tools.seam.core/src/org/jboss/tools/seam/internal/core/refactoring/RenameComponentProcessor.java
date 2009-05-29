@@ -197,24 +197,27 @@ public class RenameComponentProcessor extends RenameProcessor {
 	}
 	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
-		declarationFile = (IFile)javaDecl.getResource();
-		if(declarationFile != null && !coreHelper.isJar(javaDecl)){
+		IFile file  = (IFile)javaDecl.getResource();
+		if(file != null && !coreHelper.isJar(javaDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null && !isBadLocation(location)){
-				TextFileChange change = getChange(declarationFile);
+				TextFileChange change = getChange(file);
 				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+newName+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 				change.addEdit(edit);
 			}
 		}
+		declarationFile = file;
 	}
 	
 	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl){
-		declarationFile = (IFile)xmlDecl.getResource();
-		if(declarationFile != null && !coreHelper.isJar(xmlDecl)){
+		IFile file = (IFile)xmlDecl.getResource();
+		if(file != null && !coreHelper.isJar(xmlDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null && !isBadLocation(location))
-				changeXMLNode(location, declarationFile);
+				changeXMLNode(location, file);
 		}
+		if(declarationFile == null)
+			declarationFile = file;
 	}
 	
 	private void scanJava(IFile file, String content){
