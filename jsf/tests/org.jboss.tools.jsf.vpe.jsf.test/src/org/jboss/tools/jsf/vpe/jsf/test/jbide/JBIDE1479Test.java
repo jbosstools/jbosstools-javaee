@@ -60,7 +60,8 @@ public class JBIDE1479Test extends VpeTest {
 		
 		Job job = new WorkspaceJob("Test JBIDE-1479"){ //$NON-NLS-1$
 			
-            public IStatus runInWorkspace(IProgressMonitor monitor) {
+            @Override
+			public IStatus runInWorkspace(IProgressMonitor monitor) {
                 try {
                     new FormatProcessorXML().formatFile(file);
                 }catch (Throwable exception){
