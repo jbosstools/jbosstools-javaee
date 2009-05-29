@@ -10,7 +10,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
+import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -63,47 +66,55 @@ public class SeamComponentRefactoringTest extends TestCase {
 	public void testSeamComponentRename() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
-		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestComponent.java",
-				89, 6, "\"best\"");
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestComponent.java");
+		TestTextChange change = new TestTextChange(89, 6, "\"best\"");
+		structure.addTextChange(change);
 		list.add(structure);
 
-		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml",
-				1106, 4, "best");
-		list.add(structure);
-		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml",
-				1934, 4, "best");
-		list.add(structure);
-
-		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
-				420, 11, "@In(\"best\")");
-		list.add(structure);
-		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
-				389, 8, "(\"best\")");
-		list.add(structure);
-		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
-				455, 16, "@Factory(\"best\")");
-		list.add(structure);
-		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
-				529, 8, "(\"best\")");
-		list.add(structure);
-		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java",
-				589, 4, "best");
+		structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml");
+		change = new TestTextChange(1106, 4, "best");
+		structure.addTextChange(change);
+		
+		change = new TestTextChange(1934, 4, "best");
+		structure.addTextChange(change);
 		list.add(structure);
 
-		structure = new TestChangeStructure(ejbProject, "/ejbModule/seam.properties",
-				0, 4, "best");
+		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java");
+		change = new TestTextChange(420, 11, "@In(\"best\")");
+		structure.addTextChange(change);
+		
+		change = new TestTextChange(389, 8, "(\"best\")");
+		structure.addTextChange(change);
+		
+		change = new TestTextChange(455, 16, "@Factory(\"best\")");
+		structure.addTextChange(change);
+		
+		change = new TestTextChange(529, 8, "(\"best\")");
+		structure.addTextChange(change);
+		
+		change = new TestTextChange(589, 4, "best");
+		structure.addTextChange(change);
+		
 		list.add(structure);
 
-		structure = new TestChangeStructure(warProject, "/WebContent/test.xhtml",
-				1088, 4, "best");
+		structure = new TestChangeStructure(ejbProject, "/ejbModule/seam.properties");
+		change = new TestTextChange(0, 4, "best");
+		structure.addTextChange(change);
 		list.add(structure);
 
-		structure = new TestChangeStructure(warProject, "/WebContent/test.jsp",
-				227, 4, "best");
+		structure = new TestChangeStructure(warProject, "/WebContent/test.xhtml");
+		change = new TestTextChange(1088, 4, "best");
+		structure.addTextChange(change);
 		list.add(structure);
 
-		structure = new TestChangeStructure(warProject, "/WebContent/test.properties",
-				29, 4, "best");
+		structure = new TestChangeStructure(warProject, "/WebContent/test.jsp");
+		change = new TestTextChange(227, 4, "best");
+		structure.addTextChange(change);
+		list.add(structure);
+
+		structure = new TestChangeStructure(warProject, "/WebContent/test.properties");
+		change = new TestTextChange(29, 4, "best");
+		structure.addTextChange(change);
 		list.add(structure);
 
 		renameComponent(seamEjbProject, "test", "best", list);
@@ -118,7 +129,9 @@ public class SeamComponentRefactoringTest extends TestCase {
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
 			content = FileUtil.readStream(file.getContents());
-			assertNotSame(changeStructure.getText(), content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength()));
+			for(TestTextChange change : changeStructure.getTextChanges()){
+				assertNotSame(change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
+			}
 		}
 
 		assertNotNull("Component " + component.getName() + " does not have java declaration.", component.getJavaDeclaration());
@@ -127,7 +140,22 @@ public class SeamComponentRefactoringTest extends TestCase {
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewComponentName(newName);
 		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-
+		
+		for(int i = 0; i < rootChange.getChildren().length;i++){
+			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
+			
+			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
+			
+			TestChangeStructure change = findChange(changeList, fileChange.getFile());
+			if(change != null){
+				if(change.size() != edit.getChildrenSize()){
+					System.out.println("File - "+fileChange.getFile().getName());
+					System.out.println("Edit size - "+edit.getChildrenSize());
+				}
+				assertEquals(change.size(), edit.getChildrenSize());
+			}
+		}
+		
 		rootChange.perform(new NullProgressMonitor());
 		JobUtils.waitForIdle();
 
@@ -139,23 +167,29 @@ public class SeamComponentRefactoringTest extends TestCase {
 			String content = null;
 			content = FileUtil.readStream(file.getContents());
 			//System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
-			assertEquals(changeStructure.getText(), content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength()));
+			for(TestTextChange change : changeStructure.getTextChanges()){
+				assertEquals(change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
+			}
 		}
+	}
+	
+	private TestChangeStructure findChange(List<TestChangeStructure> changeList, IFile file){
+		for(TestChangeStructure tcs : changeList){
+			if(tcs.getFileName().equals("/"+file.getFullPath().removeFirstSegments(1).toString()))
+				return tcs;
+		}
+		return null;
 	}
 
 	class TestChangeStructure{
 		private IProject project;
 		private String fileName;
-		private int offset;
-		private int length;
-		private String text;
+		ArrayList<TestTextChange> textChanges = new ArrayList<TestTextChange>();
+		
 
-		public TestChangeStructure(IProject project, String fileName, int offset, int length, String text){
+		public TestChangeStructure(IProject project, String fileName){
 			this.project = project;
 			this.fileName = fileName;
-			this.offset = offset;
-			this.length = length;
-			this.text = text;
 		}
 
 		public IProject getProject(){
@@ -165,7 +199,32 @@ public class SeamComponentRefactoringTest extends TestCase {
 		public String getFileName(){
 			return fileName;
 		}
+		
+		public ArrayList<TestTextChange> getTextChanges(){
+			return textChanges;
+		}
+		
+		public void addTextChange(TestTextChange change){
+			textChanges.add(change);
+		}
+		
+		public int size(){
+			return textChanges.size();
+		}
 
+	}
+	
+	class TestTextChange{
+		private int offset;
+		private int length;
+		private String text;
+		
+		public TestTextChange(int offset, int length, String text){
+			this.offset = offset;
+			this.length = length;
+			this.text = text;
+		}
+		
 		public int getOffset(){
 			return offset;
 		}
