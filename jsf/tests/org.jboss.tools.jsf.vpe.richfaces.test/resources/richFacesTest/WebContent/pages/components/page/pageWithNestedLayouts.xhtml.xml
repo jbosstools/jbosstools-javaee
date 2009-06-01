@@ -1,6 +1,6 @@
 <tests>
 	<test id="id1">
-		<DIV STYLE="background-color: white;" CLASS="rich-pagesomeClass">
+		<DIV STYLE="width: 600px; background-color: white;" CLASS="rich-page someClass">
 			<DIV CLASS="rich-page-header">
 				<DIV CLASS="rich-page-header-content">
 					<SPAN STYLE="font-size: 2em;">

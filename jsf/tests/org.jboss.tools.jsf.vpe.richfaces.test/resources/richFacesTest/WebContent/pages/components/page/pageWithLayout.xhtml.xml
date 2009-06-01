@@ -1,27 +1,28 @@
 <tests>
 
 	<test id="id1">
-		<DIV STYLE="background-color: white;" CLASS="rich-pagesomeClass">
-			<DIV CLASS="rich-page-header">
+
+		<DIV CLASS="rich-page someClass" STYLE="width: 800px; background-color: white;">
+			<DIV CLASS="rich-page-header headerClass">
 				<DIV CLASS="rich-page-header-content">
 					<SPAN STYLE="font-size: 2em;">
 						HEADER
 					</SPAN>
 				</DIV>
 			</DIV>
-			<DIV CLASS="rich-page-subheader">
+			<DIV CLASS="rich-page-subheader subheaderClass">
 				<SPAN STYLE="font-size: 2em;">
 					SUBHEADER
-					</SPAN>
+				</SPAN>
 			</DIV>
 			<DIV CLASS="rich-page-content">
-				<DIV CLASS="rich-page-sidebar">
+				<DIV CLASS="rich-page-sidebar" STYLE="width: 15em; float: right;">
 					<SPAN STYLE="font-size: 2em;">
 						SIDEBAR
 					</SPAN>
 				</DIV>
-				<DIV CLASS="rich-page-main">
-					<DIV CLASS="rich-page-body">
+				<DIV CLASS="rich-page-main" STYLE="float: left; margin-right: -30em;">
+					<DIV CLASS="rich-page-body bodyClass" STYLE="margin-right: 15em;">
 						<H1 STYLE="-moz-user-modify: read-write;">
 							<SPAN CLASS="vpe-text">
 								BODY START
@@ -31,7 +32,7 @@
 							<DIV WIDTH="100%" STYLE="width: 100%;">
 								<SPAN CLASS="vpe-text">
 									TOP PANEL
-								</SPAN>
+							</SPAN>
 							</DIV>
 							<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
 								<SPAN CLASS="vpe-text">
@@ -56,7 +57,7 @@
 					</DIV>
 				</DIV>
 			</DIV>
-			<DIV CLASS="rich-page-footer">
+			<DIV CLASS="rich-page-footer footerClass">
 				<DIV CLASS="rich-page-footer-content">
 					<SPAN STYLE="font-size: 2em;">
 						FOOTER

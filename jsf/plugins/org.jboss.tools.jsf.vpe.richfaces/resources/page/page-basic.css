@@ -23,14 +23,11 @@
 }
 
 .rich-page-sidebar {
-	float: left;
 	position: relative;
 	width: 12.3077em;
 }
 
 .rich-page-main {
-	float: right;
-	margin-left: -30em;
 	width: 100%;
 }
 
@@ -38,7 +35,6 @@
 	float: none;
 	width: auto;
 	position: static;
-	margin-left: 13.3077em;
 }
 
 .rich-page-footer {
