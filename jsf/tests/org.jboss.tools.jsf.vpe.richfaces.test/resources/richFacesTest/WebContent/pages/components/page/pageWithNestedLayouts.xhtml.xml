@@ -1,0 +1,242 @@
+<tests>
+	<test id="id1">
+		<DIV STYLE="background-color: white;" CLASS="rich-pagesomeClass">
+			<DIV CLASS="rich-page-header">
+				<DIV CLASS="rich-page-header-content">
+					<SPAN STYLE="font-size: 2em;">
+						HEADER
+					</SPAN>
+				</DIV>
+			</DIV>
+			<DIV CLASS="rich-page-subheader">
+				<SPAN STYLE="font-size: 2em;">
+					SUBHEADER
+				</SPAN>
+			</DIV>
+			<DIV CLASS="rich-page-content">
+				<DIV CLASS="rich-page-sidebar">
+					<SPAN STYLE="font-size: 2em;">
+						SIDEBAR
+					</SPAN>
+				</DIV>
+				<DIV CLASS="rich-page-main">
+					<DIV CLASS="rich-page-body">
+						<H1 STYLE="-moz-user-modify: read-write;">
+							<SPAN CLASS="vpe-text">
+								BODY START
+							</SPAN>
+						</H1>
+						<DIV STYLE="border: 1px solid black; background-color: white;"
+							>
+							<DIV WIDTH="100%" STYLE="width: 100%;">
+								<SPAN CLASS="vpe-text">
+									TOP PANEL
+								</SPAN>
+							</DIV>
+							<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+								<SPAN CLASS="vpe-text">
+									LEFT PANEL
+								</SPAN>
+							</DIV>
+							<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+								<H1 STYLE="-moz-user-modify: read-write;">
+									<SPAN CLASS="vpe-text">
+										CENTER PANEL 1
+									</SPAN>
+								</H1>
+								<DIV STYLE="border: 1px solid black;">
+									<DIV WIDTH="100%" STYLE="width: 100%;">
+										<SPAN CLASS="vpe-text">
+											TOP PANEL
+										</SPAN>
+									</DIV>
+									<DIV WIDTH="25%" STYLE="width: 25%; float: left;">
+										<SPAN CLASS="vpe-text">
+											LEFT PANEL
+										</SPAN>
+									</DIV>
+									<DIV WIDTH="75%" STYLE="width: 75%; float: left;">
+										<H1 STYLE="-moz-user-modify: read-write;">
+											<SPAN CLASS="vpe-text">
+												CENTER PANEL 2
+											</SPAN>
+										</H1>
+										<DIV STYLE="border: 1px solid black;">
+											<DIV WIDTH="100%" STYLE="width: 100%;">
+												<SPAN CLASS="vpe-text">
+													TOP PANEL
+												</SPAN>
+											</DIV>
+											<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+												<SPAN CLASS="vpe-text">
+													LEFT PANEL
+												</SPAN>
+											</DIV>
+											<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+												<SPAN STYLE="font-size: 2em;">
+													CENTER PANEL 3
+												</SPAN>
+											</DIV>
+											<DIV>
+												<DIV
+													STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+													.
+												</DIV>
+												<SPAN CLASS="vpe-text">
+													BOTTOM PANEL
+												</SPAN>
+											</DIV>
+										</DIV>
+									</DIV>
+									<DIV>
+										<DIV
+											STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+											.
+										</DIV>
+										<SPAN CLASS="vpe-text">
+											BOTTOM PANEL
+										</SPAN>
+									</DIV>
+								</DIV>
+							</DIV>
+							<DIV>
+								<DIV
+									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+									.
+								</DIV>
+								<SPAN CLASS="vpe-text">
+									BOTTOM PANEL
+								</SPAN>
+							</DIV>
+						</DIV>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV CLASS="rich-page-footer">
+				<DIV CLASS="rich-page-footer-content">
+					<SPAN STYLE="font-size: 2em;">
+						FOOTER
+					</SPAN>
+				</DIV>
+			</DIV>
+		</DIV>
+	</test>
+	<test id="id2">
+	<DIV STYLE="border: 1px solid black;">
+		<DIV WIDTH="100%" STYLE="width: 100%;">
+			<SPAN CLASS="vpe-text">
+				TOP PANEL
+			</SPAN>
+		</DIV>
+		<DIV WIDTH="25%" STYLE="width: 25%; float: left;">
+			<SPAN CLASS="vpe-text">
+				LEFT PANEL
+			</SPAN>
+		</DIV>
+		<DIV WIDTH="75%" STYLE="width: 75%; float: left;">
+			<H1 STYLE="-moz-user-modify: read-write;">
+				<SPAN CLASS="vpe-text">
+					CENTER PANEL 2
+			</SPAN>
+			</H1>
+			<DIV STYLE="border: 1px solid black;">
+				<DIV WIDTH="100%" STYLE="width: 100%;">
+					<SPAN CLASS="vpe-text">
+						TOP PANEL
+					</SPAN>
+				</DIV>
+				<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+					<SPAN CLASS="vpe-text">
+						LEFT PANEL
+					</SPAN>
+				</DIV>
+				<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+					<SPAN STYLE="font-size: 2em;">
+						CENTER PANEL 3
+					</SPAN>
+				</DIV>
+				<DIV>
+					<DIV
+						STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+						.
+					</DIV>
+					<SPAN CLASS="vpe-text">
+						BOTTOM PANEL
+					</SPAN>
+				</DIV>
+			</DIV>
+		</DIV>
+		<DIV>
+			<DIV STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+				.
+			</DIV>
+			<SPAN CLASS="vpe-text">
+				BOTTOM PANEL
+			</SPAN>
+		</DIV>
+	</DIV>
+</test>
+	<test id="id3">
+
+	<DIV WIDTH="50%" STYLE="width: 50%; float: left;" >
+		<H1 STYLE="-moz-user-modify: read-write;">
+			<SPAN CLASS="vpe-text">
+				CENTER PANEL 1
+			</SPAN>
+		</H1>
+		<DIV STYLE="border: 1px solid black;" >
+			<DIV WIDTH="100%" STYLE="width: 100%;">
+				<SPAN CLASS="vpe-text">
+					TOP PANEL
+				</SPAN>
+			</DIV>
+			<DIV WIDTH="25%" STYLE="width: 25%; float: left;">
+				<SPAN CLASS="vpe-text">
+					LEFT PANEL
+				</SPAN>
+			</DIV>
+			<DIV WIDTH="75%" STYLE="width: 75%; float: left;">
+				<H1 STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						CENTER PANEL 2
+				</SPAN>
+				</H1>
+				<DIV STYLE="border: 1px solid black;">
+					<DIV WIDTH="100%" STYLE="width: 100%;">
+						<SPAN CLASS="vpe-text">
+							TOP PANEL
+						</SPAN>
+					</DIV>
+					<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+						<SPAN CLASS="vpe-text">
+							LEFT PANEL
+						</SPAN>
+					</DIV>
+					<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+						<SPAN STYLE="font-size: 2em;">
+							CENTER PANEL 3
+						</SPAN>
+					</DIV>
+					<DIV>
+						<DIV
+							STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+							.
+						</DIV>
+						<SPAN CLASS="vpe-text">
+							BOTTOM PANEL
+						</SPAN>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV>
+				<DIV STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+					.
+				</DIV>
+				<SPAN CLASS="vpe-text">
+					BOTTOM PANEL
+				</SPAN>
+			</DIV>
+		</DIV>
+	</DIV>
+</test>
+</tests>	

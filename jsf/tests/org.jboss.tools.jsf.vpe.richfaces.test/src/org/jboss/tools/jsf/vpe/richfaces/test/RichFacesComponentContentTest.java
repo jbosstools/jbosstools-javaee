@@ -331,6 +331,22 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	public void testDataTableSpacerDataScroller() throws Throwable {
 		performContentTest("components/dataTable&Spacer&DataScroller.xhtml");//$NON-NLS-1$
 	}
+
+	public void testPageEmpty() throws Throwable {
+		performContentTest("components/page/pageEmpty.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testPageAllFacets() throws Throwable {
+		performContentTest("components/page/pageAllFacets.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testPageWithLayout() throws Throwable {
+		performContentTest("components/page/pageWithLayout.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testPageWithNestedLayouts() throws Throwable {
+		performContentTest("components/page/pageWithNestedLayouts.xhtml");//$NON-NLS-1$
+	}
 	
 	@Override
 	protected String getTestProjectName() {
