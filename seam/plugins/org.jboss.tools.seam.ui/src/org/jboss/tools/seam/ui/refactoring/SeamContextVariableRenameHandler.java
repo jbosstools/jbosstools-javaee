@@ -67,6 +67,8 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 	 * ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		boolean status = false;
+		
 		IEditorPart editor = HandlerUtil.getActiveEditor(event);
 		Shell activeShell = HandlerUtil.getActiveShell(event);
 		
@@ -83,6 +85,8 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 			selectedText = selection.getText();
 			
 			System.out.println("Selection text - "+selectedText);
+			System.out.println("Selection offset - "+selection.getOffset());
+			System.out.println("Selection length - "+selection.getLength());
 		
 			FileEditorInput input = (FileEditorInput)editor.getEditorInput();
 		
@@ -96,17 +100,23 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 				SeamCorePlugin.getPluginLog().logError(e);
 				return null;
 			}
+			
 			if(JAVA_EXT.equalsIgnoreCase(ext)){
-				findContextVariableInJava(file, content, selection);
+				status = findContextVariableInJava(file, content, selection);
 			} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
-				findContextVariableInDOM(file, content, selection);
+				status = findContextVariableInDOM(file, content, selection);
 			else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
-				findContextVariableInProperties(file, content, selection);
+				status = findContextVariableInProperties(file, content, selection);
 		}
+		if(status){
+			
+		}
+		
+		System.out.println("Status - "+status);
 		return null;
 	}
 	
-	private void findContextVariableInJava(IFile file, String content, TextSelection selection){
+	private boolean findContextVariableInJava(IFile file, String content, TextSelection selection){
 		try {
 			FastJavaPartitionScanner scaner = new FastJavaPartitionScanner();
 			Document document = new Document(content);
@@ -116,9 +126,11 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 				if(IJavaPartitions.JAVA_STRING.equals(token.getData())) {
 					int length = scaner.getTokenLength();
 					int offset = scaner.getTokenOffset();
-					String value = document.get(offset, length);
-					if(value.indexOf('{')>-1) {
-						scanString(file, value, offset);
+					if(offset <= selection.getOffset() && (offset+length) >= (selection.getOffset()+selection.getLength())){
+						String value = document.get(offset, length);
+						if(value.indexOf('{')>-1) {
+							return scanString(file, value, offset, selection);
+						}
 					}
 				}
 				token = scaner.nextToken();
@@ -126,9 +138,10 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 		} catch (BadLocationException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
+		return false;
 	}
 	
-	private void scanString(IFile file, String string, int offset) {
+	private boolean scanString(IFile file, String string, int offset, TextSelection selection) {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
 		if(startEl>-1) {
 			ELParser parser = ELParserUtil.getJbossFactory().createParser();
@@ -137,11 +150,13 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
 					ELPropertyInvocation pi = findComponentReference(ie);
 					if(pi != null){
-						
+						if(offset+pi.getStartPosition() == selection.getOffset() && pi.getLength() == selection.getLength())
+							return true;
 					}
 				}
 			}
 		}
+		return false;
 	}
 	
 	private ELPropertyInvocation findComponentReference(ELInvocationExpression invocationExpression){
@@ -160,10 +175,10 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 		return null;
 	}
 	
-	private void findContextVariableInDOM(IFile file, String content, TextSelection selection){
+	private boolean findContextVariableInDOM(IFile file, String content, TextSelection selection){
 		IModelManager manager = StructuredModelManager.getModelManager();
 		if(manager == null) {
-			return;
+			return false;
 		}
 		IStructuredModel model = null;		
 		try {
@@ -182,10 +197,11 @@ public class SeamContextVariableRenameHandler extends SeamAbstractHandler {
 				model.releaseFromRead();
 			}
 		}
+		return false;
 	}
 
-	private void findContextVariableInProperties(IFile file, String content, TextSelection selection){
-	
+	private boolean findContextVariableInProperties(IFile file, String content, TextSelection selection){
+		return false;
 	}
 	
 	

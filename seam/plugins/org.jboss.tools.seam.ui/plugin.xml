@@ -545,7 +545,7 @@
 			locationURI="popup:#CompilationUnitEditorContext?after=org.eclipse.jdt.ui.refactoring.menu">
 			<menu
             	id="java.editor.seam.popup.menu"
-            	label="Seam">
+            	label="Seam Refactor">
 	          	<command
 	                commandId="org.jboss.tools.seam.ui.refactoring.component"
 	                id="org.jboss.tools.seam.ui.open.component.submenu"
