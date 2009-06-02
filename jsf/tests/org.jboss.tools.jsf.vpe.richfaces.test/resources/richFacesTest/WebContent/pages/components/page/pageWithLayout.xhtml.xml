@@ -2,7 +2,7 @@
 
 	<test id="id1">
 
-		<DIV CLASS="rich-page someClass" STYLE="width: 800px; background-color: white;">
+		<DIV CLASS="rich-page styleClass" STYLE="width: 800px; background-color: white;">
 			<DIV CLASS="rich-page-header headerClass">
 				<DIV CLASS="rich-page-header-content">
 					<SPAN STYLE="font-size: 2em;">
@@ -16,7 +16,7 @@
 				</SPAN>
 			</DIV>
 			<DIV CLASS="rich-page-content">
-				<DIV CLASS="rich-page-sidebar" STYLE="width: 15em; float: right;">
+				<DIV CLASS="rich-page-sidebar sidebarClass" STYLE="width: 15em; float: right;">
 					<SPAN STYLE="font-size: 2em;">
 						SIDEBAR
 					</SPAN>
@@ -32,7 +32,7 @@
 							<DIV WIDTH="100%" STYLE="width: 100%;">
 								<SPAN CLASS="vpe-text">
 									TOP PANEL
-							</SPAN>
+								</SPAN>
 							</DIV>
 							<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
 								<SPAN CLASS="vpe-text">

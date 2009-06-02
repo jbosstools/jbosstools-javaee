@@ -171,8 +171,8 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 		if(sidebarFacet != null) {
 			pageSidebarDiv = visualDocument.createElement(HTML.TAG_DIV);
 			String sidebarClass = CSS_PAGE_SIDEBAR;
-			if (ComponentUtil.isNotBlank(attrs.getSiderbarClass())) {
-				sidebarClass += Constants.WHITE_SPACE + attrs.getSiderbarClass();
+			if (ComponentUtil.isNotBlank(attrs.getSidebarClass())) {
+				sidebarClass += Constants.WHITE_SPACE + attrs.getSidebarClass();
 			}
 			pageSidebarDiv.setAttribute(HTML.ATTR_CLASS, sidebarClass);
 			pageContentDiv.appendChild(pageSidebarDiv);
@@ -302,7 +302,7 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 		private final String MARKUP_TYPE = "markupType"; //$NON-NLS-1$
 		private final String NAMESPACE = "namespace"; //$NON-NLS-1$
 		private final String PAGE_TITLE = "pageTitle"; //$NON-NLS-1$
-		private final String SIDERBAR_CLASS = "siderbarClass"; //$NON-NLS-1$
+		private final String SIDEBAR_CLASS = "sidebarClass"; //$NON-NLS-1$
 		private final String SIDEBAR_POSITION = "sidebarPosition"; //$NON-NLS-1$
 		private final String SIDEBAR_WIDTH = "sidebarWidth"; //$NON-NLS-1$
 		private final String THEME = "theme"; //$NON-NLS-1$
@@ -317,7 +317,7 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 		private String markupType;
 		private String namespace;
 		private String pageTitle;
-		private String siderbarClass;
+		private String sidebarClass;
 		private String sidebarPosition;
 		private String sidebarWidth;
 		private String style;
@@ -336,7 +336,7 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 			markupType = sourceElement.getAttribute(MARKUP_TYPE);
 			namespace = sourceElement.getAttribute(NAMESPACE);
 			pageTitle = sourceElement.getAttribute(PAGE_TITLE);
-			siderbarClass = sourceElement.getAttribute(SIDERBAR_CLASS);
+			sidebarClass = sourceElement.getAttribute(SIDEBAR_CLASS);
 			sidebarPosition = sourceElement.getAttribute(SIDEBAR_POSITION);
 			sidebarWidth = sourceElement.getAttribute(SIDEBAR_WIDTH);
 			style = sourceElement.getAttribute(HTML.ATTR_STYLE);
@@ -390,8 +390,8 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 			return pageTitle;
 		}
 
-		public String getSiderbarClass() {
-			return siderbarClass;
+		public String getSidebarClass() {
+			return sidebarClass;
 		}
 
 		public String getSidebarPosition() {
