@@ -79,6 +79,10 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 		if(sp == null) {
 			return null; 
 		}
+	
+		if(sp.hasNoStorage()) {
+			kind = FULL_BUILD;
+		}
 		
 		long begin = System.currentTimeMillis();
 		

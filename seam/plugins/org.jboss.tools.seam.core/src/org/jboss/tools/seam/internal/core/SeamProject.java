@@ -739,6 +739,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(f != null && f.isFile()) f.delete();
 	}
 
+	public boolean hasNoStorage() {
+		File f = getStorageFile();
+		return f == null || !f.isFile();
+	}
 	/**
 	 * 
 	 * @return
