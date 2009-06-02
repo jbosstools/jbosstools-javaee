@@ -269,7 +269,7 @@ public class SeamContributionFactory extends AbstractContributionFactory {
 	
 	class SeamComponentRefactoringAction extends Action{
 		public SeamComponentRefactoringAction(){
-			super("Seam Component Refactoring");
+			super("Rename Seam Component");
 		}
 		public void run(){
 			
@@ -277,7 +277,7 @@ public class SeamContributionFactory extends AbstractContributionFactory {
 	}
 	class SeamContextVariableRefactoringAction extends Action{
 		public SeamContextVariableRefactoringAction(){
-			super("Seam Context Variable Refactoring");
+			super("Rename Seam Context Variable");
 		}
 		public void run(){
 			
