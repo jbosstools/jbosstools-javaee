@@ -47,7 +47,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamFormNewWizardTest.class);
 		suite.addTestSuite(SeamPreferencesPageTest.class);		
 		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
-		suite.addTestSuite(SeamELContentAssistTest.class);
+		suite.addTest(SeamELContentAssistTest.suite());
 		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
