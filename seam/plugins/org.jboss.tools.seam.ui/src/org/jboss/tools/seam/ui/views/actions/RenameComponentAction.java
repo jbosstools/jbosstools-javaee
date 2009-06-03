@@ -25,7 +25,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamObject;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.refactoring.SeamComponentRenameHandler;
+import org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory;
 
 /**
  * Rename component action for Seam Components view.
@@ -46,7 +46,7 @@ public class RenameComponentAction extends Action implements SpecialWizard {
 	public void run() {
 		if(component != null) {
 			Shell activeShell = SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
-			SeamComponentRenameHandler.invokeRenameWizard(component, activeShell);
+			SeamRefactorContributionFactory.invokeRenameComponentWizard(component, activeShell);
 		}
 	}
 

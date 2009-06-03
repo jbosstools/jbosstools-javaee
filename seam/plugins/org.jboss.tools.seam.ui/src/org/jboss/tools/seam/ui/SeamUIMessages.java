@@ -383,8 +383,12 @@ public class SeamUIMessages extends NLS {
 	public static String SeamRuntimeListFieldEditor_ActionEdit;
 
 	public static String SeamRuntimeListFieldEditor_ActionRemove;
+	
+	public static String SEAM_REFACTOR;
 
 	public static String RENAME_SEAM_COMPONENT;
+	
+	public static String RENAME_SEAM_CONTEXT_VARIABLE;
 	
 	public static String SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 	
