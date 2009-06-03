@@ -181,7 +181,7 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			}
 			return children.toArray(new Object[0]);
 		}
-		return null;
+		return new Object[0];
 	}
 
 	public Object getParent(Object element) {

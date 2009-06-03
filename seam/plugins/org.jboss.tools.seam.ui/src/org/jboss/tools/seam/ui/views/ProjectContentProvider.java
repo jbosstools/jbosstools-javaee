@@ -37,7 +37,7 @@ public class ProjectContentProvider extends AbstractSeamContentProvider {
 		}
 		if(parentElement instanceof IProject) {
 			ISeamProject p = SeamCorePlugin.getSeamProject((IProject)parentElement, false);
-			if (p == null) return null;
+			if (p == null) return new Object[0];
 			if(!processed.contains(p)) {
 				processed.add(p);
 				p.addSeamProjectListener(this);
