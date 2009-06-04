@@ -41,7 +41,7 @@ public class SeamCoreMessages {
 	public static String SeamFacetAbstractInstallDelegate_Could_not_save_changes_to_preferences;
 	public static String SeamFacetAbstractInstallDelegate_Error;
 	public static String SeamFacetAbstractInstallDelegate_Restrict_raw_XHTML_Documents;
-	public static String RENAME_SEAM_COMPONENT_PROCESSOR_RENAME_SEAM_COMPONENT;
+	public static String RENAME_SEAM_COMPONENT_PROCESSOR_TITLE;
 	public static String RENAME_SEAM_COMPONENT_PROCESSOR_THIS_IS_NOT_A_SEAM_COMPONENT;
-	
+	public static String RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE;
 }

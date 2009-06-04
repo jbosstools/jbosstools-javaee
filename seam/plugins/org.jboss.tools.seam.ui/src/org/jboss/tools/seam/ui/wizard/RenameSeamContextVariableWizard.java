@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -31,6 +32,8 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
+import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
+import org.jboss.tools.seam.internal.core.refactoring.SeamRenameProcessor;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
@@ -41,18 +44,16 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 /**
  * @author Alexey Kazakov
  */
-public class RenameComponentWizard extends RefactoringWizard {
+public class RenameSeamContextVariableWizard extends RefactoringWizard {
 
-	private ISeamComponent component;
+	//private ISeamComponent component;
 	private String componentName;
 	private IFieldEditor editor;
 	private ISeamProject seamProject;
 
-	public RenameComponentWizard(Refactoring refactoring, ISeamComponent component) {
+	public RenameSeamContextVariableWizard(Refactoring refactoring, IFile file) {
 		super(refactoring, WIZARD_BASED_USER_INTERFACE);
-		this.component = component;
-		if(component != null)
-			seamProject = SeamCorePlugin.getSeamProject((IProject)component.getResource(), true);
+		seamProject = SeamCorePlugin.getSeamProject(file.getProject(), true);
 	}
 
 	/* (non-Javadoc)
@@ -61,14 +62,14 @@ public class RenameComponentWizard extends RefactoringWizard {
 	@Override
 	protected void addUserInputPages() {
 	    setDefaultPageTitle(getRefactoring().getName());
-	    RenameComponentProcessor processor= (RenameComponentProcessor) getRefactoring().getAdapter(RenameComponentProcessor.class);
+	    RenameSeamContextVariableProcessor processor= (RenameSeamContextVariableProcessor) getRefactoring().getAdapter(RenameSeamContextVariableProcessor.class);
 	    addPage(new RenameComponentWizardPage(processor));
 	}
 	
 	class RenameComponentWizardPage extends UserInputWizardPage{
-		private RenameComponentProcessor processor;
+		private SeamRenameProcessor processor;
 		
-		public RenameComponentWizardPage(RenameComponentProcessor processor){
+		public RenameComponentWizardPage(SeamRenameProcessor processor){
 			super("");
 			this.processor = processor;
 		}
@@ -80,7 +81,7 @@ public class RenameComponentWizard extends RefactoringWizard {
 	        container.setLayout(layout);
 	        layout.numColumns = 2;
 	        
-	        String defaultName = component.getName();
+	        String defaultName = processor.getOldName();
 	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, defaultName);
 	        editor.doFillIntoGrid(container);
 	        

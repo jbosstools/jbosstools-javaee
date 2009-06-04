@@ -138,7 +138,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 
 		// Rename Seam Component
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
-		processor.setNewComponentName(newName);
+		processor.setNewName(newName);
 		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 
 		for(int i = 0; i < rootChange.getChildren().length;i++){

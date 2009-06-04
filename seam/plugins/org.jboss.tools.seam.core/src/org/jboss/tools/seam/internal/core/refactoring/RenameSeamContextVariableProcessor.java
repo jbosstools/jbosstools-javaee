@@ -10,6 +10,11 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
+import java.util.Set;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -20,33 +25,24 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
- * @author Alexey Kazakov, Daniel Azarov
+ * @author Daniel Azarov
  */
-public class RenameComponentProcessor extends SeamRenameProcessor {
-	private ISeamComponent component;
-	
+public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 
 	/**
 	 * @param component Renamed component
 	 */
-	public RenameComponentProcessor(ISeamComponent component) {
+	public RenameSeamContextVariableProcessor(IFile file, String oldName) {
 		super();
-		setComponent(component);
+		declarationFile = file;
+		setOldName(oldName);
 	}
-
-	public ISeamComponent getComponent() {
-		return component;
-	}
-
-	public void setComponent(ISeamComponent component) {
-		this.component = component;
-		setOldName(component.getName());
-	}
-	
-	
 
 	/*
 	 * (non-Javadoc)
@@ -67,9 +63,9 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
-		if(component==null) {
-			result.addFatalError(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_THIS_IS_NOT_A_SEAM_COMPONENT);
-		}
+//		if(getNewName()==null) {
+//			result.addFatalError(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_THIS_IS_NOT_A_SEAM_COMPONENT);
+//		}
 		return result;
 	}
 	
@@ -80,21 +76,42 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE);
+		rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
 		
-		renameComponent(component);
+		ISeamComponent component = checkComponent();
+		if(component != null)
+			renameComponent(component);
 		
 		return rootChange;
 	}
 	
-
+	private ISeamComponent checkComponent(){
+		IProject project = declarationFile.getProject();
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		if (seamProject != null) {
+			Set<ISeamComponent> components = seamProject.getComponentsByPath(declarationFile.getFullPath());
+			for(ISeamComponent component : components){
+				ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
+				if(declaration != null){
+					IResource resource = declaration.getResource();
+					if(resource != null && resource.getFullPath().equals(declarationFile.getFullPath())){
+						if(declaration.getName().equals(component.getName())){
+							return component;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#getElements()
 	 */
 	@Override
 	public Object[] getElements() {
-		return new ISeamComponent[]{component};
+		return new String[]{getNewName()};
 	}
 
 	/*
@@ -112,7 +129,7 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	 */
 	@Override
 	public String getProcessorName() {
-		return SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE;
+		return SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE;
 	}
 
 	/*
@@ -121,7 +138,7 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	 */
 	@Override
 	public boolean isApplicable() throws CoreException {
-		return component!=null;
+		return getNewName()!=null;
 	}
 
 	/*

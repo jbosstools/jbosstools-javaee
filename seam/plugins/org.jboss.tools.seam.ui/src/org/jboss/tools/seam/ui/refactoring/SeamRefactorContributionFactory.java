@@ -68,9 +68,11 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring;
+import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
+import org.jboss.tools.seam.ui.wizard.RenameSeamContextVariableWizard;
 
 /**
  * @author Daniel Azarov
@@ -83,8 +85,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	private static final String JSP_EXT = "jsp"; //$NON-NLS-1$
 	private static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
 	
-	private String selectedText;
-	private IFile editorFile;
+	static private String selectedText;
+	static private IFile editorFile;
 	private String fileContent;
 	private IEditorPart editor;
 	private Shell shell;
@@ -100,6 +102,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,
 			IContributionRoot additions) {
+		
+		//System.out.println("createContributionItems");
 		
 		if(serviceLocator.hasService(IWorkbenchLocationService.class)){
 			IWorkbenchLocationService service = (IWorkbenchLocationService)serviceLocator.getService(IWorkbenchLocationService.class);
@@ -119,7 +123,6 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 				FileEditorInput input = (FileEditorInput)editor.getEditorInput();
 			
 				editorFile = input.getFile();
-				
 				
 				fileContent = null;
 				try {
@@ -314,6 +317,21 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		}
 	}
 	
+	public static void invokeRenameSeamContextVariableWizard(String oldName, Shell activeShell) {
+		saveAndBuild();
+		
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(editorFile, selectedText);
+		RenameComponentRefactoring refactoring = new RenameComponentRefactoring(processor);
+		RenameSeamContextVariableWizard wizard = new RenameSeamContextVariableWizard(refactoring, editorFile);
+		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
+		try {
+			String titleForFailedChecks = SeamUIMessages.SEAM_COMPONENT_RENAME_HANDLER_ERROR;
+			op.run(activeShell, titleForFailedChecks);
+		} catch (final InterruptedException irex) {
+			// operation was canceled
+		}
+	}
+	
 	class RenameSeamComponentAction extends Action{
 		public RenameSeamComponentAction(){
 			super(SeamUIMessages.RENAME_SEAM_COMPONENT);
@@ -351,7 +369,9 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 			super(SeamUIMessages.RENAME_SEAM_CONTEXT_VARIABLE);
 		}
 		public void run(){
+			saveAndBuild();
 			
+			invokeRenameSeamContextVariableWizard(selectedText, shell);
 		}
 	}
 }
