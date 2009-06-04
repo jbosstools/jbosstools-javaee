@@ -35,11 +35,11 @@
 			<DIV CLASS="rich-picklist-controls">
 				<DIV CLASS="rich-picklist-control-button-class">
 					<DIV
-						STYLE="background-image: url(file:////media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/button.gif);"
+						STYLE="/.*/resources/pickList/button.gif\);/"
 						CLASS="rich-list-picklist-button">
 						<DIV CLASS="rich-list-picklist-button-content">
 							<IMG WIDTH="15" HEIGHT="15"
-								SRC="file:///media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/arrow_copy_all.gif" />
+								SRC="/.*/pickList/arrow_copy_all.gif/" />
 
 							Copy all
 						</DIV>
@@ -47,11 +47,11 @@
 				</DIV>
 				<DIV CLASS="rich-picklist-control-button-class">
 					<DIV
-						STYLE="background-image: url(file:////media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/button.gif);"
+						STYLE="/.*/resources/pickList/button.gif\);/"
 						CLASS="rich-list-picklist-button">
 						<DIV CLASS="rich-list-picklist-button-content">
 							<IMG WIDTH="15" HEIGHT="15"
-								SRC="file:///media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/arrow_copy.gif" />
+								SRC="/.*/resources/pickList/arrow_copy.gif/" />
 
 							Copy
 						</DIV>
@@ -59,11 +59,11 @@
 				</DIV>
 				<DIV CLASS="rich-picklist-control-button-class">
 					<DIV
-						STYLE="background-image: url(file:////media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/button.gif);"
+						STYLE="/.*/resources/pickList/button.gif\);/"
 						CLASS="rich-list-picklist-button">
 						<DIV CLASS="rich-list-picklist-button-content">
 							<IMG WIDTH="15" HEIGHT="15"
-								SRC="file:///media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/arrow_remove.gif" />
+								SRC="/.*/resources/pickList/arrow_remove.gif/" />
 
 							Remove
 						</DIV>
@@ -71,11 +71,11 @@
 				</DIV>
 				<DIV CLASS="rich-picklist-control-button-class">
 					<DIV
-						STYLE="background-image: url(file:////media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/button.gif);"
+						STYLE="/.*/resources/pickList/button.gif\);/"
 						CLASS="rich-list-picklist-button">
 						<DIV CLASS="rich-list-picklist-button-content">
 							<IMG WIDTH="15" HEIGHT="15"
-								SRC="file:///media/sda3/head/trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/pickList/arrow_remove_all.gif" />
+								SRC="/.*/resources/pickList/arrow_remove_all.gif/" />
 
 							Remove All
 						</DIV>
