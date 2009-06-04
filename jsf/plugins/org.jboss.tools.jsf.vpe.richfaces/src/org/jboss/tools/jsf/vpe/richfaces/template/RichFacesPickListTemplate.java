@@ -15,7 +15,6 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     private static final String ATTR_MOVE_CONTROLS_VERTICAL_ALIGN = "moveControlsVerticalAlign"; //$NON-NLS-1$
 
     /** The Constant ATTR_SHOW_BUTTON_LABELS. */
-    private static final String ATTR_SHOW_BUTTON_LABELS = "showButtonsLabel";
+    private static final String ATTR_SHOW_BUTTON_LABELS = "showButtonsLabel"; //$NON-NLS-1$
 
     /** attribute name of width of source list. */
     private static final String ATTR_SOURCE_LIST_WIDTH = "sourceListWidth"; //$NON-NLS-1$
@@ -63,13 +62,13 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     private static final String BUTTON_IMG_PATH = "pickList/button.gif"; //$NON-NLS-1$
 
     /** The Constant CLASS_SUFFIX. */
-    private static final String CLASS_SUFFIX = "Class";
+    private static final String CLASS_SUFFIX = "Class"; //$NON-NLS-1$
 
     /** The Constant CONTROL_MAP_KEY. */
-    private static final String CONTROL_MAP_KEY = "control";
+    private static final String CONTROL_MAP_KEY = "control"; //$NON-NLS-1$
 
     /** The Constant CSS_EXTENSION. */
-    private static final String CSS_EXTENSION = "pickList";
+    private static final String CSS_EXTENSION = "pickList"; //$NON-NLS-1$
 
     /** default button align. */
     private static final String DEFAULT_BUTTON_ALIGN = HTML.VALUE_ALIGN_MIDDLE;
@@ -81,55 +80,55 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     private static final String DEFAULT_LIST_WIDTH = "140px"; //$NON-NLS-1$
 
     /** The Constant LABEL_SUFFIX. */
-    private static final String LABEL_SUFFIX = "Label";
+    private static final String LABEL_SUFFIX = "Label"; //$NON-NLS-1$
 
     /** The Constant LIST_MAP_KEY. */
-    private static final String LIST_MAP_KEY = "list";
+    private static final String LIST_MAP_KEY = "list"; //$NON-NLS-1$
 
     /** The Constant RICH_LIST_PICKLIST_BUTTON_CONTENT_CSS_CLASS. */
-    private static final String RICH_LIST_PICKLIST_BUTTON_CONTENT_CSS_CLASS = "rich-list-picklist-button-content";
+    private static final String RICH_LIST_PICKLIST_BUTTON_CONTENT_CSS_CLASS = "rich-list-picklist-button-content"; //$NON-NLS-1$
 
     /** The Constant RICH_LIST_PICKLIST_BUTTON_CSS_CLASS. */
-    private static final String RICH_LIST_PICKLIST_BUTTON_CSS_CLASS = "rich-list-picklist-button";
+    private static final String RICH_LIST_PICKLIST_BUTTON_CSS_CLASS = "rich-list-picklist-button"; //$NON-NLS-1$
 
     /** The Constant RICH_PICKLIST_CONTROL_BUTTON_CSS_CLASS. */
-    private static final String RICH_PICKLIST_CONTROL_BUTTON_CSS_CLASS = "rich-picklist-control-button-class";
+    private static final String RICH_PICKLIST_CONTROL_BUTTON_CSS_CLASS = "rich-picklist-control-button-class"; //$NON-NLS-1$
 
     /** The Constant RICH_PICKLIST_INTERNAL_TAB_CSS_CLASS. */
-    private static final String RICH_PICKLIST_INTERNAL_TAB_CSS_CLASS = "rich-picklist-internal-tab";
+    private static final String RICH_PICKLIST_INTERNAL_TAB_CSS_CLASS = "rich-picklist-internal-tab"; //$NON-NLS-1$
 
     /** The Constant RICH_PICKLIST_LIST_CONTENT_CSS_CLASS. */
-    private static final String RICH_PICKLIST_LIST_CONTENT_CSS_CLASS = "rich-picklist-list-content";
+    private static final String RICH_PICKLIST_LIST_CONTENT_CSS_CLASS = "rich-picklist-list-content"; //$NON-NLS-1$
 
     /** The Constant RICH_PICKLIST_LIST_CSS_CLASS. */
-    private static final String RICH_PICKLIST_LIST_CSS_CLASS = "rich-picklist-list";
+    private static final String RICH_PICKLIST_LIST_CSS_CLASS = "rich-picklist-list"; //$NON-NLS-1$
 
     /** The Constant RICH_PICKLIST_SOURCE_CELL_CSS_CLASS. */
-    private static final String RICH_PICKLIST_SOURCE_CELL_CSS_CLASS = "rich-picklist-source-cell";
+    private static final String RICH_PICKLIST_SOURCE_CELL_CSS_CLASS = "rich-picklist-source-cell"; //$NON-NLS-1$
 
     /** The Constant SELECT_ITEM. */
-    private static final String SELECT_ITEM = "selectItem";
+    private static final String SELECT_ITEM = "selectItem"; //$NON-NLS-1$
 
     /** The Constant SOURCE_LIST. */
     private static final String SOURCE_LIST = "source"; //$NON-NLS-1$
 
     /** The Constant SPACER_GIF. */
-    private static final String SPACER_GIF = "/spacer.gif";
+    private static final String SPACER_GIF = "/spacer.gif"; //$NON-NLS-1$
 
     /** path to css. */
-    private static final String STYLE_PATH = CSS_EXTENSION + "/pickList.css";
+    private static final String STYLE_PATH = CSS_EXTENSION + "/pickList.css"; //$NON-NLS-1$
 
     /** The Constant styleClasses. */
     private static final Map<String, String> styleClasses = new HashMap<String, String>();
 
     /** The Constant TARGET_LIST. */
-    private static final String TARGET_LIST = "target";
+    private static final String TARGET_LIST = "target"; //$NON-NLS-1$
 
     /** The Constant TD_STYLE_1. */
-    private static final String TD_STYLE_1 = "border: 0px none ; padding: 0px;";
+    private static final String TD_STYLE_1 = "border: 0px none ; padding: 0px;"; //$NON-NLS-1$
 
     /** The Constant WIDTH_15. */
-    private static final String WIDTH_15 = "15";
+    private static final String WIDTH_15 = "15"; //$NON-NLS-1$
 
     /**
      * Gets the children.
@@ -151,10 +150,10 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     }
 
     /** button images. */
-    private final Map<String, String> buttonImages = new HashMap<String, String>();
+    private final Map<LabelKey, String> buttonImages = new HashMap<LabelKey, String>();
 
     /** default labels. */
-    private final Map<String, String> defaultLabels = new HashMap<String, String>();
+    private final Map<LabelKey, String> defaultLabels = new HashMap<LabelKey, String>();
 
     /** style classes. */
     private final Map<String, String> defaultStyleClasses = new HashMap<String, String>();
@@ -183,12 +182,23 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     /** target buttons. */
     private final List<String> targetButtons = new ArrayList<String>();
 
-    /** value of vertical-align attribute for source (up/down/top/bottom) buttons. */
-    private String targetButtonsAlign;
-
     /** value of width attribute of target list. */
     private String targetListsWidth;
 
+    private enum LabelKey {
+        COPY_ALL_CONTROL("copyAllControl"), //$NON-NLS-1$
+        COPY_CONTROL("copyControl"), //$NON-NLS-1$
+        REMOVE_CONTROL("removeControl"), //$NON-NLS-1$
+        REMOVE_ALL_CONTROL("removeAllControl"); //$NON-NLS-1$
+
+        private String value;
+        LabelKey(String val) {
+         this.value = val;
+        }
+        public String getValue() {
+        	return this.value;
+        }
+    } 
     /**
      * The Constructor.
      */
@@ -280,7 +290,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
 
         // prepare data
         prepareData(sourceElement);
-        ComponentUtil.setCSSLink(pageContext, STYLE_PATH, CSS_EXTENSION); //$NON-NLS-1$
+        ComponentUtil.setCSSLink(pageContext, STYLE_PATH, CSS_EXTENSION); 
         // create table element
         final nsIDOMElement rootTable = visualDocument.createElement(HTML.TAG_TABLE);
         final nsIDOMElement rootTBody = visualDocument.createElement(HTML.TAG_TBODY);
@@ -288,12 +298,12 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         final VpeCreationData creationData = new VpeCreationData(rootTable);
         creationData.addChildrenInfo(new VpeChildrenInfo(null));
         
-        rootTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get(RichFaces.ATTR_STYLE)); //$NON-NLS-1$
+        rootTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get(RichFaces.ATTR_STYLE));
         rootTable.setAttribute(HTML.ATTR_STYLE, sourceElement.getAttribute(RichFaces.ATTR_STYLE));
 
         // create source box
         final nsIDOMElement sourceBoxTd = visualDocument.createElement(HTML.TAG_TD);
-        final nsIDOMElement sourceBox = createBox(visualDocument, creationData, getChildren(sourceNode), SOURCE_LIST); //$NON-NLS-1$
+        final nsIDOMElement sourceBox = createBox(visualDocument, creationData, getChildren(sourceNode), SOURCE_LIST); 
         sourceBox.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH + VpeStyleUtil.COLON_STRING + sourceListsWidth
                 + VpeStyleUtil.SEMICOLON_STRING + VpeStyleUtil.PARAMETER_HEIGHT + VpeStyleUtil.COLON_STRING + listsHeight
                 + VpeStyleUtil.SEMICOLON_STRING);
@@ -301,8 +311,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         sourceBoxTd.appendChild(sourceBox);
         // create source buttons
         nsIDOMElement controlsButtonsTd = visualDocument.createElement(HTML.TAG_TD);
-        Map<String, String> cloneDefaultLabels = (Map<String, String>) ((HashMap<String, String>) defaultLabels).clone();
-        nsIDOMElement sourceButtonsBlock = createButtonsBlock(visualDocument, creationData, cloneDefaultLabels.keySet());
+        nsIDOMElement sourceButtonsBlock = createButtonsBlock(visualDocument, creationData);
         controlsButtonsTd.appendChild(sourceButtonsBlock);
 
         // set vertical-align attribute for source buttons
@@ -311,7 +320,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
 
         // create target box
         final nsIDOMElement targetBoxTd = visualDocument.createElement(HTML.TAG_TD);
-        final nsIDOMElement targetBox = createBox(visualDocument, creationData, getChildren(sourceNode), TARGET_LIST); //$NON-NLS-1$
+        final nsIDOMElement targetBox = createBox(visualDocument, creationData, getChildren(sourceNode), TARGET_LIST);
         targetBox.setAttribute(HTML.ATTR_STYLE, VpeStyleUtil.PARAMETER_WIDTH + VpeStyleUtil.COLON_STRING + targetListsWidth
                 + VpeStyleUtil.SEMICOLON_STRING + VpeStyleUtil.PARAMETER_HEIGHT + VpeStyleUtil.COLON_STRING + listsHeight
                 + VpeStyleUtil.SEMICOLON_STRING);
@@ -345,13 +354,13 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     private nsIDOMElement createBox(nsIDOMDocument visualDocument, VpeCreationData creationData, List<Node> children, String boxId) {
 
         nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
-        div.setAttribute(HTML.ATTR_CLASS, MessageFormat.format(styleClasses.get(LIST_MAP_KEY), boxId)); //$NON-NLS-1$
+        div.setAttribute(HTML.ATTR_CLASS, MessageFormat.format(styleClasses.get(LIST_MAP_KEY), boxId));
         // create table element
         nsIDOMElement box = visualDocument.createElement(HTML.TAG_TABLE);
         box.setAttribute(HTML.ATTR_CELLSPACING, "0"); //$NON-NLS-1$ 
         box.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$ 
         box.setAttribute(HTML.ATTR_WIDTH, "100%"); //$NON-NLS-1$ 
-        box.setAttribute(HTML.ATTR_CLASS, "rich-picklist-body");
+        box.setAttribute(HTML.ATTR_CLASS, "rich-picklist-body"); //$NON-NLS-1$
         final nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
         final nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 
@@ -376,29 +385,29 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      * 
      * @return the ns IDOM element
      */
-    private nsIDOMElement createButton(nsIDOMDocument visualDocument, VpeCreationData creationData, String buttonId) {
+    private nsIDOMElement createButton(nsIDOMDocument visualDocument, VpeCreationData creationData, LabelKey buttonId) {
 
         nsIDOMElement buttonSpace = visualDocument.createElement(HTML.TAG_DIV);
-        buttonSpace.setAttribute(HTML.ATTR_CLASS, RICH_PICKLIST_CONTROL_BUTTON_CSS_CLASS); //$NON-NLS-1$
+        buttonSpace.setAttribute(HTML.ATTR_CLASS, RICH_PICKLIST_CONTROL_BUTTON_CSS_CLASS);
 
         // button represent "div" element
         nsIDOMElement metaButton = visualDocument.createElement(HTML.TAG_DIV);
 
         metaButton.setAttribute(HTML.ATTR_STYLE, ComponentUtil.getBackgoundImgStyle(BUTTON_IMG_PATH));
-        metaButton.setAttribute(HTML.ATTR_CLASS, RICH_LIST_PICKLIST_BUTTON_CSS_CLASS); //$NON-NLS-1$
+        metaButton.setAttribute(HTML.ATTR_CLASS, RICH_LIST_PICKLIST_BUTTON_CSS_CLASS); 
 
         nsIDOMElement buttonContent = visualDocument.createElement(HTML.TAG_DIV);
-        buttonContent.setAttribute(HTML.ATTR_CLASS, RICH_LIST_PICKLIST_BUTTON_CONTENT_CSS_CLASS); //$NON-NLS-1$
+        buttonContent.setAttribute(HTML.ATTR_CLASS, RICH_LIST_PICKLIST_BUTTON_CONTENT_CSS_CLASS); 
 
         nsIDOMElement buttonImage = visualDocument.createElement(HTML.TAG_IMG);
 
-        buttonImage.setAttribute(HTML.ATTR_WIDTH, WIDTH_15); //$NON-NLS-1$
-        buttonImage.setAttribute(HTML.ATTR_HEIGHT, WIDTH_15); //$NON-NLS-1$
+        buttonImage.setAttribute(HTML.ATTR_WIDTH, WIDTH_15);
+        buttonImage.setAttribute(HTML.ATTR_HEIGHT, WIDTH_15); 
         ComponentUtil.setImg(buttonImage, buttonImages.get(buttonId));
         buttonContent.appendChild(buttonImage);
 
         if (isShowButtonLabels) {
-            nsIDOMText buttonText = visualDocument.createTextNode(labels.get(buttonId));
+            nsIDOMText buttonText = visualDocument.createTextNode(labels.get(buttonId.getValue()));
 
             buttonContent.appendChild(buttonText);
         }
@@ -418,13 +427,13 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      * 
      * @return the ns IDOM element
      */
-    private nsIDOMElement createButtonsBlock(nsIDOMDocument visualDocument, VpeCreationData creationData, Collection<String> buttonNames) {
+    private nsIDOMElement createButtonsBlock(nsIDOMDocument visualDocument, VpeCreationData creationData) {
 
         // create "div"
         nsIDOMElement buttonsBlock = visualDocument.createElement(HTML.TAG_DIV);
-        buttonsBlock.setAttribute(HTML.ATTR_CLASS, styleClasses.get(CONTROL_MAP_KEY)); //$NON-NLS-1$
+        buttonsBlock.setAttribute(HTML.ATTR_CLASS, styleClasses.get(CONTROL_MAP_KEY));
 
-        for (String buttonId : buttonNames) {
+        for (LabelKey buttonId : LabelKey.values()) {
 
             buttonsBlock.appendChild(createButton(visualDocument, creationData, buttonId));
 
@@ -478,12 +487,12 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      * @return the text for select item
      */
     private String getTextForSelectItem(Element child) {
-        String result = "";
+        String result = ""; //$NON-NLS-1$
         String attrName = RichFaces.ATTR_SELECT_ITEM_LABEL;
-        String defaultValue = "<h:selectItem/>";
-        if (child.getNodeName().endsWith("selectItems")) {
+        String defaultValue = "<h:selectItem/>"; //$NON-NLS-1$
+        if (child.getNodeName().endsWith("selectItems")) { //$NON-NLS-1$
             attrName = RichFaces.ATTR_VALUE;
-            defaultValue = "<h:selectItems/>";
+            defaultValue = "<h:selectItems/>"; //$NON-NLS-1$
         }
         result = ComponentUtil.getAttribute(child, attrName);
 
@@ -507,10 +516,10 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      */
     private void initButtonImagesMap() {
         // images of the first set of buttons
-        buttonImages.put("copyAllControl", getCssExtension() + "/arrow_copy_all.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-        buttonImages.put("copyControl", getCssExtension() + "/arrow_copy.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-        buttonImages.put("removeControl", getCssExtension() + "/arrow_remove.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-        buttonImages.put("removeAllControl", getCssExtension() + "/arrow_remove_all.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+        buttonImages.put(LabelKey.COPY_ALL_CONTROL, getCssExtension() + "/arrow_copy_all.gif"); //$NON-NLS-1$ 
+        buttonImages.put(LabelKey.COPY_CONTROL, getCssExtension() + "/arrow_copy.gif"); //$NON-NLS-1$ 
+        buttonImages.put(LabelKey.REMOVE_CONTROL, getCssExtension() + "/arrow_remove.gif"); //$NON-NLS-1$ 
+        buttonImages.put(LabelKey.REMOVE_ALL_CONTROL, getCssExtension() + "/arrow_remove_all.gif"); //$NON-NLS-1$
 
     }
 
@@ -519,10 +528,10 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      */
     private void initDefaultLabelsMap() {
         // values of the first set of buttons
-        defaultLabels.put("copyAllControl", "Copy all"); //$NON-NLS-1$ //$NON-NLS-2$
-        defaultLabels.put("copyControl", "Copy"); //$NON-NLS-1$ //$NON-NLS-2$
-        defaultLabels.put("removeControl", "Remove"); //$NON-NLS-1$ //$NON-NLS-2$
-        defaultLabels.put("removeAllControl", "Remove All"); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultLabels.put(LabelKey.COPY_ALL_CONTROL, "Copy all"); //$NON-NLS-1$ 
+        defaultLabels.put(LabelKey.COPY_CONTROL, "Copy"); //$NON-NLS-1$
+        defaultLabels.put(LabelKey.REMOVE_CONTROL, "Remove"); //$NON-NLS-1$ 
+        defaultLabels.put(LabelKey.REMOVE_ALL_CONTROL, "Remove All"); //$NON-NLS-1$
     }
 
     /**
@@ -532,10 +541,10 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         // general style
         defaultStyleClasses.put("style", "rich-list-picklist"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        defaultStyleClasses.put(LIST_MAP_KEY, "rich-picklist-{0}-items"); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultStyleClasses.put(LIST_MAP_KEY, "rich-picklist-{0}-items"); //$NON-NLS-1$ 
 
         // styles of button's block
-        defaultStyleClasses.put(CONTROL_MAP_KEY, "rich-picklist-controls"); //$NON-NLS-1$ //$NON-NLS-2$
+        defaultStyleClasses.put(CONTROL_MAP_KEY, "rich-picklist-controls"); //$NON-NLS-1$ 
 
     }
 
@@ -577,15 +586,15 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      */
     private void prepareLabels(Element sourceElement) {
         // prepare labels
-        final Set<String> labelsKeys = defaultLabels.keySet();
-        for (String key : labelsKeys) {
 
-            String label = sourceElement.getAttribute(key + LABEL_SUFFIX); //$NON-NLS-1$
+        for (LabelKey key : LabelKey.values()) {
+
+            String label = sourceElement.getAttribute(key.getValue() + LABEL_SUFFIX); 
 
             if (label != null) {
-                labels.put(key, label);
+                labels.put(key.getValue(), label);
             } else {
-                labels.put(key, defaultLabels.get(key));
+                labels.put(key.getValue(), defaultLabels.get(key));
             }
         }
     }
@@ -597,7 +606,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      */
     private void prepareOtherParameters(Element sourceElement) {
 
-        isShowButtonLabels = !Boolean.FALSE.toString().equalsIgnoreCase(sourceElement //$NON-NLS-1$
+        isShowButtonLabels = !Boolean.FALSE.toString().equalsIgnoreCase(sourceElement 
                 .getAttribute(ATTR_SHOW_BUTTON_LABELS));
         // prepare buttons attributes
         moveControlsAlign = sourceElement.getAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN) != null ? sourceElement
@@ -637,7 +646,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         Set<String> styleClassesKeys = defaultStyleClasses.keySet();
         for (String key : styleClassesKeys) {
 
-            String styleClass = sourceElement.getAttribute(key + CLASS_SUFFIX); //$NON-NLS-1$
+            String styleClass = sourceElement.getAttribute(key + CLASS_SUFFIX); 
             if (styleClass != null) {
                 styleClasses.put(key, defaultStyleClasses.get(key) + " " //$NON-NLS-1$
                         + styleClass);
