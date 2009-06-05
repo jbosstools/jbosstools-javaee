@@ -37,7 +37,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	IFile file;
 	/**
-	 * @param component Renamed component
+	 * @param file where refactor was called
 	 */
 	public RenameSeamContextVariableProcessor(IFile file, String oldName) {
 		super();

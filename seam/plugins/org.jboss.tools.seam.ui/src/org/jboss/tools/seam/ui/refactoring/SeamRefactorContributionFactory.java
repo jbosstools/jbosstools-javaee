@@ -51,8 +51,13 @@ import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
@@ -73,6 +78,8 @@ import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 import org.jboss.tools.seam.ui.wizard.RenameSeamContextVariableWizard;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Daniel Azarov
@@ -103,7 +110,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	public void createContributionItems(IServiceLocator serviceLocator,
 			IContributionRoot additions) {
 		
-		//System.out.println("createContributionItems");
+		System.out.println("createContributionItems");
 		
 		if(serviceLocator.hasService(IWorkbenchLocationService.class)){
 			IWorkbenchLocationService service = (IWorkbenchLocationService)serviceLocator.getService(IWorkbenchLocationService.class);
@@ -243,7 +250,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 			if (model instanceof IDOMModel) {
 				IDOMModel domModel = (IDOMModel) model;
 				IDOMDocument document = domModel.getDocument();
-				//scanChildNodes(file, document);
+				scanChildNodes(file, document, selection);
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
@@ -256,9 +263,36 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		}
 		return false;
 	}
+	
+	private void scanChildNodes(IFile file, Node parent, TextSelection selection) {
+		NodeList children = parent.getChildNodes();
+		for(int i=0; i<children.getLength(); i++) {
+			Node curentValidatedNode = children.item(i);
+			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
+				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE, selection);
+			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
+				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT, selection);
+			}
+			scanChildNodes(file, curentValidatedNode, selection);
+		}
+	}
+
+	private void scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType, TextSelection selection) {
+		ITextRegionList regions = node.getRegions();
+		for(int i=0; i<regions.size(); i++) {
+			ITextRegion region = regions.get(i);
+			if(region.getType() == regionType) {
+				String text = node.getFullText(region);
+				if(text.indexOf("{")>-1) { //$NON-NLS-1$
+					int offset = node.getStartOffset() + region.getStart();
+					scanString(file, text, offset, selection);
+				}
+			}
+		}
+	}
 
 	private boolean checkContextVariableInProperties(IFile file, String content, TextSelection selection){
-		return false;
+		return scanString(file, content, 0, selection);
 	}
 	
 	private IAnnotation getNameAnnotation(IFile file){
