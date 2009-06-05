@@ -36,9 +36,19 @@
      <bookinfo>
          
          <title>Seam Dev Tools Reference Guide</title>
+             <corpauthor diffmk:change="added">
+                 <inlinemediaobject diffmk:change="added">
+                     <imageobject diffmk:change="added" role="fo">
+                         <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+                     </imageobject>	
+                     <imageobject diffmk:change="added" role="html">
+                         <imagedata diffmk:change="added"></imagedata>
+                     </imageobject>	
+                 </inlinemediaobject>           
+             </corpauthor>
          <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
          <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
-        <author diffmk:change="added"><firstname diffmk:change="added"><diffmk:wrapper diffmk:change="added">Michael</diffmk:wrapper></firstname><surname diffmk:change="added"><diffmk:wrapper diffmk:change="added">Sorokin</diffmk:wrapper></surname></author>
+        <author><firstname>Michael</firstname><surname>Sorokin</surname></author>
 
  <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
          
@@ -49,7 +59,7 @@
              <holder>JBoss, a division of Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.0.1.GA
+             Version: 3.1.0.M1
          </diffmk:wrapper></releaseinfo>
          
 <abstract>
@@ -96,7 +106,7 @@
         <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
 
         <para>Seam is a one module of JBoss Tools project. Since Seam has a dependence on other JBoss Tools modules we recommend you to install
-            a bundle of all <ulink url="http://labs.jboss.com/tools/download/index.html">JBoss Tools plug-ins</ulink>. Installation instruction you can find on JBoss Wiki in <ulink url="http://labs.jboss.com/wiki/InstallingJBossTools">InstallingJBossTools</ulink> section.</para>
+            a bundle of all <ulink url="http://labs.jboss.com/tools/download.html">JBoss Tools plug-ins</ulink>. Installation instruction you can find on JBoss Wiki in <ulink url="http://labs.jboss.com/wiki/InstallingJBossTools">InstallingJBossTools</ulink> section.</para>
         
     </section>
 
@@ -104,8 +114,8 @@
         <title>Other relevant resources on the topic</title>
 
         <para>The <ulink url="http://seamframework.org/">Seam Framework</ulink> - Next generation enterprise Java development.</para>
-        <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at</diffmk:wrapper><diffmk:wrapper diffmk:change="changed">http://docs.jboss.org/tools</diffmk:wrapper><diffmk:wrapper diffmk:change="changed"> in the corresponding release directory.</diffmk:wrapper></para>
-        <para><diffmk:wrapper diffmk:change="changed">The latest documentation builds are available at </diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/nightly-docs/"><diffmk:wrapper diffmk:change="changed">http://download.jboss.org/jbosstools/nightly-docs</diffmk:wrapper></ulink>.</para>
+        <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+        <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
     </section>
 </chapter>
 
@@ -603,12 +613,12 @@
 
         <para>A WAR project can only use Seam JavaBean and JPA Entity bean components; it cannot use
             EJB3 Session beans etc.</para>
-        <para>WAR projects are generated to enable Seam 1.2.1 war hotdeploy feature. Classes put
+        <para>WAR projects are generated to enable Seam war hotdeploy feature. Classes put
             into <emphasis>
                 <property moreinfo="none">src/action</property>
             </emphasis> will be deployed to <emphasis>
                 <property moreinfo="none">WEB-INF/dev</property>
-            </emphasis> from which Seam 1.2.1 automatically will perform hotdeploy of new
+            </emphasis> from which Seam  automatically will perform hotdeploy of new
             components.</para>
         <note>
             <title>Note:</title>
@@ -651,8 +661,8 @@
                 <property moreinfo="none">deploy</property> folder. EAR application keeps <property moreinfo="none">ejb</property>
             and <property moreinfo="none">war</property> modules of the EAR project.</para>
       
-        <note diffmk:change="added"><title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note:</diffmk:wrapper></title>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">WAR</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> generated for </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">EARs</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is now configured to utilize Seam hot-deployment (</diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">WEB-INF/dev</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">) similar to standalone </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">WAR</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> projects.</diffmk:wrapper></para>
+        <note><title>Note:</title>
+            <para>The <property moreinfo="none">WAR</property> generated for <property moreinfo="none">EARs</property> is now configured to utilize Seam hot-deployment (<emphasis><property moreinfo="none">WEB-INF/dev</property></emphasis>) similar to standalone <property moreinfo="none">WAR</property> projects.</para>
         
         </note>
         
@@ -952,7 +962,7 @@
 
             <title>Find Seam References/Declarations</title>
 
-            <para><diffmk:wrapper diffmk:change="changed">To find EL expressions both in </diffmk:wrapper><emphasis>
+            <para>To find EL expressions both in <emphasis>
                     <property moreinfo="none">.java</property>
                 </emphasis> and <emphasis>
                     <property moreinfo="none">.xhtml</property>
@@ -1127,7 +1137,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can also open Seam Component from the other component where the required one is declared in </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">@In </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> by using
+                </diffmk:wrapper><link diffmk:change="added" linkend="OpenOn"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> (</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and select </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Open Declaration of Seam Component for seam_component in Seam_class.java</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> ).</diffmk:wrapper></para>
         </section>
 
     </section>
@@ -1538,130 +1549,130 @@
         </keywordset>
     </chapterinfo>
 
-    <title><diffmk:wrapper diffmk:change="added">Seam Editors</diffmk:wrapper></title>
+    <title>Seam Editors</title>
     
     
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">This chapter tells about Seam Editors and their features.</diffmk:wrapper></para>
+    <para>This chapter tells about Seam Editors and their features.</para>
     
-    <section diffmk:change="added">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></title>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in </diffmk:wrapper><link diffmk:change="added" linkend="SeamEditors"><diffmk:wrapper diffmk:change="added">Main Features of Seam Editors</diffmk:wrapper></link>  </para>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can also read more about Visual Page Editor in </diffmk:wrapper><ulink diffmk:change="added" url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#visual_page"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> chapter of "Visual Web Tools Reference Guide".</diffmk:wrapper></para>
+    <section>
+        <title>Visual Page Editor</title>
+        <para>Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in <link linkend="SeamEditors">Main Features of Seam Editors</link>  </para>
+        <para>You can also read more about Visual Page Editor in <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#visual_page">Visual Page Editor</ulink> chapter of "Visual Web Tools Reference Guide".</para>
     </section>
     
     
     
     
-    <section diffmk:change="added">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages Editor</diffmk:wrapper></title>
+    <section>
+        <title>Seam Pages Editor</title>
         
        
-       <para diffmk:change="added">
-           <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Seam Pages Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> provides a handy way to edit the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">pages.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> file.
+       <para>
+           <property moreinfo="none">Seam Pages Editor</property> provides a handy way to edit the <property moreinfo="none">pages.xml</property> file.
                     
-        </diffmk:wrapper></para>
+        </para>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+        <para>
             You can edit the pages.xml file in three modes: Graphical, Tree and Source.
             
-        </diffmk:wrapper></para>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+        </para>
+        <para>
             Seam Pages Editor supports synchronization with Package Explorer.This means that while renaming files in the Package Explorer all the changes immediately affect the pages.xml file.
             
-        </diffmk:wrapper></para>
-      <section diffmk:change="added">
-          <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Graphical Mode</diffmk:wrapper></title>
+        </para>
+      <section>
+          <title>Graphical Mode</title>
    
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Graphical mode provides you with a set of visual tools to organize your project pageflow, exception handling etc.</diffmk:wrapper></para>
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages Editor: Graphical View</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_7.png"></imagedata>
+        <para>Graphical mode provides you with a set of visual tools to organize your project pageflow, exception handling etc.</para>
+        <figure float="0">
+            <title>Seam Pages Editor: Graphical View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_7.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The Graphical part of the editor has some visual elements. The table below shows graphical representation of the elements and explains their meanings. </diffmk:wrapper></para>
+        <para>The Graphical part of the editor has some visual elements. The table below shows graphical representation of the elements and explains their meanings. </para>
 
-<table diffmk:change="added">
-    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Pages Editor: Graphical View. Visual elements</diffmk:wrapper></title>   
-    <tgroup cols="2" diffmk:change="added">
-        <thead diffmk:change="added">
-            <row diffmk:change="added">
-                <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Element</diffmk:wrapper></entry>
+<table>
+    <title>Pages Editor: Graphical View. Visual elements</title>   
+    <tgroup cols="2">
+        <thead>
+            <row>
+                <entry>Element</entry>
                 
-                <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Description</diffmk:wrapper></entry>
+                <entry>Description</entry>
             </row>
         </thead>
-        <tbody diffmk:change="added">
-            <row diffmk:change="added">
-                <entry diffmk:change="added">            
-                    <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/seam_editors/element_page.png"></imagedata>
+        <tbody>
+            <row>
+                <entry>            
+                    <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_editors/element_page.png"></imagedata>
                     </imageobject>
                     </mediaobject>
                 </entry>
-                <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">A yellow box with a solid border represents a </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                <entry><para>A yellow box with a solid border represents a <code>
                         &lt;page&gt;
-                    </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> element.
-                </diffmk:wrapper></para></entry>
+                    </code> element.
+                </para></entry>
             </row> 
-                <row diffmk:change="added">
-                    <entry diffmk:change="added">            
-                        <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/seam_editors/element_param.png"></imagedata>
+                <row>
+                    <entry>            
+                        <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/seam_editors/element_param.png"></imagedata>
                         </imageobject>
                     </mediaobject></entry>
-                    <entry diffmk:change="added">
-                        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Pressing on the plus icon (</diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/seam_editors/icon_plus.png"></imagedata>
+                    <entry>
+                        <para>Pressing on the plus icon (<inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/seam_editors/icon_plus.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">)
+                        </inlinemediaobject>)
                         
                         
-                        on the </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                        on the <code>
                         &lt;page&gt;
-                    </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> element reveals a box that lists the parameters for the page.</diffmk:wrapper></para>
+                    </code> element reveals a box that lists the parameters for the page.</para>
                     </entry>
                 
                 </row> 
             
-                <row diffmk:change="added">
-                    <entry diffmk:change="added">            <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/seam_editors/element_page2.png"></imagedata>
+                <row>
+                    <entry>            <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/seam_editors/element_page2.png"></imagedata>
                         </imageobject>
                     </mediaobject></entry>
-                    <entry diffmk:change="added"> 
-                        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">A red cross in the upper left corner of the page box indicates that the view-id is not found in the project.</diffmk:wrapper></para>
+                    <entry> 
+                        <para>A red cross in the upper left corner of the page box indicates that the view-id is not found in the project.</para>
                         </entry>
                 </row> 
                     
-                <row diffmk:change="added">
-                    <entry diffmk:change="added"><mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/seam_editors/element_page1.png"></imagedata>
+                <row>
+                    <entry><mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/seam_editors/element_page1.png"></imagedata>
                         </imageobject>
                     </mediaobject></entry>
-                    <entry diffmk:change="added">        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                    <entry>        <para>
                         A gray box with a dashed border represents a page that has  navigation 
                         (navigation rule) to but the page is not defined in the page.xml file.
-                    </diffmk:wrapper></para></entry>
+                    </para></entry>
                 </row> 
             
                 
-                <row diffmk:change="added">
-                    <entry diffmk:change="added">            <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/seam_editors/element_exception.png"></imagedata>
+                <row>
+                    <entry>            <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/seam_editors/element_exception.png"></imagedata>
                         </imageobject>
                     </mediaobject></entry>
-                    <entry diffmk:change="added">  <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">An </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">&lt;exception&gt;</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> is represented by a blue box with a orange diamond.</diffmk:wrapper></para></entry>
+                    <entry>  <para>An <code>&lt;exception&gt;</code> is represented by a blue box with a orange diamond.</para></entry>
                 </row> 
             
             
@@ -1673,115 +1684,115 @@
 </table>
         
                
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Pageflow relations are shown with gray arrows, when you select a relationship the arrow is changed to orange.  </diffmk:wrapper></para>    
+    <para>Pageflow relations are shown with gray arrows, when you select a relationship the arrow is changed to orange.  </para>    
   
         
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On the lefthand side of the Graphical view of </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Seam Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> you can find a toolbar with a set of icons for the most frequently used commands.  </diffmk:wrapper></para>     
+        <para>On the lefthand side of the Graphical view of <property moreinfo="none">Seam Page Editor</property> you can find a toolbar with a set of icons for the most frequently used commands.  </para>     
 
-      <table diffmk:change="added">
-          <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Pages Editor: Graphical View. Commands Icons</diffmk:wrapper></title>   
-          <tgroup cols="2" diffmk:change="added">
-              <thead diffmk:change="added">
-                  <row diffmk:change="added">
-                      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Icon Image</diffmk:wrapper></entry>
+      <table>
+          <title>Pages Editor: Graphical View. Commands Icons</title>   
+          <tgroup cols="2">
+              <thead>
+                  <row>
+                      <entry>Icon Image</entry>
                       
-                      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Command</diffmk:wrapper></entry>
+                      <entry>Command</entry>
                   </row>
               </thead>
-              <tbody diffmk:change="added">
-                  <row diffmk:change="added">
-                      <entry diffmk:change="added">
-                      <inlinemediaobject diffmk:change="added">
-                          <imageobject diffmk:change="added">
-                              <imagedata diffmk:change="added" fileref="images/seam_editors/icon_select.png"></imagedata>
+              <tbody>
+                  <row>
+                      <entry>
+                      <inlinemediaobject>
+                          <imageobject>
+                              <imagedata fileref="images/seam_editors/icon_select.png"></imagedata>
                           </imageobject>
                       </inlinemediaobject>
                           
                       </entry>
-                      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Select a page element</diffmk:wrapper></entry>
+                      <entry>Select a page element</entry>
                       
                   </row> 
                   
-                  <row diffmk:change="added">
-                      <entry diffmk:change="added"><inlinemediaobject diffmk:change="added">
-                          <imageobject diffmk:change="added">
-                              <imagedata diffmk:change="added" fileref="images/seam_editors/icon_marquee.png"></imagedata>
+                  <row>
+                      <entry><inlinemediaobject>
+                          <imageobject>
+                              <imagedata fileref="images/seam_editors/icon_marquee.png"></imagedata>
                           </imageobject>
                       </inlinemediaobject></entry>
-                      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Marquee a page item</diffmk:wrapper></entry>
+                      <entry>Marquee a page item</entry>
                   </row> 
                   
                   
-                  <row diffmk:change="added">
-                      <entry diffmk:change="added">
-                      <inlinemediaobject diffmk:change="added">
-                          <imageobject diffmk:change="added">
-                              <imagedata diffmk:change="added" fileref="images/seam_editors/icon_new_link.png"></imagedata>
+                  <row>
+                      <entry>
+                      <inlinemediaobject>
+                          <imageobject>
+                              <imagedata fileref="images/seam_editors/icon_new_link.png"></imagedata>
                           </imageobject>
                       </inlinemediaobject>
                           
                       </entry>
-                      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add a page relationship</diffmk:wrapper></entry>
+                      <entry>Add a page relationship</entry>
                   </row> 
                   
                   
-                  <row diffmk:change="added">
-                      <entry diffmk:change="added">
-                      <inlinemediaobject diffmk:change="added">
-                          <imageobject diffmk:change="added">
-                              <imagedata diffmk:change="added" fileref="images/seam_editors/icon_exception.png"></imagedata>
+                  <row>
+                      <entry>
+                      <inlinemediaobject>
+                          <imageobject>
+                              <imagedata fileref="images/seam_editors/icon_exception.png"></imagedata>
                           </imageobject>
                       </inlinemediaobject>    
                       
                       </entry>
-                      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add an exception rule</diffmk:wrapper></entry>
+                      <entry>Add an exception rule</entry>
                   </row> 
                   
               </tbody>
           </tgroup>
       </table>  
         
-          <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Context menus are also available when you click  either on an item or a blank space.</diffmk:wrapper></para>
+          <para>Context menus are also available when you click  either on an item or a blank space.</para>
           
           
-          <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">A context menu called on a blank space of the diagram  provides the following options:</diffmk:wrapper></para>
-          <itemizedlist diffmk:change="added">
-              <listitem diffmk:change="added"><para diffmk:change="added"><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">Page</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> creates a new page element on the diagram</diffmk:wrapper></para></listitem>
-              <listitem diffmk:change="added"><para diffmk:change="added"><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">Exception</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> creates a new exception element on the diagram</diffmk:wrapper></para></listitem>
-              <listitem diffmk:change="added"><para diffmk:change="added"><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">Auto Layout</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> formats the layout of the diagram automatically</diffmk:wrapper></para></listitem>
-              <listitem diffmk:change="added"><para diffmk:change="added"><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">Select Element</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> calls the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Select Element Wizard</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> with a filter to perform a quick search  through  the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">pages.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> file  </diffmk:wrapper></para></listitem>
+          <para>A context menu called on a blank space of the diagram  provides the following options:</para>
+          <itemizedlist>
+              <listitem><para><emphasis role="bold">Page</emphasis> creates a new page element on the diagram</para></listitem>
+              <listitem><para><emphasis role="bold">Exception</emphasis> creates a new exception element on the diagram</para></listitem>
+              <listitem><para><emphasis role="bold">Auto Layout</emphasis> formats the layout of the diagram automatically</para></listitem>
+              <listitem><para><emphasis role="bold">Select Element</emphasis> calls the <property moreinfo="none">Select Element Wizard</property> with a filter to perform a quick search  through  the <property moreinfo="none">pages.xml</property> file  </para></listitem>
           </itemizedlist>
-          <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Rightclicking on a selected
-                        </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">&lt;page&gt;</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added">
-                     element calls a context menu where you can choose the following options if you click on the </diffmk:wrapper><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">New</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> menu item:  </diffmk:wrapper></para>
+          <para>Rightclicking on a selected
+                        <code>&lt;page&gt;</code>
+                     element calls a context menu where you can choose the following options if you click on the <emphasis role="bold">New</emphasis> menu item:  </para>
       
       
       
-      <itemizedlist diffmk:change="added">
-          <listitem diffmk:change="added"><para diffmk:change="added"><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">Rule</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> opens the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Add Navigation Rule</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> dialog in which you can browse your project for a view page to set the view-id in the navigation rule  and specify </diffmk:wrapper><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">render</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> or </diffmk:wrapper><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">redirect</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> navigation options </diffmk:wrapper></para></listitem>
-          <listitem diffmk:change="added"><para diffmk:change="added"><emphasis diffmk:change="added" role="bold"><diffmk:wrapper diffmk:change="added">Param</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> calls a dialog box where you can define a parameter (using the  
-                        </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">&lt;param&gt;</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> 
+      <itemizedlist>
+          <listitem><para><emphasis role="bold">Rule</emphasis> opens the <property moreinfo="none">Add Navigation Rule</property> dialog in which you can browse your project for a view page to set the view-id in the navigation rule  and specify <emphasis role="bold">render</emphasis> or <emphasis role="bold">redirect</emphasis> navigation options </para></listitem>
+          <listitem><para><emphasis role="bold">Param</emphasis> calls a dialog box where you can define a parameter (using the  
+                        <code>&lt;param&gt;</code> 
            tag) for the 
-                        </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">&lt;page&gt;</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added">
-                     element</diffmk:wrapper></para></listitem>
+                        <code>&lt;page&gt;</code>
+                     element</para></listitem>
       </itemizedlist>
           
           
-          <section diffmk:change="added">
-              <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages Diagram Preferences</diffmk:wrapper></title>
+          <section>
+              <title>Seam Pages Diagram Preferences</title>
               
               
               
-              <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In order to customize the layout of Diagram you can go to  
-                  </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Window &gt; Preferences &gt; JBoss Tools &gt; Web &gt; Seam &gt; Editors &gt; Seam Pages Diagram</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.
-              </diffmk:wrapper></para>
+              <para>In order to customize the layout of Diagram you can go to  
+                  <property moreinfo="none">Window &gt; Preferences &gt; JBoss Tools &gt; Web &gt; Seam &gt; Editors &gt; Seam Pages Diagram</property>.
+              </para>
               
-               <figure diffmk:change="added" float="0">
-                   <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Preferences of Seam Pages Diagram</diffmk:wrapper></title>
-                   <mediaobject diffmk:change="added">
-                       <imageobject diffmk:change="added">
-                           <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_11.png"></imagedata>
+               <figure float="0">
+                   <title>Preferences of Seam Pages Diagram</title>
+                   <mediaobject>
+                       <imageobject>
+                           <imagedata fileref="images/seam_editors/seam_editors_11.png"></imagedata>
                        </imageobject>
                    </mediaobject>
                </figure>
@@ -1789,68 +1800,68 @@
       </section>
         
         
-        <section diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tree Mode</diffmk:wrapper></title>
+        <section>
+            <title>Tree Mode</title>
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tree Mode provides a wider range of options and way to edit and modify the pages.xml file.</diffmk:wrapper></para>
+            <para>Tree Mode provides a wider range of options and way to edit and modify the pages.xml file.</para>
       
         
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages Editor: Tree View</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_8.png"></imagedata>
+        <figure float="0">
+            <title>Seam Pages Editor: Tree View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_8.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+            <para>
                 In this mode all elements and attributes of the page.xml
                 file can be viewed and edited in a visual, user friendly way.
-            </diffmk:wrapper></para>
+            </para>
             
         </section>
         
         
-        <section diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Outline Support for Seam Pages Editor</diffmk:wrapper></title>
+        <section>
+            <title>Outline Support for Seam Pages Editor</title>
             
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages Editor provides </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Outline</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> view support.
-                You can explore the pages.xml using Outline view in two modes: </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Tree</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/seam_editors/outline_tree.png"></imagedata>
+            <para>Seam Pages Editor provides <property moreinfo="none">Outline</property> view support.
+                You can explore the pages.xml using Outline view in two modes: <property moreinfo="none">Tree</property> ( <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_editors/outline_tree.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject><diffmk:wrapper diffmk:change="added"> ) and </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Diagram Navigation</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/seam_editors/outline_navigation.png"></imagedata>
+                </inlinemediaobject> ) and <property moreinfo="none">Diagram Navigation</property> ( <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_editors/outline_navigation.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject><diffmk:wrapper diffmk:change="added"> ).</diffmk:wrapper></para>
+                </inlinemediaobject> ).</para>
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+            <para>
                 The Diagram Navigation mode of Outline view gives a birds-view of the layout to allow quick navigation for large-scale applications. 
-            </diffmk:wrapper></para>
+            </para>
             
-            <figure diffmk:change="added" float="0">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Outline view: Diagram Navigation mode</diffmk:wrapper></title>
-                <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_9.png"></imagedata>
+            <figure float="0">
+                <title>Outline view: Diagram Navigation mode</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_editors/seam_editors_9.png"></imagedata>
                     </imageobject>
                 </mediaobject>
             </figure>
             
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The Tree mode shows a tree for every element in the pages.xml file. You can get a quick overview of the whole file. When selecting an element in the Outline view the  related element is highlighted in the Graphical, Tree or Source page of Seam Pages Editor.</diffmk:wrapper></para>
+            <para>The Tree mode shows a tree for every element in the pages.xml file. You can get a quick overview of the whole file. When selecting an element in the Outline view the  related element is highlighted in the Graphical, Tree or Source page of Seam Pages Editor.</para>
      
      
      
-            <figure diffmk:change="added" float="0">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Outline view: Tree mode</diffmk:wrapper></title>
-                <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_10.png"></imagedata>
+            <figure float="0">
+                <title>Outline view: Tree mode</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_editors/seam_editors_10.png"></imagedata>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -1867,36 +1878,36 @@
     
     
     
-    <section diffmk:change="added">
+    <section>
         
         
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Components Editor</diffmk:wrapper></title>
+        <title>Seam Components Editor</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">When editing </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">components.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> a structured tree editor is available
+        <para>When editing <property moreinfo="none">components.xml</property> a structured tree editor is available
             in addition to pure source editing. It has a graphical view (Tree tab) and source
-            (Source tab).</diffmk:wrapper></para>
+            (Source tab).</para>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">component.xml Editor</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_4.png"></imagedata>
+        <figure float="0">
+            <title>component.xml Editor</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_4.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
         
-        <note diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note:</diffmk:wrapper></title>
+        <note>
+            <title>Note:</title>
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can view and edit </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">components.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and other xml files
+            <para>You can view and edit <property moreinfo="none">components.xml</property> and other xml files
                 directly in the Project Explorer and Properties sheet without opening the
-                components.xml editor.</diffmk:wrapper></para>
+                components.xml editor.</para>
         </note>
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">component.xml Editor</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_5.png"></imagedata>
+        <figure float="0">
+            <title>component.xml Editor</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_5.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -1905,8 +1916,8 @@
  
      
     
-    <section diffmk:change="added" id="SeamEditors">
-    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Main Features of Seam Editors</diffmk:wrapper></title>
+    <section id="SeamEditors">
+    <title>Main Features of Seam Editors</title>
 
     <para>In this chapter you will know what Seam Editors features are and how to work with them. </para>
 
@@ -1914,7 +1925,7 @@
 
         <title>Content Assist</title>
 
-        <para><property moreinfo="none">Content Assist</property><diffmk:wrapper diffmk:change="changed"> (Ctrl + Space) is available when using EL expressions in the following file formats:</diffmk:wrapper></para>
+        <para><property moreinfo="none">Content Assist</property> (Ctrl + Space) is available when using EL expressions in the following file formats:</para>
         <itemizedlist>
             <listitem>
                 <para>JSP</para>
@@ -1940,14 +1951,14 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> Content Assist is also available for  the  </diffmk:wrapper><emphasis diffmk:change="added" role="italic">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">"jsfc "</diffmk:wrapper></property>
-        </emphasis><diffmk:wrapper diffmk:change="added"> attribute, it lets you select from a list of possible attribute values. Whereas, JSF components appear above all other components in the list.</diffmk:wrapper></para>
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for the "jsfc" attribute</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_12.png" scale="70"></imagedata>
+        <para> Content Assist is also available for  the  <emphasis role="italic">
+            <property moreinfo="none">"jsfc "</property>
+        </emphasis> attribute, it lets you select from a list of possible attribute values. Whereas, JSF components appear above all other components in the list.</para>
+        <figure float="0">
+            <title>Content Assist for the "jsfc" attribute</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_12.png" scale="70"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -1986,27 +1997,27 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-        
+        </section>
 
         
     </section>
-        <section diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Page Descriptors</diffmk:wrapper></title>
+        <section>
+            <title>Content Assist for Page Descriptors</title>
             
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist ( CA ) is available for Page Descriptors, 
-                </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.page.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">page.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> files. 
+            <para>Content Assist ( CA ) is available for Page Descriptors, 
+                <property moreinfo="none">.page.xml</property> and <property moreinfo="none">page.xml</property> files. 
                 Content Assist lets you easily compose a Page Descriptor file by suggesting elements and attributes. The suggestions are context dependent, which means that CA provides only the elements, attributes and in some cases values for the attributes,  suitable in a particular place of your Page Descriptor. 
                 
-            </diffmk:wrapper></para>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+            </para>
+            <para>
                 Seam Pages Editor also supports  code completion in EL-expressions suggesting you possible bean properties and methods. 
-            </diffmk:wrapper></para>
+            </para>
         </section>
     <section id="OpenOn">
         <title>OpenOn</title>
 
-        <para><property moreinfo="none">OpenOn</property><diffmk:wrapper diffmk:change="changed"> lets you easily navigate through your project without
-            using the Package Explorer or Project Explorer. After pressing </diffmk:wrapper><emphasis>
+        <para><property moreinfo="none">OpenOn</property> lets you easily navigate through your project without
+            using the Package Explorer or Project Explorer. After pressing <emphasis>
                 <property moreinfo="none">Ctrl + left click</property>
             </emphasis> (or just F3) you will see a corresponding method or class.</para>
 
@@ -2019,18 +2030,38 @@
             </mediaobject>
         </figure>
 
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn is also supported in Page Descriptors (</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.page.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">pages.xml</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">). OpenOn allows you to navigate to Java beans as well as to view pages.
-            You can </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> on a bean or on view page file (e.g. XTML file) to  navigate to the file you clicked on. </diffmk:wrapper></para>
+        <para>OpenOn is also supported in Page Descriptors (<property moreinfo="none">.page.xml</property> and <property moreinfo="none">pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
+            You can <property moreinfo="none">Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to  navigate to the file you clicked on. </para>
 
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in .page.xml file</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2a.png"></imagedata>
+        <figure float="0">
+            <title>OpenOn in .page.xml file</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2a.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
 
+<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+    OpenOn is also supported  in seam components where </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> In annotation</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is presented.
+    After pressing </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> on  the seam component specified in </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">@In </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> you will get the possibility to open the file where the  component is declarated as well as 
+    all of the seam components where it is used in the next declarations:</diffmk:wrapper></para>
+    <itemizedlist diffmk:change="added">
+        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Out</diffmk:wrapper></listitem>
+        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@DataModel</diffmk:wrapper></listitem>
+        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Role</diffmk:wrapper></listitem>
+        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Roles</diffmk:wrapper></listitem> 
+     </itemizedlist>
+        
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in Seam Component</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2b.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
 
 
     </section>
@@ -2053,12 +2084,12 @@
             </mediaobject>
         </figure>
 
-        <note diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note:</diffmk:wrapper></title>
-            <para><diffmk:wrapper diffmk:change="added">Please note, only files within source path and web content are validated, meaning temporary files or test files are not included.</diffmk:wrapper></para>
+        <note>
+            <title>Note:</title>
+            <para>Please note, only files within source path and web content are validated, meaning temporary files or test files are not included.</para>
         </note>
 
-        <para diffmk:change="added">In the preferences page for Seam Validator you can see and modify the validator
+        <para>In the preferences page for Seam Validator you can see and modify the validator
             behavior. Go to <emphasis>
                 <property moreinfo="none">Window &gt; Preferences &gt; JBoss Tools &gt; Web &gt; Seam &gt; Validator</property>
             </emphasis> and select the severity level for the optional Seam Validator
@@ -2082,10 +2113,8 @@
     </section>
 
 </section>
-</section>
-    <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
-    
 </chapter>
+
 
 <chapter id="seam_view" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/seam_view.xml" xreflabel="seam_view">
     <?dbhtml filename="seam_view.html"?>
@@ -2186,7 +2215,7 @@
         <para>Selecting the <emphasis><property moreinfo="none">Seam Components from Referenced Projects</property></emphasis> will hide the components that dependent on other project.</para>
         
         <figure float="0">
-            <title><diffmk:wrapper diffmk:change="changed">Available Customizations</diffmk:wrapper></title>
+            <title>Available Customizations</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_view/seam_view_7.png"></imagedata>
@@ -2263,7 +2292,12 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
+        <tip diffmk:change="added">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tip:</diffmk:wrapper></title>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you try to delete the Seam Runtime that is already in use by some project in the current workspace, then a warning message will appear. To confirm the removal press </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OK</diffmk:wrapper></property>
+            </para>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Besides, when you right-click on your Seam project with deleted runtime in Project Explorer and select</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> Properties &gt; Seam Settings</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> the error message "Runtime &lt;runtime_name&gt; does not exist" will appear. </diffmk:wrapper></para>
+        </tip>
         <section id="validator_pref">
 
             <title>Validator Preferences</title>
@@ -2289,9 +2323,9 @@
 
             <para>Notice, that in the <emphasis>
                     <property moreinfo="none">Expression language</property>
-                </emphasis><diffmk:wrapper diffmk:change="changed"> section there is now a preference for setting severity of EL Syntax. You
+                </emphasis> section there is now a preference for setting severity of EL Syntax. You
                 can select whether the Seam validator displays an error, a warning or just ignore
-                the EL Syntax error.</diffmk:wrapper></para>
+                the EL Syntax error.</para>
 
             <figure float="0">
                 <title>Severity Preference for EL Syntax</title>
@@ -2303,9 +2337,9 @@
             </figure>
 
             <para>In the upper right corner of the page there is a <property moreinfo="none">Configure Project
-                    Specific Settings</property><diffmk:wrapper diffmk:change="changed"> link. Clicking on it you get the form where you can
+                    Specific Settings</property> link. Clicking on it you get the form where you can
                 choose a project for specific setting. Project specific configuration allows you to
-                have different validator settings for each project. Check the </diffmk:wrapper><property moreinfo="none">Show only
+                have different validator settings for each project. Check the <property moreinfo="none">Show only
                     projects with project specific settings</property> if you want to see the
                 projects that have been already set. Click on <property moreinfo="none">Ok</property>.</para>
 
@@ -2404,36 +2438,36 @@
         </figure>
     </section>
 
-    <section diffmk:change="added" id="add_custom_capabilities">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adding Custom Capabilities</diffmk:wrapper></title>
+    <section id="add_custom_capabilities">
+        <title>Adding Custom Capabilities</title>
 
-        <para diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> provides a possibility to add custom capabilities to any Seam project,
-            i.e. add a support of additional frameworks built on top of JSF, such as </diffmk:wrapper><itemizedlist diffmk:change="added">
-                <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">ADF</diffmk:wrapper></para></listitem>
-                <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Facelets</diffmk:wrapper></para></listitem>
-                <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Rich Faces (versions 3.1, 3.2, 3.3)</diffmk:wrapper></para></listitem>
+        <para><property moreinfo="none">JBoss Tools</property> provides a possibility to add custom capabilities to any Seam project,
+            i.e. add a support of additional frameworks built on top of JSF, such as <itemizedlist>
+                <listitem><para>ADF</para></listitem>
+                <listitem><para>Facelets</para></listitem>
+                <listitem><para>JBoss Rich Faces (versions 3.1, 3.2, 3.3)</para></listitem>
             </itemizedlist>
         </para>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To enable it, you should call the context menu for a Seam project and select </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss
-            Tools &gt; Add Custom Capabilities</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> Then check the needed modules and press
-            </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Finish</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis></para>
+        <para>To enable it, you should call the context menu for a Seam project and select <emphasis><property moreinfo="none">JBoss
+            Tools &gt; Add Custom Capabilities</property>.</emphasis> Then check the needed modules and press
+            <emphasis><property moreinfo="none">Finish</property>.</emphasis></para>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adding Custom Capabilities to Seam Project</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_preferences/addCustomCapabilities.png"></imagedata>
+        <figure float="0">
+            <title>Adding Custom Capabilities to Seam Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/addCustomCapabilities.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
 
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The next page displays all the updates that have been made to the project.</diffmk:wrapper></para>
+        <para>The next page displays all the updates that have been made to the project.</para>
         
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adding Custom Capabilities to Seam Project</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_preferences/addCustomCapabilities2.png"></imagedata>
+        <figure float="0">
+            <title>Adding Custom Capabilities to Seam Project</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_preferences/addCustomCapabilities2.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -3431,74 +3465,77 @@
 </chapter>
 
 
-<chapter diffmk:change="added" id="seam_faq" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/seam_faq.xml" xreflabel="seam_faq">
+<chapter id="seam_faq" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/seam_faq.xml" xreflabel="seam_faq">
     <?dbhtml filename="vwt_faq.html"?>
-    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">FAQ</diffmk:wrapper></title>
+    <title>FAQ</title>
     
-    <section diffmk:change="added" id="seam_question_1">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">How to get Code Assist for Seam specific resources in an externally generated
-            project?</diffmk:wrapper></title>
+    <section id="seam_question_1">
+        <title>How to get Code Assist for Seam specific resources in an externally generated
+            project?</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To get Code Assist for Seam specific resources in an externally generated project, you
+        <para>To get Code Assist for Seam specific resources in an externally generated project, you
             should enable Seam features in Project Preferences. Right click an imported project and
-            navigate </diffmk:wrapper><emphasis diffmk:change="added">
-                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Properties &gt; Seam Settings</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> Check </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Seam support</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="added"> box to enable all available </diffmk:wrapper><link diffmk:change="added" linkend="project_pref"><diffmk:wrapper diffmk:change="added">Seam
-                    Settings</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+            navigate <emphasis>
+                <property moreinfo="none">Properties &gt; Seam Settings</property>.</emphasis> Check <emphasis>
+                    <property moreinfo="none">Seam support</property>
+                </emphasis> box to enable all available <link linkend="project_pref">Seam
+                    Settings</link>.</para>
     </section>
     
-    <section diffmk:change="added" id="seam_question_2">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">How to import an example Seam project from jboss-eap directory?</diffmk:wrapper></title>
+    <section id="seam_question_2">
+        <title>How to import an example Seam project from jboss-eap directory?</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To import an example Seam project from </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">jboss-eap</diffmk:wrapper></property>
-        </emphasis><diffmk:wrapper diffmk:change="added"> into your working directory, you should perform the following steps:</diffmk:wrapper></para>
+        <para>To import an example Seam project from <emphasis>
+            <property moreinfo="none">jboss-eap</property>
+        </emphasis> into your working directory, you should perform the following steps:</para>
         
-        <itemizedlist diffmk:change="added">
-            <listitem diffmk:change="added">
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Go to </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">New &gt; Other &gt; Java Project from Existing Buildfile</diffmk:wrapper></property>
+        <itemizedlist>
+            <listitem>
+                <para>Go to <emphasis>
+                    <property moreinfo="none">New &gt; Other &gt; Java Project from Existing Buildfile</property>
                 </emphasis></para>
             </listitem>
             
-            <listitem diffmk:change="added">
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Point to the </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">build.xml</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="added"> of any chosen project by pressing </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Browse</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="added"> button</diffmk:wrapper></para>
+            <listitem>
+                <para>Point to the <emphasis>
+                    <property moreinfo="none">build.xml</property>
+                </emphasis> of any chosen project by pressing <emphasis>
+                    <property moreinfo="none">Browse</property>
+                </emphasis> button</para>
             </listitem>
             
-            <listitem diffmk:change="added">
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Hit </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Finish</diffmk:wrapper></property>
-                </emphasis><diffmk:wrapper diffmk:change="added"> to open the project</diffmk:wrapper></para>
+            <listitem>
+                <para>Hit <emphasis>
+                    <property moreinfo="none">Finish</property>
+                </emphasis> to open the project</para>
             </listitem>
         </itemizedlist>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">As these seam examples are non WTP projects, next you should enable Seam support for
-            them. To do that, right click the project and go to </diffmk:wrapper><emphasis diffmk:change="added">
-                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Properties &gt; Seam Settings</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis></para>
+        <para>As these seam examples are non WTP projects, next you should enable Seam support for
+            them. To do that, right click the project and go to <emphasis>
+                <property moreinfo="none">Properties &gt; Seam Settings</property>.</emphasis></para>
     </section>
     
-    <section diffmk:change="added" id="seam_question_3">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">How to change the deploy folders for Seam source code from src/hot and src/main?</diffmk:wrapper></title>
+    <section id="seam_question_3">
+        <title>How to change the deploy folders for Seam source code from src/hot and src/main?</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You should right-click the project, select </diffmk:wrapper><emphasis diffmk:change="added">
-            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Properties &gt; Java Build Path</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">,</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> then switch to the </diffmk:wrapper><emphasis diffmk:change="added">
-                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Source tab</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">,</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> select the output folder for </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">src/hot</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> (</diffmk:wrapper><emphasis diffmk:change="added">
-                        <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">src/main</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added">  and click </diffmk:wrapper><emphasis diffmk:change="added">
-                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Edit</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> to change their output location.</diffmk:wrapper></para>
+        <para>You should right-click the project, select <emphasis>
+            <property moreinfo="none">Properties &gt; Java Build Path</property>,</emphasis> then switch to the <emphasis>
+                <property moreinfo="none">Source tab</property>,</emphasis> select the output folder for <emphasis>
+                    <property moreinfo="none">src/hot</property></emphasis> (<emphasis>
+                        <property moreinfo="none">src/main</property>)</emphasis>  and click <emphasis>
+                    <property moreinfo="none">Edit</property></emphasis> to change their output location.</para>
         
         <para>In conclusion, the main goal of this document is to get you know with a full featureset
             that <property moreinfo="none">JBoss Tools</property> provides to support Seam development. Thus if you have
-            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss
                 Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
             future leaving your vote on our page <ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture">here</ulink>. </para>
         
         <para>A set of movies on Seam tooling is available <ulink url="http://docs.jboss.org/tools/movies">here</ulink>.</para>
     </section>
 </chapter>
+
+    <!-- TODO: drools used in this section is not available for eclipse .3.3 &business_application; -->
+    
 </book>
