@@ -1,5 +1,5 @@
  /*******************************************************************************
-  * Copyright (c) 2008 Red Hat, Inc.
+  * Copyright (c) 2009 Red Hat, Inc.
   * Distributed under license by Red Hat, Inc. All rights reserved.
   * This program is made available under the terms of the
   * Eclipse Public License v1.0 which accompanies this distribution,
@@ -42,11 +42,10 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
 /**
- * @author Alexey Kazakov
+ * @author Daniel Azarov
  */
 public class RenameSeamContextVariableWizard extends RefactoringWizard {
 
-	//private ISeamComponent component;
 	private String componentName;
 	private IFieldEditor editor;
 	private ISeamProject seamProject;
@@ -63,13 +62,13 @@ public class RenameSeamContextVariableWizard extends RefactoringWizard {
 	protected void addUserInputPages() {
 	    setDefaultPageTitle(getRefactoring().getName());
 	    RenameSeamContextVariableProcessor processor= (RenameSeamContextVariableProcessor) getRefactoring().getAdapter(RenameSeamContextVariableProcessor.class);
-	    addPage(new RenameComponentWizardPage(processor));
+	    addPage(new RenameSeamContextVariableWizardPage(processor));
 	}
 	
-	class RenameComponentWizardPage extends UserInputWizardPage{
+	class RenameSeamContextVariableWizardPage extends UserInputWizardPage{
 		private SeamRenameProcessor processor;
 		
-		public RenameComponentWizardPage(SeamRenameProcessor processor){
+		public RenameSeamContextVariableWizardPage(SeamRenameProcessor processor){
 			super("");
 			this.processor = processor;
 		}

@@ -39,7 +39,7 @@ import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 
 /**
- * @author Alexey Kazakov
+ * @author Alexey Kazakov, Daniel Azarov
  */
 public class RenameComponentWizard extends RefactoringWizard {
 

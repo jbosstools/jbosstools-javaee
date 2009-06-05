@@ -1,3 +1,13 @@
+/*******************************************************************************
+  * Copyright (c) 2009 Red Hat, Inc.
+  * Distributed under license by Red Hat, Inc. All rights reserved.
+  * This program is made available under the terms of the
+  * Eclipse Public License v1.0 which accompanies this distribution,
+  * and is available at http://www.eclipse.org/legal/epl-v10.html
+  *
+  * Contributors:
+  *     Red Hat, Inc. - initial API and implementation
+  ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.io.IOException;
@@ -57,6 +67,9 @@ import org.jboss.tools.seam.internal.core.validation.SeamContextValidationHelper
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * @author Daniel Azarov
+ */
 public abstract class SeamRenameProcessor extends RenameProcessor {
 	protected static final String JAVA_EXT = "java"; //$NON-NLS-1$
 	protected static final String XML_EXT = "xml"; //$NON-NLS-1$
@@ -171,25 +184,29 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		Set<ISeamFactory> factorySet = seamProject.getFactoriesByName(getOldName());
 		
 		for(ISeamFactory factory : factorySet){
-			IFile file = (IFile)factory.getResource();
-			if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
-				ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
-				if(location != null){
-					if(!files.contains(file.getFullPath())){
-						files.add(file.getFullPath());
-						changeAnnotation(location, file);
-					}else if(force)
-						changeAnnotation(location, file);
-				}
-			}else{
-				ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
-				if(location != null){
-					if(!files.contains(file.getFullPath())){
-						files.add(file.getFullPath());
-						changeXMLNode(location, file);
-					}else if(force)
-						changeXMLNode(location, file);
-				}
+			changeFactory(factory, force);
+		}
+	}
+	
+	private void changeFactory(ISeamFactory factory, boolean force){
+		IFile file = (IFile)factory.getResource();
+		if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
+			ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
+			if(location != null){
+				if(!files.contains(file.getFullPath())){
+					files.add(file.getFullPath());
+					changeAnnotation(location, file);
+				}else if(force)
+					changeAnnotation(location, file);
+			}
+		}else{
+			ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
+			if(location != null){
+				if(!files.contains(file.getFullPath())){
+					files.add(file.getFullPath());
+					changeXMLNode(location, file);
+				}else if(force)
+					changeXMLNode(location, file);
 			}
 		}
 	}
@@ -514,6 +531,14 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		findDeclarations(component);
 		
 		findAnnotations();
+		
+		findELReferences();
+	}
+	
+	protected void renameFactories(Set<ISeamFactory> factories){
+		for(ISeamFactory factory : factories){
+			changeFactory(factory, true);
+		}
 		
 		findELReferences();
 	}

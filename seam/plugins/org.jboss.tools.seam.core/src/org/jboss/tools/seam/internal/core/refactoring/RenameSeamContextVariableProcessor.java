@@ -1,5 +1,5 @@
  /*******************************************************************************
-  * Copyright (c) 2008 Red Hat, Inc.
+  * Copyright (c) 2009 Red Hat, Inc.
   * Distributed under license by Red Hat, Inc. All rights reserved.
   * This program is made available under the terms of the
   * Eclipse Public License v1.0 which accompanies this distribution,
@@ -25,6 +25,7 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -34,13 +35,13 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Daniel Azarov
  */
 public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
-
+	IFile file;
 	/**
 	 * @param component Renamed component
 	 */
 	public RenameSeamContextVariableProcessor(IFile file, String oldName) {
 		super();
-		declarationFile = file;
+		this.file = file;
 		setOldName(oldName);
 	}
 
@@ -81,26 +82,41 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 		ISeamComponent component = checkComponent();
 		if(component != null)
 			renameComponent(component);
+		else{
+			Set<ISeamFactory> factories = checkFactories();
+			if(factories != null)
+				renameFactories(factories);
+		}
 		
 		return rootChange;
 	}
 	
 	private ISeamComponent checkComponent(){
-		IProject project = declarationFile.getProject();
+		IProject project = file.getProject();
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if (seamProject != null) {
-			Set<ISeamComponent> components = seamProject.getComponentsByPath(declarationFile.getFullPath());
-			for(ISeamComponent component : components){
-				ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
-				if(declaration != null){
-					IResource resource = declaration.getResource();
-					if(resource != null && resource.getFullPath().equals(declarationFile.getFullPath())){
-						if(declaration.getName().equals(component.getName())){
-							return component;
-						}
-					}
-				}
-			}
+			return seamProject.getComponent(getOldName());
+//			Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
+//			for(ISeamComponent component : components){
+//				ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
+//				if(declaration != null){
+//					IResource resource = declaration.getResource();
+//					if(resource != null && resource.getFullPath().equals(file.getFullPath())){
+//						if(declaration.getName().equals(component.getName())){
+//							return component;
+//						}
+//					}
+//				}
+//			}
+		}
+		return null;
+	}
+	
+	private Set<ISeamFactory> checkFactories(){
+		IProject project = file.getProject();
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		if (seamProject != null) {
+			return seamProject.getFactoriesByName(getOldName());
 		}
 		return null;
 	}
