@@ -27,7 +27,16 @@
     
     <bookinfo>
         <title>JSF Tools Tutorial</title>
-        
+            <corpauthor diffmk:change="added">
+                <inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added" role="fo">
+                        <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+                    </imageobject>	
+                    <imageobject diffmk:change="added" role="html">
+                        <imagedata diffmk:change="added"></imagedata>
+                    </imageobject>	
+                </inlinemediaobject>           
+            </corpauthor>
         <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
@@ -40,7 +49,7 @@
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.0.1.GA
+              Version: 3.1.0.M1
             </diffmk:wrapper></releaseinfo>
 
 
@@ -83,8 +92,8 @@
   
   <section>
     <title>Other relevant resources on the topic</title>
-    <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at</diffmk:wrapper><diffmk:wrapper diffmk:change="changed">http://docs.jboss.org/tools</diffmk:wrapper><diffmk:wrapper diffmk:change="changed"> in the corresponding release directory.</diffmk:wrapper></para>
-    <para><diffmk:wrapper diffmk:change="changed">The latest documentation builds are available at </diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/nightly-docs/"><diffmk:wrapper diffmk:change="changed">http://download.jboss.org/jbosstools/nightly-docs</diffmk:wrapper></ulink>.</para>
+    <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at </diffmk:wrapper><ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+    <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
   </section>
   
 </chapter>
@@ -260,12 +269,12 @@
         <title>Creating the Transition (Navigation Rule)</title>
         <itemizedlist>
             <listitem>
-                <para><diffmk:wrapper diffmk:change="added">In the diagram, select the connection icon third from the top along
-                    the upper left side of the diagram (</diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                <para>In the diagram, select the connection icon third from the top along
+                    the upper left side of the diagram (<inlinemediaobject>
                         <imageobject>
                             <imagedata fileref="images/jsf_application/jsf_application_3.png"></imagedata>
                         </imageobject>
-                    </inlinemediaobject><diffmk:wrapper diffmk:change="added">) to get an arrow cursor with a two-pronged plug at the arrow's bottom.</diffmk:wrapper></para>
+                    </inlinemediaobject>) to get an arrow cursor with a two-pronged plug at the arrow's bottom.</para>
             </listitem>
         </itemizedlist>
            
@@ -299,7 +308,7 @@
    
 </chapter>
     
-<chapter diffmk:change="added" id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
+<chapter id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
     <?dbhtml filename="adding_managed_bean.html"?>
     <chapterinfo>
         <keywordset>
@@ -737,11 +746,11 @@ Hello <h:outputText value="#{personBean.name}"/>!
             </listitem>
             
             <listitem>
-                <para><diffmk:wrapper diffmk:change="added">Click the Run icon(</diffmk:wrapper><inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/jsf_application/jsf_application_10.png"></imagedata>
+                <para>Click the Run icon(<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/jsf_application/jsf_application_10.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject><diffmk:wrapper diffmk:change="added">) or right click your project folder and select </diffmk:wrapper><emphasis>
+                </inlinemediaobject>) or right click your project folder and select <emphasis>
                     <property moreinfo="none">Run As &gt; Run on Server</property>
                 </emphasis>:</para>
             </listitem>
@@ -784,7 +793,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         finally run it on the <property moreinfo="none">JBoss Server</property>.</para>
 
     <para>Find out more features on JSF tooling in our <ulink url="../../jsf_tools_ref_guide/html_single/index.html">JSF Tools
-            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
         
