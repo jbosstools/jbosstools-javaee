@@ -30,6 +30,16 @@
     <bookinfo>
         <title>Struts Tools Reference Guide</title>
         
+        <corpauthor diffmk:change="added">
+            <inlinemediaobject diffmk:change="added">
+                <imageobject diffmk:change="added" role="fo">
+                    <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+                </imageobject>	
+                <imageobject diffmk:change="added" role="html">
+                    <imagedata diffmk:change="added"></imagedata>
+                </imageobject>	
+            </inlinemediaobject>           
+        </corpauthor>
         <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
@@ -40,9 +50,9 @@
              <year>2009</year>
              <holder>JBoss, a division of Red Hat</holder>
          </copyright>
-         <releaseinfo>
-             Version: 3.0.0.GA
-        </releaseinfo>
+         <releaseinfo><diffmk:wrapper diffmk:change="changed">
+             Version: 3.1.0.M1
+        </diffmk:wrapper></releaseinfo>
 
 <abstract>
    <title></title>
@@ -142,10 +152,10 @@
 
                     <row>
                         <entry><para>Verification and Validation</para></entry>
-                        <entry><para><diffmk:wrapper diffmk:change="changed">All occurring errors will be immediately reported by verification
+                        <entry><para>All occurring errors will be immediately reported by verification
                             feature, no matter in what view you are working. Constant validation and
                             errors checking allows to catch many of the errors during development
-                            process that significantly reduces development time.</diffmk:wrapper></para></entry>
+                            process that significantly reduces development time.</para></entry>
                         <entry>
                             <link linkend="project_verification">verification and validation</link>
                         </entry>
@@ -420,9 +430,9 @@
             </mediaobject>
         </figure>
 
-        <para><diffmk:wrapper diffmk:change="changed">When done, you can open end edit the struts-config.xml file using useful Struts
+        <para>When done, you can open end edit the struts-config.xml file using useful Struts
             configuration file editor provided by JBDS. (The Struts configuration is shown below in
-            the Tree viewer).</diffmk:wrapper></para>
+            the Tree viewer).</para>
 
         <figure float="0">
             <title>Struts-config.xml File</title>
@@ -434,6 +444,12 @@
         </figure>
     </section>
 
+    <section diffmk:change="added">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Relevant Resources Links</diffmk:wrapper></title>
+        
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can find more in-depth explanation on how to work with special wizards, editors and views that can
+            be used in various scenarios while developing Struts applications in our </diffmk:wrapper><ulink diffmk:change="added" url="../../jsf/html_single/index.html"><diffmk:wrapper diffmk:change="added">Visual Web Tools guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+    </section>
 </chapter>
 
     
@@ -1256,8 +1272,8 @@
                 Tools</property>.</para>
 
         <para>If you'd like to contribute your feedback is always appreciated. You can
-                leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">Forum</ulink>.</para>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on </diffmk:wrapper><ulink diffmk:change="added" url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201"><diffmk:wrapper diffmk:change="added">JBoss forum</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+                leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">Forum</ulink>.</para>
+        <para>We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss forum</ulink>.</para>
 </chapter>
 
 </book>
