@@ -483,12 +483,74 @@ public class SeamCoreValidator extends SeamValidator {
 	private void validateXmlComponentDeclarations(ISeamComponent component) {
 		String componentName = component.getName();
 		if(componentName!=null) {
+			HashMap<String, ISeamXmlComponentDeclaration> usedPrecedences = new HashMap<String, ISeamXmlComponentDeclaration>();
+			Set<ISeamXmlComponentDeclaration> markedDeclarations = new HashSet<ISeamXmlComponentDeclaration>();
+			Set<ISeamJavaComponentDeclaration> markedJavaDeclarations = new HashSet<ISeamJavaComponentDeclaration>();
 			Set<ISeamXmlComponentDeclaration> declarations = component.getXmlDeclarations();
+			ISeamXmlComponentDeclaration firstNamedDeclaration = null;
 			for (ISeamXmlComponentDeclaration declaration : declarations) {
 				if(coreHelper.isJar(declaration)) {
 					return;
 				}
+				//do not check files declared in another project
+				if(declaration.getSeamProject() != seamProject) continue;
+
 				validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
+
+				if(firstNamedDeclaration == null && declaration.getName()!=null) {
+					firstNamedDeclaration = declaration; 
+				}
+				String precedence = declaration.getPrecedence();
+				if(declaration.getName()!=null && firstNamedDeclaration!=declaration) {
+					// Check precedence
+					ISeamXmlComponentDeclaration checkedDeclaration = usedPrecedences.get(precedence);
+					if(checkedDeclaration==null) {
+						usedPrecedences.put(precedence, declaration);
+					} else {
+						// Mark not-unique name.
+						if(!markedDeclarations.contains(checkedDeclaration)) {
+							// Mark first wrong declaration with that name
+							IResource checkedDeclarationResource = checkedDeclaration.getResource();
+							ITextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+							if(!isEmptyLocation(location)) {
+								addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, checkedDeclarationResource);
+							}
+							markedDeclarations.add(checkedDeclaration);
+						}
+						// Mark next wrong declaration with that name
+						markedDeclarations.add(declaration);
+						ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+						if(!isEmptyLocation(location)) {
+							addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+						}
+					}
+				}
+
+				// Check Java declarations with the same name
+				Set<ISeamComponentDeclaration> decls = component.getAllDeclarations();
+				for (ISeamComponentDeclaration dec : decls) {
+					if(dec instanceof ISeamJavaComponentDeclaration) {
+						ISeamJavaComponentDeclaration javaDec = (ISeamJavaComponentDeclaration)dec;
+						// Check names
+						if(javaDec.getName()!=null && javaDec.getName().equals(declaration.getName())) {
+							// Check precedences
+							String javaPrecedence = "" + javaDec.getPrecedence();
+							if(javaPrecedence.equals(precedence)) {
+								if(!markedJavaDeclarations.contains(javaDec)) {
+									markedJavaDeclarations.add(javaDec);
+									ITextSourceReference location = ((SeamComponentDeclaration)javaDec).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+								}
+								if(!markedJavaDeclarations.contains(javaDec)) {
+									markedDeclarations.add(declaration);
+									ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+								}
+							}
+						}
+					}
+				}
+
 				String className = component.getClassName();
 				if(className!=null) {
 					IType type = null;

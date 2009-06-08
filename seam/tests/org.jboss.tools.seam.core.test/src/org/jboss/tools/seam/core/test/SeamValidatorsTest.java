@@ -857,9 +857,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public static int getMarkersNumber(IResource resource){
 		try{
 			IMarker[] markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
-			for(int i=0;i<markers.length;i++){
-				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
-			}
+//			for(int i=0;i<markers.length;i++){
+//				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
+//			}
 			return markers.length;
 		}catch(CoreException ex){
 			JUnitUtils.fail("Can'r get problem markers", ex);
