@@ -110,26 +110,39 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	public void createContributionItems(IServiceLocator serviceLocator,
 			IContributionRoot additions) {
 		
-		System.out.println("createContributionItems");
+		//System.out.println("createContributionItems");
 		
 		if(serviceLocator.hasService(IWorkbenchLocationService.class)){
 			IWorkbenchLocationService service = (IWorkbenchLocationService)serviceLocator.getService(IWorkbenchLocationService.class);
 			editor = service.getWorkbenchWindow().getActivePage().getActiveEditor();
 			shell = service.getWorkbench().getActiveWorkbenchWindow().getShell();
 			
+			if(!(editor.getEditorInput() instanceof FileEditorInput))
+				return;
+			
+			MenuManager mm = new MenuManager(SeamUIMessages.SEAM_REFACTOR);
+			mm.setVisible(true);
+			
+			FileEditorInput input = (FileEditorInput)editor.getEditorInput();
+			
+			editorFile = input.getFile();
+			
+			ISeamComponent component = getComponent(editorFile);
+			if(component != null){
+				mm.add(new RenameSeamComponentAction());
+				
+				additions.addContributionItem(mm, null);
+			}
+			
 			ISelection sel = editor.getEditorSite().getSelectionProvider().getSelection();
 			
 			if(sel == null || sel.isEmpty())
 				return;
 			
-			if(sel instanceof TextSelection && editor.getEditorInput() instanceof FileEditorInput){
+			if(sel instanceof TextSelection){
 				TextSelection selection = (TextSelection)sel;
 				
 				selectedText = selection.getText();
-				
-				FileEditorInput input = (FileEditorInput)editor.getEditorInput();
-			
-				editorFile = input.getFile();
 				
 				fileContent = null;
 				try {
@@ -139,18 +152,15 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 					return;
 				}
 				
-				MenuManager mm = new MenuManager(SeamUIMessages.SEAM_REFACTOR);
-				mm.setVisible(true);
-				
 				boolean status = false;
 				
 				String ext = editorFile.getFileExtension();
 				if(JAVA_EXT.equalsIgnoreCase(ext)){
-					if(checkNameAnnotation(selection)){
-						mm.add(new RenameSeamComponentAction());
-						
-						additions.addContributionItem(mm, null);
-					}
+//					if(checkNameAnnotation(selection)){
+//						mm.add(new RenameSeamComponentAction());
+//						
+//						additions.addContributionItem(mm, null);
+//					}
 					status = checkContextVariableInJava(editorFile, fileContent, selection);
 				} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
 					status = checkContextVariableInDOM(editorFile, fileContent, selection);
@@ -295,6 +305,26 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		return scanString(file, content, 0, selection);
 	}
 	
+	private ISeamComponent getComponent(IFile file){
+		IProject project = file.getProject();
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		if (seamProject != null) {
+			Set<ISeamComponent> components = seamProject.getComponentsByPath(editorFile.getFullPath());
+			for(ISeamComponent component : components){
+				ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
+				if(declaration != null){
+					IResource resource = declaration.getResource();
+					if(resource != null && resource.getFullPath().equals(editorFile.getFullPath())){
+						if(declaration.getName().equals(component.getName())){
+							return component;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	private IAnnotation getNameAnnotation(IFile file){
 		try{
 			ICompilationUnit unit = getCompilationUnit(file);
@@ -374,27 +404,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		public void run(){
 			saveAndBuild();
 
-			IEditorInput input = editor.getEditorInput();
-			if (input instanceof IFileEditorInput) {
-				IProject project = editorFile.getProject();
-				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-				if (seamProject != null) {
-					Set<ISeamComponent> components = seamProject.getComponentsByPath(editorFile.getFullPath());
-					for(ISeamComponent component : components){
-						ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
-						if(declaration != null){
-							IResource resource = declaration.getResource();
-							if(resource != null && resource.getFullPath().equals(editorFile.getFullPath())){
-								if(declaration.getName().equals(component.getName())){
-									invokeRenameComponentWizard(component, shell);
-									return;
-								}
-							}
-						}
-					}
-				}
-			}
-			invokeRenameComponentWizard(null, shell);
+			ISeamComponent component = getComponent(editorFile);
+			invokeRenameComponentWizard(component, shell);
 		}
 	}
 	
