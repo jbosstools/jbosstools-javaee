@@ -152,6 +152,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			return;
 		
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(declarationFile.getProject(), true);
+		
+		if(seamProject == null)
+			return;
+		
 		files.clear();
 		findAnnotations(seamProject, true);
 		
@@ -343,7 +347,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
-			scan(project);
+			if(project != null)
+				scan(project);
 		}
 	}
 
