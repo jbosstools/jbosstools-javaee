@@ -497,10 +497,11 @@ public class SeamCoreValidator extends SeamValidator {
 
 				validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
 
-				if(firstNamedDeclaration == null && declaration.getName()!=null) {
-					firstNamedDeclaration = declaration; 
-				}
 				String precedence = declaration.getPrecedence();
+				if(firstNamedDeclaration == null && declaration.getName()!=null) {
+					firstNamedDeclaration = declaration;
+					usedPrecedences.put(precedence, declaration);
+				}
 				if(declaration.getName()!=null && firstNamedDeclaration!=declaration) {
 					// Check precedence
 					ISeamXmlComponentDeclaration checkedDeclaration = usedPrecedences.get(precedence);
@@ -527,24 +528,30 @@ public class SeamCoreValidator extends SeamValidator {
 				}
 
 				// Check Java declarations with the same name
-				Set<ISeamComponentDeclaration> decls = component.getAllDeclarations();
-				for (ISeamComponentDeclaration dec : decls) {
-					if(dec instanceof ISeamJavaComponentDeclaration) {
-						ISeamJavaComponentDeclaration javaDec = (ISeamJavaComponentDeclaration)dec;
-						// Check names
-						if(javaDec.getName()!=null && javaDec.getName().equals(declaration.getName())) {
-							// Check precedences
-							String javaPrecedence = "" + javaDec.getPrecedence();
-							if(javaPrecedence.equals(precedence)) {
-								if(!markedJavaDeclarations.contains(javaDec)) {
-									markedJavaDeclarations.add(javaDec);
-									ITextSourceReference location = ((SeamComponentDeclaration)javaDec).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
-								}
-								if(!markedJavaDeclarations.contains(javaDec)) {
-									markedDeclarations.add(declaration);
-									ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-									addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+				Set<ISeamContextVariable> vars = seamProject.getVariablesByName(componentName);
+				for (ISeamContextVariable variable : vars) {
+					if(variable instanceof ISeamComponent) {
+						ISeamComponent c = (ISeamComponent)variable;
+						Set<ISeamComponentDeclaration> decls = c.getAllDeclarations();
+						for (ISeamComponentDeclaration dec : decls) {
+							if(dec instanceof ISeamJavaComponentDeclaration) {
+								ISeamJavaComponentDeclaration javaDec = (ISeamJavaComponentDeclaration)dec;
+								// Check names
+								if(javaDec.getName()!=null && javaDec.getName().equals(declaration.getName())) {
+									// Check precedences
+									String javaPrecedence = "" + javaDec.getPrecedence();
+									if(javaPrecedence.equals(precedence)) {
+										if(!markedJavaDeclarations.contains(javaDec)) {
+											markedJavaDeclarations.add(javaDec);
+											ITextSourceReference location = ((SeamComponentDeclaration)javaDec).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+											addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, javaDec.getResource());
+										}
+										if(!markedDeclarations.contains(declaration)) {
+											markedDeclarations.add(declaration);
+											ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+											addError(NONUNIQUE_COMPONENT_NAME_MESSAGE_ID, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+										}
+									}
 								}
 							}
 						}

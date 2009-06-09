@@ -100,7 +100,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-999
 		IFile file = project.getFile("WebContent/varAttributes.xhtml");
 		int number = getMarkersNumber(file);
-		assertTrue("Problem marker was found in varAttributes.xhtml file. Validator did not recognize 'var' attribute.", number == 0);
+		assertEquals("Problem marker was found in varAttributes.xhtml file. Validator did not recognize 'var' attribute.", 0, number);
 	}
 
 	public void testJiraJbide1696() throws CoreException {
@@ -305,7 +305,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 					"'BbcComponent.3'", ex);
 		}
 	}
-	
+
 	public void testEntitiesValidator() {
 		IFile abcEntityFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.java");
 		
@@ -826,6 +826,29 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile f = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/InheritedComponent.java");
 		int errorsCount = getMarkersNumber(f);
 		assertEquals("Seam tools validator does not see annotated methods declared in super class", 0, errorsCount);
+	}
+
+	// See https://jira.jboss.org/jira/browse/JBIDE-4393
+	public void testDuplicateComponents() {
+		JobUtils.waitForIdle();
+		IFile duplicateJavaComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.java");
+		IFile componentsXmlFile = project.getFile("WebContent/WEB-INF/components.xml");
+
+		IFile duplicateComponentsXmlFile = project.getFile("WebContent/WEB-INF/duplicateComponents.test");
+		try{
+			componentsXmlFile.setContents(duplicateComponentsXmlFile.getContents(), true, false, null);
+		}catch(Exception ex){
+			JUnitUtils.fail("Error in changing 'components.xml' content to 'duplicateComponents.test'", ex);
+		}
+		JobUtils.waitForIdle();
+		int[] lineNumbers = getMarkersNumbersOfLine(duplicateJavaComponentFile);
+		assertEquals("There shuold be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
+		assertEquals("Problem marker has wrong line number", 5, lineNumbers[0]);
+
+		lineNumbers = getMarkersNumbersOfLine(componentsXmlFile);
+		assertEquals("There shuold be two error marker in components.xml.", 2, lineNumbers.length);
+		assertEquals("Problem marker has wrong line number", 8, lineNumbers[0]);
+		assertEquals("Problem marker has wrong line number", 9, lineNumbers[1]);
 	}
 
 	private void modifyPreferences(){
