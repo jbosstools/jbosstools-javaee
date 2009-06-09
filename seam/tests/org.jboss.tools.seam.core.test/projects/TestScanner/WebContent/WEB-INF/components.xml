@@ -33,4 +33,7 @@
  
  <factory name="factory1" scope="conversation"/>
  
+ <component class="java.lang.Boolean" name="duplicated"/>
+ <component class="java.lang.Boolean" name="duplicated"/>
+
 </components>

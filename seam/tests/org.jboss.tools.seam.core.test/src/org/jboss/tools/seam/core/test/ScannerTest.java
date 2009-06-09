@@ -170,6 +170,16 @@ public class ScannerTest extends TestCase {
 		assertTrue("Declared factory 'factory1' is not found in components.xml", factory != null);
 		ISeamXmlFactory af = (ISeamXmlFactory)factory;
 		assertTrue("Scope of 'factory1' must be 'conversation'", af.getScope() == ScopeType.CONVERSATION);
+		
+		//4. components.xml has duplicated entry
+		//<component class="java.lang.Boolean" name="duplicated"/>
+		// check that
+		// both declarations for "duplicated" are loaded
+		int duplicatedCount = 0;
+		for (int i = 0; i < cs.length; i++) {
+			if("duplicated".equals(cs[i].getName())) duplicatedCount++;
+		}
+		assertEquals("There are 2 declarations of component \"duplicated\" in xml.", 2, duplicatedCount);
 	}
 	
 	private ISeamComponentDeclaration findDeclaration(ISeamComponentDeclaration[] declarations, String name) {
