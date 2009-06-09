@@ -46,6 +46,9 @@
 		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"
 			class="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"/>
 
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamComponetImpl"
+			class="org.jboss.tools.seam.xml.components.model.SeamComponetImpl"/>
+
 		<xclass id="org.jboss.tools.seam.xml.components.model.constraint.ListELConstraint"
 			class="org.jboss.tools.seam.xml.components.model.constraint.ListELConstraint"/>
 		<xclass id="org.jboss.tools.seam.xml.components.model.constraint.IntELConstraint"

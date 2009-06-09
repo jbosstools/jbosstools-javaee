@@ -1268,8 +1268,9 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.seam.xml.components.model.SeamComponetImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%;unique=true"
   XMLSUBPATH="component" name="SeamComponent">
   <XChildrenEntities>
    <XChildEntity name="SeamProperty"/>
@@ -1333,6 +1334,7 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
@@ -1391,8 +1393,9 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.seam.xml.components.model.SeamComponetImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%;unique=true"
   XMLSUBPATH="component" name="SeamComponent20">
   <XChildrenEntities>
    <XChildEntity name="SeamProperty"/>
@@ -1474,6 +1477,7 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
@@ -1516,8 +1520,9 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%"
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.seam.xml.components.model.SeamComponetImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;children=%Ordered%;unique=true"
   XMLSUBPATH="component" name="SeamComponent21">
   <XChildrenEntities>
    <XChildEntity name="SeamProperty"/>
@@ -1541,6 +1546,7 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
