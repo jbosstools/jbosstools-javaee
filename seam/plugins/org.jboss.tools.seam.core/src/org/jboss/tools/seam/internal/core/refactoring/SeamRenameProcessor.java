@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
@@ -29,6 +30,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -59,6 +61,7 @@ import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
@@ -80,7 +83,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	protected static final String SEAM_PROPERTIES_FILE = "seam.properties"; //$NON-NLS-1$
 	
 	private SeamContextValidationHelper coreHelper = new SeamContextValidationHelper();
-
+	
 	protected CompositeChange rootChange;
 	protected TextFileChange lastChange;
 	protected IFile declarationFile=null;
@@ -315,8 +318,24 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
+	protected boolean isJarDeclarations(ISeamComponent component) throws CoreException{
+		if(component.getJavaDeclaration() != null){
+			if(coreHelper.isJar(component.getJavaDeclaration()))
+				return true;
+		}
+
+		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
+
+		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
+			if(coreHelper.isJar(xmlDecl))
+				return true;
+		}
+		return false;
+	}
+	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
 		IFile file  = (IFile)javaDecl.getResource();
+		
 		if(file != null && !coreHelper.isJar(javaDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null && !isBadLocation(location)){
@@ -328,8 +347,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		declarationFile = file;
 	}
 	
-	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl){
+	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl) throws CoreException{
 		IFile file = (IFile)xmlDecl.getResource();
+		
 		if(file != null && !coreHelper.isJar(xmlDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null && !isBadLocation(location))

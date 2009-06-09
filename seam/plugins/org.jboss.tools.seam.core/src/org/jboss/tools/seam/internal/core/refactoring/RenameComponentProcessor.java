@@ -56,7 +56,10 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
-		return new RefactoringStatus();
+		RefactoringStatus status = new RefactoringStatus();
+		if(component != null && isJarDeclarations(component))
+			status.addWarning(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR);
+		return status;
 	}
 
 	/*
