@@ -18,7 +18,6 @@ import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
-import org.eclipse.jst.j2ee.project.JavaEEProjectUtilities;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualReference;
@@ -219,7 +218,7 @@ public class SeamUtil {
 				refComponents = comp.getReferences();
 				for (IVirtualReference virtualReference : refComponents) {
 					IVirtualComponent component = virtualReference.getReferencedComponent();
-					if(component!=null && !component.isBinary() && JavaEEProjectUtilities.isDynamicWebComponent(component)) {
+					if(component!=null && !component.isBinary() && J2EEProjectUtilities.isDynamicWebComponent(component)) {
 						ISeamProject seamProject = SeamCorePlugin.getSeamProject(component.getProject(), false);
 						if(seamProject!=null) {
 							return seamProject;
