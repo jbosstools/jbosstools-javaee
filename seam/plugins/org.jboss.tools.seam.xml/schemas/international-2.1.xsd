@@ -56,4 +56,17 @@
         <xs:attribute name="cookie-enabled" type="components:boolean" />
     </xs:attributeGroup>
 
+    <xs:element name="time-zones">
+        <xs:annotation>
+            <xs:documentation>The time zones provider component</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="international:attlist.timeZones"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.timeZones">
+        <xs:attribute name="wrap" type="components:boolean" />
+    </xs:attributeGroup>
+
 </xs:schema>

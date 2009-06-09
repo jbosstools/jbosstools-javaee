@@ -56,6 +56,9 @@
     <xs:attributeGroup name="attlist.exception">
         <xs:attribute name="class" type="xs:token"/>
         <xs:attribute name="log" type="pages:tf-boolean"/>
+        <xs:attribute name="log-level" type="pages:loglevel-values"/>
+        
+        <!-- The logLevel attribute is deprecated and will be removed in the next major version! Please use log-level instead -->
         <xs:attribute name="logLevel" type="pages:loglevel-values"/>
     </xs:attributeGroup>
     
@@ -140,6 +143,7 @@
         <xs:attribute name="validator" type="xs:token" />
         <xs:attribute name="validatorId" type="xs:token" />
         <xs:attribute name="required" type="pages:tf-boolean"/>
+        <xs:attribute name="validateModel" default="true" type="pages:tf-boolean"/>
     </xs:attributeGroup>
     
     <xs:element name="header">
@@ -183,7 +187,7 @@
         <xs:attribute name="execute" use="required" type="pages:method-expression" />
     </xs:attributeGroup>
     
-    <xs:element name="restrict" type="pages:value-expression">
+    <xs:element name="restrict" type="pages:boolean-value-expression" default="true">
         <xs:annotation>
             <xs:documentation>Security restrictions</xs:documentation>
         </xs:annotation>
@@ -218,7 +222,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.navigation">
-        <xs:attribute name="from-action" type="pages:method-expression" />
+        <xs:attribute name="from-action" type="pages:from-action-expression" />
         <xs:attribute name="evaluate" type="pages:method-expression" />
     </xs:attributeGroup>
     
@@ -245,7 +249,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.rule">
-        <xs:attribute name="if-outcome" type="pages:value-expression" />
+        <xs:attribute name="if-outcome" type="pages:outcome-expression" />
         <xs:attribute name="if" type="pages:boolean-value-expression" />
     </xs:attributeGroup>
     
@@ -462,7 +466,7 @@
           <xs:pattern value="http://.*|https://.*"/>
         </xs:restriction>
     </xs:simpleType>
-
+    
     <xs:simpleType name="url-expression">
         <xs:union memberTypes="pages:url pages:method-expression"></xs:union>
     </xs:simpleType>
@@ -473,15 +477,29 @@
             <xs:enumeration value="http"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:simpleType name="outcome">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^#\{\}]+"/>
+        </xs:restriction>
+    </xs:simpleType>
     
     <xs:simpleType name="view-id">
         <xs:restriction base="xs:string">
             <xs:pattern value="(/.*)|\*"/>
         </xs:restriction>
     </xs:simpleType>
-
+    
     <xs:simpleType name="view-id-expression">
-        <xs:union memberTypes="pages:view-id pages:method-expression"></xs:union>
+        <xs:union memberTypes="pages:view-id pages:value-expression"></xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="outcome-expression">
+        <xs:union memberTypes="pages:outcome pages:value-expression"></xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="from-action-expression">
+        <xs:union memberTypes="pages:outcome pages:method-expression"></xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="ableness">
@@ -610,7 +628,9 @@
     </xs:simpleType>
     
     <xs:simpleType name="value-expression">
-      <xs:restriction base="xs:token"/>
+        <xs:restriction base="xs:token">
+            <xs:pattern value="#\{.*\}"/>
+        </xs:restriction>
     </xs:simpleType>
     
     <xs:simpleType name="boolean-value-expression">

@@ -25,5 +25,12 @@
          <xs:attribute name="entity-loader" type="xs:string" />
       </xs:complexType>
     </xs:element>
+
+    <xs:element name="render-stamp-store">
+      <xs:complexType>
+         <xs:attributeGroup ref="components:attlist.component" />
+         <xs:attribute name="max-size" type="xs:int" />
+      </xs:complexType>
+    </xs:element>
     
 </xs:schema>

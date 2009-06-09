@@ -51,7 +51,6 @@ The distributable flag appends the ManagedEntityInterceptor to this list (applie
         <xs:attribute name="jndi-pattern" type="components:string" />
         <xs:attribute name="security-enabled" type="components:boolean" />
         <xs:attribute name="transaction-management-enabled" type="components:boolean"/>
-        <xs:attribute name="user-transaction-name" type="components:string"/>
     </xs:attributeGroup>
 
     <xs:element name="manager">

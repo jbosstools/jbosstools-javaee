@@ -115,8 +115,6 @@
          	publicId="-//JBoss/Seam Component Configuration DTD 1.1//EN" 
          	uri="dtds/components-1.1.dtd"/>
 
-
-
          <uri 
             name="http://jboss.com/products/seam/async-2.0.xsd" 
             uri="schemas/async-2.0.xsd"/>
@@ -142,6 +140,10 @@
             uri="schemas/components-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/cache-2.1.xsd" 
+            uri="schemas/cache-2.1.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/core-2.0.xsd" 
             uri="schemas/core-2.0.xsd"/>
 
@@ -156,6 +158,10 @@
          <uri 
             name="http://jboss.com/products/seam/drools-2.1.xsd" 
             uri="schemas/drools-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/document-2.1.xsd" 
+            uri="schemas/document-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/framework-2.0.xsd" 
@@ -200,6 +206,10 @@
          <uri 
             name="http://jboss.com/products/seam/pageflow-2.0.xsd" 
             uri="schemas/pageflow-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pageflow-2.1.xsd" 
+            uri="schemas/pageflow-2.1.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/pages-2.0.xsd" 
