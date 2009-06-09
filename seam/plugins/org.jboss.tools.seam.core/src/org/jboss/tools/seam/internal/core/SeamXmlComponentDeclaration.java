@@ -31,7 +31,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	String className = null;
 	String installed = null;
 	String jndiName = null;
-	String precedence = null;
+	String precedence = "20";
 	String scope = null;
 
 	boolean isClassNameGuessed = false;
@@ -123,6 +123,9 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 
 	public void setPrecedence(String precedence) {
 		this.precedence = precedence;
+		if(precedence == null || precedence.length() == 0) {
+			precedence = "20";
+		}
 	}
 
 	public void setPrecedence(IValueInfo value) {
