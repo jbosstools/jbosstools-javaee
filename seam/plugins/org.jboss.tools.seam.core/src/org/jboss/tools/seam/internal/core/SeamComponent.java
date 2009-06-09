@@ -115,6 +115,7 @@ public class SeamComponent extends SeamObject implements ISeamComponent {
 				//ignore here
 			}
 		}
+		if(xml.size() > 0) return 20;
 		ISeamJavaComponentDeclaration javaDeclaration = getJavaDeclaration();
 		if(javaDeclaration != null) return javaDeclaration.getPrecedence();
 		return 20;
