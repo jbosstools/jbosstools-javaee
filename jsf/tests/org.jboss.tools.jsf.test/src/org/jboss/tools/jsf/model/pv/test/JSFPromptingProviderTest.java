@@ -3,6 +3,7 @@ package org.jboss.tools.jsf.model.pv.test;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
@@ -11,10 +12,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jsf.plugin.JsfTestPlugin;
+import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
+import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.test.util.JobUtils;
@@ -126,6 +130,19 @@ public class JSFPromptingProviderTest extends TestCase {
 		assertEquals(1, list.size());
 		String s = (String)list.get(0);
 		assertEquals("/a.jsp", s);
+	}
+	
+	public void testGetTaglibs() {
+		WebProject p = WebProject.getInstance(model);
+		try {
+			Thread.sleep(5000);
+		}  catch (InterruptedException e) {}
+		p.getTaglibMapping().invalidate();
+		Map<String,XModelObject> map = p.getTaglibMapping().getTaglibObjects();
+		XModelObject o1 = map.get("facelet_taglib");
+		assertNotNull(o1);
+		XModelObject o2 = map.get("facelet_taglib2");
+		assertNotNull(o2);
 	}
 	
 	public void testOpenBean() {
