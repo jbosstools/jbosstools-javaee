@@ -180,6 +180,17 @@ public class ScannerTest extends TestCase {
 			if("duplicated".equals(cs[i].getName())) duplicatedCount++;
 		}
 		assertEquals("There are 2 declarations of component \"duplicated\" in xml.", 2, duplicatedCount);
+		
+		//5. components.xml has components with different precedence.
+		ISeamComponentDeclaration c10 = findDeclaration(cs, "compWithPrecedence10");
+		assertNotNull(c10);
+		assertEquals("10", ((ISeamXmlComponentDeclaration)c10).getPrecedence());
+		ISeamComponentDeclaration cDefault = findDeclaration(cs, "compWithDefaultPrecedence");
+		assertNotNull(cDefault);
+		assertEquals("20", ((ISeamXmlComponentDeclaration)cDefault).getPrecedence());
+		ISeamComponentDeclaration c20 = findDeclaration(cs, "compWithPrecedence20");
+		assertNotNull(c20);
+		assertEquals("20", ((ISeamXmlComponentDeclaration)c20).getPrecedence());
 	}
 	
 	private ISeamComponentDeclaration findDeclaration(ISeamComponentDeclaration[] declarations, String name) {

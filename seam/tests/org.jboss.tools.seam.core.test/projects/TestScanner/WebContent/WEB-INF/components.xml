@@ -35,5 +35,9 @@
  
  <component class="java.lang.Boolean" name="duplicated"/>
  <component class="java.lang.Boolean" name="duplicated"/>
+ 
+ <component class="demo.CustomAnnotation" name="compWithPrecedence10" precedence="10"/>
+ <component class="demo.CustomAnnotation" name="compWithDefaultPrecedence"/>
+ <component class="demo.CustomAnnotation" name="compWithPrecedence20" precedence="20"/>
 
 </components>
