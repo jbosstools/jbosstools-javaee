@@ -11,10 +11,10 @@
 package org.jboss.tools.jsf.model.pv;
 
 import java.util.*;
+
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
 public class JSFProjectTagLibs extends JSFProjectResourceBundles {
@@ -38,9 +38,11 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	protected List<XModelObject> collect(Iterator<XModelObject> rs) {
 		List<XModelObject> list = super.collect(rs);
 
-		XModelObject faceletTaglib = getFaceletTaglibs();
-		if(faceletTaglib != null && faceletTaglib.getAttributeValue("uri") != null) {
-			list.add(faceletTaglib);
+		List<XModelObject> faceletTaglibs = getFaceletTaglibs();
+		if(faceletTaglibs != null) for (XModelObject faceletTaglib: faceletTaglibs) {
+			if(faceletTaglib.getAttributeValue("uri") != null) {
+				list.add(faceletTaglib);
+			}
 		}
 
 		Iterator<XModelObject> it = list.iterator();
@@ -57,7 +59,7 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 		return list;
 	}
 
-	private XModelObject getFaceletTaglibs() {
+	private List<XModelObject> getFaceletTaglibs() {
 		XModelObject webxml = getModel().getByPath("/web.xml");
 		XModelObject webRoot = FileSystemsHelper.getWebRoot(getModel());
 		if(webxml == null || webRoot == null) return null;
@@ -65,8 +67,15 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 		if(cp == null) return null;
 		String value = cp.getAttributeValue("param-value");
 		if(value == null || value.length() == 0) return null;
-		if(value.startsWith("/")) value = value.substring(1);
-		return webRoot.getChildByPath(value);
+		List<XModelObject> result = new ArrayList<XModelObject>();
+		StringTokenizer st = new StringTokenizer(value, ";,");
+		while(st.hasMoreTokens()) {
+			String path = st.nextToken();
+			if(path.startsWith("/")) path = path.substring(1);
+			XModelObject o = webRoot.getChildByPath(path);
+			if(o != null) result.add(o);
+		}
+		return result;
 	}
 
 	static String TLD_ENTITIES = ".FileTLD_PRO.FileTLD_1_2.FileTLD_2_0.FileTLD_2_1.";
@@ -78,6 +87,11 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	public static boolean isTLDFile(XModelObject o) {
 		String entity = "." + o.getModelEntity().getName();
 		return TLD_ENTITIES.indexOf(entity) >= 0;
+	}
+
+	public static boolean isFaceletTaglibFile(XModelObject o) {
+		String entity = "." + o.getModelEntity().getName();
+		return entity.startsWith("FileFaceletTaglib");
 	}
 
 	public Object getAdapter(Class adapter) {

@@ -31,6 +31,13 @@ public class JSFWebHelper {
 			new String[]{"/WEB-INF/faces-config.xml"}
 		);
 	
+	public static ConfigFilesData FACELET_TAGLIB_DATA =
+		new ConfigFilesData(
+			"facelets.LIBRARIES", 
+			new String[]{},
+			";"
+		);
+	
 	static {
 		FACES_CONFIG_DATA.usesDefaultWithoutRegistration = true;
 	}
@@ -59,6 +66,10 @@ public class JSFWebHelper {
 		unregisterConfigFile(model, path, FACES_CONFIG_DATA);
 	}
 	
+	public static void registerFaceletsTaglib(XModel model, String path) throws XModelException {
+		registerConfigFile(model, path, FACELET_TAGLIB_DATA);
+	}
+
 	public static XModelObject findInitParam(XModelObject webxml) {
 		return findInitParam(webxml, FACES_CONFIG_DATA.param);
 	}

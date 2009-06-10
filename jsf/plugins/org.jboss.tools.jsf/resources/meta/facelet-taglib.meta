@@ -608,19 +608,16 @@
      <XActionItem displayName="JSF" kind="list" name="JSF">
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.facelet.facelet-taglib"
-       PROPERTIES="entity=FileFaceletTaglib;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=FaceletTaglib"
+       PROPERTIES="entity=FileFaceletTaglib;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.jsf.model.handlers.CreateFaceletTaglibSupport;extension=xml;entityVersion=FaceletTaglib"
        displayName="Facelet Taglib" kind="action" name="CreateFaceletTaglib">
-       <EntityData EntityName="NewFileWizard">
+       <EntityData EntityName="CreateFacesConfigHelper">
         <AttributeData AttributeName="folder"/>
         <AttributeData AttributeName="separator" Mandatory="no"/>
         <AttributeData AttributeName="name"/>
         <AttributeData AttributeName="version" Mandatory="no"/>
+        <AttributeData AttributeName="register in web.xml" Mandatory="no"/>
        </EntityData>
       </XActionItem>
-      <XActionItem HandlerClassName="%WizardInvoker%"
-       ICON="action.new.facelet.facelet-taglib"
-       PROPERTIES="plugin=org.jboss.tools.jsf.ui;wizard=org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
-       displayName="Facelet Taglib" kind="action" name="CreateFaceletTaglibV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>
@@ -638,7 +635,7 @@
      <XActionItem displayName="JSF" kind="list" name="JSF">
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.facelet.facelet-taglib"
-       PROPERTIES="entity=FileFaceletTaglib;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=FileFaceletTaglib"
+       PROPERTIES="entity=FileFaceletTaglib;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.jsf.model.handlers.CreateFaceletTaglibSupport;extension=xml;entityVersion=FileFaceletTaglib"
        displayName="Facelet Taglib" kind="action" name="CreateFaceletTaglib">
        <EntityData EntityName="CreateFacesConfigHelper">
         <AttributeData AttributeName="folder"/>
@@ -648,10 +645,6 @@
         <AttributeData AttributeName="register in web.xml" Mandatory="no"/>
        </EntityData>
       </XActionItem>
-      <XActionItem HandlerClassName="%WizardInvoker%"
-       ICON="action.new.facelet.facelet-taglib"
-       PROPERTIES="plugin=org.jboss.tools.jsf.ui;wizard=org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
-       displayName="Facelet Taglib" kind="action" name="CreateFaceletTaglibV"/>
      </XActionItem>
     </XActionItem>
    </XActionItem>

@@ -341,8 +341,8 @@
 			class="org.jboss.tools.jsf.model.handlers.bean.AddManagedBeanSupport"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"
 			class="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"/>
-		<xclass id="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"
-			class="org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.CreateFaceletTaglibSupport"
+			class="org.jboss.tools.jsf.model.handlers.CreateFaceletTaglibSupport"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.AddViewSupport"
 			class="org.jboss.tools.jsf.model.handlers.AddViewSupport"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.AddEntrySupport"
