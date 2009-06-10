@@ -65,8 +65,8 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 			String entity = c.getModelEntity().getName();
 			if("FilePROPERTIES".equals(c.getModelEntity().getName())) {
 				invalidateBundles(source.getModel());
-			} else if(JSFProjectTagLibs.isTLDFile(c) || 
-                      "FileSystemJar".equals(entity)) {
+			} else if(JSFProjectTagLibs.isTLDFile(c) || JSFProjectTagLibs.isFaceletTaglibFile(c)
+                      || "FileSystemJar".equals(entity)) {
 				invalidateTagLibs(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
