@@ -10,6 +10,10 @@
   <param-name>javax.faces.CONFIG_FILES</param-name>
   <param-value>/WEB-INF/faces-config-1.xml</param-value>
  </context-param>
+ <context-param>
+  <param-name>facelets.LIBRARIES</param-name>
+  <param-value>/tags/facelet-taglib1.xml;/tags/facelet-taglib2.xml</param-value>
+ </context-param>
  <listener>
   <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
  </listener>
