@@ -21,7 +21,7 @@
  </context-param>
  <context-param>
  	<param-name>facelets.LIBRARIES</param-name>
- 	<param-value>/tags/facelets.taglib.xml</param-value>
+ 	<param-value>/tags/facelets.taglib.xml;/tags/custom.taglib.xml</param-value>
  </context-param>
  <context-param>
   <param-name>com.sun.faces.validateXml</param-name>

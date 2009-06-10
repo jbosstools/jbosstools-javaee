@@ -30,6 +30,10 @@ public class JBIDE3197Test extends ComponentContentTest {
 	public void testContentCustomTagsWithSourceSupport() throws Throwable {
 		performContentTest("correctCustomTags.xhtml"); //$NON-NLS-1$
 	}
+	
+	public void testJBIDE1593() throws Throwable {
+		performContentTest("show100.xhtml"); //$NON-NLS-1$
+	}
 
 	@Override
 	protected String getTestProjectName() {
