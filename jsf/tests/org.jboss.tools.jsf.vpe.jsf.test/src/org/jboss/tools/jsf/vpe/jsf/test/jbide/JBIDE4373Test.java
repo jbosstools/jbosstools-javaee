@@ -40,8 +40,8 @@ public class JBIDE4373Test extends VpeTest{
 	/**
 	 * OpenOn test for Custom elements
 	 */
-	
-	public void testCorrectCustomElements() throws CoreException {
+	//TODO Maksim Areshkau, uncoment when JBIDE-4213 will be fixed 
+	public void _testCorrectCustomElements() throws CoreException {
 
 		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "correctCustomTags.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 8);
@@ -62,7 +62,8 @@ public class JBIDE4373Test extends VpeTest{
 	/**
 	 * test openOn for undefined template
 	 */
-	public void testIncorrectCustomElements() throws CoreException {
+	//TODO Maksim Areshkau, uncoment when JBIDE-4213 will be fixed 
+	public void _testIncorrectCustomElements() throws CoreException {
 		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "incorrectCustomTags.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 9, 6);
 		
