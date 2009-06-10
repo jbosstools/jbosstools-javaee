@@ -124,7 +124,7 @@ public class SeamXmlComponentDeclaration extends SeamPropertiesDeclaration
 	public void setPrecedence(String precedence) {
 		this.precedence = precedence;
 		if(precedence == null || precedence.length() == 0) {
-			precedence = "20";
+			this.precedence = "20";
 		}
 	}
 
