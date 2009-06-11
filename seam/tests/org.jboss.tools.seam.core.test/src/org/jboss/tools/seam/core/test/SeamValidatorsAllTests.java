@@ -15,8 +15,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.test.util.JUnitUtils;

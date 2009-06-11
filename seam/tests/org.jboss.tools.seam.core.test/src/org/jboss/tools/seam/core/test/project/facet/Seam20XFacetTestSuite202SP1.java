@@ -10,9 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test.project.facet;
 
-import junit.framework.TestSuite;
-
-
 /**
  * @author eskimo
  *

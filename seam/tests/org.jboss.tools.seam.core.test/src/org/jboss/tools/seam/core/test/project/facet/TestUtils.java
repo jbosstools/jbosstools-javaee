@@ -1,13 +1,8 @@
 package org.jboss.tools.seam.core.test.project.facet;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
