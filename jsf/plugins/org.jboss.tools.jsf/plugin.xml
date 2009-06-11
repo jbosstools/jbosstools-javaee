@@ -321,6 +321,8 @@
 			class="org.jboss.tools.jsf.model.pv.JSFPromptingProvider"/>
 		<xclass id="org.jboss.tools.jsf.model.pv.handler.JSFProjectsConfigurationRedirectHandler"
 			class="org.jboss.tools.jsf.model.pv.handler.JSFProjectsConfigurationRedirectHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.pv.handler.CreateBeanRedirectHandler"
+			class="org.jboss.tools.jsf.model.pv.handler.CreateBeanRedirectHandler"/>
 		<xclass id="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
 			class="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"/>
 		<xclass id="org.jboss.tools.jsf.project.capabilities.JSFCapabilities"

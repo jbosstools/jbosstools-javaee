@@ -143,6 +143,14 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.pv.handler.CreateBeanRedirectHandler"
+     ICON="main.jsf.bean"
+     PROPERTIES="actionpath=CreateActions/AddManagedBean"
+     displayName="Managed Bean..." kind="action" name="CreateBean"/>
+   </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HIDE="always" displayName="Help" kind="action" name="Help"/>
    </XActionItem>
