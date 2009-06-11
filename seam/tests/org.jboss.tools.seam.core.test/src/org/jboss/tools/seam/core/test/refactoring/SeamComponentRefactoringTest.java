@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
@@ -46,6 +47,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 
 	private void loadProjects() throws Exception {
 		earProject = ProjectImportTestSetup.loadProject(earProjectName);
+		earProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		ejbProject = ProjectImportTestSetup.loadProject(ejbProjectName);
 		warProject = ProjectImportTestSetup.loadProject(warProjectName);
 		seamEjbProject = loadSeamProject(ejbProject);
@@ -116,11 +118,24 @@ public class SeamComponentRefactoringTest extends TestCase {
 		structure.addTextChange(change);
 		list.add(structure);
 
-		renameComponent(seamEjbProject, "test", "best", list);
+		renameComponent(seamEjbProject, "test", "best", list, false);
+	}
+	
+	public void testJBIDE4447() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml");
+		TestTextChange change = new TestTextChange(2345, 41, "name=\"org.jboss.seam.mail.newMailSession\"");
+		structure.addTextChange(change);
+		
+		list.add(structure);
+
+		renameComponent(seamWarProject, "org.jboss.seam.mail.mailSession", "org.jboss.seam.mail.newMailSession", list, true);
 	}
 
-	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList) throws CoreException{
-		JobUtils.waitForIdle();
+	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList, boolean fromJar) throws CoreException{
+		JobUtils.waitForIdle(2000);
+
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);
 		assertNotNull("Can't load component " + componentName, component);
@@ -148,19 +163,17 @@ public class SeamComponentRefactoringTest extends TestCase {
 			
 			TestChangeStructure change = findChange(changeList, fileChange.getFile());
 			if(change != null){
-//				if(change.size() != edit.getChildrenSize()){
-//					System.out.println("File - "+fileChange.getFile().getName());
-//					System.out.println("Edit size - "+edit.getChildrenSize());
-//				}
 				assertEquals(change.size(), edit.getChildrenSize());
 			}
 		}
 
 		rootChange.perform(new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		JobUtils.waitForIdle(2000);
+		
 
 		// Test results
-		assertNull("There is unexpected component in seam project: " + componentName, seamProject.getComponent(componentName));
+		if(!fromJar)
+			assertNull("There is unexpected component in seam project: " + componentName, seamProject.getComponent(componentName));
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
