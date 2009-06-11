@@ -18,6 +18,9 @@ import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
+import org.eclipse.jst.j2ee.project.EarUtilities;
+import org.eclipse.jst.j2ee.project.JavaEEProjectUtilities;
+import org.eclipse.jst.j2ee.project.WebUtilities;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualReference;
@@ -205,7 +208,7 @@ public class SeamUtil {
 			}
 		}
 		if(searchInEARs) {
-			referencing = J2EEProjectUtilities.getReferencingEARProjects(project);
+			referencing = EarUtilities.getReferencingEARProjects(project);
 			for (int i = 0; i < referencing.length; i++) {
 				ISeamProject seamProject = findReferencingSeamWarProjectForProject(referencing[i], false);
 				if(seamProject!=null) {
@@ -218,7 +221,7 @@ public class SeamUtil {
 				refComponents = comp.getReferences();
 				for (IVirtualReference virtualReference : refComponents) {
 					IVirtualComponent component = virtualReference.getReferencedComponent();
-					if(component!=null && !component.isBinary() && J2EEProjectUtilities.isDynamicWebComponent(component)) {
+					if(component!=null && !component.isBinary() && WebUtilities.isDynamicWebComponent(component)) {
 						ISeamProject seamProject = SeamCorePlugin.getSeamProject(component.getProject(), false);
 						if(seamProject!=null) {
 							return seamProject;
