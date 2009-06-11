@@ -34,7 +34,7 @@
 .rich-page-body {
 	float: none;
 	width: auto;
-	position: static;
+	/*position: static;*/
 }
 
 .rich-page-footer {

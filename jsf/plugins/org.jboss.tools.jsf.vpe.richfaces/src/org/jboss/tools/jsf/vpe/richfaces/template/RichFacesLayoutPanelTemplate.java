@@ -13,9 +13,6 @@ import org.w3c.dom.Node;
 
 public class RichFacesLayoutPanelTemplate extends VpeAbstractTemplate {
 
-	private static final String FLOAT_LEFT_STYLE = ";float: left;"; //$NON-NLS-1$
-	private static final String FLOAT_RIGHT_STYLE = ";float: right;"; //$NON-NLS-1$
-	
 	/**
 	 * Constructor
 	 */
@@ -29,23 +26,6 @@ public class RichFacesLayoutPanelTemplate extends VpeAbstractTemplate {
 		Element sourceElement = (Element)sourceNode;
 		nsIDOMElement mainDiv = visualDocument.createElement(HTML.TAG_DIV);
 		String style = sourceElement.getAttribute(HTML.ATTR_STYLE);
-		String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);
-		String position = sourceElement.getAttribute(RichFaces.ATTR_POSITION);
-		if (ComponentUtil.isNotBlank(width)) {
-			mainDiv.setAttribute(HTML.ATTR_WIDTH, width);
-			style += ";width: " + width + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		if (RichFaces.VALUE_LEFT.equalsIgnoreCase(position)
-				|| RichFaces.VALUE_CENTER.equalsIgnoreCase(position)) {
-			style += FLOAT_LEFT_STYLE;
-		} else if (RichFaces.VALUE_RIGHT.equalsIgnoreCase(position)) {
-			style += FLOAT_RIGHT_STYLE;
-		} else if (RichFaces.VALUE_BOTTOM.equalsIgnoreCase(position)) {
-			nsIDOMElement bottomDiv = visualDocument.createElement(HTML.TAG_DIV);
-			bottomDiv.setAttribute(HTML.ATTR_STYLE, "display: block; height: 0; clear: both; visibility: hidden;"); //$NON-NLS-1$
-			bottomDiv.appendChild(visualDocument.createTextNode(".")); //$NON-NLS-1$
-			mainDiv.appendChild(bottomDiv);
-		}
 		if (ComponentUtil.isNotBlank(style)) {
 			mainDiv.setAttribute(HTML.ATTR_STYLE, style);
 		}

@@ -1,7 +1,5 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-import java.math.BigDecimal;
-
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -183,7 +181,7 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 			String sidebarStyle = Constants.EMPTY;
 			String pageMainDivStyle = Constants.EMPTY;
 			String pageBodyStyle = Constants.EMPTY;
-			double widthDouble = parseWidth(attrs.getSidebarWidth());
+			double widthDouble = ComponentUtil.parseWidth(attrs.getSidebarWidth());
 			if (widthDouble != -1) {
 				sidebarStyle += Constants.WHITE_SPACE + "; width: " + widthDouble + "em;"; //$NON-NLS-1$ //$NON-NLS-2$
 			}			
@@ -256,36 +254,6 @@ public class RichFacesPageTemplate extends VpeAbstractTemplate {
 		}
 		
 		return creationData;
-	}
-	
-	/**
-	 * Parses string width value from 'px' into 'em'.
-	 * 
-	 * @param widthAttribute width attribute value.
-	 * @return width value in 'em' or -1 if the value wasn't parsed.
-	 */
-	private double parseWidth(String widthAttribute) {
-		double widthDouble = -1;
-		if (ComponentUtil.isNotBlank(widthAttribute)) {
-			try {
-				int widthInt = Integer.parseInt(widthAttribute);
-				/*
-				 * Parse 'px' to 'em'.
-				 */
-				widthDouble = widthInt / 13.33333;
-				/*
-				 * Set Double fraction precision to 5 numbers.
-				 */
-				BigDecimal b = new BigDecimal(widthDouble).setScale(5,
-						BigDecimal.ROUND_HALF_UP);
-				widthDouble = b.doubleValue();
-			} catch (NumberFormatException e) {
-				/*
-				 * Do nothing, default width will be applied.
-				 */
-			}
-		}
-		return widthDouble;
 	}
 	
 	class Attributes {

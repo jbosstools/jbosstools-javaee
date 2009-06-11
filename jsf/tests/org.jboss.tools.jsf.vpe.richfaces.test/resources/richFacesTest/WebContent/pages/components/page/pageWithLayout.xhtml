@@ -15,7 +15,7 @@
 	sidebarClass="sidebarClass"
 	sidebarPosition="right"
 	sidebarWidth="200"
-	width="800"	
+	width="1000"	
 	theme=""
 	style="background-color: white;"
 	styleClass="styleClass"
@@ -122,20 +122,62 @@
 	<h1>BODY START</h1>
 	
 	<rich:layout style="border: 1px solid black;" id="id2">
-		<rich:layoutPanel position="top" width="100%"  id="id3">
-			<h:outputText value="TOP PANEL" />
+		<rich:layoutPanel position="bottom" id="id3">
+			<h:outputText value="BOTTOM PANEL" />
 		</rich:layoutPanel> 
-		<rich:layoutPanel position="left" width="50%">
-			<h:outputText value="LEFT PANEL" />
-		</rich:layoutPanel>
-		<rich:layoutPanel position="center" width="50%" id="id4">
+		<rich:layoutPanel position="center" width="75%" id="id4">
 			<h:outputText value="CENTER PANEL" style="font-size: 2em;"/>
 		</rich:layoutPanel>
-		<rich:layoutPanel position="bottom">
-			<h:outputText value="BOTTOM PANEL" />
+		<rich:layoutPanel position="right" width="10%">
+			<h:outputText value="RIGHT PANEL" />
 		</rich:layoutPanel>
+		<rich:layoutPanel position="left" width="15%">
+			<h:outputText value="LEFT PANEL" />
+		</rich:layoutPanel>
+		<rich:layoutPanel position="top" width="100%">
+			<h:outputText value="TOP PANEL" />
+		</rich:layoutPanel> 
 	</rich:layout>
 	
+	<h1>SECOND PART</h1>
+	
+	<rich:layout style="border: 1px solid black;" id="id5">
+		<rich:layoutPanel position="bottom" width="100%" id="id6">
+			<h:outputText value="BOTTOM PANEL" />
+		</rich:layoutPanel> 
+		<rich:layoutPanel position="center" width="35%" id="id7">
+			<h:outputText value="CENTER PANEL" style="font-size: 2em;"/>
+		</rich:layoutPanel>
+		<rich:layoutPanel position="right" >
+			<h:outputText value="RIGHT PANEL" />
+		</rich:layoutPanel>
+		<rich:layoutPanel position="left" width="25%">
+			<h:outputText value="LEFT PANEL" />
+		</rich:layoutPanel>
+		<rich:layoutPanel position="top" width="100%">
+			<h:outputText value="TOP PANEL" />
+		</rich:layoutPanel> 
+	</rich:layout>
+	
+	<h1>THIRD PART</h1>
+	
+	<rich:layout style="border: 1px solid black;" id="id8">
+		<rich:layoutPanel position="bottom" width="100%" id="id9">
+			<h:outputText value="BOTTOM PANEL" />
+		</rich:layoutPanel> 
+		<rich:layoutPanel position="center" width="65%" id="id10">
+			<h:outputText value="CENTER PANEL" style="font-size: 2em;"/>
+		</rich:layoutPanel>
+		<rich:layoutPanel position="right" >
+			<h:outputText value="RIGHT PANEL" />
+		</rich:layoutPanel>
+		<rich:layoutPanel position="left">
+			<h:outputText value="LEFT PANEL" />
+		</rich:layoutPanel>
+		<rich:layoutPanel position="top" width="100%">
+			<h:outputText value="TOP PANEL" />
+		</rich:layoutPanel> 
+	</rich:layout>
 </rich:page>
 
 

@@ -1,6 +1,7 @@
 <tests>
 	<test id="id1">
-		<DIV STYLE="width: 600px; background-color: white;" CLASS="rich-page someClass">
+
+		<DIV CLASS="rich-page someClass" STYLE="width: 800px; background-color: white;">
 			<DIV CLASS="rich-page-header">
 				<DIV CLASS="rich-page-header-content">
 					<SPAN STYLE="font-size: 2em;">
@@ -14,99 +15,143 @@
 				</SPAN>
 			</DIV>
 			<DIV CLASS="rich-page-content">
-				<DIV CLASS="rich-page-sidebar">
+				<DIV CLASS="rich-page-sidebar" STYLE="width: 15em; float: right;">
 					<SPAN STYLE="font-size: 2em;">
 						SIDEBAR
 					</SPAN>
 				</DIV>
-				<DIV CLASS="rich-page-main">
-					<DIV CLASS="rich-page-body">
+				<DIV CLASS="rich-page-main" STYLE="float: left; margin-right: -30em;">
+					<DIV CLASS="rich-page-body" STYLE="margin-right: 15em;">
 						<H1 STYLE="-moz-user-modify: read-write;">
 							<SPAN CLASS="vpe-text">
 								BODY START
 							</SPAN>
 						</H1>
-						<DIV STYLE="border: 1px solid black; background-color: white;"
-							>
-							<DIV WIDTH="100%" STYLE="width: 100%;">
-								<SPAN CLASS="vpe-text">
-									TOP PANEL
-								</SPAN>
-							</DIV>
-							<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-								<SPAN CLASS="vpe-text">
-									LEFT PANEL
-								</SPAN>
-							</DIV>
-							<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-								<H1 STYLE="-moz-user-modify: read-write;">
+						<DIV STYLE="border: 1px solid black; background-color: lime;">
+							<DIV WIDTH="80em" STYLE="">
+								<DIV >
 									<SPAN CLASS="vpe-text">
-										CENTER PANEL 1
+										TOP PANEL 11111
 									</SPAN>
-								</H1>
-								<DIV STYLE="border: 1px solid black;">
-									<DIV WIDTH="100%" STYLE="width: 100%;">
+								</DIV>
+							</DIV>
+							<DIV WIDTH="40%" STYLE="float: left; width: 32.34%;">
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										LEFT PANEL 11111
+									</SPAN>
+								</DIV>
+							</DIV>
+							<DIV WIDTH="30%" STYLE="float: left; width: 32.34%;">
+								<DIV>
+									<H1 STYLE="-moz-user-modify: read-write;">
 										<SPAN CLASS="vpe-text">
-											TOP PANEL
-										</SPAN>
-									</DIV>
-									<DIV WIDTH="25%" STYLE="width: 25%; float: left;">
-										<SPAN CLASS="vpe-text">
-											LEFT PANEL
-										</SPAN>
-									</DIV>
-									<DIV WIDTH="75%" STYLE="width: 75%; float: left;">
-										<H1 STYLE="-moz-user-modify: read-write;">
-											<SPAN CLASS="vpe-text">
-												CENTER PANEL 2
-											</SPAN>
-										</H1>
-										<DIV STYLE="border: 1px solid black;">
-											<DIV WIDTH="100%" STYLE="width: 100%;">
+											CENTER PANEL 11111
+									</SPAN>
+									</H1>
+									<!-- FIRST NESTED LAYOUT -->
+									<DIV STYLE="border: 1px solid black; background-color: green;" >
+										<DIV WIDTH="100%" STYLE="">
+											<DIV>
 												<SPAN CLASS="vpe-text">
-													TOP PANEL
+													TOP PANEL 222222
+									</SPAN>
+											</DIV>
+										</DIV>
+										<DIV WIDTH="15%" STYLE="float: left; width: 32.34%;">
+											<DIV >
+												<SPAN CLASS="vpe-text">
+													LEFT PANEL 222222
+												</SPAN>
+												<!-- SECOND NESTED LAYOUT -->
+												<DIV STYLE="border: 1px solid black; background-color: aqua;">
+													<DIV WIDTH="100%" STYLE="">
+														<DIV>
+															<SPAN CLASS="vpe-text">
+																TOP PANEL 33333
+															</SPAN>
+														</DIV>
+													</DIV>
+													<DIV WIDTH="15%" STYLE="float: left; width: 32.34%;">
+														<DIV>
+															<SPAN CLASS="vpe-text">
+																LEFT PANEL 33333
+															</SPAN>
+														</DIV>
+													</DIV>
+													<DIV WIDTH="75%" STYLE="float: left; width: 32.34%;">
+														<DIV>
+															<SPAN STYLE="font-size: 2em;">
+																CENTER PANEL 33333
+															</SPAN>
+														</DIV>
+													</DIV>
+													<DIV WIDTH="10%" STYLE="float: right; width: 32.34%;">
+														<DIV>
+															<SPAN CLASS="vpe-text">
+																RIGHT PANEL 33333
+															</SPAN>
+														</DIV>
+													</DIV>
+													<DIV WIDTH="100%" STYLE="">
+														<DIV
+															STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+															.
+														</DIV>
+														<DIV>
+															<SPAN CLASS="vpe-text">
+																BOTTOM PANEL 33333
+															</SPAN>
+														</DIV>
+													</DIV>
+												</DIV>
+											</DIV>
+										</DIV>
+										<DIV WIDTH="75%" STYLE="float: left; width: 32.34%;">
+											<DIV >
+												<SPAN STYLE="font-size: 2em;" >
+													CENTER PANEL 222222
 												</SPAN>
 											</DIV>
-											<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
+										</DIV>
+										<DIV WIDTH="10%" STYLE="float: right; width: 32.34%;">
+											<DIV>
 												<SPAN CLASS="vpe-text">
-													LEFT PANEL
+													RIGHT PANEL 222222
 												</SPAN>
 											</DIV>
-											<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-												<SPAN STYLE="font-size: 2em;">
-													CENTER PANEL 3
-												</SPAN>
+										</DIV>
+										<DIV WIDTH="100%" STYLE="">
+											<DIV
+												STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+												.
 											</DIV>
 											<DIV>
-												<DIV
-													STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
-													.
-												</DIV>
 												<SPAN CLASS="vpe-text">
-													BOTTOM PANEL
+													BOTTOM PANEL 222222
 												</SPAN>
 											</DIV>
 										</DIV>
-									</DIV>
-									<DIV>
-										<DIV
-											STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
-											.
-										</DIV>
-										<SPAN CLASS="vpe-text">
-											BOTTOM PANEL
-										</SPAN>
 									</DIV>
 								</DIV>
 							</DIV>
-							<DIV>
+							<DIV WIDTH="40%" STYLE="float: right; width: 32.34%;">
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										RIGHT PANEL 11111
+									</SPAN>
+								</DIV>
+							</DIV>
+							<DIV WIDTH="300" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
 								</DIV>
-								<SPAN CLASS="vpe-text">
-									BOTTOM PANEL
-								</SPAN>
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										BOTTOM PANEL 11111
+									</SPAN>
+								</DIV>
 							</DIV>
 						</DIV>
 					</DIV>
@@ -122,121 +167,98 @@
 		</DIV>
 	</test>
 	<test id="id2">
-	<DIV STYLE="border: 1px solid black;">
-		<DIV WIDTH="100%" STYLE="width: 100%;">
-			<SPAN CLASS="vpe-text">
-				TOP PANEL
-			</SPAN>
-		</DIV>
-		<DIV WIDTH="25%" STYLE="width: 25%; float: left;">
-			<SPAN CLASS="vpe-text">
-				LEFT PANEL
-			</SPAN>
-		</DIV>
-		<DIV WIDTH="75%" STYLE="width: 75%; float: left;">
+
+		<DIV >
 			<H1 STYLE="-moz-user-modify: read-write;">
 				<SPAN CLASS="vpe-text">
-					CENTER PANEL 2
-			</SPAN>
+					CENTER PANEL 11111
+				</SPAN>
 			</H1>
-			<DIV STYLE="border: 1px solid black;">
-				<DIV WIDTH="100%" STYLE="width: 100%;">
-					<SPAN CLASS="vpe-text">
-						TOP PANEL
-					</SPAN>
+			<!-- FIRST NESTED LAYOUT -->
+			<DIV STYLE="border: 1px solid black; background-color: green;" >
+				<DIV WIDTH="100%" STYLE="">
+					<DIV>
+						<SPAN CLASS="vpe-text">
+							TOP PANEL 222222
+						</SPAN>
+					</DIV>
 				</DIV>
-				<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-					<SPAN CLASS="vpe-text">
-						LEFT PANEL
-					</SPAN>
+				<DIV WIDTH="15%" STYLE="float: left; width: 32.34%;">
+					<DIV >
+						<SPAN CLASS="vpe-text">
+							LEFT PANEL 222222
+						</SPAN>
+						<!-- SECOND NESTED LAYOUT -->
+						<DIV STYLE="border: 1px solid black; background-color: aqua;">
+							<DIV WIDTH="100%" STYLE="">
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										TOP PANEL 33333
+									</SPAN>
+								</DIV>
+							</DIV>
+							<DIV WIDTH="15%" STYLE="float: left; width: 32.34%;">
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										LEFT PANEL 33333
+									</SPAN>
+								</DIV>
+							</DIV>
+							<DIV WIDTH="75%" STYLE="float: left; width: 32.34%;">
+								<DIV>
+									<SPAN STYLE="font-size: 2em;">
+										CENTER PANEL 33333
+									</SPAN>
+								</DIV>
+							</DIV>
+							<DIV WIDTH="10%" STYLE="float: right; width: 32.34%;">
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										RIGHT PANEL 33333
+									</SPAN>
+								</DIV>
+							</DIV>
+							<DIV WIDTH="100%" STYLE="">
+								<DIV
+									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
+									.
+								</DIV>
+								<DIV>
+									<SPAN CLASS="vpe-text">
+										BOTTOM PANEL 33333
+									</SPAN>
+								</DIV>
+							</DIV>
+						</DIV>
+					</DIV>
 				</DIV>
-				<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-					<SPAN STYLE="font-size: 2em;">
-						CENTER PANEL 3
-					</SPAN>
+				<DIV WIDTH="75%" STYLE="float: left; width: 32.34%;">
+					<DIV >
+						<SPAN STYLE="font-size: 2em;" >
+							CENTER PANEL 222222
+						</SPAN>
+					</DIV>
 				</DIV>
-				<DIV>
+				<DIV WIDTH="10%" STYLE="float: right; width: 32.34%;">
+					<DIV>
+						<SPAN CLASS="vpe-text">
+							RIGHT PANEL 222222
+						</SPAN>
+					</DIV>
+				</DIV>
+				<DIV WIDTH="100%" STYLE="">
 					<DIV
 						STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 						.
 					</DIV>
-					<SPAN CLASS="vpe-text">
-						BOTTOM PANEL
-					</SPAN>
-				</DIV>
-			</DIV>
-		</DIV>
-		<DIV>
-			<DIV STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
-				.
-			</DIV>
-			<SPAN CLASS="vpe-text">
-				BOTTOM PANEL
-			</SPAN>
-		</DIV>
-	</DIV>
-</test>
-	<test id="id3">
-
-	<DIV WIDTH="50%" STYLE="width: 50%; float: left;" >
-		<H1 STYLE="-moz-user-modify: read-write;">
-			<SPAN CLASS="vpe-text">
-				CENTER PANEL 1
-			</SPAN>
-		</H1>
-		<DIV STYLE="border: 1px solid black;" >
-			<DIV WIDTH="100%" STYLE="width: 100%;">
-				<SPAN CLASS="vpe-text">
-					TOP PANEL
-				</SPAN>
-			</DIV>
-			<DIV WIDTH="25%" STYLE="width: 25%; float: left;">
-				<SPAN CLASS="vpe-text">
-					LEFT PANEL
-				</SPAN>
-			</DIV>
-			<DIV WIDTH="75%" STYLE="width: 75%; float: left;">
-				<H1 STYLE="-moz-user-modify: read-write;">
-					<SPAN CLASS="vpe-text">
-						CENTER PANEL 2
-				</SPAN>
-				</H1>
-				<DIV STYLE="border: 1px solid black;">
-					<DIV WIDTH="100%" STYLE="width: 100%;">
-						<SPAN CLASS="vpe-text">
-							TOP PANEL
-						</SPAN>
-					</DIV>
-					<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-						<SPAN CLASS="vpe-text">
-							LEFT PANEL
-						</SPAN>
-					</DIV>
-					<DIV WIDTH="50%" STYLE="width: 50%; float: left;">
-						<SPAN STYLE="font-size: 2em;">
-							CENTER PANEL 3
-						</SPAN>
-					</DIV>
 					<DIV>
-						<DIV
-							STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
-							.
-						</DIV>
 						<SPAN CLASS="vpe-text">
-							BOTTOM PANEL
+							BOTTOM PANEL 222222
 						</SPAN>
 					</DIV>
 				</DIV>
 			</DIV>
-			<DIV>
-				<DIV STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
-					.
-				</DIV>
-				<SPAN CLASS="vpe-text">
-					BOTTOM PANEL
-				</SPAN>
-			</DIV>
 		</DIV>
-	</DIV>
-</test>
+	</test>
+
 </tests>	

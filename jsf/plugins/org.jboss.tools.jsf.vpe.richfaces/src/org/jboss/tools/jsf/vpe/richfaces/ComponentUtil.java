@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.richfaces;
 
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -937,5 +938,35 @@ public class ComponentUtil {
 			}
 		}
 		return columnsWithFacet;
+	}
+	
+	/**
+	 * Parses string width value from 'px' into 'em'.
+	 * 
+	 * @param widthAttribute width attribute value.
+	 * @return width value in 'em' or -1 if the value wasn't parsed.
+	 */
+	public static double parseWidth(String widthAttribute) {
+		double widthDouble = -1;
+		if (ComponentUtil.isNotBlank(widthAttribute)) {
+			try {
+				int widthInt = Integer.parseInt(widthAttribute);
+				/*
+				 * Parse 'px' to 'em'.
+				 */
+				widthDouble = widthInt / 13.33333;
+				/*
+				 * Set Double fraction precision to 5 numbers.
+				 */
+				BigDecimal b = new BigDecimal(widthDouble).setScale(5,
+						BigDecimal.ROUND_HALF_UP);
+				widthDouble = b.doubleValue();
+			} catch (NumberFormatException e) {
+				/*
+				 * Do nothing, default width will be applied.
+				 */
+			}
+		}
+		return widthDouble;
 	}
 }
