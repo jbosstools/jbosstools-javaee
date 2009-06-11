@@ -238,7 +238,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			}
 
 			//TODO do we have and need seam project here?
-			SeamELCompletionEngine engine = new SeamELCompletionEngine(null);
+			SeamELCompletionEngine engine = new SeamELCompletionEngine();
 			ELInvocationExpression tokens = engine.findExpressionAtOffset(document, offset, start, end);
 			if (tokens == null /*|| tokens.size() == 0*/)
 				return null; // No EL Operand found
@@ -304,7 +304,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			if (seamProject == null)
 				return null;
 
-			SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+			SeamELCompletionEngine engine = new SeamELCompletionEngine();
 
 			String prefix = propText;
 			ELExpression expr = engine.parseOperand(prefix);
@@ -391,7 +391,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			if (seamProject == null)
 				return null;
 
-			SeamELCompletionEngine engine= new SeamELCompletionEngine(seamProject);
+			SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
 			String prefix = propText;
 			ELExpression exp = engine.parseOperand(prefix);
@@ -427,7 +427,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			if (expr.getLeft() != null) {
 				while (left != null) {
 					List<ISeamContextVariable> resolvedVars = new ArrayList<ISeamContextVariable>();
-					resolvedVars = engine.resolveVariables(scope, left,
+					resolvedVars = engine.resolveVariables(seamProject, scope, left,
 							left == expr, true);
 					if (resolvedVars != null && !resolvedVars.isEmpty()) {
 						map.put(left, resolvedVars);
@@ -482,7 +482,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			if (seamProject == null)
 				return null;
 
-			SeamELCompletionEngine engine= new SeamELCompletionEngine(seamProject);
+			SeamELCompletionEngine engine= new SeamELCompletionEngine();
 
 			String prefix = propText;
 			ELExpression exp = engine.parseOperand(prefix);

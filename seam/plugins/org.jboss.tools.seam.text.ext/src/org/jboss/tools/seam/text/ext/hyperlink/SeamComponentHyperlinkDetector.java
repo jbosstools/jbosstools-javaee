@@ -86,7 +86,7 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 			return null;
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(input.getResource().getProject(), true);
-		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
 		
 		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 		IRegion wordRegion= JavaWordFinder.findWord(document, offset);

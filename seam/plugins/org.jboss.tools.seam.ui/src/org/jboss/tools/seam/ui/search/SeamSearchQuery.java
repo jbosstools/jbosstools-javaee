@@ -269,7 +269,7 @@ public class SeamSearchQuery implements ISearchQuery {
 		if (seamProject == null)
 			return Status.OK_STATUS;
 
-		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
 		
 //		List<IJavaElement> elements = engine.getJavaElementsForELOperandTokens(seamProject, fSourceFile, fTokens)
 		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
@@ -285,7 +285,7 @@ public class SeamSearchQuery implements ISearchQuery {
 		if (seamProject == null)
 			return Status.OK_STATUS;
 
-		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
 		
 		SeamSearchResultCollector collector= new SeamSearchResultCollector(textResult, getParentRequestor());
 		return SeamSearchEngine.getInstance().search(fScope, collector, fSourceFile, fJavaElements, monitor);

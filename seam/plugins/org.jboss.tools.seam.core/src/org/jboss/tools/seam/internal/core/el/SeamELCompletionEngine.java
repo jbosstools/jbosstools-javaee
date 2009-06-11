@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -85,14 +86,13 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 	private static final Image SEAM_MESSAGES_PROPOSAL_IMAGE = 
 		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_MESSAGES_IMAGE_PATH);
 	
-	ISeamProject project;
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
 	/**
 	 * Constructs SeamELCompletionEngine object
 	 */
-	public SeamELCompletionEngine(ISeamProject project) {
-		this.project = project;
+	public SeamELCompletionEngine() {
+		
 	}
 
 	/*
@@ -288,7 +288,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 
 	public ELExpression parseOperand(String operand) {
 		if(operand == null) return null;
-		String el = (operand.indexOf("#{") < 0) ? "#{" + operand + "}" : operand;
+		String el = (operand.indexOf("#{") < 0 && operand.indexOf("${") < 0) ? "#{" + operand + "}" : operand;
 		ELParser p = factory.createParser();
 		ELModel model = p.parse(el);
 		List<ELInstance> is = model.getInstances();
@@ -345,11 +345,11 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		ScopeType scope = getScope(project, file);
 
 		if (expr.getLeft() == null && isIncomplete) {
-			resolvedVariables = resolveVariables(scope, expr, true, true);
+			resolvedVariables = resolveVariables(project, scope, expr, true, true);
 		} else {
 			while (left != null) {
 				List<ISeamContextVariable> resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = resolveVariables(scope, left,
+				resolvedVars = resolveVariables(project, scope, left,
 						left == expr, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
@@ -369,27 +369,36 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 
 	public SeamELOperandResolveStatus resolveELOperand(IFile file, ELExpression operand,  
 			boolean returnEqualedVariablesOnly, boolean varIsUsed) throws BadLocationException, StringIndexOutOfBoundsException {
-		if(!(operand instanceof ELInvocationExpression)) {
+		if(!(operand instanceof ELInvocationExpression) || file == null) {
 			return new SeamELOperandResolveStatus(null);
 		}
+		
 		
 		ELInvocationExpression expr = (ELInvocationExpression)operand;
 		boolean isIncomplete = expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION 
 			&& ((ELPropertyInvocation)expr).getName() == null;
-
+		boolean isArgument = expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION;
+		
 		SeamELOperandResolveStatus status = new SeamELOperandResolveStatus(expr);
 		ELInvocationExpression left = expr;
 
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
+		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), false);
 		ScopeType scope = getScope(project, file);
 
-		if (expr.getLeft() == null && isIncomplete) {
-			resolvedVariables = resolveVariables(scope, expr, true, 
+		if (expr.getLeft() != null && isArgument) {
+			left = expr.getLeft();
+			resolvedVariables = resolveVariables(project, scope, left, false, 
+					true); 	// is Final and equal names are because of 
+							// we have no more to resolve the parts of expression, 
+							// but we have to resolve arguments of probably a message component
+		} else if (expr.getLeft() == null && isIncomplete) {
+			resolvedVariables = resolveVariables(project, scope, expr, true, 
 					returnEqualedVariablesOnly);
 		} else {
 			while(left != null) {
 				List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = resolveVariables(scope, 
+				resolvedVars = resolveVariables(project, scope, 
 						left, left == expr, 
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -412,7 +421,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 				isIncomplete) {
 			// no vars are resolved 
 			// the tokens are the part of var name ended with a separator (.)
-			resolvedVariables = resolveVariables(scope, expr, true, returnEqualedVariablesOnly);			
+			resolvedVariables = resolveVariables(project, scope, expr, true, returnEqualedVariablesOnly);			
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 			for (ISeamContextVariable var : resolvedVariables) {
 				String varName = var.getName();
@@ -722,14 +731,19 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 			}
 
 			String filter = expr.getMemberName();
-			if(filter == null) filter = "";
-			if((filter.startsWith("'") || filter.startsWith("\""))
-				&& (filter.endsWith("'") || filter.endsWith("\""))) {
-				filter = filter.substring(1, filter.length() - 1);
+			boolean bSurroundWithQuotes = false;
+			if(filter == null) {
+				filter = "";
+				bSurroundWithQuotes = true;
 			} else {
-				//Value is set as expression itself, we cannot compute it
-				if(isMessages) status.setMapOrCollectionOrBundleAmoungTheTokens();
-				return;
+				if((filter.startsWith("'") || filter.startsWith("\""))
+					&& (filter.endsWith("'") || filter.endsWith("\""))) {
+					filter = filter.substring(1, filter.length() - 1);
+				} else {
+					//Value is set as expression itself, we cannot compute it
+					if(isMessages) status.setMapOrCollectionOrBundleAmoungTheTokens();
+					return;
+				}
 			}
 			
 			for (TypeInfoCollector.MemberPresentation proposal : proposalsToFilter) {
@@ -760,7 +774,13 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 				} else if (proposal.getPresentation().startsWith(filter)) {
 					// This is used for CA.
 					TextProposal kbProposal = new TextProposal();
-					kbProposal.setReplacementString(proposal.getPresentation().substring(filter.length()));
+					
+					String replacementString = proposal.getPresentation().substring(filter.length());
+					if (bSurroundWithQuotes) {
+						replacementString = "'" + replacementString + "']";
+					}
+					
+					kbProposal.setReplacementString(replacementString);
 					kbProposal.setImage(SEAM_EL_PROPOSAL_IMAGE);
 					
 					kbProposals.add(kbProposal);
@@ -828,9 +848,17 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		return null;
 	}
 
-	public List<ISeamContextVariable> resolveVariables(ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+
+	
+	
+	public List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
+		
+		if (project == null)
+			return new ArrayList<ISeamContextVariable>(); 
+		
 		String varName = expr.toString();
+
 		if (varName != null) {
 			resolvedVars = SeamExpressionResolver.resolveVariables(project, scope, varName, onlyEqualNames);
 		}
@@ -851,7 +879,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		}
 		else if(varName != null && (varName.startsWith("\"") || varName.startsWith("'"))
 								&& (varName.endsWith("\"") || varName.endsWith("'"))) {
-			IJavaProject jp = EclipseResourceUtil.getJavaProject(this.project.getProject());
+			IJavaProject jp = EclipseResourceUtil.getJavaProject(project.getProject());
 			try {
 				IType type = jp.findType("java.lang.String");
 				if(type != null) {

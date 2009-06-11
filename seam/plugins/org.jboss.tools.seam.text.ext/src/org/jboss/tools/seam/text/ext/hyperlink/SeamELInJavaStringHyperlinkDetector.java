@@ -116,7 +116,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if (seamProject == null)
 			return null;
 
-		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
 
 		String prefix= engine.getJavaElementExpression(document, region.getOffset(), region, start, end);
 		prefix = (prefix == null ? "" : prefix);
@@ -142,7 +142,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if (seamProject == null)
 			return null;
 
-		SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+		SeamELCompletionEngine engine = new SeamELCompletionEngine();
 
 		String prefix= engine.getJavaElementExpression(document, region.getOffset(), region, start, end);
 		prefix = (prefix == null ? "" : prefix);
@@ -181,7 +181,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if (expr.getLeft() != null) {
 			while (left != null) {
 				List<ISeamContextVariable> resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = engine.resolveVariables(scope, left,
+				resolvedVars = engine.resolveVariables(seamProject, scope, left,
 						left == expr, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					map.put(left, resolvedVars);

@@ -496,7 +496,8 @@
    <extension
          point="org.jboss.tools.common.el.core.elResolver">
          <el-resolver id="seamELResolver">
-         	<project-nature id="org.jboss.tools.seam.core.seamnature"/>
+         	<project-nature id="org.jboss.tools.seam.core.seamnature" 
+         		resolver-class="org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine"/>
          </el-resolver>
    </extension>
 </plugin>

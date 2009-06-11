@@ -96,7 +96,7 @@ public abstract class SeamSearchEngine {
 				if (seamProject == null)
 					return Status.OK_STATUS;
 
-				SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+				SeamELCompletionEngine engine = new SeamELCompletionEngine();
 				
 				
 				//Find Seam variable names

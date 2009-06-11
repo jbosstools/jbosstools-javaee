@@ -374,7 +374,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			//TODO Now this will work only for EL. 
 			//     If we need CA for expressions/variables without #{}, it should be handled separately.
 
-			SeamELCompletionEngine engine = new SeamELCompletionEngine(seamProject);
+			SeamELCompletionEngine engine = new SeamELCompletionEngine();
 
 			//TODO refactor method checkStartPositionInEL
 			boolean isInEl = checkStartPositionInEL(viewer, offset);
@@ -435,7 +435,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
     		ElVarSearcher varSearcher = new ElVarSearcher(engine);
 			List<Var> vars = varSearcher.findAllVars(viewer, offset);
 			
-			SeamELCompletionEngine fEngine= new SeamELCompletionEngine(seamProject);
+			SeamELCompletionEngine fEngine= new SeamELCompletionEngine();
 			List<TextProposal> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
 			List<TextProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
 
@@ -525,6 +525,10 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			if(superDefaultChars.indexOf(".")<0) { //$NON-NLS-1$
 				redhatDefaultChars.append('.');
 			}
+			if(superDefaultChars.indexOf("[")<0) { //$NON-NLS-1$
+				redhatDefaultChars.append('[');
+			}
+
 			autoActivChars = new char[redhatDefaultChars.length()];
 			redhatDefaultChars.getChars(0, redhatDefaultChars.length(), autoActivChars, 0);
 			store.setDefault(PreferenceConstants.CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA, redhatDefaultChars.toString());

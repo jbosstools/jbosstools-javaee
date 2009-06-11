@@ -476,7 +476,7 @@ public class SeamSearchVisitor {
 			
 		}
 
-		SeamELCompletionEngine fCompletionEngine = new SeamELCompletionEngine(project);
+		SeamELCompletionEngine fCompletionEngine = new SeamELCompletionEngine();
 		fELVarSearcher = new ElVarSearcher(fCompletionEngine);
 		fDocumentsInEditors= evalNonFileBufferDocuments();
 		boolean res= true;
@@ -716,7 +716,7 @@ public class SeamSearchVisitor {
 					ELInvocationExpression expr = token;
 					while(expr != null) {
 						List<IJavaElement> elements = null;
-						SeamELCompletionEngine fCompletionEngine = new SeamELCompletionEngine(fCurrentSeamProject);
+						SeamELCompletionEngine fCompletionEngine = new SeamELCompletionEngine();
 						try {
 							elements = fCompletionEngine.getJavaElementsForELOperandTokens(fCurrentSeamProject, file, expr);
 						} catch (StringIndexOutOfBoundsException e) {

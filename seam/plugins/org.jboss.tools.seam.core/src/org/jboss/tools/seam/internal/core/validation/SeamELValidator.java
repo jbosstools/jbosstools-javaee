@@ -97,7 +97,7 @@ public class SeamELValidator extends SeamValidator {
 			SeamContextValidationHelper coreHelper, IReporter reporter,
 			SeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
-		engine = new SeamELCompletionEngine(project);
+		engine = new SeamELCompletionEngine();
 		elVarSearcher = new ElVarSearcher(engine);
 	}
 

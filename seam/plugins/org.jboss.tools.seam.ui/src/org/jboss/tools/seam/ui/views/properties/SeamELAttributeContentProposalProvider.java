@@ -82,7 +82,7 @@ public class SeamELAttributeContentProposalProvider implements
 			IProject project = file.getProject();
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 			if(seamProject != null) {
-				engine = new SeamELCompletionEngine(seamProject);
+				engine = new SeamELCompletionEngine();
 			}
 		}
 
