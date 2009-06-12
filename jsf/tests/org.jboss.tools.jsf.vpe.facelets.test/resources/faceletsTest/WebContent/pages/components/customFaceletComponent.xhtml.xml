@@ -1,0 +1,17 @@
+<tests>
+	<test id="id1">
+		<SPAN>
+			THIS SHOULD BE VISIBLE:
+		</SPAN>
+	</test>
+	<test id="id2">
+		<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+			component
+		</DIV>
+	</test>
+	<test id="id3">
+		<SPAN>
+			OUTPUT TEXT OUTSIDE THE UI:COMPONENT
+		</SPAN>
+	</test>
+</tests>
