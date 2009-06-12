@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.facelets.test.jbide;
 
-import org.jboss.tools.jsf.vpe.facelets.test.FaceletsComponentTest;
+import org.jboss.tools.jsf.vpe.facelets.test.FaceletsAllTests;
 import org.jboss.tools.vpe.ui.test.ComponentContentTest;
 
 public class JBIDE3416Test extends ComponentContentTest {
@@ -25,7 +25,7 @@ public class JBIDE3416Test extends ComponentContentTest {
     
     @Override
     protected String getTestProjectName() {
-	return FaceletsComponentTest.IMPORT_PROJECT_NAME;
+	return FaceletsAllTests.IMPORT_PROJECT_NAME;
     }
 
 }

@@ -1,0 +1,34 @@
+<tests>
+	<test id="id2">
+		<SPAN>
+			THIS SHOULD BE VISIBLE:
+		</SPAN>
+	</test>
+	<test id="id3">
+
+		<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+			ui:composition
+			<DIV CLASS="__any__tag__caption"
+				STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+				ui:define
+				<SPAN CLASS="vpe-text">
+					Greeting to User
+</SPAN>
+			</DIV>
+			<DIV CLASS="__any__tag__caption"
+				STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+				ui:define
+				<SPAN CLASS="vpe-text">
+					Greeting Page
+</SPAN>
+			</DIV>
+			<DIV CLASS="__any__tag__caption"
+				STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+				ui:define
+				<SPAN CLASS="vpe-text">
+					Hello #{person.name}!
+</SPAN>
+			</DIV>
+		</DIV>
+	</test>
+</tests>

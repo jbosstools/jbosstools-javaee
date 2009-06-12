@@ -39,8 +39,6 @@ public class FaceletsComponentTest extends VpeTest {
     private static final String TEMPLATE_WITH_RELATED_PATH_IS_NOT_INCLUDED = "Template with related path is not included"; //$NON-NLS-1$
     private static final String TEMPLATE_WITH_ABSOLUTE_PATH_IS_NOT_INCLUDED = "Template with absolute path is not included"; //$NON-NLS-1$
     private static final String DEFINED_CONTENT_IS_NOT_SHOWN = "Defined content is not shown"; //$NON-NLS-1$
-    // import project name
-    public static final String IMPORT_PROJECT_NAME = "faceletsTest"; //$NON-NLS-1$
 
     public FaceletsComponentTest(String name) {
 	super(name);
@@ -320,7 +318,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testInsert() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/insert.xhtml", IMPORT_PROJECT_NAME));  //$NON-NLS-1$
+		"components/insert.xhtml", FaceletsAllTests.IMPORT_PROJECT_NAME));  //$NON-NLS-1$
     }
 
     /**
@@ -337,10 +335,10 @@ public class FaceletsComponentTest extends VpeTest {
 
 	// get test page path
 	IFile file = (IFile) TestUtil.getComponentPath(componentPage,
-		IMPORT_PROJECT_NAME);
+		FaceletsAllTests.IMPORT_PROJECT_NAME);
 
 	assertNotNull("Could not open specified file. componentPage = " + componentPage//$NON-NLS-1$ 
-			+ ";projectName = " + IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
+			+ ";projectName = " + FaceletsAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
 	IEditorInput input = new FileEditorInput(file);
 
@@ -421,7 +419,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testAllTags() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
-		"components/faceletsTest.xhtml", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+		"components/faceletsTest.xhtml", FaceletsAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
 
 }
