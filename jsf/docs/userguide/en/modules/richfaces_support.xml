@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="richfaces_support" xreflabel="richfaces_support" role="new">
-    <?dbhtml filename="editors.html"?>
+    <?dbhtml filename="richfaces_support.html"?>
     <chapterinfo>
         <keywordset>
             <keyword>JBoss Developer Studio</keyword>
