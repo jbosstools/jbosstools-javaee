@@ -7,30 +7,10 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.seam.pages.xml;singleton:=true
 Bundle-Localization: plugin
-Provide-Package: org.jboss.tools.seam.pages.xml,
- org.jboss.tools.seam.pages.xml.model,
- org.jboss.tools.seam.pages.xml.model.helpers,
- org.jboss.tools.seam.pages.xml.model.handlers,
- org.jboss.tools.seam.pages.xml.model.refactoring,
- org.jboss.tools.seam.pages.xml.model.impl
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
- org.eclipse.ui.ide,
- org.eclipse.ui.views,
- org.eclipse.jface.text,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.ui.editors,
- org.eclipse.jdt.core,
- org.eclipse.jdt.ui,
  org.eclipse.ui,
- org.eclipse.jface,
- org.eclipse.wst.sse.core,
  org.eclipse.wst.common.modulecore,
- org.eclipse.ltk.core.refactoring,
- org.eclipse.ltk.ui.refactoring,
- org.eclipse.wst.xml.core,
- org.eclipse.core.resources,
- org.eclipse.core.runtime,
- org.eclipse.wst.web
+ org.eclipse.ltk.core.refactoring
 Bundle-Version: 2.0.0
 Export-Package: org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.pages.xml.model,
