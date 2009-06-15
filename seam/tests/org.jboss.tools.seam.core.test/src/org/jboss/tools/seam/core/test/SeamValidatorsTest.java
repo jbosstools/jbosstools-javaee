@@ -698,7 +698,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
 		
 		refreshProject(project);
-		
+
 		int number = getMarkersNumber(abcComponentXHTMLFile);
 		assertEquals("Problem marker was found in abcComponent.xhtml", 0, number);
 		
@@ -843,13 +843,22 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 		JobUtils.waitForIdle();
 		int[] lineNumbers = getMarkersNumbersOfLine(duplicateJavaComponentFile);
-		assertEquals("There shuold be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
+		assertEquals("There should be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
 		assertEquals("Problem marker has wrong line number", 5, lineNumbers[0]);
 
 		lineNumbers = getMarkersNumbersOfLine(componentsXmlFile);
-		assertEquals("There shuold be two error marker in components.xml.", 2, lineNumbers.length);
-		assertEquals("Problem marker has wrong line number", 8, lineNumbers[0]);
-		assertEquals("Problem marker has wrong line number", 9, lineNumbers[1]);
+		assertEquals("There should be two error marker in components.xml.", 2, lineNumbers.length);
+		assertTrue("Problem marker was not found on 8 line", findLine(lineNumbers, 8));
+		assertTrue("Problem marker was not found on 9 line", findLine(lineNumbers, 9));
+	}
+
+	private static boolean findLine(int[] lines, int number) {
+		for (int i = 0; i < lines.length; i++) {
+			if(lines[i]==number) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void modifyPreferences(){
