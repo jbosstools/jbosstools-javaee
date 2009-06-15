@@ -28,6 +28,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.internal.core.validation.ISeamValidator;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -883,7 +884,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 //			for(int i=0;i<markers.length;i++){
 //				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
 //			}
-			return markers.length;
+			int length = markers.length;
+			for (int i = 0; i < markers.length; i++) {
+				String groupName = markers[i].getAttribute("groupName", null);
+				if(groupName==null || (!groupName.equals(ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP) && !groupName.equals(ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP))) {
+					length--;
+				}
+			}
+			return length;
 		}catch(CoreException ex){
 			JUnitUtils.fail("Can'r get problem markers", ex);
 		}
