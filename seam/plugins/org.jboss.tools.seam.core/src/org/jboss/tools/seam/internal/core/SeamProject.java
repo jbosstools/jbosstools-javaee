@@ -1005,6 +1005,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				if(!(ds1[i1] instanceof ISeamJavaComponentDeclaration)) continue;
 				ISeamJavaComponentDeclaration jcd = (ISeamJavaComponentDeclaration)ds1[i1];
 				if(jcd.getClassName().equals(className)) continue;
+				// We cannot remove declaration if it declares the same component. 
+				// This is an error to be reported by Seam Validator.
+				if(c.getName().equals(jcd.getName())) continue;
 				c.removeDeclaration(jcd);
 				changes = Change.addChange(changes, new Change(c, null, jcd, null));
 			}
