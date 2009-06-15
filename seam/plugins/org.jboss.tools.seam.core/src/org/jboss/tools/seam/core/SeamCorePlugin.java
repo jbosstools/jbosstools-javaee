@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
@@ -54,6 +55,8 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	
 	public static final String CA_SEAM_EL_IMAGE_PATH = "images/ca/icons_Seam_EL.gif";
 	public static final String CA_SEAM_MESSAGES_IMAGE_PATH = "images/ca/icons_Message_Bundles.gif";
+	
+	static final String M2_FACET_ID = "jboss.m2"; //$NON-NLS-1$
 	/**
 	 * The constructor
 	 */
@@ -323,6 +326,14 @@ public class SeamCorePlugin extends BaseUIPlugin {
 			fImageDescRegistry = new HashMap();
 		}
 		return fImageDescRegistry;
+	}
+	
+	public boolean hasM2Facet(IProject project) {
+		try {
+			return FacetedProjectFramework.hasProjectFacet(project, M2_FACET_ID);
+		} catch (CoreException e) {
+			return false;
+		}
 	}
 
 }

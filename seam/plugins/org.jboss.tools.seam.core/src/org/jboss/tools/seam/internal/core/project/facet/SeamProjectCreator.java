@@ -222,6 +222,9 @@ public class SeamProjectCreator {
 					 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
 					 */
 					public boolean accept(File dir, String name) {
+						if (SeamCorePlugin.getDefault().hasM2Facet(seamWebProject)) {
+							return false;
+						}
 						return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
 					}
 				});

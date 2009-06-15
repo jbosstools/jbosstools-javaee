@@ -48,6 +48,11 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * Seam 2.0 Facet Version constant
 	 */
 	String SEAM_FACET_VERSION_20 = "2.0"; //$NON-NLS-1$
+	
+	/**
+	 * Seam 2.1 Facet Version constant
+	 */
+	String SEAM_FACET_VERSION_21 = "2.1"; //$NON-NLS-1$
 
 	// Seam Preferences names constants
 

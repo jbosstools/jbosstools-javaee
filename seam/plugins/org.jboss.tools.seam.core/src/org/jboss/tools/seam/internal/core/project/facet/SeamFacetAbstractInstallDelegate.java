@@ -267,7 +267,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 * @param model
 	 * @return
 	 */
-	static boolean isWarConfiguration(IDataModel model) {
+	public static boolean isWarConfiguration(IDataModel model) {
 		return ISeamFacetDataModelProperties.DEPLOY_AS_WAR.equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 	}
 

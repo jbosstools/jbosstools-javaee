@@ -25,9 +25,13 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -69,6 +73,7 @@ import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.IServerLifecycleListener;
 import org.eclipse.wst.server.core.ServerCore;
 import org.eclipse.wst.server.ui.ServerUIUtil;
+import org.eclipse.wst.validation.internal.operations.ValidationBuilder;
 import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -277,17 +282,24 @@ public class SeamProjectWizard extends WebProjectWizard {
 		IProject ejbProject = null;
 		List<IProject> projects = new ArrayList<IProject>();
 
+		String parentProjectName = warProject.getName() + "-parent"; 
+		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+		IProject parentProject = wsRoot.getProject(parentProjectName);
+		if (parentProject != null && parentProject.exists()) {
+			projects.add(parentProject);
+		}
 		// build projects. We need to build it before publishing on server.
+		projects.add(warProject);
 		if(deployAsEar) {
 			String ejbProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
 			String earProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT);
-			IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
+			
 			earProject = wsRoot.getProject(earProjectName);
 			ejbProject = wsRoot.getProject(ejbProjectName);
-			projects.add(earProject);
 			projects.add(ejbProject);
+			projects.add(earProject);
 		}
-		projects.add(warProject);
+		
 
 		if(ejbProject != null) {
 			provideClassPath(projects, ejbProject);
@@ -307,7 +319,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 				String configFolder = jbs.getConfigDirectory();
 				AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
 			} 
-
+			
 			RegistrationHelper.runRegisterInServerJob(warProject, server);
 
 			IPath filePath = new Path("resources").append(warProject.getName() + "-ds.xml");

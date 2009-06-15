@@ -102,9 +102,11 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 
 		StringBuffer testLibraries = new StringBuffer();
 
-		for (String file : allLibs) {
-			testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		}			
+		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject)) {
+			for (String file : allLibs) {
+				testLibraries.append("\t<classpathentry kind=\"lib\" path=\"lib/" + file + "\"/>\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			}			
+		}
 
 		StringBuffer requiredProjects = new StringBuffer();
 		requiredProjects.append(
@@ -183,16 +185,14 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 			}
 		}
 
-		AntCopyUtils.copyFiles(
-				new File(seamRuntime.getHomeDir(), "lib"), //$NON-NLS-1$
-				testLibDir,
-				new AntCopyUtils.FileSetFileFilter(includeLibs));
+		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject)) {
+			AntCopyUtils.copyFiles(new File(seamRuntime.getHomeDir(), "lib"), //$NON-NLS-1$
+							testLibDir, new AntCopyUtils.FileSetFileFilter(includeLibs));
 
-		//seam2 has a lib/test
-		AntCopyUtils.copyFiles(
-				new File(seamRuntime.getHomeDir(), "lib/test"), //$NON-NLS-1$
-				testLibDir,
-				new AntCopyUtils.FileSetFileFilter(includeLibs));
+			// seam2 has a lib/test
+			AntCopyUtils.copyFiles(new File(seamRuntime.getHomeDir(), "lib/test"), //$NON-NLS-1$
+							testLibDir, new AntCopyUtils.FileSetFileFilter(includeLibs));
+		}
 
 		SeamFacetAbstractInstallDelegate.createComponentsProperties(testSrcDir, "", true); //$NON-NLS-1$
 	}
