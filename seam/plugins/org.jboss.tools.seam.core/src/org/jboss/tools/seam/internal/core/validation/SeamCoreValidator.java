@@ -558,7 +558,7 @@ public class SeamCoreValidator extends SeamValidator {
 					}
 				}
 
-				String className = component.getClassName();
+				String className = declaration.getClassName();
 				if(className!=null) {
 					IType type = null;
 					// validate class name

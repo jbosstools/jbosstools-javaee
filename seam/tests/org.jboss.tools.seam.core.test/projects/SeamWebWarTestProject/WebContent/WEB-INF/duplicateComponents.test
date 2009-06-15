@@ -5,7 +5,7 @@
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd 
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
 
-   <component class="org.domain.SeamWebWarTestProject.session.DuplicateComponent" name="duplicateJavaAndXmlComponentName" precedence="20" />
-   <component class="org.domain.SeamWebWarTestProject.session.DuplicateComponent" name="duplicateJavaAndXmlComponentName" precedence="20" />
+   <component class="org.domain.SeamWebWarTestProject.session.DuplicateComponent" name="duplicateJavaAndXmlComponentName" />
+   <component class="java.lang.String" name="duplicateJavaAndXmlComponentName" />
 
 </components>
