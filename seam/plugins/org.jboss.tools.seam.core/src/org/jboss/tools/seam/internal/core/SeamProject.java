@@ -813,9 +813,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 			loaded.setSourcePath(source);
 			
-			String name = loaded.getName();
+			String name = getComponentName(loaded);
+			String oldName = getComponentName(current);
 
-			boolean nameChanged = current != null && !stringsEqual(name, current.getName());
+			boolean nameChanged = current != null && !stringsEqual(name, oldName);
 			
 			SeamComponent c = getComponent(name);
 			
@@ -825,6 +826,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 			String oldClassName = c == null ? null : c.getClassName();
 			String loadedClassName = getClassName(loaded);
+
+			Set<ISeamXmlComponentDeclaration> nameless = new HashSet<ISeamXmlComponentDeclaration>();
 
 			if(current != null) {
 				String currentClassName = getClassName(current);
@@ -842,6 +845,17 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				if(nameChanged) {
 					Map<Object,ISeamComponentDeclaration> old = new HashMap<Object, ISeamComponentDeclaration>();
 					old.put(current.getId(), current);
+					SeamComponent oc = getComponent(oldName);
+					if(oc != null) {
+						ISeamXmlComponentDeclaration[] xds = oc.getXmlDeclarations().toArray(new ISeamXmlComponentDeclaration[0]);
+						for (ISeamXmlComponentDeclaration x: xds) {
+							String n = x.getName();
+							if(loadedClassName.equals(x.getClassName()) && (n == null || n.length() == 0)) {
+								old.put(((SeamXmlComponentDeclaration)x).getId(), x);
+								nameless.add(x);
+							}
+						}
+					}
 					componentDeclarationsRemoved(old);
 					loaded = current;
 					current = null;
@@ -867,6 +881,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				this.components.addComponent(c);
 				addVariable(c);
 				c.addDeclaration(loaded);
+				if(nameless != null && nameless.size() > 0) {
+					for (ISeamComponentDeclaration d: nameless) c.addDeclaration(d);
+				}
 				addedComponents = Change.addChange(addedComponents, new Change(this, null, null, c));
 			} else if(c != null) {
 				c.addDeclaration(loaded);
@@ -884,6 +901,45 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					List<Change> changes = Change.addChange(null, new Change(ci, null, null, loaded));
 					fireChanges(changes);
 					affectedComponents.add(cii);
+				}
+				SeamComponent empty = this.components.getByName("");
+				if(empty != null && name != null && name.length() > 0) {
+					ISeamXmlComponentDeclaration[] xds = empty.getXmlDeclarations().toArray(new ISeamXmlComponentDeclaration[0]);
+					for (ISeamXmlComponentDeclaration x: xds) {
+						if(jd.getClassName().equals(x.getClassName())) {
+							empty.removeDeclaration(x);
+							List<Change> changes = Change.addChange(null, new Change(empty, null, x, null));
+							c.addDeclaration(x);
+							changes = Change.addChange(changes, new Change(empty, null, null, x));
+							fireChanges(changes);
+						}
+					}
+				}
+				if(oldClassName != null && isClassNameChanged(oldClassName, loadedClassName)) {
+					nameless.clear();
+					Map<Object,ISeamComponentDeclaration> old = new HashMap<Object, ISeamComponentDeclaration>();
+					ISeamXmlComponentDeclaration[] xds = c.getXmlDeclarations().toArray(new ISeamXmlComponentDeclaration[0]);
+					for (ISeamXmlComponentDeclaration x: xds) {
+						String n = x.getName();
+						if(oldClassName.equals(x.getClassName()) && (n == null || n.length() == 0)) {
+							old.put(((SeamXmlComponentDeclaration)x).getId(), x);
+							nameless.add(x);
+						}
+					}
+					componentDeclarationsRemoved(old);
+					if(nameless.size() > 0) {
+						if(empty == null) {
+							empty = newComponent("", nameless.iterator().next().getScope());
+							affectedComponents.add(empty);
+							this.components.addComponent(empty);
+						}
+						List<Change> changes = null;
+						for (ISeamXmlComponentDeclaration d: nameless) {
+							empty.addDeclaration(d);
+							changes = Change.addChange(changes, new Change(empty, null, null, d));
+						}
+						fireChanges(changes);
+					}
 				}
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
 				ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
@@ -933,6 +989,24 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		} catch (CloneNotSupportedException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
+	}
+
+	private String getComponentName(SeamComponentDeclaration d) {
+		if(d == null) return null;
+		String name = d.getName();
+
+		if(name == null || name.length() == 0 && d instanceof SeamXmlComponentDeclaration) {
+			String className = getClassName(d);
+			if(className != null && className.length() > 0) {
+				SeamJavaComponentDeclaration jd = components.getJavaDeclaration(className);
+				if(jd != null) {
+					name = jd.getName();
+				}
+			}
+		}
+		
+		return name;
+		
 	}
 
 	private static String getClassName(ISeamComponentDeclaration d) {
