@@ -14,6 +14,8 @@
  </component>
  <core:managed-persistence-context name="myPersistenceContext1"/>
  
+ <component class="demo.User"/>
+ 
  <core:resource-bundle>
  	<core:bundle-names>
  		<value>bundleA</value>

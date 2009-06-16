@@ -236,7 +236,7 @@ public class ScannerTest extends TestCase {
 		assertTrue("Declared scope for myUser is Application rather than " + scope.getLabel(), scope == ScopeType.APPLICATION);
 		
 		// b) @Install(precedence=Install.FRAMEWORK)
-		int precedence = c.getPrecedence();
+		int precedence = myUser.getPrecedence();
 		assertTrue("Declared precedence for myUser is 10 rather than " + precedence, precedence == 10);
 		
 		// c) @Entity
@@ -453,6 +453,15 @@ public class ScannerTest extends TestCase {
 			{"persistenceUnitName", "MyPersistenceUnit"},
 		};
 		scanSimpleProperties(seamProject, "org.jboss.seam.core.microcontainer", microcontainerTestProperties);
+		
+		//5. components.xml has <component class="demo.User"/> entry
+		// check that
+		// component myUser has both java and xml declaration, the latter without name
+		
+		ISeamComponent myUser = seamProject.getComponent("myUser");
+		assertNotNull(myUser);
+		Set<ISeamXmlComponentDeclaration> xml = myUser.getXmlDeclarations();
+		assertEquals(1, xml.size());
 	}
 	
 	/**
