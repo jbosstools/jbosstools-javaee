@@ -192,7 +192,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(statefulComponentFile, SEAM_MARKER_FILTER);
 		assertEquals("Problem marker 'Stateful component does not contain @Remove method' not found", "Stateful component \"statefulComponent\" must have a method marked @Remove", messages[0]);
 
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile, SEAM_MARKER_FILTER);
 
 		assertEquals("Problem marker has wrong line number", 16, lineNumbers[0].intValue());
 
@@ -215,7 +215,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(statefulComponentFile, SEAM_MARKER_FILTER);
 		assertEquals("Problem marker 'Stateful component does not contain @Destroy method' not found", "Stateful component \"statefulComponent\" must have a method marked @Destroy", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 16, lineNumbers[0].intValue());
 		
@@ -238,7 +238,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(statefulComponentFile, SEAM_MARKER_FILTER);
 		assertEquals("Problem marker 'Stateful component has wrong scope' not found", "Stateful component \"statefulComponent\" should not have org.jboss.seam.ScopeType.PAGE, nor org.jboss.seam.ScopeType.STATELESS", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile);
+		lineNumbers = getMarkersNumbersOfLine(statefulComponentFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 16, lineNumbers[0].intValue());
 		
@@ -262,7 +262,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(componentsFile, SEAM_MARKER_FILTER);
 		assertEquals("Problem marker 'Component class name cannot be resolved to a type' was not found", "\"org.domain.SeamWebWarTestProject.session.StateComponent\" cannot be resolved to a type", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(componentsFile);
+		lineNumbers = getMarkersNumbersOfLine(componentsFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 15, lineNumbers[0].intValue());
 
@@ -295,7 +295,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(componentsFile, SEAM_MARKER_FILTER);
 		assertEquals("Problem marker 'Component class does not have a setter or a field for the property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not have a setter or a field for the property \"abc\"", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(componentsFile);
+		lineNumbers = getMarkersNumbersOfLine(componentsFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 16, lineNumbers[0].intValue());
 		
@@ -577,7 +577,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(selectionIndexTestFile, SEAM_MARKER_FILTER);
 		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
 
-		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile);
+		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile, SEAM_MARKER_FILTER);
 		
 		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
 		
@@ -611,7 +611,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(selectionTestFile, SEAM_MARKER_FILTER);
 		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: \"messageList2\""));
 
-		lineNumbers = getMarkersNumbersOfLine(selectionTestFile);
+		lineNumbers = getMarkersNumbersOfLine(selectionTestFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 27, lineNumbers[0].intValue());
 		
@@ -621,7 +621,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		messages = getMarkersMessage(selectionIndexTestFile, SEAM_MARKER_FILTER);
 		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: \"messageList2\""));
 		
-		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile);
+		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile, SEAM_MARKER_FILTER);
 
 		assertEquals("Problem marker has wrong line number", 27, lineNumbers[0].intValue());
 	}
@@ -683,7 +683,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		assertEquals("Problem marker 'Unknown variable name' not found", "Unknown context variable name: \"messageList5\"", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile);
+		lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
 
@@ -751,7 +751,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		assertEquals("Problem marker 'Property cannot be resolved' was not found", "\"actionType2\" cannot be resolved", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
 		
@@ -788,7 +788,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		assertEquals("Problem marker 'Unpaired Getter/Setter' was not found", "Property \"actionType\" has only Setter. Getter is missing.", messages[0]);
 		
-		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
 		
 		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
 
@@ -809,7 +809,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		assertEquals("Problem marker 'Unpaired Getter/Setter' was not found", "Property \"actionType\" has only Getter. Setter is missing.", messages[0]);
 
-		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile);
+		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
 
 		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
 	} 	
@@ -848,7 +848,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertEquals("There should be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
 		assertEquals("Problem marker has wrong line number", 5, lineNumbers[0].intValue());
 
-		lineNumbers = getMarkersNumbersOfLine(componentsXmlFile);
+		lineNumbers = getMarkersNumbersOfLine(componentsXmlFile, SEAM_MARKER_FILTER);
 		assertEquals("There should be two error marker in components.xml.", 2, lineNumbers.length);
 		assertTrue("Problem marker was not found on 8 line", findLine(lineNumbers, 8));
 		assertTrue("Problem marker was not found on 9 line", findLine(lineNumbers, 9));
