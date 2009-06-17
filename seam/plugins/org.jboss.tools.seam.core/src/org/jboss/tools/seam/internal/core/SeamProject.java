@@ -812,7 +812,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			SeamComponentDeclaration current = (SeamComponentDeclaration)currentComponents.remove(loaded.getId());
 
 			loaded.setSourcePath(source);
-			
+
 			String name = getComponentName(loaded);
 			String oldName = getComponentName(current);
 
@@ -995,7 +995,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(d == null) return null;
 		String name = d.getName();
 
-		if(name == null || name.length() == 0 && d instanceof SeamXmlComponentDeclaration) {
+		if((name == null || name.length() == 0) && d instanceof SeamXmlComponentDeclaration) {
 			String className = getClassName(d);
 			if(className != null && className.length() > 0) {
 				SeamJavaComponentDeclaration jd = components.getJavaDeclaration(className);
