@@ -347,6 +347,22 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	public void testPageWithNestedLayouts() throws Throwable {
 		performContentTest("components/page/pageWithNestedLayouts.xhtml");//$NON-NLS-1$
 	}
+
+	public void testPageWithWidths() throws Throwable {
+		performContentTest("components/page/pageWithWidths.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testPageWithWidthsPixels() throws Throwable {
+		performContentTest("components/page/pageWithWidthsPixels.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testPageWithWidthsEms() throws Throwable {
+		performContentTest("components/page/pageWithWidthsEms.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testPageWithWidthsDifferent() throws Throwable {
+		performContentTest("components/page/pageWithWidthsDifferent.xhtml");//$NON-NLS-1$
+	}
 	
 	@Override
 	protected String getTestProjectName() {
