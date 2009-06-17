@@ -20,6 +20,8 @@ import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	private static final long serialVersionUID = 7805053632320764494L;
 
+	static String FILE_FACELET_TAGLIB = "FileFaceletTaglib";
+
 	protected Iterator<XModelObject> getRoots() {
 		List<XModelObject> list = new ArrayList<XModelObject>();
 		XModelObject r = getModel().getByPath("FileSystems/WEB-INF");
@@ -50,6 +52,9 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 		while(it.hasNext()) {
 			XModelObject o = it.next();
 			String uri = o.getAttributeValue("uri");
+			if(uri != null && uri.length() == 0 && isFaceletTaglibFile(o)) {
+				uri = o.getAttributeValue("library-class");
+			}
 			if(set.contains(uri)) {
 				it.remove();
 			} else {
@@ -81,6 +86,9 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	static String TLD_ENTITIES = ".FileTLD_PRO.FileTLD_1_2.FileTLD_2_0.FileTLD_2_1.";
 
 	protected boolean acceptFile(XModelObject o) {
+		if("META-INF".equals(o.getParent().getAttributeValue("name"))) {
+			if(isFaceletTaglibFile(o)) return true;
+		}
 		return isTLDFile(o);
 	}
 	
@@ -90,8 +98,8 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	}
 
 	public static boolean isFaceletTaglibFile(XModelObject o) {
-		String entity = "." + o.getModelEntity().getName();
-		return entity.startsWith("FileFaceletTaglib");
+		String entity = o.getModelEntity().getName();
+		return entity.startsWith(FILE_FACELET_TAGLIB);
 	}
 
 	public Object getAdapter(Class adapter) {
