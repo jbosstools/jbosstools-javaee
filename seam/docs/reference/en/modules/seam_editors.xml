@@ -502,8 +502,20 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
-<para>
+        <para>If you use Rule-based authorization with Drools in your Seam application you can apply OpenOn 
+            in <emphasis>
+                <property>components.xml</property></emphasis> to open the files containing rule  definitions in the <emphasis>
+                    <property>"rule-files"</property></emphasis> tag.
+        </para>
+        <figure>
+            <title>OpenOn in components.xml file</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2c.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    <para>
     OpenOn is also supported  in seam components where <property> In annotation</property> is presented.
     After pressing <property>Ctrl + left click</property> on  the seam component specified in <code>@In </code> you will get the possibility to open the file where the  component is declarated as well as 
     all of the seam components where it is used in the next declarations:</para>
