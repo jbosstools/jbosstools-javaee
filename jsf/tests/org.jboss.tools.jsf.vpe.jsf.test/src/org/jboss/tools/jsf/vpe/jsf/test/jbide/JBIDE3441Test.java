@@ -52,10 +52,10 @@ public class JBIDE3441Test  extends VpeTest {
 		VpeController controller1 = openPageInVpe(TEST_PAGE_NAME_1);
 		VpeController controller2 = openPageInVpe(TEST_PAGE_NAME_2);
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 5; i++) {
 			controller1.visualRefresh();
 			controller2.visualRefresh();
-			TestUtil.delay(500);
+			TestUtil.delay(5000);
 			TestUtil.waitForJobs();
 			checkTaggedDivValue(controller1);
 			checkTaggedDivValue(controller2);	
