@@ -525,7 +525,7 @@
         <listitem>@Role</listitem>
         <listitem>@Roles</listitem> 
      </itemizedlist>
-        
+       
         <figure>
             <title>OpenOn in Seam Component</title>
             <mediaobject>
@@ -535,7 +535,12 @@
             </mediaobject>
         </figure>
         
-
+        <para>You can also use OpenOn to open jBPM components that are described in  Seam component descriptor.
+            Two places where it works  are available: </para> 
+        <itemizedlist>
+            <listitem>inside &lt;component&gt; definition;</listitem>
+            <listitem>inside jbpm tags;</listitem>
+         </itemizedlist>
 
     </section>
 
