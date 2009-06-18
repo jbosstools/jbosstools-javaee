@@ -490,8 +490,40 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
-        <para>OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
+        <para>OpenOn is available for the following files:</para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <link linkend="xmlFiles">XML files</link>
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <link linkend="xhtmlFiles">JSP/XHTML Pages</link>
+                </para>
+            </listitem>
+            <listitem>
+                <para> <link linkend="javaFiles">Java files</link></para>
+            </listitem>
+        </itemizedlist>
+        <note>
+            <title>Note:</title>
+            
+            <para>In this section were described only use cases special for Seam applications.For general information please read
+                <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#OpenOnSelection4Hyperlinknavigation">OpenOn section in Visual Web Tools Reference Guide</ulink>.</para>
+        </note>
+        <itemizedlist>
+            <listitem id="xhtmlFiles"> <para>Using OpenOn in .xhtml files you can open:</para>
+        <itemizedlist>
+            <listitem><para>components or properties resolved using an EL expression;</para></listitem>
+            <listitem><para>all actions described in pages.xml;</para></listitem>
+            <listitem><para>other .xhtml files that paths are specified in a current file;</para></listitem> 
+            <listitem><para>image files that paths are set in  the <emphasis>
+                <property>value</property></emphasis> property.The files will be opened in the default system graphical editor.</para></listitem> 
+            </itemizedlist>
+            </listitem>
+            <listitem id="xmlFiles"> 
+                <para>OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
             You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to  navigate to the file you clicked on. </para>
 
         <figure>
@@ -515,15 +547,41 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        <para>You can also use OpenOn to open jBPM components that are described in  Seam component descriptor.
+            Two places where it works  are available: </para> 
+        <itemizedlist>
+            <listitem><para>inside <emphasis>
+                <property>&lt;component&gt;</property></emphasis> definition;</para>
+                <figure>
+                    <title>OpenOn in components.xml file</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/seam_editors/seam_editors_2d.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure></listitem>
+            <listitem><para>inside <emphasis>
+                <property>jbpm</property></emphasis> tags;</para>
+                <figure>
+                    <title>OpenOn in components.xml file</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/seam_editors/seam_editors_2e.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure></listitem>
+        </itemizedlist>
+            </listitem> 
+            <listitem id="javaFiles"> 
     <para>
     OpenOn is also supported  in seam components where <property> In annotation</property> is presented.
     After pressing <property>Ctrl + left click</property> on  the seam component specified in <code>@In </code> you will get the possibility to open the file where the  component is declarated as well as 
     all of the seam components where it is used in the next declarations:</para>
     <itemizedlist>
-        <listitem>@Out</listitem>
-        <listitem>@DataModel</listitem>
-        <listitem>@Role</listitem>
-        <listitem>@Roles</listitem> 
+        <listitem><para>@Out</para></listitem>
+        <listitem><para>@DataModel</para></listitem>
+        <listitem><para>@Role</para></listitem>
+        <listitem><para>@Roles</para></listitem> 
      </itemizedlist>
        
         <figure>
@@ -534,15 +592,9 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        
-        <para>You can also use OpenOn to open jBPM components that are described in  Seam component descriptor.
-            Two places where it works  are available: </para> 
-        <itemizedlist>
-            <listitem>inside &lt;component&gt; definition;</listitem>
-            <listitem>inside jbpm tags;</listitem>
-         </itemizedlist>
-
-    </section>
+            </listitem>
+        </itemizedlist>
+       </section>
 
     <section id="SeamValidation">
         <title>Seam Validation</title>
