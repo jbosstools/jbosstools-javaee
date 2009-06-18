@@ -56,22 +56,15 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
-		pm.beginTask("", 1); //$NON-NLS-1$
-		try {
-			RefactoringStatus status = new RefactoringStatus();
-			if(component != null){
-				checkDeclarations(component, status);
-				
-				rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE);
-				
-				renameComponent(component);
-				
-				checkResources(status);
-			}
-			return status;
-		} finally {
-			pm.done();
+		status = new RefactoringStatus();
+		if(component != null){
+			checkDeclarations(component);
+			
+			rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE);
+			
+			renameComponent(pm, component);
 		}
+		return status;
 	}
 
 	/*

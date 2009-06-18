@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
@@ -84,6 +85,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	protected static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
 	
 	protected static final String SEAM_PROPERTIES_FILE = "seam.properties"; //$NON-NLS-1$
+	
+	protected RefactoringStatus status;
 	
 	private SeamContextValidationHelper coreHelper = new SeamContextValidationHelper();
 	
@@ -229,6 +232,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		if(isBadLocation(location))
 			return;
 		
+		if(!isFileCorrect(file))
+			return;
+		
 		String content = null;
 		try {
 			content = FileUtil.readStream(file.getContents());
@@ -256,6 +262,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	private void changeAnnotation(ITextSourceReference location, IFile file){
 		if(isBadLocation(location))
+			return;
+		
+		if(!isFileCorrect(file))
 			return;
 
 		String content = null;
@@ -321,7 +330,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	protected void checkDeclarations(ISeamComponent component, RefactoringStatus status) throws CoreException{
+	protected void checkDeclarations(ISeamComponent component) throws CoreException{
 		if(component.getJavaDeclaration() != null){
 			if(coreHelper.isJar(component.getJavaDeclaration()))
 				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
@@ -335,20 +344,18 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	protected void checkResources(RefactoringStatus status){
-		for(int i=0; i < rootChange.getChildren().length; i++){
-			TextFileChange change = (TextFileChange)rootChange.getChildren()[i];
-			IFile file = change.getFile();
-			
-			if(!file.isSynchronized(IResource.DEPTH_ZERO))
-				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
-			
-			if(file.isPhantom())
+	protected boolean isFileCorrect(IFile file){
+			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
+				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
+				return false;
+			}else if(file.isPhantom()){
 				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
-			else if(file.isReadOnly())
+				return false;
+			}else if(file.isReadOnly()){
 				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-			
-		}
+				return false;
+			}
+			return true;
 	}
 	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
@@ -476,6 +483,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	private void scanForJava(IFile file){
 		String ext = file.getFileExtension();
+		
+		if(!isFileCorrect(file))
+			return;
+		
 		String content = null;
 		try {
 			content = FileUtil.readStream(file.getContents());
@@ -493,6 +504,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 
 	private void scan(IFile file){
 		String ext = file.getFileExtension();
+		
+		if(!isFileCorrect(file))
+			return;
+		
 		String content = null;
 		try {
 			content = FileUtil.readStream(file.getContents());
@@ -654,19 +669,31 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	protected void renameComponent(ISeamComponent component)throws CoreException{
+	protected void renameComponent(IProgressMonitor pm, ISeamComponent component)throws CoreException{
+		pm.beginTask("", 3);
 		findDeclarations(component);
+		
+		pm.worked(1);
 		
 		findAnnotations();
 		
+		pm.worked(1);
+		
 		findELReferences();
+		
+		pm.done();
 	}
 	
-	protected void renameFactories(Set<ISeamFactory> factories){
+	protected void renameFactories(IProgressMonitor pm, Set<ISeamFactory> factories){
+		pm.beginTask("", factories.size()+1);
+		
 		for(ISeamFactory factory : factories){
 			changeFactory(factory, true);
+			pm.worked(1);
 		}
 		
 		findELReferences();
+		
+		pm.done();
 	}
 }

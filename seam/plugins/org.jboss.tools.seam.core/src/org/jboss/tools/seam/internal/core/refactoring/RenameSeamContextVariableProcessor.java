@@ -51,26 +51,20 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
-		pm.beginTask("", 1); //$NON-NLS-1$
-		try {
-			RefactoringStatus status = new RefactoringStatus();
-			ISeamComponent component = checkComponent();
-			if(component != null){
-				checkDeclarations(component, status);
-				
-				rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
-				
-				renameComponent(component);
-			}else{
-				Set<ISeamFactory> factories = checkFactories();
-				if(factories != null)
-					renameFactories(factories);
-			}
-			checkResources(status);
-			return status;
-		} finally {
-			pm.done();
+		status = new RefactoringStatus();
+		ISeamComponent component = checkComponent();
+		if(component != null){
+			checkDeclarations(component);
+			
+			rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
+			
+			renameComponent(pm, component);
+		}else{
+			Set<ISeamFactory> factories = checkFactories();
+			if(factories != null)
+				renameFactories(pm, factories);
 		}
+		return status;
 	}
 
 	/*
