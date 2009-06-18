@@ -22,7 +22,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
@@ -35,6 +34,7 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
+import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -321,19 +321,34 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	protected boolean isJarDeclarations(ISeamComponent component) throws CoreException{
+	protected void checkDeclarations(ISeamComponent component, RefactoringStatus status) throws CoreException{
 		if(component.getJavaDeclaration() != null){
 			if(coreHelper.isJar(component.getJavaDeclaration()))
-				return true;
+				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
 		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
 
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
 			if(coreHelper.isJar(xmlDecl))
-				return true;
+				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
 		}
-		return false;
+	}
+	
+	protected void checkResources(RefactoringStatus status){
+		for(int i=0; i < rootChange.getChildren().length; i++){
+			TextFileChange change = (TextFileChange)rootChange.getChildren()[i];
+			IFile file = change.getFile();
+			
+			if(!file.isSynchronized(IResource.DEPTH_ZERO))
+				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
+			
+			if(file.isPhantom())
+				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
+			else if(file.isReadOnly())
+				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+			
+		}
 	}
 	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{

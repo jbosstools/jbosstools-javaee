@@ -14,7 +14,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -26,7 +25,6 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamFactory;
-import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -53,11 +51,26 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
-		RefactoringStatus status = new RefactoringStatus();
-		ISeamComponent component = checkComponent();
-		if(component != null && isJarDeclarations(component))
-			status.addWarning(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR);
-		return status;
+		pm.beginTask("", 1); //$NON-NLS-1$
+		try {
+			RefactoringStatus status = new RefactoringStatus();
+			ISeamComponent component = checkComponent();
+			if(component != null){
+				checkDeclarations(component, status);
+				
+				rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
+				
+				renameComponent(component);
+			}else{
+				Set<ISeamFactory> factories = checkFactories();
+				if(factories != null)
+					renameFactories(factories);
+			}
+			checkResources(status);
+			return status;
+		} finally {
+			pm.done();
+		}
 	}
 
 	/*
@@ -79,16 +92,7 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
 		
-		rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
 		
-		ISeamComponent component = checkComponent();
-		if(component != null)
-			renameComponent(component);
-		else{
-			Set<ISeamFactory> factories = checkFactories();
-			if(factories != null)
-				renameFactories(factories);
-		}
 		
 		return rootChange;
 	}

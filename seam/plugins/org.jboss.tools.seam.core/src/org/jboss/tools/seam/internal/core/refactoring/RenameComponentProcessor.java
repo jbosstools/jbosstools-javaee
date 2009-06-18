@@ -56,10 +56,22 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
-		RefactoringStatus status = new RefactoringStatus();
-		if(component != null && isJarDeclarations(component))
-			status.addWarning(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR);
-		return status;
+		pm.beginTask("", 1); //$NON-NLS-1$
+		try {
+			RefactoringStatus status = new RefactoringStatus();
+			if(component != null){
+				checkDeclarations(component, status);
+				
+				rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE);
+				
+				renameComponent(component);
+				
+				checkResources(status);
+			}
+			return status;
+		} finally {
+			pm.done();
+		}
 	}
 
 	/*
@@ -83,9 +95,7 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE);
 		
-		renameComponent(component);
 		
 		return rootChange;
 	}
