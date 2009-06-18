@@ -23,6 +23,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
@@ -53,6 +55,7 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -367,8 +370,79 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
-			if(project != null)
+			if(project == null) continue;
+			
+			IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+			
+			// searching java, xml and property files in source folders
+			if(javaProject != null){
+				for(IResource resource : EclipseResourceUtil.getJavaSourceRoots(project)){
+					if(resource instanceof IFolder)
+						scanForJava((IFolder) resource);
+					else if(resource instanceof IFile)
+						scanForJava((IFile) resource);
+				}
+			}
+			
+			// searching jsp, xhtml and xml files in WebContent folders
+			if(project.equals(projectsSet.getWarProject()))
+				scan(projectsSet.getDefaultViewsFolder());
+			else if(project.equals(projectsSet.getEarProject()))
+				scan(projectsSet.getDefaultEarViewsFolder());
+			else{
 				scan(project);
+			}
+		}
+	}
+	
+	private void scan(IProject project){
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+		if(javaProject == null)
+			return;
+		
+		IResource[] sources = EclipseResourceUtil.getJavaSourceRoots(project);
+		IPath output = null;
+		try{
+			output = javaProject.getOutputLocation();
+		}catch(JavaModelException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+		
+		try{
+			for(IResource resource : project.members()){
+				if(resource instanceof IFolder){
+					if(checkFolder(resource, sources, output))
+						scan((IFolder) resource);
+				}else if(resource instanceof IFile)
+					scan((IFile) resource);
+			}
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+	}
+	
+	private boolean checkFolder(IResource resource, IResource[] sources, IPath output){
+		for(IResource folder : sources){
+			if(resource.equals(folder))
+				return false;
+		}
+		
+		if(resource.getFullPath().equals(output))
+			return false;
+		
+		return true;
+	}
+	
+	private void scanForJava(IContainer container){
+		try{
+			for(IResource resource : container.members()){
+				if(resource instanceof IFolder)
+					scanForJava((IFolder) resource);
+				else if(resource instanceof IFile)
+					scanForJava((IFile) resource);
+			}
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
 		}
 	}
 
@@ -384,8 +458,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			SeamCorePlugin.getDefault().logError(ex);
 		}
 	}
-
-	private void scan(IFile file){
+	
+	private void scanForJava(IFile file){
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
@@ -396,10 +470,23 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 		if(JAVA_EXT.equalsIgnoreCase(ext)){
 			scanJava(file, content);
-		} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
+		}else if(XML_EXT.equalsIgnoreCase(ext))
 			scanDOM(file, content);
 		else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
 			scanProperties(file, content);
+	}
+
+	private void scan(IFile file){
+		String ext = file.getFileExtension();
+		String content = null;
+		try {
+			content = FileUtil.readStream(file.getContents());
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+			return;
+		}
+		if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
+			scanDOM(file, content);
 	}
 	
 	private void scanJava(IFile file, String content){

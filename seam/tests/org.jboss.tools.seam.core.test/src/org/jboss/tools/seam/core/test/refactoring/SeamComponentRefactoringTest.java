@@ -113,7 +113,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 		structure.addTextChange(change);
 		list.add(structure);
 
-		structure = new TestChangeStructure(warProject, "/WebContent/test.properties");
+		structure = new TestChangeStructure(warProject, "/src/test.properties");
 		change = new TestTextChange(29, 4, "best");
 		structure.addTextChange(change);
 		list.add(structure);
@@ -181,7 +181,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 			content = FileUtil.readStream(file.getContents());
 			//System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
 			for(TestTextChange change : changeStructure.getTextChanges()){
-				assertEquals(change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
+				assertEquals("There is unexpected change in resource - "+file.getName(),change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
 			}
 		}
 	}
