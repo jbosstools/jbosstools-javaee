@@ -154,6 +154,7 @@ public class SeamComponentRefactoringTest extends TestCase {
 		// Rename Seam Component
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewName(newName);
+		processor.checkFinalConditions(new NullProgressMonitor(), null);
 		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 		
 		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
