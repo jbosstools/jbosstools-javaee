@@ -55,6 +55,7 @@ import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
+import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.parser.SyntaxError;
@@ -92,6 +93,7 @@ public class SeamELValidator extends SeamValidator {
 	private IProject currentProject;
 	private IResource[] currentSources;
 	private IContainer webRootFolder;
+	private boolean revalidateUnresolvedELs = false;
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
@@ -113,6 +115,7 @@ public class SeamELValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validate(java.util.Set)
 	 */
 	public IStatus validate(Set<IFile> changedFiles) throws ValidationException {
+		initRevalidationFlag();
 		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
 		Set<IPath> files = validationContext.getElResourcesForValidation(changedFiles);
 		validationContext.removeLinkedElResources(files);
@@ -131,11 +134,13 @@ public class SeamELValidator extends SeamValidator {
 		}
 
 		if(containsJavaOrComponentsXml) {
-			Set<IPath> unnamedResources = validationContext.getUnnamedElResources();
-			for (IPath path : unnamedResources) {
-				IFile file = wsRoot.getFile(path);
-				if(file.exists()) {
-					filesToValidate.add(file);
+			if(revalidateUnresolvedELs) {
+				Set<IPath> unnamedResources = validationContext.getUnnamedElResources();
+				for (IPath path : unnamedResources) {
+					IFile file = wsRoot.getFile(path);
+					if(file.exists()) {
+						filesToValidate.add(file);
+					}
 				}
 			}
 		}
@@ -148,11 +153,17 @@ public class SeamELValidator extends SeamValidator {
 		return OK_STATUS;
 	}
 
+	private void initRevalidationFlag() {
+		String revalidateUnresolvedEls = SeamPreferences.getProjectPreference(project, SeamPreferences.RE_VALIDATE_UNRESOLVED_EL);
+		revalidateUnresolvedELs = SeamPreferences.ENABLE.equals(revalidateUnresolvedEls);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
 	public IStatus validateAll() throws ValidationException {
+		initRevalidationFlag();
 		validationContext.clearElResourceLinks();
 		Set<IFile> files = validationContext.getRegisteredFiles();
 		for (IFile file : files) {
@@ -338,7 +349,6 @@ public class SeamELValidator extends SeamValidator {
 					//     2) create other preference 
 					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
 				}
-				
 			}
 			List<ELInstance> is = model.getInstances();
 			for (ELInstance i : is) {
@@ -375,8 +385,14 @@ public class SeamELValidator extends SeamValidator {
 					engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
 				if(status.isError()) {
+					if(revalidateUnresolvedELs) {
+						Set<String> names = findVariableNames(operandToken);
+						for (String name : names) {
+							validationContext.addLinkedElResource(name, file.getFullPath());
+						}
+					}
 					// Save resources with unknown variables names
-					validationContext.addUnnamedElResource(file.getFullPath());
+//					validationContext.addUnnamedElResource(file.getFullPath());
 				}
 
 				// Save links between resource and used variables names
@@ -429,4 +445,17 @@ public class SeamELValidator extends SeamValidator {
 		}
 	}
 
+	private Set<String> findVariableNames(ELInvocationExpression invocationExpression){
+		Set<String> names = new HashSet<String>();
+		while(invocationExpression != null) {
+			if(invocationExpression instanceof ELPropertyInvocation) {
+				String name = ((ELPropertyInvocation)invocationExpression).getQualifiedName();
+				if(name != null) {
+					names.add(name);
+				}
+			}
+			invocationExpression = invocationExpression.getLeft();
+		}
+		return names;
+	}
 }

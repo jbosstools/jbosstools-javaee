@@ -833,7 +833,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	// See https://jira.jboss.org/jira/browse/JBIDE-4393
 	public void testDuplicateComponents() {
-		JobUtils.waitForIdle();
+		refreshProject(project);
 		IFile duplicateJavaComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.java");
 		IFile componentsXmlFile = project.getFile("WebContent/WEB-INF/components.xml");
 
@@ -843,7 +843,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to 'duplicateComponents.test'", ex);
 		}
-		JobUtils.waitForIdle();
+		refreshProject(project);
 		Integer[] lineNumbers = getMarkersNumbersOfLine(duplicateJavaComponentFile, SEAM_MARKER_FILTER);
 		assertEquals("There should be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
 		assertEquals("Problem marker has wrong line number", 5, lineNumbers[0].intValue());
@@ -852,6 +852,54 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertEquals("There should be two error marker in components.xml.", 2, lineNumbers.length);
 		assertTrue("Problem marker was not found on 8 line", findLine(lineNumbers, 8));
 		assertTrue("Problem marker was not found on 9 line", findLine(lineNumbers, 9));
+	}
+
+	// See https://jira.jboss.org/jira/browse/JBIDE-4515
+	public void testRevalidationUnresolvedELs() {
+		refreshProject(project);
+		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
+
+		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java");
+		IFile newComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
+		IFile originalComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
+		IFile xhtmlFile = project.getFile("WebContent/testElRevalidation.xhtml");
+
+		try {
+			componentFile.setContents(newComponentFile.getContents(), true, false, null);
+		} catch(Exception ex) {
+			JUnitUtils.fail("Error in changing 'TestElRevalidation.new' content to 'TestElRevalidation.java'", ex);
+		}
+		refreshProject(project);
+
+		int n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
+		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
+
+		// We have to change the java file twice to clean all relations between xhtml and java. 
+		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
+		try {
+			componentFile.setContents(originalComponentFile.getContents(), true, false, null);
+		} catch(Exception ex) {
+			JUnitUtils.fail("Error in changing 'TestElRevalidation.original' content to 'TestElRevalidation.java'", ex);
+		}
+		refreshProject(project);
+		try {
+			componentFile.setContents(newComponentFile.getContents(), true, false, null);
+		} catch(Exception ex) {
+			JUnitUtils.fail("Error in changing 'TestElRevalidation.new' content to 'TestElRevalidation.java'", ex);
+		}
+		// then we can check if validator was not invoked.
+		refreshProject(project);
+		try {
+			componentFile.setContents(originalComponentFile.getContents(), true, false, null);
+		} catch(Exception ex) {
+			JUnitUtils.fail("Error in changing 'TestElRevalidation.original' content to 'TestElRevalidation.java'", ex);
+		}
+		refreshProject(project);
+
+		n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
+		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
+
+		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 	}
 
 	private static boolean findLine(Integer[] lines, int number) {

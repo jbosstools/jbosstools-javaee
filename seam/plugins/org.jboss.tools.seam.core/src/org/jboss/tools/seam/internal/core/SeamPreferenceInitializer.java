@@ -39,6 +39,7 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(SeamPreferences.EL_SYNTAX_ERROR, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.INVALID_XML_VERSION, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.CHECK_VARS, SeamPreferences.ENABLE);
+		defaultPreferences.put(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 
 		//JBIDE-2958 temporary until JBIDE-2957 solved //TODO solve JBIDE-2957
 		defaultPreferences.put(SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME_GUESS, SeamPreferences.WARNING);
