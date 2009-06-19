@@ -1,6 +1,5 @@
 Manifest-Version: 1.0
 Bundle-Name: %Bundle-Name.0
-Bundle-ClassPath: jsf-verification.jar
 Bundle-Activator: org.eclipse.core.internal.compatibility.PluginActiva
  tor
 Bundle-ManifestVersion: 2
@@ -18,4 +17,6 @@ Require-Bundle: org.eclipse.core.runtime.compatibility,
  org.jboss.tools.jsf
 Bundle-Version: 2.0.0
 Eclipse-LazyStart: true
+Export-Package: org.jboss.tools.jsf.verification.vrules,
+ org.jboss.tools.jsf.verification.vrules.toview
 

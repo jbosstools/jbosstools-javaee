@@ -38,7 +38,7 @@
             class="org.jboss.tools.jsf.ui.editor.FacesConfigEditor" 
             contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor" 
             entities="FacesConfig,FacesConfig11,FacesConfig12" 
-            icon="images/xstudio/editors/jsf.gif" 
+            icon="$nl$/images/xstudio/editors/jsf.gif" 
             name="%editors.jsf.name">
       </xmlEditor>
 
@@ -46,7 +46,7 @@
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
             entities="FileFaceletTaglib" 
-            icon="images/xstudio/editors/jsf.gif" 
+            icon="$nl$/images/xstudio/editors/jsf.gif" 
             name="FaceletTaglib">
       </xmlEditor>
    </extension>
@@ -56,7 +56,7 @@
             contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor"
             default="true"
             extensions="jsfdia"
-            icon="images/xstudio/editors/jsf.gif"
+            icon="$nl$/images/xstudio/editors/jsf.gif"
             id="org.jboss.tools.jsf.ui.editor.AuxiliaryFileLauncher"
             launcher="org.jboss.tools.jsf.ui.editor.AuxiliaryFileLauncher"
             name="%editors.jsf.name">
@@ -99,7 +99,7 @@
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
             class="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
             finalPerspective="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
-            icon="images/xstudio/wizards/jsf-config.gif"
+            icon="$nl$/images/xstudio/wizards/jsf-config.gif"
             id="org.jboss.tools.jsf.ui.wizard.newfile.NewFacesConfigFileWizard"
             name="%NewWizard_FacesConfig"
             project="false">
@@ -113,7 +113,7 @@
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
             class="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
             finalPerspective="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
-            icon="images/xstudio/wizards/new_jsf_project.gif"
+            icon="$nl$/images/xstudio/wizards/new_jsf_project.gif"
             id="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
             name="%newProjectWizard.name"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
@@ -133,7 +133,7 @@
       <wizard 
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
             class="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
-            icon="images/xstudio/wizards/import_jsf_project.gif" 
+            icon="$nl$/images/xstudio/wizards/import_jsf_project.gif" 
             id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
             name="%importProjectWizard.name">
          <description>%ImportWizardDescription_JSFProject</description>
@@ -141,7 +141,7 @@
       <wizard 
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
             class="org.jboss.tools.jsf.ui.wizard.project.ImportJSFWarWizard" 
-            icon="images/xstudio/wizards/import_jsf_project.gif" 
+            icon="$nl$/images/xstudio/wizards/import_jsf_project.gif" 
             id="org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" 
             name="%importJSFWarWizard.name">
          <description>%ImportWizardDescription_JSFWar</description>
@@ -161,7 +161,7 @@
          <action 
                class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
                enablesFor="*" id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               icon="images/xstudio/actions/add_jsf_nature.gif"
+               icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
                label="%popupMenus.action.addJSFNature" 
                menubarPath="RedHat4Web/a">
          </action>
@@ -193,7 +193,7 @@
          <action 
                class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
                enablesFor="*" 
-               icon="images/xstudio/actions/add_jsf_nature.gif"
+               icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
                id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
                label="%popupMenus.action.addJSFNature" 
                menubarPath="RedHat4Web/a">
