@@ -60,6 +60,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4037Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4179Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4337Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
@@ -84,6 +85,7 @@ public class JsfAllTests {
 	public static final String IMPORT_PROJECT_NAME = "jsfTest"; //$NON-NLS-1$
 	public static final String IMPORT_JSF_20_PROJECT_NAME = "jsf2test"; //$NON-NLS-1$
 	public static final String IMPORT_CUSTOM_FACELETS_PROJECT = "customFaceletsTestProject";//$NON-NLS-1$
+	public static final String IMPORT_JBIDE3247_PROJECT_NAME = "JBIDE3247"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
@@ -146,7 +148,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE3969Test.class);
 		suite.addTestSuite(JBIDE4337Test.class);
 		suite.addTestSuite(JBIDE4179Test.class);
-		
+		suite.addTestSuite(JBIDE4509Test.class);
 		// $JUnit-END$
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests
@@ -165,6 +167,11 @@ public class JsfAllTests {
 		customFaceletsTestProject.setImportProjectName(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 		customFaceletsTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(customFaceletsTestProject);
+		
+		ImportBean jbide3247TestProject = new ImportBean();
+		jbide3247TestProject.setImportProjectName(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		jbide3247TestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(jbide3247TestProject);
 		
 		return new VpeTestSetup(suite, projectToImport);
 
