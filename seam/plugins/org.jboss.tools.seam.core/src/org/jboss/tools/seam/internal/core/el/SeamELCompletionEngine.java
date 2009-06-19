@@ -28,7 +28,6 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -218,7 +217,7 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 						try {
 							if(TypeInfoCollector.isInstanceofType(type, "java.util.Map")) {
 								suffix = collectionAdditionForMapDataModel;
-							} else {
+							} else if(TypeInfoCollector.isInstanceofType(type, "java.util.Collection")) {
 								suffix = collectionAdditionForCollectionDataModel;
 							}
 						} catch (JavaModelException e) {
@@ -372,13 +371,12 @@ public final class SeamELCompletionEngine implements ELCompletionEngine, ELResol
 		if(!(operand instanceof ELInvocationExpression) || file == null) {
 			return new SeamELOperandResolveStatus(null);
 		}
-		
-		
+
 		ELInvocationExpression expr = (ELInvocationExpression)operand;
 		boolean isIncomplete = expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION 
 			&& ((ELPropertyInvocation)expr).getName() == null;
 		boolean isArgument = expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION;
-		
+
 		SeamELOperandResolveStatus status = new SeamELOperandResolveStatus(expr);
 		ELInvocationExpression left = expr;
 

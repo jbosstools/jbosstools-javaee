@@ -38,6 +38,10 @@
 		<h:dataTable value="#{testComponentForVars.array}" var="thrItem">
 			<h:outputText value="#{thrItem.name}"/>
 		</h:dataTable>
+
+		<h:dataTable value="#{testComponentForVars.test}" var="singleValue">
+			<h:outputText value="#{singleValue.items}"/>
+		</h:dataTable>
 	</h:dataTable>
 
 </ui:define>
