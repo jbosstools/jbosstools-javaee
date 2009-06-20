@@ -32,7 +32,8 @@
          id="org.jboss.tools.struts.text.ext"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.struts.ui"
@@ -50,7 +51,8 @@
          id="org.jboss.tools.struts.verification"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.struts.vpe.struts"
