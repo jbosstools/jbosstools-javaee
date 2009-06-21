@@ -541,10 +541,14 @@
 <!-- Refactorng -->
 	<extension
 		point="org.eclipse.ui.menus">
-		<menuContribution
+		<!--menuContribution
           class="org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory"
           locationURI="popup:#CompilationUnitEditorContext?after=org.eclipse.jdt.ui.refactoring.menu">
-    	</menuContribution>
+    	</menuContribution-->
+    <menuContribution
+          class="org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory"
+          locationURI="popup:org.eclipse.ui.popup.any?after=save">
+    </menuContribution>
 	</extension> 
 
 

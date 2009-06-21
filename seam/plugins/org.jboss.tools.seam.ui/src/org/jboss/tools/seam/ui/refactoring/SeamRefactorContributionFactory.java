@@ -32,17 +32,17 @@ import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.internal.services.IWorkbenchLocationService;
 import org.eclipse.ui.menus.AbstractContributionFactory;
 import org.eclipse.ui.menus.IContributionRoot;
@@ -64,9 +64,12 @@ import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.propertieseditor.PropertiesCompoundEditor;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -110,8 +113,6 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	public void createContributionItems(IServiceLocator serviceLocator,
 			IContributionRoot additions) {
 		
-		//System.out.println("createContributionItems");
-		
 		if(serviceLocator.hasService(IWorkbenchLocationService.class)){
 			IWorkbenchLocationService service = (IWorkbenchLocationService)serviceLocator.getService(IWorkbenchLocationService.class);
 			editor = service.getWorkbenchWindow().getActivePage().getActiveEditor();
@@ -120,24 +121,51 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 			if(!(editor.getEditorInput() instanceof FileEditorInput))
 				return;
 			
-			MenuManager mm = new MenuManager(SeamUIMessages.SEAM_REFACTOR);
-			mm.setVisible(true);
-			
 			FileEditorInput input = (FileEditorInput)editor.getEditorInput();
 			
 			editorFile = input.getFile();
+			String ext = editorFile.getFileExtension();
 			
-			ISeamComponent component = getComponent(editorFile);
-			if(component != null){
-				mm.add(new RenameSeamComponentAction());
-				
-				additions.addContributionItem(mm, null);
+			if (!JAVA_EXT.equalsIgnoreCase(ext)
+					&& !XML_EXT.equalsIgnoreCase(ext)
+					&& !XHTML_EXT.equalsIgnoreCase(ext)
+					&& !JSP_EXT.equalsIgnoreCase(ext)
+					&& !PROPERTIES_EXT.equalsIgnoreCase(ext))
+				return;
+			
+			MenuManager mm = new MenuManager(SeamUIMessages.SEAM_REFACTOR);
+			mm.setVisible(true);
+			
+			boolean separatorIsAdded = false;
+			
+			if(JAVA_EXT.equalsIgnoreCase(ext)){
+				ISeamComponent component = getComponent(editorFile);
+				if(component != null){
+					mm.add(new RenameSeamComponentAction());
+					
+					additions.addContributionItem(new Separator(), null);
+					additions.addContributionItem(mm, null);
+					separatorIsAdded = true;
+				}
 			}
 			
 			ISelection sel = editor.getEditorSite().getSelectionProvider().getSelection();
 			
 			if(sel == null || sel.isEmpty())
 				return;
+			
+			if(sel instanceof StructuredSelection){
+				if(editor instanceof PropertiesCompoundEditor){
+					sel = ((PropertiesCompoundEditor)editor).getActiveEditor().getSite().getSelectionProvider().getSelection();
+				}else if(editor instanceof EditorPartWrapper){
+					EditorPartWrapper wrapperEditor = (EditorPartWrapper)editor;
+					if(wrapperEditor.getEditor() instanceof WebCompoundEditor){
+						WebCompoundEditor xmlEditor = (WebCompoundEditor)wrapperEditor.getEditor();
+						sel = xmlEditor.getActiveEditor().getSite().getSelectionProvider().getSelection();
+					}
+				}else if(editor instanceof WebCompoundEditor)
+					sel = ((WebCompoundEditor)editor).getActiveEditor().getSite().getSelectionProvider().getSelection();
+			}
 			
 			if(sel instanceof TextSelection){
 				TextSelection selection = (TextSelection)sel;
@@ -154,8 +182,9 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 				
 				boolean status = false;
 				
-				String ext = editorFile.getFileExtension();
+				
 				if(JAVA_EXT.equalsIgnoreCase(ext)){
+					// check - whether selected component's name or not
 //					if(checkNameAnnotation(selection)){
 //						mm.add(new RenameSeamComponentAction());
 //						
@@ -170,6 +199,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 				if(status){
 					mm.add(new RenameSeamContextVariableAction());
 					
+					if(!separatorIsAdded)
+						additions.addContributionItem(new Separator(), null);
 					additions.addContributionItem(mm, null);
 				}
 			}
@@ -260,7 +291,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 			if (model instanceof IDOMModel) {
 				IDOMModel domModel = (IDOMModel) model;
 				IDOMDocument document = domModel.getDocument();
-				scanChildNodes(file, document, selection);
+				return scanChildNodes(file, document, selection);
 			}
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
@@ -274,20 +305,29 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		return false;
 	}
 	
-	private void scanChildNodes(IFile file, Node parent, TextSelection selection) {
+	private boolean scanChildNodes(IFile file, Node parent, TextSelection selection) {
+		boolean status = false;
 		NodeList children = parent.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
 			Node curentValidatedNode = children.item(i);
 			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
-				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE, selection);
+				status = scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE, selection);
+				if(status)
+					return status;
 			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
-				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT, selection);
+				status = scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT, selection);
+				if(status)
+					return status;
 			}
-			scanChildNodes(file, curentValidatedNode, selection);
+			status = scanChildNodes(file, curentValidatedNode, selection);
+			if(status)
+				return status;
 		}
+		return false;
 	}
 
-	private void scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType, TextSelection selection) {
+	private boolean scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType, TextSelection selection) {
+		boolean status = false;
 		ITextRegionList regions = node.getRegions();
 		for(int i=0; i<regions.size(); i++) {
 			ITextRegion region = regions.get(i);
@@ -295,10 +335,13 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 				String text = node.getFullText(region);
 				if(text.indexOf("{")>-1) { //$NON-NLS-1$
 					int offset = node.getStartOffset() + region.getStart();
-					scanString(file, text, offset, selection);
+					status = scanString(file, text, offset, selection);
+					if(status)
+						return status;
 				}
 			}
 		}
+		return false;
 	}
 
 	private boolean checkContextVariableInProperties(IFile file, String content, TextSelection selection){
