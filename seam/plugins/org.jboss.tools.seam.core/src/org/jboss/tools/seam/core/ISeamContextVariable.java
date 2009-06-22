@@ -10,11 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.jst.web.kb.AbstractELCompletionEngine.IVariable;
+
 /**
  * Represents Seam Context Variable.
  * @author Alexey Kazakov
  */
-public interface ISeamContextVariable extends ISeamDeclaration {
+public interface ISeamContextVariable extends ISeamDeclaration, IVariable {
 
 	/**
 	 * Sets name

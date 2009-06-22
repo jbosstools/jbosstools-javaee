@@ -382,7 +382,7 @@ public class SeamELValidator extends SeamValidator {
 			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
 				SeamELOperandResolveStatus status = 
-					engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
+					(SeamELOperandResolveStatus)engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
 				if(status.isError()) {
 					if(revalidateUnresolvedELs) {

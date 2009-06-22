@@ -352,7 +352,7 @@ public class SeamExpressionResolver {
 				if(ex instanceof ELInvocationExpression) {
 					ELInvocationExpression expr = (ELInvocationExpression)ex;
 					try {
-						member = engine.resolveSeamEL(null, expr, false);
+						member = engine.resolveEL(null, expr, false);
 					} catch (StringIndexOutOfBoundsException e) {
 						e.printStackTrace();
 					} catch (BadLocationException e) {
