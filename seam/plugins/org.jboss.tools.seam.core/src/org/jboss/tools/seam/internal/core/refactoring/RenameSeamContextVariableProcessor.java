@@ -24,6 +24,8 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamContextShortVariable;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -91,23 +93,35 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 		return rootChange;
 	}
 	
+	private boolean checked = false;
+	
+	public String getOldName(){
+		if(!checked){
+			ISeamComponent component = checkComponent();
+			if(component != null){
+				setOldName(component.getName());
+			}
+			checked = true;
+		}
+		return super.getOldName();
+	}
+	
 	private ISeamComponent checkComponent(){
 		IProject project = file.getProject();
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if (seamProject != null) {
-			return seamProject.getComponent(getOldName());
-//			Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
-//			for(ISeamComponent component : components){
-//				ISeamJavaComponentDeclaration declaration = component.getJavaDeclaration();
-//				if(declaration != null){
-//					IResource resource = declaration.getResource();
-//					if(resource != null && resource.getFullPath().equals(file.getFullPath())){
-//						if(declaration.getName().equals(component.getName())){
-//							return component;
-//						}
-//					}
-//				}
-//			}
+			ISeamComponent component = seamProject.getComponent(super.getOldName());
+			if(component != null)
+				return component;
+			
+			Set<ISeamContextVariable> variables = seamProject.getVariablesByName(super.getOldName());
+			for(ISeamContextVariable variable : variables){
+				if(variable instanceof ISeamContextShortVariable){
+					ISeamContextVariable original = ((ISeamContextShortVariable)variable).getOriginal();
+					if(original instanceof ISeamComponent)
+						return (ISeamComponent)original;
+				}
+			}
 		}
 		return null;
 	}
