@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.model.java.handlers.OpenJavaSourceHandler;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
@@ -24,6 +25,7 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jsf.model.JSFELCompletionEngine;
 import org.jboss.tools.jsf.model.helpers.converter.*;
 import org.jboss.tools.jsf.model.helpers.pages.OpenCaseHelper;
 import org.jboss.tools.jsf.model.helpers.pages.ResourceBundleHelper;
@@ -219,6 +221,47 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		for (int j = 0; j < bs.length; j++) {
 			list.add(bs[j].getAttributeValue(constants.nameAttribute));
 		}						
+	}
+
+	public List<JSFELCompletionEngine.IJSFVariable> getVariables(XModel model) {
+		List<JSFELCompletionEngine.IJSFVariable> result = new ArrayList<JSFELCompletionEngine.IJSFVariable>();
+		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
+		if(root == null) return result;
+		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode beans = (WebProjectNode)root.getChildByPath("Beans");
+		XModelObject[] os = n.getTreeChildren();
+		for (int i = 0; i < os.length; i++) {
+			if(!os[i].getModelEntity().getName().startsWith(JSFConstants.ENT_FACESCONFIG)) continue;
+			getVariables(os[i], BeanConstants.MANAGED_BEAN_CONSTANTS, beans, result);
+			getVariables(os[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, beans, result);
+		}
+		
+		return result;
+	}
+
+	private void getVariables(XModelObject o, BeanConstants constants, WebProjectNode beans, List<JSFELCompletionEngine.IJSFVariable> list) {
+		XModelObject mb = o.getChildByPath(constants.folder);
+		if(mb == null) return;
+		XModelObject[] bs = mb.getChildren();
+		for (XModelObject q : bs) {
+		final String name = q.getAttributeValue(constants.nameAttribute);
+			String className = q.getAttributeValue(constants.classAttribute);
+			XModelObject c = findBeanClassByClassName(beans, className);
+			if (c instanceof JSFProjectBean) {
+				JSFProjectBean b = (JSFProjectBean) c;
+				final IType type = b.getType();
+				JSFELCompletionEngine.IJSFVariable var = new JSFELCompletionEngine.IJSFVariable() {
+					public IMember getSourceMember() {
+						return type;
+					}
+
+					public String getName() {
+						return name;
+					}
+				};
+				list.add(var);
+			}
+		}
 	}
 
 	public List<Object> getBeanProperties(XModel model, String prefix, String type, boolean beanOnly) {

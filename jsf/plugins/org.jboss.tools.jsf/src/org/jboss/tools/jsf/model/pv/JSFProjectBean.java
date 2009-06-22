@@ -66,6 +66,10 @@ public class JSFProjectBean extends RegularObjectImpl {
 			}
 		}
 	}
+
+	public IType getType() {
+		return type;
+	}
 	
 	protected void loadChildren() {
 		if(loaded) return;
