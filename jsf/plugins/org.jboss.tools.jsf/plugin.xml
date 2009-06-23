@@ -430,4 +430,11 @@
          		resolver-class="org.jboss.tools.jsf.model.JSFELCompletionEngine"/>
          </el-resolver>
    </extension>
+   <extension
+         point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="jsfMessageELResolver">
+         	<project-nature id="org.jboss.tools.jsf.jsfnature" 
+         		resolver-class="org.jboss.tools.jsf.model.JSFMessageELCompletionEngine"/>
+         </el-resolver>
+   </extension>
 </plugin>
