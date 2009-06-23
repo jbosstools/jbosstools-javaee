@@ -239,7 +239,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			if(!isFinal || onlyEqualNames) {
 				if(!name.equals(varName)) continue;
 			}
-			if(!varName.startsWith(name)) continue;
+			if(!name.startsWith(varName)) continue;
 			Variable v = new Variable(name, b.getBasename(), file);
 			result.add(v);
 		}
