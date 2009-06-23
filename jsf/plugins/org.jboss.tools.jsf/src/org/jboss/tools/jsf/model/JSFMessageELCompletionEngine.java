@@ -44,10 +44,10 @@ import org.jboss.tools.jst.web.kb.IResourceBundle;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
 public class JSFMessageELCompletionEngine implements ELResolver {
-	private static final Image JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
+	private static final Image JSF_EL_MESSAGES_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
 
 	public Image getELProposalImage() {
-		return JSF_EL_PROPOSAL_IMAGE;
+		return JSF_EL_MESSAGES_PROPOSAL_IMAGE;
 	}
 
 	private static ELParserFactory factory = ELParserUtil.getDefaultFactory();

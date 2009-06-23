@@ -32,6 +32,7 @@ public class JSFModelPlugin extends BaseUIPlugin {
 	public static final String PLUGIN_ID = "org.jboss.tools.jsf";
 
 	public static final String CA_JSF_EL_IMAGE_PATH = "images/ca/icons_JSF_EL.gif";
+	public static final String CA_JSF_MESSAGES_IMAGE_PATH = "images/ca/icons_Message_Bundles.gif";
 
 	// A Map to save a descriptor for each image
 	private HashMap fImageDescRegistry = null;
