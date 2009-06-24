@@ -64,6 +64,7 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 	private static final String SETTINGS_SECTION_NAME = SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_SEAM_VALIDATOR_CONFIGURATION_BLOCK;
 
 	private Button recognizeVarsCheckBox;
+	private Button revalidateUnresolvedElCheckBox;
 	private Combo elVariablesCombo;
 	private Combo elPropertiesCombo;
 
@@ -276,6 +277,9 @@ public class SeamValidatorConfigurationBlock extends OptionsConfigurationBlock {
 			if(section==SECTION_EL) {
 				label = SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_checkVars_label; 
 				recognizeVarsCheckBox = addCheckBox(inner, label, getSeamKey(SeamPreferences.CHECK_VARS), enableDisableValues, defaultIndent);
+
+				label = SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_revalidateUnresolvedEl_label; 
+				revalidateUnresolvedElCheckBox = addCheckBox(inner, label, getSeamKey(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL), enableDisableValues, defaultIndent);
 			}
 		}
 

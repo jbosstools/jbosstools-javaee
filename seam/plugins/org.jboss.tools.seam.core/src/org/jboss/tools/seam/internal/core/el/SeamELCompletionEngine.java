@@ -54,7 +54,7 @@ import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.jst.web.kb.AbstractELCompletionEngine;
+import org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
