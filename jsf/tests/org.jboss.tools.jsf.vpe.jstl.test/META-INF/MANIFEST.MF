@@ -11,3 +11,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: vpe-jstl-test.jar
 Import-Package: org.jboss.tools.tests,
  org.jboss.tools.vpe.ui.test
+Export-Package: org.jboss.tools.jsf.vpe.jstl.test
