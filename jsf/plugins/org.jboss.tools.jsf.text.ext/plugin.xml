@@ -900,6 +900,10 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
+		</hyperlinkPartitioner>
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPBundleHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPBundleHyperlinkPartitioner">
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
@@ -1115,6 +1119,10 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
+		</hyperlink>
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfBundleHyperlink" 
+			id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfBundleHyperlink">
 			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
