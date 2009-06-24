@@ -7,12 +7,12 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:framework="http://jboss.com/products/seam/framework"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd 
-                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.1.xsd
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.2.xsd 
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.2.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.2.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-1.2.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-1.2.xsd
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.2.xsd">
 
    <core:init debug="true" jndi-pattern="@jndiPattern@"/>
      
