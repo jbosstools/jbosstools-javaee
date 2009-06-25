@@ -10,15 +10,16 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.ajax4jsf.template;
 
+import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
+import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
-import org.jboss.tools.vpe.editor.mapping.NodeData;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
-import org.mozilla.interfaces.nsIDOMAttr;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMText;
@@ -26,11 +27,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
-import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
-
-import com.sun.org.apache.regexp.internal.recompile;
 
 /**
  * @author yradtsevich
@@ -52,16 +48,6 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		Creator creator = new Creator(pageContext, (Element)sourceNode, visualDocument);
 		return creator.create();
-	}
-	
-	/**
-	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#recreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean recreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement visualNode, Object data, String name, String value) {
-		return true;
 	}
 	
 	private static class Creator {

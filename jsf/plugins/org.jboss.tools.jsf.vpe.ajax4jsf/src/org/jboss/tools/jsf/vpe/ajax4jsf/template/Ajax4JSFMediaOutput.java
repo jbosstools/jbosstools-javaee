@@ -70,13 +70,6 @@ public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
 		return new VpeCreationData(mainTag);
 	}
 
-	@Override
-	public boolean recreateAtAttrChange(VpePageContext pageContext,
-			Element sourceElement, nsIDOMDocument visualDocument,
-			nsIDOMElement visualNode, Object data, String name, String value) {
-		return true;
-	}
-
 	public static String getAbsoluteResourcePath(String resourcePathInPlugin) {
 		String pluginPath = Activator.getPluginResourcePath();
 		IPath pluginFile = new Path(pluginPath);
