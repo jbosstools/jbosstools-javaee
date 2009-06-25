@@ -10,17 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jstl.template;
 
-import java.util.List;
 
-import org.jboss.tools.jsf.vpe.jstl.template.util.JstlUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
-import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
-import org.mozilla.interfaces.nsIDOMElement;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -29,29 +22,15 @@ import org.w3c.dom.Node;
  * @author dmaliarevich
  *
  */
-public class JstlForEachTemplate extends VpeAbstractTemplate {
+public class JstlForEachTemplate extends JstlAbstractForEachTemplate {
 
-    private final int TIMES_TO_ITERATE = 3;
-    
     public JstlForEachTemplate() {
 	super();
     }
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-	Element sourceElement = (Element) sourceNode;
-	nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument);
-	List<Node> children = JstlUtil.getChildren(sourceElement);
-	VpeCreationData creationData = new VpeCreationData(span);
-	
-	VpeChildrenInfo spanInfo = new VpeChildrenInfo(span);
-	creationData.addChildrenInfo(spanInfo);
-	for(int i = 0; i < TIMES_TO_ITERATE; i++) {
-	    for (Node child : children) {
-		spanInfo.addSourceChild(child);
-	    }
-	}
-	return creationData;
+    	return createStub(pageContext, sourceNode, visualDocument);
     }
 
 }
