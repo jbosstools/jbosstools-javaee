@@ -498,7 +498,28 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 										existingProposals.add(proposalString);
 										filteredValidProposals.remove(proposalString);
 									} else {
-										nonExistingProposals.add(proposalString);
+										String validProposal = null;
+										if (proposalString.indexOf("(") > -1) {
+											String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
+											// Find method with the same name in filtered valid proposals
+											for (String valid : filteredValidProposals) {
+												if (valid.indexOf("(") > -1) {
+													String validName = valid.substring(0, valid.indexOf("(")).trim();
+													
+													if (methodName.equals(validName)) {
+														validProposal = valid;
+														break;
+													}
+												}
+											}
+										}	
+										if (validProposal != null) {
+											existingProposals.add(validProposal);
+											filteredValidProposals.remove(validProposal);
+										} else {
+											nonExistingProposals.add(proposalString);
+										}
+									
 									}
 								}
 							}
@@ -586,7 +607,27 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 											existingProposals.add(proposalString);
 											filteredValidProposals.remove(proposalString);
 										} else {
-											nonExistingProposals.add(proposalString);
+											String validProposal = null;
+											if (proposalString.indexOf("(") > -1) {
+												String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
+												// Find method with the same name in filtered valid proposals
+												for (String valid : filteredValidProposals) {
+													if (valid.indexOf("(") > -1) {
+														String validName = valid.substring(0, valid.indexOf("(")).trim();
+														
+														if (methodName.equals(validName)) {
+															validProposal = valid;
+															break;
+														}
+													}
+												}
+											}	
+											if (validProposal != null) {
+												existingProposals.add(validProposal);
+												filteredValidProposals.remove(validProposal);
+											} else {
+												nonExistingProposals.add(proposalString);
+											}
 										}
 									}
 								}
