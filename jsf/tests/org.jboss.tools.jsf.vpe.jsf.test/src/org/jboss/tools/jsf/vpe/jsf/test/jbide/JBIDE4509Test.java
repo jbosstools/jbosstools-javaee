@@ -15,6 +15,12 @@ import java.lang.reflect.Method;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.core.JarEntryFile;
+import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
+import org.eclipse.jdt.internal.ui.javaeditor.JarEntryEditorInput;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
@@ -49,34 +55,65 @@ public class JBIDE4509Test extends VpeTest{
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
-		IEditorInput input = new FileEditorInput(file);
-		MultiPageEditorPart editorPart = (MultiPageEditorPart) PlatformUI.getWorkbench().
-								getActiveWorkbenchWindow().
-								getActivePage().
-								openEditor(input,getEditorId(file.getName()));
-		IEditorPart[] editorParts = editorPart.findEditors(input);
+		IEditorInput editorInput = new FileEditorInput(file);
+		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 12, 17, "paginator.xhtml"); //$NON-NLS-1$
+	}
+	
+	
+	//test openon for taglib from in file
+	public void testOpenOnForTaglibInJarFile() throws Throwable {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IJavaProject javaProject = JavaCore.create(project);
+		
+		IFile jarArchive = (IFile) project.findMember("WebContent/WEB-INF/lib/mareshkau.jar"); //$NON-NLS-1$
+
+		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(jarArchive);
+		
+		JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root; 
+		JarEntryFile fileInJar = new JarEntryFile("META-INF/mareshkau.taglib.xml"); //$NON-NLS-1$s
+		fileInJar.setParent(jarRoot);
+		JarEntryEditorInput jarEditorInput = new JarEntryEditorInput(fileInJar);
+		JBIDE4509Test.checkOpenOnInEditor(jarEditorInput, getEditorId(fileInJar.getName()),12, 25, 
+				"components/paginator.xhtml"); //$NON-NLS-1$
+	}
+	
+	private static final void checkOpenOnInEditor(IEditorInput editorInput,String editorId,int lineNumber, int lineOffset, String openedOnFileName) throws Throwable {
+		MultiPageEditorPart editorPart = (MultiPageEditorPart) PlatformUI
+				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.openEditor(editorInput, editorId);
+		IEditorPart[] editorParts = editorPart.findEditors(editorInput);
 		editorPart.setActiveEditor(editorParts[0]);
 		StructuredTextEditor textEditor = (StructuredTextEditor) editorParts[0];
-
-		int openOnPosition = TestUtil.getLinePositionOffcet(textEditor.getTextViewer(),12,17);
-		//hack to get hyperlinks detectors, no other was have been founeded
-		Method method = AbstractTextEditor.class.getDeclaredMethod("getSourceViewerConfiguration"); //$NON-NLS-1$
+		int openOnPosition = TestUtil.getLinePositionOffcet(textEditor
+				.getTextViewer(),lineNumber, lineOffset);
+		// hack to get hyperlinks detectors, no other was have been founded
+		Method method = AbstractTextEditor.class
+				.getDeclaredMethod("getSourceViewerConfiguration"); //$NON-NLS-1$
 		method.setAccessible(true);
-		SourceViewerConfiguration sourceViewerConfiguration = (SourceViewerConfiguration) method.invoke(textEditor);
-		IHyperlinkDetector[] hyperlinkDetectors = sourceViewerConfiguration.getHyperlinkDetectors(textEditor.getTextViewer());
+		SourceViewerConfiguration sourceViewerConfiguration = (SourceViewerConfiguration) method
+				.invoke(textEditor);
+		IHyperlinkDetector[] hyperlinkDetectors = sourceViewerConfiguration
+				.getHyperlinkDetectors(textEditor.getTextViewer());
 		for (IHyperlinkDetector iHyperlinkDetector : hyperlinkDetectors) {
-			IHyperlink [] hyperLinks = iHyperlinkDetector.detectHyperlinks(textEditor.getTextViewer(), new Region(openOnPosition,0), false);
-			if(hyperLinks!=null && hyperLinks.length>0 && hyperLinks[0] instanceof AbstractHyperlink) {
+			IHyperlink[] hyperLinks = iHyperlinkDetector.detectHyperlinks(
+					textEditor.getTextViewer(), new Region(openOnPosition, 0),
+					false);
+			if (hyperLinks != null && hyperLinks.length > 0
+					&& hyperLinks[0] instanceof AbstractHyperlink) {
 				AbstractHyperlink abstractHyperlink = (AbstractHyperlink) hyperLinks[0];
 				abstractHyperlink.open();
 				break;
 			}
 		}
-		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		assertEquals("Active page should be ","paginator.xhtml", activeEditor.getEditorInput().getName());  //$NON-NLS-1$//$NON-NLS-2$
-		}
-			
-	private static String getEditorId(String filename) {
+		IEditorPart activeEditor = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertEquals(
+				"Active page should be ", openedOnFileName, activeEditor.getEditorInput().getName()); //$NON-NLS-1$
+
+	}
+	
+	private static final String getEditorId(String filename) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IEditorRegistry editorRegistry = workbench.getEditorRegistry();
 		IEditorDescriptor descriptor = editorRegistry
