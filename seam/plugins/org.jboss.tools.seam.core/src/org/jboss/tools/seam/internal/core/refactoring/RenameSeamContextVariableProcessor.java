@@ -23,6 +23,9 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
+import org.eclipse.ltk.internal.core.refactoring.Messages;
+import org.jboss.tools.seam.core.BijectedAttributeType;
+import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
@@ -30,12 +33,15 @@ import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 
 /**
  * @author Daniel Azarov
  */
 public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	IFile file;
+	private ISeamComponent component;
 	/**
 	 * @param file where refactor was called
 	 */
@@ -54,17 +60,14 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
 		status = new RefactoringStatus();
-		ISeamComponent component = checkComponent();
+		
+		rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
 		if(component != null){
 			checkDeclarations(component);
 			
-			rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_TITLE);
-			
 			renameComponent(pm, component);
 		}else{
-			Set<ISeamFactory> factories = checkFactories();
-			if(factories != null)
-				renameFactories(pm, factories);
+			renameSeamContextVariable(pm, file);
 		}
 		return status;
 	}
@@ -77,6 +80,16 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
+		boolean status = false;
+		component = checkComponent();
+		
+		if(component == null){
+			status = checkContextVariable();
+		}else{
+			setOldName(component.getName());
+		}
+		if(component == null && !status)
+			result.addFatalError(Messages.format(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE_PROCESSOR_CAN_NOT_FIND_CONTEXT_VARIABLE, getOldName()));
 		return result;
 	}
 	
@@ -88,33 +101,41 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
 		
-		
-		
 		return rootChange;
 	}
 	
-	private boolean checked = false;
-	
-	public String getOldName(){
-		if(!checked){
-			ISeamComponent component = checkComponent();
-			if(component != null){
-				setOldName(component.getName());
+	private ISeamComponent checkComponent(){
+		ISeamComponent comp;
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(file.getProject(), true);
+		projectsSet = new SeamProjectsSet(file.getProject());
+		
+		comp = checkComponent(seamProject);
+		if(comp != null)
+			return comp;
+		
+		IProject[] projects = projectsSet.getAllProjects();
+		for (IProject project : projects) {
+			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
+			if(sProject != null){
+				comp = checkComponent(sProject);
+				if(comp != null)
+					return comp;
 			}
-			checked = true;
 		}
-		return super.getOldName();
+		return null;
 	}
 	
-	private ISeamComponent checkComponent(){
-		IProject project = file.getProject();
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+	private ISeamComponent checkComponent(ISeamProject seamProject){
 		if (seamProject != null) {
-			ISeamComponent component = seamProject.getComponent(super.getOldName());
+			ISeamComponent component = seamProject.getComponent(getOldName());
 			if(component != null)
 				return component;
 			
-			Set<ISeamContextVariable> variables = seamProject.getVariablesByName(super.getOldName());
+			Set<ISeamContextVariable> variables = seamProject.getVariablesByName(getOldName());
+			
+			if(variables == null)
+				return null;
+			
 			for(ISeamContextVariable variable : variables){
 				if(variable instanceof ISeamContextShortVariable){
 					ISeamContextVariable original = ((ISeamContextShortVariable)variable).getOriginal();
@@ -126,13 +147,65 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 		return null;
 	}
 	
-	private Set<ISeamFactory> checkFactories(){
-		IProject project = file.getProject();
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-		if (seamProject != null) {
-			return seamProject.getFactoriesByName(getOldName());
+	private boolean checkContextVariable(){
+		boolean status = false;
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(file.getProject(), true);
+		
+		status = checkFactories(seamProject);
+		if(status)
+			return status;
+		
+		status = checkOuts(seamProject);
+		if(status)
+			return status;
+		
+		status = checkDataModels(seamProject);
+		if(status)
+			return status;
+		
+		IProject[] projects = projectsSet.getAllProjects();
+		for (IProject project : projects) {
+			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
+			if(sProject != null){
+				status = checkFactories(sProject);
+				if(status)
+					return status;
+				
+				status = checkOuts(sProject);
+				if(status)
+					return status;
+				
+				status = checkDataModels(sProject);
+				if(status)
+					return status;
+			}
 		}
-		return null;
+		return status;
+	}
+	
+	private boolean checkFactories(ISeamProject seamProject){
+		if (seamProject != null) {
+			return seamProject.getFactoriesByName(getOldName()) != null;
+		}
+		return false;
+	}
+	
+	private boolean checkOuts(ISeamProject seamProject){
+		if (seamProject != null) {
+			Set<IBijectedAttribute> variables = seamProject.getBijectedAttributesByName(getOldName(), BijectedAttributeType.OUT);
+			
+			return variables != null;
+		}
+		return false;
+	}
+	
+	private boolean checkDataModels(ISeamProject seamProject){
+		if (seamProject != null) {
+			Set<IBijectedAttribute> variables = seamProject.getBijectedAttributesByName(getOldName(), BijectedAttributeType.DATA_BINDER);
+			
+			return variables != null;
+		}
+		return false;
 	}
 	
 	/*

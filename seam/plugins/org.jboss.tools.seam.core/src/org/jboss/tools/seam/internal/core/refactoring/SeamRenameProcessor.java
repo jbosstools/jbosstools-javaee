@@ -166,33 +166,27 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			return;
 		
 		files.clear();
-		findAnnotations(seamProject, true);
+		findInFactoryAnnotations(seamProject, true);
 		
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
 			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
 			if(sProject != null){
-				findAnnotations(sProject, false);
+				findInFactoryAnnotations(sProject, false);
 			}
 		}
 		
 	}
 	
-	private void findAnnotations(ISeamProject seamProject, boolean force){
+	private void findInFactoryAnnotations(ISeamProject seamProject, boolean force){
 		// find @In annotations
-		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(getOldName(), BijectedAttributeType.IN);
+		findAnnotations(seamProject, force, BijectedAttributeType.IN, SeamAnnotations.IN_ANNOTATION_TYPE);
 		
-		for(IBijectedAttribute inAtt : inSet){
-			ITextSourceReference location = inAtt.getLocationFor(SeamAnnotations.IN_ANNOTATION_TYPE);
-			if(location != null){
-				if(!files.contains(inAtt.getResource().getFullPath())){
-					files.add(inAtt.getResource().getFullPath());
-					changeAnnotation(location, (IFile)inAtt.getResource());
-				}else if(force)
-					changeAnnotation(location, (IFile)inAtt.getResource());
-			}
-		}
 		
+		findFactories(seamProject, force);
+	}
+	
+	private void findFactories(ISeamProject seamProject, boolean force){
 		// find @Factory annotations
 		Set<ISeamFactory> factorySet = seamProject.getFactoriesByName(getOldName());
 		
@@ -201,8 +195,24 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
+	private void findAnnotations(ISeamProject seamProject, boolean force, BijectedAttributeType type, String locationPath){
+		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(getOldName(), type);
+		
+		for(IBijectedAttribute inAtt : inSet){
+			ITextSourceReference location = inAtt.getLocationFor(locationPath);
+			if(location != null){
+				if(!files.contains(inAtt.getResource().getFullPath())){
+					files.add(inAtt.getResource().getFullPath());
+					changeAnnotation(location, (IFile)inAtt.getResource());
+				}else if(force)
+					changeAnnotation(location, (IFile)inAtt.getResource());
+			}
+		}
+	}
+	
 	private void changeFactory(ISeamFactory factory, boolean force){
 		IFile file = (IFile)factory.getResource();
+		
 		if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
 			ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
 			if(location != null){
@@ -692,8 +702,45 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			pm.worked(1);
 		}
 		
+		pm.done();
+	}
+	
+	protected void renameSeamContextVariable(IProgressMonitor pm, IFile sourceFile)throws CoreException{
+		pm.beginTask("", 2);
+		
+		declarationFile = sourceFile;
+		
+		findOutDataModelFactory();
+		
+		pm.worked(1);
+		
 		findELReferences();
 		
 		pm.done();
+	}
+	
+	protected void findOutDataModelFactory(){
+		if(declarationFile == null)
+			return;
+		
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(declarationFile.getProject(), true);
+		
+		if(seamProject == null)
+			return;
+		
+		files.clear();
+		findAnnotations(seamProject, true, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
+		findAnnotations(seamProject, true, BijectedAttributeType.DATA_BINDER, "name"/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
+		findFactories(seamProject, true);
+		
+		IProject[] projects = projectsSet.getAllProjects();
+		for (IProject project : projects) {
+			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
+			if(sProject != null){
+				findAnnotations(sProject, false, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
+				findAnnotations(sProject, false, BijectedAttributeType.DATA_BINDER, "name"/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
+				findFactories(sProject, false);
+			}
+		}
 	}
 }
