@@ -232,7 +232,7 @@ public class RichFacesLayoutTemplate extends VpeAbstractTemplate {
 		if ((null != widthStr) &&  widthStr.endsWith(Constants.PERCENT)) {
 			try {
 				result = Double.parseDouble(widthStr.substring(0, widthStr.length()-1));
-			} catch (Exception e) {
+			} catch (NumberFormatException e) {
 				/*
 				 * Cannot parse - skip.
 				 */
