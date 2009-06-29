@@ -1023,13 +1023,13 @@
                     </mediaobject>
                 </figure>
 
-                <para id="css_dialog"><property>CSS Dialog</property> has four tabs where css
+                <para id="css_dialog"><property>CSS Style Dialog</property> has several tabs where css
                     properties for text, background, borders and others can be specified. A simple
-                    preview which is generated at the top of the <property>CSS Dialog</property>
+                    preview which is generated at the top of the <property>CSS Style Dialog</property>
                     allows you to see the changes before you apply them.</para>
 
                 <figure>
-                    <title>CSS Dialog</title>
+                    <title>CSS Style Dialog</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/visual_page_7.png"/>
@@ -1042,16 +1042,15 @@
                 <title>External Stylesheets</title>
                 <para>The pages you are working with in <property>VPE</property> can use external
                     stylesheets. <property>VPE</property> allows you to create new style classes in
-                    existing stylesheets and/or edit them as well. For these purposes <property>CSS
-                        Style Class Dialog</property> is provided (hot keys - <emphasis>
-                            <property>CTRL+SHIT+C</property>).</emphasis></para>
+                    existing stylesheets and/or edit them as well. For these purposes <property>Edit
+                        Style Class Dialog</property> is provided.</para>
                 <para>Select the element for which you need to create or edit style class and press
                     button next to <emphasis>
                         <property>styleClass</property>
                     </emphasis> field in <property>Properties view</property>.</para>
 
                 <figure>
-                    <title>Calling the CSS Style Class Dialog</title>
+                    <title>Calling the Edit Style Class Dialog</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/visual_page_17.png"/>
@@ -1059,32 +1058,37 @@
                     </mediaobject>
                 </figure>
 
-                <para>It&apos;ll pick up the <property>CSS Style Class Dialog</property> which
-                    looks like on the figure below.</para>
+                <para>It&apos;ll pick up the <property>Edit Style Class Dialog</property> which
+                    looks like on the figure below:</para>
                 <figure>
-                    <title>CSS Style Class Dialog</title>
+                    <title>Edit Style Class Dialog</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/visual_page_18.png"/>
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>First, you should specify the CSS file where you are going to put your style
-                    class. Do this by pressing the button next to the <emphasis>
-                        <property>CSS file</property>
-                    </emphasis> field.</para>
-                <figure>
-                    <title>CSS File Selection</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/visual_page/visual_page_19.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-
-                <para>To create new CSS class write its name in the <emphasis>
-                        <property>Style class</property>
-                    </emphasis> field and then configure style settings switching between the tabs: <emphasis>
+                
+                <para>Choose a style class from the variants provided and click on the <property>Ok</property> button to apply the changes.</para>
+                
+                <para>To open a CSS dialog based on the active CSS file click on <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_19.png"/>
+                    </imageobject>
+                </inlinemediaobject> in the top panel or use hot-keys (<property>Shift+Ctrl+C</property>).   </para>
+                    
+                <para>To create a new CSS class for the file click on the <property>Add CSS Class</property> button, write its name in the field appeared and click on the <property>Ok</property> button:</para>
+                   
+                    <figure>
+                        <title>Add CSS Class</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_20_b.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                   
+                   <para>Then you can configure style settings switching between the tabs: <emphasis>
                         <property>Text/Font</property>, </emphasis>
                     <emphasis>
                         <property>Background</property>, </emphasis>
@@ -1095,7 +1099,7 @@
                     the chosen element just point to the
                     necessary one. Each time you select any class it is displayed in the Preview tab. Click on the <emphasis><property>Apply</property></emphasis> button will apply the changes without closing the window.</para>
 
-                <figure>
+                               <figure>
                     <title>Style Class Selection</title>
                     <mediaobject>
                         <imageobject>
@@ -1103,6 +1107,9 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
+
+
+                
 
                 <para>The <emphasis>
                         <property>Edited properties</property>
@@ -1142,7 +1149,7 @@
                     </mediaobject>
                 </figure>
 
-                <para>At the top of the <property>CSS Style Class Dialog</property>
+                <para>At the top of the <property>CSS Class Dialog</property>
                     you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <emphasis>
                         <property>Ctrl + Tab</property>.</emphasis></para>
                 
@@ -1157,7 +1164,7 @@
 
                 <para>The dialog for creating a new CSS class, which is called from <emphasis>
                         <property>New > Other... > JBoss Tools Web > CSS Class</property>,
-                    </emphasis> looks the same.</para>
+                    </emphasis> looks this way:</para>
 
                 <figure>
                     <title>New CSS Class Dialog</title>
@@ -1167,6 +1174,18 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
+            <para>Click on the <property>Browse</property> button to open a dialog to select the CSS file to create a CSS class for:</para>
+                <figure>
+                    <title>CSS File Selection</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_22_b.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Choose the necessary CSS file and click on the <property>Ok</property> button.</para>
+            
+            
             </section>
         </section>
 
