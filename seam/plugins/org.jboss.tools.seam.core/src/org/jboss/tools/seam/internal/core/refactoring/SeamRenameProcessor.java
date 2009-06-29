@@ -134,11 +134,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		return lastChange;
 	}
 	
-	ArrayList<IPath> files = new ArrayList<IPath>();
-
 	protected void findDeclarations(ISeamComponent component) throws CoreException{
-		files.clear();
-		findDeclarations(component, true);
+		changeDeclarations(component);
 		
 		if(declarationFile == null)
 			return;
@@ -151,7 +148,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			if(seamProject != null){
 				ISeamComponent comp = seamProject.getComponent(getOldName());
 				if(comp != null)
-					findDeclarations(comp, false);
+					changeDeclarations(comp);
 			}
 		}
 	}
@@ -165,72 +162,58 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		if(seamProject == null)
 			return;
 		
-		files.clear();
-		findInFactoryAnnotations(seamProject, true);
+		findInFactoryAnnotations(seamProject);
 		
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
 			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
 			if(sProject != null){
-				findInFactoryAnnotations(sProject, false);
+				findInFactoryAnnotations(sProject);
 			}
 		}
 		
 	}
 	
-	private void findInFactoryAnnotations(ISeamProject seamProject, boolean force){
+	private void findInFactoryAnnotations(ISeamProject seamProject){
 		// find @In annotations
-		findAnnotations(seamProject, force, BijectedAttributeType.IN, SeamAnnotations.IN_ANNOTATION_TYPE);
+		findAnnotations(seamProject, BijectedAttributeType.IN, SeamAnnotations.IN_ANNOTATION_TYPE);
 		
 		
-		findFactories(seamProject, force);
+		findFactories(seamProject);
 	}
 	
-	private void findFactories(ISeamProject seamProject, boolean force){
+	private void findFactories(ISeamProject seamProject){
 		// find @Factory annotations
 		Set<ISeamFactory> factorySet = seamProject.getFactoriesByName(getOldName());
 		
 		for(ISeamFactory factory : factorySet){
-			changeFactory(factory, force);
+			changeFactory(factory);
 		}
 	}
 	
-	private void findAnnotations(ISeamProject seamProject, boolean force, BijectedAttributeType type, String locationPath){
+	private void findAnnotations(ISeamProject seamProject, BijectedAttributeType type, String locationPath){
 		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(getOldName(), type);
 		
 		for(IBijectedAttribute inAtt : inSet){
 			ITextSourceReference location = inAtt.getLocationFor(locationPath);
-			if(location != null){
-				if(!files.contains(inAtt.getResource().getFullPath())){
-					files.add(inAtt.getResource().getFullPath());
-					changeAnnotation(location, (IFile)inAtt.getResource());
-				}else if(force)
-					changeAnnotation(location, (IFile)inAtt.getResource());
-			}
+			if(location != null)
+				changeAnnotation(location, (IFile)inAtt.getResource());
 		}
 	}
 	
-	private void changeFactory(ISeamFactory factory, boolean force){
+	private void changeFactory(ISeamFactory factory){
 		IFile file = (IFile)factory.getResource();
 		
 		if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
 			ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
-			if(location != null){
-				if(!files.contains(file.getFullPath())){
-					files.add(file.getFullPath());
-					changeAnnotation(location, file);
-				}else if(force)
-					changeAnnotation(location, file);
-			}
+			if(location != null)
+				changeAnnotation(location, file);
+			
 		}else{
 			ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null){
-				if(!files.contains(file.getFullPath())){
-					files.add(file.getFullPath());
-					changeXMLNode(location, file);
-				}else if(force)
-					changeXMLNode(location, file);
-			}
+			if(location != null)
+				changeXMLNode(location, file);
+			
 		}
 	}
 	
@@ -253,20 +236,15 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			return;
 		}
 		
-		TextFileChange change = getChange(file);
-		
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
 		if(text.startsWith("<")){ //$NON-NLS-1$
 			int position = text.lastIndexOf("/>"); //$NON-NLS-1$
 			if(position < 0){
 				position = text.lastIndexOf(">"); //$NON-NLS-1$
 			}
-			
-			TextEdit edit = new ReplaceEdit(location.getStartPosition()+position, 0, " name=\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
-			change.addEdit(edit);
+			change(file, location.getStartPosition()+position, 0, " name=\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 		}else{
-			TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), getNewName());
-			change.addEdit(edit);
+			change(file, location.getStartPosition(), location.getLength(), getNewName());
 		}
 	}
 	
@@ -285,8 +263,6 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			return;
 		}
 		
-		TextFileChange change = getChange(file);
-		
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
 		int openBracket = text.indexOf("("); //$NON-NLS-1$
 		if(openBracket > 0){
@@ -297,46 +273,33 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			
 			if(closeBracket == openBracket+1){ // empty brackets
 				String newText = "\""+getNewName()+"\""; //$NON-NLS-1$ //$NON-NLS-2$
-				TextEdit edit = new ReplaceEdit(location.getStartPosition()+openBracket+1, 0, newText);
-				change.addEdit(edit);
+				change(file, location.getStartPosition()+openBracket+1, 0, newText);
 			}else if(value > 0){ // construction value="name" found so change name
 				String newText = text.replace(getOldName(), getNewName());
-				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newText);
-				change.addEdit(edit);
+				change(file, location.getStartPosition(), location.getLength(), newText);
 			}else if(equals > 0){ // other parameters are found
 				String newText = "value=\""+getNewName()+"\","; //$NON-NLS-1$ //$NON-NLS-2$
-				TextEdit edit = new ReplaceEdit(location.getStartPosition()+openBracket+1, 0, newText);
-				change.addEdit(edit);
+				change(file, location.getStartPosition()+openBracket+1, 0, newText);
 			}else{ // other cases
 				String newText = text.replace(getOldName(), getNewName());
-				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), newText);
-				change.addEdit(edit);
+				change(file, location.getStartPosition(), location.getLength(), newText);
 			}
 		}else{
 			String newText = "(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
-			TextEdit edit = new ReplaceEdit(location.getStartPosition()+location.getLength(), 0, newText);
-			change.addEdit(edit);
+			change(file, location.getStartPosition()+location.getLength(), 0, newText);
 		}
 	}
 
 	
-	private void findDeclarations(ISeamComponent component, boolean force) throws CoreException{
-		if(component.getJavaDeclaration() != null){
-			if(!files.contains(component.getJavaDeclaration().getResource().getFullPath())){
-				files.add(component.getJavaDeclaration().getResource().getFullPath());
-				renameJavaDeclaration(component.getJavaDeclaration());
-			}else if(force)
-				renameJavaDeclaration(component.getJavaDeclaration());
-		}
+	private void changeDeclarations(ISeamComponent component) throws CoreException{
+		if(component.getJavaDeclaration() != null)
+			renameJavaDeclaration(component.getJavaDeclaration());
+		
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
 
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
-			if(!files.contains(xmlDecl.getResource().getFullPath())){
-				files.add(xmlDecl.getResource().getFullPath());
-				renameXMLDeclaration(xmlDecl);
-			}else if(force)
-				renameXMLDeclaration(xmlDecl);
+			renameXMLDeclaration(xmlDecl);
 		}
 	}
 	
@@ -373,11 +336,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		if(file != null && !coreHelper.isJar(javaDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null && !isBadLocation(location)){
-				TextFileChange change = getChange(file);
-				TextEdit edit = new ReplaceEdit(location.getStartPosition(), location.getLength(), "\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
-				change.addEdit(edit);
-			}
+			if(location != null && !isBadLocation(location))
+				change(file, location.getStartPosition(), location.getLength(), "\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		declarationFile = file;
 	}
@@ -611,11 +571,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			for (ELInstance instance : model.getInstances()) {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
 					ELPropertyInvocation pi = findComponentReference(ie);
-					if(pi != null){
-						TextFileChange change = getChange(file);
-						TextEdit edit = new ReplaceEdit(offset+pi.getStartPosition(), pi.getName().getStart()+pi.getName().getLength()-pi.getStartPosition(), newName);
-						change.addEdit(edit);
-					}
+					if(pi != null)
+						change(file, offset+pi.getStartPosition(), pi.getName().getStart()+pi.getName().getLength()-pi.getStartPosition(), newName);
 				}
 			}
 		}
@@ -668,9 +625,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 				
 				if(key && token.startsWith(getOldName())){
 					String changeText = token.replaceFirst(getOldName(), getNewName());
-					TextFileChange change = getChange(file);
-					TextEdit edit = new ReplaceEdit(offset, token.length(), changeText);
-					change.addEdit(edit);
+					change(file, offset, token.length(), changeText);
 				}
 			}
 			
@@ -681,6 +636,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	protected void renameComponent(IProgressMonitor pm, ISeamComponent component)throws CoreException{
 		pm.beginTask("", 3);
+		
+		clearChanges();
+		
 		findDeclarations(component);
 		
 		pm.worked(1);
@@ -694,19 +652,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		pm.done();
 	}
 	
-	protected void renameFactories(IProgressMonitor pm, Set<ISeamFactory> factories){
-		pm.beginTask("", factories.size()+1);
-		
-		for(ISeamFactory factory : factories){
-			changeFactory(factory, true);
-			pm.worked(1);
-		}
-		
-		pm.done();
-	}
-	
 	protected void renameSeamContextVariable(IProgressMonitor pm, IFile sourceFile)throws CoreException{
 		pm.beginTask("", 2);
+		
+		clearChanges();
 		
 		declarationFile = sourceFile;
 		
@@ -728,19 +677,30 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		if(seamProject == null)
 			return;
 		
-		files.clear();
-		findAnnotations(seamProject, true, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
-		findAnnotations(seamProject, true, BijectedAttributeType.DATA_BINDER, "name"/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
-		findFactories(seamProject, true);
-		
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
 			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
 			if(sProject != null){
-				findAnnotations(sProject, false, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
-				findAnnotations(sProject, false, BijectedAttributeType.DATA_BINDER, "name"/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
-				findFactories(sProject, false);
+				findAnnotations(sProject, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
+				findAnnotations(sProject, BijectedAttributeType.DATA_BINDER, "name"/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
+				findFactories(sProject);
 			}
+		}
+	}
+	
+	ArrayList<String> keys = new ArrayList<String>();
+	
+	private void clearChanges(){
+		keys.clear();
+	}
+	
+	private void change(IFile file, int offset, int length, String text){
+		String key = file.getFullPath().toString()+" "+offset;
+		if(!keys.contains(key)){
+			TextFileChange change = getChange(file);
+			TextEdit edit = new ReplaceEdit(offset, length, text);
+			change.addEdit(edit);
+			keys.add(key);
 		}
 	}
 }
