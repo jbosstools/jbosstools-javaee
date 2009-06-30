@@ -185,7 +185,8 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	
 	private boolean checkFactories(ISeamProject seamProject){
 		if (seamProject != null) {
-			return seamProject.getFactoriesByName(getOldName()) != null;
+			Set<ISeamFactory> factories = seamProject.getFactoriesByName(getOldName());
+			return factories.size() > 0;
 		}
 		return false;
 	}
@@ -194,7 +195,7 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 		if (seamProject != null) {
 			Set<IBijectedAttribute> variables = seamProject.getBijectedAttributesByName(getOldName(), BijectedAttributeType.OUT);
 			
-			return variables != null;
+			return variables.size() > 0;
 		}
 		return false;
 	}
@@ -203,7 +204,7 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 		if (seamProject != null) {
 			Set<IBijectedAttribute> variables = seamProject.getBijectedAttributesByName(getOldName(), BijectedAttributeType.DATA_BINDER);
 			
-			return variables != null;
+			return variables.size() > 0;
 		}
 		return false;
 	}

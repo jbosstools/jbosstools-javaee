@@ -192,12 +192,12 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	}
 	
 	private void findAnnotations(ISeamProject seamProject, BijectedAttributeType type, String locationPath){
-		Set<IBijectedAttribute> inSet = seamProject.getBijectedAttributesByName(getOldName(), type);
+		Set<IBijectedAttribute> attributes = seamProject.getBijectedAttributesByName(getOldName(), type);
 		
-		for(IBijectedAttribute inAtt : inSet){
-			ITextSourceReference location = inAtt.getLocationFor(locationPath);
+		for(IBijectedAttribute attribute : attributes){
+			ITextSourceReference location = attribute.getLocationFor(locationPath);
 			if(location != null)
-				changeAnnotation(location, (IFile)inAtt.getResource());
+				changeAnnotation(location, (IFile)attribute.getResource());
 		}
 	}
 	
@@ -681,8 +681,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		for (IProject project : projects) {
 			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
 			if(sProject != null){
-				findAnnotations(sProject, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
-				findAnnotations(sProject, BijectedAttributeType.DATA_BINDER, "name"/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
+				findAnnotations(sProject, BijectedAttributeType.OUT, ISeamXmlComponentDeclaration.NAME/*SeamAnnotations.OUT_ANNOTATION_TYPE*/);
+				findAnnotations(sProject, BijectedAttributeType.DATA_BINDER, ISeamXmlComponentDeclaration.NAME/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
 				findFactories(sProject);
 			}
 		}
