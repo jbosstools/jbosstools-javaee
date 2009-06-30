@@ -15,7 +15,6 @@ import junit.framework.TestSuite;
 
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
-import org.jboss.tools.seam.core.test.refactoring.SeamRefactoringAllTests;
 
 /**
  * @author V.Kabanovich
@@ -33,8 +32,6 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamEARTest.class);
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
-		suite.addTest(SeamValidatorsAllTests.suite());
-		suite.addTest(SeamRefactoringAllTests.suite());
 		return suite;
 	}
 }
