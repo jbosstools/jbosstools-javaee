@@ -154,8 +154,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	}
 	
 	protected void findAnnotations(){
-		if(declarationFile == null)
+		if(declarationFile == null){
+			status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_DECLARATION_NOT_FOUND, getOldName()));
 			return;
+		}
 		
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(declarationFile.getProject(), true);
 		
@@ -217,12 +219,15 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	private boolean isBadLocation(ITextSourceReference location){
-		return location.getStartPosition() == 0 && location.getLength() == 0;
+	private boolean isBadLocation(ITextSourceReference location, IFile file){
+		boolean flag = location.getStartPosition() == 0 && location.getLength() == 0;
+		if(flag)
+			status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_LOCATION_NOT_FOUND, file.getFullPath().toString()));
+		return flag;
 	}
 	
 	private void changeXMLNode(ITextSourceReference location, IFile file){
-		if(isBadLocation(location))
+		if(isBadLocation(location, file))
 			return;
 		
 		if(!isFileCorrect(file))
@@ -249,7 +254,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	}
 	
 	private void changeAnnotation(ITextSourceReference location, IFile file){
-		if(isBadLocation(location))
+		if(isBadLocation(location, file))
 			return;
 		
 		if(!isFileCorrect(file))
@@ -336,7 +341,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		if(file != null && !coreHelper.isJar(javaDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null && !isBadLocation(location))
+			if(location != null && !isBadLocation(location, file))
 				change(file, location.getStartPosition(), location.getLength(), "\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		declarationFile = file;
@@ -347,7 +352,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		if(file != null && !coreHelper.isJar(xmlDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null && !isBadLocation(location))
+			if(location != null && !isBadLocation(location, file))
 				changeXMLNode(location, file);
 		}
 		if(declarationFile == null)

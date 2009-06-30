@@ -49,4 +49,6 @@ public class SeamCoreMessages {
 	public static String SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_FILE;
 	public static String SEAM_RENAME_PROCESSOR_ERROR_PHANTOM_FILE;
 	public static String SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE;
+	public static String SEAM_RENAME_PROCESSOR_LOCATION_NOT_FOUND;
+	public static String SEAM_RENAME_PROCESSOR_DECLARATION_NOT_FOUND;
 }
