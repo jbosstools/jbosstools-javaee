@@ -10,10 +10,7 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.test.refactoring.SeamRefactoringTest.TestChangeStructure;
-import org.jboss.tools.seam.core.test.refactoring.SeamRefactoringTest.TestTextChange;
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.test.util.JobUtils;
 
@@ -22,13 +19,10 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		super("Seam Context Variable Refactoring Test");
 	}
 	
-	private void renameContextVariable(ISeamProject seamProject, String fileName, String variableName, String newName, List<TestChangeStructure> changeList, boolean fromJar) throws CoreException{
+	private void renameContextVariable(ISeamProject seamProject, String fileName, String variableName, String newName, List<TestChangeStructure> changeList) throws CoreException{
 		JobUtils.waitForIdle(2000);
 
 		// Test before renaming
-		ISeamComponent component = seamProject.getComponent(variableName);
-		assertNotNull("Can't load component " + variableName, component);
-		assertNull("There is unexpected component in seam project: " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
@@ -38,11 +32,9 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 			}
 		}
 
-		assertNotNull("Component " + component.getName() + " does not have java declaration.", component.getJavaDeclaration());
-		
 		IFile sourceFile = seamProject.getProject().getFile(fileName);
 		
-		// Rename Seam Component
+		// Rename Seam Context Variable
 		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, variableName);
 		processor.setNewName(newName);
 		processor.checkInitialConditions(new NullProgressMonitor());
@@ -67,14 +59,10 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		
 
 		// Test results
-		if(!fromJar)
-			assertNull("There is unexpected component in seam project: " + variableName, seamProject.getComponent(variableName));
-		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
 			content = FileUtil.readStream(file.getContents());
-			//System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
 			for(TestTextChange change : changeStructure.getTextChanges()){
 				assertEquals("There is unexpected change in resource - "+file.getName(),change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
 			}
@@ -135,6 +123,74 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 
-		renameContextVariable(seamEjbProject, "/WebContent/test.jsp", "test", "best", list, false);
+		renameContextVariable(seamEjbProject, "/WebContent/test.jsp", "test", "best", list);
+	}
+	
+	public void testSeamContextVariable_Factory1_Rename() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableFactory.java");
+		TestTextChange change = new TestTextChange(464, 5, "\"bbc\"");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		structure = new TestChangeStructure(warProject, "/WebContent/factory.jsp");
+		change = new TestTextChange(227, 3, "bbc");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		renameContextVariable(seamEjbProject, "/WebContent/factory.jsp", "abc", "bbc", list);
+	}
+	
+	public void testSeamContextVariable_Factory2_Rename() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableFactory.java");
+		TestTextChange change = new TestTextChange(528, 7, "(\"ccc\")");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		structure = new TestChangeStructure(warProject, "/WebContent/factory.jsp");
+		change = new TestTextChange(283, 3, "ccc");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		renameContextVariable(seamEjbProject, "/WebContent/factory.jsp", "cba", "ccc", list);
+	}
+
+	public void t_estSeamContextVariable_Out1_Rename() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableOut.java");
+		TestTextChange change = new TestTextChange(464, 5, "\"bbb\"");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		structure = new TestChangeStructure(warProject, "/WebContent/out.jsp");
+		change = new TestTextChange(227, 3, "bbb");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		renameContextVariable(seamEjbProject, "/WebContent/out.jsp", "aaa", "bbb", list);
+	}
+	
+	public void t_estSeamContextVariable_Out2_Rename() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableOut.java");
+		TestTextChange change = new TestTextChange(464, 5, "\"eee\"");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		structure = new TestChangeStructure(warProject, "/WebContent/out.jsp");
+		change = new TestTextChange(227, 3, "eee");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		renameContextVariable(seamEjbProject, "/WebContent/out.jsp", "ddd", "eee", list);
+	}
+
+	public void testSeamContextVariable_DataModel_Rename() throws CoreException {
+		
 	}
 }
