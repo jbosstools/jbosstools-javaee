@@ -252,7 +252,7 @@ public class ValidatorFactory {
 				ISeamProject seamProject = (ISeamProject)context;
 				ISeamComponent component = seamProject.getComponent(name);
 				if(component != null)
-					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
 			}
 			
 			String[] segs = name.split("\\.");
