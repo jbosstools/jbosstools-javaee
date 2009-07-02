@@ -178,19 +178,47 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableOut.java");
-		TestTextChange change = new TestTextChange(464, 5, "\"eee\"");
+		TestTextChange change = new TestTextChange(528, 5, "\"eee\"");
 		structure.addTextChange(change);
 		list.add(structure);
 		
 		structure = new TestChangeStructure(warProject, "/WebContent/out.jsp");
-		change = new TestTextChange(227, 3, "eee");
+		change = new TestTextChange(283, 3, "eee");
 		structure.addTextChange(change);
 		list.add(structure);
 		
 		renameContextVariable(seamEjbProject, "/WebContent/out.jsp", "ddd", "eee", list);
 	}
 
-	public void t_estSeamContextVariable_DataModel_Rename() throws CoreException {
+	public void testSeamContextVariable_DataModel1_Rename() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableDataModel.java");
+		TestTextChange change = new TestTextChange(483, 6, "\"dada\"");
+		structure.addTextChange(change);
+		list.add(structure);
 		
+		structure = new TestChangeStructure(warProject, "/WebContent/datamodel.jsp");
+		change = new TestTextChange(227, 4, "dada");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		renameContextVariable(seamEjbProject, "/WebContent/datamodel.jsp", "data", "dada", list);
+	}
+	
+	public void t_estSeamContextVariable_DataModel2_Rename() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableDataModel.java");
+		TestTextChange change = new TestTextChange(528, 7, "\"modal\"");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		structure = new TestChangeStructure(warProject, "/WebContent/datamodel.jsp");
+		change = new TestTextChange(283, 5, "modal");
+		structure.addTextChange(change);
+		list.add(structure);
+		
+		renameContextVariable(seamEjbProject, "/WebContent/datamodel.jsp", "model", "modal", list);
 	}
 }
