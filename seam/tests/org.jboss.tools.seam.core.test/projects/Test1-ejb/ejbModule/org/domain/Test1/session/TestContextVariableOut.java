@@ -9,7 +9,7 @@ import org.jboss.seam.security.Identity;
 
 
 @Name("computer2")
-public class TestContextVariableFactory
+public class TestContextVariableOut
 {
     @Logger Log log;
     
