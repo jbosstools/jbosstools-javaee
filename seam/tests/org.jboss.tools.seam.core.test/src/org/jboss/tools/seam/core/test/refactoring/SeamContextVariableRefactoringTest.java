@@ -162,7 +162,7 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableOut.java");
-		TestTextChange change = new TestTextChange(461, 5, "\"bbb\"");
+		TestTextChange change = new TestTextChange(455, 5, "\"bbb\"");
 		structure.addTextChange(change);
 		list.add(structure);
 		
@@ -190,7 +190,7 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		renameContextVariable(seamEjbProject, "/WebContent/out.jsp", "ddd", "eee", list);
 	}
 
-	public void testSeamContextVariable_DataModel_Rename() throws CoreException {
+	public void t_estSeamContextVariable_DataModel_Rename() throws CoreException {
 		
 	}
 }

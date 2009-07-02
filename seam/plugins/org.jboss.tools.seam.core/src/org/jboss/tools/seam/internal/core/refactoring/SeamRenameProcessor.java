@@ -198,8 +198,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		for(IBijectedAttribute attribute : attributes){
 			ITextSourceReference location = attribute.getLocationFor(locationPath);
-			if(location != null)
-				changeAnnotation(location, (IFile)attribute.getResource());
+			changeAnnotation(location, (IFile)attribute.getResource());
 		}
 	}
 	
@@ -208,19 +207,22 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
 			ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
-			if(location != null)
-				changeAnnotation(location, file);
+			changeAnnotation(location, file);
 			
 		}else{
 			ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			if(location != null)
-				changeXMLNode(location, file);
+			changeXMLNode(location, file);
 			
 		}
 	}
 	
 	private boolean isBadLocation(ITextSourceReference location, IFile file){
-		boolean flag = location.getStartPosition() == 0 && location.getLength() == 0;
+		boolean flag;
+		if(location == null)
+			flag = true;
+		else
+			flag = location.getStartPosition() == 0 && location.getLength() == 0;
+		
 		if(flag)
 			status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_LOCATION_NOT_FOUND, file.getFullPath().toString()));
 		return flag;
@@ -270,9 +272,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
 		int openBracket = text.indexOf("("); //$NON-NLS-1$
-		if(openBracket > 0){
+		int openQuote = text.indexOf("\""); //$NON-NLS-1$
+		if(openBracket >= 0){
 			int closeBracket = text.indexOf(")", openBracket); //$NON-NLS-1$
-			int openQuote = text.indexOf("\"", openBracket); //$NON-NLS-1$
+			
 			int equals = text.indexOf("=", openBracket); //$NON-NLS-1$
 			int value = text.indexOf("value", openBracket); //$NON-NLS-1$
 			
@@ -286,6 +289,16 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 				String newText = "value=\""+getNewName()+"\","; //$NON-NLS-1$ //$NON-NLS-2$
 				change(file, location.getStartPosition()+openBracket+1, 0, newText);
 			}else{ // other cases
+				String newText = text.replace(getOldName(), getNewName());
+				change(file, location.getStartPosition(), location.getLength(), newText);
+			}
+		}else if(openQuote >= 0){
+			int closeQuota = text.indexOf("\"", openQuote); //$NON-NLS-1$
+			
+			if(closeQuota == openQuote+1){ // empty quotas
+				String newText = "\""+getNewName()+"\""; //$NON-NLS-1$ //$NON-NLS-2$
+				change(file, location.getStartPosition()+openQuote+1, 0, newText);
+			}else{ // the other cases
 				String newText = text.replace(getOldName(), getNewName());
 				change(file, location.getStartPosition(), location.getLength(), newText);
 			}
@@ -700,6 +713,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	}
 	
 	private void change(IFile file, int offset, int length, String text){
+		//System.out.println("change file - "+file.getFullPath()+" offset - "+offset+" len - "+length+" text"+text);
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
 			TextFileChange change = getChange(file);
