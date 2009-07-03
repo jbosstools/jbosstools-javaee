@@ -691,10 +691,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public void testExpressionLanguageValidator() throws CoreException {
 		modifyPreferences();
-		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
-		//System.out.println("UNKNOWN_EL_VARIABLE_PROPERTY_NAME value- "+store.getString(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME));
-		//System.out.println("UNKNOWN_VARIABLE_NAME value- "+store.getString(SeamPreferences.UNKNOWN_VARIABLE_NAME));
-		//System.out.println("UNPAIRED_GETTER_OR_SETTER value- "+store.getString(SeamPreferences.UNPAIRED_GETTER_OR_SETTER));
 
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
 		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
@@ -757,7 +753,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		// Unpaired Getter/Setter
 		//System.out.println("Test - Unpaired Getter/Setter");
-		
+		enableUnpairGetterOrSetterValidation(true);
+
 		IFile abcComponentXHTMLFile4 = project.getFile("WebContent/abcComponent.4");
 		try{
 			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile4.getContents(), true, false, null);
@@ -782,7 +779,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		refreshProject(project);
 		
 		number = getMarkersNumber(abcComponentXHTMLFile);
-		assertFalse("Problem marker 'Unpaired Getter/Setter' was not found' not found' not found' not found", number == 0);
+		assertFalse("Problem marker 'Unpaired Getter/Setter' was not found", number == 0);
 
 		messages = getMarkersMessage(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
 
@@ -812,8 +809,22 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
 
 		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
+
+		enableUnpairGetterOrSetterValidation(false);
 	} 	
-	
+
+	private void enableUnpairGetterOrSetterValidation(boolean enamble) {
+		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
+		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, enamble?SeamPreferences.ERROR:SeamPreferences.IGNORE);
+		if(store instanceof IPersistentPreferenceStore) {
+			try {
+				((IPersistentPreferenceStore)store).save();
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
+	}
+
 	public void testInheritedMethods() {
 		ISeamProject seamProject = getSeamProject(project);
 
@@ -874,21 +885,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		int n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
 		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
 
-		// We have to change the java file twice to clean all relations between xhtml and java. 
 		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
-		try {
-			componentFile.setContents(originalComponentFile.getContents(), true, false, null);
-		} catch(Exception ex) {
-			JUnitUtils.fail("Error in changing 'TestElRevalidation.original' content to 'TestElRevalidation.java'", ex);
-		}
-		refreshProject(project);
-		try {
-			componentFile.setContents(newComponentFile.getContents(), true, false, null);
-		} catch(Exception ex) {
-			JUnitUtils.fail("Error in changing 'TestElRevalidation.new' content to 'TestElRevalidation.java'", ex);
-		}
-		// then we can check if validator was not invoked.
-		refreshProject(project);
+		// Check if the validator was not invoked.
 		try {
 			componentFile.setContents(originalComponentFile.getContents(), true, false, null);
 		} catch(Exception ex) {
@@ -916,7 +914,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
 		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.ERROR);
 		store.putValue(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.ERROR);
-		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
+//		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
 
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
