@@ -10,9 +10,11 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.validation;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -20,7 +22,8 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.internal.core.SeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 
 /**
  * This Manager invokes all dependent seam validators that should be invoked in one job.
@@ -29,6 +32,8 @@ import org.jboss.tools.seam.internal.core.SeamProject;
  * @author Alexey Kazakov
  */
 public class SeamValidatorManager implements IValidatorJob {
+
+	private static Set<ISeamProject> validatingProjects = new HashSet<ISeamProject>(); 
 
 	public SeamValidatorManager() {
 		super();
@@ -47,27 +52,43 @@ public class SeamValidatorManager implements IValidatorJob {
 	 */
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
 		SeamContextValidationHelper coreHelper = (SeamContextValidationHelper)helper;
-		ISeamProject project = coreHelper.getSeamProject();
+		IProject project = coreHelper.getProject();
 		if(project==null) {
 			return OK_STATUS;
 		}
-		SeamValidationContext validationContext = ((SeamProject)project).getValidationContext();
-		IStatus status = null;
-		try {
-			ISeamValidator coreValidator = new SeamCoreValidator(this, coreHelper, reporter, validationContext, project);
-			ISeamValidator elValidator = new SeamELValidator(this, coreHelper, reporter, validationContext, project);			
-			ISeamValidator[] validators = new ISeamValidator[]{coreValidator, elValidator};
-
-			Set<IFile> changedFiles = coreHelper.getChangedFiles();
-			if(!changedFiles.isEmpty()) {
-				status = validate(validators, changedFiles);
-			} else {
-//				reporter.removeAllMessages(this);
-				validationContext.clearAllResourceLinks();
-				status = validateAll(validators);
+		SeamProjectsSet set = new SeamProjectsSet(project);
+		IProject warProject = set.getWarProject();
+		ISeamProject seamWarProject = SeamCorePlugin.getSeamProject(warProject, false);
+		IStatus status = OK_STATUS;
+		synchronized (validatingProjects) {
+			if(validatingProjects.contains(seamWarProject)) {
+				return OK_STATUS;
 			}
-		} finally {
-			validationContext.clearRegisteredFiles();
+			validatingProjects.add(seamWarProject);
+		}
+		synchronized (validatingProjects) {
+			ISeamValidationContext validationContext = null;
+			try {
+				coreHelper.setSeamProject(seamWarProject);
+				validationContext = new SeamValidationContext(project);
+				coreHelper.setValidationContext(validationContext);
+				ISeamValidator coreValidator = new SeamCoreValidator(this, coreHelper, reporter, validationContext, seamWarProject);
+				ISeamValidator elValidator = new SeamELValidator(this, coreHelper, reporter, validationContext, seamWarProject);
+				ISeamValidator[] validators = new ISeamValidator[]{coreValidator, elValidator};
+
+				Set<IFile> changedFiles = coreHelper.getChangedFiles();
+				if(!changedFiles.isEmpty()) {
+					status = validate(validators, changedFiles);
+				} else if(!validationContext.getRegisteredFiles().isEmpty()) {
+					validationContext.clearAllResourceLinks();
+					status = validateAll(validators);
+				}
+			} finally {
+				if(validationContext!=null) {
+					validationContext.clearRegisteredFiles();
+				}
+				validatingProjects.remove(seamWarProject);
+			}
 		}
 		return status;
 	}

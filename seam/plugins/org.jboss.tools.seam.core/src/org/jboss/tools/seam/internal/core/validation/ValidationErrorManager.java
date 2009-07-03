@@ -12,12 +12,14 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.wst.validation.internal.TaskListUtility;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
@@ -75,10 +77,10 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 *      org.jboss.tools.seam.core.ISeamTextSourceReference,
 	 *      org.eclipse.core.resources.IResource)
 	 */
-	public void addError(String messageId, String preferenceKey,
+	public IMarker addError(String messageId, String preferenceKey,
 			String[] messageArguments, ITextSourceReference location,
 			IResource target) {
-		addError(messageId, preferenceKey, messageArguments, location
+		return addError(messageId, preferenceKey, messageArguments, location
 				.getLength(), location.getStartPosition(), target);
 	}
 
@@ -90,17 +92,17 @@ public class ValidationErrorManager implements IValidationErrorManager {
 	 *      org.jboss.tools.seam.core.ISeamTextSourceReference,
 	 *      org.eclipse.core.resources.IResource)
 	 */
-	public void addError(String messageId, String preferenceKey,
+	public IMarker addError(String messageId, String preferenceKey,
 			ITextSourceReference location, IResource target) {
-		addError(messageId, preferenceKey, new String[0], location, target);
+		return addError(messageId, preferenceKey, new String[0], location, target);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#addError(java.lang.String, java.lang.String, java.lang.String[], org.eclipse.core.resources.IResource)
 	 */
-	public void addError(String messageId, String preferenceKey,
+	public IMarker addError(String messageId, String preferenceKey,
 			String[] messageArguments, IResource target) {
-		addError(messageId, preferenceKey, messageArguments, 0, 0, target);
+		return addError(messageId, preferenceKey, messageArguments, 0, 0, target);
 	}
 
 	private String getMarkerId() {
@@ -109,12 +111,9 @@ public class ValidationErrorManager implements IValidationErrorManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#addError(java.lang.String,
-	 *      java.lang.String, java.lang.String[], int, int,
-	 *      org.eclipse.core.resources.IResource)
+	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#addError(java.lang.String, java.lang.String, java.lang.String[], int, int, org.eclipse.core.resources.IResource)
 	 */
-	public void addError(String messageId, String preferenceKey,
+	public IMarker addError(String messageId, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target) {
 		String preferenceValue = SeamPreferences.getProjectPreference(target.getProject(), preferenceKey);
 		if(preferenceValue==null && seamProject!=null) {
@@ -129,7 +128,7 @@ public class ValidationErrorManager implements IValidationErrorManager {
 		}
 
 		if (ignore) {
-			return;
+			return null;
 		}
 
 		IMessage message = new Message(getBaseName(), messageSeverity,
@@ -147,27 +146,33 @@ public class ValidationErrorManager implements IValidationErrorManager {
 			SeamCorePlugin.getPluginLog().logError(
 					"Exception occurred during error line number calculation",
 					e);
-			return;
+			return null;
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(
 					"Exception occurred during error line number calculation",
 					e);
-			return;
+			return null;
 		} finally {
 			if(coreHelper!=null) {
 				coreHelper.getDocumentProvider().disconnect(target);
 			}
 		}
 
-		WorkbenchReporter.addMessage(target, this.getClass(), message, null, ""+message.getLineNumber());
-//		reporter.addMessage(validationManager, message);
+		int severity = message.getSeverity();
+		try {
+			return TaskListUtility.addTask(this.getClass().getName().intern(), target, ""+message.getLineNumber(), message.getId(), 
+				message.getText(this.getClass().getClassLoader()), severity, null, message.getGroupName(), 	message.getOffset(), message.getLength());
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.validation.IValidationErrorManager#addError(java.lang.String, int, java.lang.String[], int, int, org.eclipse.core.resources.IResource)
 	 */
-	public void addError(String messageId, int severity, String[] messageArguments, int length, int offset, IResource target) {
+	public IMarker addError(String messageId, int severity, String[] messageArguments, int length, int offset, IResource target) {
 		IMessage message = new Message(getBaseName(), severity,
 				messageId, messageArguments, target,
 				getMarkerId());
@@ -183,15 +188,21 @@ public class ValidationErrorManager implements IValidationErrorManager {
 			SeamCorePlugin.getPluginLog().logError(
 					"Exception occurred during error line number calculation",
 					e);
-			return;
+			return null;
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(
 					"Exception occurred during error line number calculation",
 					e);
-			return;
+			return null;
 		}
-		WorkbenchReporter.addMessage(target, this.getClass(), message, null, ""+message.getLineNumber());
-//		reporter.addMessage(validationManager, message);
+
+		try {
+			return TaskListUtility.addTask(this.getClass().getName().intern(), target, ""+message.getLineNumber(), message.getId(), 
+				message.getText(this.getClass().getClassLoader()), severity, null, message.getGroupName(), 	message.getOffset(), message.getLength());
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+		return null;
 	}
 
 	/*

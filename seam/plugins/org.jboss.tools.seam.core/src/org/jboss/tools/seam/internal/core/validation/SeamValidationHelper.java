@@ -41,13 +41,21 @@ import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
  */
 public class SeamValidationHelper extends WorkbenchContext {
 
+	protected ISeamProject seamProject;
+
 	/**
 	 * @return Seam project
 	 */
 	public ISeamProject getSeamProject() {
-		ISeamProject project = null;
-		project = SeamCorePlugin.getSeamProject(getProject(), true);
-		return project;
+		if(seamProject==null) {
+			ISeamProject project = null;
+			seamProject = SeamCorePlugin.getSeamProject(getProject(), true);
+		}
+		return seamProject;
+	}
+
+	public void setSeamProject(ISeamProject project) {
+		seamProject = project;
 	}
 
 	/**

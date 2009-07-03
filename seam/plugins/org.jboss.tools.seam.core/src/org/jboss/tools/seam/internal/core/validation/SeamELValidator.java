@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -45,7 +46,6 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
-import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -97,7 +97,7 @@ public class SeamELValidator extends SeamValidator {
 
 	public SeamELValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
-			SeamValidationContext validationContext, ISeamProject project) {
+			ISeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
 		engine = new SeamELCompletionEngine();
 		elVarSearcher = new ElVarSearcher(engine);
@@ -115,21 +115,17 @@ public class SeamELValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validate(java.util.Set)
 	 */
 	public IStatus validate(Set<IFile> changedFiles) throws ValidationException {
+		webRootFolder = null;
 		initRevalidationFlag();
 		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
-		Set<IPath> files = validationContext.getElResourcesForValidation(changedFiles);
-		validationContext.removeLinkedElResources(files);
 
 		Set<IFile> filesToValidate = new HashSet<IFile>();
 		boolean containsJavaOrComponentsXml = false;
-		for (IPath path : files) {
-			IFile file = wsRoot.getFile(path);
-			if(file.exists()) {
-				filesToValidate.add(file);
-				if(!containsJavaOrComponentsXml) {
-					String fileName = file.getName().toLowerCase();
-					containsJavaOrComponentsXml = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
-				}
+		for (IFile file : changedFiles) {
+			filesToValidate.add(file);
+			if(!containsJavaOrComponentsXml) {
+				String fileName = file.getName().toLowerCase();
+				containsJavaOrComponentsXml = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 			}
 		}
 
@@ -144,18 +140,29 @@ public class SeamELValidator extends SeamValidator {
 				}
 			}
 		}
+
+		Set<ELReference> elsToValidate = validationContext.getElsForValidation(changedFiles, false);
+		validationContext.removeLinkedEls(filesToValidate);
 		for (IFile file : filesToValidate) {
 			if(!reporter.isCancelled()) {
 				validateFile(file);
 			}
 		}
+		if(revalidateUnresolvedELs) {
+			for (ELReference el : elsToValidate) {
+				if(!filesToValidate.contains(el.getResource())) {
+					validateEL(el);
+				}
+			}
+		}
+
 		validationContext.clearOldVariableNameForElValidation();
 		return OK_STATUS;
 	}
 
 	private void initRevalidationFlag() {
-		String revalidateUnresolvedEls = SeamPreferences.getProjectPreference(project, SeamPreferences.RE_VALIDATE_UNRESOLVED_EL);
-		revalidateUnresolvedELs = SeamPreferences.ENABLE.equals(revalidateUnresolvedEls);
+		String revalidateUnresolvedELsString = SeamPreferences.getProjectPreference(project, SeamPreferences.RE_VALIDATE_UNRESOLVED_EL);
+		revalidateUnresolvedELs = SeamPreferences.ENABLE.equals(revalidateUnresolvedELsString);
 	}
 
 	/*
@@ -163,8 +170,8 @@ public class SeamELValidator extends SeamValidator {
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
 	public IStatus validateAll() throws ValidationException {
+		webRootFolder = null;
 		initRevalidationFlag();
-		validationContext.clearElResourceLinks();
 		Set<IFile> files = validationContext.getRegisteredFiles();
 		for (IFile file : files) {
 			if(!reporter.isCancelled()) {
@@ -188,18 +195,22 @@ public class SeamELValidator extends SeamValidator {
 		}
 		IProject project = file.getProject();
 		if(!project.equals(currentProject)) {
-			IFacetedProject facetedProject = null;
-			try {
-				facetedProject = ProjectFacetsManager.create(project);
-			} catch (CoreException e) {
-				SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+			if(webRootFolder!=null && !project.equals(webRootFolder.getProject())) {
+				webRootFolder = null;
 			}
-			webRootFolder = null;
-			if(facetedProject!=null && facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET)!=null) {
-				IVirtualComponent component = ComponentCore.createComponent(project);
-				if(component!=null) {
-					IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-					webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+			if(webRootFolder==null) {
+				IFacetedProject facetedProject = null;
+				try {
+					facetedProject = ProjectFacetsManager.create(project);
+				} catch (CoreException e) {
+					SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_EL_VALIDATOR_ERROR_VALIDATING_SEAM_EL, e);
+				}
+				if(facetedProject!=null && facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET)!=null) {
+					IVirtualComponent component = ComponentCore.createComponent(project);
+					if(component!=null) {
+						IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
+						webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+					}
 				}
 			}
 			currentProject = project;
@@ -226,7 +237,7 @@ public class SeamELValidator extends SeamValidator {
 		if(!shouldFileBeValidated(file)) {
 			return;
 		}
-		WorkbenchReporter.removeAllMessages(file, new String[]{this.getClass().getName()}, null);
+		removeAllMessagesFromResource(file);
 		displaySubtask(VALIDATING_EL_FILE_MESSAGE_ID, new String[]{projectName, file.getName()});
 		elVarSearcher.setFile(file);
 		String ext = file.getFileExtension();
@@ -241,6 +252,13 @@ public class SeamELValidator extends SeamValidator {
 			validateJava(file, content);
 		} else {
 			validateDom(file, content);
+		}
+	}
+
+	private void validateEL(ELReference el) {
+		el.deleteMarkers();
+		for (ELExpression expresion : el.getEl()) {
+			validateELExpression(el, expresion);
 		}
 	}
 
@@ -342,15 +360,24 @@ public class SeamELValidator extends SeamValidator {
 		if(startEl>-1) {
 			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
+			List<ELInstance> is = model.getInstances();
+
+			ELReference elReference = new ELReference();
+			elReference.setResource(file);
+			elReference.setEl(is);
+			elReference.setLength(string.length());
+			elReference.setStartPosition(offset);
+			elReference.setVarSearcher(new ElVarSearcher(file, engine));
+
 			List<SyntaxError> errors = model.getSyntaxErrors();
 			if(!errors.isEmpty()) {
 				for (SyntaxError error: errors) {
 					//TODO 1) make message more informative
 					//     2) create other preference 
-					addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
+					IMarker marker = addError(SYNTAX_ERROR_MESSAGE_ID, SeamPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
+					elReference.addMarker(marker);
 				}
 			}
-			List<ELInstance> is = model.getInstances();
 			for (ELInstance i : is) {
 				if (reporter.isCancelled()) {
 					return;
@@ -359,45 +386,42 @@ public class SeamELValidator extends SeamValidator {
 					//Already reported syntax problem in this piece of EL.
 					continue;
 				}
-				validateEl(file, i.getExpression(), offset);
+				validateELExpression(elReference, i.getExpression());
 			}
 		}
 	}
 
-	private void validateEl(IFile file, ELExpression el, int offset) {
+	private void validateELExpression(ELReference elReference, ELExpression el) {
 		if(el == null) return;
 		List<ELInvocationExpression> es = el.getInvocations();
 		for (ELInvocationExpression token: es) {
-			validateElOperand(file, token, offset);
+			validateElOperand(elReference, token);
 		}
 	}
 
-	private void validateElOperand(IFile file, ELInvocationExpression operandToken, int documnetOffset) {
+	private void validateElOperand(ELReference elReference, ELInvocationExpression operandToken) {
+		IFile file = elReference.getResource();
+		int documnetOffset = elReference.getStartPosition(); 
 		String operand = operandToken.getText();
 		String varName = operand;
 		int offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart();
 		int lengthOfVarName = varName.length();
 		boolean unresolvedTokenIsVariable = false;
 		try {
-			int offset = operand.length();
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
 				SeamELOperandResolveStatus status = 
 					(SeamELOperandResolveStatus)engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
 				if(status.isError()) {
-					if(revalidateUnresolvedELs) {
-						Set<String> names = findVariableNames(operandToken);
-						for (String name : names) {
-							validationContext.addLinkedElResource(name, file.getFullPath());
-						}
+					Set<String> names = findVariableNames(operandToken);
+					for (String name : names) {
+						validationContext.addLinkedEl(name, elReference);
 					}
-					// Save resources with unknown variables names
-//					validationContext.addUnnamedElResource(file.getFullPath());
 				}
 
 				// Save links between resource and used variables names
 				for(ISeamContextVariable variable: status.getUsedVariables()) {
-					validationContext.addLinkedElResource(variable.getName(), file.getFullPath());
+					validationContext.addLinkedEl(variable.getName(), elReference);
 				}
 
 				// Check pair for getter/setter
@@ -411,7 +435,15 @@ public class SeamELValidator extends SeamValidator {
 						missingMethodName = existedMethodName;
 						existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
 					}
-					addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, operand.length(), documnetOffset, file);
+					int startPosition = documnetOffset + operandToken.getStartPosition();
+					int length = operandToken.getLength();
+					int startPr = operand.indexOf(propertyName);
+					if(startPr>-1) {
+						startPosition = startPosition + startPr;
+						length = propertyName.length();
+					}
+					IMarker marker = addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
+					elReference.addMarker(marker);
 				}
 
 				if (status.isOK()) {
@@ -439,9 +471,11 @@ public class SeamELValidator extends SeamValidator {
 		}
 		// Mark invalid EL
 		if(unresolvedTokenIsVariable) {
-			addError(UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			elReference.addMarker(marker);
 		} else {
-			addError(UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			elReference.addMarker(marker);
 		}
 	}
 

@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.internal.core.validation.ISeamValidationContext;
 
 public interface ISeamProject extends ISeamElement {
 
@@ -141,6 +142,11 @@ public interface ISeamProject extends ISeamElement {
 	 * @return Set of all ISeamComponents of project
 	 */
 	public ISeamComponent[] getComponents();
+
+	/**
+	 * @return validation context
+	 */
+	public ISeamValidationContext getValidationContext();
 
 	/**
 	 * Adds component into project

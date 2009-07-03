@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
-import org.jboss.tools.seam.internal.core.SeamProject;
 
 /**
  * Helper for Seam Validators that use Seam Validator Context. 
@@ -27,7 +26,7 @@ import org.jboss.tools.seam.internal.core.SeamProject;
  */
 public class SeamContextValidationHelper extends SeamValidationHelper {
 
-	protected SeamValidationContext validationContext;
+	protected ISeamValidationContext validationContext;
 	protected TextFileDocumentProvider documentProvider = new TextFileDocumentProvider();
 
 	/*
@@ -61,13 +60,17 @@ public class SeamContextValidationHelper extends SeamValidationHelper {
 		return result;
 	}
 
-	public SeamValidationContext getValidationContext() {
+	public ISeamValidationContext getValidationContext() {
 		if(validationContext==null) {
-			validationContext = ((SeamProject)getSeamProject()).getValidationContext();
+			validationContext = new SeamValidationContext(getProject());
 		}
 		return validationContext;
 	}
-	
+
+	public void setValidationContext(ISeamValidationContext context) {
+		validationContext = context;
+	}
+
 	public TextFileDocumentProvider getDocumentProvider(){
 		return documentProvider;
 	}

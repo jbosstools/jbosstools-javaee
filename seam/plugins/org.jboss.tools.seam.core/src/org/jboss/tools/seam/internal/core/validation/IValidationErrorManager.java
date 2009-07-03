@@ -12,8 +12,8 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 
@@ -30,7 +30,7 @@ public interface IValidationErrorManager {
 	 * @param location
 	 * @param target
 	 */
-	void addError(String messageId, String preferenceKey,
+	IMarker addError(String messageId, String preferenceKey,
 			String[] messageArguments, ITextSourceReference location,
 			IResource target);
 
@@ -41,7 +41,7 @@ public interface IValidationErrorManager {
 	 * @param messageArguments
 	 * @param target
 	 */
-	void addError(String messageId, String preferenceKey,
+	IMarker addError(String messageId, String preferenceKey,
 			String[] messageArguments,
 			IResource target);
 
@@ -52,7 +52,7 @@ public interface IValidationErrorManager {
 	 * @param location
 	 * @param target
 	 */
-	void addError(String messageId, String preferenceKey,
+	IMarker addError(String messageId, String preferenceKey,
 			ITextSourceReference location, IResource target);
 
 	/**
@@ -64,7 +64,7 @@ public interface IValidationErrorManager {
 	 * @param offset
 	 * @param target
 	 */
-	void addError(String messageId, String preferenceKey,
+	IMarker addError(String messageId, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target);
 
 	/**
@@ -76,7 +76,7 @@ public interface IValidationErrorManager {
 	 * @param offset
 	 * @param target
 	 */
-	void addError(String messageId, int severity, String[] messageArguments, int length, int offset, IResource target);
+	IMarker addError(String messageId, int severity, String[] messageArguments, int length, int offset, IResource target);
 
 	/**
 	 * Displays a subtask in the progress view. 

@@ -95,7 +95,7 @@ public class SeamCoreValidator extends SeamValidator {
 
 	public SeamCoreValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
-			SeamValidationContext validationContext, ISeamProject project) {
+			ISeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, validationContext, project);
 	}
 
@@ -130,36 +130,33 @@ public class SeamCoreValidator extends SeamValidator {
 				validateUnnamedResources = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$
 			}
 			if (checkFileExtension(currentFile)) {
-				// Get all variable names which were linked with this resource.
-				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath());
-				if(oldVariablesNamesOfChangedFile!=null) {
-					// Check if variable name was changed in source file
-					Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
-					for (String newVariableName : newVariableNamesOfChangedFile) {
-						if(!oldVariablesNamesOfChangedFile.contains(newVariableName)) {
-							// Name was changed.
-							// Collect resources with new component name.
-							Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(newVariableName);
-							if(linkedResources!=null) {
-								resources.addAll(linkedResources);
-							}
-							resources.addAll(getAllResourceOfComponent(currentFile.getFullPath()));
-						}
+				resources.add(currentFile.getFullPath());
+				// Get new variable names from model
+				Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
+				Set<String> oldDeclarationsOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), true);
+				for (String newVariableName : newVariableNamesOfChangedFile) {
+					// Collect resources with new variable name.
+					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(newVariableName, false);
+					if(linkedResources!=null) {
+						resources.addAll(linkedResources);
 					}
-					resources.add(currentFile.getFullPath());
-
-					// Collect all linked resources with old variable names.
+					resources.addAll(getAllResourceOfComponent(currentFile.getFullPath()));
+				}
+				// Get old variable names which were linked with this resource.
+				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), false);
+				if(oldVariablesNamesOfChangedFile!=null) {
 					for (String name : oldVariablesNamesOfChangedFile) {
-						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(name);
+						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(name, false);
 						if(linkedResources!=null) {
 							resources.addAll(linkedResources);
 						}
-						// Save old names for EL validation. We need to validate all EL resources which use this variable name.
+					}
+				}
+				// Save old declarations for EL validation. We need to validate all EL resources which use this variable name but only if the variable has been changed.
+				if(oldDeclarationsOfChangedFile!=null) {
+					for (String name : oldDeclarationsOfChangedFile) {
 						validationContext.addVariableNameForELValidation(name);
 					}
-				} else {
-					// Validate new (unlinked) source file.
-					resources.add(currentFile.getFullPath());
 				}
 				newResources.add(currentFile.getFullPath());
 			}
@@ -218,10 +215,8 @@ public class SeamCoreValidator extends SeamValidator {
 			}
 			Set<ISeamComponentDeclaration> declarations = component.getAllDeclarations();
 			for (ISeamComponentDeclaration seamComponentDeclaration : declarations) {
-				if(project == seamComponentDeclaration.getResource().getProject()) {
-					validateComponent(component);
-					break;
-				}
+				validateComponent(component);
+				break;
 			}
 		}
 		ISeamFactory[] factories = seamProject.getFactories();
@@ -230,9 +225,7 @@ public class SeamCoreValidator extends SeamValidator {
 			if(reporter.isCancelled()) {
 				return OK_STATUS;
 			}
-			if(project == factory.getResource().getProject()) {
-				validateFactory(factory, markedDuplicateFactoryNames);
-			}
+			validateFactory(factory, markedDuplicateFactoryNames);
 		}
 
 		ISeamJavaComponentDeclaration[] values = ((SeamProject)seamProject).getAllJavaComponentDeclarations();
@@ -241,9 +234,7 @@ public class SeamCoreValidator extends SeamValidator {
 				return OK_STATUS;
 			}
 			displaySubtask(VALIDATING_CLASS_MESSAGE_ID, new String[]{projectName, d.getClassName()});
-			if(project == d.getResource().getProject()) {
-				validateMethodsOfUnknownComponent(d);
-			}
+			validateMethodsOfUnknownComponent(d);
 		}
 
 		return OK_STATUS;
@@ -311,14 +302,14 @@ public class SeamCoreValidator extends SeamValidator {
 					if(!firstDuplicateVariableWasMarked) {
 						firstDuplicateVariableWasMarked = true;
 						// mark original factory
-						validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath());
+						validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath(), true);
 						location = coreHelper.getLocationOfName(factory);
 						this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, factory.getResource());
 					}
 					// Mark duplicate variable.
 					if(!coreHelper.isJar(variable.getSourcePath())) {
 						IResource resource = coreHelper.getComponentResourceWithName(variable);
-						validationContext.addLinkedCoreResource(factoryName, resource.getFullPath());
+						validationContext.addLinkedCoreResource(factoryName, resource.getFullPath(), true);
 						location = coreHelper.getLocationOfName(variable);
 						this.addError(DUPLICATE_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, resource);
 					}
@@ -350,7 +341,7 @@ public class SeamCoreValidator extends SeamValidator {
 		if(unknownVariable && validateUnknownName && voidReturnType) {
 			// mark unknown factory name
 			// save link to factory resource
-			validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath());
+			validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath(), true);
 			this.addError(UNKNOWN_FACTORY_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_FACTORY_NAME, new String[]{factoryName}, coreHelper.getLocationOfName(factory), factory.getResource());
 		}
 	}
@@ -420,20 +411,20 @@ public class SeamCoreValidator extends SeamValidator {
 					ISeamJavaComponentDeclaration jd = (ISeamJavaComponentDeclaration)declaration;
 
 					//do not check files declared in another project
-					if(jd.getSeamProject() != seamProject) continue;
+//					if(jd.getSeamProject() != seamProject) continue;
 
 					IType type = (IType)jd.getSourceMember();
 					boolean sourceJavaDeclaration = !type.isBinary();
 					if(sourceJavaDeclaration) {
 						// Save link between component name and java source file.
-						validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
+						validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath(), true);
 						// Save link between component name and all supers of java declaration.
 						try {
 							IType[] superTypes = TypeInfoCollector.getSuperTypes(type).getSuperTypes();
 							for (int i = 0; superTypes != null && i < superTypes.length; i++) {
 								if(!superTypes[i].isBinary()) {
 									IPath path = superTypes[i].getResource().getFullPath();
-									validationContext.addLinkedCoreResource(componentName, path);
+									validationContext.addLinkedCoreResource(componentName, path, true);
 								}
 							}
 						} catch (JavaModelException e) {
@@ -493,9 +484,9 @@ public class SeamCoreValidator extends SeamValidator {
 					return;
 				}
 				//do not check files declared in another project
-				if(declaration.getSeamProject() != seamProject) continue;
+//				if(declaration.getSeamProject() != seamProject) continue;
 
-				validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath());
+				validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath(), true);
 
 				String precedence = declaration.getPrecedence();
 				if(firstNamedDeclaration == null && declaration.getName()!=null) {
@@ -582,7 +573,7 @@ public class SeamCoreValidator extends SeamValidator {
 							}
 							return;
 						} else if(!type.isBinary()) {
-							validationContext.addLinkedCoreResource(componentName, type.getResource().getFullPath());
+							validationContext.addLinkedCoreResource(componentName, type.getResource().getFullPath(), true);
 						}
 					} catch (JavaModelException e) {
 						SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
@@ -719,11 +710,11 @@ public class SeamCoreValidator extends SeamValidator {
 		if(name==null || name.startsWith("#{") || name.startsWith("${")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
-		// save link between java source and variable name
-		validationContext.addLinkedCoreResource(name, declaration.getSourcePath());
-
 		// Validate @In
 		if(bijection.isOfType(BijectedAttributeType.IN)) {
+			// save link between java source and variable name
+			validationContext.addLinkedCoreResource(name, declaration.getSourcePath(), false);
+
 			Set<ISeamContextVariable> variables = seamProject.getVariablesByName(name);
 			if(variables==null || variables.size()<1) {
 				ISeamProject parentProject = seamProject.getParentProject();
@@ -740,6 +731,9 @@ public class SeamCoreValidator extends SeamValidator {
 				}
 				addError(UNKNOWN_VARIABLE_NAME_MESSAGE_ID, SeamPreferences.UNKNOWN_VARIABLE_NAME, new String[]{name}, nameRef, declarationResource);
 			}
+		} else {
+			// save link between java source and variable name
+			validationContext.addLinkedCoreResource(name, declaration.getSourcePath(), true);
 		}
 	}
 
@@ -747,7 +741,7 @@ public class SeamCoreValidator extends SeamValidator {
 		String dataModelName = bijection.getValue();
 		String selectionName = bijection.getName();
 		// save link between java source and variable name
-		validationContext.addLinkedCoreResource(selectionName, declaration.getSourcePath());
+		validationContext.addLinkedCoreResource(selectionName, declaration.getSourcePath(), false);
 		if(dataModelName==null) {
 			// here must be the only one @DataModel in the component
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
@@ -758,7 +752,7 @@ public class SeamCoreValidator extends SeamValidator {
 			}
 		} else {
 			// save link between java source and Data Model name
-			validationContext.addLinkedCoreResource(dataModelName, declaration.getSourcePath());
+			validationContext.addLinkedCoreResource(dataModelName, declaration.getSourcePath(), true);
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(dataModelName);
 			if(dataBinders!=null) {
 				for (IBijectedAttribute dataBinder : dataBinders) {
@@ -801,7 +795,7 @@ public class SeamCoreValidator extends SeamValidator {
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();
 				if(javaDeclaration.getSourcePath().equals(javaMethod.getPath())) {
-					validationContext.addLinkedCoreResource(component.getName(), javaDeclaration.getSourcePath());
+					validationContext.addLinkedCoreResource(component.getName(), javaDeclaration.getSourcePath(), true);
 					ITextSourceReference methodNameLocation = getNameLocation(method);
 					addError(DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_ID, SeamPreferences.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, new String[]{methodName}, methodNameLocation, method.getResource());
 				}
@@ -898,5 +892,4 @@ public class SeamCoreValidator extends SeamValidator {
 		}
 		return false;
 	}
-
 }

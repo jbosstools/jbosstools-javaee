@@ -21,7 +21,7 @@ import org.jboss.tools.seam.core.ISeamProject;
  */
 public abstract class SeamValidator extends ValidationErrorManager implements ISeamValidator {
 
-	protected SeamValidationContext validationContext;
+	protected ISeamValidationContext validationContext;
 	protected String projectName;
 
 	/**
@@ -34,7 +34,7 @@ public abstract class SeamValidator extends ValidationErrorManager implements IS
 	 */
 	public SeamValidator(IValidator validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
-			SeamValidationContext validationContext, ISeamProject project) {
+			ISeamValidationContext validationContext, ISeamProject project) {
 		super(validatorManager, coreHelper, reporter, project, coreHelper.getProject(), ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP);
 		this.validationContext = validationContext;
 		this.projectName = project.getProject().getName();

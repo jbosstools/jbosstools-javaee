@@ -62,7 +62,7 @@ import org.jboss.tools.seam.internal.core.el.VariableResolver;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
-import org.jboss.tools.seam.internal.core.validation.SeamValidationContext;
+import org.jboss.tools.seam.internal.core.validation.ProjectValidationContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.w3c.dom.Element;
 
@@ -106,7 +106,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	List<ISeamProjectChangeListener> listeners = new ArrayList<ISeamProjectChangeListener>();
 
-	SeamValidationContext validationContext;
+	ProjectValidationContext validationContext;
 
 	/**
 	 * 
@@ -743,13 +743,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		File f = getStorageFile();
 		return f == null || !f.isFile();
 	}
-	/**
-	 * 
-	 * @return
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getValidationContext()
 	 */
-	public SeamValidationContext getValidationContext() {
+	public ProjectValidationContext getValidationContext() {
 		if(validationContext==null) {
-			validationContext = new SeamValidationContext();
+			validationContext = new ProjectValidationContext();
 		}
 		return validationContext;
 	}
