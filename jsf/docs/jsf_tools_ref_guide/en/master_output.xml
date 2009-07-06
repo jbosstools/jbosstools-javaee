@@ -28,13 +28,13 @@
 ]><book xmlns:diffmk="http://diffmk.sf.net/ns/diff">
     <bookinfo>
         <title>JSF Tools Reference Guide</title>
-            <corpauthor diffmk:change="added">
-                <inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added" role="fo">
-                        <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+            <corpauthor>
+                <inlinemediaobject>
+                    <imageobject role="fo">
+                        <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                     </imageobject>	
-                    <imageobject diffmk:change="added" role="html">
-                        <imagedata diffmk:change="added"></imagedata>
+                    <imageobject role="html">
+                        <imagedata></imagedata>
                     </imageobject>	
                 </inlinemediaobject>           
             </corpauthor>
@@ -46,10 +46,10 @@
         <copyright>
             <year>2007</year>
             <year>2009</year>
-            <holder>JBoss, a division of Red Hat</holder>
+            <holder><diffmk:wrapper diffmk:change="changed">JBoss by Red Hat</diffmk:wrapper></holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.M1
+            Version: 3.1.0.M2
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -476,9 +476,9 @@
 </chapter>
 
     
-<chapter diffmk:change="added" id="projects" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/projects.xml">
+<chapter id="projects" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/projects.xml">
         <?dbhtml filename="projects.html"?>
-        <chapterinfo diffmk:change="added">
+        <chapterinfo>
                 <keywordset>
                         <keyword>JBoss Developer Studio</keyword>
                         <keyword>Eclipse</keyword>
@@ -489,7 +489,7 @@
         </chapterinfo>
 
         <title>Projects</title>
-        <para><diffmk:wrapper diffmk:change="changed">To take an advantage of JSF firstly you should perform one of the next steps:</diffmk:wrapper></para>
+        <para>To take an advantage of JSF firstly you should perform one of the next steps:</para>
 
         <itemizedlist>
                 <listitem>
@@ -499,24 +499,24 @@
                         <para>Import (open) existing JSF projects</para>
                 </listitem>
                 <listitem>
-                        <para><diffmk:wrapper diffmk:change="changed">Add JSF capability to any existing Eclipse project</diffmk:wrapper></para>
+                        <para>Add JSF capability to any existing Eclipse project</para>
                 </listitem>
                 <listitem>
-                        <para><diffmk:wrapper diffmk:change="changed">Import and add JSF capability to any existing project created outside
-                                Eclipse.</diffmk:wrapper></para>
+                        <para>Import and add JSF capability to any existing project created outside
+                                Eclipse.</para>
                 </listitem>
         </itemizedlist>
-        <para><diffmk:wrapper diffmk:change="changed">In this section we're going to stop on each of them in detail.</diffmk:wrapper></para>
+        <para>In this section we're going to stop on each of them in detail.</para>
 
         <section id="new_jsf_project">
 
                 <title>Creating a New JSF Project</title>
 
-                <para><diffmk:wrapper diffmk:change="changed">If you want your project to already contain all JSF libraries, tag libraries
+                <para>If you want your project to already contain all JSF libraries, tag libraries
                         and JSF configuration file, just organize a new brand JSF project. It is
-                        possible to do this easily with the help of the special wizard. To get it, select</diffmk:wrapper><emphasis>
-                                <property moreinfo="none"><diffmk:wrapper diffmk:change="changed"> File &gt; New &gt; Project &gt; JBoos Tools
-                                        Web &gt; JSF &gt; JSF Project</diffmk:wrapper></property>
+                        possible to do this easily with the help of the special wizard. To get it, select<emphasis>
+                                <property moreinfo="none"> File &gt; New &gt; Project &gt; JBoos Tools
+                                        Web &gt; JSF &gt; JSF Project</property>
                         </emphasis> and click <emphasis>
                                 <property moreinfo="none">Next</property>.</emphasis></para>
 
@@ -529,11 +529,11 @@
                         </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="changed">On the next form you'll be prompted to enter </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Project
-                                Name</diffmk:wrapper></property><diffmk:wrapper diffmk:change="changed"> and select a location for the project or just leave
-                        a default path.</diffmk:wrapper></para>
-                <para><diffmk:wrapper diffmk:change="changed">Here, JSF Version also allows you to select which JSF implementation to
-                        use.</diffmk:wrapper></para>
+                <para>On the next form you'll be prompted to enter <property moreinfo="none">Project
+                                Name</property> and select a location for the project or just leave
+                        a default path.</para>
+                <para>Here, JSF Version also allows you to select which JSF implementation to
+                        use.</para>
                 <figure float="0">
                         <title>Creating a New JSF Project</title>
                         <mediaobject>
@@ -543,10 +543,10 @@
                         </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="changed">There is a number of predefined project templates that are flexible and easily
+                <para>There is a number of predefined project templates that are flexible and easily
                         customizable. Thus you can pick a different template on which the projects
                         Importing Existing should be based on. Almost all templates come in two
-                        variations: with jsf libraries and without ones.</diffmk:wrapper></para>
+                        variations: with jsf libraries and without ones.</para>
                 <figure float="0">
                         <title>Choosing JSF Templates</title>
                         <mediaobject>
@@ -556,7 +556,7 @@
                         </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="changed">The table below provides description for each possible JSF template.</diffmk:wrapper></para>
+                <para>The table below provides description for each possible JSF template.</para>
                 <table>
                         <title>JSF Project Templates</title>
                         <tgroup cols="2">
@@ -588,8 +588,8 @@
                                                 </entry>
 
                                                 <entry>
-                                                  <para><diffmk:wrapper diffmk:change="changed">This template will create a standard Web
-                                                  project structure with all JSF capabilities</diffmk:wrapper></para>
+                                                  <para>This template will create a standard Web
+                                                  project structure with all JSF capabilities</para>
                                                 </entry>
                                         </row>
 
@@ -603,9 +603,9 @@
                                                 </entry>
 
                                                 <entry>
-                                                  <para><diffmk:wrapper diffmk:change="changed">This template will create a standard Web
+                                                  <para>This template will create a standard Web
                                                   project structure but will also include a sample
-                                                  application that is ready to run</diffmk:wrapper></para>
+                                                  application that is ready to run</para>
                                                 </entry>
                                         </row>
 
@@ -619,11 +619,11 @@
                                                 </entry>
 
                                                 <entry>
-                                                  <para><diffmk:wrapper diffmk:change="changed">Some servers already provide jsf libs and
+                                                  <para>Some servers already provide jsf libs and
                                                   you take risk of getting conflicting libraries
                                                   while deploying your project. To avoid such
                                                   conflicts, use a template without libs if you have
-                                                  a server with its own jsf libraries</diffmk:wrapper></para>
+                                                  a server with its own jsf libraries</para>
                                                 </entry>
                                         </row>
 
@@ -632,30 +632,33 @@
                 </table>
 
 
-                
+                <!--                  <para>You can of course create your own custom templates. More information
+                                on templates creation could be found in <link
+                                        linkend="CreatingCustomJSPTemplates">Chapter 5</link>.</para>
+     -->
 
                 <para>On the next screen select what <emphasis>
                                 <property moreinfo="none">Servlet version</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> to use and whether to register this application with JBoss AS
-                        (or other server) for running and testing your application.</diffmk:wrapper></para>
+                        </emphasis> to use and whether to register this application with JBoss AS
+                        (or other server) for running and testing your application.</para>
 
                 <para>The <emphasis>
                                 <property moreinfo="none">Context Path</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> is the name under which the application will be deployed.</diffmk:wrapper></para>
+                        </emphasis> is the name under which the application will be deployed.</para>
 
                 <para>The <emphasis>
                                 <property moreinfo="none">Runtime</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> value tells Eclipse where to find Web libraries in order to
+                        </emphasis> value tells Eclipse where to find Web libraries in order to
                         build (compile) the project. It is not possible to finish project creation
-                        without selecting Runtime. If you don't have any values, select </diffmk:wrapper><emphasis>
+                        without selecting Runtime. If you don't have any values, select <emphasis>
                                 <property moreinfo="none">New...</property>
                         </emphasis> to add new Runtime.</para>
 
                 <para>The <emphasis>
                                 <property moreinfo="none">Target Server</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> allows you specifying whether to deploy the application. The
+                        </emphasis> allows you specifying whether to deploy the application. The
                         Target Server corresponds to the Runtime value selected above. If you
-                        don't want to deploy the application, uncheck this value.</diffmk:wrapper></para>
+                        don't want to deploy the application, uncheck this value.</para>
                 <figure float="0">
                         <title>Registering the Project on Server</title>
                         <mediaobject>
@@ -665,8 +668,8 @@
                         </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="changed">When you are all done, you should have the project that has been appeared in
-                        the Package Explorer view:</diffmk:wrapper></para>
+                <para>When you are all done, you should have the project that has been appeared in
+                        the Package Explorer view:</para>
                 <figure float="0">
                         <title>A New Project in the Package Explorer</title>
                         <mediaobject>
@@ -678,32 +681,32 @@
 
                 <para>At this point you can open <emphasis>
                                 <property moreinfo="none">faces-config.xml</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> and start working on your application. There are a lot of
+                        </emphasis> and start working on your application. There are a lot of
                         features to develop JSF applications. We will describe the features
-                        further.</diffmk:wrapper></para>
+                        further.</para>
         </section>
 
         <section id="ImportingExsJSFProjWithAnyStr74447">
 
                 <title>Importing Existing JSF Projects with Any Structure</title>
 
-                <para><diffmk:wrapper diffmk:change="changed">For detailed information on migration of JSF projects into a workspace see
-                                </diffmk:wrapper><ulink url="../../Exadel-migration/html_single/index.html#jsf_struts"><diffmk:wrapper diffmk:change="changed">Migration
-                        Guide</diffmk:wrapper></ulink>.</para>
+                <para>For detailed information on migration of JSF projects into a workspace see
+                                <ulink url="../../Exadel-migration/html_single/index.html#jsf_struts">Migration
+                        Guide</ulink>.</para>
 
         </section>
         <section id="add_jsf_capability">
 
                 <title>Adding JSF Capability to Any Existing Eclipse Project</title>
 
-                <para>It's also possible to add <property moreinfo="none">JSF capability</property><diffmk:wrapper diffmk:change="changed"> (JSF
+                <para>It's also possible to add <property moreinfo="none">JSF capability</property> (JSF
                         libraries, tag libraries) to any existing Eclipse project in your workspace.
                         After that you'll be able to make use of such editors as JSF
-                        configuration editor, JBoss Tools JSP editor and any others.</diffmk:wrapper></para>
+                        configuration editor, JBoss Tools JSP editor and any others.</para>
                 <para>Right click the project and select <emphasis>
-                                <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">JBoss Tools &gt; Add JSF Capabilities</diffmk:wrapper></property>. </emphasis><diffmk:wrapper diffmk:change="changed">
+                                <property moreinfo="none">JBoss Tools &gt; Add JSF Capabilities</property>. </emphasis>
                         This will start the process of adding all necessary libraries, files to make
-                        this a Web JSF project.</diffmk:wrapper></para>
+                        this a Web JSF project.</para>
                 <figure float="0">
                         <title>Adding JSF Capabilities</title>
                         <mediaobject>
@@ -723,31 +726,31 @@
                                 </imageobject>
                         </mediaobject>
                 </figure>
-                <para><diffmk:wrapper diffmk:change="changed">On the last form you can set the different folders for your project as well as
-                        register this application with a servlet container.</diffmk:wrapper></para>
+                <para>On the last form you can set the different folders for your project as well as
+                        register this application with a servlet container.</para>
 
                 <para>Make sure to select <emphasis>
                                 <property moreinfo="none">Add Libraries</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> to add all required JSF related libraries to this
-                        project.</diffmk:wrapper></para>
+                        </emphasis> to add all required JSF related libraries to this
+                        project.</para>
 
                 <para>The <emphasis>
                                 <property moreinfo="none">Context Path</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> is the name under which the application will be deployed.</diffmk:wrapper></para>
+                        </emphasis> is the name under which the application will be deployed.</para>
 
                 <para>The <emphasis>
                                 <property moreinfo="none">Runtime</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> value tells Eclipse where to find Web libraries in order to
+                        </emphasis> value tells Eclipse where to find Web libraries in order to
                         build (compile) the project. It is not possible to finish project import
-                        without selecting Runtime. If you don't have any values, select </diffmk:wrapper><emphasis>
+                        without selecting Runtime. If you don't have any values, select <emphasis>
                                 <property moreinfo="none">New...</property>
                         </emphasis> to add new Runtime.</para>
 
                 <para>The <emphasis>
                                 <property moreinfo="none">Target Server</property>
-                        </emphasis><diffmk:wrapper diffmk:change="changed"> allows you to specify whether to deploy the application. The
+                        </emphasis> allows you to specify whether to deploy the application. The
                         Target Server corresponds to the Runtime value selected above. If you
-                        don't want to deploy the application, uncheck this value.</diffmk:wrapper></para>
+                        don't want to deploy the application, uncheck this value.</para>
                 <figure float="0">
                         <title>Project Folders</title>
                         <mediaobject>
@@ -756,20 +759,20 @@
                                 </imageobject>
                         </mediaobject>
                 </figure>
-                <para><diffmk:wrapper diffmk:change="changed">Once your project is imported you can see that JSF related libraries have been
-                        added to your project: </diffmk:wrapper><emphasis>
+                <para>Once your project is imported you can see that JSF related libraries have been
+                        added to your project: <emphasis>
                                 <property moreinfo="none">jsf-api.jar</property>
                         </emphasis> and <emphasis>
                                 <property moreinfo="none">jsf-impl.jar</property>
                         </emphasis>.</para>
                 <note>
                         <title>Note:</title>
-                        <para><diffmk:wrapper diffmk:change="changed">Some application servers provide their own jsf implementation
+                        <para>Some application servers provide their own jsf implementation
                                 libraries. Thus, to avoid conflicts you should not add jsf libraries
-                                while adding jsf capabilities.</diffmk:wrapper></para>
+                                while adding jsf capabilities.</para>
                 </note>
-                <para><diffmk:wrapper diffmk:change="changed">You are now ready to work with JSF by creating a new JSF configuration
-                        file:</diffmk:wrapper></para>
+                <para>You are now ready to work with JSF by creating a new JSF configuration
+                        file:</para>
 
 
                 <figure float="0">
@@ -781,26 +784,26 @@
                         </mediaobject>
                 </figure>
 
-                <para><diffmk:wrapper diffmk:change="changed">Once the file has been created, it should be opened in a special </diffmk:wrapper><link linkend="jsf_config_file">Faces Config Editor</link>.</para>
+                <para>Once the file has been created, it should be opened in a special <link linkend="jsf_config_file">Faces Config Editor</link>.</para>
         </section>
         <section id="AddingYourOwnProjectTemplates853">
 
                 <title>Adding Your Own Project Templates</title>
-                <para><diffmk:wrapper diffmk:change="changed">Template is a set of files that is served as a basis to facilitate the
+                <para>Template is a set of files that is served as a basis to facilitate the
                         creation of a new project. Project templates provide content and structure
-                        for a project.</diffmk:wrapper></para>
-                <para><diffmk:wrapper diffmk:change="changed">There is a powerful templating capability for creating new and importing
+                        for a project.</para>
+                <para>There is a powerful templating capability for creating new and importing
                         existing Struts and JSF projects. This templating facility has a variety of
                         aspects to consider. But, let's start with the most straightforward
                         case and consider the process of creating a template from your existing JSF
-                        project.</diffmk:wrapper></para>
+                        project.</para>
 
-                <para><diffmk:wrapper diffmk:change="changed">Let's say you have a project that you want to use as the basis for a
-                        new </diffmk:wrapper><property moreinfo="none">template</property><diffmk:wrapper diffmk:change="changed">. Follow these steps to make a template out
-                        of it:</diffmk:wrapper></para>
+                <para>Let's say you have a project that you want to use as the basis for a
+                        new <property moreinfo="none">template</property>. Follow these steps to make a template out
+                        of it:</para>
                 <itemizedlist>
                         <listitem>
-                                <para><diffmk:wrapper diffmk:change="changed">In the Web Projects view, right-click the project and select </diffmk:wrapper><emphasis>
+                                <para>In the Web Projects view, right-click the project and select <emphasis>
                                                 <property moreinfo="none">JBoss Tools JSF &gt; Save As
                                                   Template</property>
                                         </emphasis></para>
@@ -816,10 +819,10 @@
                 </figure>
                 <itemizedlist>
                         <listitem>
-                                <para><diffmk:wrapper diffmk:change="changed">In the first dialog box, you can choose a name for the
+                                <para>In the first dialog box, you can choose a name for the
                                         template (defaults to the project name) and confirm what
                                         run-time implementation of the project technology will be
-                                        used</diffmk:wrapper></para>
+                                        used</para>
                         </listitem>
 
                 </itemizedlist>
@@ -837,10 +840,10 @@
                         <listitem>
                                 <para>Select <emphasis>
                                                 <property moreinfo="none">Next</property>
-                                        </emphasis><diffmk:wrapper diffmk:change="changed"> and you will be sent to a dialog box with your
+                                        </emphasis> and you will be sent to a dialog box with your
                                         project structure displayed with check boxes. Here you can
                                         check only those parts and files in your project directory
-                                        that should be part of the template</diffmk:wrapper></para>
+                                        that should be part of the template</para>
                         </listitem>
                 </itemizedlist>
                 <figure float="0">
@@ -853,27 +856,28 @@
                 </figure>
                 <itemizedlist>
                         <listitem>
-                                <para><diffmk:wrapper diffmk:change="changed">At this point, unless you want to designate some extra files
+                                <para>At this point, unless you want to designate some extra files
                                         as having Velocity template coding inside them, you should
-                                        click </diffmk:wrapper><emphasis>
+                                        click <emphasis>
                                                 <property moreinfo="none">Finish</property>
                                         </emphasis>.</para>
                         </listitem>
                 </itemizedlist>
-                <para><diffmk:wrapper diffmk:change="changed">That's it. Now, you can use this template with any new or imported
+                <para>That's it. Now, you can use this template with any new or imported
                         project that uses the same run-time implementation as the project you turned
-                        into a template.</diffmk:wrapper></para>
-                <para><diffmk:wrapper diffmk:change="changed">At this point, you have a fully configured project and now you can bring some
-                        new logic to it starting from JSF configuration file.</diffmk:wrapper></para>
+                        into a template.</para>
+                <para>At this point, you have a fully configured project and now you can bring some
+                        new logic to it starting from JSF configuration file.</para>
         </section>
-        <section diffmk:change="added">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Relevant Resources Links</diffmk:wrapper></title>
+        <section>
+                <title>Relevant Resources Links</title>
 
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can find more in-depth explanation on how to work with special wizards, editors and views that can
-                        be used in various scenarios while developing JSF applications in our </diffmk:wrapper><ulink diffmk:change="added" url="../../jsf/html_single/index.html"><diffmk:wrapper diffmk:change="added">Visual Web Tools guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+                <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
+                        be used in various scenarios while developing JSF applications in our <ulink url="../../jsf/html_single/index.html">Visual Web Tools guide</ulink>.</para>
         </section>
-
 </chapter>
+
+    
 <chapter id="jsf_config_file" role="updated" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
     <?dbhtml filename="jsf_config_file.html"?>
     <chapterinfo>
@@ -1952,7 +1956,8 @@
         reference introduces you to wizards for creating and importing JSF projects, JSF
         Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
     
-    <para>If you have questions or good suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss
+    <para>If you have questions or good suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
+
 </book>

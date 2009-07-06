@@ -30,13 +30,13 @@
     <bookinfo>
         <title>Struts Tools Reference Guide</title>
         
-        <corpauthor diffmk:change="added">
-            <inlinemediaobject diffmk:change="added">
-                <imageobject diffmk:change="added" role="fo">
-                    <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+        <corpauthor>
+            <inlinemediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                 </imageobject>	
-                <imageobject diffmk:change="added" role="html">
-                    <imagedata diffmk:change="added"></imagedata>
+                <imageobject role="html">
+                    <imagedata></imagedata>
                 </imageobject>	
             </inlinemediaobject>           
         </corpauthor>
@@ -51,7 +51,7 @@
              <holder>JBoss, a division of Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.M1
+             Version: 3.1.0.M2
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -444,11 +444,11 @@
         </figure>
     </section>
 
-    <section diffmk:change="added">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Relevant Resources Links</diffmk:wrapper></title>
+    <section>
+        <title>Relevant Resources Links</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can find more in-depth explanation on how to work with special wizards, editors and views that can
-            be used in various scenarios while developing Struts applications in our </diffmk:wrapper><ulink diffmk:change="added" url="../../jsf/html_single/index.html"><diffmk:wrapper diffmk:change="added">Visual Web Tools guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+        <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
+            be used in various scenarios while developing Struts applications in our <ulink url="../../jsf/html_single/index.html">Visual Web Tools guide</ulink>.</para>
     </section>
 </chapter>
 
@@ -1272,8 +1272,8 @@
                 Tools</property>.</para>
 
         <para>If you'd like to contribute your feedback is always appreciated. You can
-                leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">Forum</ulink>.</para>
-        <para>We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss forum</ulink>.</para>
+                leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">Forum</ulink>.</para>
+        <para>We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss forum</ulink>.</para>
 </chapter>
 
 </book>

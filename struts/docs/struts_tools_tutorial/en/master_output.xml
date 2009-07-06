@@ -26,13 +26,13 @@
     
     <bookinfo>
         <title>Struts Tools Tutorial</title>
-        <corpauthor diffmk:change="added">
-            <inlinemediaobject diffmk:change="added">
-                <imageobject diffmk:change="added" role="fo">
-                    <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+        <corpauthor>
+            <inlinemediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                 </imageobject>	
-                <imageobject diffmk:change="added" role="html">
-                    <imagedata diffmk:change="added"></imagedata>
+                <imageobject role="html">
+                    <imagedata></imagedata>
                 </imageobject>	
             </inlinemediaobject>           
         </corpauthor>
@@ -47,7 +47,7 @@
             <holder>JBoss, a division of Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.M1
+            Version: 3.1.0.M2
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -89,7 +89,72 @@
     application, and finally run it all from inside the Eclipse.</para>
   
   <section>
-    <title>Other relevant resources on the topic</title>
+    <title><diffmk:wrapper diffmk:change="added">Key Features Struts Tools</diffmk:wrapper></title>
+  
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For a start, we propose you to look through the table of main features of Struts
+      Tools:</diffmk:wrapper></para>
+    <table diffmk:change="added">
+      
+      <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Functionality of Struts Tools</diffmk:wrapper></title>
+      <tgroup cols="2" diffmk:change="added">
+        
+        <colspec align="left" colnum="1" colwidth="2*" diffmk:change="added"></colspec>
+        <colspec colnum="2" colwidth="4*" diffmk:change="added"></colspec>
+        
+        
+        <thead diffmk:change="added">
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Feature</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Benefit</diffmk:wrapper></entry>
+           
+          </row>
+        </thead>
+        <tbody diffmk:change="added">
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Struts Support</diffmk:wrapper></para></entry>
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Step-by-step wizards for creating a new struts project with a number
+              of predefined templates, importing existing ones and adding struts
+              capabilities to non-struts web projects.</diffmk:wrapper></para></entry>
+            
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Struts Configuration File</diffmk:wrapper></para></entry>
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Working on file using three modes: diagram, tree and source.
+              Synchronization between the modes and full control over the code. Easy
+              moving around the diagram using the Diagram Navigator. Working with
+              struts projects that have multiple modules. Possibility to use Struts
+              configuration file debugger allowing to set break points on struts
+              diagram and then launch the server in debug mode.</diffmk:wrapper></para></entry>
+            
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Struts modules</diffmk:wrapper></para></entry>
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">A Struts module (struts-config.xml) is automatically created while
+              creating a new project. There is also possibility to add new ones or edit
+              already existing modules in your existing project or while importing Struts project.</diffmk:wrapper></para></entry>
+            
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Verification and Validation</diffmk:wrapper></para></entry>
+            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">All occurring errors will be immediately reported by verification
+              feature, no matter in what view you are working. Constant validation and
+              errors checking allows to catch many of the errors during development
+              process that significantly reduces development time.</diffmk:wrapper></para></entry>
+            
+            
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+  
+  
+  
+  <section diffmk:change="added">
+    <title diffmk:change="added">Other relevant resources on the topic</title>
     
     <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
     <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
@@ -355,12 +420,12 @@
                 <property moreinfo="none">inputname.jsp</property></emphasis> page to the action.</para>
             <itemizedlist>
                 <listitem>
-                    <para><diffmk:wrapper diffmk:change="added">On the left-hand side of the diagram in the column of icons, click on the Create New Connection
-                        icon( </diffmk:wrapper><inlinemediaobject diffmk:change="added"> 
+                    <para>On the left-hand side of the diagram in the column of icons, click on the Create New Connection
+                        icon( <inlinemediaobject> 
                             <imageobject>
                                 <imagedata fileref="images/struts_application/struts_application_1.png"></imagedata>
                             </imageobject>
-                       </inlinemediaobject><diffmk:wrapper diffmk:change="added">).</diffmk:wrapper></para>
+                       </inlinemediaobject>).</para>
                 </listitem>
             </itemizedlist>
              <itemizedlist>
@@ -379,13 +444,13 @@
             <para>Next, we are going to create a forward for the action.</para>
             <itemizedlist>
                 <listitem>
-                    <para><diffmk:wrapper diffmk:change="added">On the left-hand side of the diagram in the column of icons, click on 
+                    <para>On the left-hand side of the diagram in the column of icons, click on 
                         the Create New Connection
-                        icon( </diffmk:wrapper><inlinemediaobject diffmk:change="added"> 
+                        icon( <inlinemediaobject> 
                             <imageobject>
                                 <imagedata fileref="images/struts_application/struts_application_1.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">), again.</diffmk:wrapper></para>
+                        </inlinemediaobject>), again.</para>
                 </listitem>
             </itemizedlist>
            
@@ -787,9 +852,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                     <listitem>
                         <para>Drag it and drop it between the quotes for the <emphasis role="italic">
                                 <property moreinfo="none">"action"</property>
-                            </emphasis><diffmk:wrapper diffmk:change="added"> attribute to the 
-                                </diffmk:wrapper><code diffmk:change="added">&lt;html:form&gt;</code><diffmk:wrapper diffmk:change="added">
-                            element in the Source pane of the editor</diffmk:wrapper></para>
+                            </emphasis> attribute to the 
+                                <code>&lt;html:form&gt;</code>
+                            element in the Source pane of the editor</para>
                     </listitem>
                     <listitem>
                         <para>Then type this text on a new line just below this line:</para>
@@ -842,9 +907,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                     <listitem>
                         <para>Right-click the <emphasis>
                                 <property moreinfo="none">submit</property>
-                            </emphasis><diffmk:wrapper diffmk:change="added"> button and select 
-                                </diffmk:wrapper><code diffmk:change="added">&lt;html:submit&gt;</code><diffmk:wrapper diffmk:change="added">
-                             Attributes from the context menu</diffmk:wrapper></para>
+                            </emphasis> button and select 
+                                <code>&lt;html:submit&gt;</code>
+                             Attributes from the context menu</para>
                     </listitem>
                     <listitem>
                         <para>In the Attributes dialog box, select the <emphasis>
@@ -916,9 +981,9 @@ public class GreetingAction extends org.apache.struts.action.Action
                             </emphasis> folder in the <property moreinfo="none">JBoss Tools Palette</property> to open it</para>
                     </listitem>
                     <listitem>
-                        <para><diffmk:wrapper diffmk:change="added">Position the cursor inside the 
-                                </diffmk:wrapper><code diffmk:change="added">&lt;p&gt;</code><diffmk:wrapper diffmk:change="added">
-                            element</diffmk:wrapper></para>
+                        <para>Position the cursor inside the 
+                                <code>&lt;p&gt;</code>
+                            element</para>
                     </listitem>
                     <listitem>
                         <para>Click on <emphasis>
@@ -1142,7 +1207,7 @@ server side validation. You need to enable validation as a part of the project, 
     <listitem><para>In the JBoss Tools Palette view to the right, open the Struts HTML folder and click on the javascript tag</para></listitem>
 <listitem><para>Back in the editor, just in front of the closing slash for this inserted tag, hit Ctrl+Space and select "formName" from the prompting menu</para></listitem>
 <listitem><para>Over in the Web Projects view, select GetNameForm under the <emphasis><property moreinfo="none">StrutsHello &gt; Configuration &gt; default &gt; struts-config.xml &gt; form-beans</property></emphasis> node, drag it, and drop it between the quotes in the editor</para></listitem>
-<listitem><para>Modify the <code diffmk:change="added">&lt;html:form&gt;</code> tag by inserting this attribute:</para></listitem>
+<listitem><para>Modify the <code>&lt;html:form&gt;</code> tag by inserting this attribute:</para></listitem>
 </itemizedlist>
 <programlisting format="linespecific" role="XML"><![CDATA[onsubmit="return validateGetNameForm(this)"
 ]]></programlisting>
@@ -1166,9 +1231,9 @@ server side validation. You need to enable validation as a part of the project, 
 <itemizedlist>
 <listitem><para>Select<emphasis><property moreinfo="none"> File &gt; Save </property></emphasis>from the menu bar</para></listitem>
 <listitem><para>Start JBoss Application Server by clicking on its icon (a right-pointing arrow) in the toolbar</para></listitem>
-    <listitem><para><diffmk:wrapper diffmk:change="added">Click the Run icon(</diffmk:wrapper><inlinemediaobject diffmk:change="added"> <imageobject diffmk:change="added">
-        <imagedata diffmk:change="added" fileref="images/struts_validation/struts_validation_1.png"></imagedata>
-    </imageobject></inlinemediaobject><diffmk:wrapper diffmk:change="added">) or right click your project folder and select </diffmk:wrapper><emphasis><property moreinfo="none">Run As &gt; Run on Server</property></emphasis></para></listitem>
+    <listitem><para>Click the Run icon(<inlinemediaobject> <imageobject>
+        <imagedata fileref="images/struts_validation/struts_validation_1.png"></imagedata>
+    </imageobject></inlinemediaobject>) or right click your project folder and select <emphasis><property moreinfo="none">Run As &gt; Run on Server</property></emphasis></para></listitem>
 </itemizedlist>
 
 <itemizedlist><listitem><para>In the browser window, click on the "Say Hello!" button without having entered any name in the form</para></listitem></itemizedlist>
@@ -1185,11 +1250,11 @@ server side validation. You need to enable validation as a part of the project, 
 <title>Editing the JSP File</title>
 <itemizedlist>
 <listitem><para>Reopen inputname.jsp for editing</para></listitem>
-<listitem><para>Delete the <emphasis role="italic"><property moreinfo="none">"onsubmit"</property></emphasis> attribute in the <code diffmk:change="added">&lt;html:form&gt;</code> element that you put in for client-side validation</para></listitem>
+<listitem><para>Delete the <emphasis role="italic"><property moreinfo="none">"onsubmit"</property></emphasis> attribute in the <code>&lt;html:form&gt;</code> element that you put in for client-side validation</para></listitem>
 
-<listitem><para>Add an <code diffmk:change="added"><diffmk:wrapper diffmk:change="added">&lt;html:errors/&gt;</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> tag after the 
-    </diffmk:wrapper><code diffmk:change="added">&lt;html:form&gt;</code><diffmk:wrapper diffmk:change="added">
-     tag</diffmk:wrapper></para></listitem>
+<listitem><para>Add an <code>&lt;html:errors/&gt;</code> tag after the 
+    <code>&lt;html:form&gt;</code>
+     tag</para></listitem>
 </itemizedlist>
 <para>The JSP file should now look like this:</para>
 
@@ -1318,7 +1383,7 @@ org.apache.struts.validator.ValidatorForm
 
     <para>To find out all the features of <property moreinfo="none">JBoss Tools</property> for working with Struts
         refer to our <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink>. If you
-        still have questions you are always welcome on <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss
+        still have questions you are always welcome on <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
 

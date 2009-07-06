@@ -36,13 +36,13 @@
      <bookinfo>
          
          <title>Seam Dev Tools Reference Guide</title>
-             <corpauthor diffmk:change="added">
-                 <inlinemediaobject diffmk:change="added">
-                     <imageobject diffmk:change="added" role="fo">
-                         <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+             <corpauthor>
+                 <inlinemediaobject>
+                     <imageobject role="fo">
+                         <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                      </imageobject>	
-                     <imageobject diffmk:change="added" role="html">
-                         <imagedata diffmk:change="added"></imagedata>
+                     <imageobject role="html">
+                         <imagedata></imagedata>
                      </imageobject>	
                  </inlinemediaobject>           
              </corpauthor>
@@ -56,10 +56,10 @@
          <copyright>
              <year>2007</year>
              <year>2009</year>
-             <holder>JBoss, a division of Red Hat</holder>
+             <holder><diffmk:wrapper diffmk:change="changed">JBoss by Red Hat</diffmk:wrapper></holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.M1
+             Version: 3.1.0.M2
          </diffmk:wrapper></releaseinfo>
          
 <abstract>
@@ -90,17 +90,116 @@
 
         <title>What is Seam?</title>
         <para>This introduction will help you to understand what is <property moreinfo="none">Seam</property>.</para>
-        <para><property moreinfo="none">Seam</property> is a fully featured application framework on top of Java EE
-            5. It is also one of the most popular enterprise Java framework today. Seam deeply
+        <para><property moreinfo="none">Seam</property><diffmk:wrapper diffmk:change="changed"> is a fully featured application framework on top of Java EE
+            5. It is also one of the most popular enterprise Java frameworks today. Seam deeply
             integrates many other standard-based or open source frameworks (e.g., JSF, EJB3, JMS,
             Web Services, jBPM, JBoss Rules, Ajax4jsf, RichFaces, Facelets, Spring, iText, Quartz,
             TestNG, etc.), and provides a single programming model for developers to
             "drive" those underlying frameworks via simple annotated POJOs (Plain
             Old Java Objects). It makes life easier for developers to tackle complex enterprise
-            applications with many component frameworks.</para>
+            applications with many component frameworks.</diffmk:wrapper></para>
     </section>
 
-    <section> 
+    <section><title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Features of JBoss Seam</diffmk:wrapper></title> 
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For a start, we propose you to look through the table of main features of JBoss Seam:</diffmk:wrapper></para>
+
+        <table diffmk:change="added">
+            
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Functionality for JBoss Seam</diffmk:wrapper></title>
+            <tgroup cols="3" diffmk:change="added">
+                
+                <colspec align="left" colnum="1" colwidth="2*" diffmk:change="added"></colspec>
+                <colspec colnum="2" colwidth="4*" diffmk:change="added"></colspec>
+                <colspec align="left" colnum="3" colwidth="2*" diffmk:change="added"></colspec>
+                
+                <thead diffmk:change="added">
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Feature</diffmk:wrapper></entry>
+                        <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Benefit</diffmk:wrapper></entry>
+                        <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Chapter</diffmk:wrapper></entry>
+                    </row>
+                </thead>
+                
+                <tbody diffmk:change="added">
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Integrated JSF with EJB 3.0</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Seam combines the component models of EJB3 and JSF, eliminating glue code, and thus, letting the developer think about the business problem.</diffmk:wrapper></para></entry>
+                                          </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Integrated AJAX</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Developer can add AJAX capability to the user interface of his application  without the need to write any JavaScript code as Seam supports JBoss RichFaces and ICEfaces - the best open source JSF-based AJAX solutions.</diffmk:wrapper></para></entry>
+                                      </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Bijection</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Bijection allows auto-assembly of stateful components by the container. It even allows a component to safely and easily manipulate the value of a context variable, just by assigning it to an attribute of the component.</diffmk:wrapper></para></entry>
+                                            </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">New Seam Project wizard</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">An easy step-by-step wizard to create a standalone Seam Web Project with a form to create runtime and server instances in order to get started creating, running, and debugging J2EE (only) applications. You may also add JSF capabilities.</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added">
+                            <link diffmk:change="added" linkend="create_seam"><diffmk:wrapper diffmk:change="added">New Seam Project wizard</diffmk:wrapper></link>
+                        </entry>
+                    </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam component generations options </diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">All the Seam component generations options known from Seam-gen are available as wizards (with sensible auto-defaulting) for creating various common Seam components.</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added">
+                            <link diffmk:change="added" linkend="seam_wizards"><diffmk:wrapper diffmk:change="added">Seam Wizards</diffmk:wrapper></link>
+                        </entry>
+                    </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Editors</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual Page Editor,  Seam Pages Editor and Seam Components Editor provide you with a range of great possibilities and will be helpful when working with JBoss Seam.</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added">
+                            <link diffmk:change="added" linkend="seam_editors"><diffmk:wrapper diffmk:change="added">Seam Editors</diffmk:wrapper></link>
+                        </entry>
+                    </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Validator</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">A configured Seam Validator provides validation of various possible problematic definitions.</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added">
+                            <link diffmk:change="added" linkend="SeamValidation"><diffmk:wrapper diffmk:change="added">Seam Validation</diffmk:wrapper></link>
+                        </entry>
+                    </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">CRUD Database Application Generation</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Seam allows adding CRUD support to a Seam Web application.</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added">
+                            <link diffmk:change="added" linkend="crud_database_application"><diffmk:wrapper diffmk:change="added">CRUD Database Application</diffmk:wrapper></link>
+                        </entry>
+                    </row>
+                    
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">TestNG Framework</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">TestNG ("Testing, the Next Generation") is a Java unit testing framework that aims to overcome many limitations of JUnit.</diffmk:wrapper></para></entry>
+                        <entry diffmk:change="added">
+                            <link diffmk:change="added" linkend="testNG"><diffmk:wrapper diffmk:change="added">Using TestNG project</diffmk:wrapper></link>
+                        </entry>
+                    </row>
+                    
+                </tbody>
+                
+            </tgroup>
+        </table>
+        
+        
+
+
+
+
+
+
+</section>
+
+    <section diffmk:change="added"> 
         <title>Installation into Eclipse</title>
 
         <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
@@ -1137,8 +1236,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can also open Seam Component from the other component where the required one is declared in </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">@In </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> by using
-                </diffmk:wrapper><link diffmk:change="added" linkend="OpenOn"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> (</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and select </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Open Declaration of Seam Component for seam_component in Seam_class.java</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> ).</diffmk:wrapper></para>
+            <para>You can also open Seam Component from the other component where the required one is declared in <code>@In </code> by using
+                <link linkend="OpenOn">OpenOn</link> (<property moreinfo="none">Ctrl + left click</property> and select <property moreinfo="none">Open Declaration of Seam Component for seam_component in Seam_class.java</property> ).</para>
         </section>
 
     </section>
@@ -2029,8 +2128,40 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
-        <para>OpenOn is also supported in Page Descriptors (<property moreinfo="none">.page.xml</property> and <property moreinfo="none">pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn is available for the following files:</diffmk:wrapper></para>
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added">
+                <para diffmk:change="added">
+                    <link diffmk:change="added" linkend="xmlFiles"><diffmk:wrapper diffmk:change="added">XML files</diffmk:wrapper></link>
+                </para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added">
+                    <link diffmk:change="added" linkend="xhtmlFiles"><diffmk:wrapper diffmk:change="added">JSP/XHTML Pages</diffmk:wrapper></link>
+                </para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"> <link diffmk:change="added" linkend="javaFiles"><diffmk:wrapper diffmk:change="added">Java files</diffmk:wrapper></link></para>
+            </listitem>
+        </itemizedlist>
+        <note diffmk:change="added">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note:</diffmk:wrapper></title>
+            
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In this section were described only use cases special for Seam applications.For general information please read
+                </diffmk:wrapper><ulink diffmk:change="added" url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#OpenOnSelection4Hyperlinknavigation"><diffmk:wrapper diffmk:change="added">OpenOn section in Visual Web Tools Reference Guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+        </note>
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added" id="xhtmlFiles"> <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Using OpenOn in .xhtml files you can open:</diffmk:wrapper></para>
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">components or properties resolved using an EL expression;</diffmk:wrapper></para></listitem>
+            <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">all actions described in pages.xml;</diffmk:wrapper></para></listitem>
+            <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">other .xhtml files that paths are specified in a current file;</diffmk:wrapper></para></listitem> 
+            <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">image files that paths are set in  the </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">value</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> property.The files will be opened in the default system graphical editor.</diffmk:wrapper></para></listitem> 
+            </itemizedlist>
+            </listitem>
+            <listitem diffmk:change="added" id="xmlFiles"> 
+                <para>OpenOn is also supported in Page Descriptors (<property moreinfo="none">.page.xml</property> and <property moreinfo="none">pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
             You can <property moreinfo="none">Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to  navigate to the file you clicked on. </para>
 
         <figure float="0">
@@ -2041,30 +2172,67 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
-<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
-    OpenOn is also supported  in seam components where </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> In annotation</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is presented.
-    After pressing </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> on  the seam component specified in </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">@In </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> you will get the possibility to open the file where the  component is declarated as well as 
-    all of the seam components where it is used in the next declarations:</diffmk:wrapper></para>
-    <itemizedlist diffmk:change="added">
-        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Out</diffmk:wrapper></listitem>
-        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@DataModel</diffmk:wrapper></listitem>
-        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Role</diffmk:wrapper></listitem>
-        <listitem diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Roles</diffmk:wrapper></listitem> 
-     </itemizedlist>
-        
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you use Rule-based authorization with Drools in your Seam application you can apply OpenOn 
+            in </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">components.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> to open the files containing rule  definitions in the </diffmk:wrapper><emphasis diffmk:change="added">
+                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">"rule-files"</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tag.
+        </diffmk:wrapper></para>
         <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in Seam Component</diffmk:wrapper></title>
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in components.xml file</diffmk:wrapper></title>
             <mediaobject diffmk:change="added">
                 <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2b.png"></imagedata>
+                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2c.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
-        
-
-
-    </section>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can also use OpenOn to open jBPM components that are described in  Seam component descriptor.
+            Two places where it works  are available: </diffmk:wrapper></para> 
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">inside </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;component&gt;</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> definition;</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in components.xml file</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2d.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure></listitem>
+            <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">inside </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">jbpm</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tags;</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in components.xml file</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2e.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure></listitem>
+        </itemizedlist>
+            </listitem> 
+            <listitem diffmk:change="added" id="javaFiles"> 
+    <para>
+    OpenOn is also supported  in seam components where <property moreinfo="none"> In annotation</property> is presented.
+    After pressing <property moreinfo="none">Ctrl + left click</property> on  the seam component specified in <code>@In </code> you will get the possibility to open the file where the  component is declarated as well as 
+    all of the seam components where it is used in the next declarations:</para>
+    <itemizedlist>
+        <listitem><para diffmk:change="added">@Out</para></listitem>
+        <listitem><para diffmk:change="added">@DataModel</para></listitem>
+        <listitem><para diffmk:change="added">@Role</para></listitem>
+        <listitem><para diffmk:change="added">@Roles</para></listitem> 
+     </itemizedlist>
+       
+        <figure float="0">
+            <title>OpenOn in Seam Component</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2b.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+            </listitem>
+        </itemizedlist>
+       </section>
 
     <section id="SeamValidation">
         <title>Seam Validation</title>
@@ -2292,11 +2460,11 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <tip diffmk:change="added">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tip:</diffmk:wrapper></title>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you try to delete the Seam Runtime that is already in use by some project in the current workspace, then a warning message will appear. To confirm the removal press </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OK</diffmk:wrapper></property>
+        <tip>
+            <title>Tip:</title>
+            <para>If you try to delete the Seam Runtime that is already in use by some project in the current workspace, then a warning message will appear. To confirm the removal press <property moreinfo="none">OK</property>
             </para>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Besides, when you right-click on your Seam project with deleted runtime in Project Explorer and select</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> Properties &gt; Seam Settings</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> the error message "Runtime &lt;runtime_name&gt; does not exist" will appear. </diffmk:wrapper></para>
+            <para>Besides, when you right-click on your Seam project with deleted runtime in Project Explorer and select<property moreinfo="none"> Properties &gt; Seam Settings</property> the error message "Runtime &lt;runtime_name&gt; does not exist" will appear. </para>
         </tip>
         <section id="validator_pref">
 
@@ -3528,7 +3696,7 @@
         
         <para>In conclusion, the main goal of this document is to get you know with a full featureset
             that <property moreinfo="none">JBoss Tools</property> provides to support Seam development. Thus if you have
-            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss
+            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
                 Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
             future leaving your vote on our page <ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture">here</ulink>. </para>
         

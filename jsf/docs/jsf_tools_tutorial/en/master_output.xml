@@ -27,13 +27,13 @@
     
     <bookinfo>
         <title>JSF Tools Tutorial</title>
-            <corpauthor diffmk:change="added">
-                <inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added" role="fo">
-                        <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+            <corpauthor>
+                <inlinemediaobject>
+                    <imageobject role="fo">
+                        <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                     </imageobject>	
-                    <imageobject diffmk:change="added" role="html">
-                        <imagedata diffmk:change="added"></imagedata>
+                    <imageobject role="html">
+                        <imagedata></imagedata>
                     </imageobject>	
                 </inlinemediaobject>           
             </corpauthor>
@@ -45,11 +45,11 @@
         <copyright>
             <year>2007</year>
             <year>2009</year>
-            <holder>JBoss, a division of Red Hat</holder>
+            <holder><diffmk:wrapper diffmk:change="changed">JBoss by Red Hat</diffmk:wrapper></holder>
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-              Version: 3.1.0.M1
+              Version: 3.1.0.M2
             </diffmk:wrapper></releaseinfo>
 
 
@@ -89,6 +89,75 @@
     will display the familiar message, "Hello &lt;name&gt;!" This
     tutorial will show you how to create and run such an application from the beginning along the
     way demonstrating some of the powerful features of <property moreinfo="none">JBoss Tools</property>.</para>
+  <section diffmk:change="added"><title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Features of JSF Tools</diffmk:wrapper></title>
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Here, we provide you with a key functionality which is integrated in JSF tooling.</diffmk:wrapper></para>
+  
+    <table diffmk:change="added">
+      <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Functionality for JSF Tools</diffmk:wrapper></title>
+      <tgroup cols="2" diffmk:change="added">
+        
+        <colspec align="left" colnum="1" colwidth="2*" diffmk:change="added"></colspec>
+        <colspec colnum="2" colwidth="4*" diffmk:change="added"></colspec>
+     
+        
+        <thead diffmk:change="added">
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Feature</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Benefit</diffmk:wrapper></entry>
+           
+          </row>
+        </thead>
+        <tbody diffmk:change="added">
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">JSF and Facelets support</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</diffmk:wrapper></entry>
+            
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Flexible and customizable project template management</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Jump-start development with out-of-the-box templates or easily
+              customized templates for re-use.</diffmk:wrapper></entry>
+            
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for JSF Configuration File</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Working on file using three modes: diagram, tree and source.
+              Synchronization between the modes and full control over the code. Easy
+              moving around the diagram using the Diagram Navigator.</diffmk:wrapper></entry>
+           
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Managed Beans</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adding new managed beans, generating code for attributes, properties
+              and getter/setter methods.</diffmk:wrapper></entry>
+          
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Custom Converters and Validators</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Fast creating of custom converters and validators with tree view of
+              faces-config.xml file.</diffmk:wrapper></entry>
+            
+          </row>
+          
+          <row diffmk:change="added">
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Verification and Validation</diffmk:wrapper></entry>
+            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">All occuring errors will be immediately reported by verification
+              feature, no matter in what view you are working. Constant validation and
+              errors checking allows to catch many of the errors during development
+              process that significantly reduces development time.</diffmk:wrapper></entry>
+                        
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  
+  </section>
+  
   
   <section>
     <title>Other relevant resources on the topic</title>
@@ -793,7 +862,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         finally run it on the <property moreinfo="none">JBoss Server</property>.</para>
 
     <para>Find out more features on JSF tooling in our <ulink url="../../jsf_tools_ref_guide/html_single/index.html">JSF Tools
-            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&apos;op=viewforum&apos;f=201">JBoss
+            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
         
