@@ -49,3 +49,4 @@ Export-Package:
  org.jboss.tools.seam.internal.core.scanner.lib,
  org.jboss.tools.seam.internal.core.scanner.xml,
  org.jboss.tools.seam.internal.core.validation
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

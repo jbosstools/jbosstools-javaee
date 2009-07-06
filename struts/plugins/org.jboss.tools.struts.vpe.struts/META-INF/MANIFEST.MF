@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: false
 Bundle-Vendor: %vendorName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

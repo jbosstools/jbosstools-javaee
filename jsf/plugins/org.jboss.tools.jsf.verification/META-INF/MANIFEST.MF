@@ -19,4 +19,4 @@ Bundle-Version: 2.0.0
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.jsf.verification.vrules,
  org.jboss.tools.jsf.verification.vrules.toview
-
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

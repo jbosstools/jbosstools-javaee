@@ -29,4 +29,4 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.wst.web
 Bundle-Version: 2.0.0
-
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

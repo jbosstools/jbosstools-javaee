@@ -18,3 +18,4 @@ Require-Bundle: org.junit,
  org.eclipse.ui.ide;bundle-version="3.4.1"
 Bundle-Localization: plugin
 Bundle-ClassPath: jsf-ui-test.jar
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

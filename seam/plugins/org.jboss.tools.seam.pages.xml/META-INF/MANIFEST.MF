@@ -19,4 +19,4 @@ Export-Package: org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.pages.xml.model.helpers.autolayout,
  org.jboss.tools.seam.pages.xml.model.refactoring,
  org.jboss.tools.seam.pages.xml.model.impl
-
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

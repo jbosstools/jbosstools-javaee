@@ -20,4 +20,4 @@ Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.jsf.vpe.jstl.template
 Bundle-Localization: plugin
 Import-Package: org.jboss.tools.jst.web.tld
-
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

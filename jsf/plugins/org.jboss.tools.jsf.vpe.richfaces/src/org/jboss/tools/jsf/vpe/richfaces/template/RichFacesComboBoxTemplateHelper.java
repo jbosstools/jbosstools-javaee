@@ -31,7 +31,7 @@ import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 
 /**
  * @author Eugene Stherbin
@@ -362,7 +362,7 @@ public class RichFacesComboBoxTemplateHelper {
             int w = ComponentUtil.parseWidthHeightValue(sourceListWidth);
             w += 7;
             width = String.valueOf(w);
-        } catch (final ParseException e) {
+        } catch (final NumberFormatException e) {
             width = "217"; //$NON-NLS-1$
         }
         table.setAttribute(HTML.ATTR_STYLE, HTML.STYLE_PARAMETER_WIDTH

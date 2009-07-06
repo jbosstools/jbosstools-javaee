@@ -20,3 +20,4 @@ Bundle-Vendor: %Bundle-Vendor.0
 Eclipse-LazyStart: true
 Bundle-ClassPath: lib/antlr.jar,
  .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

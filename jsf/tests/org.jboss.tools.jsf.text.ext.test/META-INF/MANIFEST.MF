@@ -22,3 +22,4 @@ Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.jsf.text.ext.test
 Bundle-ClassPath: jsf-text-ext-tests.jar
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

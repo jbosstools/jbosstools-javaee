@@ -17,3 +17,4 @@ Bundle-ClassPath: struts-test.jar
 Export-Package: org.jboss.tools.struts.vpe.struts.test
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
