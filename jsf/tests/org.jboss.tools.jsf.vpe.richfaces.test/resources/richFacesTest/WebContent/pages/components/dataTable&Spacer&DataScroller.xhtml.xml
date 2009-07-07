@@ -1,40 +1,46 @@
 <tests>
 	<test id="dataTable">
+
 		<DIV CLASS="dr-pnl rich-panel" STYLE="width: 780px; height: 702px;">
 			<DIV CLASS="dr-pnl-h rich-panel-header"
 				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<SPAN CLASS="vpe-text">
 					Data Table &amp; Spacer &amp; DataScroller
-				</SPAN>
+</SPAN>
 			</DIV>
 			<DIV CLASS="dr-pnl-b rich-panel-body">
-	<DIV ALIGN="right" CLASS="rich-datascr evenRow" STYLE="text-align: center; color: Orchid; font-style: italic; font-size: small; background-color: Turquoise; text-decoration: line-through; font-weight: bolder;">
-<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0" CLASS="rich-dtascroller-table">
-<TBODY>
-<TR>
-<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
-&#171;
+				<DIV ALIGN="right" CLASS="rich-datascr evenRow"
+					STYLE="text-align: center; color: Orchid; font-style: italic; font-size: small; background-color: Turquoise; text-decoration: line-through; font-weight: bolder;">
+					<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0"
+						CLASS="rich-dtascroller-table">
+						<TBODY>
+							<TR>
+								<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
+									&#171;
 </TD>
-<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
+								<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
+								</TD>
+								<TD ALIGN="center" CLASS="rich-datascr-act"
+									STYLE="text-align: right; color: Navy; font-style: italic; background-color: PaleVioletRed; text-decoration: overline; font-weight: bolder;">
+									1
 </TD>
-<TD ALIGN="center" CLASS="rich-datascr-act" STYLE="text-align: right; color: Navy; font-style: italic; background-color: PaleVioletRed; text-decoration: overline; font-weight: bolder;">
-1
+								<TD ALIGN="center" CLASS="rich-datascr-inact"
+									STYLE="border-style: none; text-align: center; color: red; font-style: italic; background-color: green; text-decoration: overline; font-weight: bolder;">
+									2
 </TD>
-<TD ALIGN="center" CLASS="rich-datascr-inact" STYLE="border-style: none; text-align: center; color: red; font-style: italic; background-color: green; text-decoration: overline; font-weight: bolder;">
-2
+								<TD ALIGN="center" CLASS="rich-datascr-inact"
+									STYLE="border-style: none; text-align: center; color: red; font-style: italic; background-color: green; text-decoration: overline; font-weight: bolder;">
+									3
 </TD>
-<TD ALIGN="center" CLASS="rich-datascr-inact" STYLE="border-style: none; text-align: center; color: red; font-style: italic; background-color: green; text-decoration: overline; font-weight: bolder;">
-3
+								<TD ALIGN="center" CLASS="rich-datascr-button">
+								</TD>
+								<TD ALIGN="center" CLASS="rich-datascr-button">
+									&#187;
 </TD>
-<TD ALIGN="center" CLASS="rich-datascr-button">
-</TD>
-<TD ALIGN="center" CLASS="rich-datascr-button">
-&#187;
-</TD>
-</TR>
-</TBODY>
-</TABLE>
-</DIV>
+							</TR>
+						</TBODY>
+					</TABLE>
+				</DIV>
 				<IMG WIDTH="700" HEIGHT="30"
 					SRC="/.*resources/spacer/spacer.gif/"
 					STYLE="background-color: red; width: 748px;" CLASS="rich-spacer btn" />
@@ -55,7 +61,7 @@
 								COLSPAN="100" SCOPE="colgroup">
 								<SPAN CLASS="vpe-text">
 									Header of the table
-								</SPAN>
+</SPAN>
 							</TD>
 						</TR>
 						<TR CLASS="dr-table-subheader rich-table-subheader btn">
@@ -64,7 +70,7 @@
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										Description
-									</SPAN>
+</SPAN>
 								</SPAN>
 								<IMG
 									SRC="/.*ve/unresolved_image.gif/"
@@ -76,7 +82,7 @@
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										Highest Bid
-									</SPAN>
+</SPAN>
 								</SPAN>
 							</TD>
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell btn"
@@ -84,7 +90,7 @@
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										Your Bid
-									</SPAN>
+</SPAN>
 								</SPAN>
 							</TD>
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell btn"
@@ -92,7 +98,7 @@
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										Amount
-									</SPAN>
+</SPAN>
 								</SPAN>
 							</TD>
 						</TR>
@@ -104,7 +110,7 @@
 								COLSPAN="100" SCOPE="colgroup">
 								<SPAN CLASS="vpe-text">
 									Footer of the table
-								</SPAN>
+</SPAN>
 							</TD>
 						</TR>
 					</TFOOT>
@@ -113,12 +119,12 @@
 							CLASS="dr-table-cell rich-table-cell col1">
 							<SPAN CLASS="vpe-text">
 								#{item.description}
-							</SPAN>
+</SPAN>
 						</TD>
 						<TD CLASS="dr-table-cell rich-table-cell col2">
 							<SPAN>
 								#{item.highestBid}
-							</SPAN>
+</SPAN>
 						</TD>
 						<TD CLASS="dr-table-cell rich-table-cell col3">
 							<SPAN>
@@ -129,15 +135,20 @@
 							</SPAN>
 							<BR STYLE="-moz-user-modify: read-write;" />
 
-							<INPUT VALUE="#{item.bid}" />
-							<A STYLE="-moz-user-modify: read-write;">
+							<SPAN CLASS="vpe-text">
+								<SPAN CLASS="vpe-text">
+								</SPAN>
+								<INPUT VALUE="#{item.bid}" />
+
+							</SPAN>
+							<A STYLE="-moz-user-modify: read-write;" CLASS="">
 								<SPAN CLASS="vpe-text">Place a bid!</SPAN>
 							</A>
 						</TD>
 						<TD CLASS="dr-table-cell rich-table-cell col4">
 							<SPAN>
 								#{item.amount}
-							</SPAN>
+</SPAN>
 						</TD>
 					</TR>
 				</TABLE>

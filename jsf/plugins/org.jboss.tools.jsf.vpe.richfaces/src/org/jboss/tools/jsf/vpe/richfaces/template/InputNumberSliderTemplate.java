@@ -25,6 +25,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMHTMLInputElement;
@@ -151,30 +152,12 @@ public class InputNumberSliderTemplate extends AbstractEditableRichFacesTemplate
 		basicTable.appendChild(valuesBlock);
 		basicTable.appendChild(sliderBlock);
 
-		// ================================================================================
-		// Check if template component has children elements
-		// ================================================================================
-		List<Node> list = ComponentUtil.getChildren(sourceElement, true);
-		VpeCreationData creationData = null;
-		if (list != null && list.size() > 0) {
-	        nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_DIV);
-
-	        // this element is used to contains template children
-	        nsIDOMElement childDiv = visualDocument.createElement(HTML.TAG_DIV);
-
-			rootDiv.appendChild(childDiv);
-			rootDiv.appendChild(basicTable);
-
-			// Create return variable contains template
-			creationData = new VpeCreationData(rootDiv);
-			VpeChildrenInfo divInfo = new VpeChildrenInfo(childDiv);
-			creationData.addChildrenInfo(divInfo);
-			for (Node child : list) {
-				divInfo.addSourceChild(child);
-			}
-		} else {
-			creationData = new VpeCreationData(basicTable);
-		}
+		/*
+         * https://jira.jboss.org/jira/browse/JBIDE-3225
+         * Component should render its children.
+         */
+		VpeCreationData creationData = VisualDomUtil.createTemplateWithTextContainer(
+				sourceElement, basicTable, HTML.TAG_DIV, visualDocument);
 		creationData.setElementData(elementData);
 
 		return creationData;

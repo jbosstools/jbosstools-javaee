@@ -1,7 +1,12 @@
 <tests>
 	<test id="inplaceSelect">
-    <SPAN VPE-USER-TOGGLE-ID="false" CLASS="rich-inplace-select rich-inplace-select-view btn" STYLE="display: inline;">
-        Click here to edit
-    </SPAN>
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<SPAN VPE-USER-TOGGLE-ID="false"
+				CLASS="rich-inplace-select rich-inplace-select-view btn" STYLE="display: inline;">
+				Click here to edit
+			</SPAN>
+		</SPAN>
 	</test>
 </tests>

@@ -18,6 +18,7 @@ import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Attr;
@@ -33,7 +34,13 @@ public class JsfInputTextTemplate extends AbstractEditableJsfTemplate {
 
 		nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
 
-		VpeCreationData creationData = new VpeCreationData(input);
+		/*
+         * https://jira.jboss.org/jira/browse/JBIDE-3225
+         * Component should render its children.
+         */
+		VpeCreationData creationData = VisualDomUtil
+				.createTemplateWithTextContainer(sourceElement,
+						input, HTML.TAG_SPAN, visualDocument);
 
 		copyGeneralJsfAttributes(sourceElement, input);
 		ComponentUtil.copyDisabled(sourceElement, input);

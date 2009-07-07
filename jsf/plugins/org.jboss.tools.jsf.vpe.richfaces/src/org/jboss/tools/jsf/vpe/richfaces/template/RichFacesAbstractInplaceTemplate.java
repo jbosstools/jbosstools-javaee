@@ -81,6 +81,8 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     /** The Constant SPACER_GIF. */
     protected final String SPACER_GIF = getCssExtension() + "/spacer.gif"; //$NON-NLS-1$
 
+    protected final String DEFAULT_LABEL_VALUE = "\u00A0\u00A0\u00A0"; //$NON-NLS-1$
+    
     protected String sourceCancelButtonIcon;
     protected String sourceApplyButtonIcon;
 
@@ -103,10 +105,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected nsIDOMElement createRootSpanTemplateMethod(Element source, nsIDOMDocument visualDocument, Attributes attrs) {
         final nsIDOMElement rootSpan = visualDocument.createElement(HTML.TAG_SPAN);
-        // if(!(this.showControls && this.isToggle)){
         rootSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
-        // }
-//        final String rootClass = MessageFormat.format(defaultStyleClasses.get("rootSpan"), getRootSpanClasses()); //$NON-NLS-1$
         String rootStyleClass = "rich-inplace" + getCssStylesSuffix(); //$NON-NLS-1$
         for (String sc : getRootSpanClasses(attrs)) {
             if (ComponentUtil.isNotBlank(sc)) {
@@ -156,16 +155,18 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      * @return the value
      */
     protected String getValue(Attributes attrs) {
-        String rst = Constants.EMPTY;
-        if (ComponentUtil.isNotBlank(attrs.getDefaultLabel())) {
-            rst = attrs.getDefaultLabel();
-	} else if (ComponentUtil.isBlank(attrs.getDefaultLabel())
-		&& ComponentUtil.isNotBlank(attrs.getValue())) {
-            rst = attrs.getValue();
-        } else {
-            rst = Constants.WHITE_SPACE;
-        }
-        return rst;
+    	String rst = Constants.EMPTY;
+    	if (ComponentUtil.isNotBlank(attrs.getDefaultLabel())) {
+    		rst = attrs.getDefaultLabel();
+    	} else if (ComponentUtil.isBlank(attrs.getDefaultLabel())
+    			&& ComponentUtil.isNotBlank(attrs.getValue())) {
+    		rst = attrs.getValue();
+    	} else if (isToggle) {
+    		rst = Constants.WHITE_SPACE;
+    	} else {
+    		rst = DEFAULT_LABEL_VALUE;
+    	}
+    	return rst;
     }
 
     /**

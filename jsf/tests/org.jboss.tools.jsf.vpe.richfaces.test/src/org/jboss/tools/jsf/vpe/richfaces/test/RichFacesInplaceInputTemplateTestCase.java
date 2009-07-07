@@ -39,9 +39,6 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
     /** The Constant MY_STYLE_CLASS. */
     private static final String MY_STYLE_CLASS = "myStyleClass"; //$NON-NLS-1$
 
-    /** The Constant NULL. */
-    private static final String NULL = "null"; //$NON-NLS-1$
-
     /** The Constant RICH_INPLACE_VIEW. */
     private static final String RICH_INPLACE_VIEW = "rich-inplace rich-inplace-view"; //$NON-NLS-1$
 
@@ -53,6 +50,8 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
 
     /** The Constant TEMPLATE_WITH_VALUE_ATTR. */
     private static final String TEMPLATE_WITH_VALUE_ATTR = "components/inplaceInput/inplaceInputWithValueAttribute.xhtml"; //$NON-NLS-1$
+    
+    private static final String EMPTY_INPUT_STRING = "   "; //$NON-NLS-1$
 
     /**
      * The Constructor.
@@ -108,7 +107,7 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
      * @throws Throwable the throwable
      */
     public void testInplaceInputWithoutAttributes() throws CoreException, Throwable {
-        baseCheck(TEMPLATE_WITH_EMPTY_TAG, Constants.EMPTY, RICH_INPLACE_VIEW);
+        baseCheck(TEMPLATE_WITH_EMPTY_TAG, EMPTY_INPUT_STRING, RICH_INPLACE_VIEW);
 
     }
 

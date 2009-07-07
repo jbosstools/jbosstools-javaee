@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -89,30 +90,12 @@ public class RichFacesPaint2DTemplate extends VpeAbstractTemplate {
 		String bgColor = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_BGCOLOR, ATTR_TRANSPARENT_VALUE);
 		img.setAttribute(HTML.ATTR_BGCOLOR, bgColor);
 
-		// ================================================================================
-		// Check if template component has children elements
-		// ================================================================================
-		List<Node> list = ComponentUtil.getChildren(sourceElement, true);
-		VpeCreationData creationData = null;
-		if (list != null && list.size() > 0) {
-	        nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_SPAN);
-
-	        // this element is used to contains template children
-	        nsIDOMElement childDiv = visualDocument.createElement(HTML.TAG_SPAN);
-
-			rootDiv.appendChild(childDiv);
-			rootDiv.appendChild(img);
-
-			// Create return variable contains template
-			creationData = new VpeCreationData(rootDiv);
-			VpeChildrenInfo divInfo = new VpeChildrenInfo(childDiv);
-			creationData.addChildrenInfo(divInfo);
-			for (Node child : list) {
-				divInfo.addSourceChild(child);
-			}
-		} else {
-			creationData = new VpeCreationData(img);
-		}
+		/*
+         * https://jira.jboss.org/jira/browse/JBIDE-3225
+         * Component should render its children.
+         */
+		VpeCreationData creationData = VisualDomUtil.createTemplateWithTextContainer(
+				sourceElement, img, HTML.TAG_SPAN, visualDocument);
 
 		return creationData;
 	}

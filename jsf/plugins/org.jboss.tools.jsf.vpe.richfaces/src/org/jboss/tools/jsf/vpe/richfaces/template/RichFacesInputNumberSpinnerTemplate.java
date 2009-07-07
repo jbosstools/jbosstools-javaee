@@ -22,6 +22,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -145,30 +146,12 @@ public class RichFacesInputNumberSpinnerTemplate extends
 				append(RICH_SPINNER_C_STYLE).append(Constants.WHITE_SPACE).append(tmp).toString();
 		table.setAttribute(HTML.ATTR_CLASS, tmp);
 
-		// ================================================================================
-		// Check if template component has children elements
-		// ================================================================================
-		List<Node> list = ComponentUtil.getChildren(sourceElement, true);
-		VpeCreationData creationData = null;
-		if (list != null && list.size() > 0) {
-	        nsIDOMElement rootDiv = visualDocument.createElement(HTML.TAG_DIV);
-
-	        // this element is used to contains template children
-	        nsIDOMElement childDiv = visualDocument.createElement(HTML.TAG_DIV);
-
-			rootDiv.appendChild(childDiv);
-			rootDiv.appendChild(table);
-
-			// Create return variable contains template
-			creationData = new VpeCreationData(rootDiv);
-			VpeChildrenInfo divInfo = new VpeChildrenInfo(childDiv);
-			creationData.addChildrenInfo(divInfo);
-			for (Node child : list) {
-				divInfo.addSourceChild(child);
-			}
-		} else {
-			creationData = new VpeCreationData(table);
-		}
+		/*
+         * https://jira.jboss.org/jira/browse/JBIDE-3225
+         * Component should render its children.
+         */
+		VpeCreationData creationData = VisualDomUtil.createTemplateWithTextContainer(
+				sourceElement, table, HTML.TAG_DIV, visualDocument);
 
 		return creationData;
 	}

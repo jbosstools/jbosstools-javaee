@@ -12,12 +12,15 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 
+import java.util.List;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -55,50 +58,47 @@ public class RichFacesInplaceInputTemplate extends RichFacesAbstractInplaceTempl
 	 * @return The information on the created node of the visual tree.
      */
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-        VpeCreationData data = null;
-        // <span id="j_id5" class="rich-inplace rich-inplace-view" style="">
-        ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
-	// cast to Element
-	Element sourceElement = (Element) sourceNode;
-	final Attributes attrs = new Attributes(sourceElement);
-	// prepare images
-	prepareImages(sourceElement);
+    	ComponentUtil.setCSSLink(pageContext, getCssStyle(), getCssExtension());
+    	Element sourceElement = (Element) sourceNode;
+    	final Attributes attrs = new Attributes(sourceElement);
+    	/*
+    	 * Prepare data
+    	 */
+    	prepareData(pageContext, sourceElement);
 
-        final nsIDOMElement rootSpan = createRootSpanTemplateMethod(sourceElement, visualDocument, attrs);
-        final nsIDOMElement innerInput1 = visualDocument.createElement(HTML.TAG_INPUT);
-        data = new VpeCreationData(rootSpan, true);
+    	final nsIDOMElement rootSpan = createRootSpanTemplateMethod(sourceElement, visualDocument, attrs);
+    	final nsIDOMElement innerInput1 = visualDocument.createElement(HTML.TAG_INPUT);
+    	VpeCreationData creationData = VisualDomUtil.createTemplateWithTextContainer(
+    			sourceElement, rootSpan, HTML.TAG_SPAN, visualDocument);
+    	if (isToggle) {
+    		rootSpan.appendChild(innerInput1);
+    		innerInput1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+    		innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-field"); //$NON-NLS-1$
+    		innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + Constants.SEMICOLON); //$NON-NLS-1$
+    		innerInput1.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
+    		innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        if (isToggle) {
-            rootSpan.appendChild(innerInput1);
-            innerInput1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
-            innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-field"); //$NON-NLS-1$
-            innerInput1.setAttribute(HTML.ATTR_STYLE, "top: 0px; width: " + this.inputWidth + Constants.SEMICOLON); //$NON-NLS-1$
-            innerInput1.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
-            innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
+    		if (attrs.isShowControls()) {
+    			rootSpan.appendChild(createControlsDiv(pageContext, sourceNode,
+    					visualDocument, creationData, attrs));
+    		}
+    	} else {
+    		innerInput1.setAttribute(HTML.ATTR_STYLE,
+    				"width: " + this.inputWidth + "; position: absolute; left: -32767px;"); //$NON-NLS-1$ //$NON-NLS-2$
+    		innerInput1.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_BUTTON);
 
-            if (attrs.isShowControls()) {
-                rootSpan.appendChild(createControlsDiv(pageContext, sourceNode, visualDocument, data, attrs));
-            }
-        } else {
-            innerInput1.setAttribute(HTML.ATTR_STYLE,
-            		"width: " + this.inputWidth + "; position: absolute; left: -32767px;"); //$NON-NLS-1$ //$NON-NLS-2$
-            innerInput1.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_BUTTON);
-
-            /*
-             * Add empty children info to avoid children processing.
-             * Only available child is "controls" facet
-             */
-            data.addChildrenInfo(new VpeChildrenInfo(rootSpan));
-        }
-        if (!isToggle) {
-            rootSpan.appendChild(visualDocument.createTextNode(getValue(attrs)));
-        } else {
-            innerInput1.setAttribute(HTML.ATTR_VALUE, getValue(attrs));
-        }
-//        final DOMTreeDumper dumper = new DOMTreeDumper();
-//        dumper.dumpToStream(System.err, rootSpan);
-
-        return data;
+    		/*
+    		 * Add empty children info to avoid children processing.
+    		 * Only available child is "controls" facet
+    		 */
+//            creationData.addChildrenInfo(new VpeChildrenInfo(rootSpan));
+    	}
+    	if (!isToggle) {
+    		rootSpan.appendChild(visualDocument.createTextNode(getValue(attrs)));
+    	} else {
+    		innerInput1.setAttribute(HTML.ATTR_VALUE, getValue(attrs));
+    	}
+    	return creationData;
     }
 
     /**
