@@ -19,9 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
-import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
 import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
-import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -34,34 +32,63 @@ import org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine;
  * 
  * @author Viacheslav Kabanovich
  */
-public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompletionEngine.IJSFVariable> implements ELResolver, ELCompletionEngine {
-	private static final Image JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
+public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompletionEngine.IJSFVariable> {
 
+	private static final Image JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
+	private static ELParserFactory factory = ELParserUtil.getDefaultFactory();
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
+	 */
 	public Image getELProposalImage() {
 		return JSF_EL_PROPOSAL_IMAGE;
 	}
 
-	private static ELParserFactory factory = ELParserUtil.getDefaultFactory();
-
 	public JSFELCompletionEngine() {}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#log(java.lang.Exception)
+	 */
 	protected void log(Exception e) {
 		JSFModelPlugin.getPluginLog().logError(e);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELCompletionEngine#getParserFactory()
+	 */
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#newELOperandResolveStatus(org.jboss.tools.common.el.core.model.ELInvocationExpression)
+	 */
+	@Override
 	protected ELOperandResolveStatus newELOperandResolveStatus(ELInvocationExpression tokens) {
 		return new ELOperandResolveStatus(tokens);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
+	 */
 	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		IModelNature project = EclipseResourceUtil.getModelNature(file.getProject());
 		return resolveVariables(project, expr, isFinal, onlyEqualNames);
 	}
 
+	/**
+	 * 
+	 * @param project
+	 * @param expr
+	 * @param isFinal
+	 * @param onlyEqualNames
+	 * @return
+	 */
 	public List<IJSFVariable> resolveVariables(IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<IJSFVariable>resolvedVars = new ArrayList<IJSFVariable>();
 		
@@ -91,7 +118,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 		return new ArrayList<IJSFVariable>(); 
 	}
 
-	List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames) {
+	protected List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames) {
 		if(project == null) return null;
 		List<IJSFVariable> beans = new JSFPromptingProvider().getVariables(project.getModel());
 		List<IJSFVariable> resolvedVariables = new ArrayList<IJSFVariable>();
@@ -110,13 +137,15 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 		return resolvedVariables;
 	}
 
-	public static interface IJSFVariable extends IVariable {
-		public String getName();
-		public IMember getSourceMember();
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine.IVariable, boolean)
+	 */
 	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(IJSFVariable var, boolean onlyEqualNames) {
 		return TypeInfoCollector.createMemberInfo(((IJSFVariable)var).getSourceMember());		
 	}
 
+	public static interface IJSFVariable extends IVariable {
+		public IMember getSourceMember();
+	}
 }
