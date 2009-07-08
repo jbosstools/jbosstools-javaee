@@ -1,0 +1,49 @@
+<tests>
+	<test id="id1">
+
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					some text in color picker
+				</SPAN>
+			</SPAN>
+			<SPAN CLASS="rich-color-picker-span">
+				<INPUT TYPE="text" VALUE="#ffffff" READONLY="readonly" />
+
+				<IMG CLASS="rich-color-picker-icon" STYLE="background-color: rgb(255, 255, 255);"
+					SRC="/.*resources/colorPicker/colorPickerAngleArrow.gif/" />
+			</SPAN>
+		</SPAN>
+	</test>
+	<test id="id2">
+
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					some text in color picker
+				</SPAN>
+			</SPAN>
+			<SPAN CLASS="rich-color-picker-span">
+				<INPUT TYPE="text" VALUE="rgb(255, 255, 255)" READONLY="readonly" />
+
+				<IMG CLASS="rich-color-picker-icon" STYLE="background-color: rgb(255, 255, 255);"
+					SRC="/.*resources/colorPicker/colorPickerAngleArrow.gif/" />
+
+			</SPAN>
+		</SPAN>
+	</test>
+	<test id="id3">
+
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<SPAN CLASS="rich-color-picker-span">
+				<INPUT TYPE="text" VALUE="#ffffff" READONLY="readonly" />
+
+				<IMG CLASS="rich-color-picker-icon" STYLE="background-color: rgb(255, 255, 255);"
+					SRC="/.*resources/colorPicker/colorPickerAngleArrow.gif/" />
+
+			</SPAN>
+		</SPAN>
+	</test>
+</tests>

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<head>
+</head>
+<body>
+
+<rich:paint2D id="painter" width="300" height="120">
+</rich:paint2D>
+
+<rich:colorPicker colorMode="hex" id="id1">
+some text in color picker
+<a4j:support event="onchange" reRender="painter" />
+</rich:colorPicker>
+
+<rich:colorPicker colorMode="rgb" id="id2">
+<h:outputText value="some text in color picker" />
+</rich:colorPicker>
+
+<rich:colorPicker id="id3">
+</rich:colorPicker>
+
+</body>
+</html>

@@ -364,6 +364,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/page/pageWithWidthsDifferent.xhtml");//$NON-NLS-1$
 	}
 	
+	public void testColorPicker() throws Throwable {
+		performContentTest("components/colorPicker.xhtml");//$NON-NLS-1$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;
