@@ -1,0 +1,14 @@
+.rich-color-picker-span input {
+	border: 1px solid #C4C0B9;
+	vertical-align: middle;
+	width: 130px;
+}
+
+.rich-color-picker-icon {
+	border: 1px solid #C4C0B9;
+	cursor: pointer;
+	display: inline;
+	height: 16px;
+	vertical-align: middle;
+	width: 16px;
+}

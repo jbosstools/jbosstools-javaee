@@ -775,4 +775,10 @@
 		</vpe:template>
 	</vpe:tag>
     
+    <vpe:tag name="rich:colorPicker" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" 
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesColorPickerTemplate">
+		</vpe:template>
+	</vpe:tag>
+	
 </vpe:templates>
