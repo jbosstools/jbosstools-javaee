@@ -180,13 +180,11 @@ public class ComponentBuilder implements SeamAnnotations {
 			BijectedAttribute att = createBijectedAttribute(types);
 			
 			Annotation in = as.get(BijectedAttributeType.IN);
-			if(in != null) {
-				ValueInfo _in = new ValueInfo();
-				_in.setValue(IN_ANNOTATION_TYPE);
-				_in.valueStartPosition = in.getStartPosition();
-				_in.valueLength = in.getLength();
-				att.addAttribute(IN_ANNOTATION_TYPE, _in);
-			}
+			Annotation out = as.get(BijectedAttributeType.OUT);
+			Annotation data = as.get(BijectedAttributeType.DATA_BINDER);
+			addLocation(att, in, IN_ANNOTATION_TYPE);
+			addLocation(att, out, OUT_ANNOTATION_TYPE);
+			addLocation(att, data, DATA_MODEL_ANNOTATION_TYPE);
 			
 			ValueInfo name = ValueInfo.getValueInfo(main, null);
 			att.setValue(name);
@@ -198,6 +196,8 @@ public class ComponentBuilder implements SeamAnnotations {
 				name.setValue(m.getName().getIdentifier());
 				if(in != null) {
 					name.setValue(toPropertyName(name.getValue(), "set"));
+				} else if(out != null || data != null) {
+					name.setValue(toPropertyName(name.getValue(), "get"));
 				}
 			}
 			
