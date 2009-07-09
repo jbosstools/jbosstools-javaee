@@ -51,7 +51,7 @@ public class RichFacesInplaceInputTemplateTestCase extends VpeTest {
     /** The Constant TEMPLATE_WITH_VALUE_ATTR. */
     private static final String TEMPLATE_WITH_VALUE_ATTR = "components/inplaceInput/inplaceInputWithValueAttribute.xhtml"; //$NON-NLS-1$
     
-    private static final String EMPTY_INPUT_STRING = "   "; //$NON-NLS-1$
+    private static final String EMPTY_INPUT_STRING = "\u00A0\u00A0\u00A0"; //$NON-NLS-1$
 
     /**
      * The Constructor.
