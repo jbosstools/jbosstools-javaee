@@ -48,6 +48,8 @@ public class StrutsUIMessages extends NLS {
 	public static String YES;
 	public static String NO;
 	public static String SOURCE_FOLDER_FOR_MODULE_ISNOT_FOUND;
+	public static String GenBaseSupport_Generate;
+	public static String GenBaseSupport_Stop;
 	public static String GENERATE_JAVABEAN_PROPERTIES;
 	public static String GENERATE_CONSTANTS_FOR_LOCAL_FORWARDS;
 	public static String GENERATE_CONSTANTS_FOR_GLOBAL_FORWARDS;

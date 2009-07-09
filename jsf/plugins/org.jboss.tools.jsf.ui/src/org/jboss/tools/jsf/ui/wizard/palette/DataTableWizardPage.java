@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.compare.Splitter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.editor.IPropertyEditor;
 import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
@@ -41,6 +40,7 @@ import org.jboss.tools.common.model.util.AbstractTableHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jsf.ui.Messages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagAttributesComposite.AttributeDescriptorValue;
@@ -59,7 +59,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 	IDropWizardModel fWizardModel;
 
 	XModelObject propertyListObject = PreferenceModelUtilities
-			.getPreferenceModel().createModelObject("JSFDataTablePropertySet",
+			.getPreferenceModel().createModelObject("JSFDataTablePropertySet", //$NON-NLS-1$
 					null);
 
 	XChildrenEditorImpl propertyListEditor = new XChildrenEditorImpl();
@@ -72,8 +72,10 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 
 	public DataTableWizardPage() {
 		data = XEntityDataImpl.create(new String[][] {
-				{ "JSFDataTableWizard", "yes" }, { "var", "no" },
-				{ "value", "no" }, { "value bean class", "no" } });
+				{ "JSFDataTableWizard", "yes" },  //$NON-NLS-1$ //$NON-NLS-2$
+				{ "var", "no" }, //$NON-NLS-1$ //$NON-NLS-2$
+				{ "value", "no" },  //$NON-NLS-1$ //$NON-NLS-2$
+				{ "value bean class", "no" } }); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void setProperties(Properties p) {
@@ -148,11 +150,11 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		TagProposal tagProposal = (TagProposal) getDropWizardModel()
 				.getTagProposal();
 		StringBuffer titleText = new StringBuffer();
-		titleText.append("<");
+		titleText.append("<"); //$NON-NLS-1$
 		if (!TagProposal.EMPTY_PREFIX.equals(tagProposal.getPrefix())) {
-			titleText.append(tagProposal.getPrefix()).append(":");
+			titleText.append(tagProposal.getPrefix()).append(":"); //$NON-NLS-1$
 		}
-		titleText.append(tagProposal.getName()).append(">");
+		titleText.append(tagProposal.getName()).append(">"); //$NON-NLS-1$
 		setTitle(titleText.toString());
 	}
 
@@ -183,7 +185,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		generalTabContent.setLayoutData(data);
 
 		Label properties = new Label(generalTabContent, SWT.NONE);
-		properties.setText("Properties");
+		properties.setText(Messages.DataTableWizardPage_Properties);
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		properties.setLayoutData(data);
@@ -204,13 +206,13 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		if(value != null) value = value.trim();
 		if(value != null && value.length() > 0) {
 			try {
-				boolean b1 = value.matches("[#\\$]\\{[^#\\$\\}\\{]*\\}");
+				boolean b1 = value.matches("[#\\$]\\{[^#\\$\\}\\{]*\\}"); //$NON-NLS-1$
 				if(!b1) {
-					throw new ValidationException("Value must be set with Expression Language.");
+					throw new ValidationException(Messages.DataTableWizardPage_ValueMustBeSetWithEL);
 				}
-				boolean b2 = value.matches("[#\\$]\\{[^#\\$\\}\\{\\.]+(\\.[^#\\$\\}\\{\\.]+)*\\}");
+				boolean b2 = value.matches("[#\\$]\\{[^#\\$\\}\\{\\.]+(\\.[^#\\$\\}\\{\\.]+)*\\}"); //$NON-NLS-1$
 				if(!b2) {
-					throw new ValidationException("Expression Language in Value is not correct.");
+					throw new ValidationException(Messages.DataTableWizardPage_ValueELNotCorrect);
 				}
 			} catch (PatternSyntaxException e) {
 				JsfUiPlugin.getPluginLog().logError(e);
@@ -227,7 +229,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 			if (!flag) {
 				flag = true;	
 				if (IPropertyEditor.VALUE.equals(evt.getPropertyName())
-						&& evt.getSource() == support.getPropertyEditorAdapterByName("value bean class")) {
+						&& evt.getSource() == support.getPropertyEditorAdapterByName("value bean class")) { //$NON-NLS-1$
 					onValueChanged((String) evt.getOldValue(), (String) evt.getNewValue());					
 				}
 				
@@ -245,13 +247,13 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 				flag = true;
 				AttributeDescriptorValue[] value = fWizardModel.getAttributeValueDescriptors();
 				for (int i = 0 ; i < 2; i++) { 
-					if (value[i].getName().equals("value"))	{
+					if (value[i].getName().equals("value"))	{ //$NON-NLS-1$
 						support.store();
-						support.getPropertyEditorAdapterByName("value").setValue((String)value[i].getValue());												
+						support.getPropertyEditorAdapterByName("value").setValue((String)value[i].getValue());												 //$NON-NLS-1$
 					}
-					if (value[i].getName().equals("var"))	{
+					if (value[i].getName().equals("var"))	{ //$NON-NLS-1$
 						support.store();		
-						support.getPropertyEditorAdapterByName("var").setValue((String)value[i].getValue());												
+						support.getPropertyEditorAdapterByName("var").setValue((String)value[i].getValue());												 //$NON-NLS-1$
 					}
 				}				
 				flag = false;
@@ -278,7 +280,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		}
 
 		protected String getAddActionPath() {
-			return "CreateActions.AddProperties";
+			return "CreateActions.AddProperties"; //$NON-NLS-1$
 		}
 
 		public void action(String command) {
@@ -290,7 +292,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		}
 
 		protected void add() {
-			String[] ap = getAvailableProperties(data.getValue("value bean class"));
+			String[] ap = getAvailableProperties(data.getValue("value bean class")); //$NON-NLS-1$
 			String[] sp = getSelectedProperties();
 			Properties p = new Properties();
 			Set<String> set1 = new HashSet<String>(), set2 = new TreeSet<String>();
@@ -304,27 +306,27 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 			Iterator it = set1.iterator();
 			for (int i = 0; i < set1.size(); i++) {
 				vs[k][0] = it.next().toString();
-				vs[k][1] = "no"; // "no" = selected
+				vs[k][1] = "no"; // "no" = selected //$NON-NLS-1$
 				++k;
 			}
 			it = set2.iterator();
 			for (int i = 0; i < set2.size(); i++) {
 				vs[k][0] = it.next().toString();
-				vs[k][1] = "yes";
+				vs[k][1] = "yes"; //$NON-NLS-1$
 				++k;
 			}
 
-			p.put("data", vs);
+			p.put("data", vs); //$NON-NLS-1$
 			SelectPropertiesWizard w = new SelectPropertiesWizard();
-			p.setProperty("title", "Bean Properties");			
+			p.setProperty("title", Messages.DataTableWizardPage_BeanProperties);			 //$NON-NLS-1$
 			w.setObject(p);			
 			int r = w.execute();
 			if (r != 0)
 				return;
-			vs = (String[][]) p.get("data");
+			vs = (String[][]) p.get("data"); //$NON-NLS-1$
 			List<String> list = new ArrayList<String>();
 			for (int i = 0; i < vs.length; i++) {
-				if (vs[i][1].equals("no")) {
+				if (vs[i][1].equals("no")) { //$NON-NLS-1$
 					list.add(vs[i][0]);
 				}
 			}
@@ -334,7 +336,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		
 	protected void updateBar() {
 			super.updateBar();
-			String[] ap = getAvailableProperties(data.getValue("value bean class"));
+			String[] ap = getAvailableProperties(data.getValue("value bean class")); //$NON-NLS-1$
 			boolean addflag = false;			
 			if (ap.length > 0) addflag = true;			
 			bar.setEnabled(ADD, addflag);			
@@ -347,8 +349,8 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 			cs[i].removeFromParent();
 		for (int i = 0; i < s.length; i++) {
 			XModelObject c = propertyListObject.getModel().createModelObject(
-					"JSFDataTableProperty", null);
-			c.setAttributeValue("name", s[i]);
+					"JSFDataTableProperty", null); //$NON-NLS-1$
+			c.setAttributeValue("name", s[i]); //$NON-NLS-1$
 			propertyListObject.addChild(c);
 		}
 		propertyListEditor.update();
@@ -359,7 +361,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		XModelObject[] cs = propertyListObject.getChildren();
 		String[] s = new String[cs.length];
 		for (int i = 0; i < cs.length; i++) {
-			s[i] = cs[i].getAttributeValue("name");
+			s[i] = cs[i].getAttributeValue("name"); //$NON-NLS-1$
 		}
 		return s;
 	}
@@ -375,20 +377,20 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 
 	public void setTagAttributesValues() {
 		support.store();	
-		fWizardModel.setAttributeValue("value", data.getValue("value"));
-		fWizardModel.setAttributeValue("var", data.getValue("var"));
+		fWizardModel.setAttributeValue("value", data.getValue("value")); //$NON-NLS-1$ //$NON-NLS-2$
+		fWizardModel.setAttributeValue("var", data.getValue("var")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public String getVar() {
-		return data.getValue("var");
+		return data.getValue("var"); //$NON-NLS-1$
 	}
 
 	public String getValue() {
-		return data.getValue("value");
+		return data.getValue("value"); //$NON-NLS-1$
 	}
 	
 	private XModel getXModel() {
-		IFile file = (IFile) properties.get("file");
+		IFile file = (IFile) properties.get("file"); //$NON-NLS-1$
 		return file == null ? null :getXModel(file);
 	}
 
@@ -434,19 +436,19 @@ class SelectPropertiesWizard extends AbstractQueryWizard {
 class SelectPropertiesWizardView extends AbstractListWizardView {
 
 	protected String[] getActions() {
-		return new String[] { "Select All", "Deselect All" };
+		return new String[] { Messages.DataTableWizardPage_SelectAll, Messages.DataTableWizardPage_DeselectAll };
 	}
 
 	protected void internalAction(String command) {
-		if (command.equals("Select All")) {
+		if (command.equals(Messages.DataTableWizardPage_SelectAll)) {
 			for (int i = 0; i < boxes.length; i++)
-				if ("yes".equals(vs[i][1])) {
+				if ("yes".equals(vs[i][1])) { //$NON-NLS-1$
 					boxes[i].setSelection(true);
 					apply(i);
 				}
-		} else if (command.equals("Deselect All")) {
+		} else if (command.equals(Messages.DataTableWizardPage_DeselectAll)) {
 			for (int i = 0; i < boxes.length; i++)
-				if ("no".equals(vs[i][1])) {
+				if ("no".equals(vs[i][1])) { //$NON-NLS-1$
 					boxes[i].setSelection(false);
 					apply(i);
 				}

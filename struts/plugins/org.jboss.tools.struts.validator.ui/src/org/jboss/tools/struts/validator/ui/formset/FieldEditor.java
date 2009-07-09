@@ -9,15 +9,16 @@ import org.jboss.tools.common.model.ui.swt.util.*;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.meta.action.impl.handlers.*;
+import org.jboss.tools.struts.validator.ui.Messages;
 import org.jboss.tools.struts.validator.ui.ValidatorAttributeEditor;
 import org.jboss.tools.struts.validator.ui.formset.model.*;
 
 public class FieldEditor {
 	protected Composite control;
 	protected FieldAttributeEditor pageEditor = 
-	  new PageAttributeEditor("page", "Page", "EditActions.EditPage");
+	  new PageAttributeEditor("page", Messages.FieldEditor_Page, "EditActions.EditPage"); //$NON-NLS-1$ //$NON-NLS-2$
 	protected FieldAttributeEditor indexEditor = 
-	  new PropertyIndexAttributeEditor("indexedListProperty", "Indexed List Property", "EditActions.EditIndex");
+	  new PropertyIndexAttributeEditor("indexedListProperty", Messages.FieldEditor_IndexedListProperty, "EditActions.EditIndex"); //$NON-NLS-1$ //$NON-NLS-2$
 	
 	public FieldEditor() {}
 
@@ -55,9 +56,9 @@ public class FieldEditor {
 }
 
 abstract class FieldAttributeEditor extends ValidatorAttributeEditor {
-	static String EDIT = "Edit";
-	static String OVERWRITE = "Override";
-	static String DEFAULT = "Default";
+	static String EDIT = Messages.FieldEditor_Edit;
+	static String OVERWRITE = Messages.FieldEditor_Override;
+	static String DEFAULT = Messages.FieldEditor_Default;
 	protected FieldModel fmodel = null;
 	protected boolean enabled = true;
 	protected int status = 0;
@@ -65,6 +66,12 @@ abstract class FieldAttributeEditor extends ValidatorAttributeEditor {
 	Label label;
 	protected Text text;
 
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 * @param command (non-translatable)
+	 */
 	public FieldAttributeEditor(String name, String displayName, String command) {
 		super(name, new String[]{EDIT}, new String[]{command});		
 		this.displayName = displayName;
@@ -161,12 +168,18 @@ abstract class FieldAttributeEditor extends ValidatorAttributeEditor {
 
 class PageAttributeEditor extends FieldAttributeEditor {
 
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 * @param command (non-translatable)
+	 */
 	public PageAttributeEditor(String name, String displayName, String command) {
 		super(name, displayName, command);
 	}
 
 	protected String getText() {
-		return (fmodel == null) ? "" : fmodel.getPage();
+		return (fmodel == null) ? "" : fmodel.getPage(); //$NON-NLS-1$
 	}
 
 	protected int getStatus() {
@@ -177,7 +190,7 @@ class PageAttributeEditor extends FieldAttributeEditor {
 		XModelObject o = getModelObject();
 		if(o != null) {
 			try {
-				o.getModel().changeObjectAttribute(o, "page", "");
+				o.getModel().changeObjectAttribute(o, "page", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (XModelException e) {
 				ModelPlugin.getPluginLog().logError(e);
 			}
@@ -187,11 +200,11 @@ class PageAttributeEditor extends FieldAttributeEditor {
 	protected void overwrite() {
 		XModelObject[] ts = FieldDataEditor.getTarget(fmodel);
 		if(ts == null || ts[0] == null) return;
-		if(!ts[0].isActive()) ts[0].setAttributeValue("page", getText());
+		if(!ts[0].isActive()) ts[0].setAttributeValue("page", getText()); //$NON-NLS-1$
 		long t = ts[0].getTimeStamp();
-		invoke("EditActions.EditPage", ts[0]); 
+		invoke("EditActions.EditPage", ts[0]);  //$NON-NLS-1$
 		if(t != ts[0].getTimeStamp() && ts[1] != null) {
-			ts[0].setAttributeValue("indexedListProperty", "");
+			ts[0].setAttributeValue("indexedListProperty", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			try {
 				DefaultCreateHandler.addCreatedObject(ts[1], ts[2], FindObjectHelper.IN_EDITOR_ONLY);
 			} catch (XModelException e) {
@@ -204,12 +217,18 @@ class PageAttributeEditor extends FieldAttributeEditor {
 
 class PropertyIndexAttributeEditor extends FieldAttributeEditor {
 
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 * @param command (non-translatable)
+	 */
 	public PropertyIndexAttributeEditor(String name, String displayName, String command) {
 		super(name, displayName, command);
 	}
 
 	protected String getText() {
-		return (fmodel == null) ? "" : fmodel.getIndex();
+		return (fmodel == null) ? "" : fmodel.getIndex(); //$NON-NLS-1$
 	}
 
 	protected int getStatus() {
@@ -220,7 +239,7 @@ class PropertyIndexAttributeEditor extends FieldAttributeEditor {
 		XModelObject o = getModelObject();
 		if(o != null) {
 			try {
-				o.getModel().changeObjectAttribute(o, "indexedListProperty", "");
+				o.getModel().changeObjectAttribute(o, "indexedListProperty", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (XModelException e) {
 				ModelPlugin.getPluginLog().logError(e);
 			}
@@ -230,11 +249,11 @@ class PropertyIndexAttributeEditor extends FieldAttributeEditor {
 	protected void overwrite() {
 		XModelObject[] ts = FieldDataEditor.getTarget(fmodel);
 		if(ts == null || ts[0] == null) return;
-		if(!ts[0].isActive()) ts[0].setAttributeValue("indexedListProperty", getText());
+		if(!ts[0].isActive()) ts[0].setAttributeValue("indexedListProperty", getText()); //$NON-NLS-1$
 		long t = ts[0].getTimeStamp();
-		invoke("EditActions.EditIndex", ts[0]);
+		invoke("EditActions.EditIndex", ts[0]); //$NON-NLS-1$
 		if(t != ts[0].getTimeStamp() && ts[1] != null) {
-			ts[0].setAttributeValue("page", "");
+			ts[0].setAttributeValue("page", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			try {
 				DefaultCreateHandler.addCreatedObject(ts[1], ts[2], FindObjectHelper.IN_EDITOR_ONLY);
 			} catch (XModelException e) {

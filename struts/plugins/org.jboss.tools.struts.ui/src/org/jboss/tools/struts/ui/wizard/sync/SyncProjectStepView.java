@@ -11,6 +11,7 @@
 package org.jboss.tools.struts.ui.wizard.sync;
 
 import java.beans.PropertyChangeEvent;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -35,6 +36,7 @@ import org.eclipse.swt.widgets.Label;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jst.web.project.WebModuleConstants;
+import org.jboss.tools.struts.ui.Messages;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
 import org.jboss.tools.struts.webprj.model.helpers.sync.SyncProjectContext;
 
@@ -143,8 +145,8 @@ public class SyncProjectStepView extends AbstractSpecialWizardStep implements ja
 	
 	public void update() {
 		lock = true;
-		listmodel.setModelObject(objects = (ArrayList)support.getProperties().get("modules"));
-		SyncProjectContext context = (SyncProjectContext)support.getProperties().get("context");
+		listmodel.setModelObject(objects = (ArrayList)support.getProperties().get("modules")); //$NON-NLS-1$
+		SyncProjectContext context = (SyncProjectContext)support.getProperties().get("context"); //$NON-NLS-1$
 		XModelObject webxml = context.getWebXML();
 		bar.addEnabled = (webxml != null && webxml.isObjectEditable());
 		if(webxml != null) {
@@ -240,7 +242,7 @@ public class SyncProjectStepView extends AbstractSpecialWizardStep implements ja
 	class CL implements CommandBarListener {
 		public void action(String name) {
 			if(SyncBar.ADD.equals(name)) {
-				XActionInvoker.invoke("WebPrjAddModuleHelper", "Add", support.getTarget(), support.getProperties());
+				XActionInvoker.invoke("WebPrjAddModuleHelper", "Add", support.getTarget(), support.getProperties()); //$NON-NLS-1$ //$NON-NLS-2$
 				list.update();
 				moduleTable.update();
 				bar.updateControl();
@@ -250,27 +252,27 @@ public class SyncProjectStepView extends AbstractSpecialWizardStep implements ja
 			XModelObject s = getSelectedObject();
 			if(s == null) return;
 			if(SyncBar.RESTORE.equals(name)) {
-				String uri = s.getAttributeValue("URI");
-				String path = s.getAttributeValue("path on disk");
+				String uri = s.getAttributeValue("URI"); //$NON-NLS-1$
+				String path = s.getAttributeValue("path on disk"); //$NON-NLS-1$
 				if(uri.length() == 0 && path.length() > 0) {
 					int i = path.lastIndexOf('/');
-					if(i >= 0) s.setAttributeValue("URI", "/WEB-INF/" + path.substring(i + 1));
+					if(i >= 0) s.setAttributeValue("URI", "/WEB-INF/" + path.substring(i + 1)); //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				s.set("state", "restored");
+				s.set("state", "restored"); //$NON-NLS-1$ //$NON-NLS-2$
 			} else if(SyncBar.DELETE.equals(name)) {
 				int si = list.getTable().getSelectionIndex();
 				if(si < 0) return;
 				XModelObject so = listmodel.getModelObject(si);
 				boolean isConfig = WebModuleConstants.ENTITY_WEB_CONFIG.equals(so.getModelEntity().getName());
 				String msg = (!isConfig) ?
-				  "Delete module " + listmodel.getValueAt(si, 0) + "?"
-				  : "Delete URI " + listmodel.getValueAt(si, 1) + "?";
-				MessageDialog d = new MessageDialog(panel.getShell(), "Confirmation", null, msg, MessageDialog.QUESTION, new String[]{"OK", "Cancel"}, 0);
+				  MessageFormat.format(Messages.SyncProjectStepView_DeleteModule, listmodel.getValueAt(si, 0))
+				  : MessageFormat.format(Messages.SyncProjectStepView_DeleteURI, listmodel.getValueAt(si, 1));
+				MessageDialog d = new MessageDialog(panel.getShell(), Messages.SyncProjectStepView_Confirmation, null, msg, MessageDialog.QUESTION, new String[]{Messages.SyncProjectStepView_OK, Messages.SyncProjectStepView_Cancel}, 0);
 				int i = d.open();
 				if(i != 0) return;
-				s.set("state", "deleted");
+				s.set("state", "deleted"); //$NON-NLS-1$ //$NON-NLS-2$
 				XModelObject[] sc = s.getChildren();
-				for (int k = 0; k < sc.length; k++) sc[k].set("state", "deleted");
+				for (int k = 0; k < sc.length; k++) sc[k].set("state", "deleted"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			list.update();
 			bar.updateControl();
@@ -296,10 +298,10 @@ public class SyncProjectStepView extends AbstractSpecialWizardStep implements ja
 	
 	public void validate() {
 		Properties p = new Properties();
-		p.put("modules", objects);
+		p.put("modules", objects); //$NON-NLS-1$
 		XModelObject s = getSelectedObject();
-		if(s == null) p.remove("selected");
-		else p.put("selected", s); 
+		if(s == null) p.remove("selected"); //$NON-NLS-1$
+		else p.put("selected", s);  //$NON-NLS-1$
 		isDataChanged = true;
 		if(validator != null) {
 			validator.validate(p);
@@ -316,9 +318,9 @@ public class SyncProjectStepView extends AbstractSpecialWizardStep implements ja
 }
 
 class SyncBar {
-	static String ADD = "Add";
-	static String DELETE = "Delete";
-	static String RESTORE = "Restore";
+	static String ADD = Messages.SyncProjectStepView_Add;
+	static String DELETE = Messages.SyncProjectStepView_Delete;
+	static String RESTORE = Messages.SyncProjectStepView_Restore;
 	static String[] ADD_DELETE = new String[]{ADD, DELETE};
 	protected CommandBar bar = new CommandBar();
 	protected XModelObject selected = null;
@@ -356,7 +358,7 @@ class SyncBar {
 			bar.rename(RESTORE, DELETE);
 			bar.setEnabled(DELETE, false);
 		} else {
-			boolean u = ("deleted".equals(selected.get("state")));
+			boolean u = ("deleted".equals(selected.get("state"))); //$NON-NLS-1$ //$NON-NLS-2$
 			if(u) {
 				bar.rename(DELETE, RESTORE);
 				bar.setEnabled(RESTORE, u);

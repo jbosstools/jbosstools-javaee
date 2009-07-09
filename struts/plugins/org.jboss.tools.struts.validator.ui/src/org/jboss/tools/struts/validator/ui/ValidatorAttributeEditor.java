@@ -25,10 +25,22 @@ public abstract class ValidatorAttributeEditor implements CommandBarListener {
 	protected String [] commands;
 	protected CommandBar bar = new CommandBar();		
 		
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 * @param command (non-translatable)
+	 */
 	public ValidatorAttributeEditor(String name, String displayName, String command) {
 		this(name, new String[]{displayName}, new String[]{command});
 	}
 
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayNames (translatable)
+	 * @param commands (non-translatable)
+	 */
 	public ValidatorAttributeEditor(String name, String[] displayNames, String[] commands) {
 		this.name = name;
 		this.displayNames = displayNames;

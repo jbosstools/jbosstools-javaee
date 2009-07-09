@@ -161,6 +161,12 @@ class TextAttributeEditor extends ValidatorAttributeEditor {
 	String displayName;
 	protected Text text;
 		
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 * @param command (non-translatable)
+	 */
 	public TextAttributeEditor(String name, String displayName, String command) {
 		super(name, CHANGE, command);
 		this.displayName = displayName;
@@ -226,6 +232,11 @@ class TextAreaAttributeEditor extends ValidatorAttributeEditor {
 	
 	int lock = 0;
 
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 */
 	public TextAreaAttributeEditor(String name, String displayName) {
 		super(name, StrutsUIMessages.CHANGE, null);
 		this.displayName = displayName;
@@ -288,6 +299,12 @@ class DependsAttributeEditor extends TextAttributeEditor {
 		this("depends", StrutsUIMessages.DEPENDS, "EditActions.EditDepends"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
+	/**
+	 * 
+	 * @param name (non-translatable)
+	 * @param displayName (translatable)
+	 * @param command (non-translatable)
+	 */
 	public DependsAttributeEditor(String name, String displayName, String command) {
 		super(name, displayName, command);
 	}

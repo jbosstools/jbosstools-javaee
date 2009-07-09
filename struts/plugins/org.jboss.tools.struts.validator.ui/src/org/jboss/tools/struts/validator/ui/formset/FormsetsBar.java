@@ -22,6 +22,7 @@ import org.jboss.tools.common.model.ui.action.CommandBarListener;
 import org.jboss.tools.common.model.undo.XTransactionUndo;
 import org.jboss.tools.common.model.undo.XUndoManager;
 import org.jboss.tools.common.model.util.FindObjectHelper;
+import org.jboss.tools.struts.validator.ui.Messages;
 import org.jboss.tools.struts.validator.ui.XStudioValidatorPlugin;
 import org.jboss.tools.struts.validator.ui.formset.model.DependencyModel;
 import org.jboss.tools.struts.validator.ui.formset.model.FModel;
@@ -32,14 +33,14 @@ import org.jboss.tools.struts.validators.model.ValidatorConstants;
 import org.jboss.tools.struts.validators.model.XModelEntityResolver;
 
 public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionListener {
-	static String CREATE = "Create";
-	static String CREATE_FORMSET = "Create Formset";
-	static String DELETE_FORMSET = "Delete Formset";
-	static String CREATE_FORM = "Create Form";
-	static String CREATE_FIELD = "Create Field";
-	static String CREATE_DEPEN = "Add Validation Rule";
+	static String CREATE = Messages.FormsetsBar_Create;
+	static String CREATE_FORMSET = Messages.FormsetsBar_CreateFormset;
+	static String DELETE_FORMSET = Messages.FormsetsBar_DeleteFormset;
+	static String CREATE_FORM = Messages.FormsetsBar_CreateForm;
+	static String CREATE_FIELD = Messages.FormsetsBar_CreateField;
+	static String CREATE_DEPEN = Messages.FormsetsBar_AddValidationRule;
 	static String[] createActions = {CREATE, CREATE_FORM, CREATE_FIELD, CREATE_DEPEN, CREATE, CREATE};
-	static String HELP = "Help";
+	static String HELP = Messages.FormsetsBar_Help;
 
 	protected Composite control;
 	protected CommandBar formBar = createBar();
@@ -208,7 +209,7 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 	}
 
 	private void createFormset() {
-		invoke("CreateActions.AddFormset", root);
+		invoke("CreateActions.AddFormset", root); //$NON-NLS-1$
 	}
 
 	private void deleteFormset() {
@@ -218,7 +219,7 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 
 	private void createForm() {
 		XModelObject[] os = formsetsEditor.getFormsetsModel().getCurrentFormsets();
-		if(os.length > 0) invoke("CreateActions.AddForm", os[0]);
+		if(os.length > 0) invoke("CreateActions.AddForm", os[0]); //$NON-NLS-1$
 	}
 
 	private void createField() {
@@ -228,7 +229,7 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 		for (int i = 0; i < os.length; i++) if(isCurrent(fs, os[i])) {
 			XModelObject o = getAncestor(os[i], ValidatorConstants.ENT_FORM);
 			if(o == null) continue;
-			invoke("CreateActions.AddField", o);
+			invoke("CreateActions.AddField", o); //$NON-NLS-1$
 			return;
 		}
 	}
@@ -247,9 +248,9 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 			XModelObject o = getAncestor(os[i], ValidatorConstants.ENT_FIELD);
 			if(o == null) continue;
 			Properties p = new Properties();
-			p.setProperty("help", "Wizard_Validation_Dependency");
-			p.put("shell", formBar.getControl().getShell());
-			XActionInvoker.invoke("ValidationDependencyHelper", "CreateActions.AddDependency", os[i], p); 
+			p.setProperty("help", "Wizard_Validation_Dependency"); //$NON-NLS-1$ //$NON-NLS-2$
+			p.put("shell", formBar.getControl().getShell()); //$NON-NLS-1$
+			XActionInvoker.invoke("ValidationDependencyHelper", "CreateActions.AddDependency", os[i], p);  //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 	}
@@ -278,7 +279,7 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 
 	private void deleteObject(XModelObject[] os, boolean isOverriding) {
 		if(os.length == 0) return;
-		String action = (isOverriding) ? "DeleteActions.ResetDefault" : "DeleteActions.Delete";
+		String action = (isOverriding) ? "DeleteActions.ResetDefault" : "DeleteActions.Delete"; //$NON-NLS-1$ //$NON-NLS-2$
 		if(os.length == 1) {
 			invoke(action, os[0]);
 			return;
@@ -306,7 +307,7 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 		XModelObject[] fs = formsetsEditor.getFormsetsModel().getCurrentFormsets();
 		XModelObject[] os = selected.getModelObjects();
 		for (int i = 0; i < os.length; i++) if(isCurrent(fs, os[i])) {
-			invoke("Properties.Properties", os[i]);
+			invoke("Properties.Properties", os[i]); //$NON-NLS-1$
 			return;
 		}
 	}
@@ -327,15 +328,15 @@ public class FormsetsBar implements CommandBarListener, ActionNames, FSelectionL
 		XModelObject[] os = f.getParent().getModelObjects();
 		if(os.length == 0) return;
 		Properties p = new Properties();
-		p.setProperty("dependency name", f.getName());
-		XActionInvoker.invoke("ValidationDependencyHelper", "DeleteActions.Delete", os[0], p);
+		p.setProperty("dependency name", f.getName()); //$NON-NLS-1$
+		XActionInvoker.invoke("ValidationDependencyHelper", "DeleteActions.Delete", os[0], p); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private void invoke(String actionpath, XModelObject object) {
 		XActionInvoker.invoke(actionpath, object, null);
 	}
 
-	static String SEPARATOR = "separator";
+	static String SEPARATOR = "separator"; //$NON-NLS-1$
 
 	public String[] getMenu() {
 		ArrayList<String> l = new ArrayList<String>();

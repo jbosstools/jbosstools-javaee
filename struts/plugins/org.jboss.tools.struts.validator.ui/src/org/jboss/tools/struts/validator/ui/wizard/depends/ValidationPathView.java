@@ -45,11 +45,11 @@ public class ValidationPathView extends AbstractResourcePathView {
 
 	public void action(String name) {
 		XModelObject f = getSelectedFile();
-		XModelObject o = model.createModelObject("ValidatorFileSelector", null);
+		XModelObject o = model.createModelObject("ValidatorFileSelector", null); //$NON-NLS-1$
 		if(f != null)
-		  o.setAttributeValue("file", "" + XModelObjectLoaderUtil.getResourcePath(f));
-		XActionInvoker.invoke("Edit", o, null);
-		String sp = o.getAttributeValue("file");
+		  o.setAttributeValue("file", "" + XModelObjectLoaderUtil.getResourcePath(f)); //$NON-NLS-1$ //$NON-NLS-2$
+		XActionInvoker.invoke("Edit", o, null); //$NON-NLS-1$
+		String sp = o.getAttributeValue("file"); //$NON-NLS-1$
 		XModelObject fn = model.getByPath(sp);
 		if(fn == null || f == fn) return;
 		addValue(sp);

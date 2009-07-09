@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.validator.ui.wizard.key;
 
+import java.text.MessageFormat;
 import java.util.*;
 import org.jboss.tools.common.model.ui.action.CommandBar;
 import org.jboss.tools.common.model.ui.action.CommandBarListener;
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.struts.validator.ui.Messages;
 
 public abstract class AbstractResourcePathView implements CommandBarListener, SelectionListener {
 	protected CommandBar commandBar = new CommandBar();
@@ -51,7 +53,7 @@ public abstract class AbstractResourcePathView implements CommandBarListener, Se
 		composite.setLayout(layout);
 		
 		Label label = new Label(composite, SWT.NONE);
-		label.setText(getDisplayName() + ": ");
+		label.setText(MessageFormat.format(Messages.AbstractResourcePathView_Label, getDisplayName()));
 
 		combo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
 		GridData d = new GridData(GridData.FILL_HORIZONTAL);
@@ -62,7 +64,7 @@ public abstract class AbstractResourcePathView implements CommandBarListener, Se
 		combo.addSelectionListener(this);
 		
 		commandBar.setMnemonicEnabled(true);
-		commandBar.setCommands(new String[]{"&Browse"});
+		commandBar.setCommands(new String[]{Messages.AbstractResourcePathView_Browse});
 		commandBar.addCommandBarListener(this);
 		commandBar.getLayout().setMargins(0, 0, 0, 0);
 		commandBar.getLayout().buttonWidth = convertHorizontalDLUsToPixels(parent, IDialogConstants.BUTTON_WIDTH);
@@ -88,8 +90,8 @@ public abstract class AbstractResourcePathView implements CommandBarListener, Se
 	public void setObject(Object data) {
 		lock = true;
 		Properties p = (Properties)data;
-		model = (XModel)p.get("model");
-		object = (XModelObject)p.get("object");
+		model = (XModel)p.get("model"); //$NON-NLS-1$
+		object = (XModelObject)p.get("object"); //$NON-NLS-1$
 		lock = false;
 		updateSelection();
 	}

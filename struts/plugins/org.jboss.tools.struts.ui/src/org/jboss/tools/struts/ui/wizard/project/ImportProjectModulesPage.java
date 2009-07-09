@@ -44,7 +44,7 @@ public class ImportProjectModulesPage extends WizardPage implements java.beans.P
 	private ImportWebDirProjectContext context;
 
 	public ImportProjectModulesPage(ImportWebDirProjectContext context) {
-		super("");		
+		super("");		 //$NON-NLS-1$
 		this.context = context;
 		list.setAutoResize(true);
 		list.setTableProvider(listModel);

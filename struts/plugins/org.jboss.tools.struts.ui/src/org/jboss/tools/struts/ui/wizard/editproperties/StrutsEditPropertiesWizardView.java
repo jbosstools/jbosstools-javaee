@@ -61,11 +61,11 @@ public class StrutsEditPropertiesWizardView extends AbstractQueryWizardView {
 	public void setObject(Object data) {
 		super.setObject(data);
 		Properties properties = (Properties)data;
-		context = (StrutsEditPropertiesContext)properties.get("context");
+		context = (StrutsEditPropertiesContext)properties.get("context"); //$NON-NLS-1$
 		editor.setContext(context);
 		if(context.getObject() != null) {
 			setModel(context.getObject().getModel());
-			setHelpKey(context.getObject().getModelEntity().getName() + "_Properties");
+			setHelpKey(context.getObject().getModelEntity().getName() + "_Properties"); //$NON-NLS-1$
 		}
 		this.setTitle(WizardKeys.getTitle(getHelpKey()));
 		this.setWindowTitle(WizardKeys.getHeader(getHelpKey()));

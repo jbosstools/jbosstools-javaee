@@ -25,10 +25,11 @@ import org.jboss.tools.common.model.util.*;
  */
 public abstract class GenBaseSupport extends WebPrjSupport implements StrutsConstants {
     
-    public static final String GENERATE = "Generate";
-    public static final String STOP     = "Stop";
+    public static final String GENERATE = StrutsUIMessages.GenBaseSupport_Generate;
+    public static final String STOP = StrutsUIMessages.GenBaseSupport_Stop;
     
-    public static final String DEFAULT_ACTION_IMPORTS =
+    @SuppressWarnings("nls")
+	public static final String DEFAULT_ACTION_IMPORTS =
         "java.io.*,"+
         "javax.servlet.RequestDispatcher,"+
         "javax.servlet.ServletException,"+
@@ -44,7 +45,8 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
         "org.apache.struts.action.ActionServlet,"+
         "org.apache.struts.util.MessageResources";
 
-    public static final String DEFAULT_FORMBEAN_IMPORTS =
+    @SuppressWarnings("nls")
+	public static final String DEFAULT_FORMBEAN_IMPORTS =
         "javax.servlet.http.HttpServletRequest,"+
         "org.apache.struts.action.ActionError,"+
         "org.apache.struts.action.ActionErrors,"+
@@ -52,13 +54,13 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
         "org.apache.struts.action.ActionMapping";
     
     public static final String DEFAULT_FORWARD_IMPORTS =
-        "org.apache.struts.action.ActionForward";
+        "org.apache.struts.action.ActionForward"; //$NON-NLS-1$
     
     public static final String DEFAULT_EXCEPTION_IMPORTS =
-        "org.apache.struts.action.ActionError";
+        "org.apache.struts.action.ActionError"; //$NON-NLS-1$
 
     public static final String DYNA_ACTION_FORM =
-        "org.apache.struts.action.DynaActionForm";
+        "org.apache.struts.action.DynaActionForm"; //$NON-NLS-1$
     
     protected Throwable exc = null;
     protected Step[] steps = null;
@@ -84,7 +86,7 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
     protected String formbean_base = null;
     protected String forward_base = null;
     protected String exception_base = null;
-    protected String message = "";
+    protected String message = ""; //$NON-NLS-1$
     
     /** Creates a new instance of GenBaseSupport */
     public GenBaseSupport() {
@@ -154,7 +156,7 @@ public abstract class GenBaseSupport extends WebPrjSupport implements StrutsCons
 				if(mod == null || mod.length() == 0) mod = "<default>"; //$NON-NLS-1$
 			
 				ServiceDialog d = getTarget().getModel().getService();
-				String msg = StrutsUIMessages.SOURCE_FOLDER_FOR_MODULE_ISNOT_FOUND + mod + ""; //$NON-NLS-2$
+				String msg = StrutsUIMessages.SOURCE_FOLDER_FOR_MODULE_ISNOT_FOUND + mod + ""; //$NON-NLS-1$
 				int q = d.showDialog(StrutsUIMessages.ERROR, msg, new String[]{OK, CANCEL}, null, ServiceDialog.ERROR);
 				if(q != 0) {
 					setFinished(true);
