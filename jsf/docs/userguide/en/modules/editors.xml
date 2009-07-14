@@ -997,7 +997,8 @@
 
                 <para>In the Visual part of the <property>VPE</property> there is a graphical
                     toolbar, use it to add inline styling to JSF and Struts tags on your page. The
-                    toolbar can be hidden by clicking on arrow sign in the upper left corner.</para>
+                    toolbar can be hidden by selecting the <emphasis>
+                    	<property>Hide Text Formatting</property></emphasis> option in the submenu on the left pane.</para>
 
                 <figure>
                     <title>Text Formatting</title>
@@ -1008,8 +1009,8 @@
                     </mediaobject>
                 </figure>
 
-                <para>For editing inline styles for DOM elements <property>VPE</property> also
-                    provides <property>CSS Dialog</property>. It can be called from <emphasis>
+                <para>For editing inline styles for DOM elements <property>VPE</property> 
+                    provides the <property>CSS Dialog</property>. It can be called from <emphasis>
                         <property>style</property>
                     </emphasis> line in the <property>Properties view</property> for a currently
                     selected element.</para>
@@ -1636,8 +1637,17 @@
 
             <para>If you want to hide the <property>Selection Tag Bar</property>, use the button in
                 the form of a red cross on the lower right side. To reset it again you should check
-                the proper option in the <link linkend="vpe_preferences">VPE
-                Preferences</link>.</para>
+                the <emphasis>
+                	<property>Show Selection Bar</property></emphasis> option in the submenu on the left pane.</para>
+        	
+        	<figure>
+        		<title>Show the Selection Tag Bar</title>
+        		<mediaobject>
+        			<imageobject>
+        				<imagedata fileref="images/visual_page/show_selection_bar.png"/>
+        			</imageobject>
+        		</mediaobject>
+        	</figure>
         </section>
 
         <section id="page_preview">
@@ -1783,8 +1793,8 @@
             <para><property>The Properties editor</property> allows you to work in two different
                 modes and also supports unicode characters.</para>
 
-            <para>To create a new properties file, in the Package Explorer view, select<emphasis>
-                    <property> New > Properties File</property>
+            <para>To create a new properties file, in the Package Explorer view, select <emphasis>
+                    <property>New > Properties File</property>
                 </emphasis> from the right-click context menu on the folder where you want to create
                 the file.</para>
             <figure>
