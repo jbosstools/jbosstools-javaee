@@ -1827,6 +1827,38 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+            <para><emphasis>
+                <property>Up</property></emphasis>
+                and <emphasis>
+                    <property>Down</property>
+                </emphasis> buttons allow you to move you attribute on the list. For delete the attribute, choose it and press <emphasis>
+                    <property>Delete</property></emphasis> button.</para>
+            <para>If you want to change a value or a name of your attribute, click on it and than on <emphasis>
+                <property>Edit</property></emphasis> button.</para>
+            
+            <para>If the .properties file is rather big and there are a lot of entries in it, you can use filtering to find the necessary ones. The Filter is implemented by an expandable panel, closed by default: </para>
+            <figure>
+                <title>Filter Panel</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/more_editors/more_editors_3a.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            <para> Enter the characters that should be searched for in the entries to the  'name' or 'value' input fields accordingly. The filtered results will be displayed in the table below:</para>
+            
+            <figure>
+                <title>Filter Results</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/more_editors/more_editors_3b.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
+            
+            
         </section>
 
         <section id="GraphicalTLDEditor">
