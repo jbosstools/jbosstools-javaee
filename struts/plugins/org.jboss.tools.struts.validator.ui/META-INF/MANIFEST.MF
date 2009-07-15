@@ -1,22 +1,13 @@
 Manifest-Version: 1.0
-Eclipse-LazyStart: true
 Bundle-Name: %pluginName
+Bundle-ManifestVersion: 2
 Bundle-ClassPath: strutsvalidatorui.jar
 Bundle-Activator: org.jboss.tools.struts.validator.ui.XStudioValidato
  rPlugin
 Bundle-Vendor: %providerName
-Bundle-SymbolicName: org.jboss.tools.struts.validator.ui; singleton:=true
+Bundle-SymbolicName: org.jboss.tools.struts.validator.ui;singleton:=true
 Bundle-Localization: plugin
-Provide-Package: org.jboss.tools.struts.validator.ui,
- org.jboss.tools.struts.validator.ui.adapter,
- org.jboss.tools.struts.validator.ui.constants,
- org.jboss.tools.struts.validator.ui.formset,
- org.jboss.tools.struts.validator.ui.formset.model,
- org.jboss.tools.struts.validator.ui.global,
- org.jboss.tools.struts.validator.ui.internal,
- org.jboss.tools.struts.validator.ui.wizard.depends,
- org.jboss.tools.struts.validator.ui.wizard.key,
- org.jboss.tools.struts.validator.ui
+Export-Package: org.jboss.tools.struts.validator.ui,org.jboss.tools.struts.validator.ui.adapter,org.jboss.tools.struts.validator.ui.constants,org.jboss.tools.struts.validator.ui.formset,org.jboss.tools.struts.validator.ui.formset.model,org.jboss.tools.struts.validator.ui.global,org.jboss.tools.struts.validator.ui.internal,org.jboss.tools.struts.validator.ui.wizard.depends,org.jboss.tools.struts.validator.ui.wizard.key,org.jboss.tools.struts.validator.ui
 Require-Bundle: org.jboss.tools.common,
  org.eclipse.ui.views,
  org.eclipse.jface.text,
@@ -39,3 +30,4 @@ Require-Bundle: org.jboss.tools.common,
  org.eclipse.core.runtime
 Bundle-Version: 2.0.0
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy

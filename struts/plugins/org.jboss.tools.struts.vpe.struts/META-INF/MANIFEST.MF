@@ -6,7 +6,7 @@ Bundle-Version: 2.1.0
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.vpe
-Eclipse-LazyStart: false
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %vendorName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

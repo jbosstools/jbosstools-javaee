@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
-Bundle-SymbolicName: org.jboss.tools.struts.text.ext.test
+Bundle-SymbolicName: org.jboss.tools.struts.text.ext.test;singleton:=true
 Bundle-Version: 1.0.0
 Require-Bundle: org.junit,
  org.jboss.tools.common.test,
@@ -22,3 +22,4 @@ Export-Package: org.jboss.tools.struts.text.tests
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
