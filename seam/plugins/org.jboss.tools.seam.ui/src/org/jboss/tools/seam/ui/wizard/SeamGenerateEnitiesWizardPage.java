@@ -241,7 +241,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		if (viewsFolder != null){
 			if (!viewsFolder.getFolder(new Path("layout")).exists()){//$NON-NLS-1$
 				setErrorMessage(SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST, 
-						viewsFolder.getName() + "/" + "layout"));//$NON-NLS-1$
+						viewsFolder.getName() + "/layout"));//$NON-NLS-1$
 				setPageComplete(false);
 				return;
 			}
