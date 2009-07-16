@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -208,7 +210,8 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 	}
 
 	private void validate() {
-		Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
+		String projectName = projectEditor.getValue().toString();
+		Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectName, null);
 
 		if(!errors.isEmpty() || !isProjectSettingsOk()) {
 			IStatus errorMessage = errors.get(IValidator.DEFAULT_ERROR);
@@ -231,12 +234,25 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 			setPageComplete(false);
 			return;
 		}
+		
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
+		IContainer viewsFolder = seamProjectsSet.getDefaultViewsFolder();
+		if (viewsFolder != null){
+			if (!viewsFolder.getFolder(new Path("layout")).exists()){//$NON-NLS-1$
+				setErrorMessage(SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST, 
+						viewsFolder.getName() + "/" + "layout"));//$NON-NLS-1$
+				setPageComplete(false);
+				return;
+			}
+		}
 
 		setErrorMessage(null);
 		setMessage(null);
 		setPageComplete(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if(adapter == Map.class) {
 			Map<String, INamedElement> values = new HashMap<String, INamedElement>();
