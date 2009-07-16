@@ -54,7 +54,14 @@ public class JsfJSPBundleHyperlinkPartitioner extends JSPBundleHyperlinkPartitio
 		return prefixes.toArray(new String[prefixes.size()]);
 	}
 	
-	static Map<String, Set<String>> getNameSpaces(IDocument document, int offset) {
+	/**
+	 * Method collects the namespaces used in the document
+	 * 
+	 * @param document
+	 * @param offset
+	 * @return
+	 */
+	static public Map<String, Set<String>> getNameSpaces(IDocument document, int offset) {
 		IStructuredModel sModel = StructuredModelManager
 									.getModelManager()
 									.getExistingModelForRead(document);
