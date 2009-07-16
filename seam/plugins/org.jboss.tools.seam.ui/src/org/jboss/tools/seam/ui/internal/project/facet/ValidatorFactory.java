@@ -48,7 +48,12 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
  * @author eskimo
  * 
  */
+@SuppressWarnings("restriction")
 public class ValidatorFactory {
+	
+	public static final String DEFAULT_SOURCE_LEVEL = CompilerOptions.VERSION_1_5;
+	
+	public static final String DEFAULT_COMPLIANCE_LEVEL = DEFAULT_SOURCE_LEVEL;
 
 	/**
 	 * 
@@ -218,9 +223,9 @@ public class ValidatorFactory {
 
 	public static final IValidator PACKAGE_NAME_VALIDATOR = new IValidator() {
 		public Map<String, IStatus> validate(Object value, Object context) {
-			IStatus status = JavaConventions.validatePackageName(value
-					.toString(), CompilerOptions.VERSION_1_5,
-					CompilerOptions.VERSION_1_5);
+			IStatus status = JavaConventions.validatePackageName(value.toString(),
+					DEFAULT_SOURCE_LEVEL,
+					DEFAULT_COMPLIANCE_LEVEL);
 			if (status.getSeverity() == IStatus.ERROR) {
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, Messages.format(NewWizardMessages.NewTypeWizardPage_error_InvalidPackageName, status.getMessage())));
 			}
@@ -255,13 +260,13 @@ public class ValidatorFactory {
 					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
 			}
 			
-			String[] segs = name.split("\\.");
+			String[] segs = name.split("\\.");//$NON-NLS-1$
 			for(String segm : segs){
 				if(!segm.trim().equals(segm))
 					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
 				
 				IStatus status = JavaConventions.validateClassFileName(segm
-						+ ".class", "5.0", "5.0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						+ ".class", DEFAULT_SOURCE_LEVEL, DEFAULT_COMPLIANCE_LEVEL); //$NON-NLS-1$
 				if (!status.isOK())
 					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
 			}
@@ -284,16 +289,11 @@ public class ValidatorFactory {
 
 			Object[] contextArray = ((Object[]) context);
 			IProject project = (IProject) contextArray[1];
-
 			IJavaProject jProject = JavaCore.create(project);
 
-			String sourceLevel = jProject.getOption(JavaCore.COMPILER_SOURCE,
-					true);
-			String compliance = jProject.getOption(
-					JavaCore.COMPILER_COMPLIANCE, true);
-			IStatus status = JavaConventions.validateJavaTypeName(value
-					.toString(), sourceLevel, compliance);
-			if (status.getSeverity() == IStatus.WARNING) {
+			IStatus status = JavaConventions.validateJavaTypeName(value.toString(),
+					getCompilerSourceLevel(jProject), getCompilerComplianceLevel(jProject));			
+			if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity()) != 0) {
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_LOCAL_INTERFACE_NAME_IS_NOT_VALID
 						+ status.getMessage()));
 			}
@@ -312,14 +312,12 @@ public class ValidatorFactory {
 			Object[] contextArray = ((Object[]) context);
 			String targetName = contextArray[0].toString();
 			IProject project = (IProject) contextArray[1];
-
-			CompilationUnit compilationUnit = createCompilationUnit(
-					"class ClassName {public void " //$NON-NLS-1$
-							+ value.toString() + "() {}}", project); //$NON-NLS-1$
-
-			IProblem[] problems = compilationUnit.getProblems();
-
-			if (problems.length > 0) {
+			IJavaProject jProject = JavaCore.create(project);
+			
+			IStatus status = JavaConventions.validateMethodName(value.toString(),
+					getCompilerSourceLevel(jProject), getCompilerComplianceLevel(jProject));
+			
+			if (status.getSeverity() == IStatus.ERROR){
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
 						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
 			}
@@ -493,7 +491,6 @@ public class ValidatorFactory {
 		public java.util.Map<String, IStatus> validate(Object value,
 				Object context) {
 			Map<String, IStatus> errors = NO_ERRORS;
-			String rtName = value.toString();
 
 			if (value == null || "".equals(value)) { //$NON-NLS-1$
 				errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_NOT_CONFIGURED));
@@ -535,14 +532,31 @@ public class ValidatorFactory {
 			return errors;
 		}
 	};
-
-	public static CompilationUnit createCompilationUnit(String classDecl,
-			IProject project) {
-		ASTParser parser = ASTParser.newParser(AST.JLS3);
-		parser.setSource(classDecl.toCharArray());
-		parser.setProject(JavaCore.create(project));
-		CompilationUnit compilationUnit = (CompilationUnit) parser
-				.createAST(null);
-		return compilationUnit;
+	
+	/**
+	 * 
+	 * @param jProject
+	 * @return java project's CompilerSourceLevel or default one.
+	 */
+	public static String getCompilerSourceLevel(IJavaProject jProject){
+		if (jProject == null){
+			return DEFAULT_SOURCE_LEVEL;
+		}
+		String sourceLevel = jProject.getOption(JavaCore.COMPILER_SOURCE, true);
+		return sourceLevel != null ? sourceLevel : DEFAULT_SOURCE_LEVEL;
 	}
+	
+	/**
+	 * 
+	 * @param jProject
+	 * @return java project's CompilerComplianceLevel or default one.
+	 */
+	public static String getCompilerComplianceLevel(IJavaProject jProject){
+		if (jProject == null){
+			return DEFAULT_COMPLIANCE_LEVEL;
+		}
+		String compliance = jProject.getOption(JavaCore.COMPILER_COMPLIANCE, true);
+		return compliance != null ? compliance : DEFAULT_SOURCE_LEVEL;
+	}
+
 }
