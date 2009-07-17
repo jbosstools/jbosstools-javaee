@@ -121,7 +121,7 @@ public class ELExprPartitionerTest extends TestCase {
 
 		JSPExprHyperlinkPartitioner elPartitioner = new JSPExprHyperlinkPartitioner();
 
-		HashMap<Object, ArrayList> recognitionTest = new HashMap<Object, ArrayList>();
+		HashMap<Object, ArrayList<Region>> recognitionTest = new HashMap<Object, ArrayList<Region>>();
 		
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(623, 16));
@@ -156,17 +156,39 @@ public class ELExprPartitionerTest extends TestCase {
 				String childPartitionType = elPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
 
 				if (childPartitionType != null) {
-					ArrayList test = (ArrayList)recognitionTest.get(childPartitionType);
+					ArrayList<Region> test = (ArrayList<Region>)recognitionTest.get(childPartitionType);
 					boolean testResult = false;
-					Iterator regions = test.iterator();
+					Iterator<Region> regions = test.iterator();
 					Region r = null;
 					while (!testResult && regions.hasNext()) {
-						r = (Region)regions.next();
+						r = regions.next();
 						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
 							testResult = true;
 					}
-					assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
-							+ " doesn't matches the region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , testResult);
+					StringBuffer assertMessage = new StringBuffer();
+					assertMessage.append("Wrong recognition for the region #")
+						.append(i)
+						.append(": ")
+						.append(testData.getHyperlinkRegion().toString())
+						.append(" doesn't matches the regions for PARTITION_TYPE '")
+						.append(childPartitionType)
+						.append("' {");
+					boolean first = true;
+					for (Region reg : test) {
+						if (!first) {
+							assertMessage.append(", ");
+						} else {
+							first = false;
+						}
+						assertMessage.append("[")
+							.append(reg.getOffset())
+							.append("-")
+							.append(reg.getOffset() + reg.getLength())
+							.append("]");
+					}
+					assertMessage.append("}");
+					
+					assertTrue(assertMessage.toString() , testResult);
 					counter++;
 				} else {
 					recognized = false;
