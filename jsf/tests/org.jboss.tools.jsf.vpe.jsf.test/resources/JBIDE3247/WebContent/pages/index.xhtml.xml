@@ -1,0 +1,53 @@
+<tests>
+<test id="custom_tags">
+<DIV ID="custom_tags" STYLE="-moz-user-modify: read-write;" >
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<!-- h:inputHidden id="currentPage" replace, because if on page two fields, two elements with equal id has been used, but should be used only one -->
+<TABLE BORDER="0" STYLE="margin-right: auto; margin-left: auto; -moz-user-modify: read-only;">
+<TBODY>
+<TR>
+<TD>
+<INPUT TYPE="submit" VALUE="&lt;&lt;" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+<TD>
+<INPUT TYPE="submit" VALUE="&lt;" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+<TD>
+<INPUT TYPE="submit" VALUE="&gt;" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+<TD>
+<INPUT TYPE="submit" VALUE="&gt;&gt;" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</DIV>
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="message" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Hello, Custom Tags!
+</SPAN>
+</SPAN>
+</DIV>
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+$
+</SPAN>
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+100
+</SPAN>
+</DIV>
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="message" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Echo custom tag
+</SPAN>
+</SPAN>
+</DIV>
+</DIV>
+</test>
+</tests>

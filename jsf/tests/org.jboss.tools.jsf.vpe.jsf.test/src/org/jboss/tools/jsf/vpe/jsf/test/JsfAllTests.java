@@ -45,6 +45,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3127Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3144Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3163Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3197Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3247Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3376Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3396Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3441Test;
@@ -153,6 +154,7 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE4509Test.class);
 		suite.addTestSuite(JBIDE4510Test.class);
 		suite.addTestSuite(JBIDE4534Test.class);
+		suite.addTestSuite(JBIDE3247Test.class);
 		// $JUnit-END$
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests

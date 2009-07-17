@@ -257,7 +257,7 @@ VpeToggableTemplate {
 		if (null != labelAttr) {
 			labelValue = labelAttr.getNodeValue();
 			bundleValue = ResourceUtil.getBundleValue(pageContext,
-					labelAttr);
+					labelAttr.getValue());
 		}
 		
 		if (ComponentUtil.isNotBlank(labelValue)) {

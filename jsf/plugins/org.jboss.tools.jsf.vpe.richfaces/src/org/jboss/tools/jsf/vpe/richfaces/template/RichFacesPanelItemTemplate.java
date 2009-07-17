@@ -217,7 +217,7 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	    if (attr != null) {
 		String itemLabel = attr.getNodeValue();
 		String bundleValue = ResourceUtil.getBundleValue(pageContext,
-			attr);
+			attr.getValue());
 		nsIDOMText text;
 		// if bundleValue differ from value then will be represent
 		// bundleValue, but text will be not edit

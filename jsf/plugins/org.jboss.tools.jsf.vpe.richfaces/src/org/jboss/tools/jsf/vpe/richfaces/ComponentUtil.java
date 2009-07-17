@@ -275,10 +275,11 @@ public class ComponentUtil {
 						"^\\s*(\\#|\\$)\\{facesContext.externalContext.requestContextPath\\}", Constants.EMPTY); //$NON-NLS-1$
 
 		IFile file = null;
-		if (pageContext.getVisualBuilder().getCurrentIncludeInfo() != null)
-			file = pageContext.getVisualBuilder().getCurrentIncludeInfo()
-					.getFile();
-
+		if (pageContext.getVisualBuilder().getCurrentIncludeInfo() != null
+				&&(pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage() instanceof IFile)) {
+			file = (IFile) pageContext.getVisualBuilder().getCurrentIncludeInfo()
+					.getStorage();
+		}
 		if (file == null)
 			return resolvedValue;
 
@@ -588,10 +589,11 @@ public class ComponentUtil {
         IEditorInput input = pageContext.getEditPart().getEditorInput();
         IPath inputPath = getInputParentPath(input);
         //Fix For JBIDE-3030
-        if(pageContext.getVisualBuilder().getCurrentIncludeInfo()==null) {
+        if(pageContext.getVisualBuilder().getCurrentIncludeInfo()==null
+        		||!(pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage() instanceof IFile)) {
         	return;
         }
-        String path = ElService.getInstance().replaceEl(pageContext.getVisualBuilder().getCurrentIncludeInfo().getFile(), fileImageName);
+        String path = ElService.getInstance().replaceEl((IFile)pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage(), fileImageName);
         File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
             img.setAttribute(HTML.ATTR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toString() + "/" //$NON-NLS-1$

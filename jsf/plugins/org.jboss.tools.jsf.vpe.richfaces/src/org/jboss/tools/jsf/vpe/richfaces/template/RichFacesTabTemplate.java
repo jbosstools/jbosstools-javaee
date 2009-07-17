@@ -270,7 +270,7 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		} else if (sourceElement.hasAttribute(LABEL)) {
 			Attr labelAttr = sourceElement.getAttributeNode(LABEL);
 			if (null != labelAttr) {
-				String bundleValue = ResourceUtil.getBundleValue(pageContext, labelAttr);
+				String bundleValue = ResourceUtil.getBundleValue(pageContext, labelAttr.getValue());
 				mainTd.appendChild(visualDocument.createTextNode(bundleValue));
 			}
 		} else {
