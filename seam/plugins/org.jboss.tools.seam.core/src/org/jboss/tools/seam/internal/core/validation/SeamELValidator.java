@@ -85,7 +85,7 @@ public class SeamELValidator extends SeamValidator {
 	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
 	protected static final String SYNTAX_ERROR_MESSAGE_ID = "EL_SYNTAX_ERROR"; //$NON-NLS-1$
 
-	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE";
+	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE"; //$NON-NLS-1$
 
 	private SeamELCompletionEngine engine;
 	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
@@ -125,7 +125,7 @@ public class SeamELValidator extends SeamValidator {
 			filesToValidate.add(file);
 			if(!containsJavaOrComponentsXml) {
 				String fileName = file.getName().toLowerCase();
-				containsJavaOrComponentsXml = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
+				containsJavaOrComponentsXml = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 

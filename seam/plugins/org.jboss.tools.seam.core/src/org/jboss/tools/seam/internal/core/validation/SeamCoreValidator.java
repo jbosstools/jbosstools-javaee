@@ -85,13 +85,13 @@ public class SeamCoreValidator extends SeamValidator {
 	protected static final String UNKNOWN_COMPONENT_CLASS_NAME_MESSAGE_ID = "UNKNOWN_COMPONENT_CLASS_NAME"; //$NON-NLS-1$
 	protected static final String UNKNOWN_COMPONENT_PROPERTY_MESSAGE_ID = "UNKNOWN_COMPONENT_PROPERTY"; //$NON-NLS-1$
 
-	protected static final String SEARCHING_RESOURCES_MESSAGE_ID = "SEARCHING_RESOURCES";
-	protected static final String VALIDATING_COMPONENT_MESSAGE_ID = "VALIDATING_COMPONENT";
-	protected static final String VALIDATING_FACTORY_MESSAGE_ID = "VALIDATING_FACTORY";
-	protected static final String VALIDATING_RESOURCE_MESSAGE_ID = "VALIDATING_RESOURCE";
-	protected static final String VALIDATING_CLASS_MESSAGE_ID = "VALIDATING_CLASS";
+	protected static final String SEARCHING_RESOURCES_MESSAGE_ID = "SEARCHING_RESOURCES"; //$NON-NLS-1$
+	protected static final String VALIDATING_COMPONENT_MESSAGE_ID = "VALIDATING_COMPONENT"; //$NON-NLS-1$
+	protected static final String VALIDATING_FACTORY_MESSAGE_ID = "VALIDATING_FACTORY"; //$NON-NLS-1$
+	protected static final String VALIDATING_RESOURCE_MESSAGE_ID = "VALIDATING_RESOURCE"; //$NON-NLS-1$
+	protected static final String VALIDATING_CLASS_MESSAGE_ID = "VALIDATING_CLASS"; //$NON-NLS-1$
 
-	protected static final String INVALID_XML_VERSION = "INVALID_XML_VERSION";
+	protected static final String INVALID_XML_VERSION = "INVALID_XML_VERSION"; //$NON-NLS-1$
 
 	public SeamCoreValidator(SeamValidatorManager validatorManager,
 			SeamContextValidationHelper coreHelper, IReporter reporter,
@@ -127,7 +127,7 @@ public class SeamCoreValidator extends SeamValidator {
 			if(!validateUnnamedResources) {
 				String fileName = currentFile.getName().toLowerCase();
 				// We need to check only file names here. 
-				validateUnnamedResources = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ $NON-NLS-2$
+				validateUnnamedResources = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 			if (checkFileExtension(currentFile)) {
 				resources.add(currentFile.getFullPath());

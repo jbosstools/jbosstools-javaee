@@ -229,7 +229,7 @@ public class LinkCollection {
 				linkedResource.setAttribute("name", name); //$NON-NLS-1$
 				linkedResource.setAttribute("path", path.toString()); //$NON-NLS-1$
 				if(checkDeclaration(path, name)) {
-					linkedResource.setAttribute("declaration", "true"); //$NON-NLS-1$ $NON-NLS-2$
+					linkedResource.setAttribute("declaration", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 		}
@@ -262,8 +262,8 @@ public class LinkCollection {
 			if(name == null || name.trim().length() == 0) continue;
 			String path = linkedResources[i].getAttribute("path"); //$NON-NLS-1$
 			if(path == null || path.trim().length() == 0) continue;
-			String declaration = linkedResources[i].getAttribute("declaration");
-			boolean declarationFlag = "true".equals(declaration);
+			String declaration = linkedResources[i].getAttribute("declaration"); //$NON-NLS-1$
+			boolean declarationFlag = "true".equals(declaration); //$NON-NLS-1$
 			IPath pathObject = new Path(path);
 			addLinkedResource(name, pathObject, declarationFlag);
 		}
