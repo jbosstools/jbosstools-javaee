@@ -109,6 +109,9 @@
       <wizard-pages action="jst.seam.2.1.install">
          <page class="org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage"/>
       </wizard-pages>
+      <wizard-pages action="jst.seam.2.2.install">
+         <page class="org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage"/>
+      </wizard-pages>
    </extension>
    <extension
          point="org.eclipse.ui.views">

@@ -135,6 +135,36 @@
          	</or>
          </constraint>
       </project-facet-version>
+      <project-facet-version
+            facet="jst.seam"
+            version="2.2">
+         <constraint>
+         	<or>
+                <requires
+           	         facet="jst.ear"
+       	             version="[5.0">
+   	            </requires>
+                <requires
+           	         facet="jst.ejb"
+       	             version="[3.0">
+   	            </requires>
+                <and>
+	               <requires
+            	         facet="jst.web"
+        	             version="[2.5">
+    	           </requires>
+	               <requires
+            	         facet="jst.jsf"
+        	             version="[1.2">
+    	           </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="[5.0">
+    	           </requires>
+	            </and>
+         	</or>
+         </constraint>
+      </project-facet-version>
       <action
             facet="jst.seam"
             id="jst.seam.1.2.install"
@@ -170,7 +200,19 @@
          <config-factory
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
          </config-factory>
-      </action> 
+      </action>
+      <action
+            facet="jst.seam"
+            id="jst.seam.2.2.install"
+            type="install"
+            version="2.2">
+         <delegate
+               class="org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate">
+         </delegate>
+         <config-factory
+               class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
+         </config-factory>
+      </action>  
       <action
             facet="jst.seam"
             id="jst.seam.1.2.uninstall"
@@ -265,6 +307,17 @@
 	    <facet id="jst.seam" version="2.1"/>
      	<description>
         	Configures a Dynamic Web application to use Seam v2.1
+     	</description>
+     </static-preset>
+     <static-preset
+           id="jst.seam22.preset">
+	    <label>Dynamic Web Project with Seam 2.2 (technology preview)</label>
+	    <facet id="jst.java" version="5.0"/>
+	    <facet id="jst.web" version="2.5"/>
+	    <facet id="jst.jsf" version="1.2"/>
+	    <facet id="jst.seam" version="2.2"/>
+     	<description>
+        	Configures a Dynamic Web application to use Seam v2.2
      	</description>
      </static-preset>
   </extension>

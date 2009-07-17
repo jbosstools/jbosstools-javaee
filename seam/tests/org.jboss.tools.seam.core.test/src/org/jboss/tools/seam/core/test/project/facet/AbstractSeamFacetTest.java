@@ -199,6 +199,8 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 					creator = new Seam2ProjectCreator(config, proj);
 				} else if(seamVersion == SeamVersion.SEAM_2_1) {
 					creator = new Seam2ProjectCreator(config, proj);
+				} else if(seamVersion == SeamVersion.SEAM_2_2) {
+					creator = new Seam2ProjectCreator(config, proj);
 				} else {
 					throw new RuntimeException("Can't get seam version from seam facet model");
 				}
