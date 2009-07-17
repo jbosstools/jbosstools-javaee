@@ -34,50 +34,50 @@ public class StrutsHTMLComponentTest extends VpeTest {
 	 */
 
 	public void testBase() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/base.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/base.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 
 	public void testErrors() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/errors.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/errors.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 
 	public void testFrame() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/frame.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/frame.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testHtml() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/html.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/html.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testImage() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/image.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/image.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testImg() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/img.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/img.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testLink() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/link.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/link.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testRewrite() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/rewrite.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/rewrite.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testMessages() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/messages.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/messages.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 
 	public void testJavascript() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/javascript.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/javascript.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 
 	public void testOptionsCollection() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/optionsCollection.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/optionsCollection.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 
 	public void testXHTML() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/xhtml.jsp", IMPORT_PROJECT_NAME)); // $NON-NLS-1$
+		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/xhtml.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 }

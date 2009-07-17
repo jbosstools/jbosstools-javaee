@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
 public class RichFacesTestPlugin extends BaseUIPlugin {
 
     // The plug-in ID
-    public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces.test"; // $NON-NLS-1$
+    public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces.test"; //$NON-NLS-1$
 
     // The shared instance
     private static RichFacesTestPlugin plugin;
@@ -74,9 +74,9 @@ public class RichFacesTestPlugin extends BaseUIPlugin {
 		URL url = null;
 		try {
 			url = bundle == null ? null : FileLocator.resolve(bundle
-					.getEntry("/resources")); // $NON-NLS-1$
+					.getEntry("/resources")); //$NON-NLS-1$
 		} catch (Exception e) {
-			url = bundle.getEntry("/resources"); // $NON-NLS-1$
+			url = bundle.getEntry("/resources"); //$NON-NLS-1$
 		}
 		return (url == null) ? null : url.getPath();
 	}

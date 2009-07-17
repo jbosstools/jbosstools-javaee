@@ -91,7 +91,7 @@ public class JsfAllTests {
 	
 	public static Test suite() {
 
-		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); // $NON-NLS-1$ //$NON-NLS-1$
+		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$ //$NON-NLS-1$
 		// $JUnit-BEGIN$
 		suite.addTestSuite(JsfComponentTest.class);
 		suite.addTestSuite(Jsf20ComponentContentTest.class);
