@@ -166,9 +166,9 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 				testSrcDir, //$NON-NLS-1$
 				new FilterSetCollection(filterSet), true);
 
-		// Add "org.jboss.seam.core.init.debug=false" for Seam 2.1
+		// Add "org.jboss.seam.core.init.debug=false" for Seam 2.1/2.2
 		// to seam.properties file to avoid https://jira.jboss.org/jira/browse/JBIDE-3623
-		if(getVersion() == SeamVersion.SEAM_2_1) {
+		if(getVersion() == SeamVersion.SEAM_2_1 || getVersion() == SeamVersion.SEAM_2_2) {
 			Properties seamProperties = new Properties();
 			File testSeamPropertiesFile = new File(testSrcDir, "seam.properties");
 			FileInputStream inStream = null;

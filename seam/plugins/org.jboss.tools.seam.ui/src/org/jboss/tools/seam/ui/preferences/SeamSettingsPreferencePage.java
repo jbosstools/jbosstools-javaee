@@ -980,6 +980,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		if(vs.matches(SeamVersion.SEAM_2_1.toString().replace(".", "\\.") + ".*")) {
 			return SeamVersion.SEAM_2_1;
 		}
+		if(vs.matches(SeamVersion.SEAM_2_2.toString().replace(".", "\\.") + ".*")) {
+			return SeamVersion.SEAM_2_2;
+		}
 		return null;
 	}
 
