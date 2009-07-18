@@ -270,6 +270,9 @@ public class SeamProjectCreator {
 			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
 			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + earProjectName, earProjectName, monitor, false);
+			
+			configureJBossAppXml();
+			
 			WtpUtils.reconfigure(earProjectToBeImported, monitor);
 		}
 
@@ -500,5 +503,9 @@ public class SeamProjectCreator {
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
+	}
+	
+	protected void configureJBossAppXml() {
+		// Do nothing special for Seam 1.2
 	}
 }

@@ -21,14 +21,30 @@ import java.util.Set;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 /**
  * @author Alexey Kazakov
@@ -36,6 +52,9 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
  */
 public class Seam2ProjectCreator extends SeamProjectCreator {
 
+	private static final String STRICT = "strict";
+	private static final String MODULE_ORDER = "module-order";
+	
 	// test/*.jar are duplicated here since the filtering seem to be assymetric when matching 
 	private static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
 	    .include("testng\\.jar") //$NON-NLS-1$
@@ -202,6 +221,75 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		super.createEjbProject();
 		// Copy security.drl to source folder
 		AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), new File(ejbProjectFolder, "ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	@Override
+	protected void configureJBossAppXml() {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(earProjectName);
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		IVirtualFolder folder = component.getRootFolder();
+		IFolder rootFolder = (IFolder) folder.getUnderlyingFolder();
+		IResource jbossAppXml = rootFolder.findMember("META-INF/jboss-app.xml");
+		if(jbossAppXml==null || !(jbossAppXml instanceof IFile) || !jbossAppXml.exists()) {
+			return;
+		}
+		
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if(manager == null) {
+			return;
+		}
+		IStructuredModel model = null;		
+		try {
+			model = manager.getModelForEdit((IFile)jbossAppXml);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				IDOMDocument document = domModel.getDocument();
+				Element root = document.getDocumentElement();
+				if(root==null) {
+					return;
+				}
+				NodeList children = root.getChildNodes();
+				boolean strictAdded = false;
+				Node firstChild = null;
+				for(int i=0; i<children.getLength(); i++) {
+					Node currentNode = children.item(i);
+					if(Node.ELEMENT_NODE == currentNode.getNodeType() && firstChild == null) {
+						firstChild = currentNode;
+					}
+					if(Node.ELEMENT_NODE == currentNode.getNodeType() && MODULE_ORDER.equals(currentNode.getNodeName())) {
+						setValue(document,currentNode,STRICT);
+						strictAdded = true;
+					}
+				}
+				if (!strictAdded) {
+					Element moduleOrder = document.createElement(MODULE_ORDER);
+					setValue(document,moduleOrder,STRICT);
+					if (firstChild != null) {
+						root.insertBefore(moduleOrder, firstChild);
+					} else {
+						root.appendChild(moduleOrder);
+					}
+				}
+				model.save();
+			}
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+        } catch (IOException e) {
+        	SeamCorePlugin.getDefault().logError(e);
+		} finally {
+			if (model != null) {
+				model.releaseFromEdit();
+			}
+		}
+		try {
+			new FormatProcessorXML().formatFile((IFile) jbossAppXml);
+		} catch (Exception ignore) {
+		}
+	}
+	
+	private void setValue(Document document, Node node, String value) {
+		Text text = document.createTextNode(value);
+		node.appendChild(text);
 	}
 
 	protected AntCopyUtils.FileSet getJBossTestLibFileset() {
