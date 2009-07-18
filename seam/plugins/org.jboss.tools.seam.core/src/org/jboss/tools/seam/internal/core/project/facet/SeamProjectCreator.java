@@ -108,7 +108,6 @@ public class SeamProjectCreator {
 	protected File ejbMetaInf;
 
 	protected File droolsLibFolder;
-	protected String jbossSeamPath;
 
 	/**
 	 * @param model Seam facet data model
@@ -276,6 +275,8 @@ public class SeamProjectCreator {
 			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + earProjectName, earProjectName, monitor, false);
 
+			configureJBossAppXml();
+			
 			configureEjbClassPath(ejbProjectToBeImported, monitor);
 
 			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
@@ -509,5 +510,9 @@ public class SeamProjectCreator {
 		} catch (BackingStoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
+	}
+	
+	protected void configureJBossAppXml() {
+		// Do nothing special for Seam 1.2
 	}
 }

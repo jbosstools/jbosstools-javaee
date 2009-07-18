@@ -7,6 +7,10 @@
 	<display-name>@projectName@-ear</display-name>
 
 	<module>
+		<ejb>jboss-seam.jar</ejb>
+	</module>
+	
+	<module>
 		<web>
 			<web-uri>@projectName@.war</web-uri>
 			<context-root>/@projectName@</context-root>
@@ -15,10 +19,6 @@
 
 	<module>
 		<ejb>@projectName@-ejb.jar</ejb>
-	</module>
-
-	<module>
-		<ejb>jboss-seam.jar</ejb>
 	</module>
 
 </application>

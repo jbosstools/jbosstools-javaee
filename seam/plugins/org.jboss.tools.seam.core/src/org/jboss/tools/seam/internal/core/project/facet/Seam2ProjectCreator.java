@@ -14,32 +14,37 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 /**
  * @author Alexey Kazakov
@@ -47,6 +52,8 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
  */
 public class Seam2ProjectCreator extends SeamProjectCreator {
 
+	private static final String STRICT = "strict";
+	private static final String MODULE_ORDER = "module-order";
 	// test/*.jar are duplicated here since the filtering seem to be assymetric when matching 
 	private static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
 	    .include("testng\\.jar") //$NON-NLS-1$
@@ -209,88 +216,86 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	}
 
 	@Override
-	protected void fillManifests() {
-		try {
-			File[] earJars = earContentsFolder.listFiles(new FilenameFilter() {
-				/* (non-Javadoc)
-				 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
-				 */
-				public boolean accept(File dir, String name) {
-					return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
-				}
-			});
-			String earJarsStrWar = ""; //$NON-NLS-1$
-			String earJarsStrEjb = ""; //$NON-NLS-1$
-			for (File file : earJars) {
-				earJarsStrWar += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
-				if (isJBossSeamJar(file)) {
-					jbossSeamPath = file.getAbsolutePath();
-				} else {
-					earJarsStrEjb += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
-				}
-			}
-
-			FilterSetCollection manifestFilterColWar = new FilterSetCollection(projectFilterSet);
-			FilterSet manifestFilter = new FilterSet();
-			manifestFilter.addFilter("earLibs", earJarsStrWar); //$NON-NLS-1$
-			manifestFilterColWar.addFilterSet(manifestFilter);
-		
-			FilterSetCollection manifestFilterColEjb = new FilterSetCollection(projectFilterSet);
-			FilterSet manifestFilterEjb = new FilterSet();
-			manifestFilterEjb.addFilter("earLibs", earJarsStrEjb); //$NON-NLS-1$
-			manifestFilterColEjb.addFilterSet(manifestFilterEjb);
-		
-			AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
-			AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
-		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
-	}
-
-	private boolean isJBossSeamJar(File file) {
-		String regex = "(jboss-seam){1}(-[0-9][0-9\\.]+){0,1}(.jar){1}";
-		return Pattern.matches(regex, file.getName());
-	}
-
-	@Override
-	protected void configureEjbClassPath(IProject ejbProject, IProgressMonitor monitor) throws CoreException {
-		if (jbossSeamPath != null && jbossSeamPath.trim().length() > 0
-				&& new File(jbossSeamPath).exists()) {
-			IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
-			IJavaProject ejbJavaProject = JavaCore
-					.create(ejbProject);
-			if (ejbJavaProject != null) {
-				if (!ejbJavaProject.isOpen()) {
-					ejbJavaProject.open(monitor);
-				}
-				IClasspathEntry[] cps = ejbJavaProject.getRawClasspath();
-				IClasspathEntry[] entries = new IClasspathEntry[cps.length + 1];
-				for (int i = 0; i < cps.length; i++) {
-					entries[i] = cps[i];
-				}
-				IPath path = new Path(jbossSeamPath);
-				IFile[] files = wsRoot.findFilesForLocation(path);
-				IFile f = null;
-				if (files != null && files.length > 0) {
-					f=files[0];
-				} else {
-					f = wsRoot.getFile(path);
-				}
-				if (f.exists()) {
-					path = f.getFullPath();
-				}
-				entries[cps.length] = JavaCore.newLibraryEntry(path, null,
-						null);
-				ejbJavaProject.setRawClasspath(entries, monitor);
-			}
-		}
-	}
-
-	@Override
 	protected void createEjbProject() {
 		super.createEjbProject();
 		// Copy security.drl to source folder
 		AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), new File(ejbProjectFolder, "ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	@Override
+	protected void createEarProject() {
+		super.createEarProject();
+		
+		
+	}
+
+	@Override
+	protected void configureJBossAppXml() {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(earProjectName);
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		IVirtualFolder folder = component.getRootFolder();
+		IFolder rootFolder = (IFolder) folder.getUnderlyingFolder();
+		IResource jbossAppXml = rootFolder.findMember("META-INF/jboss-app.xml");
+		if(jbossAppXml==null || !(jbossAppXml instanceof IFile) || !jbossAppXml.exists()) {
+			return;
+		}
+		
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if(manager == null) {
+			return;
+		}
+		IStructuredModel model = null;		
+		try {
+			model = manager.getModelForEdit((IFile)jbossAppXml);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				IDOMDocument document = domModel.getDocument();
+				Element root = document.getDocumentElement();
+				if(root==null) {
+					return;
+				}
+				NodeList children = root.getChildNodes();
+				boolean strictAdded = false;
+				Node firstChild = null;
+				for(int i=0; i<children.getLength(); i++) {
+					Node currentNode = children.item(i);
+					if(Node.ELEMENT_NODE == currentNode.getNodeType() && firstChild == null) {
+						firstChild = currentNode;
+					}
+					if(Node.ELEMENT_NODE == currentNode.getNodeType() && MODULE_ORDER.equals(currentNode.getNodeName())) {
+						setValue(document,currentNode,STRICT);
+						strictAdded = true;
+					}
+				}
+				if (!strictAdded) {
+					Element moduleOrder = document.createElement(MODULE_ORDER);
+					setValue(document,moduleOrder,STRICT);
+					if (firstChild != null) {
+						root.insertBefore(moduleOrder, firstChild);
+					} else {
+						root.appendChild(moduleOrder);
+					}
+				}
+				model.save();
+			}
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+        } catch (IOException e) {
+        	SeamCorePlugin.getDefault().logError(e);
+		} finally {
+			if (model != null) {
+				model.releaseFromEdit();
+			}
+		}
+		try {
+			new FormatProcessorXML().formatFile((IFile) jbossAppXml);
+		} catch (Exception ignore) {
+		}
+	}
+	
+	private void setValue(Document document, Node node, String value) {
+		Text text = document.createTextNode(value);
+		node.appendChild(text);
 	}
 
 	protected AntCopyUtils.FileSet getJBossTestLibFileset() {

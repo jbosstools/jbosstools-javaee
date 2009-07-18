@@ -6,6 +6,11 @@
 
 	<display-name>@projectName@-ear</display-name>
 
+	<!-- JBIDE-4166 Workaround - Make sure we deploy this first, since this is referenced in xxx-ejb.jar--> 
+	<module>
+		<ejb>jboss-seam.jar</ejb>
+	</module>
+	
 	<module>
 		<web>
 			<web-uri>@projectName@.war</web-uri>
@@ -15,10 +20,6 @@
 
 	<module>
 		<ejb>@projectName@-ejb.jar</ejb>
-	</module>
-
-	<module>
-		<ejb>jboss-seam.jar</ejb>
 	</module>
 
 </application>
