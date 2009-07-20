@@ -967,6 +967,44 @@
                     feedback and contextual error checking as you type.</para>
             </section>
 
+<section id="XHTMLvalidator">
+    <title>XHTML Syntax Validator</title>
+
+    <para>XHTML Syntax validator in JBoss Tools provides the XML-like validation for the namespaced tags and HTML-tags as well. It can be enabled in <emphasis><property>Window -> Preferences -> Validation</property></emphasis>:</para>
+
+    <figure>
+        <title>Validation Preferences: XHTML Validator</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/visual_page/XHTMLvalid.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+
+    <para>The process of validation can be observed in the <property>Progress</property> view, you can also press the Stop button to stop validation if needed:</para>
+    <figure>
+        <title>Validation Progress</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/visual_page/validation_progress.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    
+    
+    <para>Any problems in validation of your XHTML file will be displayed in the <property>Problems</property> view:</para>
+    <figure>
+        <title>Validation Problems</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/visual_page/problems.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+
+
+
+</section>
             <section id="taglib_versions_support">
                 <title>Support for Taglib versions</title>
 
