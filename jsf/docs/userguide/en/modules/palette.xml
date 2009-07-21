@@ -463,7 +463,10 @@
                     <property>&quot;.tld&quot;</property>
                 </emphasis> file or the <emphasis role="italic">
                     <property>&quot;.jar&quot;</property>
-                </emphasis> that includes your tag library under the lib folder in your project. </para>
+                </emphasis> that includes your tag library under the lib folder in your project.
+                Or you can just  add   <emphasis> <property>&quot;.tld&quot;</property>
+                </emphasis>or  <emphasis>
+                    <property>&quot;.jar&quot;</property></emphasis> file to the classpath , and the library will be added to the Tag Library List in Web Projects View.</para>
             <section id="Drag_and_Drop65332">
                 <?dbhtml filename="DragAndDrop.html"?>
                 <title>Drag-and-Drop</title>
