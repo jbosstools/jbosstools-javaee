@@ -324,7 +324,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 				boolean b = filter.startsWith("'") || filter.startsWith("\"");
 				boolean e = filter.endsWith("'") || filter.endsWith("\"");
 				if((b) && (e)) {
-					filter = filter.substring(1, filter.length() - 1);
+					filter = filter.length() == 1 ? "" : filter.substring(1, filter.length() - 1);
 				} else if(b && !returnEqualedVariablesOnly) {
 					filter = filter.substring(1);
 				} else {
