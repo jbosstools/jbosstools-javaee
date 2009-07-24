@@ -11,7 +11,24 @@
   <tag-name>paginator</tag-name>
   <source>components/paginator.xhtml</source>
  </tag>
+ <tag>
+  <tag-name>dropSupport</tag-name>
+  <component>
+			<component-type>org.richfaces.DropSupport</component-type>
+			<renderer-type>
+				org.richfaces.DropSupportRenderer
+			</renderer-type>
+		    <handler-class>
+				demo.IfHandler
+			</handler-class>
+  </component>
+</tag>
 <!--  <tag>-->
 <!--  <tag-name>test1</tag-name>-->
 <!-- </tag>-->
+ <function>
+		<function-name>getStringForDisplay</function-name>
+		<function-class>demo.FaceletFunctions</function-class>
+		<function-signature>java.lang.String getStringForDisplay(java.lang.String)</function-signature>
+ </function>
 </facelet-taglib>
