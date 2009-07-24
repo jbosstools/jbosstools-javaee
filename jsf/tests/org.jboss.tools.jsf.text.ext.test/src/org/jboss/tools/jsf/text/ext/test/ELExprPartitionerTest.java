@@ -54,12 +54,13 @@ public class ELExprPartitionerTest extends TestCase {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.text.ext.test", null, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 		Throwable exception = null;
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-		}
+//		try {
+//			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+//		} catch (Exception x) {
+//			exception = x;
+//			x.printStackTrace();
+//		}
+		
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 	}
 
@@ -187,7 +188,7 @@ public class ELExprPartitionerTest extends TestCase {
 							.append("]");
 					}
 					assertMessage.append("}");
-					
+
 					assertTrue(assertMessage.toString() , testResult);
 					counter++;
 				} else {
