@@ -27,32 +27,32 @@ import org.w3c.dom.Node;
  */
 public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 
-	final static String STYLE_PATH = "separator/separator.css";
+	final static String STYLE_PATH = "separator/separator.css"; //$NON-NLS-1$
 
-	final static String LINE_SOLID = "solid";
+	final static String LINE_SOLID = "solid"; //$NON-NLS-1$
 
-	final static String LINE_DOUBLE = "double";
+	final static String LINE_DOUBLE = "double"; //$NON-NLS-1$
 
-	final static String LINE_DOTTED = "dotted";
+	final static String LINE_DOTTED = "dotted"; //$NON-NLS-1$
 
-	final static String LINE_DASHED = "dashed";
+	final static String LINE_DASHED = "dashed"; //$NON-NLS-1$
 
-	final static String LINE_BEVELED = "beveled";
+	final static String LINE_BEVELED = "beveled"; //$NON-NLS-1$
 
-	final static String PIXEL_PREFIX = "px";
+	final static String PIXEL_PREFIX = "px"; //$NON-NLS-1$
 
-	final static String PERCENT_PREFIX = "%";
+	final static String PERCENT_PREFIX = "%"; //$NON-NLS-1$
 
 	final static String[] LINE_TYPES = { LINE_SOLID, LINE_DOUBLE, LINE_DOTTED,
 			LINE_DASHED, LINE_BEVELED };
 
-	final static String LINE_TYPE_ATTR = "lineType";
+	final static String LINE_TYPE_ATTR = "lineType"; //$NON-NLS-1$
 
-	final static String DEFAULT_HEIGHT = "6px";
+	final static String DEFAULT_HEIGHT = "6px"; //$NON-NLS-1$
 
-	final static String DEFAULT_ALIGN = "left";
+	final static String DEFAULT_ALIGN = "left"; //$NON-NLS-1$
 
-	final static String DEFAULT_WIDTH = "100%";
+	final static String DEFAULT_WIDTH = "100%"; //$NON-NLS-1$
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -68,7 +68,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesSeparator");
+		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesSeparator"); //$NON-NLS-1$
 		Element sourceElement = (Element) sourceNode;
 		/* Create new html element table */
 		nsIDOMElement separator = visualDocument
@@ -86,24 +86,24 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		separator.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR,
 				(align == null ? DEFAULT_ALIGN : align));
 		separator.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				"td-parentdiv");
-		String lineClass = sourceElement.getAttribute("styleClass");
+				"td-parentdiv"); //$NON-NLS-1$
+		String lineClass = sourceElement.getAttribute("styleClass"); //$NON-NLS-1$
 		/* Apply class for separator */
 		String lineType = sourceElement.getAttribute(LINE_TYPE_ATTR);
-		String style = sourceElement.getAttribute("style");
+		String style = sourceElement.getAttribute("style"); //$NON-NLS-1$
 		if (lineType == null || lineType.equalsIgnoreCase(LINE_BEVELED)) {
 			line.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					"dr-table-header rich-table-header-continue"
-							+ (lineClass == null ? "" : lineClass));
+					"dr-table-header rich-table-header-continue" //$NON-NLS-1$
+							+ (lineClass == null ? "" : lineClass)); //$NON-NLS-1$
 			style = setBeveledStyle(width, height, ComponentUtil
 					.getHeaderBackgoundImgStyle()
-					+ ";" + (style == null ? "" : style));
+					+ ";" + (style == null ? "" : style)); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
 			line.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					(lineClass == null ? "" : lineClass));
+					(lineClass == null ? "" : lineClass)); //$NON-NLS-1$
 			style = setStyle(lineType, width, height, style);
 			line.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					"separator-color");
+					"separator-color"); //$NON-NLS-1$
 		}
 		line.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
 		separator.appendChild(line);
@@ -133,7 +133,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			if (lineType != null && lineType.equalsIgnoreCase(LINE_BEVELED)) {
 				newStyle = setBeveledStyle(width, height, ComponentUtil
 						.getHeaderBackgoundImgStyle()
-						+ ";" + (style == null ? "" : style));
+						+ ";" + (style == null ? "" : style)); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				newStyle = setStyle(lineType, (width == null ? DEFAULT_WIDTH
 						: addPrefixSize(width)),
@@ -150,7 +150,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			} else {
 				newStyle = setStyle(lineType, (width == null ? DEFAULT_WIDTH
 						: addPrefixSize(width)),
-						(height == null ? DEFAULT_HEIGHT : height), "");
+						(height == null ? DEFAULT_HEIGHT : height), ""); //$NON-NLS-1$
 			}
 			line.setAttribute(name, newStyle);
 
@@ -188,7 +188,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			if (lineType.equalsIgnoreCase(LINE_BEVELED)) {
 				newStyle = setBeveledStyle(width, value, ComponentUtil
 						.getHeaderBackgoundImgStyle()
-						+ ";" + (style == null ? "" : style));
+						+ ";" + (style == null ? "" : style)); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				newStyle = setStyle(
 						lineType,
@@ -204,7 +204,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			if (lineType.equalsIgnoreCase(LINE_BEVELED)) {
 				newStyle = setBeveledStyle(value, height, ComponentUtil
 						.getHeaderBackgoundImgStyle()
-						+ ";" + (style == null ? "" : style));
+						+ ";" + (style == null ? "" : style)); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				newStyle = setStyle(lineType, (value == null ? DEFAULT_WIDTH
 						: addPrefixSize(value)),
@@ -219,7 +219,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			if (value.equalsIgnoreCase(LINE_BEVELED)) {
 				newStyle = setBeveledStyle(width, height, ComponentUtil
 						.getHeaderBackgoundImgStyle()
-						+ ";" + (style == null ? "" : style));
+						+ ";" + (style == null ? "" : style)); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				newStyle = setStyle(value, (width == null ? DEFAULT_WIDTH
 						: addPrefixSize(width)),
@@ -233,7 +233,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			if (lineType.equalsIgnoreCase(LINE_BEVELED)) {
 				newStyle = setBeveledStyle(width, value, ComponentUtil
 						.getHeaderBackgoundImgStyle()
-						+ ";" + (value == null ? "" : value));
+						+ ";" + (value == null ? "" : value)); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				newStyle = setStyle(lineType, (width == null ? DEFAULT_WIDTH
 						: addPrefixSize(width)),
@@ -325,10 +325,10 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	private String setStyle(String lineType, String width, String height,
 			String style) {
 		StringBuffer newStyle = new StringBuffer();
-		newStyle.append(HtmlComponentUtil.CSS_BORDER_STYLE + ":"  + (lineType == null ? LINE_SOLID : lineType) + ";");
-		newStyle.append(HtmlComponentUtil.CSS_BORDER_WIDTH + ":" + (height == null ? DEFAULT_HEIGHT : height) + " 0px 0px;");
-		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":"  + (width == null ? DEFAULT_WIDTH : width) + ";");
-		newStyle.append((style == null ? "" : style));
+		newStyle.append(HtmlComponentUtil.CSS_BORDER_STYLE + ":"  + (lineType == null ? LINE_SOLID : lineType) + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+		newStyle.append(HtmlComponentUtil.CSS_BORDER_WIDTH + ":" + (height == null ? DEFAULT_HEIGHT : height) + " 0px 0px;"); //$NON-NLS-1$ //$NON-NLS-2$
+		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":"  + (width == null ? DEFAULT_WIDTH : width) + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+		newStyle.append((style == null ? "" : style)); //$NON-NLS-1$
 		return newStyle.toString();
 	}
 
@@ -342,9 +342,9 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 */
 	private String setBeveledStyle(String width, String height, String style) {
 		StringBuffer newStyle = new StringBuffer();
-		newStyle.append(HtmlComponentUtil.HTML_ATR_HEIGHT + ":" + (height == null ? DEFAULT_HEIGHT : height) + ";");
-		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":" + (width == null ? DEFAULT_WIDTH : width) + ";");
-		newStyle.append((style == null ? "" : style));
+		newStyle.append(HtmlComponentUtil.HTML_ATR_HEIGHT + ":" + (height == null ? DEFAULT_HEIGHT : height) + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+		newStyle.append(HtmlComponentUtil.HTML_ATR_WIDTH + ":" + (width == null ? DEFAULT_WIDTH : width) + ";"); //$NON-NLS-1$ //$NON-NLS-2$
+		newStyle.append((style == null ? "" : style)); //$NON-NLS-1$
 		return newStyle.toString();
 	}
 

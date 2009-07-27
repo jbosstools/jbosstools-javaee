@@ -156,8 +156,8 @@ class RichFacesEditorTemplateHelper {
 		}
 		nsIDOMElement outerTD = visualDocument.createElement(HTML.TAG_TD);
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV); {
-			div.setAttribute(HTML.ATTR_CLASS, "mceIframeContainer");
-			div.setAttribute(HTML.ATTR_STYLE, "height: 100%;");
+			div.setAttribute(HTML.ATTR_CLASS, "mceIframeContainer"); //$NON-NLS-1$
+			div.setAttribute(HTML.ATTR_STYLE, "height: 100%;"); //$NON-NLS-1$
 		}
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE); {
 			table.setAttribute(HTML.ATTR_BORDER, "0"); //$NON-NLS-1$

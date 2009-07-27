@@ -42,30 +42,30 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 
 		Element sourceElement = (Element)sourceNode;
 
-		nsIDOMElement span = visualDocument.createElement("span");
+		nsIDOMElement span = visualDocument.createElement("span"); //$NON-NLS-1$
 		storedSwitchSpan = span;
 		
 		VpeCreationData creationData = new VpeCreationData(span);
 
-		String forIds = sourceElement.getAttribute("for");
-		String value = sourceElement.getAttribute("value");
-		String switchToState = sourceElement.getAttribute("switchToState");
+		String forIds = sourceElement.getAttribute("for"); //$NON-NLS-1$
+		String value = sourceElement.getAttribute("value"); //$NON-NLS-1$
+		String switchToState = sourceElement.getAttribute("switchToState"); //$NON-NLS-1$
 		
 		ComponentUtil.correctAttribute(sourceElement, span,
-				"styleClass",
-				HtmlComponentUtil.HTML_CLASS_ATTR, "", "");
+				"styleClass", //$NON-NLS-1$
+				HtmlComponentUtil.HTML_CLASS_ATTR, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
 		ComponentUtil.correctAttribute(sourceElement, span,
-				"style",
-				HtmlComponentUtil.HTML_STYLE_ATTR, "color:blue;text-decoration:underline;", "color:blue;text-decoration:underline;");
+				"style", //$NON-NLS-1$
+				HtmlComponentUtil.HTML_STYLE_ATTR, "color:blue;text-decoration:underline;", "color:blue;text-decoration:underline;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		span.setAttribute("vpe-user-toggle-id", (switchToState == null ? "" : switchToState.trim()));
+		span.setAttribute("vpe-user-toggle-id", (switchToState == null ? "" : switchToState.trim())); //$NON-NLS-1$ //$NON-NLS-2$
 
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		VpeChildrenInfo bodyInfo = new VpeChildrenInfo(span);
 		//string shoudn't be null, if then it's crash application
 		if(value==null){
-			value="";
+			value=""; //$NON-NLS-1$
 		}
 		nsIDOMNode valueText = visualDocument.createTextNode(value);
 		span.appendChild(valueText);
@@ -90,9 +90,9 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 		super.validate(pageContext, sourceNode, visualDocument, data);
 		if (storedSwitchSpan == null) return;
 		
-		String value = storedSwitchSpan.getAttribute("vpe-user-toggle-id");
-		applyAttributeValueOnChildren("vpe-user-toggle-id", value, ComponentUtil.getChildren(storedSwitchSpan));
-		applyAttributeValueOnChildren("vpe-user-toggle-lookup-parent", "true", ComponentUtil.getChildren(storedSwitchSpan));
+		String value = storedSwitchSpan.getAttribute("vpe-user-toggle-id"); //$NON-NLS-1$
+		applyAttributeValueOnChildren("vpe-user-toggle-id", value, ComponentUtil.getChildren(storedSwitchSpan)); //$NON-NLS-1$
+		applyAttributeValueOnChildren("vpe-user-toggle-lookup-parent", "true", ComponentUtil.getChildren(storedSwitchSpan)); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	private void applyAttributeValueOnChildren(String attrName, String attrValue, List<nsIDOMNode> children) {
@@ -113,10 +113,10 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 		
 		Element sourceElement = (Element)(sourceNode instanceof Element ? sourceNode : sourceNode.getParentNode());
 		
-		String forIds = sourceElement.getAttribute("for");
+		String forIds = sourceElement.getAttribute("for"); //$NON-NLS-1$
 		if (forIds == null) return;
 		
-		StringTokenizer st = new StringTokenizer(forIds.trim(), ",", false);
+		StringTokenizer st = new StringTokenizer(forIds.trim(), ",", false); //$NON-NLS-1$
 		while (st.hasMoreElements()) {
 			String id = st.nextToken().trim();
 			if (null == id) continue;
@@ -149,8 +149,8 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 			if(child instanceof Element) {
 				Element childElement = (Element)child;
 				
-				if (childElement.getNodeName().endsWith(":togglePanel") && 
-						id.equals(childElement.getAttribute("id")) ) {
+				if (childElement.getNodeName().endsWith(":togglePanel") &&  //$NON-NLS-1$
+						id.equals(childElement.getAttribute("id")) ) { //$NON-NLS-1$
 					list.add(childElement);
 				}
 				

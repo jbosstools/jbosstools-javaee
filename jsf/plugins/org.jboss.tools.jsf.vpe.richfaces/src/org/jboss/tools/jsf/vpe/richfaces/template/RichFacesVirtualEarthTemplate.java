@@ -29,15 +29,15 @@ import org.w3c.dom.Node;
  */
 public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 
-	private static String EARTH_AERIAL = "/virtualEarth/earth_aerial.png";
-	private static String EARTH_HYBRID = "/virtualEarth/earth_hybrid.png";
-	private static String EARTH_ROAD = "/virtualEarth/earth_road.png";
+	private static String EARTH_AERIAL = "/virtualEarth/earth_aerial.png"; //$NON-NLS-1$
+	private static String EARTH_HYBRID = "/virtualEarth/earth_hybrid.png"; //$NON-NLS-1$
+	private static String EARTH_ROAD = "/virtualEarth/earth_road.png"; //$NON-NLS-1$
 
-	private static String MAP_STYLE_ATTRIBUTE_NAME = "mapStyle";
+	private static String MAP_STYLE_ATTRIBUTE_NAME = "mapStyle"; //$NON-NLS-1$
 
-	private static String MAP_STYLE_VALUES[] = { "road", "aerial", "hybrid" };
+	private static String MAP_STYLE_VALUES[] = { "road", "aerial", "hybrid" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-	private static String STYLE_CLASS_ATTR_NAME = "styleClass";
+	private static String STYLE_CLASS_ATTR_NAME = "styleClass"; //$NON-NLS-1$
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -82,7 +82,7 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
 		if (name.equalsIgnoreCase(MAP_STYLE_ATTRIBUTE_NAME)) {
-			if (value.trim().equalsIgnoreCase("")
+			if (value.trim().equalsIgnoreCase("") //$NON-NLS-1$
 					|| !searchInMapStyleValues(value)) {
 				ComponentUtil.setImg(img, EARTH_ROAD);
 				return;

@@ -41,10 +41,10 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 	 * 
 	 */
 	private static final String DEFAULT_DD_CLASS = "columnClass"; //$NON-NLS-1$
-	private static final String FACET_URI = "http://java.sun.com/jsf/core";
-	private static final String FACET_NAME_ATTR = "name";
-	private static final String FACET_NAME_ATTR_VALUE = "term";
-	private static final String STYLE_RESOURCES_PATH = "/dataDefinitionList/dataDefinitionList.css";
+	private static final String FACET_URI = "http://java.sun.com/jsf/core"; //$NON-NLS-1$
+	private static final String FACET_NAME_ATTR = "name"; //$NON-NLS-1$
+	private static final String FACET_NAME_ATTR_VALUE = "term"; //$NON-NLS-1$
+	private static final String STYLE_RESOURCES_PATH = "/dataDefinitionList/dataDefinitionList.css"; //$NON-NLS-1$
 
 	/**
 	 * Creates a node of the visual tree on the node of the source tree. This
@@ -64,7 +64,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 		ComponentUtil.setCSSLink(
 				pageContext, 
 				STYLE_RESOURCES_PATH,
-				"dataDefinitionList");
+				"dataDefinitionList"); //$NON-NLS-1$
 		
 		VpeCreationData creationData = new VpeCreationData(listElement);		
 		creationData.addChildrenInfo(new VpeChildrenInfo(null));
@@ -77,7 +77,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 				RichFaces.ATTR_STYLE, HTML.ATTR_STYLE, null, null);
 		
 		ComponentUtil.correctAttribute((Element)sourceNode, listElement, 
-				RichFaces.ATTR_STYLE_CLASS, HTML.ATTR_CLASS, null, "listClass");
+				RichFaces.ATTR_STYLE_CLASS, HTML.ATTR_CLASS, null, "listClass"); //$NON-NLS-1$
 
 		Element facetElement = null;
 		List<Element> dataDefinitionElements = new ArrayList<Element>();		
@@ -185,7 +185,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 				RichFaces.ATTR_HEADER_CLASS,
 				HTML.ATTR_CLASS,
 				null,
-				"headerClass");
+				"headerClass"); //$NON-NLS-1$
 		parentList.appendChild(dt);
 		VpeChildrenInfo child = new VpeChildrenInfo(dt);
 		child.addSourceChild(facetElement);

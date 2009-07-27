@@ -39,7 +39,7 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	 * @return value of attribute
 	 */
 	public String getAttribute(String nameAttr, Node sourceNode) {
-		String returnValue = "";
+		String returnValue = ""; //$NON-NLS-1$
 		NamedNodeMap sourceAttrbutes = sourceNode.getAttributes();
 
 		for (int i = 0; i < sourceAttrbutes.getLength(); i++) {
@@ -61,7 +61,7 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	 */
 	public boolean isEmptyAttribute(String nameAttr, Node sourceNode) {
 
-		return getAttribute(nameAttr, sourceNode).equalsIgnoreCase("");
+		return getAttribute(nameAttr, sourceNode).equalsIgnoreCase(""); //$NON-NLS-1$
 
 	}
 	
@@ -73,17 +73,17 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	 * @return the string
 	 */
 	public String parseStyle(Node sourceNode) {
-		String style = getAttribute("style", sourceNode);
-		String str="";
-		StringTokenizer st = new StringTokenizer(style,";:");
+		String style = getAttribute("style", sourceNode); //$NON-NLS-1$
+		String str=""; //$NON-NLS-1$
+		StringTokenizer st = new StringTokenizer(style,";:"); //$NON-NLS-1$
 		
 		while(st.hasMoreTokens()) {
 			String token = st.nextToken();
-			if(token.trim().equalsIgnoreCase("width") || token.trim().equalsIgnoreCase("height")) {
+			if(token.trim().equalsIgnoreCase("width") || token.trim().equalsIgnoreCase("height")) { //$NON-NLS-1$ //$NON-NLS-2$
 				st.nextToken();
 				continue;
 			}
-			str+=token + ":" + st.nextToken() + "; ";
+			str+=token + ":" + st.nextToken() + "; "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 		return str;
@@ -98,13 +98,13 @@ public abstract class AbstractRichFacesTemplate extends VpeAbstractTemplate {
 	 */
 	public String parseStyleWidth(Node sourceNode) {
 
-		String style = getAttribute("style", sourceNode);
-		String widthValue = "";
-		StringTokenizer st = new StringTokenizer(style, ":;");
+		String style = getAttribute("style", sourceNode); //$NON-NLS-1$
+		String widthValue = ""; //$NON-NLS-1$
+		StringTokenizer st = new StringTokenizer(style, ":;"); //$NON-NLS-1$
 
 		while (st.hasMoreTokens()) {
 			String str = st.nextToken();
-			if (str.trim().equalsIgnoreCase("width")) {
+			if (str.trim().equalsIgnoreCase("width")) { //$NON-NLS-1$
 				widthValue = st.nextToken();
 			}
 		}

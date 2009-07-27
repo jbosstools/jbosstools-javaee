@@ -16,6 +16,7 @@ import antlr.SemanticException;
 import antlr.ParserSharedInputState;
 import antlr.collections.impl.BitSet;
 
+@SuppressWarnings("nls")
 public class SeamTextParser extends antlr.LLkParser       implements SeamTextParserTokenTypes
  {
    

@@ -26,7 +26,7 @@ import org.osgi.framework.BundleContext;
 public class RichFacesTemplatesActivator extends BaseUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces";
+	public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.richfaces"; //$NON-NLS-1$
 
 	// The shared instance
 	private static RichFacesTemplatesActivator plugin;
@@ -68,9 +68,9 @@ public class RichFacesTemplatesActivator extends BaseUIPlugin {
 		Bundle bundle = Platform.getBundle(PLUGIN_ID);
 		URL url = null;
 		try {
-			url = bundle == null ? null : FileLocator.resolve(bundle.getEntry("/resources"));
+			url = bundle == null ? null : FileLocator.resolve(bundle.getEntry("/resources")); //$NON-NLS-1$
 		} catch (IOException e) {
-			url = bundle.getEntry("/resources");
+			url = bundle.getEntry("/resources"); //$NON-NLS-1$
 		}
 		return (url == null) ? null : url.getPath();
 	}

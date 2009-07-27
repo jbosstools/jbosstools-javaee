@@ -39,31 +39,31 @@ import org.w3c.dom.NodeList;
 public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
 
     /** The Constant DEFAULT_HEIGHT. */
-    private static final String DEFAULT_HEIGHT = " height:13px;";
+    private static final String DEFAULT_HEIGHT = " height:13px;"; //$NON-NLS-1$
 
     /** The Constant CSS_EXTENSION. */
-    private static final String CSS_EXTENSION = "progressBar";
+    private static final String CSS_EXTENSION = "progressBar"; //$NON-NLS-1$
 
     /** The Constant CSS_STYLE. */
-    private static final String CSS_STYLE = "/progressBar.css";
+    private static final String CSS_STYLE = "/progressBar.css"; //$NON-NLS-1$
 
     /** The Constant FACET. */
-    private static final String FACET = "facet";
+    private static final String FACET = "facet"; //$NON-NLS-1$
 
     /** The Constant OUTPUT_TEXT. */
-    private static final String OUTPUT_TEXT = "outputText";
+    private static final String OUTPUT_TEXT = "outputText"; //$NON-NLS-1$
 
     /** The Constant PROGRESS_DIV_STYLE_CLASSES. */
-    private static final String PROGRESS_DIV_STYLE_CLASSES = "rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell";
+    private static final String PROGRESS_DIV_STYLE_CLASSES = "rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell"; //$NON-NLS-1$
 
     /** The Constant TEXT_ALIGN_LEFT. */
-    private static final String TEXT_ALIGN_LEFT = "; text-align:left;";
+    private static final String TEXT_ALIGN_LEFT = "; text-align:left;"; //$NON-NLS-1$
 
     /** The Constant UPLOADED_DIV. */
-    private static final String UPLOADED_DIV = "rich-progress-bar-height rich-progress-bar-uploaded null";
+    private static final String UPLOADED_DIV = "rich-progress-bar-height rich-progress-bar-uploaded null"; //$NON-NLS-1$
 
     /** The percentage. */
-    private String percentage = "60%";
+    private String percentage = "60%"; //$NON-NLS-1$
 
     /** The style. */
     private String style;
@@ -98,7 +98,7 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
      
         String clazz = PROGRESS_DIV_STYLE_CLASSES;
         if (ComponentUtil.isNotBlank(this.styleClass)) {
-            clazz = clazz + " " + this.styleClass;
+            clazz = clazz + " " + this.styleClass; //$NON-NLS-1$
         }
         progressDiv.setAttribute(HTML.ATTR_CLASS, clazz);
         progressDiv.setAttribute(HTML.ATTR_STYLE, this.style + TEXT_ALIGN_LEFT);
@@ -106,7 +106,7 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
         final NodeList list = sourceNode.getChildNodes();
         
         for(int i = 0 ; i < list.getLength() ; i ++ ){
-            if(list.item(i).getNodeName().equalsIgnoreCase("h:outputText")){
+            if(list.item(i).getNodeName().equalsIgnoreCase("h:outputText")){ //$NON-NLS-1$
                 elements.add(list.item(i));
             }
         }
@@ -114,13 +114,13 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
         if(ComponentUtil.isNotBlank(this.sourceLabel) || elements.size() > 0){
             final nsIDOMElement labelDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
          //   labelDiv.setAttribute(HTML.ATTR_CLASS, "rich-progress-bar-width rich-progress-bar-remained rich-progress-bar-padding");
-            labelDiv.setAttribute(HTML.ATTR_STYLE,this.style+"; font-weight: bold; position: relative; text-align: center; ");
+            labelDiv.setAttribute(HTML.ATTR_STYLE,this.style+"; font-weight: bold; position: relative; text-align: center; "); //$NON-NLS-1$
             uploadDiv.appendChild(labelDiv);
             if (elements.size() > 0) {
                 final StringBuffer sb = new StringBuffer();
                 
                 for (Node n : elements) {
-                    sb.append(ComponentUtil.getAttribute((Element)n, "value"));
+                    sb.append(ComponentUtil.getAttribute((Element)n, "value")); //$NON-NLS-1$
                 }
                 labelDiv.appendChild(visualDocument.createTextNode(sb.toString()));
             } else {
@@ -198,7 +198,7 @@ public class RichFacesProgressBarTemplate extends AbstractRichFacesTemplate {
     private void prepareData(Element source) {
         this.styleClass = ComponentUtil.getAttribute(source, RichFaces.ATTR_STYLE_CLASS);
         this.style = ComponentUtil.getAttribute(source, HTML.ATTR_STYLE);
-        this.sourceLabel = ComponentUtil.getAttribute(source, "label");
+        this.sourceLabel = ComponentUtil.getAttribute(source, "label"); //$NON-NLS-1$
         if (ComponentUtil.isBlank(this.style)) {
             this.style = DEFAULT_HEIGHT;
         }

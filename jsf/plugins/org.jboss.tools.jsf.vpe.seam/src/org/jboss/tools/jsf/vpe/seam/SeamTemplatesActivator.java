@@ -22,7 +22,7 @@ import org.osgi.framework.BundleContext;
 public class SeamTemplatesActivator extends BaseUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.seam";
+	public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.seam"; //$NON-NLS-1$
 
 	// The shared instance
 	private static SeamTemplatesActivator plugin;

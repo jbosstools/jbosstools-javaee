@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.Messages;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -30,97 +31,97 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 	private static final String COLUMN = ':' + RichFaces.TAG_COLUMN;
 	private static final String COLUMNS = ':' + RichFaces.TAG_COLUMNS;
-	private static final String DEFAULT_LIST_HEIGHT = "150px";
-	private static final String DEFAULT_LIST_WIDTH = "300px";
+	private static final String DEFAULT_LIST_HEIGHT = "150px"; //$NON-NLS-1$
+	private static final String DEFAULT_LIST_WIDTH = "300px"; //$NON-NLS-1$
 
-	private static final String DEFAULT_HEIGHT = "200px";
-	private static final String DEFAULT_WIDTH = "300px";
+	private static final String DEFAULT_HEIGHT = "200px"; //$NON-NLS-1$
+	private static final String DEFAULT_WIDTH = "300px"; //$NON-NLS-1$
 	
-	private static final String CAPTION_FACET = "caption";
-	private static final String TOP_CONTROL_FACET = "topControl";
-	private static final String UP_CONTROL_FACET = "upControl";
-	private static final String DOWN_CONTROL_FACET = "downControl";
-	private static final String BOTTOM_CONTROL_FACET = "bottomControl";
+	private static final String CAPTION_FACET = "caption"; //$NON-NLS-1$
+	private static final String TOP_CONTROL_FACET = "topControl"; //$NON-NLS-1$
+	private static final String UP_CONTROL_FACET = "upControl"; //$NON-NLS-1$
+	private static final String DOWN_CONTROL_FACET = "downControl"; //$NON-NLS-1$
+	private static final String BOTTOM_CONTROL_FACET = "bottomControl"; //$NON-NLS-1$
 	
-	private static final String HEADER = "header";
-	private static final String HEADER_CLASS = "headerClass";
-	private static final String FOOTER = "footer";
-	private static final String FOOTER_CLASS = "footerClass";
-	private static final String CAPTION_CLASS = "captionClass";
-	private static final String CAPTION_STYLE = "captionStyle";
-	private static final String SPACE = " ";
+	private static final String HEADER = "header"; //$NON-NLS-1$
+	private static final String HEADER_CLASS = "headerClass"; //$NON-NLS-1$
+	private static final String FOOTER = "footer"; //$NON-NLS-1$
+	private static final String FOOTER_CLASS = "footerClass"; //$NON-NLS-1$
+	private static final String CAPTION_CLASS = "captionClass"; //$NON-NLS-1$
+	private static final String CAPTION_STYLE = "captionStyle"; //$NON-NLS-1$
+	private static final String SPACE = " "; //$NON-NLS-1$
 
-	private static final String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;";
-	private static final String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;";
+	private static final String STYLE_FOR_LOW_SCROLL = "overflow: scroll; width: 100%; height: 17px;"; //$NON-NLS-1$
+	private static final String STYLE_FOR_RIGHT_SCROLL = "overflow: scroll; width: 17px; height: 100%;"; //$NON-NLS-1$
 
 	private static final int NUM_ROW = 1;
 
-	private static final String TOP_CONTROL_IMG = "orderingList/top.gif";
-	private static final String UP_CONTROL_IMG = "orderingList/up.gif";
-	private static final String DOWN_CONTROL_IMG = "orderingList/down.gif";
-	private static final String BOTTOM_CONTROL_IMG = "orderingList/bottom.gif";
+	private static final String TOP_CONTROL_IMG = "orderingList/top.gif"; //$NON-NLS-1$
+	private static final String UP_CONTROL_IMG = "orderingList/up.gif"; //$NON-NLS-1$
+	private static final String DOWN_CONTROL_IMG = "orderingList/down.gif"; //$NON-NLS-1$
+	private static final String BOTTOM_CONTROL_IMG = "orderingList/bottom.gif"; //$NON-NLS-1$
 
-	private static final String BUTTON_BG = "orderingList/button_bg.gif";
-	private static final String HEADER_CELL_BG = "orderingList/table_header_cell_bg.gif";
+	private static final String BUTTON_BG = "orderingList/button_bg.gif"; //$NON-NLS-1$
+	private static final String HEADER_CELL_BG = "orderingList/table_header_cell_bg.gif"; //$NON-NLS-1$
 
-	private static final String WIDTH = "width";
-	private static final String HEIGHT = "height";
-	private static final String LIST_WIDTH = "listWidth";
-	private static final String LIST_HEIGHT = "listHeight";
+	private static final String WIDTH = "width"; //$NON-NLS-1$
+	private static final String HEIGHT = "height"; //$NON-NLS-1$
+	private static final String LIST_WIDTH = "listWidth"; //$NON-NLS-1$
+	private static final String LIST_HEIGHT = "listHeight"; //$NON-NLS-1$
 
-	private static final String TOP_CONTROL_LABEL = "topControlLabel";
-	private static final String UP_CONTROL_LABEL = "upControlLabel";
-	private static final String DOWN_CONTROL_LABEL = "downControlLabel";
-	private static final String BOTTOM_CONTROL_LABEL = "bottomControlLabel";
+	private static final String TOP_CONTROL_LABEL = "topControlLabel"; //$NON-NLS-1$
+	private static final String UP_CONTROL_LABEL = "upControlLabel"; //$NON-NLS-1$
+	private static final String DOWN_CONTROL_LABEL = "downControlLabel"; //$NON-NLS-1$
+	private static final String BOTTOM_CONTROL_LABEL = "bottomControlLabel"; //$NON-NLS-1$
 
-	private static final String TOP_CONTROL_LABEL_DEFAULT = "First";
-	private static final String UP_CONTROL_LABEL_DEFAULT = "Up";
-	private static final String DOWN_CONTROL_LABEL_DEFAULT = "Down";
-	private static final String BOTTOM_CONTROL_LABEL_DEFAULT = "Last";
+	private static final String TOP_CONTROL_LABEL_DEFAULT = Messages.RichFacesOrderingList_FirstLabel;
+	private static final String UP_CONTROL_LABEL_DEFAULT = Messages.RichFacesOrderingList_UpLabel;
+	private static final String DOWN_CONTROL_LABEL_DEFAULT = Messages.RichFacesOrderingList_DownLabel;
+	private static final String BOTTOM_CONTROL_LABEL_DEFAULT = Messages.RichFacesOrderingList_LastLabel;
 
-	private static final String CAPTION_LABEL = "captionLabel";
+	private static final String CAPTION_LABEL = "captionLabel"; //$NON-NLS-1$
 	
-	private static final String CONTROLS_TYPE = "controlsType";
-	private static final String CONTROLS_VERTICAL_ALIGN = "controlsVerticalAlign";
-	private static final String CONTROLS_HORIZONTAL_ALIGN = "controlsHorizontalAlign";
-	private static final String SHOW_BUTTON_LABELS = "showButtonLabels";
-	private static final String FAST_ORDER_CONTROL_VISIBLE = "fastOrderControlsVisible";
-	private static final String ORDER_CONTROL_VISIBLE = "orderControlsVisible";
+	private static final String CONTROLS_TYPE = "controlsType"; //$NON-NLS-1$
+	private static final String CONTROLS_VERTICAL_ALIGN = "controlsVerticalAlign"; //$NON-NLS-1$
+	private static final String CONTROLS_HORIZONTAL_ALIGN = "controlsHorizontalAlign"; //$NON-NLS-1$
+	private static final String SHOW_BUTTON_LABELS = "showButtonLabels"; //$NON-NLS-1$
+	private static final String FAST_ORDER_CONTROL_VISIBLE = "fastOrderControlsVisible"; //$NON-NLS-1$
+	private static final String ORDER_CONTROL_VISIBLE = "orderControlsVisible"; //$NON-NLS-1$
 	
-	private static final String LIST_CLASS = "listClass";
-	private static final String CONTROLS_CLASS = "controlsClass";
-	private static final String TOP_CONTROL_CLASS = "topControlClass";
-	private static final String UP_CONTROL_CLASS = "upControlClass";
-	private static final String DOWN_CONTROL_CLASS = "downControlClass";
-	private static final String BOTTOM_CONTROL_CLASS = "bottomControlClass";
-	private static final String ROW_CLASSES = "rowClasses";
+	private static final String LIST_CLASS = "listClass"; //$NON-NLS-1$
+	private static final String CONTROLS_CLASS = "controlsClass"; //$NON-NLS-1$
+	private static final String TOP_CONTROL_CLASS = "topControlClass"; //$NON-NLS-1$
+	private static final String UP_CONTROL_CLASS = "upControlClass"; //$NON-NLS-1$
+	private static final String DOWN_CONTROL_CLASS = "downControlClass"; //$NON-NLS-1$
+	private static final String BOTTOM_CONTROL_CLASS = "bottomControlClass"; //$NON-NLS-1$
+	private static final String ROW_CLASSES = "rowClasses"; //$NON-NLS-1$
 	
-	private static final String CSS_CAPTION_CLASS = "rich-ordering-list-caption";
+	private static final String CSS_CAPTION_CLASS = "rich-ordering-list-caption"; //$NON-NLS-1$
 	
-	private static final String CSS_CONTROLS_CLASS = "rich-ordering-controls";
-	private static final String CSS_TOP_CONTROL_CLASS = "rich-ordering-control-top";
-	private static final String CSS_BUTTON_LAYOUT_CLASS = "rich-ordering-list-button-layout";
-	private static final String CSS_UP_CONTROL_CLASS = "rich-ordering-control-up";
-	private static final String CSS_DOWN_CONTROL_CLASS = "rich-ordering-control-down";
-	private static final String CSS_BOTTOM_CONTROL_CLASS = "rich-ordering-control-bottom";
-	private static final String CSS_BUTTON_CLASS = "rich-ordering-list-button";
-	private static final String CSS_BUTTON_SELECTION_CLASS = "rich-ordering-list-button-selection";
-	private static final String CSS_BUTTON_CONTENT_CLASS = "rich-ordering-list-button-content";
-	private static final String CSS_BUTTON_VALIGN_CLASS = "rich-ordering-list-button-valign";
+	private static final String CSS_CONTROLS_CLASS = "rich-ordering-controls"; //$NON-NLS-1$
+	private static final String CSS_TOP_CONTROL_CLASS = "rich-ordering-control-top"; //$NON-NLS-1$
+	private static final String CSS_BUTTON_LAYOUT_CLASS = "rich-ordering-list-button-layout"; //$NON-NLS-1$
+	private static final String CSS_UP_CONTROL_CLASS = "rich-ordering-control-up"; //$NON-NLS-1$
+	private static final String CSS_DOWN_CONTROL_CLASS = "rich-ordering-control-down"; //$NON-NLS-1$
+	private static final String CSS_BOTTOM_CONTROL_CLASS = "rich-ordering-control-bottom"; //$NON-NLS-1$
+	private static final String CSS_BUTTON_CLASS = "rich-ordering-list-button"; //$NON-NLS-1$
+	private static final String CSS_BUTTON_SELECTION_CLASS = "rich-ordering-list-button-selection"; //$NON-NLS-1$
+	private static final String CSS_BUTTON_CONTENT_CLASS = "rich-ordering-list-button-content"; //$NON-NLS-1$
+	private static final String CSS_BUTTON_VALIGN_CLASS = "rich-ordering-list-button-valign"; //$NON-NLS-1$
 
-	private static final String CSS_HEADER_CLASS = "rich-ordering-list-header";
-	private static final String CSS_TABLE_HEADER_CLASS = "rich-ordering-list-table-header";
-	private static final String CSS_TABLE_HEADER_CELL_CLASS = "rich-ordering-list-table-header-cell";
-	private static final String CSS_FOOTER_CLASS = "rich-ordering-list-footer";
-	private static final String CSS_TABLE_FOOTER_CLASS = "rich-ordering-list-table-footer";
-	private static final String CSS_TABLE_FOOTER_CELL_CLASS = "rich-ordering-list-table-footer-cell";
+	private static final String CSS_HEADER_CLASS = "rich-ordering-list-header"; //$NON-NLS-1$
+	private static final String CSS_TABLE_HEADER_CLASS = "rich-ordering-list-table-header"; //$NON-NLS-1$
+	private static final String CSS_TABLE_HEADER_CELL_CLASS = "rich-ordering-list-table-header-cell"; //$NON-NLS-1$
+	private static final String CSS_FOOTER_CLASS = "rich-ordering-list-footer"; //$NON-NLS-1$
+	private static final String CSS_TABLE_FOOTER_CLASS = "rich-ordering-list-table-footer"; //$NON-NLS-1$
+	private static final String CSS_TABLE_FOOTER_CELL_CLASS = "rich-ordering-list-table-footer-cell"; //$NON-NLS-1$
 
-	private static final String CSS_LIST_BODY_CLASS = "rich-ordering-list-body";
-	private static final String CSS_LIST_OUTPUT_CLASS = "rich-ordering-list-output";
-	private static final String CSS_LIST_CONTENT_CLASS = "rich-ordering-list-content";
-	private static final String CSS_LIST_ITEMS_CLASS = "rich-ordering-list-items";
-	private static final String CSS_LIST_ROW_CLASS = "rich-ordering-list-row";
-	private static final String CSS_LIST_CELL_CLASS = "rich-ordering-list-cell";
+	private static final String CSS_LIST_BODY_CLASS = "rich-ordering-list-body"; //$NON-NLS-1$
+	private static final String CSS_LIST_OUTPUT_CLASS = "rich-ordering-list-output"; //$NON-NLS-1$
+	private static final String CSS_LIST_CONTENT_CLASS = "rich-ordering-list-content"; //$NON-NLS-1$
+	private static final String CSS_LIST_ITEMS_CLASS = "rich-ordering-list-items"; //$NON-NLS-1$
+	private static final String CSS_LIST_ROW_CLASS = "rich-ordering-list-row"; //$NON-NLS-1$
+	private static final String CSS_LIST_CELL_CLASS = "rich-ordering-list-cell"; //$NON-NLS-1$
 	
 	/*
 	 * (non-Javadoc)
@@ -145,8 +146,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 		// --------------------- COMMON TABLE ------------------------
 		
-		ComponentUtil.setCSSLink(pageContext, "orderingList/orderingList.css",
-		"richFacesOrderingList");
+		ComponentUtil.setCSSLink(pageContext, "orderingList/orderingList.css", //$NON-NLS-1$
+		"richFacesOrderingList"); //$NON-NLS-1$
 		
 		nsIDOMElement tableCommon = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
@@ -168,13 +169,13 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		captionRow_TD_DIV.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_CAPTION_CLASS);
 		captionRow_TD_DIV.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-						"width: " + (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + "px;" 
-						+"height: " + (listHeight == null ? DEFAULT_LIST_WIDTH : listHeight) + "px;");
+						"width: " + (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + "px;"  //$NON-NLS-1$ //$NON-NLS-2$
+						+"height: " + (listHeight == null ? DEFAULT_LIST_WIDTH : listHeight) + "px;"); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		Element captionFacet = ComponentUtil.getFacet(sourceElement, CAPTION_FACET);
 		if (null != captionFacet) {
 			// Creating table caption with facet content
-			nsIDOMElement fecetDiv = encodeFacetsToDiv(pageContext, captionFacet, false, CSS_CAPTION_CLASS, "", creationData, visualDocument);
+			nsIDOMElement fecetDiv = encodeFacetsToDiv(pageContext, captionFacet, false, CSS_CAPTION_CLASS, "", creationData, visualDocument); //$NON-NLS-1$
 			captionRow_TD_DIV.appendChild(fecetDiv);
 		} else {
 			captionRow_TD_DIV.appendChild(visualDocument.createTextNode(captionLabel));
@@ -192,25 +193,25 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		nsIDOMElement tableListTD;
 		nsIDOMElement buttonsTD;
 		
-		if ("left".equalsIgnoreCase(controlsHorizontalAlign)) {
+		if ("left".equalsIgnoreCase(controlsHorizontalAlign)) { //$NON-NLS-1$
 			buttonsTD = dataRow_leftTD;
 			tableListTD = dataRow_rightTD;
-			buttonsTD.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 1%;");
+			buttonsTD.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 1%;"); //$NON-NLS-1$
 		} else {
 			tableListTD = dataRow_leftTD;
 			buttonsTD = dataRow_rightTD;
 		}
 
 		// ---------------------buttons------------------------
-		if (!"none".equalsIgnoreCase(controlsType)) {
+		if (!"none".equalsIgnoreCase(controlsType)) { //$NON-NLS-1$
 			nsIDOMElement controlsDiv = createControlsDiv(pageContext, creationData, visualDocument, sourceElement);
 			buttonsTD.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 					CSS_BUTTON_VALIGN_CLASS);
-			buttonsTD.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center");
+			buttonsTD.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR, "center"); //$NON-NLS-1$
 			
-			if ((null != controlsVerticalAlign) && ("".equals(controlsVerticalAlign))){
-				buttonsTD.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, ("center"
-						.equalsIgnoreCase(controlsVerticalAlign) ? "middle"
+			if ((null != controlsVerticalAlign) && ("".equals(controlsVerticalAlign))){ //$NON-NLS-1$
+				buttonsTD.setAttribute(HtmlComponentUtil.HTML_ATTR_VALIGN, ("center" //$NON-NLS-1$
+						.equalsIgnoreCase(controlsVerticalAlign) ? "middle" //$NON-NLS-1$
 								: controlsVerticalAlign));
 			}
 			
@@ -250,7 +251,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		nsIDOMElement tr2 = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_TR);
 		
-		listOutputDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "overflow:hidden;width:100%;");
+		listOutputDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "overflow:hidden;width:100%;"); //$NON-NLS-1$
 		listTable.appendChild(tr1);
 		listTable.appendChild(tr2);
 		listOutputDiv.appendChild(listTable);
@@ -324,7 +325,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		
 		nsIDOMElement buttonsDiv = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 		buttonsDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				CSS_CONTROLS_CLASS + " " + controlsClass + " "
+				CSS_CONTROLS_CLASS + " " + controlsClass + " " //$NON-NLS-1$ //$NON-NLS-2$
 						+ CSS_BUTTON_LAYOUT_CLASS);
 
 		Element top_control_facet = ComponentUtil.getFacet(sourceElement, TOP_CONTROL_FACET);
@@ -395,11 +396,11 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		nsIDOMElement img = visualDocument
 		.createElement(HtmlComponentUtil.HTML_TAG_IMG);
 		
-		div1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-buttons-border" + " " + cssStyleName + " " + customStyleClass);
+		div1.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "dr-buttons-border" + " " + cssStyleName + " " + customStyleClass); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		div2.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, CSS_BUTTON_CLASS);
 		
 		String  resourceFolder = RichFacesTemplatesActivator.getPluginResourcePath();
-		String divStyle = "width: 100%;background-image: url(file://" + resourceFolder + BUTTON_BG + ");";
+		String divStyle = "width: 100%;background-image: url(file://" + resourceFolder + BUTTON_BG + ");"; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		div2.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
 		div1.appendChild(div2);
@@ -415,8 +416,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			a.appendChild(div3);
 			// Creating button with image and label
 			ComponentUtil.setImg(img, imgName);
-			img.setAttribute(HTML.ATTR_WIDTH, "15");
-			img.setAttribute(HTML.ATTR_HEIGHT, "15");
+			img.setAttribute(HTML.ATTR_WIDTH, "15"); //$NON-NLS-1$
+			img.setAttribute(HTML.ATTR_HEIGHT, "15"); //$NON-NLS-1$
 			div3.appendChild(img);
 			if (showButtonLabels) {
 				div3.appendChild(visualDocument.createTextNode(btnName));
@@ -470,7 +471,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
 				thead.appendChild(tr);
 				String styleClass = ComponentUtil.encodeStyleClass(null,
-						CSS_HEADER_CLASS + " " + CSS_TABLE_HEADER_CLASS, null,
+						CSS_HEADER_CLASS + " " + CSS_TABLE_HEADER_CLASS, null, //$NON-NLS-1$
 						headerClass);
 				if (styleClass != null) {
 					tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
@@ -528,23 +529,23 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		// following line commented by yradtsevich because the variable rowClasses was not used
 		//String rowClasses = sourceElement.getAttribute(ROW_CLASSES);
 		
-		String divStyle = HtmlComponentUtil.HTML_WIDTH_ATTR + " : "
-		+ (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + ";"
-		+ HtmlComponentUtil.HTML_HEIGHT_ATTR + " : "
-		+ (listHeight == null ? DEFAULT_LIST_HEIGHT : listHeight) + ";";
+		String divStyle = HtmlComponentUtil.HTML_WIDTH_ATTR + " : " //$NON-NLS-1$
+		+ (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + ";" //$NON-NLS-1$
+		+ HtmlComponentUtil.HTML_HEIGHT_ATTR + " : " //$NON-NLS-1$
+		+ (listHeight == null ? DEFAULT_LIST_HEIGHT : listHeight) + ";"; //$NON-NLS-1$
 
 		contentDiv.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, divStyle);
 		
 		contentDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				CSS_LIST_OUTPUT_CLASS + " " + CSS_LIST_CONTENT_CLASS);
+				CSS_LIST_OUTPUT_CLASS + " " + CSS_LIST_CONTENT_CLASS); //$NON-NLS-1$
 		contentTable.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				CSS_LIST_ITEMS_CLASS + " " + (null == listClass ? "" : listClass));
+				CSS_LIST_ITEMS_CLASS + " " + (null == listClass ? "" : listClass)); //$NON-NLS-1$ //$NON-NLS-2$
 
-		contentTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "1");
+		contentTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, "1"); //$NON-NLS-1$
 		
 		VisualDomUtil.copyAttributes(sourceElement, contentTable);
 		contentTable.removeAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT);
-		contentTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;");
+		contentTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, "width: 100%;"); //$NON-NLS-1$
 		
 		// ---------- FINALIZING and children encoding -----------
 		contentTable.appendChild(thead);
@@ -584,8 +585,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		.createElement(HtmlComponentUtil.HTML_TAG_TBODY);
 		
 		boolean isColumnGroup = facetBody.getNodeName()
-				.endsWith(":columnGroup");
-		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
+				.endsWith(":columnGroup"); //$NON-NLS-1$
+		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable"); //$NON-NLS-1$
 		if (isColumnGroup) {
 			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, tbody);
@@ -612,12 +613,12 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 				tr.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
 						CSS_BUTTON_CLASS);
 				td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-						CSS_BUTTON_CONTENT_CLASS + " " + cssStyleName + " "
+						CSS_BUTTON_CONTENT_CLASS + " " + cssStyleName + " " //$NON-NLS-1$ //$NON-NLS-2$
 								+ customStyleClass);
 				
 				fecetDiv.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-						CSS_BUTTON_CLASS + " " + CSS_BUTTON_CONTENT_CLASS + " "
-								+ cssStyleName + " " + customStyleClass);
+						CSS_BUTTON_CLASS + " " + CSS_BUTTON_CONTENT_CLASS + " " //$NON-NLS-1$ //$NON-NLS-2$
+								+ cssStyleName + " " + customStyleClass); //$NON-NLS-1$
 				
 			} 
 		}
@@ -655,8 +656,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			String skinFirstRowClass, String skinCellClass,
 			String facetBodyClass, String element) {
 		boolean isColumnGroup = facetBody.getNodeName()
-				.endsWith(":columnGroup");
-		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable");
+				.endsWith(":columnGroup"); //$NON-NLS-1$
+		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable"); //$NON-NLS-1$
 		if (isColumnGroup) {
 			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
@@ -715,18 +716,18 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			ArrayList<Element> headersOrFooters, String skinCellClass,
 			String headerClass, String facetName, String element) {
 		for (Element column : headersOrFooters) {
-			String classAttribute = facetName + "Class";
+			String classAttribute = facetName + "Class"; //$NON-NLS-1$
 			String columnHeaderClass = column.getAttribute(classAttribute);
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
 	
-			td.setAttribute(HtmlComponentUtil.HTML_ATTR_BACKGROUND, "file:///"
+			td.setAttribute(HtmlComponentUtil.HTML_ATTR_BACKGROUND, "file:///" //$NON-NLS-1$
 					+ ComponentUtil.getAbsoluteResourcePath(HEADER_CELL_BG).replace('\\', '/'));
 			
 			String styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass,
 					headerClass, columnHeaderClass);
 			td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
-			td.setAttribute("scop", "col");
+			td.setAttribute("scop", "col"); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			String colspan = column
 					.getAttribute(HtmlComponentUtil.HTML_TABLE_COLSPAN);
@@ -771,7 +772,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		int count = 0;
 		// check for exact value in component
 		try {
-			count = Integer.parseInt(sourceElement.getAttribute("columns"));
+			count = Integer.parseInt(sourceElement.getAttribute("columns")); //$NON-NLS-1$
 		} catch (NumberFormatException e) {
 			// calculate max html columns count for all columns/rows children.
 			count = calculateRowColumns(sourceElement, columns);
@@ -790,7 +791,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		for (Element column : columns) {
 			if (ComponentUtil.isRendered(column)) {
 				String nodeName = column.getNodeName();
-				if (nodeName.endsWith(":columnGroup")) {
+				if (nodeName.endsWith(":columnGroup")) { //$NON-NLS-1$
 					// Store max calculated value of previous rows.
 					count = Math.max(currentLength, count);
 					// Calculate number of columns in row.
@@ -804,7 +805,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 
 				} else if (nodeName.equals(sourceElement.getPrefix() + COLUMN) ||
 						nodeName.equals(sourceElement.getPrefix() + COLUMNS)) {
-					String breakBeforeStr = column.getAttribute("breakBefore");
+					String breakBeforeStr = column.getAttribute("breakBefore"); //$NON-NLS-1$
 					boolean breakBefore = Boolean.getBoolean(breakBeforeStr);
 					
 					// For new row, save length of previous.

@@ -44,22 +44,22 @@ public class RichFacesColumnGroupTemplate extends RichFacesSubTableTemplate {
 
 	@Override
 	protected String getHeaderClass() {
-		return "dr-table-header rich-table-header";
+		return "dr-table-header rich-table-header"; //$NON-NLS-1$
 	}
 
 	@Override
 	protected String getHeaderContinueClass() {
-		return "dr-table-header-continue rich-table-header-continue";
+		return "dr-table-header-continue rich-table-header-continue"; //$NON-NLS-1$
 	}
 
 	@Override
 	protected String getFooterClass() {
-		return "dr-table-footer rich-table-footer";
+		return "dr-table-footer rich-table-footer"; //$NON-NLS-1$
 	}
 
 	@Override
 	protected String getFooterContinueClass() {
-		return "dr-table-footer-continue rich-table-footer-continue";
+		return "dr-table-footer-continue rich-table-footer-continue"; //$NON-NLS-1$
 	}
 
 	@Override

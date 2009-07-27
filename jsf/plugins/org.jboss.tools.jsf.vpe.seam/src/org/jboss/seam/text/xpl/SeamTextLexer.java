@@ -26,6 +26,7 @@ import antlr.LexerSharedInputState;
 import antlr.collections.impl.BitSet;
 import antlr.SemanticException;
 
+@SuppressWarnings("nls")
 public class SeamTextLexer extends antlr.CharScanner implements SeamTextParserTokenTypes, TokenStream
  {
 public SeamTextLexer(InputStream in) {

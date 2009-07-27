@@ -39,7 +39,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 
 		Element sourceElement = (Element)sourceNode;
 
-		nsIDOMElement div = visualDocument.createElement("div");
+		nsIDOMElement div = visualDocument.createElement("div"); //$NON-NLS-1$
 
 		VpeCreationData creationData = new VpeCreationData(div);
 
@@ -73,9 +73,9 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 		for (int i = 0; children != null && i < children.getLength(); i++) {
 			Node child = children.item(i);
 			
-			if (child instanceof Element && child.getNodeName().endsWith(":facet")) {
+			if (child instanceof Element && child.getNodeName().endsWith(":facet")) { //$NON-NLS-1$
 				Element facet = (Element)child;
-				String name = ((Element)facet).getAttribute("name");
+				String name = ((Element)facet).getAttribute("name"); //$NON-NLS-1$
 				if (name != null) {
 					states.put(name, facet);
 				}
@@ -85,11 +85,11 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	}
 	
 	private String getInitialState(Element sourceElement) {
-		String initialState = sourceElement.getAttribute("initialState");
+		String initialState = sourceElement.getAttribute("initialState"); //$NON-NLS-1$
 		
-		String stateOrder = sourceElement.getAttribute("stateOrder");
+		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
 		if(stateOrder!=null) {
-			StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false);
+			StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false); //$NON-NLS-1$
 			String firstState = null;
 			while(st.hasMoreElements()) {
 				String state = st.nextToken().trim();
@@ -116,7 +116,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	
 	private String getActiveState(Element sourceElement) {
 		String activeStateStr;
-		String stateOrder = sourceElement.getAttribute("stateOrder");
+		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
 		if(null == stateOrder)  return null;
 
 		activeStateStr = (String)toggleMap.get(sourceElement);
@@ -129,11 +129,11 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	}
 
 	private String getNextState(Element sourceElement, String toggleId) {
-		String stateOrder = sourceElement.getAttribute("stateOrder");
+		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
 		if(null == stateOrder)  return null;
 		String activeState = getActiveState(sourceElement);
 		
-		StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false);
+		StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false); //$NON-NLS-1$
 		String firstState = null;
 		while (st.hasMoreElements()) {
 			String state = st.nextToken();

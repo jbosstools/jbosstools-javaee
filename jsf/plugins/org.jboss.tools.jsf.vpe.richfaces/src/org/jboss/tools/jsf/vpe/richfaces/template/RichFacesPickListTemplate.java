@@ -239,8 +239,8 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
             final nsIDOMElement itemsTableTBody = visualDocument.createElement(HTML.TAG_TBODY);
 
             itemsTable.setAttribute(HTML.ATTR_CLASS, RICH_PICKLIST_INTERNAL_TAB_CSS_CLASS);
-            itemsTable.setAttribute(HTML.ATTR_CELLPADDING, "0");
-            itemsTable.setAttribute(HTML.ATTR_CELLPADDING, "0");
+            itemsTable.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
+            itemsTable.setAttribute(HTML.ATTR_CELLPADDING, "0"); //$NON-NLS-1$
             final VpeChildrenInfo childrensInfo = new VpeChildrenInfo(itemsTableTBody);
             creationData.addChildrenInfo(childrensInfo);
             for (Element selectItem : selectItems) {

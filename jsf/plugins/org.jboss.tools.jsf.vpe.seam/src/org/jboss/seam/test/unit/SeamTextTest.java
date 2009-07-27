@@ -24,7 +24,7 @@ import org.jboss.seam.text.xpl.SeamTextParser;
 public class SeamTextTest
 {
     public static void main(String[] args) throws Exception {
-        Reader r = new InputStreamReader( SeamTextTest.class.getResourceAsStream("SeamTextTest.txt") );
+        Reader r = new InputStreamReader( SeamTextTest.class.getResourceAsStream("SeamTextTest.txt") ); //$NON-NLS-1$
         SeamTextLexer lexer = new SeamTextLexer(r);
         SeamTextParser parser = new SeamTextParser(lexer);
         parser.startRule();
