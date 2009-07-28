@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<f:view contentType="text/html" />
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>First JSF 2.0 application</title>
+</h:head>
+
+
+<h:body>
+	<h:form>
+		<h:outputText value="JSF 2.0, Resources test Page" />
+		<h:panelGrid columns="2" border="2" id="jbide2550">
+
+			<h:outputLabel value="resource['img:img.gif']" />
+			<h:graphicImage value="#{resource['img:img.gif']}" />
+
+			<h:outputLabel value="resource['ch/img/1.0/img.gif']" />
+			<h:graphicImage value="#{resource['ch/img/1.0/img.gif']}" />
+			
+			<h:outputLabel value=' resource  [ "ch/img/2.0:img.gif"  ] ' />
+			<h:graphicImage value='#{ resource  [  "ch/img/2.0:img.gif"  ]  }' />
+
+			<h:outputLabel value="resource['ru/img/1.0/img.gif']" />
+			<h:graphicImage value="#{resource['ru/img/1.0/img.gif']}" />
+			
+			<h:outputLabel value="resource['ru/img/2.0/img.gif']" />
+			<h:graphicImage value="#{resource['ru/img/2.0/img.gif']}" />
+			
+			<h:outputLabel value="resource['ru/img/1.0/img.gif/1']" />
+			<h:graphicImage value="#{resource['ru/img/1.0/img.gif/1']}" />
+			<h:outputLabel value="resource['ru/img/1.0/img.gif/2.gif']" />
+			<h:graphicImage value="#{resource['ru/img/1.0/img.gif/2.gif']}" />
+			
+			<h:outputLabel value="resource['ru/img/img.gif']" />
+			<h:graphicImage value="#{resource['ru/img/img.gif']}" />
+
+			<h:outputLabel value="resource['us/img/img.gif']" />
+			<h:graphicImage value="#{resource['us/img/img.gif' ]}" />			
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>
