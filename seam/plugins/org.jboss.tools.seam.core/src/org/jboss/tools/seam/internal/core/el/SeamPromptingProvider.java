@@ -18,8 +18,10 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IPromptingProvider;
+import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -29,7 +31,7 @@ public class SeamPromptingProvider implements IPromptingProvider {
 	public static String VARIABLES = "seam.variables"; //$NON-NLS-1$
 	public static String MEMBERS = "seam.members"; //$NON-NLS-1$
 
-//	SeamELCompletionEngine engine= new SeamELCompletionEngine();
+	SeamELCompletionEngine engine = new SeamELCompletionEngine();
 
 	public SeamPromptingProvider() {}
 
@@ -47,7 +49,7 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			return list;
 		} else if(VARIABLES.equals(id)) {
 			p.resolve();
-			Set<ISeamContextVariable> vs = p.getVariables();
+			Set<ISeamContextVariable> vs = p.getVariables(true);
 			Set<Object> set = new TreeSet<Object>();
 			for (ISeamContextVariable v : vs) {
 				set.add(v.getName());
@@ -57,14 +59,16 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			return list;
 		} else if(MEMBERS.equals(id)) {
 			//TODO either refactor or remove this class
-//			try {
-//				String prefix2 = SeamELCompletionEngine.getPrefix(prefix, prefix.length());
-//				List<String> suggestions = engine.getCompletions(p, f, prefix, prefix2, 2, true, null);
-//				return suggestions;
-//			} catch (BadLocationException e) {
-//				return EMPTY_LIST;
-//			}
-			return EMPTY_LIST;
+			try {
+				List<TextProposal> proposals = engine.getCompletions(f, null, prefix, prefix.length(), false, new ArrayList<Var>());
+				List<String> suggestions = new ArrayList<String>();
+				if(proposals != null) for (TextProposal proposal: proposals) {
+					suggestions.add(proposal.getReplacementString());
+				}
+				return suggestions;
+			} catch (BadLocationException e) {
+				return EMPTY_LIST;
+			}
 		}
 		return null;
 	}
