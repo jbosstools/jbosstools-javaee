@@ -94,7 +94,7 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 	}
 
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList, boolean fromJar) throws CoreException{
-		JobUtils.waitForIdle(2000);
+		JobUtils.waitForIdle(3000);
 
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);

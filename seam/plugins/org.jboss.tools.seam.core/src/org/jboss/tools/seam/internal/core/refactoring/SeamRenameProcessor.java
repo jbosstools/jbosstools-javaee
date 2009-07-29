@@ -699,8 +699,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		for (IProject project : projects) {
 			ISeamProject sProject = SeamCorePlugin.getSeamProject(project, true);
 			if(sProject != null){
-				findAnnotations(sProject, BijectedAttributeType.OUT, ISeamXmlComponentDeclaration.NAME/*SeamAnnotations.OUT_ANNOTATION_TYPE*/);
-				findAnnotations(sProject, BijectedAttributeType.DATA_BINDER, ISeamXmlComponentDeclaration.NAME/*SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE*/);
+				findAnnotations(sProject, BijectedAttributeType.OUT, SeamAnnotations.OUT_ANNOTATION_TYPE);
+				findAnnotations(sProject, BijectedAttributeType.DATA_BINDER, SeamAnnotations.DATA_MODEL_ANNOTATION_TYPE);
 				findFactories(sProject);
 			}
 		}
