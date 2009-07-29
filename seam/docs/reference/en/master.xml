@@ -4,6 +4,7 @@
 
 [<!ENTITY intro SYSTEM "modules/intro.xml">
 <!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
+<!ENTITY creating_mavenized_seam SYSTEM "modules/creating_mavenized_seam.xml">
 <!ENTITY directory_structure SYSTEM "modules/directory_structure.xml">
 <!ENTITY menus_and_actions SYSTEM "modules/seam_menus_and_actions.xml">
 <!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
@@ -76,6 +77,7 @@
 
 &intro;
 &creating_new_seam;
+&creating_mavenized_seam;
 &directory_structure;
 &menus_and_actions;
 &seam_wizards;
