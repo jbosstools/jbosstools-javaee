@@ -58,7 +58,6 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			list.addAll(set);
 			return list;
 		} else if(MEMBERS.equals(id)) {
-			//TODO either refactor or remove this class
 			try {
 				List<TextProposal> proposals = engine.getCompletions(f, null, prefix, prefix.length(), false, new ArrayList<Var>());
 				List<String> suggestions = new ArrayList<String>();
