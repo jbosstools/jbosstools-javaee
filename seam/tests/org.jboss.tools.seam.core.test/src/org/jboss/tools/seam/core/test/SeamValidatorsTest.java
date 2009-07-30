@@ -209,7 +209,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testComponentWithoutSetter_Validator() throws CoreException {
 		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
 		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
-		IFile bbcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java");
 		
 		// Component class does not contain setter for property
 		
@@ -233,24 +232,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		refreshProject(project);
 		
-		int number = getMarkersNumber(componentsFile);
-		assertFalse("Problem marker 'Component class does not contain setter for property' not found' not found' not found", number == 0);
-		
-		String[] messages = getMarkersMessage(componentsFile, SEAM_MARKER_FILTER);
-		assertEquals("Problem marker 'Component class does not have a setter or a field for the property' not found", "Class \"StatefulComponent\" of component \"statefulComponent\" does not have a setter or a field for the property \"abc\"", messages[0]);
-		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(componentsFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker has wrong line number", 16, lineNumbers[0].intValue());
-		
-		// resolve error in BbcComponent.java
-		IFile bbcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.3");
-		try{
-			bbcComponentFile.setContents(bbcComponentFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'BbcComponent.java' content to " +
-					"'BbcComponent.3'", ex);
-		}
+		assertMarkerIsCreated(
+				componentsFile,
+				MARKER_TYPE,
+				"Class \"StatefulComponent\" of component \"statefulComponent\" does not have a setter or a field for the property \"abc\"", 16);
 	}
 
 	public void testEntityHasWrongScope_Validator() throws CoreException {
@@ -299,8 +284,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testDuplicateUnwrapMethod_Validator() throws CoreException {
-		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
-		
 		// Duplicate @Unwrap method
 
 		final String NEW_CONTENT_FILE_NAME8 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.8";
@@ -308,15 +291,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME8, ".*@Unwrap.*\"unwrapMethod\".*", 40);
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME, ".*@Unwrap.*\"unwrapMethod2\".*", 45);
-
-		IFile componentsFileWithoutSTComponent = project.getFile("WebContent/WEB-INF/components.5");
-		try {
-			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, null);
-		} catch(Exception ex) {
-			JUnitUtils.fail("Error in changing 'components.xml' content to " +
-					"'components.5'", ex);
-		}
-		refreshProject(project);
 	}
 	
 	public void testOnlyJavaBeansAndStatefulSessionBeansSupportDestroyMethod_Validator() throws CoreException {
@@ -362,20 +336,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		final String NEW_CONTENT_FILE_NAME1 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.1";
 
-		//assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,NEW_CONTENT_FILE_NAME1, "Duplicate @Remove method \"removeMethod1\"", 18);
 		assertMarkerIsCreated(
 				TARGET_FILE_NAME,"Duplicate @Remove method \"removeMethod2\"", 22);
-
-		//IFile componentsFileWithSTComponent = project.getFile("WebContent/WEB-INF/components.2");
-		try {
-			componentsFile.setContents(componentsFileWithoutSTComponent.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'components.xml' content to " +
-					"'components.6'", ex);
-		}
 	}
 
 	/**
@@ -531,25 +495,15 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		refreshProject(project);
 		
-		int number = getMarkersNumber(selectionTestFile);
-		assertFalse("Problem marker 'Unknown @DataModel/@Out name' not found' not found' not found' not found", number == 0);
-
-		String[] messages = getMarkersMessage(selectionTestFile, SEAM_MARKER_FILTER);
-		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: \"messageList2\""));
-
-		Integer[] lineNumbers = getMarkersNumbersOfLine(selectionTestFile, SEAM_MARKER_FILTER);
+		assertMarkerIsCreated(
+				selectionTestFile,
+				MARKER_TYPE,
+				"Unknown @DataModel/@Out name: \"messageList2\"", 27);
 		
-		assertEquals("Problem marker has wrong line number", 27, lineNumbers[0].intValue());
-		
-		number = getMarkersNumber(selectionIndexTestFile);
-		assertFalse("Problem marker 'Unknown @DataModel/@Out name' not found' not found' not found' not found", number == 0);
-
-		messages = getMarkersMessage(selectionIndexTestFile, SEAM_MARKER_FILTER);
-		assertTrue("Problem marker 'Unknown @DataModel/@Out name", messages[0].startsWith("Unknown @DataModel/@Out name: \"messageList2\""));
-		
-		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile, SEAM_MARKER_FILTER);
-
-		assertEquals("Problem marker has wrong line number", 27, lineNumbers[0].intValue());
+		assertMarkerIsCreated(
+				selectionIndexTestFile,
+				MARKER_TYPE,
+				"Unknown @DataModel/@Out name: \"messageList2\"", 27);
 	}
 
 	public void testDuplicateVariableName_Validator() throws CoreException {
@@ -593,116 +547,64 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testUnknownVariableName_Validator() throws CoreException {
 		IFile contextVariableTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java");
 		
+		String markerText = "Unknown context variable name: \"messageList5\"";
+		
+		assertMarkerIsNotCreated(contextVariableTestFile, MARKER_TYPE, markerText);
+		
 		// Unknown variable name
 		
-		IFile contextVariableTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.3");
-		try{
-			contextVariableTestFile.setContents(contextVariableTestFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
-					"'ContextVariableTest.3'", ex);
-		}
-		
-		refreshProject(project);
-		
-		int number = getMarkersNumber(contextVariableTestFile);
-		assertFalse("Problem marker 'Unknown variable name' not found' not found' not found' not found", number == 0);
-		
-		String[] messages = getMarkersMessage(contextVariableTestFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker 'Unknown variable name' not found", "Unknown context variable name: \"messageList5\"", messages[0]);
-		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
+		assertMarkerIsCreated(
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.3",
+				markerText, 22);
 	}
 
 	public void testContextVariableCannotBeResolved_Validator() throws CoreException {
 		modifyPreferences();
 
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
-		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
 		
 		refreshProject(project);
-
-		int number = getMarkersNumber(abcComponentXHTMLFile);
-		assertEquals("Problem marker was found in abcComponent.xhtml", 0, number);
 		
-		number = getMarkersNumber(abcComponentFile);
-		assertEquals("Problem marker was found in AbcComponent.java", 0, number);
-
+		assertMarkerIsNotCreated(abcComponentXHTMLFile, MARKER_TYPE, "\"bcComponent\" cannot be resolved");
+		
 		// Context variable cannot be resolved
-
-		IFile abcComponentXHTMLFile2 = project.getFile("WebContent/abcComponent.2");
-		try{
-			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile2.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
-					"'abcComponent.2'", ex);
-		}
 		
-		refreshProject(project);
-		
-		number = getMarkersNumber(abcComponentXHTMLFile);
-		assertFalse("Problem marker 'Context variable cannot be resolved' not found' not found' not found' not found", number == 0);
-		
-		String[] messages = getMarkersMessage(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker 'Context variable cannot be resolved' not found", "\"bcComponent\" cannot be resolved", messages[0]);
-		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
+		assertMarkerIsCreated(
+				"WebContent/abcComponent.xhtml",
+				"WebContent/abcComponent.2",
+				"\"bcComponent\" cannot be resolved", 22);
 	}
 	
 	public void testPropertyCannotBeResolved_Validator() throws CoreException {
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
 		
+		String markerText = "\"actionType2\" cannot be resolved";
+		
+		assertMarkerIsNotCreated(abcComponentXHTMLFile, MARKER_TYPE, markerText);
+		
 		// Property cannot be resolved
-
-		IFile abcComponentXHTMLFile3 = project.getFile("WebContent/abcComponent.3");
-		try{
-			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
-					"'abcComponent.3'", ex);
-		}
 		
-		refreshProject(project);
-		
-		int number = getMarkersNumber(abcComponentXHTMLFile);
-		assertFalse("Problem marker 'Property cannot be resolved' was not found", number == 0);
-		
-		String[] messages = getMarkersMessage(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker 'Property cannot be resolved' was not found", "\"actionType2\" cannot be resolved", messages[0]);
-		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
+		assertMarkerIsCreated(
+				"WebContent/abcComponent.xhtml",
+				"WebContent/abcComponent.3",
+				markerText, 22);
 	}
 	
-	public void testUnpairedGetterOrSetter_Validator() throws CoreException {
+	public void testPropertyHasOnlySetter_Validator() throws CoreException {
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
 		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
+		
+		String markerText = "Property \"actionType\" has only Setter. Getter is missing.";
+		
+		assertMarkerIsNotCreated(abcComponentXHTMLFile, MARKER_TYPE, markerText);
+		
+		assertMarkerIsNotCreated(abcComponentFile, MARKER_TYPE, markerText);
 		
 		// Unpaired Getter/Setter
 		
 		enableUnpairGetterOrSetterValidation(true);
-
-		IFile abcComponentXHTMLFile4 = project.getFile("WebContent/abcComponent.4");
-		try{
-			abcComponentXHTMLFile.setContents(abcComponentXHTMLFile4.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'abcComponent.xhtml' content to " +
-					"'abcComponent.4'", ex);
-		}
 		
-		refreshProject(project);
-		
-		int number = getMarkersNumber(abcComponentXHTMLFile);
-		assertEquals("Problem marker was found in abcComponent.xhtml", 0, number);
-
 		IFile abcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
 		try{
 			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, null);
@@ -711,19 +613,24 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 					"'abcComponent.2'", ex);
 		}
 		
-		refreshProject(project);
+		assertMarkerIsCreated(
+				"WebContent/abcComponent.xhtml",
+				"WebContent/abcComponent.4",
+				markerText, 22);
 		
-		number = getMarkersNumber(abcComponentXHTMLFile);
-		assertFalse("Problem marker 'Unpaired Getter/Setter' was not found", number == 0);
-
-		String[] messages = getMarkersMessage(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-
-		assertEquals("Problem marker 'Unpaired Getter/Setter' was not found", "Property \"actionType\" has only Setter. Getter is missing.", messages[0]);
+		enableUnpairGetterOrSetterValidation(false);
+	}
+	
+	public void testPropertyHasOnlyGetter_Validator() throws CoreException {
+		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
+		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
 		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
+		String markerText = "Property \"actionType\" has only Getter. Setter is missing.";
 		
-		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
-
+		assertMarkerIsNotCreated(abcComponentXHTMLFile, MARKER_TYPE, markerText);
+		
+		enableUnpairGetterOrSetterValidation(true);
+		
 		IFile abcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
 		try{
 			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, null);
@@ -733,17 +640,11 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 
 		refreshProject(project);
-
-		number = getMarkersNumber(abcComponentXHTMLFile);
-		assertFalse("Problem marker 'Unpaired Getter/Setter' was not found", number == 0);
-
-		messages = getMarkersMessage(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-
-		assertEquals("Problem marker 'Unpaired Getter/Setter' was not found", "Property \"actionType\" has only Getter. Setter is missing.", messages[0]);
-
-		lineNumbers = getMarkersNumbersOfLine(abcComponentXHTMLFile, SEAM_MARKER_FILTER);
-
-		assertEquals("Problem marker has wrong line number", 22, lineNumbers[0].intValue());
+		
+		assertMarkerIsCreated(
+				abcComponentXHTMLFile,
+				MARKER_TYPE,
+				markerText, 22);
 
 		enableUnpairGetterOrSetterValidation(false);
 	}
