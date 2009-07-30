@@ -81,7 +81,9 @@
                 </emphasis> section there is now a preference for setting severity of EL Syntax. You
                 can select whether the Seam validator displays an error, a warning or just ignore
                 the EL Syntax error.</para>
-
+            <note><para>There are references made between each EL and variable name, so you can revalidate a particular EL if a context variable was changed. This  makes parsing of each resource with referenced ELs much faster.</para></note>
+            
+    
             <figure>
                 <title>Severity Preference for EL Syntax</title>
                 <mediaobject>
