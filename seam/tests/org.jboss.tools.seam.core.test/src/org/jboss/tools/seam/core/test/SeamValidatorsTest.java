@@ -329,9 +329,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testDuplicateRemoveMethod_Validator() throws CoreException {
-		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
-		IFile componentsFileWithoutSTComponent = project.getFile("WebContent/WEB-INF/components.5");
-		
 		// Duplicate @Remove method
 
 		final String NEW_CONTENT_FILE_NAME1 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.1";
