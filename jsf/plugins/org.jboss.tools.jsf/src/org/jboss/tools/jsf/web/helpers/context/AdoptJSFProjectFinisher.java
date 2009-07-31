@@ -17,14 +17,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.model.FacesProcessImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
@@ -248,12 +258,52 @@ public class AdoptJSFProjectFinisher {
 		XModelObject facesConfig = model.getByPath("/faces-config.xml");
 		if (facesConfig == null) {
 			XModelObject webinf = FileSystemsHelper.getWebInf(model);
-			if (webinf != null) {
+			boolean isJSF2 = isJSF2a();
+			if(!isJSF2) try {
+				isJSF2 = isJSF2();
+			} catch (CoreException e) {
+				JSFModelPlugin.getPluginLog().logError(e);
+			}
+			if (webinf != null && !isJSF2) {
 				facesConfig = XModelObjectLoaderUtil.createValidObject(model, JSFConstants.ENT_FACESCONFIG_12);
 				DefaultCreateHandler.addCreatedObject(webinf, facesConfig, -1);
+				FacesProcessImpl process = (FacesProcessImpl)facesConfig.getChildByPath(JSFConstants.ELM_PROCESS);
+				if(process != null) process.firePrepared();
 			}
 		}
 
 	}
+
+    boolean isJSF2() throws CoreException {
+    	IProject project = EclipseResourceUtil.getProject(model.getRoot());
+    	IProjectFacet facet = ProjectFacetsManager.getProjectFacet("jst.jsf");
+    	IFacetedProject fp = ProjectFacetsManager.create(project);
+    	if(fp == null) return false;
+    	IProjectFacetVersion v = fp.getProjectFacetVersion(facet);
+    	if(v == null) return false;
+    	String vs = v.getVersionString();
+    	if(vs.startsWith("2.")) return true;
+    	return false;
+    }
+
+    boolean isJSF2a() {
+    	XModelObject fs = model.getByPath("FileSystems/lib-jsf-api.jar");
+    	if(fs == null) return false;
+    	XModelObject m = fs.getChildByPath("META-INF/MANIFEST.MF");
+    	if(!(m instanceof FileAnyImpl)) return false;
+    	String content = ((FileAnyImpl)m).getAsText();
+    	String attr = "Implementation-Version";
+    	int i = content.indexOf(attr);
+    	if(i < 0) return false;
+    	i += attr.length();
+    	for (int j = i; j < content.length(); j++) {
+    		char ch = content.charAt(j);
+    		if(!Character.isDigit(ch)) {
+    			continue;
+    		}
+    		return ch > '1';
+    	}
+    	return false;
+    }
 
 }
