@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.handlers;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -46,7 +47,7 @@ public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 				if(f != null && f.exists()) f.delete(true, null);
 			} catch (CoreException e) {
 				ServiceDialog d = object.getModel().getService();
-				d.showDialog("Failure", "Cannot delete file " + f, new String[]{SpecialWizardSupport.CLOSE}, null, ServiceDialog.ERROR);
+				d.showDialog(JSFUIMessages.DeleteManagedBeanHandler_Failure, MessageFormat.format(JSFUIMessages.DeleteManagedBeanHandler_CannotDeleteFile, f), new String[]{SpecialWizardSupport.CLOSE}, null, ServiceDialog.ERROR);
 			}
 		}
 	}
@@ -58,9 +59,9 @@ public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 	IFile getJavaFile(XModelObject object) {
 		XModelObject o = JSFProjectsTree.getProjectsRoot(object.getModel());
 		if(o == null) return null;
-		JSFProjectBeans beans = (JSFProjectBeans)o.getChildByPath("Beans");
+		JSFProjectBeans beans = (JSFProjectBeans)o.getChildByPath("Beans"); //$NON-NLS-1$
 		if(beans == null) return null;
-		IType type = beans.getType(object.getAttributeValue("managed-bean-class"));
+		IType type = beans.getType(object.getAttributeValue("managed-bean-class")); //$NON-NLS-1$
 		if(type == null || type.isBinary()) return null;
 		ICompilationUnit u = type.getCompilationUnit();
 		if(u == null || u.getPath() == null) return null;

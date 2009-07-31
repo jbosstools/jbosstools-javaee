@@ -18,7 +18,6 @@ import org.eclipse.gef.commands.Command;
 import org.jboss.tools.common.meta.action.XAction;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
 
 public class JSFCompoundCommand extends Command {
 	private List<Object> elements = new ArrayList<Object>();

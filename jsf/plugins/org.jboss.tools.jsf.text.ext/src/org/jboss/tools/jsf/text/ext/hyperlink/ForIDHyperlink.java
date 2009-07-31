@@ -75,7 +75,7 @@ public class ForIDHyperlink extends AbstractHyperlink {
 			if(!(n instanceof IDOMElement)) continue;
 
 			IDOMElement element = (IDOMElement)n;
-			Attr idAttr = element.getAttributeNode("id");
+			Attr idAttr = element.getAttributeNode("id"); //$NON-NLS-1$
 			if (idAttr != null) {
 				String val = trimQuotes(idAttr.getNodeValue());
 				if (id.equals(val)) {
@@ -98,7 +98,7 @@ public class ForIDHyperlink extends AbstractHyperlink {
 		try {
 			return trimQuotes(document.get(region.getOffset(), region.getLength()));
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -222,7 +222,7 @@ public class ForIDHyperlink extends AbstractHyperlink {
 			
 			return new Region(idStart,idLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

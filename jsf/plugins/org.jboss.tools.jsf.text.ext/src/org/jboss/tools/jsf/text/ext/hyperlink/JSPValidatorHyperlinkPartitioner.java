@@ -30,7 +30,7 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
  * @author Jeremy
  */
 public class JSPValidatorHyperlinkPartitioner extends AbstractHyperlinkPartitioner /*implements IHyperlinkPartitionRecognizer */{
-	public static final String JSP_VALIDATOR_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_VALIDATOR";
+	public static final String JSP_VALIDATOR_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_VALIDATOR"; //$NON-NLS-1$
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -61,7 +61,7 @@ public class JSPValidatorHyperlinkPartitioner extends AbstractHyperlinkPartition
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
+			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}
 		return superRegion.getAxis();
 	}

@@ -17,7 +17,7 @@ public class ManagedBeanHelper {
 	
 	public static IType getType(XModelObject bean) {
 		if(bean == null) return null;
-		String typename = bean.getAttributeValue("managed-bean-class");
+		String typename = bean.getAttributeValue("managed-bean-class"); //$NON-NLS-1$
 		if(typename == null || typename.length() == 0) return null;
 		IJavaProject jp = BeanHelper.getJavaProject(bean);
 		try {
@@ -30,13 +30,13 @@ public class ManagedBeanHelper {
 	
 	public static IMember getMember(XModelObject property) {
 		if(property == null) return null;
-		String propertyName = property.getAttributeValue("property-name");
+		String propertyName = property.getAttributeValue("property-name"); //$NON-NLS-1$
 		if(propertyName == null || propertyName.length() == 0) return null;
 		IType type = getType(property.getParent());
 		if(type == null) return null;
 		IField f = type.getField(propertyName);
 		if(f != null && f.exists()) return f;
-		String getter = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+		String getter = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1); //$NON-NLS-1$
 		IMethod m = type.getMethod(getter, new String[0]);
 		if(m != null && m.exists()) return m;
 		return null;

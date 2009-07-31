@@ -38,14 +38,14 @@ public class Token {
 	}
 	
 	public String toString() {
-		String s = "k=" + kind + " iL=" + indentLevel + " ind=" + indentLength + " n=" + name + " off=" + off + " l=" + length;
+		String s = "k=" + kind + " iL=" + indentLevel + " ind=" + indentLength + " n=" + name + " off=" + off + " l=" + length; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		if(attributes != null) {
 			Enumeration it = attributes.keys();
-			if(it.hasMoreElements()) s += "attributes: ";
+			if(it.hasMoreElements()) s += "attributes: "; //$NON-NLS-1$
 			while(it.hasMoreElements()) {
 				String n = it.nextElement().toString();
 				String v = attributes.getProperty(n);
-				s += n + "=" + v + " ";
+				s += n + "=" + v + " "; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		return s;

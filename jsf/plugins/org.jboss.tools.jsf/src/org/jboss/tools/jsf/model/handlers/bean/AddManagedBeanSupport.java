@@ -29,10 +29,10 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	AddManagedBeanPropertiesContext propertiesContext = new AddManagedBeanPropertiesContext();
 	boolean isLight = false;
 	XEntityData lightData = XEntityDataImpl.create(new String[][]{
-		{"AddJSFManagedBeanWizard", "yes"},
-		{"managed-bean-scope", "no"},
-		{"managed-bean-class", "yes"},
-		{"managed-bean-name", "yes"}
+		{"AddJSFManagedBeanWizard", "yes"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"managed-bean-scope", "no"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"managed-bean-class", "yes"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"managed-bean-name", "yes"} //$NON-NLS-1$ //$NON-NLS-2$
 	});
 	
 	public void reset() {
@@ -46,11 +46,11 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 			}
 		}
 		classCheck.setModelContext(getTarget());
-		classCheck.update("");
-		getProperties().put("propertiesContext", propertiesContext);
+		classCheck.update(""); //$NON-NLS-1$
+		getProperties().put("propertiesContext", propertiesContext); //$NON-NLS-1$
 		propertiesContext.setType(null);
 		generator.setContext(getTarget());
-		if(isLight) setAttributeValue(0, "generate source code", "false");
+		if(isLight) setAttributeValue(0, "generate source code", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void action(String name) throws XModelException {
@@ -79,7 +79,7 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	
 	void execute() throws XModelException {
 		Properties p = extractStepData(0);
-		String entity = action.getProperty("entity");
+		String entity = action.getProperty("entity"); //$NON-NLS-1$
 		XModelObject c = XModelObjectLoaderUtil.createValidObject(getTarget().getModel(), entity, p);
 		try {
 			if(getStepId() == 1) {
@@ -94,8 +94,8 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	
 	boolean isGenerationOn() throws XModelException {
 		Properties p = extractStepData(0);
-		if(!"true".equals(p.getProperty("generate source code"))) return false;
-		if(!isFieldEditorEnabled(0, "generate source code", p)) return false;
+		if(!"true".equals(p.getProperty("generate source code"))) return false; //$NON-NLS-1$ //$NON-NLS-2$
+		if(!isFieldEditorEnabled(0, "generate source code", p)) return false; //$NON-NLS-1$
 		return true;
 	}
 
@@ -116,9 +116,9 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	}
     
 	public boolean isFieldEditorEnabled(int stepId, String name, Properties values) {
-		String cn = values.getProperty("managed-bean-class");
+		String cn = values.getProperty("managed-bean-class"); //$NON-NLS-1$
 		classCheck.update(cn);
-		if("generate source code".equals(name)) {
+		if("generate source code".equals(name)) { //$NON-NLS-1$
 			return !isLight && classCheck.isValid() && !classCheck.classExists();
 		}
 		return true;
@@ -132,11 +132,11 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	
 	Properties getGenerateProperties() {
 		Properties input = new Properties();
-		input.put(JavaBeanGenerator.ATT_CLASS_NAME, getAttributeValue(0, "managed-bean-class"));
-		input.put("access modifier", "public");
-		input.put("extends", "");
-		input.put("implements", "");
-		input.put("interface", "false");
+		input.put(JavaBeanGenerator.ATT_CLASS_NAME, getAttributeValue(0, "managed-bean-class")); //$NON-NLS-1$
+		input.put("access modifier", "public"); //$NON-NLS-1$ //$NON-NLS-2$
+		input.put("extends", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		input.put("implements", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		input.put("interface", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		return input;
 	}
 
@@ -151,9 +151,9 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	
 	public String getStepImplementingClass(int stepId) {
 		if(stepId == 0) {
-			return "org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenOne";
+			return "org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenOne"; //$NON-NLS-1$
 		} else {
-			return "org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenTwo";
+			return "org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanScreenTwo"; //$NON-NLS-1$
 		}
 	}
 
@@ -167,7 +167,7 @@ public class AddManagedBeanSupport extends SpecialWizardSupport {
 	}
 	
 	public String getDefaultBeanName(String newClass) {
-		if(newClass.length() == 0) return "";
+		if(newClass.length() == 0) return ""; //$NON-NLS-1$
 		int dot = newClass.lastIndexOf('.');
 		String n = newClass.substring(dot + 1);
 		if(n.length() == 0 || getTarget().getChildByPath(n) != null) return null;

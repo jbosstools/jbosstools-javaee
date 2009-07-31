@@ -79,7 +79,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 	public JSFModel(Object data) {
 		this();
-		setData(((XModelObject) data).getChildByPath("process"));
+		setData(((XModelObject) data).getChildByPath("process")); //$NON-NLS-1$
 		map.setData((XModelObject) data);
 	}
 
@@ -147,7 +147,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	public void setSelectedProcessItem(IGroup group) {
 		IGroup oldValue = selectedGroup;
 		selectedGroup = group;
-		propertyChangeSupport.firePropertyChange("selectedProcessItem",
+		propertyChangeSupport.firePropertyChange("selectedProcessItem", //$NON-NLS-1$
 				oldValue, group);
 	}
 
@@ -156,7 +156,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	}
 
 	public String getText() {
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	XModelTreeListenerSWTSync listener = null;
@@ -183,7 +183,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 	public boolean isEditable() {
 		return source != null
-				&& source.getModelEntity().isEditable(source, "body");
+				&& source.getModelEntity().isEditable(source, "body"); //$NON-NLS-1$
 	}
 
 	public boolean areCommentsVisible() {
@@ -198,7 +198,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		boolean oldValue = modified;
 		modified = set;
 		propertyChangeSupport
-				.firePropertyChange("modified", oldValue, modified);
+				.firePropertyChange("modified", oldValue, modified); //$NON-NLS-1$
 	}
 
 	// -----------------------------------------------------------------------
@@ -362,7 +362,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 			PropertyChangeListener {
 		public void propertyChange(PropertyChangeEvent event) {
 			IGroup processItem = (IGroup) event.getSource();
-			if (event.getPropertyName().equals("selected")) {
+			if (event.getPropertyName().equals("selected")) { //$NON-NLS-1$
 				if (((Boolean) event.getNewValue()).booleanValue())
 					setSelectedProcessItem(processItem);
 			}
@@ -384,7 +384,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 			for (int i = 0; i < processItemNodeList.length; i++) {
 				IGroup newProcessItem = new Group(JSFModel.this,
 						processItemNodeList[i]);
-				newProcessItem.addPropertyChangeListener("selected",
+				newProcessItem.addPropertyChangeListener("selected", //$NON-NLS-1$
 						new ProcessItemPropertyChangeListener());
 				add(newProcessItem);
 			}
@@ -442,7 +442,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		public void setData(XModelObject data) {
 			source = data;
 			source.getModel().addModelTreeListener(JSFHashtable.this);
-			name = source.getAttributeValue("name");
+			name = source.getAttributeValue("name"); //$NON-NLS-1$
 		}
 
 		public void disconnectFromModel() {
@@ -461,8 +461,8 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 			String path;
 			JSFElement element;
 
-			if (!source.getAttributeValue("name").equals(name)) {
-				name = source.getAttributeValue("name");
+			if (!source.getAttributeValue("name").equals(name)) { //$NON-NLS-1$
+				name = source.getAttributeValue("name"); //$NON-NLS-1$
 				Enumeration<Object> keys = map.keys();
 				while (keys.hasMoreElements()) {
 					Object key = keys.nextElement();
@@ -494,7 +494,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 	}
 
 	protected void updateCash(String path, boolean clear) {
-		String rpath = path + "/";
+		String rpath = path + "/"; //$NON-NLS-1$
 		Object[] ks = map.map.keySet().toArray();
 		for (int i = 0; i < ks.length; i++) {
 			if (!ks[i].equals(path) && !ks[i].toString().startsWith(rpath))
@@ -557,8 +557,8 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		}
 
 		public boolean isGridVisible() {
-			String str = optionsObject.getAttributeValue("Show Grid");
-			if (str.equals("yes"))
+			String str = optionsObject.getAttributeValue("Show Grid"); //$NON-NLS-1$
+			if (str.equals("yes")) //$NON-NLS-1$
 				return true;
 			else
 				return false;
@@ -569,7 +569,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		}
 
 		public int getVisualGridStep() {
-			String str = optionsObject.getAttributeValue("Grid Step");
+			String str = optionsObject.getAttributeValue("Grid Step"); //$NON-NLS-1$
 			return Integer.parseInt(str);
 		}
 
@@ -577,24 +577,24 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 			String name;
 			int size = 8, style = 1;
 			int pos, pos2, pos3;
-			String str = optionsObject.getAttributeValue("Link Path Font");
-			pos = str.indexOf(",");
+			String str = optionsObject.getAttributeValue("Link Path Font"); //$NON-NLS-1$
+			pos = str.indexOf(","); //$NON-NLS-1$
 			if (pos < 0)
 				name = str;
 			else {
 				name = str.substring(0, pos);
-				pos2 = str.indexOf("size=");
+				pos2 = str.indexOf("size="); //$NON-NLS-1$
 				if (pos2 >= 0) {
-					pos3 = str.indexOf(",", pos2);
+					pos3 = str.indexOf(",", pos2); //$NON-NLS-1$
 					if (pos3 < 0)
 						size = Integer.parseInt(str
 								.substring(pos2 + 5, str.length()));
 					else
 						size = Integer.parseInt(str.substring(pos2 + 5, pos3));
 				}
-				pos2 = str.indexOf("style=");
+				pos2 = str.indexOf("style="); //$NON-NLS-1$
 				if (pos2 >= 0) {
-					pos3 = str.indexOf(",", pos2);
+					pos3 = str.indexOf(",", pos2); //$NON-NLS-1$
 					if (pos3 < 0)
 						style = Integer.parseInt(str.substring(pos2 + 6, str
 								.length()));
@@ -620,24 +620,24 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 			String name;
 			int size = 8, style = 1;
 			int pos, pos2, pos3;
-			String str = optionsObject.getAttributeValue("View Path Font");
-			pos = str.indexOf(",");
+			String str = optionsObject.getAttributeValue("View Path Font"); //$NON-NLS-1$
+			pos = str.indexOf(","); //$NON-NLS-1$
 			if (pos < 0)
 				name = str;
 			else {
 				name = str.substring(0, pos);
-				pos2 = str.indexOf("size=");
+				pos2 = str.indexOf("size="); //$NON-NLS-1$
 				if (pos2 >= 0) {
-					pos3 = str.indexOf(",", pos2);
+					pos3 = str.indexOf(",", pos2); //$NON-NLS-1$
 					if (pos3 < 0)
 						size = Integer.parseInt(str
 								.substring(pos2 + 5, str.length()));
 					else
 						size = Integer.parseInt(str.substring(pos2 + 5, pos3));
 				}
-				pos2 = str.indexOf("style=");
+				pos2 = str.indexOf("style="); //$NON-NLS-1$
 				if (pos2 >= 0) {
-					pos3 = str.indexOf(",", pos2);
+					pos3 = str.indexOf(",", pos2); //$NON-NLS-1$
 					if (pos3 < 0)
 						style = Integer.parseInt(str.substring(pos2 + 6, str
 								.length()));
@@ -686,7 +686,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 		public boolean switchToSelectionTool() {
 			String str = JSFPreference.ENABLE_CONTROL_MODE_ON_TRANSITION_COMPLETED
 					.getValue();
-			if (str != null && str.equals("yes"))
+			if (str != null && str.equals("yes")) //$NON-NLS-1$
 				return true;
 			else
 				return false;
@@ -694,7 +694,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 		public boolean showShortcutIcon() {
 			String str = JSFPreference.SHOW_SHORTCUT_ICON.getValue();
-			if (str != null && str.equals("yes"))
+			if (str != null && str.equals("yes")) //$NON-NLS-1$
 				return true;
 			else
 				return false;
@@ -702,7 +702,7 @@ public class JSFModel extends JSFElement implements IJSFModel, PropertyChangeLis
 
 		public boolean showShortcutPath() {
 			String str = JSFPreference.SHOW_SHORTCUT_PATH.getValue();
-			if (str != null && str.equals("yes"))
+			if (str != null && str.equals("yes")) //$NON-NLS-1$
 				return true;
 			else
 				return false;

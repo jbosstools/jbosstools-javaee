@@ -36,7 +36,7 @@ public class OpenPageHandler extends DefaultRedirectHandler implements JSFConsta
 		if(path.indexOf('?') >= 0) {
 			path = path.substring(0, path.indexOf('?'));
 		}
-		return (path.startsWith("/")) ? source.getModel().getByPath(path) : null;
+		return (path.startsWith("/")) ? source.getModel().getByPath(path) : null; //$NON-NLS-1$
 	}
 	/*TRIAL_JSF_CLASS*/
 }

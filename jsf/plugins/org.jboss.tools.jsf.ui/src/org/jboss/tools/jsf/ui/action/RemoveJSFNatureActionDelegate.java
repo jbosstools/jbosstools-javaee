@@ -25,7 +25,7 @@ public class RemoveJSFNatureActionDelegate extends RemoveModelNatureActionDelega
 	protected void initProperties(Properties p) {
 		super.initProperties(p);
 		SpecialWizard w = new RemoveJSFNatureContribution();
-		p.put("contribution", w);
+		p.put("contribution", w); //$NON-NLS-1$
 	}
 	
 }

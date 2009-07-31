@@ -17,7 +17,7 @@ import org.jboss.tools.jst.web.ui.action.ServerXmlActionDelegate;
 public class RegisterInServerXmlActionDelegate extends ServerXmlActionDelegate {
 	
 	protected String getActionPath() {
-		return "Registration.RegisterInServerXML";
+		return "Registration.RegisterInServerXML"; //$NON-NLS-1$
 	}
 
 	protected boolean isRelevantProject(IProject project) {

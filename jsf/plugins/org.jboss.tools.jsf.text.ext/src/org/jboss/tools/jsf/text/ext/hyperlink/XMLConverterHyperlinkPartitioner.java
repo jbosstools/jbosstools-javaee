@@ -27,7 +27,7 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
  * @author Jeremy
  */
 public class XMLConverterHyperlinkPartitioner extends AbstractHyperlinkPartitioner /*implements IHyperlinkPartitionRecognizer */{
-	public static final String XML_CONVERTER_PARTITION = "org.jboss.tools.common.text.ext.xml.XML_CONVERTER";
+	public static final String XML_CONVERTER_PARTITION = "org.jboss.tools.common.text.ext.xml.XML_CONVERTER"; //$NON-NLS-1$
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -108,7 +108,7 @@ public class XMLConverterHyperlinkPartitioner extends AbstractHyperlinkPartition
 			if (propStart > offset || propStart + propLength < offset) return null;
 			return new HyperlinkRegion(propStart, propLength, null, null, null);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

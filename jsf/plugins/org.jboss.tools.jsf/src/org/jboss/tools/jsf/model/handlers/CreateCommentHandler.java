@@ -31,8 +31,8 @@ public class CreateCommentHandler extends DefaultCreateHandler implements JSFCon
 	}
 
 	protected void setOtherProperties(XModelObject object, Properties p) {
-		String name = XModelObjectUtil.createNewChildName("comment", object);
-		p.setProperty("name", name);
+		String name = XModelObjectUtil.createNewChildName("comment", object); //$NON-NLS-1$
+		p.setProperty("name", name); //$NON-NLS-1$
 	}
 	/*TRIAL_JSF_CLASS*/
 	protected XModelObject modifyCreatedObject(XModelObject o) {
@@ -42,10 +42,10 @@ public class CreateCommentHandler extends DefaultCreateHandler implements JSFCon
 
 	protected void setShape(XModelObject o, Properties p) {
 		if(p == null) return;
-		String x = p.getProperty("process.mouse.x");
-		String y = p.getProperty("process.mouse.y");
+		String x = p.getProperty("process.mouse.x"); //$NON-NLS-1$
+		String y = p.getProperty("process.mouse.y"); //$NON-NLS-1$
 		if(x == null || y == null) return;
-		o.setAttributeValue("shape", "" + x + "," + y + ",0,0");
+		o.setAttributeValue("shape", "" + x + "," + y + ",0,0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 }

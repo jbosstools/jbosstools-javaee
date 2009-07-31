@@ -23,7 +23,7 @@ public class ReorderPartCommand extends Command {
 
 	public ReorderPartCommand(IPage child, IGroup parent, int oldIndex,
 			int newIndex) {
-		super("reorder command");
+		super("reorder command"); //$NON-NLS-1$
 		this.child = child;
 		this.parent = parent;
 		this.oldIndex = oldIndex;

@@ -26,7 +26,7 @@ public class Segment extends JSFElement implements ISegment {
       super(parent);
       try {
          setName("SEGMENT");
-         String s = segmentElement.getAttribute("length");
+         String s = segmentElement.getAttribute("length"); //$NON-NLS-1$
          if(s == null || s.length() == 0) {
         	 length = 0;
          } else {
@@ -72,13 +72,13 @@ public class Segment extends JSFElement implements ISegment {
    public void setPrev(ISegment segment) {
       ISegment oldPrev = prevSegment;
       prevSegment = (Segment)segment;
-      propertyChangeSupport.firePropertyChange("prev",oldPrev,segment);
+      propertyChangeSupport.firePropertyChange("prev",oldPrev,segment); //$NON-NLS-1$
    }
 
    public void setNext(ISegment segment) {
       ISegment oldNext = nextSegment;
       nextSegment = (Segment)segment;
-      propertyChangeSupport.firePropertyChange("next",oldNext,segment);
+      propertyChangeSupport.firePropertyChange("next",oldNext,segment); //$NON-NLS-1$
    }
 
    public int getLength() {
@@ -88,11 +88,11 @@ public class Segment extends JSFElement implements ISegment {
    public void setLength(int length) {
       int oldLength = this.length;
       this.length = length;
-      propertyChangeSupport.firePropertyChange("length",oldLength,length);
+      propertyChangeSupport.firePropertyChange("length",oldLength,length); //$NON-NLS-1$
    }
 
    public String getName() {
-      return "" + getLength();
+      return "" + getLength(); //$NON-NLS-1$
    }
 
 }

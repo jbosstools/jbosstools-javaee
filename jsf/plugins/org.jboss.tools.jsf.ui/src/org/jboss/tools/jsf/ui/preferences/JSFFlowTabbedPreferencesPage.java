@@ -18,10 +18,10 @@ import org.jboss.tools.jsf.web.JSFTemplate;
 
 public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implements IWorkbenchPreferencePage {
 
-	public static final String ID = "org.jboss.tools.jsf.ui.jsfflowdiagram";
+	public static final String ID = "org.jboss.tools.jsf.ui.jsfflowdiagram"; //$NON-NLS-1$
 	
-	public static String JSF_EDITOR_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram";
-	public static String JSF_ADD_VIEW_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram/Add View";
+	public static String JSF_EDITOR_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram"; //$NON-NLS-1$
+	public static String JSF_ADD_VIEW_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram/Add View"; //$NON-NLS-1$
 	
 	public JSFFlowTabbedPreferencesPage() {
 		XModel model = getPreferenceModel();
@@ -37,7 +37,7 @@ public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 	void initTemplateList(XModelObject addView) {
 		if(addView == null) return;
 		JSFTemplate templates = new JSFTemplate();
-		XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint();
+		XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint(); //$NON-NLS-1$
 		l.setValues(templates.getPageTemplateList());
 	}
 

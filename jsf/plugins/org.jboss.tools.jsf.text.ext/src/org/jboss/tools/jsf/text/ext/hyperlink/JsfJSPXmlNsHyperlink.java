@@ -56,7 +56,7 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 				Attr attr = (Attr)n;
 				
 				String name = attr.getName();
-				if (name.indexOf("xmlns:") == 0) {
+				if (name.indexOf("xmlns:") == 0) { //$NON-NLS-1$
 					
 					String prefix = name.substring(name.indexOf(':') + 1);
 					String uri = Utils.trimQuotes(attr.getValue());
@@ -77,7 +77,7 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 
 		String uri = getUri(region);
 		if (uri != null && uri.trim().length() > 0) {
-			p.setProperty("prefix", uri);
+			p.setProperty("prefix", uri); //$NON-NLS-1$
 		}
 
 		return p;
@@ -94,9 +94,9 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 			if (!(n instanceof IDOMAttr)) return null; 
 			IDOMAttr xmlnsAttr = (IDOMAttr)n;
-			if (xmlnsAttr.getName() == null || !xmlnsAttr.getName().startsWith("xmlns:")) return null;
+			if (xmlnsAttr.getName() == null || !xmlnsAttr.getName().startsWith("xmlns:")) return null; //$NON-NLS-1$
 			Element rootElem = xmlnsAttr.getOwnerElement();
-			if (!rootElem.getNodeName().equals("jsp:root")) return null;
+			if (!rootElem.getNodeName().equals("jsp:root")) return null; //$NON-NLS-1$
 
 			final int taglibLength = xmlnsAttr.getValueRegionText().length();
 			final int taglibOffset = xmlnsAttr.getValueRegionStartOffset();
@@ -116,7 +116,7 @@ public class JsfJSPXmlNsHyperlink extends XModelBasedHyperlink {
 	public String getHyperlinkText() {
 		String uri = getUri(fLastRegion);
 		if (uri == null)
-			return  MessageFormat.format(Messages.NotFound, "URI");
+			return  MessageFormat.format(Messages.NotFound, "URI"); //$NON-NLS-1$
 		
 		return MessageFormat.format(Messages.Open, uri);
 	}

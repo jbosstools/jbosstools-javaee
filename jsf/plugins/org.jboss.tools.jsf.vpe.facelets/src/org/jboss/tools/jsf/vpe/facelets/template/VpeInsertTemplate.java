@@ -113,7 +113,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 			if ((child.getNodeType() == Node.ELEMENT_NODE||child.getNodeType() == Node.TEXT_NODE)) {
 				
-				if(child.getNodeType() == Node.ELEMENT_NODE&&!Facelets.TAG_DEFINE.equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) {
+				if(child.getNodeType() == Node.ELEMENT_NODE&&!Facelets.TAG_DEFINE.equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) { //$NON-NLS-1$
 					result.add(child);
 					
 				} else if(child.getNodeType() == Node.TEXT_NODE&&((Text)child).getNodeValue()!=null&&

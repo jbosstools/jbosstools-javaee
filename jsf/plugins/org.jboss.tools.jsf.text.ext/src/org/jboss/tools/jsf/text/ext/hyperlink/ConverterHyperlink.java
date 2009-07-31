@@ -64,7 +64,7 @@ public class ConverterHyperlink extends AbstractHyperlink {
 			try {
 				converterID = getDocument().get(region.getOffset(), region.getLength());
 			} catch (BadLocationException x) {
-				JSFModelPlugin.getPluginLog().logError("Cannot get convertor id", x);
+				JSFModelPlugin.getPluginLog().logError("Cannot get convertor id", x); //$NON-NLS-1$
 			}
 		}
 		return converterID;
@@ -119,7 +119,7 @@ public class ConverterHyperlink extends AbstractHyperlink {
 			
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

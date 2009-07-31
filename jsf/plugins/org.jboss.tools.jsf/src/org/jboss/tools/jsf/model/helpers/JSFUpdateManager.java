@@ -16,10 +16,10 @@ import org.jboss.tools.jst.web.model.helpers.WebProcessUpdateManager;
 public class JSFUpdateManager extends WebProcessUpdateManager {
 
     public static synchronized JSFUpdateManager getInstance(XModel model) {
-		JSFUpdateManager instance = (JSFUpdateManager)model.getManager("JSFUpdateManager");
+		JSFUpdateManager instance = (JSFUpdateManager)model.getManager("JSFUpdateManager"); //$NON-NLS-1$
         if (instance == null) {
         	instance = new JSFUpdateManager();
-        	model.addManager("JSFUpdateManager", instance);
+        	model.addManager("JSFUpdateManager", instance); //$NON-NLS-1$
         	model.addModelTreeListener(instance);
         }
         return instance;

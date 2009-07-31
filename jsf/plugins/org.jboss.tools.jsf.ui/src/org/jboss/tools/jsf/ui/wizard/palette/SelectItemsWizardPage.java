@@ -34,7 +34,7 @@ public class SelectItemsWizardPage extends TagAttributesWizardPage {
 		
 	public SelectItemsWizardPage(){
 		data = XEntityDataImpl.create(new String[][] {
-				{ "JSFSelectItemsWizard", "yes" }, { "select items", "no" }});			
+				{ "JSFSelectItemsWizard", "yes" }, { "select items", "no" }});			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	public void createControl(Composite parent) {
 		Composite maincomposite = new Composite(parent, SWT.NONE);
@@ -98,20 +98,20 @@ public class SelectItemsWizardPage extends TagAttributesWizardPage {
 	protected void updateTitle() {
 		TagProposal tagProposal = (TagProposal)getDropWizardModel().getTagProposal();
 		StringBuffer titleText = new StringBuffer();
-		titleText.append("<");
+		titleText.append("<"); //$NON-NLS-1$
 		if(!TagProposal.EMPTY_PREFIX.equals(tagProposal.getPrefix())) {
 			titleText
 				.append(tagProposal.getPrefix())
-				.append(":");
+				.append(":"); //$NON-NLS-1$
 		}
 		titleText
 			.append(tagProposal.getName())
-			.append(">");			
+			.append(">");			 //$NON-NLS-1$
 		setTitle(titleText.toString());
 	}
 	
 	public String getText() {		
-		 return data.getValue("select items");		 
+		 return data.getValue("select items");		  //$NON-NLS-1$
 	}
 	
 }

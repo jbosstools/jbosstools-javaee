@@ -11,12 +11,13 @@
 package org.jboss.tools.jsf.model;
 
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class JSFCommentObjectImpl extends RegularObjectImpl {
 	private static final long serialVersionUID = 4332569976226101607L;
 
 	public String getPresentationString() {
-		return "comment";
+		return JSFUIMessages.JSFCommentObjectImpl_Comment;
 	}
 
 }

@@ -11,6 +11,7 @@ public final class SeamXMLMessages extends NLS {
 	}
 
 	public static String SEAM_XML_PLUGIN_NO_MESSAGE;
+	public static String CANNOT_FIND_MATCHING_RULE_FOR_PATH;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamXMLMessages.class);

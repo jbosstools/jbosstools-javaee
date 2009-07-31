@@ -17,8 +17,8 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.*;
 
 public class SetFactoryHandler extends AbstractHandler {
-	static String NAME_FACTORY = "factory";
-	static String ENTITY_FACTORY = "JSFFactory";
+	static String NAME_FACTORY = "factory"; //$NON-NLS-1$
+	static String ENTITY_FACTORY = "JSFFactory"; //$NON-NLS-1$
 
 	public boolean isEnabled(XModelObject object) {
 		return object != null && object.isObjectEditable();
@@ -28,7 +28,7 @@ public class SetFactoryHandler extends AbstractHandler {
 		XModelObject child = object.getChildByPath(NAME_FACTORY);
 		if(child == null) child = object.getModel().createModelObject(ENTITY_FACTORY, null);
 		long ts = child.getTimeStamp();
-		XActionInvoker.invoke("EditActions.Edit", child, p);
+		XActionInvoker.invoke("EditActions.Edit", child, p); //$NON-NLS-1$
 		if(!child.isActive() && ts != child.getTimeStamp()) {
 			DefaultCreateHandler.addCreatedObject(object, child, p);
 		}

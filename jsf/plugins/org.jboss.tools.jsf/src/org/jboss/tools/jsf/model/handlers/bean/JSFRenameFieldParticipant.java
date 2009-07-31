@@ -21,7 +21,7 @@ import org.jboss.tools.common.model.refactoring.RenameModelObjectChange;
 import org.jboss.tools.common.model.refactoring.RenameProcessorRunner;
 
 public class JSFRenameFieldParticipant extends RenameParticipant {
-	public static final String PARTICIPANT_NAME="jsf-RenameFieldParticipant";
+	public static final String PARTICIPANT_NAME="jsf-RenameFieldParticipant"; //$NON-NLS-1$
 	private IField field;
 	private XModelObject object;
 
@@ -56,7 +56,7 @@ public class JSFRenameFieldParticipant extends RenameParticipant {
 
 				XModelObject[] os = JSFRenameFieldHelper.getBeanList(model, field);
 				os = getProperties(os, field.getElementName());
-				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newName, "property-name");
+				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newName, "property-name"); //$NON-NLS-1$
 
 				if(c1 == null) return c2;
 				if(c2 == null) return c1;
@@ -65,7 +65,7 @@ public class JSFRenameFieldParticipant extends RenameParticipant {
 				if(c2 != null) change.add(c2);
 				return change;
 			} else if(object != null) {
-				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(new XModelObject[]{object}, getArguments().getNewName(), "property-name");
+				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(new XModelObject[]{object}, getArguments().getNewName(), "property-name"); //$NON-NLS-1$
 				
 				JSFRenameFieldChange c2 = null;
 				if(updateReferences()) {

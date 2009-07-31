@@ -53,14 +53,14 @@ public class OpenKeyHelper {
 		ArrayList<XModelObject> l = new ArrayList<XModelObject>();
 		if(locale == null || locale.length() == 0) locale = getDeafultLocale(model);
 		while(locale != null && locale.length() > 0) {
-			String path = "/" + bundle.replace('.', '/') + "_" + locale + ".properties";
+			String path = "/" + bundle.replace('.', '/') + "_" + locale + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			XModelObject o = model.getByPath(path);
 			if(o != null) l.add(o);
 			int i = locale.lastIndexOf('_');
 			if(i < 0) break;
 			locale = locale.substring(0, i);
 		}
-		String path = "/" + bundle.replace('.', '/') + ".properties";
+		String path = "/" + bundle.replace('.', '/') + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 		XModelObject o = model.getByPath(path);
 		if(o != null) l.add(o);
 		return l.toArray(new XModelObject[0]);
@@ -72,11 +72,11 @@ public class OpenKeyHelper {
 	
 	public String getDeafultLocale(XModel model) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
-		WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath("Configuration"); //$NON-NLS-1$
 		XModelObject[] fs = conf == null ? new XModelObject[0] : conf.getTreeChildren();
 		for (int i = 0; i < fs.length; i++) {
-			XModelObject o = fs[i].getChildByPath("application/Locale Config");
-			String res = (o == null) ? "" : o.getAttributeValue("default-locale");
+			XModelObject o = fs[i].getChildByPath("application/Locale Config"); //$NON-NLS-1$
+			String res = (o == null) ? "" : o.getAttributeValue("default-locale"); //$NON-NLS-1$ //$NON-NLS-2$
 			if(res != null && res.length() > 0) return res;
 		}
 		Locale locale = Locale.getDefault();

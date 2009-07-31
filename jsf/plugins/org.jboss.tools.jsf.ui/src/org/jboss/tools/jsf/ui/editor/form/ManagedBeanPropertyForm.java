@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.editor.form;
 
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.Properties;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.editor.ExtendedFieldEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.IPropertyFieldEditor;
-import org.jboss.tools.common.model.ui.attribute.editor.JavaHyperlinkLineFieldEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.PropertyEditor;
 import org.jboss.tools.common.model.ui.attribute.editor.StringButtonFieldEditorEx;
 import org.eclipse.swt.SWT;
@@ -57,9 +55,9 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 	private Composite switchComposite;
 	private Control anyLabel;
 
-	private static final String PROPERTY_NAME = "property-name";
-	private static final String PROPERTY_CLASS = "property-class";
-	private static final String VALUE_KIND = "value-kind";
+	private static final String PROPERTY_NAME = "property-name"; //$NON-NLS-1$
+	private static final String PROPERTY_CLASS = "property-class"; //$NON-NLS-1$
+	private static final String VALUE_KIND = "value-kind"; //$NON-NLS-1$
 	
 	/*	
 	0:element type
@@ -75,16 +73,16 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 	10:comment
 	*/		
 
-	private static final String VALUE_NAME = "value";
-	private static final String NULL_VALUE_NAME = "null-value";
-	private static final String LIST_ENTRIES_NAME = "list-entries";
-	private static final String MAP_ENTRIES_NAME = "map-entries";
+	private static final String VALUE_NAME = "value"; //$NON-NLS-1$
+	private static final String NULL_VALUE_NAME = "null-value"; //$NON-NLS-1$
+	private static final String LIST_ENTRIES_NAME = "list-entries"; //$NON-NLS-1$
+	private static final String MAP_ENTRIES_NAME = "map-entries"; //$NON-NLS-1$
 	private static final String[] TAGS = new String[] {VALUE_NAME, NULL_VALUE_NAME, LIST_ENTRIES_NAME, MAP_ENTRIES_NAME};
 	
-	private static final String VALUE_ACTION = "CreateActions.ChangeToValue";
-	private static final String NULL_VALUE_ACTION = "CreateActions.AddNullValue";
-	private static final String LIST_VALUE_ACTION = "CreateActions.ChangeToList";
-	private static final String MAP_VALUE_ACTION = "CreateActions.ChangeToMap";
+	private static final String VALUE_ACTION = "CreateActions.ChangeToValue"; //$NON-NLS-1$
+	private static final String NULL_VALUE_ACTION = "CreateActions.AddNullValue"; //$NON-NLS-1$
+	private static final String LIST_VALUE_ACTION = "CreateActions.ChangeToList"; //$NON-NLS-1$
+	private static final String MAP_VALUE_ACTION = "CreateActions.ChangeToMap"; //$NON-NLS-1$
 	private static final String[] ACTIONS = new String[] {VALUE_ACTION, NULL_VALUE_ACTION, LIST_VALUE_ACTION, MAP_VALUE_ACTION};
 	
 	private boolean localChange = Boolean.FALSE.booleanValue();
@@ -200,10 +198,10 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 	private String getSelectedValueKind() {
 		if (xmo!=null) {
 			int index = getIndex(TAGS,xmo.getAttributeValue(VALUE_KIND));
-			if (index==-1) return "";
+			if (index==-1) return ""; //$NON-NLS-1$
 			return TAGS[index];
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 	
 	public void update() {
@@ -244,7 +242,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 		setHeadingText(FacesConfigEditorMessages.MANAGEDBEANPROPERTYFORM_HEADER);
 		xmo = ((XModelObject)model);
 		if(xmo == null) {
-			JsfUiPlugin.getPluginLog().logInfo( "Error to create form "+FacesConfigEditorMessages.MANAGEDBEANPROPERTYFORM_HEADER+". Model object cannot be null.", new Exception());
+			JsfUiPlugin.getPluginLog().logInfo( "Error to create form "+FacesConfigEditorMessages.MANAGEDBEANPROPERTYFORM_HEADER+". Model object cannot be null.", new Exception()); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		model = xmo.getModel();
@@ -267,15 +265,15 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 		
 		public void createControls(Composite composite) { 
 			vklabel = new Label(composite, SWT.NONE);
-			vklabel.setText("Value Kind:");
+			vklabel.setText("Value Kind:"); //$NON-NLS-1$
 			vklabel.setBackground(composite.getBackground());
 			settings.setupControl(vklabel);
 
-			BorderedControl border = new BorderedControl(composite, SWT.NONE, settings.getBorder("Combo.Border")); 
+			BorderedControl border = new BorderedControl(composite, SWT.NONE, settings.getBorder("Combo.Border"));  //$NON-NLS-1$
 			combo = new Combo(border, SWT.FLAT | SWT.READ_ONLY);
 			combo.setItems(TAGS);
 			combo.setText(getSelectedValueKind());
-			combo.setBackground(settings.getColor("Combo.Background"));
+			combo.setBackground(settings.getColor("Combo.Background")); //$NON-NLS-1$
 			combo.addModifyListener(new ModifyListener() {
 				public void modifyText(ModifyEvent e) {
 					if (!localChange) doComboModifyText();
@@ -302,7 +300,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 
 		public void _updateEnablement() {
 			if(combo != null && !combo.isDisposed()) {
-				boolean e = xmo != null && xmo.isAttributeEditable("value-kind");
+				boolean e = xmo != null && xmo.isAttributeEditable("value-kind"); //$NON-NLS-1$
 				combo.setEnabled(e);
 				vklabel.setEnabled(e);
 			}
@@ -316,7 +314,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 		protected Composite parent;
 		protected Control control;
 		private XAttributeSupport support;
-		private static final String ATTRIBUTE_NAME = "value";
+		private static final String ATTRIBUTE_NAME = "value"; //$NON-NLS-1$
 		private Control label;
 		protected BF sb;
 		
@@ -370,7 +368,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 					if (ATTRIBUTE_NAME.equals(propertyEditor.getAttributeName())) {
 						sb = new BF();
 						support.fillComposite(composite, propertyEditor, sb);
-						sb.setChangeButtonText("View/Edit");
+						sb.setChangeButtonText("View/Edit"); //$NON-NLS-1$
 						label = sb.getLabelComposite();
 					}
 				}
@@ -386,7 +384,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 			support = new XAttributeSupport(settings);
 			XModelObject object = (XModelObject)model;
 			String entity = object.getModelEntity().getName();
-			XEntityData ed = XEntityDataImpl.create(new String[][]{{entity}, {"value"}});
+			XEntityData ed = XEntityDataImpl.create(new String[][]{{entity}, {"value"}}); //$NON-NLS-1$
 			support.init(object, ed, true);
 		}
 		
@@ -408,11 +406,11 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 				super(support.getSettings());
 			}
 			protected String changePressed() {
-				String vk = xmo.getAttributeValue("value-kind");
-				if("null-value".equals(vk)) {
+				String vk = xmo.getAttributeValue("value-kind"); //$NON-NLS-1$
+				if("null-value".equals(vk)) { //$NON-NLS-1$
 					return null;
-				} else if("map-entries".equals(vk) || "list-entries".equals(vk)) {
-					XModelObject c = xmo.getChildByPath("Entries");
+				} else if("map-entries".equals(vk) || "list-entries".equals(vk)) { //$NON-NLS-1$ //$NON-NLS-2$
+					XModelObject c = xmo.getChildByPath("Entries"); //$NON-NLS-1$
 					FindObjectHelper.findModelObject(c, FindObjectHelper.IN_EDITOR_ONLY);
 					return null;
 				}
@@ -422,15 +420,15 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 				if(xmo == null || !xmo.isObjectEditable()) {
 					super.setEnabled(enabled);
 				} else {
-					String vk = xmo.getAttributeValue("value-kind");
+					String vk = xmo.getAttributeValue("value-kind"); //$NON-NLS-1$
 					if (getTextControl() != null) {
 						getTextControl().setEnabled(enabled);
 					}
 					if (getChangeControl() != null) {
-						getChangeControl().setEnabled(!"null-value".equals(vk));
+						getChangeControl().setEnabled(!"null-value".equals(vk)); //$NON-NLS-1$
 					}
 					if (getLabelControl() != null) {
-						getLabelControl().setEnabled(!"null-value".equals(vk));
+						getLabelControl().setEnabled(!"null-value".equals(vk)); //$NON-NLS-1$
 					}
 				}
 			}

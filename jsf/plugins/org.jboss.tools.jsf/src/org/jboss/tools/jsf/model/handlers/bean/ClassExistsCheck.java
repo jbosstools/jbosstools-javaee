@@ -20,7 +20,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 public class ClassExistsCheck {
 	XAttributeConstraintQClassName constraint = new XAttributeConstraintQClassName();
 	protected XModelObject context;
-	protected String qualifiedClassName = "";
+	protected String qualifiedClassName = ""; //$NON-NLS-1$
 	protected IType existingClass = null;
 	protected IJavaProject javaProject = null;
 	boolean valid = false;
@@ -30,7 +30,7 @@ public class ClassExistsCheck {
 		IResource resource = EclipseResourceUtil.getResource(context);
 		IProject project =  resource.getProject();
 		javaProject = EclipseResourceUtil.getJavaProject(project);
-		qualifiedClassName = "";
+		qualifiedClassName = ""; //$NON-NLS-1$
 		existingClass = null;
 		valid = false;
 	}
@@ -50,7 +50,7 @@ public class ClassExistsCheck {
 	public void update(String classname) {
 		if(classname.equals(qualifiedClassName)) return;
 		qualifiedClassName = classname;
-		valid = classname.length() > 0 && !classname.endsWith(".") && constraint.accepts(classname);
+		valid = classname.length() > 0 && !classname.endsWith(".") && constraint.accepts(classname); //$NON-NLS-1$
 		if(!valid) {
 			existingClass = null;
 			return;

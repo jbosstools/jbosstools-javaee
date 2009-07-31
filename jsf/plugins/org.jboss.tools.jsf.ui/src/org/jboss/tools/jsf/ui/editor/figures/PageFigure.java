@@ -44,7 +44,7 @@ public void init(int number){
 		c.offsetV = 8+LINK_HEIGHT*i;
 		c.offsetH = -2;
 		c.leftToRight = false;
-		connectionAnchors.put((i+1)+"_OUT", c);
+		connectionAnchors.put((i+1)+"_OUT", c); //$NON-NLS-1$
 		outputConnectionAnchors.addElement(c);
 	}
 }
@@ -56,7 +56,7 @@ public void addConnectionAnchor(int number){
 	c.offsetV = 8+LINK_HEIGHT*(number-1);
 	c.offsetH = -2;
 	c.leftToRight = false;
-	connectionAnchors.put(number+"_OUT", c);
+	connectionAnchors.put(number+"_OUT", c); //$NON-NLS-1$
 	outputConnectionAnchors.addElement(c);
 }
 

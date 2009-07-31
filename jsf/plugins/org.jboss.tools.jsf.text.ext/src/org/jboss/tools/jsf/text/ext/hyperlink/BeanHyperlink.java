@@ -48,7 +48,7 @@ public class BeanHyperlink extends AbstractHyperlink {
 			}
 			provider.getList(xModel, WebPromptingProvider.JSF_BEAN_OPEN, beanName, null);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			openFileFailed();
 		}
 	}
@@ -63,7 +63,7 @@ public class BeanHyperlink extends AbstractHyperlink {
 			String beanName = getDocument().get(region.getOffset(), region.getLength());
 			return beanName;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 	}

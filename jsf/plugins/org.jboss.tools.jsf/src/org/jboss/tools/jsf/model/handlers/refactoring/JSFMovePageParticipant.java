@@ -23,7 +23,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class JSFMovePageParticipant extends MoveParticipant {
-	public static final String PARTICIPANT_NAME="jsf-MovePageParticipant";
+	public static final String PARTICIPANT_NAME="jsf-MovePageParticipant"; //$NON-NLS-1$
 	IFile f;
 	XModelObject object;
 
@@ -33,7 +33,7 @@ public class JSFMovePageParticipant extends MoveParticipant {
 		object = EclipseResourceUtil.getObjectByResource(f);
 		if(object == null) return false;
 		String entity = object.getModelEntity().getName();
-		if(".FileJSP.FileHTML.FileXHTML.".indexOf("." + entity + ".") < 0) return false;
+		if(".FileJSP.FileHTML.FileXHTML.".indexOf("." + entity + ".") < 0) return false; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		return true;
 	}
 

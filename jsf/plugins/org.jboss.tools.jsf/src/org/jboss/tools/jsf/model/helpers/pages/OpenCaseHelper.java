@@ -33,16 +33,16 @@ public class OpenCaseHelper {
 		WebProject p = WebProject.getInstance(model);
 		String jspLocation = jsp.getLocation().toString().replace('\\', '/');
 		String webRoot = p.getWebRootLocation().replace('\\', '/');
-		if(webRoot.endsWith("/")) webRoot = webRoot.substring(0, webRoot.length() - 1);
+		if(webRoot.endsWith("/")) webRoot = webRoot.substring(0, webRoot.length() - 1); //$NON-NLS-1$
 		if(!jspLocation.startsWith(webRoot)) return null;
 		String viewPath = jspLocation.substring(webRoot.length());
 		CaseSearchResult result = findCase(model, viewPath, action);
 		if(result.ruleObject == null) return NLS.bind(JSFUIMessages.CANNOT_FIND_MATCHING_RULE_FOR_PATH, viewPath);
 		XModelObject object = result.getObject();
 		
-		XAction xaction = XActionInvoker.getAction("Select", object);
+		XAction xaction = XActionInvoker.getAction("Select", object); //$NON-NLS-1$
 		if(xaction != null && xaction.isEnabled(object)) {
-			XActionInvoker.invoke("Select", object, new Properties());
+			XActionInvoker.invoke("Select", object, new Properties()); //$NON-NLS-1$
 		}
 /*		
 		if(result.caseObject == object) {

@@ -34,7 +34,7 @@ public class RenameManagedPropertyHandler extends AbstractHandler {
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		IMember member = ManagedBeanHelper.getMember(object);
-		String name = object.getAttributeValue("property-name");
+		String name = object.getAttributeValue("property-name"); //$NON-NLS-1$
 		if(member != null) {
 			name = member.getElementName();
 			RenameSupport renameSupport = null;

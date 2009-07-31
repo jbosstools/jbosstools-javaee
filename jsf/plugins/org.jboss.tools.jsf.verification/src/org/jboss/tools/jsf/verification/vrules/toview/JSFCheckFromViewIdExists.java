@@ -18,7 +18,7 @@ public class JSFCheckFromViewIdExists extends JSFDefaultCheck implements JSFCons
 
 	public VResult[] check(VObject object) {
 		String attr = (String)object.getAttribute(ATT_FROM_VIEW_ID);
-		if(attr == null || attr.length() == 0 || attr.indexOf('*') >= 0 || !attr.startsWith("/")) return null;
+		if(attr == null || attr.length() == 0 || attr.indexOf('*') >= 0 || !attr.startsWith("/")) return null; //$NON-NLS-1$
 		if(getXModel(object).getByPath(attr) != null) return null;
 		return fire(object, ATT_FROM_VIEW_ID, ATT_FROM_VIEW_ID, attr);
 	}

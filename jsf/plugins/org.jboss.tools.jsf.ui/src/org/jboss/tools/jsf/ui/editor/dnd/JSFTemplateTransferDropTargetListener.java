@@ -26,7 +26,7 @@ public class JSFTemplateTransferDropTargetListener extends TemplateTransferDropT
 
 	class JSFTemplateFactory implements CreationFactory {
 		public Object getNewObject() {
-			return "view";
+			return "view"; //$NON-NLS-1$
 		}
 
 		public Object getObjectType() {

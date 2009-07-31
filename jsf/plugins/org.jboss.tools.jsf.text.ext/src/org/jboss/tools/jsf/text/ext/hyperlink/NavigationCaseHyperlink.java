@@ -55,7 +55,7 @@ public class NavigationCaseHyperlink extends AbstractHyperlink {
 			p.put(WebPromptingProvider.FILE, file);
 			provider.getList(xModel, WebPromptingProvider.JSF_OPEN_ACTION, beanName, p);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 		}
 	}
 	

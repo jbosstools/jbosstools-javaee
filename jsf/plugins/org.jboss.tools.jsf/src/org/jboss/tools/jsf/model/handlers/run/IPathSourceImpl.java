@@ -28,7 +28,7 @@ public class IPathSourceImpl implements IPathSource, JSFConstants {
 		boolean isRoot = model.getRoot() == object;
 		if(isRoot) {
 			String result = context.getBrowserPrefix(object.getModel());
-			if(result != null && !result.endsWith("/")) result += "/";
+			if(result != null && !result.endsWith("/")) result += "/"; //$NON-NLS-1$ //$NON-NLS-2$
 			return result;
 		}
 		if(!isRelevant(object)) return null;
@@ -38,7 +38,7 @@ public class IPathSourceImpl implements IPathSource, JSFConstants {
 		if(bp == null) return null;
 		String path = JSFWebProject.getInstance(model).getUrlPattern().getJSFUrl(f);
 		String url = (path == null) ? null
-				: (bp.endsWith("/") && path.startsWith("/")) 
+				: (bp.endsWith("/") && path.startsWith("/"))  //$NON-NLS-1$ //$NON-NLS-2$
 				    ? bp + path.substring(1)
 				    : bp + path;
 		return url;

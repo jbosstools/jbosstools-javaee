@@ -82,7 +82,7 @@ public class JSFContextParamLinkHyperlink extends JSFLinkHyperlink {
 
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

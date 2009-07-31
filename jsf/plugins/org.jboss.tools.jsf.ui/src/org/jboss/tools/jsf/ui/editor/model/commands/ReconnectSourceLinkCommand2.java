@@ -21,7 +21,7 @@ public class ReconnectSourceLinkCommand2 extends Command{
 	static IGroup group = null;
 	
 	public ReconnectSourceLinkCommand2(){
-		super("ReconnectSourceLinkCommand2");
+		super("ReconnectSourceLinkCommand2"); //$NON-NLS-1$
 	}
 	
 	public void setGroup(IGroup group){

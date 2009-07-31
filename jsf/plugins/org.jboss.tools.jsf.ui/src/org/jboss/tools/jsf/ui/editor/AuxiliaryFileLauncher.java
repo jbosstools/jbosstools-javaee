@@ -24,14 +24,14 @@ public class AuxiliaryFileLauncher implements IEditorLauncher {
 	public void open(IFile file) {
 		if(file == null || !file.exists() || file.getFullPath() == null) return;
 		String s = file.getFullPath().lastSegment();
-		if(!s.endsWith("." + FacesConfigLoader.AUXILIARY_FILE_EXTENSION)) return;
+		if(!s.endsWith("." + FacesConfigLoader.AUXILIARY_FILE_EXTENSION)) return; //$NON-NLS-1$
 		//starts with dot
 		s = s.substring(1, s.length() - FacesConfigLoader.AUXILIARY_FILE_EXTENSION.length() - 1);
 		IResource r = file.getParent().findMember(s);
 		if(!(r instanceof IFile) || !r.exists()) return;
 		IWorkbenchPage workbenchPage = ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if(workbenchPage != null) try {
-			workbenchPage.openEditor(new FileEditorInput((IFile)r), "org.jboss.tools.common.model.ui.editor.EditorPartWrapper");			
+			workbenchPage.openEditor(new FileEditorInput((IFile)r), "org.jboss.tools.common.model.ui.editor.EditorPartWrapper");			 //$NON-NLS-1$
 		} catch (PartInitException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}

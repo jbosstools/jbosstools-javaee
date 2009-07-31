@@ -26,13 +26,13 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 public class JSFRenamePathDiagramChange extends CompositeChange {
 	
 	static String getName(XModelObject config) {
-		String n = config.getAttributeValue("name");
+		String n = config.getAttributeValue("name"); //$NON-NLS-1$
 		if(config instanceof FileAnyImpl) {
 			n = FileAnyImpl.toFileName(config);
 		}
 		IResource r = EclipseResourceUtil.getResource(config);
 		if(r != null && r.getParent() != null) {
-			n += " - " + r.getParent().getFullPath();
+			n += " - " + r.getParent().getFullPath(); //$NON-NLS-1$
 		}
 		return n;
 	}
@@ -43,7 +43,7 @@ public class JSFRenamePathDiagramChange extends CompositeChange {
 			final XModelObject page = pages[i];
 			add(new Change() {
 				public String getName() {
-					return NLS.bind(JSFUIMessages.UPDATE_REFERENCE_TO_PAGE, page.getAttributeValue("path"));
+					return NLS.bind(JSFUIMessages.UPDATE_REFERENCE_TO_PAGE, page.getAttributeValue("path")); //$NON-NLS-1$
 				}
 				public void initializeValidationData(IProgressMonitor pm) {
 				}

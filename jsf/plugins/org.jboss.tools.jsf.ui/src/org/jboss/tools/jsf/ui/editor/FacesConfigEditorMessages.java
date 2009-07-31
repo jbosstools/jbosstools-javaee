@@ -23,7 +23,7 @@ import org.jboss.tools.jsf.ui.JsfUiPlugin;
  */
 public class FacesConfigEditorMessages extends NLS{
 
-	private static final String BUNDLE_NAME = "org.jboss.tools.jsf.ui.editor.FacesConfigEditorMessages";
+	private static final String BUNDLE_NAME = "org.jboss.tools.jsf.ui.editor.FacesConfigEditorMessages"; //$NON-NLS-1$
 	private static ResourceBundle fResourceBundle; 
 	static {
 		// load message values from bundle file

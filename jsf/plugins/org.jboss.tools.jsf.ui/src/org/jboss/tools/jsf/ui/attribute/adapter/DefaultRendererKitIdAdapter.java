@@ -29,12 +29,12 @@ public class DefaultRendererKitIdAdapter extends DefaultComboBoxValueAdapter imp
 	}
 
 	public Object[] getElements(Object inputElement) {
-		XModelObject o = modelObject.getParent().getChildByPath("Render Kits");
+		XModelObject o = modelObject.getParent().getChildByPath("Render Kits"); //$NON-NLS-1$
 		if(o == null) return new String[0];
 		Set<String> tags = new TreeSet<String>();
 		XModelObject[] cs = o.getChildren();
 		for (int i = 0; i < cs.length; i++) {
-			tags.add(cs[i].getAttributeValue("render-kit-id"));
+			tags.add(cs[i].getAttributeValue("render-kit-id")); //$NON-NLS-1$
 		}
 		return tags.toArray(new String[0]);
 	}

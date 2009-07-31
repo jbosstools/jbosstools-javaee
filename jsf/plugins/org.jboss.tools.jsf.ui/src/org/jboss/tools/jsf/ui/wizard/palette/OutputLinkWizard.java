@@ -90,7 +90,7 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 		}
 	}
 	
-	static String F_PREFIX  = "%prefix|http://java.sun.com/jsf/core|f%";
+	static String F_PREFIX  = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
 	
 	public void setText(){
 		StringBuffer text = new StringBuffer();		
@@ -99,16 +99,16 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 			return;
 		} else {
 			 
-			text.append(fDropCommand.getProperties().getProperty("start text"));			
-			fDropCommand.getProperties().setProperty("new line", "false");			
-			text.append("\n\t<" + F_PREFIX+ "verbatim>"+page2.getText()+"</" + F_PREFIX + "verbatim>");			
-			fDropCommand.getProperties().setProperty("start text", text.toString());
+			text.append(fDropCommand.getProperties().getProperty("start text"));			 //$NON-NLS-1$
+			fDropCommand.getProperties().setProperty("new line", "false");			 //$NON-NLS-1$ //$NON-NLS-2$
+			text.append("\n\t<" + F_PREFIX+ "verbatim>"+page2.getText()+"</" + F_PREFIX + "verbatim>");			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			fDropCommand.getProperties().setProperty("start text", text.toString()); //$NON-NLS-1$
 			
 			if (page2.isValue()) {
 				StringBuffer text2 = new StringBuffer();
-				text2.append(fDropCommand.getProperties().getProperty("end text"));
+				text2.append(fDropCommand.getProperties().getProperty("end text")); //$NON-NLS-1$
 				text2.append('|');
-				fDropCommand.getProperties().setProperty("end text", text2.toString());
+				fDropCommand.getProperties().setProperty("end text", text2.toString()); //$NON-NLS-1$
 			}			
 		}
 	}

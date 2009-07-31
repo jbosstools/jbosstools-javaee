@@ -26,9 +26,9 @@ public class DeleteOutputHandler extends DefaultRemoveHandler {
 		XModelObject group = object.getParent().getParent();
 		XModelObject ruleObject = caseObject.getParent();
 		super.removeFromParent(caseObject);
-		boolean q = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
+		boolean q = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue()); //$NON-NLS-1$
 		if(q && ruleObject.getChildren(JSFConstants.ENT_NAVIGATION_CASE).length == 0) {
-			group.getModel().changeObjectAttribute(group, "persistent", "true");
+			group.getModel().changeObjectAttribute(group, "persistent", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 			super.removeFromParent(ruleObject); 
 		}		
 	}

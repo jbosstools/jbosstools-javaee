@@ -47,8 +47,8 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 	}
 	
 	private boolean canBeOutputTarget(XModelObject group) {
-		String path = group.getAttributeValue("path");
-		if(path.length() == 0 || path.indexOf("*") >= 0) return false;
+		String path = group.getAttributeValue("path"); //$NON-NLS-1$
+		if(path.length() == 0 || path.indexOf("*") >= 0) return false; //$NON-NLS-1$
 		return true;
 	}
 	
@@ -124,12 +124,12 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 			XModelObject gx = g.getParent().getChildByPath(pp);
 			if(gx == null || gx == g) {
 				g.setAttributeValue(ATT_NAME, pp);
-				g.setAttributeValue("persistent", "false");			
+				g.setAttributeValue("persistent", "false");			 //$NON-NLS-1$ //$NON-NLS-2$
 			} else if(gx instanceof ReferenceGroupImpl && ((ReferenceGroupImpl)gx).getReferences().length == 0) {
-				String shape = g.getAttributeValue("shape");
-				g.setAttributeValue("shape", gx.getAttributeValue("shape"));
-				gx.setAttributeValue("shape", shape);
-				gx.setAttributeValue("persistent", "false");			
+				String shape = g.getAttributeValue("shape"); //$NON-NLS-1$
+				g.setAttributeValue("shape", gx.getAttributeValue("shape")); //$NON-NLS-1$ //$NON-NLS-2$
+				gx.setAttributeValue("shape", shape); //$NON-NLS-1$
+				gx.setAttributeValue("persistent", "false");			 //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			adoptRule(nm.addRule(path), target, p);			
 		}

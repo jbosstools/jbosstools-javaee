@@ -26,7 +26,7 @@ public class AddRuleToGroupHandler extends AbstractHandler implements JSFConstan
 		JSFNavigationModel nm = (JSFNavigationModel)object.getParent().getParent();
 		XModelObject o = object.getModel().createModelObject(ENT_NAVIGATION_RULE, null);
 		o.setAttributeValue(ATT_FROM_VIEW_ID, path);
-		o.setAttributeValue("index", "" + nm.getRuleCount(path));
+		o.setAttributeValue("index", "" + nm.getRuleCount(path)); //$NON-NLS-1$ //$NON-NLS-2$
 		object.getParent().getParent().getChildByPath(FOLDER_NAVIGATION_RULES).addChild(o);
 	}
 

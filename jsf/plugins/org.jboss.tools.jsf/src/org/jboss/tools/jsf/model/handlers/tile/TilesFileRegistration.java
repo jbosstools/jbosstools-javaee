@@ -30,11 +30,11 @@ public class TilesFileRegistration implements SpecialWizard {
 
 	public void setObject(Object object) {
 		p = (Properties)object;
-		model = (XModel)p.get("model");
+		model = (XModel)p.get("model"); //$NON-NLS-1$
 		webxml = WebAppHelper.getWebApp(model);
-		path = p.getProperty("path");
-		oldPath = p.getProperty("oldPath");
-		test = "true".equals(p.getProperty("test"));
+		path = p.getProperty("path"); //$NON-NLS-1$
+		oldPath = p.getProperty("oldPath"); //$NON-NLS-1$
+		test = "true".equals(p.getProperty("test")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public int execute() {
@@ -43,7 +43,7 @@ public class TilesFileRegistration implements SpecialWizard {
 			return doExecute();
 		} catch (XModelException e) {
 			ModelPlugin.getPluginLog().logError(e);
-			if(p != null) p.put("exception", e);
+			if(p != null) p.put("exception", e); //$NON-NLS-1$
 			return 1;
 		}
 	}
@@ -60,7 +60,7 @@ public class TilesFileRegistration implements SpecialWizard {
 		} else {
 			append();
 		}
-		XActionInvoker.invoke("SaveActions.Save", webxml, null);
+		XActionInvoker.invoke("SaveActions.Save", webxml, null); //$NON-NLS-1$
 		return 0;
 	}
 	
@@ -95,12 +95,12 @@ public class TilesFileRegistration implements SpecialWizard {
 				add = s[i];
 			}
 			if(add != null) {
-				if(sb.length() > 0) sb.append(",");
+				if(sb.length() > 0) sb.append(","); //$NON-NLS-1$
 				sb.append(add);
 			}
 		}
 		if(!replaced && path != null) {
-			if(sb.length() > 0) sb.append(",");
+			if(sb.length() > 0) sb.append(","); //$NON-NLS-1$
 			sb.append(path);
 		}
 		if(context != null) {
@@ -108,7 +108,7 @@ public class TilesFileRegistration implements SpecialWizard {
 		} else {
 			WebAppHelper.setWebAppInitParam(servlet, JSFProjectTiles.TILES_DEFINITIONS, sb.toString());
 		}
-		p.setProperty("success", "true");
+		p.setProperty("success", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	int test() throws XModelException {

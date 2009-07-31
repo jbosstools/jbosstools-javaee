@@ -18,7 +18,7 @@ import org.jboss.tools.common.model.ui.action.file.ProjectRootActionDelegate;
 public class AddCapabilitiesActionDelegate extends ProjectRootActionDelegate {
 
 	protected String getActionPath() {
-		return "EclipseActions.AddCustomJSFCapabilities";
+		return "EclipseActions.AddCustomJSFCapabilities"; //$NON-NLS-1$
 	}
 	
 	protected boolean hasModelNature(IProject project) {

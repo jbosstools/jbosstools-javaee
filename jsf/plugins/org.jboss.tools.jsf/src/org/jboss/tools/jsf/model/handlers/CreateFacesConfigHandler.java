@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.handlers;
 
+import java.text.MessageFormat;
 import java.util.*;
 import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.meta.action.impl.handlers.HUtil;
@@ -17,6 +18,7 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.impl.CreateFileHandler;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.undo.*;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.FacesProcessImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.web.JSFWebHelper;
@@ -30,16 +32,16 @@ public class CreateFacesConfigHandler extends CreateFileHandler implements JSFCo
 		XModelObject[] cs = CreateFacesConfigSupport.getFacesConfigs(object);
 		Set<String> names = new HashSet<String>();
 		for (int i = 0; i < cs.length; i++) {
-			names.add(cs[i].getAttributeValue("name"));
+			names.add(cs[i].getAttributeValue("name")); //$NON-NLS-1$
 		}
 		if(cs.length == 0) {
-			HUtil.find(data, 0, "name").setValue("faces-config");
+			HUtil.find(data, 0, "name").setValue("faces-config"); //$NON-NLS-1$ //$NON-NLS-2$
 			return data;
 		}
-		String name = "faces-config", namef = name;
+		String name = "faces-config", namef = name; //$NON-NLS-1$
 		int i = 0;
-		while(names.contains(namef)) namef = name + "-" + (++i);
-		HUtil.find(data, 0, "name").setValue(namef);
+		while(names.contains(namef)) namef = name + "-" + (++i); //$NON-NLS-1$
+		HUtil.find(data, 0, "name").setValue(namef); //$NON-NLS-1$
 		return data;
 	}
 
@@ -48,12 +50,13 @@ public class CreateFacesConfigHandler extends CreateFileHandler implements JSFCo
 		checkRegister(object, p);
 		/*TRIAL_JSF*/
 		XUndoManager undo = object.getModel().getUndoManager();
-		XTransactionUndo u = new XTransactionUndo("Create faces config in " + object.getAttributeValue("element type")+" "+object.getPresentationString(), XTransactionUndo.ADD);
+		XTransactionUndo u = new XTransactionUndo(MessageFormat.format(JSFUIMessages.CreateFacesConfigHandler_CreateFacesConfig, object.getAttributeValue("element type"), //$NON-NLS-1$
+				object.getPresentationString()), XTransactionUndo.ADD);
 		undo.addUndoable(u);
 		try {
 			super.executeHandler(object, prop);
 			if(created != null) {
-				FacesProcessImpl process = (FacesProcessImpl)created.getChildByPath("process");
+				FacesProcessImpl process = (FacesProcessImpl)created.getChildByPath("process"); //$NON-NLS-1$
 				process.firePrepared();
 			}            
 			register(object, prop);
@@ -67,18 +70,18 @@ public class CreateFacesConfigHandler extends CreateFileHandler implements JSFCo
 	}
     
 	private void checkRegister(XModelObject object, Properties p) throws XModelException {
-		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml"));
+		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		if(!register) return;
 		XModelObject webxml = WebAppHelper.getWebApp(object.getModel());
-		if(webxml == null) throw new XModelException ("Faces config cannot be registered because web.xml is not found.");
-		if("yes".equals(webxml.get("isIncorrect"))) throw new XModelException ("Faces config file cannot be registered because web.xml is incorrect.");
-		if(!webxml.isObjectEditable()) throw new XModelException ("Faces config file cannot be registered because web.xml is read only.");
+		if(webxml == null) throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLNotFound);
+		if("yes".equals(webxml.get("isIncorrect"))) throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLIncorrect); //$NON-NLS-1$ //$NON-NLS-2$
+		if(!webxml.isObjectEditable()) throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLReadOnly);
 	}
 
 	private void register(XModelObject object, Properties prop) throws XModelException {
-		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml"));
+		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		if(!register) return;
-		String uri = "/WEB-INF/" + FileAnyImpl.toFileName(created);
+		String uri = "/WEB-INF/" + FileAnyImpl.toFileName(created); //$NON-NLS-1$
 		JSFWebHelper.registerFacesConfig(created.getModel(), uri);
 	}
 

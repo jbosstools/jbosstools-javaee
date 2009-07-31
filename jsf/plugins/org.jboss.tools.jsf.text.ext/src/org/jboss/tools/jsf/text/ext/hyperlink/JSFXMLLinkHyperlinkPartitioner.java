@@ -25,7 +25,7 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
  * @author Jeremy
  */
 public class JSFXMLLinkHyperlinkPartitioner extends XMLLinkHyperlinkPartitioner {
-	public static final String JSF_XML_LINK_PARTITION = "org.jboss.tools.common.text.ext.xml.JSF_XML_LINK";
+	public static final String JSF_XML_LINK_PARTITION = "org.jboss.tools.common.text.ext.xml.JSF_XML_LINK"; //$NON-NLS-1$
 
 	private String[] JSF_PROJECT_NATURES = {
 		JSFNature.NATURE_ID
@@ -55,7 +55,7 @@ public class JSFXMLLinkHyperlinkPartitioner extends XMLLinkHyperlinkPartitioner 
 			}
 			return false;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();

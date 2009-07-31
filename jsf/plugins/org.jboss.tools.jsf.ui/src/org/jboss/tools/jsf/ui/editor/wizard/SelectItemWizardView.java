@@ -24,7 +24,7 @@ public class SelectItemWizardView extends SelectWebProcessItemWizardView {
 		String entity = o.getModelEntity().getName();
 		if(entity.equals(JSFConstants.ENT_PROCESS_GROUP) || entity.equals(JSFConstants.ENT_PROCESS_ITEM))
 			return o.getAttributeValue(JSFConstants.ATT_PATH);
-		String key = o.getParent().getAttributeValue(JSFConstants.ATT_PATH) + ":" + o.getPresentationString();
+		String key = o.getParent().getAttributeValue(JSFConstants.ATT_PATH) + ":" + o.getPresentationString(); //$NON-NLS-1$
 		return key;
 	}
 	

@@ -128,34 +128,34 @@ public class MapEntries extends ExpandableForm {
 		this.setHeadingText(FacesConfigEditorMessages.MAPENTRIESFORM_HEADER);
 		this.xmo = (XModelObject)model;
 		if(xmo == null) {
-			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.MAPENTRIESFORM_HEADER+". Model object cannot be null.", new Exception());
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.MAPENTRIESFORM_HEADER+". Model object cannot be null.", new Exception()); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		this.model = xmo.getModel();
 		this.support.init(xmo);
 		this.support.setAutoStore(Boolean.TRUE.booleanValue());
 
-		valueClass = support.getPropertyEditorByName("value-class");
-		keyClass = support.getPropertyEditorByName("key-class");
+		valueClass = support.getPropertyEditorByName("value-class"); //$NON-NLS-1$
+		keyClass = support.getPropertyEditorByName("key-class"); //$NON-NLS-1$
 
 		this.tableAdapter = new XChildrenTableStructuredAdapter();
-		this.tableAdapter.setShownEntities(new String[]{"JSFMapEntry"});
+		this.tableAdapter.setShownEntities(new String[]{"JSFMapEntry"}); //$NON-NLS-1$
 
 		this.tableAdapter.getActionMapping().clear();
 
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.ADD_ACTION, "CreateActions.AddEntry");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.EDIT_ACTION, "%SelectIt%");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.UP_ACTION, "%internal%");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.DOWN_ACTION, "%internal%");
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.ADD_ACTION, "CreateActions.AddEntry"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.EDIT_ACTION, "%SelectIt%"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.UP_ACTION, "%internal%"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.DOWN_ACTION, "%internal%"); //$NON-NLS-1$
 
-		this.tableAdapter.setShownProperties(new String[] {"key", "value"});
+		this.tableAdapter.setShownProperties(new String[] {"key", "value"}); //$NON-NLS-1$ //$NON-NLS-2$
 		this.tableAdapter.setColumnLabels(new String[] {FacesConfigEditorMessages.MAPENTRIESFORM_ENTRY_KEY_COLUMN_LABEL, FacesConfigEditorMessages.MAPENTRIESFORM_ENTRY_VALUE_COLUMN_LABEL});
 		this.tableAdapter.setWidths(new int[] {50,50});
 		this.tableAdapter.setModelObject(xmo);
 
 		this.tableEditor = new TableStructuredEditor(settings);
-		this.tableEditor.setLabelText("");
+		this.tableEditor.setLabelText(""); //$NON-NLS-1$
 		this.tableEditor.setInput(this.tableAdapter); 
 	}
 	
@@ -194,13 +194,13 @@ public class MapEntries extends ExpandableForm {
 		public String getColumnText(Object element, int columnIndex) {
 			XModelObject xmo = (XModelObject)element;
 			if(columnIndex==1) {
-				String value = xmo.getAttributeValue("null-value");
-				if("true".equals(value)) {
-					return "[null-value]";
+				String value = xmo.getAttributeValue("null-value"); //$NON-NLS-1$
+				if("true".equals(value)) { //$NON-NLS-1$
+					return "[null-value]"; //$NON-NLS-1$
 				}
-				return xmo.getAttributeValue("value");
+				return xmo.getAttributeValue("value"); //$NON-NLS-1$
 			}
-			return xmo.getAttributeValue("key");
+			return xmo.getAttributeValue("key"); //$NON-NLS-1$
 		}
 		public void addListener(ILabelProviderListener listener) {
 		}

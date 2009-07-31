@@ -18,8 +18,8 @@ import org.jboss.tools.common.model.util.*;
 import org.jboss.tools.jsf.project.capabilities.*;
 
 public class CapabilityPerformersProvider extends LabelProvider implements ITreeContentProvider, ILabelProvider, IColorProvider {
-	public Image IMAGE_ENABLED = EclipseResourceUtil.getImage("images/common/check.gif");
-	public Image IMAGE_DISABLED = EclipseResourceUtil.getImage("images/common/uncheck.gif");
+	public Image IMAGE_ENABLED = EclipseResourceUtil.getImage("images/common/check.gif"); //$NON-NLS-1$
+	public Image IMAGE_DISABLED = EclipseResourceUtil.getImage("images/common/uncheck.gif"); //$NON-NLS-1$
 	protected IPerformerItem[] items = new IPerformerItem[0];
 	
 	public IPerformerItem[] getItems() {

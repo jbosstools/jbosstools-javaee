@@ -34,15 +34,15 @@ public class OpenConverterHelper {
 	}
 	
 	String openClass(XModelObject c, String converterId) {
-		String className = c.getAttributeValue("converter-class");
+		String className = c.getAttributeValue("converter-class"); //$NON-NLS-1$
 		if(className == null || className.length() == 0) return NLS.bind(JSFUIMessages.ATTRIBUTE_CONVERTER_CLASS_FOR_CONVERTER_ISNOT_SPECIFIED, converterId);
 		
-		XAction xaction = XActionInvoker.getAction("OpenSource", c);
+		XAction xaction = XActionInvoker.getAction("OpenSource", c); //$NON-NLS-1$
 		if(xaction != null && xaction.isEnabled(c)) {
 			Properties p = new Properties();
-			p.setProperty("ignoreWarning", "true");
-			XActionInvoker.invoke("OpenSource", c, p);
-			return p.getProperty("error");
+			p.setProperty("ignoreWarning", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+			XActionInvoker.invoke("OpenSource", c, p); //$NON-NLS-1$
+			return p.getProperty("error"); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -50,11 +50,11 @@ public class OpenConverterHelper {
 	public XModelObject findConverter(XModel model, String converterId) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return null;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration"); //$NON-NLS-1$
 		if(n == null) return null;
 		XModelObject[] os = n.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {
-			XModelObject r = os[i].getChildByPath("Converters/" + converterId);
+			XModelObject r = os[i].getChildByPath("Converters/" + converterId); //$NON-NLS-1$
 			if(r != null) return r;
 		}
 		return null;

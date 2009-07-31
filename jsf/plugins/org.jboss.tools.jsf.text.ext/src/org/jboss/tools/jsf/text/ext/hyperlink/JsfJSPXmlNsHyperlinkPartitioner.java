@@ -30,7 +30,7 @@ import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperli
 
 public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperlinkPartitioner {
 
-	public static final String JSF_JSP_XMLNS_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_XMLNS";
+	public static final String JSF_JSP_XMLNS_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_XMLNS"; //$NON-NLS-1$
 
 	private String[] JSF_PROJECT_NATURES = {
 		JSFNature.NATURE_ID
@@ -59,9 +59,9 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 			if (!(n instanceof Attr)) return false; 
 			Attr xmlnsAttr = (Attr)n;
-			if (xmlnsAttr.getName() == null || !xmlnsAttr.getName().startsWith("xmlns:")) return false;
+			if (xmlnsAttr.getName() == null || !xmlnsAttr.getName().startsWith("xmlns:")) return false; //$NON-NLS-1$
 			Element rootElem = xmlnsAttr.getOwnerElement();
-			if (!rootElem.getNodeName().equals("jsp:root")) return false;
+			if (!rootElem.getNodeName().equals("jsp:root")) return false; //$NON-NLS-1$
 			return true;
 		} finally {
 			smw.dispose();
@@ -84,7 +84,7 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 			}
 			return false;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();

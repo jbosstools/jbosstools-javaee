@@ -25,7 +25,7 @@ public class JsfProjectsContentProvider extends NavigatorContentProvider {
 	}
 	
 	protected String getFilteredTreeName() {
-		return "JSFProjects";
+		return "JSFProjects"; //$NON-NLS-1$
 	}	
 
 }

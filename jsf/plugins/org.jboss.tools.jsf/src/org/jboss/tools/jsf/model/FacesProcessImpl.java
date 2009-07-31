@@ -29,8 +29,8 @@ public class FacesProcessImpl extends OrderedObjectImpl implements WebProcess, R
 	public void setReference(XModelObject reference) {
 		this.reference = reference;
 		if(reference != null) {
-			String shape = get("SHAPE");
-			if(shape != null && shape.length() > 0) reference.set("_shape", shape);
+			String shape = get("SHAPE"); //$NON-NLS-1$
+			if(shape != null && shape.length() > 0) reference.set("_shape", shape); //$NON-NLS-1$
 		}
 	}
 
@@ -85,12 +85,12 @@ public class FacesProcessImpl extends OrderedObjectImpl implements WebProcess, R
 		String abts = null;
 		XModelObject parent = (XModelObject)getParent();
 		if(parent != null) {
-			abts = parent.get("actualBodyTimeStamp");
-			actualBody = (abts != null && (abts.equals("0") || abts.equals("" + parent.getTimeStamp())));
+			abts = parent.get("actualBodyTimeStamp"); //$NON-NLS-1$
+			actualBody = (abts != null && (abts.equals("0") || abts.equals("" + parent.getTimeStamp()))); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		super.changeTimeStamp();
-		if(actualBody && !abts.equals("0")) {
-			parent.set("actualBodyTimeStamp", "" + parent.getTimeStamp());
+		if(actualBody && !abts.equals("0")) { //$NON-NLS-1$
+			parent.set("actualBodyTimeStamp", "" + parent.getTimeStamp()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
     

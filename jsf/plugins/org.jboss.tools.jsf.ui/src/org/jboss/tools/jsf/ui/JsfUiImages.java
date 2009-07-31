@@ -19,19 +19,19 @@ import org.jboss.tools.common.model.ui.ModelUIImages;
  */
 public class JsfUiImages extends ModelUIImages {
 	
-	public static String JSF_IMPORT_PROJECT_ACTION = "wizards/import_jsf_project.gif";
-	public static String JSF_CREATE_PROJECT_ACTION = "wizards/new_jsf_project.gif";
+	public static String JSF_IMPORT_PROJECT_ACTION = "wizards/import_jsf_project.gif"; //$NON-NLS-1$
+	public static String JSF_CREATE_PROJECT_ACTION = "wizards/new_jsf_project.gif"; //$NON-NLS-1$
 	
 	private static JsfUiImages INSTANCE;
 	
 	static {
 		try {
 			if(JsfUiPlugin.isDebugEnabled()) {
-				JsfUiPlugin.getPluginLog().logError("Trying activate plugin images.");
+				JsfUiPlugin.getPluginLog().logError("Trying activate plugin images."); //$NON-NLS-1$
 			}
 			INSTANCE = 
 				new JsfUiImages(
-					new URL(JsfUiPlugin.getDefault().getBundle().getEntry("/"), "images/xstudio/"),
+					new URL(JsfUiPlugin.getDefault().getBundle().getEntry("/"), "images/xstudio/"), //$NON-NLS-1$ //$NON-NLS-2$
 					ModelUIImages.getInstance()
 				);
 			
@@ -42,7 +42,7 @@ public class JsfUiImages extends ModelUIImages {
 
 	public static ImageDescriptor getImageDescriptor(String key) {
 		if(JsfUiPlugin.isDebugEnabled()) {
-			JsfUiPlugin.getPluginLog().logInfo("Create imageDescriptor for key '" + key + "'.");
+			JsfUiPlugin.getPluginLog().logInfo("Create imageDescriptor for key '" + key + "'."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return INSTANCE.createImageDescriptor(key);
 	}
@@ -54,9 +54,9 @@ public class JsfUiImages extends ModelUIImages {
 	public JsfUiImages(URL registryUrl, ModelUIImages parent) {
 		super(registryUrl, parent);
 		if(JsfUiPlugin.isDebugEnabled()) {
-			JsfUiPlugin.getPluginLog().logInfo("Create JsfUiImages class.");
-			JsfUiPlugin.getPluginLog().logInfo("RegistryUrl = " + registryUrl);
-			JsfUiPlugin.getPluginLog().logInfo("parent = " + parent.getClass().getName());
+			JsfUiPlugin.getPluginLog().logInfo("Create JsfUiImages class."); //$NON-NLS-1$
+			JsfUiPlugin.getPluginLog().logInfo("RegistryUrl = " + registryUrl); //$NON-NLS-1$
+			JsfUiPlugin.getPluginLog().logInfo("parent = " + parent.getClass().getName()); //$NON-NLS-1$
 		}
 	}
 

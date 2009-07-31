@@ -34,7 +34,7 @@ public class RenamePageHandler extends DefaultEditHandler {
         Properties p = extractProperties(data[0]);
         String oldpath = object.getAttributeValue("path"); //$NON-NLS-1$
         String path = p.getProperty("path"); //$NON-NLS-1$
-        if(path.equals("/")) throw new XModelException("Path is not valid."); //$NON-NLS-1$ //$NON-NLS-2$
+        if(path.equals("/")) throw new XModelException(StrutsUIMessages.RenamePageHandler_PathIsNotValid); //$NON-NLS-1$
         boolean isTile = oldpath != null && !oldpath.startsWith("/"); //$NON-NLS-1$
         if(!isTile && !path.startsWith("/")) path = "/" + path; //$NON-NLS-1$ //$NON-NLS-2$
         if(path.startsWith("/") && path.indexOf('.') < 0) path += ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$

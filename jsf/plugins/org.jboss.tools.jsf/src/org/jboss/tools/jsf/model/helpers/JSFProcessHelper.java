@@ -107,9 +107,9 @@ public class JSFProcessHelper implements JSFConstants {
 		String fvi = rule.getAttributeValue(ATT_FROM_VIEW_ID);
 		String pp = NavigationRuleObjectImpl.toNavigationRulePathPart(fvi);
 		if(!isPattern(fvi)) return pp;
-		String index = rule.getAttributeValue("index");
-		if(index.startsWith("-") || index.equals("0")) return pp;
-		return pp + ":" + index;
+		String index = rule.getAttributeValue("index"); //$NON-NLS-1$
+		if(index.startsWith("-") || index.equals("0")) return pp; //$NON-NLS-1$ //$NON-NLS-2$
+		return pp + ":" + index; //$NON-NLS-1$
 	}
 	
 	public XModelObject findOrCreateGroup(String path, String pp) {
@@ -125,12 +125,12 @@ public class JSFProcessHelper implements JSFConstants {
 	}
 	
 	private void removeObsoleteGroups() {
-		boolean q = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
+		boolean q = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue()); //$NON-NLS-1$
 		XModelObject[] ps = process.getChildren(ENT_PROCESS_GROUP);
 		for (int i = 0; i < ps.length; i++) {
 			String path = ps[i].getPathPart();
 			if(!groups.containsKey(path) && !targets.containsKey(path)) {
-				if(q && "true".equals(ps[i].getAttributeValue("persistent"))) {
+				if(q && "true".equals(ps[i].getAttributeValue("persistent"))) { //$NON-NLS-1$ //$NON-NLS-2$
 					groups.put(path, ps[i]);
 				} else {
 					ps[i].removeFromParent();
@@ -197,7 +197,7 @@ public class JSFProcessHelper implements JSFConstants {
 		XModelObject item = group.getModel().createModelObject(ENT_PROCESS_ITEM, null);
 		item.setAttributeValue(ATT_ID, rule.getPathPart());
 		item.setAttributeValue(ATT_PATH, rule.getAttributeValue(ATT_FROM_VIEW_ID));
-		String name = XModelObjectUtil.createNewChildName("item", group);
+		String name = XModelObjectUtil.createNewChildName("item", group); //$NON-NLS-1$
 		item.setAttributeValue(ATT_NAME, name);
 		group.addChild(item);
 		return item;
@@ -274,7 +274,7 @@ public class JSFProcessHelper implements JSFConstants {
 		XModelObject output = item.getModel().createModelObject(ENT_PROCESS_ITEM_OUTPUT, null);
 		output.setAttributeValue(ATT_ID, rulecase.getPathPart());
 		output.setAttributeValue(ATT_PATH, rulecase.getAttributeValue(ATT_TO_VIEW_ID));
-		String name = XModelObjectUtil.createNewChildName("output", item);
+		String name = XModelObjectUtil.createNewChildName("output", item); //$NON-NLS-1$
 		output.setAttributeValue(ATT_NAME, name);
 		item.addChild(output);
 		return output;
@@ -288,9 +288,9 @@ public class JSFProcessHelper implements JSFConstants {
 		String path = rulecase.getAttributeValue(ATT_TO_VIEW_ID);
 		output.setAttributeValue(ATT_PATH, path);
 		String title = JSFProcessStructureHelper.createItemOutputPresentation(rulecase);
-		output.setAttributeValue("title", title);
+		output.setAttributeValue("title", title); //$NON-NLS-1$
 		XModelObject g = findGroupByPath(path);
-		String target = (g == null) ? "" : g.getPathPart();
+		String target = (g == null) ? "" : g.getPathPart(); //$NON-NLS-1$
 		output.setAttributeValue(ATT_TARGET, target);
 	}
 	

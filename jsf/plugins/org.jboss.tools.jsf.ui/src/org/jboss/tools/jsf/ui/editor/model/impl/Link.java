@@ -26,9 +26,9 @@ import org.jboss.tools.jsf.ui.editor.model.IGroup;
 import org.jboss.tools.jsf.ui.editor.model.ISegment;
 
 public class Link extends JSFElement implements ILink {
-	public static final String PATH_PROPERTY = "link shape";
-	public static final String SHAPE_PROPERTY = "shape";
-	public static final String HIDDEN_PROPERTY = "hidden";
+	public static final String PATH_PROPERTY = "link shape"; //$NON-NLS-1$
+	public static final String SHAPE_PROPERTY = "shape"; //$NON-NLS-1$
+	public static final String HIDDEN_PROPERTY = "hidden"; //$NON-NLS-1$
 
 	private String pathString;
 	private String linkStatus;
@@ -60,7 +60,7 @@ public class Link extends JSFElement implements ILink {
 
 	public String getPathFromModel() {
 		if (preferredMode)
-			return "";
+			return ""; //$NON-NLS-1$
 		else {
 			return source.getAttributeValue(Link.SHAPE_PROPERTY);
 		}
@@ -85,18 +85,18 @@ public class Link extends JSFElement implements ILink {
 	}
 
 	public void savePointList(PointList list) {
-		String value = "";
+		String value = ""; //$NON-NLS-1$
 		for (int i = 0; i < list.size(); i++) {
 			if (i != 0)
-				value += ",";
+				value += ","; //$NON-NLS-1$
 			Point p = list.getPoint(i);
-			value += p.x + "," + p.y;
+			value += p.x + "," + p.y; //$NON-NLS-1$
 		}
 		jsfModel.getHelper().setAttributeValue(source, SHAPE_PROPERTY, value);
 	}
 
 	public void clearPointList() {
-		source.setAttributeValue(SHAPE_PROPERTY, "");
+		source.setAttributeValue(SHAPE_PROPERTY, ""); //$NON-NLS-1$
 	}
 
 	public Link(IJSFElement parent, XModelObject source) {
@@ -178,9 +178,9 @@ public class Link extends JSFElement implements ILink {
 	}
 
 	public boolean isConfirmed() {
-		if (((Group) getFromGroup()).type.equals("page")) {
+		if (((Group) getFromGroup()).type.equals("page")) { //$NON-NLS-1$
 			String subtype = source.getAttributeValue(Link.SUBTYPE_PROPERTY);
-			if ("confirmed".equals(subtype))
+			if ("confirmed".equals(subtype)) //$NON-NLS-1$
 				return true;
 			else
 				return false;
@@ -190,7 +190,7 @@ public class Link extends JSFElement implements ILink {
 
 	public boolean isHidden() {
 		String hidden = source.getAttributeValue(Link.HIDDEN_PROPERTY);
-		if ("yes".equals(hidden))
+		if ("yes".equals(hidden)) //$NON-NLS-1$
 			return true;
 		else
 			return false;
@@ -218,14 +218,14 @@ public class Link extends JSFElement implements ILink {
 	public void setHeadSegment(ISegment segment) {
 		ISegment oldHeadSegment = headSegment;
 		headSegment = (ISegment) segment;
-		propertyChangeSupport.firePropertyChange("headSegment", oldHeadSegment,
+		propertyChangeSupport.firePropertyChange("headSegment", oldHeadSegment, //$NON-NLS-1$
 				segment);
 	}
 
 	public void setTailSegment(ISegment segment) {
 		ISegment oldTailSegment = tailSegment;
 		tailSegment = (ISegment) segment;
-		propertyChangeSupport.firePropertyChange("tailSegment", oldTailSegment,
+		propertyChangeSupport.firePropertyChange("tailSegment", oldTailSegment, //$NON-NLS-1$
 				segment);
 	}
 
@@ -256,8 +256,8 @@ public class Link extends JSFElement implements ILink {
 	}
 
 	private String getLinkStatus() {
-		return source.getAttributeValue(HIDDEN_PROPERTY) + ":"
-				+ source.getAttributeValue("shortcut");
+		return source.getAttributeValue(HIDDEN_PROPERTY) + ":" //$NON-NLS-1$
+				+ source.getAttributeValue("shortcut"); //$NON-NLS-1$
 	}
 
 	public void nodeChanged(Object eventData) {

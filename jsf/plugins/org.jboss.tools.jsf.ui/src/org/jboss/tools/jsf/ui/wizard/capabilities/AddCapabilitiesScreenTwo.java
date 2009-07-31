@@ -30,7 +30,7 @@ public class AddCapabilitiesScreenTwo extends AbstractSpecialWizardStep {
 
 	public void setSupport(SpecialWizardSupport support, int i) {
 		super.setSupport(support, i);
-		items = (String[])support.getProperties().get("addedCapabilities");
+		items = (String[])support.getProperties().get("addedCapabilities"); //$NON-NLS-1$
 		if(items == null) items = new String[0];
 	}
 

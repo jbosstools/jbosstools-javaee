@@ -21,13 +21,13 @@ public class AddManagedPropertySafeHandler extends AbstractHandler {
 
 	public boolean isEnabled(XModelObject object) {
 		if(object == null || !object.isObjectEditable()) return false;
-		if(!"properties".equals(object.getAttributeValue("content-kind"))) return false;
+		if(!"properties".equals(object.getAttributeValue("content-kind"))) return false; //$NON-NLS-1$ //$NON-NLS-2$
 		return true;
 	}
 
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
-		XActionInvoker.invoke("CreateActions.CreateProperty", object, p);
+		XActionInvoker.invoke("CreateActions.CreateProperty", object, p); //$NON-NLS-1$
 	}
 
 }

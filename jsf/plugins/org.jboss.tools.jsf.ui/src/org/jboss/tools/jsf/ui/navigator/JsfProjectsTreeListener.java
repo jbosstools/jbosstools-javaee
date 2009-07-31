@@ -32,7 +32,7 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 			}			
 			return;
 		}
-		if(source.getModelEntity().getName().startsWith("FileWebApp")) {
+		if(source.getModelEntity().getName().startsWith("FileWebApp")) { //$NON-NLS-1$
 			WebProjectNode n = getProjectRoot(source.getModel());
 			if(n != null) n.invalidate();
 		} else if(JSFProjectTagLibs.isTLDFile(source)) {
@@ -52,7 +52,7 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 	}
 	
 	protected WebProjectNode getProjectRoot(XModel model) {
-		return (WebProjectNode)model.getByPath("root:JSFProjects");
+		return (WebProjectNode)model.getByPath("root:JSFProjects"); //$NON-NLS-1$
 	}
 
 	public void structureChanged(XModelTreeEvent event) {
@@ -63,20 +63,20 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 		if(event.kind() == XModelTreeEvent.CHILD_ADDED) {
 			XModelObject c = (XModelObject)event.getInfo();
 			String entity = c.getModelEntity().getName();
-			if("FilePROPERTIES".equals(c.getModelEntity().getName())) {
+			if("FilePROPERTIES".equals(c.getModelEntity().getName())) { //$NON-NLS-1$
 				invalidateBundles(source.getModel());
 			} else if(JSFProjectTagLibs.isTLDFile(c) || JSFProjectTagLibs.isFaceletTaglibFile(c)
-                      || "FileSystemJar".equals(entity)) {
+                      || "FileSystemJar".equals(entity)) { //$NON-NLS-1$
 				invalidateTagLibs(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
-			} else if("JSFManagedBean".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
-			} else if("JSFReferencedBean".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
-			} else if("FileTiles".equals(entity)) {
-				invalidateFolder(source.getModel(), "Tiles");
-			} else if("FileFolder".equals(entity)) {
+			} else if("JSFManagedBean".equals(entity)) { //$NON-NLS-1$
+				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+			} else if("JSFReferencedBean".equals(entity)) { //$NON-NLS-1$
+				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+			} else if("FileTiles".equals(entity)) { //$NON-NLS-1$
+				invalidateFolder(source.getModel(), "Tiles"); //$NON-NLS-1$
+			} else if("FileFolder".equals(entity)) { //$NON-NLS-1$
 				WebProjectNode n = getProjectRoot(source.getModel());
 				if(n != null) n.invalidate();
 			}
@@ -86,16 +86,16 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 				WebProjectNode n = getProjectRoot(source.getModel());
 				if(n != null) n.invalidate();
 				return;
-			} else if("FileSystems".equals(entity)) {
+			} else if("FileSystems".equals(entity)) { //$NON-NLS-1$
 				invalidateTagLibs(source.getModel());
-			} else if("JSFManagedBeans".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
-			} else if("JSFReferencedBeans".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
+			} else if("JSFManagedBeans".equals(entity)) { //$NON-NLS-1$
+				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+			} else if("JSFReferencedBeans".equals(entity)) { //$NON-NLS-1$
+				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
 			}
 		} else if(event.kind() == XModelTreeEvent.STRUCTURE_CHANGED) {
 			String entity = event.getModelObject().getModelEntity().getName();
-			if("FileSystemJar".equals(entity)) {
+			if("FileSystemJar".equals(entity)) { //$NON-NLS-1$
 				invalidateTagLibs(source.getModel());
 			}
 		}
@@ -103,16 +103,16 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 	}
 	
 	private void invalidateBundles(XModel model) {
-		invalidateFolder(model, "Resource Bundles");
+		invalidateFolder(model, "Resource Bundles"); //$NON-NLS-1$
 	}
 
 	private void invalidateTagLibs(XModel model) {
-		invalidateFolder(model, "Tag Libraries");
+		invalidateFolder(model, "Tag Libraries"); //$NON-NLS-1$
 	}
 
 	private void invalidateConfig(XModel model) {
-		invalidateFolder(model, "Configuration");
-		invalidateFolder(model, "Beans");
+		invalidateFolder(model, "Configuration"); //$NON-NLS-1$
+		invalidateFolder(model, "Beans"); //$NON-NLS-1$
 	}
 	
 	private void invalidateFolder(XModel model, String name) {

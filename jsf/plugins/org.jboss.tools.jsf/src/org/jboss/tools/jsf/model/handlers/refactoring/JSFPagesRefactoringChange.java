@@ -16,6 +16,7 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.refactoring.RefactoringHelper;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class JSFPagesRefactoringChange extends CompositeChange {
 	protected String newName;
@@ -23,7 +24,7 @@ public class JSFPagesRefactoringChange extends CompositeChange {
 	protected XModel model;
 	
 	public JSFPagesRefactoringChange(XModel model, String newName, Properties replacements) {
-		super("JSP refactoring");
+		super(JSFUIMessages.JSFPagesRefactoringChange_JSPRefactoring);
 		this.model = model;
 		this.newName = newName;
 		this.replacements = replacements;
@@ -48,7 +49,7 @@ public class JSFPagesRefactoringChange extends CompositeChange {
 				addChanges(objects[i].getChildren());
 			} else {
 				String entity = objects[i].getModelEntity().getName();
-				if(!"FileJSP".equals(entity)) continue;
+				if(!"FileJSP".equals(entity)) continue; //$NON-NLS-1$
 				RefactoringHelper.addChanges(objects[i], replacements, this);
 			}
 		}

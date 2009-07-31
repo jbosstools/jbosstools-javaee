@@ -29,7 +29,7 @@ public class ConnectionCommand extends Command {
 	protected ILink link;
 
 	public ConnectionCommand() {
-		super("connection command");
+		super("connection command"); //$NON-NLS-1$
 	}
 
 	public boolean canExecute() {
@@ -46,7 +46,7 @@ public class ConnectionCommand extends Command {
 	}
 
 	public String getLabel() {
-		return "connection command";
+		return "connection command"; //$NON-NLS-1$
 	}
 
 	public JSFEditPart getSource() {

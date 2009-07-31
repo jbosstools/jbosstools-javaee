@@ -23,13 +23,12 @@ import org.eclipse.swt.widgets.Control;
 
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.meta.*;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.model.IJSFElement;
 import org.jboss.tools.jsf.ui.editor.model.IJSFModel;
 
 public class JSFElement implements IJSFElement{
 
-	protected String name = "";
+	protected String name = ""; //$NON-NLS-1$
 	protected boolean visible = false;
 	protected boolean hidden = false;
 	protected boolean deleted = false;
@@ -82,7 +81,7 @@ public class JSFElement implements IJSFElement{
 	}
 
 	public String getText() {
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public IJSFElement getRoot() {
@@ -106,7 +105,7 @@ public class JSFElement implements IJSFElement{
 		String path = current.getName();
 		while (current.getParentJSFElement() != null) {
 			current = current.getParentJSFElement();
-			path = current.getName() + "/" + path;
+			path = current.getName() + "/" + path; //$NON-NLS-1$
 		}
 		return path;
 	}
@@ -145,7 +144,7 @@ public class JSFElement implements IJSFElement{
 		String oldValue = iconPath;
 		iconPath = path;
 		propertyChangeSupport
-				.firePropertyChange("iconPath", oldValue, iconPath);
+				.firePropertyChange("iconPath", oldValue, iconPath); //$NON-NLS-1$
 		updateModelModifiedProperty(oldValue, path);
 	}
 
@@ -157,7 +156,7 @@ public class JSFElement implements IJSFElement{
 		IJSFElement oldValue = parent;
 		parent = element;
 		jsfModel = getJSFModel();
-		propertyChangeSupport.firePropertyChange("parent", oldValue, element);
+		propertyChangeSupport.firePropertyChange("parent", oldValue, element); //$NON-NLS-1$
 		updateModelModifiedProperty(oldValue, element);
 	}
 
@@ -179,7 +178,7 @@ public class JSFElement implements IJSFElement{
 
 	public void setName(String name) throws PropertyVetoException {
 		String oldValue = this.name;
-		vetoableChangeSupport.fireVetoableChange("name", oldValue, name);
+		vetoableChangeSupport.fireVetoableChange("name", oldValue, name); //$NON-NLS-1$
 		this.name = name;
 	}
 
@@ -195,8 +194,8 @@ public class JSFElement implements IJSFElement{
 	public void setSize(Dimension size) {
 		Dimension oldValue = this.size;
 		this.size = size;
-		updateSourceProperty("shape", getPosition(), size);
-		propertyChangeSupport.firePropertyChange("shape", oldValue, size);
+		updateSourceProperty("shape", getPosition(), size); //$NON-NLS-1$
+		propertyChangeSupport.firePropertyChange("shape", oldValue, size); //$NON-NLS-1$
 		updateModelModifiedProperty(oldValue, size);
 	}
 
@@ -216,8 +215,8 @@ public class JSFElement implements IJSFElement{
 		Point oldValue = position != null ? new Point(position.x, position.y)
 				: null;
 		position = point;
-		updateSourceProperty("shape", point, getSize());
-		propertyChangeSupport.firePropertyChange("shape", oldValue, point);
+		updateSourceProperty("shape", point, getSize()); //$NON-NLS-1$
+		propertyChangeSupport.firePropertyChange("shape", oldValue, point); //$NON-NLS-1$
 		updateModelModifiedProperty(oldValue, point);
 	}
 
@@ -232,9 +231,9 @@ public class JSFElement implements IJSFElement{
 
 	public void setBounds(Rectangle rec) {
 		Rectangle oldBounds = getBounds();
-		updateSourceProperty("shape", new Point(rec.x, rec.y), new Dimension(
+		updateSourceProperty("shape", new Point(rec.x, rec.y), new Dimension( //$NON-NLS-1$
 				rec.width, rec.height));
-		propertyChangeSupport.firePropertyChange("shape", oldBounds,
+		propertyChangeSupport.firePropertyChange("shape", oldBounds, //$NON-NLS-1$
 				new Rectangle(rec.x, rec.y, rec.width, rec.height));
 	}
 
@@ -343,7 +342,7 @@ public class JSFElement implements IJSFElement{
 			jsfModel.getHelper().setAttributeValue(
 					source,
 					name,
-					"" + position.x + "," + position.y + "," + size.width + ","
+					"" + position.x + "," + position.y + "," + size.width + "," //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 							+ size.height);
 	}
 

@@ -17,8 +17,8 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class ChangeContentKindHandler extends AbstractHandler {
-	static String ATT_CONTENT_KIND = "content-kind";
-	public static String MESSAGE_KEY = "JSFManagedProperty_ChangeValueKind";
+	static String ATT_CONTENT_KIND = "content-kind"; //$NON-NLS-1$
+	public static String MESSAGE_KEY = "JSFManagedProperty_ChangeValueKind"; //$NON-NLS-1$
 	
 	public static boolean isNewValueKind(XModelObject object, String kind) {
 		String objectKind = object.getAttributeValue(ATT_CONTENT_KIND);
@@ -27,10 +27,10 @@ public class ChangeContentKindHandler extends AbstractHandler {
 
 	public static boolean checkChangeSignificance(XModelObject object) {
 		String kind = object.getAttributeValue(ATT_CONTENT_KIND);
-		if("properties".equals(kind)) {
+		if("properties".equals(kind)) { //$NON-NLS-1$
 			if(object.getChildren().length == 0) return true;
-		} if("map-entries".equals(kind) || "list-entries".equals(kind)) {
-			XModelObject c = object.getChildByPath("Entries");
+		} if("map-entries".equals(kind) || "list-entries".equals(kind)) { //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = object.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c == null) return true;
 			if(c.getChildren().length == 0) return true;  
 		}
@@ -38,7 +38,7 @@ public class ChangeContentKindHandler extends AbstractHandler {
 	}
 
 	public static boolean openConfirmation(XModel model) {
-		String message = "" + WizardKeys.getMessage(MESSAGE_KEY);
+		String message = "" + WizardKeys.getMessage(MESSAGE_KEY); //$NON-NLS-1$
 		ServiceDialog d = model.getService();
 		int q = d.showDialog(JSFUIMessages.CONFIRMATION, message, new String[]{JSFUIMessages.OK, JSFUIMessages.CANCEL}, null, ServiceDialog.QUESTION);
 		return q == 0;

@@ -29,7 +29,7 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
  * @author Jeremy
  */
 public class XMLPropertyHyperlinkPartitioner extends AbstractHyperlinkPartitioner {
-	public static final String XML_PROPERTY_PARTITION = "org.jboss.tools.common.text.ext.xml.XML_PROPERTY";
+	public static final String XML_PROPERTY_PARTITION = "org.jboss.tools.common.text.ext.xml.XML_PROPERTY"; //$NON-NLS-1$
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -114,7 +114,7 @@ public class XMLPropertyHyperlinkPartitioner extends AbstractHyperlinkPartitione
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

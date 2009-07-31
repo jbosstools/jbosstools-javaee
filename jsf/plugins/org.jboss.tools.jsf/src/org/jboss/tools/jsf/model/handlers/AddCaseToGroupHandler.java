@@ -27,7 +27,7 @@ public class AddCaseToGroupHandler extends AbstractHandler implements JSFConstan
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		p = DefaultCreateHandler.extractProperties(data[0]);
 		String fv = p.getProperty(ATT_TO_VIEW_ID);
-		if(fv.indexOf("*") >= 0 || fv.length() == 0) {
+		if(fv.indexOf("*") >= 0 || fv.length() == 0) { //$NON-NLS-1$
 			ServiceDialog d = object.getModel().getService();
 			int q = d.showDialog(JSFUIMessages.WARNING, JSFUIMessages.IT_ISNT_CORRECT_TO_MAKE_LINK_TO_A_PATTERN, 
 					new String[]{JSFUIMessages.YES, JSFUIMessages.NO}, null, ServiceDialog.WARNING);
@@ -53,17 +53,17 @@ public class AddCaseToGroupHandler extends AbstractHandler implements JSFConstan
 			}
 			XModelObject rule = n.addRule(path);
 			DefaultCreateHandler.addCreatedObject(rule, ncase, p);
-			g.setAttributeValue("persistent", "false");
+			g.setAttributeValue("persistent", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 	
 	public static String revalidateGroupPath(String path, String pathpart, int index) {
 		if(!JSFProcessHelper.isPattern(path)) return pathpart;
-		int s = pathpart.lastIndexOf(":");
+		int s = pathpart.lastIndexOf(":"); //$NON-NLS-1$
 		if(s < 6 && index == 0) return pathpart;
 		if(index == 0) return pathpart.substring(0, s);
-		if(s < 0) return pathpart + ":" + index;
-		return pathpart.substring(0, s) + ":" + index;
+		if(s < 0) return pathpart + ":" + index; //$NON-NLS-1$
+		return pathpart.substring(0, s) + ":" + index; //$NON-NLS-1$
 	}
 	/*TRIAL_JSF_CLASS*/
 }

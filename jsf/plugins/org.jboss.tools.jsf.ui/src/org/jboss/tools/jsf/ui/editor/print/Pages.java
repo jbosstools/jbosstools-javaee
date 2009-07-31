@@ -144,19 +144,19 @@ public class Pages {
 	public PropertyChangeListener createSelectionListener() {
 		return new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals("select")) {
+				if (evt.getPropertyName().equals("select")) { //$NON-NLS-1$
 					if (((Boolean) evt.getNewValue()).booleanValue()) {
 						if (!mPages.contains(evt.getSource()))
 							mPages.add((Page) evt.getSource());
-						pcs.firePropertyChange("PageSelection", false, true);
+						pcs.firePropertyChange("PageSelection", false, true); //$NON-NLS-1$
 						if (mPages.size() == sPages.size()) {
-							pcs.firePropertyChange("selectAll", false, true);
+							pcs.firePropertyChange("selectAll", false, true); //$NON-NLS-1$
 						}
 					} else {
 						mPages.remove((Page)evt.getSource());
-						pcs.firePropertyChange("PageSelection", false, true);
+						pcs.firePropertyChange("PageSelection", false, true); //$NON-NLS-1$
 						if (mPages.size() == 0) {
-							pcs.firePropertyChange("unSelectAll", false, true);
+							pcs.firePropertyChange("unSelectAll", false, true); //$NON-NLS-1$
 						}
 					}
 				}
@@ -240,7 +240,7 @@ public class Pages {
 		} else {
 			this.createPages();
 		}
-		pcs.firePropertyChange("scale", new Double(oldScale), new Double(
+		pcs.firePropertyChange("scale", new Double(oldScale), new Double( //$NON-NLS-1$
 						scale));
 	}
 
@@ -248,14 +248,14 @@ public class Pages {
 		for (int i = 0; i < sPages.size(); i++) {
 			sPages.get(i).setSelected(true);
 		}
-		pcs.firePropertyChange("selectAll", false, true);
+		pcs.firePropertyChange("selectAll", false, true); //$NON-NLS-1$
 	}
 
 	public void unSelectAll() {
 		for (int i = 0; i < sPages.size(); i++) {
 			sPages.get(i).setSelected(false);
 		}
-		pcs.firePropertyChange("unSelectAll", false, true);
+		pcs.firePropertyChange("unSelectAll", false, true); //$NON-NLS-1$
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {

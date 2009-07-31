@@ -43,7 +43,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements SeamPages
 
 	public void reset() {
 		initItem();
-		initialPath = item.getAttributeValue("path");
+		initialPath = item.getAttributeValue("path"); //$NON-NLS-1$
 		initialPath = AddViewSupport.revalidatePath(initialPath);
 		page = (SeamPagesDiagramHelper.isPattern(initialPath)) ? null : getTarget().getModel().getByPath(initialPath); 
 		setAttributeValue(0, ATTR_VIEW_ID, initialPath);
@@ -80,7 +80,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements SeamPages
 		h.addUpdateLock(this);
 		try {
 			replace(item, initialPath, path);
-			if(page != null && "true".equals(p.getProperty("rename file")) && isFieldEditorEnabled(0, "rename file", p)) {
+			if(page != null && "true".equals(p.getProperty("rename file")) && isFieldEditorEnabled(0, "rename file", p)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				try {
 					renameFile(page, path);
 				} catch (CoreException e) {
@@ -103,7 +103,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements SeamPages
 	}
     
 	public boolean isFieldEditorEnabled(int stepId, String name, Properties values) {
-		if(name.equals("rename file")) {
+		if(name.equals("rename file")) { //$NON-NLS-1$
 			if(page == null) return false;
 			String path = AddViewSupport.revalidatePath(values.getProperty(ATTR_VIEW_ID));
 			if(path.equals(initialPath)) return false;
@@ -128,7 +128,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements SeamPages
 			model.changeObjectAttribute(group, ATTR_NAME, pp);
 			model.changeObjectAttribute(group, ATTR_PATH, newPath);
 		} else if(isPattern && rs != null) {
-			String index = rs.getAttributeValue("index");
+			String index = rs.getAttributeValue("index"); //$NON-NLS-1$
 			String ppi = pp;
 			group.setAttributeValue(ATTR_PATH, newPath);
 			if(process.getChildByPath(ppi) == null) {

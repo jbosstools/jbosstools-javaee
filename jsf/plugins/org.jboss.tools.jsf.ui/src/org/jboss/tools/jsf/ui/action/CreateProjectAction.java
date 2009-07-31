@@ -38,17 +38,17 @@ public class CreateProjectAction extends Action implements IWorkbenchWindowActio
 	public void run() {
 		INewWizard wizard = ExtensionPointUtils.findNewWizardsItem(
 			JSFModelPlugin.PLUGIN_ID,
-			"org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
+			"org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard" //$NON-NLS-1$
 		);
 		((NewProjectWizard)wizard).setHelpAvailable(false);
 		if (wizard != null) {
 			wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
 			dialog.create();
-			JsfUiPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.ide.new_project_wizard_context");
+			JsfUiPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.ide.new_project_wizard_context"); //$NON-NLS-1$
 			dialog.open();  
 		} else {
-			JsfUiPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard'");
+			JsfUiPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard'"); //$NON-NLS-1$
 		}
 	}
 

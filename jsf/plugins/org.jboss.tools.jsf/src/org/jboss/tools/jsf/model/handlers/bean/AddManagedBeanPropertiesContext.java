@@ -55,7 +55,7 @@ public class AddManagedBeanPropertiesContext {
 		names = (String[])properties.keySet().toArray(new String[0]);
 		for (int i = 0; i < names.length; i++) {
 			enablement[i] = false;
-			values[i] = "";
+			values[i] = ""; //$NON-NLS-1$
 		}
 	}
 	
@@ -90,12 +90,12 @@ public class AddManagedBeanPropertiesContext {
 			if(!enablement[i]) continue;
 			PropertyData data = new PropertyData();
 			data.name = names[i];
-			XModelObject p = bean.getModel().createModelObject("JSFManagedProperty", null);
+			XModelObject p = bean.getModel().createModelObject("JSFManagedProperty", null); //$NON-NLS-1$
 			IMember m = (IMember)properties.get(names[i]);
 			data.type = EclipseJavaUtil.getMemberTypeAsString(m);
-			p.setAttributeValue("property-name", data.name);
-			p.setAttributeValue("property-class", data.type);
-			p.setAttributeValue("value", values[i]);
+			p.setAttributeValue("property-name", data.name); //$NON-NLS-1$
+			p.setAttributeValue("property-class", data.type); //$NON-NLS-1$
+			p.setAttributeValue("value", values[i]); //$NON-NLS-1$
 			bean.addChild(p);
 			if(type.isBinary() || type.isInterface()) continue;
 			if(m instanceof IMethod) continue;
@@ -130,7 +130,7 @@ public class AddManagedBeanPropertiesContext {
 		JavaPropertyGenerator g = new JavaPropertyGenerator();
 		g.setOwner(type);
 		for (int i = 0; i < datas.length; i++) {
-			g.generate(datas[i].name, datas[i].type, "public", false, datas[i].getter, datas[i].setter);
+			g.generate(datas[i].name, datas[i].type, "public", false, datas[i].getter, datas[i].setter); //$NON-NLS-1$
 		}
 	}
 	

@@ -21,11 +21,11 @@ public class NewProjectWizardPage extends NewWebProjectWizardPage {
 	}
 
 	protected String getKey() {
-		return "newJSFProjectPage1";
+		return "newJSFProjectPage1"; //$NON-NLS-1$
 	}
 
 	protected String getProjectRootOption() {
-		boolean useDefault = "yes".equals(JSFPreference.USE_DEFAULT_JSF_PROJECT_ROOT.getValue());
+		boolean useDefault = "yes".equals(JSFPreference.USE_DEFAULT_JSF_PROJECT_ROOT.getValue()); //$NON-NLS-1$
 		return (useDefault) ? null : JSFPreference.DEFAULT_JSF_PROJECT_ROOT_DIR.getValue();
 	}
 

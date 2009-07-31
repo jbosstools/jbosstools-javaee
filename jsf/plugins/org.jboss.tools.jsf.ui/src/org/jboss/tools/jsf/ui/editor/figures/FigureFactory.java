@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.ui.editor.figures;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.swt.graphics.Color;
 import org.jboss.tools.jsf.ui.editor.edit.LinkEditPart;
 import org.jboss.tools.jsf.ui.editor.edit.xpl.JSFConnectionRouter;

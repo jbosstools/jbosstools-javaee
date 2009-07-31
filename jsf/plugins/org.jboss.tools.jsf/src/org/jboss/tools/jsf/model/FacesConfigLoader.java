@@ -26,7 +26,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.*;
 
 public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebProcessLoader, JSFConstants {
-	public static String AUXILIARY_FILE_EXTENSION = "jsfdia";
+	public static String AUXILIARY_FILE_EXTENSION = "jsfdia"; //$NON-NLS-1$
 
     protected FileAuxiliary createFileAuxiliary() {
     	return new FileAuxiliary(AUXILIARY_FILE_EXTENSION, false);
@@ -47,14 +47,14 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 			XMLUtil.getXMLErrors(new StringReader(body), resolution == EntityXMLRegistration.DTD, resolution == EntityXMLRegistration.SCHEMA);
 		boolean hasErrors = (errors != null && errors.length > 0);
 		if(hasErrors) {
-			object.setAttributeValue("isIncorrect", "yes");
-			object.setAttributeValue("incorrectBody", body);
-			object.set("actualBodyTimeStamp", "-1");
+			object.setAttributeValue("isIncorrect", "yes"); //$NON-NLS-1$ //$NON-NLS-2$
+			object.setAttributeValue("incorrectBody", body); //$NON-NLS-1$
+			object.set("actualBodyTimeStamp", "-1"); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
-			object.setAttributeValue("isIncorrect", "no");
-			object.set("correctBody", body);
-			object.set("actualBodyTimeStamp", "0");
-			object.setAttributeValue("incorrectBody", "");
+			object.setAttributeValue("isIncorrect", "no"); //$NON-NLS-1$ //$NON-NLS-2$
+			object.set("correctBody", body); //$NON-NLS-1$
+			object.set("actualBodyTimeStamp", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			object.setAttributeValue("incorrectBody", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		Document doc = XMLUtil.getDocument(new StringReader(body));
 		if(doc == null) {
@@ -67,15 +67,15 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 		((FileFacesConfigImpl)object).updateRuleIndices();
 		
 		setEncoding(object, body);
-		if(object.getModelEntity().getAttribute("systemId") != null) {
+		if(object.getModelEntity().getAttribute("systemId") != null) { //$NON-NLS-1$
 			NodeList nl = doc.getChildNodes();
 			for (int i = 0; i < nl.getLength(); i++) {
 				Node n = nl.item(i);
 				if(n instanceof DocumentType) {
 					DocumentType dt = (DocumentType)n;
-					object.setAttributeValue("systemId", dt.getSystemId());
+					object.setAttributeValue("systemId", dt.getSystemId()); //$NON-NLS-1$
 					if(dt.getPublicId() == null) {
-						object.setAttributeValue("publicId", "null");
+						object.setAttributeValue("publicId", "null"); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				}
 			}
@@ -83,12 +83,12 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 		String loadingError = util.getError();
 		reloadProcess(object);
 
-		object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
+		object.set("actualBodyTimeStamp", "" + object.getTimeStamp()); //$NON-NLS-1$ //$NON-NLS-2$
 		((AbstractXMLFileImpl)object).setLoaderError(loadingError);
 		if(!hasErrors && loadingError != null) {
-			object.setAttributeValue("isIncorrect", "yes");
-			object.setAttributeValue("incorrectBody", body);
-			object.set("actualBodyTimeStamp", "" + object.getTimeStamp());
+			object.setAttributeValue("isIncorrect", "yes"); //$NON-NLS-1$ //$NON-NLS-2$
+			object.setAttributeValue("incorrectBody", body); //$NON-NLS-1$
+			object.set("actualBodyTimeStamp", "" + object.getTimeStamp()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
     
@@ -117,7 +117,7 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 			XModelObject process = object.getChildByPath(ELM_PROCESS);
 			if(process == null) return true;
 			process.setModified(true);
-			Element element = XMLUtil.createDocumentElement("PROCESS");
+			Element element = XMLUtil.createDocumentElement("PROCESS"); //$NON-NLS-1$
 			util.saveAttributes(element, process);
 			util.saveChildren(element, process);
 			StringWriter sw = new StringWriter();
@@ -133,9 +133,9 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 
 	public String serializeMainObject(XModelObject object) {
 		String entity = object.getModelEntity().getName();
-		String systemId = object.getAttributeValue("systemId");
-        String publicId = object.getAttributeValue("publicId");
-        if("null".equals(publicId)) publicId = null;
+		String systemId = object.getAttributeValue("systemId"); //$NON-NLS-1$
+        String publicId = object.getAttributeValue("publicId"); //$NON-NLS-1$
+        if("null".equals(publicId)) publicId = null; //$NON-NLS-1$
 
         if(systemId != null) {
         	int version = entity.equals(ENT_FACESCONFIG_11) ? 11 : 10;
@@ -151,8 +151,8 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
         util.saveAttributes(element, object);
         util.saveChildren(element, object);
         util.saveFinalComment(element, object);
-        element.removeAttribute("NAME");
-        element.removeAttribute("EXTENSION");
+        element.removeAttribute("NAME"); //$NON-NLS-1$
+        element.removeAttribute("EXTENSION"); //$NON-NLS-1$
 		try {
             return SimpleWebFileLoader.serialize(element, object);
 		} catch (IOException e) {
@@ -180,13 +180,13 @@ class SFUtil extends XModelObjectLoaderUtil {
 
 	protected Set<String> getAllowedChildren(XModelEntity entity) {
 		Set<String> children = super.getAllowedChildren(entity);
-		if("JSFManagedProperty".equals(entity.getName())
-			|| "JSFListEntries".equals(entity.getName())
-			|| "JSFMapEntry".equals(entity.getName())) {
-			children.add("value");
-			children.add("null-value");
-		} else if("JSFNavigationCase".equals(entity.getName())) {
-			children.add("redirect");
+		if("JSFManagedProperty".equals(entity.getName()) //$NON-NLS-1$
+			|| "JSFListEntries".equals(entity.getName()) //$NON-NLS-1$
+			|| "JSFMapEntry".equals(entity.getName())) { //$NON-NLS-1$
+			children.add("value"); //$NON-NLS-1$
+			children.add("null-value"); //$NON-NLS-1$
+		} else if("JSFNavigationCase".equals(entity.getName())) { //$NON-NLS-1$
+			children.add("redirect"); //$NON-NLS-1$
 		}
 		return children;
 	}
@@ -204,11 +204,11 @@ class SFUtil extends XModelObjectLoaderUtil {
 				XModelObject c = o.getChildByPath(folders[i]);
 				if(c != null) super.loadChildren(element, c);
 			}
-		} else if("JSFManagedBean".equals(o.getModelEntity().getName())) {
+		} else if("JSFManagedBean".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
 			loadManagedBeanChildren(element, o);
-		} else if("JSFManagedProperty".equals(o.getModelEntity().getName())) {
+		} else if("JSFManagedProperty".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
 			loadManagedPropertyChildren(element, o);
-		} else if("JSFListEntries".equals(o.getModelEntity().getName())) {
+		} else if("JSFListEntries".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
 			loadListEntriesChildren(element, o);
 		} else {
 			super.loadChildren(element, o);
@@ -222,13 +222,13 @@ class SFUtil extends XModelObjectLoaderUtil {
     boolean needToSave(XModelObject o) {
     	if(o == null) return false;
     	String entity = o.getModelEntity().getName();
-    	if("JSFApplication".equals(entity) || "JSFApplication12".equals(entity)) {
+    	if("JSFApplication".equals(entity) || "JSFApplication12".equals(entity)) { //$NON-NLS-1$ //$NON-NLS-2$
     		return (hasSetAttributes(o) 
     				|| o.getChildren().length > 1
-    				|| needToSave(o.getChildByPath("Locale Config")));
-    	} else if("JSFLifecycle".equals(entity) || "JSFLocaleConfig".equals(entity)) {
+    				|| needToSave(o.getChildByPath("Locale Config"))); //$NON-NLS-1$
+    	} else if("JSFLifecycle".equals(entity) || "JSFLocaleConfig".equals(entity)) { //$NON-NLS-1$ //$NON-NLS-2$
     		return (hasSetAttributes(o) || o.getChildren().length > 0);
-    	} else if("JSFFactory".equals(entity)) {
+    	} else if("JSFFactory".equals(entity)) { //$NON-NLS-1$
     		return (hasSetAttributes(o));
     	}
     	return true;
@@ -239,11 +239,11 @@ class SFUtil extends XModelObjectLoaderUtil {
     	for (int i = 0; i < as.length; i++) {
     		String xml = as[i].getXMLName();
     		// it would be more safe to check isSavable
-    		if(xml == null || xml.length() == 0 || "NAME".equals(xml)) continue;
+    		if(xml == null || xml.length() == 0 || "NAME".equals(xml)) continue; //$NON-NLS-1$
     		String v = o.getAttributeValue(as[i].getName());
     		if(v != null && v.length() > 0) return true;
     	}
-    	String finalComment = o.get("#final-comment");
+    	String finalComment = o.get("#final-comment"); //$NON-NLS-1$
     	if(finalComment != null && finalComment.length() > 0) return true;
     	return false;
     }
@@ -256,13 +256,13 @@ class SFUtil extends XModelObjectLoaderUtil {
 			}
 			super.saveChildren(element, o);
 			return true;
-		} else if("JSFManagedBean".equals(o.getModelEntity().getName())) {
+		} else if("JSFManagedBean".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
 			saveManagedBeanChildren(element, o);
 			return true;
-		} else if("JSFManagedProperty".equals(o.getModelEntity().getName())) {
+		} else if("JSFManagedProperty".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
 			saveManagedPropertyChildren(element, o);
 			return true;
-		} else if("JSFListEntries".equals(o.getModelEntity().getName())) {
+		} else if("JSFListEntries".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
 			saveListEntriesChildren(element, o);
 			return true;
 		} else {
@@ -273,14 +273,14 @@ class SFUtil extends XModelObjectLoaderUtil {
 	public void loadAttributes(Element element, XModelObject o) {
 		super.loadAttributes(element, o);
 		String entity = o.getModelEntity().getName();
-		if("JSFListEntry".equals(entity) || "JSFMapEntry".equals(entity)) {
-			Element ce = XMLUtil.getUniqueChild(element, "null-value");
+		if("JSFListEntry".equals(entity) || "JSFMapEntry".equals(entity)) { //$NON-NLS-1$ //$NON-NLS-2$
+			Element ce = XMLUtil.getUniqueChild(element, "null-value"); //$NON-NLS-1$
 			if(ce != null) {
-				o.setAttributeValue("null-value", "true");
-				o.setAttributeValue("value", "");
+				o.setAttributeValue("null-value", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+				o.setAttributeValue("value", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
-				o.setAttributeValue("null-value", "false");
-				o.setAttributeValue("value", super.getAttribute(element, "value.#text"));
+				o.setAttributeValue("null-value", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+				o.setAttributeValue("value", super.getAttribute(element, "value.#text")); //$NON-NLS-1$ //$NON-NLS-2$
 			}			
 		}	
 	}
@@ -289,29 +289,29 @@ class SFUtil extends XModelObjectLoaderUtil {
 		if(v == null) return false;
 		if(v.length() == 0 || v.equals(dv)) {
 			XAttribute attr = entity.getAttribute(n);
-			return (attr != null && "always".equals(attr.getProperty("save")));
+			return (attr != null && "always".equals(attr.getProperty("save"))); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return super.isSaveable(entity, n, v, dv);
 	}
 
 	public String getAttribute(Element element, String xmlname, XAttribute attr) {
-		if("attribute-names".equals(xmlname))
-			return loadArray(element, "attribute-name");
-		if("redirect".equals(xmlname))
-			return (XMLUtil.getUniqueChild(element, "redirect") != null) ? "yes" : "no";
-		if("value.#text".equals(xmlname)) {
-		   if(XMLUtil.getUniqueChild(element, "null-value") != null) return "null-value";
+		if("attribute-names".equals(xmlname)) //$NON-NLS-1$
+			return loadArray(element, "attribute-name"); //$NON-NLS-1$
+		if("redirect".equals(xmlname)) //$NON-NLS-1$
+			return (XMLUtil.getUniqueChild(element, "redirect") != null) ? "yes" : "no"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if("value.#text".equals(xmlname)) { //$NON-NLS-1$
+		   if(XMLUtil.getUniqueChild(element, "null-value") != null) return "null-value"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return super.getAttribute(element, xmlname, attr);
 	}
 
 	public void saveAttribute(Element element, String xmlname, String value) {
-		if("redirect".equals(xmlname)) {
-			if("yes".equals(value)) XMLUtil.createElement(element, "redirect");
-		} else if("value.#text".equals(xmlname) && "null-value".equals(value)) {
-			XMLUtil.createElement(element, "null-value");
-		} else if("attribute-names".equals(xmlname)) {
-			saveArray(element, "attribute-name", value);
+		if("redirect".equals(xmlname)) { //$NON-NLS-1$
+			if("yes".equals(value)) XMLUtil.createElement(element, "redirect"); //$NON-NLS-1$ //$NON-NLS-2$
+		} else if("value.#text".equals(xmlname) && "null-value".equals(value)) { //$NON-NLS-1$ //$NON-NLS-2$
+			XMLUtil.createElement(element, "null-value"); //$NON-NLS-1$
+		} else if("attribute-names".equals(xmlname)) { //$NON-NLS-1$
+			saveArray(element, "attribute-name", value); //$NON-NLS-1$
 		} else {
 			super.saveAttribute(element, xmlname, value);
 		}
@@ -320,62 +320,62 @@ class SFUtil extends XModelObjectLoaderUtil {
 	public void saveAttributes(Element element, XModelObject o) {
 		super.saveAttributes(element, o);
 		String entity = o.getModelEntity().getName();
-		if("JSFConverter".equals(entity)) {
-			eitherOr(element, "converter-for-class", "converter-id");
-		} else if("JSFListEntry".equals(entity) || "JSFMapEntry".equals(entity)) {
-			if("true".equals(o.getAttributeValue("null-value"))) {
-				XMLUtil.createElement(element, "null-value");
+		if("JSFConverter".equals(entity)) { //$NON-NLS-1$
+			eitherOr(element, "converter-for-class", "converter-id"); //$NON-NLS-1$ //$NON-NLS-2$
+		} else if("JSFListEntry".equals(entity) || "JSFMapEntry".equals(entity)) { //$NON-NLS-1$ //$NON-NLS-2$
+			if("true".equals(o.getAttributeValue("null-value"))) { //$NON-NLS-1$ //$NON-NLS-2$
+				XMLUtil.createElement(element, "null-value"); //$NON-NLS-1$
 			} else {
-				super.saveAttribute(element, "value.#text", o.getAttributeValue("value"));
+				super.saveAttribute(element, "value.#text", o.getAttributeValue("value")); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 	}
 	
 	void loadManagedBeanChildren(Element element, XModelObject o) {
-		Element ce = XMLUtil.getUniqueChild(element, "list-entries");
+		Element ce = XMLUtil.getUniqueChild(element, "list-entries"); //$NON-NLS-1$
 		if(ce != null) {
-			o.setAttributeValue("content-kind", "list-entries");
-			XModelObject c = o.getChildByPath("Entries");
+			o.setAttributeValue("content-kind", "list-entries"); //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = o.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c != null) load(ce, c);
 			return;
 		}
-		ce = XMLUtil.getUniqueChild(element, "map-entries");
+		ce = XMLUtil.getUniqueChild(element, "map-entries"); //$NON-NLS-1$
 		if(ce != null) {
-			o.setAttributeValue("content-kind", "map-entries");
-			XModelObject c = o.getChildByPath("Entries");
+			o.setAttributeValue("content-kind", "map-entries"); //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = o.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c != null) load(ce, c);
 			return;
 		}
-		o.setAttributeValue("content-kind", "properties");
+		o.setAttributeValue("content-kind", "properties"); //$NON-NLS-1$ //$NON-NLS-2$
 		super.loadChildren(element, o);
 	}
 
 	void loadManagedPropertyChildren(Element element, XModelObject o) {
-		Element ce = XMLUtil.getUniqueChild(element, "null-value");
+		Element ce = XMLUtil.getUniqueChild(element, "null-value"); //$NON-NLS-1$
 		if(ce != null) {
-			o.setAttributeValue("value-kind", "null-value");
-			o.setAttributeValue("value", "");
+			o.setAttributeValue("value-kind", "null-value"); //$NON-NLS-1$ //$NON-NLS-2$
+			o.setAttributeValue("value", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
-		ce = XMLUtil.getUniqueChild(element, "list-entries");
+		ce = XMLUtil.getUniqueChild(element, "list-entries"); //$NON-NLS-1$
 		if(ce != null) {
-			o.setAttributeValue("value-kind", "list-entries");
-			o.setAttributeValue("value", "");
-			XModelObject c = o.getChildByPath("Entries");
+			o.setAttributeValue("value-kind", "list-entries"); //$NON-NLS-1$ //$NON-NLS-2$
+			o.setAttributeValue("value", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = o.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c != null) load(ce, c);
 			return;
 		}
-		ce = XMLUtil.getUniqueChild(element, "map-entries");
+		ce = XMLUtil.getUniqueChild(element, "map-entries"); //$NON-NLS-1$
 		if(ce != null) {
-			o.setAttributeValue("value-kind", "map-entries");
-			o.setAttributeValue("value", "");
-			XModelObject c = o.getChildByPath("Entries");
+			o.setAttributeValue("value-kind", "map-entries"); //$NON-NLS-1$ //$NON-NLS-2$
+			o.setAttributeValue("value", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = o.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c != null) load(ce, c);
 			return;
 		}
-		String v = getAttribute(element, "value.#text");
-		o.setAttributeValue("value-kind", "value");
-		o.setAttributeValue("value", v);
+		String v = getAttribute(element, "value.#text"); //$NON-NLS-1$
+		o.setAttributeValue("value-kind", "value"); //$NON-NLS-1$ //$NON-NLS-2$
+		o.setAttributeValue("value", v); //$NON-NLS-1$
 	}
 
 	void loadListEntriesChildren(Element element, XModelObject o) {
@@ -384,13 +384,13 @@ class SFUtil extends XModelObjectLoaderUtil {
 			Node n = nl.item(i);
 			if(n.getNodeType() != Node.ELEMENT_NODE) continue;
 			String name = n.getNodeName();
-			if(!"null-value".equals(name) && !"value".equals(name)) continue;
-			XModelObject c = o.getModel().createModelObject("JSFListEntry", null);
-			if("null-value".equals(name)) {
-				c.setAttributeValue("null-value", "true");
+			if(!"null-value".equals(name) && !"value".equals(name)) continue; //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = o.getModel().createModelObject("JSFListEntry", null); //$NON-NLS-1$
+			if("null-value".equals(name)) { //$NON-NLS-1$
+				c.setAttributeValue("null-value", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
-				c.setAttributeValue("null-value", "false");
-				c.setAttributeValue("value", getAttribute((Element)n, "#text"));
+				c.setAttributeValue("null-value", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+				c.setAttributeValue("value", getAttribute((Element)n, "#text")); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			o.addChild(c);
 		}
@@ -401,17 +401,17 @@ class SFUtil extends XModelObjectLoaderUtil {
 	}
 
 	void saveManagedPropertyChildren(Element element, XModelObject o) {
-		String kind = o.getAttributeValue("value-kind");
-		if("null-value".equals(kind)) {
-			XMLUtil.createElement(element, "null-value");
-		} else if("value".equals(kind)) {
-			super.saveAttribute(element, "value.#text", o.getAttributeValue("value"));
+		String kind = o.getAttributeValue("value-kind"); //$NON-NLS-1$
+		if("null-value".equals(kind)) { //$NON-NLS-1$
+			XMLUtil.createElement(element, "null-value"); //$NON-NLS-1$
+		} else if("value".equals(kind)) { //$NON-NLS-1$
+			super.saveAttribute(element, "value.#text", o.getAttributeValue("value")); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
-			XModelObject c = o.getChildByPath("Entries");
+			XModelObject c = o.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c != null) {
 				super.saveChildren(element, o);
 			} else {
-				XMLUtil.createElement(element, "null-value");
+				XMLUtil.createElement(element, "null-value"); //$NON-NLS-1$
 			}
 		}		
 	}
@@ -419,12 +419,12 @@ class SFUtil extends XModelObjectLoaderUtil {
 	void saveListEntriesChildren(Element element, XModelObject o) {
 		XModelObject[] cs = o.getChildren();
 		for (int i = 0; i < cs.length; i++) {
-			boolean isNullValue = "true".equals(cs[i].getAttributeValue("null-value"));
+			boolean isNullValue = "true".equals(cs[i].getAttributeValue("null-value")); //$NON-NLS-1$ //$NON-NLS-2$
 			if(isNullValue) {
-				XMLUtil.createElement(element, "null-value");
+				XMLUtil.createElement(element, "null-value"); //$NON-NLS-1$
 			} else {
-				Element ce = XMLUtil.createElement(element, "value");
-				saveAttribute(ce, "#text", cs[i].getAttributeValue("value"));
+				Element ce = XMLUtil.createElement(element, "value"); //$NON-NLS-1$
+				saveAttribute(ce, "#text", cs[i].getAttributeValue("value")); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		} 
 	}

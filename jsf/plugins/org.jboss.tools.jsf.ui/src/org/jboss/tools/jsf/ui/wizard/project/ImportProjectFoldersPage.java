@@ -66,18 +66,18 @@ public class ImportProjectFoldersPage extends WizardPage {
 		appRegister.setEnabling(false);
 		XEntityData entityData = XEntityDataImpl.create(
 			new String[][] {
-				{ImportProjectWizardContext.PAGE_FOLDERS, ""},
-				{"web root", "yes"},
-				{"src", ""},
-				{ATTRIBUTES[0], ""},
-				{ATTRIBUTES[1], ""},
-				{ATTRIBUTES[2], ""},
-				{ATTRIBUTES[3], ""},
-				{ATTRIBUTES[4], ""}
+				{ImportProjectWizardContext.PAGE_FOLDERS, ""}, //$NON-NLS-1$
+				{"web root", "yes"}, //$NON-NLS-1$ //$NON-NLS-2$
+				{"src", ""}, //$NON-NLS-1$ //$NON-NLS-2$
+				{ATTRIBUTES[0], ""}, //$NON-NLS-1$
+				{ATTRIBUTES[1], ""}, //$NON-NLS-1$
+				{ATTRIBUTES[2], ""}, //$NON-NLS-1$
+				{ATTRIBUTES[3], ""}, //$NON-NLS-1$
+				{ATTRIBUTES[4], ""} //$NON-NLS-1$
 			}
 		);
 		XAttributeData[] ad = entityData.getAttributeData();
-		for (int i = 0; i < ad.length; i++) ad[i].setValue("");
+		for (int i = 0; i < ad.length; i++) ad[i].setValue(""); //$NON-NLS-1$
 
 		context.setServletVersion(JSFPreference.DEFAULT_JSF_IMPORT_SERVLET_VERSION.getValue());
 		
@@ -92,8 +92,8 @@ public class ImportProjectFoldersPage extends WizardPage {
 		support = new XAttributeSupport(ModelUtilities.getPreferenceModel().getRoot(), entityData);
 		support.setLayout(getLayoutForSupport());
 		
-		webrootLocationAdapter = support.getPropertyEditorAdapterByName("web root");
-		srcLocationAdapter = support.getPropertyEditorAdapterByName("src");
+		webrootLocationAdapter = support.getPropertyEditorAdapterByName("web root"); //$NON-NLS-1$
+		srcLocationAdapter = support.getPropertyEditorAdapterByName("src"); //$NON-NLS-1$
 		classesLocationAdapter = support.getPropertyEditorAdapterByName(ImportProjectWizardContext.ATTR_CLASSES);
 		libLocationAdapter = support.getPropertyEditorAdapterByName(ImportProjectWizardContext.ATTR_LIB);
 		addLibAdapter = support.getPropertyEditorAdapterByName(ImportProjectWizardContext.ATTR_ADD_LIB);
@@ -151,11 +151,11 @@ public class ImportProjectFoldersPage extends WizardPage {
 			lock = true;
 
 			webrootLocationAdapter.setValue(context.getWebRootPath());
-			srcLocationAdapter.setValue(context.getModules()[0].getAttributeValue("java src"));
+			srcLocationAdapter.setValue(context.getModules()[0].getAttributeValue("java src")); //$NON-NLS-1$
 
 			classesLocationAdapter.setValue(context.getClassesLocation());
 			libLocationAdapter.setValue(context.getLibLocation());
-			addLibAdapter.setValue("" + context.getAddLibraries());
+			addLibAdapter.setValue("" + context.getAddLibraries()); //$NON-NLS-1$
 			versionAdapter.setValue(context.getTemplateVersion());
 			servletVersionAdapter.setValue(context.getServletVersion());
 			for (int i = 0; i < ATTRIBUTES.length; i++) {
@@ -193,15 +193,15 @@ public class ImportProjectFoldersPage extends WizardPage {
 	}
 
 	private void updateContext() {
-		context.getModules()[0].setAttributeValue("root", webrootLocationAdapter.getStringValue(false));
-		context.getModules()[0].setAttributeValue("java src", srcLocationAdapter.getStringValue(false));
+		context.getModules()[0].setAttributeValue("root", webrootLocationAdapter.getStringValue(false)); //$NON-NLS-1$
+		context.getModules()[0].setAttributeValue("java src", srcLocationAdapter.getStringValue(false)); //$NON-NLS-1$
 		
 		context.setClassesLocation(classesLocationAdapter.getStringValue(false));
 		context.setLibLocation(libLocationAdapter.getStringValue(false));
-		context.setAddLibraries("true".equals(addLibAdapter.getStringValue(true)));
+		context.setAddLibraries("true".equals(addLibAdapter.getStringValue(true))); //$NON-NLS-1$
 		context.setTemplateVersion(versionAdapter.getStringValue(true));
 		context.setServletVersion(servletVersionAdapter.getStringValue(true));
-		context.setBuildXmlLocation(""/*buildXmlLocationAdapter.getStringValue(false)*/);
+		context.setBuildXmlLocation(""/*buildXmlLocationAdapter.getStringValue(false)*/); //$NON-NLS-1$
 	}
 	
 	public void validate() {
@@ -228,7 +228,7 @@ public class ImportProjectFoldersPage extends WizardPage {
 		String srcLocation = srcLocationAdapter.getStringValue(true);
 		if(srcLocation.length() == 0) {
 			String webRootLocation = webrootLocationAdapter.getStringValue(true);
-			DirectoryFieldEditorEx srcField = (DirectoryFieldEditorEx)support.getFieldEditorByName("src");
+			DirectoryFieldEditorEx srcField = (DirectoryFieldEditorEx)support.getFieldEditorByName("src"); //$NON-NLS-1$
 			if(webRootLocation.length() > 0 && srcField != null) {
 				srcField.setLastPath(webRootLocation);
 			}
@@ -250,8 +250,8 @@ public class ImportProjectFoldersPage extends WizardPage {
 	}
 	
 	protected void setDependencies() {
-		boolean b = "true".equals(addLibAdapter.getStringValue(true));
-		FieldEditor f = support.getFieldEditorByName("version");
+		boolean b = "true".equals(addLibAdapter.getStringValue(true)); //$NON-NLS-1$
+		FieldEditor f = support.getFieldEditorByName("version"); //$NON-NLS-1$
 		f.setEnabled(b, supportControl);		
 	}
 	

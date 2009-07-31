@@ -34,9 +34,9 @@ public class Group extends JSFElement implements IGroup, IJSFElementListListener
 			0x00, 0x00);
 	public static final Color DEFAULT_BACKGROUND_COLOR = new Color(null, 0xE4,
 			0xE4, 0xE4);
-	public static String TYPE_PROPERTY = "type";
-	public static String SUBTYPE_PROPERTY = "subtype";
-	public static String COMMENT_PROPERTY = "comment";
+	public static String TYPE_PROPERTY = "type"; //$NON-NLS-1$
+	public static String SUBTYPE_PROPERTY = "subtype"; //$NON-NLS-1$
+	public static String COMMENT_PROPERTY = "comment"; //$NON-NLS-1$
 
 	protected Color headerForegroundColor = DEFAULT_FOREGROUND_COLOR;
 	protected Color headerBackgroundColor = DEFAULT_BACKGROUND_COLOR;
@@ -105,7 +105,7 @@ public class Group extends JSFElement implements IGroup, IJSFElementListListener
 	}
 
 	public String getViewClassName() {
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public String getVisiblePath() {
@@ -130,7 +130,7 @@ public class Group extends JSFElement implements IGroup, IJSFElementListListener
 		boolean oldValue = selected;
 		selected = set;
 		this.propertyChangeSupport
-				.firePropertyChange("selected", oldValue, set);
+				.firePropertyChange("selected", oldValue, set); //$NON-NLS-1$
 		if (set)
 			this.getJSFModel().setSelectedProcessItem(this);
 	}
@@ -313,12 +313,12 @@ public class Group extends JSFElement implements IGroup, IJSFElementListListener
 
 	public void nodeChanged(Object eventData) {
 		fireGroupChange();
-		this.propertyChangeSupport.firePropertyChange("name", "", this
-				.getSourceProperty("name"));
-		this.propertyChangeSupport.firePropertyChange("shape", "", this
-				.getSourceProperty("shape"));
-		this.propertyChangeSupport.firePropertyChange("path", "", this
-				.getSourceProperty("path"));
+		this.propertyChangeSupport.firePropertyChange("name", "", this //$NON-NLS-1$ //$NON-NLS-2$
+				.getSourceProperty("name")); //$NON-NLS-1$
+		this.propertyChangeSupport.firePropertyChange("shape", "", this //$NON-NLS-1$ //$NON-NLS-2$
+				.getSourceProperty("shape")); //$NON-NLS-1$
+		this.propertyChangeSupport.firePropertyChange("path", "", this //$NON-NLS-1$ //$NON-NLS-2$
+				.getSourceProperty("path")); //$NON-NLS-1$
 	}
 
 	public class PageList extends JSFElementList {

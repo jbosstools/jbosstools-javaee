@@ -17,7 +17,7 @@ import org.jboss.tools.jst.web.ui.action.ServerXmlActionDelegate;
 public class UnregisterFromServerXmlActionDelegate extends ServerXmlActionDelegate {
 	
 	protected String getActionPath() {
-		return "Registration.UnregisterInServerXML";
+		return "Registration.UnregisterInServerXML"; //$NON-NLS-1$
 	}
 
 	protected boolean isRelevantProject(IProject project) {

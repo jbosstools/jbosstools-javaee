@@ -20,7 +20,7 @@ public class ReconnectSourceLinkCommand	extends Command{
 		static ILink child = null;
 	
 	public ReconnectSourceLinkCommand(){
-		super("ReconnectSourceLinkCommand");
+		super("ReconnectSourceLinkCommand"); //$NON-NLS-1$
 	}
 	
 	public void setLink(ILink child){

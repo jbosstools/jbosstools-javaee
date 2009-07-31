@@ -19,7 +19,7 @@ import org.jboss.tools.jst.web.tld.model.handlers.CreateInCollapsedHandler;
 public class AddTagHandler extends CreateInCollapsedHandler {
 
     protected XModelObject modifyCreatedObject(XModelObject o) {
-    	XModelObject c = o.getModel().createModelObject("FaceletTaglibHandler", null);
+    	XModelObject c = o.getModel().createModelObject("FaceletTaglibHandler", null); //$NON-NLS-1$
     	o.addChild(c);
     	return o;
     }

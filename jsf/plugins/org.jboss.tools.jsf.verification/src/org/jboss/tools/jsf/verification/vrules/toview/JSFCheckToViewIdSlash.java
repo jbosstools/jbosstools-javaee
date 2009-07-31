@@ -19,7 +19,7 @@ public class JSFCheckToViewIdSlash extends JSFDefaultCheck implements JSFConstan
 	public VResult[] check(VObject object) {
 		String attr = (String)object.getAttribute(ATT_TO_VIEW_ID);
 		if(attr == null || attr.length() == 0) return null;
-		if(attr.startsWith("/")) return null;
+		if(attr.startsWith("/")) return null; //$NON-NLS-1$
 		return fire(object, ATT_TO_VIEW_ID, ATT_TO_VIEW_ID, null);
 	}
 

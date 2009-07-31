@@ -25,7 +25,7 @@ public class DependencyEditorAdapter extends DefaultValueAdapter implements IAct
 	}
 	
 	public String getCommand() {
-		return "...";
+		return "..."; //$NON-NLS-1$
 	}
 	
 	public String invoke0(Control control) {

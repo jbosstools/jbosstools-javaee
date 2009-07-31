@@ -18,7 +18,7 @@ public class ChangeToValueSupport extends SpecialWizardSupport {
 
 	public boolean isEnabled(XModelObject target) {
 		if(!super.isEnabled(target)) return false;
-		String toKind = action.getProperty("value-kind");
+		String toKind = action.getProperty("value-kind"); //$NON-NLS-1$
 		return ChangeValueKindHandler.isNewValueKind(target, toKind);
 	}
 
@@ -26,9 +26,9 @@ public class ChangeToValueSupport extends SpecialWizardSupport {
 		if(!ChangeValueKindHandler.checkChangeSignificance(getTarget())) {
 			setFinished(true);
 		} else {
-			String kind = getTarget().getAttributeValue("value-kind");
-			String value = (!"value".equals(kind)) ? "" : getTarget().getAttributeValue("value");
-			setAttributeValue(0, "value", value);
+			String kind = getTarget().getAttributeValue("value-kind"); //$NON-NLS-1$
+			String value = (!"value".equals(kind)) ? "" : getTarget().getAttributeValue("value"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			setAttributeValue(0, "value", value); //$NON-NLS-1$
 		}
 	}
 
@@ -49,8 +49,8 @@ public class ChangeToValueSupport extends SpecialWizardSupport {
 	
 	void execute() throws XModelException {
 		Properties p = extractStepData(0);
-		getTarget().getModel().changeObjectAttribute(getTarget(), "value-kind", "value");
-		getTarget().getModel().changeObjectAttribute(getTarget(), "value", p.getProperty("value"));
+		getTarget().getModel().changeObjectAttribute(getTarget(), "value-kind", "value"); //$NON-NLS-1$ //$NON-NLS-2$
+		getTarget().getModel().changeObjectAttribute(getTarget(), "value", p.getProperty("value")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

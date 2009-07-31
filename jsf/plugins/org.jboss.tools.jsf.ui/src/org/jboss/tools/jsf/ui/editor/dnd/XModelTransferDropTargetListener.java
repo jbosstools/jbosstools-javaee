@@ -94,8 +94,8 @@ public class XModelTransferDropTargetListener implements TransferDropTargetListe
 				event.currentDataType)) {
 			Properties properties = new Properties();
 			if (point != null) {
-				properties.put("process.mouse.x", "" + point.x);
-				properties.put("process.mouse.y", "" + point.y);
+				properties.put("process.mouse.x", "" + point.x); //$NON-NLS-1$ //$NON-NLS-2$
+				properties.put("process.mouse.y", "" + point.y); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
 			JSFXModelUtil.addRule((XModelObject) editor.getJSFModel().getSource(), properties);

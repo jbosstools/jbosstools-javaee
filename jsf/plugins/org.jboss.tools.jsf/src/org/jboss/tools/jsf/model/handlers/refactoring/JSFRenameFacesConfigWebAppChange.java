@@ -48,8 +48,8 @@ public class JSFRenameFacesConfigWebAppChange extends Change {
 
 	public Change perform(IProgressMonitor pm) throws CoreException {
 		String path = WebProject.getInstance(folder.getModel()).getPathInWebRoot(folder);
-		if(path == null) path = "" + XModelObjectLoaderUtil.getResourcePath(folder);
-		if(!path.startsWith("/")) path += "/";
+		if(path == null) path = "" + XModelObjectLoaderUtil.getResourcePath(folder); //$NON-NLS-1$
+		if(!path.startsWith("/")) path += "/"; //$NON-NLS-1$ //$NON-NLS-2$
 		path += newName;
 		if(folder instanceof FolderImpl) ((FolderImpl)folder).update();
 		folder.getModel().update();

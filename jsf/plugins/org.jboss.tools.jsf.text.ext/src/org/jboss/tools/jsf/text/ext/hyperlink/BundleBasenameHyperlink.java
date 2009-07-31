@@ -54,9 +54,9 @@ import org.w3c.dom.Text;
  * @author Jeremy
  */
 public class BundleBasenameHyperlink extends ClassHyperlink {
-	private static final String FILESYSTEMS = "/FileSystems/";
-	private static final String LIB = "/lib-";
-	private static final String SEPARATOR = "/";
+	private static final String FILESYSTEMS = "/FileSystems/"; //$NON-NLS-1$
+	private static final String LIB = "/lib-"; //$NON-NLS-1$
+	private static final String SEPARATOR = "/"; //$NON-NLS-1$
 	
 	protected void doHyperlink(IRegion region) {
 		try {
@@ -66,7 +66,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 				// Open XModelObject in editor
 				FindObjectHelper.findModelObject(mo, FindObjectHelper.IN_EDITOR_ONLY);
 			} else {
-				IFile fileToOpen = getFileToOpen(fileName, "properties");
+				IFile fileToOpen = getFileToOpen(fileName, "properties"); //$NON-NLS-1$
 				if (fileToOpen != null) {
 					IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IDE.openEditor(workbenchPage,fileToOpen,true);
@@ -85,7 +85,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		try {
 			return getDocument().get(region.getOffset(), region.getLength());
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -102,7 +102,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		if (jsfProjectsRoot == null)
 			return null;
 		
-		XModelObject rbObjects = jsfProjectsRoot.getChildByPath("Resource Bundles");
+		XModelObject rbObjects = jsfProjectsRoot.getChildByPath("Resource Bundles"); //$NON-NLS-1$
 		if (!(rbObjects instanceof WebProjectNode))
 			return null;
 		
@@ -158,10 +158,10 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		ArrayList<String> langs = new ArrayList<String>();  
 		
 		XModelObject lcObject = (fcObject != null ? 
-				fcObject.getChildByPath("application/Locale Config") : null);
+				fcObject.getChildByPath("application/Locale Config") : null); //$NON-NLS-1$
 		
 		String defLocale = (lcObject != null ? 
-				lcObject.getAttributeValue("default-locale") : null);
+				lcObject.getAttributeValue("default-locale") : null); //$NON-NLS-1$
 		if (defLocale != null && defLocale.trim().length() > 0) {
 			String locale = defLocale.trim().replace('-', '_');
 			if (!allLocales.contains(locale)) {
@@ -215,7 +215,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 				lcObject.getChildren() : null);
 		
 		for (int i = 0; lcChildren != null && i < lcChildren.length; i++) {
-			String supLocale = lcChildren[i].getAttributeValue("supported-locale");
+			String supLocale = lcChildren[i].getAttributeValue("supported-locale"); //$NON-NLS-1$
 			if (supLocale != null && supLocale.trim().length() > 0) {
 				String locale = supLocale.trim().replace('-', '_');
 
@@ -242,7 +242,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		
 		// Add all the collected locales in form <lang> and an empty locale
 		supportedLocales.addAll(langs);
-		supportedLocales.add("");
+		supportedLocales.add(""); //$NON-NLS-1$
 		return supportedLocales.toArray(new String[0]);
 	}
 	
@@ -277,8 +277,8 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 			String[] orderedLocales = getOrderedLocales(fcObject);
 			XModelObject[] bundles = getBundles(fcObject);
 			for (int l = 0; orderedLocales != null && l < orderedLocales.length; l++) {
-				String name = fileName + (orderedLocales[l].length() == 0 ? "" :
-								"_" + orderedLocales[l]);
+				String name = fileName + (orderedLocales[l].length() == 0 ? "" : //$NON-NLS-1$
+								"_" + orderedLocales[l]); //$NON-NLS-1$
 
 				for (int i = 0; bundles != null && i < bundles.length; i++) {
 					String bundleName = XModelObjectLoaderUtil.getResourcePath(bundles[i]);
@@ -301,13 +301,13 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		String[] bundles = getBundles();
 
 		for (int l = 0; orderedLocales != null && l < orderedLocales.length; l++) {
-			String name = fileName + (orderedLocales[l].length() == 0 ? "" :
-							"_" + orderedLocales[l]);
+			String name = fileName + (orderedLocales[l].length() == 0 ? "" : //$NON-NLS-1$
+							"_" + orderedLocales[l]); //$NON-NLS-1$
 
 			for (int i = 0; bundles != null && i < bundles.length; i++) {
 				if (bundles[i].equals(name)) {
 					IFile file = findFile(name.replace('.','/')+
-			                (fileExt != null ? "." + fileExt : ""));
+			                (fileExt != null ? "." + fileExt : "")); //$NON-NLS-1$ //$NON-NLS-2$
 					if (file != null)
 						return file;
 				}
@@ -327,12 +327,12 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
 			for (int i = 0; i < es.length; i++) {
 				if(es[i].getEntryKind() != IClasspathEntry.CPE_SOURCE) continue;
-				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name);
+				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name); //$NON-NLS-1$
 				if(file != null && file.exists()) return file;
 			}
 			return null;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -342,7 +342,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		try {	
 			IProject project = documentFile.getProject();
 			
-			String name = fileName.replace('.','/')+ (fileExt != null ? "." + fileExt : "");
+			String name = fileName.replace('.','/')+ (fileExt != null ? "." + fileExt : ""); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			if(project == null || !project.isOpen()) return null;
 			if(!project.hasNature(JavaCore.NATURE_ID)) return null;
@@ -350,12 +350,12 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
 			for (int i = 0; i < es.length; i++) {
 				if(es[i].getEntryKind() != IClasspathEntry.CPE_SOURCE) continue;
-				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name);
+				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name); //$NON-NLS-1$
 				if(file != null && file.exists()) return file;
 			}
 			return null;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 
@@ -410,7 +410,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 	
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

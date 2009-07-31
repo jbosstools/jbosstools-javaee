@@ -31,14 +31,14 @@ public class DndHelper{
 		if (source == null)
 			return false;
 		XAction copy = (XAction) DnDUtil.getEnabledAction(
-				(XModelObject) source, null, "CopyActions.Copy");
+				(XModelObject) source, null, "CopyActions.Copy"); //$NON-NLS-1$
 		if (copy == null)
 			return false;
 		XModelTransferBuffer.getInstance().enable();
 		Properties properties = new Properties();
-		properties.setProperty("isDrop", "true");
-		properties.setProperty("isDrag", "true");
-		properties.setProperty("actionSourceGUIComponentID", "editor");
+		properties.setProperty("isDrop", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		properties.setProperty("isDrag", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		properties.setProperty("actionSourceGUIComponentID", "editor"); //$NON-NLS-1$ //$NON-NLS-2$
 		try {
 			copy.executeHandler((XModelObject) source, properties);
 		} catch (XModelException e) {
@@ -57,11 +57,11 @@ public class DndHelper{
 		if (target == null)
 			return;
 		Properties properties = new Properties();
-		properties.setProperty("isDrop", "true");
-		properties.setProperty("actionSourceGUIComponentID", "editor");
+		properties.setProperty("isDrop", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		properties.setProperty("actionSourceGUIComponentID", "editor"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (point != null) {
-			properties.put("process.mouse.x", "" + point.x);
-			properties.put("process.mouse.y", "" + point.y);
+			properties.put("process.mouse.x", "" + point.x); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.put("process.mouse.y", "" + point.y); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		try {
 			DnDUtil.paste((XModelObject) target, properties);

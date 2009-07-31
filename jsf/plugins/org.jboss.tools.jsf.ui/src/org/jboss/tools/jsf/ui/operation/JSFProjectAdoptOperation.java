@@ -70,7 +70,7 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 			if(projectFile.isFile()) {
 				XJob.addRunnable(new XJob.XRunnable() {
 					public String getId() {
-						return "Remove temporary working files.";
+						return "Remove temporary working files."; //$NON-NLS-1$
 					}
 					public void run() {
 						IFile f = EclipseResourceUtil.getFile(projectFile
@@ -110,7 +110,7 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 
 	
     private File getEclipseFile() {
-		String fn = getProject().getLocation().toString() + "/" + IModelNature.PROJECT_FILE;
+		String fn = getProject().getLocation().toString() + "/" + IModelNature.PROJECT_FILE; //$NON-NLS-1$
 		File f = new File(fn);
 		if(f.exists()) return f;
 		return null;

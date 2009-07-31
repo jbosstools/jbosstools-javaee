@@ -59,12 +59,12 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 	}
 
 	protected String getLibLocation() {
-		FileSystemImpl fs = (FileSystemImpl)FileSystemsHelper.getFileSystem(templateModel, "lib");
+		FileSystemImpl fs = (FileSystemImpl)FileSystemsHelper.getFileSystem(templateModel, "lib"); //$NON-NLS-1$
 		if(fs != null) {
 			return fs.getAbsoluteLocation();
 		}
 		fs = (FileSystemImpl)FileSystemsHelper.getWebInf(templateModel);
-		return fs.getAbsoluteLocation() + "/lib";
+		return fs.getAbsoluteLocation() + "/lib"; //$NON-NLS-1$
 	}
 	
 	protected void copyTemplate() throws Exception {
@@ -99,13 +99,13 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < servletJars.length; sb.append(servletJars[i++]).append(';'));
 		Properties buildProperties = new Properties();
-		buildProperties.setProperty("classpath.external", sb.toString());
+		buildProperties.setProperty("classpath.external", sb.toString()); //$NON-NLS-1$
 
-		File antDir = new File(location2 + "/ant");
+		File antDir = new File(location2 + "/ant"); //$NON-NLS-1$
 		if(!antDir.exists()) antDir.mkdirs();
-		OutputStream propFile =	new BufferedOutputStream(new FileOutputStream(location2 + "/ant/build.properties"));
+		OutputStream propFile =	new BufferedOutputStream(new FileOutputStream(location2 + "/ant/build.properties")); //$NON-NLS-1$
 		try {		
-			buildProperties.store(propFile, "");
+			buildProperties.store(propFile, ""); //$NON-NLS-1$
 		} finally {			
 			propFile.close();
 		}

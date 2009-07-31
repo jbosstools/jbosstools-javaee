@@ -32,8 +32,8 @@ public class ImportJSFWarWizard extends ImportWebWarWizard {
 			context = new ImportJSFWarContext();
 			context.setTarget(XModelFactory.getDefaultInstance().getRoot());
 			installMainPage();
-		} else {
-			addPage(new MessageWizardPage(WizardKeys.getString(ImportProjectWizard.IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE),"no license"));	
+		} else { // dead code
+			addPage(new MessageWizardPage(WizardKeys.getString(ImportProjectWizard.IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE),"no license"));	 //$NON-NLS-1$
 		}
 	}
 	protected IRunnableWithProgress createOperation() {

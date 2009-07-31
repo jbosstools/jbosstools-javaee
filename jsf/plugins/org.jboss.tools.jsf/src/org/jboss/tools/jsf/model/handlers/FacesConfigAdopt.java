@@ -31,26 +31,26 @@ public class FacesConfigAdopt implements XAdoptManager {
 	}
 
     protected boolean isAdoptableBundle(XModelObject object) {
-        return "FilePROPERTIES".equals(object.getModelEntity().getName());
+        return "FilePROPERTIES".equals(object.getModelEntity().getName()); //$NON-NLS-1$
     }
 
 	public void adoptPage(XModelObject target, XModelObject object, Properties p) {
 		if(p == null) return;
 		String res = XModelObjectLoaderUtil.getResourcePath(object);
 		if(res == null) return;
-		p.setProperty("start text", res);
-		p.setProperty("end text", "");
+		p.setProperty("start text", res); //$NON-NLS-1$
+		p.setProperty("end text", ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void adoptBundle(XModelObject target, XModelObject object, Properties p) {
 		if(p == null) return;
 		String res = XModelObjectLoaderUtil.getResourcePath(object);
 		if(res == null) return;
-		if(res != null && res.endsWith(".properties")) {
+		if(res != null && res.endsWith(".properties")) { //$NON-NLS-1$
 			res = res.substring(1, res.length() - 11).replace('/', '.');
 		}
-		p.setProperty("start text", res);
-		p.setProperty("end text", "");
+		p.setProperty("start text", res); //$NON-NLS-1$
+		p.setProperty("end text", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
 	}
 

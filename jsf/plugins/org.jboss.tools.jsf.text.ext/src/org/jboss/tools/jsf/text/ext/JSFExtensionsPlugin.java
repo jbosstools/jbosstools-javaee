@@ -29,7 +29,7 @@ public class JSFExtensionsPlugin  extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext"; 
+	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext";  //$NON-NLS-1$
 
 	
 	/**
@@ -38,7 +38,7 @@ public class JSFExtensionsPlugin  extends AbstractUIPlugin {
 	public JSFExtensionsPlugin() {
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin");
+			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
@@ -89,7 +89,7 @@ public class JSFExtensionsPlugin  extends AbstractUIPlugin {
 		JSFExtensionsPlugin.getDefault().getLog().log(new Status(Status.ERROR, JSFExtensionsPlugin.PLUGIN_ID, Status.OK, message, exception));		
 	}
 	static public void log(Exception ex) {
-		JSFExtensionsPlugin.getDefault().getLog().log(new Status(Status.ERROR, JSFExtensionsPlugin.PLUGIN_ID, Status.OK, "No message", ex));
+		JSFExtensionsPlugin.getDefault().getLog().log(new Status(Status.ERROR, JSFExtensionsPlugin.PLUGIN_ID, Status.OK, JSFTextExtMessages.JSFExtensionsPlugin_NoMessage, ex));
 	}
 
 }

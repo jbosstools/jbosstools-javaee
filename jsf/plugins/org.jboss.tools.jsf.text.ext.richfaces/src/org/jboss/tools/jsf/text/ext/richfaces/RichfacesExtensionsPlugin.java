@@ -29,7 +29,7 @@ public class RichfacesExtensionsPlugin extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext.richfaces"; 
+	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext.richfaces";  //$NON-NLS-1$
 
 	
 	/**
@@ -38,7 +38,7 @@ public class RichfacesExtensionsPlugin extends AbstractUIPlugin {
 	public RichfacesExtensionsPlugin() {
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.richfaces.RichfacesExtensionsPlugin");
+			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.richfaces.RichfacesExtensionsPlugin"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
@@ -66,7 +66,7 @@ public class RichfacesExtensionsPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.text.ext.richfaces", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.text.ext.richfaces", path); //$NON-NLS-1$
 	}
 	
 	/**

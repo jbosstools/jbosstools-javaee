@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
  */
 public class JsfJSPBundleHyperlinkPartitioner extends JSPBundleHyperlinkPartitioner {
 	
-	private static final String JSF_CORE_URI = "http://java.sun.com/jsf/core";
+	private static final String JSF_CORE_URI = "http://java.sun.com/jsf/core"; //$NON-NLS-1$
 	
 	protected String[] getLoadBundleTagPrefixes(IDocument document, int offset) {
 		return getLoadBundleTagPrefixes(document, new Region(offset, 0));
@@ -93,8 +93,8 @@ public class JsfJSPBundleHyperlinkPartitioner extends JSPBundleHyperlinkPartitio
 				for (int j = 0; attrs != null && j < attrs.getLength(); j++) {
 					Attr a = (Attr) attrs.item(j);
 					String name = a.getName();
-					if (name.startsWith("xmlns:")) {
-						final String prefix = name.substring("xmlns:".length());
+					if (name.startsWith("xmlns:")) { //$NON-NLS-1$
+						final String prefix = name.substring("xmlns:".length()); //$NON-NLS-1$
 						final String uri = a.getValue();
 						if (prefix != null && prefix.trim().length() > 0 &&
 								uri != null && uri.trim().length() > 0) {

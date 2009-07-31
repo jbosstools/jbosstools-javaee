@@ -40,26 +40,26 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 public class AddViewSupport extends SpecialWizardSupport implements JSFConstants {
 	public static String JSF_ADD_VIEW_PATH = JSFPreference.JSF_ADD_VIEW_PATH;
 	JSFTemplate templates = new JSFTemplate();
-	static String LAST_CREATE_FILE_PREFERENCE = "org.jboss.tools.jsf.lastCreateFileValue";
+	static String LAST_CREATE_FILE_PREFERENCE = "org.jboss.tools.jsf.lastCreateFileValue"; //$NON-NLS-1$
 	XModelObject sample;
 	
 	public void reset() {
-		sample = (XModelObject)getProperties().get("sample");
+		sample = (XModelObject)getProperties().get("sample"); //$NON-NLS-1$
 		if(sample != null) {
 			setAttributeValue(0, ATT_FROM_VIEW_ID, sample.getAttributeValue(ATT_PATH));
 		}
 		templates.updatePageTemplates();
 		String[] s = templates.getPageTemplateList();
-		setValueList(0, "template", s);
+		setValueList(0, "template", s); //$NON-NLS-1$
 		//take from preferences
-		setAttributeValue(0, "template", getDefaultTemplate(s));
+		setAttributeValue(0, "template", getDefaultTemplate(s)); //$NON-NLS-1$
 		String last = JSFModelPlugin.getDefault().getPluginPreferences().getString(LAST_CREATE_FILE_PREFERENCE);
 		if(last == null || last.length() == 0) {
-			last = "true";
-		} else if(!"true".equals(last)) {
-			last = "false"; 
+			last = "true"; //$NON-NLS-1$
+		} else if(!"true".equals(last)) { //$NON-NLS-1$
+			last = "false";  //$NON-NLS-1$
 		}
-		setAttributeValue(0, "create file", last);
+		setAttributeValue(0, "create file", last); //$NON-NLS-1$
 	}
 	
 	static XModelObject getPreferenceObject() {
@@ -67,9 +67,9 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 	}
 	
 	public String getDefaultTemplate(String[] list) {
-		if(list.length == 0) return "";
+		if(list.length == 0) return ""; //$NON-NLS-1$
 		XModelObject addView = getPreferenceObject();
-		String v = (addView == null) ? "" : addView.getAttributeValue("Page Template");
+		String v = (addView == null) ? "" : addView.getAttributeValue("Page Template"); //$NON-NLS-1$ //$NON-NLS-2$
 		if(v != null) for (int i = 0; i < list.length; i++) if(v.equals(list[i])) return list[i];
 		return list[0];
 	}
@@ -86,9 +86,9 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 
 	public static String getExtension() {
 		XModelObject addView = getPreferenceObject();
-		String v = (addView == null) ? "" : addView.getAttributeValue("Extension");
-		if(v == null || v.length() == 0) return ".jsp";
-		if(!v.startsWith(".")) v = "." + v;
+		String v = (addView == null) ? "" : addView.getAttributeValue("Extension"); //$NON-NLS-1$ //$NON-NLS-2$
+		if(v == null || v.length() == 0) return ".jsp"; //$NON-NLS-1$
+		if(!v.startsWith(".")) v = "." + v; //$NON-NLS-1$ //$NON-NLS-2$
 		return v;
 	}
 
@@ -106,10 +106,10 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 	}
 
 	protected void execute() throws XModelException {
-		boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
+		boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue()); //$NON-NLS-1$
 		Properties p = extractStepData(0);
-		String path = p.getProperty("from-view-id");
-		path = revalidatePath(path, getAttributeValue(0, "template"));
+		String path = p.getProperty("from-view-id"); //$NON-NLS-1$
+		path = revalidatePath(path, getAttributeValue(0, "template")); //$NON-NLS-1$
 		
 		createFile(path);
 
@@ -145,18 +145,18 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 			String ppi = pp;
 			if(exists && JSFProcessHelper.isPattern(path)) {
 				int index = -1;
-				while(getTarget().getChildByPath(ppi + ":" + index) != null) index--;
-				ppi = ppi + ":" + index;
+				while(getTarget().getChildByPath(ppi + ":" + index) != null) index--; //$NON-NLS-1$
+				ppi = ppi + ":" + index; //$NON-NLS-1$
 			}
 			created.setAttributeValue(JSFConstants.ATT_NAME, ppi);
 			created.setAttributeValue(JSFConstants.ATT_PATH, path);
-			created.setAttributeValue("persistent", "true");
+			created.setAttributeValue("persistent", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 			DefaultCreateHandler.addCreatedObject(getTarget(), created, getProperties());
 		}
 		
 		if(!exists || isPattern) {
 			String shape = getShape();
-			if(created != null && shape != null) created.setAttributeValue("shape", shape);
+			if(created != null && shape != null) created.setAttributeValue("shape", shape); //$NON-NLS-1$
 		}
 		if(created != null) {
 			FindObjectHelper.findModelObject(created, FindObjectHelper.IN_EDITOR_ONLY);
@@ -171,7 +171,7 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		XModelObject[] cs = getTarget().getChildren();
 		for (int i = 0; i < cs.length; i++) {
 			String p = cs[i].getPathPart();
-			if(pp.equals(p) || p.startsWith(pp + ":")) return cs[i];			
+			if(pp.equals(p) || p.startsWith(pp + ":")) return cs[i];			 //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -190,17 +190,17 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 	}
 	
 	private String getShape() {
-		String x = getProperties().getProperty("process.mouse.x");
-		String y = getProperties().getProperty("process.mouse.y");
-		return (x == null || y == null) ? null : x + "," + y + ",0,0";		
+		String x = getProperties().getProperty("process.mouse.x"); //$NON-NLS-1$
+		String y = getProperties().getProperty("process.mouse.y"); //$NON-NLS-1$
+		return (x == null || y == null) ? null : x + "," + y + ",0,0";		 //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public static String revalidatePath(String path) {
 		if(path != null) path = path.trim();
 		if(path == null || path.length() == 0) return path;
-		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
+		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if(path.indexOf('*') >= 0) return path;
-		if(path.indexOf('.') < 0 && !path.endsWith("/")) {
+		if(path.indexOf('.') < 0 && !path.endsWith("/")) { //$NON-NLS-1$
 			path += getExtension();
 		}
 		return path;
@@ -209,29 +209,29 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 	String revalidatePath(String path, String template) {
 		if(path != null) path = path.trim();
 		if(path == null || path.length() == 0) return path;
-		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path;
+		if(!path.startsWith("/") && !path.startsWith("*")) path = "/" + path; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if(path.indexOf('*') >= 0) return path;
-		if(path.indexOf('.') < 0 && !path.endsWith("/")) {
+		if(path.indexOf('.') < 0 && !path.endsWith("/")) { //$NON-NLS-1$
 			path += getExtension(template);
 		}
 		return path;
 	}
 	
 	public boolean canCreateFile(String path) {
-		XModelObject fs = getTarget().getModel().getByPath("FileSystems/WEB-ROOT");
+		XModelObject fs = getTarget().getModel().getByPath("FileSystems/WEB-ROOT"); //$NON-NLS-1$
 		if(fs == null) return false;
-		path = revalidatePath(path, getAttributeValue(0, "template"));
+		path = revalidatePath(path, getAttributeValue(0, "template")); //$NON-NLS-1$
 		if(path == null || path.length() == 0 || path.indexOf('*') >= 0) return false;
 		return isCorrectPath(path) && !fileExists(path);
 	}
 	
-	static String FORBIDDEN_INDICES = "\"\n\t*\\:<>?|";
+	static String FORBIDDEN_INDICES = "\"\n\t*\\:<>?|"; //$NON-NLS-1$
 	
 	static boolean isCorrectPath(String path) {
-		if(path == null || path.equals("/") || path.indexOf("//") >= 0) return false;
-		if(path.endsWith("/") || path.indexOf("../") >= 0) return false;
-		if(path.endsWith("..")) return false;
-		if(path.equals("*")) return true;
+		if(path == null || path.equals("/") || path.indexOf("//") >= 0) return false; //$NON-NLS-1$ //$NON-NLS-2$
+		if(path.endsWith("/") || path.indexOf("../") >= 0) return false; //$NON-NLS-1$ //$NON-NLS-2$
+		if(path.endsWith("..")) return false; //$NON-NLS-1$
+		if(path.equals("*")) return true; //$NON-NLS-1$
 		for (int i = 0; i < FORBIDDEN_INDICES.length(); i++) {
 			if(path.indexOf(FORBIDDEN_INDICES.charAt(i)) >= 0) {
 				return false;
@@ -246,14 +246,14 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 	
 	void createFile(String path) throws XModelException {
 		if(!canCreateFile(path)) return;
-		String lastCreateFileValue = getAttributeValue(0, "create file");
+		String lastCreateFileValue = getAttributeValue(0, "create file"); //$NON-NLS-1$
 		JSFModelPlugin.getDefault().getPluginPreferences().setDefault(LAST_CREATE_FILE_PREFERENCE, lastCreateFileValue);
-		if(!"true".equals(lastCreateFileValue)) return;
-		String template = getAttributeValue(0, "template");
+		if(!"true".equals(lastCreateFileValue)) return; //$NON-NLS-1$
+		String template = getAttributeValue(0, "template"); //$NON-NLS-1$
 		if(template != null) template = template.trim();
 		File fs = (File)templates.getPageTemplates().get(template);
 		if(fs == null || !fs.isFile()) throw new XModelException(NLS.bind(JSFUIMessages.TEMPLATE_IS_NOT_FOUND, template));
-		String location = ((FileSystemImpl)getTarget().getModel().getByPath("FileSystems/WEB-ROOT")).getAbsoluteLocation();
+		String location = ((FileSystemImpl)getTarget().getModel().getByPath("FileSystems/WEB-ROOT")).getAbsoluteLocation(); //$NON-NLS-1$
 		location += path;
 		File ft = new File(location);
 		ft.getParentFile().mkdirs();
@@ -277,14 +277,14 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		public void validate(Properties data) {
 			super.validate(data);
 			if(message != null) return;
-			String path = revalidatePath(data.getProperty("from-view-id"), data.getProperty("template"));
+			String path = revalidatePath(data.getProperty("from-view-id"), data.getProperty("template")); //$NON-NLS-1$ //$NON-NLS-2$
 			if(!isCorrectPath(path)) {
 				message = JSFUIMessages.ATTRIBUTE_FROM_VIEW_ID_IS_NOT_CORRECT;
 			} 
 			if(message != null) return;
 
-			String template = data.getProperty("template");
-			if(template != null && isFieldEditorEnabled(0, "template", data)) {
+			String template = data.getProperty("template"); //$NON-NLS-1$
+			if(template != null && isFieldEditorEnabled(0, "template", data)) { //$NON-NLS-1$
 				if(template.trim().length() == 0) {
 					message = JSFUIMessages.TEMPLATE_IS_NOT_SPECIFIED;
 					return;
@@ -296,7 +296,7 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 			}
 			if(message != null) return;
 
-			boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
+			boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue()); //$NON-NLS-1$
 			JSFNavigationModel m = (JSFNavigationModel)getTarget().getParent();
 			String pp = NavigationRuleObjectImpl.toNavigationRulePathPart(path);
 			boolean exists = m.getRuleCount(path) != 0 || getTarget().getChildByPath(pp) != null;
@@ -308,13 +308,13 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 	}
 
 	public boolean isFieldEditorEnabled(int stepId, String name, Properties values) {
-		String path = values.getProperty("from-view-id");
+		String path = values.getProperty("from-view-id"); //$NON-NLS-1$
 		boolean c = canCreateFile(path);
-		if(name.equals("create file")) {
+		if(name.equals("create file")) { //$NON-NLS-1$
 			return c;
 		}
-		boolean g = c && "true".equals(values.getProperty("create file"));
-		if(name.equals("template")) {
+		boolean g = c && "true".equals(values.getProperty("create file")); //$NON-NLS-1$ //$NON-NLS-2$
+		if(name.equals("template")) { //$NON-NLS-1$
 			return g;
 		}
 		return true;

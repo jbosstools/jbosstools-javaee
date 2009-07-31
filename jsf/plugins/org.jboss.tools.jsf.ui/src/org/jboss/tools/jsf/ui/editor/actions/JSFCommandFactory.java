@@ -18,10 +18,10 @@ import org.jboss.tools.jsf.ui.editor.model.IJSFElement;
 import org.jboss.tools.jsf.ui.editor.model.commands.JSFCompoundCommand;
 
 public class JSFCommandFactory {
-	private static final String DELETE_ACTION = "DeleteActions.Delete";
-	private static final String COPY_ACTION = "CopyActions.Copy";
-	private static final String CUT_ACTION = "CopyActions.Cut";
-	private static final String PASTE_ACTION = "CopyActions.Paste";
+	private static final String DELETE_ACTION = "DeleteActions.Delete"; //$NON-NLS-1$
+	private static final String COPY_ACTION = "CopyActions.Copy"; //$NON-NLS-1$
+	private static final String CUT_ACTION = "CopyActions.Cut"; //$NON-NLS-1$
+	private static final String PASTE_ACTION = "CopyActions.Paste"; //$NON-NLS-1$
 	
 	
 	private static Command createCommand(List objects, String commandPath) {

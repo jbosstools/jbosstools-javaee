@@ -31,17 +31,17 @@ public class JSPAdopt implements XAdoptManager {
 
 	protected boolean isAdoptableProperty(XModelObject object) {
 		String entity = object.getModelEntity().getName();
-		return "Property".equals(entity);
+		return "Property".equals(entity); //$NON-NLS-1$
 	}
 
     protected boolean isAdoptableNature(XModelObject target) {
     	if(target == null) return false;
-        String nature = (String)target.getModel().getProperties().get("nature");
+        String nature = (String)target.getModel().getProperties().get("nature"); //$NON-NLS-1$
         return JSF_NATURE_STRING.equalsIgnoreCase(nature);
     }
 
     protected boolean isAdoptableBundle(XModelObject object) {
-        return "FilePROPERTIES".equals(object.getModelEntity().getName());
+        return "FilePROPERTIES".equals(object.getModelEntity().getName()); //$NON-NLS-1$
     }
 
 	public void adopt(XModelObject target, XModelObject object, Properties p) throws XModelException {
@@ -50,18 +50,18 @@ public class JSPAdopt implements XAdoptManager {
 	}
 
 	public void adoptProperty(XModelObject target, XModelObject object, Properties p) {
-		String name = object.getAttributeValue("name");
+		String name = object.getAttributeValue("name"); //$NON-NLS-1$
 		String bundle = getBundle(object.getParent());
 		int pos = -1;
 		try {
-			String s = p == null ? null : p.getProperty("pos");
+			String s = p == null ? null : p.getProperty("pos"); //$NON-NLS-1$
 			if(s != null && s.length() > 0) pos = Integer.parseInt(s);
 		} catch (NumberFormatException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
-		SourceViewer viewer = (SourceViewer)p.get("viewer");
+		SourceViewer viewer = (SourceViewer)p.get("viewer"); //$NON-NLS-1$
 		if(viewer == null) {
-			JsfUiPlugin.getPluginLog().logError("Viewer is null", new NullPointerException("Viewer is null"));
+			JsfUiPlugin.getPluginLog().logError("Viewer is null", new NullPointerException("Viewer is null")); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		if(viewer.getDocument() == null) {
@@ -79,11 +79,11 @@ public class JSPAdopt implements XAdoptManager {
         if(pos < 0) return;
 		String jsfCorePrefix = JSPAdoptHelper.getPrefixForURI(root, JSF_CORE_TAGLIB_URI, JSF_CORE_TAGLIB_PREFIX_DEFAULT);
 		String jsfHtmlPrefix = JSPAdoptHelper.getPrefixForURI(root, JSF_HTML_TAGLIB_URI, JSF_HTML_TAGLIB_PREFIX_DEFAULT);
-		String prefix = "???";
+		String prefix = "???"; //$NON-NLS-1$
 		String varValue = JSPAdoptHelper.getLoadedBundleVar(root, jsfCorePrefix, bundle);
 		if (varValue != null && varValue.length() > 0) prefix = varValue;
 
-		if(prefix.equals("???")) {
+		if(prefix.equals("???")) { //$NON-NLS-1$
 			WebPromptingProvider fProvider = WebPromptingProvider.getInstance();
 			List<Object> l = fProvider.getList(target.getModel(), WebPromptingProvider.JSF_REGISTERED_BUNDLES, null, null);
 			int map_index = 1;
@@ -93,11 +93,11 @@ public class JSPAdopt implements XAdoptManager {
 		
 		tokenizer.isInTagAttributeValue(pos);
 		
-		if(prefix.equals("???")) {
+		if(prefix.equals("???")) { //$NON-NLS-1$
 			int bp = JSPAdoptHelper.getPositionForBundle(root, jsfCorePrefix);
 			if(bp < 0) return;
 			prefix = JSPAdoptHelper.getNameForNewBundle(root, jsfCorePrefix);
-			String loadBundle = "\n" + createLoadBundleTag(jsfCorePrefix, bundle, prefix);
+			String loadBundle = "\n" + createLoadBundleTag(jsfCorePrefix, bundle, prefix); //$NON-NLS-1$
 			try {
 				viewer.getDocument().replace(bp, 0, loadBundle);
 				if(pos >= bp) pos += loadBundle.length();
@@ -108,7 +108,7 @@ public class JSPAdopt implements XAdoptManager {
 
         String start = getPropertyReference(prefix, name);
         if (contextIndex == 1) {
-            start = "<" + jsfHtmlPrefix + ":outputText value=\"" + start + "\"/>";
+            start = "<" + jsfHtmlPrefix + ":outputText value=\"" + start + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 		try {
 			viewer.getDocument().replace(pos, 0, start);
@@ -117,11 +117,11 @@ public class JSPAdopt implements XAdoptManager {
 		} catch (BadLocationException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
-		p.remove("start text");
+		p.remove("start text"); //$NON-NLS-1$
 	}
 	
 	private String getPropertyReference(String prefix, String name) {
-		return (!isJavaName(name)) ? "#{" + prefix + "['" + name + "']}" : "#{" + prefix + "." + name + "}"; 
+		return (!isJavaName(name)) ? "#{" + prefix + "['" + name + "']}" : "#{" + prefix + "." + name + "}";  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	}
 	
 	private boolean isJavaName(String name) {
@@ -149,7 +149,7 @@ public class JSPAdopt implements XAdoptManager {
     private static final String JSF_NATURE_STRING = JSFNature.NATURE_ID;
     
     private String createLoadBundleTag(String jsfCorePrefix, String bundlePath, String var) {
-    	return "<" + jsfCorePrefix + ":loadBundle basename=\"" + bundlePath + "\" var=\"" + var + "\" />";
+    	return "<" + jsfCorePrefix + ":loadBundle basename=\"" + bundlePath + "\" var=\"" + var + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
 
 	public void adoptBundle(XModelObject target, XModelObject object, Properties p) {
@@ -158,12 +158,12 @@ public class JSPAdopt implements XAdoptManager {
 
 		int pos = -1;
 		try {
-			String s = p == null ? null : p.getProperty("pos");
+			String s = p == null ? null : p.getProperty("pos"); //$NON-NLS-1$
 			if(s != null && s.length() > 0) pos = Integer.parseInt(s);
 		} catch (NumberFormatException e) {
 			JsfUiPlugin.getPluginLog().logError(e);
 		}
-		SourceViewer viewer = (SourceViewer)p.get("viewer");
+		SourceViewer viewer = (SourceViewer)p.get("viewer"); //$NON-NLS-1$
 		
 		if(viewer == null || viewer.getDocument() == null) return;
 
@@ -174,21 +174,21 @@ public class JSPAdopt implements XAdoptManager {
 		String start = bundle;
 		if (contextIndex == 1) {
 			String jsfCorePrefix = JSPAdoptHelper.getPrefixForURI(root, JSF_CORE_TAGLIB_URI, JSF_CORE_TAGLIB_PREFIX_DEFAULT);
-			start = createLoadBundleTag(jsfCorePrefix, bundle, "|");
+			start = createLoadBundleTag(jsfCorePrefix, bundle, "|"); //$NON-NLS-1$
 		}
-		p.setProperty("start text", start);
-		p.setProperty("end text", "");
+		p.setProperty("start text", start); //$NON-NLS-1$
+		p.setProperty("end text", ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
     
-    private final static String JSF_CORE_TAGLIB_URI = "http://java.sun.com/jsf/core";
-    private final static String JSF_CORE_TAGLIB_PREFIX_DEFAULT = "f";
-    private final static String JSF_HTML_TAGLIB_URI = "http://java.sun.com/jsf/html";
-    private final static String JSF_HTML_TAGLIB_PREFIX_DEFAULT = "h";
+    private final static String JSF_CORE_TAGLIB_URI = "http://java.sun.com/jsf/core"; //$NON-NLS-1$
+    private final static String JSF_CORE_TAGLIB_PREFIX_DEFAULT = "f"; //$NON-NLS-1$
+    private final static String JSF_HTML_TAGLIB_URI = "http://java.sun.com/jsf/html"; //$NON-NLS-1$
+    private final static String JSF_HTML_TAGLIB_PREFIX_DEFAULT = "h"; //$NON-NLS-1$
     
 	String getBundle(XModelObject file) {
 		String bundle = XModelObjectLoaderUtil.getResourcePath(file);
-		if(bundle == null) bundle = "";
-		if(bundle.endsWith(".properties")) bundle = bundle.substring(0, bundle.length() - 11);
+		if(bundle == null) bundle = ""; //$NON-NLS-1$
+		if(bundle.endsWith(".properties")) bundle = bundle.substring(0, bundle.length() - 11); //$NON-NLS-1$
 		bundle = bundle.substring(1).replace('/', '.');
 		int i = bundle.indexOf('_');
 		if(i >= 0) bundle = bundle.substring(0, i);

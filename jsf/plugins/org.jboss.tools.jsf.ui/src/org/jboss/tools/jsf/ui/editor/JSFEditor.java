@@ -116,7 +116,6 @@ import org.jboss.tools.jsf.ui.editor.actions.JSFCopyAction;
 import org.jboss.tools.jsf.ui.editor.actions.JSFCutAction;
 import org.jboss.tools.jsf.ui.editor.actions.JSFDeleteAction;
 import org.jboss.tools.jsf.ui.editor.actions.JSFPasteAction;
-import org.jboss.tools.jsf.ui.editor.dnd.DndHelper;
 import org.jboss.tools.jsf.ui.editor.dnd.FileTransferDropTargetListener;
 import org.jboss.tools.jsf.ui.editor.dnd.JSFTemplateTransferDropTargetListener;
 import org.jboss.tools.jsf.ui.editor.dnd.XModelTransferDropTargetListener;
@@ -415,7 +414,7 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 	static private GEFConnectionCreationToolEntry connectionCreationTool = null;
 
 	protected PaletteContainer createControlGroup(PaletteRoot root) {
-		PaletteGroup controlGroup = new PaletteGroup("control");
+		PaletteGroup controlGroup = new PaletteGroup("control"); //$NON-NLS-1$
 
 		List<PaletteEntry> entries = new ArrayList<PaletteEntry>();
 
@@ -431,14 +430,14 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 		PaletteSeparator sep = new PaletteSeparator("separator"); //$NON-NLS-1$
 		sep
 				.setUserModificationPermission(PaletteSeparator.PERMISSION_NO_MODIFICATION);
-		entries.add(sep); //$NON-NLS-1$
+		entries.add(sep);
 
 		connectionCreationTool = new GEFConnectionCreationToolEntry(
 				FacesConfigEditorMessages.JSFDIAGRAM_CREATE_NEW_CONNECTION,
 				FacesConfigEditorMessages.JSFDIAGRAM_CREATE_NEW_CONNECTION,
 				null, ImageDescriptor.createFromFile(JSFEditor.class,
 						"icons/transition.gif"),//$NON-NLS-1$
-				null//$NON-NLS-1$
+				null
 		) {
 			protected void dragFinished() {
 				XModelTransferBuffer.getInstance().disable();
@@ -454,8 +453,8 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 				FacesConfigEditorMessages.JSFDIAGRAM_VIEW_TEMPLATE,
 				TemplateConstants.TEMPLATE_VIEW,
 				new SimpleFactory(String.class), ImageDescriptor
-						.createFromFile(JSFEditor.class, "icons/view.gif"),
-				null//$NON-NLS-1$
+						.createFromFile(JSFEditor.class, "icons/view.gif"), //$NON-NLS-1$
+				null
 		);
 		entries.add(combined);
 
@@ -539,7 +538,7 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 
 	}
 
-	public static String PRINT_DIAGRAM = "Print_Diagram";
+	public static String PRINT_DIAGRAM = "Print_Diagram"; //$NON-NLS-1$
 
 	public class MyPrintAction extends WorkbenchPartAction {
 		private Insets printMargin = new Insets(1, 1, 1, 1);
@@ -605,8 +604,8 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 				printer.dispose();
 				d = null;
 				Status status = new Status(IStatus.ERROR,
-						"org.jboss.tools.jsf.ui", 0, WizardKeys
-								.getString("PRN_ERROR"), ee);
+						"org.jboss.tools.jsf.ui", 0, WizardKeys //$NON-NLS-1$
+								.getString("PRN_ERROR"), ee); //$NON-NLS-1$
 				ProblemReportingHelper.reportProblem(status);
 			}
 			//if ex is not null then d is set to null and we cannot access it.
@@ -615,7 +614,7 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 								this.getWorkbenchPart().getSite().getShell()
 										.getDisplay())));
 				String result = d.open();
-				if (result != null && result.equals("ok")) {
+				if (result != null && result.equals("ok")) { //$NON-NLS-1$
 					LayerManager lm = (LayerManager) viewer
 							.getEditPartRegistry().get(LayerManager.ID);
 					IFigure figure = lm

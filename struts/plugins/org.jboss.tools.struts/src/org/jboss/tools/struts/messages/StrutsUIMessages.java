@@ -166,6 +166,7 @@ public class StrutsUIMessages extends NLS {
 	public static String STRUTS_CONFIG_CHANGES;
 	public static String CREATE_NEW_STRUTS_PROJECT;
 	public static String IMPORT_STRUTS_PROJECT;
+	public static String ImportStrutsWarContext_NoStrutsSupportInProject;
 	public static String LINK_RECOGNIZER;
 	public static String TAG;
 	public static String ATTRIBUTE;
@@ -180,10 +181,20 @@ public class StrutsUIMessages extends NLS {
 	public static String ADD_NEW;
 	public static String ADD_ARROW_RIGHT;
 	public static String REMOVE_ARROW_LEFT;
+	public static String RenamePageHandler_PathIsNotValid;
 	public static String UP;
 	public static String DOWN;
 	public static String ADD_VALIDATOR;
 	public static String SAVE_CHANGES;
+	public static String SyncProjectContext_AttributeIsRequired;
+	public static String SyncProjectContext_ConfigFileIsUsed;
+	public static String SyncProjectContext_ConfigFileNotCorrect;
+	public static String SyncProjectContext_FileDoesNotExist;
+	public static String SyncProjectContext_FileIsNotStruts11Or12;
+	public static String SyncProjectContext_ModuleExists;
+	public static String SyncProjectContext_MoreThanOneModuleHasAttributeValue;
+	public static String SyncProjectContext_NotAPathToAFile;
+	public static String SyncProjectContext_PathUsedByAnotherModule;
 	public static String PATH_TO_RESOURCE;
 	public static String ADOPT_PROJECTS_TEPMODULES;
 	public static String DIAGRAM_TOOLBAR_SELECTION;

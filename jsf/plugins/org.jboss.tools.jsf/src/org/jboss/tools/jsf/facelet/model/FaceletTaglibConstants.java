@@ -14,9 +14,9 @@ package org.jboss.tools.jsf.facelet.model;
  * @author Viacheslav Kabanovich
  */
 public interface FaceletTaglibConstants {
-	public static final String DOC_QUALIFIEDNAME = "facelet-taglib";
-	public static final String DOC_PUBLICID = "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN";
+	public static final String DOC_QUALIFIEDNAME = "facelet-taglib"; //$NON-NLS-1$
+	public static final String DOC_PUBLICID = "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"; //$NON-NLS-1$
 	
-	public static final String ENT_FACELET_TAGLIB = "FileFaceletTaglib";
+	public static final String ENT_FACELET_TAGLIB = "FileFaceletTaglib"; //$NON-NLS-1$
 
 }

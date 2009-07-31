@@ -27,7 +27,7 @@ public class RenameFacesConfigHandler extends DefaultEditHandler {
 		String oldConfigName = FileAnyImpl.toFileName(object);
 		super.executeHandler(object, prop);
 		String newConfigName = FileAnyImpl.toFileName(object);
-		XActionInvoker.invoke("SaveActions.Save", object, prop);
+		XActionInvoker.invoke("SaveActions.Save", object, prop); //$NON-NLS-1$
 		String path = XModelObjectLoaderUtil.getResourcePath(object);
 		JSFWebHelper.registerFacesConfigRename(object.getModel(), oldConfigName, newConfigName, path);
 	}

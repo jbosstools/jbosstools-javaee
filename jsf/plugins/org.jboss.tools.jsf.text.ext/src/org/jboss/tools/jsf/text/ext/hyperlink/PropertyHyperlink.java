@@ -51,9 +51,9 @@ public class PropertyHyperlink extends AbstractHyperlink {
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
 
 		Properties p = new Properties();
-		p.setProperty("ignoreWarning", "true");
-		p.setProperty("property", propertyName);
-		beanClassName = beanClassName.replace('.', '/') + ".class";
+		p.setProperty("ignoreWarning", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		p.setProperty("property", propertyName); //$NON-NLS-1$
+		beanClassName = beanClassName.replace('.', '/') + ".class"; //$NON-NLS-1$
 			
 		provider.getList(xModel, WebPromptingProvider.JSF_OPEN_CLASS_PROPERTY, beanClassName, p);
 		String error = p.getProperty(WebPromptingProvider.ERROR); 
@@ -76,7 +76,7 @@ public class PropertyHyperlink extends AbstractHyperlink {
 		try {
 			return trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -95,7 +95,7 @@ public class PropertyHyperlink extends AbstractHyperlink {
 			
 			Element beanElement = (Element)n;
 			String beanName = beanElement.getNodeName();
-			String beanClassElementName = beanName + "-class";
+			String beanClassElementName = beanName + "-class"; //$NON-NLS-1$
 			NodeList children = beanElement.getElementsByTagName(beanClassElementName);
 			Element beanClassElement = null;
 			for (int i = 0; children != null && i < children.getLength(); i++) {
@@ -123,7 +123,7 @@ public class PropertyHyperlink extends AbstractHyperlink {
 			
 			return (beanClassName.length() == 0 ? null : beanClassName);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -170,7 +170,7 @@ public class PropertyHyperlink extends AbstractHyperlink {
 			
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

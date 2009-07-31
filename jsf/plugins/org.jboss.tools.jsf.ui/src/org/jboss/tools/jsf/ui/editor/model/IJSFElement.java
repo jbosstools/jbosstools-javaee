@@ -19,12 +19,12 @@ import org.eclipse.swt.widgets.Control;
 import java.beans.*;
 
 public interface IJSFElement{
-   public static String NAME_PROPERTY = "title";
-   public static String BOUNDS_PROPERTY = "shape";
-   public static String PATH_PROPERTY = "path";
-   public static String TARGET_PROPERTY = "target";
-   public static String TYPE_PROPERTY = "type";
-   public static String SUBTYPE_PROPERTY = "subtype";
+   public static String NAME_PROPERTY = "title"; //$NON-NLS-1$
+   public static String BOUNDS_PROPERTY = "shape"; //$NON-NLS-1$
+   public static String PATH_PROPERTY = "path"; //$NON-NLS-1$
+   public static String TARGET_PROPERTY = "target"; //$NON-NLS-1$
+   public static String TYPE_PROPERTY = "type"; //$NON-NLS-1$
+   public static String SUBTYPE_PROPERTY = "subtype"; //$NON-NLS-1$
 
    public static Point DEFAULT_POINT = new Point(50,50);
 

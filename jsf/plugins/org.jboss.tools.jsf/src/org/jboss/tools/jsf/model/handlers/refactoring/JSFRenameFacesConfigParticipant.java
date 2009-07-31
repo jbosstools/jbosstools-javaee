@@ -24,7 +24,7 @@ import org.jboss.tools.jsf.web.JSFWebHelper;
 import org.jboss.tools.jst.web.project.WebProject;
 
 public class JSFRenameFacesConfigParticipant extends RenameParticipant {
-	public static final String PARTICIPANT_NAME="jsf-RenameFacesConfigParticipant";
+	public static final String PARTICIPANT_NAME="jsf-RenameFacesConfigParticipant"; //$NON-NLS-1$
 	XModelObject object;
 
 	protected boolean initialize(Object element) {
@@ -33,7 +33,7 @@ public class JSFRenameFacesConfigParticipant extends RenameParticipant {
 		object = EclipseResourceUtil.getObjectByResource(f);
 		if(object == null) return false;
 		String entity = object.getModelEntity().getName();
-		if(!entity.startsWith("FacesConfig")) return false;
+		if(!entity.startsWith("FacesConfig")) return false; //$NON-NLS-1$
 		return true;
 	}
 

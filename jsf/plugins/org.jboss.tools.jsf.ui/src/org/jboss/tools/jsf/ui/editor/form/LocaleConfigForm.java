@@ -120,38 +120,38 @@ public class LocaleConfigForm extends ExpandableForm {
 		this.setHeadingText(FacesConfigEditorMessages.LOCALECONFIGFORM_HEADER);
 		XModelObject current = (XModelObject)model;
 		if(current.getFileType() == XModelObject.FILE) {
-			this.xmo = current.getChildByPath("application/Locale Config");
+			this.xmo = current.getChildByPath("application/Locale Config"); //$NON-NLS-1$
 		} else {
-			this.xmo = current.getChildByPath("Locale Config");
+			this.xmo = current.getChildByPath("Locale Config"); //$NON-NLS-1$
 		}
 		if(xmo == null) {
-			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.LOCALECONFIGFORM_HEADER+". Model object cannot be null.", new Exception());
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.LOCALECONFIGFORM_HEADER+". Model object cannot be null.", new Exception()); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		this.model = xmo.getModel();
 		this.support.init(xmo);
 		this.support.setAutoStore(Boolean.TRUE.booleanValue());
 		/*TRIAL_JSF*/
-		defaultLocale = support.getPropertyEditorByName("default-locale");
+		defaultLocale = support.getPropertyEditorByName("default-locale"); //$NON-NLS-1$
 
 		this.tableAdapter = new XChildrenTableStructuredAdapter();
-		this.tableAdapter.setShownEntities(new String[]{"JSFSupportedLocale"});
+		this.tableAdapter.setShownEntities(new String[]{"JSFSupportedLocale"}); //$NON-NLS-1$
 
 		this.tableAdapter.getActionMapping().clear();
 
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.ADD_ACTION, "CreateActions.AddSupportedLocale");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.EDIT_ACTION, "Properties.Properties");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.UP_ACTION, "%internal%");
-		this.tableAdapter.getActionMapping().put(TableStructuredEditor.DOWN_ACTION, "%internal%");
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.ADD_ACTION, "CreateActions.AddSupportedLocale"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.EDIT_ACTION, "Properties.Properties"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.UP_ACTION, "%internal%"); //$NON-NLS-1$
+		this.tableAdapter.getActionMapping().put(TableStructuredEditor.DOWN_ACTION, "%internal%"); //$NON-NLS-1$
 
-		this.tableAdapter.setShownProperties(new String[] {"supported-locale"});
+		this.tableAdapter.setShownProperties(new String[] {"supported-locale"}); //$NON-NLS-1$
 		this.tableAdapter.setColumnLabels(new String[] {FacesConfigEditorMessages.LOCALECONFIGFORM_SUPPORTEDLOCAL_COLUMN_LABEL});
 		this.tableAdapter.setWidths(new int[] {100});
 		this.tableAdapter.setModelObject(xmo);
 		
 		this.tableEditor = new TableStructuredEditor(settings);
-		this.tableEditor.setLabelText("");
+		this.tableEditor.setLabelText(""); //$NON-NLS-1$
 		this.tableEditor.setInput(this.tableAdapter); 
 
 	}

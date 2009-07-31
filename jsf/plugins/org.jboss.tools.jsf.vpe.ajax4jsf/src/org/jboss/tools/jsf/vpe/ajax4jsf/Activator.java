@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.ajax4jsf";
+	public static final String PLUGIN_ID = "org.jboss.tools.jsf.vpe.ajax4jsf"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -65,9 +65,9 @@ public class Activator extends AbstractUIPlugin {
 		Bundle bundle = Platform.getBundle(PLUGIN_ID);
 		URL url = null;
 		try {
-			url = bundle == null ? null : FileLocator.resolve(bundle.getEntry("/resources"));
+			url = bundle == null ? null : FileLocator.resolve(bundle.getEntry("/resources")); //$NON-NLS-1$
 		} catch (IOException e) {
-			url = bundle.getEntry("/resources");
+			url = bundle.getEntry("/resources"); //$NON-NLS-1$
 		}
 		return (url == null) ? null : url.getPath();
 	}

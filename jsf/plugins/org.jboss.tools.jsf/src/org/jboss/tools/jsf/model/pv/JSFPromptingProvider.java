@@ -93,7 +93,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		if(JSF_BEAN_PROPERTIES.equals(id)) {
 			String type = (properties == null) ? null : properties.getProperty(PROPERTY_TYPE);
 			String sBeanOnly = (properties == null) ? null : properties.getProperty(PROPERTY_BEAN_ONLY);
-			boolean beanOnly = "true".equals(sBeanOnly);
+			boolean beanOnly = "true".equals(sBeanOnly); //$NON-NLS-1$
 			return getBeanProperties(model, prefix, type, beanOnly);
 		} else if(JSF_BEAN_METHODS.equals(id)) {
 			String[] parameterTypes = (String[])properties.get(PARAMETER_TYPES);
@@ -174,13 +174,13 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	public List<Object> getBundles(XModel model) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return EMPTY_LIST;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Resource Bundles");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath("Resource Bundles"); //$NON-NLS-1$
 		if(n == null) return EMPTY_LIST;
 		XModelObject[] os = n.getTreeChildren();
 		List<Object> list = new ArrayList<Object>();
 		for (int i = 0; i < os.length; i++) {
 			String p = XModelObjectLoaderUtil.getResourcePath(os[i]);
-			if(p == null || !p.endsWith(".properties")) continue;
+			if(p == null || !p.endsWith(".properties")) continue; //$NON-NLS-1$
 			p = p.substring(1, p.length() - 11).replace('/', '.');
 			list.add(p);			
 		}

@@ -16,7 +16,7 @@ import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.XModelObject;
 
 public class JSFXModelUtil {
-	private static final String ADD_RULE_ACTION = "CreateActions.AddRule";
+	private static final String ADD_RULE_ACTION = "CreateActions.AddRule"; //$NON-NLS-1$
 	
 	public static void addRule(XModelObject object, Properties properties){
 		XActionInvoker.invoke(ADD_RULE_ACTION, object, properties);

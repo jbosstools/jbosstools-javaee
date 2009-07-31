@@ -37,7 +37,7 @@ public class OutputLinkWizardPage extends TagAttributesWizardPage {
 		
 	public OutputLinkWizardPage(){
 		data = XEntityDataImpl.create(new String[][] {
-				{ "JSFOutputLinkWizard", "yes" }, { "link text", "no" }});			
+				{ "JSFOutputLinkWizard", "yes" }, { "link text", "no" }});			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	public void createControl(Composite parent) {
 		Composite maincomposite = new Composite(parent, SWT.NONE);
@@ -101,27 +101,27 @@ public class OutputLinkWizardPage extends TagAttributesWizardPage {
 	protected void updateTitle() {
 		TagProposal tagProposal = (TagProposal)getDropWizardModel().getTagProposal();
 		StringBuffer titleText = new StringBuffer();
-		titleText.append("<");
+		titleText.append("<"); //$NON-NLS-1$
 		if(!TagProposal.EMPTY_PREFIX.equals(tagProposal.getPrefix())) {
 			titleText
 				.append(tagProposal.getPrefix())
-				.append(":");
+				.append(":"); //$NON-NLS-1$
 		}
 		titleText
 			.append(tagProposal.getName())
-			.append(">");			
+			.append(">");			 //$NON-NLS-1$
 		setTitle(titleText.toString());
 	}
 	
 	public String getText() {		
-		return data.getValue("link text");		
+		return data.getValue("link text");		 //$NON-NLS-1$
 	}
 	
 	public boolean isValue() {
 		
 		fWizardModel = getSpecificWizard().getWizardModel();
 		AttributeDescriptorValue[] value = fWizardModel.getAttributeValueDescriptors();
-		if (value[0].getName().equals("value")) {
+		if (value[0].getName().equals("value")) { //$NON-NLS-1$
 			if ((String)value[0].getValue() != null 
 					&& ((String) value[0].getValue()).trim().length() > 0)
 				return true;

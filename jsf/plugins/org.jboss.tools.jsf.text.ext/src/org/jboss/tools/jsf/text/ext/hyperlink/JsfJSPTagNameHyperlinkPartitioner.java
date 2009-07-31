@@ -34,7 +34,7 @@ import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner
  * @author Jeremy
  */
 public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer {
-	public static final String JSF_JSP_TAG_NAME_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME";
+	public static final String JSF_JSP_TAG_NAME_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME"; //$NON-NLS-1$
 
 	private String[] JSF_PROJECT_NATURES = {
 		JSFNature.NATURE_ID
@@ -82,7 +82,7 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			}
 			return false;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();
@@ -103,7 +103,7 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			IDOMElement elem = (IDOMElement)n;
 			String tagName = elem.getTagName();
 			int start = Utils.getValueStart(elem);
-			final int nameStart = start + (elem.isEndTag() ? "</" : "<").length();
+			final int nameStart = start + (elem.isEndTag() ? "</" : "<").length(); //$NON-NLS-1$ //$NON-NLS-2$
 			final int nameEnd = nameStart + tagName.length();
 
 			if (nameStart > offset || nameEnd <= offset) return null;
@@ -117,7 +117,7 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
+			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}
 		return superRegion.getAxis();
 	}

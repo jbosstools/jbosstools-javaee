@@ -37,14 +37,14 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 		return false;
 	}
 	
-	static String ADOPTABLE_JSP = "." + ENT_FILEJSP + "." 
-	                                  + ENT_FILEHTML + "." 
-	                                  + ENT_FILEXHTML + "."
-	                                  + "FileXML" + ".";
+	static String ADOPTABLE_JSP = "." + ENT_FILEJSP + "."  //$NON-NLS-1$ //$NON-NLS-2$
+	                                  + ENT_FILEHTML + "."  //$NON-NLS-1$
+	                                  + ENT_FILEXHTML + "." //$NON-NLS-1$
+	                                  + "FileXML" + "."; //$NON-NLS-1$ //$NON-NLS-2$
 
 	private boolean isAdoptableJSP(XModelObject target, XModelObject object) {
 		String entity = object.getModelEntity().getName();
-		if (ADOPTABLE_JSP.indexOf("." + entity + ".") >= 0) {
+		if (ADOPTABLE_JSP.indexOf("." + entity + ".") >= 0) { //$NON-NLS-1$ //$NON-NLS-2$
 			String path = XModelObjectLoaderUtil.getResourcePath(object);
 			if (target.getModelEntity().getName().startsWith(ENT_FACESCONFIG)) {
 				target = target.getChildByPath(ELM_PROCESS);
@@ -71,11 +71,11 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 		String path = XModelObjectLoaderUtil.getResourcePath(page);
 		XModelObject group = JSFProcessHelper.getHelper(process).getPage(path);
 		if(group != null) return;
-		boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue());
+		boolean doNotCreateEmptyRule = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue()); //$NON-NLS-1$
 		group = JSFProcessHelper.getHelper(process).findOrCreateGroup(path, null);
 		setShape(group, p);
 		if(doNotCreateEmptyRule) {
-			group.setAttributeValue("persistent", "true");
+			group.setAttributeValue("persistent", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 			group.setModified(true);
 		} else {
 			XModelObject rules = process.getParent().getChildByPath(FOLDER_NAVIGATION_RULES);
@@ -86,10 +86,10 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 	}
 	
 	public static void setShape(XModelObject group, Properties p) {
-		String x = (p == null) ? null : p.getProperty("process.mouse.x");
-		String y = (p == null) ? null : p.getProperty("process.mouse.y");
+		String x = (p == null) ? null : p.getProperty("process.mouse.x"); //$NON-NLS-1$
+		String y = (p == null) ? null : p.getProperty("process.mouse.y"); //$NON-NLS-1$
 		if(x != null && y != null) {
-			group.setAttributeValue("shape", "" + x + "," + y + ",0,0");
+			group.setAttributeValue("shape", "" + x + "," + y + ",0,0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 	}
 	
@@ -99,8 +99,8 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 	
 	private void adoptItem(XModelObject target, XModelObject object, Properties p) {
 //		String path = object.getAttributeValue(ATT_PATH);
-		p.put("sample", object);
-		XActionInvoker.invoke("CreateActions.AddRule", target, p);
+		p.put("sample", object); //$NON-NLS-1$
+		XActionInvoker.invoke("CreateActions.AddRule", target, p); //$NON-NLS-1$
 	}
 
 }

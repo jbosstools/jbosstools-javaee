@@ -25,7 +25,7 @@ public class OpenRenderKitHelper {
 
 	public String run(XModel model, String renderkitId) {
 		if(model == null || renderkitId == null) return null;
-		if(renderkitId.length() == 0) return "Render-kit id is not specified.";
+		if(renderkitId.length() == 0) return JSFUIMessages.OpenRenderKitHelper_RENDER_KIT_ID_NOT_SPECIFIED;
 		XModelObject c = findRenderKit(model, renderkitId);
 		if(c == null) return NLS.bind(JSFUIMessages.CANNOT_FIND_RENDER_KIT, renderkitId);
 		FindObjectHelper.findModelObject(c, FindObjectHelper.IN_EDITOR_ONLY);
@@ -33,14 +33,14 @@ public class OpenRenderKitHelper {
 	}
 
 	String openClass(XModelObject c, String renderkitId) {
-		String className = c.getAttributeValue("render-kit-class");
+		String className = c.getAttributeValue("render-kit-class"); //$NON-NLS-1$
 		if(className == null || className.length() == 0) return NLS.bind(JSFUIMessages.ATTRIBUTE_RENDER_KIT_CLASS_FOR_RENDER_KIT_ISNOT_SPECIFIED, renderkitId); 
-		XAction xaction = XActionInvoker.getAction("OpenSource", c);
+		XAction xaction = XActionInvoker.getAction("OpenSource", c); //$NON-NLS-1$
 		if(xaction != null && xaction.isEnabled(c)) {
 			Properties p = new Properties();
-			p.setProperty("ignoreWarning", "true");
-			XActionInvoker.invoke("OpenSource", c, p);
-			return p.getProperty("error");
+			p.setProperty("ignoreWarning", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+			XActionInvoker.invoke("OpenSource", c, p); //$NON-NLS-1$
+			return p.getProperty("error"); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -48,11 +48,11 @@ public class OpenRenderKitHelper {
 	public XModelObject findRenderKit(XModel model, String renderkitId) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return null;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration"); //$NON-NLS-1$
 		if(n == null) return null;
 		XModelObject[] os = n.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {
-			XModelObject r = os[i].getChildByPath("Render Kits/" + renderkitId);
+			XModelObject r = os[i].getChildByPath("Render Kits/" + renderkitId); //$NON-NLS-1$
 			if(r != null) return r;
 		}
 		return null;

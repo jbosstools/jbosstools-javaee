@@ -58,7 +58,7 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 		try {
 			XAction action = DnDUtil.getEnabledAction(
 					(XModelObject) getGroupModel().getSource(), null,
-					"OpenPage");
+					"OpenPage"); //$NON-NLS-1$
 			if (action != null)
 				action.executeHandler((XModelObject) getGroupModel()
 						.getSource(), null);
@@ -102,12 +102,12 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals("name")) {
+		if (evt.getPropertyName().equals("name")) { //$NON-NLS-1$
 			fig.setPath(getGroupModel().getVisiblePath());
-		} else if (evt.getPropertyName().equals("path")) {
+		} else if (evt.getPropertyName().equals("path")) { //$NON-NLS-1$
 			fig.setPath(getGroupModel().getVisiblePath());
-		} else if (evt.getPropertyName().equals("selected")) {
-		} else if (evt.getPropertyName().equals("shape")) {
+		} else if (evt.getPropertyName().equals("selected")) { //$NON-NLS-1$
+		} else if (evt.getPropertyName().equals("shape")) { //$NON-NLS-1$
 			refreshVisuals();
 		}
 	}
@@ -189,7 +189,7 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 		return new AccessibleGraphicalEditPart() {
 
 			public void getName(AccessibleEvent e) {
-				e.result = "EditPart";
+				e.result = "EditPart"; //$NON-NLS-1$
 			}
 
 			public void getValue(AccessibleControlEvent e) {
@@ -292,7 +292,7 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connEditPart) {
-		ConnectionAnchor anc = getNodeFigure().getConnectionAnchor("1_IN");
+		ConnectionAnchor anc = getNodeFigure().getConnectionAnchor("1_IN"); //$NON-NLS-1$
 		return anc;
 	}
 
@@ -306,7 +306,7 @@ public class GroupEditPart extends JSFEditPart implements PropertyChangeListener
 		if (single) {
 			ILink link = (ILink) connEditPart.getModel();
 			int index = getGroupModel().getListOutputLinks().indexOf(link);
-			return getNodeFigure().getConnectionAnchor((index + 1) + "_OUT");
+			return getNodeFigure().getConnectionAnchor((index + 1) + "_OUT"); //$NON-NLS-1$
 		} else
 			return super.getSourceConnectionAnchor(connEditPart);
 	}

@@ -20,7 +20,7 @@ public class ReconnectTargetLinkCommand extends Command{
 		IGroup child = null;
 	
 	public ReconnectTargetLinkCommand(){
-		super("ReconnectTargetLinkCommand");
+		super("ReconnectTargetLinkCommand"); //$NON-NLS-1$
 	}
 	
 	public void setChild(IGroup child){

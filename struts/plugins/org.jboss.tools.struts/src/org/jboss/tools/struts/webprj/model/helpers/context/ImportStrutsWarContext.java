@@ -17,6 +17,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.struts.StrutsProject;
 import org.jboss.tools.jst.web.context.ImportWebWarContext;
 import org.jboss.tools.jst.web.project.WebModuleConstants;
+import org.jboss.tools.struts.messages.StrutsUIMessages;
 import org.jboss.tools.struts.webprj.model.helpers.adopt.AdoptProjectContext;
 
 public class ImportStrutsWarContext extends ImportWebWarContext {
@@ -36,7 +37,7 @@ public class ImportStrutsWarContext extends ImportWebWarContext {
 		super.loadWebXML(body, location);
 		String[][] ms = AdoptProjectContext.getModules(webxml);
 		if(ms == null || ms.length == 0) {
-			String webXMLErrorMessage = "No Struts support found in the project."; 
+			String webXMLErrorMessage = StrutsUIMessages.ImportStrutsWarContext_NoStrutsSupportInProject; 
 			throw new XModelException(webXMLErrorMessage);
 		}
 	}

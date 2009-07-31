@@ -31,11 +31,11 @@ public class AddManagedBeanPropertyScreen extends SpecialWizardStep {
 	}
 	
 	private void shiftFields() {
-		FieldEditor f = attributes.getFieldEditorByName("generate getter");
+		FieldEditor f = attributes.getFieldEditorByName("generate getter"); //$NON-NLS-1$
 		if(f == null) return;
 		CheckBoxFieldEditor cb = (CheckBoxFieldEditor)f;
 		cb.setIndent(INDENT);
-		f = attributes.getFieldEditorByName("generate setter");
+		f = attributes.getFieldEditorByName("generate setter"); //$NON-NLS-1$
 		cb = (CheckBoxFieldEditor)f;
 		cb.setIndent(INDENT);
 	}
@@ -44,7 +44,7 @@ public class AddManagedBeanPropertyScreen extends SpecialWizardStep {
 
 	public void propertyChange(PropertyChangeEvent event) {
 		if(lock) return;
-		if(event.getSource() == attributes.getPropertyEditorAdapterByName("property-name")) {
+		if(event.getSource() == attributes.getPropertyEditorAdapterByName("property-name")) { //$NON-NLS-1$
 			processNameChange((String)event.getNewValue());
 		}
 		super.propertyChange(event);
@@ -56,7 +56,7 @@ public class AddManagedBeanPropertyScreen extends SpecialWizardStep {
 			AddManagedPropertySupport ps = (AddManagedPropertySupport)support;
 			String type = ps.getFieldType(newValue);
 			type = revalidateType(type);
-			IValueProvider vp = attributes.getPropertyEditorAdapterByName("property-class");
+			IValueProvider vp = attributes.getPropertyEditorAdapterByName("property-class"); //$NON-NLS-1$
 			if(type != null) vp.setValue(type);
 		} finally {
 			lock = false;
@@ -64,15 +64,15 @@ public class AddManagedBeanPropertyScreen extends SpecialWizardStep {
 	}
 	
 	String revalidateType(String type) {
-		if(type == null || type.length() == 0 || type.indexOf(".") >= 0) return type;
-		if(type.equals("byte")) return "java.lang.Byte";
-		if(type.equals("boolean")) return "java.lang.Boolean";
-		if(type.equals("char")) return "java.lang.Character";
-		if(type.equals("double")) return "java.lang.Double";
-		if(type.equals("float")) return "java.lang.Float";
-		if(type.equals("int")) return "java.lang.Integer";
-		if(type.equals("long")) return "java.lang.Long";
-		if(type.equals("short")) return "java.lang.Short";
+		if(type == null || type.length() == 0 || type.indexOf(".") >= 0) return type; //$NON-NLS-1$
+		if(type.equals("byte")) return "java.lang.Byte"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("boolean")) return "java.lang.Boolean"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("char")) return "java.lang.Character"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("double")) return "java.lang.Double"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("float")) return "java.lang.Float"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("int")) return "java.lang.Integer"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("long")) return "java.lang.Long"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(type.equals("short")) return "java.lang.Short"; //$NON-NLS-1$ //$NON-NLS-2$
 		return type;
 	}
 

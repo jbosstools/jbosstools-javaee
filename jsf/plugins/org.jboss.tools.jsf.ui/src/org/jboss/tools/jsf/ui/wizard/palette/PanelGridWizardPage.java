@@ -95,15 +95,15 @@ public class PanelGridWizardPage extends TagAttributesWizardPage {
 	protected void updateTitle() {
 		TagProposal tagProposal = (TagProposal)getDropWizardModel().getTagProposal();
 		StringBuffer titleText = new StringBuffer();
-		titleText.append("<");
+		titleText.append("<"); //$NON-NLS-1$
 		if(!TagProposal.EMPTY_PREFIX.equals(tagProposal.getPrefix())) {
 			titleText
 				.append(tagProposal.getPrefix())
-				.append(":");
+				.append(":"); //$NON-NLS-1$
 		}
 		titleText
 			.append(tagProposal.getName())
-			.append(">");			
+			.append(">");			 //$NON-NLS-1$
 		setTitle(titleText.toString());
 	}
 	
@@ -115,7 +115,7 @@ public class PanelGridWizardPage extends TagAttributesWizardPage {
 		int i = 0;
 		while (i < value.length) {
 
-			if (value[i].getName().equals("columns"))
+			if (value[i].getName().equals("columns")) //$NON-NLS-1$
 				if ((String) value[0].getValue() != null
 						&& ((String) value[0].getValue()).trim().length() > 0)
 					return true;		

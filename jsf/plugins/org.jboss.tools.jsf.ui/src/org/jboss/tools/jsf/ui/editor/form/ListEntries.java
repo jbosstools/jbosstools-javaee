@@ -125,41 +125,41 @@ public class ListEntries extends ExpandableForm {
 		this.xmo = (XModelObject) model;
 		if (xmo == null) {
 			JsfUiPlugin.getPluginLog().logInfo(
-					"Error to create form "
+					"Error to create form " //$NON-NLS-1$
 							+ FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER
-							+ ". Model object cannot be null.", new Exception());			
+							+ ". Model object cannot be null.", new Exception());			 //$NON-NLS-1$
 			return;
 		}
 		this.model = xmo.getModel();
 		this.support.init(xmo);
 		this.support.setAutoStore(Boolean.TRUE.booleanValue());
 
-		valueClass = support.getPropertyEditorByName("value-class");
+		valueClass = support.getPropertyEditorByName("value-class"); //$NON-NLS-1$
 		/* TRIAL_JSF */
 		this.tableAdapter = new XChildrenTableStructuredAdapter();
-		this.tableAdapter.setShownEntities(new String[] { "JSFListEntry" });
+		this.tableAdapter.setShownEntities(new String[] { "JSFListEntry" }); //$NON-NLS-1$
 
 		this.tableAdapter.getActionMapping().clear();
 
 		this.tableAdapter.getActionMapping().put(
-				TableStructuredEditor.ADD_ACTION, "CreateActions.AddEntry");
+				TableStructuredEditor.ADD_ACTION, "CreateActions.AddEntry"); //$NON-NLS-1$
 		this.tableAdapter.getActionMapping().put(
-				TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete");
+				TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete"); //$NON-NLS-1$
 		this.tableAdapter.getActionMapping().put(
-				TableStructuredEditor.EDIT_ACTION, "Properties.Properties");
+				TableStructuredEditor.EDIT_ACTION, "Properties.Properties"); //$NON-NLS-1$
 		this.tableAdapter.getActionMapping().put(
-				TableStructuredEditor.UP_ACTION, "%internal%");
+				TableStructuredEditor.UP_ACTION, "%internal%"); //$NON-NLS-1$
 		this.tableAdapter.getActionMapping().put(
-				TableStructuredEditor.DOWN_ACTION, "%internal%");
+				TableStructuredEditor.DOWN_ACTION, "%internal%"); //$NON-NLS-1$
 
-		this.tableAdapter.setShownProperties(new String[] { "value" });
+		this.tableAdapter.setShownProperties(new String[] { "value" }); //$NON-NLS-1$
 		this.tableAdapter
 				.setColumnLabels(new String[] { FacesConfigEditorMessages.LISTENTRIESFORM_ENTRY_COLUMN_LABEL });
 		this.tableAdapter.setWidths(new int[] { 100 });
 		this.tableAdapter.setModelObject(xmo);
 
 		this.tableEditor = new TableStructuredEditor(settings);
-		this.tableEditor.setLabelText("");
+		this.tableEditor.setLabelText(""); //$NON-NLS-1$
 		this.tableEditor.setInput(this.tableAdapter);
 	}
 
@@ -184,11 +184,11 @@ public class ListEntries extends ExpandableForm {
 
 		public String getColumnText(Object element, int columnIndex) {
 			XModelObject xmo = (XModelObject) element;
-			String value = xmo.getAttributeValue("null-value");
-			if ("true".equals(value)) {
-				return "[null-value]";
+			String value = xmo.getAttributeValue("null-value"); //$NON-NLS-1$
+			if ("true".equals(value)) { //$NON-NLS-1$
+				return "[null-value]"; //$NON-NLS-1$
 			}
-			return xmo.getAttributeValue("value");
+			return xmo.getAttributeValue("value"); //$NON-NLS-1$
 		}
 
 		public void addListener(ILabelProviderListener listener) {

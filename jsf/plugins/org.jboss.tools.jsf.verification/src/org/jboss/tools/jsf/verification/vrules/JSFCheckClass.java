@@ -21,7 +21,7 @@ public class JSFCheckClass extends JSFDefaultCheck {
 
 	public VResult[] check(VObject object) {
 		XModelObject o = ((VObjectImpl)object).getModelObject();
-		String objectAttribute = rule.getProperty("objectAttribute");
+		String objectAttribute = rule.getProperty("objectAttribute"); //$NON-NLS-1$
 		String attr = getAttribute();
 		if(objectAttribute == null || objectAttribute.length() == 0) objectAttribute = attr;
 		if(attr == null) return null;
@@ -51,8 +51,8 @@ public class JSFCheckClass extends JSFDefaultCheck {
 	
 	private String checkImplements(VObject object, IType type) throws JavaModelException {
 		if(object == null || type == null) return null;
-		if("java.lang.Class".equals(type.getFullyQualifiedName())) return null;
-		String impl = rule.getProperty("implements");
+		if("java.lang.Class".equals(type.getFullyQualifiedName())) return null; //$NON-NLS-1$
+		String impl = rule.getProperty("implements"); //$NON-NLS-1$
 		if(impl == null || impl.length() == 0) return null;
 		String[] is = type.getSuperInterfaceNames();
 		for (int i = 0; i < is.length; i++) {
@@ -61,9 +61,9 @@ public class JSFCheckClass extends JSFDefaultCheck {
 		}
 		if(type.isInterface()) return impl;
 		String f = type.getSuperclassName();
-		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return impl;
+		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return impl; //$NON-NLS-1$
 		f = EclipseJavaUtil.resolveType(type, f);
-		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return impl;
+		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return impl; //$NON-NLS-1$
 		type = object.getModel().getValidType(f);
 		if(type == null) return impl;
 		return checkImplements(object, type);
@@ -72,14 +72,14 @@ public class JSFCheckClass extends JSFDefaultCheck {
 	private String checkExtends(VObject object, IType type) throws JavaModelException {
 		if(object == null || type == null) return null;
 		if(type.isInterface()) return null;
-		if("java.lang.Class".equals(type.getFullyQualifiedName())) return null;
-		String ext = rule.getProperty("extends");
+		if("java.lang.Class".equals(type.getFullyQualifiedName())) return null; //$NON-NLS-1$
+		String ext = rule.getProperty("extends"); //$NON-NLS-1$
 		if(ext == null || ext.length() == 0) return null;
 		String f = type.getSuperclassName();
-		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return ext;
+		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return ext; //$NON-NLS-1$
 		if(f.equals(ext)) return null;
 		f = EclipseJavaUtil.resolveType(type, f);
-		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return ext;
+		if(f == null || f.length() == 0 || "java.lang.Object".equals(f)) return ext; //$NON-NLS-1$
 		if(f.equals(ext)) return null;
 		type = object.getModel().getValidType(f);
 		if(type == null) return ext;
@@ -87,21 +87,21 @@ public class JSFCheckClass extends JSFDefaultCheck {
 	}
 	
 	protected String getAttribute() {
-		return rule.getProperty("attribute");
+		return rule.getProperty("attribute"); //$NON-NLS-1$
 	}
 	
 	private boolean allowsPrimitive() {
-		return "true".equals(rule.getProperty("allow-primitive"));
+		return "true".equals(rule.getProperty("allow-primitive")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	private boolean isPrimitive(String value) {
-		return ".int.boolean.char.byte.double.float.long.short.".indexOf("." + value + ".") >= 0;
+		return ".int.boolean.char.byte.double.float.long.short.".indexOf("." + value + ".") >= 0; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	private boolean isJavaLang(String value) {
 		if(value.indexOf('.') < 0) {
-			return ".String.Integer.Boolean.Character.Byte.Double.Float.Long.Short.".indexOf("." + value + ".") >= 0;
-		} else if(value.startsWith("java.lang.")) {
+			return ".String.Integer.Boolean.Character.Byte.Double.Float.Long.Short.".indexOf("." + value + ".") >= 0; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		} else if(value.startsWith("java.lang.")) { //$NON-NLS-1$
 			return isJavaLang(value.substring(10));
 		} else {
 			return false;
@@ -116,13 +116,13 @@ public class JSFCheckClass extends JSFDefaultCheck {
 
 	protected VResult[] fireImplements(VObject object, String id, String attr, String value, String interfaceName) {
 		Object[] os = new Object[] {attr, value, interfaceName};
-		VResult result = rule.getResultFactory().getResult(id + ".implements", object, attr, object, attr, os);
+		VResult result = rule.getResultFactory().getResult(id + ".implements", object, attr, object, attr, os); //$NON-NLS-1$
 		return new VResult[] {result};
 	}
 
 	protected VResult[] fireExtends(VObject object, String id, String attr, String value, String superName) {
 		Object[] os = new Object[] {attr, value, superName};
-		VResult result = rule.getResultFactory().getResult(id + ".extends", object, attr, object, attr, os);
+		VResult result = rule.getResultFactory().getResult(id + ".extends", object, attr, object, attr, os); //$NON-NLS-1$
 		return new VResult[] {result};
 	}
 }

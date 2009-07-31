@@ -26,7 +26,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	PaletteDropCommand fDropCommand;
 	IDropWizardModel fModel;
 	private DataTableWizardPage page2 = null;	
-	static String H_PREFIX  = "%prefix|http://java.sun.com/jsf/html|h%";
+	static String H_PREFIX  = "%prefix|http://java.sun.com/jsf/html|h%"; //$NON-NLS-1$
 	
 	public DataTableWizard () {
 		setWindowTitle(DropWizardMessages.Wizard_Window_Title);
@@ -97,16 +97,16 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		Properties properties = fDropCommand.getProperties();
 		String[] vs = page2.getSelectedProperties();
 		StringBuffer text = new StringBuffer();
-		text.append(properties.getProperty("start text"));
+		text.append(properties.getProperty("start text")); //$NON-NLS-1$
 		
 		String value = null;
 		if (page2.getValue().trim().length() > 0) {
 			value = page2.getValue().trim();
-			if(value.startsWith("#{")
-				|| value.startsWith("${")) {
+			if(value.startsWith("#{") //$NON-NLS-1$
+				|| value.startsWith("${")) { //$NON-NLS-1$
 				value = value.substring(2);
 			}
-			if(value.endsWith("}")) {
+			if(value.endsWith("}")) { //$NON-NLS-1$
 				value = value.substring(0, value.length() - 1);
 			}
 		}
@@ -120,17 +120,17 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		else if (value != null)
 			fillin(text, vs, value);
 			else 
-				fillin(text, vs,"");
+				fillin(text, vs,""); //$NON-NLS-1$
 		
-		fDropCommand.getProperties().setProperty("start text", text.toString());			
+		fDropCommand.getProperties().setProperty("start text", text.toString());			 //$NON-NLS-1$
 	}
 	
 	private void fillin(StringBuffer text, String[] vs, String val) {
 		for (int i = 0; i < vs.length; i++){
-			text.append("\n\t<" + H_PREFIX + "column>\n" +
-				"\t\t<"+ H_PREFIX + "outputText value=\"#{"
-				+ val + "." + vs[i] + "}\"/>\n" +
-				 		"\t</" + H_PREFIX + "column>");
+			text.append("\n\t<" + H_PREFIX + "column>\n" + //$NON-NLS-1$ //$NON-NLS-2$
+				"\t\t<"+ H_PREFIX + "outputText value=\"#{" //$NON-NLS-1$ //$NON-NLS-2$
+				+ val + "." + vs[i] + "}\"/>\n" + //$NON-NLS-1$ //$NON-NLS-2$
+				 		"\t</" + H_PREFIX + "column>"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

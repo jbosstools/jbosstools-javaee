@@ -27,12 +27,12 @@ import org.jboss.tools.jsf.model.JSFConstants;
 public class JSFPageUpdateManager implements XModelTreeListener, Runnable, JSFConstants {
 
     public static JSFPageUpdateManager getInstance(XModel model) {
-		JSFPageUpdateManager instance = (JSFPageUpdateManager)model.getManager("JSFPageUpdateManager");
+		JSFPageUpdateManager instance = (JSFPageUpdateManager)model.getManager("JSFPageUpdateManager"); //$NON-NLS-1$
         if(instance == null) {
             instance = new JSFPageUpdateManager();
             instance.model = model;
             instance.init();
-			model.addManager("JSFPageUpdateManager", instance);
+			model.addManager("JSFPageUpdateManager", instance); //$NON-NLS-1$
             model.addModelTreeListener(instance);
         }
         return instance;
@@ -60,10 +60,10 @@ public class JSFPageUpdateManager implements XModelTreeListener, Runnable, JSFCo
     }
 
     PageLinks getPageLinks(XModelObject page) {
-        String pid = page.get("_page_id");
+        String pid = page.get("_page_id"); //$NON-NLS-1$
         if(pid == null) {
-            pid = "" + (++id);
-            page.set("_page_id", pid);
+            pid = "" + (++id); //$NON-NLS-1$
+            page.set("_page_id", pid); //$NON-NLS-1$
         }
         PageLinks pl = pages.get(pid);
         if(pl == null) {
@@ -110,10 +110,10 @@ public class JSFPageUpdateManager implements XModelTreeListener, Runnable, JSFCo
         if (event.kind() == XModelTreeEvent.STRUCTURE_CHANGED &&
                 event.getModelObject() == model.getRoot()) {
             model.removeModelTreeListener(this);
-			JSFPageUpdateManager instance = (JSFPageUpdateManager)model.getManager("JSFPageUpdateManager");
+			JSFPageUpdateManager instance = (JSFPageUpdateManager)model.getManager("JSFPageUpdateManager"); //$NON-NLS-1$
 			if(instance != null) { 
 				instance.stopped = true;
-				model.removeManager("JSFPageUpdateManager");
+				model.removeManager("JSFPageUpdateManager"); //$NON-NLS-1$
 			}
             return;
         } else if(event.kind() == XModelTreeEvent.CHILD_ADDED) {
@@ -125,7 +125,7 @@ public class JSFPageUpdateManager implements XModelTreeListener, Runnable, JSFCo
 
     private void onChildAdded(XModelTreeEvent event) {
         XModelObject c = (XModelObject)event.getInfo();
-        if(!c.getModelEntity().getName().equals("JSFProcessGroup")) return;
+        if(!c.getModelEntity().getName().equals("JSFProcessGroup")) return; //$NON-NLS-1$
         FacesProcessImpl pi = (FacesProcessImpl)event.getModelObject();
         PageLinks pl = getPageLinks(c);
         if(pl == null || pi.getHelper() == null) return;
@@ -211,8 +211,8 @@ class PageLinks implements JSFConstants {
 
     private void setConfirmed(boolean b) {
         confirmed = b;
-        if(confirmed == ("true".equals(page.get("confirmed")))) return;
-        page.setAttributeValue("confirmed", "" + confirmed);
+        if(confirmed == ("true".equals(page.get("confirmed")))) return; //$NON-NLS-1$ //$NON-NLS-2$
+        page.setAttributeValue("confirmed", "" + confirmed); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 }

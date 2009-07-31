@@ -33,7 +33,7 @@ import org.jboss.tools.common.text.ext.hyperlink.xml.XMLContextParamLinkHyperlin
  * @author Jeremy
  */
 public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamLinkHyperlinkPartitioner {
-	public static final String JSF_XML_CONTEXT_PARAM_LINK_PARTITION = "org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK";
+	public static final String JSF_XML_CONTEXT_PARAM_LINK_PARTITION = "org.jboss.tools.common.text.ext.xml.JSF_XML_CONTEXT_PARAM_LINK"; //$NON-NLS-1$
 
 	private String[] JSF_PROJECT_NATURES = {
 		JSFNature.NATURE_ID
@@ -63,18 +63,18 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 			}
 			return false;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();
 		}
 	}
 
-	private static final String CONTEXT_PARAM_TAGNAME = "context-param";
-	private static final String PARAM_NAME_TAGNAME = "param-name";
-	private static final String PARAM_VALUE_TAGNAME = "param-value";
+	private static final String CONTEXT_PARAM_TAGNAME = "context-param"; //$NON-NLS-1$
+	private static final String PARAM_NAME_TAGNAME = "param-name"; //$NON-NLS-1$
+	private static final String PARAM_VALUE_TAGNAME = "param-value"; //$NON-NLS-1$
 	private static final String[] VALID_CONTEXT_PARAM_NAMES = 
-		{"javax.faces.CONFIG_FILES","javax.faces.application.CONFIG_FILES"};
+		{"javax.faces.CONFIG_FILES","javax.faces.application.CONFIG_FILES"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -135,7 +135,7 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 			}
 			return false;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.web.helpers.context;
 
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebHelper;
@@ -23,8 +24,8 @@ public class ImportJSFWarContext extends ImportWebWarContext {
 
 	protected void createModules() {
 		String ms = JSFWebHelper.getFacesConfigListAsString(webxml);
-		if(ms == null || ms.length() == 0) ms = "/faces-config.xml";
-		XModelObject module = createModuleInfo(webxml.getModel(), "", ms);
+		if(ms == null || ms.length() == 0) ms = "/faces-config.xml"; //$NON-NLS-1$
+		XModelObject module = createModuleInfo(webxml.getModel(), "", ms); //$NON-NLS-1$
 		modules = module == null ? new XModelObject[0] : new XModelObject[]{module};
 		createAllModules();
 	}
@@ -32,17 +33,17 @@ public class ImportJSFWarContext extends ImportWebWarContext {
 	protected void loadWebXML(String body, String location) throws XModelException {
 		super.loadWebXML(body, location);
 		if(WebAppHelper.findServlet(webxml, JSFConstants.FACES_SERVLET_CLASS, null) == null) {
-			String webXMLErrorMessage = "No JSF support found in the project."; 
+			String webXMLErrorMessage = JSFUIMessages.ImportJSFWarContext_NoJSFSupportFound; 
 			throw new XModelException(webXMLErrorMessage);
 		}
 	}
 
 	protected String getWebModuleEntity() {
-		return "WebJSFModule"; //"JstWebModule";
+		return "WebJSFModule"; //"JstWebModule"; //$NON-NLS-1$
 	}
 	
 	protected AdoptWebProjectContext createAdoptContext() {
-		throw new RuntimeException("Not implemented");
+		throw new RuntimeException("Not implemented"); //$NON-NLS-1$
 	}
 
 	public String getNatureID() {

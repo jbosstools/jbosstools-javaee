@@ -22,7 +22,7 @@ public class JSFProcessStructureHelper extends WebProcessStructureHelper impleme
 	public XModelObject getParentProcess(XModelObject element) {
 		XModelObject p = element;
 		while(p != null && p.getFileType() == XModelObject.NONE &&
-			  !"JSFProcess".equals(p.getModelEntity().getName())) p = p.getParent();
+			  !"JSFProcess".equals(p.getModelEntity().getName())) p = p.getParent(); //$NON-NLS-1$
 		return p;
 	}
 
@@ -67,7 +67,7 @@ public class JSFProcessStructureHelper extends WebProcessStructureHelper impleme
 	public static String createItemOutputPresentation(XModelObject reference) {
 		if(reference == null) return null;
 		String action = reference.getAttributeValue(ATT_FROM_ACTION);
-		String prefix = (action == null || action.length() == 0) ? "" : action + ":";
+		String prefix = (action == null || action.length() == 0) ? "" : action + ":"; //$NON-NLS-1$ //$NON-NLS-2$
 		String outcome = reference.getAttributeValue(ATT_FROM_OUTCOME);
 		if(outcome.length() == 0) outcome = JSFConstants.EMPTY_NAVIGATION_RULE_NAME;
 		return prefix + outcome;		
@@ -77,7 +77,7 @@ public class JSFProcessStructureHelper extends WebProcessStructureHelper impleme
 	public boolean isUnconfirmedPage(XModelObject group) {
 		if(!(group instanceof ReferenceGroupImpl)) return false;
 		if(isGroupPattern(group)) return false;
-		return !"true".equals(group.getAttributeValue("confirmed"));
+		return !"true".equals(group.getAttributeValue("confirmed")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 ///	public static boolean isPageConfirmed(XModelObject itemPage) {

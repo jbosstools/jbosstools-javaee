@@ -20,7 +20,7 @@ public class AddManagedBeanScreenOne extends SpecialWizardStep {
 
 	public void propertyChange(PropertyChangeEvent event) {
 		if(lock) return;
-		if(event.getSource() == attributes.getPropertyEditorAdapterByName("managed-bean-class")) {
+		if(event.getSource() == attributes.getPropertyEditorAdapterByName("managed-bean-class")) { //$NON-NLS-1$
 			processClassNameChange((String)event.getNewValue());
 		}
 		super.propertyChange(event);
@@ -31,7 +31,7 @@ public class AddManagedBeanScreenOne extends SpecialWizardStep {
 		try {
 			AddManagedBeanSupport bs = (AddManagedBeanSupport)support;
 			String beanName = bs.getDefaultBeanName(newValue);
-			IValueProvider vp = attributes.getPropertyEditorAdapterByName("managed-bean-name");
+			IValueProvider vp = attributes.getPropertyEditorAdapterByName("managed-bean-name"); //$NON-NLS-1$
 			if(beanName != null) vp.setValue(beanName);
 		} finally {
 			lock = false;

@@ -62,10 +62,10 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 			for (int i = 0; i < os.length; i++) {
 				File d = new File(os[i]);
 				if(!d.isDirectory()) continue;
-				if("classes".equals(d.getName())) classes = true;
+				if("classes".equals(d.getName())) classes = true; //$NON-NLS-1$
 			}
 		} else {
-			File webContent = new File(target, "WebContent");
+			File webContent = new File(target, "WebContent"); //$NON-NLS-1$
 			try {
 				FileUtil.unjar(webContent, warLocation);
 			} catch (IOException e) {
@@ -75,7 +75,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 				File d = new File(os[i]);
 				if(!d.isDirectory()) continue;
 				File js = new File(jss[i]);
-				if("classes".equals(d.getName())) classes = true;
+				if("classes".equals(d.getName())) classes = true; //$NON-NLS-1$
 				if(d.equals(js)) continue;
 				boolean delete = copySrc(d, js);
 				if(delete) {
@@ -85,7 +85,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 			}
 		}
 		if(!classes && jss.length > 0) {
-			File d = new File(context.getWebInfLocation() + "/classes");
+			File d = new File(context.getWebInfLocation() + "/classes"); //$NON-NLS-1$
 			if(d.isDirectory()) copySrc(d, new File(jss[0]));
 		}
 
@@ -103,7 +103,7 @@ public class ImportJSFWarOperation extends JSFProjectAdoptOperation {
 				if(!copySrc(fs[i], to1)) result = false;
 			}
 			if(fs[i].isFile()) {
-				if(!n.endsWith(".java") && !n.endsWith(".properties")) {
+				if(!n.endsWith(".java") && !n.endsWith(".properties")) { //$NON-NLS-1$ //$NON-NLS-2$
 					result = false;
 				} else {
 					FileUtil.copyFile(fs[i], to1, true);

@@ -37,7 +37,7 @@ import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner
  * @author Jeremy
  */
 public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer {
-	public static final String JSF_JSP_TAG_ATTRIBUTE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_ATTRIBUTE";
+	public static final String JSF_JSP_TAG_ATTRIBUTE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_ATTRIBUTE"; //$NON-NLS-1$
 
 	private String[] JSF_PROJECT_NATURES = {
 		JSFNature.NATURE_ID
@@ -87,7 +87,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 			}
 			return false;
 		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();
@@ -138,7 +138,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 	
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -147,7 +147,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
+			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}
 		return superRegion.getAxis();
 	}

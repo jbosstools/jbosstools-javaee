@@ -52,7 +52,7 @@ public class PageEditPart extends JSFEditPart implements EditPartListener, IPage
 			XAction action = DnDUtil
 					.getEnabledAction(
 							(XModelObject) getPageModel().getSource(), null,
-							"OpenPage");
+							"OpenPage"); //$NON-NLS-1$
 			if (action != null)
 				action.executeHandler(
 						(XModelObject) getPageModel().getSource(), null);
@@ -113,7 +113,7 @@ public class PageEditPart extends JSFEditPart implements EditPartListener, IPage
 		return new AccessibleGraphicalEditPart() {
 
 			public void getName(AccessibleEvent e) {
-				e.result = "EditPart";
+				e.result = "EditPart"; //$NON-NLS-1$
 			}
 
 			public void getValue(AccessibleControlEvent e) {
@@ -173,7 +173,7 @@ public class PageEditPart extends JSFEditPart implements EditPartListener, IPage
 		ILink link = (ILink) connEditPart.getModel();
 		int index = getPageModel().getLinkList().indexOf(link);
 		ConnectionAnchor anc = getNodeFigure().getConnectionAnchor(
-				(index + 1) + "_OUT");
+				(index + 1) + "_OUT"); //$NON-NLS-1$
 		// - PageEditPart getSourceConnectionAnchor "+index+" link
 		// -"+link.getLinkName()+" "+anc);
 		return anc;

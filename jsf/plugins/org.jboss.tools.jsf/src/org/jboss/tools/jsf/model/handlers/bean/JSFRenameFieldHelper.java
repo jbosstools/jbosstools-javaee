@@ -22,9 +22,9 @@ public class JSFRenameFieldHelper {
 		Properties p = new Properties();
 		if(beanProperty == null) return p;
 		XModelObject parent = beanProperty.getParent();
-		String oldName = beanProperty.getAttributeValue("property-name");
-		String b = "#{" + parent.getAttributeValue("managed-bean-name") + "." + oldName + "}";
-		String e = "#{" + parent.getAttributeValue("managed-bean-name") + "." + newName + "}";
+		String oldName = beanProperty.getAttributeValue("property-name"); //$NON-NLS-1$
+		String b = "#{" + parent.getAttributeValue("managed-bean-name") + "." + oldName + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		String e = "#{" + parent.getAttributeValue("managed-bean-name") + "." + newName + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		p.setProperty(b, e);
 		return p;
 	}
@@ -35,8 +35,8 @@ public class JSFRenameFieldHelper {
 		String oldName = field.getElementName();
 		XModelObject[] beans = getBeanList(model, field);
 		for (int i = 0; i < beans.length; i++) {
-			String b = "#{" + beans[i].getAttributeValue("managed-bean-name") + "." + oldName + "}";
-			String e = "#{" + beans[i].getAttributeValue("managed-bean-name") + "." + newName + "}";
+			String b = "#{" + beans[i].getAttributeValue("managed-bean-name") + "." + oldName + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			String e = "#{" + beans[i].getAttributeValue("managed-bean-name") + "." + newName + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			p.setProperty(b, e);			
 		}
 		return p;
@@ -45,11 +45,11 @@ public class JSFRenameFieldHelper {
 	public static XModelObject[] getBeanList(XModel model, IField field) {
 		String clsname = field.getDeclaringType().getFullyQualifiedName();
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
-		JSFProjectBeans beans = (root == null) ? null : (JSFProjectBeans)root.getChildByPath("Beans");
+		JSFProjectBeans beans = (root == null) ? null : (JSFProjectBeans)root.getChildByPath("Beans"); //$NON-NLS-1$
 		XModelObject[] cs = beans.getTreeChildren();
 		for (int i = 0; i < cs.length; i++) {
 			JSFProjectBean bean = (JSFProjectBean)cs[i];
-			if(clsname.equals(bean.getAttributeValue("class name"))) return bean.getBeanList();
+			if(clsname.equals(bean.getAttributeValue("class name"))) return bean.getBeanList(); //$NON-NLS-1$
 		}
 		return new XModelObject[0];
 	}

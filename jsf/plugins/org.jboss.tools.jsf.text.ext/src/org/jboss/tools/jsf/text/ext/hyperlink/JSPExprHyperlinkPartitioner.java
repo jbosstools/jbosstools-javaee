@@ -29,7 +29,7 @@ import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner
  * @author Jeremy
  */
 public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IExclusiblePartitionerRecognition {
-	public static final String JSP_EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION";
+	public static final String JSP_EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"; //$NON-NLS-1$
 
 	protected String getPartitionType() {
 		return JSP_EXPRESSION_PARTITION;
@@ -65,7 +65,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
+			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}		
 		return superRegion.getAxis();
 	}
@@ -96,12 +96,12 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			int exprStart = 0;
 			int exprLength = 0;
 			while (startBracket != -1) {
-				int v = valText.indexOf("#{", startBracket + exprLength);
-				if (v == -1) v = valText.indexOf("${", startBracket + exprLength);
+				int v = valText.indexOf("#{", startBracket + exprLength); //$NON-NLS-1$
+				if (v == -1) v = valText.indexOf("${", startBracket + exprLength); //$NON-NLS-1$
 				if (v == -1) return null;
 				startBracket = v;
 
-				int endBracket = valText.indexOf("}", startBracket + 2);
+				int endBracket = valText.indexOf("}", startBracket + 2); //$NON-NLS-1$
 				exprStart = valStart + startBracket + 2;
 				int exprEnd = (endBracket == -1 ? valEnd - 1: valStart + endBracket);
 				int lineBreaker = valText.indexOf('\n', startBracket + 2);

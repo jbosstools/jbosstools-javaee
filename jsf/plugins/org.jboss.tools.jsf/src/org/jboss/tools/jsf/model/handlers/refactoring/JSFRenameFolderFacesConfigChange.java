@@ -46,25 +46,25 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 		this.object = object;
 		this.newName = newName;
 		replacements.clear();
-		oldPath = object.getAttributeValue("name");
+		oldPath = object.getAttributeValue("name"); //$NON-NLS-1$
 		newPath = newName;
 
-		oldPath = "/" + oldPath + "/";
-		newPath = "/" + newPath + "/";
+		oldPath = "/" + oldPath + "/"; //$NON-NLS-1$ //$NON-NLS-2$
+		newPath = "/" + newPath + "/"; //$NON-NLS-1$ //$NON-NLS-2$
 		XModelObject parent = object.getParent();
 		while(parent != null && parent.getFileType() == XModelObject.FOLDER) {
-			oldPath = "/" + parent.getAttributeValue("name") + oldPath;
-			newPath = "/" + parent.getAttributeValue("name") + newPath;
+			oldPath = "/" + parent.getAttributeValue("name") + oldPath; //$NON-NLS-1$ //$NON-NLS-2$
+			newPath = "/" + parent.getAttributeValue("name") + newPath; //$NON-NLS-1$ //$NON-NLS-2$
 			parent = parent.getParent();
 		}
-		replacements.setProperty(">" + oldPath, ">" + newPath);
+		replacements.setProperty(">" + oldPath, ">" + newPath); //$NON-NLS-1$ //$NON-NLS-2$
 		addChanges();
 	}
 
 	private void addChanges() {
 		if(object == null) return;
 		XModelObject root = JSFProjectsTree.getProjectsRoot(object.getModel());
-		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration");
+		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration"); //$NON-NLS-1$
 		fs = (conf == null) ? new XModelObject[0] : ((WebProjectNode)conf).getTreeChildren();
 		addChanges(fs);
 	}
@@ -92,7 +92,7 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 		}
 		for (int i = 0; i < fs.length; i++) {
 			if(fs[i].isModified()) {
-				XActionInvoker.invoke("SaveActions.Save", fs[i], null);
+				XActionInvoker.invoke("SaveActions.Save", fs[i], null); //$NON-NLS-1$
 			}
 		}
 		return null;
@@ -105,7 +105,7 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 		h.addUpdateLock(this);
 		try {
 			for (int j = 0; j < gs.length; j++) {
-	    		String op = gs[j].getAttributeValue("path");
+	    		String op = gs[j].getAttributeValue("path"); //$NON-NLS-1$
 	    		String np = newPath + op.substring(oldPath.length());
 				RenameViewSupport.replace((ReferenceGroupImpl)gs[j], op, np);
 			}
@@ -121,7 +121,7 @@ public class JSFRenameFolderFacesConfigChange extends CompositeChange {
 		XModelObject[] gs = JSFProcessStructureHelper.instance.getGroups(process);
 		ArrayList<XModelObject> list = new ArrayList<XModelObject>();
 		for (int i = 0; i < gs.length; i++) {
-			String path = gs[i].getAttributeValue("path");
+			String path = gs[i].getAttributeValue("path"); //$NON-NLS-1$
 			if(path != null && path.startsWith(oldPath)) list.add(gs[i]);
 		}
 		return list.toArray(new XModelObject[0]);

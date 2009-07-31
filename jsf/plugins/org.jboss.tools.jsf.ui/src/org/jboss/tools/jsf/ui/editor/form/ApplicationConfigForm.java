@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.editor.form;
 
-import org.eclipse.core.runtime.Status;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.adapter.XChildrenTableStructuredAdapter;
 import org.jboss.tools.common.model.ui.attribute.editor.IFieldEditor;
@@ -88,8 +87,8 @@ public class ApplicationConfigForm extends ExpandableForm {
 			label.setLayoutData(gd);
 		}
 		
-		String[] attributes = new String[]{"action-listener", "navigation-handler", "view-handler",
-			"state-manager"};
+		String[] attributes = new String[]{"action-listener", "navigation-handler", "view-handler", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			"state-manager"}; //$NON-NLS-1$
 		
 		if(xmo == null) return composite;
 
@@ -98,7 +97,7 @@ public class ApplicationConfigForm extends ExpandableForm {
 			putFieldEditorInToComposit(composite, editor);
 		}
 
-		IPropertyEditor editor = support.getPropertyEditorByName("default-render-kit-id");
+		IPropertyEditor editor = support.getPropertyEditorByName("default-render-kit-id"); //$NON-NLS-1$
 		FieldEditor f = editor.getFieldEditor(composite);
 		f.fillIntoGrid(composite, 2);
 		support.registerFieldEditor(editor.getAttributeName(), f);
@@ -122,12 +121,12 @@ public class ApplicationConfigForm extends ExpandableForm {
 	public void initialize(Object model) {
 		this.setHeadingText(FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER);
 		if(model == null) {
-			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER +". Model object cannot be null.", new Exception());
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER +". Model object cannot be null.", new Exception()); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
-		this.xmo = ((XModelObject)model).getChildByPath("application");
+		this.xmo = ((XModelObject)model).getChildByPath("application"); //$NON-NLS-1$
 		if(xmo == null) {
-			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER+". Model object cannot be null.", new Exception());
+			JsfUiPlugin.getPluginLog().logInfo("Error to create form "+FacesConfigEditorMessages.APPLICATIONCONFIGFORM_HEADER+". Model object cannot be null.", new Exception()); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		this.support.init(xmo);
@@ -135,19 +134,19 @@ public class ApplicationConfigForm extends ExpandableForm {
 
 		messageBundleTable = new ChildTable();
 		messageBundleTable.create(
-				"JSFMessageBundle", 
-				new String[]{"message-bundle"}, 
+				"JSFMessageBundle",  //$NON-NLS-1$
+				new String[]{"message-bundle"},  //$NON-NLS-1$
 				new String[]{FacesConfigEditorMessages.APPLICATIONCONFIGFORM_MESSAGEBUNDLE_COLUMN_LABEL},
 				new int[]{100},
-				"CreateActions.AddMessageBundle");
-		if(xmo.getModelEntity().getChild("JSFResourceBundle") != null) {
+				"CreateActions.AddMessageBundle"); //$NON-NLS-1$
+		if(xmo.getModelEntity().getChild("JSFResourceBundle") != null) { //$NON-NLS-1$
 			resourceBundleTable = new ChildTable();
 			resourceBundleTable.create(
-					"JSFResourceBundle", 
-					new String[]{"base-name", "var"}, 
-					new String[]{"Resource Bundle", "Var"},
+					"JSFResourceBundle",  //$NON-NLS-1$
+					new String[]{"base-name", "var"},  //$NON-NLS-1$ //$NON-NLS-2$
+					new String[]{"Resource Bundle", "Var"}, //$NON-NLS-1$ //$NON-NLS-2$
 					new int[]{70, 30},
-					"CreateActions.AddResourceBundle");
+					"CreateActions.AddResourceBundle"); //$NON-NLS-1$
 		}
 		/*TRIAL_JSF*/
 	}
@@ -193,17 +192,17 @@ public class ApplicationConfigForm extends ExpandableForm {
 			tableAdapter.getActionMapping().clear();
 
 			tableAdapter.getActionMapping().put(TableStructuredEditor.ADD_ACTION, createActionPath);
-			tableAdapter.getActionMapping().put(TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete");
-			tableAdapter.getActionMapping().put(TableStructuredEditor.EDIT_ACTION, "Properties.Properties");
-			tableAdapter.getActionMapping().put(TableStructuredEditor.UP_ACTION, "%internal%");
-			tableAdapter.getActionMapping().put(TableStructuredEditor.DOWN_ACTION, "%internal%");
+			tableAdapter.getActionMapping().put(TableStructuredEditor.REMOVE_ACTION, "DeleteActions.Delete"); //$NON-NLS-1$
+			tableAdapter.getActionMapping().put(TableStructuredEditor.EDIT_ACTION, "Properties.Properties"); //$NON-NLS-1$
+			tableAdapter.getActionMapping().put(TableStructuredEditor.UP_ACTION, "%internal%"); //$NON-NLS-1$
+			tableAdapter.getActionMapping().put(TableStructuredEditor.DOWN_ACTION, "%internal%"); //$NON-NLS-1$
 
 			tableAdapter.setShownProperties(attributes);
 			tableAdapter.setColumnLabels(attributeLabels);
 			tableAdapter.setWidths(widths);
 			tableAdapter.setModelObject(xmo);
 			tableEditor = new TableStructuredEditor(settings);
-			tableEditor.setLabelText("");
+			tableEditor.setLabelText(""); //$NON-NLS-1$
 			tableEditor.setInput(this.tableAdapter); 
 		}
 		

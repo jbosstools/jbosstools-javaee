@@ -25,7 +25,7 @@ import org.jboss.tools.jsf.text.ext.hyperlink.JSPLoadBundleHyperlinkPartitioner;
 public class RichfacesJSPLoadBundleHyperlinkPartitioner extends
 		JSPLoadBundleHyperlinkPartitioner {
 
-	public static final String JSP_RICHFACES_LOADBUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE";
+	public static final String JSP_RICHFACES_LOADBUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE"; //$NON-NLS-1$
 	
 	/**
 	 * @Override 

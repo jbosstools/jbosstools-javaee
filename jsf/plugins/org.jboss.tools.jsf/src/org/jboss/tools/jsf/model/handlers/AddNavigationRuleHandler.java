@@ -18,10 +18,10 @@ import org.jboss.tools.jsf.model.JSFNavigationModel;
 public class AddNavigationRuleHandler extends DefaultCreateHandler {
 
 	protected void setOtherProperties(XModelObject object, Properties p) {
-		String fvi = p.getProperty("from-view-id");
+		String fvi = p.getProperty("from-view-id"); //$NON-NLS-1$
 		JSFNavigationModel m = (JSFNavigationModel)object.getParent();
 		int i = m.getRuleCount(fvi);
-		p.setProperty("index", "" + i);
+		p.setProperty("index", "" + i); //$NON-NLS-1$ //$NON-NLS-2$
 		/*TRIAL_JSF*/
 	}
 /*TRIAL_JSF_CLASS*/

@@ -23,7 +23,6 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.wst.sse.ui.internal.actions.StructuredTextEditorActionConstants;
 import org.jboss.tools.common.gef.action.ActionRegistrySupport;
 import org.jboss.tools.jsf.ui.editor.FacesConfigGuiEditor;
@@ -95,7 +94,7 @@ public class JSFMultiPageContributor extends AbstractMultiPageContributor {
 				actionBars.setGlobalActionHandler(ActionFactory.FIND.getId(), getAction(editor, ActionFactory.FIND.getId()));
 				actionBars.setGlobalActionHandler(IDEActionFactory.BOOKMARK.getId(), getAction(editor, IDEActionFactory.BOOKMARK.getId()));
 				actionBars.setGlobalActionHandler(IDEActionFactory.ADD_TASK.getId(), getAction(editor, IDEActionFactory.ADD_TASK.getId()));
-				actionBars.setGlobalActionHandler(ActionFactory.PRINT.getId(), (registry != null) ? registry.getAction("Print_Diagram") : (editor != null) ? getAction(editor, ActionFactory.PRINT.getId()) : null);
+				actionBars.setGlobalActionHandler(ActionFactory.PRINT.getId(), (registry != null) ? registry.getAction("Print_Diagram") : (editor != null) ? getAction(editor, ActionFactory.PRINT.getId()) : null); //$NON-NLS-1$
 				actionBars.setGlobalActionHandler(ActionFactory.REVERT.getId(), getAction(editor, ActionFactory.REVERT.getId()));
 				actionBars.setGlobalActionHandler(ActionFactory.SAVE.getId(), getAction(editor, ActionFactory.SAVE.getId()));
 				actionBars.setGlobalActionHandler(StructuredTextEditorActionConstants.ACTION_NAME_CONTENTASSIST_PROPOSALS, getAction(editor, StructuredTextEditorActionConstants.ACTION_NAME_CONTENTASSIST_PROPOSALS));				

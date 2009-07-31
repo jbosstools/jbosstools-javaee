@@ -124,41 +124,41 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 		}
 	}
 
-	static String F_PREFIX = "%prefix|http://java.sun.com/jsf/core|f%";
+	static String F_PREFIX = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
 
 	public void setOptionsString(boolean header, boolean footer) {
 
 		StringBuffer text = new StringBuffer();
 
-		text.append(fDropCommand.getProperties().getProperty("start text"));
+		text.append(fDropCommand.getProperties().getProperty("start text")); //$NON-NLS-1$
 
 		if (header == true && footer == true) {
-			text.append("\n\t<" + F_PREFIX + "facet name=\"header\"></"
-					+ F_PREFIX + "facet>\n");
+			text.append("\n\t<" + F_PREFIX + "facet name=\"header\"></" //$NON-NLS-1$ //$NON-NLS-2$
+					+ F_PREFIX + "facet>\n"); //$NON-NLS-1$
 			if (page2.isColomns())
-				text.append("\t\t" + '|');
-			text.append("\n\t<" + F_PREFIX + "facet name=\"footer\"></"
-					+ F_PREFIX + "facet>");
-			fDropCommand.getProperties().setProperty("new line", "false");
+				text.append("\t\t" + '|'); //$NON-NLS-1$
+			text.append("\n\t<" + F_PREFIX + "facet name=\"footer\"></" //$NON-NLS-1$ //$NON-NLS-2$
+					+ F_PREFIX + "facet>"); //$NON-NLS-1$
+			fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		if (header == true && footer == false) {
-			text.append("\n\t<" + F_PREFIX + "facet name=\"header\"></"
-					+ F_PREFIX + "facet>");
+			text.append("\n\t<" + F_PREFIX + "facet name=\"header\"></" //$NON-NLS-1$ //$NON-NLS-2$
+					+ F_PREFIX + "facet>"); //$NON-NLS-1$
 		}
 
 		if (header == false && footer == true) {
 			if (page2.isColomns()) {
-				text.append("\n\t" + '|');
-				text.append("\n\t<" + F_PREFIX + "facet name=\"footer\"></"
-						+ F_PREFIX + "facet>");
+				text.append("\n\t" + '|'); //$NON-NLS-1$
+				text.append("\n\t<" + F_PREFIX + "facet name=\"footer\"></" //$NON-NLS-1$ //$NON-NLS-2$
+						+ F_PREFIX + "facet>"); //$NON-NLS-1$
 			} else {
-				text.append("\n\t" + " " + "\n\t<" + F_PREFIX
-						+ "facet name=\"footer\"></" + F_PREFIX + "facet>");
+				text.append("\n\t" + " " + "\n\t<" + F_PREFIX //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						+ "facet name=\"footer\"></" + F_PREFIX + "facet>"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			fDropCommand.getProperties().setProperty("new line", "false");
+			fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		fDropCommand.getProperties().setProperty("start text", text.toString());
+		fDropCommand.getProperties().setProperty("start text", text.toString()); //$NON-NLS-1$
 	}
 
 	public void dispose() {

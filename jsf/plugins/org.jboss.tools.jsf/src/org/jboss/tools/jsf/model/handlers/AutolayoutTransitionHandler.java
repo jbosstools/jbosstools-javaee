@@ -25,11 +25,11 @@ public class AutolayoutTransitionHandler extends AbstractHandler {
 
     public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
-        object.getModel().changeObjectAttribute(object, getAttr(object), "");
+        object.getModel().changeObjectAttribute(object, getAttr(object), ""); //$NON-NLS-1$
     }
 
     private String getAttr(XModelObject object) {
-        return "shape";
+        return "shape"; //$NON-NLS-1$
     }
 
 }

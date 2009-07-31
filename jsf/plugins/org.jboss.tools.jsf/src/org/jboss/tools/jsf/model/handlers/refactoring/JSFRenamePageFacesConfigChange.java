@@ -47,7 +47,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		this.newName = newName;
 		replacements.clear();
 		oldText = XModelObjectLoaderUtil.getResourcePath(object);
-		int i = oldText.lastIndexOf("/");
+		int i = oldText.lastIndexOf("/"); //$NON-NLS-1$
 		newText = oldText.substring(0, i + 1) + newName;
 		replacements.setProperty(oldText, newText);
 		addChanges();
@@ -59,7 +59,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		this.newName = name;
 		replacements.clear();
 		String oldText = XModelObjectLoaderUtil.getResourcePath(object);
-		String newText = XModelObjectLoaderUtil.getResourcePath(newParent) + "/" + name;
+		String newText = XModelObjectLoaderUtil.getResourcePath(newParent) + "/" + name; //$NON-NLS-1$
 		replacements.setProperty(oldText, newText);
 		addChanges();
 	}
@@ -67,7 +67,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 	private void addChanges() {
 		if(object == null) return;
 		XModelObject root = JSFProjectsTree.getProjectsRoot(object.getModel());
-		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration");
+		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration"); //$NON-NLS-1$
 		fs = (conf == null) ? new XModelObject[0] : ((WebProjectNode)conf).getTreeChildren();
 		addChanges(fs);
 	}
@@ -95,7 +95,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		}
 		for (int i = 0; i < fs.length; i++) {
 			if(fs[i].isModified()) {
-				XActionInvoker.invoke("SaveActions.Save", fs[i], null);
+				XActionInvoker.invoke("SaveActions.Save", fs[i], null); //$NON-NLS-1$
 			}
 		}
 		return null;
@@ -123,20 +123,20 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 		XModelObject[] gs = JSFProcessStructureHelper.instance.getGroups(process);
 		ArrayList<XModelObject> list = new ArrayList<XModelObject>();
 		for (int i = 0; i < gs.length; i++) {
-			String path = gs[i].getAttributeValue("path");
+			String path = gs[i].getAttributeValue("path"); //$NON-NLS-1$
 			if(path != null && path.equals(oldText)) list.add(gs[i]);
 		}
 		return list.toArray(new XModelObject[0]);
 	}
 
-	static String[] ICON_ATTRIBUTES = {"small-icon", "large-icon"};
+	static String[] ICON_ATTRIBUTES = {"small-icon", "large-icon"}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	static void replaceIcons(XModelObject f, String oldText, String newText) throws XModelException {
 		if(oldText == null || oldText.length() == 0) return;
 		if(f.getModelEntity().getAttribute(ICON_ATTRIBUTES[0]) != null) {
 			for (int i = 0; i < ICON_ATTRIBUTES.length; i++) {
 				String v = f.getAttributeValue(ICON_ATTRIBUTES[i]);
-				if(oldText.equals(v)) f.getModel().editObjectAttribute(f, "small-icon", newText);
+				if(oldText.equals(v)) f.getModel().editObjectAttribute(f, "small-icon", newText); //$NON-NLS-1$
 			}
 		}
 		XModelObject[] cs = f.getChildrenForSave();

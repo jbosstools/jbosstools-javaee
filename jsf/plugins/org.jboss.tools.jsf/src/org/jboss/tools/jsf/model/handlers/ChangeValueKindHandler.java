@@ -17,20 +17,20 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class ChangeValueKindHandler extends AbstractHandler {
-	public static String MESSAGE_KEY = "JSFManagedProperty_ChangeValueKind";
+	public static String MESSAGE_KEY = "JSFManagedProperty_ChangeValueKind"; //$NON-NLS-1$
 	
 	public static boolean isNewValueKind(XModelObject object, String kind) {
-		String objectKind = object.getAttributeValue("value-kind");
+		String objectKind = object.getAttributeValue("value-kind"); //$NON-NLS-1$
 		return objectKind != null && kind != null && !objectKind.equals(kind);
 	}
 
 	public static boolean checkChangeSignificance(XModelObject object) {
-		String kind = object.getAttributeValue("value-kind");
-		if("null-value".equals(kind)) return true;
-		if("value".equals(kind)) {
-			if(object.getAttributeValue("value").length() == 0) return true;
-		} if("map-entries".equals(kind) || "list-entries".equals(kind)) {
-			XModelObject c = object.getChildByPath("Entries");
+		String kind = object.getAttributeValue("value-kind"); //$NON-NLS-1$
+		if("null-value".equals(kind)) return true; //$NON-NLS-1$
+		if("value".equals(kind)) { //$NON-NLS-1$
+			if(object.getAttributeValue("value").length() == 0) return true; //$NON-NLS-1$
+		} if("map-entries".equals(kind) || "list-entries".equals(kind)) { //$NON-NLS-1$ //$NON-NLS-2$
+			XModelObject c = object.getChildByPath("Entries"); //$NON-NLS-1$
 			if(c == null) return true;
 			//check attributes
 			if(c.getChildren().length == 0) return true;  
@@ -39,21 +39,21 @@ public class ChangeValueKindHandler extends AbstractHandler {
 	}
 
 	public static boolean openConfirmation(XModel model) {
-		String message = "" + WizardKeys.getMessage(MESSAGE_KEY);
+		String message = "" + WizardKeys.getMessage(MESSAGE_KEY); //$NON-NLS-1$
 		ServiceDialog d = model.getService();
 		int q = d.showDialog(JSFUIMessages.CONFIRMATION, message, new String[]{JSFUIMessages.OK, JSFUIMessages.CANCEL}, null, ServiceDialog.QUESTION);
 		return q == 0;
 	}
 	
 	public boolean isEnabled(XModelObject object) {
-		return object != null && object.isObjectEditable() && isNewValueKind(object, action.getProperty("value-kind"));
+		return object != null && object.isObjectEditable() && isNewValueKind(object, action.getProperty("value-kind")); //$NON-NLS-1$
 	}
 	
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if(!isEnabled(object)) return;
 		if(!checkChangeSignificance(object)) return;
-		String targetValueKind = action.getProperty("value-kind");
-		object.getModel().changeObjectAttribute(object, "value-kind", targetValueKind);
+		String targetValueKind = action.getProperty("value-kind"); //$NON-NLS-1$
+		object.getModel().changeObjectAttribute(object, "value-kind", targetValueKind); //$NON-NLS-1$
 	}	
 	
 }

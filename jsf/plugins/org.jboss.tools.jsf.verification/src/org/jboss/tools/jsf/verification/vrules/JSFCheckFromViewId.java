@@ -21,8 +21,8 @@ public class JSFCheckFromViewId extends JSFDefaultCheck implements JSFConstants 
 
 	public VResult[] check(VObject object) {
 		String attr = (String)object.getAttribute(ATT_FROM_VIEW_ID);
-		if(attr == null || attr.length() == 0 || attr.startsWith("*")) return null;
-		if(attr.startsWith("/")) return null;
+		if(attr == null || attr.length() == 0 || attr.startsWith("*")) return null; //$NON-NLS-1$
+		if(attr.startsWith("/")) return null; //$NON-NLS-1$
 		return fire(object, ATT_FROM_VIEW_ID, ATT_FROM_VIEW_ID, null);
 	}
 

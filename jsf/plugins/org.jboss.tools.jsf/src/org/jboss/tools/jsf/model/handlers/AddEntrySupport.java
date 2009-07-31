@@ -23,9 +23,9 @@ public class AddEntrySupport extends SpecialWizardSupport {
 	
 	public boolean isEnabled(XModelObject target) {
 		if(!super.isEnabled(target)) return false;
-		isProperty = "JSFManagedProperty".equals(target.getModelEntity().getName());
+		isProperty = "JSFManagedProperty".equals(target.getModelEntity().getName()); //$NON-NLS-1$
 		if(isProperty) {
-			String toKind = action.getProperty("value-kind");
+			String toKind = action.getProperty("value-kind"); //$NON-NLS-1$
 			return ChangeValueKindHandler.isNewValueKind(target, toKind);
 		}
 		return true;
@@ -33,7 +33,7 @@ public class AddEntrySupport extends SpecialWizardSupport {
 
 	public void reset() {
 		isEditing = getTarget().getModelEntity() == getEntityData()[0].getModelEntity();
-		isProperty = "JSFManagedProperty".equals(getTarget().getModelEntity().getName());
+		isProperty = "JSFManagedProperty".equals(getTarget().getModelEntity().getName()); //$NON-NLS-1$
 		if(isEditing) {
 			setAttributeDataByObject(0, getTarget());
 		} else if(isProperty) {
@@ -61,11 +61,11 @@ public class AddEntrySupport extends SpecialWizardSupport {
 	void execute() throws XModelException {
 		Properties p = extractStepData(0);
 		if(isProperty) {
-			String kind = action.getProperty("value-kind");
-			getTarget().getModel().changeObjectAttribute(getTarget(), "value-kind", kind);
+			String kind = action.getProperty("value-kind"); //$NON-NLS-1$
+			getTarget().getModel().changeObjectAttribute(getTarget(), "value-kind", kind); //$NON-NLS-1$
 			String entity = getEntityData()[0].getModelEntity().getName();
 			XModelObject o = getTarget().getModel().createModelObject(entity, p);
-			DefaultCreateHandler.addCreatedObject(getTarget().getChildByPath("Entries"), o, getProperties());
+			DefaultCreateHandler.addCreatedObject(getTarget().getChildByPath("Entries"), o, getProperties()); //$NON-NLS-1$
 		} else if(!isEditing) {
 			String entity = getEntityData()[0].getModelEntity().getName();
 			XModelObject o = getTarget().getModel().createModelObject(entity, p);
@@ -78,8 +78,8 @@ public class AddEntrySupport extends SpecialWizardSupport {
 
 	public boolean isFieldEditorEnabled(int stepId, String name, Properties values) {
 		if(isEditing && !getTarget().isObjectEditable()) return false;
-		boolean isNullValue = "true".equals(values.getProperty("null-value"));
-		if(name.equals("value")) return !isNullValue;
+		boolean isNullValue = "true".equals(values.getProperty("null-value")); //$NON-NLS-1$ //$NON-NLS-2$
+		if(name.equals("value")) return !isNullValue; //$NON-NLS-1$
 		return true;
 	}
 	/*TRIAL_JSF_CLASS*/

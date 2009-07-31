@@ -34,6 +34,7 @@ import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jsf.ui.Messages;
 import org.jboss.tools.jsf.ui.editor.JSFEditor;
 import org.jboss.tools.jsf.ui.editor.figures.ConnectionFigure;
 import org.jboss.tools.jsf.ui.editor.figures.FigureFactory;
@@ -43,7 +44,7 @@ import org.jboss.tools.jsf.ui.editor.model.ILinkListener;
 public class LinkEditPart extends AbstractConnectionEditPart implements
 		PropertyChangeListener, ILinkListener, EditPartListener {
 	public static final Image icon = ImageDescriptor.createFromFile(
-			JSFEditor.class, "icons/shortcut.gif").createImage();
+			JSFEditor.class, "icons/shortcut.gif").createImage(); //$NON-NLS-1$
 
 	AccessibleEditPart acc;
 
@@ -72,7 +73,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 	public void doDoubleClick(boolean cf) {
 		try {
 			XModelObject s = (XModelObject) getLinkModel().getSource();
-			XAction action = DnDUtil.getEnabledAction(s, null, "Properties.Properties");
+			XAction action = DnDUtil.getEnabledAction(s, null, "Properties.Properties"); //$NON-NLS-1$
 			if (action != null)
 				action.executeHandler(s, null);
 		} catch (XModelException e) {
@@ -129,7 +130,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if (!getLink().isShortcut())
 			conn.add(pathLabel, pathLocator);
 
-		String text = "";
+		String text = ""; //$NON-NLS-1$
 		if (getLink().getJSFModel().getOptions().showShortcutPath())
 			text = getLink().getToGroup().getVisiblePath();
 		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
@@ -179,7 +180,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if (acc == null)
 			acc = new AccessibleGraphicalEditPart() {
 				public void getName(AccessibleEvent e) {
-					e.result = "Link";
+					e.result = Messages.LinkEditPart_Link;
 				}
 			};
 		return acc;
@@ -222,7 +223,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if (getLinkModel().getJSFModel().getOptions().showShortcutPath())
 			shortcutLabel.setText(getLink().getToGroup().getVisiblePath());
 		else
-			shortcutLabel.setText("");
+			shortcutLabel.setText(""); //$NON-NLS-1$
 		if (getLinkModel().getJSFModel().getOptions().showShortcutIcon())
 			shortcutLabel.setIcon(icon);
 		else
@@ -242,11 +243,11 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		}
 
 		if (getLinkFigure().isManual()
-				&& getLink().getPathFromModel().equals("")) {
+				&& getLink().getPathFromModel().equals("")) { //$NON-NLS-1$
 			getLinkFigure().setManual(false);
 			refresh();
 		} else if (!getLinkFigure().isManual()
-				&& !getLink().getPathFromModel().equals("")) {
+				&& !getLink().getPathFromModel().equals("")) { //$NON-NLS-1$
 			getLinkFigure().setManual(true);
 			refresh();
 		}

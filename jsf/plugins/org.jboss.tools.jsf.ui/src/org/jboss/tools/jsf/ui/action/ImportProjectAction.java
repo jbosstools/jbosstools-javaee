@@ -36,17 +36,17 @@ public class ImportProjectAction extends Action implements IWorkbenchWindowActio
 	public void run() {
 		IImportWizard wizard = ExtensionPointUtils.findImportWizardsItem(
 			JSFModelPlugin.PLUGIN_ID,
-			"org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard"
+			"org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" //$NON-NLS-1$
 		);
 		if (wizard != null) {
 			((ImportProjectWizard)wizard).setHelpAvailable(false);
 			wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
 			WizardDialog dialog = new WizardDialog(ModelUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
 			dialog.create();
-			JsfUiPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.import_wizard_context");
+			JsfUiPlugin.getDefault().getWorkbench().getHelpSystem().setHelp(dialog.getShell(), "org.eclipse.ui.import_wizard_context"); //$NON-NLS-1$
 			dialog.open();  
 		} else {
-			JsfUiPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard'.");
+			JsfUiPlugin.getPluginLog().logError("Unable to create wizard 'org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard'."); //$NON-NLS-1$
 		}
 	}
 

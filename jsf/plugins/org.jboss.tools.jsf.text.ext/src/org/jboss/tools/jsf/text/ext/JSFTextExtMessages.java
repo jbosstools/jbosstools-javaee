@@ -17,7 +17,7 @@ import org.eclipse.osgi.util.NLS;
  *
  */
 
-public class JSFTextExtMessages {
+public class JSFTextExtMessages extends NLS {
 	private static final String BUNDLE_NAME = "org.jboss.tools.jsf.text.ext.JSFTextExtMessages"; //$NON-NLS-1$
 	
 	private JSFTextExtMessages() { }
@@ -27,6 +27,7 @@ public class JSFTextExtMessages {
 	}
 	
 	public static String Converter;
+	public static String JSFExtensionsPlugin_NoMessage;
 	public static String OpenConverterForId;
 	public static String OpenTagLibraryForATag;
 	public static String OpenTagLibraryForTagName;

@@ -36,7 +36,7 @@ import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
  * @author Jeremy
  */
 public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer {
-	public static final String JSP_BEAN_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_BEAN";
+	public static final String JSP_BEAN_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_BEAN"; //$NON-NLS-1$
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -70,7 +70,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
+			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}
 		return superRegion.getAxis();
 	}
@@ -119,7 +119,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -174,7 +174,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -227,7 +227,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength);
 			return region;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -258,12 +258,12 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			XModel xModel = AbstractHyperlink.getXModel(file);
 			if (xModel == null) return false;
 			
-			List beanList = provider.getList(xModel, WebPromptingProvider.JSF_MANAGED_BEANS, "", null);
+			List beanList = provider.getList(xModel, WebPromptingProvider.JSF_MANAGED_BEANS, "", null); //$NON-NLS-1$
 			String beanName = null;
 			for (int i = 0; beanList != null && i < beanList.size(); i++) {
 				String bn = (String)beanList.get(i);
 				if (propText.trim().equals(bn) ||
-						propText.trim().startsWith(bn + ".")) {
+						propText.trim().startsWith(bn + ".")) { //$NON-NLS-1$
 					beanName = bn;
 					break;
 				}
@@ -273,7 +273,7 @@ public class JSPBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			
 			return true;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();

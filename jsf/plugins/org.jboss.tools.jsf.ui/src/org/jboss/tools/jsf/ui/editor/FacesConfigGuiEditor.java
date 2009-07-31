@@ -20,6 +20,7 @@ import org.eclipse.ui.IEditorSite;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jsf.ui.Messages;
 import org.jboss.tools.jsf.ui.editor.model.impl.JSFModel;
 import org.jboss.tools.common.model.ui.editor.IModelObjectEditorInput;
 import org.jboss.tools.jst.web.model.WebProcess;
@@ -67,7 +68,7 @@ public class FacesConfigGuiEditor extends AbstractSectionEditor {
 	private WebProcess findInstalledObject() {
 		XModelObject o1 = input.getXModelObject();
 		if(o1 == null) return null;
-		XModelObject c = o1.getChildByPath("process");
+		XModelObject c = o1.getChildByPath("process"); //$NON-NLS-1$
 		if(!(c instanceof WebProcess)) return null;
 		WebProcess f = (WebProcess)c;
 		return (!f.isPrepared()) ? null : f;
@@ -110,7 +111,7 @@ public class FacesConfigGuiEditor extends AbstractSectionEditor {
 	}
 	
 	public String getTitle() {
-		return "Diagram";
+		return Messages.FacesConfigGuiEditor_DiagramTitle;
 	}
 
 }

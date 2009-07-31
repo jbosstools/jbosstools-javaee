@@ -18,7 +18,7 @@ import org.osgi.framework.BundleContext;
 
 public class JsfUiPlugin extends BaseUIPlugin {
 
-	public static String PLUGIN_ID = "org.jboss.tools.jsf.ui";
+	public static String PLUGIN_ID = "org.jboss.tools.jsf.ui"; //$NON-NLS-1$
 
 	public JsfUiPlugin() {
 	}

@@ -48,8 +48,8 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			String fullText = getDocument().get(region.getOffset(), region.getLength());
 			
 			// get var name
-			int dotIndex = fullText.indexOf(".");
-			int bracketIndex = fullText.indexOf("[");
+			int dotIndex = fullText.indexOf("."); //$NON-NLS-1$
+			int bracketIndex = fullText.indexOf("["); //$NON-NLS-1$
 
 			boolean useDot = false;
 			boolean useBracket = false;
@@ -60,7 +60,7 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 					useBracket = true;
 					useDot = false;
 			}
-			if (useDot && fullText.indexOf(".", dotIndex + 1) != -1)
+			if (useDot && fullText.indexOf(".", dotIndex + 1) != -1) //$NON-NLS-1$
 					useDot = false;
 
 			if (!useDot && !useBracket) return null;
@@ -71,13 +71,13 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			}
 			if (useBracket) {
 				int startProp = bracketIndex + 1;
-				int endProp = fullText.indexOf("]");
+				int endProp = fullText.indexOf("]"); //$NON-NLS-1$
 				if (endProp == -1) endProp = fullText.length() - 1;
 				sProp = Utils.trimQuotes(fullText.substring(startProp, endProp));
 			}
 			return sProp;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 
@@ -98,7 +98,7 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			// Find loadBundle tag
 			List<Element> lbTags = new ArrayList<Element>();
 			for (String prefix : prefixes) {
-				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle");
+				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle"); //$NON-NLS-1$
 				for (int i = 0; list != null && i < list.getLength(); i++) {
 					Element el = (Element)list.item(i);
 					int end = Utils.getValueEnd(el);
@@ -109,23 +109,23 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			}
 			for (int i = 0; i < lbTags.size(); i++) {
 				Element el = (Element)lbTags.get(i);
-				Attr var = el.getAttributeNode("var");
-				if (bundleProp.startsWith("" + var.getValue() + ".")
-					|| bundleProp.startsWith("" + var.getValue() + "['")
+				Attr var = el.getAttributeNode("var"); //$NON-NLS-1$
+				if (bundleProp.startsWith("" + var.getValue() + ".") //$NON-NLS-1$ //$NON-NLS-2$
+					|| bundleProp.startsWith("" + var.getValue() + "['") //$NON-NLS-1$ //$NON-NLS-2$
 					|| bundleProp.equals(var.getValue())) {
-					return ((Attr) el.getAttributeNode("basename")).getNodeValue();
+					return ((Attr) el.getAttributeNode("basename")).getNodeValue(); //$NON-NLS-1$
 				}
 			}
 			String bundleVar = bundleProp;
 			if(bundleVar.indexOf('.') >= 0) bundleVar = bundleVar.substring(0, bundleVar.indexOf('.'));
-			if(bundleVar.indexOf("['") >= 0) bundleVar = bundleVar.substring(0, bundleVar.indexOf("['"));
+			if(bundleVar.indexOf("['") >= 0) bundleVar = bundleVar.substring(0, bundleVar.indexOf("['")); //$NON-NLS-1$ //$NON-NLS-2$
 			XModel xmodel = smw.getXModel();
 			List list2 = WebPromptingProvider.getInstance().getList(xmodel, WebPromptingProvider.JSF_REGISTERED_BUNDLES, null, new Properties());
 			if(list2 == null || list2.size() < 1) return null;
 			Map map = (Map)list2.get(0);
 			return (String)map.get(bundleVar);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -143,7 +143,7 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 			TaglibData[] data = (TaglibData[])taglibManager.getTagLibs().toArray(new TaglibData[0]);
 			ArrayList<String> prefixes = new ArrayList<String>();
 			for (int i = 0; i < data.length; i++) {
-				if("http://java.sun.com/jsf/core".equals(data[i].getUri())) 
+				if("http://java.sun.com/jsf/core".equals(data[i].getUri()))  //$NON-NLS-1$
 					prefixes.add(data[i].getPrefix());
 			}			
 		}		
@@ -158,9 +158,9 @@ public class BundleHyperlink extends XModelBasedHyperlink {
 		return null;
 	}
 	
-	private static final String VIEW_TAGNAME = "view";
-	private static final String LOCALE_ATTRNAME = "locale";
-	private static final String PREFIX_SEPARATOR = ":";
+	private static final String VIEW_TAGNAME = "view"; //$NON-NLS-1$
+	private static final String LOCALE_ATTRNAME = "locale"; //$NON-NLS-1$
+	private static final String PREFIX_SEPARATOR = ":"; //$NON-NLS-1$
 
 	private String getPageLocale(IRegion region) {
 		if(getDocument() == null || region == null) return null;

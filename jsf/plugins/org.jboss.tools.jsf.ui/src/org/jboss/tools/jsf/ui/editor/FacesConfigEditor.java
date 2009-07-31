@@ -67,7 +67,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 	}
 
 	protected String getNatureWarningMessageKey() {
-		return "SharableEditors.natureWarning.jsf.message";
+		return "SharableEditors.natureWarning.jsf.message"; //$NON-NLS-1$
 	}
 
 	protected void createGuiPage() {
@@ -75,11 +75,11 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 			guiEditor = new FacesConfigGuiEditor();
 			guiEditor.init(getEditorSite(), getEditorInput());
 			int index = addPage(guiEditor, input);
-			setPageText(index, "Diagram"); 
+			setPageText(index, JSFUIMessages.FacesConfigEditor_Diagram); 
 			guiEditor.setInput(input);
 			selectionProvider.setHost(guiEditor.getSelectionProvider());		
 			guiEditor.addErrorSelectionListener(createErrorSelectionListener());
-			selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider());
+			selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider()); //$NON-NLS-1$
 		} catch(PartInitException ex) {
 			JsfUiPlugin.getPluginLog().logError(ex);
 		}
@@ -124,8 +124,8 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 	}
 	
 	protected void updateSelectionProvider() {
-		if(guiEditor != null) selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider());
-		if(textEditor != null) selectionProvider.addHost("textEditor", getTextSelectionProvider());
+		if(guiEditor != null) selectionProvider.addHost("guiEditor", guiEditor.getSelectionProvider()); //$NON-NLS-1$
+		if(textEditor != null) selectionProvider.addHost("textEditor", getTextSelectionProvider()); //$NON-NLS-1$
 		int index = getActivePage();
 		if(index == getSourcePageIndex()) {
 			if(textEditor != null) {
@@ -139,7 +139,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 				treeEditor.fireEditorSelected();
 			}
 			if (treeFormPage != null) {
-				selectionProvider.addHost("treeEditor", treeFormPage.getSelectionProvider(), true);
+				selectionProvider.addHost("treeEditor", treeFormPage.getSelectionProvider(), true); //$NON-NLS-1$
 			}
 		} else {
 			ISelectionProvider p = guiEditor.getSelectionProvider();
@@ -176,7 +176,7 @@ public class FacesConfigEditor extends ObjectMultiPageEditor {
 			 		return guiEditor.getGUI().getAdapter(adapter);
 		}
 		if (adapter == EditorDescriptor.class)
-			return new EditorDescriptor("faces-config");
+			return new EditorDescriptor("faces-config"); //$NON-NLS-1$
 
 		if(adapter == FacesConfigEditor.class) return this;
 		return super.getAdapter(adapter);

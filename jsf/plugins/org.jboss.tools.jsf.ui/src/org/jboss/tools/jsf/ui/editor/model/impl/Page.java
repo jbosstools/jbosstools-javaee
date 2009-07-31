@@ -152,7 +152,7 @@ public class Page extends JSFElement implements IPage, IJSFElementListListener{
 		if (source == null)
 			source = (XModelObject) parent.getSource();
 		hidden = source.getAttributeValue(Link.HIDDEN_PROPERTY);
-		if ("yes".equals(hidden))
+		if ("yes".equals(hidden)) //$NON-NLS-1$
 			return true;
 		else
 			return false;
@@ -178,7 +178,7 @@ public class Page extends JSFElement implements IPage, IJSFElementListListener{
 	}
 
 	public String getText() {
-		return "\t\t\t\t<MSG MESSAGE=\"" + getName() + "\"/>";
+		return "\t\t\t\t<MSG MESSAGE=\"" + getName() + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	// ------------------------------------------------------------------------
@@ -246,7 +246,7 @@ public class Page extends JSFElement implements IPage, IJSFElementListListener{
 
 	public void nodeChanged(Object eventData) {
 		if (!name.equals(getName())) {
-			propertyChangeSupport.firePropertyChange("name", name, getName());
+			propertyChangeSupport.firePropertyChange("name", name, getName()); //$NON-NLS-1$
 			name = getName();
 		}
 	}

@@ -48,12 +48,15 @@ public class JSFUIMessages extends NLS {
 	public static String ADD_GETTER_SETTER_FOR_PROPERTY;
 	public static String APPLY_FOR_ALL_PROPERTIES;
 	public static String REFERENCES;
+	public static String RenameManagedBeanHandler_Rename;
 	public static String UPDATE_FIELD_REFERENCE;
 	public static String MANAGED_PROPERTY_RENAME;
 	public static String UPDATE_WEB_XML;
 	public static String FACES_CONFIG_CHANGES;
 	public static String UPDATE_REFERENCE_TO_PAGE;
 	public static String JSF_PAGE_UPDATE;
+	public static String JSFCommentObjectImpl_Comment;
+	public static String JSFPagesRefactoringChange_JSPRefactoring;
 	public static String CONVERTER_ID_IS_NOT_SPECIFIED;
 	public static String CANNOT_FIND_CONVERTER;
 	public static String ATTRIBUTE_CONVERTER_CLASS_FOR_CONVERTER_ISNOT_SPECIFIED;
@@ -83,10 +86,13 @@ public class JSFUIMessages extends NLS {
 	public static String FILE_EXISTS;
 	public static String CREATE_NEW_JSF_PROJECT;
 	public static String IMPORT_JSF_PROJECT;
+	public static String ImportJSFWarContext_NoJSFSupportFound;
 	public static String FACES_CONFIG_EDITOR;
+	public static String FacesConfigEditor_Diagram;
 	public static String PRINT_DIAGRAM;
 	public static String REPARENTING_JSFSUBPART;
 	public static String OF_NORMAL_SIZE;
+	public static String OpenRenderKitHelper_RENDER_KIT_ID_NOT_SPECIFIED;
 	public static String PRINT;
 	public static String ZOOM;
 	public static String SELECT_ALL;
@@ -95,8 +101,29 @@ public class JSFUIMessages extends NLS {
 	public static String PRINT_PREVIEW;
 	public static String LIBRARY_SETS;
 	public static String CONFIGURATION_FILE_ADDITIONS;
+	public static String CreateFaceletTaglibSupport_CreateFaceletsTaglib;
+	public static String CreateFaceletTaglibSupport_WebXMLIncorrect;
+	public static String CreateFaceletTaglibSupport_WebXMLNotFound;
+	public static String CreateFaceletTaglibSupport_WebXMLReadOnly;
+	public static String CreateFacesConfigHandler_CreateFacesConfig;
+	public static String CreateFacesConfigHandler_WebXMLIncorrect;
+	public static String CreateFacesConfigHandler_WebXMLNotFound;
+	public static String CreateFacesConfigHandler_WebXMLReadOnly;
+	public static String CreateFacesConfigSupport_CreateFacesConfig;
+	public static String CreateFacesConfigSupport_WebXMLIncorrect;
+	public static String CreateFacesConfigSupport_WebXMLNotFound;
+	public static String CreateFacesConfigSupport_WebXMLReadOnly;
 	public static String DELETE_JAVA_SOURCE;
+	public static String DeleteFacesConfigHandler_DeleteFacesConfig;
+	public static String DeleteFacesConfigHandler_DeleteReferenceFromWebXML;
+	public static String DeleteGroupHandler_Delete;
+	public static String DeleteGroupHandler_DeleteFileFromDisk;
 	
+	public static String DeleteManagedBeanHandler_CannotDeleteFile;
+	public static String DeleteManagedBeanHandler_Failure;
+	public static String DeleteManagedPropertyHandler_Delete;
+	public static String DeleteManagedPropertyHandler_DeleteJavaProperty;
+
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, JSFUIMessages.class);		

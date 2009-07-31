@@ -17,9 +17,9 @@ import org.jboss.tools.common.model.XModelObject;
 public class AddNavigationCaseHandler extends DefaultCreateHandler {
 
 	protected void setOtherProperties(XModelObject object, Properties p) {
-		String path = p.getProperty("to-view-id");
+		String path = p.getProperty("to-view-id"); //$NON-NLS-1$
 		path = AddViewSupport.revalidatePath(path);
-		p.setProperty("to-view-id", path);
+		p.setProperty("to-view-id", path); //$NON-NLS-1$
 		/*TRIAL_JSF*/
 	}
 	/*TRIAL_JSF_CLASS*/

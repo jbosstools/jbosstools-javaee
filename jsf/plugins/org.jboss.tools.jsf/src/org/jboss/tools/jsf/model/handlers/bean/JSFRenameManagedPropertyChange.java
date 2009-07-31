@@ -47,7 +47,7 @@ public class JSFRenameManagedPropertyChange extends TextFileChange {
 		PositionSearcher searcher = new PositionSearcher();
 		XModelObject o = ((XModelObjectImpl)beanProperty).getResourceAncestor();
 		String text = ((FileAnyImpl)o).getAsText();
-		searcher.init(text, beanProperty, "property-name");
+		searcher.init(text, beanProperty, "property-name"); //$NON-NLS-1$
 		searcher.execute();
 		int bp = searcher.getStartPosition();
 		int ep = searcher.getEndPosition();
@@ -73,7 +73,7 @@ public class JSFRenameManagedPropertyChange extends TextFileChange {
 			return super.perform(pm);
 		}
 		if(beanProperty != null) {
-			beanProperty.getModel().changeObjectAttribute(beanProperty, "property-name", newName);
+			beanProperty.getModel().changeObjectAttribute(beanProperty, "property-name", newName); //$NON-NLS-1$
 		}
 		return null;
 	}

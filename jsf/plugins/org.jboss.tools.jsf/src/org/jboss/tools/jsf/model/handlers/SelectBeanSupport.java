@@ -24,13 +24,13 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.pv.JSFProjectBean;
 
 public class SelectBeanSupport extends SpecialWizardSupport {
-	static String ATTR_SELECTED = "managed-bean-name";
+	static String ATTR_SELECTED = "managed-bean-name"; //$NON-NLS-1$
 	
 	public static String run(JSFProjectBean bean) {
 		ServiceDialog d = bean.getModel().getService();
 		SelectBeanSupport support = new SelectBeanSupport();
 		XEntityData data = XEntityDataImpl.create(new String[][]{
-			{"JSFSelectBeanWizard"}, {ATTR_SELECTED, "yes"}
+			{"JSFSelectBeanWizard"}, {ATTR_SELECTED, "yes"} //$NON-NLS-1$ //$NON-NLS-2$
 		});
 		Properties p = new Properties();
 		support.setActionData(null, new XEntityData[]{data}, bean, p);
@@ -46,7 +46,7 @@ public class SelectBeanSupport extends SpecialWizardSupport {
 		XModelObject[] bs = bean.getBeanList();
 		String[] s = new String[bs.length];
 		for (int i = 0; i < s.length; i++) {
-			s[i] = bs[i].getAttributeValue("managed-bean-name");
+			s[i] = bs[i].getAttributeValue("managed-bean-name"); //$NON-NLS-1$
 		}
 		setValueList(0, ATTR_SELECTED, s);
 		if(s.length > 0) setAttributeValue(0, ATTR_SELECTED, s[0]);
@@ -61,7 +61,7 @@ public class SelectBeanSupport extends SpecialWizardSupport {
 	}
 
     public String getMessage(int stepId) {
-        return NLS.bind(JSFUIMessages.CLASS_IS_REFERENCED_BY_SEVERAL_BEANS, bean.getAttributeValue("class name"));
+        return NLS.bind(JSFUIMessages.CLASS_IS_REFERENCED_BY_SEVERAL_BEANS, bean.getAttributeValue("class name")); //$NON-NLS-1$
     }
 
 	public String[] getActionNames(int stepId) {

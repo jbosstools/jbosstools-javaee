@@ -27,11 +27,11 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 	}
 
 	protected String getProcessEntity() {
-		return "JSFProcess";
+		return "JSFProcess"; //$NON-NLS-1$
 	}
 
 	protected boolean hasDTD() {
-		return !"FacesConfig12".equals(getModelEntity().getName());
+		return !"FacesConfig12".equals(getModelEntity().getName()); //$NON-NLS-1$
 	}
 
 	public void updateRuleIndices() {
@@ -51,24 +51,24 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 		do {
 			success = true;
 			for (int i = 0; i < rs.length; i++) {
-				String d = NavigationRuleObjectImpl.toNavigationRulePathPart(rs[i].getAttributeValue("from-view-id")) + ":" + is[i];
+				String d = NavigationRuleObjectImpl.toNavigationRulePathPart(rs[i].getAttributeValue("from-view-id")) + ":" + is[i]; //$NON-NLS-1$ //$NON-NLS-2$
 				XModelObject c = pps.remove(d);
-				String v = "" + is[i];
+				String v = "" + is[i]; //$NON-NLS-1$
 				if(c != null) {
 					if(c != rs[i]) {
 						success = false;
-						v += "." + is[i];
+						v += "." + is[i]; //$NON-NLS-1$
 					} else {
 						continue;
 					}
 				}
-				rs[i].setAttributeValue("index", v);
+				rs[i].setAttributeValue("index", v); //$NON-NLS-1$
 			}
 		} while(!success && ++att < 5);
 	}
 	
 	public int getRuleCount(String fromViewId) {
-		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren("JSFNavigationRule");
+		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren("JSFNavigationRule"); //$NON-NLS-1$
 		int s = 0;
 		for (int i = 0; i < rs.length; i++) {
 			String f = rs[i].getAttributeValue(ATT_FROM_VIEW_ID);
@@ -92,7 +92,7 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 		XModelObject rule = getModel().createModelObject(ENT_NAVIGATION_RULE, null);
 		rule.setAttributeValue(ATT_FROM_VIEW_ID, fromViewId);
 		int i = getRuleCount(fromViewId);
-		rule.setAttributeValue("index", "" + i);
+		rule.setAttributeValue("index", "" + i); //$NON-NLS-1$ //$NON-NLS-2$
 		getChildByPath(FOLDER_NAVIGATION_RULES).addChild(rule);
 		return rule;		
 	}

@@ -24,27 +24,27 @@ public class CheckContextParam extends JSFDefaultCheck {
 
 	public VResult[] check(VObject object) {
 		XModelObject o = ((VObjectImpl)object).getModelObject();
-		if(!CONFIG_FILES_PARAM.equals(o.getAttributeValue("param-name"))) return null;
-		String value = o.getAttributeValue("param-value");
+		if(!CONFIG_FILES_PARAM.equals(o.getAttributeValue("param-name"))) return null; //$NON-NLS-1$
+		String value = o.getAttributeValue("param-value"); //$NON-NLS-1$
 		if(value == null || value.length() == 0) return null;
 		XModel model = getXModel(object);
-		XModelObject webRoot = model == null ? null : model.getByPath("FileSystems/WEB-ROOT");
+		XModelObject webRoot = model == null ? null : model.getByPath("FileSystems/WEB-ROOT"); //$NON-NLS-1$
 		if(webRoot == null) return null;
-		StringTokenizer st = new StringTokenizer(value, ",");
+		StringTokenizer st = new StringTokenizer(value, ","); //$NON-NLS-1$
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken().trim();
 			if(path.length() == 0) continue;
 			XModelObject fc = XModelImpl.getByRelativePath(model, path);
 			if(fc == null) {
-				return fire(object, "config.exists", "param-value", path);
+				return fire(object, "config.exists", "param-value", path); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			String path2 = path.startsWith("/") ? path.substring(1) : path;
+			String path2 = path.startsWith("/") ? path.substring(1) : path; //$NON-NLS-1$
 			XModelObject fc2 = webRoot.getChildByPath(path2);
 			if(fc2 == null) {
-				return fire(object, "config.exists", "param-value", path);
+				return fire(object, "config.exists", "param-value", path); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			if(!fc2.getModelEntity().getName().startsWith("FacesConfig")) {
-				return fire(object, "config.valid", "param-value", path);
+			if(!fc2.getModelEntity().getName().startsWith("FacesConfig")) { //$NON-NLS-1$
+				return fire(object, "config.valid", "param-value", path); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}		
 		return null;

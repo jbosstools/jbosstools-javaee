@@ -32,7 +32,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 
 	public void reset() {
 		initGroup();
-		initialPath = group.getAttributeValue("path");
+		initialPath = group.getAttributeValue("path"); //$NON-NLS-1$
 		initialPath = AddViewSupport.revalidatePath(initialPath);
 		page = (JSFProcessHelper.isPattern(initialPath)) ? null : getTarget().getModel().getByPath(initialPath); 
 		setAttributeValue(0, ATT_FROM_VIEW_ID, initialPath);
@@ -75,7 +75,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 				extract(initialPath, path);
 			} else {
 				replace(group, initialPath, path);
-				if(page != null && "true".equals(p.getProperty("rename file")) && isFieldEditorEnabled(0, "rename file", p)) {
+				if(page != null && "true".equals(p.getProperty("rename file")) && isFieldEditorEnabled(0, "rename file", p)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					try {
 						renameFile(page, path);
 					} catch (CoreException e) {
@@ -99,7 +99,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 	}
     
 	public boolean isFieldEditorEnabled(int stepId, String name, Properties values) {
-		if(name.equals("rename file")) {
+		if(name.equals("rename file")) { //$NON-NLS-1$
 			if(page == null) return false;
 			if(item != null) return false; // only one rule shall be renamed
 			String path = AddViewSupport.revalidatePath(values.getProperty(ATT_FROM_VIEW_ID));
@@ -120,24 +120,24 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		int count = fcg.getRuleCount(newPath);
 		XModelObject[] rs = group.getReferences();
 		for (int i = rs.length - 1; i >= 0; i--) {
-			model.changeObjectAttribute(rs[i], "index", "1000");
+			model.changeObjectAttribute(rs[i], "index", "1000"); //$NON-NLS-1$ //$NON-NLS-2$
 			model.changeObjectAttribute(rs[i], ATT_FROM_VIEW_ID, newPath);
-			model.changeObjectAttribute(rs[i], "index", "" + (count + i));
+			model.changeObjectAttribute(rs[i], "index", "" + (count + i)); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if(process.getChildByPath(pp) == null) {
 			model.changeObjectAttribute(group, ATT_NAME, pp);
 			model.changeObjectAttribute(group, ATT_PATH, newPath);
 		} else if(isPattern && rs.length > 0) {
-			String index = rs[0].getAttributeValue("index");
-			String ppi = pp + ":" + index;
+			String index = rs[0].getAttributeValue("index"); //$NON-NLS-1$
+			String ppi = pp + ":" + index; //$NON-NLS-1$
 			group.setAttributeValue(ATT_PATH, newPath);
 			if(process.getChildByPath(ppi) == null) {
 				model.changeObjectAttribute(group, ATT_NAME, ppi);
 			}
 		} else if(isPattern && rs.length == 0) {
 			int index = -1;
-			while(process.getChildByPath(pp + ":" + index) != null) index--;
-			String ppi = pp + ":" + index;
+			while(process.getChildByPath(pp + ":" + index) != null) index--; //$NON-NLS-1$
+			String ppi = pp + ":" + index; //$NON-NLS-1$
 			model.changeObjectAttribute(group, ATT_PATH, newPath);
 			model.changeObjectAttribute(group, ATT_NAME, ppi);
 		} else if(!isPattern && rs.length == 0) {
@@ -193,16 +193,16 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		FileFacesConfigImpl fcg = (FileFacesConfigImpl)process.getParent();
 		int count = fcg.getRuleCount(newPath);
 		XModelObject rule = item.getReference();
-		model.changeObjectAttribute(rule, "index", "1000");
+		model.changeObjectAttribute(rule, "index", "1000"); //$NON-NLS-1$ //$NON-NLS-2$
 		model.changeObjectAttribute(rule, ATT_FROM_VIEW_ID, newPath);
-		model.changeObjectAttribute(rule, "index", "" + (count));
+		model.changeObjectAttribute(rule, "index", "" + (count)); //$NON-NLS-1$ //$NON-NLS-2$
 		XModelObject g = process.getChildByPath(pp);
 		if(g != null) return;
 		JSFProcessHelper h = JSFProcessHelper.getHelper(process);
 		g = h.findOrCreateGroup(newPath, pp);
-		int[] cs = JSFProcessStructureHelper.instance.asIntArray(group, "shape");
+		int[] cs = JSFProcessStructureHelper.instance.asIntArray(group, "shape"); //$NON-NLS-1$
 		if(cs != null && cs.length > 1) {
-			g.setAttributeValue("shape", "" + (cs[0] + 30) + "," + (cs[1] + 30) + ",0,0");
+			g.setAttributeValue("shape", "" + (cs[0] + 30) + "," + (cs[1] + 30) + ",0,0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}		
 	}
     
@@ -217,7 +217,7 @@ public class RenameViewSupport extends SpecialWizardSupport implements JSFConsta
 		public void validate(Properties data) {
 			super.validate(data);
 			if(message != null) return;
-			String path = data.getProperty("from-view-id");
+			String path = data.getProperty("from-view-id"); //$NON-NLS-1$
 			if(!AddViewSupport.isCorrectPath(path)) {
 				message = JSFUIMessages.ATTRIBUTE_FROM_VIEW_ID_IS_NOT_CORRECT;
 			} 

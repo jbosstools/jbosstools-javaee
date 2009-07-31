@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.handlers.bean;
 
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.CoreException;
@@ -22,6 +23,7 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.undo.*;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.helpers.bean.ManagedBeanHelper;
 
 public class RenameManagedBeanHandler extends AbstractHandler {
@@ -37,7 +39,7 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
 		if (!isEnabled(object)) return;
 		XUndoManager undo = object.getModel().getUndoManager();
-		XTransactionUndo u = new XTransactionUndo("rename " + DefaultCreateHandler.title(object, false), XTransactionUndo.EDIT);
+		XTransactionUndo u = new XTransactionUndo(MessageFormat.format(JSFUIMessages.RenameManagedBeanHandler_Rename, DefaultCreateHandler.title(object, false)), XTransactionUndo.EDIT);
 		undo.addUndoable(u);
 		try {
 			transaction(object, p);
@@ -70,7 +72,7 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 			try {
 				runInternal();
 			} catch (CoreException e) {
-				ProblemReportingHelper.reportProblem("org.jboss.tools.jsf", e);
+				ProblemReportingHelper.reportProblem("org.jboss.tools.jsf", e); //$NON-NLS-1$
 			}
 		}
 		
@@ -89,7 +91,7 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 	
 	
 	private void renameClass(XModelObject object, String qualifiedName) throws XModelException {		
-		object.getModel().changeObjectAttribute(object, "managed-bean-class", qualifiedName);
+		object.getModel().changeObjectAttribute(object, "managed-bean-class", qualifiedName); //$NON-NLS-1$
 	}
 	
 	private class JavaElementChangedListener implements IElementChangedListener {
@@ -110,8 +112,8 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 					if (toElement instanceof ICompilationUnit) {
 						String packageName = toElement.getParent().getElementName();
 						String className = toElement.getElementName();
-						if(className.endsWith(".java")) className = className.substring(0, className.length() - 5);
-						if(packageName.length() > 0) className = packageName + "." + className;
+						if(className.endsWith(".java")) className = className.substring(0, className.length() - 5); //$NON-NLS-1$
+						if(packageName.length() > 0) className = packageName + "." + className; //$NON-NLS-1$
 						try {
 							renameClass(object, className);
 						} catch (XModelException e) {

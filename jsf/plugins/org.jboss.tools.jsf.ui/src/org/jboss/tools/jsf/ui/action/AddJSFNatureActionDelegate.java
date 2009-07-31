@@ -25,13 +25,13 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 	protected IWizard getWizard(IProject project) {
 		ImportProjectWizard wizard = (ImportProjectWizard)ExtensionPointUtils.findImportWizardsItem(
 				JSFModelPlugin.PLUGIN_ID,
-				"org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard"
+				"org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard" //$NON-NLS-1$
 		);
-		if (wizard == null) throw new IllegalArgumentException("Wizard org.jboss.tools.common.model.ui.wizards.ImportProjectWizard is not found.");	
+		if (wizard == null) throw new IllegalArgumentException("Wizard org.jboss.tools.common.model.ui.wizards.ImportProjectWizard is not found.");	 //$NON-NLS-1$
 		wizard.setInitialName(project.getName());
 		wizard.setInitialLocation(findWebXML(project.getLocation().toString()));
 		wizard.init(ModelUIPlugin.getDefault().getWorkbench(), null);
-		wizard.setWindowTitle(WizardKeys.getString("ADD_JSF_NATURE"));
+		wizard.setWindowTitle(WizardKeys.getString("ADD_JSF_NATURE")); //$NON-NLS-1$
 		return wizard;
 	}
 

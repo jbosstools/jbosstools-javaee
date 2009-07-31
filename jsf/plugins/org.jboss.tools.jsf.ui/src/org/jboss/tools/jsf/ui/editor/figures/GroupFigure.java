@@ -114,7 +114,7 @@ public class GroupFigure extends NodeFigure implements HandleBounds,
 			c = new FixedConnectionAnchor(this);
 			c.offsetV = 32 + LINK_HEIGHT * i;
 			c.leftToRight = false;
-			connectionAnchors.put((i + 1) + "_OUT", c);
+			connectionAnchors.put((i + 1) + "_OUT", c); //$NON-NLS-1$
 			outputConnectionAnchors.addElement(c);
 		}
 	}
@@ -127,7 +127,7 @@ public class GroupFigure extends NodeFigure implements HandleBounds,
 		c.offsetV = 32 + LINK_HEIGHT * (number - 1);
 		// c.offsetH = -1;
 		c.leftToRight = false;
-		connectionAnchors.put(number + "_OUT", c);
+		connectionAnchors.put(number + "_OUT", c); //$NON-NLS-1$
 		outputConnectionAnchors.addElement(c);
 	}
 
@@ -162,7 +162,7 @@ public class GroupFigure extends NodeFigure implements HandleBounds,
 			c = new FixedConnectionAnchor(this);
 			c.offsetV = 8;
 			c.offsetH = -1;
-			connectionAnchors.put("1_IN", c);
+			connectionAnchors.put("1_IN", c); //$NON-NLS-1$
 			inputConnectionAnchors.addElement(c);
 
 			if (group.getPageList().size() <= 1)

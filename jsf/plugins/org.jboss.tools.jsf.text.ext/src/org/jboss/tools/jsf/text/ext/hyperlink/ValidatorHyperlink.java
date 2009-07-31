@@ -71,7 +71,7 @@ public class ValidatorHyperlink extends AbstractHyperlink {
 		try {
 			return getDocument().get(region.getOffset(), region.getLength());
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -126,7 +126,7 @@ public class ValidatorHyperlink extends AbstractHyperlink {
 	
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();

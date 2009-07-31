@@ -49,30 +49,30 @@ public class JSPAdopt implements XAdoptManager {
 		else if(isAdoptableMapEntry(object)) adoptMapEntry(target, object, p);
     }
 
-    static String PAGE_TARGET = ".FileJSP.FileHTML.FileXHTML.FacesConfig.";
-    static String PAGE_ENTITY = ".FileJSP.FileXHTML.";
+    static String PAGE_TARGET = ".FileJSP.FileHTML.FileXHTML.FacesConfig."; //$NON-NLS-1$
+    static String PAGE_ENTITY = ".FileJSP.FileXHTML."; //$NON-NLS-1$
 
 	private boolean isAcceptableTarget(XModelObject target) {
-		String entity = "." + target.getModelEntity().getName() + ".";
+		String entity = "." + target.getModelEntity().getName() + "."; //$NON-NLS-1$ //$NON-NLS-2$
 		return PAGE_TARGET.indexOf(entity) >= 0;
 	}
 
     protected boolean isAdoptableProperty(XModelObject object) {
-        return object.getModelEntity().getName().startsWith("JSFManagedProperty");
+        return object.getModelEntity().getName().startsWith("JSFManagedProperty"); //$NON-NLS-1$
     }
 
     public void adoptProperty(XModelObject target, XModelObject object, Properties p) {
         if(p == null) return;
         int c = getPos(p);
         if(c < 0) return;
-		String bean = object.getParent().getAttributeValue("managed-bean-name");
-        String name = object.getAttributeValue("property-name");
-        String start = "#{" + bean + "." + name + "}";
-        p.setProperty("start text", start);
+		String bean = object.getParent().getAttributeValue("managed-bean-name"); //$NON-NLS-1$
+        String name = object.getAttributeValue("property-name"); //$NON-NLS-1$
+        String start = "#{" + bean + "." + name + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        p.setProperty("start text", start); //$NON-NLS-1$
     }
 
 	protected boolean isAdoptablePage(XModelObject object) {
-		String entity = "." + object.getModelEntity().getName() + ".";
+		String entity = "." + object.getModelEntity().getName() + "."; //$NON-NLS-1$ //$NON-NLS-2$
 		if(PAGE_ENTITY.indexOf(entity) < 0  || !EclipseResourceUtil.hasNature(object.getModel(), JSFNature.NATURE_ID)) return false;
 		String path = WebProject.getInstance(object.getModel()).getPathInWebRoot(object);
 		return path != null;
@@ -87,29 +87,29 @@ public class JSPAdopt implements XAdoptManager {
 			res = pattern.getJSFUrl(res);
 		}
         int pos = getPos(p);
-		if(res.startsWith("/") && pos >= 0 && isInsideResponseRedirect(p.getProperty("text"), pos)) {
+		if(res.startsWith("/") && pos >= 0 && isInsideResponseRedirect(p.getProperty("text"), pos)) { //$NON-NLS-1$ //$NON-NLS-2$
 			res = res.substring(1);
 		}
-		p.setProperty("start text", res);
-		p.setProperty("end text", "");
+		p.setProperty("start text", res); //$NON-NLS-1$
+		p.setProperty("end text", ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	static String NO_JSF_URL = 
-		"+include+jsp:include+jsp:directive.include+ui:include+ui:composition+ui:decorate+s:decorate+";
+		"+include+jsp:include+jsp:directive.include+ui:include+ui:composition+ui:decorate+s:decorate+"; //$NON-NLS-1$
 	static Map<String, String> PREFIXES = new HashMap<String, String>();
 	{
-		PREFIXES.put("http://jboss.com/products/seam/taglib", "s");
-		PREFIXES.put("http://java.sun.com/jsf/facelets", "ui");
+		PREFIXES.put("http://jboss.com/products/seam/taglib", "s"); //$NON-NLS-1$ //$NON-NLS-2$
+		PREFIXES.put("http://java.sun.com/jsf/facelets", "ui"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	boolean applyPattern(Properties p) {
 		if(p == null) return true;
-		String tag = p.getProperty("context:tagName");
+		String tag = p.getProperty("context:tagName"); //$NON-NLS-1$
 		if(tag == null) return true;
 		int q = tag.indexOf(':');
 		if(q >= 0) {
 			String dp = tag.substring(0, q);
-			ISourceViewer sv = (ISourceViewer)p.get("viewer");
+			ISourceViewer sv = (ISourceViewer)p.get("viewer"); //$NON-NLS-1$
 			String uri = getURI(sv, dp);
 			if(uri != null) {
 				String dp1 = PREFIXES.get(uri);
@@ -118,7 +118,7 @@ public class JSPAdopt implements XAdoptManager {
 				}
 			}
 		}
-		if(NO_JSF_URL.indexOf("+" + tag + "+") >= 0) return false;		
+		if(NO_JSF_URL.indexOf("+" + tag + "+") >= 0) return false;		 //$NON-NLS-1$ //$NON-NLS-2$
 		return true;
 	}
 	private static String getURI(ISourceViewer viewer, String prefix) {
@@ -161,25 +161,25 @@ public class JSPAdopt implements XAdoptManager {
 		IResource c = (IResource)object.getAdapter(IResource.class);
 		String f = c.getLocation().toString().replace('\\', '/');
 		String res = f.substring(webroot.length());
-        p.setProperty("start text", res);
-        p.setProperty("end text", "");
+        p.setProperty("start text", res); //$NON-NLS-1$
+        p.setProperty("end text", ""); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
 	protected boolean isAdoptablePropertyReference(XModelObject object) {
-		String entity = "." + object.getModelEntity().getName() + ".";
-		return ".JSFProjectBeanProperty.JSFProjectBeanMethod.".indexOf(entity) >= 0;
+		String entity = "." + object.getModelEntity().getName() + "."; //$NON-NLS-1$ //$NON-NLS-2$
+		return ".JSFProjectBeanProperty.JSFProjectBeanMethod.".indexOf(entity) >= 0; //$NON-NLS-1$
 	}
 
 	public void adoptPropertyReference(XModelObject target, XModelObject object, Properties p) {
 		if(p == null) return;
         int c = getPos(p);
 		if(c < 0) return;
-		String s = object.getAttributeValue("name");
+		String s = object.getAttributeValue("name"); //$NON-NLS-1$
 		XModelObject o = object;
 		while(o != null && isAdoptablePropertyReference(o)) {
 			o = o.getParent();
 			if(o != null) {
-				String part = o.getAttributeValue("name");
+				String part = o.getAttributeValue("name"); //$NON-NLS-1$
 				if(o instanceof JSFProjectBean) {
 					XModelObject[] list = ((JSFProjectBean)o).getBeanList();
 					if(list.length > 1) {
@@ -187,17 +187,17 @@ public class JSPAdopt implements XAdoptManager {
 						if(part == null) return;
 					}
 				}
-				s = part + "." + s;
+				s = part + "." + s; //$NON-NLS-1$
 			}
 		}
-		String start = "#{" + s + "}";
-		p.setProperty("start text", start);
+		String start = "#{" + s + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+		p.setProperty("start text", start); //$NON-NLS-1$
 	}
 	
 	int getPos(Properties p) {
 		int c = -1;
 		if(p == null) return -1;
-		String s = p.getProperty("pos");
+		String s = p.getProperty("pos"); //$NON-NLS-1$
 		if(s == null || s.trim().length() == 0) return c;
 		try {
 			c = Integer.parseInt(s.trim());
@@ -208,32 +208,32 @@ public class JSPAdopt implements XAdoptManager {
 	}
 	
 	public boolean isAdoptableMapEntry(XModelObject object) {
-		return "JSFMapEntry".equals(object.getModelEntity().getName());
+		return "JSFMapEntry".equals(object.getModelEntity().getName()); //$NON-NLS-1$
 	}
 
 	public void adoptMapEntry(XModelObject target, XModelObject object, Properties p) {
-		String key = object.getAttributeValue("key");
+		String key = object.getAttributeValue("key"); //$NON-NLS-1$
 		XModelObject g = object.getParent().getParent();
 		String entity = g.getModelEntity().getName();
 		String start = null;
-		if("JSFManagedBean".equals(entity)) {
-			String bean = g.getAttributeValue("managed-bean-name");
-			start = "#{" + bean + "." + key + "}";
-		} else if("JSFManagedProperty".equals(entity)) {
+		if("JSFManagedBean".equals(entity)) { //$NON-NLS-1$
+			String bean = g.getAttributeValue("managed-bean-name"); //$NON-NLS-1$
+			start = "#{" + bean + "." + key + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		} else if("JSFManagedProperty".equals(entity)) { //$NON-NLS-1$
 			XModelObject h = g.getParent();
-			String bean = h.getAttributeValue("managed-bean-name");
-			String property = g.getAttributeValue("property-name");
-			start = "#{" + bean + "." + property + "." + key + "}";
+			String bean = h.getAttributeValue("managed-bean-name"); //$NON-NLS-1$
+			String property = g.getAttributeValue("property-name"); //$NON-NLS-1$
+			start = "#{" + bean + "." + property + "." + key + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 		if(start != null) {
-			p.setProperty("start text", start);
+			p.setProperty("start text", start); //$NON-NLS-1$
 		}
 	}
 
 	static boolean isInsideResponseRedirect(String text, int off) {
 		if(off < 0) return false;
-		String START = "response.sendRedirect(\"";
-		String END = "\")";
+		String START = "response.sendRedirect(\""; //$NON-NLS-1$
+		String END = "\")"; //$NON-NLS-1$
 		int i = 0;
 		while(i < text.length() && i < off) {
 			int i1 = text.indexOf(START, i);

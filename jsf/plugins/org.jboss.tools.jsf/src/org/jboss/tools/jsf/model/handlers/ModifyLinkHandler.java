@@ -22,15 +22,15 @@ public class ModifyLinkHandler extends AbstractHandler implements JSFConstants {
     public boolean isEnabled(XModelObject object) {
         if(object == null || !object.isObjectEditable()) return false;
         if(!ENT_PROCESS_ITEM_OUTPUT.equals(object.getModelEntity().getName())) return false;
-        String pn = action.getProperty("property");
-        String pv = action.getProperty("value");
+        String pn = action.getProperty("property"); //$NON-NLS-1$
+        String pv = action.getProperty("value"); //$NON-NLS-1$
         return !pv.equals(object.getAttributeValue(pn));
     }
 
     public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
-        String pn = action.getProperty("property");
-        String pv = action.getProperty("value");
+        String pn = action.getProperty("property"); //$NON-NLS-1$
+        String pv = action.getProperty("value"); //$NON-NLS-1$
         object.setAttributeValue(pn, pv);
     }
 

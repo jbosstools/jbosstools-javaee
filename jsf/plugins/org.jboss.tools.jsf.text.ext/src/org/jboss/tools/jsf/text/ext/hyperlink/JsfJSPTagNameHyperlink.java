@@ -50,7 +50,7 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 		Properties p = getRequestProperties(region);
 		p.put(WebPromptingProvider.FILE, documentFile);
 
-		List<Object> list = provider.getList(xModel, WebPromptingProvider.JSF_OPEN_TAG_LIBRARY, p.getProperty("prefix"), p);
+		List<Object> list = provider.getList(xModel, WebPromptingProvider.JSF_OPEN_TAG_LIBRARY, p.getProperty("prefix"), p); //$NON-NLS-1$
 		if (list != null && list.size() >= 1) {
 			openFileInEditor((String)list.get(0));
 			return;
@@ -67,7 +67,7 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 		
 		String value = getURI(region);
 		if (value != null) {
-			p.setProperty("prefix", value);
+			p.setProperty("prefix", value); //$NON-NLS-1$
 		}
 		value = getTagName(region);
 		if (value != null) {
@@ -93,7 +93,7 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 			String nodeName = node.getNodeName();
 			if (nodeName.indexOf(':') == -1) return null;
 
-			String nodePrefix = nodeName.substring(0, nodeName.indexOf(":"));
+			String nodePrefix = nodeName.substring(0, nodeName.indexOf(":")); //$NON-NLS-1$
 			if (nodePrefix == null || nodePrefix.length() == 0) return null;
 
 			
@@ -150,7 +150,7 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 			IDOMElement elem = (IDOMElement)n;
 			String tagName = elem.getTagName();
 			int start = elem.getStartOffset();
-			final int nameStart = start + (elem.isEndTag() ? "</" : "<").length();
+			final int nameStart = start + (elem.isEndTag() ? "</" : "<").length(); //$NON-NLS-1$ //$NON-NLS-2$
 			final int nameEnd = nameStart + tagName.length();
 
 			if (nameStart > offset || nameEnd <= offset) return null;

@@ -25,7 +25,7 @@ public class NewFacesConfigFileWizard extends NewFileWizardEx {
 			return new CreateFacesConfigSupport();
 		}
 		protected String getActionPath() {
-			return "CreateActions.CreateFiles.JSF.CreateFacesConfig";
+			return "CreateActions.CreateFiles.JSF.CreateFacesConfig"; //$NON-NLS-1$
 		}
 	}
 

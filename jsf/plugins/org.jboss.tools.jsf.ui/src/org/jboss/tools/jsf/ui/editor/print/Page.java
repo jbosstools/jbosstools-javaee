@@ -131,7 +131,7 @@ public class Page {
 	public void setSelected(boolean select) {
 		boolean oldValue = this.select;
 		this.select = select;
-		pcs.firePropertyChange("select", oldValue, select);
+		pcs.firePropertyChange("select", oldValue, select); //$NON-NLS-1$
 	}
 
 	public boolean isSelected() {

@@ -52,7 +52,7 @@ public class ForwardHyperlink extends AbstractHyperlink {
 		try {
 			return getDocument().get(region.getOffset(), region.getLength());
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 		}
 		return null;
 	}

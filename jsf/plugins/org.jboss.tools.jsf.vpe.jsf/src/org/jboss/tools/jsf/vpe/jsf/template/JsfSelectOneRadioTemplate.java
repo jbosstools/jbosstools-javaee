@@ -35,16 +35,16 @@ import org.w3c.dom.NodeList;
 
 public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 
-    private static final String VAL_PAGE_DIRECTION = "pageDirection";
-    private static final String ATTR_LAYOUT = "layout";
-    private static final String ATTR_BORDER = "border";
-    private static final String ATTR_DISABLED_CLASS = "disabledClass";
-    private static final String ATTR_ENABLED_CLASS = "enabledClass";
-    private static final String ATTR_STYLE_CLASS = "styleClass";
+    private static final String VAL_PAGE_DIRECTION = "pageDirection"; //$NON-NLS-1$
+    private static final String ATTR_LAYOUT = "layout"; //$NON-NLS-1$
+    private static final String ATTR_BORDER = "border"; //$NON-NLS-1$
+    private static final String ATTR_DISABLED_CLASS = "disabledClass"; //$NON-NLS-1$
+    private static final String ATTR_ENABLED_CLASS = "enabledClass"; //$NON-NLS-1$
+    private static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 
-    private static final String ATTR_DIR_RIGHT_TO_LEFT = "rtl";
-    private static final String ATTR_DIR_LEFT_TO_RIGHT = "ltr";
-    private static final String ATTR_DISABLED_VALUE = "disabled";
+    private static final String ATTR_DIR_RIGHT_TO_LEFT = "rtl"; //$NON-NLS-1$
+    private static final String ATTR_DIR_LEFT_TO_RIGHT = "ltr"; //$NON-NLS-1$
+    private static final String ATTR_DISABLED_VALUE = "disabled"; //$NON-NLS-1$
 
     public JsfSelectOneRadioTemplate() {
 	super();
@@ -151,7 +151,7 @@ public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 						sourceElement, HTML.ATTR_DIR)
 						.trim()
 						.equalsIgnoreCase(ATTR_DIR_LEFT_TO_RIGHT)) ? ATTR_DIR_LEFT_TO_RIGHT
-						: ""));
+						: "")); //$NON-NLS-1$
 		element.setAttribute(HTML.ATTR_SIZE, ComponentUtil
 			.getAttribute(sourceElement, HTML.ATTR_SIZE));
 		if (disabled

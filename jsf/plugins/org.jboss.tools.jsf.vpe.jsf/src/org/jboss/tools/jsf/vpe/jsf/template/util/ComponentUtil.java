@@ -41,7 +41,7 @@ public class ComponentUtil {
 	    String attributeName) {
 	String attribute = sourceElement.getAttribute(attributeName);
 	if (attribute == null) {
-	    attribute = "";
+	    attribute = ""; //$NON-NLS-1$
 	}
 	return attribute;
     }
@@ -57,7 +57,7 @@ public class ComponentUtil {
 	    String attributeName) {
 	String attribute = sourceElement.getAttribute(attributeName);
 	if (attribute == null) {
-	    attribute = "";
+	    attribute = ""; //$NON-NLS-1$
 	}
 	return attribute;
     }

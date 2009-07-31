@@ -19,7 +19,7 @@ import org.jboss.tools.jst.web.project.helpers.AbstractWebProjectTemplate;
  */
 public class JSFPagesPreferencesPage extends AbstractPagesPreferencesPage {
 
-	public static final String ID = "org.jboss.tools.jsf.ui.jsfpages";
+	public static final String ID = "org.jboss.tools.jsf.ui.jsfpages"; //$NON-NLS-1$
 
 	protected AbstractWebProjectTemplate createHelper() {
 		return JSFTemplate.getInstance();

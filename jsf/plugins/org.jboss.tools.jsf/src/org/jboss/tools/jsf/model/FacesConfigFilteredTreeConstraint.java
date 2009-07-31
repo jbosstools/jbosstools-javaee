@@ -22,30 +22,30 @@ public class FacesConfigFilteredTreeConstraint implements XFilteredTreeConstrain
 	public void update(XModel model) {		
 	}
 	
-	static String HIDING_ALL_CHILDREN_ENTITIES = ".JSFListEntries.";
+	static String HIDING_ALL_CHILDREN_ENTITIES = ".JSFListEntries."; //$NON-NLS-1$
 
 	public boolean isHidingAllChildren(XModelObject object) {
 		String entity = object.getModelEntity().getName();
-		return (HIDING_ALL_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0);
+		return (HIDING_ALL_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
-	static String HIDING_SOME_CHILDREN_ENTITIES = "." + ENT_FACESCONFIG_10 + "." + ENT_FACESCONFIG_11 + "." + ENT_FACESCONFIG_12 + "." + "JSFApplication.JSFApplication12."; 
+	static String HIDING_SOME_CHILDREN_ENTITIES = "." + ENT_FACESCONFIG_10 + "." + ENT_FACESCONFIG_11 + "." + ENT_FACESCONFIG_12 + "." + "JSFApplication.JSFApplication12.";  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 	public boolean isHidingSomeChildren(XModelObject object) {
 		String entity = object.getModelEntity().getName();
-		return (HIDING_SOME_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0);
+		return (HIDING_SOME_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
-	static String HIDDEN_CHILDREN_ENTITIES = ".JSFProcess.JSFLifecycle.JSFFactory." + 
-		"JSFLocaleConfig." +
-		"JSFMessageBundle.";
+	static String HIDDEN_CHILDREN_ENTITIES = ".JSFProcess.JSFLifecycle.JSFFactory." +  //$NON-NLS-1$
+		"JSFLocaleConfig." + //$NON-NLS-1$
+		"JSFMessageBundle."; //$NON-NLS-1$
 
 	public boolean accepts(XModelObject object) {
 		String entity = object.getModelEntity().getName();
 		if(onlyHideProcess) {
-			if("JSFProcess".equals(entity)) return false;
+			if("JSFProcess".equals(entity)) return false; //$NON-NLS-1$
 		} else {
-			if(HIDDEN_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0) return false;
+			if(HIDDEN_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0) return false; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return true;
 	}

@@ -56,7 +56,7 @@ public class JSFDiagramEditPolicy extends RootComponentEditPolicy{
 	
 	
 		public CreateViewCommand(){
-			super("CreateViewCommand");
+			super("CreateViewCommand"); //$NON-NLS-1$
 		}
 	
 		public boolean canExecute(){
@@ -66,8 +66,8 @@ public class JSFDiagramEditPolicy extends RootComponentEditPolicy{
 		public void execute(){
 			Properties properties = new Properties();
 			if(location != null){
-			   properties.put("process.mouse.x","" + location.x);
-			   properties.put("process.mouse.y","" + location.y);
+			   properties.put("process.mouse.x","" + location.x); //$NON-NLS-1$ //$NON-NLS-2$
+			   properties.put("process.mouse.y","" + location.y); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
 			JSFXModelUtil.addRule((XModelObject)((JSFModel)getDiagramEditPart().getModel()).getSource(), properties);

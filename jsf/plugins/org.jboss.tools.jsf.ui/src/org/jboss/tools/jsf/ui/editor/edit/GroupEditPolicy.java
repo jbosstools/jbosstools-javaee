@@ -88,7 +88,7 @@ public class GroupEditPolicy extends JSFElementEditPolicy {
 		IGroup child = null;
 
 		public ConnectionEndCommand() {
-			super("ConnectionEndCommand");
+			super("ConnectionEndCommand"); //$NON-NLS-1$
 		}
 
 		public void setChild(IGroup child) {

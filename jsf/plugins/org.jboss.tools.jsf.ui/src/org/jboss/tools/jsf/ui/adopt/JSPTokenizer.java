@@ -37,8 +37,8 @@ public class JSPTokenizer {
 		selectionStart = 0;
 		selectionEnd = document.getLength();
 		text = document.get();
-		root = new Token(ROOT, "", 0, text.length(), null);
-		root.indent = "";
+		root = new Token(ROOT, "", 0, text.length(), null); //$NON-NLS-1$
+		root.indent = ""; //$NON-NLS-1$
 		root.indentLevel = -1;
 		tokenize();
 		return root;
@@ -51,16 +51,16 @@ public class JSPTokenizer {
 		while(cursor < text.length()) {
 			int p = text.indexOf('<', cursor);
 			if(p < 0) {
-				current.addChild(last = createTag(TEXT, "", cursor, text.length() - cursor, last));
+				current.addChild(last = createTag(TEXT, "", cursor, text.length() - cursor, last)); //$NON-NLS-1$
 				cursor = text.length();
 			} else {
 				if(p > cursor) {
-					current.addChild(last = createTag(TEXT, "", cursor, p - cursor, last));
+					current.addChild(last = createTag(TEXT, "", cursor, p - cursor, last)); //$NON-NLS-1$
 					cursor = p;
 				}
-				if(isStringStart(cursor, "<!DOCTYPE")) {
-					int l = "<!DOCTYPE".length();
-					int q = text.indexOf(">", cursor);
+				if(isStringStart(cursor, "<!DOCTYPE")) { //$NON-NLS-1$
+					int l = "<!DOCTYPE".length(); //$NON-NLS-1$
+					int q = text.indexOf(">", cursor); //$NON-NLS-1$
 					int nc = (q < 0) ? text.length() : q + 1;
 					int k = skipToName(cursor + l, nc);
 					String tag = readTag(cursor + l + k);
@@ -69,8 +69,8 @@ public class JSPTokenizer {
 					int al = nc - ab;
 					last.attributes = getDoctype(text, ab, al);
 					cursor = nc;
-				} else if(isStringStart(cursor, "<%@")) {					
-					int q = text.indexOf("%>", cursor);
+				} else if(isStringStart(cursor, "<%@")) {					 //$NON-NLS-1$
+					int q = text.indexOf("%>", cursor); //$NON-NLS-1$
 					int nc = (q < 0) ? text.length() : q + 2;
 					int k = skipToName(cursor + 3, nc);
 					String tag = readTag(cursor + 3 + k);
@@ -79,25 +79,25 @@ public class JSPTokenizer {
 					int al = nc - ab;
 					last.attributes = getAttributes(text, ab, al);
 					cursor = nc;
-				} else if(isStringStart(cursor, "<%")) {
-					int q = text.indexOf("%>", cursor);
+				} else if(isStringStart(cursor, "<%")) { //$NON-NLS-1$
+					int q = text.indexOf("%>", cursor); //$NON-NLS-1$
 					int nc = (q < 0) ? text.length() : q + 2;
-					current.addChild(last = createTag(JSP, "", cursor, nc - cursor, last));
+					current.addChild(last = createTag(JSP, "", cursor, nc - cursor, last)); //$NON-NLS-1$
 					cursor = nc;
-				} else if(isStringStart(cursor, "<!--")) {
-					int q = text.indexOf("-->", cursor);
+				} else if(isStringStart(cursor, "<!--")) { //$NON-NLS-1$
+					int q = text.indexOf("-->", cursor); //$NON-NLS-1$
 					int nc = (q < 0) ? text.length() : q + 3;
-					current.addChild(last = createTag(COMMENT, "", cursor, nc - cursor, last));
+					current.addChild(last = createTag(COMMENT, "", cursor, nc - cursor, last)); //$NON-NLS-1$
 					cursor = nc;
-				} else if(isStringStart(cursor, "<!")) {
+				} else if(isStringStart(cursor, "<!")) { //$NON-NLS-1$
 					///This is doctype
-					int q = text.indexOf(">", cursor);
+					int q = text.indexOf(">", cursor); //$NON-NLS-1$
 					int nc = (q < 0) ? text.length() : q + 1;
-					current.addChild(last = createTag(COMMENT, "", cursor, nc - cursor, last));
+					current.addChild(last = createTag(COMMENT, "", cursor, nc - cursor, last)); //$NON-NLS-1$
 					cursor = nc;
-				} else if(isStringStart(cursor, "</")) {
+				} else if(isStringStart(cursor, "</")) { //$NON-NLS-1$
 					String tag = readTag(cursor + 2);
-					int q = text.indexOf(">", cursor);
+					int q = text.indexOf(">", cursor); //$NON-NLS-1$
 					int nc = (q < 0) ? text.length() : q + 1;
 					last = createTag(TAG_CLOSING, tag, cursor, nc - cursor, last);
 					current = findParent(current, last);
@@ -134,26 +134,26 @@ public class JSPTokenizer {
 	}
 	
 	private boolean isOptionallyClosed(String name) {
-		return ".body.p.dt.dd.li.ol.option.thead.tfoot.tbody.colgroup.tr.td.th.head.html.".indexOf(name.toLowerCase()) >= 0;
+		return ".body.p.dt.dd.li.ol.option.thead.tfoot.tbody.colgroup.tr.td.th.head.html.".indexOf(name.toLowerCase()) >= 0; //$NON-NLS-1$
 	}
 	
 	private Token findParentForOptionallyClosedTag(Token current, String name) {
 		String n1 = name.toLowerCase();
 		String n2 = current.name.toLowerCase();
-		if("p".equals(n1)) {
-			if(n2.equals("p")) return current.parent;
-		} else if("tr".equals(n1)) {
-			if(n2.equals("tr")) return current.parent;
-			if(n2.equals("th") || n2.equals("td") || n2.equals("p")) return findParentForOptionallyClosedTag(current.parent, name);
-		} else if("td".equals(n1) || "th".equals(n1)) { 
-			if(n2.equals("th") || n2.equals("td")) return current.parent;
-			if(n2.equals("p")) return findParentForOptionallyClosedTag(current.parent, name);
+		if("p".equals(n1)) { //$NON-NLS-1$
+			if(n2.equals("p")) return current.parent; //$NON-NLS-1$
+		} else if("tr".equals(n1)) { //$NON-NLS-1$
+			if(n2.equals("tr")) return current.parent; //$NON-NLS-1$
+			if(n2.equals("th") || n2.equals("td") || n2.equals("p")) return findParentForOptionallyClosedTag(current.parent, name); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		} else if("td".equals(n1) || "th".equals(n1)) {  //$NON-NLS-1$ //$NON-NLS-2$
+			if(n2.equals("th") || n2.equals("td")) return current.parent; //$NON-NLS-1$ //$NON-NLS-2$
+			if(n2.equals("p")) return findParentForOptionallyClosedTag(current.parent, name); //$NON-NLS-1$
 		}
 		return current;
 	}
 	
 	private boolean areChildrenAllowed(String name) {
-		return ".br.area.link.img.param.hr.input.col.isindex.base.meta.".indexOf("." + name.toLowerCase() + ".") < 0;
+		return ".br.area.link.img.param.hr.input.col.isindex.base.meta.".indexOf("." + name.toLowerCase() + ".") < 0; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 	
 	private Token createTag(int kind, String name, int off, int length, Token previous) {
@@ -262,8 +262,8 @@ public class JSPTokenizer {
     	for (int i = 0; i < length; i++) {
     		char ch = text.charAt(i + off);
     		if(state == NOTHING) {
-    			if(" \t\r\n".indexOf(ch) >= 0) continue;
-    			if("/\\><%".indexOf(ch) >= 0) break;
+    			if(" \t\r\n".indexOf(ch) >= 0) continue; //$NON-NLS-1$
+    			if("/\\><%".indexOf(ch) >= 0) break; //$NON-NLS-1$
     			state = NAME;
     			name.append(ch);
     		} else if(state == NAME) {
@@ -294,13 +294,13 @@ public class JSPTokenizer {
     static Properties getDoctype(String text, int off, int length) {
     	Properties p = new Properties();
     	int b = off;
-    	int i = text.indexOf("PUBLIC", off);
+    	int i = text.indexOf("PUBLIC", off); //$NON-NLS-1$
     	if(i >= 0) {
     		int i1 = text.indexOf('"', i);
     		if(i1 >= 0) {
     			int i2 = text.indexOf('"', i1 + 1);
     			if(i2 >= 0) {
-    				p.setProperty("public", text.substring(i1 + 1, i2));
+    				p.setProperty("public", text.substring(i1 + 1, i2)); //$NON-NLS-1$
     				b = i2 + 1;
     			}
     		}
@@ -309,7 +309,7 @@ public class JSPTokenizer {
 		if(i1 >= 0) {
 			int i2 = text.indexOf('"', i1 + 1);
 			if(i2 >= 0) {
-				p.setProperty("system", text.substring(i1 + 1, i2));
+				p.setProperty("system", text.substring(i1 + 1, i2)); //$NON-NLS-1$
 			}
 		}
     	return p;

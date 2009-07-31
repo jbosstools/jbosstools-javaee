@@ -40,7 +40,7 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.ui.editor.JSFEditor;
 
 public class PrintPreviewDialog extends Dialog{
-			String message = "";
+			String message = ""; //$NON-NLS-1$
 			String result = null;
 			Shell dialog;
 			Text text;
@@ -176,21 +176,21 @@ public class PrintPreviewDialog extends Dialog{
 					selectPage.addSelectionListener(selectListener);
 					PropertyChangeListener pcl = new PropertyChangeListener(){
 						public void propertyChange(PropertyChangeEvent e){
-						   if(e.getPropertyName().equals("selectAll")){
+						   if(e.getPropertyName().equals("selectAll")){ //$NON-NLS-1$
 							  if(!all.getSelection()){
 								 selectAll.setEnabled(false);
 								 unselectAll.setEnabled(true);
 								 imageView.redraw();
 							  }
 						   }
-						   if(e.getPropertyName().equals("unSelectAll")){
+						   if(e.getPropertyName().equals("unSelectAll")){ //$NON-NLS-1$
 							  if(!all.getSelection()){
 								 unselectAll.setEnabled(false);
 								 selectAll.setEnabled(true);
 								 imageView.redraw();
 							 }
 						   }
-						   if(e.getPropertyName().equals("PageSelection")){
+						   if(e.getPropertyName().equals("PageSelection")){ //$NON-NLS-1$
 							  if(!all.getSelection()){
 								 unselectAll.setEnabled(true);
 								selectAll.setEnabled(true);

@@ -52,7 +52,7 @@ public class NodeFigure extends
 	public final static Color ghostFillColor = new Color(null, 31, 31, 31);
 
 	public static final Image errorIcon = ModelUIImages
-			.getImage("error_co.gif");
+			.getImage("error_co.gif"); //$NON-NLS-1$
 
 	public static final int LINK_HEIGHT = 16;
 }

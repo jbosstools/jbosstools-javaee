@@ -29,13 +29,13 @@ public class ReferenceGroupImpl extends OrderedObjectImpl implements ReferenceOb
 		}
 		reference = rs;
 		referenceTimeStamp = rts;
-		saveShapeToReference(get("SHAPE"));		
+		saveShapeToReference(get("SHAPE"));		 //$NON-NLS-1$
 	}
 	
 	void saveShapeToReference(String shape) {
 		if(shape != null && shape.length() > 0) {
 			for (int i = 0; i < reference.length; i++)
-				reference[i].set("_shape_g", shape);
+				reference[i].set("_shape_g", shape); //$NON-NLS-1$
 		}
 	}
 	
@@ -71,13 +71,13 @@ public class ReferenceGroupImpl extends OrderedObjectImpl implements ReferenceOb
 	}
 
 	public String getPresentationString() {
-		String s = "" + getAttributeValue(ATT_PATH);
+		String s = "" + getAttributeValue(ATT_PATH); //$NON-NLS-1$
 		if(s.length() == 0) s = JSFConstants.EMPTY_NAVIGATION_RULE_NAME;
 		return s;
 	}
 
 	public void set(String name, String value) {
-		if("SHAPE".equals(name)) {
+		if("SHAPE".equals(name)) { //$NON-NLS-1$
 			saveShapeToReference(value);
 		}
 		super.set(name, value);
@@ -85,10 +85,10 @@ public class ReferenceGroupImpl extends OrderedObjectImpl implements ReferenceOb
 	
 	public String getMainIconName() {
 		String path = getAttributeValue(ATT_PATH);
-		if(path == null || path.length() == 0 || path.indexOf('*') > 0) return "main.file.unknow_file";
-		if(path.endsWith(".jsp")) return "main.file.jsp_file";
-		if(path.endsWith(".html") || path.endsWith(".htm")) return "main.file.html_file";
-		return "main.file.unknow_file"; 
+		if(path == null || path.length() == 0 || path.indexOf('*') > 0) return "main.file.unknow_file"; //$NON-NLS-1$
+		if(path.endsWith(".jsp")) return "main.file.jsp_file"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(path.endsWith(".html") || path.endsWith(".htm")) return "main.file.html_file"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "main.file.unknow_file";  //$NON-NLS-1$
 	}
 
 	public XModelObject getReference() {

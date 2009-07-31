@@ -17,9 +17,9 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.*;
 
 public class SetApplicationHandler extends AbstractHandler {
-	static String NAME_APPLICATION = "application";
-	static String ENTITY_APPLICATION = "JSFApplication";
-	static String ENTITY_APPLICATION_12 = "JSFApplication12";
+	static String NAME_APPLICATION = "application"; //$NON-NLS-1$
+	static String ENTITY_APPLICATION = "JSFApplication"; //$NON-NLS-1$
+	static String ENTITY_APPLICATION_12 = "JSFApplication12"; //$NON-NLS-1$
 
 	public boolean isEnabled(XModelObject object) {
 		return object != null && object.isObjectEditable();
@@ -33,7 +33,7 @@ public class SetApplicationHandler extends AbstractHandler {
 			child = object.getModel().createModelObject(childEntity, null);
 		}
 		long ts = child.getTimeStamp();
-		XActionInvoker.invoke("EditActions.Edit", child, p);
+		XActionInvoker.invoke("EditActions.Edit", child, p); //$NON-NLS-1$
 		if(!child.isActive() && ts != child.getTimeStamp()) {
 			DefaultCreateHandler.addCreatedObject(object, child, p);
 		}

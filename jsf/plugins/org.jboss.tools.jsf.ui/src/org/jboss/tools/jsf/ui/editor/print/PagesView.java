@@ -68,7 +68,7 @@ public class PagesView extends Composite implements MouseListener,PaintListener{
 			this.viewScale = calculateScale(containerSize, pages.getDimension());
 			PropertyChangeListener pcl = new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent e) {
-					if (e.getPropertyName().equals("scale")) {
+					if (e.getPropertyName().equals("scale")) { //$NON-NLS-1$
 						setViewScale(calculateScale(containerSize, pages
 								.getDimension()));
 						if (pageCount != pages.getSourcePagesCount()) {

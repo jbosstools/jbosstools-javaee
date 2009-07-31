@@ -18,7 +18,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class JSFRenameFolderParticipant extends RenameParticipant {
-	public static final String PARTICIPANT_NAME="jsf-RenameFolderParticipant";
+	public static final String PARTICIPANT_NAME="jsf-RenameFolderParticipant"; //$NON-NLS-1$
 	XModelObject object;
 
 	protected boolean initialize(Object element) {
@@ -27,12 +27,12 @@ public class JSFRenameFolderParticipant extends RenameParticipant {
 		object = EclipseResourceUtil.getObjectByResource(f);
 		if(object == null) return false;
 		String entity = object.getModelEntity().getName();
-		if(!"FileFolder".equals(entity)) return false;
+		if(!"FileFolder".equals(entity)) return false; //$NON-NLS-1$
 		XModelObject s = object;
 		while(s != null && s.getFileType() != XModelObject.SYSTEM) s = s.getParent();
 		if(s == null) return false;
-		String n = s.getAttributeValue("name");
-		if("WEB-ROOT".equals(n) || "WEB-INF".equals(n)) return true;
+		String n = s.getAttributeValue("name"); //$NON-NLS-1$
+		if("WEB-ROOT".equals(n) || "WEB-INF".equals(n)) return true; //$NON-NLS-1$ //$NON-NLS-2$
 		return false;
 	}
 

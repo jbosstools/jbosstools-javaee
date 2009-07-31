@@ -59,17 +59,17 @@ public class AddManagedBeanScreenTwo extends AbstractSpecialWizardStep {
 	
 	public void setSupport(SpecialWizardSupport support, int i) {
 		super.setSupport(support, i);
-		auxproperty = support.getTarget().getModel().createModelObject("JSFManagedProperty", null);
-		valueAdapter.setAttribute(auxproperty.getModelEntity().getAttribute("value"));
+		auxproperty = support.getTarget().getModel().createModelObject("JSFManagedProperty", null); //$NON-NLS-1$
+		valueAdapter.setAttribute(auxproperty.getModelEntity().getAttribute("value")); //$NON-NLS-1$
 		valueAdapter.setModelObject(auxproperty);
-		editor = PropertyEditorFactory.createPropertyEditor(valueAdapter, auxproperty.getModelEntity().getAttribute("value"), auxproperty);
+		editor = PropertyEditorFactory.createPropertyEditor(valueAdapter, auxproperty.getModelEntity().getAttribute("value"), auxproperty); //$NON-NLS-1$
 		editor.setInput(valueAdapter);
 	}
 
 	public Control createControl(Composite parent) {
 		composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
-		context = (AddManagedBeanPropertiesContext)support.getProperties().get("propertiesContext");
+		context = (AddManagedBeanPropertiesContext)support.getProperties().get("propertiesContext"); //$NON-NLS-1$
 		provider.setContext(context);
 		if(table == null) createTable();
 		Table t = (Table)table.createControl(composite);
@@ -96,7 +96,7 @@ public class AddManagedBeanScreenTwo extends AbstractSpecialWizardStep {
 				}
 			}
 		});
-		table.getViewer().setColumnProperties(new String[]{"name", "value"});
+		table.getViewer().setColumnProperties(new String[]{"name", "value"}); //$NON-NLS-1$ //$NON-NLS-2$
 		table.getViewer().setCellModifier(new ValueCellModifier());
 		table.getViewer().setCellEditors(new CellEditor[]{null, editor.getCellEditor(t)});
 		return composite;
@@ -118,7 +118,7 @@ public class AddManagedBeanScreenTwo extends AbstractSpecialWizardStep {
 	
 	class ValueCellModifier implements ICellModifier {
 		public boolean canModify(Object element, String property) {
-			return "value".equals(property);
+			return "value".equals(property); //$NON-NLS-1$
 		}
 
 		public Object getValue(Object element, String property) {
@@ -132,7 +132,7 @@ public class AddManagedBeanScreenTwo extends AbstractSpecialWizardStep {
 			TableItem item = (TableItem)element;
 			Integer i = (Integer)item.getData();
 			if(i == null) return;
-			String v = (value == null) ? "" : value.toString();
+			String v = (value == null) ? "" : value.toString(); //$NON-NLS-1$
 			context.setValue(i.intValue(), v);
 			if(v.length() > 0) context.setEnabled(i.intValue(), true);
 			table.update();
@@ -143,8 +143,8 @@ public class AddManagedBeanScreenTwo extends AbstractSpecialWizardStep {
 }
 
 class TableProviderImpl implements XTableProvider, XTableImageProvider {
-	Image IMAGE_ENABLED = EclipseResourceUtil.getImage("images/common/check.gif");
-	Image IMAGE_DISABLED = EclipseResourceUtil.getImage("images/common/uncheck.gif");
+	Image IMAGE_ENABLED = EclipseResourceUtil.getImage("images/common/check.gif"); //$NON-NLS-1$
+	Image IMAGE_DISABLED = EclipseResourceUtil.getImage("images/common/uncheck.gif"); //$NON-NLS-1$
 	String[] header = new String[] {"name", "value"};
 	AddManagedBeanPropertiesContext context;
 	

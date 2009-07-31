@@ -25,7 +25,7 @@ public class JSFCutRetargetAction extends RetargetAction {
 	 * Constructs a new CopyRetargetAction with the default ID, label and image.
 	 */
 	public JSFCutRetargetAction() {
-		super(ActionFactory.CUT.getId(), "&Copy"/* GEFMessages.CopyAction_Label */);
+		super(ActionFactory.CUT.getId(), "&Copy"/* GEFMessages.CopyAction_Label */); //$NON-NLS-1$
 		setImageDescriptor(getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
 		setHoverImageDescriptor(getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
 		setDisabledImageDescriptor(getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));

@@ -35,8 +35,8 @@ public class ReferenceObjectImpl extends OrderedObjectImpl implements ReferenceO
     	}
         this.reference = reference;
         if(reference != null) {
-            String shape = get("SHAPE");
-            if(shape != null && shape.length() > 0) reference.set("_shape", shape);
+            String shape = get("SHAPE"); //$NON-NLS-1$
+            if(shape != null && shape.length() > 0) reference.set("_shape", shape); //$NON-NLS-1$
         }
     }
     
@@ -53,9 +53,9 @@ public class ReferenceObjectImpl extends OrderedObjectImpl implements ReferenceO
 /*                  (TYPE_ACTION.equals(getAttributeValue(ATT_TYPE)) ||
                    TYPE_PAGE.equals(getAttributeValue(ATT_TYPE))
                   ) ? getAttributeValue(ATT_PATH) : */
-					getAttributeValue("title");
+					getAttributeValue("title"); //$NON-NLS-1$
         if(title == null) title = getAttributeValue(ATT_NAME);
-        return "" + title;
+        return "" + title; //$NON-NLS-1$
     }
 
     public String getMainIconName() {
@@ -90,8 +90,8 @@ public class ReferenceObjectImpl extends OrderedObjectImpl implements ReferenceO
     }
 
     public void set(String name, String value) {
-        if("SHAPE".equals(name) && reference != null) {
-            reference.set("_shape", value);
+        if("SHAPE".equals(name) && reference != null) { //$NON-NLS-1$
+            reference.set("_shape", value); //$NON-NLS-1$
         }
         super.set(name, value);
     }

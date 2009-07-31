@@ -37,24 +37,24 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
  */
 public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 
-    private static final String FACES_CONTEXT = "facesContext";
+    private static final String FACES_CONTEXT = "facesContext"; //$NON-NLS-1$
 
     private static final Map<String, ELExpression> IMPLICT_OBJECTS_ELS = new HashMap<String, ELExpression>();
     static {
-    	IMPLICT_OBJECTS_ELS.put("application", parseEl("#{facesContext.externalContext.context}"));
-    	IMPLICT_OBJECTS_ELS.put("applicationScope", parseEl("#{facesContext.externalContext.applicationMap}"));
-    	IMPLICT_OBJECTS_ELS.put("cookie", parseEl("#{facesContext.externalContext.requestCookieMap}"));
-    	IMPLICT_OBJECTS_ELS.put("header", parseEl("#{facesContext.externalContext.requestHeaderMap}"));
-    	IMPLICT_OBJECTS_ELS.put("headerValues", parseEl("#{facesContext.externalContext.requestHeaderValuesMap}"));
-    	IMPLICT_OBJECTS_ELS.put("initParam", parseEl("#{facesContext.externalContext.initParameterMap}"));
-    	IMPLICT_OBJECTS_ELS.put("param", parseEl("#{facesContext.externalContext.requestParameterMap}"));
-    	IMPLICT_OBJECTS_ELS.put("paramValues", parseEl("#{facesContext.externalContext.requestParameterValuesMap}"));
-    	IMPLICT_OBJECTS_ELS.put("request", parseEl("#{facesContext.externalContext.request}"));
-    	IMPLICT_OBJECTS_ELS.put("requestScope", parseEl("#{facesContext.externalContext.requestMap}"));
+    	IMPLICT_OBJECTS_ELS.put("application", parseEl("#{facesContext.externalContext.context}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("applicationScope", parseEl("#{facesContext.externalContext.applicationMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("cookie", parseEl("#{facesContext.externalContext.requestCookieMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("header", parseEl("#{facesContext.externalContext.requestHeaderMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("headerValues", parseEl("#{facesContext.externalContext.requestHeaderValuesMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("initParam", parseEl("#{facesContext.externalContext.initParameterMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("param", parseEl("#{facesContext.externalContext.requestParameterMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("paramValues", parseEl("#{facesContext.externalContext.requestParameterValuesMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("request", parseEl("#{facesContext.externalContext.request}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("requestScope", parseEl("#{facesContext.externalContext.requestMap}")); //$NON-NLS-1$ //$NON-NLS-2$
 //    	IMPLICT_OBJECTS_ELS.put("session", parseEl("#{facesContext.externalContext.getSession()}"));
-    	IMPLICT_OBJECTS_ELS.put("session", parseEl("#{facesContext.externalContext.request}")); // FIXME we should fix EL resolving for methods with arguments (e.g. #{facesContext.externalContext.getSession(true)}) See https://jira.jboss.org/jira/browse/JBIDE-4580
-    	IMPLICT_OBJECTS_ELS.put("sessionScope", parseEl("#{facesContext.externalContext.sessionMap}"));
-    	IMPLICT_OBJECTS_ELS.put("view", parseEl("#{facesContext.viewRoot}"));
+    	IMPLICT_OBJECTS_ELS.put("session", parseEl("#{facesContext.externalContext.request}")); // FIXME we should fix EL resolving for methods with arguments (e.g. #{facesContext.externalContext.getSession(true)}) See https://jira.jboss.org/jira/browse/JBIDE-4580 //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("sessionScope", parseEl("#{facesContext.externalContext.sessionMap}")); //$NON-NLS-1$ //$NON-NLS-2$
+    	IMPLICT_OBJECTS_ELS.put("view", parseEl("#{facesContext.viewRoot}")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     private IFile file; 
@@ -137,7 +137,7 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(file.getProject());
 		List<IJSFVariable> list = new ArrayList<IJSFVariable>();
 		try {
-			IType type = jp.findType("javax.faces.context.FacesContext");
+			IType type = jp.findType("javax.faces.context.FacesContext"); //$NON-NLS-1$
 			list.add(new Variable(FACES_CONTEXT, type));
 		} catch (JavaModelException e) {
 			log(e);

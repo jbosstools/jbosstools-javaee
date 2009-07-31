@@ -36,7 +36,7 @@ import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
  * @author Jeremy
  */
 public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer {
-	public static final String JSP_BUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE";
+	public static final String JSP_BUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE"; //$NON-NLS-1$
 	
 	protected String getPartitionType() {
 		return JSP_BUNDLE_PARTITION;
@@ -72,7 +72,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
+			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}
 		return superRegion.getAxis();
 	}
@@ -125,7 +125,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
 			return region;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		} finally {
 			smw.dispose();
@@ -151,8 +151,8 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			String bundleProp = document.get(r.getOffset(), r.getLength());
 			
 			// get var name
-			int dotIndex = bundleProp.indexOf(".");
-			int bracketIndex = bundleProp.indexOf("[");
+			int dotIndex = bundleProp.indexOf("."); //$NON-NLS-1$
+			int bracketIndex = bundleProp.indexOf("["); //$NON-NLS-1$
 
 			boolean useDot = false;
 			boolean useBracket = false;
@@ -162,7 +162,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 				if (!useDot || (useDot && dotIndex > bracketIndex)) 
 					useBracket = true;
 			}
-			if (useDot && bundleProp.indexOf(".", dotIndex + 1) != -1)
+			if (useDot && bundleProp.indexOf(".", dotIndex + 1) != -1) //$NON-NLS-1$
 					useDot = false;
 
 			if (!useDot && !useBracket) return false;
@@ -176,7 +176,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			if (useBracket) {
 				sVar = bundleProp.substring(0, bracketIndex);
 				int startProp = bracketIndex + 1;
-				int endProp = bundleProp.indexOf("]");
+				int endProp = bundleProp.indexOf("]"); //$NON-NLS-1$
 				if (endProp == -1) endProp = bundleProp.length() - 1;
 				sProp = Utils.trimQuotes(bundleProp.substring(startProp, endProp));
 			}
@@ -190,7 +190,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			for (String prefix : prefixes) {
 				// Find loadBundle tag
 				List<Element> lbTags = new ArrayList<Element>();
-				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle");
+				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle"); //$NON-NLS-1$
 				for (int i = 0; list != null && i < list.getLength(); i++) {
 					Element el = (Element)list.item(i);
 					int end = Utils.getValueEnd(el);
@@ -202,7 +202,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 				Element lbTag = null;
 				for (int i = 0; i < lbTags.size(); i++) {
 					Element el = lbTags.get(i);
-					Attr var = el.getAttributeNode("var");
+					Attr var = el.getAttributeNode("var"); //$NON-NLS-1$
 					
 					if (sVar.equals(var.getValue())) {
 						lbTag = el;
@@ -213,7 +213,7 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			}
 			return false;
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x);
+			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
 		} finally {
 			smw.dispose();

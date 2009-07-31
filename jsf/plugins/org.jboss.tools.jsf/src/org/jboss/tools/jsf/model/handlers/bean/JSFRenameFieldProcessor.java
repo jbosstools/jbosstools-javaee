@@ -13,7 +13,7 @@ package org.jboss.tools.jsf.model.handlers.bean;
 import org.jboss.tools.jsf.model.handlers.refactoring.JSFRenameProcessor;
 
 public class JSFRenameFieldProcessor extends JSFRenameProcessor {
-	public static final String IDENTIFIER = "org.jboss.tools.jsf.renameFieldProcesso";
+	public static final String IDENTIFIER = "org.jboss.tools.jsf.renameFieldProcesso"; //$NON-NLS-1$
 	private boolean updateReferences = true;
 
 	public JSFRenameFieldProcessor() {}
@@ -23,7 +23,7 @@ public class JSFRenameFieldProcessor extends JSFRenameProcessor {
 	}
 
 	protected String getPropertyName() {
-		return "property-name";
+		return "property-name"; //$NON-NLS-1$
 	}
 	
 	public boolean canEnableUpdateReferences() {

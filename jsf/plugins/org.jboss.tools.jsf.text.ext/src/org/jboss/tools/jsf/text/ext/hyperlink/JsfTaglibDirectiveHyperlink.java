@@ -48,7 +48,7 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 			
 			Node node = n;
 			
-			String uri = Utils.getAttributeValue(getDocument(), node, "uri");
+			String uri = Utils.getAttributeValue(getDocument(), node, "uri"); //$NON-NLS-1$
 			if (uri != null) {
 				return uri;
 			}
@@ -64,7 +64,7 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 
 		String uri = getTaglibUri(region);
 		if (uri != null) {
-			p.setProperty("prefix", uri);
+			p.setProperty("prefix", uri); //$NON-NLS-1$
 		}
 		return p;
 	}

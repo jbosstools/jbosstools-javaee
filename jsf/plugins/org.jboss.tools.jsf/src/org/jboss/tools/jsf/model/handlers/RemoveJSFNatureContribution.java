@@ -25,8 +25,8 @@ public class RemoveJSFNatureContribution implements SpecialWizard {
 		if(model == null) return 1;
 		XModelObject webxml = WebAppHelper.getWebApp(model);
 		XModelObject servlet = WebAppHelper.findServlet(webxml,
-				JSFConstants.FACES_SERVLET_CLASS, "Faces Config");
-		String servletName = servlet == null ? null : servlet.getAttributeValue("servlet-name");
+				JSFConstants.FACES_SERVLET_CLASS, "Faces Config"); //$NON-NLS-1$
+		String servletName = servlet == null ? null : servlet.getAttributeValue("servlet-name"); //$NON-NLS-1$
 		XModelObject mapping = WebAppHelper.findServletMapping(webxml, servletName);
 
 		if(servlet != null) {
@@ -35,11 +35,11 @@ public class RemoveJSFNatureContribution implements SpecialWizard {
 		if(mapping != null) {
 			DefaultRemoveHandler.removeFromParent(mapping);
 		}
-		XModelObject folder = webxml.getChildByPath("Context Params");
+		XModelObject folder = webxml.getChildByPath("Context Params"); //$NON-NLS-1$
 		XModelObject[] params = folder.getChildren();
 		for (int i = 0; i < params.length; i++) {
-			String name = params[i].getAttributeValue("param-name");
-			if(name != null && name.startsWith("javax.faces.")) {
+			String name = params[i].getAttributeValue("param-name"); //$NON-NLS-1$
+			if(name != null && name.startsWith("javax.faces.")) { //$NON-NLS-1$
 				DefaultRemoveHandler.removeFromParent(params[i]);
 			}
 		}

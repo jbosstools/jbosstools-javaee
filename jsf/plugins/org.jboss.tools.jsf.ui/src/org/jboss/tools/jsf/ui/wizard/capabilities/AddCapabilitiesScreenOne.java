@@ -29,7 +29,7 @@ public class AddCapabilitiesScreenOne extends AbstractSpecialWizardStep {
 
 	public void setSupport(SpecialWizardSupport support, int i) {
 		super.setSupport(support, i);
-		performer = (IPerformerItem)support.getProperties().get("CapabilitiesPerformer");
+		performer = (IPerformerItem)support.getProperties().get("CapabilitiesPerformer"); //$NON-NLS-1$
 		provider.setItems(performer.getChildren());
 	}
 

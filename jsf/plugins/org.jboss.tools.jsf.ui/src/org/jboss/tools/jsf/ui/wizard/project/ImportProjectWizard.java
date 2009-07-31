@@ -23,7 +23,7 @@ import org.jboss.tools.jst.web.ui.wizards.project.ImportWebProjectWizard;
 
 public class ImportProjectWizard extends ImportWebProjectWizard {
 	private ImportProjectFoldersPage foldersPage;
-	static final String IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE = "IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE";
+	static final String IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE = "IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE"; //$NON-NLS-1$
 	
 	public ImportProjectWizard() {
 		this.setWindowTitle(WizardKeys.getString(IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE));
@@ -49,7 +49,7 @@ public class ImportProjectWizard extends ImportWebProjectWizard {
 	}
 
 	protected String getFinalPerspective() {
-		return "org.jboss.tools.jst.web.ui.WebDevelopmentPerspective";
+		return "org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"; //$NON-NLS-1$
 	}
 
 	protected boolean checkOldVersion() {

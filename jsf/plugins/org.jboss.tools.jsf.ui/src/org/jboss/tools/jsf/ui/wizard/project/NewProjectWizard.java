@@ -27,8 +27,8 @@ import org.jboss.tools.jst.web.ui.wizards.project.NewWebProjectWizardPreprocessi
 
 public class NewProjectWizard extends NewWebProjectWizard {
 	private NewProjectWizardPage fMainPage;
-	private static final String NEW_JSF_PROJECT_WIZARD_WINDOW_TITLE = "NEW_JSF_PROJECT_WIZARD_WINDOW_TITLE";
-	private static final String NEW_JSF_PROJECT_WIZARD_CREATE_STRUTS_PROJECT = "NEW_JSF_PROJECT_WIZARD_CREATE_STRUTS_PROJECT";
+	private static final String NEW_JSF_PROJECT_WIZARD_WINDOW_TITLE = "NEW_JSF_PROJECT_WIZARD_WINDOW_TITLE"; //$NON-NLS-1$
+	private static final String NEW_JSF_PROJECT_WIZARD_CREATE_STRUTS_PROJECT = "NEW_JSF_PROJECT_WIZARD_CREATE_STRUTS_PROJECT"; //$NON-NLS-1$
 	
 	NewWebProjectWizardPreprocessingPage preprocessingPage;
 	

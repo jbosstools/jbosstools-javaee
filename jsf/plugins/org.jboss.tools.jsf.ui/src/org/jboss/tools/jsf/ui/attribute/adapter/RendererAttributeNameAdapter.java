@@ -30,9 +30,9 @@ public class RendererAttributeNameAdapter extends DefaultComboBoxValueAdapter im
 		XModelObject o = getRendererObject();
 		if(o == null) return new String[0];
 		Set<String> tags = new TreeSet<String>();
-		XModelObject[] cs = o.getChildren("JSFAttribute");
+		XModelObject[] cs = o.getChildren("JSFAttribute"); //$NON-NLS-1$
 		for (int i = 0; i < cs.length; i++) {
-			tags.add(cs[i].getAttributeValue("attribute-name"));
+			tags.add(cs[i].getAttributeValue("attribute-name")); //$NON-NLS-1$
 		}
 		return tags.toArray(new String[0]);
 	}
@@ -42,7 +42,7 @@ public class RendererAttributeNameAdapter extends DefaultComboBoxValueAdapter im
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	
 	protected XModelObject getRendererObject() {
-		if(modelObject == null || "JSFRenderer".equals(modelObject.getModelEntity().getName())) return modelObject;
+		if(modelObject == null || "JSFRenderer".equals(modelObject.getModelEntity().getName())) return modelObject; //$NON-NLS-1$
 		return modelObject.getParent();		
 	}
 

@@ -35,11 +35,11 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 	Map<String,IJavaElement> fields;
 	boolean isLight = false;
 	XEntityData lightData = XEntityDataImpl.create(new String[][]{
-		{"AddJSFManagedPropertyWizard", "yes"},
-		{"property-name", "yes"},
-		{"property-class", "no"},
-		{"value-kind", "no"},
-		{"value", "no"}
+		{"AddJSFManagedPropertyWizard", "yes"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"property-name", "yes"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"property-class", "no"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"value-kind", "no"}, //$NON-NLS-1$ //$NON-NLS-2$
+		{"value", "no"} //$NON-NLS-1$ //$NON-NLS-2$
 	});
 
 	public void reset() {
@@ -52,25 +52,25 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 				lightData.setValue(n, d.getValue(n));
 			}
 		}
-		if(ChangeContentKindHandler.isNewValueKind(getTarget(), "properties") &&
+		if(ChangeContentKindHandler.isNewValueKind(getTarget(), "properties") && //$NON-NLS-1$
 		   !ChangeContentKindHandler.checkChangeSignificance(getTarget())) {
 		   	setFinished(true);
 		   	return;
 		}
 		classCheck.setModelContext(getTarget());
-		String s = getTarget().getAttributeValue("managed-bean-class");
-		if(s == null) s = "";
+		String s = getTarget().getAttributeValue("managed-bean-class"); //$NON-NLS-1$
+		if(s == null) s = ""; //$NON-NLS-1$
 		classCheck.update(s);
 		try {
 			fields = BeanHelper.getJavaProperties(classCheck.getExistingClass());
 		} catch (JavaModelException e) {
 			fields = new TreeMap<String,IJavaElement>();
 		}
-		XModelObject[] cs = getTarget().getChildren("JSFManagedProperty");
-		for (int i = 0; i < cs.length; i++) fields.remove(cs[i].getAttributeValue("property-name"));
+		XModelObject[] cs = getTarget().getChildren("JSFManagedProperty"); //$NON-NLS-1$
+		for (int i = 0; i < cs.length; i++) fields.remove(cs[i].getAttributeValue("property-name")); //$NON-NLS-1$
 		String[] fs = (String[])fields.keySet().toArray(new String[0]);
-		setValueList(0, "property-name", fs);
-		if(isLight) setAttributeValue(0, "add java property", "false");
+		setValueList(0, "property-name", fs); //$NON-NLS-1$
+		if(isLight) setAttributeValue(0, "add java property", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void action(String name) throws XModelException {
@@ -90,11 +90,11 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 	
 	void execute() throws XModelException {
 		Properties p = extractStepData(0);
-		getTarget().setAttributeValue("content-kind", "properties");
-		String entity = action.getProperty("entity");
+		getTarget().setAttributeValue("content-kind", "properties"); //$NON-NLS-1$ //$NON-NLS-2$
+		String entity = action.getProperty("entity"); //$NON-NLS-1$
 		XModelObject c = XModelObjectLoaderUtil.createValidObject(getTarget().getModel(), entity, p);
 		DefaultCreateHandler.addCreatedObject(getTarget(), c, getProperties());
-		getProperties().put("created", c);
+		getProperties().put("created", c); //$NON-NLS-1$
 		if(!isGenerationOn(p)) return;
 		try {
 			generate(p);
@@ -104,24 +104,24 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 	}
 
 	boolean isGenerationOn(Properties p) {
-		if(!"true".equals(p.getProperty("add java property"))) return false;
-		if(!isFieldEditorEnabled(0, "add java property", p)) return false;
+		if(!"true".equals(p.getProperty("add java property"))) return false; //$NON-NLS-1$ //$NON-NLS-2$
+		if(!isFieldEditorEnabled(0, "add java property", p)) return false; //$NON-NLS-1$
 		return true;
 	}	
 
 	public boolean isFieldEditorEnabled(int stepId, String name, Properties values) {
-		String pn = values.getProperty("property-name");
-		String vk = values.getProperty("value-kind");
+		String pn = values.getProperty("property-name"); //$NON-NLS-1$
+		String vk = values.getProperty("value-kind"); //$NON-NLS-1$
 		boolean canGenerate = classCheck.isValid() && classCheck.classExists() && !classCheck.getExistingClass().isBinary();
 		boolean canGenerateField = !fields.containsKey(pn);
-		if("add java property".equals(name)) {
+		if("add java property".equals(name)) { //$NON-NLS-1$
 			return !isLight && canGenerate && canGenerateField;
 		}
-		if("generate getter".equals(name) || "generate setter".equals(name)) {
-			boolean agp = "true".equals(values.getProperty("add java property"));
+		if("generate getter".equals(name) || "generate setter".equals(name)) { //$NON-NLS-1$ //$NON-NLS-2$
+			boolean agp = "true".equals(values.getProperty("add java property")); //$NON-NLS-1$ //$NON-NLS-2$
 			return agp && canGenerate && canGenerateField;
-		} else if("value".equals(name)) {
-			return "value".equals(vk);
+		} else if("value".equals(name)) { //$NON-NLS-1$
+			return "value".equals(vk); //$NON-NLS-1$
 		}
 		return true;
 	}
@@ -133,16 +133,16 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 	
 	void generate(Properties p) throws CoreException {
 		generator.setOwner(classCheck.getExistingClass());
-		String type = p.getProperty("property-class");
-		if(type.length() == 0) type = "String";
-		String name = p.getProperty("property-name");
-		boolean getter = "true".equals(p.getProperty("generate getter")); 
-		boolean setter = "true".equals(p.getProperty("generate setter")); 
-		generator.generate(name, type, "public", true, getter, setter);		
+		String type = p.getProperty("property-class"); //$NON-NLS-1$
+		if(type.length() == 0) type = "String"; //$NON-NLS-1$
+		String name = p.getProperty("property-name"); //$NON-NLS-1$
+		boolean getter = "true".equals(p.getProperty("generate getter"));  //$NON-NLS-1$ //$NON-NLS-2$
+		boolean setter = "true".equals(p.getProperty("generate setter"));  //$NON-NLS-1$ //$NON-NLS-2$
+		generator.generate(name, type, "public", true, getter, setter);		 //$NON-NLS-1$
 	}
 
 	public String getStepImplementingClass(int stepId) {
-		return "org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanPropertyScreen";
+		return "org.jboss.tools.jsf.ui.wizard.bean.AddManagedBeanPropertyScreen"; //$NON-NLS-1$
 	}
 	
 	protected DefaultWizardDataValidator validator = new PropertyValidator();
@@ -156,8 +156,8 @@ public class AddManagedPropertySupport extends SpecialWizardSupport {
 		public void validate(Properties data) {
 			super.validate(data);
 			if(message != null) return;
-			String propertyName = data.getProperty("property-name");
-			message = DefaultCreateHandler.getConstraintMessage("property-name", propertyName, constraint);
+			String propertyName = data.getProperty("property-name"); //$NON-NLS-1$
+			message = DefaultCreateHandler.getConstraintMessage("property-name", propertyName, constraint); //$NON-NLS-1$
 		}
 	}
 

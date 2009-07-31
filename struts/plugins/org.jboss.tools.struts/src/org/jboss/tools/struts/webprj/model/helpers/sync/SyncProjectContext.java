@@ -12,6 +12,7 @@ package org.jboss.tools.struts.webprj.model.helpers.sync;
 
 import java.io.File;
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -242,16 +243,16 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 
     void addModule(String name, String path) throws XModelException {
         File f = new File(path);
-        if(!f.isFile()) throw new XModelException("File " + " does not exist."); //$NON-NLS-1$ //$NON-NLS-2$
+        if(!f.isFile()) throw new XModelException(MessageFormat.format(StrutsUIMessages.SyncProjectContext_FileDoesNotExist, path));
         String uri = "/WEB-INF/" + f.getName(); //$NON-NLS-1$
         if(name.length() > 0 && !name.startsWith("/")) name = "/" + name; //$NON-NLS-1$ //$NON-NLS-2$
         XModelObject m = (XModelObject)modulesMap.get(name);
         if(m != null) {
 			if("deleted".equals(m.get("state"))) { //$NON-NLS-1$ //$NON-NLS-2$
-        		if(m != null) throw new XModelException("Module " + getModuleDisplayName(name) + " exists."); //$NON-NLS-1$ //$NON-NLS-2$
+        		if(m != null) throw new XModelException(MessageFormat.format(StrutsUIMessages.SyncProjectContext_ModuleExists, getModuleDisplayName(name)));
 			}
 			checkStrutsConfig(path);
-			XModelObject cc = m.getModel().createModelObject(WebModuleConstants.ENTITY_WEB_CONFIG, null); //$NON-NLS-1$
+			XModelObject cc = m.getModel().createModelObject(WebModuleConstants.ENTITY_WEB_CONFIG, null);
 			cc.setAttributeValue(ATTR_URI, uri);
 			cc.setAttributeValue(ATTR_DISK_PATH, path);
 			cc.set("state", "added"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -261,7 +262,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 					XModelObjectLoaderUtil.mergeAttributes(cc1, cc, false);
 					cc1.set("state", "added"); //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
-					throw new XModelException("Configuration file is used."); //$NON-NLS-1$
+					throw new XModelException(StrutsUIMessages.SyncProjectContext_ConfigFileIsUsed);
 				}
 			} else {
 				m.addChild(cc);
@@ -272,7 +273,7 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
         m = findModuleByPathOnDisk(path);
         if(m != null) {
             if(!"deleted".equals(m.get("state"))) //$NON-NLS-1$ //$NON-NLS-2$
-				throw new XModelException("The path is used by another module."); //$NON-NLS-1$
+				throw new XModelException(StrutsUIMessages.SyncProjectContext_PathUsedByAnotherModule);
            	modules.remove(m);
            	modulesMap.remove(name);
         } else {
@@ -335,16 +336,17 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
 
     private void checkStrutsConfig(String path) throws XModelException {
         File f = new File(path);
-        if(!f.isFile()) throw new XModelException("Path is not a path to a file."); //$NON-NLS-1$
+        if(!f.isFile()) throw new XModelException(StrutsUIMessages.SyncProjectContext_NotAPathToAFile);
         String s = FileUtil.readFile(f);
         boolean is11 = s.indexOf(StrutsConstants.DOC_PUBLICID_11) >= 0;
         boolean is12 = s.indexOf(StrutsConstants.DOC_PUBLICID_12) >= 0;
         if(!is11 && !is12)
-          throw new XModelException("File is not Struts Configuration 1.1 or 1.2."); //$NON-NLS-1$
+          throw new XModelException(StrutsUIMessages.SyncProjectContext_FileIsNotStruts11Or12);
         String[] es = XMLUtil.getXMLErrors(new StringReader(s), false); //never validate dtd
         if(es != null && es.length > 0) {
           String version = (is11) ? "1.1" : "1.2"; //$NON-NLS-1$ //$NON-NLS-2$
-          throw new XModelException("Struts Configuration " + version + " file is not correct:\n" + es[0]); //$NON-NLS-1$ //$NON-NLS-2$
+          throw new XModelException(MessageFormat.format(
+				StrutsUIMessages.SyncProjectContext_ConfigFileNotCorrect, version, es[0]));
         }
     }
 
@@ -621,8 +623,9 @@ public class SyncProjectContext implements WebModuleConstants, IWatcherContribut
             if("deleted".equals(o.get("state"))) continue; //$NON-NLS-1$ //$NON-NLS-2$
             String v = o.getAttributeValue(attr);
             if(v == null) continue;
-            if(v.length() == 0) throw new XModelException("Attribute '" + attr + "' is required."); //$NON-NLS-1$ //$NON-NLS-2$
-            if(set.contains(v)) throw new XModelException("More than one module has '" + attr + "' set to " + v + "."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            if(v.length() == 0) throw new XModelException(MessageFormat.format(StrutsUIMessages.SyncProjectContext_AttributeIsRequired, attr));
+            if(set.contains(v)) throw new XModelException(MessageFormat.format(
+					StrutsUIMessages.SyncProjectContext_MoreThanOneModuleHasAttributeValue, attr, v));
             set.add(v);
         }
     }

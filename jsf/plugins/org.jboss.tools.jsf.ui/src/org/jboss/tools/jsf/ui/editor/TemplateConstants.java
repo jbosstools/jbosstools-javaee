@@ -16,6 +16,6 @@ package org.jboss.tools.jsf.ui.editor;
  */
 public class TemplateConstants {
 
-public static final String TEMPLATE_VIEW       = "view template";
+public static final String TEMPLATE_VIEW       = "view template"; //$NON-NLS-1$
 
 }

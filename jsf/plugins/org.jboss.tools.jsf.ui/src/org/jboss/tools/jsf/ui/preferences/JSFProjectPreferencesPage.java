@@ -17,7 +17,7 @@ import org.jboss.tools.jst.web.project.helpers.IWebProjectTemplate;
 
 public class JSFProjectPreferencesPage extends WebProjectPreferencesPage {
 	
-	public static final String ID = "org.jboss.tools.jsf.ui.project";
+	public static final String ID = "org.jboss.tools.jsf.ui.project"; //$NON-NLS-1$
 	
 	public JSFProjectPreferencesPage() {}
 	

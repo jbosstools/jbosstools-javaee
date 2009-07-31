@@ -59,6 +59,6 @@ public class FaceletsPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.vpe.facelets", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.vpe.facelets", path); //$NON-NLS-1$
 	}
 }

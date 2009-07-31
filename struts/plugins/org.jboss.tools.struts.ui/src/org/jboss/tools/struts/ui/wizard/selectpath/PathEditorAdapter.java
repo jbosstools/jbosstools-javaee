@@ -54,7 +54,7 @@ public class PathEditorAdapter extends DefaultValueAdapter implements IActionHel
 	}
 
 	public String getCommand() {
-		return "...";
+		return "..."; //$NON-NLS-1$
 	}
 
 	public Object getAdapter(Class adapter) {

@@ -26,11 +26,11 @@ import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPBundleHyperlinkPartitioner;
  *
  */
 public class RichfacesJSPBundleHyperlinkPartitioner extends JSPBundleHyperlinkPartitioner {
-	public static final String JSP_RICHFACES_BUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_BUNDLE";
+	public static final String JSP_RICHFACES_BUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_BUNDLE"; //$NON-NLS-1$
 	
 	public final static String[] LoadBundleURIs = {
-		"http://richfaces.org/a4j",
-		"https://ajax4jsf.dev.java.net/ajax"	
+		"http://richfaces.org/a4j", //$NON-NLS-1$
+		"https://ajax4jsf.dev.java.net/ajax"	 //$NON-NLS-1$
 	};
 
 	/**

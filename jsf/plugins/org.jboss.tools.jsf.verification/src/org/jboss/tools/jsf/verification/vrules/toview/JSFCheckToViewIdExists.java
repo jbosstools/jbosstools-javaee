@@ -24,7 +24,7 @@ public class JSFCheckToViewIdExists extends JSFDefaultCheck implements JSFConsta
 
 	public VResult[] check(VObject object) {
 		String attr = (String)object.getAttribute(ATT_TO_VIEW_ID);
-		if(attr == null || attr.length() == 0 || attr.indexOf('*') >= 0 || !attr.startsWith("/")) return null;
+		if(attr == null || attr.length() == 0 || attr.indexOf('*') >= 0 || !attr.startsWith("/")) return null; //$NON-NLS-1$
 		if(attr.indexOf('?') >= 0) {
 			attr = attr.substring(0, attr.indexOf('?'));
 		}
@@ -52,13 +52,13 @@ public class JSFCheckToViewIdExists extends JSFDefaultCheck implements JSFConsta
 	private boolean checkTiles(XModel model, String path) {
 		XModelObject root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return false;
-		XModelObject tiles = root.getChildByPath("Tiles");
+		XModelObject tiles = root.getChildByPath("Tiles"); //$NON-NLS-1$
 		if(tiles == null) return false;
 		XModelObject[] ts = ((WebProjectNode)tiles).getTreeChildren();
 		if(ts.length == 0) return false;
 		int d = path.lastIndexOf('.');
 		if(d < 0) return false;
-		String tileName = path.substring(0, d + 1) + "tiles";
+		String tileName = path.substring(0, d + 1) + "tiles"; //$NON-NLS-1$
 		tileName = tileName.replace('/', '#');
 		for (int i = 0; i < ts.length; i++) {
 			if(ts[i].getChildByPath(tileName) != null) return true;

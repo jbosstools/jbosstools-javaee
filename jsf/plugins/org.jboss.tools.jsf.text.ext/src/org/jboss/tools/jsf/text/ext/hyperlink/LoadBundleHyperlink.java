@@ -45,7 +45,7 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 		Properties p = new Properties();
 
 		String value = getBundleBasename(region);
-		value = (value == null? "" : value);
+		value = (value == null? "" : value); //$NON-NLS-1$
 		p.setProperty(WebPromptingProvider.BUNDLE, value);
 
 		value = getPageLocale(region);
@@ -67,7 +67,7 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 			if (!(n instanceof Attr) ) return null; 
 			
 			Element lbTag = ((Attr)n).getOwnerElement();
-			Attr lbTagBasename = lbTag.getAttributeNode("basename");
+			Attr lbTagBasename = lbTag.getAttributeNode("basename"); //$NON-NLS-1$
 
 			if (lbTagBasename == null || lbTagBasename.getNodeValue() == null ||
 					lbTagBasename.getNodeValue().trim().length() == 0) return null;
@@ -78,9 +78,9 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 		}
 	}
 	
-	private static final String VIEW_TAGNAME = "view";
-	private static final String LOCALE_ATTRNAME = "locale";
-	private static final String PREFIX_SEPARATOR = ":";
+	private static final String VIEW_TAGNAME = "view"; //$NON-NLS-1$
+	private static final String LOCALE_ATTRNAME = "locale"; //$NON-NLS-1$
+	private static final String PREFIX_SEPARATOR = ":"; //$NON-NLS-1$
 
 	private String getPageLocale(IRegion region) {
 		if(getDocument() == null || region == null) return null;
@@ -147,7 +147,7 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 			TaglibData[] data = (TaglibData[])taglibManager.getTagLibs().toArray(new TaglibData[0]);
 			ArrayList<String> prefixes = new ArrayList<String>();
 			for (int i = 0; i < data.length; i++) {
-				if("http://java.sun.com/jsf/core".equals(data[i].getUri())) 
+				if("http://java.sun.com/jsf/core".equals(data[i].getUri()))  //$NON-NLS-1$
 					prefixes.add(data[i].getPrefix());
 			}			
 		}		

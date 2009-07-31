@@ -27,7 +27,7 @@ import org.jboss.tools.jsf.project.capabilities.JSFCapabilities;
 
 public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IWorkbenchPreferencePage {
 	
-	public static final String ID = "org.jboss.tools.jsf.ui.capabilities";
+	public static final String ID = "org.jboss.tools.jsf.ui.capabilities"; //$NON-NLS-1$
 	
 	static String[] CAPABILITIES_HEADER = new String[]{"name"};
 	static String[] FILE_ADDITIONS_HEADER = new String[]{"label"};
@@ -95,7 +95,7 @@ public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IW
 	private void createCapabilityList() {
 		capabilityList = new XChildrenEditor() {
 			protected String getAddActionPath() {
-				return "CreateActions.AddCapability";
+				return "CreateActions.AddCapability"; //$NON-NLS-1$
 			}
 			protected AbstractTableHelper createHelper() {
 				return new AbstractTableHelper() {
@@ -117,20 +117,20 @@ public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IW
 	private void createLibrarySetList() {
 		librarySetList = new XChildrenEditor() {
 			protected String getAddActionPath() {
-				return "CreateActions.AddLibraryReference";
+				return "CreateActions.AddLibraryReference"; //$NON-NLS-1$
 			}
 			protected void edit() {
 				XModelObject o = helper.getModelObject(xtable.getSelectionIndex());
-				if(o != null) callAction(o, "EditActions.Edit");
+				if(o != null) callAction(o, "EditActions.Edit"); //$NON-NLS-1$
 			}			
 			protected AbstractTableHelper createHelper() {
 				return new AbstractTableHelper() {
 				    public int size() {
-				        return (object == null) ? 0 : object.getChildren("JSFLibraryReference").length;
+				        return (object == null) ? 0 : object.getChildren("JSFLibraryReference").length; //$NON-NLS-1$
 				    }
 				    public XModelObject getModelObject(int r) {
 				        if(object == null) return null;
-				        XModelObject[] cs = object.getChildren("JSFLibraryReference");
+				        XModelObject[] cs = object.getChildren("JSFLibraryReference"); //$NON-NLS-1$
 				        return (r < 0 || r >= cs.length) ? null : cs[r];
 				    }
 				    public String[] getHeader() {
@@ -145,21 +145,21 @@ public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IW
 	private void createFileAdditionList() {
 		fileAdditionList = new XChildrenEditor() {
 			protected String getAddActionPath() {
-				return "CreateActions.AddFileAddition";
+				return "CreateActions.AddFileAddition"; //$NON-NLS-1$
 			}
 			protected void edit() {
 				XModelObject o = helper.getModelObject(xtable.getSelectionIndex());
-				if(o != null) callAction(o, "EditActions.Edit");
+				if(o != null) callAction(o, "EditActions.Edit"); //$NON-NLS-1$
 			}			
 			protected AbstractTableHelper createHelper() {
 				return new AbstractTableHelper() {
 				    public int size() {
-				        return (object == null) ? 0 : object.getChildren("JSFFileAddition").length;
+				        return (object == null) ? 0 : object.getChildren("JSFFileAddition").length; //$NON-NLS-1$
 				    }
 
 				    public XModelObject getModelObject(int r) {
 				        if(object == null) return null;
-				        XModelObject[] cs = object.getChildren("JSFFileAddition");
+				        XModelObject[] cs = object.getChildren("JSFFileAddition"); //$NON-NLS-1$
 				        return (r < 0 || r >= cs.length) ? null : cs[r];
 				    }
 

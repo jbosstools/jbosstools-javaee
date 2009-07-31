@@ -19,7 +19,7 @@ public class FaceletTaglibObjectImpl extends CustomizedObjectImpl {
 	private static final long serialVersionUID = 1L;
 
 	public String getPresentationString() {
-		String element = getAttributeValue("element type");
+		String element = getAttributeValue("element type"); //$NON-NLS-1$
 		return element != null ? element : super.getPresentationString();
 	}
 

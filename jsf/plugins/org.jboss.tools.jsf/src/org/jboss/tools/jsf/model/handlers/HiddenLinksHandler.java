@@ -29,21 +29,21 @@ public class HiddenLinksHandler extends AbstractHandler implements JSFConstants 
 
     public void executeHandler(XModelObject object, Properties p) throws XModelException {
         if(!isEnabled(object)) return;
-		SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.jst.web.ui.wizards.links.HiddenLinksWizard");
+		SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.jst.web.ui.wizards.links.HiddenLinksWizard"); //$NON-NLS-1$
         XModelObject[] links = getLinks(object);
         String[][] vs = new String[links.length][];
         for (int i = 0; i < vs.length; i++) {
-          vs[i] = new String[]{links[i].getAttributeValue(ATT_PATH), links[i].getAttributeValue("hidden")};
+          vs[i] = new String[]{links[i].getAttributeValue(ATT_PATH), links[i].getAttributeValue("hidden")}; //$NON-NLS-1$
         }
         if(p == null) p = new Properties();
-        p.put("data", vs);
-        p.put("model", object.getModel());
-        p.setProperty("help", "StrutsProcessItem_ShowHideLinks");
+        p.put("data", vs); //$NON-NLS-1$
+        p.put("model", object.getModel()); //$NON-NLS-1$
+        p.setProperty("help", "StrutsProcessItem_ShowHideLinks"); //$NON-NLS-1$ //$NON-NLS-2$
         wizard.setObject(p);
         if(wizard.execute() != 0) return;
         for (int i = 0; i < vs.length; i++) {
-          if("yes".equals(links[i].getAttributeValue("hidden")) == "yes".equals(vs[i][1])) continue;
-          links[i].getModel().changeObjectAttribute(links[i], "hidden", vs[i][1]);
+          if("yes".equals(links[i].getAttributeValue("hidden")) == "yes".equals(vs[i][1])) continue; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          links[i].getModel().changeObjectAttribute(links[i], "hidden", vs[i][1]); //$NON-NLS-1$
         }
     }
     

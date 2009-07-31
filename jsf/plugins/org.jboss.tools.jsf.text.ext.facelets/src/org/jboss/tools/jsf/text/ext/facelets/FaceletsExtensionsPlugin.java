@@ -29,7 +29,7 @@ public class FaceletsExtensionsPlugin extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext.facelets"; 
+	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext.facelets"; //$NON-NLS-1$
 
 	
 	/**
@@ -38,7 +38,7 @@ public class FaceletsExtensionsPlugin extends AbstractUIPlugin {
 	public FaceletsExtensionsPlugin() {
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.facelets.FaceletsExtensionsPlugin");
+			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.facelets.FaceletsExtensionsPlugin"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
@@ -74,7 +74,7 @@ public class FaceletsExtensionsPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.text.ext.facelets", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.text.ext.facelets", path); //$NON-NLS-1$
 	}
 	
 	/**

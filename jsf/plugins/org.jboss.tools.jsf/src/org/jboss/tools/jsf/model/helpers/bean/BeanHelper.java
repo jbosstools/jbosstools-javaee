@@ -32,7 +32,7 @@ public class BeanHelper {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			String n = ms[i].getElementName();
-			if(!n.startsWith("get") || n.length() < 4) continue;
+			if(!n.startsWith("get") || n.length() < 4) continue; //$NON-NLS-1$
 			n = toPropertyName(n.substring(3));
 			if(!map.containsKey(n)) map.put(n, ms[i]);
 		}
@@ -47,10 +47,10 @@ public class BeanHelper {
 
 	static Map<String,IJavaElement> getSuperTypeJavaProperties(IType type) throws JavaModelException {
 		String scn = type.getSuperclassName();
-		if(scn == null || scn.length() == 0 || scn.equals("java.lang.Object")) return null;
+		if(scn == null || scn.length() == 0 || scn.equals("java.lang.Object")) return null; //$NON-NLS-1$
 		String[][] rs = type.resolveType(scn);
 		if(rs == null || rs.length == 0) return null;
-		String st = (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1];
+		String st = (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1]; //$NON-NLS-1$
 		IJavaProject p = type.getJavaProject();
 		IType stype = null;
 		try {
@@ -73,12 +73,12 @@ public class BeanHelper {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			String n = ms[i].getElementName();
-			if(n.startsWith("get") && n.length() > 3) {
+			if(n.startsWith("get") && n.length() > 3) { //$NON-NLS-1$
 				String gn = toPropertyName(n.substring(3));
 				if(gn.equals(property)) return ms[i];
 			}
 			String t = EclipseJavaUtil.resolveTypeAsString(type, ms[i].getReturnType());
-			if(n.startsWith("is") && n.length() > 2 && t != null && (t.equals("boolean") || t.equals("java.lang.Boolean"))) { 
+			if(n.startsWith("is") && n.length() > 2 && t != null && (t.equals("boolean") || t.equals("java.lang.Boolean"))) {  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				String gn = toPropertyName(n.substring(2));
 				if(gn.equals(property)) return ms[i];
 			}
@@ -90,7 +90,7 @@ public class BeanHelper {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			String n = ms[i].getElementName();
-			if(!n.startsWith("set") || n.length() < 4) continue;
+			if(!n.startsWith("set") || n.length() < 4) continue; //$NON-NLS-1$
 			n = toPropertyName(n.substring(3));
 			if(n.equals(property)) return ms[i];
 		}

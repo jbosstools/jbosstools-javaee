@@ -109,7 +109,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			int position, boolean returnEqualedVariablesOnly, IResourceBundle[] bundles) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<TextProposal> completions = new ArrayList<TextProposal>();
 		
-		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, bundles);
+		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, bundles); //$NON-NLS-1$
 		if (status.isOK()) {
 			completions.addAll(status.getProposals());
 		}
@@ -119,7 +119,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 
 	public ELExpression parseOperand(String operand) {
 		if(operand == null) return null;
-		String el = (operand.indexOf("#{") < 0 && operand.indexOf("${") < 0) ? "#{" + operand + "}" : operand;
+		String el = (operand.indexOf("#{") < 0 && operand.indexOf("${") < 0) ? "#{" + operand + "}" : operand; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		ELParser p = getParserFactory().createParser();
 		ELModel model = p.parse(el);
 		List<ELInstance> is = model.getInstances();
@@ -285,7 +285,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			for (String proposal : proposalsToFilter) {
 				// We do expect nothing but name for method tokens (No round brackets)
 				String filter = expr.getMemberName();
-				if(filter == null) filter = "";
+				if(filter == null) filter = ""; //$NON-NLS-1$
 				if(returnEqualedVariablesOnly) {
 					// This is used for validation.
 					if (proposal.equals(filter)) {
@@ -318,13 +318,13 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			String filter = expr.getMemberName();
 			boolean bSurroundWithQuotes = false;
 			if(filter == null) {
-				filter = "";
+				filter = ""; //$NON-NLS-1$
 				bSurroundWithQuotes = true;
 			} else {
-				boolean b = filter.startsWith("'") || filter.startsWith("\"");
-				boolean e = filter.endsWith("'") || filter.endsWith("\"");
+				boolean b = filter.startsWith("'") || filter.startsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
+				boolean e = filter.endsWith("'") || filter.endsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
 				if((b) && (e)) {
-					filter = filter.length() == 1 ? "" : filter.substring(1, filter.length() - 1);
+					filter = filter.length() == 1 ? "" : filter.substring(1, filter.length() - 1); //$NON-NLS-1$
 				} else if(b && !returnEqualedVariablesOnly) {
 					filter = filter.substring(1);
 				} else {
@@ -353,7 +353,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					
 					String replacementString = proposal.substring(filter.length());
 					if (bSurroundWithQuotes) {
-						replacementString = "'" + replacementString + "']";
+						replacementString = "'" + replacementString + "']"; //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					
 					kbProposal.setReplacementString(replacementString);
@@ -380,7 +380,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					continue;
 				if (key.indexOf('.') != -1) {
 					TextProposal proposal = new TextProposal();
-					proposal.setReplacementString("['" + key + "']");
+					proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
 					setImage(proposal);
 					
 					kbProposals.add(proposal);
