@@ -1,6 +1,6 @@
 <tests>
 	<test id="jbide2550">
-	<TABLE BORDER="2" STYLE="-moz-user-modify: read-write;">
+<TABLE BORDER="2" STYLE="-moz-user-modify: read-write;" >
 <TBODY>
 <TR>
 <TD>
@@ -98,6 +98,17 @@ resource['us/img/img.gif']
 </TD>
 <TD>
 <IMG SRC="/.*jsf2test/WebContent/resources/us/img/img.gif/" STYLE="-moz-user-modify: read-write;"/>
+
+</TD>
+</TR>
+<TR>
+<TD>
+<LABEL>
+This Image Packed into jar file : resource['jarimg:img.gif']
+</LABEL>
+</TD>
+<TD>
+<IMG SRC="/.*metadata/.plugins/org.jboss.tools.vpe/img.*.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>

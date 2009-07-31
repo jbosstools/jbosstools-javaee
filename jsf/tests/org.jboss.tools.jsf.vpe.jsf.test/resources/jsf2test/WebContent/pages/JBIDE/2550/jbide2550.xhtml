@@ -39,7 +39,10 @@
 			<h:graphicImage value="#{resource['ru/img/img.gif']}" />
 
 			<h:outputLabel value="resource['us/img/img.gif']" />
-			<h:graphicImage value="#{resource['us/img/img.gif' ]}" />			
+			<h:graphicImage value="#{resource['us/img/img.gif' ]}" />
+			
+			<h:outputLabel value="This Image Packed into jar file : resource['jarimg:img.gif']" />
+			<h:graphicImage value="#{resource['jarimg:img.gif']}" />					
 		</h:panelGrid>
 	</h:form>
 </h:body>
