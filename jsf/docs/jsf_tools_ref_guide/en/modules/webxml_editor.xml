@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="webxml_editor" xreflabel="webxml_editor">
+	<?dbhtml filename="webxml_editor.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Tools</keyword>
+			<keyword>JSF Tools</keyword>
+		</keywordset>
+	</chapterinfo>
+	
+	<title>Web.xml Editor</title>
+	
+	<para>The <emphasis>
+		<property>web.xml</property></emphasis> file inside the <emphasis>
+			<property>WEB-INF</property></emphasis> folder is a deployment descriptor file for a Web Application. It 
+			describes the servlets and other components and deployment properties that make up your application.</para>
+	
+	<para><property>JBoss Tools</property> add the <emphasis>
+		<property>web.xml</property></emphasis> file to created JSF project automatically and provides a special editor for its editing.
+		See the Visual Web Tools guide that gives a descriptive information on the <ulink url="&jsflink;#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
+</chapter>
