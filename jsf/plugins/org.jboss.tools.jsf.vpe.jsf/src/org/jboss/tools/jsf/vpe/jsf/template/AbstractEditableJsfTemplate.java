@@ -13,13 +13,23 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
+import org.eclipse.wst.xml.core.internal.document.AttrImpl;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
+import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.TextUtil;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * general class for jsf templates.
@@ -27,7 +37,7 @@ import org.w3c.dom.Element;
  * @author Sergey Dzmitrovich
  */
 public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate {
-
+	
 	/**
 	 * Gets the output attribute node.
 	 * 
@@ -87,5 +97,17 @@ public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate {
 			visualElement.setAttribute(targetAtttributeName, sourceElement
 					.getAttribute(sourceAttributeName));
 
+	}
+	@Override
+	public IRegion getSourceRegionForOpenOn(VpePageContext pageContext, Node sourceNode ,nsIDOMNode domNode) {
+
+		final Attr attr= getOutputAttributeNode((Element) sourceNode);
+		int offset = TextUtil.getStartELDocumentPosition(attr);
+		if(offset!=-1){
+			return new Region(offset, 0);
+		} else {
+			return super.getSourceRegionForOpenOn(pageContext, sourceNode, domNode);
+		}
+ 
 	}
 }

@@ -78,6 +78,33 @@ public class JBIDE4373Test extends VpeTest{
 
 	}
 	/**
+	 * test open on for following case <h:outputText value="#{msg.greeting}" />
+	 * @throws CoreException
+	 */
+	public void testOpenOnForMessageBundlesInJSFElements() throws CoreException{
+		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "testOutputText.xhtml"); //$NON-NLS-1$
+		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 30);		
+		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+		vpeController.getSourceBuilder().openOn(domNode);
+		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertEquals("file should be opened","resources.properties", activeEditor.getEditorInput().getName());  //$NON-NLS-1$//$NON-NLS-2$
+	}
+	/**
+	 * test open on for following case #{msg.prompt}
+	 * @throws CoreException
+	 */
+	public void testOpenOnForTextNodesMessageBundles() throws CoreException{
+		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "testOutputText.xhtml"); //$NON-NLS-1$
+		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 12, 15);		
+		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+		vpeController.getSourceBuilder().openOn(domNode);
+		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertEquals("file should be opened","resources.properties", activeEditor.getEditorInput().getName());  //$NON-NLS-1$//$NON-NLS-2$
+
+	}
+	/**
 	 *  Test openOn mechanism for VpeDefineContainerTemplate 
 	 *  in facelets' ui:composition template (VpeCompositionTemplate).
 	 * 
