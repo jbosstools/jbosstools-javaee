@@ -1996,8 +1996,12 @@
 
             <title>Graphical Web Application File (web.xml) Editor</title>
 
-            <para>The Web Application File editor comes with the same features you will find in all
-                other JBoss Developer Studio editors:</para>
+        	<para>The deployment descriptor <emphasis>
+        		<property>web.xml</property></emphasis> file is intended for describing the servlets,  container-managed 
+        		security constraints and various deployment properties specific for your Web Application.</para>
+        	
+        	<para>To edit the deployment descriptor <property>JBoss Developer Studio</property> provides its own 
+        		<property>web.xml editor</property> that comes with the same features you will find in all other <property>JBDS</property> editors:</para>
 
             <itemizedlist>
                 <listitem>
@@ -2010,6 +2014,11 @@
             <section id="TreeView1">
                 <title>Tree View</title>
 
+            	<para>Switch to the <property>Tree view</property> if you want to edit <emphasis>
+            		<property>web.xml</property></emphasis> in a graphical mode. 
+            		All elements that <emphasis>
+            			<property>web.xml</property></emphasis> could include are located in the left area of the editor in a tree format.  
+            		Click a node on the left to display and edit its properties that will appear in the right-hand area.</para>
                 <figure>
                     <title>Tree View</title>
                     <mediaobject>
