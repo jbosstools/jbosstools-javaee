@@ -6,6 +6,7 @@
 <!ENTITY introduction SYSTEM "modules/introduction.xml">
 <!ENTITY jsf_support SYSTEM "modules/jsf_support.xml">
 <!ENTITY projects SYSTEM "modules/projects.xml">
+<!ENTITY webxml_editor SYSTEM "modules/webxml_editor.xml">
 <!ENTITY jsf_config_file SYSTEM "modules/jsf_config_file.xml">
 <!ENTITY managed_beans SYSTEM "modules/managed_beans.xml">
 <!ENTITY creation_and_registration SYSTEM "modules/creation_and_registration.xml">
@@ -67,6 +68,7 @@
     &introduction;
     &jsf_support;
     &projects;
+    &webxml_editor;
     &jsf_config_file;
     &managed_beans;
     &creation_and_registration;
