@@ -13,7 +13,21 @@
 
     <title>Editors</title>
     <para>In this chapter we&apos;ll introduce you to featured graphical editors for specific
-        Struts files such as Struts Configuration files, Tiles files and Struts Validation files.</para>
+    Struts files such as Struts Configuration files, Tiles files, Struts Validation files and web.xml.</para>
+	
+	<section id="webxml_editor">
+		<title>Web.xml Editor</title>
+		
+		<para>The <emphasis>
+			<property>web.xml</property></emphasis> file inside the <emphasis>
+				<property>WEB-INF</property></emphasis> folder is a deployment descriptor file for a Web Application. It 
+			describes the servlets and other components and deployment properties that make up your application.</para>
+		
+		<para><property>JBoss Tools</property> add the <emphasis>
+			<property>web.xml</property></emphasis> file to created Struts project automatically and provides a special editor for its editing.
+			See the Visual Web Tools guide that gives a descriptive information on the <ulink url="&jsflink;#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
+	</section>
+	
     <section id="struts_config_editor">
 
         <title>Graphical Editor for Struts Configuration Files</title>
@@ -98,9 +112,8 @@
 
             <title>Tree View</title>
 
-            <para>The Tree view represents the different elements of the Struts application that are
-                organized into functional categories on the left-hand side and a form for editing
-                the properties of currently selected items on the right-hand side.</para>
+        	<para>The Tree view represents the different elements of the Struts application that are organized into functional categories 
+        		on the left-hand side and a form for editing the properties of currently selected items on the right-hand side.</para>
 
             <figure>
                 <title>Tree View</title>
@@ -109,9 +122,9 @@
                         <imagedata fileref="images/struts/struts_17.png"/>
                     </imageobject>
                 </mediaobject>
-            </figure>
-
-            <para>You can also right-click on any node in the category tree and perform appropriate
+            </figure>        	
+        
+            <para>You can right-click on any node in the category tree and perform appropriate
                 operations through a context menu. For instance, by right-clicking on the
                 action-mappings category node, you can add new actions to the application.</para>
 
@@ -123,6 +136,41 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+        	
+        	<para>Let&apos;s consider the tree on the left more closely.</para>
+        	
+        	<itemizedlist>
+        		<listitem><para>Under the <emphasis>
+        			<property>data-sources</property></emphasis> node you can create a Data Source object that will be configured 
+        			and made available as a servlet context attribute.</para></listitem>
+        		
+        		<listitem><para>The <emphasis>
+        			<property>form-beans</property></emphasis> node is meant for creating a set of form bean descriptors for this module. 
+        			Every created element under this node is a JavaBean that implements the org.apache.struts.action.ActionForm class. 
+        			Use the Properties editor on the right to adjust properties specific to every created form-bean.</para></listitem>
+        		
+        		<listitem><para>The <emphasis>
+        			<property>global-exceptions</property></emphasis> node is intended for registering the handlers for the exceptions 
+        			that might be thrown by an Action object.</para></listitem>
+        		
+        		<listitem><para>Use the <emphasis>
+        			<property>global-forwards</property></emphasis> node to add, edit or delete a global forwards that represent
+        			ActionForward objects available to all Action objects as a return value.</para></listitem>
+        		
+        		<listitem><para>The <emphasis>
+        			<property>controller</property></emphasis> node allows you to configure the controller properties.</para></listitem>
+        		
+        		<listitem><para>Under the <emphasis>
+        			<property>resources</property></emphasis> node you can add, delete, or edit message resources.</para></listitem>
+        		
+        		<listitem><para>Under the <emphasis>
+        			<property>plug-ins</property></emphasis> node you can define a Struts plug-in. Right-click the node, select <emphasis>
+        				<property>Create Plug-in</property></emphasis> 
+        			and specify the plug-ib <emphasis>
+        				<property>Id</property></emphasis> and <emphasis>
+        					<property>ClassName</property></emphasis> by pointing to the Java class which implements the org.apache.struts.action.PlugIn interface. </para></listitem>
+        		
+        	</itemizedlist>
         </section>
         <section id="StrutsSourceMode9655">
 
