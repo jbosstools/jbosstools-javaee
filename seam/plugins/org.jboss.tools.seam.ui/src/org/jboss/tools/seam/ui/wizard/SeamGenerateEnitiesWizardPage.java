@@ -237,7 +237,7 @@ public class SeamGenerateEnitiesWizardPage extends WizardPage implements Propert
 		
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
-		IContainer viewsFolder = seamProjectsSet.getDefaultViewsFolder();
+		IContainer viewsFolder = seamProjectsSet.getViewsFolder();
 		if (viewsFolder != null){
 			if (!viewsFolder.getFolder(new Path("layout")).exists()){//$NON-NLS-1$
 				setErrorMessage(SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST, 
