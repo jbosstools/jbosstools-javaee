@@ -56,9 +56,9 @@ import org.jboss.tools.seam.ui.widget.editor.INamedElement;
  * Seam Generate Entities Wizard.
  * @author Alexey Kazakov
  */
-public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWizard {
+public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWizard {
 
-	SeamGenerateEnitiesWizardPage page1 = new SeamGenerateEnitiesWizardPage();
+	SeamGenerateEntitiesWizardPage page1 = new SeamGenerateEntitiesWizardPage();
 	IWizardPage page2 = new SeamGenerateEntitiesTablesWizardPage();
 
 	public void createPageControls(Composite pageContainer) {
@@ -66,10 +66,10 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(pageContainer, ISeamHelpContextIds.GENERATE_SEAM_ENTITIES);
 	}
 
-	public SeamGenerateEnitiesWizard() {
+	public SeamGenerateEntitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
 		setWindowTitle(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEnitiesWizard.class, "SeamWebProjectWizBan.png"));	
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEntitiesWizard.class, "SeamWebProjectWizBan.png"));	
 		addPage(page1);
 		addPage(page2);
 	}
@@ -85,9 +85,10 @@ public class SeamGenerateEnitiesWizard extends SeamBaseWizard implements INewWiz
 		 * (non-Javadoc)
 		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#execute(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable)
 		 */
+		@SuppressWarnings("unchecked")
 		@Override
 		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-			Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);	
+			Map<String, INamedElement> params = (Map<String, INamedElement>)info.getAdapter(Map.class);	
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
 
 			try {

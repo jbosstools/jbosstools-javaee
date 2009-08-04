@@ -49,14 +49,14 @@ import org.jboss.tools.seam.ui.widget.field.RadioField;
 /**
  * @author Alexey Kazakov
  */
-public class SeamGenerateEnitiesWizardPage extends WizardPage implements PropertyChangeListener, IAdaptable {
+public class SeamGenerateEntitiesWizardPage extends WizardPage implements PropertyChangeListener, IAdaptable {
 
 	private IFieldEditor projectEditor;
 	private IFieldEditor configEditor;
 	private RadioField radios;
 	IProject rootSeamProject;
 
-	public SeamGenerateEnitiesWizardPage() {
+	public SeamGenerateEntitiesWizardPage() {
 		super("seam.generate.entities.page", SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null); //$NON-NLS-1$
 		setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
 	}

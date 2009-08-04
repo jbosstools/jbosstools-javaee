@@ -63,7 +63,7 @@ public class SeamGenerateEntitiesTablesWizardPage extends WizardPage /*implement
 				//set console configuration as treeViewer input
 				public void pageChanged(PageChangedEvent event) {
 					if (event.getSelectedPage() == SeamGenerateEntitiesTablesWizardPage.this){
-						SeamGenerateEnitiesWizardPage page1 = (SeamGenerateEnitiesWizardPage)getWizard().getPreviousPage(SeamGenerateEntitiesTablesWizardPage.this);
+						SeamGenerateEntitiesWizardPage page1 = (SeamGenerateEntitiesWizardPage)getWizard().getPreviousPage(SeamGenerateEntitiesTablesWizardPage.this);
 						cfgName = page1.getConsoleCongigurationName();
 					}
 				}});

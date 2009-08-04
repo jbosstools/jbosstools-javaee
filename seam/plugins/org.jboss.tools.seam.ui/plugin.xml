@@ -85,7 +85,7 @@
       </wizard>
             <wizard
             category="org.jboss.tools.seam.ui"
-            class="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
+            class="org.jboss.tools.seam.ui.wizard.SeamGenerateEntitiesWizard"
             icon="icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
             name="Seam Generate Entities">
