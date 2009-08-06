@@ -32,9 +32,9 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
-import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -257,7 +257,6 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 			if (projectResource == null)
 				return;
 			prj = projectResource.getProject();
-
 	
 			this.project = prj;
 		}
@@ -295,7 +294,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		}catch(Exception e){
 			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.1'", e);
 		}
-		JobUtils.waitForIdle();
+		JobUtils.waitForIdle(3000);
 
 		checkProposals("/WebContent/varAttributes.xhtml", 458, new String[]{"test.name"}, false);
 		checkProposals("/WebContent/varAttributes.xhtml", 640, new String[]{"item.name"}, false);
@@ -485,15 +484,17 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 						
 						// compare SeamELCompletionProposals in the result to the filtered valid proposals
 						Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-						Set<String> nonExistingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 						
 						if (result != null && result.length > 0) {
 							for (int j = 0; j < result.length; j++) {
 //								System.out.println("Result#" + i + "-" + j + " ==> " + result[j].getClass().getName());
-								// Look only for SeamELProposalProcessor proposals
-								if (result[j] instanceof SeamELProposalProcessor.Proposal) {
-									SeamELProposalProcessor.Proposal proposal = (SeamELProposalProcessor.Proposal)result[j];
-									String proposalString = proposal.getPrefixCompletionText(document, offset).toString();
+								// Cannot separate Seam EL proposals from all the others, 
+								// so check only the required proposals existance
+								//
+								if (result[j] instanceof AutoContentAssistantProposal) {
+									AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)result[j];
+									
+									String proposalString = proposal.getReplacementString();
 									if (filteredValidProposals.contains(proposalString)) {
 										existingProposals.add(proposalString);
 										filteredValidProposals.remove(proposalString);
@@ -516,8 +517,6 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 										if (validProposal != null) {
 											existingProposals.add(validProposal);
 											filteredValidProposals.remove(validProposal);
-										} else {
-											nonExistingProposals.add(proposalString);
 										}
 									
 									}
@@ -525,9 +524,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							}
 						}
 						assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
-						assertTrue("Some Seam EL proposals were shown in the Content Assistant but they shouldn\'t", nonExistingProposals.isEmpty());
 					}
-					
 					
 				} catch (BadLocationException e) {
 					assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
@@ -593,15 +590,16 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							
 							// compare SeamELCompletionProposals in the result to the filtered valid proposals
 							Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-							Set<String> nonExistingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-							
+
 							if (result != null && result.length > 0) {
 								for (int j = 0; j < result.length; j++) {
 //									System.out.println("Result#" + i + "/" + j + " ==> " + result[j].getClass().getName());
-									// Look only for SeamELProposalProcessor proposals
-									if (result[j] instanceof SeamELProposalProcessor.Proposal) {
-										SeamELProposalProcessor.Proposal proposal = (SeamELProposalProcessor.Proposal)result[j];
-										String proposalString = proposal.getPrefixCompletionText(document, offset).toString();
+								// Cannot separate Seam EL proposals from all the others, 
+								// so check only the required proposals existance
+								//
+									if (result[j] instanceof AutoContentAssistantProposal) {
+										AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)result[j];
+										String proposalString = proposal.getReplacementString();
 										
 										if (filteredValidProposals.contains(proposalString)) {
 											existingProposals.add(proposalString);
@@ -625,15 +623,12 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 											if (validProposal != null) {
 												existingProposals.add(validProposal);
 												filteredValidProposals.remove(validProposal);
-											} else {
-												nonExistingProposals.add(proposalString);
 											}
 										}
 									}
 								}
 							}
 							assertTrue("Some in-attribute Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
-							assertTrue("Some in-attribute Seam EL proposals were shown in the Content Assistant but they shouldn\'t", nonExistingProposals.isEmpty());
 						}
 					}
 				} catch (BadLocationException e) {
