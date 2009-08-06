@@ -277,7 +277,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 	 */
 	public void testMessages() {
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
-		checkProposals("/WebContent/messages.xhtml", 494, new String[]{"messages.Text1", "messages.Text2"}, true);
+		checkProposals("/WebContent/messages.xhtml", 494, new String[]{"messages.Text1", "messages.Text2"}, false); // exactly == false, because of current attribute value is also in the proposals list
 	}
 
 	/**
