@@ -205,13 +205,6 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 			if (!status.isOK())
 				return status;
 		}
-		if(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME.equals(propertyName)) {
-			String projectName = (String)model.getProperty(propertyName);
-			status = validateUpperCaseInProjectName(projectName);
-			if(!status.isOK()) {
-				return status;
-			}
-		}
 		return OK_STATUS;
 	}
 
