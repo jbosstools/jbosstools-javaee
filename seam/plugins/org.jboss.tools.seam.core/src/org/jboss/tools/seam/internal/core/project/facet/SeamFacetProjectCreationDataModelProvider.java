@@ -208,16 +208,6 @@ public class SeamFacetProjectCreationDataModelProvider extends WebFacetProjectCr
 		return OK_STATUS;
 	}
 
-	public static IStatus validateUpperCaseInProjectName(String projectName) {
-		if(projectName!=null && projectName.length()>0) {
-			char firstLetter = projectName.charAt(0);
-			if(Character.isUpperCase(firstLetter)) {
-				return new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.SEAM_INSTALL_WIZARD_PROJECT_NAME_WITH_UPPERCASE);
-			}
-		}
-		return OK_STATUS;
-	}
-
 	private IStatus validateServer(Object serverObject) {
 		if (serverObject == null) {
 			return SeamCorePlugin.createErrorStatus(SeamCoreMessages.ERROR_JBOSS_AS_TARGET_SERVER_IS_EMPTY, null);
