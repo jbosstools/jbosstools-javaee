@@ -420,12 +420,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate.addValidatorForProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					getDeploymentTypeValidator(getWizard()));
-			if (!isNewSeamProjectWizard()) {
-				validatorDelegate.addValidatorForProperty(
-						IFacetDataModelProperties.FACET_PROJECT_NAME,
-						new ProjectNameValidator(
-								IFacetDataModelProperties.FACET_PROJECT_NAME));
-			}
 		}
 
 		jBossHibernateDbTypeEditor
@@ -611,27 +605,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			return ValidatorFactory.NO_ERRORS;
 		}
 		
-	}
-
-	class ProjectNameValidator implements IValidator {
-		String propertyName;
-
-		public ProjectNameValidator(String propertyName) {
-			this.propertyName = propertyName;
-		}
-
-		public Map<String, IStatus> validate(Object value, Object context) {
-			if (value == null) {
-				return ValidatorFactory.NO_ERRORS;
-			}
-			final String projectName = (String) value;
-			IStatus status = SeamFacetProjectCreationDataModelProvider
-					.validateUpperCaseInProjectName(projectName);
-			if (!status.isOK()) {
-				return ValidatorFactory.createErrormessage(propertyName, status);
-			}
-			return ValidatorFactory.NO_ERRORS;
-		}
 	}
 
 	class ProjectNamesDuplicationValidator implements IValidator {
