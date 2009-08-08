@@ -38,7 +38,6 @@ public class SeamCoreMessages {
 	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERRORS_OCCURED;
 	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_CHECK_ERROR_LOG_VIEW;
 	public static String SEAM_FACET_INSTALL_ABSTRACT_DELEGATE_ERROR;
-	public static String SEAM_INSTALL_WIZARD_PROJECT_NAME_WITH_UPPERCASE;
 	public static String SeamFacetAbstractInstallDelegate_Could_not_activate_Hibernate_nature_on_project;
 	public static String SeamFacetAbstractInstallDelegate_Could_not_save_changes_to_preferences;
 	public static String SeamFacetAbstractInstallDelegate_Error;
