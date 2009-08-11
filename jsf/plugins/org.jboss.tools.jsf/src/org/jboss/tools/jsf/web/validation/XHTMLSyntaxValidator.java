@@ -31,12 +31,14 @@ import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.ErrorCustomizationPluginRegistryReader;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
+import org.jboss.tools.common.xml.XMLEntityResolverImpl;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.ext.LexicalHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Syntax Validator for XHTML files.
@@ -160,7 +162,7 @@ public class XHTMLSyntaxValidator extends Validator {
 		        	return valinfo;
 		        }
 	        
-		        XMLReader reader = createXMLReader(valinfo, null);
+		        XMLReader reader = createXMLReader(valinfo, new XMLEntityResolverImpl());
 		        XMLErrorHandler errorhandler = new XMLErrorHandler(valinfo);
 		        reader.setErrorHandler(errorhandler);
 	        
@@ -190,7 +192,6 @@ public class XHTMLSyntaxValidator extends Validator {
 					JSFModelPlugin.log(e.getLocalizedMessage(), e);
 		    	}
 		    }
-	    
 		    return valinfo;
 	    }
 
@@ -220,9 +221,18 @@ public class XHTMLSyntaxValidator extends Validator {
 	
 			protected XMLReader createXMLReader(String uri) throws Exception
 			{     
-				XMLReader reader = super.createXMLReader(uri);
+				XMLReader reader = //XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); 
+				super.createXMLReader(uri);
 	
-	    	    LexicalHandler lexicalHandler = new LexicalHandler()
+				reader.setFeature("http://xml.org/sax/features/namespaces", true);
+				reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
+				reader.setFeature("http://xml.org/sax/features/validation", true);
+				reader.setFeature("http://apache.org/xml/features/validation/schema", true);
+				reader.setFeature("http://apache.org/xml/features/validation/schema-full-checking", false);
+				reader.setFeature("http://apache.org/xml/features/validation/dynamic", false);
+				reader.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
+
+		        LexicalHandler lexicalHandler = new LexicalHandler()
 	    	    {      
 	    	    	public void startDTD (String name, String publicId, String systemId) {
 	    	    		isGrammarEncountered = true;   
@@ -252,7 +262,8 @@ public class XHTMLSyntaxValidator extends Validator {
 	    	    	}
 	    	    };
 	    	    reader.setProperty("http://xml.org/sax/properties/lexical-handler", lexicalHandler); //$NON-NLS-1$
-	    	    
+	    	    System.out.println("-------reader----->");
+	    	    reader.setProperty("http://apache.org/xml/properties/internal/entity-resolver", new XMLEntityResolverImpl()); //$NON-NLS-1$
 	    	    return reader;
 			}  
 		}
