@@ -22,7 +22,7 @@ import org.jboss.tools.struts.model.helpers.page.link.Links;
 
 public class LinkRecognizer {
 	
-	private static Object lock = new Object();
+	//private static Object lock = new Object();
 	
 	public static LinkRecognizer getInstance() {
 		return LinkRecognizerHolder.INSTANCE;
@@ -30,6 +30,9 @@ public class LinkRecognizer {
 	
 	public static class LinkRecognizerHolder {
 		public static LinkRecognizer INSTANCE = new LinkRecognizer();
+		static{
+			INSTANCE.init();
+		}
 	}
 	
 	long timeStamp = 0;
