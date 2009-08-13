@@ -17,7 +17,7 @@
     <note>
         <title>Note:</title>
         <para><ulink url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces
-            3.3.X</ulink> is fully supported in the current version of <property>JBoss Developer Studio</property> (i. e. 2.0.1.GA) and <property>JBoss Tools 3.0.1.GA</property>.</para>
+            3.3.X</ulink> is fully supported in the current version of <property>JBoss Developer Studio</property> (i. e. 2.1.0.GA) and <property>JBoss Tools 3.0.1.GA</property>.</para>
     </note>
     
     <para>The following features are implemented and fully supported for the current version of the RichFaces components:</para>
