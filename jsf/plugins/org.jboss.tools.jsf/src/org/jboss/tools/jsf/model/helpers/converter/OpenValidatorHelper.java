@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.helpers.converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.osgi.util.NLS;
@@ -49,7 +51,7 @@ public class OpenValidatorHelper {
 	public XModelObject findValidator(XModel model, String validatorId) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return null;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return null;
 		XModelObject[] os = n.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {
@@ -57,6 +59,25 @@ public class OpenValidatorHelper {
 			if(r != null) return r;
 		}
 		return null;
+	}
+
+	public List<Object> getValidatorIDs(XModel model) {
+		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
+		if(root == null) return JSFPromptingProvider.EMPTY_LIST;
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
+		if(n == null) return JSFPromptingProvider.EMPTY_LIST;
+		XModelObject[] os = n.getTreeChildren();
+		List<Object> list = new ArrayList<Object>();
+		for (int i = 0; i < os.length; i++) {
+			XModelObject c = os[i].getChildByPath("Validators");
+			if(c == null) continue;
+			XModelObject[] cs = c.getChildren();
+			for (int j = 0; j < cs.length; j++) {
+				String id = cs[j].getAttributeValue("validator-id");
+				if(id != null && id.length() > 0) list.add(id);
+			}
+		}
+		return list;
 	}
 
 }

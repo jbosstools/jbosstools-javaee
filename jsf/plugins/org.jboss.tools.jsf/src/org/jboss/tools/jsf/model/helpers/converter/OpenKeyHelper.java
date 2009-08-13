@@ -19,6 +19,7 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
+import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
@@ -72,7 +73,7 @@ public class OpenKeyHelper {
 	
 	public String getDeafultLocale(XModel model) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
-		WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath("Configuration"); //$NON-NLS-1$
+		WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		XModelObject[] fs = conf == null ? new XModelObject[0] : conf.getTreeChildren();
 		for (int i = 0; i < fs.length; i++) {
 			XModelObject o = fs[i].getChildByPath("application/Locale Config"); //$NON-NLS-1$

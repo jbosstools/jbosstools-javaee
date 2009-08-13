@@ -65,9 +65,9 @@ public class JsfTreeListener implements XModelTreeListener {
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
 			} else if("JSFManagedBean".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBean".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("FileTiles".equals(entity)) {
 				invalidateFolder(source.getModel(), "Tiles");
 			} else if("FileFolder".equals(entity)) {
@@ -83,9 +83,9 @@ public class JsfTreeListener implements XModelTreeListener {
 			} else if("FileSystems".equals(entity)) {
 				invalidateTagLibs(source.getModel());
 			} else if("JSFManagedBeans".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBeans".equals(entity)) {
-				invalidateFolder(source.getModel(), "Beans");
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			}
 		} else if(event.kind() == XModelTreeEvent.STRUCTURE_CHANGED) {
 			String entity = event.getModelObject().getModelEntity().getName();
@@ -104,8 +104,8 @@ public class JsfTreeListener implements XModelTreeListener {
 	}
 
 	private void invalidateConfig(XModel model) {
-		invalidateFolder(model, "Configuration");
-		invalidateFolder(model, "Beans");
+		invalidateFolder(model, JSFProjectTreeConstants.CONFIGURATION);
+		invalidateFolder(model, JSFProjectTreeConstants.BEANS);
 	}
 	
 	private void invalidateFolder(XModel model, String name) {

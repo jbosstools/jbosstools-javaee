@@ -60,6 +60,8 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		SUPPORTED_IDS.add(JSF_GET_URL);
 		SUPPORTED_IDS.add(JSF_CONVERT_URL_TO_PATH);
 		SUPPORTED_IDS.add(JSF_GET_TAGLIBS);
+		SUPPORTED_IDS.add(JSF_CONVERTER_IDS);
+		SUPPORTED_IDS.add(JSF_VALIDATOR_IDS);
 	}
 	public final static String PROVIDER_ID = "jsf"; //$NON-NLS-1$
 
@@ -166,6 +168,10 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 			Map<String,XModelObject> map = p.getTaglibMapping().getTaglibObjects();
 			list.addAll(map.keySet());
 			return list;
+		} else if(JSF_CONVERTER_IDS.equals(id)) {
+			return new OpenConverterHelper().getConverterIDs(model);
+		} else if(JSF_VALIDATOR_IDS.equals(id)) {
+			return new OpenValidatorHelper().getValidatorIDs(model);
 		}
 		if(error != null) throw new XModelException(error);
 		return EMPTY_LIST;
@@ -202,7 +208,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	public List<Object> getBeans(XModel model) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return EMPTY_LIST;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return EMPTY_LIST;
 		XModelObject[] os = n.getTreeChildren();
 		List<Object> list = new ArrayList<Object>();
@@ -227,8 +233,8 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		List<JSFELCompletionEngine.IJSFVariable> result = new ArrayList<JSFELCompletionEngine.IJSFVariable>();
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return result;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
-		WebProjectNode beans = (WebProjectNode)root.getChildByPath("Beans");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
+		WebProjectNode beans = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.BEANS);
 		XModelObject[] os = n.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {
 			if(!os[i].getModelEntity().getName().startsWith(JSFConstants.ENT_FACESCONFIG)) continue;
@@ -272,8 +278,8 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		int d = prefix.indexOf('.');
 		String beanName = (d < 0) ? prefix : prefix.substring(0, d);
 		String property = (d < 0) ? null : prefix.substring(d + 1);
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Beans");
-		WebProjectNode conf = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.BEANS);
+		WebProjectNode conf = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null || conf == null) return EMPTY_LIST;
 		XModelObject bean = findBean(conf, beanName);
 		if(bean == null) return EMPTY_LIST;
@@ -317,7 +323,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	 */	
 	private XModelObject addPropertyToBean(XModel model, String beanName) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
-		WebProjectNode conf = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode conf = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		XModelObject bean = findBean(conf, beanName);
 		if(bean == null) return null;
 		Properties p = new Properties();
@@ -352,7 +358,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	public static JSFProjectBean buildBean(XModel model, String className) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return null;
-		JSFProjectBeans n = (JSFProjectBeans)root.getChildByPath("Beans");
+		JSFProjectBeans n = (JSFProjectBeans)root.getChildByPath(JSFProjectTreeConstants.BEANS);
 		IType cls = n.getType(className);
 		if(cls == null) return null;
 		JSFProjectBean beanClass = (JSFProjectBean)model.createModelObject("JSFProjectBean", null);
@@ -416,8 +422,8 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		int d = prefix.indexOf('.');
 		String beanName = (d < 0) ? prefix : prefix.substring(0, d);
 		String property = (d < 0) ? null : prefix.substring(d + 1);
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Beans");
-		WebProjectNode conf = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.BEANS);
+		WebProjectNode conf = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null || conf == null) return EMPTY_LIST;
 		XModelObject bean = findBean(conf, beanName);
 		if(bean == null) return EMPTY_LIST;
@@ -440,7 +446,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		if(viewPath == null) return EMPTY_LIST;
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return EMPTY_LIST;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return EMPTY_LIST;
 		XModelObject[] os = n.getTreeChildren();
 		List<Object> list = new ArrayList<Object>();
@@ -476,5 +482,5 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		JSFUrlPattern pattern = p.getUrlPattern();
 		return (pattern == null) ? url : pattern.getJSFPath(url);
 	}
-	
+
 }

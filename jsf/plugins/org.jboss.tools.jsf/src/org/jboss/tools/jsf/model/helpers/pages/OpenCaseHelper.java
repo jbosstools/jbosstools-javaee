@@ -72,7 +72,7 @@ public class OpenCaseHelper {
 		CaseSearchResult result = new CaseSearchResult();
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return result;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return result;
 		XModelObject[] os = n.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {

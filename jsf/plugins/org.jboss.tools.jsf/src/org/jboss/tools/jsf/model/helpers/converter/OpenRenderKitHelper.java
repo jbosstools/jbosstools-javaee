@@ -48,7 +48,7 @@ public class OpenRenderKitHelper {
 	public XModelObject findRenderKit(XModel model, String renderkitId) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return null;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Configuration"); //$NON-NLS-1$
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return null;
 		XModelObject[] os = n.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {

@@ -27,6 +27,7 @@ import org.jboss.tools.jsf.model.ReferenceGroupImpl;
 import org.jboss.tools.jsf.model.handlers.RenameViewSupport;
 import org.jboss.tools.jsf.model.helpers.JSFProcessHelper;
 import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
+import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.common.model.refactoring.RefactoringHelper;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
@@ -67,7 +68,7 @@ public class JSFRenamePageFacesConfigChange extends CompositeChange {
 	private void addChanges() {
 		if(object == null) return;
 		XModelObject root = JSFProjectsTree.getProjectsRoot(object.getModel());
-		XModelObject conf = (root == null) ? null : root.getChildByPath("Configuration"); //$NON-NLS-1$
+		XModelObject conf = (root == null) ? null : root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		fs = (conf == null) ? new XModelObject[0] : ((WebProjectNode)conf).getTreeChildren();
 		addChanges(fs);
 	}

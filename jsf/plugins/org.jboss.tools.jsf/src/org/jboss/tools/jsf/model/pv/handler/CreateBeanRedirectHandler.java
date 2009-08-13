@@ -14,6 +14,7 @@ import org.jboss.tools.common.meta.action.impl.handlers.DefaultRedirectHandler;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 
@@ -29,7 +30,7 @@ public class CreateBeanRedirectHandler extends DefaultRedirectHandler {
 		XModel model = source.getModel();
 		WebProjectNode r = JSFProjectsTree.getProjectsRoot(model);
 		if(r == null) return null;
-		WebProjectNode n = (WebProjectNode)r.getChildByPath("Configuration");
+		WebProjectNode n = (WebProjectNode)r.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return null;
 		XModelObject[] fs = n.getTreeChildren();
 		for (XModelObject f: fs) {

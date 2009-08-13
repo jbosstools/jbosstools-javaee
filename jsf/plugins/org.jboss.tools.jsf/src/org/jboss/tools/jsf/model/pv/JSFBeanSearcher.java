@@ -18,8 +18,8 @@ public class JSFBeanSearcher {
 	public JSFBeanSearcher(XModel model) {
 		WebProjectNode root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return;
-		beans = (WebProjectNode)root.getChildByPath("Beans");
-		conf = (WebProjectNode)root.getChildByPath("Configuration");
+		beans = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.BEANS);
+		conf = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 	}
 	
 	public void parse(String path) {

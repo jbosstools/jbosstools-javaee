@@ -86,7 +86,7 @@ public class JSFProjectsTree extends FileSystemsTree implements XModelTreeListen
     		String p = XModelObjectLoaderUtil.getResourcePath(object);
     		if(p == null || !p.endsWith(".java")) return object;
     		p = p.substring(1, p.length() - 5).replace('/', '.');
-    		JSFProjectBeans beans = (JSFProjectBeans)root.getChildByPath("Beans");
+    		JSFProjectBeans beans = (JSFProjectBeans)root.getChildByPath(JSFProjectTreeConstants.BEANS);
     		XModelObject[] bs = beans == null ? new XModelObject[0] : beans.getTreeChildren();
     		for (int i = 0; i < bs.length; i++) {
     			if(p.equals(bs[i].getAttributeValue("class name"))) {

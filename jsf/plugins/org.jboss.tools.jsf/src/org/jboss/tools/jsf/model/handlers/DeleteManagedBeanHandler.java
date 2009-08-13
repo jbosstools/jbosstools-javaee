@@ -59,7 +59,7 @@ public class DeleteManagedBeanHandler extends DefaultRemoveHandler {
 	IFile getJavaFile(XModelObject object) {
 		XModelObject o = JSFProjectsTree.getProjectsRoot(object.getModel());
 		if(o == null) return null;
-		JSFProjectBeans beans = (JSFProjectBeans)o.getChildByPath("Beans"); //$NON-NLS-1$
+		JSFProjectBeans beans = (JSFProjectBeans)o.getChildByPath(JSFProjectTreeConstants.BEANS);
 		if(beans == null) return null;
 		IType type = beans.getType(object.getAttributeValue("managed-bean-class")); //$NON-NLS-1$
 		if(type == null || type.isBinary()) return null;

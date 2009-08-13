@@ -45,7 +45,7 @@ public class JSFRenameFieldHelper {
 	public static XModelObject[] getBeanList(XModel model, IField field) {
 		String clsname = field.getDeclaringType().getFullyQualifiedName();
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
-		JSFProjectBeans beans = (root == null) ? null : (JSFProjectBeans)root.getChildByPath("Beans"); //$NON-NLS-1$
+		JSFProjectBeans beans = (root == null) ? null : (JSFProjectBeans)root.getChildByPath(JSFProjectTreeConstants.BEANS);
 		XModelObject[] cs = beans.getTreeChildren();
 		for (int i = 0; i < cs.length; i++) {
 			JSFProjectBean bean = (JSFProjectBean)cs[i];

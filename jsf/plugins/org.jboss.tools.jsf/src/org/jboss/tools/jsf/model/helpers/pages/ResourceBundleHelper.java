@@ -14,6 +14,7 @@ import java.util.*;
 
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.model.pv.JSFProjectConfiguration;
+import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 
@@ -35,7 +36,7 @@ public class ResourceBundleHelper {
 	public static List<Object> getRegisteredResourceBundles(XModel model) {
 		XModelObject root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return IWebPromptingProvider.EMPTY_LIST;
-		JSFProjectConfiguration cg = (JSFProjectConfiguration)root.getChildByPath("Configuration");
+		JSFProjectConfiguration cg = (JSFProjectConfiguration)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(cg == null) return IWebPromptingProvider.EMPTY_LIST;
 		Map<String,String> map1 = new TreeMap<String,String>();
 		Map<String,String> map2 = new TreeMap<String,String>();
