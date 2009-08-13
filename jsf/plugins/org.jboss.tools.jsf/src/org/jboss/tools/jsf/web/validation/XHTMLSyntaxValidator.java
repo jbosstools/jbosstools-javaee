@@ -30,7 +30,6 @@ import org.eclipse.wst.xml.core.internal.validation.core.NestedValidatorContext;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.ErrorCustomizationPluginRegistryReader;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
-import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.xml.XMLEntityResolverImpl;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.xml.sax.InputSource;
@@ -38,7 +37,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.ext.LexicalHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Syntax Validator for XHTML files.
@@ -221,8 +219,7 @@ public class XHTMLSyntaxValidator extends Validator {
 	
 			protected XMLReader createXMLReader(String uri) throws Exception
 			{     
-				XMLReader reader = //XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); 
-				super.createXMLReader(uri);
+				XMLReader reader = super.createXMLReader(uri);
 	
 				reader.setFeature("http://xml.org/sax/features/namespaces", true);
 				reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
@@ -262,7 +259,6 @@ public class XHTMLSyntaxValidator extends Validator {
 	    	    	}
 	    	    };
 	    	    reader.setProperty("http://xml.org/sax/properties/lexical-handler", lexicalHandler); //$NON-NLS-1$
-	    	    System.out.println("-------reader----->");
 	    	    reader.setProperty("http://apache.org/xml/properties/internal/entity-resolver", new XMLEntityResolverImpl()); //$NON-NLS-1$
 	    	    return reader;
 			}  
