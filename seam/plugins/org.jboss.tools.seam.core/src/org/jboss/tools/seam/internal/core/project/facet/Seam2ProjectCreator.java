@@ -56,7 +56,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	private static final String MODULE_ORDER = "module-order";
 	// test/*.jar are duplicated here since the filtering seem to be assymetric when matching 
 	private static AntCopyUtils.FileSet JBOSS_TEST_LIB_FILESET = new AntCopyUtils.FileSet()
-	    .include("testng\\.jar") //$NON-NLS-1$
+    	.include("testng.*\\.jar") //$NON-NLS-1$
 		.include("test/hibernate-all\\.jar") //$NON-NLS-1$
 		.include("hibernate-all\\.jar") //$NON-NLS-1$
 		.include("test/jboss-embedded-all.jar") //$NON-NLS-1$
