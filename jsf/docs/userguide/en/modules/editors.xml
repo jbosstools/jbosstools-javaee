@@ -889,7 +889,74 @@
                         <imagedata fileref="images/visual_page/icon_1.png"/>
                     </imageobject>
                 </inlinemediaobject>).</para>
-
+            <para>Visual Page Editor also displays custom tags correctly if they are configured properly.
+                The picture below shows  an example  how custom tags  <emphasis><property>&quot;pagination&quot;</property></emphasis> and <emphasis><property>&quot;echo&quot;</property></emphasis> will be displayed in VPE.
+            </para>
+            <figure>
+                <title>Custom Tags in the VPE</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_4d.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>
+                The listings of the custom tags implementations will help to clear how VPE works.
+            </para>
+  
+                <itemizedlist>
+                    <listitem><para>echo.xhtml: </para>               
+                        <programlisting role="XML"><![CDATA[
+                       <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
+                     <span class="message">#{msg}&lt;/span>
+                        </ui:composition>
+                        ]]></programlisting></listitem>  
+                    
+                    <listitem><para>paginator.xhtml:</para>
+                        
+  <programlisting role="XML"><![CDATA[
+                        <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:component>
+<!-- h:inputHidden id="currentPage" replace, because if on page two fields,
+two elements with equal id has been used, but should be used only one -->
+	<h:panelGrid style="margin-right:auto;margin-left:auto;" columns="4">
+		<h:commandButton value="&lt;&lt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=0" >
+		</h:commandButton>
+		<h:commandButton value="&lt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=#{user.currentPage-user.rowsPerPage}">
+		</h:commandButton>
+		<h:commandButton value="&gt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=#{user.currentPage+user.rowsPerPage}">
+		</h:commandButton>
+		<h:commandButton value="&gt;&gt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=#{user.numberOfItems - user.rowsPerPage}">
+		</h:commandButton>
+	</h:panelGrid>
+	<h:inputHidden id="currentPage" value=""/>
+</ui:component>
+</html>
+]]></programlisting>
+                    </listitem>
+                </itemizedlist>
+            <para>
+                If your custom tags aren&apos;t configured correctly your Visual mode will look like this: 
+            </para>
+            <figure>
+                <title>Wrong configured Custom Tags in the VPE</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_4e.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+           
             <section id="comments">
                 <title>Commenting out Code</title>
 
@@ -984,6 +1051,7 @@
             </section>
         </section>
 
+        
         <section id="pages_styling">
             <title>Pages Styling</title>
 
