@@ -38,7 +38,8 @@ Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.ltk.ui.refactoring,
  org.jboss.ide.eclipse.as.core,
  org.jboss.tools.jsf,
- org.jboss.tools.jst.web.ui;bundle-version="2.0.0"
+ org.jboss.tools.jst.web.ui;bundle-version="2.0.0",
+ org.eclipse.jst.j2ee.web;bundle-version="1.1.300"
 Eclipse-LazyStart: true
 Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.actions,
