@@ -119,7 +119,7 @@ public class JBIDE788Test extends VpeTest {
 		for(ICompletionProposal completionProposal : results) {
 			if(completionProposal instanceof AutoContentAssistantProposal ) {
 				String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-				if(!displayString.startsWith("h:command") && !displayString.startsWith("#{")) { //$NON-NLS-1$ //$NON-NLS-2$
+				if(!(displayString.contains("h:command") || displayString.contains("New JSF EL"))) { //$NON-NLS-1$ //$NON-NLS-2$
 					fail("String doesn't matches"); //$NON-NLS-1$
 				}
 			}
