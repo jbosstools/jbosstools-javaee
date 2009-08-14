@@ -86,7 +86,9 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		names.add(ISeamFacetDataModelProperties.HIBERNATE_HBM2DDL_AUTO);
 		names.add(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS);
-
+		names.add(CONFIGURE_DEFAULT_SEAM_RUNTIME);
+		names.add(CONFIGURE_WAR_PROJECT);
+		
 		return names;
 	}
 
@@ -120,6 +122,10 @@ public class SeamFacetInstallDataModelProvider extends
 		}
 		else if(JBOSS_AS_TARGET_RUNTIME.equals(propertyName)) {
 			return null;
+		} else if (CONFIGURE_DEFAULT_SEAM_RUNTIME.equals(propertyName)) {
+			return Boolean.TRUE;
+		} else if (CONFIGURE_WAR_PROJECT.equals(propertyName)) {
+			return Boolean.TRUE;
 		}
 		return super.getDefaultProperty(propertyName);
 	}

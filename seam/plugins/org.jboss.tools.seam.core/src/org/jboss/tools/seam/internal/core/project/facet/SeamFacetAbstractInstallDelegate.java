@@ -333,12 +333,14 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		webInfClassesMetaInf.mkdirs();
 		webLibFolder = new File(webContentFolder, WEB_LIBRARIES_RELATED_PATH);
 		srcFolder = isWarConfiguration(model) ? new File(warDefaultSrcRootFolder.getUnderlyingFolder().getLocation().toFile(), DEFAULT_MODEL_SRC_FOLDER_NAME) : warDefaultSrcRootFolder.getUnderlyingFolder().getLocation().toFile();
-		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
-		if(runtimeName!=null) {
-			copyFilesToWarProject(project, fv, model, monitor);
-		} else {
-			// If seam runtime is null then just modify web.xml and add seam nature.
-			configureWebXml(project);
+		if (model.getBooleanProperty(CONFIGURE_WAR_PROJECT)) {
+			Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+			if (runtimeName != null) {
+				copyFilesToWarProject(project, fv, model, monitor);
+			} else {
+				// If seam runtime is null then just modify web.xml and add seam nature.
+				configureWebXml(project);
+			}
 		}
 	}
 
@@ -818,7 +820,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(model.getProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)==null) {
 			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + projectNamePackage + ".test"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME)==null) {
+		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME)==null && model.getBooleanProperty(CONFIGURE_DEFAULT_SEAM_RUNTIME)) {
 			String runtimeName = SeamFacetInstallDataModelProvider.getSeamRuntimeDefaultValue(model);
 			if((runtimeName!=null && runtimeName.length()>0)) {
 				model.setProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, runtimeName);

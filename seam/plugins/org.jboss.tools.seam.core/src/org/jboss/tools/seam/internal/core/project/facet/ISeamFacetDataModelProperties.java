@@ -293,4 +293,8 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String DEFAULT_MODEL_SRC_FOLDER_NAME = "main"; //$NON-NLS-1$
 
 	String CREATE_EAR_PROJECTS = "create.ear.projects"; //$NON-NLS-1$
+	
+	String CONFIGURE_DEFAULT_SEAM_RUNTIME = "configure.default.seam.runtime"; //$NON-NLS-1$
+	
+	String CONFIGURE_WAR_PROJECT = "configure.war.project"; //$NON-NLS-1$
 }
