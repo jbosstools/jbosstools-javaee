@@ -62,20 +62,13 @@ public class JBIDE4509Test extends VpeTest{
 	
 	//test openon for taglib from in file
 	public void testOpenOnForTaglibInJarFile() throws Throwable {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
-		IJavaProject javaProject = JavaCore.create(project);
-		
-		IFile jarArchive = (IFile) project.findMember("WebContent/WEB-INF/lib/mareshkau.jar"); //$NON-NLS-1$
-
-		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(jarArchive);
-		
-		JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root; 
-		JarEntryFile fileInJar = new JarEntryFile("META-INF/mareshkau.taglib.xml"); //$NON-NLS-1$s
-		fileInJar.setParent(jarRoot);
-		JarEntryEditorInput jarEditorInput = new JarEntryEditorInput(fileInJar);
-		JBIDE4509Test.checkOpenOnInEditor(jarEditorInput, getEditorId(fileInJar.getName()),12, 25, 
-				"components/paginator.xhtml"); //$NON-NLS-1$
+		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/mareshkau.jar", //$NON-NLS-1$
+				"META-INF/mareshkau.taglib.xml", 12, 25, "components/paginator.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testOpenOnForJavaElementFromDeclarationInJar() throws Throwable {
+		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/jsf-facelets.jar", "META-INF/jsf-ui.taglib.xml", //$NON-NLS-1$ //$NON-NLS-2$
+				25, 33, "UILibrary.class"); //$NON-NLS-1$
 	}
 	
 	//test for <function-class>
@@ -102,8 +95,48 @@ public class JBIDE4509Test extends VpeTest{
 		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 22, 23, "IfHandler.java"); //$NON-NLS-1$
-	}	
-	
+	}
+	/**
+	 * Function for checking openOn functionality in jar file;
+	 * 
+	 * @param jarFilePath
+	 * @param jarEntryPath
+	 * @param line
+	 * @param position
+	 * @param expectedResult
+	 * @throws Throwable
+	 * 
+	 * @author mareshkau
+	 */
+	private static final void checkOpenOnFromJarFile(final String jarFilePath,final String jarEntryPath,
+			final int line, final int position,final String expectedResult) throws Throwable {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IJavaProject javaProject = JavaCore.create(project);
+		
+		IFile jarArchive = (IFile) project.findMember(jarFilePath); //$NON-NLS-1$
+
+		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(jarArchive);
+		
+		JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root; 
+		JarEntryFile fileInJar = new JarEntryFile(jarEntryPath); //$NON-NLS-1$s
+		fileInJar.setParent(jarRoot);
+		JarEntryEditorInput jarEditorInput = new JarEntryEditorInput(fileInJar);
+		JBIDE4509Test.checkOpenOnInEditor(jarEditorInput, getEditorId(fileInJar.getName()),line, position, 
+				expectedResult); 
+	}
+	/**
+	 * Function for checking openOn functionality
+	 * 
+	 * @param editorInput
+	 * @param editorId
+	 * @param lineNumber
+	 * @param lineOffset
+	 * @param openedOnFileName
+	 * @throws Throwable
+	 * 
+	 * @author mareshkau
+	 */
 	private static final void checkOpenOnInEditor(IEditorInput editorInput,String editorId,int lineNumber, int lineOffset, String openedOnFileName) throws Throwable {
 		MultiPageEditorPart editorPart = (MultiPageEditorPart) PlatformUI
 				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
