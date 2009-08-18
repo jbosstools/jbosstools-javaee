@@ -47,6 +47,9 @@ public class JSFXMLLinkHyperlinkPartitioner extends XMLLinkHyperlinkPartitioner 
 		smw.init(document);
 		try {
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+
 			IProject project = documentFile.getProject();
 			if(project == null || !project.isAccessible()) return false;
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {

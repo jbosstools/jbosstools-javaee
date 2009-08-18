@@ -54,6 +54,9 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 		smw.init(document);
 		try {
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+
 			IProject project = documentFile.getProject();
 			if(project == null || !project.isAccessible()) return false;
 

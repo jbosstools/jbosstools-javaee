@@ -18,20 +18,19 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
-import org.jboss.tools.jsf.project.JSFNature;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
+import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * @author Jeremy
@@ -78,6 +77,9 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 		try {
 			smw.init(document);
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+			
 			IProject project = documentFile.getProject();
 
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {

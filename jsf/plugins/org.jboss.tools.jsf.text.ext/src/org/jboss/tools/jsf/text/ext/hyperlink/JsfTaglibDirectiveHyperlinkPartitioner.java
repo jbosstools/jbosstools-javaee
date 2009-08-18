@@ -82,6 +82,9 @@ public class JsfTaglibDirectiveHyperlinkPartitioner extends JSPTagAttributeValue
 		smw.init(document);
 		try {
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+
 			IProject project = documentFile.getProject();
 			if(project == null || !project.isAccessible()) return false;
 

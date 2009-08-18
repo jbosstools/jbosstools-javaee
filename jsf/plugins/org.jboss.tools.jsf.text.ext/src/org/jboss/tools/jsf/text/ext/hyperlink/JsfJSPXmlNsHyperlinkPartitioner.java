@@ -16,17 +16,16 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
+import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
+import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperlinkPartitioner;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.jsf.project.JSFNature;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
-import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperlinkPartitioner;
 
 public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperlinkPartitioner {
 
@@ -76,6 +75,9 @@ public class JsfJSPXmlNsHyperlinkPartitioner extends JSPTagAttributeValueHyperli
 		try {
 			smw.init(document);
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+			
 			IProject project = documentFile.getProject();
 
 			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
