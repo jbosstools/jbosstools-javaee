@@ -554,7 +554,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			return;
 		} else {
 			String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
-			if(SeamRuntimeManager.getInstance().findRuntimeByName(value) == null) {
+			SeamRuntime seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(value);
+			if(seamRuntime == null) {
 				setErrorMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_DOES_NOT_EXIST, new String[]{value}));
 				setValid(false);
 				return;
@@ -571,6 +572,12 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 					warning = true;
 					setValid(true);
 				}
+			}
+			SeamVersion installedVersion = getInstalledSeamVersion();
+			if(installedVersion!=null && seamRuntime.getVersion()!=installedVersion) {
+				setMessage(NLS.bind(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_WRONG_SEAM_VERSION, new String[]{seamRuntime.getVersion().toString(), installedVersion.toString()}), IMessageProvider.WARNING);
+				warning = true;
+				setValid(true);
 			}
 		}
 		validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_IS_EMPTY, IParameter.SEAM_PROJECT_NAME, false);
@@ -973,6 +980,11 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private SeamVersion[] getSeamVersions() {
+		// Let's allow user to select any available seam version regardless of installed seam facet. But we should warn user if he selects different versions of facet and seam runtime.
+		return SeamVersion.ALL_VERSIONS;
+	}
+
+	private SeamVersion getInstalledSeamVersion() {
 		if(warSeamProject != null) {
 			try {
 				IFacetedProject facetedProject = ProjectFacetsManager.create(warSeamProject.getProject());
@@ -982,24 +994,24 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 					if(version!=null) {
 						SeamVersion seamVersion = SeamVersion.findByString(version.getVersionString());
 						if(seamVersion!=null) {
-							return new SeamVersion[]{seamVersion};
+							return seamVersion;
 						}
 					}
 				}
 			} catch (CoreException e) {
 				SeamGuiPlugin.getPluginLog().logError(e);
 			}
-			String jarLocation = getJBossSeamJarLocation();
-			if(jarLocation != null) {
-				String folder = new File(jarLocation).getParent();
-				String vs = SeamUtil.getSeamVersionFromManifest(folder);
-				SeamVersion v = SeamVersion.findMatchingVersion(vs);
-				if(v != null) {
-					return new SeamVersion[]{v};
-				}
-			}
+//			String jarLocation = getJBossSeamJarLocation();
+//			if(jarLocation != null) {
+//				String folder = new File(jarLocation).getParent();
+//				String vs = SeamUtil.getSeamVersionFromManifest(folder);
+//				SeamVersion v = SeamVersion.findMatchingVersion(vs);
+//				if(v != null) {
+//					return v;
+//				}
+//			}
 		}
-		return SeamVersion.ALL_VERSIONS;
+		return null;
 	}
 
 	private String getJBossSeamJarLocation() {

@@ -631,10 +631,17 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				setPageComplete(true);
 				return;
 			} else if(!SeamUtil.areSeamVersionsMatched(version.getValueAsString(), seamVersion)) {
-				setErrorMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
-					seamVersion));
-				setPageComplete(false);
-				return;
+				String trimmedVersion = SeamUtil.trimSeamVersion(version.getValueAsString(), 1);
+				String trimmedSeamVersion = SeamUtil.trimSeamVersion(seamVersion, 1);
+				if(SeamUtil.areSeamVersionsMatched(trimmedVersion, trimmedSeamVersion)) {
+					setMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
+							seamVersion), IMessageProvider.WARNING);
+				} else {
+					setErrorMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
+						seamVersion));
+					setPageComplete(false);
+					return;
+				}
 			} else {
 				setMessage(null);
 			}
