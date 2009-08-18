@@ -15,16 +15,15 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
+import org.jboss.tools.common.text.ext.hyperlink.xml.XMLTagAttributeValueHyperlinkPartitioner;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.struts.StrutsProject;
+import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.struts.StrutsProject;
-import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
-import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.xml.XMLTagAttributeValueHyperlinkPartitioner;
 
 /**
  * @author Jeremy
@@ -51,6 +50,9 @@ public class StrutsConfigPluginSetPropertyHyperlinkPartitioner extends XMLTagAtt
 		smw.init(document);
 		try {
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+
 			IProject project = documentFile.getProject();
 			for (int i = 0; i < STRUTS_PROJECT_NATURES.length; i++) {
 				if (project.getNature(STRUTS_PROJECT_NATURES[i]) != null) 

@@ -44,6 +44,9 @@ public class StrutsJSPLinkHyperlinkPartitioner extends JSPLinkHyperlinkPartition
 			Document xmlDocument = smw.getDocument();
 			if(xmlDocument == null) return false;
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+
 			IProject project = documentFile.getProject();
 
 			for (int i = 0; i < STRUTS_PROJECT_NATURES.length; i++) {
