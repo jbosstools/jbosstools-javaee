@@ -43,6 +43,9 @@ public class SeamViewHyperlinkPartitioner extends JSPLinkHyperlinkPartitioner {
 		try {
 			smw.init(document);
 			IFile documentFile = smw.getFile();
+			if (documentFile == null)
+				return false;
+
 			IProject project = documentFile.getProject();
 
 			for (int i = 0; i < SEAM_PROJECT_NATURES.length; i++) {
