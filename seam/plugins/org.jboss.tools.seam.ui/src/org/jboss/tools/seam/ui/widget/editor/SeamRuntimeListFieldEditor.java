@@ -12,16 +12,11 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -64,14 +59,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
@@ -633,7 +626,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			} else if(!SeamUtil.areSeamVersionsMatched(version.getValueAsString(), seamVersion)) {
 				String trimmedVersion = SeamUtil.trimSeamVersion(version.getValueAsString(), 1);
 				String trimmedSeamVersion = SeamUtil.trimSeamVersion(seamVersion, 1);
-				if(SeamUtil.areSeamVersionsMatched(trimmedVersion, trimmedSeamVersion)) {
+				if(SeamVersion.findMatchingVersion(seamVersion)==null && SeamUtil.areSeamVersionsMatched(trimmedVersion, trimmedSeamVersion)) {
 					setMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
 							seamVersion), IMessageProvider.WARNING);
 				} else {
