@@ -12,7 +12,10 @@ package org.jboss.tools.jsf.vpe.facelets.template;
 
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
+import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.jsf.vpe.facelets.template.messages.Messages;
 import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
+import org.jboss.tools.jsf.vpe.facelets.util.FaceletsUtil;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -28,32 +31,33 @@ import org.w3c.dom.Node;
 
 public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 	
+	public static final String MESSAGE_STYLE
+			= "color:red;font-style:italic;";	//$NON-NLS-1$
+	public static final String ANY_TAG_CAPTION_CLASS
+			= "__any__tag__caption";			//$NON-NLS-1$
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument){
 
 		Attr attr = ((Element)sourceNode).getAttributeNode(Facelets.ATTR_TEMPLATE);
-		if (attr != null) {
-			return super.createTemplate(attr.getNodeValue(), pageContext, sourceNode, visualDocument);
-		} else  {
-			nsIDOMElement composition = visualDocument.createElement(HTML.TAG_DIV);
-			return new VpeCreationData(composition);
-		}
+		return super.createTemplate(attr == null ? null : attr.getNodeValue(),
+				pageContext, sourceNode, visualDocument);
 	}
 	
 	protected VpeCreationData createStub(String fileName, Node sourceElement, nsIDOMDocument visualDocument) {
 		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);
-		container.setAttribute("style", "border: 1px dashed #2A7F00"); //$NON-NLS-1$ //$NON-NLS-2$
+		container.setAttribute(HTML.ATTR_STYLE, "border: 1px dashed #2A7F00"); //$NON-NLS-1$
 		VpeVisualDomBuilder.markIncludeElement(container);
 
-		nsIDOMElement title = visualDocument.createElement(HTML.TAG_DIV);
-		nsIDOMElement tag = visualDocument.createElement(HTML.TAG_SPAN);
-		tag.setAttribute("class", "__any__tag__caption"); //$NON-NLS-1$ //$NON-NLS-2$
-		tag.appendChild(visualDocument.createTextNode(sourceElement.getNodeName()));
-		title.appendChild(tag);
-		if (fileName != null) {
-			title.appendChild(visualDocument.createTextNode(fileName));
+		final String message;
+		if (fileName == null) {
+			message = Messages.TEMPLATE_NOT_SPECIFIED;
+		} else {
+			message = NLS.bind(Messages.TEMPLATE_NOT_FOUND, fileName);
 		}
-		container.appendChild(title);
-		
+
+		container.appendChild(FaceletsUtil.createErrorMessageElement(
+				visualDocument, sourceElement.getNodeName(), message));
+
 		return new VpeCreationData(container);
 	}
 

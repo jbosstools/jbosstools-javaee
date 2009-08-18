@@ -1,0 +1,27 @@
+<tests>
+	<test id="composition1">
+		<DIV STYLE="border: 1px dashed rgb(42, 127, 0);">
+		<DIV>
+		<SPAN CLASS="__any__tag__caption">
+		ui:composition
+		</SPAN>
+		<SPAN CLASS="__any__tag__caption" STYLE="color: red; font-style: italic;">
+		Template file is not found: "/pages/components/notexistedfile.xhtml"
+		</SPAN>
+		</DIV>
+		<DIV STYLE="border: 1px solid gray;">
+		<DIV>
+		<SPAN CLASS="__any__tag__caption">
+		ui:define
+		</SPAN>
+		<SPAN CLASS="__any__tag__caption" STYLE="color: red; font-style: italic;">
+		Unknown name: "pageTitle"
+		</SPAN>
+		</DIV>
+		<SPAN CLASS="vpe-text">
+		JSF 1.2 and Facelets under Tomcat. KickStart Application
+		</SPAN>
+		</DIV>
+		</DIV>
+	</test>
+</tests>

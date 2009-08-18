@@ -10,6 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.facelets.template;
 
+import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.jsf.vpe.facelets.template.messages.Messages;
+import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
+import org.jboss.tools.jsf.vpe.facelets.util.FaceletsUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -57,19 +61,19 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 	
 	private VpeCreationData createStub(Element sourceElement, nsIDOMDocument visualDocument) {
 		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);
-		container.setAttribute("style", "border: 1px solid gray"); //$NON-NLS-1$ //$NON-NLS-2$
+		container.setAttribute(HTML.ATTR_STYLE, "border: 1px solid gray"); //$NON-NLS-1$
 
-		nsIDOMElement title = visualDocument.createElement(HTML.TAG_DIV);
-		nsIDOMElement tag = visualDocument.createElement(HTML.TAG_SPAN);
-		tag.setAttribute("class", "__any__tag__caption"); //$NON-NLS-1$ //$NON-NLS-2$
-		tag.appendChild(visualDocument.createTextNode(sourceElement.getNodeName()));
-		title.appendChild(tag);
-		String name = sourceElement.getAttribute("name"); //$NON-NLS-1$
-		if (name != null && name.length() > 0) {
-			title.appendChild(visualDocument.createTextNode(name));
+		String name = sourceElement.getAttribute(Facelets.ATTR_NAME);
+		final String message;
+		if (name != null) {
+			message = NLS.bind(Messages.UNKNOWN_NAME, name);
+		} else {
+			message = Messages.NAME_NOT_SPECIFIED;
 		}
-		container.appendChild(title);
-		
+
+		container.appendChild(FaceletsUtil.createErrorMessageElement(
+				visualDocument, sourceElement.getNodeName(), message));
+
 		return new VpeCreationData(container);
 	}
 }
