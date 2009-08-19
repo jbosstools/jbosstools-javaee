@@ -258,6 +258,22 @@
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
+		
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.seam.text.ext.hyperlink.TestNGHyperlinkPartitioner"
+         	class="org.jboss.tools.common.text.ext.hyperlink.xml.XMLClassHyperlinkPartitioner">
+         	<contentType id="org.eclipse.wst.xml.core.xmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/suite/test/classes/class/name/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="/suite/test/classes/class/name/" />
+         		</partitionType>
+         	</contentType>
+         	
+		</hyperlinkPartitioner>
    </extension>
    
 	<extension 
