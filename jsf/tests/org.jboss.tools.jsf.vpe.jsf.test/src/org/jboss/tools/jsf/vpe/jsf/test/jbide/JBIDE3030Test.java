@@ -21,6 +21,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfTestPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeEditorPart;
+import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
@@ -66,6 +68,18 @@ public class JBIDE3030Test extends VpeTest {
 			IFileStore fileStore = EFS.getLocalFileSystem().getStore(file.toURI());
 			
 			IEditorPart editorPart = IDE.openEditorOnFileStore(page, fileStore );
+			/**
+			 * Test Case for https://jira.jboss.org/jira/browse/JBIDE-4786 
+			 * and for https://jira.jboss.org/jira/browse/JBIDE-4786
+			 * 
+			 * @author mareshkau
+			 * 
+			 */		
+			JSPMultiPageEditor jspMultiPageEditor = (JSPMultiPageEditor) editorPart;
+			TestUtil.getVpeController(jspMultiPageEditor).visualRefresh();
+			TestUtil.delay(5);
+			TestUtil.waitForIdle();
+			//end of lines for testing visual refresh on external files
 			
 			assertNotNull(editorPart);
 			
@@ -80,5 +94,4 @@ public class JBIDE3030Test extends VpeTest {
 			}
 		}
 	}
-
 }
