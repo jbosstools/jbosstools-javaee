@@ -25,6 +25,8 @@ import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 
 /**
+ * 
+ * @deprecated see org.jboss.tools.common.text.ext.hyperlink.CSSClassHyperlinkPartitioner
  * @author Jeremy
  */
 public class JSPCSSClassHyperlinkPartitioner extends AbstractHyperlinkPartitioner /*implements IHyperlinkPartitionRecognizer */{
