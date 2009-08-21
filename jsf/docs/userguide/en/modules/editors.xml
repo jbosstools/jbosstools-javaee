@@ -747,7 +747,13 @@
                 <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
             develop an application using any technology: JSF, Struts, JSP, HTML and others. Double-click on the necessary file in the Package Explorer view to open it in the Visual Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).</para>
 
-        <para>Current VPE version has three tabs: <property>Visual/Source</property>,
+       <para>As a new JSF 2.0 specification has been released, support of new features is now implemented in the <property>Visual Page Editor</property>.
+       	The JSF 2.0 tags like <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal>&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal>
+       	are supported in the editor as well as the resource handling from the expression language. (See the 
+       	<ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog post</ulink> on how to handle the resources form the EL).
+       </para>
+    	
+    	<para>Current VPE version has three tabs: <property>Visual/Source</property>,
                 <property>Source</property> and <property>Preview</property>. To switch between the
             views you can use tabs at the bottom of the VPE or the shortcuts <emphasis>
                 <property>Ctrl + PageUp/Ctrl + PageDown</property>
