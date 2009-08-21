@@ -1,0 +1,23 @@
+<tests>
+	<test id="treeNodes">
+		<DIV>
+			<TABLE>
+				<TBODY>
+					<TR>
+						<TD>
+							<IMG/>
+						</TD>
+						<TD>
+							<IMG/>
+						</TD>
+						<TD>
+							<SPAN>
+								#{item.nodes}
+							</SPAN>
+						</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+		</DIV>
+	</test>
+</tests>
