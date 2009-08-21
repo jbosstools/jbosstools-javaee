@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="css_perspective" xreflabel="css_perspective">
+    <?dbhtml filename="css_perspective.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>CSS Editing Perspective</keyword>
+            <keyword>css</keyword>
+            <keyword>html</keyword>
+        </keywordset>
+    </chapterinfo>
+    <title>CSS Editing Perspective</title>
+    <para>The CSS Editing Perspective combines a set of views which allow you to see the structure of
+        your css files,edit them and see the results.
+        To use this perspective you need to choose <emphasis><property>Window >Open Perspective> CSS Editing </property></emphasis>
+        .All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.</para>
+    <para>In CSS Editing Perspective you can change  your css file in three ways:</para>
+    <itemizedlist>
+        <listitem>
+            <para>directly in your CSS Editor
+            </para>
+        </listitem>
+        <listitem>
+            <para>using <link linkend="CSSPropertiesView">CSS Properties view</link>
+            </para>
+        </listitem>
+        <listitem>
+            <para>using <link linkend="PropertiesView">Properties view</link>
+            </para>
+        </listitem>
+    </itemizedlist>
+ 
+    <figure>
+        <title>CSS Editing Perspective</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/css_perspective/cssEditor.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+  
+    <section id="OutlineView">
+        <?dbhtml filename="OutlineView.html"?>
+        <title>Outline view</title>
+        <para>Using this view you can easily skip between the selectors described in the source files,
+            see the list of properties in any selector just by clicking the triangle near it.
+        </para>
+
+        <figure>
+            <title>Outline view</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/css_perspective/cssEditor1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>You can use the Source viewer with the Outline view to navigate around the file.
+            To do this you should just left click the selector or property you want and it will be automatically highlighted in the source code:
+        </para>
+        <figure>
+            <title>Navigating around the file</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/css_perspective/cssEditor2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </section>
+        
+        
+    <section id="PropertiesView">
+            <?dbhtml filename="PropertiesView.html"?>
+            <title>Properties view</title>
+        <para>Properties view provides a full list of properties of a chosen selector.
+            The properties are divided into logic groups for better navigation.
+        </para>
+           
+            <figure>
+                <title>Properties view</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/css_perspective/cssEditor3.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        <para>With the help of Properties view you have also the possibility to edit the css file  by adding/editing/removing properties in the selector. 
+            Left click the "<emphasis><property>Value</property></emphasis>" field near the property you want to edit and write the changes in the text field.
+        </para>
+         
+            <figure>
+                <title>Updating css using Properties view</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/css_perspective/cssEditor4.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+           
+        </section>
+    <section id="CSSPropertiesView">
+        <?dbhtml filename="CSSPropertiesView.html"?>
+        <title>CSS Properties view </title>
+        <para>CSS Properties view has five tabs:
+         </para>
+        <itemizedlist>
+            <listitem>
+                <para><link linkend="text_font">Text/Font</link>
+                </para>
+            </listitem>
+            <listitem>
+                <para><link linkend="background">Background</link></para>
+            </listitem>
+            <listitem>
+                <para><link linkend="boxes">Boxes</link></para>
+            </listitem>
+            <listitem>
+                <para><link linkend="property_sheet">Property Sheet</link></para>
+            </listitem>
+            <listitem>
+                <para><link linkend="edited_properties">Edited Properties</link></para>
+            </listitem>
+        </itemizedlist>
+
+        <itemizedlist>
+            <listitem>
+                <para id="text_font">CSS Text/Font properties define the appearance of text,its font family, boldness, size, and the style.
+                </para>
+                <figure>
+                    <title>Text/Font tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/css_perspective/cssEditor5.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>For example, to define the "<emphasis><property>font-family</property></emphasis>" property you should click <emphasis><property>Choose font family</property></emphasis> button( <inlinemediaobject>
+                    <imageobject>
+                    <imagedata fileref="images/css_perspective/cssEditor7.png"/>
+                    </imageobject>
+                </inlinemediaobject>) near <emphasis><property>Font Family</property></emphasis> text field 
+                and select the fonts you want to use from the list.</para>
+                <figure>
+                    <title>CSS Text/Font tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/css_perspective/cssEditor6.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>
+                    When you click <emphasis><property>Ok</property></emphasis> the chosen fonts should appear in <emphasis><property>Font Family</property></emphasis> text field and in the sourse css file. 
+                    To define other properties in CSS <emphasis><property>Text/Font</property></emphasis> tab you should just click button near the
+                    corresponding field you want and select the appropriate option in the list.
+                    Or if you are absolutely sure of the property's value to use you can just write it in the text field.
+                </para>
+
+            </listitem>
+            <listitem><para id="background">
+                You should use CSS background properties and <emphasis><property>Background</property></emphasis> tab to define the background effects of an element.
+        
+            </para> 
+                <para id="boxes"><emphasis><property>Boxes</property></emphasis> tab is used to define CSS border properties and the box model. 
+                    The CSS border properties allow you to specify the style and color of an element's border. 
+                </para>
+                <para>As well as in Text/Font tab, it's also possible to define the property in two ways:</para>
+                    <itemizedlist>
+                        <listitem><para>clicking <inlinemediaobject>  <imageobject>
+                        <imagedata fileref="images/css_perspective/cssEditor8.png"/>
+                        </imageobject></inlinemediaobject>and choosing it from the list of options:
+                            <figure>
+                                <title>Defining the property</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/css_perspective/cssEditor9.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>  
+                        </para>
+                        </listitem>
+                        <listitem>
+                            <para> writing the property in the appropriate text field
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+            </listitem>
+            <listitem><para id="property_sheet"><emphasis><property>Property Sheet</property></emphasis> tab contains the categorized list of properties.
+                Like in <link linkend="PropertiesView">Properties view</link> it's possible to edit the properties values.</para>
+                <figure>
+                    <title>Property Sheet tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/css_perspective/cssEditor10.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </listitem>
+            <listitem>
+                <para id="edited_properties"><emphasis><property>Edited Properties</property></emphasis> tab contains only the properties,defined in the selector.</para>
+                <figure>
+                    <title>Property Sheet tab</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/css_perspective/cssEditor11.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>It's also possible to edit the properties in the tab.</para>
+            </listitem>
+            </itemizedlist>
+    </section>
+    <section id="CSSPreview">
+        <?dbhtml filename="CSSPropertiesView.html"?>
+        <title>CSS Preview</title>
+        <para>Using CSS Preview you can see how a selector affects any text.</para>
+        <figure>
+            <title>Property Sheet tab</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/css_perspective/cssEditor12.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>The preview is also edited by double click.You can write instead the default text any text you want,including html tags.</para>
+    </section>
+    
+</chapter>
+
