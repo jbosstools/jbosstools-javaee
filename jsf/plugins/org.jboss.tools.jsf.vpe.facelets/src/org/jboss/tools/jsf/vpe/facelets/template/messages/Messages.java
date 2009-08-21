@@ -25,7 +25,6 @@ public class Messages extends NLS {
 	}
 	private Messages(){}
 
-	public static String TEMPLATE_NOT_SPECIFIED;
 	public static String TEMPLATE_NOT_FOUND;
 	public static String UNKNOWN_NAME;
 	public static String NAME_NOT_SPECIFIED;

@@ -45,18 +45,15 @@ public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 	
 	protected VpeCreationData createStub(String fileName, Node sourceElement, nsIDOMDocument visualDocument) {
 		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);
-		container.setAttribute(HTML.ATTR_STYLE, "border: 1px dashed #2A7F00"); //$NON-NLS-1$
 		VpeVisualDomBuilder.markIncludeElement(container);
 
-		final String message;
-		if (fileName == null) {
-			message = Messages.TEMPLATE_NOT_SPECIFIED;
-		} else {
-			message = NLS.bind(Messages.TEMPLATE_NOT_FOUND, fileName);
+		if (fileName != null) {
+			container.setAttribute(HTML.ATTR_STYLE, "border: 1px dashed #2A7F00"); //$NON-NLS-1$
+			String message = NLS.bind(Messages.TEMPLATE_NOT_FOUND, fileName);
+			container.appendChild(FaceletsUtil.createErrorMessageElement(
+					visualDocument, sourceElement.getNodeName(), message));
 		}
 
-		container.appendChild(FaceletsUtil.createErrorMessageElement(
-				visualDocument, sourceElement.getNodeName(), message));
 
 		return new VpeCreationData(container);
 	}
