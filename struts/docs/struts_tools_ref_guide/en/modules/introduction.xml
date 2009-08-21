@@ -102,8 +102,8 @@
     <section>
         <title>Other relevant resources on the topic</title>
         
-        <para>All JBoss Developer Studio/JBoss Tools documentation you can find <ulink url="http://docs.jboss.org/tools/">here</ulink>.</para>
-        <para>The latest documentation builds are available <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">here</ulink>.</para>
+        <para>All JBoss Developer Studio/JBoss Tools documentation you can find on<ulink url="http://docs.jboss.org/tools/">JBoss Tools project page </ulink>.</para>
+        <para>The latest documentation builds are available on<ulink url="http://download.jboss.org/jbosstools/nightly-docs/">nightly docs page</ulink>.</para>
         
     </section>
     
