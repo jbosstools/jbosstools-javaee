@@ -297,4 +297,6 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String CONFIGURE_DEFAULT_SEAM_RUNTIME = "configure.default.seam.runtime"; //$NON-NLS-1$
 	
 	String CONFIGURE_WAR_PROJECT = "configure.war.project"; //$NON-NLS-1$
+
+	String SEAM_SETTINGS_CHANGED_BY_USER = "seam.settings.changed.by.user"; //$NON-NLS-1$
 }

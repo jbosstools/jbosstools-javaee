@@ -765,6 +765,13 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		if (isSeamSupported()) {
 			addSeamSupport(project);
 			addSeamSupport(warProject);
+			if (warProject != null) {
+				IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(warProject);
+				prefs.putBoolean(ISeamFacetDataModelProperties.SEAM_SETTINGS_CHANGED_BY_USER, true);
+			} else {
+				IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(project);
+				prefs.putBoolean(ISeamFacetDataModelProperties.SEAM_SETTINGS_CHANGED_BY_USER, true);
+			}
 			storeSettings();
 		} else {
 			removeSeamSupport();
