@@ -6,6 +6,7 @@
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
 <!ENTITY springTools SYSTEM "modules/spring_tools.xml">
 <!ENTITY editors SYSTEM "modules/editors.xml">
+<!ENTITY cssPerspective SYSTEM "modules/css_perspective.xml">
 <!ENTITY palette SYSTEM "modules/palette.xml">
 <!ENTITY richfaces_support SYSTEM "modules/richfaces_support.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
@@ -56,6 +57,7 @@
     &springTools;
     &editors;
     &palette;
+    &cssPerspective;
     &richfaces_support;
     &web_projects;
     &preferences; 
