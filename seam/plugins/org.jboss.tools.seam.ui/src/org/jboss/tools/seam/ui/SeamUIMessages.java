@@ -390,6 +390,8 @@ public class SeamUIMessages extends NLS {
 	
 	public static String RENAME_SEAM_CONTEXT_VARIABLE;
 	
+	public static String FIND_USAGES_IN_EL;
+	
 	public static String SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 	
 	static {

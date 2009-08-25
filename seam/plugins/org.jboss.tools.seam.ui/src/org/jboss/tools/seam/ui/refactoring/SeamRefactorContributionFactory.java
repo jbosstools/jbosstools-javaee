@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
@@ -79,6 +80,7 @@ import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.actions.FindUsagesInELAction;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 import org.jboss.tools.seam.ui.wizard.RenameSeamContextVariableWizard;
 import org.w3c.dom.Node;
@@ -94,6 +96,9 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	private static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
 	private static final String JSP_EXT = "jsp"; //$NON-NLS-1$
 	private static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
+	private static final String GET = "get"; //$NON-NLS-1$
+	private static final String SET = "set"; //$NON-NLS-1$
+	private static final String IS = "is"; //$NON-NLS-1$
 	
 	static private String selectedText;
 	static private IFile editorFile;
@@ -190,6 +195,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 //						
 //						additions.addContributionItem(mm, null);
 //					}
+					checkPropertyName(selection, mm, additions);
 					status = checkContextVariableInJava(editorFile, fileContent, selection);
 				} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
 					status = checkContextVariableInDOM(editorFile, fileContent, selection);
@@ -204,6 +210,28 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 					additions.addContributionItem(mm, null);
 				}
 			}
+		}
+	}
+	
+	private void checkPropertyName(TextSelection selection, MenuManager mm, IContributionRoot additions){
+		try{
+			ICompilationUnit comUnit = getCompilationUnit(editorFile);
+			if(comUnit != null){
+				IJavaElement element = comUnit.getElementAt(selection.getOffset());
+				if(element != null){
+					//System.out.println("element - "+element.getClass());
+					if(element instanceof IMethod){
+						IMethod method = (IMethod) element;
+						IType type = method.getDeclaringType();
+						String propertyName = getPropertyName(method);
+						
+						mm.add(new FindUsagesInELAction(editorFile, type, method, propertyName));
+						additions.addContributionItem(mm, null);
+					}
+				}
+			}
+		}catch(CoreException ex){
+			SeamGuiPlugin.getPluginLog().logError(ex);
 		}
 	}
 	
@@ -398,6 +426,18 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		return null;
 	}
 	
+	private String getPropertyName(IMethod method){
+		String name = method.getElementName();
+		
+		if(name.startsWith(GET) || name.startsWith(SET))
+			return name.substring(3);
+		
+		if(name.startsWith(IS))
+			return name.substring(2);
+		
+		return name;
+	}
+	
 	private static void saveAndBuild(){
 		if(!SeamGuiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
 			return;
@@ -462,4 +502,5 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 			invokeRenameSeamContextVariableWizard(selectedText, shell);
 		}
 	}
+	
 }
