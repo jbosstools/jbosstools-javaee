@@ -811,6 +811,11 @@
                 </mediaobject>
             </figure>
 
+
+            <para>The Outline view displays a specific outline of a structured file that is currently open in the editor area, and lists its structural elements. Right-click on the elements will open additional options that allow adding other specific elements in necessary positions.</para>
+            <para>The Properties view shows property names and their values for a selected item. The values are editable, just select any and click on the button that appeared to choose a new value. Key combination <property>Ctrl+Z</property> will return the previous value, <property>Ctrl+Y</property> will return the new value again. The Properties view has additional options and can be set up to display categories and advanced properties. </para>
+
+
             <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
                     Palette</link> to insert any tag from the list of tag libraries to the page you
                 are editing with just a click or drag-and-drop.</para>
