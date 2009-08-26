@@ -11,6 +11,8 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -146,6 +148,11 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.2",
 				markerText, 7);
+
+		IFile newContentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.3");
+		IFile targetFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java");
+		targetFile.setContents(newContentFile.getContents(), true, false, null);
+		refreshProject(project);
 	}
 	
 	public void testStatefulComponentWithoutRemoveMethod_Validator() throws CoreException {
@@ -591,17 +598,17 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testPropertyHasOnlySetter_Validator() throws CoreException {
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
 		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
-		
+
 		String markerText = "Property \"actionType\" has only Setter. Getter is missing.";
-		
+
 		assertMarkerIsNotCreated(abcComponentXHTMLFile, MARKER_TYPE, markerText);
-		
+
 		assertMarkerIsNotCreated(abcComponentFile, MARKER_TYPE, markerText);
-		
+
 		// Unpaired Getter/Setter
-		
+
 		enableUnpairGetterOrSetterValidation(true);
-		
+
 		IFile abcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
 		try{
 			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, null);
@@ -609,25 +616,27 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
 					"'abcComponent.2'", ex);
 		}
-		
+
+		refreshProject(project);
+
 		assertMarkerIsCreated(
 				"WebContent/abcComponent.xhtml",
 				"WebContent/abcComponent.4",
 				markerText, 22);
-		
+
 		enableUnpairGetterOrSetterValidation(false);
 	}
 	
 	public void testPropertyHasOnlyGetter_Validator() throws CoreException {
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
 		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
-		
+
 		String markerText = "Property \"actionType\" has only Getter. Setter is missing.";
-		
+
 		assertMarkerIsNotCreated(abcComponentXHTMLFile, MARKER_TYPE, markerText);
-		
+
 		enableUnpairGetterOrSetterValidation(true);
-		
+
 		IFile abcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
 		try{
 			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, null);
@@ -637,7 +646,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 
 		refreshProject(project);
-		
+
 		assertMarkerIsCreated(
 				abcComponentXHTMLFile,
 				MARKER_TYPE,
@@ -646,9 +655,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		enableUnpairGetterOrSetterValidation(false);
 	}
 
-	private void enableUnpairGetterOrSetterValidation(boolean enamble) {
+	private void enableUnpairGetterOrSetterValidation(boolean enable) {
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
-		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, enamble?SeamPreferences.ERROR:SeamPreferences.IGNORE);
+		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, enable?SeamPreferences.ERROR:SeamPreferences.IGNORE);
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
 				((IPersistentPreferenceStore)store).save();
