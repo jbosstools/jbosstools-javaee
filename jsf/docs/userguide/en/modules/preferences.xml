@@ -499,8 +499,8 @@
 
         <tip>
             <title>Tip:</title>
-            <para>If you specify an equal variable in <link linkend="el_exp_para">VPE EL
-                    dialog</link> and in Preference EL dialog, variable from preference dialog will
+            <para>If you specify an equal variable in <link linkend="el_exp_para">Substitute EL
+                    expressions dialog</link> and in Preference EL dialog, variable from preference dialog will
                 have priority.</para>
         </tip>
     </section>

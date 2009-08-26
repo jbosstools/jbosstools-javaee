@@ -1538,7 +1538,7 @@ two elements with equal id has been used, but should be used only one -->
                         </mediaobject>
                     </figure>
 
-                    <para>And finally, the <emphasis>
+                	<para id="el_exp_para">And finally, the <emphasis>
                             <property>Substituted El expressions</property>
                         </emphasis> tab is used to add El expressions that will be substituted by
                         the editor when generating a preview:</para>
@@ -1654,7 +1654,7 @@ two elements with equal id has been used, but should be used only one -->
                        </para>
                     
                   
-                    <para>The available layouts and corresponding buttons are as follows:</para>
+                    <para>The available layouts and corresponding buttons are as follows:
                     <itemizedlist>
                         <listitem><para>Vertical Source on top(<inlinemediaobject>
                             <imageobject>
@@ -1697,6 +1697,7 @@ two elements with equal id has been used, but should be used only one -->
                             </imageobject>
                         </mediaobject>
                     </figure>
+                    </para>
                 </listitem>
             </itemizedlist>
 
