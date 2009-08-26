@@ -702,6 +702,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testRevalidationUnresolvedELs() {
 		refreshProject(project);
 		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
+		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
 
 		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java");
 		IFile newComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
@@ -731,6 +732,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
 
 		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
+		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
 	}
 
 	private static boolean findLine(Integer[] lines, int number) {
