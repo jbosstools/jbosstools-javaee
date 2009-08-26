@@ -11,8 +11,6 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
