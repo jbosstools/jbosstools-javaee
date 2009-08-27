@@ -54,6 +54,7 @@ public class SeamFacetPreferenceInitializer extends
 				.node(DefaultScope.SCOPE)
 				.node(SeamCorePlugin.PLUGIN_ID);
 
+//		node.put(SeamProjectPreferences.SEAM_CONFIG_TEMPLATE, "template.jst.seam2"); //$NON-NLS-1$
 		node.put(SeamProjectPreferences.RUNTIME_CONFIG_FORMAT_VERSION, RUNTIME_CONFIG_FORMAT_VERSION);
 		node.put(SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS, "war"); //$NON-NLS-1$
 		node.put(SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE, "HSQL"); //$NON-NLS-1$

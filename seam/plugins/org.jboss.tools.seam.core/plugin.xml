@@ -240,10 +240,6 @@
                facet="jst.java"/>
          <fixed
                facet="jst.web"/>
-         <!--fixed
-               facet="jst.seam"/>
-         <fixed
-               facet="jst.jsf"/-->
          <preset
                id="jst.seam.preset">
          </preset>
@@ -258,12 +254,22 @@
                facet="jst.java"/>
          <fixed
                facet="jst.web"/>
-         <!--fixed
-               facet="jst.seam"/>
-         <fixed
-               facet="jst.jsf"/-->
          <preset
                id="jst.seam2.preset">
+         </preset>
+      </template>
+
+      <template
+            id="template.jst.seam21">
+         <label>
+            Seam 2.1 Web Project
+         </label>
+         <fixed
+               facet="jst.java"/>
+         <fixed
+               facet="jst.web"/>
+         <preset
+               id="jst.seam21.preset">
          </preset>
       </template>
    </extension>

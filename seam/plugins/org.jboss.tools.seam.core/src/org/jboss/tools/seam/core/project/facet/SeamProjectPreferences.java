@@ -44,6 +44,12 @@ public class SeamProjectPreferences {
 			+ ".project.default.deployment.type"; //$NON-NLS-1$
 
 	/**
+	 * Last selected Seam configuration template
+	 */
+	public static final String SEAM_CONFIG_TEMPLATE = SeamCorePlugin.PLUGIN_ID
+			+ ".project.facet.config.template"; //$NON-NLS-1$
+
+	/**
 	 * Last selected DB type
 	 */
 	public static final String HIBERNATE_DEFAULT_DB_TYPE = SeamCorePlugin.PLUGIN_ID

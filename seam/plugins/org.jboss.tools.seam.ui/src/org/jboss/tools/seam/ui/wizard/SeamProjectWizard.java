@@ -13,7 +13,9 @@ package org.jboss.tools.seam.ui.wizard;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -25,6 +27,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -54,6 +57,7 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.internal.datamodel.ui.DataModelSynchHelper;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
+import org.eclipse.wst.common.project.facet.core.IPreset;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -69,13 +73,13 @@ import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.DataSourceXmlDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
-import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -87,6 +91,14 @@ import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
  *
  */
 public class SeamProjectWizard extends WebProjectWizard {
+
+	private SeamWebProjectFirstPage firstPage;
+	private String seamConfigTemplate;
+
+	// We need these controls there to listen to them to set seam action models.
+	private Combo matchedServerTargetCombo;
+	private Control[] dependentServerControls;
+	private Combo serverRuntimeTargetCombo;
 
 	public SeamProjectWizard() {
 		super();
@@ -102,8 +114,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return DataModelFactory.createDataModel(new SeamFacetProjectCreationDataModelProvider());
 	}
 
-	private SeamWebProjectFirstPage firstPage;
-
 	@Override
 	protected IWizardPage createFirstPage() {
 		firstPage = new SeamWebProjectFirstPage(model, "first.page"); //$NON-NLS-1$
@@ -114,10 +124,20 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return firstPage;
 	}
 
-	// We need these controls there to listen to them to set seam action models.
-	private Combo matchedServerTargetCombo;
-	private Control[] dependentServerControls;
-	private Combo serverRuntimeTargetCombo;
+	private static final String templateJstSeam1 = "template.jst.seam"; //$NON-NLS-1$
+	private static final String templateJstSeam2 = "template.jst.seam2"; //$NON-NLS-1$
+	private static final String templateJstSeam21 = "template.jst.seam21"; //$NON-NLS-1$
+
+	private static final Map<String, String> templates = new HashMap<String, String>();
+	static {
+		templates.put("jst.seam.preset", templateJstSeam1); //$NON-NLS-1$
+		templates.put("jst.seam2.preset", templateJstSeam2); //$NON-NLS-1$
+		templates.put("jst.seam21.preset", templateJstSeam21); //$NON-NLS-1$
+	}
+
+	private void setSeamConfigTemplate(String seamConfigTemplate) {
+		this.seamConfigTemplate = seamConfigTemplate;
+	}
 
 	@Override
 	public void createPageControls(Composite container) {
@@ -128,6 +148,12 @@ public class SeamProjectWizard extends WebProjectWizard {
 				synchSeamActionModels();
 			}
 		}, IFacetedProjectEvent.Type.PROJECT_FACETS_CHANGED);
+		getFacetedProjectWorkingCopy().addListener(new IFacetedProjectListener() {
+			public void handleEvent(IFacetedProjectEvent event) {
+				IPreset preset = getFacetedProjectWorkingCopy().getSelectedPreset();
+				setSeamConfigTemplate(templates.get(preset.getId()));
+			}
+		}, IFacetedProjectEvent.Type.SELECTED_PRESET_CHANGED);
 		getFacetedProjectWorkingCopy().addListener(new IFacetedProjectListener() {
 			public void handleEvent(IFacetedProjectEvent event) {
 				Set<Action> actions = getFacetedProjectWorkingCopy().getProjectFacetActions();
@@ -203,7 +229,22 @@ public class SeamProjectWizard extends WebProjectWizard {
 	}
 
 	protected IFacetedProjectTemplate getTemplate() {
-		return ProjectFacetsManager.getTemplate("template.jst.seam"); //$NON-NLS-1$
+		seamConfigTemplate = null; //SeamCorePlugin.getDefault().getPluginPreferences().getString(SeamProjectPreferences.SEAM_CONFIG_TEMPLATE);
+		if(seamConfigTemplate==null || seamConfigTemplate.length()==0) {
+			SeamRuntime runtime = SeamRuntimeManager.getInstance().getLatestSeamRuntime();
+			if(runtime!=null) {
+				if(runtime.getVersion()==SeamVersion.SEAM_1_2) {
+					seamConfigTemplate = templateJstSeam1;
+				} else if(runtime.getVersion()==SeamVersion.SEAM_2_0) {
+					seamConfigTemplate = templateJstSeam2;
+				} else {
+					seamConfigTemplate = templateJstSeam21;
+				}
+			} else {
+				seamConfigTemplate = templateJstSeam21;
+			}
+		}
+		return ProjectFacetsManager.getTemplate(seamConfigTemplate);
 	}
 
 	/* (non-Javadoc)
@@ -503,11 +544,17 @@ public class SeamProjectWizard extends WebProjectWizard {
 
 	    public void storeDefaultSettings() {
 	    	super.storeDefaultSettings();
+	    	Preferences preferences = SeamCorePlugin.getDefault().getPluginPreferences();
 	    	String serverName = SeamFacetProjectCreationDataModelProvider.getServerName(model);
 	    	if (serverName != null && serverName.length() > 0) {
-				SeamCorePlugin.getDefault().getPluginPreferences().setValue(
+	    		preferences.setValue(
 						SeamProjectPreferences.SEAM_LAST_SERVER_NAME,
 						serverName);
+	    	}
+	    	if(seamConfigTemplate!=null) {
+		    	preferences.setValue(
+						SeamProjectPreferences.SEAM_CONFIG_TEMPLATE,
+						seamConfigTemplate);
 	    	}
 	    }
 	}

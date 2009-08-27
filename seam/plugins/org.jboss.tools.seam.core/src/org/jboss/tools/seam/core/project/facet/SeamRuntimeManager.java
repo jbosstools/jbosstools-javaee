@@ -88,6 +88,27 @@ public class SeamRuntimeManager {
 	}
 
 	/**
+	 * @return the latest version of installed Seam runtimes. If there are a few runtimes with the same version
+	 * then the default one will be returned.
+	 */
+	public SeamRuntime getLatestSeamRuntime() {
+		SeamVersion latestVersion = SeamVersion.SEAM_1_2;
+		for (SeamRuntime runtime : runtimes.values()) {
+			if(runtime.getVersion().compareTo(latestVersion)>=0) {
+				latestVersion = runtime.getVersion();
+			}
+		}
+		SeamRuntime runtime = getDefaultRuntime(latestVersion);
+		if(runtime==null) {
+			SeamRuntime[] runtimes = getRuntimes(latestVersion);
+			if(runtimes.length>0) {
+				runtime = runtimes[0];
+			}
+		}
+		return runtime;
+	}
+
+	/**
 	 * Return array of SeamRuntimes that is compatible with given version
 	 * 
 	 * @param version
