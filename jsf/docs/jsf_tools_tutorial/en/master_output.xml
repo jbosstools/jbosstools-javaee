@@ -27,13 +27,13 @@
     
     <bookinfo>
         <title>JSF Tools Tutorial</title>
-            <corpauthor>
-                <inlinemediaobject>
-                    <imageobject role="fo">
-                        <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+            <corpauthor diffmk:change="added">
+                <inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added" role="fo">
+                        <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                     </imageobject>	
-                    <imageobject role="html">
-                        <imagedata></imagedata>
+                    <imageobject diffmk:change="added" role="html">
+                        <imagedata diffmk:change="added"></imagedata>
                     </imageobject>	
                 </inlinemediaobject>           
             </corpauthor>
