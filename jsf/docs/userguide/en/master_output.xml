@@ -6,6 +6,7 @@
 <!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
 <!ENTITY springTools SYSTEM "modules/spring_tools.xml">
 <!ENTITY editors SYSTEM "modules/editors.xml">
+<!ENTITY cssPerspective SYSTEM "modules/css_perspective.xml">
 <!ENTITY palette SYSTEM "modules/palette.xml">
 <!ENTITY richfaces_support SYSTEM "modules/richfaces_support.xml">
 <!ENTITY web_projects SYSTEM "modules/web_projects.xml">
@@ -37,9 +38,9 @@
             <year>2009</year>
             <holder><diffmk:wrapper diffmk:change="changed">JBoss by Red Hat</diffmk:wrapper></holder>
         </copyright>
-        <releaseinfo>
-            Version: 2.0.1.GA
-           </releaseinfo>
+        <releaseinfo><diffmk:wrapper diffmk:change="changed">
+            Version: 2.1.0.GA
+           </diffmk:wrapper></releaseinfo>
 <abstract>
    <title></title>
        <para>
@@ -130,12 +131,12 @@
      </row>
 
 
-     <row>
-      <entry>Multiple Editors</entry>
-      <entry>An extensive collection of specialized editors for different file types: properties, TLD, web.xml, tiles, and so on: Graphical Properties Editor,
-       Graphical TLD Editor, Graphical Web Application File (web.xml) Editor, CSS Editor, JavaScript Editor, XSD Editor, Support for XML Schema.</entry>
-      <entry>
-       <link linkend="more_editors">more editors</link>
+     <row diffmk:change="added">
+      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Multiple Editors</diffmk:wrapper></entry>
+      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">An extensive collection of specialized editors for different file types: properties, TLD, web.xml, tiles, and so on: Graphical Properties Editor,
+       Graphical TLD Editor, Graphical Web Application File (web.xml) Editor, CSS Editor, JavaScript Editor, XSD Editor, Support for XML Schema.</diffmk:wrapper></entry>
+      <entry diffmk:change="added">
+       <link diffmk:change="added" linkend="more_editors"><diffmk:wrapper diffmk:change="added">more editors</diffmk:wrapper></link>
       </entry>
      </row>
 
@@ -200,15 +201,15 @@
        components in any web application. Support for RichFaces and Ajax4jsf libraries in JBoss
        Tools Palette. Rendering RichFaces components in Visual Page Editor.</entry>
       <entry>
-       <link linkend="richfaces_support">RichFaces support</link>
+      	<link linkend="richfaces_support">RichFaces support</link>
       </entry>
      </row>
    
-     <row>
-      <entry>Flexible Configuration</entry>
-      <entry>Various features of JBoss Developer Studio can be easily configured via the Preferences screen.</entry>
-      <entry>
-       <link linkend="preferences">preferences</link>
+     <row diffmk:change="added">
+      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Flexible Configuration</diffmk:wrapper></entry>
+      <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Various features of JBoss Developer Studio can be easily configured via the Preferences screen.</diffmk:wrapper></entry>
+      <entry diffmk:change="added">
+       <link diffmk:change="added" linkend="preferences"><diffmk:wrapper diffmk:change="added">preferences</diffmk:wrapper></link>
       </entry>
      </row>
     
@@ -981,7 +982,13 @@
                 <property moreinfo="none">Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
             develop an application using any technology: JSF, Struts, JSP, HTML and others. Double-click on the necessary file in the Package Explorer view to open it in the Visual Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).</para>
 
-        <para>Current VPE version has three tabs: <property moreinfo="none">Visual/Source</property>,
+       <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">As a new JSF 2.0 specification has been released, support of new features is now implemented in the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.
+       	The JSF 2.0 tags like </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;h:body&gt;</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;h:head&gt;</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;h:outputscript&gt;</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">&lt;h:outputstyle&gt;</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">
+       	are supported in the editor as well as the resource handling from the expression language. (See the 
+       	</diffmk:wrapper><ulink diffmk:change="added" url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3"><diffmk:wrapper diffmk:change="added">following blog post</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> on how to handle the resources form the EL).
+       </diffmk:wrapper></para>
+    	
+    	<para>Current VPE version has three tabs: <property moreinfo="none">Visual/Source</property>,
                 <property moreinfo="none">Source</property> and <property moreinfo="none">Preview</property>. To switch between the
             views you can use tabs at the bottom of the VPE or the shortcuts <emphasis>
                 <property moreinfo="none">Ctrl + PageUp/Ctrl + PageDown</property>
@@ -1038,6 +1045,11 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+
+
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The Outline view displays a specific outline of a structured file that is currently open in the editor area, and lists its structural elements. Right-click on the elements will open additional options that allow adding other specific elements in necessary positions.</diffmk:wrapper></para>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The Properties view shows property names and their values for a selected item. The values are editable, just select any and click on the button that appeared to choose a new value. Key combination </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Z</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> will return the previous value, </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Y</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> will return the new value again. The Properties view has additional options and can be set up to display categories and advanced properties. </diffmk:wrapper></para>
+
 
             <para>It's also possible to use the <link linkend="palette">JBoss Tools
                     Palette</link> to insert any tag from the list of tag libraries to the page you
@@ -1116,14 +1128,81 @@
                 </mediaobject>
             </figure>
 
-            <para>You can also switch on this option in the VPE preferences,  having clicked on the  <emphasis><property moreinfo="none">Preferences</property>
-            </emphasis> button
-                (<inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/icon_1.png"></imagedata>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can also switch on this option in the VPE preferences,  having clicked on the  </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Preferences</diffmk:wrapper></property>
+            </emphasis><diffmk:wrapper diffmk:change="added"> button
+                (</diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/icon_1.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>).</para>
-
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">).</diffmk:wrapper></para>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual Page Editor also displays custom tags correctly if they are configured properly.
+                The picture below shows  an example  how custom tags  </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">"pagination"</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> and </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">"echo"</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> will be displayed in VPE.
+            </diffmk:wrapper></para>
+            <figure diffmk:change="added" float="0">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Custom Tags in the VPE</diffmk:wrapper></title>
+                <mediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_4d.png"></imagedata>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                The listings of the custom tags implementations will help to clear how VPE works.
+            </diffmk:wrapper></para>
+  
+                <itemizedlist diffmk:change="added">
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">echo.xhtml: </diffmk:wrapper></para>               
+                        <programlisting diffmk:change="added" format="linespecific" role="XML"><diffmk:wrapper diffmk:change="added"><![CDATA[
+                       <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
+                     <span class="message">#{msg}&lt;/span>
+                        </ui:composition>
+                        ]]></diffmk:wrapper></programlisting></listitem>  
+                    
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">paginator.xhtml:</diffmk:wrapper></para>
+                        
+  <programlisting diffmk:change="added" format="linespecific" role="XML"><diffmk:wrapper diffmk:change="added"><![CDATA[
+                        <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:component>
+<!-- h:inputHidden id="currentPage" replace, because if on page two fields,
+two elements with equal id has been used, but should be used only one -->
+	<h:panelGrid style="margin-right:auto;margin-left:auto;" columns="4">
+		<h:commandButton value="&lt;&lt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=0" >
+		</h:commandButton>
+		<h:commandButton value="&lt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=#{user.currentPage-user.rowsPerPage}">
+		</h:commandButton>
+		<h:commandButton value="&gt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=#{user.currentPage+user.rowsPerPage}">
+		</h:commandButton>
+		<h:commandButton value="&gt;&gt;" type="submit" 
+		onclick="document.getElementById('currentPage').value=#{user.numberOfItems - user.rowsPerPage}">
+		</h:commandButton>
+	</h:panelGrid>
+	<h:inputHidden id="currentPage" value=""/>
+</ui:component>
+</html>
+]]></diffmk:wrapper></programlisting>
+                    </listitem>
+                </itemizedlist>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                If your custom tags aren't configured correctly your Visual mode will look like this: 
+            </diffmk:wrapper></para>
+            <figure diffmk:change="added" float="0">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Wrong configured Custom Tags in the VPE</diffmk:wrapper></title>
+                <mediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_4e.png"></imagedata>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+           
             <section id="comments">
                 <title>Commenting out Code</title>
 
@@ -1218,6 +1297,7 @@
             </section>
         </section>
 
+        
         <section id="pages_styling">
             <title>Pages Styling</title>
 
@@ -1229,9 +1309,10 @@
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
 
-                <para>In the Visual part of the <property moreinfo="none">VPE</property> there is a graphical
+                <para>In the Visual part of the <property moreinfo="none">VPE</property><diffmk:wrapper diffmk:change="added"> there is a graphical
                     toolbar, use it to add inline styling to JSF and Struts tags on your page. The
-                    toolbar can be hidden by clicking on arrow sign in the upper left corner.</para>
+                    toolbar can be hidden by selecting the </diffmk:wrapper><emphasis diffmk:change="added">
+                    	<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Hide Text Formatting</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> option in the submenu on the left pane.</diffmk:wrapper></para>
 
                 <figure float="0">
                     <title>Text Formatting</title>
@@ -1242,8 +1323,8 @@
                     </mediaobject>
                 </figure>
 
-                <para>For editing inline styles for DOM elements <property moreinfo="none">VPE</property> also
-                    provides <property moreinfo="none">CSS Dialog</property>. It can be called from <emphasis>
+                <para>For editing inline styles for DOM elements <property moreinfo="none">VPE</property><diffmk:wrapper diffmk:change="changed"> 
+                    provides the </diffmk:wrapper><property moreinfo="none">CSS Dialog</property>. It can be called from <emphasis>
                         <property moreinfo="none">style</property>
                     </emphasis> line in the <property moreinfo="none">Properties view</property> for a currently
                     selected element.</para>
@@ -1322,7 +1403,7 @@
                         </mediaobject>
                     </figure>
                    
-                   <para><diffmk:wrapper diffmk:change="added">Then you can configure style settings switching between the tabs: </diffmk:wrapper><emphasis>
+                   <para><diffmk:wrapper diffmk:change="changed">Then you can configure style settings switching between the tabs: </diffmk:wrapper><emphasis>
                         <property moreinfo="none">Text/Font</property>, </emphasis>
                     <emphasis>
                         <property moreinfo="none">Background</property>, </emphasis>
@@ -1492,7 +1573,7 @@
 
             <title>Advanced Settings</title>
             
-            <para>In the left vertical pane of the Visual part there are four buttons: <emphasis>
+            <para><diffmk:wrapper diffmk:change="changed">In the left vertical pane of the Visual part there are four buttons: </diffmk:wrapper><emphasis>
                 <property moreinfo="none">Preferences</property></emphasis>
                 (
                 <inlinemediaobject>
@@ -1513,47 +1594,47 @@
                     <imageobject>
                         <imagedata fileref="images/visual_page/icon_2.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="changed">
                 )
-                ,<emphasis>
-                    <property moreinfo="none">Page Design Options</property> </emphasis>( 
-                <inlinemediaobject>
+                ,</diffmk:wrapper><emphasis>
+                    <property moreinfo="none">Page Design Options</property> </emphasis><diffmk:wrapper diffmk:change="changed">( 
+                </diffmk:wrapper><inlinemediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/icon_3.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">
                 )
                 and some of the next buttons:
-                <emphasis>
-                    <property moreinfo="none">Vertical Source on top</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_top.png"></imagedata>
+                </diffmk:wrapper><emphasis diffmk:change="added">
+                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Vertical Source on top</diffmk:wrapper></property> </emphasis><diffmk:wrapper diffmk:change="added">( 
+                </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/source_top.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>),
-                <emphasis>
-                    <property moreinfo="none">Vertical Visual on top</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_bottom.png"></imagedata>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">),
+                </diffmk:wrapper><emphasis diffmk:change="added">
+                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Vertical Visual on top</diffmk:wrapper></property> </emphasis><diffmk:wrapper diffmk:change="added">( 
+                </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/source_bottom.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>),
-                <emphasis>
-                    <property moreinfo="none">Horizontal Source to the left</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_left.png"></imagedata>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">),
+                </diffmk:wrapper><emphasis diffmk:change="added">
+                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Horizontal Source to the left</diffmk:wrapper></property> </emphasis><diffmk:wrapper diffmk:change="added">( 
+                </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/source_left.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>),
-                <emphasis>
-                    <property moreinfo="none">Horizontal Visual to the left</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_right.png"></imagedata>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">),
+                </diffmk:wrapper><emphasis diffmk:change="added">
+                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Horizontal Visual to the left</diffmk:wrapper></property> </emphasis><diffmk:wrapper diffmk:change="added">( 
+                </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/visual_page/source_right.png"></imagedata>
                     </imageobject>
-                </inlinemediaobject>),
+                </inlinemediaobject><diffmk:wrapper diffmk:change="changed">),
                 depending on the current Visual/Source layout
-                .</para>
+                .</diffmk:wrapper></para>
 
             <figure float="0">
                 <title>Buttons on the Visual Part of VPE</title>
@@ -1593,23 +1674,23 @@
                         </mediaobject>
                     </figure>
                 
-                    <para>The available preferences are as follows:</para>
-                    <itemizedlist>
-                        <listitem><para>Show Border for Unknown Tags</para></listitem>
-                        <listitem><para>Show Non-Visual Tags</para></listitem>
-                        <listitem><para>Show Resource Bundles Usage as EL Expressions</para></listitem>
-                        <listitem><para>Always Prompt for Tag Attributes During Tag Insert</para></listitem>
-                        <listitem><para>Show Selection Tag Bar</para></listitem>
-                        <listitem><para>Always Hide Selection Bar without Prompt</para></listitem>
-                        <listitem><para>Default Editor Tab: <emphasis>Visual/Source</emphasis>, <emphasis>Source</emphasis> or <emphasis>Preview</emphasis></para></listitem>
-                        <listitem><para>Size of Visual Editor Pane 0-100%</para></listitem>
-                    </itemizedlist> <para>Click on the <emphasis><property moreinfo="none">Apply</property></emphasis> button to apply the changes or on the <emphasis><property moreinfo="none">Restore Defaults</property></emphasis> button to cancel the changes and set the default preferences.</para>  
+                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The available preferences are as follows:</diffmk:wrapper></para>
+                    <itemizedlist diffmk:change="added">
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Show Border for Unknown Tags</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Show Non-Visual Tags</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Show Resource Bundles Usage as EL Expressions</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Always Prompt for Tag Attributes During Tag Insert</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Show Selection Tag Bar</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Always Hide Selection Bar without Prompt</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Default Editor Tab: </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual/Source</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">Source</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> or </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">Preview</diffmk:wrapper></emphasis></para></listitem>
+                        <listitem><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Size of Visual Editor Pane 0-100%</diffmk:wrapper></para></listitem>
+                    </itemizedlist> <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Click on the </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Apply</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> button to apply the changes or on the </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Restore Defaults</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> button to cancel the changes and set the default preferences.</diffmk:wrapper></para>  
                              
                 </listitem>
 
 
 
-                <listitem>
+                <listitem diffmk:change="added">
                     
                     <para>Clicking on <emphasis>
                             <property moreinfo="none">Refresh</property>
@@ -1692,7 +1773,7 @@
                         </mediaobject>
                     </figure>
 
-                    <para id="el_exp_para">And finally, the <emphasis>
+                	<para id="el_exp_para">And finally, the <emphasis>
                             <property moreinfo="none">Substituted El expressions</property>
                         </emphasis> tab is used to add El expressions that will be substituted by
                         the editor when generating a preview:</para>
@@ -1801,56 +1882,57 @@
                         </mediaobject>
                     </figure>
                 </listitem>
-                <listitem id="splitting_buttons">
-                    <para><emphasis>
-                        <property moreinfo="none">Visual/Source Editors splitting buttons</property></emphasis>
+                <listitem diffmk:change="added" id="splitting_buttons">
+                    <para diffmk:change="added"><emphasis diffmk:change="added">
+                        <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual/Source Editors splitting buttons</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">
                         provide the possibility to choose one of the four possible  layouts for the Visual/Source Editor.
-                       </para>
+                       </diffmk:wrapper></para>
                     
                   
-                    <para>The available layouts and corresponding buttons are as follows:</para>
-                    <itemizedlist>
-                        <listitem><para>Vertical Source on top(<inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_top.png"></imagedata>
+                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The available layouts and corresponding buttons are as follows:
+                    </diffmk:wrapper><itemizedlist diffmk:change="added">
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Vertical Source on top(</diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                            <imageobject diffmk:change="added">
+                                <imagedata diffmk:change="added" fileref="images/visual_page/source_top.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                        <listitem><para>Vertical Visual on top ( <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_bottom.png"></imagedata>
+                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Vertical Visual on top ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                            <imageobject diffmk:change="added">
+                                <imagedata diffmk:change="added" fileref="images/visual_page/source_bottom.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                        <listitem><para>Horizontal Source to the left (  <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_left.png"></imagedata>
+                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Horizontal Source to the left (  </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                            <imageobject diffmk:change="added">
+                                <imagedata diffmk:change="added" fileref="images/visual_page/source_left.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                        <listitem><para>Horizontal Visual to the left ( <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_right.png"></imagedata>
+                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></para></listitem>
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Horizontal Visual to the left ( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                            <imageobject diffmk:change="added">
+                                <imagedata diffmk:change="added" fileref="images/visual_page/source_right.png"></imagedata>
                             </imageobject>
-                        </inlinemediaobject>)</para></listitem>
+                        </inlinemediaobject><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></para></listitem>
                       
                     </itemizedlist>
-                    <figure float="0">
-                        <title>Visual Page Editor Before Layout Changing </title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_24.png"></imagedata>
+                    <figure diffmk:change="added" float="0">
+                        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual Page Editor Before Layout Changing </diffmk:wrapper></title>
+                        <mediaobject diffmk:change="added">
+                            <imageobject diffmk:change="added">
+                                <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_24.png"></imagedata>
+                            </imageobject>
+                        </mediaobject>
+                    </figure><diffmk:wrapper diffmk:change="added">
+                    Note, at the current view there is only </diffmk:wrapper><emphasis diffmk:change="added">
+                        <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> one</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> button, that proposes the possibility to change it in order the Source and the View are moved </diffmk:wrapper><emphasis diffmk:change="added">
+                            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">in a clockwise direction</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">. 
+                    </diffmk:wrapper><figure diffmk:change="added" float="0">
+                        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual Page Editor After Layout Changing </diffmk:wrapper></title>
+                        <mediaobject diffmk:change="added">
+                            <imageobject diffmk:change="added">
+                                <imagedata diffmk:change="added" fileref="images/visual_page/visual_page_25.png"></imagedata>
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    Note, at the current view there is only <emphasis>
-                        <property moreinfo="none"> one</property></emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>
-                            <property moreinfo="none">in a clockwise direction</property></emphasis>. 
-                    <figure float="0">
-                        <title>Visual Page Editor After Layout Changing </title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_25.png"></imagedata>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
+                    </para>
                 </listitem>
             </itemizedlist>
 
@@ -1868,10 +1950,19 @@
                 </mediaobject>
             </figure>
 
-            <para>If you want to hide the <property moreinfo="none">Selection Tag Bar</property>, use the button in
+            <para>If you want to hide the <property moreinfo="none">Selection Tag Bar</property><diffmk:wrapper diffmk:change="added">, use the button in
                 the form of a red cross on the lower right side. To reset it again you should check
-                the proper option in the <link linkend="vpe_preferences">VPE
-                Preferences</link>.</para>
+                the </diffmk:wrapper><emphasis diffmk:change="added">
+                	<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Show Selection Bar</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> option in the submenu on the left pane.</diffmk:wrapper></para>
+        	
+        	<figure diffmk:change="added" float="0">
+        		<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Show the Selection Tag Bar</diffmk:wrapper></title>
+        		<mediaobject diffmk:change="added">
+        			<imageobject diffmk:change="added">
+        				<imagedata diffmk:change="added" fileref="images/visual_page/show_selection_bar.png"></imagedata>
+        			</imageobject>
+        		</mediaobject>
+        	</figure>
         </section>
 
         <section id="page_preview">
@@ -1943,21 +2034,21 @@
                 visual page editor then close all browser views/editors and leave one visual page
                 editor open and restart eclipse. This should force a load of the right XULRunner
                 viewer.</para>
-            <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
                 in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should: 
-            </para>
-            <itemizedlist>
-                <listitem>
-                    <para>Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</para>
+            </diffmk:wrapper></para>
+            <itemizedlist diffmk:change="added">
+                <listitem diffmk:change="added">
+                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</diffmk:wrapper></para>
                 </listitem>  
-                <listitem>
-                    <para>Copy <property moreinfo="none">libswt-xulrunner-gtk-3449.so</property> file to your Fedora Eclipse location.</para>
+                <listitem diffmk:change="added">
+                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Copy </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">libswt-xulrunner-gtk-3449.so</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> file to your Fedora Eclipse location.</diffmk:wrapper></para>
                 </listitem>  
                 
-                <listitem>
-                    <para>Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line: </para>
-                    <programlisting format="linespecific" role="JAVA"><![CDATA[-Dswt.library.path=/usr/lib/eclipse 
-]]></programlisting><para>,where <code>/usr/lib/eclipse</code> is the path to your eclipse folder.</para>
+                <listitem diffmk:change="added">
+                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line: </diffmk:wrapper></para>
+                    <programlisting diffmk:change="added" format="linespecific" role="JAVA"><diffmk:wrapper diffmk:change="added"><![CDATA[-Dswt.library.path=/usr/lib/eclipse 
+]]></diffmk:wrapper></programlisting><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">,where </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">/usr/lib/eclipse</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> is the path to your eclipse folder.</diffmk:wrapper></para>
                 </listitem>     
             </itemizedlist>
         </section>
@@ -2017,8 +2108,8 @@
             <para><property moreinfo="none">The Properties editor</property> allows you to work in two different
                 modes and also supports unicode characters.</para>
 
-            <para>To create a new properties file, in the Package Explorer view, select<emphasis>
-                    <property moreinfo="none"> New &gt; Properties File</property>
+            <para><diffmk:wrapper diffmk:change="changed">To create a new properties file, in the Package Explorer view, select </diffmk:wrapper><emphasis>
+                    <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">New &gt; Properties File</diffmk:wrapper></property>
                 </emphasis> from the right-click context menu on the folder where you want to create
                 the file.</para>
             <figure float="0">
@@ -2150,8 +2241,12 @@
 
             <title>Graphical Web Application File (web.xml) Editor</title>
 
-            <para>The Web Application File editor comes with the same features you will find in all
-                other JBoss Developer Studio editors:</para>
+        	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The deployment descriptor </diffmk:wrapper><emphasis diffmk:change="added">
+        		<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> file is intended for describing the servlets,  container-managed 
+        		security constraints and various deployment properties specific for your Web Application.</diffmk:wrapper></para>
+        	
+        	<para><diffmk:wrapper diffmk:change="added">To edit the deployment descriptor </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> provides its own 
+        		</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> that comes with the same features you will find in all other </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBDS</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> editors:</diffmk:wrapper></para>
 
             <itemizedlist>
                 <listitem>
@@ -2164,6 +2259,11 @@
             <section id="TreeView1">
                 <title>Tree View</title>
 
+            	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Switch to the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Tree view</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> if you want to edit </diffmk:wrapper><emphasis diffmk:change="added">
+            		<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> in a graphical mode. 
+            		All elements that </diffmk:wrapper><emphasis diffmk:change="added">
+            			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> could include are located in the left area of the editor in a tree format.  
+            		Click a node on the left to display and edit its properties that will appear in the right-hand area.</diffmk:wrapper></para>
                 <figure float="0">
                     <title>Tree View</title>
                     <mediaobject>
@@ -2540,10 +2640,10 @@
                 new one, as well.</para>
             <para>To open the editor, click on the <emphasis>
                     <property moreinfo="none">Palette Editor</property>
-            </emphasis> icon(<inlinemediaobject> <imageobject>
+            </emphasis><diffmk:wrapper diffmk:change="added"> icon(</diffmk:wrapper><inlinemediaobject diffmk:change="added"> <imageobject>
                 <imagedata fileref="images/palette/palette_7.png"></imagedata>
-            </imageobject></inlinemediaobject>).
-            </para>
+            </imageobject></inlinemediaobject><diffmk:wrapper diffmk:change="added">).
+            </diffmk:wrapper></para>
             <para>The window has two parts. There is a reflected grouped list of components on the
                 left side of the palette editor. Each group is divided into multiple groups, every
                 of which is a tag library. The right side of the palette editor is an editing window
@@ -2768,9 +2868,9 @@
                 <listitem>
                     <para>Click <emphasis>
                             <property moreinfo="none">Show/Hide</property>
-                    </emphasis> button(<inlinemediaobject>  <imageobject>
+                    </emphasis><diffmk:wrapper diffmk:change="added"> button(</diffmk:wrapper><inlinemediaobject diffmk:change="added">  <imageobject>
                         <imagedata fileref="images/palette/palette_10.png"></imagedata>
-                    </imageobject></inlinemediaobject>), at the top right side of the JBoss Tools Palette.</para>
+                    </imageobject></inlinemediaobject><diffmk:wrapper diffmk:change="added">), at the top right side of the JBoss Tools Palette.</diffmk:wrapper></para>
                 </listitem>
             </itemizedlist>
          
@@ -2904,7 +3004,10 @@
                     <property moreinfo="none">".tld"</property>
                 </emphasis> file or the <emphasis role="italic">
                     <property moreinfo="none">".jar"</property>
-                </emphasis> that includes your tag library under the lib folder in your project. </para>
+                </emphasis><diffmk:wrapper diffmk:change="added"> that includes your tag library under the lib folder in your project.
+                Or you can just  add   </diffmk:wrapper><emphasis diffmk:change="added"> <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">".tld"</diffmk:wrapper></property>
+                </emphasis><diffmk:wrapper diffmk:change="added">or  </diffmk:wrapper><emphasis diffmk:change="added">
+                    <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">".jar"</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> file to the classpath , and the library will be added to the Tag Library List in Web Projects View.</diffmk:wrapper></para>
             <section id="Drag_and_Drop65332">
                 <?dbhtml filename="DragAndDrop.html"?>
                 <title>Drag-and-Drop</title>
@@ -2959,10 +3062,10 @@
                 <title>Import Button</title>
                 <para>The same you can do with <emphasis>
                         <property moreinfo="none">Import</property>
-                </emphasis> button(<inlinemediaobject> <imageobject>
+                </emphasis><diffmk:wrapper diffmk:change="added"> button(</diffmk:wrapper><inlinemediaobject diffmk:change="added"> <imageobject>
                     <imagedata fileref="images/palette/palette_6.png"></imagedata>
-                </imageobject></inlinemediaobject>).You can see this button at the top right side of the JBoss Tools Palette.
-              </para>
+                </imageobject></inlinemediaobject><diffmk:wrapper diffmk:change="added">).You can see this button at the top right side of the JBoss Tools Palette.
+              </diffmk:wrapper></para>
                 <para>By clicking on the <emphasis>
                         <property moreinfo="none">Import button</property>
                     </emphasis> you will see the Import Tag window a similar like in the <link linkend="Drag_and_Drop65332"> Drag-and-Drop</link> method. Set the name and
@@ -2987,7 +3090,234 @@
 </chapter>
 
     
-<chapter id="richfaces_support" role="new" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/richfaces_support.xml" xreflabel="richfaces_support">
+<chapter diffmk:change="added" id="css_perspective" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/css_perspective.xml" xreflabel="css_perspective">
+    <?dbhtml filename="css_perspective.html"?>
+    <chapterinfo diffmk:change="added">
+        <keywordset diffmk:change="added">
+            <keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Editing Perspective</diffmk:wrapper></keyword>
+            <keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">css</diffmk:wrapper></keyword>
+            <keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">html</diffmk:wrapper></keyword>
+        </keywordset>
+    </chapterinfo>
+    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Editing Perspective</diffmk:wrapper></title>
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The CSS Editing Perspective combines a set of views which allow you to see the structure of
+        your css files,edit them and see the results.
+        To use this perspective you need to choose </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Window &gt;Open Perspective&gt; CSS Editing </diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">
+        .All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.</diffmk:wrapper></para>
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In CSS Editing Perspective you can change  your css file in three ways:</diffmk:wrapper></para>
+    <itemizedlist diffmk:change="added">
+        <listitem diffmk:change="added">
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">directly in your CSS Editor
+            </diffmk:wrapper></para>
+        </listitem>
+        <listitem diffmk:change="added">
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">using </diffmk:wrapper><link diffmk:change="added" linkend="CSSPropertiesView"><diffmk:wrapper diffmk:change="added">CSS Properties view</diffmk:wrapper></link>
+            </para>
+        </listitem>
+        <listitem diffmk:change="added">
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">using </diffmk:wrapper><link diffmk:change="added" linkend="PropertiesView"><diffmk:wrapper diffmk:change="added">Properties view</diffmk:wrapper></link>
+            </para>
+        </listitem>
+    </itemizedlist>
+ 
+    <figure diffmk:change="added" float="0">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Editing Perspective</diffmk:wrapper></title>
+        <mediaobject diffmk:change="added">
+            <imageobject diffmk:change="added">
+                <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+  
+    <section diffmk:change="added" id="OutlineView">
+        <?dbhtml filename="OutlineView.html"?>
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Outline view</diffmk:wrapper></title>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Using this view you can easily skip between the selectors described in the source files,
+            see the list of properties in any selector just by clicking the triangle near it.
+        </diffmk:wrapper></para>
+
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Outline view</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor1.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can use the Source viewer with the Outline view to navigate around the file.
+            To do this you should just left click the selector or property you want and it will be automatically highlighted in the source code:
+        </diffmk:wrapper></para>
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Navigating around the file</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor2.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </section>
+        
+        
+    <section diffmk:change="added" id="PropertiesView">
+            <?dbhtml filename="PropertiesView.html"?>
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Properties view</diffmk:wrapper></title>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Properties view provides a full list of properties of a chosen selector.
+            The properties are divided into logic groups for better navigation.
+        </diffmk:wrapper></para>
+           
+            <figure diffmk:change="added" float="0">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Properties view</diffmk:wrapper></title>
+                <mediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor3.png"></imagedata>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">With the help of Properties view you have also the possibility to edit the css file  by adding/editing/removing properties in the selector. 
+            Left click the "</diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Value</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">" field near the property you want to edit and write the changes in the text field.
+        </diffmk:wrapper></para>
+         
+            <figure diffmk:change="added" float="0">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Updating css using Properties view</diffmk:wrapper></title>
+                <mediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor4.png"></imagedata>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+           
+        </section>
+    <section diffmk:change="added" id="CSSPropertiesView">
+        <?dbhtml filename="CSSPropertiesView.html"?>
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Properties view </diffmk:wrapper></title>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Properties view has five tabs:
+         </diffmk:wrapper></para>
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><link diffmk:change="added" linkend="text_font"><diffmk:wrapper diffmk:change="added">Text/Font</diffmk:wrapper></link>
+                </para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><link diffmk:change="added" linkend="background"><diffmk:wrapper diffmk:change="added">Background</diffmk:wrapper></link></para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><link diffmk:change="added" linkend="boxes"><diffmk:wrapper diffmk:change="added">Boxes</diffmk:wrapper></link></para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><link diffmk:change="added" linkend="property_sheet"><diffmk:wrapper diffmk:change="added">Property Sheet</diffmk:wrapper></link></para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><link diffmk:change="added" linkend="edited_properties"><diffmk:wrapper diffmk:change="added">Edited Properties</diffmk:wrapper></link></para>
+            </listitem>
+        </itemizedlist>
+
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added">
+                <para diffmk:change="added" id="text_font"><diffmk:wrapper diffmk:change="added">CSS Text/Font properties define the appearance of text,its font family, boldness, size, and the style.
+                </diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Text/Font tab</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor5.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For example, to define the "</diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">font-family</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">" property you should click </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Choose font family</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> button( </diffmk:wrapper><inlinemediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor7.png"></imagedata>
+                    </imageobject>
+                </inlinemediaobject><diffmk:wrapper diffmk:change="added">) near </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Font Family</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> text field 
+                and select the fonts you want to use from the list.</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Text/Font tab</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor6.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+                    When you click </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ok</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> the chosen fonts should appear in </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Font Family</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> text field and in the sourse css file. 
+                    To define other properties in CSS </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Text/Font</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tab you should just click button near the
+                    corresponding field you want and select the appropriate option in the list.
+                    Or if you are absolutely sure of the property's value to use you can just write it in the text field.
+                </diffmk:wrapper></para>
+
+            </listitem>
+            <listitem diffmk:change="added"><para diffmk:change="added" id="background"><diffmk:wrapper diffmk:change="added">
+                You should use CSS background properties and </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Background</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tab to define the background effects of an element.
+        
+            </diffmk:wrapper></para> 
+                <para diffmk:change="added" id="boxes"><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Boxes</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tab is used to define CSS border properties and the box model. 
+                    The CSS border properties allow you to specify the style and color of an element's border. 
+                </diffmk:wrapper></para>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">As well as in Text/Font tab, it's also possible to define the property in two ways:</diffmk:wrapper></para>
+                    <itemizedlist diffmk:change="added">
+                        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">clicking </diffmk:wrapper><inlinemediaobject diffmk:change="added">  <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor8.png"></imagedata>
+                        </imageobject></inlinemediaobject><diffmk:wrapper diffmk:change="added">and choosing it from the list of options:
+                            </diffmk:wrapper><figure diffmk:change="added" float="0">
+                                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Defining the property</diffmk:wrapper></title>
+                                <mediaobject diffmk:change="added">
+                                    <imageobject diffmk:change="added">
+                                        <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor9.png"></imagedata>
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>  
+                        </para>
+                        </listitem>
+                        <listitem diffmk:change="added">
+                            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> writing the property in the appropriate text field
+                            </diffmk:wrapper></para>
+                        </listitem>
+                    </itemizedlist>
+            </listitem>
+            <listitem diffmk:change="added"><para diffmk:change="added" id="property_sheet"><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Property Sheet</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tab contains the categorized list of properties.
+                Like in </diffmk:wrapper><link diffmk:change="added" linkend="PropertiesView"><diffmk:wrapper diffmk:change="added">Properties view</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> it's possible to edit the properties values.</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Property Sheet tab</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor10.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added" id="edited_properties"><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Edited Properties</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> tab contains only the properties,defined in the selector.</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Property Sheet tab</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor11.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">It's also possible to edit the properties in the tab.</diffmk:wrapper></para>
+            </listitem>
+            </itemizedlist>
+    </section>
+    <section diffmk:change="added" id="CSSPreview">
+        <?dbhtml filename="CSSPropertiesView.html"?>
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Preview</diffmk:wrapper></title>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Using CSS Preview you can see how a selector affects any text.</diffmk:wrapper></para>
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Property Sheet tab</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/css_perspective/cssEditor12.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The preview is also edited by double click.You can write instead of the default text any text you want,including html tags.</diffmk:wrapper></para>
+    </section>
+    
+</chapter>
+
+
+    
+<chapter diffmk:change="added" id="richfaces_support" role="new" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/richfaces_support.xml" xreflabel="richfaces_support">
     <?dbhtml filename="richfaces_support.html"?>
     <chapterinfo>
         <keywordset>
@@ -3003,8 +3333,8 @@
     
     <note>
         <title>Note:</title>
-        <para><ulink url="http://www.jboss.org/jbossrichfaces/downloads/">RichFaces
-            3.3</ulink> is fully supported in the current version of <property moreinfo="none">JBoss Developer Studio</property> (i. e. 2.0.1.GA) and <property moreinfo="none">JBoss Tools 3.0.1.GA</property>.</para>
+        <para><ulink url="http://www.jboss.org/jbossrichfaces/downloads/"><diffmk:wrapper diffmk:change="changed">RichFaces
+            3.3.X</diffmk:wrapper></ulink> is fully supported in the current version of <property moreinfo="none">JBoss Developer Studio</property><diffmk:wrapper diffmk:change="changed"> (i. e. 2.1.0.GA) and </diffmk:wrapper><property moreinfo="none">JBoss Tools 3.0.1.GA</property>.</para>
     </note>
     
     <para>The following features are implemented and fully supported for the current version of the RichFaces components:</para>
@@ -3013,7 +3343,7 @@
         <listitem><para><link linkend="ContentAssistForRF">Content Assist</link></para></listitem>
         <listitem><para><link linkend="RF_openOn">OpenOn</link></para></listitem>
         <listitem><para><link linkend="RF_in_palette">Representing in JBoss Tools Palette</link></para></listitem>
-     </itemizedlist>
+    </itemizedlist>
     
     <para>All you have to do is to <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">download</ulink> and install RichFaces libraries into your
         project, i. e. just put <emphasis>
@@ -3031,7 +3361,7 @@
         <tip>
             <title>Tip:</title>
             
-            <para>RichFaces 3.3 is now fully supported in code completion.</para>
+            <para><diffmk:wrapper diffmk:change="changed">RichFaces 3.3.X is now fully supported in code completion.</diffmk:wrapper></para>
         </tip>
         
         <figure float="0">
@@ -3080,7 +3410,7 @@
     <section id="RF_in_palette">
         <title>RichFaces in the JBoss Tools Palette</title>
         
-        <para>RichFaces and<link linkend="palette">JBoss Tools
+        <para><diffmk:wrapper diffmk:change="changed">RichFaces and </diffmk:wrapper><link linkend="palette">JBoss Tools
             Palette</link>.</para>
         
         <figure float="0">
@@ -3835,12 +4165,12 @@ buttons below.</para>
                             editor</entry>
                         <entry>Visual/Source</entry>
                     </row>
-                    <row>
-                        <entry>Visual/Source Editors Splitting</entry>
-                        <entry>The option allows to choose one of the following
+                    <row diffmk:change="added">
+                        <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual/Source Editors Splitting</diffmk:wrapper></entry>
+                        <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">The option allows to choose one of the following
                             Visual,Source layouts - Vertical Source on top, Vertical Visual on top,Horizontal Source to the left or Horizontal Visual to the left ,as a default one when opening the
-                            Visual/Source view</entry>
-                        <entry>Vertical Source on top</entry>
+                            Visual/Source view</diffmk:wrapper></entry>
+                        <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Vertical Source on top</diffmk:wrapper></entry>
                     </row>
                     <row>
                         <entry>Size of Visual Editor Pane 0 – 100% </entry>
@@ -3902,8 +4232,8 @@ buttons below.</para>
 
         <tip>
             <title>Tip:</title>
-            <para>If you specify an equal variable in <link linkend="el_exp_para">VPE EL
-                    dialog</link> and in Preference EL dialog, variable from preference dialog will
+            <para>If you specify an equal variable in <link linkend="el_exp_para"><diffmk:wrapper diffmk:change="changed">Substitute EL
+                    expressions dialog</diffmk:wrapper></link> and in Preference EL dialog, variable from preference dialog will
                 have priority.</para>
         </tip>
     </section>
@@ -4655,148 +4985,147 @@ buttons below.</para>
 </chapter>
  
     
-<chapter id="context_menu_preferences" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/context_menu_preferences.xml" xreflabel="context_menu_preferences">
+<chapter diffmk:change="added" id="context_menu_preferences" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/context_menu_preferences.xml" xreflabel="context_menu_preferences">
     <?dbhtml filename="context_menu_preferences.html"?>
-    <title>Context Menu Preferences and Options</title>
+    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Context Menu Preferences and Options</diffmk:wrapper></title>
 
-    <para>To adjust the project specific preferences, you should bring the context menu for your
-        project and select the <emphasis>
-            <property moreinfo="none">Preferences</property>
-        </emphasis> option. More details on what adjustments you can perform in the
-            <property moreinfo="none">Preferences screen</property>, see in the <link linkend="preferences">"JBoss Tools Preferences"</link> chapter.</para>
+    <para><diffmk:wrapper diffmk:change="added">To adjust the project specific preferences, you should bring the context menu for your
+        project and select the </diffmk:wrapper><emphasis diffmk:change="added">
+            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Preferences</diffmk:wrapper></property>
+        </emphasis><diffmk:wrapper diffmk:change="added"> option. More details on what adjustments you can perform in the
+            </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Preferences screen</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, see in the </diffmk:wrapper><link diffmk:change="added" linkend="preferences"><diffmk:wrapper diffmk:change="added">"JBoss Tools Preferences"</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> chapter.</diffmk:wrapper></para>
 
-    <para>Under the <emphasis>
-            <property moreinfo="none">JBoss Tools</property>
-        </emphasis> option in the context menu there are also several actions provided by
-            <property moreinfo="none">JBDS</property>:</para>
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Under the </diffmk:wrapper><emphasis diffmk:change="added">
+            <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools</diffmk:wrapper></property>
+        </emphasis><diffmk:wrapper diffmk:change="added"> option in the context menu there are also several actions provided by
+            </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBDS</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">:</diffmk:wrapper></para>
 
-    <itemizedlist>
-        <listitem>
-            <para>Add/Remove Struts Capabilities</para>
+    <itemizedlist diffmk:change="added">
+        <listitem diffmk:change="added">
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add/Remove Struts Capabilities</diffmk:wrapper></para>
         </listitem>
-        <listitem>
-            <para>Add/Remove JSF Capabilities</para>
+        <listitem diffmk:change="added">
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add/Remove JSF Capabilities</diffmk:wrapper></para>
         </listitem>
-        <listitem>
-            <para>Add Custom Capabilities</para>
+        <listitem diffmk:change="added">
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add Custom Capabilities</diffmk:wrapper></para>
         </listitem>
     </itemizedlist>
 
-    <section id="add_remove_struts_cap">
-        <title>Add/Remove Struts Capabilities</title>
+    <section diffmk:change="added" id="add_remove_struts_cap">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add/Remove Struts Capabilities</diffmk:wrapper></title>
 
-        <para>Please, for details refer to the <ulink url="../../struts_tools_ref_guide/html_single/index.html#AddingStrutsCapabilityToAnExistingWebApplication532">Struts
-                Tools Reference Guide</ulink>.</para>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Please, for details refer to the </diffmk:wrapper><ulink diffmk:change="added" url="../../struts_tools_ref_guide/html_single/index.html#AddingStrutsCapabilityToAnExistingWebApplication532"><diffmk:wrapper diffmk:change="added">Struts
+                Tools Reference Guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
     </section>
 
-    <section id="add_remove_jsf_cap">
-        <title>Add/Remove JSF Capabilities</title>
+    <section diffmk:change="added" id="add_remove_jsf_cap">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add/Remove JSF Capabilities</diffmk:wrapper></title>
 
-        <para>Please, for details refer to the <ulink url="../../jsf_tools_ref_guide/html_single/index.html#add_jsf_capability">JSF
-                Tools Reference Guide</ulink>.</para>
+        <para><diffmk:wrapper diffmk:change="added">Please, for details refer to the </diffmk:wrapper><ulink diffmk:change="added" url="../../jsf_tools_ref_guide/html_single/index.html#add_jsf_capability"><diffmk:wrapper diffmk:change="added">JSF
+                Tools Reference Guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
     </section>
 
-    <section id="add_custom_cap">
-        <title>Add Custom Capabilities</title>
+    <section diffmk:change="added" id="add_custom_cap">
+        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Add Custom Capabilities</diffmk:wrapper></title>
 
-        <para>You can add custom capabilities to any JSF, Struts or Seam project made within
-                <property moreinfo="none">JBDS</property>, i.e. add a support of additional frameworks built on top
-            of JSF, such as </para>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can add custom capabilities to any JSF, Struts or Seam project made within
+                </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBDS</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, i.e. add a support of additional frameworks built on top
+            of JSF, such as </diffmk:wrapper></para>
 
-        <itemizedlist>
-            <listitem>
-                <para>ADF</para>
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">ADF</diffmk:wrapper></para>
             </listitem>
-            <listitem>
-                <para>Facelets</para>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Facelets</diffmk:wrapper></para>
             </listitem>
-            <listitem>
-                <para>JBoss Rich Faces (versions 3.1, 3.2, 3.3)</para>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Rich Faces (versions 3.1, 3.2, 3.3)</diffmk:wrapper></para>
             </listitem>
         </itemizedlist>
 
-        <para>When the option is selected, the <property moreinfo="none">Add Custom Capabilities dialog</property>
-            appears. You should check the needed modules and press <emphasis>
-                <property moreinfo="none">Finish</property>.</emphasis></para>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">When the option is selected, the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Add Custom Capabilities dialog</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">
+            appears. You should check the needed modules and press </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Finish</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis></para>
 
-        <figure float="0">
-            <title>Adding Custom Capabilities</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/context_menu_preferences/addCustomCapabilities.png"></imagedata>
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adding Custom Capabilities</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/context_menu_preferences/addCustomCapabilities.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
 
-        <para>The next page displays all the updates that have been made to the project.</para>
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The next page displays all the updates that have been made to the project.</diffmk:wrapper></para>
 
-        <figure float="0">
-            <title>Updates Displayed</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/context_menu_preferences/addCustomCapabilities2.png"></imagedata>
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Updates Displayed</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/context_menu_preferences/addCustomCapabilities2.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
     </section>
 </chapter>
 
-    
 <chapter id="vwt_faq" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/vwt_faq.xml" xreflabel="vwt_faq">
     <?dbhtml filename="vwt_faq.html"?>
     <title>FAQ</title>
 
     <section id="question_1">
         <title>What should I do if Visual Page Editor does not start under Linux?</title>
-        
+
         <para> The <property moreinfo="none">Visual Page Editor</property> requires the library libstdc++.so.5. This library is
             contained in the compat-libstdc++-33.i386 package.</para>
-        
+
         <itemizedlist>
             <listitem>
                 <para>To install this package on Fedora Core or Red Hat Enterprise Linux run the
                     following command:</para>
                 <programlisting format="linespecific" role="JAVA"><![CDATA[yum install compat-libstdc++-33.i386
 ]]></programlisting>
-            </listitem>  
-            
+            </listitem>
+
             <listitem>
                 <para>On any other rpm based distributions download libstdc++.so.5 and run the
                     following command:</para>
                 <programlisting format="linespecific" role="JAVA"><![CDATA[rpm -Uvh compat-libstdc++-33.i386
 ]]></programlisting>
             </listitem>
-            
+
             <listitem>
                 <para>On Debian based distributives run the following command: </para>
                 <programlisting format="linespecific" role="JAVA"><![CDATA[apt-get install compat-libstdc++-33.i386
 ]]></programlisting>
-            </listitem>     
+            </listitem>
         </itemizedlist>
-     
+
         <para> In case you have the library installed and you still have issue with starting the
             <property moreinfo="none">Visual Page Editor</property> then close all browser views/editors and leave one <property moreinfo="none">Visual Page
             Editor</property> open and restart eclipse. This should force a load of the right XULRunner
             viewer.</para>
-        <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
-            in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should: 
-        </para>
-        <itemizedlist>
-            <listitem>
-                <para>Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</para>
-            </listitem>  
-            <listitem>
-                <para>Copy <property moreinfo="none">libswt-xulrunner-gtk-3449.so</property> file to your Fedora Eclipse location. </para>
-            </listitem>  
-            
-            <listitem>
-                <para>Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line: </para>
-                <programlisting format="linespecific" role="JAVA"><![CDATA[-Dswt.library.path=/usr/lib/eclipse 
-]]></programlisting><para>,where <code>/usr/lib/eclipse</code> is the path to  your eclipse folder.</para>
-            </listitem>     
+        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
+            in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should:
+        </diffmk:wrapper></para>
+        <itemizedlist diffmk:change="added">
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</diffmk:wrapper></para>
+            </listitem>
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Copy </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">libswt-xulrunner-gtk-3449.so</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> file to your Fedora Eclipse location. </diffmk:wrapper></para>
+            </listitem>
+
+            <listitem diffmk:change="added">
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line: </diffmk:wrapper></para>
+                <programlisting diffmk:change="added" format="linespecific" role="JAVA"><diffmk:wrapper diffmk:change="added"><![CDATA[-Dswt.library.path=/usr/lib/eclipse
+]]></diffmk:wrapper></programlisting><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">,where </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">/usr/lib/eclipse</diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> is the path to  your eclipse folder.</diffmk:wrapper></para>
+            </listitem>
         </itemizedlist>
     </section>
-    
+
     <section id="question_2">
         <title>How do I change the auto-formating preferences for the Visual Page Editor?</title>
 
@@ -4809,18 +5138,18 @@ buttons below.</para>
     </section>
 </chapter>
 
-    
-<chapter id="conclusion" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/conclusion.xml" xreflabel="conclusion">
-    <?dbhtml filename="conclusion.html"?>
-    <title>Conclusion</title>
 
-    <para>On the whole, this document should guide you to those parts of <property moreinfo="none">JBoss
-        Tools</property> which you specifically need to develop Web Applications. It covers
+<chapter diffmk:change="added" id="conclusion" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/userguide/en/modules/conclusion.xml" xreflabel="conclusion">
+    <?dbhtml filename="conclusion.html"?>
+    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Conclusion</diffmk:wrapper></title>
+
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On the whole, this document should guide you to those parts of </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss
+        Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> which you specifically need to develop Web Applications. It covers
         different aspects of visual components such as editors, views, etc. for browsing,
-        representing and editing web resources you are working with.</para>
-    
-    <para>If there's anything we didn't cover or you can't figure
-        out, please feel free to visit our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss Developer Studio Users Forum</ulink> or <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
-                your suggestions and comments.</para>
+        representing and editing web resources you are working with.</diffmk:wrapper></para>
+
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If there's anything we didn't cover or you can't figure
+        out, please feel free to visit our </diffmk:wrapper><ulink diffmk:change="added" url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio Users Forum</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> or </diffmk:wrapper><ulink diffmk:change="added" url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201"><diffmk:wrapper diffmk:change="added">JBoss Tools Users Forum</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> to ask questions. There we are also looking for
+                your suggestions and comments.</diffmk:wrapper></para>
 </chapter>
 </book>
