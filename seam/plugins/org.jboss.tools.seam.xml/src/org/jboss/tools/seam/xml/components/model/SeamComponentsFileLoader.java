@@ -51,8 +51,9 @@ public class SeamComponentsFileLoader extends SimpleWebFileLoader {
     
     private String getVersionSuffix(XModelObject o) {
     	String entity = o.getModelEntity().getName();
-    	if(entity.endsWith("20")) return "$20"; //$NON-NLS-1$ //$NON-NLS-2$
-    	if(entity.endsWith("21")) return "$21"; //$NON-NLS-1$ //$NON-NLS-2$
+    	if(entity.endsWith(SeamComponentConstants.SUFF_20)) return "$20"; //$NON-NLS-1$
+    	if(entity.endsWith(SeamComponentConstants.SUFF_21)) return "$21"; //$NON-NLS-1$
+    	if(entity.endsWith(SeamComponentConstants.SUFF_22)) return "$21"; //$NON-NLS-1$
     	return ""; //$NON-NLS-1$
     }
     

@@ -2136,4 +2136,21 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCoreInit21"/>
+   <XChildEntity name="SeamCoreManager21"/>
+   <XChildEntity name="SeamCorePojoCache"/>
+   <XChildEntity name="SeamCoreResourceLoader20"/>
+   <XChildEntity name="SeamBPMActor20"/>
+   <XChildEntity name="SeamBPMJBPM20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Core" path="CreateActions.Core"/>
+    <XActionItemReference entity="FileSeamComponents21" name="BPM" path="CreateActions.BPM"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

@@ -318,4 +318,19 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamTransactionEjb"/>
+   <XChildEntity name="SeamTransactionEntity"/>
+   <XChildEntity name="SeamTransactionHibernate"/>
+   <XChildEntity name="SeamNoTransaction"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21"
+     name="Transaction" path="CreateActions.Transaction"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

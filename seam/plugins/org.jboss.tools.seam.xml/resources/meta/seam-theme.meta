@@ -286,4 +286,15 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamThemeSelector20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Theme" path="CreateActions.Theme"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

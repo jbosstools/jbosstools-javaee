@@ -374,4 +374,43 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamDroolsManagedWorkingMemory"/>
+   <XChildEntity name="SeamDroolsRuleBase"/>
+   <XChildEntity name="SeamDroolsRuleAgent"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Drools" group="1"
+     kind="list" name="Drools">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Managed Working Memory..." kind="action" name="AddManagedWorkingMemory">
+      <EntityData EntityName="SeamDroolsManagedWorkingMemory">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="rule-base" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Base..." kind="action" name="AddRuleBase">
+      <EntityData EntityName="SeamDroolsRuleBase">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="rule-files" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Agent..." kind="action" name="AddRuleAgent">
+      <EntityData EntityName="SeamDroolsRuleAgent">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="configuration-file" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

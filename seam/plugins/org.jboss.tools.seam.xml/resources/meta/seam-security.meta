@@ -727,4 +727,101 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamSecurityIdentity21"/>
+   <XChildEntity name="SeamFacesSecurityEvents20"/>
+   <XChildEntity name="SeamSecurityIdentityManager21"/>
+   <XChildEntity name="SeamSecurityJPAIdentityStore21"/>
+   <XChildEntity name="SeamSecurityLDAPIdentityStore21"/>
+   <XChildEntity name="SeamSecurityPermissionManager21"/>
+   <XChildEntity name="SeamSecurityJPAPermissionStore21"/>
+   <XChildEntity name="SeamSecurityRuleBasedPermissionResolver21"/>
+   <XChildEntity name="SeamSecurityPersistentPermissionResolver21"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Security" group="1"
+     kind="list" name="Security">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity..." kind="action" name="AddIdentity">
+      <EntityData EntityName="SeamSecurityIdentity21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
+       <AttributeData AttributeName="remember-me" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Faces Security Events..." kind="action" name="AddFacesSecurityEvents">
+      <EntityData EntityName="SeamFacesSecurityEvents20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity Manager..." kind="action" name="AddIdentityManager">
+      <EntityData EntityName="SeamSecurityIdentityManager21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="identity-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JPA Identity Store..." kind="action" name="AddJPAIdentityStore">
+      <EntityData EntityName="SeamSecurityJPAIdentityStore21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="user-class"/>
+       <AttributeData AttributeName="entity-manager" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="LDAP Identity Store..." kind="action" name="AddLDAPIdentityStore">
+      <EntityData EntityName="SeamSecurityLDAPIdentityStore21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="server-address" Mandatory="no"/>
+       <AttributeData AttributeName="server-port" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Permission Manager..." kind="action" name="AddPermissionManager">
+      <EntityData EntityName="SeamSecurityPermissionManager21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="permission-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JPA Permission Store..." kind="action" name="AddJPAPermissionStore">
+      <EntityData EntityName="SeamSecurityJPAPermissionStore21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="user-permission-class" Mandatory="no"/>
+       <AttributeData AttributeName="entity-manager" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Based Permission Resolver..." kind="action" name="AddRuleBasedPermissionResolver">
+      <EntityData EntityName="SeamSecurityRuleBasedPermissionResolver21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="security-rules" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Persistent Permission Resolver..." kind="action" name="AddPersistentPermissionResolver">
+      <EntityData EntityName="SeamSecurityPersistentPermissionResolver21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="permission-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

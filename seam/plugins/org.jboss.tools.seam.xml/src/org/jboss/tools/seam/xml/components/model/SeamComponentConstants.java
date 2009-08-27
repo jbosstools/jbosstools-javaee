@@ -16,14 +16,17 @@ public interface SeamComponentConstants {
 	
 	public String SUFF_20 = "20"; //$NON-NLS-1$
 	public String SUFF_21 = "21"; //$NON-NLS-1$
+	public String SUFF_22 = "22"; //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENTS = "FileSeamComponents"; //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENTS_11 = ENT_SEAM_COMPONENTS + "11"; //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENTS_12 = ENT_SEAM_COMPONENTS + "12"; //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENT_12 = "FileSeamComponent" + "12"; //$NON-NLS-1$  //$NON-NLS-2$
 	public String ENT_SEAM_COMPONENTS_20 = ENT_SEAM_COMPONENTS + SUFF_20;
 	public String ENT_SEAM_COMPONENTS_21 = ENT_SEAM_COMPONENTS + SUFF_21;
+	public String ENT_SEAM_COMPONENTS_22 = ENT_SEAM_COMPONENTS + SUFF_22;
 	public String ENT_SEAM_COMPONENT_FILE_20 = "FileSeamComponent" + SUFF_20;  //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENT_FILE_21 = "FileSeamComponent" + SUFF_21;  //$NON-NLS-1$
+	public String ENT_SEAM_COMPONENT_FILE_22 = "FileSeamComponent" + SUFF_22;  //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENT = "SeamComponent"; //$NON-NLS-1$
 	public String ENT_SEAM_COMPONENT_20 = ENT_SEAM_COMPONENT + SUFF_20;
 	public String ENT_SEAM_FACTORY = "SeamFactory";  //$NON-NLS-1$

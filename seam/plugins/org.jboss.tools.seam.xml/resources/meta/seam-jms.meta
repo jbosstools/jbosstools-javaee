@@ -408,4 +408,17 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamJmsQueueConnection"/>
+   <XChildEntity name="SeamJmsTopicConnection"/>
+   <XChildEntity name="SeamJmsTopicPublisher"/>
+   <XChildEntity name="SeamJmsQueueSender"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="JMS" path="CreateActions.JMS"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

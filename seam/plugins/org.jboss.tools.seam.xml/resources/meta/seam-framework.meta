@@ -795,4 +795,18 @@
    </XActionItem>
   </XActionItem>
  </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamFrameworkEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkEntityHome"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityHome"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Framework" path="CreateActions.Framework"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
 </XModelEntityGroup>

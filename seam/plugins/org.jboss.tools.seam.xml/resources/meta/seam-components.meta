@@ -14,6 +14,7 @@
    <PAIR name="SeamComponents1.2" value="FileSeamComponents12"/>
    <PAIR name="SeamComponents2.0" value="FileSeamComponents20"/>
    <PAIR name="SeamComponents2.1" value="FileSeamComponents21"/>
+   <PAIR name="SeamComponents2.2" value="FileSeamComponents22"/>
   </MAPPING>
   <MAPPING name="FilteredTreeConstraints"/>
   <MAPPING name="FilteredTrees"/>
@@ -512,6 +513,104 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity name="FileSeamComponent21_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileSeamComponent21"
+    name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileSeamComponent20" name="Properties" path="Properties"/>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
+  ImplementingClass="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="component" name="FileSeamComponent22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamProperty"/>
+   <XChildEntity name="SeamPropertyList"/>
+   <XChildEntity name="SeamPropertyMap"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="components" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    name="component-name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,jndi-name,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://jboss.com/products/seam/components" name="xmlns" xmlname="xmlns"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd"
+    name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute name="namespaceMapping"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(false)" name="startup" xmlname="startup">
+    <Constraint loader="ListString">
+     <value name="default(false)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileSeamComponent20" name="Open" path="Open"/>
+   <XActionItemReference entity="FileSeamComponent20" name="OpenWith" path="OpenWith"/>
+   <XActionItemReference entity="FileSeamComponent20" name="EditActions" path="EditActions"/>
+   <XActionItemReference entity="FileSeamComponent20" name="SaveActions" path="SaveActions"/>
+   <XActionItemReference entity="FileSeamComponent20"
+    name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileSeamComponent20" name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="FileSeamComponent20"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="FileSeamComponent20" name="Properties" path="Properties"/>
+   <XActionItemReference entity="FileSeamComponent20"
+    name="DiscardActions" path="DiscardActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileSeamComponent22_EditorActionList">
   <XChildrenEntities/>
   <XEntityRenderer/>
   <XModelAttributes/>
@@ -1174,6 +1273,127 @@
   <XModelAttributes/>
   <XActionItem kind="list">
    <XActionItemReference entity="FileSeamComponents21"
+    name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileSeamComponents21" name="Properties" path="Properties"/>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
+  ImplementingClass="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="components" name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamComponent21"/>
+   <XChildEntity name="SeamFactory20"/>
+   <XChildEntity name="SeamEvent20"/>
+   <XChildEntity name="SeamImport"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="components" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://jboss.com/products/seam/components" name="xmlns" xmlname="xmlns"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd"
+    name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute name="namespaceMapping"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileSeamComponents20" name="Open" path="Open"/>
+   <XActionItemReference entity="FileSeamComponents20" name="OpenWith" path="OpenWith"/>
+   <XActionItemReference entity="FileSeamComponents20"
+    name="EditActions" path="EditActions"/>
+   <XActionItemReference entity="FileSeamComponents20"
+    name="SaveActions" path="SaveActions"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%"
+     ICON="action.new.struts.webapp.res_ref"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Component..." kind="action" name="AddComponent">
+     <EntityData EntityName="SeamComponent21">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%"
+     ICON="action.new.struts.webapp.res_ref"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Factory..." kind="action" name="AddFactory">
+     <EntityData EntityName="SeamFactory20">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Event..." kind="action" name="AddEvent">
+     <EntityData EntityName="SeamEvent20">
+      <AttributeData AttributeName="type"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Import..." kind="action" name="AddImport">
+     <EntityData EntityName="SeamImport">
+      <AttributeData AttributeName="import"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="FileSeamComponents20"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="FileSeamComponents20"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="FileSeamComponents20" name="Properties" path="Properties"/>
+   <XActionItemReference entity="FileSeamComponents20"
+    name="DiscardActions" path="DiscardActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileSeamComponents22_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileSeamComponents22"
     name="CreateActions" path="CreateActions"/>
    <XActionItemReference entity="FileSeamComponents21" name="Properties" path="Properties"/>
    <XActionItem kind="list" name="VerifyActions">
@@ -2102,6 +2322,8 @@
    <XChildEntity name="FileSeamComponent20"/>
    <XChildEntity name="FileSeamComponents21"/>
    <XChildEntity name="FileSeamComponent21"/>
+   <XChildEntity name="FileSeamComponents22"/>
+   <XChildEntity name="FileSeamComponent22"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -2138,6 +2360,8 @@
    <XChildEntity name="FileSeamComponent20"/>
    <XChildEntity name="FileSeamComponents21"/>
    <XChildEntity name="FileSeamComponent21"/>
+   <XChildEntity name="FileSeamComponents22"/>
+   <XChildEntity name="FileSeamComponent22"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -2174,6 +2398,8 @@
    <XChildEntity name="FileSeamComponent20"/>
    <XChildEntity name="FileSeamComponents21"/>
    <XChildEntity name="FileSeamComponent21"/>
+   <XChildEntity name="FileSeamComponents22"/>
+   <XChildEntity name="FileSeamComponent22"/>
   </XChildrenEntities>
   <XActionItem kind="list"/>
  </XEntityExtension>
@@ -2186,6 +2412,8 @@
    <XChildEntity name="FileSeamComponent20"/>
    <XChildEntity name="FileSeamComponents21"/>
    <XChildEntity name="FileSeamComponent21"/>
+   <XChildEntity name="FileSeamComponents22"/>
+   <XChildEntity name="FileSeamComponent22"/>
   </XChildrenEntities>
   <XActionItem kind="list"/>
  </XEntityExtension>
