@@ -35,13 +35,16 @@ import org.w3c.dom.css.CSSStyleRule;
  */
 public class OpenOnCssClassTest_JBIDE4775 extends VpeTest {
 
-	private static final String TEST_PAGE_NAME = "JBIDE/4775/openOnTestPage.html"; //$NON-NLS-1$
+	private static final String TEST_PAGE_NAME = "JBIDE/4775/openOnTestPage.xhtml"; //$NON-NLS-1$
 
 	private static String ON_PAGE_STYLE_TEST_TAG_ID = "openOn1"; //$NON-NLS-1$
 
 	private static String LINK_STYLE_TEST_TAG_ID = "openOn2"; //$NON-NLS-1$
 
+	private static String LINK_WITH_EL_EXPRESSION_STYLE_TEST_TAG_ID = "openOn3"; //$NON-NLS-1$
+
 	private static String CLASS_ATTRIBUTE = "class"; //$NON-NLS-1$
+	private static String STYLE_CLASS_ATTRIBUTE = "styleClass"; //$NON-NLS-1$
 
 	public OpenOnCssClassTest_JBIDE4775(String name) {
 		super(name);
@@ -159,4 +162,60 @@ public class OpenOnCssClassTest_JBIDE4775 extends VpeTest {
 		}
 
 	}
+
+	public void testOpenOnLinkWithElExpressionsStyles() throws Throwable {
+
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
+				JsfAllTests.IMPORT_PROJECT_NAME);
+
+		assertNotNull("Could not open specified file. componentPage = "
+				+ TEST_PAGE_NAME
+				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
+
+		IEditorInput input = new FileEditorInput(file);
+
+		assertNotNull("Editor input is null", input);
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
+
+		// get controller
+		VpeController controller = TestUtil.getVpeController(part);
+		assertNotNull(controller);
+
+		// get source document
+		Document sourceDocument = getSourceDocument(controller);
+		assertNotNull(sourceDocument);
+
+		Element openOnTestedElement = sourceDocument
+				.getElementById(LINK_WITH_EL_EXPRESSION_STYLE_TEST_TAG_ID);
+		Attr testedClassAttr = openOnTestedElement
+				.getAttributeNode(STYLE_CLASS_ATTRIBUTE);
+
+		OpenOnUtil.performOpenOnAction(part.getSourceEditor(),
+				((IDOMAttr) testedClassAttr).getValueRegionStartOffset() + 1);
+
+		IStructuredSelection selection = (IStructuredSelection) PlatformUI
+				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getSelection();
+
+		TestUtil.waitForJobs();
+
+		CSSStyleRule cssClassNode = (CSSStyleRule) selection.getFirstElement();
+
+		assertTrue(cssClassNode.getSelectorText().contains(
+				testedClassAttr.getNodeValue()));
+
+		// check exception
+		if (getException() != null) {
+			throw getException();
+		}
+
+	}
+
 }
