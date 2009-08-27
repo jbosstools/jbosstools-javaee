@@ -4,6 +4,7 @@
 
 [<!ENTITY intro SYSTEM "modules/intro.xml">
 <!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
+<!ENTITY creating_mavenized_seam SYSTEM "modules/creating_mavenized_seam.xml">
 <!ENTITY directory_structure SYSTEM "modules/directory_structure.xml">
 <!ENTITY menus_and_actions SYSTEM "modules/seam_menus_and_actions.xml">
 <!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
@@ -36,13 +37,13 @@
      <bookinfo>
          
          <title>Seam Dev Tools Reference Guide</title>
-             <corpauthor>
-                 <inlinemediaobject>
-                     <imageobject role="fo">
-                         <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+             <corpauthor diffmk:change="added">
+                 <inlinemediaobject diffmk:change="added">
+                     <imageobject diffmk:change="added" role="fo">
+                         <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                      </imageobject>	
-                     <imageobject role="html">
-                         <imagedata></imagedata>
+                     <imageobject diffmk:change="added" role="html">
+                         <imagedata diffmk:change="added"></imagedata>
                      </imageobject>	
                  </inlinemediaobject>           
              </corpauthor>
@@ -678,6 +679,106 @@
 </chapter>
 
 
+<chapter diffmk:change="added" id="create_mavenized_seam" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/creating_mavenized_seam.xml" xreflabel="create_mavenized_seam">
+	<?dbhtml filename="create_mavenized_seam.html"?>
+	<chapterinfo diffmk:change="added">
+		<keywordset diffmk:change="added">
+			<keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Tools</diffmk:wrapper></keyword>
+			<keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam</diffmk:wrapper></keyword>
+			<keyword diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBDS</diffmk:wrapper></keyword>
+		</keywordset>
+	</chapterinfo>
+	<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Creating Maven ready Seam project</diffmk:wrapper></title>
+
+	<para diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools 3.1 M2</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> comes with new Jboss Maven Integration plug-in. It makes the Seam Wizard capable of creating
+		Maven ready projects to let Maven get the libraries instead of using the Seam runtime. The Jboss Maven Integration requires </diffmk:wrapper><ulink diffmk:change="added" url="http://m2eclipse.sonatype.org/"><diffmk:wrapper diffmk:change="added">m2eclipse</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> to be installed.</diffmk:wrapper></para>
+
+	<note diffmk:change="added">
+		<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note:</diffmk:wrapper></title>
+		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For M2 release of </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Jboss Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> it is important to use m2eclipse </diffmk:wrapper><ulink diffmk:change="added" url="http://m2eclipse.sonatype.org/update/"><diffmk:wrapper diffmk:change="added">stable updatesite</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> or the </diffmk:wrapper><ulink diffmk:change="added" url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351"><diffmk:wrapper diffmk:change="added">latest integration build</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> that M2 was
+			developed against. If you want to use the latest development release of m2eclipse you need to use the </diffmk:wrapper><ulink diffmk:change="added" url="http://download.jboss.org/jbosstools/updates/nightly/trunk/"><diffmk:wrapper diffmk:change="added">nightly builds</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> of
+				</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+	</note>
+	
+	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To create a mavenized Seam project you should perform the following steps:</diffmk:wrapper></para>
+	
+	<itemizedlist diffmk:change="added">
+		<listitem diffmk:change="added">
+			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Navigate to </diffmk:wrapper><emphasis diffmk:change="added">
+				<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">File &gt; New Seam Project</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> Give the project a meaningful name, specify a target runtime and server
+				and select the proper configuration for your Seam project:</diffmk:wrapper></para>
+			
+			<figure diffmk:change="added" float="0">
+				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Starting the Mavenized Seam Project</diffmk:wrapper></title>
+				<mediaobject diffmk:change="added">
+					<imageobject diffmk:change="added">
+						<imagedata diffmk:change="added" fileref="images/create_mavenized_seam/createMavenizedSeamProject.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+		
+		<listitem diffmk:change="added">
+			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Click the </diffmk:wrapper><emphasis diffmk:change="added">
+				<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Modify</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> button to enable the </diffmk:wrapper><emphasis diffmk:change="added">
+					<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Jboss Maven Integration</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> facet:</diffmk:wrapper></para>
+			
+			<figure diffmk:change="added" float="0">
+				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Enabling the Jboss Maven Integration Facet</diffmk:wrapper></title>
+				<mediaobject diffmk:change="added">
+					<imageobject diffmk:change="added">
+						<imagedata diffmk:change="added" fileref="images/create_mavenized_seam/jbossMavenIntegrationFacet.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+		
+		<listitem diffmk:change="added">
+			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss M2 capabilities</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page you'll be prompted to add the following maven properties: 
+				groupId, artifactId, version, packaging, name and description. Here it's possible to set a maven version of Seam 
+				and also decide whether to remove WTP classpath containers (where the path starts with org.eclipse.jst).
+			</diffmk:wrapper></para>
+			
+			<figure diffmk:change="added" float="0">
+				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adjusting JBoss M2 Capabilities</diffmk:wrapper></title>
+				<mediaobject diffmk:change="added">
+					<imageobject diffmk:change="added">
+						<imagedata diffmk:change="added" fileref="images/create_mavenized_seam/jbossM2capabilities.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+		
+		<listitem diffmk:change="added">
+			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Seam Facet</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page configure the Seam Facet settings and click </diffmk:wrapper><emphasis diffmk:change="added">
+				<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Finish</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">:</diffmk:wrapper></emphasis></para>
+			
+			<figure diffmk:change="added" float="0">
+				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Facet Settings</diffmk:wrapper></title>
+				<mediaobject diffmk:change="added">
+					<imageobject diffmk:change="added">
+						<imagedata diffmk:change="added" fileref="images/create_mavenized_seam/seamFacetPage.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+	</itemizedlist>
+	
+	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The organized Seam project contains five projects with the Maven nature, builder, Maven classpath and the </diffmk:wrapper><emphasis diffmk:change="added">
+		<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">pom.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> files added: 
+		projectname, projectname-ear, projectname-ejb, projectname-parent and projectname-test.</diffmk:wrapper></para>
+	
+	<figure diffmk:change="added" float="0">
+		<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Mavenized Seam Project</diffmk:wrapper></title>
+		<mediaobject diffmk:change="added">
+			<imageobject diffmk:change="added">
+				<imagedata diffmk:change="added" fileref="images/create_mavenized_seam/mavenizedProjectStructure.png"></imagedata>
+			</imageobject>
+		</mediaobject>
+	</figure>
+</chapter>
+
+
 <chapter id="directory_str" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/seam/docs/reference/en/modules/directory_structure.xml" xreflabel="directory_str">
     <?dbhtml filename="directory_structure.html"?>
     <chapterinfo>
@@ -1236,8 +1337,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>You can also open Seam Component from the other component where the required one is declared in <code>@In </code> by using
-                <link linkend="OpenOn">OpenOn</link> (<property moreinfo="none">Ctrl + left click</property> and select <property moreinfo="none">Open Declaration of Seam Component for seam_component in Seam_class.java</property> ).</para>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can also open Seam Component from the other component where the required one is declared in </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">@In </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> by using
+                </diffmk:wrapper><link diffmk:change="added" linkend="OpenOn"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> (</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and select </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Open Declaration of Seam Component for seam_component in Seam_class.java</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> ).</diffmk:wrapper></para>
         </section>
 
     </section>
@@ -2211,22 +2312,22 @@
         </itemizedlist>
             </listitem> 
             <listitem diffmk:change="added" id="javaFiles"> 
-    <para>
-    OpenOn is also supported  in seam components where <property moreinfo="none"> In annotation</property> is presented.
-    After pressing <property moreinfo="none">Ctrl + left click</property> on  the seam component specified in <code>@In </code> you will get the possibility to open the file where the  component is declarated as well as 
-    all of the seam components where it is used in the next declarations:</para>
-    <itemizedlist>
-        <listitem><para diffmk:change="added">@Out</para></listitem>
-        <listitem><para diffmk:change="added">@DataModel</para></listitem>
-        <listitem><para diffmk:change="added">@Role</para></listitem>
-        <listitem><para diffmk:change="added">@Roles</para></listitem> 
+    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">
+    OpenOn is also supported  in seam components where </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> In annotation</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is presented.
+    After pressing </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl + left click</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> on  the seam component specified in </diffmk:wrapper><code diffmk:change="added"><diffmk:wrapper diffmk:change="added">@In </diffmk:wrapper></code><diffmk:wrapper diffmk:change="added"> you will get the possibility to open the file where the  component is declarated as well as 
+    all of the seam components where it is used in the next declarations:</diffmk:wrapper></para>
+    <itemizedlist diffmk:change="added">
+        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Out</diffmk:wrapper></para></listitem>
+        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">@DataModel</diffmk:wrapper></para></listitem>
+        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Role</diffmk:wrapper></para></listitem>
+        <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">@Roles</diffmk:wrapper></para></listitem> 
      </itemizedlist>
        
-        <figure float="0">
-            <title>OpenOn in Seam Component</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_2b.png"></imagedata>
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in Seam Component</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_2b.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -2460,11 +2561,11 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <tip>
-            <title>Tip:</title>
-            <para>If you try to delete the Seam Runtime that is already in use by some project in the current workspace, then a warning message will appear. To confirm the removal press <property moreinfo="none">OK</property>
+        <tip diffmk:change="added">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tip:</diffmk:wrapper></title>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you try to delete the Seam Runtime that is already in use by some project in the current workspace, then a warning message will appear. To confirm the removal press </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OK</diffmk:wrapper></property>
             </para>
-            <para>Besides, when you right-click on your Seam project with deleted runtime in Project Explorer and select<property moreinfo="none"> Properties &gt; Seam Settings</property> the error message "Runtime &lt;runtime_name&gt; does not exist" will appear. </para>
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Besides, when you right-click on your Seam project with deleted runtime in Project Explorer and select</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> Properties &gt; Seam Settings</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> the error message "Runtime &lt;runtime_name&gt; does not exist" will appear. </diffmk:wrapper></para>
         </tip>
         <section id="validator_pref">
 
@@ -2494,7 +2595,9 @@
                 </emphasis> section there is now a preference for setting severity of EL Syntax. You
                 can select whether the Seam validator displays an error, a warning or just ignore
                 the EL Syntax error.</para>
-
+            <note diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">There are references made between each EL and variable name, so you can revalidate a particular EL if a context variable was changed. This  makes parsing of each resource with referenced ELs much faster.</diffmk:wrapper></para></note>
+            
+    
             <figure float="0">
                 <title>Severity Preference for EL Syntax</title>
                 <mediaobject>
@@ -3697,10 +3800,10 @@
         <para>In conclusion, the main goal of this document is to get you know with a full featureset
             that <property moreinfo="none">JBoss Tools</property> provides to support Seam development. Thus if you have
             some questions, comments or suggestions on the topic, please fell free to ask in the <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
-                Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
-            future leaving your vote on our page <ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture">here</ulink>. </para>
+                Tools Forum</ulink><diffmk:wrapper diffmk:change="changed">. You can also influence on how you want to see JBoss Tools docs in
+            future leaving your vote on the article </diffmk:wrapper><ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture"><diffmk:wrapper diffmk:change="changed">Overview of the improvements required by JBossTools/JBDS Docs users</diffmk:wrapper></ulink>. </para>
         
-        <para>A set of movies on Seam tooling is available <ulink url="http://docs.jboss.org/tools/movies">here</ulink>.</para>
+        <para><diffmk:wrapper diffmk:change="changed">A set of movies on Seam tooling is available on </diffmk:wrapper><ulink url="http://docs.jboss.org/tools/movies"><diffmk:wrapper diffmk:change="changed">Seam movies page</diffmk:wrapper></ulink>.</para>
     </section>
 </chapter>
 
