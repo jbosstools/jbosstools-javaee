@@ -18,6 +18,7 @@ public interface SeamPagesConstants {
 	public String SUFF_12 = "12"; //$NON-NLS-1$
 	public String SUFF_20 = "20"; //$NON-NLS-1$
 	public String SUFF_21 = "21"; //$NON-NLS-1$
+	public String SUFF_22 = "22"; //$NON-NLS-1$
 	public String ENT_FILE_SEAM_PAGES = "FileSeamPages"; //$NON-NLS-1$
 	public String ENT_FILE_SEAM_PAGES_12 = ENT_FILE_SEAM_PAGES + SUFF_12;
 	public String ENT_FILE_SEAM_PAGE = "FileSeamPage"; //$NON-NLS-1$
@@ -26,6 +27,8 @@ public interface SeamPagesConstants {
 	public String ENT_FILE_SEAM_PAGE_20 = ENT_FILE_SEAM_PAGE + SUFF_20;
 	public String ENT_FILE_SEAM_PAGES_21 = ENT_FILE_SEAM_PAGES + SUFF_21;
 	public String ENT_FILE_SEAM_PAGE_21 = ENT_FILE_SEAM_PAGE + SUFF_21;
+	public String ENT_FILE_SEAM_PAGES_22 = ENT_FILE_SEAM_PAGES + SUFF_22;
+	public String ENT_FILE_SEAM_PAGE_22 = ENT_FILE_SEAM_PAGE + SUFF_22;
 
 	public String ENT_SEAM_PAGE = "SeamPage"; //$NON-NLS-1$
 	public String ENT_SEAM_PAGE_12 = ENT_SEAM_PAGE + SUFF_12;

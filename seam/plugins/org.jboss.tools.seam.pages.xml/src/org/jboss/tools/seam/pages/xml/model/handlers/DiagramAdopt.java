@@ -90,8 +90,10 @@ public class DiagramAdopt implements XAdoptManager, SeamPagesConstants {
 			return SUFF_12;
 		} else if(entity.endsWith(SUFF_20)) {
 			return SUFF_20;
-		} else {
+		} else if(entity.endsWith(SUFF_21)) {
 			return SUFF_21;
+		} else {
+			return SUFF_22;
 		}
 	}
 	

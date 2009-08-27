@@ -122,6 +122,8 @@ public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamP
     			? SUFF_20
     			: (entity.getName().endsWith(SUFF_21))
     			? SUFF_21
+    			: (entity.getName().endsWith(SUFF_22))
+    			? SUFF_22
     			: null;
     		if(suff == null) {
     			System.out.println("Unknown suffix in seam page entity " + entity.getName());
