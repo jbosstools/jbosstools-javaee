@@ -229,7 +229,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 	}
 
 	protected IFacetedProjectTemplate getTemplate() {
-		seamConfigTemplate = null; //SeamCorePlugin.getDefault().getPluginPreferences().getString(SeamProjectPreferences.SEAM_CONFIG_TEMPLATE);
+		seamConfigTemplate = SeamCorePlugin.getDefault().getPluginPreferences().getString(SeamProjectPreferences.SEAM_CONFIG_TEMPLATE);
 		if(seamConfigTemplate==null || seamConfigTemplate.length()==0) {
 			SeamRuntime runtime = SeamRuntimeManager.getInstance().getLatestSeamRuntime();
 			if(runtime!=null) {
