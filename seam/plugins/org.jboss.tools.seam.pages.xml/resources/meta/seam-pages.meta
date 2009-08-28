@@ -1140,7 +1140,7 @@
    <XModelAttribute PROPERTIES="save=always"
     default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
    <XModelAttribute PROPERTIES="save=always"
-    default="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+    default="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
     name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
    <XModelAttribute name="namespaceMapping"/>
    <XModelAttribute name="encoding">
