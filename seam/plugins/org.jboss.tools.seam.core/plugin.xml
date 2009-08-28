@@ -300,7 +300,7 @@
      </static-preset>
      <static-preset
            id="jst.seam21.preset">
-	    <label>Dynamic Web Project with Seam 2.1 (technology preview)</label>
+	    <label>Dynamic Web Project with Seam 2.1</label>
 	    <facet id="jst.java" version="5.0"/>
 	    <facet id="jst.web" version="2.5"/>
 	    <facet id="jst.jsf" version="1.2"/>
@@ -311,7 +311,7 @@
      </static-preset>
      <static-preset
            id="jst.seam22.preset">
-	    <label>Dynamic Web Project with Seam 2.2 (technology preview)</label>
+	    <label>Dynamic Web Project with Seam 2.2</label>
 	    <facet id="jst.java" version="5.0"/>
 	    <facet id="jst.web" version="2.5"/>
 	    <facet id="jst.jsf" version="1.2"/>
