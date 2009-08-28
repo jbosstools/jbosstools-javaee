@@ -161,8 +161,8 @@
                     Suite</property>.</emphasis></para>
             </listitem>
         </itemizedlist>
-
-        <figure>
+        <tip><para>OpenOn is available in testNG XML files opened in JBoss XML Editor</para></tip>
+            <figure>
             <title>Running TestNG</title>
             <mediaobject>
                 <imageobject>
