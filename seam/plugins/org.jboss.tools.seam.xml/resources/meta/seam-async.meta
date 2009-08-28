@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="async$20" value="http://jboss.com/products/seam/async-2.0.xsd"/>
    <PAIR name="async$21" value="http://jboss.com/products/seam/async-2.1.xsd"/>
+   <PAIR name="async$22" value="http://jboss.com/products/seam/async-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

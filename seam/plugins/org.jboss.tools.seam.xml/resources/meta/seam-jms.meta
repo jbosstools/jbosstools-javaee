@@ -12,6 +12,7 @@
    <PAIR name="jms" value="http://jboss.com/products/seam/jms-1.2.xsd"/>
    <PAIR name="jms$20" value="http://jboss.com/products/seam/jms-2.0.xsd"/>
    <PAIR name="jms$21" value="http://jboss.com/products/seam/jms-2.1.xsd"/>
+   <PAIR name="jms$22" value="http://jboss.com/products/seam/jms-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

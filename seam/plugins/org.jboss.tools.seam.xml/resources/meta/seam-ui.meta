@@ -10,6 +10,7 @@
   </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="ui$21" value="http://jboss.com/products/seam/ui-2.1.xsd"/>
+   <PAIR name="ui$22" value="http://jboss.com/products/seam/ui-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

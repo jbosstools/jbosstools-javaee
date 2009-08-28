@@ -12,9 +12,11 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="bpm$20" value="http://jboss.com/products/seam/bpm-2.0.xsd"/>
    <PAIR name="bpm$21" value="http://jboss.com/products/seam/bpm-2.1.xsd"/>
+   <PAIR name="bpm$22" value="http://jboss.com/products/seam/bpm-2.2.xsd"/>
    <PAIR name="core" value="http://jboss.com/products/seam/core-1.2.xsd"/>
    <PAIR name="core$20" value="http://jboss.com/products/seam/core-2.0.xsd"/>
    <PAIR name="core$21" value="http://jboss.com/products/seam/core-2.1.xsd"/>
+   <PAIR name="core$22" value="http://jboss.com/products/seam/core-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

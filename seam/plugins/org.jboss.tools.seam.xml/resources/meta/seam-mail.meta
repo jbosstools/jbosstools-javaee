@@ -12,6 +12,7 @@
    <PAIR name="mail" value="http://jboss.com/products/seam/mail-1.2.xsd"/>
    <PAIR name="mail$20" value="http://jboss.com/products/seam/mail-2.0.xsd"/>
    <PAIR name="mail$21" value="http://jboss.com/products/seam/mail-2.1.xsd"/>
+   <PAIR name="mail$22" value="http://jboss.com/products/seam/mail-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

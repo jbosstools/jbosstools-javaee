@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="transaction$20" value="http://jboss.com/products/seam/transaction-2.0.xsd"/>
    <PAIR name="transaction$21" value="http://jboss.com/products/seam/transaction-2.1.xsd"/>
+   <PAIR name="transaction$22" value="http://jboss.com/products/seam/transaction-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>

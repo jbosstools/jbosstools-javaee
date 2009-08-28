@@ -12,6 +12,7 @@
    <PAIR name="web" value="http://jboss.com/products/seam/web-1.2.xsd"/>
    <PAIR name="web$20" value="http://jboss.com/products/seam/web-2.0.xsd"/>
    <PAIR name="web$21" value="http://jboss.com/products/seam/web-2.1.xsd"/>
+   <PAIR name="web$22" value="http://jboss.com/products/seam/web-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
