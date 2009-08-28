@@ -103,6 +103,20 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 		)
 	};
 
+	private final static IFormData[] COMPONENT_FILE_22_DEFINITIONS = new IFormData[] {
+		new FormData(
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_SEAM_COMPONENT_2_2_FILE"), //$NON-NLS-1$
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENT_FILE_22)
+		),
+		SEAM_PROPERTY_LIST_DEFINITION,
+		new FormData(
+			SeamXMLUIMessages.getString("SEAM_COMPONENT_FORM_LAYOUT_DATA_ADVANCED"), //$NON-NLS-1$
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			FormLayoutDataUtil.createAdvancedFormAttributeData(ENT_SEAM_COMPONENT_FILE_22)
+		)
+	};
+
 	final static IFormData SEAM_COMPONENT_FILE_FORM_DEFINITION = new FormData(
 		ENT_SEAM_COMPONENT_12, new String[]{null}, COMPONENT_FILE_12_DEFINITIONS);
 
@@ -111,5 +125,9 @@ public class SeamComponentFormLayoutData implements SeamComponentConstants {
 
 	final static IFormData SEAM_COMPONENT_FILE_21_FORM_DEFINITION = new FormData(
 		ENT_SEAM_COMPONENT_FILE_21, new String[]{null}, COMPONENT_FILE_21_DEFINITIONS);
+
+
+	final static IFormData SEAM_COMPONENT_FILE_22_FORM_DEFINITION = new FormData(
+		ENT_SEAM_COMPONENT_FILE_22, new String[]{null}, COMPONENT_FILE_22_DEFINITIONS);
 
 }

@@ -22,7 +22,7 @@
       <xmlEditor 
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
-            entities="FileSeamComponents11,FileSeamComponents12,FileSeamComponents20,FileSeamComponents21,FileSeamComponent12,FileSeamComponent20,FileSeamComponent21" 
+            entities="FileSeamComponents11,FileSeamComponents12,FileSeamComponents20,FileSeamComponents21,FileSeamComponents22,FileSeamComponent12,FileSeamComponent20,FileSeamComponent21,FileSeamComponent22" 
             icon="$nl$/images/xstudio/editors/seam-components.gif" 
             name="%editors.spring-beans.name">
       </xmlEditor>
