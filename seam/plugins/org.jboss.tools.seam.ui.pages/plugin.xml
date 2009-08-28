@@ -6,14 +6,14 @@
       <xmlEditor 
             class="org.jboss.tools.seam.ui.pages.editor.SeamPagesEditor" 
             contributorClass="org.jboss.tools.seam.ui.pages.editor.PagesMultiPageContributor" 
-            entities="FileSeamPages12,FileSeamPages20,FileSeamPages21" 
+            entities="FileSeamPages12,FileSeamPages20,FileSeamPages21,FileSeamPages22" 
             icon="images/xstudio/editors/seam-pages.gif" 
             name="Seam Pages">
       </xmlEditor>
       <xmlEditor 
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
-            entities="FileSeamPage12,FileSeamPage20,FileSeamPage21" 
+            entities="FileSeamPage12,FileSeamPage20,FileSeamPage21,FileSeamPage22" 
             icon="images/xstudio/editors/seam-pages.gif" 
             name="Seam Page">
       </xmlEditor>
