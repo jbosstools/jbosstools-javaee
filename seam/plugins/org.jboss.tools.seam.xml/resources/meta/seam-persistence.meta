@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="persistence$20" value="http://jboss.com/products/seam/persistence-2.0.xsd"/>
    <PAIR name="persistence$21" value="http://jboss.com/products/seam/persistence-2.1.xsd"/>
+   <PAIR name="persistence$22" value="http://jboss.com/products/seam/persistence-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -968,6 +969,22 @@
       </EntityData>
      </XActionItem>
     </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamPersistenceManagedContext"/>
+   <XChildEntity name="SeamPersistenceEntityManagerFactory"/>
+   <XChildEntity name="SeamPersistenceFilter"/>
+   <XChildEntity name="SeamPersistenceManagedHibernateSession"/>
+   <XChildEntity name="SeamPersistenceHibernateSessionFactory21"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21"
+     name="Persistence" path="CreateActions.Persistence"/>
    </XActionItem>
   </XActionItem>
  </XEntityExtension>

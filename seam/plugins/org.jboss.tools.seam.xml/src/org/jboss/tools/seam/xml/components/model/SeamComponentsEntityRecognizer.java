@@ -55,23 +55,30 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	//Let it work now for all 2.x versions
     	//If in future releases differences are essential, this should be modified
     	int i20 = schemaLocation.indexOf("-2.0"); //$NON-NLS-1$
-    	int i21 = schemaLocation.indexOf("-2."); //$NON-NLS-1$
-    	if(i21 < 0 && i20 < 0) {
+    	int i21 = schemaLocation.indexOf("-2.1"); //$NON-NLS-1$
+    	int i22 = schemaLocation.indexOf("-2."); //$NON-NLS-1$
+    	if(i21 < 0 && i20 < 0 && i22 < 0) {
     		//Try the latest known version anyway.
-    		i21 = 0;
+    		i22 = 0;
     	}
-    	if(i21 >= 0) {
+    	if(i22 >= 0) {
     		if(isSingleComponent) {
     			if(i20 >= 0) {
     				return ENT_SEAM_COMPONENT_FILE_20;
     			}
-    			return ENT_SEAM_COMPONENT_FILE_21;
+    			if(i21 >= 0) {
+    				return ENT_SEAM_COMPONENT_FILE_21;
+    			}
+    			return ENT_SEAM_COMPONENT_FILE_22;
     		}
     		if(isMultiComponent(body)) {
     			if(i20 >= 0) {
     				return ENT_SEAM_COMPONENTS_20;
     			}
-    			return ENT_SEAM_COMPONENTS_21;
+    			if(i21 >= 0) {
+    				return ENT_SEAM_COMPONENTS_21;
+    			}
+    			return ENT_SEAM_COMPONENTS_22;
     		}
     	}
     	

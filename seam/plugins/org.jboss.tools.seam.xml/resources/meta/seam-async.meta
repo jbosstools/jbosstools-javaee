@@ -11,6 +11,7 @@
   <MAPPING name="SeamSchemas">
    <PAIR name="async$20" value="http://jboss.com/products/seam/async-2.0.xsd"/>
    <PAIR name="async$21" value="http://jboss.com/products/seam/async-2.1.xsd"/>
+   <PAIR name="async$22" value="http://jboss.com/products/seam/async-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -247,6 +248,19 @@
       </EntityData>
      </XActionItem>
     </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamAsyncPool"/>
+   <XChildEntity name="SeamAsyncQuartz"/>
+   <XChildEntity name="SeamAsyncTimer"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Async" path="CreateActions.Async"/>
    </XActionItem>
   </XActionItem>
  </XEntityExtension>

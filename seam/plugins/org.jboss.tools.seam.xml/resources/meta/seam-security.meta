@@ -12,6 +12,7 @@
    <PAIR name="security" value="http://jboss.com/products/seam/security-1.2.xsd"/>
    <PAIR name="security$20" value="http://jboss.com/products/seam/security-2.0.xsd"/>
    <PAIR name="security$21" value="http://jboss.com/products/seam/security-2.1.xsd"/>
+   <PAIR name="security$22" value="http://jboss.com/products/seam/security-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -348,6 +349,45 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="security:jpa-token-store" name="SeamSecurityJPATokenStore22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.security.identity" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="jpa-token-store" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.security.jpaTokenStore" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
+    entity="SeamComponent21" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="entity-manager" xmlname="entity-manager"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="token-class" xmlname="token-class"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItemReference entity="SeamSecurityIdentity"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamSecurityIdentity"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamSecurityIdentity" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamSecurityIdentity"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="security:ldap-identity-store" name="SeamSecurityLDAPIdentityStore21">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -500,6 +540,131 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="security:remember-me" name="SeamSecurityRememberMe21">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.security.identity" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="remember-me" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.security.rememberMe" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(true)" name="enabled" xmlname="enabled">
+    <Constraint loader="ListString">
+     <value name="default(true)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="security:remember-me" name="SeamSecurityRememberMe22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.security.identity" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="remember-me" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.security.rememberMe" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="cookie-max-age" xmlname="cookie-max-age"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    default="default(true)" name="enabled" xmlname="enabled">
+    <Constraint loader="ListString">
+     <value name="default(true)"/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="mode" xmlname="mode">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="disabled"/>
+     <value name="usernameOnly"/>
+     <value name="autoLogin"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="security:rule-based-permission-resolver" name="SeamSecurityRuleBasedPermissionResolver21">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -619,6 +784,7 @@
    <XChildEntity name="SeamSecurityJPAPermissionStore21"/>
    <XChildEntity name="SeamSecurityRuleBasedPermissionResolver21"/>
    <XChildEntity name="SeamSecurityPersistentPermissionResolver21"/>
+   <XChildEntity name="SeamSecurityRememberMe21"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -699,6 +865,133 @@
       <EntityData EntityName="SeamSecurityPersistentPermissionResolver21">
        <AttributeData AttributeName="name"/>
        <AttributeData AttributeName="permission-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Remember Me..." kind="action" name="AddRememberMe">
+      <EntityData EntityName="SeamSecurityRememberMe21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
+       <AttributeData AttributeName="enabled" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamSecurityIdentity21"/>
+   <XChildEntity name="SeamFacesSecurityEvents20"/>
+   <XChildEntity name="SeamSecurityIdentityManager21"/>
+   <XChildEntity name="SeamSecurityJPAIdentityStore21"/>
+   <XChildEntity name="SeamSecurityJPATokenStore22"/>
+   <XChildEntity name="SeamSecurityLDAPIdentityStore21"/>
+   <XChildEntity name="SeamSecurityPermissionManager21"/>
+   <XChildEntity name="SeamSecurityJPAPermissionStore21"/>
+   <XChildEntity name="SeamSecurityRuleBasedPermissionResolver21"/>
+   <XChildEntity name="SeamSecurityPersistentPermissionResolver21"/>
+   <XChildEntity name="SeamSecurityRememberMe22"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Security" group="1"
+     kind="list" name="Security">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity..." kind="action" name="AddIdentity">
+      <EntityData EntityName="SeamSecurityIdentity21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="authenticate-method" Mandatory="no"/>
+       <AttributeData AttributeName="remember-me" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Faces Security Events..." kind="action" name="AddFacesSecurityEvents">
+      <EntityData EntityName="SeamFacesSecurityEvents20">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Identity Manager..." kind="action" name="AddIdentityManager">
+      <EntityData EntityName="SeamSecurityIdentityManager21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="identity-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JPA Identity Store..." kind="action" name="AddJPAIdentityStore">
+      <EntityData EntityName="SeamSecurityJPAIdentityStore21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="user-class"/>
+       <AttributeData AttributeName="entity-manager" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JPA Token Store..." kind="action" name="AddJPATokenStore">
+      <EntityData EntityName="SeamSecurityJPATokenStore22">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="entity-manager" Mandatory="no"/>
+       <AttributeData AttributeName="token-class" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="LDAP Identity Store..." kind="action" name="AddLDAPIdentityStore">
+      <EntityData EntityName="SeamSecurityLDAPIdentityStore21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="server-address" Mandatory="no"/>
+       <AttributeData AttributeName="server-port" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Permission Manager..." kind="action" name="AddPermissionManager">
+      <EntityData EntityName="SeamSecurityPermissionManager21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="permission-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JPA Permission Store..." kind="action" name="AddJPAPermissionStore">
+      <EntityData EntityName="SeamSecurityJPAPermissionStore21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="user-permission-class" Mandatory="no"/>
+       <AttributeData AttributeName="entity-manager" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Rule Based Permission Resolver..." kind="action" name="AddRuleBasedPermissionResolver">
+      <EntityData EntityName="SeamSecurityRuleBasedPermissionResolver21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="security-rules" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Persistent Permission Resolver..." kind="action" name="AddPersistentPermissionResolver">
+      <EntityData EntityName="SeamSecurityPersistentPermissionResolver21">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="permission-store" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Remember Me..." kind="action" name="AddRememberMe">
+      <EntityData EntityName="SeamSecurityRememberMe22">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="cookie-max-age" Mandatory="no"/>
+       <AttributeData AttributeName="enabled" Mandatory="no"/>
+       <AttributeData AttributeName="mode" Mandatory="no"/>
       </EntityData>
      </XActionItem>
     </XActionItem>

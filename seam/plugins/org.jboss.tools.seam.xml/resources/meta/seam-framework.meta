@@ -12,6 +12,7 @@
    <PAIR name="framework" value="http://jboss.com/products/seam/framework-1.2.xsd"/>
    <PAIR name="framework$20" value="http://jboss.com/products/seam/framework-2.0.xsd"/>
    <PAIR name="framework$21" value="http://jboss.com/products/seam/framework-2.1.xsd"/>
+   <PAIR name="framework$22" value="http://jboss.com/products/seam/framework-2.2.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -780,6 +781,20 @@
       </EntityData>
      </XActionItem>
     </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamFrameworkEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkEntityHome"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityHome"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Framework" path="CreateActions.Framework"/>
    </XActionItem>
   </XActionItem>
  </XEntityExtension>

@@ -109,8 +109,6 @@
          	publicId="-//JBoss/Seam Component Configuration DTD 1.1//EN" 
          	uri="dtds/components-1.1.dtd"/>
 
-
-
          <uri 
             name="http://jboss.com/products/seam/async-2.0.xsd" 
             uri="schemas/async-2.0.xsd"/>
@@ -118,6 +116,10 @@
          <uri 
             name="http://jboss.com/products/seam/async-2.1.xsd" 
             uri="schemas/async-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/async-2.2.xsd" 
+            uri="schemas/async-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/bpm-2.0.xsd" 
@@ -128,12 +130,28 @@
             uri="schemas/bpm-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/bpm-2.2.xsd" 
+            uri="schemas/bpm-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/components-2.0.xsd" 
             uri="schemas/components-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/components-2.1.xsd" 
             uri="schemas/components-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/components-2.2.xsd" 
+            uri="schemas/components-2.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/cache-2.1.xsd" 
+            uri="schemas/cache-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/cache-2.2.xsd" 
+            uri="schemas/cache-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/core-2.0.xsd" 
@@ -144,12 +162,28 @@
             uri="schemas/core-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/core-2.2.xsd" 
+            uri="schemas/core-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/drools-2.0.xsd" 
             uri="schemas/drools-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/drools-2.1.xsd" 
             uri="schemas/drools-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/drools-2.2.xsd" 
+            uri="schemas/drools-2.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/document-2.1.xsd" 
+            uri="schemas/document-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/document-2.2.xsd" 
+            uri="schemas/document-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/framework-2.0.xsd" 
@@ -160,12 +194,20 @@
             uri="schemas/framework-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/framework-2.2.xsd" 
+            uri="schemas/framework-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/international-2.0.xsd" 
             uri="schemas/international-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/international-2.1.xsd" 
             uri="schemas/international-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/international-2.2.xsd" 
+            uri="schemas/international-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/jms-2.0.xsd" 
@@ -176,12 +218,20 @@
             uri="schemas/jms-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/jms-2.2.xsd" 
+            uri="schemas/jms-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/mail-2.0.xsd" 
             uri="schemas/mail-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/mail-2.1.xsd" 
             uri="schemas/mail-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/mail-2.2.xsd" 
+            uri="schemas/mail-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/navigation-2.0.xsd" 
@@ -192,8 +242,20 @@
             uri="schemas/navigation-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/navigation-2.2.xsd" 
+            uri="schemas/navigation-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/pageflow-2.0.xsd" 
             uri="schemas/pageflow-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pageflow-2.1.xsd" 
+            uri="schemas/pageflow-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pageflow-2.2.xsd" 
+            uri="schemas/pageflow-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/pages-2.0.xsd" 
@@ -208,12 +270,20 @@
             uri="schemas/pdf-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/pdf-2.2.xsd" 
+            uri="schemas/pdf-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/persistence-2.0.xsd" 
             uri="schemas/persistence-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/persistence-2.1.xsd" 
             uri="schemas/persistence-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/persistence-2.2.xsd" 
+            uri="schemas/persistence-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/remoting-2.0.xsd" 
@@ -224,12 +294,20 @@
             uri="schemas/remoting-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/remoting-2.2.xsd" 
+            uri="schemas/remoting-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/security-2.0.xsd" 
             uri="schemas/security-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/security-2.1.xsd" 
             uri="schemas/security-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/security-2.2.xsd" 
+            uri="schemas/security-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/spring-2.0.xsd" 
@@ -244,6 +322,14 @@
             uri="schemas/theme-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/theme-2.1.xsd" 
+            uri="schemas/theme-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/theme-2.2.xsd" 
+            uri="schemas/theme-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/transaction-2.0.xsd" 
             uri="schemas/transaction-2.0.xsd"/>
 
@@ -252,12 +338,36 @@
             uri="schemas/transaction-2.1.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/transaction-2.2.xsd" 
+            uri="schemas/transaction-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/web-2.0.xsd" 
             uri="schemas/web-2.0.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/web-2.1.xsd" 
             uri="schemas/web-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/web-2.2.xsd" 
+            uri="schemas/web-2.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/ui-2.1.xsd" 
+            uri="schemas/ui-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/ui-2.2.xsd" 
+            uri="schemas/ui-2.2.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/wicket-2.1.xsd" 
+            uri="schemas/wicket-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/wicket-2.2.xsd" 
+            uri="schemas/wicket-2.2.xsd"/>
 
 
       </catalogContribution>
