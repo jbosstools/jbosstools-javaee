@@ -106,7 +106,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 				if(!entity.startsWith(ENT_NAVIGATION)) continue;
 				if(entity.startsWith(ENT_NAVIGATION_RULE)) {
 					addTarget(ns[j], true);
-					if(!entity.endsWith(SUFF_21)) {
+					if(!entity.endsWith(SUFF_21) && !entity.endsWith(SUFF_22)) {
 						continue;
 					}
 				}
@@ -305,7 +305,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 					if(result == null) result = new ArrayList<XModelObject>();
 					result.add(t);
 				}
-				if(!entity.endsWith(SUFF_21)) {
+				if(!entity.endsWith(SUFF_21) && !entity.endsWith(SUFF_22)) {
 					continue;
 				}
 			}

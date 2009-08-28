@@ -38,8 +38,10 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
         	return p.isSingle ? ENT_FILE_SEAM_PAGE_12 : ENT_FILE_SEAM_PAGES_12;
         } else if(p.is20) {
         	return p.isSingle ? ENT_FILE_SEAM_PAGE_20 : ENT_FILE_SEAM_PAGES_20;
-        } else {
+        } else if(p.is21) {
         	return p.isSingle ? ENT_FILE_SEAM_PAGE_21 : ENT_FILE_SEAM_PAGES_21;
+        } else {
+        	return p.isSingle ? ENT_FILE_SEAM_PAGE_22 : ENT_FILE_SEAM_PAGES_22;
         }
     }
 
@@ -48,6 +50,7 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     	boolean is12 = false;
     	boolean isSingle = false;
     	boolean is20 = false;
+    	boolean is21 = false;
 
     	Parser(String body) {
     		int i = body.indexOf("<page"); //$NON-NLS-1$
@@ -66,6 +69,7 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     	    		return;
     	    	}
     	    	if(s.indexOf("2.0") >= 0) is20 = true;
+    	    	if(s.indexOf("2.1") >= 0) is21 = true;
     		}
     		recognized = true;
     	}
