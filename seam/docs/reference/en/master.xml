@@ -9,6 +9,7 @@
 <!ENTITY menus_and_actions SYSTEM "modules/seam_menus_and_actions.xml">
 <!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
 <!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
+<!ENTITY seam_refactoring SYSTEM "modules/seam_refactoring.xml">
 <!ENTITY seam_editors SYSTEM "modules/seam_editors.xml">
 <!ENTITY seam_view SYSTEM "modules/seam_view.xml">
 <!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">
@@ -85,6 +86,7 @@
 &seam_editors;
 &seam_view;
 &seam_preferences;
+&seam_refactoring;
 &adding_seam_support_to_ear_project;
 &crud_database_application;
 &crud_application_walkthrough;
