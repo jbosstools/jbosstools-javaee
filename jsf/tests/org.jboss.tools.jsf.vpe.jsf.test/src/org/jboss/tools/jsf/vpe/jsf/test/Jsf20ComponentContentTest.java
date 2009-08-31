@@ -49,6 +49,7 @@ public class Jsf20ComponentContentTest extends ComponentContentTest {
 		performInvisibleTagTest("components/outputStylesheet.xhtml", "outputStylesheetBlue"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
+	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
 	}
