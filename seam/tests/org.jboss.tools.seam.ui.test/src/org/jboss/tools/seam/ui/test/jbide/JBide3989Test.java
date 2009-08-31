@@ -17,12 +17,17 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.wst.validation.internal.operations.OneValidatorOperation;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
+import org.eclipse.wst.validation.internal.operations.ValidatorSubsetOperation;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -57,6 +62,16 @@ public class JBide3989Test extends TestCase {
 		ValidatorManager.addProjectBuildValidationSupport(project);
 		project.build(IncrementalProjectBuilder.CLEAN_BUILD,
 				new NullProgressMonitor());
+		// JBIDE-4832 - call SeamProjectPropertyValidator manually 
+		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
+			
+			public void run(IProgressMonitor monitor) throws CoreException {
+				String validatorId = "org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator";
+				ValidatorSubsetOperation op = new OneValidatorOperation(project, validatorId, true, false);
+				op.run(null);
+			}
+		};
+		ResourcesPlugin.getWorkspace().run(runnable, null);
 		JobUtils.waitForIdle();
 	}
 
