@@ -11,18 +11,26 @@
 package org.jboss.tools.seam.ui.actions;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.ui.search.SearchMessages;
+import org.eclipse.jdt.internal.ui.search.SearchUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate2;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.seam.internal.core.refactoring.SeamRefactorSeacher;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.IProgressService;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.search.ELSearchQuery;
 
 public class FindUsagesInELAction extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
 	private IFile javaFile;
@@ -44,24 +52,35 @@ public class FindUsagesInELAction extends Action implements IWorkbenchWindowActi
 	public void init(IWorkbenchWindow window) {
 	}
 
-	public void run(IAction action) {
-		//ELResolverFactoryManager.getInstance().getResolvers(resource);
-		
-		
-//		ELInvocationExpression expression = SeamELCompletionEngine.findExpressionAtOffset(
-//				document, selectionOffset, 0, document.getLength()); 
-//
-//		if (expression == null)
-//			return; // No EL Operand found
-//
-//		try {
-//			performNewSearch(expression, file);
-//		} catch (JavaModelException jme) {
-//			SeamGuiPlugin.getPluginLog().logError(jme);
-//		} catch (InterruptedException ie) {
-//			SeamGuiPlugin.getPluginLog().logError(ie);
-//		}
-//		return;
+	public void run() {
+		try {
+			performNewSearch();
+		} catch (JavaModelException jme) {
+			SeamGuiPlugin.getPluginLog().logError(jme);
+		} catch (InterruptedException ie) {
+			SeamGuiPlugin.getPluginLog().logError(ie);
+		}
+	}
+	
+	private void performNewSearch() throws JavaModelException, InterruptedException {
+		ELSearchQuery query= createQuery();
+		if (query.canRunInBackground()) {
+			SearchUtil.runQueryInBackground(query);
+		} else {
+			IProgressService progressService= PlatformUI.getWorkbench().getProgressService();
+			IStatus status= SearchUtil.runQueryInForeground(progressService, query);
+			if (status.matches(IStatus.ERROR | IStatus.INFO | IStatus.WARNING)) {
+				ErrorDialog.openError(getShell(), SearchMessages.Search_Error_search_title, SearchMessages.Search_Error_search_message, status); 
+			}
+		}
+	}
+	
+	private ELSearchQuery createQuery() throws JavaModelException, InterruptedException {
+		return new ELSearchQuery(javaFile, type, propertyName);
+	}
+	
+	private Shell getShell() {
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
 	
 
@@ -74,30 +93,9 @@ public class FindUsagesInELAction extends Action implements IWorkbenchWindowActi
 	public void runWithEvent(IAction action, Event event) {
 	}
 
-	class ELSearcher extends SeamRefactorSeacher{
-		public ELSearcher(IFile file, String name){
-			super(file, name);
-		}
-
-		@Override
-		protected boolean isFileCorrect(IFile file) {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		@Override
-		protected void match(IFile file,
-				ELPropertyInvocation elPropertyInvokation) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		protected void match(IFile file, String token) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		
+	public void run(IAction action) {
+		run();
 	}
+
+	
 }

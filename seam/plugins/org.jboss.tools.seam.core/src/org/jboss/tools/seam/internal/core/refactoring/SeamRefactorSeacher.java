@@ -38,6 +38,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELMethodInvocation;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
@@ -67,6 +68,9 @@ public abstract class SeamRefactorSeacher {
 	}
 
 	public void findELReferences(){
+		if(baseFile == null)
+			return;
+		
 		SeamProjectsSet projectsSet = new SeamProjectsSet(baseFile.getProject());
 		
 		IProject[] projects = projectsSet.getAllProjects();
@@ -240,9 +244,16 @@ public abstract class SeamRefactorSeacher {
 			ELModel model = parser.parse(string);
 			for (ELInstance instance : model.getInstances()) {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
-					ELPropertyInvocation pi = findComponentReference(ie);
-					if(pi != null)
-						match(file, pi);
+					ELInvocationExpression expression = findComponentReference(ie);
+					if(expression != null){
+						if(expression instanceof ELPropertyInvocation){
+							ELPropertyInvocation pi = (ELPropertyInvocation)expression;
+							match(file, offset+pi.getStartPosition(), pi.getName().getStart()+pi.getName().getLength()-pi.getStartPosition());
+						}else if(expression instanceof ELMethodInvocation){
+							ELMethodInvocation mi = (ELMethodInvocation)expression;
+							match(file, offset+mi.getStartPosition(), mi.getName().getStart()+mi.getName().getLength()-mi.getStartPosition());
+						}
+					}
 				}
 			}
 		}
@@ -278,7 +289,7 @@ public abstract class SeamRefactorSeacher {
 					key = false;
 				
 				if(key && token.startsWith(propertyName)){
-					match(file, token);
+					match(file, offset, token.length());
 				}
 			}
 			
@@ -288,12 +299,12 @@ public abstract class SeamRefactorSeacher {
 	}
 
 	
-	private ELPropertyInvocation findComponentReference(ELInvocationExpression invocationExpression){
+	protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
 		ELInvocationExpression invExp = invocationExpression;
 		while(invExp != null){
 			if(invExp instanceof ELPropertyInvocation){
 				if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(propertyName))
-					return (ELPropertyInvocation)invExp;
+					return invExp;
 				else
 					invExp = invExp.getLeft();
 				
@@ -306,7 +317,5 @@ public abstract class SeamRefactorSeacher {
 	
 	protected abstract boolean isFileCorrect(IFile file);
 	
-	protected abstract void match(IFile file, ELPropertyInvocation elPropertyInvokation);
-	
-	protected abstract void match(IFile file, String token);
+	protected abstract void match(IFile file, int offset, int length);
 }

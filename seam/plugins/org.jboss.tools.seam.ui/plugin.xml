@@ -517,6 +517,16 @@
 	</extension>
 	
 	<extension
+			id="ELSearchResultPage"
+			point="org.eclipse.search.searchResultViewPages">
+		<viewPage
+			id="org.jboss.tools.seam.ui.search.ELSearchResultPage"
+			searchResultClass="org.jboss.tools.seam.ui.search.ELSearchResult"
+			class="org.jboss.tools.seam.ui.search.SeamSearchResultPage">
+		</viewPage>
+	</extension>
+	
+	<extension
          point="org.eclipse.jdt.ui.quickAssistProcessors">
       <quickAssistProcessor
             class="org.jboss.tools.seam.ui.actions.SeamFindQuickAssistProcessor"

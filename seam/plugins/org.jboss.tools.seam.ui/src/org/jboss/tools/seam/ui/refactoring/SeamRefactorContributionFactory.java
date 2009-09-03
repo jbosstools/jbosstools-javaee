@@ -430,12 +430,12 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		String name = method.getElementName();
 		
 		if(name.startsWith(GET) || name.startsWith(SET))
-			return name.substring(3);
+			return name.substring(3).toLowerCase();
 		
 		if(name.startsWith(IS))
-			return name.substring(2);
+			return name.substring(2).toLowerCase();
 		
-		return name;
+		return name.toLowerCase();
 	}
 	
 	private static void saveAndBuild(){
