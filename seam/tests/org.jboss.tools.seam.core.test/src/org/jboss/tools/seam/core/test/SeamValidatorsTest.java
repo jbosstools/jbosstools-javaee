@@ -36,6 +36,7 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
 import org.jboss.tools.tests.IMarkerFilter;
 
 public class SeamValidatorsTest extends AbstractResourceMarkerTest {
+
 	IProject project = null;
 	
 	public static final String MARKER_TYPE = "org.eclipse.wst.validation.problemmarker";
@@ -62,6 +63,68 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 		this.project = project.getProject();
 		JobUtils.waitForIdle();
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		// restore state
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.original");
+		
+		copyContentsFile("WebContent/WEB-INF/components.xml", "WebContent/WEB-INF/components.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.original");
+		
+		copyContentsFile("WebContent/JBIDE-1631.xhtml",
+				"WebContent/JBIDE-1631.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.java",
+				"src/action/org/domain/SeamWebWarTestProject/entity/abcEntity.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/Component12.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/Component12.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.original");
+		
+		copyContentsFile("WebContent/abcComponent.xhtml",
+				"WebContent/abcComponent.original");
+		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.original");
+		
+		refreshProject(project);
+	}
+	
+	private void copyContentsFile(String originalName, String newContentName){
+		IFile originalFile = project.getFile(originalName);
+		IFile newContentFile = project.getFile(newContentName);
+		
+		copyContentsFile(originalFile, newContentFile);
+	}
+	
+	private void copyContentsFile(IFile originalFile, String newContentName){
+		IFile newContentFile = project.getFile(newContentName);
+		
+		copyContentsFile(originalFile, newContentFile);
+	}
+	
+	private void copyContentsFile(IFile originalFile, IFile newContentFile){
+		try{
+			originalFile.setContents(newContentFile.getContents(), true, false, null);
+		}catch(Exception e){
+			JUnitUtils.fail("Error during changing '"+originalFile.getFullPath()+"' content to '"+newContentFile.getFullPath()+"'", e);
+		}
 	}
 
 	private ISeamProject getSeamProject(IProject project) {
@@ -113,12 +176,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile subclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java");
 		assertMarkerIsCreated(subclassComponentFile, MARKER_TYPE, "Stateful component \"testComponentJBIDE1696\" must have a method marked @Remove", 25);
 		IFile superclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.java");
-		IFile superclassComponentFileWithRemove = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
-		try{
-			superclassComponentFile.setContents(superclassComponentFileWithRemove.getContents(), true, false, null);
-		}catch(Exception e){
-			JUnitUtils.fail("Error during changing 'SuperclassTestComponent.java' content to 'SuperclassTestComponent.withRemove'", e);
-		}
+		
+		copyContentsFile(superclassComponentFile, "src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
+		
 		refreshProject(project);
 		int number = getMarkersNumber(subclassComponentFile);
 		assertTrue("We changed super class of component but it still don't see changes.", number == 0);
@@ -212,28 +272,13 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testComponentWithoutSetter_Validator() throws CoreException {
-		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
 		IFile componentsFile = project.getFile("WebContent/WEB-INF/components.xml");
 		
 		// Component class does not contain setter for property
 		
-		IFile componentsFile3 = project.getFile("WebContent/WEB-INF/components.3");
+		copyContentsFile(componentsFile, "WebContent/WEB-INF/components.3");
 		
-		try{
-			componentsFile.setContents(componentsFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'components.xml' content to " +
-					"'components.3'", ex);
-		}
-		
-		IFile statefulComponentFile5 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.5");
-
-		try{
-			statefulComponentFile.setContents(statefulComponentFile5.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'StatefulComponent.java' content to " +
-					"'StatefulComponent.5'", ex);
-		}
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java", "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.5");
 		
 		refreshProject(project);
 		
@@ -399,13 +444,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				markerText, 24);
 		
 
-		IFile component12File2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateFactory");
-		try{
-			component12File.setContents(component12File2.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'Component12File2.java' content to " +
-					"'DuplicateFactory'", ex);
-		}
+		copyContentsFile(component12File, "src/action/org/domain/SeamWebWarTestProject/session/DuplicateFactory");
 
 		refreshProject(project);
 
@@ -427,21 +466,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		// Multiple data binder
 		
-		IFile selectionTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2");
-		try{
-			selectionTestFile.setContents(selectionTestFile2.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
-					"'SelectionTest.2'", ex);
-		}
+		copyContentsFile(selectionTestFile, "src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2");
 
-		IFile selectionIndexTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2");
-		try{
-			selectionIndexTestFile.setContents(selectionIndexTestFile2.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
-					"'SelectionIndexTest.2'", ex);
-		}
+		copyContentsFile(selectionIndexTestFile, "src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2");
 		
 		refreshProject(project);
 		
@@ -479,21 +506,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile selectionIndexTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java");
 		// Unknown @DataModel/@Out name
 		
-		IFile selectionTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.3");
-		try{
-			selectionTestFile.setContents(selectionTestFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'SelectionTest.java' content to " +
-					"'SelectionTest.3'", ex);
-		}
+		copyContentsFile(selectionTestFile, "src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.3");
 
-		IFile selectionIndexTestFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.3");
-		try{
-			selectionIndexTestFile.setContents(selectionIndexTestFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'SelectionIndexTest.java' content to " +
-					"'SelectionIndexTest.3'", ex);
-		}
+		copyContentsFile(selectionIndexTestFile, "src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.3");
 		
 		refreshProject(project);
 		
@@ -521,13 +536,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		// Duplicate variable name
 		
-		IFile contextVariableTestFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2");
-		try{
-			contextVariableTestFile.setContents(contextVariableTestFile2.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'ContextVariableTest.java' content to " +
-					"'ContextVariableTest.2'", ex);
-		}
+		copyContentsFile(contextVariableTestFile, "src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2");
 		
 		refreshProject(project);
 		
@@ -607,13 +616,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		enableUnpairGetterOrSetterValidation(true);
 
-		IFile abcComponentFile2 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
-		try{
-			abcComponentFile.setContents(abcComponentFile2.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
-					"'abcComponent.2'", ex);
-		}
+		copyContentsFile(abcComponentFile, "src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2");
 
 		refreshProject(project);
 
@@ -627,7 +630,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	
 	public void testPropertyHasOnlyGetter_Validator() throws CoreException {
 		IFile abcComponentXHTMLFile = project.getFile("WebContent/abcComponent.xhtml");
-		IFile abcComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java");
 
 		String markerText = "Property \"actionType\" has only Getter. Setter is missing.";
 
@@ -635,13 +637,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		enableUnpairGetterOrSetterValidation(true);
 
-		IFile abcComponentFile3 = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
-		try{
-			abcComponentFile.setContents(abcComponentFile3.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'abcComponent.java' content to " +
-					"'abcComponent.3'", ex);
-		}
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java", "src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3");
 
 		refreshProject(project);
 
@@ -688,13 +684,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IFile duplicateJavaComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.java");
 		IFile componentsXmlFile = project.getFile("WebContent/WEB-INF/components.xml");
 
-		IFile duplicateComponentsXmlFile = project.getFile("WebContent/WEB-INF/duplicateComponents.test");
-		try{
-			componentsXmlFile.setContents(duplicateComponentsXmlFile.getContents(), true, false, null);
-		}catch(Exception ex){
-			JUnitUtils.fail("Error in changing 'components.xml' content to 'duplicateComponents.test'", ex);
-		}
+		copyContentsFile(componentsXmlFile, "WebContent/WEB-INF/duplicateComponents.test");
+		
 		refreshProject(project);
+		
 		Integer[] lineNumbers = getMarkersNumbersOfLine(duplicateJavaComponentFile, SEAM_MARKER_FILTER);
 		assertEquals("There should be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
 		assertEquals("Problem marker has wrong line number", 5, lineNumbers[0].intValue());
@@ -712,15 +705,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
 
 		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java");
-		IFile newComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
-		IFile originalComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
 		IFile xhtmlFile = project.getFile("WebContent/testElRevalidation.xhtml");
 
-		try {
-			componentFile.setContents(newComponentFile.getContents(), true, false, null);
-		} catch(Exception ex) {
-			JUnitUtils.fail("Error in changing 'TestElRevalidation.new' content to 'TestElRevalidation.java'", ex);
-		}
+		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
+
 		refreshProject(project);
 
 		int n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
@@ -728,11 +716,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
 		// Check if the validator was not invoked.
-		try {
-			componentFile.setContents(originalComponentFile.getContents(), true, false, null);
-		} catch(Exception ex) {
-			JUnitUtils.fail("Error in changing 'TestElRevalidation.original' content to 'TestElRevalidation.java'", ex);
-		}
+		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
+
 		refreshProject(project);
 
 		n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
