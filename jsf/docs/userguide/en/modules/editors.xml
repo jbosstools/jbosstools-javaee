@@ -2156,8 +2156,10 @@ two elements with equal id has been used, but should be used only one -->
                 </mediaobject>
             </figure>
 
+            <para>To make you work on CSS files more comfortable, CSS perspective is available, read more about it in   <link linkend ="css_perspective">CSS Editing Perspective chapter</link></para> 
         </section>
         <section id="JavaScriptEditor">
+                            
 
             <title>JavaScript Editor</title>
 
