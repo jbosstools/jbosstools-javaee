@@ -23,7 +23,7 @@ import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELMethodInvocation;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.seam.internal.core.refactoring.SeamRefactorSeacher;
+import org.jboss.tools.seam.internal.core.refactoring.SeamRefactorSearcher;
 
 public class ELSearchQuery implements ISearchQuery {
 	private String propertyName;
@@ -65,7 +65,7 @@ public class ELSearchQuery implements ISearchQuery {
 		return Status.OK_STATUS;
 	}
 	
-	class ELSearcher extends SeamRefactorSeacher{
+	class ELSearcher extends SeamRefactorSearcher{
 		public ELSearcher(IFile file, String name){
 			super(file, name);
 		}
