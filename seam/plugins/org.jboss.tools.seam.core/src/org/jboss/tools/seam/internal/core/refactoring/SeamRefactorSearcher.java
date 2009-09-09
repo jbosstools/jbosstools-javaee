@@ -50,7 +50,7 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public abstract class SeamRefactorSeacher {
+public abstract class SeamRefactorSearcher {
 	protected static final String JAVA_EXT = "java"; //$NON-NLS-1$
 	protected static final String XML_EXT = "xml"; //$NON-NLS-1$
 	protected static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
@@ -62,7 +62,7 @@ public abstract class SeamRefactorSeacher {
 	protected IFile baseFile;
 	protected String propertyName;
 	
-	public SeamRefactorSeacher(IFile baseFile, String propertyName){
+	public SeamRefactorSearcher(IFile baseFile, String propertyName){
 		this.baseFile = baseFile;
 		this.propertyName = propertyName;
 	}

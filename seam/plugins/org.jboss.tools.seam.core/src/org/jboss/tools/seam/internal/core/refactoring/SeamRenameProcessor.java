@@ -67,13 +67,13 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	private String newName;
 	private String oldName;
 	
-	private SeamSeacher seacher = null;
+	private SeamSearcher searcher = null;
 	
-	protected SeamSeacher getSeacher(){
-		if(seacher == null){
-			seacher = new SeamSeacher(declarationFile, getOldName());
+	protected SeamSearcher getSearcher(){
+		if(searcher == null){
+			searcher = new SeamSearcher(declarationFile, getOldName());
 		}
-		return seacher;
+		return searcher;
 	}
 	
 	public void setNewName(String newName){
@@ -376,7 +376,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		pm.worked(1);
 		
-		getSeacher().findELReferences();
+		getSearcher().findELReferences();
 		
 		pm.done();
 	}
@@ -392,7 +392,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		pm.worked(1);
 		
-		getSeacher().findELReferences();
+		getSearcher().findELReferences();
 		
 		pm.done();
 	}
@@ -434,8 +434,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	class SeamSeacher extends SeamRefactorSeacher{
-		public SeamSeacher(IFile declarationFile, String oldName){
+	class SeamSearcher extends SeamRefactorSearcher{
+		public SeamSearcher(IFile declarationFile, String oldName){
 			super(declarationFile, oldName);
 		}
 
