@@ -7,21 +7,9 @@ Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.jsf.text.ext; singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui.ide,
- org.eclipse.core.runtime,
  org.eclipse.ui,
- org.eclipse.text,
  org.eclipse.jface.text,
- org.eclipse.ui.workbench,
- org.eclipse.jdt.core,
- org.eclipse.wst.sse.core,
- org.eclipse.wst.xml.core,
- org.eclipse.jst.jsp.core,
- org.eclipse.jst.j2ee.web,
- org.eclipse.core.resources,
- org.jboss.tools.common,
- org.jboss.tools.common.model,
  org.jboss.tools.common.text.ext,
- org.jboss.tools.jst.web,
  org.jboss.tools.jsf
 Export-Package: org.jboss.tools.jsf.text.ext,
  org.jboss.tools.jsf.text.ext.hyperlink
