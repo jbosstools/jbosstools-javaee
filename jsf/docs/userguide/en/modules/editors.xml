@@ -142,6 +142,15 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
+                <para>You can use OpenOn to open custom tag libraries:</para>
+                <figure>
+                    <title>OpenOn With custom tags</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_7a.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
                 <para>For JSP files in a JSF project, you can also easily open the navigation rules
                     by applying <property>OpenOn</property> to the JSF tag for the navigation
                     outcome:</para>
