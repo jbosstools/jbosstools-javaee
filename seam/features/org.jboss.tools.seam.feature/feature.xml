@@ -229,7 +229,8 @@ litigation.
          id="org.jboss.tools.seam.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.seam.ui"
@@ -242,7 +243,8 @@ litigation.
          id="org.jboss.tools.seam.xml"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.seam.xml.ui"
@@ -262,7 +264,8 @@ litigation.
          id="org.jboss.tools.seam.pages.xml"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.seam.ui.pages"

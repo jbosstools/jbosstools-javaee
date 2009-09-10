@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Seam XML Tests
+Bundle-SymbolicName: org.jboss.tools.seam.xml.test;singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle: org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

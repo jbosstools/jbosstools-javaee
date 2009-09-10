@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Eclipse-LazyStart: true
 Bundle-Name: %pluginName
-Bundle-ClassPath: seam-ui-pages.jar
 Bundle-Activator: org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin
 Bundle-Vendor: %providerName
 Provide-Package: org.jboss.tools.seam.ui.pages,

@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ActivationPolicy: lazy
 Bundle-Name: %Bundle-Name.0
-Bundle-ClassPath: seam-core.jar
 Bundle-Activator: org.jboss.tools.seam.core.SeamCorePlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %Bundle-Vendor.0

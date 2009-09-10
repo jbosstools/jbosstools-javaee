@@ -15,16 +15,19 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.jboss.tools.common.zip.UnzipOperation;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.osgi.framework.Bundle;
 
 /**
  * Data model provider for Seam facet wizard page
@@ -151,9 +154,21 @@ public class SeamFacetInstallDataModelProvider extends
 	 * @throws IOException if templates folder not found
 	 */
 	public static File getTemplatesFolder() throws IOException {
-		return new File(FileLocator.resolve(
-				Platform.getBundle(SeamCorePlugin.PLUGIN_ID).getEntry(
-						"/templates")).getPath()); //$NON-NLS-1$
+		Bundle bundle = SeamCorePlugin.getDefault().getBundle();
+		String version = bundle.getVersion().toString();
+		IPath stateLocation = Platform.getStateLocation(bundle);
+		File templatesDir = FileLocator.getBundleFile(bundle);
+		if(templatesDir.isFile()) {
+			File toCopy = new File(stateLocation.toFile(),version);
+			if(!toCopy.exists()) {
+				toCopy.mkdirs();
+				UnzipOperation unZip = new UnzipOperation(templatesDir.getAbsolutePath());
+				unZip.execute(toCopy,"templates.*");
+			}
+			templatesDir = toCopy;
+		}
+		return new File(templatesDir,"templates");
+
 	}
 
 	/**

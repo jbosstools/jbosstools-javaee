@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
 
@@ -21,7 +22,7 @@ import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
  *
  */
 public class SeamCoreAllTests {
-	public static final String PLUGIN_ID = "org.jboss.tools.common.model";
+	public static final String PLUGIN_ID = SeamCorePlugin.PLUGIN_ID;
 	//
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
@@ -32,6 +33,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamEARTest.class);
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
+		suite.addTestSuite(SeamPluginsLoadTest.class);
 		return suite;
 	}
 }
