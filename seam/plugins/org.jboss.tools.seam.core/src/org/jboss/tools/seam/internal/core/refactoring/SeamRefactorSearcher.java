@@ -57,6 +57,11 @@ public abstract class SeamRefactorSearcher {
 	protected static final String JSP_EXT = "jsp"; //$NON-NLS-1$
 	protected static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
 	
+	private static final String GET = "get"; //$NON-NLS-1$
+	private static final String SET = "set"; //$NON-NLS-1$
+	private static final String IS = "is"; //$NON-NLS-1$
+
+	
 	protected static final String SEAM_PROPERTIES_FILE = "seam.properties"; //$NON-NLS-1$
 	
 	protected IFile baseFile;
@@ -318,4 +323,14 @@ public abstract class SeamRefactorSearcher {
 	protected abstract boolean isFileCorrect(IFile file);
 	
 	protected abstract void match(IFile file, int offset, int length);
+	
+	public static String getPropertyName(String methodName){
+		if(methodName.startsWith(GET) || methodName.startsWith(SET))
+			return methodName.substring(3).toLowerCase();
+		
+		if(methodName.startsWith(IS))
+			return methodName.substring(2).toLowerCase();
+		
+		return methodName.toLowerCase();
+	}
 }

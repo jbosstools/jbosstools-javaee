@@ -662,5 +662,13 @@
       <xclass id="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"
               class="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"/>
    </extension>
- 
+ 	<extension
+         point="org.eclipse.jdt.ui.queryParticipants">
+      <queryParticipant
+            class="org.jboss.tools.seam.ui.search.SeamELReferencesQueryParticipant"
+            id="org.jboss.tools.seam.ui.search.SeamELReferencesQueryParticipant"
+            name="seam-SearchELReferencesParticipant"
+            nature="org.jboss.tools.seam.core.seamnature">
+      </queryParticipant>
+   </extension>
 </plugin>
