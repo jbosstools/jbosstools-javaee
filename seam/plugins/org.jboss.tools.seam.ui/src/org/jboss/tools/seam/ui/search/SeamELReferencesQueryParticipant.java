@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.ui.search.ElementQuerySpecification;
 import org.eclipse.jdt.ui.search.IMatchPresentation;
 import org.eclipse.jdt.ui.search.IQueryParticipant;
@@ -44,12 +45,14 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 			throws CoreException {
 		if(querySpecification instanceof ElementQuerySpecification){
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
-			IFile file = (IFile)qs.getElement().getResource();
-			String name = ELSearcher.getPropertyName(qs.getElement().getElementName());
-			
-			searcher = new ELSearcher(requestor, file, name);
-			
-			searcher.findELReferences();
+			if(qs.getElement() instanceof IMethod){
+				IFile file = (IFile)qs.getElement().getResource();
+				String name = ELSearcher.getPropertyName(qs.getElement().getElementName());
+				
+				searcher = new ELSearcher(requestor, file, name);
+				
+				searcher.findELReferences();
+			}
 		}
 	}
 	
