@@ -31,6 +31,5 @@ Require-Bundle:
  org.eclipse.jface,
  org.eclipse.jdt.core.manipulation,
  org.eclipse.jst.jsf.core
-Provide-Package: org.jboss.tools.seam.pages.xml.test
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

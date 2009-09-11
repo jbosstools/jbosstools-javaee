@@ -6,7 +6,7 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.jsf.ui;singleton:=true
 Bundle-Localization: plugin
-Provide-Package: org.jboss.tools.jsf.ui,
+Export-Package: org.jboss.tools.jsf.ui,
  org.jboss.tools.jsf.ui.action,
  org.jboss.tools.jsf.ui.action.handler,
  org.jboss.tools.jsf.ui.adopt,
@@ -48,5 +48,5 @@ Require-Bundle: org.jboss.tools.common.model.ui,
  org.eclipse.core.expressions,
  org.jboss.tools.common.gef;bundle-version="2.0.0"
 Bundle-Version: 2.0.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

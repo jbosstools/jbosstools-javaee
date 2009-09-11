@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.jsf.vpe.jsf;bundle-version="2.1.0",
  org.eclipse.jface.text;bundle-version="3.5.0"
 Bundle-Vendor: %Bundle-Vendor.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr.jar,
  .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

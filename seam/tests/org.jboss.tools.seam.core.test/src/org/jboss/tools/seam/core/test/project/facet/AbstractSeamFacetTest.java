@@ -1,6 +1,7 @@
 package org.jboss.tools.seam.core.test.project.facet;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -88,12 +89,22 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		
 	}
 
+	public static final String SYS_PROP_IS_NOT_DEFINED = "System property {0} is not defined";
 	protected File getSeamHomeFolder() {
-		return new File(
-				System.getProperty("jbosstools.test.seam.1.2.1.eap.home", 
-				"C:/jbdevstudio/jboss-eap/seam"));
+		String seamHomeFolder = System.getProperty(getSystemPropertyName());
+		if(seamHomeFolder==null) {
+			throw new IllegalStateException(
+					MessageFormat.format(SYS_PROP_IS_NOT_DEFINED, getSystemPropertyName())
+					);
+		}
+		return new File(seamHomeFolder);
 	}
 	
+	public static final String SEAM_EAP_121_HOME_PROPERY = "jbosstools.test.seam.1.2.1.eap.home";
+	
+	protected String getSystemPropertyName() {
+		return SEAM_EAP_121_HOME_PROPERY;
+	}
 	
 	protected void tearDown()
 

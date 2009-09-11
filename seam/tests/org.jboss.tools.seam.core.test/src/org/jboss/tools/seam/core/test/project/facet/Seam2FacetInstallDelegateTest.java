@@ -97,10 +97,10 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
 	}
 
-	@Override
-	protected File getSeamHomeFolder() {
-		return new File(System.getProperty("jbosstools.test.seam.2.0.1.GA.home", 
-				"E:\\Java\\JBoss\\Seam\\jboss-seam-2.0.1.GA"));
+	public static final String SEAM_201GA_HOME_PROPERY = "jbosstools.test.seam.2.0.1.GA.home";
+
+	protected String getSystemPropertyName() {
+		return SEAM_201GA_HOME_PROPERY;
 	}
 	
 	@Override

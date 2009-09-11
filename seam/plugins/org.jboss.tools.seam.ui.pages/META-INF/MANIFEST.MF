@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Name: %pluginName
 Bundle-Activator: org.jboss.tools.seam.ui.pages.SeamUiPagesPlugin
+Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
-Provide-Package: org.jboss.tools.seam.ui.pages,
+Export-Package: org.jboss.tools.seam.ui.pages,
  org.jboss.tools.seam.ui.pages.editor,
  org.jboss.tools.seam.ui.pages.editor.commands,
  org.jboss.tools.seam.ui.pages.editor.dnd,
@@ -17,10 +18,7 @@ Provide-Package: org.jboss.tools.seam.ui.pages,
  org.jboss.tools.seam.ui.pages.editor.palette,
  org.jboss.tools.seam.ui.pages.editor.print,
  org.jboss.tools.seam.ui.pages.editor.wizard
-Export-Package: org.jboss.tools.seam.ui.pages,
- org.jboss.tools.seam.ui.pages.editor,
- org.jboss.tools.seam.ui.pages.editor.edit
-Bundle-SymbolicName: org.jboss.tools.seam.ui.pages;singleton:=true
+Bundle-SymbolicName: org.jboss.tools.seam.ui.pages;singleton=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.gef,

@@ -6,7 +6,7 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.jsf;singleton:=true
 Bundle-Localization: plugin
-Provide-Package: org.jboss.tools.jsf,
+Export-Package: org.jboss.tools.jsf,
  org.jboss.tools.jsf.messages,
  org.jboss.tools.jsf.facelet.model,
  org.jboss.tools.jsf.model,
@@ -42,5 +42,5 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.wst.validation,
  org.eclipse.jdt.core.manipulation;bundle-version="1.3.0"
 Bundle-Version: 2.0.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

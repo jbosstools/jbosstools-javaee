@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.jsp.core,
  org.eclipse.wst.html.core,
  org.jboss.tools.vpe.html
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.jsf.template,
  org.jboss.tools.jsf.vpe.jsf.template.selectitem,
  org.jboss.tools.jsf.vpe.jsf.template.util,

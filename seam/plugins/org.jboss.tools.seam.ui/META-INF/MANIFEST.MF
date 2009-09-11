@@ -40,7 +40,7 @@ Require-Bundle: org.eclipse.ui.ide,
  org.jboss.tools.jsf,
  org.jboss.tools.jst.web.ui;bundle-version="2.0.0",
  org.eclipse.jst.j2ee.web;bundle-version="1.1.300"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.actions,
  org.jboss.tools.seam.ui.builder,

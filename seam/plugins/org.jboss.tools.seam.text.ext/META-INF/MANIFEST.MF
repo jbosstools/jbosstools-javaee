@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Name: %Bundle-Name.0
 Bundle-Activator: org.jboss.tools.seam.text.ext.SeamExtPlugin
 Bundle-ManifestVersion: 2

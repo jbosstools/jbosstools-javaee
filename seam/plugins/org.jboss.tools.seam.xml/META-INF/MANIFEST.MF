@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Name: %pluginName
 Bundle-Activator: org.jboss.tools.seam.xml.SeamXMLPlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.seam.xml;singleton:=true
 Bundle-Localization: plugin
-Provide-Package: org.jboss.tools.seam.xml,
+Export-Package: org.jboss.tools.seam.xml,
  org.jboss.tools.seam.xml.components.model,
  org.jboss.tools.seam.xml.components.model.handlers,
  org.jboss.tools.seam.xml.components.model.constraint

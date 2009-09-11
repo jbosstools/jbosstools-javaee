@@ -13,6 +13,6 @@ Require-Bundle: org.jboss.tools.vpe,
  org.jboss.tools.jsf.vpe.richfaces;bundle-version="2.1.0",
  org.jboss.tools.jsf.vpe.jsf;bundle-version="2.1.0",
  org.eclipse.jface.text;bundle-version="3.5.0"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

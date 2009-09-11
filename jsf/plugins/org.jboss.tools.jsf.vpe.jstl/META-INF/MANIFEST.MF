@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.html.core,
  org.jboss.tools.vpe.html,
  org.jboss.tools.jsf.vpe.jsf;bundle-version="2.1.0"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.jstl.template
 Bundle-Localization: plugin
 Import-Package: org.jboss.tools.jst.web.tld

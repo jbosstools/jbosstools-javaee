@@ -22,7 +22,7 @@ Require-Bundle: org.jboss.tools.jsf.vpe.richfaces,
  org.jboss.tools.vpe.resref;bundle-version="2.0.0",
  org.jboss.tools.common.el.ui;bundle-version="1.0.0",
  org.jboss.tools.common.el.core;bundle-version="2.0.0"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: vpe-rf-test.jar
 Export-Package: org.jboss.tools.jsf.vpe.richfaces.test
 Bundle-Vendor: %Bundle-Vendor.0

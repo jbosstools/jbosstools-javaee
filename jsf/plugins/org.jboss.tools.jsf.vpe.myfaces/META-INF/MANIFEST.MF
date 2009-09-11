@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.mozilla.xpcom,
  org.jboss.tools.jst.jsp,
  org.eclipse.jface.text;bundle-version="3.5.0"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.myfaces,
  org.jboss.tools.jsf.vpe.myfaces.template
 Bundle-ClassPath: jsf-vpe-myfaces.jar

@@ -1,13 +1,14 @@
 Manifest-Version: 1.0
-Eclipse-LazyStart: true
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
 Bundle-Name: %pluginName
 Bundle-Activator: org.jboss.tools.seam.xml.ui.SeamXMLUiPlugin
 Bundle-Vendor: %providerName
-Provide-Package: org.jboss.tools.seam.xml.ui,
+Export-Package: org.jboss.tools.seam.xml.ui,
  org.jboss.tools.seam.xml.ui.editor.form,
  org.jboss.tools.seam.xml.ui.editor.form.core,
  org.jboss.tools.seam.xml.ui.wizard.newfile
-Bundle-SymbolicName: org.jboss.tools.seam.xml.ui; singleton:=true
+Bundle-SymbolicName: org.jboss.tools.seam.xml.ui;singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.jface.text,
  org.eclipse.jdt.ui,
