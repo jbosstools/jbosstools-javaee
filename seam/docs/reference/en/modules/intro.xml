@@ -139,6 +139,7 @@
 
         <para>The <ulink url="http://seamframework.org/">Seam Framework</ulink> - Next generation enterprise Java development.</para>
         <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+        <para>There is some extra information on <ulink url="http://www.jboss.org/community/wiki/JBossSeam">JBoss Wiki. </ulink></para>
         <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
     </section>
 </chapter>
