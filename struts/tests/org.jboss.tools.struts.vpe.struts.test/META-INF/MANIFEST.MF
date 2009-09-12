@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
  org.junit
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: struts-test.jar
 Export-Package: org.jboss.tools.struts.vpe.struts.test
 Bundle-Vendor: %Bundle-Vendor.0
