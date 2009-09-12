@@ -7,7 +7,6 @@ Bundle-Activator: org.jboss.tools.struts.vpe.struts.test.StrutsTestPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.vpe.ui.test;visibility:=reexport,
- org.mozilla.xpcom,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
