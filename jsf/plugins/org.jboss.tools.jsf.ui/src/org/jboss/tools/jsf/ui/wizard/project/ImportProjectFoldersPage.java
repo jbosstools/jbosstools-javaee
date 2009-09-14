@@ -79,8 +79,10 @@ public class ImportProjectFoldersPage extends WizardPage {
 		XAttributeData[] ad = entityData.getAttributeData();
 		for (int i = 0; i < ad.length; i++) ad[i].setValue(""); //$NON-NLS-1$
 
-		context.setServletVersion(JSFPreference.DEFAULT_JSF_IMPORT_SERVLET_VERSION.getValue());
-		
+		if(context.getServletVersion() == null) {
+			context.setServletVersion(JSFPreference.DEFAULT_JSF_IMPORT_SERVLET_VERSION.getValue());
+		}
+	
 		JSFTemplate t = new JSFTemplate();
 		String[] versions = t.getVersionList();
 		HUtil.hackAttributeConstraintList(new XEntityData[]{entityData}, 0, ATTRIBUTES[3], versions);
@@ -254,5 +256,5 @@ public class ImportProjectFoldersPage extends WizardPage {
 		FieldEditor f = support.getFieldEditorByName("version"); //$NON-NLS-1$
 		f.setEnabled(b, supportControl);		
 	}
-	
+
 }
