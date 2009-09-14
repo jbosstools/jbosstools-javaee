@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Contexts and Dependency Injection Test
+Bundle-SymbolicName: org.jboss.tools.cdi.core.test
+Bundle-Version: 1.0.0
+Bundle-Vendor: JBoss by Red Hat
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.jboss.tools.tests,
+ org.junit;bundle-version="3.8.2"
