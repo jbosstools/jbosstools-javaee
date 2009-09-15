@@ -93,7 +93,7 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 			ELInvocationExpression invExp = invocationExpression;
 			while(invExp != null){
 				if(invExp instanceof ELMethodInvocation || invExp instanceof ELPropertyInvocation){
-					if(invExp.getMemberName() != null && invExp.getMemberName().equalsIgnoreCase(propertyName))
+					if(invExp.getMemberName() != null && invExp.getMemberName().equals(propertyName))
 						return invExp;
 					else
 						invExp = invExp.getLeft();

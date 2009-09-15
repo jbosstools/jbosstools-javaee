@@ -253,10 +253,10 @@ public abstract class SeamRefactorSearcher {
 					if(expression != null){
 						if(expression instanceof ELPropertyInvocation){
 							ELPropertyInvocation pi = (ELPropertyInvocation)expression;
-							match(file, offset+pi.getStartPosition(), pi.getName().getStart()+pi.getName().getLength()-pi.getStartPosition());
+							match(file, offset+pi.getName().getStart(), pi.getName().getLength());
 						}else if(expression instanceof ELMethodInvocation){
 							ELMethodInvocation mi = (ELMethodInvocation)expression;
-							match(file, offset+mi.getStartPosition(), mi.getName().getStart()+mi.getName().getLength()-mi.getStartPosition());
+							match(file, offset+mi.getName().getStart(), mi.getName().getLength());
 						}
 					}
 				}
@@ -325,12 +325,16 @@ public abstract class SeamRefactorSearcher {
 	protected abstract void match(IFile file, int offset, int length);
 	
 	public static String getPropertyName(String methodName){
-		if(methodName.startsWith(GET) || methodName.startsWith(SET))
-			return methodName.substring(3).toLowerCase();
+		if(methodName.startsWith(GET) || methodName.startsWith(SET)){
+			String name = methodName.substring(3);
+			return name.substring(0, 1).toLowerCase()+name.substring(1);
+		}
 		
-		if(methodName.startsWith(IS))
-			return methodName.substring(2).toLowerCase();
+		if(methodName.startsWith(IS)){
+			String name = methodName.substring(2);
+			return name.substring(0, 1).toLowerCase()+name.substring(1);
+		}
 		
-		return methodName.toLowerCase();
+		return methodName;
 	}
 }
