@@ -18,7 +18,7 @@ public class JSFPreference extends WebPreference {
 	public static final String OPTIONS_JSF_PROJECT_PATH = OPTIONS_JSFSTUDIO_PATH + "/Project"; //$NON-NLS-1$
 	public static final String OPTIONS_JSF_NEW_PROJECT_PATH = OPTIONS_JSF_PROJECT_PATH + "/New Project"; //$NON-NLS-1$
 	public static final String OPTIONS_JSF_IMPORT_PROJECT_PATH = OPTIONS_JSF_PROJECT_PATH + "/Import Project"; //$NON-NLS-1$
-	public static String JSF_EDITOR_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram"; //$NON-NLS-1$
+	public static String JSF_EDITOR_PATH = Preference.EDITOR_PATH + "/JSF Flow Diagram"; //$NON-NLS-1$
 	public static String JSF_ADD_VIEW_PATH = JSF_EDITOR_PATH + "/Add View"; //$NON-NLS-1$
 	
 	public static final Preference USE_DEFAULT_JSF_PROJECT_ROOT = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Use Default Path"); //$NON-NLS-1$
