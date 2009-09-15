@@ -30,7 +30,7 @@ public class StrutsPreference extends WebPreference {
 
 	public static final Preference DEFAULT_STRUTS_IMPORT_SERVLET_VERSION  = new StrutsPreference(OPTIONS_IMPORT_PROJECT_PATH, "Servlet Version"); //$NON-NLS-1$
 
-	public static final String WEB_FLOW_DIAGRAM_PATH   = "%Options%/Struts Studio/Editors/Web Flow Diagram"; //$NON-NLS-1$
+	public static final String WEB_FLOW_DIAGRAM_PATH   = Preference.EDITOR_PATH + "/Web Flow Diagram"; //$NON-NLS-1$
 	public static final Preference REMOVE_PAGE_AND_FILE = new StrutsPreference(WEB_FLOW_DIAGRAM_PATH, "removePageWithFile"); //$NON-NLS-1$
 	public static final Preference DO_NOT_SHOW_DIAGRAM = new StrutsPreference(WEB_FLOW_DIAGRAM_PATH, "doNotShowDiagram"); //$NON-NLS-1$
 	public static final Preference ENABLE_CONTROL_MODE_ON_TRANSITION_COMPLETED = new StrutsPreference(WEB_FLOW_DIAGRAM_PATH, "enableControlModeOnTransitionCompleted"); //$NON-NLS-1$
