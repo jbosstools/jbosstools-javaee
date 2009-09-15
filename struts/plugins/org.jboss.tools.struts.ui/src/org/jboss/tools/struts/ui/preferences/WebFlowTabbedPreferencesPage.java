@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.preferences;
 
+import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.common.model.ui.preferences.*;
 import org.eclipse.ui.*;
 import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintAList;
@@ -18,7 +19,7 @@ import org.jboss.tools.struts.*;
 import org.jboss.tools.struts.ui.StrutsUIPlugin;
 
 public class WebFlowTabbedPreferencesPage extends TabbedPreferencesPage implements IWorkbenchPreferencePage {
-	public static String STRUTS_EDITOR_PATH = "%Options%/Struts Studio/Editors/Web Flow Diagram";
+	public static String STRUTS_EDITOR_PATH = Preference.EDITOR_PATH + "/Web Flow Diagram";
 	public static String ADD_PAGE_PATH = StrutsPreference.ADD_PAGE_PATH;
 	
 	public WebFlowTabbedPreferencesPage() {
