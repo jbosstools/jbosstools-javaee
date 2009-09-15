@@ -79,9 +79,4 @@ public abstract class RunHandler extends AbstractHandler implements StrutsConsta
         }
     }
     
-	public static void startExplorer(XModel model, String url) throws Exception {
-		BrowserHelper.startExplorer(model, url);
-	}
-
-
 }
