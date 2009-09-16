@@ -32,8 +32,11 @@ import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELContext;
-import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -62,8 +65,12 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		JSFModelPlugin.getPluginLog().logError(e);
 	}
 
-	protected ELOperandResolveStatus newELOperandResolveStatus(ELInvocationExpression tokens) {
-		return new ELOperandResolveStatus(tokens);
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#getProposals(org.jboss.tools.common.el.core.resolver.ELContext, java.lang.String)
+	 */
+	public List<TextProposal> getProposals(ELContext context, String el) {
+		return getCompletions(el, false, 0, context);
 	}
 
 	public List<TextProposal> getCompletions(String elString,
@@ -87,30 +94,39 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		return proposals;
 	}
 
-	public ELOperandResolveStatus resolveELOperand(ELExpression operand,
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
+	 */
+	public ELResolution resolve(ELContext context, ELExpression operand) {
+		ELResolutionImpl resolution = resolveELOperand(operand, context, true);
+		resolution.setContext(context);
+		return resolution;
+	}
+
+	public ELResolutionImpl resolveELOperand(ELExpression operand,
 			ELContext context, boolean returnEqualedVariablesOnly) {
-		ELOperandResolveStatus status = null;
 		IResourceBundle[] bundles = new IResourceBundle[0];
 		if(context instanceof IPageContext) {
 			IPageContext pageContext = (IPageContext)context;
 			bundles = pageContext.getResourceBundles();
 		}
 		try {
-			status = resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, bundles);
+			return resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, bundles);
 		} catch (StringIndexOutOfBoundsException e) {
 			log(e);
 		} catch (BadLocationException e) {
 			log(e);
 		}
-		return status;
+		return null;
 	}
 
 	public List<TextProposal> getCompletions(IFile file, IDocument document, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly, IResourceBundle[] bundles) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<TextProposal> completions = new ArrayList<TextProposal>();
-		
-		ELOperandResolveStatus status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, bundles); //$NON-NLS-1$
-		if (status.isOK()) {
+
+		ELResolutionImpl status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, bundles); //$NON-NLS-1$
+		if (status.isResolved()) {
 			completions.addAll(status.getProposals());
 		}
 
@@ -127,11 +143,11 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		return is.get(0).getExpression();
 	}
 
-	public ELOperandResolveStatus resolveELOperand(IFile file,
+	public ELResolutionImpl resolveELOperand(IFile file,
 			ELExpression operand, boolean returnEqualedVariablesOnly, IResourceBundle[] bundles)
 			throws BadLocationException, StringIndexOutOfBoundsException {
 		if(!(operand instanceof ELInvocationExpression) || file == null) {
-			return newELOperandResolveStatus(null);
+			return null;
 		}
 
 		ELInvocationExpression expr = (ELInvocationExpression)operand;
@@ -139,7 +155,8 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			&& ((ELPropertyInvocation)expr).getName() == null;
 		boolean isArgument = expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION;
 
-		ELOperandResolveStatus status = newELOperandResolveStatus(expr);
+		ELResolutionImpl resolution = new ELResolutionImpl();
+		resolution.setOperand(expr);
 		ELInvocationExpression left = expr;
 
 		List<Variable> resolvedVariables = new ArrayList<Variable>();
@@ -161,14 +178,14 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
-					status.setLastResolvedToken(left);
+					resolution.setLastResolvedToken(left);
 					break;
 				}
 				left = (ELInvocationExpression)left.getLeft();
 			} 
 		}
 
-		if (status.getResolvedTokens() == null && 
+		if (resolution.getLastResolvedToken() == null && 
 				!returnEqualedVariablesOnly && 
 				expr != null && 
 				isIncomplete) {
@@ -176,6 +193,12 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			// the tokens are the part of var name ended with a separator (.)
 			resolvedVariables = resolveVariables(file, expr, bundles, true, returnEqualedVariablesOnly);			
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
+
+			ELSegmentImpl segment = new ELSegmentImpl();
+			segment.setToken(expr.getFirstToken());
+			segment.setResolved(false);
+			resolution.addSegment(segment);
+
 			for (Variable var : resolvedVariables) {
 				String varName = var.getName();
 				if(varName.startsWith(operand.getText())) {
@@ -185,15 +208,20 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					proposals.add(proposal);
 				}
 			}
-			status.setProposals(proposals);
-			return status;
+			resolution.setProposals(proposals);
+			return resolution;
 		}
 
 		// Here we have a list of vars for some part of expression
 		// OK. we'll proceed with members of these vars
-		if (status.getResolvedTokens() == status.getTokens()) {
+		if (resolution.getLastResolvedToken() == operand) {
 			// First segment is the last one
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
+			ELSegmentImpl segment = new ELSegmentImpl();
+			segment.setToken(operand.getFirstToken());
+			segment.setResolved(true);
+			resolution.addSegment(segment);
+
 			for (Variable var : resolvedVariables) {
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
@@ -207,24 +235,28 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					setImage(proposal);
 					proposals.add(proposal);
 				}
+				segment.getVariables().add(var);
 			}
-			status.setLastResolvedToken(expr);
-			status.setProposals(proposals);
-			return status;
+			resolution.setLastResolvedToken(expr);
+			resolution.setProposals(proposals);
+			return resolution;
 		}
 
 		//process segments one by one
 		if(left != null) while(left != expr) {
 			left = (ELInvocationExpression)left.getParent();
 			if (left != expr) { // inside expression
-				return status;
+				ELSegmentImpl segment = new ELSegmentImpl();
+				segment.setResolved(false);
+				resolution.addSegment(segment);
+				return resolution;
 			} else { // Last segment
-				resolveLastSegment((ELInvocationExpression)operand, resolvedVariables, status, returnEqualedVariablesOnly);
+				resolveLastSegment((ELInvocationExpression)operand, resolvedVariables, resolution, returnEqualedVariablesOnly);
 				break;
 			}
 		}
 
-		return status;
+		return resolution;
 	}
 
 	public List<Variable> resolveVariables(IFile file, ELInvocationExpression expr, IResourceBundle[] bundles, boolean isFinal, boolean onlyEqualNames) {
@@ -267,10 +299,19 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 
 	protected void resolveLastSegment(ELInvocationExpression expr, 
 			List<Variable> members,
-			ELOperandResolveStatus status,
+			ELResolutionImpl resolution,
 			boolean returnEqualedVariablesOnly) {
 		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
-		
+
+		ELSegmentImpl segment = new ELSegmentImpl();
+		resolution.setProposals(kbProposals);
+		if(expr instanceof ELPropertyInvocation) {
+			segment.setToken(((ELPropertyInvocation)expr).getName());			
+		}
+		if(segment.getToken()!=null) {
+			resolution.addSegment(segment);
+		}
+
 		if (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION && ((ELPropertyInvocation)expr).getName() == null) {
 			// return all the methods + properties
 			for (Variable mbr : members) {
@@ -293,7 +334,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 						kbProposal.setReplacementString(proposal);
 
 						setImage(kbProposal);
-						
+
 						kbProposals.add(kbProposal);
 
 						break;
@@ -311,8 +352,8 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			Set<String> proposalsToFilter = new TreeSet<String>();
 			boolean isMessages = false;
 			for (Variable mbr : members) {
-					isMessages = true;
-					filterSingularMember(mbr, proposalsToFilter);
+				isMessages = true;
+				filterSingularMember(mbr, proposalsToFilter);
 			}
 
 			String filter = expr.getMemberName();
@@ -329,20 +370,22 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					filter = filter.substring(1);
 				} else {
 					//Value is set as expression itself, we cannot compute it
-					if(isMessages) status.setMapOrCollectionOrBundleAmoungTheTokens();
+					if(isMessages) {
+						resolution.setMapOrCollectionOrBundleAmoungTheTokens(true);
+					}
 					return;
 				}
 			}
-			
+
 			for (String proposal : proposalsToFilter) {
 				if(returnEqualedVariablesOnly) {
 					// This is used for validation.
 					if (proposal.equals(filter)) {
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
-						
+
 						setImage(kbProposal);
-						
+
 						kbProposals.add(kbProposal);
 
 						break;
@@ -350,48 +393,48 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 				} else if (proposal.startsWith(filter)) {
 					// This is used for CA.
 					TextProposal kbProposal = new TextProposal();
-					
+
 					String replacementString = proposal.substring(filter.length());
 					if (bSurroundWithQuotes) {
 						replacementString = "'" + replacementString + "']"; //$NON-NLS-1$ //$NON-NLS-2$
 					}
-					
+
 					kbProposal.setReplacementString(replacementString);
 					kbProposal.setImage(getELProposalImage());
-					
+
 					kbProposals.add(kbProposal);
 				}
 			}
 		}
-		status.setProposals(kbProposals);
-		if (status.isOK()){
-			status.setLastResolvedToken(expr);
+		segment.setResolved(!kbProposals.isEmpty());
+		if (resolution.isResolved()){
+			resolution.setLastResolvedToken(expr);
 		}
 	}
 
 	protected void processSingularMember(Variable mbr, Set<TextProposal> kbProposals) {
-			// Surround the "long" keys containing the dots with [' '] 
-			TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-			keys.addAll(mbr.getKeys());
-			Iterator<String> sortedKeys = keys.iterator();
-			while(sortedKeys.hasNext()) {
-				String key = sortedKeys.next();
-				if (key == null || key.length() == 0)
-					continue;
-				if (key.indexOf('.') != -1) {
-					TextProposal proposal = new TextProposal();
-					proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
-					setImage(proposal);
-					
-					kbProposals.add(proposal);
-				} else {
-					TextProposal proposal = new TextProposal();
-					proposal.setReplacementString(key);
-					setImage(proposal);
-					
-					kbProposals.add(proposal);
-				}
+		// Surround the "long" keys containing the dots with [' '] 
+		TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+		keys.addAll(mbr.getKeys());
+		Iterator<String> sortedKeys = keys.iterator();
+		while(sortedKeys.hasNext()) {
+			String key = sortedKeys.next();
+			if (key == null || key.length() == 0)
+				continue;
+			if (key.indexOf('.') != -1) {
+				TextProposal proposal = new TextProposal();
+				proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
+				setImage(proposal);
+				
+				kbProposals.add(proposal);
+			} else {
+				TextProposal proposal = new TextProposal();
+				proposal.setReplacementString(key);
+				setImage(proposal);
+				
+				kbProposals.add(proposal);
 			}
+		}
 	}
 
 	protected void filterSingularMember(Variable mbr, Set<String> proposalsToFilter) {
@@ -401,11 +444,11 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		}
 	}
 
-	static class Variable {
+	static class Variable implements IVariable {
 		IFile f;
 		String name;
 		String basename;
-		
+
 		public Variable(String name, String basename, IFile f) {
 			this.name = name;
 			this.basename = basename;
@@ -415,11 +458,11 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		public String getName() {
 			return name;
 		}
-	
+
 		public String getBasename() {
 			return basename;
 		}
-		
+
 		public Collection<String> getKeys() {
 			TreeSet<String> result = new TreeSet<String>();
 			IModelNature n = EclipseResourceUtil.getModelNature(f.getProject());
@@ -433,5 +476,4 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			return result;
 		}
 	}
-
 }

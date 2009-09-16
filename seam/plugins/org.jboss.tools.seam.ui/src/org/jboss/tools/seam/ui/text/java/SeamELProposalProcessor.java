@@ -436,7 +436,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			List<Var> vars = varSearcher.findAllVars(viewer, offset);
 			
 			SeamELCompletionEngine fEngine= new SeamELCompletionEngine();
-			List<TextProposal> suggestions = fEngine.getCompletions(file, document, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
+			List<TextProposal> suggestions = fEngine.getCompletions(file, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
 			List<TextProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();

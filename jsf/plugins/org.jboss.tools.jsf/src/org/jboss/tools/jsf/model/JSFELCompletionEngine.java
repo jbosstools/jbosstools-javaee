@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
-import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
+import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -61,15 +61,6 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 */
 	public ELParserFactory getParserFactory() {
 		return factory;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#newELOperandResolveStatus(org.jboss.tools.common.el.core.model.ELInvocationExpression)
-	 */
-	@Override
-	protected ELOperandResolveStatus newELOperandResolveStatus(ELInvocationExpression tokens) {
-		return new ELOperandResolveStatus(tokens);
 	}
 
 	/*

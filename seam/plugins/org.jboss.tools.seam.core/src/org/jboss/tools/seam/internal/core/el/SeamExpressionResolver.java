@@ -28,6 +28,9 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.Type;
@@ -93,20 +96,6 @@ public class SeamExpressionResolver {
 		return internalResolveVariables(project, name, onlyEqualNames, variables);
 	}
 
-	/**
-	 * Returns Seam project variables which names start from specified value
-	 * Search is performed using scope
-	 *  
-	 * @param project
-	 * @param scope
-	 * @param name
-	 * @return
-	 */
-	private static List<ISeamContextVariable> internalResolveVariablesByScope(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
-		Set<ISeamContextVariable> variables = project.getVariablesByScope(scope, true);
-		return internalResolveVariables(project, name, onlyEqualNames, variables);
-	}
-	
 	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames, Set<ISeamContextVariable> variables) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		if(onlyEqualNames) {
@@ -352,11 +341,17 @@ public class SeamExpressionResolver {
 				if(ex instanceof ELInvocationExpression) {
 					ELInvocationExpression expr = (ELInvocationExpression)ex;
 					try {
-						member = engine.resolveEL(null, expr, false);
+						ELResolution resolution = engine.resolveEL(null, expr, false);
+						if(resolution.isResolved()) {
+							ELSegment segment = resolution.getLastSegment();
+							if(segment instanceof JavaMemberELSegmentImpl) {
+								member = ((JavaMemberELSegmentImpl)segment).getMemberInfo();
+							}
+						}
 					} catch (StringIndexOutOfBoundsException e) {
-						e.printStackTrace();
+						SeamCorePlugin.getDefault().logError(e);
 					} catch (BadLocationException e) {
-						e.printStackTrace();
+						SeamCorePlugin.getDefault().logError(e);
 					}
 				}
 			}

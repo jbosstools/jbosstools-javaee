@@ -10,7 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine.IVariable;
+import org.jboss.tools.common.el.core.resolver.IVariable;
 
 /**
  * Represents Seam Context Variable.

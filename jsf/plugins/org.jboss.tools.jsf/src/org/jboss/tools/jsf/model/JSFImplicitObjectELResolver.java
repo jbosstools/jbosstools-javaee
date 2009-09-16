@@ -28,6 +28,9 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -101,11 +104,17 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 
 		for (String var : elVars) {
 			try {
-				TypeInfoCollector.MemberInfo info = resolveEL(file, IMPLICT_OBJECTS_ELS.get(var), false);
-				if(info!=null) {
-					IType type = info.getMemberType();
-					if(type!=null) {
-						resolvedVariables.add(new Variable(var, type));
+				ELResolution resolution = resolveEL(file, IMPLICT_OBJECTS_ELS.get(var), false);
+				if(resolution.isResolved()) {
+					ELSegment segment = resolution.getLastSegment();
+					if(segment instanceof JavaMemberELSegment) {
+						TypeInfoCollector.MemberInfo info = ((JavaMemberELSegment)segment).getMemberInfo();
+						if(info!=null) {
+							IType type = info.getMemberType();
+							if(type!=null) {
+								resolvedVariables.add(new Variable(var, type));
+							}
+						}
 					}
 				}
 			} catch (StringIndexOutOfBoundsException e) {

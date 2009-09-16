@@ -58,19 +58,22 @@ import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.parser.SyntaxError;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.IVariable;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.el.SeamELOperandResolveStatus;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -409,58 +412,67 @@ public class SeamELValidator extends SeamValidator {
 		boolean unresolvedTokenIsVariable = false;
 		try {
 			if (!operand.endsWith(".")) { //$NON-NLS-1$
-				SeamELOperandResolveStatus status = 
-					(SeamELOperandResolveStatus)engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
+				ELResolution resolution = engine.resolveELOperand(file, operandToken, true, varListForCurentValidatedNode, elVarSearcher);
 
-				if(status.isError()) {
+				if(!resolution.isResolved()) {
 					Set<String> names = findVariableNames(operandToken);
 					for (String name : names) {
 						validationContext.addLinkedEl(name, elReference);
 					}
 				}
 
+				List<ELSegment> segments = resolution.getSegments();
+				List<IVariable> usedVariables = new ArrayList<IVariable>();
+				for (ELSegment segment : segments) {
+					if(!segment.getVariables().isEmpty()) {
+						usedVariables.addAll(segment.getVariables());
+					}
+					// Check pair for getter/setter
+					if(segment instanceof JavaMemberELSegmentImpl) {
+						JavaMemberELSegmentImpl javaSegment = (JavaMemberELSegmentImpl)segment;
+						if(!javaSegment.getUnpairedGettersOrSetters().isEmpty()) {
+							TypeInfoCollector.MethodInfo unpairedMethod = javaSegment.getUnpairedGettersOrSetters().values().iterator().next();
+							String methodName = unpairedMethod.getName();
+							String propertyName = javaSegment.getUnpairedGettersOrSetters().keySet().iterator().next();
+							String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
+							String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
+							if(methodName.startsWith("s")) { //$NON-NLS-1$
+								missingMethodName = existedMethodName;
+								existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
+							}
+							int startPosition = documnetOffset + operandToken.getStartPosition();
+							int length = operandToken.getLength();
+							int startPr = operand.indexOf(propertyName);
+							if(startPr>-1) {
+								startPosition = startPosition + startPr;
+								length = propertyName.length();
+							}
+							IMarker marker = addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
+							elReference.addMarker(marker);
+						}
+					}
+				}
 				// Save links between resource and used variables names
-				for(ISeamContextVariable variable: status.getUsedVariables()) {
+				for(IVariable variable: usedVariables) {
 					validationContext.addLinkedEl(variable.getName(), elReference);
 				}
 
-				// Check pair for getter/setter
-				if(!status.getUnpairedGettersOrSetters().isEmpty()) {
-					TypeInfoCollector.MethodInfo unpairedMethod = status.getUnpairedGettersOrSetters().values().iterator().next();
-					String methodName = unpairedMethod.getName();
-					String propertyName = status.getUnpairedGettersOrSetters().keySet().iterator().next();
-					String missingMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
-					String existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_GETTER;
-					if(methodName.startsWith("s")) { //$NON-NLS-1$
-						missingMethodName = existedMethodName;
-						existedMethodName = SeamCoreMessages.SEAM_EL_VALIDATOR_SETTER;
-					}
-					int startPosition = documnetOffset + operandToken.getStartPosition();
-					int length = operandToken.getLength();
-					int startPr = operand.indexOf(propertyName);
-					if(startPr>-1) {
-						startPosition = startPosition + startPr;
-						length = propertyName.length();
-					}
-					IMarker marker = addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, SeamPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
-					elReference.addMarker(marker);
-				}
-
-				if (status.isOK()) {
+				if (resolution.isResolved()) {
 					// It's valid EL.
 					return;
 				}
-				
-				ELInvocationExpression ts = status.getUnresolvedTokens();
-				
-				varName = ts.getMemberName();
+
+				ELSegment segment = resolution.getUnresolvedSegment();
+				LexicalToken token = segment.getToken();
+
+				varName = token.getText();
 				if(varName == null) {
 					//This is syntax error case. Reported by parser.
 					return;						
 				}
-				offsetOfVarName = documnetOffset + ts.getInvocationStartPosition();
+				offsetOfVarName = documnetOffset + token.getStart();
 				lengthOfVarName = varName == null ? 0 : varName.length();
-				if(status.getUsedVariables().isEmpty()) {
+				if(usedVariables.isEmpty()) {
 					unresolvedTokenIsVariable = true;
 				}
 			}

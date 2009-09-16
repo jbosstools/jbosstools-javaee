@@ -43,13 +43,12 @@ import org.jboss.tools.common.el.core.model.ELUtil;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
-import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
-import org.jboss.tools.common.el.core.resolver.ELOperandResolveStatus;
-import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
-import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -74,7 +73,7 @@ import org.w3c.dom.Element;
  * 
  * @author Jeremy
  */
-public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISeamContextVariable> implements ELCompletionEngine, ELResolver {
+public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISeamContextVariable> {
 
 	private static final Image SEAM_EL_PROPOSAL_IMAGE = 
 		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
@@ -106,10 +105,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		SeamCorePlugin.getPluginLog().logError(e);
 	}
 
-	protected ELOperandResolveStatus newELOperandResolveStatus(ELInvocationExpression tokens) {
-		return new SeamELOperandResolveStatus(tokens);
-	}
-
 	/**
 	 * Returns a list of Seam Context Variables that is represented by EL. Null if El is not resolved.
 	 * @param project
@@ -138,7 +133,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		boolean isIncomplete = expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION
 				&& ((ELPropertyInvocation) expr).getName() == null;
 
-		ELOperandResolveStatus status = new ELOperandResolveStatus(expr);
 		ELInvocationExpression left = expr;
 
 		ScopeType scope = getScope(project, file);
@@ -152,7 +146,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 						left == expr, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
-					status.setLastResolvedToken(left);
 					break;
 				}
 				left = (ELInvocationExpression) left.getLeft();
@@ -166,6 +159,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		return resolvedVariables;
 	}
 
+	@Override
 	public List<ISeamContextVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), false);
 		ScopeType scope = getScope(project, file);
@@ -182,10 +176,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		} else {
 			proposal.setImage(getELProposalImage());
 		}
-	}
-
-	protected void setUsedVariables(ELOperandResolveStatus status, List<ISeamContextVariable> variables) {
-		((SeamELOperandResolveStatus)status).setUsedVariables(variables);
 	}
 
 	protected boolean isSingularAttribute(ISeamContextVariable var) {
@@ -238,41 +228,8 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		}
 	}
 
-/**
-	private String computeVariableName(List<ELOperandToken> tokens){
-		if (tokens == null)
-			tokens = new ArrayList<ELOperandToken>();
-		StringBuffer sb = new StringBuffer();
-		for (ELOperandToken token : tokens) {
-			if (token.getType() == ELOperandToken.EL_VARIABLE_NAME_TOKEN ||
-					token.getType() == ELOperandToken.EL_PROPERTY_NAME_TOKEN ||
-					token.getType() == ELOperandToken.EL_METHOD_TOKEN ||
-					token.getType() == ELOperandToken.EL_SEPARATOR_TOKEN) {
-				sb.append(token.getText());
-			}
-		}
-		return sb.toString();
-	}
-*/
-
-/**
-	private boolean areEqualExpressions(List<ELOperandToken>first, List<ELOperandToken>second) {
-		if (first == null || second == null)
-			return (first == second);
-
-		if (first.size() != second.size())
-			return false;
-
-		for (int i = 0; i < first.size(); i++) {
-			if (!first.get(i).equals(second.get(i)))
-				return false;
-		}
-		return true;
-	}
-*/
-
-	/* Returns scope for the resource
-	 * 
+	/**
+	 *  Returns scope for the resource
 	 * @param project
 	 * @param resource
 	 * @return
@@ -293,9 +250,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		return null;
 	}
 
-
-	
-	
 	public List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		
@@ -466,15 +420,15 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			ISeamProject project, IFile file, 
 			ELInvocationExpression expr) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<IJavaElement> res = new ArrayList<IJavaElement>();
-		
+
 		ElVarSearcher varSearcher = new ElVarSearcher(file, this);
 		List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
 
-		ELOperandResolveStatus status = resolveELOperand(file, expr, true, vars, varSearcher);
-		if (status.isOK()) {
-			MemberInfo member = status.getMemberOfResolvedOperand();
-			if (member != null) {
-				IJavaElement el = member.getJavaElement();
+		ELResolution resolution = resolveELOperand(file, expr, true, vars, varSearcher);
+		if (resolution.isResolved()) {
+			ELSegment segment = resolution.getLastSegment();
+			if(segment instanceof JavaMemberELSegment) {
+				IJavaElement el = ((JavaMemberELSegment)segment).getJavaElement();
 				if (el != null) {
 					res.add(el);
 					return res;
