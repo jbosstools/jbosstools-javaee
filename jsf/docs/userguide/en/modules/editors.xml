@@ -238,7 +238,7 @@
                         <property>Content Assist features</property> while developing:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Content Assist for XML, JSP and JSF configuration files</para>
+                        <para>Content Assist for XML, XHTML,  JSP and JSF configuration files</para>
                     </listitem>
                     <listitem>
                         <para>Content Assist based on project data</para>
