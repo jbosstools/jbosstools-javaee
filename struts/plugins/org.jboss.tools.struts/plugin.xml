@@ -400,4 +400,15 @@
       	watcherContributor="org.jboss.tools.struts.webprj.model.helpers.sync.SyncProjectContext"
       	/>
    </extension>
+
+ <extension
+       point="org.jboss.tools.common.model.preferences">
+    <contribution
+          resource="meta/struts-options.xml" priority="3">
+    </contribution>
+    <contribution
+          resource="meta/struts-palette.xml" priority="5">
+    </contribution>
+ </extension>
+
 </plugin>

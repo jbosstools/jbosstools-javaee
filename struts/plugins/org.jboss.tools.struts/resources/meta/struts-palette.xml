@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XStudio model-entity="SharableXStudio" NAME="XStudio" SCOPE="project">
+	<Palette NAME="Palette" SCOPE="project" model-entity="SharablePalette">
+		<PageTabHTML DESCRIPTION="" EDITOR_TYPE="" HIDDEN="yes"
+			NAME="Struts" NATURE_TYPE="" SCOPE="project" TABTYPE="HTML"
+			model-entity="SharablePageTabHTML">
+			<GroupHTML HIDDEN="no" ICON="" NAME="Tiles" PREFIX="tiles"
+				SCOPE="project" URI="http://jakarta.apache.org/struts/tags-tiles"
+				add_taglib="true" library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;440&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>tiles taglib&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>     &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-tiles.tld&amp;quot; prefix=&amp;quot;tiles&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="Struts tiles taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-tiles.tld&quot; prefix=&quot;tiles&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Add&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:add&amp;gt;&lt;br>&amp;lt;/tiles:add&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    value,\n    content,\n    direct,\n    type,\n    beanName,\n    beanProperty,\n    beanScope,\n    role\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/add>" ICON="%Icons%/jstl/add" NAME="add" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;add>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Import Attribute&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:importAttribute /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    name,\n    scope,\n    ignore\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/jstl/import" NAME="importAttribute"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;importAttribute/>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Get&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:get /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>name&lt;/b>,\n    ignore,\n    flush,\n    role\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/jstl/get" NAME="get" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;get name=&quot;|&quot;/>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Put&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:put&amp;gt;&lt;br>&amp;lt;/tiles:put&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    name,\n    value,\n    content,\n    direct,\n    type,\n    beanName,\n    beanProperty,\n    beanScope,\n    role\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/put>" ICON="%Icons%/jstl/add" NAME="put" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;put>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Definition&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:definition&amp;gt;&lt;br>&amp;lt;/tiles:definition&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    scope,\n    template,\n    page,\n    role,\n    extends\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/definition>" ICON="%Icons%/Struts Bean/define" NAME="definition"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;definition id=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Insert&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:insert&amp;gt;&lt;br>&amp;lt;/tiles:insert&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    template,\n    component,\n    page,\n    definition,\n    attribute,\n    name,\n    beanName,\n    beanProperty,\n    beanScope,\n    flush,\n    ignore,\n    role,\n    controllerUrl,\n    controllerClass\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/insert>" ICON="%Icons%/jstl/add" NAME="insert"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;insert>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Use Attribute&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:useAttribute /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>name&lt;/b>,\n    id,\n    classname,\n    scope,\n    ignore\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/jstl/attr" NAME="useAttribute" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;useAttribute name=&quot;|&quot;/>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Get As String&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:getAsString /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>name&lt;/b>,\n    ignore,\n    role\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/jstl/getAsString" NAME="getAsString"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;getAsString name=&quot;|&quot;/>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Put List&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:putList&amp;gt;&lt;br>&amp;lt;/tiles:putList&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>name&lt;/b>\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/putList>" ICON="%Icons%/jstl/putList" NAME="putList"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;putList name=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Init Component Definitions&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;tiles:initComponentDefinitions /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>file&lt;/b>,\n    classname\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/jstl/initComponentDefinitions" NAME="initComponentDefinitions"
+					REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;initComponentDefinitions file=&quot;|&quot;/>"
+					large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+			<GroupHTML HIDDEN="no" ICON="" NAME="HTML" PREFIX="html"
+				SCOPE="project" URI="http://jakarta.apache.org/struts/tags-html"
+				add_taglib="true" library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Javascript&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:javascript /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    cdata,\n    dynamicJavascript,\n    formName,\n    method,\n    page,\n    src,\n    staticJavascript,\n    htmlComment\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/javascript" NAME="javascript"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;javascript />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Html&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:html&amp;gt;&lt;br>&amp;lt;/HTML:html&amp;gt;&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     locale,     xhtml     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="&lt;/html>" ICON="%Icons%/Struts HTML/html" NAME="html"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;html>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;420&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>html taglib&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>  &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-html.tld&amp;quot; prefix=&amp;quot;html&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="Struts html taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-html.tld&quot; prefix=&quot;html&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Rewrite&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:rewrite /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    anchor,\n    forward,\n    href,\n    name,\n    page,\n    paramId,\n    paramName,\n    paramProperty,\n    paramScope,\n    property,\n    scope,\n    transaction\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/rewrite" NAME="rewrite"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;rewrite />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Link&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:link&amp;gt;&lt;br>&amp;lt;/HTML:link&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    accesskey,\n    action,\n    anchor,\n    forward,\n    href,\n    indexed,\n    indexId,\n    linkName,\n    name,\n    onblur,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    page,\n    paramId,\n    paramName,\n    paramProperty,\n    paramScope,\n    property,\n    scope,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    target,\n    title,\n    titleKey,\n    transaction\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/link>" ICON="%Icons%/Struts HTML/link" NAME="link"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;link>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Options&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:options&amp;gt;&lt;br>&amp;lt;/HTML:options&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    collection,\n    filter,\n    labelName,\n    labelProperty,\n    name,\n    property,\n    style,\n    styleClass\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/options>" ICON="%Icons%/Struts HTML/options" NAME="options"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;options>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>  &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Base&lt;/code>    &lt;br>     &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:base /&amp;gt;&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     target,     server     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/base" NAME="base" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;base />" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>XHTML&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:xhtml&amp;gt;&lt;br>&amp;lt;/HTML:xhtml&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/html>" ICON="%Icons%/Struts HTML/xhtml" NAME="xhtml"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;html xhtml=&quot;true&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Frame&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:frame&amp;gt;&lt;br>&amp;lt;/HTML:frame&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    action,\n    anchor,\n    forward,\n    frameborder,\n    frameName,\n    href,\n    longdesc,\n    marginheight,\n    marginwidth,\n    name,\n    noresize,\n    page,\n    paramId,\n    paramName,\n    paramProperty,\n    paramScope,\n    property,\n    scope,\n    scrolling,\n    style,\n    styleClass,\n    styleId,\n    title,\n    titleKey,\n    transaction\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/frame>" ICON="%Icons%/Struts HTML/frame" NAME="frame"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;frame>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>  &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Errors&lt;/code>    &lt;br>     &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:errors /&amp;gt;&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     bundle,     locale,     name,     property     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/errors" NAME="errors"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;errors />" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:img /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    align,\n    alt,\n    altKey,\n    border,\n    bundle,\n    height,\n    hspace,\n    imageName,\n    ismap,\n    locale,\n    lowsrc,\n    name,\n    onclick,\n    ondblclick,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    paramId,\n    page,\n    pageKey,\n    paramName,\n    paramProperty,\n    paramScope,\n    property,\n    scope,\n    src,\n    srcKey,\n    style,\n    styleClass,\n    styleId,\n    title,\n    titleKey,\n    usemap,\n    vspace,\n    width\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/img" NAME="img" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;img page=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>       &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Image&lt;/code>    &lt;br> &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:image src=&quot;&quot; /&amp;gt;&lt;br>&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     accesskey,     align,     alt,     altKey,     border,     bundle,     disabled,     indexed,     locale,     onblur,     onchange,     onclick,     ondblclick,     onfocus,     onkeydown,     onkeypress,     onkeyup,     onmousedown,     onmousemove,     onmouseout,     onmouseover,     onmouseup,     page,     pageKey,     property,     src,     srcKey,     style,     styleClass,     styleId,     tabindex,     title,     titleKey,     value     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/image" NAME="image" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;image src=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Messages&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:messages&amp;gt;&lt;br>&amp;lt;/HTML:messages&amp;gt;&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     &lt;b>id&lt;/b>,     bundle,     locale,     name,     property,     header,     footer,     message     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="&lt;/messages>" ICON="%Icons%/Struts HTML/messages" NAME="messages"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;messages id=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Options Collection&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;HTML:optionsCollection&amp;gt;&lt;br>&amp;lt;/HTML:optionsCollection&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    filter,\n    label,\n    name,\n    property,\n    style,\n    styleClass,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/optionsCollection>" ICON="%Icons%/Struts HTML/optioncollection"
+					NAME="optionsCollection" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;optionsCollection property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+			<GroupHTML HIDDEN="no" ICON="" NAME="Bean" PREFIX="bean"
+				SCOPE="project" URI="http://jakarta.apache.org/struts/tags-bean"
+				add_taglib="true" library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Write&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:write /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>name&lt;/b>,\n    bundle,\n    filter,\n    format,\n    formatKey,\n    ignore,\n    locale,\n    property,\n    scope\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/write" NAME="write" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;write name=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Define&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:define /&amp;gt;&lt;br>&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    name,\n    property,\n    scope,\n    toScope,\n    type,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/define" NAME="define"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;define id=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Message&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:message /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    arg0,\n    arg1,\n    arg2,\n    arg3,\n    arg4,\n    bundle,\n    key,\n    locale,\n    name,\n    property,\n    scope\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/message" NAME="message"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;message />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Page&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:page /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    &lt;b>property&lt;/b>\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/page" NAME="page" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;page id=&quot;|&quot; property=&quot;&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Header&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:header /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    &lt;b>name&lt;/b>,\n    multiple,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/header" NAME="header"
+					REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;header id=&quot;|&quot; name=&quot;&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Include&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:include /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    anchor,\n    forward,\n    href,\n    name,\n    page,\n    transaction\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/include" NAME="include"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;include id=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Struts&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:struts /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    formBean,\n    forward,\n    mapping\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/struts" NAME="struts"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;struts id=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Cookie&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:cookie /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    &lt;b>name&lt;/b>,\n    multiple,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/cookie" NAME="cookie"
+					REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;cookie id=&quot;|&quot; name=&quot;&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Size&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:size /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    collection,\n    name,\n    property,\n    scope\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/size" NAME="size" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;size id=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Resource&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:resource /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    &lt;b>name&lt;/b>,\n    input\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/resource" NAME="resource"
+					REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;resource id=&quot;|&quot; name=&quot;&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Parameter&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;bean:parameter /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>id&lt;/b>,\n    &lt;b>name&lt;/b>,\n    multiple,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts Bean/parameter" NAME="parameter"
+					REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;parameter id=&quot;|&quot; name=&quot;&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;420&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Bean Taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n    &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-bean.tld&amp;quot; prefix=&amp;quot;bean&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="Struts bean taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-bean.tld&quot; prefix=&quot;bean&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+			<GroupHTML HIDDEN="no" ICON="" NAME="Form" PREFIX="html"
+				SCOPE="project" URI="http://struts.apache.org/tags-html" add_taglib="true"
+				library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Password Field&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:password property=&quot;&quot; /&amp;gt;&lt;br>&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    indexed,\n    maxlength,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    readonly,\n    redisplay,\n    style,\n    styleClass,\n    styleId,\n    size,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/password" NAME="password"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;password property=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Form&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:form&amp;gt;&lt;br>&amp;lt;/html:form&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>action&lt;/b>,\n    enctype,\n    focus,\n    focusIndex,\n    method,\n    name,\n    onreset,\n    onsubmit,\n    scope,\n    style,\n    styleClass,\n    styleId,\n    target,\n    type\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/form>" ICON="%Icons%/Struts HTML/form" NAME="form"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;form action=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>File&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:file property=&quot;&quot;/&amp;gt;&lt;br>&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    accesskey,\n    accept,\n    alt,\n    altKey,\n    disabled,\n    indexed,\n    maxlength,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    size,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/file" NAME="file" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;file property=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Multibox&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:multibox&amp;gt;&lt;br>&amp;lt;/html:multibox&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/multibox>" ICON="%Icons%/Struts HTML/multibox" NAME="multibox"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;multibox property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;420&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>html taglib&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>  &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-html.tld&amp;quot; prefix=&amp;quot;html&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="Struts html taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-html.tld&quot; prefix=&quot;html&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Reset Button&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:reset&amp;gt;&lt;br>&amp;lt;/html:reset&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    property,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/reset>" ICON="%Icons%/Struts HTML/reset" NAME="reset"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;reset>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>  &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Button&lt;/code>    &lt;br>     &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:button&amp;gt;&lt;br>&amp;lt;/html:button&amp;gt;&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     &lt;b>property&lt;/b>,     accesskey,     alt,     altKey,     disabled,     indexed,     onblur,     onchange,     onclick,     ondblclick,     onfocus,     onkeydown,     onkeypress,     onkeyup,     onmousedown,     onmousemove,     onmouseout,     onmouseover,     onmouseup,     style,     styleClass,     styleId,     tabindex,     title,     titleKey,     value     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="&lt;/button>" ICON="%Icons%/Struts HTML/button" NAME="button"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;button property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Select&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:select&amp;gt;&lt;br>&amp;lt;/html:select&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    alt,\n    altKey,\n    disabled,\n    indexed,\n    multiple,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    size,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/select>" ICON="%Icons%/Struts HTML/select" NAME="select"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;select property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;300&quot;>   &lt;tr>    &lt;td>  &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Checkbox&lt;/code>    &lt;br>     &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:checkbox property=&quot;&quot;&amp;gt;&lt;br>&amp;lt;/html:checkbox&amp;gt;&lt;/code>    &lt;br>    &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>    &lt;code>&lt;br>     &lt;b>property&lt;/b>,     accesskey,     alt,     altKey,     disabled,     indexed,     name,     onblur,     onchange,     onclick,     ondblclick,     onfocus,     onkeydown,     onkeypress,     onkeyup,     onmousedown,     onmousemove,     onmouseout,     onmouseover,     onmouseup,     style,     styleClass,     styleId,     tabindex,     title,     titleKey,     value     &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="&lt;/checkbox>" ICON="%Icons%/Struts HTML/checkbox" NAME="checkbox"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;checkbox property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Text&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:text property=&quot;|&quot; /&amp;gt;&lt;br>&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    indexed,\n    maxlength,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    readonly,\n    size,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/text" NAME="text" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;text property=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Submit&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:submit&amp;gt;&lt;br>&amp;lt;/html:submit&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    indexed,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    property,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/submit>" ICON="%Icons%/Struts HTML/submit" NAME="submit"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;submit value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Hidden&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:hidden /&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    accesskey,\n    alt,\n    altKey,\n    indexed,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    style,\n    styleClass,\n    styleId,\n    title,\n    titleKey,\n    value,\n    write\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/hidden" NAME="hidden"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;hidden property=&quot;|&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Option&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:option&amp;gt;&lt;br>&amp;lt;/html:option&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>value&lt;/b>,\n    bundle,\n    disabled,\n    key,\n    locale,\n    style,\n    styleId,\n    styleClass\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/option>" ICON="%Icons%/Struts HTML/option" NAME="option"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;option value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Radio&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:radio property=&quot;&quot; value=&quot;&quot; /&amp;gt;&lt;br>&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    &lt;b>value&lt;/b>,\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    indexed,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    idName\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/radio" NAME="radio" REFORMAT="no"
+					SCOPE="project" STARTTEXT="&lt;radio property=&quot;|&quot; value=&quot;&quot; />"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Cancel Button&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:cancel/&amp;gt;&lt;br>&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    accesskey,\n    alt,\n    altKey,\n    disabled,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    property,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="" ICON="%Icons%/Struts HTML/cancel" NAME="cancel"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;cancel />" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;300&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Text Area&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font> &lt;code>&lt;br>&amp;lt;html:textarea&amp;gt;&lt;br>&amp;lt;/html:textarea&amp;gt;&lt;/code>\n   &lt;br>\n   &lt;font color=&quot;OLIVE&quot;>&lt;b>Atributes:&lt;/b>&lt;/font>\n   &lt;code>&lt;br>\n    &lt;b>property&lt;/b>,\n    accesskey,\n    alt,\n    altKey,\n    cols,\n    disabled,\n    indexed,\n    name,\n    onblur,\n    onchange,\n    onclick,\n    ondblclick,\n    onfocus,\n    onkeydown,\n    onkeypress,\n    onkeyup,\n    onmousedown,\n    onmousemove,\n    onmouseout,\n    onmouseover,\n    onmouseup,\n    readonly,\n    rows,\n    style,\n    styleClass,\n    styleId,\n    tabindex,\n    title,\n    titleKey,\n    value\n    &lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>\n"
+					ENDTEXT="&lt;/textarea>" ICON="%Icons%/Struts HTML/textarea" NAME="textarea"
+					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;textarea property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+			<GroupHTML HIDDEN="no" ICON="" NAME="Logic" PREFIX="logic"
+				SCOPE="project" URI="http://jakarta.apache.org/struts/tags-logic"
+				add_taglib="true" library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:notMatch&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:notMatch&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, location, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/notMatch>" ICON="" NAME="notMatch" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notMatch value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:notPresent&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:notPresent&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>cookie, header, name, parameter, property, role, scope, user&lt;/code>"
+					ENDTEXT="&lt;/notPresent>" ICON="" NAME="notPresent" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notPresent>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:notEqual&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:notEqual&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/notEqual>" ICON="" NAME="notEqual" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notEqual value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:messagesPresent&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:messagesPresent&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, message&lt;/code>"
+					ENDTEXT="&lt;/messagesPresent>" ICON="" NAME="messagesPresent"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;messagesPresent>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:iterate&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:iterate&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>id&lt;/b>, collection, indexId, length, name, offset, property, scope, type&lt;/code>"
+					ENDTEXT="&lt;/iterate>" ICON="" NAME="iterate" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;iterate id=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:lessEqual&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:lessEqual&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/lessEqual>" ICON="" NAME="lessEqual" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;lessEqual value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:equal&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:equal&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/equal>" ICON="" NAME="equal" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;equal value=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:greaterEqual&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:greaterEqual&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/greaterEqual>" ICON="" NAME="greaterEqual" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;greaterEqual value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:match&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:match&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, location, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/match>" ICON="" NAME="match" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;match value=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:forward /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>name&lt;/b>&lt;/code>"
+					ENDTEXT="" ICON="" NAME="forward" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;forward name=&quot;|&quot;/>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:greaterThan&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:greaterThan&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/greaterThan>" ICON="" NAME="greaterThan" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;greaterThan value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:present&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:present&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>cookie, header, name, parameter, property, role, scope, user&lt;/code>"
+					ENDTEXT="&lt;/present>" ICON="" NAME="present" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;present>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:messagesNotPresent&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:messagesNotPresent&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, message&lt;/code>"
+					ENDTEXT="&lt;/messagesNotPresent>" ICON="" NAME="messagesNotPresent"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;messagesNotPresent>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:notEmpty&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:notEmpty&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, scope&lt;/code>"
+					ENDTEXT="&lt;/notEmpty>" ICON="" NAME="notEmpty" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notEmpty>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:lessThan&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:lessThan&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/lessThan>" ICON="" NAME="lessThan" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;lessThan value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;435&quot;>   &lt;tr>    &lt;td>  &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>logic taglib&lt;/code>    &lt;br>     &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>  &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-logic.tld&amp;quot; prefix=&amp;quot;logic&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="Struts logic taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-logic.tld&quot; prefix=&quot;logic&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:redirect&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:redirect&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>action, anchor, forward, href, name, page, paramId, paramName, paramProperty, paramScope, property, scope, transaction, useLocalEncoding&lt;/code>"
+					ENDTEXT="&lt;/redirect>" ICON="" NAME="redirect" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;redirect>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;logic:empty&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/logic:empty&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, scope&lt;/code>"
+					ENDTEXT="&lt;/empty>" ICON="" NAME="empty" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;empty>" large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+			<GroupHTML HIDDEN="no" ICON="" NAME="Common" PREFIX=""
+				SCOPE="project" URI="" add_taglib="true" library-version=""
+				model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;330&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>c taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n    &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/c.tld&amp;quot; prefix=&amp;quot;c&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="c taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/c.tld&quot; prefix=&quot;c&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;330&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>x taglib&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>     &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/x.tld&amp;quot; prefix=&amp;quot;x&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="x taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/x.tld&quot; prefix=&quot;x&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;420&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Bean Taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n    &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-bean.tld&amp;quot; prefix=&amp;quot;bean&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="bean taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-bean.tld&quot; prefix=&quot;bean&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;435&quot;>   &lt;tr>    &lt;td>  &lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>logic taglib&lt;/code>    &lt;br>     &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>  &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-logic.tld&amp;quot; prefix=&amp;quot;logic&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="logic taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-logic.tld&quot; prefix=&quot;logic&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;230&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n\t&lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;|&amp;quot; prefix=&amp;quot;&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;|&quot; prefix=&quot;&quot; %>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;420&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>html taglib&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>  &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-html.tld&amp;quot; prefix=&amp;quot;html&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table> &lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="html taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-html.tld&quot; prefix=&quot;html&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;360&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>sql taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n    &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/sql.tld&amp;quot; prefix=&amp;quot;sql&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="sql taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/sql.tld&quot; prefix=&quot;sql&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>  &lt;table width=&quot;440&quot;>   &lt;tr>    &lt;td>     \n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>files taglib&lt;/code>    &lt;br>\n&lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>     &lt;code>&lt;br>     &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/struts-tiles.tld&amp;quot; prefix=&amp;quot;tiles&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>  &lt;/code>    &lt;/td>   &lt;/tr>  &lt;/table>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="tiles taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/struts-tiles.tld&quot; prefix=&quot;tiles&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;360&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>fmt taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n    &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;/WEB-INF/fmt.tld&amp;quot; prefix=&amp;quot;fmt&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="fmt taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;/WEB-INF/fmt.tld&quot; prefix=&quot;fmt&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+			<GroupHTML HIDDEN="no" ICON="" NAME="Nested" PREFIX="nested"
+				SCOPE="project" URI="http://jakarta.apache.org/struts/tags-nested"
+				add_taglib="true" library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:write /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>bundle, filter, format, formatKey, ignore, locale, name, property, scope&lt;/code>"
+					ENDTEXT="" ICON="" NAME="write" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;write/>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:form&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:form&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>action&lt;/b>, enctype, focus, method, onreset, onsubmit, style, styleClass, styleId, target&lt;/code>"
+					ENDTEXT="&lt;/form>" ICON="" NAME="form" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;form action=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:multibox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:multibox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, alt, altKey, disabled, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, styleId, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/multibox>" ICON="" NAME="multibox" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;multibox property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:message /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>arg0, arg1, arg2, arg3, arg4, bundle, key, locale, name, property, scope&lt;/code>"
+					ENDTEXT="" ICON="" NAME="message" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;message/>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:file&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:file&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, accept, alt, altKey, disabled, indexed, maxlength, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, size, style, styleClass, styleId, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/file>" ICON="" NAME="file" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;file property=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:iterate&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:iterate&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>collection, id, indexId, length, name, offset, property, scope, type&lt;/code>"
+					ENDTEXT="&lt;/iterate>" ICON="" NAME="iterate" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;iterate>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:lessEqual&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:lessEqual&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/lessEqual>" ICON="" NAME="lessEqual" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;lessEqual value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:greaterEqual&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:greaterEqual&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/greaterEqual>" ICON="" NAME="greaterEqual" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;greaterEqual value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:match&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:match&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, location, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/match>" ICON="" NAME="match" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;match value=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:submit&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:submit&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, alt, altKey, disabled, indexed, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, property, style, styleClass, styleId, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/submit>" ICON="" NAME="submit" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;submit>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:hidden&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:hidden&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, alt, altKey, indexed, name, title, titleKey, styleClass, styleId, value, write&lt;/code>"
+					ENDTEXT="&lt;/hidden>" ICON="" NAME="hidden" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;hidden property=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:img /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, align, alt, altKey, border, bundle, height, hspace, imageName, ismap, locale, lowsrc, name, onkeydown, onkeypress, onkeyup, paramId, page, pageKey, paramName, paramProperty, paramScope, property, scope, src, srcKey, style, styleClass, styleId, title, titleKey, usemap, vspace, width&lt;/code>"
+					ENDTEXT="" ICON="" NAME="img" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;img/>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:writeNesting&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:writeNesting&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>property, id, filter&lt;/code>"
+					ENDTEXT="&lt;/writeNesting>" ICON="" NAME="writeNesting" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;writeNesting>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:lessThan&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:lessThan&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/lessThan>" ICON="" NAME="lessThan" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;lessThan value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:image&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:image&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, align, alt, altKey, border, bundle, disabled, indexed, locale, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, page, pageKey, property, src, srcKey, style, styleClass, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/image>" ICON="" NAME="image" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;image>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:size /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>id&lt;/b>, collection, name, property, scope&lt;/code>"
+					ENDTEXT="" ICON="" NAME="size" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;size id=&quot;|&quot;/>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:empty&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:empty&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, scope&lt;/code>"
+					ENDTEXT="&lt;/empty>" ICON="" NAME="empty" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;empty>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:textarea&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:textarea&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, alt, altKey, cols, disabled, indexed, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, readonly, rows, style, styleClass, styleId, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/textarea>" ICON="" NAME="textarea" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;textarea property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:password&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:password&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, alt, altKey, disabled, indexed, maxlength, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, readonly, redisplay, style, styleClass, styleId, size, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/password>" ICON="" NAME="password" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;password property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:define /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>id&lt;/b>, name, property, scope, toScope, type, value&lt;/code>"
+					ENDTEXT="" ICON="" NAME="define" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;define id=&quot;|&quot;/>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:notMatch&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:notMatch&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, location, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/notMatch>" ICON="" NAME="notMatch" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notMatch value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:notPresent&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:notPresent&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>cookie, header, name, parameter, property, role, scope, user&lt;/code>"
+					ENDTEXT="&lt;/notPresent>" ICON="" NAME="notPresent" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notPresent>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:notEqual&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:notEqual&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/notEqual>" ICON="" NAME="notEqual" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notEqual value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:messagesPresent&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:messagesPresent&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, message&lt;/code>"
+					ENDTEXT="&lt;/messagesPresent>" ICON="" NAME="messagesPresent"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;messagesPresent>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:link&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:link&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, action, anchor, forward, href, indexed, indexId, linkName, name, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, page, paramId, paramName, paramProperty, paramScope, property, scope, style, styleClass, styleId, tabindex, target, title, titleKey, transaction&lt;/code>"
+					ENDTEXT="&lt;/link>" ICON="" NAME="link" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;link>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:equal&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:equal&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/equal>" ICON="" NAME="equal" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;equal value=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:select&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:select&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, alt, altKey, disabled, indexed, multiple, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, styleId, tabindex, size, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/select>" ICON="" NAME="select" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;select property=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:options /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>collection, filter, labelName, labelProperty, name, property, style, styleClass&lt;/code>"
+					ENDTEXT="" ICON="" NAME="options" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;options/>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:checkbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:checkbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, alt, altKey, disabled, indexed, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, styleId, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/checkbox>" ICON="" NAME="checkbox" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;checkbox property=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:text&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:text&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, accesskey, alt, altKey, disabled, indexed, maxlength, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, readonly, size, style, styleClass, styleId, tabindex, title, titleKey, value&lt;/code>"
+					ENDTEXT="&lt;/text>" ICON="" NAME="text" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;text property=&quot;|&quot;>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:errors /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>bundle, locale, name, property&lt;/code>"
+					ENDTEXT="" ICON="" NAME="errors" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;errors/>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:greaterThan&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:greaterThan&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, cookie, header, name, parameter, property, scope&lt;/code>"
+					ENDTEXT="&lt;/greaterThan>" ICON="" NAME="greaterThan" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;greaterThan value=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:messagesNotPresent&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:messagesNotPresent&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, message&lt;/code>"
+					ENDTEXT="&lt;/messagesNotPresent>" ICON="" NAME="messagesNotPresent"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;messagesNotPresent>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:notEmpty&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:notEmpty&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name, property, scope&lt;/code>"
+					ENDTEXT="&lt;/notEmpty>" ICON="" NAME="notEmpty" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;notEmpty>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:present&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:present&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>cookie, header, name, parameter, property, role, scope, user&lt;/code>"
+					ENDTEXT="&lt;/present>" ICON="" NAME="present" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;present>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:radio&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:radio&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, &lt;b>value&lt;/b>, accesskey, alt, altKey, disabled, indexed, name, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, style, styleClass, styleId, tabindex, title, titleKey&lt;/code>"
+					ENDTEXT="&lt;/radio>" ICON="" NAME="radio" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;radio property=&quot;|&quot; value=&quot;&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;html>\n &lt;table width=&quot;420&quot;>\n  &lt;tr>\n   &lt;td>\n\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Nested Taglib&lt;/code>    &lt;br>\n    &lt;font color=&quot;OLIVE&quot;>&lt;b>Syntax:&lt;/b>&lt;/font>\n    &lt;code>&lt;br>\n    &lt;nobr>&amp;lt;%@ taglib uri=&amp;quot;uri=&quot;http://jakarta.apache.org/struts/tags-nested&quot; prefix=&amp;quot;nested&amp;quot; %&amp;gt;&lt;/nobr>&lt;br>\n\t&lt;/code>\n   &lt;/td>\n  &lt;/tr>\n &lt;/table>\n&lt;/html>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="Struts nested taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;http://jakarta.apache.org/struts/tags-nested&quot; prefix=&quot;nested&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:root&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:root&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>name&lt;/code>"
+					ENDTEXT="&lt;/root>" ICON="" NAME="root" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;root>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:nest&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:nest&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>property&lt;/code>"
+					ENDTEXT="&lt;/nest>" ICON="" NAME="nest" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;nest>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:optionsCollection /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>property&lt;/b>, filter, label, name, style, styleClass, value&lt;/code>"
+					ENDTEXT="" ICON="" NAME="optionsCollection" REFORMAT="no" SCOPE="project"
+					STARTTEXT="&lt;optionsCollection property=&quot;|&quot;/>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;nested:messages&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/nested:messages&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>id&lt;/b>, bundle, locale, name, property, header, footer, message&lt;/code>"
+					ENDTEXT="&lt;/messages>" ICON="" NAME="messages" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;messages id=&quot;|&quot;>"
+					large-icon="" model-entity="SharableMacroHTML" />
+			</GroupHTML>
+		</PageTabHTML>
+	</Palette>
+</XStudio>
