@@ -446,4 +446,15 @@
       	pathEncoder="org.jboss.tools.jsf.model.helpers.pages.FilePathEncoder"
       	/>
    </extension>
+
+ <extension
+       point="org.jboss.tools.common.model.preferences">
+    <contribution
+          resource="meta/jsf-options.xml" priority="2">
+    </contribution>
+    <contribution
+          resource="meta/jsf-palette.xml" priority="4">
+    </contribution>
+ </extension>
+
 </plugin>

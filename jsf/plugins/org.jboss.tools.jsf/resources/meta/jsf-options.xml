@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XStudio model-entity="SharableXStudio" NAME="XStudio" SCOPE="project">
+	<Options model-entity="SharableOptions" NAME="Options" SCOPE="project">
+		<JSFStudio model-entity="SharableJSFStudio" NAME="JSF Studio"
+			SCOPE="project">
+			<JSFProject model-entity="SharableJSFProject" NAME="Project"
+				SCOPE="project">
+				<ImportJSFProject model-entity="SharableImportJSFProject"
+					NAME="Import Project" SCOPE="project" register_web_context="yes" />
+				<NewJSFProject model-entity="SharableNewJSFProject"
+					NAME="New Project" SCOPE="project" directory=""
+					register_web_context="yes" template="JSFBlank" use_default="yes"
+					version="JSF 1.2" />
+			</JSFProject>
+		</JSFStudio>
+	</Options>
+</XStudio>
