@@ -437,4 +437,13 @@
          		resolver-class="org.jboss.tools.jsf.model.JSFMessageELCompletionEngine"/>
          </el-resolver>
    </extension>
+   <extension
+         point="org.jboss.tools.common.model.modelnatures">
+      <modelnature 
+      	name="org.jboss.tools.jsf.jsfnature"
+      	displayName="JSF"
+      	watcherContributor="org.jboss.tools.jsf.web.JSFWatcherContributor"
+      	pathEncoder="org.jboss.tools.jsf.model.helpers.pages.FilePathEncoder"
+      	/>
+   </extension>
 </plugin>
