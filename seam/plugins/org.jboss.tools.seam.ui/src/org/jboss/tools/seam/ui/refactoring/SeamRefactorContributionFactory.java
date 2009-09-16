@@ -195,7 +195,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 //						
 //						additions.addContributionItem(mm, null);
 //					}
-					checkPropertyName(selection, mm, additions);
+					//checkPropertyName(selection, mm, additions);
 					status = checkContextVariableInJava(editorFile, fileContent, selection);
 				} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
 					status = checkContextVariableInDOM(editorFile, fileContent, selection);
