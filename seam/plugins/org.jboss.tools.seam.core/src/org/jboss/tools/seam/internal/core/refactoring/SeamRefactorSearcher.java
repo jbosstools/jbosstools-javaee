@@ -337,4 +337,10 @@ public abstract class SeamRefactorSearcher {
 		
 		return methodName;
 	}
+	
+	public static boolean isSetter(String methodName){
+		if(methodName.startsWith(SET))
+			return true;
+		return false;
+	}
 }

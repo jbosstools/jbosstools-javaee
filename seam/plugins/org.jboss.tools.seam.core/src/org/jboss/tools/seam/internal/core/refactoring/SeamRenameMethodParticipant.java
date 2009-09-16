@@ -47,7 +47,8 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws OperationCanceledException {
-		searcher.findELReferences();
+		if(searcher != null)
+			searcher.findELReferences();
 		
 		return status;
 	}
@@ -71,7 +72,11 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 			rootChange = new CompositeChange("");
 			method = (IMethod)element;
 			
+			if(!SeamRenameMethodSearcher.isSetter(method.getElementName()))
+				return false;
+			
 			oldName = SeamRenameMethodSearcher.getPropertyName(method.getElementName());
+			
 			newName = SeamRenameMethodSearcher.getPropertyName(getArguments().getNewName());
 			searcher = new SeamRenameMethodSearcher((IFile)method.getResource(), oldName);
 			return true;
@@ -104,7 +109,7 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 		if(!keys.contains(key)){
 			TextFileChange change = getChange(file);
 			TextEdit edit = new ReplaceEdit(offset, length, text);
-			//change.addEdit(edit);
+			change.addEdit(edit);
 			keys.add(key);
 		}
 	}
