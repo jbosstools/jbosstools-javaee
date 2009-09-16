@@ -59,6 +59,7 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELUtil;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.ui.texteditors.xmleditor.XMLTextEditor;
 import org.jboss.tools.common.text.TextProposal;
@@ -436,7 +437,10 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			List<Var> vars = varSearcher.findAllVars(viewer, offset);
 			
 			SeamELCompletionEngine fEngine= new SeamELCompletionEngine();
-			List<TextProposal> suggestions = fEngine.getCompletions(file, prefix, offset + proposalPrefix.length() - prefix.length(), false, vars);
+			SimpleELContext elContext = new SimpleELContext();
+			elContext.setResource(file);
+			elContext.setVars(vars);
+			List<TextProposal> suggestions = fEngine.getProposals(elContext, prefix);
 			List<TextProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();

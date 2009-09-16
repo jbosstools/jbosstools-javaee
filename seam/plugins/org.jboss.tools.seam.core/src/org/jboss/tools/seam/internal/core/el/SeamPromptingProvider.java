@@ -17,8 +17,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.BadLocationException;
-import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IPromptingProvider;
 import org.jboss.tools.common.text.TextProposal;
@@ -58,16 +57,14 @@ public class SeamPromptingProvider implements IPromptingProvider {
 			list.addAll(set);
 			return list;
 		} else if(MEMBERS.equals(id)) {
-			try {
-				List<TextProposal> proposals = engine.getCompletions(f, prefix, prefix.length(), false, new ArrayList<Var>());
-				List<String> suggestions = new ArrayList<String>();
-				if(proposals != null) for (TextProposal proposal: proposals) {
-					suggestions.add(proposal.getReplacementString());
-				}
-				return suggestions;
-			} catch (BadLocationException e) {
-				return EMPTY_LIST;
+			SimpleELContext context = new SimpleELContext();
+			context.setResource(f);
+			List<TextProposal> proposals = engine.getProposals(context, prefix);
+			List<String> suggestions = new ArrayList<String>();
+			if(proposals != null) for (TextProposal proposal: proposals) {
+				suggestions.add(proposal.getReplacementString());
 			}
+			return suggestions;
 		}
 		return null;
 	}

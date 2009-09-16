@@ -19,12 +19,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELUtil;
+import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.attribute.IAttributeContentProposalProvider;
@@ -32,7 +32,6 @@ import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
  * @author Viacheslav Kabanovich
@@ -109,11 +108,9 @@ public class SeamELAttributeContentProposalProvider implements
 			if(prefix == null) prefix = "";
 			
 			List<TextProposal> suggestions = null;
-			try {
-				suggestions = engine.getCompletions(file, prefix, position, false, null);
-			} catch (BadLocationException e) {
-				SeamGuiPlugin.getPluginLog().logError(e);
-			}
+			SimpleELContext context = new SimpleELContext();
+			context.setResource(file);
+			suggestions = engine.getProposals(context, prefix);
 			if(suggestions == null) {
 				return EMPTY;
 			}
