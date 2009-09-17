@@ -13,10 +13,21 @@
         your css files,edit them and see the results.
         To use this perspective you need to choose <emphasis><property>Window >Open Perspective> CSS Editing </property></emphasis>
         .All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.</para>
-    <para>In CSS Editing Perspective you can change  your css file in three ways:</para>
+    <para>As you know, there are three ways of inserting a style sheet:
+    </para>   
+    <itemizedlist>
+        <listitem><para>External style sheet (.css file)</para>
+        </listitem>
+        <listitem><para>Internal style sheet (using the <emphasis><property>&lt;style&gt;</property></emphasis> tag in the head section of an HTML/XHTML/JSP page)</para>
+        </listitem>
+        <listitem><para>Inline style (using style attribute)</para>
+        </listitem>
+   </itemizedlist>
+    <para>Using CSS Editing Perspective you can change  your style sheet,
+        inserted in any of the possible places described before, in three ways:</para>
     <itemizedlist>
         <listitem>
-            <para>directly in your CSS Editor
+            <para>directly in your Editor
             </para>
         </listitem>
         <listitem>
