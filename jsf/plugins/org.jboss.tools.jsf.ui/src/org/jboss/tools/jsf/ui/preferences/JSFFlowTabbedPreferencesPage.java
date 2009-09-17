@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.preferences;
 
+import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.common.model.ui.preferences.*;
 import org.eclipse.ui.*;
 import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintAList;
@@ -20,8 +21,8 @@ public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 
 	public static final String ID = "org.jboss.tools.jsf.ui.jsfflowdiagram"; //$NON-NLS-1$
 	
-	public static String JSF_EDITOR_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram"; //$NON-NLS-1$
-	public static String JSF_ADD_VIEW_PATH = "%Options%/Struts Studio/Editors/JSF Flow Diagram/Add View"; //$NON-NLS-1$
+	public static String JSF_EDITOR_PATH = Preference.EDITOR_PATH + "/JSF Flow Diagram"; //$NON-NLS-1$
+	public static String JSF_ADD_VIEW_PATH = Preference.EDITOR_PATH + "/JSF Flow Diagram/Add View"; //$NON-NLS-1$
 	
 	public JSFFlowTabbedPreferencesPage() {
 		XModel model = getPreferenceModel();
