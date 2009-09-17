@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
@@ -19,6 +20,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
@@ -36,6 +38,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELMethodInvocation;
@@ -43,6 +46,15 @@ import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELResolverFactoryManager;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
+import org.jboss.tools.common.el.core.resolver.SimpleELContext;
+import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -66,10 +78,16 @@ public abstract class SeamRefactorSearcher {
 	
 	protected IFile baseFile;
 	protected String propertyName;
+	protected IJavaElement javaElement;
 	
 	public SeamRefactorSearcher(IFile baseFile, String propertyName){
 		this.baseFile = baseFile;
 		this.propertyName = propertyName;
+	}
+	
+	public SeamRefactorSearcher(IFile baseFile, String propertyName, IJavaElement javaElement){
+		this(baseFile, propertyName);
+		this.javaElement = javaElement;
 	}
 
 	public void findELReferences(){
@@ -253,10 +271,10 @@ public abstract class SeamRefactorSearcher {
 					if(expression != null){
 						if(expression instanceof ELPropertyInvocation){
 							ELPropertyInvocation pi = (ELPropertyInvocation)expression;
-							match(file, offset+pi.getName().getStart(), pi.getName().getLength());
+							checkMatch(file, pi, offset+pi.getName().getStart(), pi.getName().getLength());
 						}else if(expression instanceof ELMethodInvocation){
 							ELMethodInvocation mi = (ELMethodInvocation)expression;
-							match(file, offset+mi.getName().getStart(), mi.getName().getLength());
+							checkMatch(file, mi, offset+mi.getName().getStart(), mi.getName().getLength());
 						}
 					}
 				}
@@ -324,6 +342,13 @@ public abstract class SeamRefactorSearcher {
 	
 	protected abstract void match(IFile file, int offset, int length);
 	
+	private void checkMatch(IFile file, ELExpression operand, int offset, int length){
+		if(javaElement != null && operand != null)
+			resolve(file, operand, offset, length);
+		else
+			match(file, offset, length);
+	}
+	
 	public static String getPropertyName(String methodName){
 		if(methodName.startsWith(GET) || methodName.startsWith(SET)){
 			String name = methodName.substring(3);
@@ -339,8 +364,47 @@ public abstract class SeamRefactorSearcher {
 	}
 	
 	public static boolean isSetter(String methodName){
-		if(methodName.startsWith(SET))
-			return true;
-		return false;
+		return methodName.startsWith(SET);
+	}
+	
+	private void resolve(IFile file, ELExpression operand, int offset, int length){
+		ELResolver[] resolvers = ELResolverFactoryManager.getInstance().getResolvers(file);
+		
+		for(ELResolver resolver : resolvers){
+			if(!(resolver instanceof ELCompletionEngine))
+				continue;
+			
+			SimpleELContext context = new SimpleELContext();
+			
+			ElVarSearcher elSearcher = new ElVarSearcher((ELCompletionEngine)resolver);
+			
+			List<Var> vars = elSearcher.findAllVars(file, offset);
+			
+			if(vars == null)
+				continue;
+			
+			context.setVars(vars);
+			context.setResource(file);
+			context.setElResolvers(resolvers);
+			
+			ELResolution resolution = resolver.resolve(context, operand);
+			
+			if(resolution == null)
+				continue;
+			
+			ELSegment segment = resolution.findSegmentByOffset(offset);
+			
+			if(segment == null)
+				continue;
+
+			if(segment instanceof JavaMemberELSegment){
+				JavaMemberELSegment javaSegment = (JavaMemberELSegment)segment;
+				if(javaSegment.isResolved()){
+					IJavaElement segmentJavaElement = javaSegment.getJavaElement();
+					if(segmentJavaElement.equals(javaElement))
+						match(file, offset, length);
+				}
+			}
+		}
 	}
 }

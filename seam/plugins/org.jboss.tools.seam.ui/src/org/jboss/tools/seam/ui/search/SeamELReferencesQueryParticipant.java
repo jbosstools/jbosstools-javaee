@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.ui.search.ElementQuerySpecification;
 import org.eclipse.jdt.ui.search.IMatchPresentation;
@@ -49,7 +50,7 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 				IFile file = (IFile)qs.getElement().getResource();
 				String name = ELSearcher.getPropertyName(qs.getElement().getElementName());
 				
-				searcher = new ELSearcher(requestor, file, name);
+				searcher = new ELSearcher(requestor, qs.getElement(), file, name);
 				
 				searcher.findELReferences();
 			}
@@ -66,8 +67,8 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 	
 	class ELSearcher extends SeamRefactorSearcher{
 		ISearchRequestor requestor;
-		public ELSearcher(ISearchRequestor requestor, IFile file, String name){
-			super(file, name);
+		public ELSearcher(ISearchRequestor requestor, IJavaElement element, IFile file, String name){
+			super(file, name, element);
 			this.requestor = requestor;
 		}
 
