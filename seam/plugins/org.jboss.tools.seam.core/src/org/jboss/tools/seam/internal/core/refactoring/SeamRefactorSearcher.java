@@ -376,17 +376,12 @@ public abstract class SeamRefactorSearcher {
 			
 			SimpleELContext context = new SimpleELContext();
 			
-			ElVarSearcher elSearcher = new ElVarSearcher((ELCompletionEngine)resolver);
-			
-			List<Var> vars = elSearcher.findAllVars(file, offset);
-			
-			if(vars == null)
-				continue;
-			
-			context.setVars(vars);
 			context.setResource(file);
 			context.setElResolvers(resolvers);
-			
+
+			List<Var> vars = ElVarSearcher.findAllVars(context, offset, resolver);
+			context.setVars(vars);
+
 			ELResolution resolution = resolver.resolve(context, operand);
 			
 			if(resolution == null)
