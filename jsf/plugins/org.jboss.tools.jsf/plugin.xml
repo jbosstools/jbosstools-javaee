@@ -27,7 +27,7 @@
       </runtime>
    </extension>
 
-   <extension point="org.jboss.tools.common.model.jspAdopt">
+   <extension point="org.jboss.tools.jst.web.jspAdopt">
       <jspAdopt class="org.jboss.tools.jsf.model.handlers.JSPAdopt"/>
    </extension>
    
