@@ -76,6 +76,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1718Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2170Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2362Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnCssClassTest_JBIDE4775;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectAllAndCut_JBIDE4853;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VPERefreshTest;
 import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
@@ -102,6 +103,7 @@ public class JsfAllTests {
 		suite.addTestSuite(Jsf20ComponentContentTest.class);
 		suite.addTestSuite(JBIDE3519Test.class);
 		suite.addTestSuite(ContextMenuDoubleInsertionTest_JBIDE3888.class);
+		suite.addTestSuite(SelectAllAndCut_JBIDE4853.class);
 		suite.addTestSuite(JBIDE4037Test.class);
 		suite.addTestSuite(JBIDE3734Test.class);
 		suite.addTestSuite(JBIDE3617Test.class);
@@ -188,7 +190,5 @@ public class JsfAllTests {
 		projectToImport.add(jbide3247TestProject);
 		
 		return new VpeTestSetup(suite, projectToImport);
-
 	}
-
 }
