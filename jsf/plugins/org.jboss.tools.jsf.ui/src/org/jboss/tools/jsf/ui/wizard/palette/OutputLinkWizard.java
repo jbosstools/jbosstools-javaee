@@ -18,6 +18,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
+import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
 
 /**
  *  @author erick 
@@ -78,7 +79,7 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 
 		page2 = new OutputLinkWizardPage();
 		
-		TagProposal[] proposals = 
+		ITagProposal[] proposals = 
 			TagProposalsComposite.getTagProposals(getMimeType(),getMimeData(), fDropCommand.getTagProposalFactory());
 		
 		this.addPage(page2);

@@ -19,6 +19,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagProposalsComposite;
+import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
 
 public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		IDropWizard {
@@ -38,7 +39,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		page2 = new DataTableWizardPage();
 		page2.setProperties(fDropCommand.getProperties());
 		
-		TagProposal[] proposals = 
+		ITagProposal[] proposals = 
 			TagProposalsComposite.getTagProposals(getMimeType(),getMimeData(), fDropCommand.getTagProposalFactory());
 		
 		if(TagProposalsComposite.areThereTagProposals(

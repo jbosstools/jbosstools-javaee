@@ -17,6 +17,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
+import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
 
 /**
  *  @author erick 
@@ -46,7 +47,7 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 		super.addPages();
 		page2 = new PanelGridWizardPage();
 
-		TagProposal[] proposals = TagProposalsComposite.getTagProposals(
+		ITagProposal[] proposals = TagProposalsComposite.getTagProposals(
 				getMimeType(), getMimeData(), fDropCommand
 						.getTagProposalFactory());
 

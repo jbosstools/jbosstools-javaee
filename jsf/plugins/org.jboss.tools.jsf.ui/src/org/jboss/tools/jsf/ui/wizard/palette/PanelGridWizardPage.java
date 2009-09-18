@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Group;
 
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagAttributesComposite.AttributeDescriptorValue;
+import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
 
 /**
  * @author erick
