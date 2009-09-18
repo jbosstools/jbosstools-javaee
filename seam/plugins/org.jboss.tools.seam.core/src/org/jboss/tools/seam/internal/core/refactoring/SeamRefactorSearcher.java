@@ -380,6 +380,10 @@ public abstract class SeamRefactorSearcher {
 			context.setElResolvers(resolvers);
 
 			List<Var> vars = ElVarSearcher.findAllVars(context, offset, resolver);
+			
+			if(vars == null)
+				continue;
+			
 			context.setVars(vars);
 
 			ELResolution resolution = resolver.resolve(context, operand);
