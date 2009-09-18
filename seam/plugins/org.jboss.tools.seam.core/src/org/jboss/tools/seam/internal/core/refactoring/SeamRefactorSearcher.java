@@ -20,8 +20,10 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
@@ -79,6 +81,7 @@ public abstract class SeamRefactorSearcher {
 	protected IFile baseFile;
 	protected String propertyName;
 	protected IJavaElement javaElement;
+	protected IJavaSearchScope searchScope;
 	
 	public SeamRefactorSearcher(IFile baseFile, String propertyName){
 		this.baseFile = baseFile;
@@ -88,6 +91,10 @@ public abstract class SeamRefactorSearcher {
 	public SeamRefactorSearcher(IFile baseFile, String propertyName, IJavaElement javaElement){
 		this(baseFile, propertyName);
 		this.javaElement = javaElement;
+	}
+	
+	public void setSearchScope(IJavaSearchScope searchScope){
+		this.searchScope = searchScope;
 	}
 
 	public void findELReferences(){
@@ -99,6 +106,9 @@ public abstract class SeamRefactorSearcher {
 		IProject[] projects = projectsSet.getAllProjects();
 		for (IProject project : projects) {
 			if(project == null) continue;
+			
+			if(!containsInSearchScope(project))
+				continue;
 			
 			IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
 			
@@ -365,6 +375,17 @@ public abstract class SeamRefactorSearcher {
 	
 	public static boolean isSetter(String methodName){
 		return methodName.startsWith(SET);
+	}
+	
+	private boolean containsInSearchScope(IProject project){
+		if(searchScope == null)
+			return true;
+		IPath[] paths = searchScope.enclosingProjectsAndJars();
+		for(IPath path : paths){
+			if(path.equals(project.getFullPath()))
+				return true;
+		}
+		return false;
 	}
 	
 	private void resolve(IFile file, ELExpression operand, int offset, int length){

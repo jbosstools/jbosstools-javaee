@@ -51,6 +51,7 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 				String name = ELSearcher.getPropertyName(qs.getElement().getElementName());
 				
 				searcher = new ELSearcher(requestor, qs.getElement(), file, name);
+				searcher.setSearchScope(qs.getScope());
 				
 				searcher.findELReferences();
 			}
@@ -68,7 +69,7 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 	class ELSearcher extends SeamRefactorSearcher{
 		ISearchRequestor requestor;
 		public ELSearcher(ISearchRequestor requestor, IJavaElement element, IFile file, String name){
-			super(file, name, element);
+			super(file, name/*, element*/);
 			this.requestor = requestor;
 		}
 
