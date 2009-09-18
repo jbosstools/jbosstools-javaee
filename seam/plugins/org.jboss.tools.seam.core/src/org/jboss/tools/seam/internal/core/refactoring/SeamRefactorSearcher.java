@@ -387,43 +387,32 @@ public abstract class SeamRefactorSearcher {
 		}
 		return false;
 	}
-	
+
 	private void resolve(IFile file, ELExpression operand, int offset, int length){
 		ELResolver[] resolvers = ELResolverFactoryManager.getInstance().getResolvers(file);
-		
+
 		for(ELResolver resolver : resolvers){
 			if(!(resolver instanceof ELCompletionEngine))
 				continue;
-			
+
 			SimpleELContext context = new SimpleELContext();
-			
+
 			context.setResource(file);
 			context.setElResolvers(resolvers);
 
 			List<Var> vars = ElVarSearcher.findAllVars(context, offset, resolver);
-			
-			if(vars == null)
-				continue;
-			
+
 			context.setVars(vars);
 
 			ELResolution resolution = resolver.resolve(context, operand);
-			
-			if(resolution == null)
-				continue;
-			
-			ELSegment segment = resolution.findSegmentByOffset(offset);
-			
-			if(segment == null)
-				continue;
 
-			if(segment instanceof JavaMemberELSegment){
+			ELSegment segment = resolution.findSegmentByOffset(offset);
+
+			if(segment != null && segment instanceof JavaMemberELSegment && segment.isResolved()) {
 				JavaMemberELSegment javaSegment = (JavaMemberELSegment)segment;
-				if(javaSegment.isResolved()){
-					IJavaElement segmentJavaElement = javaSegment.getJavaElement();
-					if(segmentJavaElement.equals(javaElement))
-						match(file, offset, length);
-				}
+				IJavaElement segmentJavaElement = javaSegment.getJavaElement();
+				if(javaElement.equals(segmentJavaElement))
+					match(file, offset, length);
 			}
 		}
 	}
