@@ -178,6 +178,10 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
+					ELSegmentImpl segment = new ELSegmentImpl();
+					segment.setToken(left.getFirstToken());
+					segment.setResolved(true);
+					resolution.addSegment(segment);
 					resolution.setLastResolvedToken(left);
 					break;
 				}
@@ -209,6 +213,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 				}
 			}
 			resolution.setProposals(proposals);
+			segment.setResolved(!proposals.isEmpty());
 			return resolution;
 		}
 
@@ -227,11 +232,13 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 				if(operand.getLength()<=varName.length()) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
+					proposal.setLabel(varName);
 					setImage(proposal);
 					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
+					proposal.setLabel(varName);
 					setImage(proposal);
 					proposals.add(proposal);
 				}
@@ -247,8 +254,9 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			left = (ELInvocationExpression)left.getParent();
 			if (left != expr) { // inside expression
 				ELSegmentImpl segment = new ELSegmentImpl();
-				segment.setResolved(false);
+				segment.setResolved(true);
 				resolution.addSegment(segment);
+				resolution.setLastResolvedToken(left);
 				return resolution;
 			} else { // Last segment
 				resolveLastSegment((ELInvocationExpression)operand, resolvedVariables, resolution, returnEqualedVariablesOnly);
@@ -332,7 +340,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					if (proposal.equals(filter)) {
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
-
+						kbProposal.setLabel(proposal);
 						setImage(kbProposal);
 
 						kbProposals.add(kbProposal);
@@ -343,6 +351,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					// This is used for CA.
 					TextProposal kbProposal = new TextProposal();
 					kbProposal.setReplacementString(proposal.substring(filter.length()));
+					kbProposal.setLabel(proposal);
 					kbProposal.setImage(getELProposalImage());
 					
 					kbProposals.add(kbProposal);
@@ -383,7 +392,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					if (proposal.equals(filter)) {
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
-
+						kbProposal.setLabel(proposal);
 						setImage(kbProposal);
 
 						kbProposals.add(kbProposal);
@@ -400,6 +409,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 					}
 
 					kbProposal.setReplacementString(replacementString);
+					kbProposal.setLabel(proposal);
 					kbProposal.setImage(getELProposalImage());
 
 					kbProposals.add(kbProposal);
@@ -424,12 +434,14 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			if (key.indexOf('.') != -1) {
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
+				proposal.setLabel("['" + key + "']");
 				setImage(proposal);
 				
 				kbProposals.add(proposal);
 			} else {
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString(key);
+				proposal.setLabel(key);
 				setImage(proposal);
 				
 				kbProposals.add(proposal);
