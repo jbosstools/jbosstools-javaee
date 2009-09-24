@@ -110,7 +110,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			int index=0;
 			for (String[] mapping : fileMappingCopy) {
 				file[index] = new File(mapping[1]);
-				FileUtils.getFileUtils().copyFile(new File(mapping[0]), file[index],filters,true);
+				FileUtils.getFileUtils().copyFile(new File(mapping[0]), file[index],filters,false);
 				index++;
 			}
 			if(shouldTouchServer(seamPrjSet)) {
