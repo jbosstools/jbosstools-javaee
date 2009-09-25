@@ -10,7 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperlinkPartitioner;
 
 /**
  * @author Jeremy

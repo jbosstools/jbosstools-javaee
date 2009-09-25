@@ -17,7 +17,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPTagAttributeValueHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.struts.StrutsProject;

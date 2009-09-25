@@ -18,7 +18,7 @@ import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.struts.StrutsProject;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.w3c.dom.Document;
 

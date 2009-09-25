@@ -19,7 +19,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.StructuredSelectionHelper;
