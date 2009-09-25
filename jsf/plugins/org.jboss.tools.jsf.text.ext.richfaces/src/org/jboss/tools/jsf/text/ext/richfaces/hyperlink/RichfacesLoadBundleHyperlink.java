@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
-import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jsf.text.ext.hyperlink.LoadBundleHyperlink;
 import org.jboss.tools.jsf.text.ext.richfaces.RichfacesExtensionsPlugin;
 import org.jboss.tools.jst.web.tld.TaglibData;

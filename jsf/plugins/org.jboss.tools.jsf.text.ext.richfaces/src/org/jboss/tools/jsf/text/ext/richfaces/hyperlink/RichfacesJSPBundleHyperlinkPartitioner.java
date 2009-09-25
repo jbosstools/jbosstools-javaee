@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jface.text.IDocument;
-import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPBundleHyperlinkPartitioner;
 import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPBundleHyperlinkPartitioner;
 

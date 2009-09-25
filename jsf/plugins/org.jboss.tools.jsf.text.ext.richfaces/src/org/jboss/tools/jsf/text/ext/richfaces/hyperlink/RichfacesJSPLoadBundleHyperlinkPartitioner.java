@@ -14,7 +14,7 @@ package org.jboss.tools.jsf.text.ext.richfaces.hyperlink;
 import java.util.ArrayList;
 
 import org.eclipse.jface.text.IDocument;
-import org.jboss.tools.common.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPLoadBundleHyperlinkPartitioner;
 
 /**
