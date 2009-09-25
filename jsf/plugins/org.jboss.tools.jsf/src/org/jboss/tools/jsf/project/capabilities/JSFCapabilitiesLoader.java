@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.project.capabilities;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
@@ -39,8 +40,8 @@ public class JSFCapabilitiesLoader extends FileRootLoader {
 		String fileLocation = stateLocation + "/templates/JSFCapabilities.xml";
 		File f = new File(fileLocation);
 		if(!f.exists()) {
-			String install = ProjectTemplatesPlugin.getInstallPath();
-			File source = new File(install, "templates/JSFCapabilities.xml");
+			IPath install = ProjectTemplatesPlugin.getTemplateStatePath();
+			File source = new File(install.toFile(), "templates/JSFCapabilities.xml");
 			FileUtil.copyFile(source, f, true);
 		}
 		return f;

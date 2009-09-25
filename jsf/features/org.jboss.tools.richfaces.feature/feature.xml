@@ -62,7 +62,8 @@ Raleigh NC 27606 USA.
          id="org.jboss.tools.common.projecttemplates"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.common.text.ext"
@@ -96,7 +97,8 @@ Raleigh NC 27606 USA.
          id="org.jboss.tools.jsf"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jsf.text.ext"
@@ -123,7 +125,8 @@ Raleigh NC 27606 USA.
          id="org.jboss.tools.jsf.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jsf.verification"
@@ -160,13 +163,15 @@ Raleigh NC 27606 USA.
          id="org.jboss.tools.jst.jsp"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jst.web"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jst.web.kb"
@@ -178,19 +183,22 @@ Raleigh NC 27606 USA.
          id="org.jboss.tools.jst.web.tiles"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jst.web.tiles.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jst.web.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.jst.web.verification"

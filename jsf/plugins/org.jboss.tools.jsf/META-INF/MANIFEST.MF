@@ -1,6 +1,5 @@
 Manifest-Version: 1.0
 Bundle-Name: %pluginName
-Bundle-ClassPath: jsf.jar
 Bundle-Activator: org.jboss.tools.jsf.JSFModelPlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName

@@ -1,6 +1,5 @@
 Manifest-Version: 1.0
 Bundle-Name: %pluginName
-Bundle-ClassPath: jsfui.jar
 Bundle-Activator: org.jboss.tools.jsf.ui.JsfUiPlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName

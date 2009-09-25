@@ -419,7 +419,7 @@
       <catalogContribution id="default">
          <public 
          	publicId="-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN" 
-         	uri="dtds/facelet-taglib_1_0.dtd"/>
+         	uri="platform:/plugin/org.jboss.tools.jsf/dtds/facelet-taglib_1_0.dtd"/>
       </catalogContribution>
   </extension>
 
