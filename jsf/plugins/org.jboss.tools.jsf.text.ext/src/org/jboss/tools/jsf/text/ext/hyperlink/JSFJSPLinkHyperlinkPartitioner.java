@@ -18,7 +18,7 @@ import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 
 public class JSFJSPLinkHyperlinkPartitioner extends JSPLinkHyperlinkPartitioner {

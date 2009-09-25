@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.ui,
  org.eclipse.jface.text,
  org.jboss.tools.common.text.ext,
+ org.jboss.tools.jst.text.ext,
  org.jboss.tools.jsf
 Export-Package: org.jboss.tools.jsf.text.ext,
  org.jboss.tools.jsf.text.ext.hyperlink
