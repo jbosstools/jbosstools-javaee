@@ -14,7 +14,7 @@ import org.eclipse.jface.text.IDocument;
 
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
-import org.jboss.tools.common.text.ext.hyperlink.jsp.JSPElementAttributeValueHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPElementAttributeValueHyperlinkPartitioner;
 
 public class FaceletsAttributeValueWithExprHyperlinkPartitioner extends JSPElementAttributeValueHyperlinkPartitioner {
 	public static final String FACELETS_ATTRIBUTE_VALUE_WITH_EXPR_PARTITION = "org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR"; //$NON-NLS-1$
