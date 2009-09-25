@@ -1,12 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Context and Dependency Injection Core
-Bundle-SymbolicName: org.jboss.tools.cdi.core
+Bundle-SymbolicName: org.jboss.tools.cdi.core;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.jboss.tools.cdi.core.CDICorePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.jboss.tools.common
+ org.jboss.tools.common,
+ org.eclipse.jdt.core;bundle-version="3.5.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: JBoss by Red Hat
+Export-Package: org.jboss.tools.cdi.core
