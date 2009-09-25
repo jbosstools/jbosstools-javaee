@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.util.List;
 
-import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -53,12 +52,8 @@ public class JsfFacet extends VpeAbstractTemplate {
 	for (int i = 0; i < children.getLength(); i++) {
 	    Node child = children.item(i);
 	    String sourcePrefix = child.getPrefix();
-	    List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(sourceNode,
-		    pageContext);
-	    TaglibData sourceNodeTaglib = XmlUtil.getTaglibForPrefix(
-		    sourcePrefix, taglibs);
-	    if (null != sourceNodeTaglib) {
-		String sourceNodeUri = sourceNodeTaglib.getUri();
+	    if (XmlUtil.hasTaglib(sourceNode, pageContext, sourcePrefix)) {
+		String sourceNodeUri = XmlUtil.getTaglibUri(sourceNode, pageContext, sourcePrefix);
 		if ((child.getNodeType() == Node.ELEMENT_NODE)
 			&& (VisualDomUtil.JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri)
 				|| VisualDomUtil.JSF_HTML_URI.equalsIgnoreCase(sourceNodeUri)
