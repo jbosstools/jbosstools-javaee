@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.jboss.tools.cdi.feature"
+      label="%featureName"
+      version="1.0.0.qualifier"
+      provider-name="%featureProvider">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      JBoss, Home of Professional Open Source
+Copyright 2006-2009, JBoss by Red Hat, and individual contributors
+as indicated
+by the @authors tag. See the copyright.txt in the distribution
+for a full listing of individual contributors.
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/"/>
+   </url>
+
+   <plugin
+         id="org.jboss.tools.cdi.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.jboss.tools.cdi.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
