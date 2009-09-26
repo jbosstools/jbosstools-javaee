@@ -20,13 +20,13 @@
       </editor>
    </extension>
    <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
-      <xmlEditor class="org.jboss.tools.struts.ui.editor.StrutsConfigEditor" contributorClass="org.jboss.tools.struts.ui.action.StrutsMultiPageContributor" entities="StrutsConfig10,StrutsConfig11,StrutsConfig12" icon="images/xstudio/editors/struts.gif" name="%editors.strutsconfig.name">
+      <xmlEditor class="org.jboss.tools.struts.ui.editor.StrutsConfigEditor" contributorClass="org.jboss.tools.struts.ui.action.StrutsMultiPageContributor" entities="StrutsConfig10,StrutsConfig11,StrutsConfig12" icon="$nl$/images/xstudio/editors/struts.gif" name="%editors.strutsconfig.name">
       </xmlEditor>
       <!--xmlEditor 
          class="org.jboss.tools.struts.ui.editor.StrutsConfigEditor" 
          contributorClass="org.jboss.tools.struts.ui.editor.StrutsActionContributor" 
          entities="StrutsConfig10,StrutsConfig11" 
-         icon="images/xstudio/editors/struts.gif" 
+         icon="$nl$/images/xstudio/editors/struts.gif" 
          name="%editors.strutsconfig.name">
       </xmlEditor-->
    </extension>
@@ -37,7 +37,7 @@
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
             class="org.jboss.tools.struts.ui.wizard.project.NewProjectWizard"
             finalPerspective="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
-            icon="images/xstudio/wizards/new_project.gif"
+            icon="$nl$/images/xstudio/wizards/new_project.gif"
             id="org.jboss.tools.struts.ui.wizard.project.NewStrutsProjectWizard"
             name="%newProjectWizard.name"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
@@ -50,7 +50,7 @@
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
             class="org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFileWizard"
             finalPerspective="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
-            icon="images/xstudio/wizards/new_struts.gif"
+            icon="$nl$/images/xstudio/wizards/new_struts.gif"
             id="org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFileWizard"
             name="%strutsConfig.11"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
@@ -65,7 +65,7 @@
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
             class="org.jboss.tools.struts.ui.wizard.newfile.NewValidationFileWizard"
             finalPerspective="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
-            icon="images/xstudio/wizards/new_validator_file.gif"
+            icon="$nl$/images/xstudio/wizards/new_validator_file.gif"
             id="org.jboss.tools.struts.ui.wizard.newfile.NewValidationFileWizard"
             name="%new.validation"
             preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
@@ -77,7 +77,7 @@
                class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard>
-      <!--wizard category="org.jboss.tools.jst.web/org.jboss.tools.struts" class="org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFile10Wizard" icon="images/xstudio/wizards/new_struts.gif" id="org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFile10Wizard" name="%strutsConfig.10" project="false">
+      <!--wizard category="org.jboss.tools.jst.web/org.jboss.tools.struts" class="org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFile10Wizard" icon="$nl$/images/xstudio/wizards/new_struts.gif" id="org.jboss.tools.struts.ui.wizard.newfile.NewStrutsConfigFile10Wizard" name="%strutsConfig.10" project="false">
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
       </wizard-->
@@ -100,7 +100,7 @@
       <wizard 
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
             class="org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard" 
-            icon="images/xstudio/wizards/import_project.gif" 
+            icon="$nl$/images/xstudio/wizards/import_project.gif" 
             id="org.jboss.tools.struts.ui.wizard.project.ImportProjectWizard" 
             name="%importProjectWizard.name">
          <description>Create a new Project from a WEB project in the file system. Struts support will be added if it is missing.</description>
@@ -108,7 +108,7 @@
       <wizard 
             category="org.jboss.tools.jst.web/org.jboss.tools.struts"
             class="org.jboss.tools.struts.ui.wizard.project.ImportStrutsWarWizard" 
-            icon="images/xstudio/wizards/import_project.gif" 
+            icon="$nl$/images/xstudio/wizards/import_project.gif" 
             id="org.jboss.tools.struts.ui.wizard.project.ImportStrutsWarWizard" 
             name="%importStrutsWarWizard.name">
          <description>Create a new Project from a Struts project in a WAR file. The content of WAR file will be copied to the workspace.</description>
@@ -154,7 +154,7 @@
       </page>
    </extension>
    <!--extension point="org.eclipse.ui.perspectives">
-      <perspective class="org.jboss.tools.struts.ui.XStudioPerspectiveFactory" icon="images/xstudio/perspective.gif" id="org.jboss.tools.common.model.ui.XStudioPerspective" name="%perspective.name">
+      <perspective class="org.jboss.tools.struts.ui.XStudioPerspectiveFactory" icon="$nl$/images/xstudio/perspective.gif" id="org.jboss.tools.common.model.ui.XStudioPerspective" name="%perspective.name">
       </perspective>
    </extension-->
    <extension point="org.eclipse.ui.popupMenus">
@@ -169,7 +169,7 @@
             <separator name="d">
             </separator>
          </menu>
-         <action class="org.jboss.tools.struts.ui.internal.action.AddStrutsNatureActionDelegate" enablesFor="*" icon="images/xstudio/actions/add_struts_nature.gif" id="org.jboss.tools.struts.ui.action.AddStrutsNatureActionDelegate" label="%popupMenus.action.addStrutsNature" menubarPath="RedHat4Web/a">
+         <action class="org.jboss.tools.struts.ui.internal.action.AddStrutsNatureActionDelegate" enablesFor="*" icon="$nl$/images/xstudio/actions/add_struts_nature.gif" id="org.jboss.tools.struts.ui.action.AddStrutsNatureActionDelegate" label="%popupMenus.action.addStrutsNature" menubarPath="RedHat4Web/a">
          </action>
          <action class="org.jboss.tools.struts.ui.internal.action.RemoveStrutsNatureActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.RemoveStrutsNatureActionDelegate" label="%popupMenus.action.removeStrutsNature" menubarPath="RedHat4Web/d">
          </action>
@@ -187,7 +187,7 @@
             <separator name="d">
             </separator>
          </menu>
-         <action class="org.jboss.tools.struts.ui.internal.action.AddStrutsNatureActionDelegate" enablesFor="*" icon="images/xstudio/actions/add_struts_nature.gif" id="org.jboss.tools.struts.ui.action.AddStrutsNatureActionDelegate" label="%popupMenus.action.addStrutsNature" menubarPath="RedHat4Web/a">
+         <action class="org.jboss.tools.struts.ui.internal.action.AddStrutsNatureActionDelegate" enablesFor="*" icon="$nl$/images/xstudio/actions/add_struts_nature.gif" id="org.jboss.tools.struts.ui.action.AddStrutsNatureActionDelegate" label="%popupMenus.action.addStrutsNature" menubarPath="RedHat4Web/a">
          </action>
          <action class="org.jboss.tools.struts.ui.internal.action.RemoveStrutsNatureActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.RemoveStrutsNatureActionDelegate" label="%popupMenus.action.removeStrutsNature" menubarPath="RedHat4Web/d">
          </action>
@@ -248,10 +248,10 @@
       </actionSet -->
       <actionSet description="%actionSets.projectActions.description" id="org.jboss.tools.common.studio.actionSet" label="%actionSets.projectActions.label" visible="false">
                <!--toolbarPath="Normal/SSProject"-->
-         <action class="org.jboss.tools.struts.ui.internal.action.ImportProjectAction" icon="images/xstudio/wizards/import_project.gif" id="org.jboss.tools.common.xstudio.action1" label="%actionSets.projectActions.importStrutsProject.label" tooltip="%actionSets.projectActions.importStrutsProject.label">
+         <action class="org.jboss.tools.struts.ui.internal.action.ImportProjectAction" icon="$nl$/images/xstudio/wizards/import_project.gif" id="org.jboss.tools.common.xstudio.action1" label="%actionSets.projectActions.importStrutsProject.label" tooltip="%actionSets.projectActions.importStrutsProject.label">
          </action>
                <!--toolbarPath="Normal/SSProject"-->
-         <action class="org.jboss.tools.struts.ui.internal.action.CreateProjectAction" icon="images/xstudio/wizards/new_project.gif" id="org.jboss.tools.common.xstudio.action1" label="%actionSets.projectActions.newStrutsProject.label" tooltip="%actionSets.projectActions.newStrutsProject.label">
+         <action class="org.jboss.tools.struts.ui.internal.action.CreateProjectAction" icon="$nl$/images/xstudio/wizards/new_project.gif" id="org.jboss.tools.common.xstudio.action1" label="%actionSets.projectActions.newStrutsProject.label" tooltip="%actionSets.projectActions.newStrutsProject.label">
          </action>
       </actionSet>
    </extension>

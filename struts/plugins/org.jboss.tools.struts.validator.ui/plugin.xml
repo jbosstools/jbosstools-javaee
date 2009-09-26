@@ -45,7 +45,7 @@
       <xmlEditor class="org.jboss.tools.struts.validator.ui.ValidationCompoundEditor" 
       contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
       entities="FileValidationRules,FileValidationRules11" 
-      icon="images/validator_file.gif" 
+      icon="$nl$/images/validator_file.gif" 
       name="%editors.validator.name">
       </xmlEditor>
    </extension>

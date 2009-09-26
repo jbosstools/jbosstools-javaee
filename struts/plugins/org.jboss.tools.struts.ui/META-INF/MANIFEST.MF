@@ -1,6 +1,5 @@
 Manifest-Version: 1.0
 Bundle-Name: %pluginName
-Bundle-ClassPath: strutsui.jar
 Bundle-Activator: org.jboss.tools.struts.ui.StrutsUIPlugin
 Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName

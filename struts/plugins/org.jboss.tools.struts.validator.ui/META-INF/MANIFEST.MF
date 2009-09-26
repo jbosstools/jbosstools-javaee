@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Bundle-Name: %pluginName
 Bundle-ManifestVersion: 2
-Bundle-ClassPath: strutsvalidatorui.jar
 Bundle-Activator: org.jboss.tools.struts.validator.ui.XStudioValidato
  rPlugin
 Bundle-Vendor: %providerName
