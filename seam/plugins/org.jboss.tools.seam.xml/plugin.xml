@@ -377,10 +377,4 @@
       </catalogContribution>
    </extension>
 
- <extension
-       point="org.jboss.tools.common.model.preferences">
-    <contribution
-          resource="meta/jboss-palette.xml" priority="7">
-    </contribution>
- </extension>
 </plugin>
