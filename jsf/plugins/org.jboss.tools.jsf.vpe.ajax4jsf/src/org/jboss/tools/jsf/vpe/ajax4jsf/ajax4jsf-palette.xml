@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XStudio model-entity="SharableXStudio" NAME="XStudio" SCOPE="project">
+	<Palette NAME="Palette" SCOPE="project" model-entity="SharablePalette">
+		<PageTabHTML DESCRIPTION="" EDITOR_TYPE="" HIDDEN="no"
+			NAME="JBoss" NATURE_TYPE="" SCOPE="project" TABTYPE="HTML"
+			model-entity="SharablePageTabHTML">
+			<GroupHTML HIDDEN="no" ICON="" NAME="Ajax4Jsf" PREFIX="a4j"
+				SCOPE="project" URI="http://richfaces.org/a4j" add_taglib="true"
+				library-version="" model-entity="SharableGroupHTML">
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:log&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:log&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, dir, height, hotkey, id, lang, level, name, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, popup, rendered, style, styleClass, title, width&lt;/code>"
+					ENDTEXT="&lt;/log>" ICON="" NAME="log" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;log>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:repeat&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:repeat&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>ajaxKeys, binding, componentState, first, id, rendered, rowKeyConverter, rowKeyVar, rows, stateVar, value, var&lt;/code>"
+					ENDTEXT="&lt;/repeat>" ICON="%Icons%/JBoss RichFaces/repeat" NAME="repeat"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;repeat>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:form&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:form&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accept, acceptCharset, ajaxSingle, ajaxSubmit, binding, bypassUpdates, data, enctype, eventsQueue, focus, id, ignoreDupResponses, limitToList, onbeforedomupdate, oncomplete, onreset, onsubmit, prependId, process, reRender, rendered, requestDelay, status, target, timeout&lt;/code>"
+					ENDTEXT="&lt;/form>" ICON="%Icons%/Struts HTML/form" NAME="form"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;form>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:mediaOutput&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:mediaOutput&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, align, archive, binding, border, cacheable, charset, classid, codebase, codetype, converter, coords, createContent, createContentExpression, declare, dir, element, expires, hreflang, hspace, id, ismap, lang, lastModified, mimeType, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rendered, rev, session, shape, standby, style, styleClass, tabindex, target, title, type, uriAttribute, usemap, value, vspace&lt;/code>"
+					ENDTEXT="&lt;/mediaOutput>" ICON="" NAME="mediaOutput" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;mediaOutput>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:loadBundle&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:loadBundle&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>basename, binding, id, rendered, var&lt;/code>"
+					ENDTEXT="&lt;/loadBundle>" ICON="" NAME="loadBundle" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;loadBundle>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:region&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:region&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>ajaxListener, binding, id, immediate, renderRegionOnly, rendered, selfRendered&lt;/code>"
+					ENDTEXT="&lt;/region>" ICON="" NAME="region" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;region>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:outputPanel&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:outputPanel&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>ajaxRendered, binding, dir, id, keepTransient, lang, layout, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rendered, style, styleClass, title&lt;/code>"
+					ENDTEXT="&lt;/outputPanel>" ICON="" NAME="outputPanel" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;outputPanel>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:include&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:include&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>ajaxRendered, binding, dir, id, keepTransient, lang, layout, rendered, style, styleClass, title, viewId&lt;/code>"
+					ENDTEXT="&lt;/include>" ICON="" NAME="include" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;include>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:status&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:status&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, dir, for, forceId, id, lang, layout, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onstart, onstop, rendered, startStyle, startStyleClass, startText, stopStyle, stopStyleClass, stopText, style, styleClass, title&lt;/code>"
+					ENDTEXT="&lt;/status>" ICON="" NAME="status" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;status>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:htmlCommandLink&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:htmlCommandLink&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, action, actionListener, binding, charset, coords, dir, disabled, hreflang, id, immediate, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rendered, rev, shape, style, styleClass, tabindex, target, title, type, value&lt;/code>"
+					ENDTEXT="&lt;/htmlCommandLink>" ICON="%Icons%/Struts HTML/link"
+					NAME="htmlCommandLink" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;htmlCommandLink>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;%@ taglib uri=&quot;http://richfaces.org/a4j&quot; prefix=&quot;a4j&quot; %&amp;gt;&lt;/code>"
+					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="JBoss Ajax4jsf taglib"
+					REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;%@ taglib uri=&quot;http://richfaces.org/a4j&quot; prefix=&quot;a4j&quot; %>\\n|"
+					large-icon="" model-entity="SharableMacroHTML" ></MacroHTML>
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:push&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:push&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>action, actionListener, ajaxSingle, binding, bypassUpdates, data, enabled, eventProducer, eventsQueue, focus, id, ignoreDupResponses, immediate, interval, limitToList, onbeforedomupdate, oncomplete, process, reRender, rendered, status, timeout&lt;/code>"
+					ENDTEXT="&lt;/push>" ICON="" NAME="push" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;push>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:commandLink&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:commandLink&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, action, actionListener, ajaxSingle, binding, bypassUpdates, charset, coords, data, dir, disabled, eventsQueue, focus, hreflang, id, ignoreDupResponses, immediate, lang, limitToList, onbeforedomupdate, onblur, onclick, oncomplete, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, process, reRender, rel, rendered, requestDelay, rev, shape, status, style, styleClass, tabindex, target, timeout, title, type, value&lt;/code>"
+					ENDTEXT="&lt;/commandLink>" ICON="%Icons%/Struts HTML/link" NAME="commandLink"
+					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;commandLink>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:page&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:page&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>ajaxListener, binding, contentType, dir, format, id, immediate, lang, namespace, onload, onunload, pageTitle, rendered, selfRendered, style, styleClass, title&lt;/code>"
+					ENDTEXT="&lt;/page>" ICON="" NAME="page" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;page>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:actionparam&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:actionparam&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>actionListener, assignTo, binding, converter, id, name, noEscape, value&lt;/code>"
+					ENDTEXT="&lt;/actionparam>" ICON="" NAME="actionparam" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;actionparam>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:portlet&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:portlet&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, id, rendered&lt;/code>"
+					ENDTEXT="&lt;/portlet>" ICON="" NAME="portlet" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;portlet>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:loadScript&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:loadScript&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, id, rendered, &lt;/code>"
+					ENDTEXT="&lt;/loadScript>" ICON="" NAME="loadScript" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;loadScript>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:keepAlive&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:keepAlive&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>ajaxOnly, &lt;/code>"
+					ENDTEXT="&lt;/keepAlive>" ICON="" NAME="keepAlive" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;keepAlive>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:loadStyle&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:loadStyle&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, id, media, rendered, &lt;/code>"
+					ENDTEXT="&lt;/loadStyle>" ICON="" NAME="loadStyle" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;loadStyle>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:commandButton&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:commandButton&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>accesskey, action, actionListener, ajaxSingle, alt, binding, bypassUpdates, data, dir, disabled, eventsQueue, focus, id, ignoreDupResponses, image, immediate, lang, limitToList, onbeforedomupdate, onblur, onchange, onclick, oncomplete, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, process, reRender, rendered, requestDelay, size, status, style, styleClass, tabindex, timeout, title, type, value&lt;/code>"
+					ENDTEXT="&lt;/commandButton>" ICON="%Icons%/Struts HTML/button"
+					NAME="commandButton" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;commandButton>"
+					large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:poll&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:poll&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>action, actionListener, ajaxSingle, binding, bypassUpdates, data, enabled, eventsQueue, focus, id, ignoreDupResponses, immediate, interval, limitToList, onbeforedomupdate, oncomplete, onsubmit, process, reRender, rendered, status, timeout&lt;/code>"
+					ENDTEXT="&lt;/poll>" ICON="" NAME="poll" REFORMAT="yes" SCOPE="project"
+					STARTTEXT="&lt;poll>" large-icon="" model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:ajaxListener&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:ajaxListener&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;/code>"
+					ENDTEXT="&lt;/ajaxListener>" ICON="" NAME="ajaxListener" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;ajaxListener>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:support&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/a4j:support&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>action, actionListener, ajaxSingle, binding, bypassUpdates, data, disableDefault, disabled, event, eventsQueue, focus, id, ignoreDupResponses, immediate, limitToList, onbeforedomupdate, oncomplete, onsubmit, process, reRender, rendered, requestDelay, status, timeout&lt;/code>"
+					ENDTEXT="&lt;/support>" ICON="" NAME="support" REFORMAT="yes"
+					SCOPE="project" STARTTEXT="&lt;support>" large-icon=""
+					model-entity="SharableMacroHTML" />
+				<MacroHTML
+     				DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;a4j:queue /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, disabled, id, ignoreDupResponses, name, onbeforedomupdate, oncomplete, onerror, onrequestdequeue, onrequestqueue, onsizeexceeded, onsubmit, requestDelay, size, sizeExceededBehavior, status, timeout&lt;/code>"
+     				ENDTEXT="" ICON="%Icons%/JBoss RichFaces/queue" NAME="queue" REFORMAT="no" SCOPE="project"
+     				STARTTEXT="&lt;queue/>" large-icon="" model-entity="SharableMacroHTML"/>
+			</GroupHTML>
+		</PageTabHTML>
+	</Palette>
+</XStudio>
