@@ -8,4 +8,10 @@
             path="templates/vpe-templates-seam.xml"/>
    </extension>
 
+ <extension
+       point="org.jboss.tools.common.model.preferences">
+    <contribution
+          resource="org/jboss/tools/jsf/vpe/seam/seam-palette.xml" priority="10">
+    </contribution>
+ </extension>
 </plugin>
