@@ -283,7 +283,10 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		}
 		try {
 			new FormatProcessorXML().formatFile((IFile) jbossAppXml);
-		} catch (Exception ignore) {
+		} catch (IOException e) {
+			
+		} catch (CoreException e) {
+			
 		}
 	}
 	

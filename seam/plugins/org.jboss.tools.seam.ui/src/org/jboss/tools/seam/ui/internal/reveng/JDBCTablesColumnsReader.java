@@ -100,12 +100,8 @@ public class JDBCTablesColumnsReader {
 				}
 			}
 		} finally {
-			try {
-				if (null != tableIterator) {
-					metadataDialect.close(tableIterator);
-				}
-			} catch (Exception ignore) {
-				SeamGuiPlugin.getPluginLog().logError(ignore);
+			if (null != tableIterator) {
+				metadataDialect.close(tableIterator);
 			}
 		}
 	}
@@ -148,12 +144,8 @@ public class JDBCTablesColumnsReader {
 				tcc.addColumnName(catalogName, schemaName, quote(tableName), columnName);
 			}
 		} finally {
-			try {
-				if (null != columnIterator) {
-					metadataDialect.close(columnIterator);
-				}
-			} catch (Exception ignore) {
-				SeamGuiPlugin.getPluginLog().logError(ignore);
+			if (null != columnIterator) {
+				metadataDialect.close(columnIterator);
 			}
 		}
 	}
