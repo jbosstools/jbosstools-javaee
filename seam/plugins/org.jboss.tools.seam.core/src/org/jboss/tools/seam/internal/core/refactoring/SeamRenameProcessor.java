@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
+import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -52,6 +53,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	protected static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
 	protected static final String JSP_EXT = "jsp"; //$NON-NLS-1$
 	protected static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
+	
+	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
 	
 	protected static final String SEAM_PROPERTIES_FILE = "seam.properties"; //$NON-NLS-1$
 	

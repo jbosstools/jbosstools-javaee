@@ -27,8 +27,8 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
  */
 public class RenameComponentProcessor extends SeamRenameProcessor {
 	private ISeamComponent component;
-	
 
+	
 	/**
 	 * @param component Renamed component
 	 */
@@ -137,6 +137,6 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status,
 			SharableParticipants sharedParticipants) throws CoreException {
-		return null;
+		return EMPTY_REF_PARTICIPANT;
 	}
 }

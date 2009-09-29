@@ -252,6 +252,6 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status,
 			SharableParticipants sharedParticipants) throws CoreException {
-		return null;
+		return EMPTY_REF_PARTICIPANT;
 	}
 }
