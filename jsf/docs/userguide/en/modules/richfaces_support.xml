@@ -92,6 +92,16 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        <para>OpenOn is also supported in <property>"ForID"</property>-like attributes 
+            (the attributes, where the value should be <property>ID</property> or the list of <property>IDs</property>) in RichFaces.</para>
+        <figure>
+            <title>OpenOn With "ForID"-like attributes</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/editors_features/editors_features_8e.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
     </section>
     
     <section id="RF_in_palette">
