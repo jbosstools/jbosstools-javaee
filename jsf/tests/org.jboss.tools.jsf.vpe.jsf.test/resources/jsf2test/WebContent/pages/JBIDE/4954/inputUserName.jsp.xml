@@ -1,0 +1,13 @@
+<tests>
+	<test id="greetingForm">
+<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
+<H1 STYLE="-moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Test for  JBIDE-4954
+</SPAN>
+</H1>
+<IMG SRC="/.*jsf2test/WebContent/resources/" STYLE="-moz-user-modify: read-write;"/>
+
+</FORM>
+	</test>
+</tests>

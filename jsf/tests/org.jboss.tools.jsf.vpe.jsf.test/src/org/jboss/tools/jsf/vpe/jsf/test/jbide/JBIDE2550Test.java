@@ -27,6 +27,10 @@ public class JBIDE2550Test extends ComponentContentTest {
 		performContentTest("JBIDE/2550/jbide2550.xhtml"); //$NON-NLS-1$
 	}
 	
+	public void testOfJSF2ResourceForEmptyString() throws Throwable{
+		performContentTest("JBIDE/4954/inputUserName.jsp"); //$NON-NLS-1$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
