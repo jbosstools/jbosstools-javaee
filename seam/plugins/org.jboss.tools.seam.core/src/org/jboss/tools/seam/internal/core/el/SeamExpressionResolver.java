@@ -342,7 +342,7 @@ public class SeamExpressionResolver {
 					ELInvocationExpression expr = (ELInvocationExpression)ex;
 					try {
 						ELResolution resolution = engine.resolveEL(null, expr, false);
-						if(resolution.isResolved()) {
+						if(resolution != null && resolution.isResolved()) {
 							ELSegment segment = resolution.getLastSegment();
 							if(segment instanceof JavaMemberELSegmentImpl) {
 								member = ((JavaMemberELSegmentImpl)segment).getMemberInfo();
