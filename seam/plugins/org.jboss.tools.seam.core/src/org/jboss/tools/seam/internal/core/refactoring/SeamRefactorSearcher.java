@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
@@ -57,6 +58,7 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -280,7 +282,7 @@ public abstract class SeamRefactorSearcher {
 					ELInvocationExpression expression = findComponentReference(ie);
 					if(expression != null){
 						ELInvocationExpression left = expression.getLeft();
-						checkMatch(file, expression, offset+getOffset(left), offset+getOffset(expression), getLength(expression));
+						checkMatch(file, left, offset+getOffset(left), offset+getOffset(expression), getLength(expression));
 					}
 				}
 			}
@@ -409,12 +411,13 @@ public abstract class SeamRefactorSearcher {
 		return false;
 	}
 
-	private void resolve(IFile file, ELExpression operand, int leftOffset, int offset, int length){
-		//System.out.println("resolve file - "+file.getFullPath()+" leftOffset - "+leftOffset+" offset - "+offset);
-		ELResolver[] resolvers = ELResolverFactoryManager.getInstance().getResolvers(file);
+	private void resolve(IFile file, ELExpression operand, int leftOffset,
+			int offset, int length) {
+		ELResolver[] resolvers = ELResolverFactoryManager.getInstance()
+				.getResolvers(file);
 
-		for(ELResolver resolver : resolvers){
-			if(!(resolver instanceof ELCompletionEngine))
+		for (ELResolver resolver : resolvers) {
+			if (!(resolver instanceof ELCompletionEngine))
 				continue;
 
 			SimpleELContext context = new SimpleELContext();
@@ -422,7 +425,8 @@ public abstract class SeamRefactorSearcher {
 			context.setResource(file);
 			context.setElResolvers(resolvers);
 
-			List<Var> vars = ElVarSearcher.findAllVars(context, leftOffset, resolver);
+			List<Var> vars = ElVarSearcher.findAllVars(context, leftOffset,
+					resolver);
 
 			context.setVars(vars);
 
@@ -430,10 +434,19 @@ public abstract class SeamRefactorSearcher {
 
 			ELSegment segment = resolution.findSegmentByOffset(leftOffset);
 
-			if(segment != null && segment instanceof JavaMemberELSegment && segment.isResolved()) {
-				JavaMemberELSegment javaSegment = (JavaMemberELSegment)segment;
+			if (segment != null && segment instanceof JavaMemberELSegment
+					&& segment.isResolved()) {
+				JavaMemberELSegment javaSegment = (JavaMemberELSegment) segment;
 				IJavaElement segmentJavaElement = javaSegment.getJavaElement();
-				if(javaElement.equals(segmentJavaElement))
+				if (javaElement instanceof IType
+						&& segmentJavaElement instanceof IType) {
+					if (EclipseJavaUtil.isDerivedClass(
+							((IType) segmentJavaElement)
+									.getFullyQualifiedName(),
+							((IType) javaElement).getFullyQualifiedName(), file
+									.getProject()))
+						;
+				} else if (javaElement.equals(segmentJavaElement))
 					match(file, offset, length);
 			}
 		}
