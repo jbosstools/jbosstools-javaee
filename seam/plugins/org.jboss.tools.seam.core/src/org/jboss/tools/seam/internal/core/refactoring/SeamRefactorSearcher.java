@@ -279,17 +279,38 @@ public abstract class SeamRefactorSearcher {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
 					ELInvocationExpression expression = findComponentReference(ie);
 					if(expression != null){
-						if(expression instanceof ELPropertyInvocation){
-							ELPropertyInvocation pi = (ELPropertyInvocation)expression;
-							checkMatch(file, pi, offset+pi.getName().getStart(), pi.getName().getLength());
-						}else if(expression instanceof ELMethodInvocation){
-							ELMethodInvocation mi = (ELMethodInvocation)expression;
-							checkMatch(file, mi, offset+mi.getName().getStart(), mi.getName().getLength());
-						}
+						ELInvocationExpression left = expression.getLeft();
+						checkMatch(file, expression, offset+getOffset(left), offset+getOffset(expression), getLength(expression));
 					}
 				}
 			}
 		}
+	}
+	
+	private int getOffset(ELInvocationExpression expression){
+		if(expression instanceof ELPropertyInvocation){
+			ELPropertyInvocation pi = (ELPropertyInvocation)expression;
+			
+			return pi.getName().getStart();
+		}else if(expression instanceof ELMethodInvocation){
+			ELMethodInvocation mi = (ELMethodInvocation)expression;
+			
+			return mi.getName().getStart();
+		}
+		return 0;
+	}
+	
+	private int getLength(ELInvocationExpression expression){
+		if(expression instanceof ELPropertyInvocation){
+			ELPropertyInvocation pi = (ELPropertyInvocation)expression;
+			
+			return pi.getName().getLength();
+		}else if(expression instanceof ELMethodInvocation){
+			ELMethodInvocation mi = (ELMethodInvocation)expression;
+			
+			return mi.getName().getLength();
+		}
+		return 0;
 	}
 	
 	private void scanProperties(IFile file, String content){
@@ -352,9 +373,9 @@ public abstract class SeamRefactorSearcher {
 	
 	protected abstract void match(IFile file, int offset, int length);
 	
-	private void checkMatch(IFile file, ELExpression operand, int offset, int length){
+	private void checkMatch(IFile file, ELExpression operand, int leftOffset, int offset, int length){
 		if(javaElement != null && operand != null)
-			resolve(file, operand, offset, length);
+			resolve(file, operand, leftOffset, offset, length);
 		else
 			match(file, offset, length);
 	}
@@ -388,7 +409,8 @@ public abstract class SeamRefactorSearcher {
 		return false;
 	}
 
-	private void resolve(IFile file, ELExpression operand, int offset, int length){
+	private void resolve(IFile file, ELExpression operand, int leftOffset, int offset, int length){
+		//System.out.println("resolve file - "+file.getFullPath()+" leftOffset - "+leftOffset+" offset - "+offset);
 		ELResolver[] resolvers = ELResolverFactoryManager.getInstance().getResolvers(file);
 
 		for(ELResolver resolver : resolvers){
@@ -400,13 +422,13 @@ public abstract class SeamRefactorSearcher {
 			context.setResource(file);
 			context.setElResolvers(resolvers);
 
-			List<Var> vars = ElVarSearcher.findAllVars(context, offset, resolver);
+			List<Var> vars = ElVarSearcher.findAllVars(context, leftOffset, resolver);
 
 			context.setVars(vars);
 
 			ELResolution resolution = resolver.resolve(context, operand);
 
-			ELSegment segment = resolution.findSegmentByOffset(offset);
+			ELSegment segment = resolution.findSegmentByOffset(leftOffset);
 
 			if(segment != null && segment instanceof JavaMemberELSegment && segment.isResolved()) {
 				JavaMemberELSegment javaSegment = (JavaMemberELSegment)segment;
