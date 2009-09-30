@@ -19,6 +19,7 @@ import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectTagLibs;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
+import org.jboss.tools.jst.web.tld.model.TLDUtil;
 
 public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 
@@ -65,7 +66,7 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 			String entity = c.getModelEntity().getName();
 			if("FilePROPERTIES".equals(c.getModelEntity().getName())) { //$NON-NLS-1$
 				invalidateBundles(source.getModel());
-			} else if(JSFProjectTagLibs.isTLDFile(c) || JSFProjectTagLibs.isFaceletTaglibFile(c)
+			} else if(JSFProjectTagLibs.isTLDFile(c) || TLDUtil.isFaceletTaglib(c)
                       || "FileSystemJar".equals(entity)) { //$NON-NLS-1$
 				invalidateTagLibs(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
