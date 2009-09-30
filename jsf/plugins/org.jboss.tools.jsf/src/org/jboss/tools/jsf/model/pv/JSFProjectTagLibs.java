@@ -16,11 +16,10 @@ import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
+import org.jboss.tools.jst.web.tld.model.TLDUtil;
 
 public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	private static final long serialVersionUID = 7805053632320764494L;
-
-	static String FILE_FACELET_TAGLIB = "FileFaceletTaglib";
 
 	protected Iterator<XModelObject> getRoots() {
 		List<XModelObject> list = new ArrayList<XModelObject>();
@@ -48,13 +47,16 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 		}
 
 		Iterator<XModelObject> it = list.iterator();
-		Set<String> set = new HashSet<String>();
+		Set<String> tlds = new HashSet<String>();
+		Set<String> facelets = new HashSet<String>();
 		while(it.hasNext()) {
 			XModelObject o = it.next();
 			String uri = o.getAttributeValue("uri");
-			if(uri != null && uri.length() == 0 && isFaceletTaglibFile(o)) {
+			boolean isFacelet = TLDUtil.isFaceletTaglib(o);
+			if(uri != null && uri.length() == 0 && isFacelet) {
 				uri = o.getAttributeValue("library-class");
 			}
+			Set<String> set = isFacelet ? facelets : tlds;
 			if(set.contains(uri)) {
 				it.remove();
 			} else {
@@ -87,7 +89,7 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 
 	protected boolean acceptFile(XModelObject o) {
 		if("META-INF".equals(o.getParent().getAttributeValue("name"))) {
-			if(isFaceletTaglibFile(o)) return true;
+			if(TLDUtil.isFaceletTaglib(o)) return true;
 		}
 		return isTLDFile(o);
 	}
@@ -95,11 +97,6 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	public static boolean isTLDFile(XModelObject o) {
 		String entity = "." + o.getModelEntity().getName();
 		return TLD_ENTITIES.indexOf(entity) >= 0;
-	}
-
-	public static boolean isFaceletTaglibFile(XModelObject o) {
-		String entity = o.getModelEntity().getName();
-		return entity.startsWith(FILE_FACELET_TAGLIB);
 	}
 
 	public Object getAdapter(Class adapter) {
