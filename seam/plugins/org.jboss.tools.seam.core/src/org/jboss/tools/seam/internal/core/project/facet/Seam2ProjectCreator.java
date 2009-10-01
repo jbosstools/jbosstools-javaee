@@ -82,6 +82,18 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		droolsLibFolder = new File(seamHomePath, Seam2FacetInstallDelegate.DROOLS_LIB_SEAM_RELATED_PATH);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator#createEarProject()
+	 */
+	@Override
+	protected void createEarProject() {
+		super.createEarProject();
+		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
+		File earLibFolder = new File(earContentsFolder, "lib"); //$NON-NLS-1$
+		AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(Seam2FacetInstallDelegate.JBOSS_EAR_LIB).dir(seamLibFolder)));
+	}
+
 	@Override
 	protected void createTestProject() {
 		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), testProjectName); //$NON-NLS-1$
