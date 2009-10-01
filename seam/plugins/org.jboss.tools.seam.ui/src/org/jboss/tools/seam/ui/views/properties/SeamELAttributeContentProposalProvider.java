@@ -121,7 +121,7 @@ public class SeamELAttributeContentProposalProvider implements
 			List<IContentProposal> list = new ArrayList<IContentProposal>();
 			for (TextProposal p: uniqueSuggestions) {
 				String label = prefix + p.getReplacementString();
-				IContentProposal cp = AttributeContentProposalProviderFactory.makeContentProposal(p.getReplacementString(), label);
+				IContentProposal cp = AttributeContentProposalProviderFactory.makeContentProposal(p.getReplacementString(), label, null);
 				list.add(cp);
 			}
 			return list.toArray(new IContentProposal[0]);
