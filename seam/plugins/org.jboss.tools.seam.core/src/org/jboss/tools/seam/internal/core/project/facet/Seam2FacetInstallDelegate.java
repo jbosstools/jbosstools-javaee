@@ -36,11 +36,13 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 
 	public static final AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
+		.include("jboss-seam.jar"); //$NON-NLS-1$
+
+	public static final AntCopyUtils.FileSet JBOSS_EAR_LIB  = new AntCopyUtils.FileSet()
 		.include("antlr-runtime.jar") //$NON-NLS-1$
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
-		.include("jboss-seam.jar") //$NON-NLS-1$
 		.include("jboss-el.*.jar") //$NON-NLS-1$
 		.include("mvel.*\\.jar") //$NON-NLS-1$
 		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
@@ -144,8 +146,8 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
 		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
+		AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_LIB).dir(seamLibFolder)), false);
 		AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)), false);
-		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
 		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)), false);						
 	}
 

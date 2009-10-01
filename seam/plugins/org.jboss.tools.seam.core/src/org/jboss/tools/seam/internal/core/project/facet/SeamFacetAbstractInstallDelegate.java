@@ -509,7 +509,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 	}
 
-	protected File earContentsFolder; 
+	protected File earContentsFolder;
+	protected File earLibFolder;
 
 	/**
 	 * 
@@ -529,6 +530,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		IVirtualFolder rootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 
 		earContentsFolder = rootVirtFolder.getUnderlyingFolder().getLocation().toFile();
+		earLibFolder = new File(earContentsFolder, "lib");
 		File metaInfFolder = new File(earContentsFolder, "META-INF"); //$NON-NLS-1$
 		File applicationXml = new File(metaInfFolder, "application.xml"); //$NON-NLS-1$
 		File earProjectFolder = project.getLocation().toFile();
