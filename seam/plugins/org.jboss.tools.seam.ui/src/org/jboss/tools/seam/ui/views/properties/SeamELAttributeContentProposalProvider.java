@@ -26,6 +26,7 @@ import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELUtil;
 import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.meta.XAttribute;
+import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.attribute.IAttributeContentProposalProvider;
 import org.jboss.tools.common.text.TextProposal;
@@ -67,7 +68,7 @@ public class SeamELAttributeContentProposalProvider implements
 		return ContentProposalAdapter.PROPOSAL_INSERT;
 	}
 
-	public void init(XModelObject object, XAttribute attribute) {
+	public void init(XModelObject object, XEntityData data, XAttribute attribute) {
 		this.object = object;
 		this.attribute = attribute;
 		while(object != null && object.getFileType() != XModelObject.FILE) object = object.getParent();
