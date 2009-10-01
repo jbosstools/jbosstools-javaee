@@ -9,7 +9,7 @@
 
 		<hyperlinkPartitioner
          	id="org.jboss.tools.common.text.ext.jsf.richfaces.hyperlink.jsp.JSPLinkHyperlinkPartitioner"
-         	class="org.jboss.tools.common.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner">
+         	class="org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
