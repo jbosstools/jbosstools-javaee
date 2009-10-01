@@ -28,6 +28,7 @@ import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.ui.attribute.AttributeContentProposalProviderFactory;
 import org.jboss.tools.common.model.ui.attribute.IAttributeContentProposalProvider;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -120,32 +121,12 @@ public class SeamELAttributeContentProposalProvider implements
 			List<IContentProposal> list = new ArrayList<IContentProposal>();
 			for (TextProposal p: uniqueSuggestions) {
 				String label = prefix + p.getReplacementString();
-				IContentProposal cp = makeContentProposal(p.getReplacementString(), label);
+				IContentProposal cp = AttributeContentProposalProviderFactory.makeContentProposal(p.getReplacementString(), label);
 				list.add(cp);
 			}
 			return list.toArray(new IContentProposal[0]);
 		}
 		
-	}
-
-	private IContentProposal makeContentProposal(final String proposal, final String label) {
-		return new IContentProposal() {
-			public String getContent() {
-				return proposal;
-			}
-
-			public String getDescription() {
-				return null;
-			}
-
-			public String getLabel() {
-				return label;
-			}
-
-			public int getCursorPosition() {
-				return proposal.length();
-			}
-		};
 	}
 
 	public String getPrefix(String content, int offset, int start, int end) throws StringIndexOutOfBoundsException {
