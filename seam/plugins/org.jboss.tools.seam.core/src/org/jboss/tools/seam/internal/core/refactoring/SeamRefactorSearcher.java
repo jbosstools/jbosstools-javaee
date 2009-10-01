@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
@@ -345,7 +346,7 @@ public abstract class SeamRefactorSearcher {
 					key = false;
 				
 				if(key && token.startsWith(propertyName)){
-					match(file, offset, token.length());
+					match(file, offset, token.length(), true);
 				}
 			}
 			
@@ -373,13 +374,13 @@ public abstract class SeamRefactorSearcher {
 	
 	protected abstract boolean isFileCorrect(IFile file);
 	
-	protected abstract void match(IFile file, int offset, int length);
+	protected abstract void match(IFile file, int offset, int length, boolean resolved);
 	
 	private void checkMatch(IFile file, ELExpression operand, int leftOffset, int offset, int length){
 		if(javaElement != null && operand != null)
 			resolve(file, operand, leftOffset, offset, length);
 		else
-			match(file, offset, length);
+			match(file, offset, length, true);
 	}
 	
 	public static String getPropertyName(String methodName){
@@ -396,8 +397,20 @@ public abstract class SeamRefactorSearcher {
 		return methodName;
 	}
 	
-	public static boolean isSetter(String methodName){
-		return methodName.startsWith(SET);
+	// TODO: move to util class
+	public boolean isGetter(IMethod method) {
+		String name = method.getElementName();
+		int numberOfParameters = method.getNumberOfParameters();
+		
+		return (((name.startsWith(GET) && !name.equals(GET)) || name.startsWith(IS)) && numberOfParameters == 0);
+	}
+
+	// TODO: move to util class
+	public boolean isSetter(IMethod method) {
+		String name = method.getElementName();
+		int numberOfParameters = method.getNumberOfParameters();
+
+		return ((name.startsWith(SET) && !name.equals(SET)) && numberOfParameters == 1);
 	}
 	
 	private boolean containsInSearchScope(IProject project){
@@ -447,8 +460,9 @@ public abstract class SeamRefactorSearcher {
 									.getProject()))
 						;
 				} else if (javaElement.equals(segmentJavaElement))
-					match(file, offset, length);
+					match(file, offset, length, true);
 			}
 		}
+		match(file, offset, length, false);
 	}
 }

@@ -43,12 +43,24 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 	private TextFileChange lastChange;
 	private ArrayList<String> keys = new ArrayList<String>();
 	
+	private static boolean added = false;
+	
 	
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws OperationCanceledException {
-		if(searcher != null)
-			searcher.findELReferences();
+		if(searcher == null)
+			return status;
+		
+		if(method != null && !added){
+			if(searcher.isGetter(method))
+				status.addWarning(SeamCoreMessages.SEAM_RENAME_METHOD_PARTICIPANT_GETTER_WARNING);
+			else if(searcher.isSetter(method))
+				status.addWarning(SeamCoreMessages.SEAM_RENAME_METHOD_PARTICIPANT_SETTER_WARNING);
+			added = true;
+		}
+		
+		searcher.findELReferences();
 		
 		return status;
 	}
@@ -72,13 +84,11 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 			rootChange = new CompositeChange("");
 			method = (IMethod)element;
 			
-			if(!SeamRenameMethodSearcher.isSetter(method.getElementName()))
-				return false;
-			
 			oldName = SeamRenameMethodSearcher.getPropertyName(method.getElementName());
 			
 			newName = SeamRenameMethodSearcher.getPropertyName(getArguments().getNewName());
 			searcher = new SeamRenameMethodSearcher((IFile)method.getResource(), oldName);
+			added = false;
 			return true;
 		}
 		return false;
@@ -116,7 +126,7 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 	
 	class SeamRenameMethodSearcher extends SeamRefactorSearcher{
 		public SeamRenameMethodSearcher(IFile file, String name){
-			super(file, name);
+			super(file, name, method);
 		}
 
 		@Override
@@ -150,7 +160,7 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 		}
 
 		@Override
-		protected void match(IFile file, int offset, int length) {
+		protected void match(IFile file, int offset, int length, boolean resolved) {
 			change(file, offset, length, newName);
 		}
 	}
