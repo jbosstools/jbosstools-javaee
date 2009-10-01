@@ -197,7 +197,7 @@ public class ViewIDEditManager extends DirectEditManager {
 		getCellEditor().setValidator(new ViewIDValidator(target));
 		if (figure instanceof PageFigure){
 			XAttribute attr = target.getModel().getMetaData().getEntity("SeamPage21").getAttribute("view id");
-			AttributeContentProposalProviderFactory.registerContentAssist(target, attr, getCellEditor().getControl());
+			AttributeContentProposalProviderFactory.registerContentAssist(target, null, attr, getCellEditor().getControl());
 		}else if(figure instanceof ExceptionFigure){
 			IProject project = (IProject)target.getModel().getProperties().get("project");
 			
