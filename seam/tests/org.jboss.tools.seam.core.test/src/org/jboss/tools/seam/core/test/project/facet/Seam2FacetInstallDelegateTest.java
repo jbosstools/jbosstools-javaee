@@ -169,10 +169,12 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		Set<String> onlyInWar = new HashSet<String>();
 		Set<String> onlyInEar = new HashSet<String>();
+		Set<String> onlyInEarSeam = new HashSet<String>();
 		Set<String> onlyInEjbSrc = new HashSet<String>();		
 
+		onlyInEarSeam.add("jboss-seam.jar");
+		
 		onlyInEar.add("commons-beanutils.jar");
-		onlyInEar.add("jboss-seam.jar");
 		onlyInEar.add("antlr-runtime.jar");
 		onlyInEar.add("drools-compiler.jar");
 		onlyInEar.add("drools-core.jar");
@@ -192,7 +194,11 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInWar.add("jsf-facelets.jar");
 		onlyInWar.add("richfaces-impl.jar");
 		onlyInWar.add("richfaces-ui.jar");
-				
+		
+		final IContainer earLibsSeam = (IContainer) ear.findMember(new Path("EarContent")).getAdapter(IContainer.class);
+		
+		assertOnlyContainsTheseFiles(onlyInEar, earLibsSeam);
+		
 		final IContainer earLibs = (IContainer) ear.findMember(new Path("EarContent").append("lib")).getAdapter(IContainer.class);
 		
 		assertOnlyContainsTheseFiles(onlyInEar, earLibs);
