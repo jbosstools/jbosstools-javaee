@@ -197,7 +197,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		
 		final IContainer earLibsSeam = (IContainer) ear.findMember(new Path("EarContent")).getAdapter(IContainer.class);
 		
-		assertOnlyContainsTheseFiles(onlyInEar, earLibsSeam);
+		assertOnlyContainsTheseFiles(onlyInEarSeam, earLibsSeam);
 		
 		final IContainer earLibs = (IContainer) ear.findMember(new Path("EarContent").append("lib")).getAdapter(IContainer.class);
 		
@@ -232,7 +232,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earProject.getProject());
 		
 		IProject ear = seamProjectsSet.getEarProject();
-		final IContainer earLibs = (IContainer) ear.findMember("EarContent").getAdapter(IContainer.class);
+		final IContainer earLibs = (IContainer) ear.findMember(new Path("EarContent").append("lib")).getAdapter(IContainer.class);
 			try {
 			for (IResource resource : earLibs.members()) {
 					if(resource.getName().matches("mvel.*\\.jar") ) {
@@ -338,7 +338,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		IProject project = earPs.getEarProject();
 		assertTrue(project.exists());
 		
-		assertNotNull(project.findMember("EarContent/jbpm-jpdl.jar"));		
+		assertNotNull(project.findMember("EarContent/lib/jbpm-jpdl.jar"));		
 		
 	}
 
