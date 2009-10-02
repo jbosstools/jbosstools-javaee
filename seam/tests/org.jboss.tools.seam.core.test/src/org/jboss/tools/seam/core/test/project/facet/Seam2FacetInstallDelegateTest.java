@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.resources.IResourceProxyVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
@@ -192,7 +193,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInWar.add("richfaces-impl.jar");
 		onlyInWar.add("richfaces-ui.jar");
 				
-		final IContainer earLibs = (IContainer) ear.findMember("EarContent").getAdapter(IContainer.class);
+		final IContainer earLibs = (IContainer) ear.findMember(new Path("EarContent").append("lib")).getAdapter(IContainer.class);
 		
 		assertOnlyContainsTheseFiles(onlyInEar, earLibs);
 		
