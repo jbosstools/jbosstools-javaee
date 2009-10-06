@@ -1,0 +1,28 @@
+<tests>
+	<test id="bodyId">
+	<DIV ID="bodyId">
+<TABLE STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
+<TR>
+<TD>
+<DIV>
+<H3 STYLE="-moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Hello
+</SPAN>
+<SPAN CLASS="vpe-text">
+,
+</SPAN>
+<SPAN CLASS="vpe-text">
+#{user.name}
+</SPAN>
+<SPAN CLASS="vpe-text">
+!
+</SPAN>
+</H3>
+</DIV>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+	</test>
+</tests>
