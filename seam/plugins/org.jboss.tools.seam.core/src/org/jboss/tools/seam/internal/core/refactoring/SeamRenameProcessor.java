@@ -304,21 +304,15 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	protected void checkDeclarations(ISeamComponent component) throws CoreException{
 		if(component.getJavaDeclaration() != null){
-			if(coreHelper.isJar(component.getJavaDeclaration())){
-				ITextSourceReference location = ((SeamComponentDeclaration)component.getJavaDeclaration()).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-				if(location == null || location.getStartPosition() != 0 || location.getLength() != 0)
-					status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
-			}
+			if(coreHelper.isJar(component.getJavaDeclaration()) && component.getJavaDeclaration().getName() != null)
+				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
 		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
 
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
-			if(coreHelper.isJar(xmlDecl)){
-				ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
-				if(location == null || location.getStartPosition() != 0 || location.getLength() != 0)
-					status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
-			}
+			if(coreHelper.isJar(xmlDecl) && xmlDecl.getName() != null)
+				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
 		}
 	}
 	
