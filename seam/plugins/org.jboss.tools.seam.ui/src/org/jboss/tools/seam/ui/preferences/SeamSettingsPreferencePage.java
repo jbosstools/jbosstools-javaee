@@ -12,7 +12,6 @@ package org.jboss.tools.seam.ui.preferences;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,7 +62,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.SeamUtil;
-import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -183,8 +181,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		});
 		registerEditor(projectNameEditor, generalGroup);
 
-		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR, true);
-		registerEditor(connProfileEditor, generalGroup);
+//		IFieldEditor connProfileEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfile(), ValidatorFactory.NO_ERRORS_VALIDATOR, true);
+//		registerEditor(connProfileEditor, generalGroup);
 
 		Group deploymentGroup = createGroup(
 				root,
@@ -507,6 +505,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return names;
 	}
 
+	/*
 	private String getConnectionProfile() {
 		String ds = preferences.get(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, null);
 		if(ds==null) {
@@ -519,6 +518,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		List<String> names = getProfileNameList();
 		return !names.isEmpty()?names.get(0):"";
 	}
+	*/
 
 	private String getEjbProjectName() {
 		if(preferences!=null) {
@@ -796,8 +796,8 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 		prefs.put(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, 
 				getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME));
-		prefs.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, 
-				getValue(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE));
+//		prefs.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, 
+//				getValue(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE));
 		prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME,
 				getValue(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME));
 		prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, 
@@ -912,7 +912,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		getEditor(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS).setValue(seamProjectSet.getDefaultDeployType());
 		getEditor(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).setValue(seamProjectSet.getEjbProject()==null?project.getName():seamProjectSet.getEjbProject().getName());
 		getEditor(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).setValue(getDefaultViewFolder());
-		getEditor(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).setValue(getDefaultConnectionProfile());
+//		getEditor(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE).setValue(getDefaultConnectionProfile());
 		getEditor(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER).setValue(getDefaultModelSourceFolder());
 		getEditor(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME).setValue(getDefaultModelPackageName());
 		getEditor(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER).setValue(getDefaultActionSourceFolder());

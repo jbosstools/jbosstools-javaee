@@ -277,10 +277,10 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 						INVALID_TEST_SRC,
 						INVALID_TEST_PACKAGE_NAME);
 			}
-			String connectionProfile = pref.get(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, null);
-			if(!isConnectionProfileValid(connectionProfile, true)) {
-				errorManager.addError(INVALID_CONNECTION_NAME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{connectionProfile!=null?connectionProfile:"", project.getName()}, project);
-			}
+//			String connectionProfile = pref.get(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, null);
+//			if(!isConnectionProfileValid(connectionProfile, true)) {
+//				errorManager.addError(INVALID_CONNECTION_NAME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{connectionProfile!=null?connectionProfile:"", project.getName()}, project);
+//			}
 		}
 
 		return;

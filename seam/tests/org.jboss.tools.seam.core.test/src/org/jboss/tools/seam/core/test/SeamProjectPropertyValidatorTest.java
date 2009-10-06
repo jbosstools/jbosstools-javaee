@@ -56,7 +56,7 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 			pref.put(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, "invalidTestProjectName");
 			pref.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "invalidTestSrcFolderPath");
 			pref.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "invalid test package name");
-			pref.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "invalidConnectionName");
+//			pref.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "invalidConnectionName");
 			pref.flush();
 
 			JobUtils.waitForIdle();
@@ -88,9 +88,11 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 		assertMarkerIsCreated(warProject, null, ".*invalidRuntimeName.*");
 	}
 
+	/*
 	public void testConnectionProfileNameValidation() throws CoreException {
 		assertMarkerIsCreated(warProject, null, ".*invalidConnectionName.*");
 	}
+	*/
 
 	public static void main(String[] args) {
 		String errorMarker = "Model package name \"invalid model package name\" specified for Seam project \"RefactoringTestProject-war\" is not valid. Please correct this property in \"Seam settings\" page (Project->Properties->Seam Settings).";
