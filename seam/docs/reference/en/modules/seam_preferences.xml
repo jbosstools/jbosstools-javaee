@@ -92,12 +92,16 @@
                     </imageobject>
                 </mediaobject>
             </figure>
+        	
+        	<para>The <emphasis>
+        		<property>Revalidate unresolved ELs automatically</property></emphasis> option is enabled by default. 
+        		If necessary, you can uncheck it. It may increase a performance for big complex projects.</para>
 
-            <para>In the upper right corner of the page there is a <property>Configure Project
-                    Specific Settings</property> link. Clicking on it you get the form where you can
+        	<para>In the upper right corner of the Seam Validator preferences page there is a <emphasis><property>Configure Project
+                    Specific Settings</property></emphasis> link. Clicking on it you get the form where you can
                 choose a project for specific setting. Project specific configuration allows you to
-                have different validator settings for each project. Check the <property>Show only
-                    projects with project specific settings</property> if you want to see the
+                have different validator settings for each project. Check the <emphasis><property>Show only
+                    projects with project specific settings</property></emphasis> if you want to see the
                 projects that have been already set. Click on <property>Ok</property>.</para>
 
             <figure>
