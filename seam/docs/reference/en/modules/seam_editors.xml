@@ -637,9 +637,45 @@
         <para>On WTP projects validation are enabled by default and thus executed automatically, but
             on normal Java projects you will have to go and add the Validation builder of your
             project . It is available in the properties of your project under
-                <property>Validation</property>. The validations can be run manually by clicking
-                <property>Validate</property> via the context menu on your project which will
-            execute all the active WTP validations.</para>
+        	<emphasis><property>Validation</property>.</emphasis></para>
+    	
+    	<figure>
+    		<title>Enabling the Validation Builder</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/seam_editors/validator1.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+        	<para>The validations can be run manually by clicking
+        		<emphasis><property>Validate</property></emphasis> via the context menu on your project (folder or file inside your project) which will
+        		execute all the active WTP validations. Following to the project&apos;s preferences under <emphasis>
+        			<property>Validation</property></emphasis> it&apos;s possible to enable/disable any validator. 
+        	</para>
+    	
+    	<para>It&apos;s also possible to turn off the validation for some resource (a file, folder) inside your project via the <emphasis>
+    		<property>Exclude Validation</property></emphasis> context menu option.</para>
+    	
+    	<figure>
+    		<title>Excluding Validation for the WebContent Folder</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/seam_editors/validator2.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	<para>As a result, if you&apos;ve turned off the validation for a folder (or file), it is put to the excluded group of the Validation filters and be ignored during the validation.</para>
+    	
+    	<figure>
+    		<title>Validation Filters</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/seam_editors/validator3.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
     </section>
 
 </section>
