@@ -11,8 +11,10 @@
 package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -28,6 +30,7 @@ import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.jboss.tools.common.el.core.refactoring.RefactorSearcher;
 import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -437,9 +440,11 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	class SeamSearcher extends SeamRefactorSearcher{
+	class SeamSearcher extends RefactorSearcher{
+		SeamProjectsSet projectsSet;
 		public SeamSearcher(IFile declarationFile, String oldName){
 			super(declarationFile, oldName);
+			projectsSet = new SeamProjectsSet(declarationFile.getProject());
 		}
 
 		@Override
@@ -450,6 +455,19 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		@Override
 		protected void match(IFile file, int offset, int length, boolean resolved) {
 			change(file, offset, length, newName);
+		}
+		
+		protected IProject[] getProjects(){
+			return projectsSet.getAllProjects();
+		}
+		
+		protected IContainer getViewFolder(IProject project){
+			if(project.equals(projectsSet.getWarProject()))
+				return projectsSet.getDefaultViewsFolder();
+			else if(project.equals(projectsSet.getEarProject()))
+				return projectsSet.getDefaultEarViewsFolder();
+			
+			return null;
 		}
 	}
 }

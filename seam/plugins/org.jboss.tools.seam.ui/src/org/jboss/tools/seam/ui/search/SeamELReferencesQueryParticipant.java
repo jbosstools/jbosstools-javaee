@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.search;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -35,7 +37,8 @@ import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELMethodInvocation;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.seam.internal.core.refactoring.SeamRefactorSearcher;
+import org.jboss.tools.common.el.core.refactoring.RefactorSearcher;
+import org.jboss.tools.seam.core.SeamProjectsSet;
 
 public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMatchPresentation{
 	private ELSearcher searcher;
@@ -147,11 +150,14 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 		}
 	}
 	
-	class ELSearcher extends SeamRefactorSearcher{
+	class ELSearcher extends RefactorSearcher{
 		ISearchRequestor requestor;
+		SeamProjectsSet projectsSet;
+		
 		public ELSearcher(ISearchRequestor requestor, IJavaElement element, IFile file, String name){
 			super(file, name, element);
 			this.requestor = requestor;
+			projectsSet = new SeamProjectsSet(file.getProject());
 		}
 
 		@Override
@@ -164,7 +170,20 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 				return false;
 			}
 			return true;
-	}
+		}
+		
+		protected IProject[] getProjects(){
+			return projectsSet.getAllProjects();
+		}
+		
+		protected IContainer getViewFolder(IProject project){
+			if(project.equals(projectsSet.getWarProject()))
+				return projectsSet.getDefaultViewsFolder();
+			else if(project.equals(projectsSet.getEarProject()))
+				return projectsSet.getDefaultEarViewsFolder();
+			
+			return null;
+		}
 
 		@Override
 		protected void match(IFile file, int offset, int length, boolean resolved) {
