@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <chapter id="crud_application_walkthrough" xreflabel="crud_application_walkthrough">
     <?dbhtml filename="crud_application_walkthrough.html"?>
     <chapterinfo>
@@ -82,7 +82,7 @@
                 <property>employee</property>
             </emphasis> database is displayed.</para>
         <figure>
-            <title>Employees List</title>
+            <title>Employees List Page</title>
             <mediaobject>
                 <imageobject>
                     <imagedata
@@ -97,7 +97,7 @@
 
         <para> Press <property>Select</property> opposite one of employees.</para>
         <figure>
-            <title>Employee details</title>
+            <title>Employee details Page</title>
             <mediaobject>
                 <imageobject>
                     <imagedata

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <chapter id="seam_view" xreflabel="seam_view">
     <?dbhtml filename="seam_view.html"?>
     <chapterinfo>
@@ -33,7 +33,7 @@
         </itemizedlist>
         
         <figure>
-            <title>As label</title>
+            <title>Label Scope Presentation of Seam Components</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_view/seam_view_2.png"/>
@@ -46,7 +46,7 @@
         </itemizedlist>
         
         <figure>
-            <title>As node</title>
+            <title>Node Scope Presentation of Seam Components</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_view/seam_view_3.png"/>
@@ -98,7 +98,7 @@
         <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that dependent on other project.</para>
         
         <figure>
-            <title>Available Customizations</title>
+            <title>Available Seam Component View Customizations</title>
             <mediaobject> 
                 <imageobject>
                     <imagedata fileref="images/seam_view/seam_view_7.png"/>

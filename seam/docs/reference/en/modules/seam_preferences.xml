@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <chapter id="seam_preferences" xreflabel="seam_preferences">
     <!-- mark as new -->
     <?dbhtml filename="seam_preferences.html"?>
@@ -171,7 +171,7 @@
             Seam Runtime, and then configure the folders as you want.</para>
 
         <figure>
-            <title>Properties for Seam Project</title>
+            <title>Properties for Seam Project when Seam runtime is not selected</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_preferences/seam_preferences2_2.png"/>
@@ -190,7 +190,7 @@
             the upper right corner of each wizard.</para>
 
         <figure>
-            <title>Settings Link</title>
+            <title>Quick Setting Link In Seam Wizards</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_preferences/seam_preferences2_1.png"/>
@@ -214,7 +214,7 @@
             <emphasis><property>Finish</property>.</emphasis></para>
         
         <figure>
-            <title>Adding Custom Capabilities to Seam Project</title>
+            <title> Custom Capabilities be added to Seam Project</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_preferences/addCustomCapabilities.png"/>

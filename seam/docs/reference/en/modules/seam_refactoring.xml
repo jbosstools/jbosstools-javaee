@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <chapter id="seam_refactoring" xreflabel="seam_refactoring">
     <?dbhtml filename="seam_refactoring.html"?>
     <chapterinfo>
@@ -53,7 +53,7 @@
          </para>
         
         <figure>
-            <title>Refactoring wizard</title>
+            <title>Refactoring Seam wizard</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_refactoring/seam_refactor2.png"/>

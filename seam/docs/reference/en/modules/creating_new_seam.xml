@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <chapter id="create_seam" xreflabel="create_seam" role="updated">
     <?dbhtml filename="create_new_seam.html"?>
     <chapterinfo>
@@ -129,7 +129,7 @@
             </emphasis>.</para>
 
         <figure>
-            <title>Specifying Server Configurations</title>
+            <title>JBoss Runtime Summary</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam_5.png"/>
@@ -379,7 +379,7 @@
         </itemizedlist>
 
         <figure>
-            <title>Seam Runtime Creation</title>
+            <title>Database Type Selecting</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam_20.png"/>
