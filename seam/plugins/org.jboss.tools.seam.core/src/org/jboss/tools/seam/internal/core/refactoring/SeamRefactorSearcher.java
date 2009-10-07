@@ -454,11 +454,10 @@ public abstract class SeamRefactorSearcher {
 				if (javaElement instanceof IType
 						&& segmentJavaElement instanceof IType) {
 					if (EclipseJavaUtil.isDerivedClass(
-							((IType) segmentJavaElement)
-									.getFullyQualifiedName(),
-							((IType) javaElement).getFullyQualifiedName(), file
-									.getProject()))
-						;
+							((IType) javaElement).getFullyQualifiedName(),
+							((IType) segmentJavaElement).getFullyQualifiedName(),
+							file.getProject()))
+						match(file, offset, length, true);
 				} else if (javaElement.equals(segmentJavaElement))
 					match(file, offset, length, true);
 			}
