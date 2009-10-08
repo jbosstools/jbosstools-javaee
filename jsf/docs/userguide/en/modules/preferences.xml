@@ -384,62 +384,68 @@
 
                 <tbody>
                     <row>
-                        <entry>Show Border for Unknown Tags</entry>
+                        <entry>Show border for unknown tags</entry>
                         <entry>The option allows to place the border around unknown tags or undo
                             this</entry>
                         <entry>On</entry>
                     </row>
 
                     <row>
-                        <entry>Show Non-Visual Tags</entry>
+                        <entry>Show non-visual tags</entry>
                         <entry>Check this box, if you want the editor shows non-visual elements on
                             the page you're editing</entry>
                         <entry>Off</entry>
                     </row>
 
+                	<row>
+                		<entry>Show selection tag bar</entry>
+                		<entry>The option allows to show/hide the Selection Bar</entry>
+                		<entry>On</entry>
+                	</row>
+                	
+                	<row>
+                		<entry>Show text formatting bar</entry>
+                		<entry>Check this box in order to show/hide the Text Formatting bar</entry>
+                		<entry>On</entry>
+                	</row>
+                	
                     <row>
-                        <entry>Show Resource Bundles Usage as EL Expressions </entry>
+                        <entry>Show resource bundles usage as EL expressions</entry>
                         <entry>If the option is checked, the editor will show EL expressions instead
                             of the resource values</entry>
                         <entry>Off</entry>
                     </row>
 
                     <row>
-                        <entry>Always Prompts for Tag Attributes During Tag Insert </entry>
+                        <entry>Ask for tag attributes during tag insert </entry>
                         <entry>Having this option off, the dialog with possible attributes for
-                            inserting tag won't appear if all its attributes are optional</entry>
+                            inserting tag won&apos;t appear if all its attributes are optional</entry>
                         <entry>On</entry>
                     </row>
-
+                	
                     <row>
-                        <entry>Show Selection Tag Bar</entry>
-                        <entry>This option allows to show or hide the Selection Bar</entry>
-                        <entry>On</entry>
-                    </row>
-
-                    <row>
-                        <entry>Always Hide Selection Bar Without Prompt</entry>
+                        <entry>Ask for confirmation when closing the Selection Bar</entry>
                         <entry>Check this box if you don&apos;t want the confirmation window
                             appears when closing the Selection Bar</entry>
-                        <entry>Off</entry>
+                        <entry>On</entry>
                     </row>
 
                     <row>
-                        <entry>Default Editor Tab</entry>
-                        <entry>The option provides with a possibility to choose one of the following
+                        <entry>Select the default active editor&apos;s tab</entry>
+                        <entry>The option provides possibility to choose one of the following
                             views - Visual/Source, Source or Preview, as default when opening the
                             editor</entry>
                         <entry>Visual/Source</entry>
                     </row>
                     <row>
-                        <entry>Visual/Source Editors Splitting</entry>
+                        <entry>Visual/Source editors splitting</entry>
                         <entry>The option allows to choose one of the following
-                            Visual,Source layouts - Vertical Source on top, Vertical Visual on top,Horizontal Source to the left or Horizontal Visual to the left ,as a default one when opening the
-                            Visual/Source view</entry>
-                        <entry>Vertical Source on top</entry>
+                            Visual,Source layouts - Vertical Source on top, Vertical Visual on top,Horizontal Source to the left or Horizontal Visual to the left, 
+                            as a default one when opening the Visual/Source view</entry>
+                        <entry>Vertical splitting with Source Editor on the top</entry>
                     </row>
                     <row>
-                        <entry>Size of Visual Editor Pane 0 – 100% </entry>
+                        <entry>Size of  the Visual Editor pane (0 – 100%)</entry>
                         <entry>With the help of this scroll bar you can adjust the percentage rating
                             between the Source and Visual modes of the Visual/Source view</entry>
                         <entry>50%</entry>
