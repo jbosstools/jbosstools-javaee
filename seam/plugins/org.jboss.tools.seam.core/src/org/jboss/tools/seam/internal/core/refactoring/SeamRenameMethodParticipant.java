@@ -46,7 +46,6 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 	private CompositeChange rootChange;
 	private TextFileChange lastChange;
 	private ArrayList<String> keys = new ArrayList<String>();
-	private boolean resolved = true;
 	
 	private static boolean added = false;
 	
@@ -68,8 +67,7 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 		searcher.findELReferences();
 		
 		// TODO: find good phrase and externalize it
-		if(!resolved)
-			status.addWarning("Some changes were not resolved.");
+		//status.addWarning("Some changes were not resolved.");
 		
 		return status;
 	}
@@ -185,10 +183,8 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 		}
 
 		@Override
-		protected void match(IFile file, int offset, int length, boolean resolved) {
+		protected void match(IFile file, int offset, int length) {
 			change(file, offset, length, newName);
-			if(!resolved)
-				SeamRenameMethodParticipant.this.resolved = false;
 		}
 	}
 

@@ -25,15 +25,8 @@ import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.search.internal.ui.util.FileLabelProvider;
-import org.eclipse.search.ui.text.AbstractTextSearchViewPage;
 import org.eclipse.search.ui.text.Match;
-import org.eclipse.search2.internal.ui.SearchView;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELMethodInvocation;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
@@ -42,7 +35,6 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 
 public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMatchPresentation{
 	private ELSearcher searcher;
-	private ELLabelProvider labelProvider;
 	JavaSearchResultPage searchPage = null;
 	
 	public int estimateTicks(QuerySpecification specification) {
@@ -72,82 +64,11 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 	}
 	
 	public ILabelProvider createLabelProvider() {
-		if(labelProvider == null){
-			if(searchPage == null){
-				IWorkbenchWindow[] windows = Workbench.getInstance().getWorkbenchWindows();
-				for(IWorkbenchWindow window : windows){
-					IWorkbenchPage[] pages = window.getPages();
-					for(IWorkbenchPage page : pages){
-						SearchView view = (SearchView)page.findView("org.eclipse.search.ui.views.SearchView");
-						if(view.getActivePage() instanceof JavaSearchResultPage){
-							searchPage = (JavaSearchResultPage)view.getActivePage();
-						}
-					}
-				}
-			}
-			labelProvider = new ELLabelProvider(searchPage);
-		}
-
-		return labelProvider;
+		return null;
 	}
 
 	public void showMatch(Match match, int currentOffset,
 			int currentLength, boolean activate) throws PartInitException {
-		if(searchPage != null && match.getElement() instanceof FileWrapper){
-			FileWrapper wrapper = (FileWrapper)match.getElement();
-			Match nMatch = new Match(wrapper.getFile(), match.getOffset(), match.getLength());
-			searchPage.showMatch(nMatch, match.getOffset(), match.getLength(), activate);
-		}
-	}
-	
-	class FileWrapper{
-		IFile file;
-		boolean resolved;
-		public FileWrapper(IFile file, boolean resolved) {
-			this.file = file;
-			this.resolved = resolved;
-		}
-		
-		public IFile getFile(){
-			return file;
-		}
-		
-		public boolean isResolved(){
-			return resolved;
-		}
-		
-	}
-	
-	class ELLabelProvider extends SeamSearchViewLabelProvider{
-
-
-		public ELLabelProvider(AbstractTextSearchViewPage page) {
-			super(page, FileLabelProvider.SHOW_PATH_LABEL);
-		}
-
-		@Override
-		public String getText(Object element) {
-			if(element instanceof FileWrapper){
-				FileWrapper wrapper = (FileWrapper)element;
-				IFile file = wrapper.getFile();
-				String text = super.getText(file);
-				if(!wrapper.isResolved())
-					// TODO: find good phrase and externalize it
-					text += " (not resolved)";
-				return text;
-			}
-			return super.getText(element);
-		}
-
-		@Override
-		public Image getImage(Object element) {
-			if(element instanceof FileWrapper){
-				FileWrapper wrapper = (FileWrapper)element;
-				IFile file = wrapper.getFile();
-				return super.getImage(file);
-			}
-			return super.getImage(element);
-		}
 	}
 	
 	class ELSearcher extends RefactorSearcher{
@@ -186,14 +107,9 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 		}
 
 		@Override
-		protected void match(IFile file, int offset, int length, boolean resolved) {
-			if(resolved){
-				Match match = new Match(file, offset, length);
-				requestor.reportMatch(match);
-			}else{
-				Match match = new Match(new FileWrapper(file, resolved), offset, length);
-				requestor.reportMatch(match);
-			}
+		protected void match(IFile file, int offset, int length) {
+			Match match = new Match(file, offset, length);
+			requestor.reportMatch(match);
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){

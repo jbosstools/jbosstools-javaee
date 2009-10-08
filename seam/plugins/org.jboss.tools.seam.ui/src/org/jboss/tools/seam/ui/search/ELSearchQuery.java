@@ -101,7 +101,7 @@ public class ELSearchQuery implements ISearchQuery {
 		}
 
 		@Override
-		protected void match(IFile file, int offset, int length, boolean resolved) {
+		protected void match(IFile file, int offset, int length) {
 			Match match = new Match(file, offset, length);
 			result.addMatch(match);
 		}

@@ -453,7 +453,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 
 		@Override
-		protected void match(IFile file, int offset, int length, boolean resolved) {
+		protected void match(IFile file, int offset, int length) {
 			change(file, offset, length, newName);
 		}
 		
