@@ -187,8 +187,13 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 
 		@Override
 		protected void match(IFile file, int offset, int length, boolean resolved) {
-			Match match = new Match(new FileWrapper(file, resolved), offset, length);
-			requestor.reportMatch(match);
+			if(resolved){
+				Match match = new Match(file, offset, length);
+				requestor.reportMatch(match);
+			}else{
+				Match match = new Match(new FileWrapper(file, resolved), offset, length);
+				requestor.reportMatch(match);
+			}
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
