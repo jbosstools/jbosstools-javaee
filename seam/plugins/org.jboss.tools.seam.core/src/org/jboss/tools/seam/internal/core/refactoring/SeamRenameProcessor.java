@@ -30,6 +30,8 @@ import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.refactoring.RefactorSearcher;
 import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
@@ -459,6 +461,22 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		protected IProject[] getProjects(){
 			return projectsSet.getAllProjects();
+		}
+		
+		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
+			ELInvocationExpression invExp = invocationExpression;
+			while(invExp != null){
+				if(invExp instanceof ELPropertyInvocation){
+					if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(propertyName))
+						return invExp;
+					else
+						invExp = invExp.getLeft();
+					
+				}else{
+					invExp = invExp.getLeft();
+				}
+			}
+			return null;
 		}
 		
 		protected IContainer getViewFolder(IProject project){

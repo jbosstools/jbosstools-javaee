@@ -53,7 +53,7 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
 			if(qs.getElement() instanceof IMethod){
 				IFile file = (IFile)qs.getElement().getResource();
-				String name = ELSearcher.getPropertyName(qs.getElement().getElementName());
+				String name = qs.getElement().getElementName();
 				
 				searcher = new ELSearcher(requestor, qs.getElement(), file, name);
 				searcher.setSearchScope(qs.getScope());
@@ -112,19 +112,19 @@ public class SeamELReferencesQueryParticipant implements IQueryParticipant, IMat
 			requestor.reportMatch(match);
 		}
 		
-		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
-			ELInvocationExpression invExp = invocationExpression;
-			while(invExp != null){
-				if(invExp instanceof ELMethodInvocation || invExp instanceof ELPropertyInvocation){
-					if(invExp.getMemberName() != null && invExp.getMemberName().equals(propertyName))
-						return invExp;
-					else
-						invExp = invExp.getLeft();
-				}else{
-					invExp = invExp.getLeft();
-				}
-			}
-			return null;
-		}
+//		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
+//			ELInvocationExpression invExp = invocationExpression;
+//			while(invExp != null){
+//				if(invExp instanceof ELMethodInvocation || invExp instanceof ELPropertyInvocation){
+//					if(invExp.getMemberName() != null && invExp.getMemberName().equals(propertyName))
+//						return invExp;
+//					else
+//						invExp = invExp.getLeft();
+//				}else{
+//					invExp = invExp.getLeft();
+//				}
+//			}
+//			return null;
+//		}
 	}
 }
