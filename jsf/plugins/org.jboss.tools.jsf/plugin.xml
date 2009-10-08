@@ -12,6 +12,7 @@
       <meta path="meta/jsfwizards.meta">
       </meta>
       <meta path="meta/facelet-taglib.meta"/>
+      <meta path="meta/jsf2-components.meta"/>
    </extension>
    <extension point="org.jboss.tools.common.model.keys">
       <keys path="help/keys-jsf.properties"/>
@@ -372,6 +373,10 @@
 		<xclass id="org.jboss.tools.jsf.facelet.model.AddTagHandler"
 			class="org.jboss.tools.jsf.facelet.model.AddTagHandler"/>
 
+		<xclass id="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentLoader"
+			class="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentLoader"/>
+		<xclass id="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentRecognizer"
+			class="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentRecognizer"/>
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.core.facets">

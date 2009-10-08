@@ -26,7 +26,8 @@ Export-Package: org.jboss.tools.jsf,
  org.jboss.tools.jsf.project.capabilities,
  org.jboss.tools.jsf.web,
  org.jboss.tools.jsf.web.helpers.context,
- org.jboss.tools.jsf.web.pattern
+ org.jboss.tools.jsf.web.pattern,
+ org.jboss.tools.jsf.jsf2.model
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.jboss.tools.jst.web.kb;visibility:=reexport,
  org.jboss.tools.common.el.core,
