@@ -308,7 +308,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 
 			String prefix = propText;
 			ELExpression expr = engine.parseOperand(prefix);
-			if (expr == null)
+			if (!(expr instanceof ELInvocationExpression))
 				return null; // No EL Operand found
 			expr.getModel().shift(r.getOffset() - expr.getFirstToken().getStart());
 			
