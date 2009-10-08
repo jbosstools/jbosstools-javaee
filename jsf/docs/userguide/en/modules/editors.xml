@@ -1431,11 +1431,6 @@ two elements with equal id has been used, but should be used only one -->
                             </imageobject>
                         </inlinemediaobject>
                         )
-                        
-                        
-                        
-                        
-                        
                         provides a quick access to <property>Visual Page
                             Editor</property> preferences.</para>
 
@@ -1448,43 +1443,22 @@ two elements with equal id has been used, but should be used only one -->
                         </mediaobject>
                     </figure>
                 
-                    <para>The available preferences are as follows:</para>
-                    <itemizedlist>
-                        <listitem><para>Show Border for Unknown Tags</para></listitem>
-                        <listitem><para>Show Non-Visual Tags</para></listitem>
-                        <listitem><para>Show Resource Bundles Usage as EL Expressions</para></listitem>
-                        <listitem><para>Always Prompt for Tag Attributes During Tag Insert</para></listitem>
-                        <listitem><para>Show Selection Tag Bar</para></listitem>
-                        <listitem><para>Always Hide Selection Bar without Prompt</para></listitem>
-                        <listitem><para>Default Editor Tab: <emphasis>Visual/Source</emphasis>, <emphasis>Source</emphasis> or <emphasis>Preview</emphasis></para></listitem>
-                        <listitem><para>Size of Visual Editor Pane 0-100%</para></listitem>
-                    </itemizedlist> <para>Click on the <emphasis><property>Apply</property></emphasis> button to apply the changes or on the <emphasis><property>Restore Defaults</property></emphasis> button to cancel the changes and set the default preferences.</para>  
+                	<para>This page provides a number of options associated with the editor representation.  
+						The more detailed description on each one you can find in the <property>&quot;JBoss Tools Preferences&quot;</property> chapter 
+						under <link linkend="VisualPageEditor2">Visual Page Editor</link>.</para>
                              
                 </listitem>
-
-
-
-                <listitem>
-                    
+                <listitem> 
                     <para>Clicking on <emphasis>
                             <property>Refresh</property>
-                    </emphasis> button 
-                        
-                        
+                    </emphasis> button     
                         (
                         <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/icon_2.png"/>
                             </imageobject>
                         </inlinemediaobject>
-                        ) 
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                        )  
                         you refresh the displayed information.</para>
                 </listitem>
 
@@ -1498,9 +1472,7 @@ two elements with equal id has been used, but should be used only one -->
                                 <imagedata fileref="images/visual_page/icon_3.png"/>
                             </imageobject>
                         </inlinemediaobject>
-                        )
-                        
-                        
+                        ) 
                         leads to a window which helps you  specify necessary
                         references of the resources. It is represented by a window with 4 tabs. The
                         first one, <emphasis>
@@ -1530,9 +1502,6 @@ two elements with equal id has been used, but should be used only one -->
                             </imageobject>
                         </mediaobject>
                     </figure>
-
-
-
 
                     <para>The third one, <emphasis>
                             <property>Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
