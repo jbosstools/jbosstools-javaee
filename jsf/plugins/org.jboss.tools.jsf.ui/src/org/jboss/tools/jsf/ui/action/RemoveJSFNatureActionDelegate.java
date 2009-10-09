@@ -15,6 +15,7 @@ import java.util.Properties;
 import org.jboss.tools.jsf.model.handlers.RemoveJSFNatureContribution;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.common.meta.action.SpecialWizard;
+import org.jboss.tools.common.model.handlers.RemoveModelNatureHandler;
 import org.jboss.tools.common.model.ui.action.file.RemoveModelNatureActionDelegate;
 
 public class RemoveJSFNatureActionDelegate extends RemoveModelNatureActionDelegate {
@@ -25,7 +26,7 @@ public class RemoveJSFNatureActionDelegate extends RemoveModelNatureActionDelega
 	protected void initProperties(Properties p) {
 		super.initProperties(p);
 		SpecialWizard w = new RemoveJSFNatureContribution();
-		p.put("contribution", w); //$NON-NLS-1$
+		p.put(RemoveModelNatureHandler.PARAM_CONTRIBUTION, w);
 	}
 	
 }
