@@ -80,26 +80,22 @@ public class CompositeComponentNamespaces {
 //		StringBuffer loc = new StringBuffer();
 //		loc.append(object.getAttributeValue("xsi:schemaLocation")); //$NON-NLS-1$
 		XModelObject[] cs = object.getChildren();
+
 		Set<String> ns = new HashSet<String>();
+		
 		for (int i = 0; i < cs.length; i++) {
 			String n = cs[i].getModelEntity().getXMLSubPath();
 			int k = n.indexOf(':');
 			if(k < 0) continue;
 			String defaultNamespace = n.substring(0, k);
-			if(ns.contains(defaultNamespace)) continue;
-			ns.add(defaultNamespace);
-			String uri = namespaceMapping.getURIForDefaultNamespace(defaultNamespace);
-			if(uri == null) continue;
-			String actualNamespace = namespaceMapping.getActualNamespace(defaultNamespace);
-			if(actualNamespace == null) actualNamespace = defaultNamespace;
-			element.setAttribute(XMLNS_PREFIX + actualNamespace, uri);
+			validateNamespace(element, namespaceMapping, defaultNamespace, ns);
 //			String schema = getSchema(defaultNamespace);
 //			if(loc.indexOf(uri) < 0) {
 //				loc.append(' ').append(uri).append(' ').append(schema);
 //			}
 			
 		}
-		
+
 		XModelObject im = object.getChildByPath("Implementation");
 		if(im != null) {
 			XModelObject[] cs2 = im.getChildren();
@@ -108,15 +104,23 @@ public class CompositeComponentNamespaces {
 				int k = n.indexOf(':');
 				if(k < 0) continue;
 				String defaultNamespace = n.substring(0, k);
-				if(ns.contains(defaultNamespace)) continue;
-				ns.add(defaultNamespace);
-				String uri = namespaceMapping.getURIForDefaultNamespace(defaultNamespace);
-				if(uri == null) continue;
-				String actualNamespace = namespaceMapping.getActualNamespace(defaultNamespace);
-				if(actualNamespace == null) actualNamespace = defaultNamespace;
-				element.setAttribute(XMLNS_PREFIX + actualNamespace, uri);
+				validateNamespace(element, namespaceMapping, defaultNamespace, ns);
 			}
 		}
+		
+		if(!ns.contains("composite")) {
+			validateNamespace(element, namespaceMapping, "composite", ns);
+		}
 //		object.setAttributeValue("xsi:schemaLocation", loc.toString()); //$NON-NLS-1$
+	}
+
+	static void validateNamespace(Element element, NamespaceMapping namespaceMapping, String defaultNamespace, Set<String> ns) {
+		if(ns.contains(defaultNamespace)) return;
+		ns.add(defaultNamespace);
+		String uri = namespaceMapping.getURIForDefaultNamespace(defaultNamespace);
+		if(uri == null) return;
+		String actualNamespace = namespaceMapping.getActualNamespace(defaultNamespace);
+		if(actualNamespace == null) actualNamespace = defaultNamespace;
+		element.setAttribute(XMLNS_PREFIX + actualNamespace, uri);
 	}
 }

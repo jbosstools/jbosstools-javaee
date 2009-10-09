@@ -71,7 +71,8 @@
     default="http://www.w3.org/1999/xhtml" name="xmlns" xmlname="xmlns"/>
    <XModelAttribute name="xmlns:xsi" xmlname="xmlns:xsi"/>
    <XModelAttribute name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
-   <XModelAttribute name="namespaceMapping"/>
+   <XModelAttribute
+    default="composite composite http://java.sun.com/jsf/composite" name="namespaceMapping"/>
    <XModelAttribute name="encoding">
     <Constraint loader="ListString">
      <value name="ISO-8859-1"/>

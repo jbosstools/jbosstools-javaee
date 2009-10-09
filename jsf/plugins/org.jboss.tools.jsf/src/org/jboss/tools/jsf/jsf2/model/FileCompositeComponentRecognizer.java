@@ -20,7 +20,7 @@ public class FileCompositeComponentRecognizer implements EntityRecognizer, Compo
     	int j = body.indexOf(">", i); //$NON-NLS-1$
     	if(j < 0) return false;
     	String s = body.substring(i, j);
-    	return s.indexOf(COMPOSITE_XMLNS) > 0;
+    	return s.indexOf("\"" + COMPOSITE_XMLNS + "\"") > 0; //$NON-NLS-1$ //$NON-NLS-2$
     }
     
 }
