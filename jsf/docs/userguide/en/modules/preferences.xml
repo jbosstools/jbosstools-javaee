@@ -723,7 +723,7 @@
             </emphasis> screen you can add and remove Seam runtimes.</para>
         <para>Here is what Seam preference page looks like:</para>
         <figure>
-            <title>Seam</title>
+            <title>Seam preference page</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_19.png"/>
@@ -784,7 +784,7 @@
                 <property>JBoss Tools &gt; Web &gt; Struts</property>
             </emphasis> you can configure Struts projects specific preferences.</para>
         <figure>
-            <title>Struts</title>
+            <title>Struts projects preferences Page.</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_21.png"/>
@@ -1085,7 +1085,7 @@
             proper box, specify XDoclet home and determine XDoclet module version as well.</para>
 
         <figure>
-            <title>XDoclet</title>
+            <title>XDoclet Runtime Preferences Page</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_41.png"/>

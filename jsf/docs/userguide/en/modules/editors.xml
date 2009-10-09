@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <chapter id="jbds_editors" xreflabel="jbds_editors" role="updated">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
@@ -1217,7 +1217,7 @@ two elements with equal id has been used, but should be used only one -->
                 <para>If the style class isn&apos;t chosen, the tab doesn&apos;t show any properties.</para>
                 
                 <figure>
-                    <title>Edited Properties</title>
+                    <title>Edited Properties when the style class isn't chosen</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/edited_properties.png"/>
@@ -1934,7 +1934,7 @@ two elements with equal id has been used, but should be used only one -->
                 <para>You can easily add a <property>new tag</property>:</para>
 
                 <figure>
-                    <title>Adding a New Tag</title>
+                    <title>Adding a New TLD Tag</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_6.png" scale="85"/>
@@ -1945,7 +1945,7 @@ two elements with equal id has been used, but should be used only one -->
                 <para>You can also easily add a <property>new attribute</property> to an existing
                     tag:</para>
                 <figure>
-                    <title>Adding a New Attribute</title>
+                    <title>Adding a New Attribute to TLD tag</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_7.png" scale="85"/>
@@ -1956,7 +1956,7 @@ two elements with equal id has been used, but should be used only one -->
                     viewer:</para>
 
                 <figure>
-                    <title>Content Assist</title>
+                    <title>TLD Content Assist</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_8.png" scale="65"/>
@@ -2008,7 +2008,7 @@ two elements with equal id has been used, but should be used only one -->
             			<property>web.xml</property></emphasis> could include are located in the left area of the editor in a tree format.  
             		Click a node on the left to display and edit its properties that will appear in the right-hand area.</para>
                 <figure>
-                    <title>Tree View</title>
+                    <title>Tree View for editing web.xml in a graphical mode</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_10.png"/>
@@ -2020,7 +2020,7 @@ two elements with equal id has been used, but should be used only one -->
                     viewer</property>:</para>
 
                 <figure>
-                    <title>Adding New Elements</title>
+                    <title>Adding New Elements in Web XML Editor</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_11.png"/>
@@ -2036,7 +2036,7 @@ two elements with equal id has been used, but should be used only one -->
                     hand at any time:</para>
 
                 <figure>
-                    <title>Source View</title>
+                    <title>Web XML Source View</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_12.png"/>
@@ -2053,7 +2053,7 @@ two elements with equal id has been used, but should be used only one -->
                     </emphasis> anywhere in the file.</para>
 
                 <figure>
-                    <title>Content Assist</title>
+                    <title>Web XML Content Assist</title>
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/more_editors/more_editors_13.png" scale="85"
@@ -2126,7 +2126,7 @@ two elements with equal id has been used, but should be used only one -->
                 stylesheet declaration properties:</para>
 
             <figure>
-                <title>Properties View</title>
+                <title>Properties View in CSS Editor</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_43.png" scale="85"/>
@@ -2157,7 +2157,7 @@ two elements with equal id has been used, but should be used only one -->
                 file:</para>
 
             <figure>
-                <title>Source Viewer</title>
+                <title>Source Viewer in JavaScript Editor </title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_45.png" scale="85"/>
@@ -2211,7 +2211,7 @@ two elements with equal id has been used, but should be used only one -->
                 Source viewer:</para>
 
             <figure>
-                <title>Source Viewer</title>
+                <title>Source Viewer in XSD Editor</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_48.png" scale="85"/>
@@ -2223,7 +2223,7 @@ two elements with equal id has been used, but should be used only one -->
                 it:</para>
 
             <figure>
-                <title>Design Viewer</title>
+                <title>Design Viewer in XSD Editor</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_49.png" scale="85"/>
@@ -2235,7 +2235,7 @@ two elements with equal id has been used, but should be used only one -->
                 diagram:</para>
 
             <figure>
-                <title>Edit Options</title>
+                <title>Edit Options in XSD Editor Context Menu.</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_50.png" scale="85"/>
@@ -2246,7 +2246,7 @@ two elements with equal id has been used, but should be used only one -->
             <para>You can also use the Properties view to edit a selected element:</para>
 
             <figure>
-                <title>Properties View</title>
+                <title>Properties View in XSD Editor</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_51.png"/>
@@ -2259,7 +2259,7 @@ two elements with equal id has been used, but should be used only one -->
                 on the right:</para>
 
             <figure>
-                <title>Source Viewer</title>
+                <title>Using Source Viewer and Properties View together for source code editing</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_52.png" scale="85"/>
