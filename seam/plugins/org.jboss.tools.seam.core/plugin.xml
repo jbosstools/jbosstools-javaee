@@ -272,6 +272,20 @@
                id="jst.seam21.preset">
          </preset>
       </template>
+
+      <template
+            id="template.jst.seam22">
+         <label>
+            Seam 2.2 Web Project
+         </label>
+         <fixed
+               facet="jst.java"/>
+         <fixed
+               facet="jst.web"/>
+         <preset
+               id="jst.seam22.preset">
+         </preset>
+      </template>
    </extension>
 
   <extension

@@ -132,12 +132,14 @@ public class SeamProjectWizard extends WebProjectWizard {
 	private static final String templateJstSeam1 = "template.jst.seam"; //$NON-NLS-1$
 	private static final String templateJstSeam2 = "template.jst.seam2"; //$NON-NLS-1$
 	private static final String templateJstSeam21 = "template.jst.seam21"; //$NON-NLS-1$
+	private static final String templateJstSeam22 = "template.jst.seam22"; //$NON-NLS-1$
 
 	private static final Map<String, String> templates = new HashMap<String, String>();
 	static {
 		templates.put("jst.seam.preset", templateJstSeam1); //$NON-NLS-1$
 		templates.put("jst.seam2.preset", templateJstSeam2); //$NON-NLS-1$
 		templates.put("jst.seam21.preset", templateJstSeam21); //$NON-NLS-1$
+		templates.put("jst.seam22.preset", templateJstSeam22); //$NON-NLS-1$
 	}
 
 	private void setSeamConfigTemplate(String seamConfigTemplate) {
@@ -244,11 +246,13 @@ public class SeamProjectWizard extends WebProjectWizard {
 					seamConfigTemplate = templateJstSeam1;
 				} else if(runtime.getVersion()==SeamVersion.SEAM_2_0) {
 					seamConfigTemplate = templateJstSeam2;
-				} else {
+				} else if(runtime.getVersion()==SeamVersion.SEAM_2_1) {
 					seamConfigTemplate = templateJstSeam21;
+				} else {
+					seamConfigTemplate = templateJstSeam22;
 				}
 			} else {
-				seamConfigTemplate = templateJstSeam21;
+				seamConfigTemplate = templateJstSeam22;
 			}
 		}
 		return ProjectFacetsManager.getTemplate(seamConfigTemplate);
