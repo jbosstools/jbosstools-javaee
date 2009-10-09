@@ -11,10 +11,8 @@
 package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -32,7 +30,6 @@ import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.refactoring.RefactorSearcher;
 import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -76,6 +73,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	private String oldName;
 	
 	private SeamSearcher searcher = null;
+	
+	protected ISeamComponent component;
 	
 	protected SeamSearcher getSearcher(){
 		if(searcher == null){
@@ -444,7 +443,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	class SeamSearcher extends SeamRefactorSearcher{
 		public SeamSearcher(IFile declarationFile, String oldName){
-			super(declarationFile, oldName);
+			super(declarationFile, oldName, component);
 		}
 
 		@Override
@@ -458,6 +457,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
+			if(component != null)
+				return invocationExpression;
+			
 			ELInvocationExpression invExp = invocationExpression;
 			while(invExp != null){
 				if(invExp instanceof ELPropertyInvocation){

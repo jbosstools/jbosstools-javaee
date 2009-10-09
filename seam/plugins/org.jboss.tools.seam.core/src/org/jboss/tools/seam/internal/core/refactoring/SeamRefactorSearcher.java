@@ -10,16 +10,30 @@
  ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.refactoring.RefactorSearcher;
+import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELResolverFactoryManager;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
+import org.jboss.tools.common.el.core.resolver.SimpleELContext;
+import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 
 public abstract class SeamRefactorSearcher extends RefactorSearcher {
-	SeamProjectsSet projectsSet;
+	private SeamProjectsSet projectsSet;
+	private ISeamComponent component;
 	
 	public SeamRefactorSearcher(IFile file, String name){
 		super(file, name);
@@ -29,6 +43,11 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 	public SeamRefactorSearcher(IFile file, String name, IJavaElement element){
 		this(file, name);
 		javaElement = element;
+	}
+	
+	public SeamRefactorSearcher(IFile file, String name, ISeamComponent component){
+		this(file, name);
+		this.component = component;
 	}
 	
 	protected IProject[] getProjects(){
@@ -54,6 +73,44 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 			return false;
 		}
 		return true;
+	}
+	
+	protected void checkMatch(IFile file, ELExpression operand, int offset, int length){
+		if(javaElement != null && operand != null)
+			resolve(file, operand, offset-getOffset((ELInvocationExpression)operand));
+		else if(component != null && operand != null)
+			resolveComponentsReferences(file, operand, offset-getOffset((ELInvocationExpression)operand));
+		else
+			match(file, offset, length);
+	}
+
+	
+	private void resolveComponentsReferences(IFile file, ELExpression operand, int offset) {
+		ELResolver[] resolvers = ELResolverFactoryManager.getInstance()
+				.getResolvers(file);
+
+		for (ELResolver resolver : resolvers) {
+			if (!(resolver instanceof ELCompletionEngine))
+				continue;
+
+			SimpleELContext context = new SimpleELContext();
+
+			context.setResource(file);
+			context.setElResolvers(resolvers);
+
+			List<Var> vars = ElVarSearcher.findAllVars(context, offset,
+					resolver);
+
+			context.setVars(vars);
+
+			ELResolution resolution = resolver.resolve(context, operand);
+
+			List<ELSegment> segments = resolution.findSegmentsByVariable(component);
+			
+			for(ELSegment segment : segments){
+				match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
+			}
+		}
 	}
 
 }

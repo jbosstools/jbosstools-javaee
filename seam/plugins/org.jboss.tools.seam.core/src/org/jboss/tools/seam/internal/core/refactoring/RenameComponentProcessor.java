@@ -26,8 +26,6 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
  * @author Alexey Kazakov, Daniel Azarov
  */
 public class RenameComponentProcessor extends SeamRenameProcessor {
-	private ISeamComponent component;
-
 	
 	/**
 	 * @param component Renamed component
@@ -88,7 +86,6 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		
 		
 		return rootChange;
 	}

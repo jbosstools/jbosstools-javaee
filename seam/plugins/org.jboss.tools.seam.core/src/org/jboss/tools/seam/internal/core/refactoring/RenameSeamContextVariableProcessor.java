@@ -41,7 +41,7 @@ import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
  */
 public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 	IFile file;
-	private ISeamComponent component;
+	
 	/**
 	 * @param file where refactor was called
 	 */
