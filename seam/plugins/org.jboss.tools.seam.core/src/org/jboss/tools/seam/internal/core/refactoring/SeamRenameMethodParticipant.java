@@ -121,7 +121,6 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 	}
 	
 	private void change(IFile file, int offset, int length, String text){
-		//System.out.println("change file - "+file.getFullPath()+" offset - "+offset+" len - "+length+" text <"+text+">");
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
 			TextFileChange change = getChange(file);
@@ -131,12 +130,9 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 		}
 	}
 	
-	class SeamRenameMethodSearcher extends RefactorSearcher{
-		SeamProjectsSet projectsSet;
-		
+	class SeamRenameMethodSearcher extends SeamRefactorSearcher{
 		public SeamRenameMethodSearcher(IFile file, String name){
 			super(file, name, method);
-			projectsSet = new SeamProjectsSet(file.getProject());
 		}
 
 		@Override
@@ -153,34 +149,6 @@ public class SeamRenameMethodParticipant extends RenameParticipant{
 			}
 			return true;
 		}
-		
-		protected IProject[] getProjects(){
-			return projectsSet.getAllProjects();
-		}
-		
-		protected IContainer getViewFolder(IProject project){
-			if(project.equals(projectsSet.getWarProject()))
-				return projectsSet.getDefaultViewsFolder();
-			else if(project.equals(projectsSet.getEarProject()))
-				return projectsSet.getDefaultEarViewsFolder();
-			
-			return null;
-		}
-		
-//		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
-//			ELInvocationExpression invExp = invocationExpression;
-//			while(invExp != null){
-//				if(invExp instanceof ELMethodInvocation || invExp instanceof ELPropertyInvocation){
-//					if(invExp.getMemberName() != null && invExp.getMemberName().equals(propertyName))
-//						return invExp;
-//					else
-//						invExp = invExp.getLeft();
-//				}else{
-//					invExp = invExp.getLeft();
-//				}
-//			}
-//			return null;
-//		}
 
 		@Override
 		protected void match(IFile file, int offset, int length) {

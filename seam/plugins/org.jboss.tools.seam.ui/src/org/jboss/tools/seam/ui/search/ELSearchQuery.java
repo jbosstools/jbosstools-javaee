@@ -10,9 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.search;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -25,8 +23,7 @@ import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELMethodInvocation;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.refactoring.RefactorSearcher;
-import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.internal.core.refactoring.SeamRefactorSearcher;
 
 public class ELSearchQuery implements ISearchQuery {
 	private String propertyName;
@@ -68,36 +65,9 @@ public class ELSearchQuery implements ISearchQuery {
 		return Status.OK_STATUS;
 	}
 	
-	class ELSearcher extends RefactorSearcher{
-		SeamProjectsSet projectsSet;
+	class ELSearcher extends SeamRefactorSearcher{
 		public ELSearcher(IFile file, String name){
 			super(file, name);
-			projectsSet = new SeamProjectsSet(file.getProject());
-		}
-
-		@Override
-		protected boolean isFileCorrect(IFile file){
-			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-				return false;
-			}else if(file.isPhantom()){
-				return false;
-			}else if(file.isReadOnly()){
-				return false;
-			}
-			return true;
-		}
-		
-		protected IProject[] getProjects(){
-			return projectsSet.getAllProjects();
-		}
-		
-		protected IContainer getViewFolder(IProject project){
-			if(project.equals(projectsSet.getWarProject()))
-				return projectsSet.getDefaultViewsFolder();
-			else if(project.equals(projectsSet.getEarProject()))
-				return projectsSet.getDefaultEarViewsFolder();
-			
-			return null;
 		}
 
 		@Override

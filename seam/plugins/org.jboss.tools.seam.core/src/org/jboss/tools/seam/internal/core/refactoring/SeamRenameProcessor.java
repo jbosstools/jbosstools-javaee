@@ -442,11 +442,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	class SeamSearcher extends RefactorSearcher{
-		SeamProjectsSet projectsSet;
+	class SeamSearcher extends SeamRefactorSearcher{
 		public SeamSearcher(IFile declarationFile, String oldName){
 			super(declarationFile, oldName);
-			projectsSet = new SeamProjectsSet(declarationFile.getProject());
 		}
 
 		@Override
@@ -457,10 +455,6 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		@Override
 		protected void match(IFile file, int offset, int length) {
 			change(file, offset, length, newName);
-		}
-		
-		protected IProject[] getProjects(){
-			return projectsSet.getAllProjects();
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
@@ -479,13 +473,5 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			return null;
 		}
 		
-		protected IContainer getViewFolder(IProject project){
-			if(project.equals(projectsSet.getWarProject()))
-				return projectsSet.getDefaultViewsFolder();
-			else if(project.equals(projectsSet.getEarProject()))
-				return projectsSet.getDefaultEarViewsFolder();
-			
-			return null;
-		}
 	}
 }
