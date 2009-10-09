@@ -323,7 +323,7 @@
     <XActionItem
      HandlerClassName="org.jboss.tools.jsf.model.pv.handler.JSFProjectsRootRedirectHandler"
      ICON="action.empty"
-     PROPERTIES="actionpath=EclipseActions/RemoveModelNature"
+     PROPERTIES="actionpath=EclipseActions/RemoveModelNature;contribution=org.jboss.tools.jsf.model.handlers.RemoveJSFNatureContribution"
      displayName="Remove JSF Capabilities" kind="action" name="RemoveJSFNature"/>
     <XActionItem kind="list" name="RootVerifyActions">
      <XActionItem BaseActionName="VerifyAll" HIDE="disabled"

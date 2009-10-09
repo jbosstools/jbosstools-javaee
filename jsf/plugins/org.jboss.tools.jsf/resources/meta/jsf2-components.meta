@@ -210,11 +210,31 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;save=always;category=general"
     name="name" xmlname="name"/>
+   <XModelAttribute PROPERTIES="category=general" name="displayName" xmlname="displayName"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="shortDescription" xmlname="shortDescription"/>
    <XModelAttribute PROPERTIES="category=general"
     name="method-signature" xmlname="method-signature"/>
    <XModelAttribute PROPERTIES="category=general" name="default" xmlname="default"/>
    <XModelAttribute PROPERTIES="category=general" default="false"
     name="required" xmlname="required">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="applyTo" xmlname="applyTo"/>
+   <XModelAttribute PROPERTIES="category=general" default="false"
+    name="preferred" xmlname="preferred">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" default="false"
+    name="expert" xmlname="expert">
     <Constraint loader="List">
      <value name="true"/>
      <value name="false"/>
