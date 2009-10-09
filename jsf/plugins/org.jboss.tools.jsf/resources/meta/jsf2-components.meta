@@ -37,7 +37,7 @@
   ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
   ObjectEditorClass="%XML%" XMLSUBPATH="html" name="FileJSF2Component">
   <XChildrenEntities>
-   <XChildEntity name="JSF2ComponentInterface"/>
+   <XChildEntity maxCount="1" name="JSF2ComponentInterface" required="yes"/>
    <XChildEntity name="JSF2ComponentImplementation"/>
   </XChildrenEntities>
   <XEntityRenderer>
@@ -123,38 +123,10 @@
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%"
+    <XActionItem HandlerClassName="%Redirect%"
      ICON="action.new.struts.webapp.res_ref"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Component..." kind="action" name="AddComponent">
-     <EntityData EntityName="SeamComponent20">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="class" Mandatory="no"/>
-     </EntityData>
-    </XActionItem>
-    <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Factory..." kind="action" name="AddFactory">
-     <EntityData EntityName="SeamFactory20">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="value" Mandatory="no"/>
-     </EntityData>
-    </XActionItem>
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Event..." kind="action" name="AddEvent">
-     <EntityData EntityName="SeamEvent20">
-      <AttributeData AttributeName="type"/>
-     </EntityData>
-    </XActionItem>
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Import..." kind="action" name="AddImport">
-     <EntityData EntityName="SeamImport">
-      <AttributeData AttributeName="import"/>
-     </EntityData>
-    </XActionItem>
+     PROPERTIES="validator.add=true;sourcepath=Interface;actionpath=CreateActions/AddAttribute"
+     displayName="Attribute..." kind="action" name="AddAttribute"/>
    </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
@@ -333,7 +305,16 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%"
+     ICON="action.new.struts.webapp.res_ref"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Attribute..." kind="action" name="AddAttribute">
+     <EntityData EntityName="JSF2ComponentAttribute">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
