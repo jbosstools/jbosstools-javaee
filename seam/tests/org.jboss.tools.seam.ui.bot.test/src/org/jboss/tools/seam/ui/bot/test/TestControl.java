@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
 import org.jboss.tools.test.TestProperties;
 import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
@@ -112,7 +113,6 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 		if (!bot.perspectiveByLabel("Seam").isActive()) {
 			bot.perspectiveByLabel("Seam").activate();
 		}
-		
 	}
 	
 	private static void substituteSystemProperties(Properties projectProperties2) {
@@ -189,7 +189,7 @@ public static String TYPE_EAR = "EAR";
 		bot.radio(type).click();
 		bot.comboBoxWithLabel("Connection profile:").setSelection(projectProperties.getProperty("connName"));
 		bot.button("Finish").click();
-		bot.waitUntil(Conditions.shellCloses(bot.activeShell()),15000);
+		bot.waitUntil(Conditions.shellCloses(bot.activeShell()),30000);
 	}
 	
 /**Creates any Seam Action, Form etc.	*/
@@ -233,5 +233,4 @@ public static String TYPE_EAR = "EAR";
 			bot.sleep(1000);
 		}
 	}
-	
 }

@@ -8,13 +8,15 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.swtbot.eclipse.core;bundle-version="2.0.0",
  org.eclipse.swtbot.eclipse.finder;bundle-version="2.0.0",
- org.eclipse.swtbot.eclipse.spy;bundle-version="2.0.0",
- org.eclipse.swtbot.eclipse.ui;bundle-version="2.0.0",
  org.eclipse.swtbot.swt.finder;bundle-version="2.0.0",
  org.apache.log4j;bundle-version="1.2.13",
- org.junit4;bundle-version="4.5.0"
+ org.junit4;bundle-version="4.5.0",
+ org.eclipse.swtbot.eclipse.spy;bundle-version="2.0.0",
+ org.eclipse.swtbot.eclipse.ui;bundle-version="2.0.0",
+ org.eclipse.swtbot.junit4_x;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.jboss.tools.ui.bot.test,
  org.jboss.tools.vpe.ui.bot.test
-Export-Package: org.jboss.tools.jsf.ui.bot.test
+Export-Package: org.jboss.tools.jsf.ui.bot.test,
+ org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide

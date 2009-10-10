@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTBotTests
-Bundle-SymbolicName: org.jboss.tools.seam.ui.bot.test
+Bundle-SymbolicName: org.jboss.tools.seam.ui.bot.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.jboss.tools.seam.ui.bot.test.Activator
 Require-Bundle: org.eclipse.ui,
@@ -13,11 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.swtbot.eclipse.ui;bundle-version="2.0.0",
  org.eclipse.swtbot.swt.finder;bundle-version="2.0.0",
  org.apache.log4j;bundle-version="1.2.13",
- org.eclipse.swtbot.junit4_x;bundle-version="2.0.0",
- org.junit4;bundle-version="4.5.0",
- org.eclipse.swtbot.eclipse.junit4.headless;bundle-version="2.0.0",
- org.junit;bundle-version="3.8.2"
+ org.junit4;bundle-version="4.5.0"
 Eclipse-RegisterBuddy: org.apache.log4j
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: junit.framework

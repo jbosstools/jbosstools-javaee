@@ -27,7 +27,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jboss.tools.seam.ui.bot.test"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms1024m -Xmx2048m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms128m -Xmx512m -XX:MaxPermSize=256m&#10;-Djbosstools.test.jboss.home=/home/eskimo/jbdevstudio/jboss-eap/jboss-as&#10;-Djbosstools.test.seam.1.2.1.eap.home=/home/eskimo/jbdevstudio/jboss-eap/seam&#10;-Djbosstools.test.seam.2fp.eap.home=/home/eskimo/jbdevstudio/jboss-eap/seam&#10;-Djbosstools.test.seam.2.0.1.GA.home=/home/eskimo/Java/jboss-seam-2.0.1.GA&#10;-Djbosstools.test.seam.2.1.0.GA.home=/home/eskimo/Java/jboss-seam-2.1.1.GA"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="org.eclipse.sdk.ide"/>
 <booleanAttribute key="run_in_ui_thread" value="true"/>
