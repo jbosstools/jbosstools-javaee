@@ -149,15 +149,15 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 						visualDocument, inerTr, active,
 								ComponentUtil.getAttribute(sourceElement,	
 									TAB_CLASS),
-						ComponentUtil.getAttribute(sourceElement, 
+						(ComponentUtil.getAttribute(sourceElement, 
 								ACTIVE_TAB_CLASS)
-								+ SPACE + CSS_CELL_ACTIVE,
-						ComponentUtil.getAttribute(sourceElement,
+								+ SPACE + CSS_CELL_ACTIVE).trim(),
+						(ComponentUtil.getAttribute(sourceElement,
 								INACTIVE_TAB_CLASS)
-								+ SPACE + CSS_CELL_INACTIVE,
-						ComponentUtil.getAttribute(sourceElement,
+								+ SPACE + CSS_CELL_INACTIVE).trim(),
+						(ComponentUtil.getAttribute(sourceElement,
 								DISABLED_TAB_CLASS)
-								+ SPACE + CSS_CELL_DISABLED, 
+								+ SPACE + CSS_CELL_DISABLED).trim(), 
 								String.valueOf(i));
 				i++;
 				addSpacer(visualDocument, inerTr, headerSpacing);

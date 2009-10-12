@@ -262,7 +262,7 @@
 												</TABLE>
 											</DIV>
 										</DIV>
-										<IMG WIDTH="1" HEIGHT="3"
+										<IMG WIDTH="1px" HEIGHT="3"
 											SRC="/.*resources/spacer/spacer.gif/"
 											CLASS="rich-spacer" />
 										<BR STYLE="-moz-user-modify: read-write;" />

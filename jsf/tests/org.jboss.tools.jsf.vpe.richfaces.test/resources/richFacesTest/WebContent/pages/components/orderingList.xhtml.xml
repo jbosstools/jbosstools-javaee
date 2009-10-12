@@ -1,6 +1,6 @@
 <tests>
 	<test id="orderingList">
-		<TABLE WIDTH="300" HEIGHT="200" CLASS="rich-ordering-list-body">
+		<TABLE WIDTH="300px" HEIGHT="200px" CLASS="rich-ordering-list-body">
 			<TR>
 				<TD>
 					<DIV CLASS="rich-ordering-list-caption" STYLE="width: 350px; height: 300px;">

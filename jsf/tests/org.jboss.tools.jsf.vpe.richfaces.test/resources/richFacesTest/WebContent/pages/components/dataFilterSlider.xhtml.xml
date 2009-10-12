@@ -6,7 +6,7 @@
 					<DIV CLASS="trailer rich-dataFilterSlider-trailer" STYLE="left: -38px;">
 						<DIV CLASS="track rich-dataFilterSlider-track" STYLE="width: 200px;">
 							<DIV CLASS="handle rich-dataFilterSlider-handle" STYLE="left: 0px;">
-								<IMG WIDTH="7" HEIGHT="8" BORDER="0"
+								<IMG WIDTH="7px" HEIGHT="8px" BORDER="0px"
 									SRC="/.*resources/dataFilterSlider/pos.gif/" />
 							</DIV>
 						</DIV>
@@ -29,7 +29,7 @@
 							STYLE="width: 200px;">
 							<DIV CLASS="handle rich-dataFilterSlider-handle handleStyle"
 								STYLE="left: 0px;">
-								<IMG WIDTH="7" HEIGHT="8" BORDER="0"
+								<IMG WIDTH="7px" HEIGHT="8px" BORDER="0px"
 									SRC="/.*resources/dataFilterSlider/pos.gif/" />
 							</DIV>
 						</DIV>
@@ -60,7 +60,7 @@
 										<DIV CLASS="trailer rich-dataFilterSlider-trailer" STYLE="left: -38px;">
 											<DIV CLASS="track rich-dataFilterSlider-track" STYLE="width: 200px;">
 												<DIV CLASS="handle rich-dataFilterSlider-handle" STYLE="left: 0px;">
-													<IMG WIDTH="7" HEIGHT="8" BORDER="0"
+													<IMG WIDTH="7px" HEIGHT="8px" BORDER="0px"
 														SRC="/.*resources/dataFilterSlider/pos.gif/" />
 
 												</DIV>

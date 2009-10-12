@@ -2,18 +2,18 @@
 	<test id="project">
 		<DIV ID="treeNodesAdaptor" >
 			<DIV>
-				<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+				<TABLE CELLSPACING="0px" CELLPADDING="0px" BORDER="0px"
 					CLASS="dr-tree-full-width">
 					<TBODY>
 						<TR>
 							<TD
-								STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
+								STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center center; background-repeat: repeat-y;/">
 								<IMG CLASS="treePictureStyle"
 									SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
 									RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 							</TD>
 							<TD
-								STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
+								STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center center; background-repeat: repeat-y;/">
 								<IMG CLASS="treePictureStyle"
 									SRC="/.*resources/tree/iconNodeWithLines.gif/"
 									RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
@@ -30,18 +30,18 @@
 			</DIV>
 			<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
 				<DIV>
-					<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+					<TABLE CELLSPACING="0px" CELLPADDING="0px" BORDER="0px"
 						CLASS="dr-tree-full-width">
 						<TBODY>
 							<TR>
 								<TD
-									STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
+									STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center center; background-repeat: repeat-y;/">
 									<IMG CLASS="treePictureStyle"
 										SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
 										RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 								</TD>
 								<TD
-									STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
+									STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center center; background-repeat: repeat-y;/">
 									<IMG CLASS="treePictureStyle"
 										SRC="/.*resources/tree/iconNodeWithLines.gif/"
 										RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
@@ -58,18 +58,18 @@
 				</DIV>
 				<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
 					<DIV>
-						<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+						<TABLE CELLSPACING="0px" CELLPADDING="0px" BORDER="0px"
 							CLASS="dr-tree-full-width">
 							<TBODY>
 								<TR>
 									<TD
-										STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center; background-repeat: repeat-y;/">
+										STYLE="/background-image: url\(.*resources//tree/line.gif\); background-position: center center; background-repeat: repeat-y;/">
 										<IMG CLASS="treePictureStyle"
 											SRC="/.*resources/tree/iconClosedNodeWithLines.gif/"
 											RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />
 									</TD>
 									<TD
-										STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center; background-repeat: repeat-y;/">
+										STYLE="/background-image: url\(.*resources//tree/leftLine.gif\); background-position: center center; background-repeat: repeat-y;/">
 										<IMG CLASS="treePictureStyle"
 											SRC="/.*resources/tree/iconNodeWithLines.gif/"
 											RICHFACESTREENODEPARAM="DEFAULT_ICON_PARAM" />
@@ -86,12 +86,12 @@
 					</DIV>
 					<DIV ID="treeNodesAdaptor" CLASS="dr-tree-h-ic-div">
 						<DIV>
-							<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+							<TABLE CELLSPACING="0px" CELLPADDING="0px" BORDER="0px"
 								CLASS="dr-tree-full-width">
 								<TBODY>
 									<TR>
 										<TD
-											STYLE="/background-image: url\(.*resources//tree/rightLine.gif\); background-position: center; background-repeat: repeat-y;/">
+											STYLE="/background-image: url\(.*resources//tree/rightLine.gif\); background-position: center center; background-repeat: repeat-y;/">
 											<IMG CLASS="treePictureStyle"
 												SRC="/.*resources/tree/iconNotCollapsedWithLines.gif/"
 												RICHFACESTREENODEPARAM="DEFAULT_ICON_EXPANDED_PARAM" />

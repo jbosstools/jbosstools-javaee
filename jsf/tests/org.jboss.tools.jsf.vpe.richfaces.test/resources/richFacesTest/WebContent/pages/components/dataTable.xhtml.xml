@@ -2,13 +2,13 @@
 	<test id="dataTable">
 		<TABLE WIDTH="700" CELLSPACING="0" CELLPADDING="0" BORDER="0"
 			VAR="row" VALUE="#{bean.dtList}" ROWKEYVAR="rowKey" CLASS="dr-table rich-table">
-			<COLGROUP SPAN="1">
+			<COLGROUP SPAN="0">
 			</COLGROUP>
 			<THEAD>
 				<TR CLASS="dr-table-header rich-table-header"
 					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 					<TD ROWSPAN="2" CLASS="dr-table-headercell rich-table-headercell">
-						<IMG WIDTH="1" HEIGHT="1" SRC="/.*resources/spacer/spacer.gif/"/>
+						<IMG WIDTH="1px" HEIGHT="1px" SRC="/.*resources/spacer/spacer.gif/"/>
 					</TD>
 					<TD COLSPAN="3" CLASS="dr-table-headercell rich-table-headercell">
 						<SPAN> FIELDS</SPAN>

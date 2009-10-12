@@ -71,7 +71,7 @@
 							#{category.mileage}
                         </SPAN>
 					</TD>
-					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
+					<TD WIDTH="200px" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 						<SPAN>
 							#{category.vin}
                         </SPAN>
@@ -103,7 +103,7 @@
 							#{category.mileage}
                         </SPAN>
 					</TD>
-					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
+					<TD WIDTH="200px" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 						<SPAN>
 							#{category.vin}
                         </SPAN>
@@ -135,7 +135,7 @@
 							#{category.mileage}
                         </SPAN>
 					</TD>
-					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
+					<TD WIDTH="200px" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 						<SPAN>
 							#{category.vin}
                         </SPAN>
@@ -167,7 +167,7 @@
 							#{category.mileage}
                         </SPAN>
 					</TD>
-					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
+					<TD WIDTH="200px" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 						<SPAN>
 							#{category.vin}
                         </SPAN>
@@ -199,7 +199,7 @@
 							#{category.mileage}
                         </SPAN>
 					</TD>
-					<TD WIDTH="200" ID="vin" CLASS="dr-table-cell rich-table-cell col">
+					<TD WIDTH="200px" ID="vin" CLASS="dr-table-cell rich-table-cell col">
 						<SPAN>
 							#{category.vin}
                         </SPAN>

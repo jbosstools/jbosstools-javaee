@@ -1,6 +1,6 @@
 <tests>
 	<test id="extendedDataTable">
-		<TABLE WIDTH="580" HEIGHT="400" CELLSPACING="0" CELLPADDING="0"
+		<TABLE WIDTH="580px" HEIGHT="400px" CELLSPACING="0" CELLPADDING="0"
 			BORDER="0" STYLE="table-layout: fixed;">
 			<COLGROUP>
 				<COL WIDTH="100" />
@@ -114,12 +114,12 @@
 											SRC="/.*ve/unresolved_image.gif/"
 											STYLE="-moz-user-modify: read-write;" />
 									</TD>
-									<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.state}"
+									<TD WIDTH="170px" SORTABLE="true" SORTBY="#{cap.state}"
 										FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
 										CLASS="dr-table-cell rich-table-cell">
 										<SPAN> #{cap.state}</SPAN>
 									</TD>
-									<TD WIDTH="170" SORTABLE="true" SORTBY="#{cap.name}"
+									<TD WIDTH="170px" SORTABLE="true" SORTBY="#{cap.name}"
 										FILTERBY="#{cap.state}" FILTEREVENT="onkeyup"
 										CLASS="dr-table-cell rich-table-cell">
 										<SPAN> #{cap.name}</SPAN>
@@ -131,7 +131,7 @@
 							</TBODY>
 						</TABLE>
 					</TD>
-					<TD WIDTH="17" ALIGN="right">
+					<TD WIDTH="17px" ALIGN="right">
 						<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
 						</DIV>
 						<BR _MOZ_DIRTY="" TYPE="_moz" />

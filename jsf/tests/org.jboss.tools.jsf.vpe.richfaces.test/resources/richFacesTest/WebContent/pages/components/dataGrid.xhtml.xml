@@ -123,7 +123,7 @@
 				</SPAN>
 			</DIV>
 			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<TABLE WIDTH="600" BORDER="15" BGCOLOR="color:red" ALIGN="center"
+				<TABLE WIDTH="600px" BORDER="15" BGCOLOR="color:red" ALIGN="center"
 					VALUE="#{dataTableScrollerBean.allCars}" VAR="car" COLUMNS="3"
 					ELEMENTS="9" STYLECLASS="btn" CAPTIONCLASS="btn" HEADERCLASS="evenRow"
 					FOOTERCLASS="oddRow" CLASS="dr-table rich-table btn">

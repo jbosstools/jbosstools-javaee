@@ -36,7 +36,7 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
     public final static String HEADER_ACTIVE_STYLE = "headerStyleActive"; //$NON-NLS-1$
 
     private static final String PERCENT_100 = "100%"; //$NON-NLS-1$
-    private static final String DR_PNLBAR_H_RICH_PANELBAR_HEADER = "dr-pnlbar-h rich-panelbar-header "; //$NON-NLS-1$
+    private static final String DR_PNLBAR_H_RICH_PANELBAR_HEADER = "dr-pnlbar-h rich-panelbar-header"; //$NON-NLS-1$
     private static final String DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_EXT = " dr-pnlbar rich-panelbar dr-pnlbar-ext "; //$NON-NLS-1$
     private static final String DR_PNLBAR_C_RICH_PANELBAR_CONTENT = "dr-pnlbar-c rich-panelbar-content "; //$NON-NLS-1$
     private static final String ZERO = "0"; //$NON-NLS-1$

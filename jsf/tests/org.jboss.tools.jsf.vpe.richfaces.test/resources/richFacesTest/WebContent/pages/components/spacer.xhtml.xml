@@ -1,6 +1,6 @@
 <tests>
 	<test id="spacer">
-        <IMG WIDTH="1" HEIGHT="1" SRC="/.*resources/spacer/spacer.gif/" CLASS="rich-spacer"/>
+        <IMG WIDTH="1px" HEIGHT="1px" SRC="/.*resources/spacer/spacer.gif/" CLASS="rich-spacer"/>
     </test>
     <test id="spacerCSS">
         <IMG WIDTH="100" HEIGHT="200" SRC="/.*resources/spacer/spacer.gif/"

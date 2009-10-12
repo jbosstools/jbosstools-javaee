@@ -214,7 +214,7 @@ public class RichFacesComboBoxTemplateHelper {
         textField.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_TEXT);
 
         textField.setAttribute(HTML.ATTR_CLASS, 
-        		styleClasess.get(TEXT_FIELD) + Constants.WHITE_SPACE + sourceInputClass);
+        		(styleClasess.get(TEXT_FIELD) + Constants.WHITE_SPACE + sourceInputClass).trim());
         textField.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
         textField.setAttribute(HTML.ATTR_STYLE, 
         		HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + calculateWithForDiv(sourceWidth, 17)

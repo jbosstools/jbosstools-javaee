@@ -247,7 +247,7 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
     	private String uploadButtonClass = "rich-fileupload-button rich-fileupload-font"; //$NON-NLS-1$
     	private String cleanButtonClass = "rich-fileupload-button rich-fileupload-font";  //$NON-NLS-1$
     	private String addButtonClassDiv2 = " rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-add"; //$NON-NLS-1$
-    	private String uploadButtonClass2 = "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start "; //$NON-NLS-1$
+    	private String uploadButtonClass2 = "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start"; //$NON-NLS-1$
     	private String cleanButtonClass2 = "rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear"; //$NON-NLS-1$
     	private String uploadListClass = "rich-fileupload-list-overflow"; //$NON-NLS-1$
     	
