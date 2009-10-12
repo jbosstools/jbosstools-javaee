@@ -350,7 +350,7 @@
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
        PROPERTIES="entity=FileJSF2Component;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xhtml;entityVersion=JSF2Component"
-       displayName="JSF 2 Component File..." kind="action" name="CreateFileJSF2Component">
+       displayName="Composition Component..." kind="action" name="CreateFileJSF2Component">
        <EntityData EntityName="NewFileWizard">
         <AttributeData AttributeName="folder"/>
         <AttributeData AttributeName="separator" Mandatory="no"/>
@@ -376,7 +376,7 @@
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
        PROPERTIES="entity=FileJSF2Component;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xhtml;entityVersion=JSF2Component"
-       displayName="JSF 2 Component File..." kind="action" name="CreateFileJSF2Component">
+       displayName="Composition Component..." kind="action" name="CreateFileJSF2Component">
        <EntityData EntityName="NewFileWizard">
         <AttributeData AttributeName="folder"/>
         <AttributeData AttributeName="separator" Mandatory="no"/>
