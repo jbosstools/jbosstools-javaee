@@ -91,8 +91,8 @@ public class JBIDE4510Test extends VpeTest {
 			 * Doctype should have the correct type.
 			 */
 			assertEquals(
-					"Doctype should have the correct type: \" html \", but was: "+ doctype.getNodeName(),  //$NON-NLS-1$
-					"html", doctype.getNodeName()); //$NON-NLS-1$
+					"Doctype should have the correct type: \" HTML \", but was: "+ doctype.getNodeName(),  //$NON-NLS-1$
+					"HTML", doctype.getNodeName()); //$NON-NLS-1$
 		} else {
 			/*
 			 * Fail the test when we cannot process jar file correctly.

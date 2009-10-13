@@ -28,7 +28,7 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
@@ -74,21 +74,21 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;" >
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="25" STYLE="float: left; width: 25px;">
+							<DIV WIDTH="25px" STYLE="float: left; width: 25px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										LEFT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="35" STYLE="float: left; width: 35px;">
+							<DIV WIDTH="35px" STYLE="float: left; width: 35px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
@@ -102,7 +102,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -120,14 +120,14 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="90" STYLE="">
+							<DIV WIDTH="90px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="20" STYLE="float: left; width: 20px;">
+							<DIV WIDTH="20px" STYLE="float: left; width: 20px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										LEFT PANEL
@@ -148,7 +148,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="80" STYLE="">
+							<DIV WIDTH="80px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -166,35 +166,35 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="25" STYLE="float: left; width: 25px;">
+							<DIV WIDTH="25px" STYLE="float: left; width: 25px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										LEFT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: left; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: left; width: 65px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="45" STYLE="float: right; width: 45px;">
+							<DIV WIDTH="45px" STYLE="float: right; width: 45px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -212,35 +212,35 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="10" STYLE="float: left; width: 10px;">
+							<DIV WIDTH="10px" STYLE="float: left; width: 10px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										LEFT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="20" STYLE="float: left; width: 20px;">
+							<DIV WIDTH="20px" STYLE="float: left; width: 20px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="30" STYLE="float: right; width: 30px;">
+							<DIV WIDTH="30px" STYLE="float: right; width: 30px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -258,7 +258,7 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
@@ -272,21 +272,21 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: left; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: left; width: 65px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: right; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: right; width: 65px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -304,7 +304,7 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
@@ -318,7 +318,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="165" STYLE="float: left; width: 165px;">
+							<DIV WIDTH="165px" STYLE="float: left; width: 165px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
@@ -332,7 +332,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -350,21 +350,21 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: left; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: left; width: 65px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										LEFT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="165" STYLE="float: left; width: 165px;">
+							<DIV WIDTH="165px" STYLE="float: left; width: 165px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
@@ -378,7 +378,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.
@@ -396,7 +396,7 @@
 </SPAN>
 						</H1>
 						<DIV STYLE="border: 1px solid black;">
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV >
 									<SPAN CLASS="vpe-text">
 										TOP PANEL
@@ -410,21 +410,21 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="165" STYLE="float: left; width: 165px;">
+							<DIV WIDTH="165px" STYLE="float: left; width: 165px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: right; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: right; width: 65px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100" STYLE="">
+							<DIV WIDTH="100px" STYLE="">
 								<DIV
 									STYLE="display: block; height: 0pt; clear: both; visibility: hidden;">
 									.

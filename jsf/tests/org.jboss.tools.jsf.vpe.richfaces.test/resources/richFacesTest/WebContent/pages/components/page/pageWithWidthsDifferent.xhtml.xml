@@ -48,7 +48,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="30" STYLE="float: right; width: 30px;">
+							<DIV WIDTH="30px" STYLE="float: right; width: 30px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
@@ -87,7 +87,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="35" STYLE="float: left; width: 35px;">
+							<DIV WIDTH="35px" STYLE="float: left; width: 35px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
@@ -179,7 +179,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: left; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: left; width: 65px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
@@ -278,7 +278,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: right; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: right; width: 65px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
@@ -317,14 +317,14 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="100%" STYLE="float: left; width: 165%;">
+							<DIV WIDTH="165%" STYLE="float: left; width: 165%;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="300" STYLE="float: right; width: 300px;">
+							<DIV WIDTH="300px" STYLE="float: right; width: 300px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										RIGHT PANEL
@@ -356,7 +356,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="65" STYLE="float: left; width: 65px;">
+							<DIV WIDTH="65px" STYLE="float: left; width: 65px;">
 								<DIV>
 									<SPAN CLASS="vpe-text">
 										LEFT PANEL
@@ -409,7 +409,7 @@
 </SPAN>
 								</DIV>
 							</DIV>
-							<DIV WIDTH="165" STYLE="float: left; width: 165px;">
+							<DIV WIDTH="165px" STYLE="float: left; width: 165px;">
 								<DIV>
 									<SPAN STYLE="font-size: 2em;">
 										CENTER PANEL

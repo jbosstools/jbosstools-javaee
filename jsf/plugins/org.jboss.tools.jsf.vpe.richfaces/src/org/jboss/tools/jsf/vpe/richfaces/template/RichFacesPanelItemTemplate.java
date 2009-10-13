@@ -87,16 +87,16 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	div.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
 	// Encode Header
-	String headerActiveStyle = barHeaderStyle
+	String headerActiveStyle = (barHeaderStyle
 		+ SPACE
 		+ ComponentUtil.getAttribute(sourceElement, HEADER_STYLE)
 		+ SPACE
 		+ barHeaderActiveStyle
 		+ SPACE
 		+ ComponentUtil
-			.getAttribute(sourceElement, HEADER_ACTIVE_STYLE);
-	String headerStyle = barHeaderStyle + SPACE
-		+ ComponentUtil.getAttribute(sourceElement, HEADER_STYLE);
+			.getAttribute(sourceElement, HEADER_ACTIVE_STYLE)).trim();
+	String headerStyle = (barHeaderStyle + SPACE
+		+ ComponentUtil.getAttribute(sourceElement, HEADER_STYLE)).trim();
 
 	String internContentClass = ComponentUtil.getAttribute(sourceElement,
 		CONTENT_CLASS);
@@ -108,16 +108,16 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 		sourceElement, HEADER_ACTIVE_CLASS);
 
 	if (active) {
-	    String headerClass = DR_PNLBAR_H_RICH_PANELBAR_HEADER + SPACE
+	    String headerClass = (DR_PNLBAR_H_RICH_PANELBAR_HEADER + SPACE
 		    + barHeaderStyleClass + SPACE + internHeaderClass + SPACE
 		    + barHeaderActiveStyleClass + SPACE
-		    + internHeaderActiveClass;
+		    + internHeaderActiveClass).trim();
 	    encodeHeader(creationData, pageContext, sourceElement,
 		    visualDocument, div, headerClass, headerActiveStyle,
 		    toggleId);
 	} else {
-	    String headerClass = DR_PNLBAR_H_RICH_PANELBAR_HEADER + SPACE
-		    + barHeaderStyleClass + SPACE + internHeaderClass;
+	    String headerClass = (DR_PNLBAR_H_RICH_PANELBAR_HEADER + SPACE
+		    + barHeaderStyleClass + SPACE + internHeaderClass).trim();
 	    encodeHeader(creationData, pageContext, sourceElement,
 		    visualDocument, div, headerClass, headerStyle, toggleId);
 	}
