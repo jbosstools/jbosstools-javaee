@@ -15,7 +15,7 @@ import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE4391Test;
  * This is a sample swtbot testcase for an eclipse application.
  * 
  */
-public class JSFAllTests{
+public class JSFAllBotTests{
 	public static Test suite(){
 		TestSuite suite = new TestSuite("CSS dialog JBIDE tests");
 		suite.addTestSuite(JBIDE3148and4441Test.class);

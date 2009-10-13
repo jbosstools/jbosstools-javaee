@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
  * This is a swtbot testcase for an eclipse application.
  * 
  */
-public class SeamTestLauncher {
+public class SeamAllBotTests {
 	public static Test suite(){
 		TestSuite suite = new TestSuite("Seam tests");
 		suite.addTestSuite(CreateSeamRuntimes.class);
