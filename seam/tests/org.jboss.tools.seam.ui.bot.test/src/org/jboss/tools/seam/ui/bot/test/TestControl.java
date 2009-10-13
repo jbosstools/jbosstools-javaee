@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
+import org.eclipse.swtbot.swt.finder.waits.ICondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.jboss.tools.test.TestProperties;
@@ -165,7 +168,11 @@ public static String TYPE_EAR = "EAR";
 	protected void createSeamRuntime(Properties runtimeSet, String homeFolder){
 		bot.menu("Window").menu("Preferences").click();
 		SWTBotTree tree = bot.tree();
-		tree.expandNode("JBoss Tools").expandNode("Web").select("Seam");
+		tree.expandNode("JBoss Tools")
+			.expandNode("Web")
+			.expandNode("Seam")
+			.select();
+		
 		bot.button("Add").click();
 		bot.textWithLabel("Home Folder:").setText(homeFolder);
 		bot.textWithLabel("Name:").setText(runtimeSet.getProperty("seamRuntimeName"));
