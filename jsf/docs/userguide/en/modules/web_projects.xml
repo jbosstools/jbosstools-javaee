@@ -7,7 +7,7 @@
 <para>With the Web Projects view, you can:</para>
 
 <itemizedlist>
-<listitem><para>Visualize the project better because the project artifacts for JSF and Struts projects are organized and displayed by function.</para></listitem>
+<listitem><para>Visualize the project better because the project artifacts for JSF, Struts and Seam projects are organized and displayed by function.</para></listitem>
 <listitem>
     <para>Select these kinds of items to drag and drop into JSP pages:</para>
      <itemizedlist>

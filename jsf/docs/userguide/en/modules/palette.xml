@@ -448,7 +448,7 @@
             <?dbhtml filename="AddingCustomJSFTagsToTheJBossToolsPalette.html"?>
             <title>Adding Custom JSF Tags to the JBoss Tools Palette</title>
 
-            <para>There are two ways to add any custom or 3rd party tag library to the
+            <para>There are two ways to add any custom (including custom Facelets libraries) or 3rd party tag library to the
                     <property>JBoss Tools Palette</property>:</para>
             <itemizedlist>
                 <listitem>
@@ -458,8 +458,8 @@
                     <para>The Import button on the JBoss Tools Palette</para>
                 </listitem>
             </itemizedlist>
-            <para>Before you can add your custom component library, you need to make sure it is
-                included in your project. Either place the <emphasis role="italic">
+            <para>Before you  add your custom component library, you need to make sure it is
+                included in your project. You need to either place the <emphasis role="italic">
                     <property>&quot;.tld&quot;</property>
                 </emphasis> file or the <emphasis role="italic">
                     <property>&quot;.jar&quot;</property>
