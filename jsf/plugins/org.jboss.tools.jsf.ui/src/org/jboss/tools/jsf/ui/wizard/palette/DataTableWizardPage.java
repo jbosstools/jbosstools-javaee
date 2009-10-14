@@ -23,7 +23,10 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.compare.Splitter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.viewers.ISelection;
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
+import org.jboss.tools.common.model.ui.attribute.adapter.IModelPropertyEditorAdapter;
 import org.jboss.tools.common.model.ui.attribute.editor.IPropertyEditor;
 import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
 import org.jboss.tools.common.model.ui.wizards.query.AbstractQueryWizard;
@@ -41,6 +44,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.Messages;
+import org.jboss.tools.jsf.ui.attribute.adapter.JSFKnowledgeBaseAdapter;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
@@ -97,6 +101,16 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 
 		showAttributes(maincomposite);
 
+		IModelPropertyEditorAdapter a = support.getPropertyEditorAdapterByName("value");
+		if(a instanceof JSFKnowledgeBaseAdapter) {
+			ISelection s = getSpecificWizard().getWizardModel().getDropData().getSelectionProvider().getSelection();
+			if (s instanceof TextSelection) {
+				int offset = ((TextSelection)s).getOffset();
+				context.put("offset", new Integer(offset));
+			}
+			((JSFKnowledgeBaseAdapter)a).setContext(context);
+		}
+		
 		setControl(maincomposite);
 		getSpecificWizard().getWizardModel().addPropertyChangeListener(
 				IDropWizardModel.TAG_PROPOSAL, this);
@@ -135,7 +149,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		TabItem advanced = new TabItem(tabs, SWT.NONE);
 		advanced.setText(DropWizardMessages.Advanced_Tab_Title);
 		TagAttributesComposite advancedTabContent = new TagAttributesComposite(
-				tabs, SWT.NONE, getSpecificWizard().getWizardModel());
+				tabs, SWT.NONE, getSpecificWizard().getWizardModel(), context);
 		advanced.setControl(advancedTabContent);
 		
 		tabs.addSelectionListener(advancedTabContent);

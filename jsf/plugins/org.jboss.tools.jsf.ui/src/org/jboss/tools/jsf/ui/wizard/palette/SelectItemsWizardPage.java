@@ -10,7 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.wizard.palette;
 
+import java.util.Properties;
+
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
+import org.jboss.tools.common.model.ui.attribute.adapter.IModelPropertyEditorAdapter;
+import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -22,6 +27,7 @@ import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.meta.action.impl.XEntityDataImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
+import org.jboss.tools.jsf.ui.attribute.adapter.JSFKnowledgeBaseAdapter;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
 
 /**
@@ -32,7 +38,7 @@ public class SelectItemsWizardPage extends TagAttributesWizardPage {
 	
 	final XEntityData data;
 	XAttributeSupport support = new XAttributeSupport();
-		
+
 	public SelectItemsWizardPage(){
 		data = XEntityDataImpl.create(new String[][] {
 				{ "JSFSelectItemsWizard", "yes" }, { "select items", "no" }});			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -63,6 +69,16 @@ public class SelectItemsWizardPage extends TagAttributesWizardPage {
 		bottomGroup.setText("Tag Attributes"); 
 		
 		showAttributes(bottomGroup);
+		
+		IModelPropertyEditorAdapter a = support.getPropertyEditorAdapterByName("select items");
+		if(a instanceof JSFKnowledgeBaseAdapter) {
+			ISelection s = getSpecificWizard().getWizardModel().getDropData().getSelectionProvider().getSelection();
+			if (s instanceof TextSelection) {
+				int offset = ((TextSelection)s).getOffset();
+				context.put("offset", new Integer(offset));
+			}
+			((JSFKnowledgeBaseAdapter)a).setContext(context);
+		}
 		
 		setControl(maincomposite);
 		getSpecificWizard().getWizardModel().addPropertyChangeListener(IDropWizardModel.TAG_PROPOSAL,this);
