@@ -579,4 +579,9 @@
          		resolver-class="org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine"/>
          </el-resolver>
    </extension>
+   
+   <extension
+         point="org.jboss.tools.common.el.core.elSearcher">
+         <el-search id="seam.searcher" searcher-class="org.jboss.tools.seam.internal.core.refactoring.SeamELSearcher" />
+   </extension>
 </plugin>

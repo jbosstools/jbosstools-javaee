@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.internal.core.refactoring;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -29,6 +30,10 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.seam.core.ISeamComponent;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 
 public abstract class SeamRefactorSearcher extends RefactorSearcher {
@@ -83,7 +88,38 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 		else
 			match(file, offset, length);
 	}
-
+	
+	protected void updateEnvironment(IProject project){
+		if(component == null)
+			return;
+		
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		if(seamProject == null)
+			return;
+		
+		ISeamComponent oldComponent = component;
+		
+		if(oldComponent.getJavaDeclaration() != null){
+			component = getComponent(seamProject, oldComponent.getName(), (IFile)oldComponent.getJavaDeclaration().getResource());
+		}else{
+			for(ISeamXmlComponentDeclaration xDecl : oldComponent.getXmlDeclarations()){
+				component = getComponent(seamProject, oldComponent.getName(), (IFile)xDecl.getResource());
+				if(component != null)
+					return;
+			}
+		}
+		if(component == null)
+			component = oldComponent;
+	}
+	
+	private ISeamComponent getComponent(ISeamProject seamProject, String name, IFile file){
+		Set<ISeamComponent> components = seamProject.getComponentsByPath(file.getFullPath());
+		for(ISeamComponent component : components){
+			if(component.getName().equals(name))
+				return component;
+		}
+		return null;
+	}
 	
 	private void resolveComponentsReferences(IFile file, ELExpression operand, int offset) {
 		ELResolver[] resolvers = ELResolverFactoryManager.getInstance()
