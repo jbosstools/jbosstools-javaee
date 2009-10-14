@@ -581,7 +581,7 @@
    </extension>
    
    <extension
-         point="org.jboss.tools.common.el.core.elSearcher">
-         <el-search id="seam.searcher" searcher-class="org.jboss.tools.seam.internal.core.refactoring.SeamELSearcher" />
+         point="org.jboss.tools.common.el.core.elProjectSet">
+         <project-set id="seam.searcher" projectset-class="org.jboss.tools.seam.internal.core.refactoring.ELProjectSet" />
    </extension>
 </plugin>

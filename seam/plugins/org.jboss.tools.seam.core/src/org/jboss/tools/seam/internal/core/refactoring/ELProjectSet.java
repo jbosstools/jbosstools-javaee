@@ -13,11 +13,11 @@ package org.jboss.tools.seam.internal.core.refactoring;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.common.el.core.refactoring.ELSearcher;
+import org.jboss.tools.common.el.core.refactoring.ProjectsSet;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 
-public class SeamELSearcher implements ELSearcher {
+public class ELProjectSet implements ProjectsSet {
 	SeamProjectsSet projectsSet;
 	IProject project;
 	
