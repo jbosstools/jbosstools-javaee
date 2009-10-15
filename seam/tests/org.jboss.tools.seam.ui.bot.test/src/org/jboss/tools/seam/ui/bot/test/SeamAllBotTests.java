@@ -1,16 +1,11 @@
 package org.jboss.tools.seam.ui.bot.test;
 
-import org.eclipse.swtbot.swt.finder.SWTBotTestCase;
 import org.jboss.tools.seam.ui.bot.test.create.CreateSeamRuntimes;
 import org.jboss.tools.seam.ui.bot.test.create.CreateSeamProjects;
 import org.jboss.tools.seam.ui.bot.test.create.CreateForms;
 import org.jboss.tools.seam.ui.bot.test.create.CreateActions;
 import org.jboss.tools.seam.ui.bot.test.create.CreateConversations;
 import org.jboss.tools.seam.ui.bot.test.create.CreateEntities;
-import org.jboss.tools.seam.ui.bot.test.create.DeleteSeamProjects;
-import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
-
-import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

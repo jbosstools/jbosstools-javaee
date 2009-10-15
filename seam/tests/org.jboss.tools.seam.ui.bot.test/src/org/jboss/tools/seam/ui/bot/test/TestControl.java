@@ -3,16 +3,10 @@ package org.jboss.tools.seam.ui.bot.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
-import org.eclipse.swtbot.swt.finder.waits.ICondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
 import org.jboss.tools.test.TestProperties;
 import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
@@ -27,11 +21,11 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 	protected static Properties seam2fpSettings;
 	protected static Properties seam21Settings;
 	
-	private static String PROJECT_PROPERTIES = "projectProperties.properties";
-	private static String EAP_RUNTIME = "jbossEAPRuntime.properties";
-	private static String SEAM_SET_12 = "seam12Settings.properties";
-	private static String SEAM_SET_2FP = "seam2fpSettings.properties";
-	private static String SEAM_SET_21 = "seam21Settings.properties";
+	private static final String PROJECT_PROPERTIES = "projectProperties.properties";
+	private static final String EAP_RUNTIME = "jbossEAPRuntime.properties";
+	private static final String SEAM_SET_12 = "seam12Settings.properties";
+	private static final String SEAM_SET_2FP = "seam2fpSettings.properties";
+	private static final String SEAM_SET_21 = "seam21Settings.properties";
 	
 	public static String JBOSS_EAP_HOME;
 	public static String SEAM_12_SETTINGS_HOME;
@@ -46,6 +40,9 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 	};
 	
 	static {
+//		System.setProperty("jbosstools.test.seam.1.2.1.eap.home", "C:/jbdevstudio0609/jboss-eap/seam");
+//		System.setProperty("jbosstools.test.seam.2fp.eap.home", "C:/jbdevstudio0609/jboss-eap/seamfp");
+//		System.setProperty("jbosstools.test.seam.2.1.0.GA.home", "C:/jbdevstudio0609/jboss-eap/jboss-seam-2.1.1.GA");
 		try {
 			InputStream is = TestControl.class.getResourceAsStream("/" + PROJECT_PROPERTIES);
 			projectProperties = new TestProperties();
@@ -96,14 +93,10 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 		catch (IllegalStateException e) {
 			fail("Property file " + SEAM_SET_21 + " was not found");
 		}
-		JBOSS_EAP_HOME = System.getProperty("jbosstools.test.jboss.home",jbossEAPRuntime.getProperty("runtimePath"));
-		SEAM_12_SETTINGS_HOME = System.getProperty("jbosstools.test.seam.1.2.1.eap.home",seam12Settings.getProperty("seamRuntimePath"));
-	
-		//Property SEAM_21_SETTINGS_HOME should be deleted or commented. There is no such property on hudson
-		SEAM_21_SETTINGS_HOME = System.getProperty("jbosstools.test.seam.home.2.1",seam21Settings.getProperty("seamRuntimePath"));
-
-		
-		SEAM_2FP_SETTINGS_HOME = System.getProperty("jbosstools.test.seam.2.0.1.GA.home",seam2fpSettings.getProperty("seamRuntimePath"));	
+		JBOSS_EAP_HOME = jbossEAPRuntime.getProperty("runtimePath");
+		SEAM_12_SETTINGS_HOME = seam12Settings.getProperty("seamRuntimePath");
+		SEAM_21_SETTINGS_HOME = seam21Settings.getProperty("seamRuntimePath");
+		SEAM_2FP_SETTINGS_HOME = seam2fpSettings.getProperty("seamRuntimePath");	
 	}
 	
 	
@@ -118,19 +111,6 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 		}
 	}
 	
-	private static void substituteSystemProperties(Properties projectProperties2) {
-		for (Object opject : projectProperties2.keySet()) {
-			String propertyValue = projectProperties2.get(opject).toString();
-			if(propertyValue.matches("\\$\\{.*")) {
-				for (String substitute : SUBSTITUTE_PROPERTIES) {
-					String regexp = "\\$\\{" + substitute + "}";
-					if(propertyValue.matches(regexp)) {
-						projectProperties2.put(opject, propertyValue.replaceAll(regexp, System.getProperty(substitute)));
-					}
-				}
-			}
-		}
-	}
 
 	/*protected void setUp() throws Exception {
 		super.setUp();
@@ -196,7 +176,6 @@ public static String TYPE_EAR = "EAR";
 		bot.radio(type).click();
 		bot.comboBoxWithLabel("Connection profile:").setSelection(projectProperties.getProperty("connName"));
 		bot.button("Finish").click();
-		bot.waitUntil(Conditions.shellCloses(bot.activeShell()),30000);
 	}
 	
 /**Creates any Seam Action, Form etc.	*/
