@@ -75,9 +75,12 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
+import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
+import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.ELReference;
@@ -92,6 +95,8 @@ import org.w3c.dom.NodeList;
  * @author Alexey Kazakov
  */
 public class ELValidator extends ValidationErrorManager implements IValidator {
+
+	public static final String ID = "org.jboss.tools.jsf.ELValidator";
 
 	protected static final String UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_NAME"; //$NON-NLS-1$
 	protected static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_PROPERTY_NAME"; //$NON-NLS-1$
@@ -529,30 +534,48 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		return names;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getPreference(org.eclipse.core.resources.IProject, java.lang.String)
+	 */
 	@Override
 	protected String getPreference(IProject project, String preferenceKey) {
-		// TODO
-		return null;
+		return JSFSeverityPreferences.getInstance().getProjectPreference(project, preferenceKey);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#getId()
+	 */
 	public String getId() {
-		// TODO
-		return null;
+		return ID;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#getValidatingProjects(org.eclipse.core.resources.IProject)
+	 */
 	public IValidatingProjectSet getValidatingProjects(IProject project) {
 		List<IProject> projects = new ArrayList<IProject>();
 		projects.add(project);
 		IKbProject kbProject = KbProjectFactory.getKbProject(project, false);
 		if(kbProject!=null) {
-			// IValidationContext context = kbProject.getValidationContext();
-			
+			IValidationContext rootContext = null; // kbProject.getValidationContext();
+			return new ValidatingProjectSet(project, projects, rootContext);
 		}
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#shouldValidate(org.eclipse.core.resources.IProject)
+	 */
 	public boolean shouldValidate(IProject project) {
-		// TODO
+		try {
+			return project.hasNature(JSFNature.NATURE_ID) && KbProject.checkKBBuilderInstalled(project);
+		} catch (CoreException e) {
+			JSFModelPlugin.getDefault().logError(e);
+		}
 		return false;
 	}
 }
