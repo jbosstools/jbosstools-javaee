@@ -863,52 +863,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
-
-            <para><property>Visual Page Editor</property> provides the option for displaying
-                non-visual tags in Visual mode of the editor. To enable this option expand the
-                submenu in the top left corner of the Visual part and select <emphasis>
-                    <property>Show Non-visual tags</property>.</emphasis></para>
-
-            <figure>
-                <title>Enabling the Option for Showing Non-visual Tags</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4a.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>On the figure you can see non-visual elements with gray dashed borders.</para>
-
-            <figure>
-                <title>Non-visual Tag in the VPE</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4b.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>To disable this option again expand the same submenu and select <emphasis>
-                    <property>Hide Non-visual tags</property>.</emphasis></para>
-
-            <figure>
-                <title>Non-visual Tag in the VPE</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_4c.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>You can also switch on this option in the VPE preferences,  having clicked on the  <emphasis><property>Preferences</property>
-            </emphasis> button
-                (<inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/icon_1.png"/>
-                    </imageobject>
-                </inlinemediaobject>).</para>
+        	
             <para>Visual Page Editor also displays custom tags correctly if they are configured properly.
                 The picture below shows  an example  how custom tags  <emphasis><property>&quot;pagination&quot;</property></emphasis> and <emphasis><property>&quot;echo&quot;</property></emphasis> will be displayed in VPE.
             </para>
@@ -927,10 +882,10 @@
                 <itemizedlist>
                     <listitem><para>echo.xhtml: </para>               
                         <programlisting role="XML"><![CDATA[
-                       <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
-                     <span class="message">#{msg}&lt;/span>
-                        </ui:composition>
-                        ]]></programlisting></listitem>  
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
+	<span class="message">#{msg}</span>
+</ui:composition>
+]]></programlisting></listitem>  
                     
                     <listitem><para>paginator.xhtml:</para>
                         
@@ -1085,8 +1040,12 @@ two elements with equal id has been used, but should be used only one -->
 
                 <para>In the Visual part of the <property>VPE</property> there is a graphical
                     toolbar, use it to add inline styling to JSF and Struts tags on your page. The
-                    toolbar can be hidden by selecting the <emphasis>
-                    	<property>Hide Text Formatting</property></emphasis> option in the submenu on the left pane.</para>
+                    toolbar can be hidden with the help of the special button ( 
+                	<inlinemediaobject>
+                		<imageobject>
+                			<imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
+                		</imageobject>
+                	</inlinemediaobject>) on the VPE toolbar.</para>
 
                 <figure>
                     <title>Text Formatting</title>
@@ -1345,73 +1304,104 @@ two elements with equal id has been used, but should be used only one -->
 
         <section id="AdvancedSettings954">
 
-            <title>Advanced Settings</title>
+            <title>VPE Toolbar</title>
             
-            <para>In the left vertical pane of the Visual part there are four buttons: <emphasis>
-                <property>Preferences</property></emphasis>
-                (
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/icon_1.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                ),
+            <para>The Visual Page Editor toolbar includes the next buttons: </para>
                 
-                
-                
-                
-                <emphasis>
-                    <property>Refresh</property>
-                </emphasis>
-                (
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/icon_2.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                )
-                ,<emphasis>
-                    <property>Page Design Options</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/icon_3.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                )
-                and some of the next buttons:
-                <emphasis>
-                    <property>Vertical Source on top</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_top.png"/>
-                    </imageobject>
-                </inlinemediaobject>),
-                <emphasis>
-                    <property>Vertical Visual on top</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_bottom.png"/>
-                    </imageobject>
-                </inlinemediaobject>),
-                <emphasis>
-                    <property>Horizontal Source to the left</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_left.png"/>
-                    </imageobject>
-                </inlinemediaobject>),
-                <emphasis>
-                    <property>Horizontal Visual to the left</property> </emphasis>( 
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/source_right.png"/>
-                    </imageobject>
-                </inlinemediaobject>),
-                depending on the current Visual/Source layout
-                .</para>
-
+            	<itemizedlist>
+            		<listitem><para><link linkend="vpe_preferences">Preferences</link>
+            			(
+            			<inlinemediaobject>
+            				<imageobject>
+            					<imagedata fileref="images/visual_page/icon_1.png"/>
+            				</imageobject>
+            			</inlinemediaobject>
+            			)</para>
+            		</listitem>
+            		
+            		<listitem><para><link linkend="vpe_refresh">Refresh</link>
+            			(
+            			<inlinemediaobject>
+            				<imageobject>
+            					<imagedata fileref="images/visual_page/icon_2.png"/>
+            				</imageobject>
+            			</inlinemediaobject>
+            			)</para>
+            		</listitem>
+            		
+            		<listitem><para><link linkend="vpe_page_design_options">Page Design Options</link>
+            			( 
+            			<inlinemediaobject>
+            				<imageobject>
+            					<imagedata fileref="images/visual_page/icon_3.png"/>
+            				</imageobject>
+            			</inlinemediaobject>
+            			)
+            			</para>
+            		</listitem>
+            		
+            		<listitem>
+            			<para><link linkend="splitting_buttons">the button to switch the current Visual/Source layout</link>
+            				( 
+            				<inlinemediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/visual_page/source_top.png"/>
+            					</imageobject>
+            				</inlinemediaobject>)</para>
+            		</listitem>
+            		
+            		<listitem>
+            			<para><link linkend="vpe_show_border">Show border for unknown tags</link>
+            				( 
+            				<inlinemediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/visual_page/show_border_button.png"/>
+            					</imageobject>
+            				</inlinemediaobject>)</para>
+            		</listitem>
+            		
+            		<listitem>
+            			<para><link linkend="vpe_show_nonvisual_tags">Show non-visual tags</link>
+            				( 
+            				<inlinemediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/visual_page/show_nonvisual.png"/>
+            					</imageobject>
+            				</inlinemediaobject>)</para>
+            		</listitem>
+            		
+            		<listitem>
+            			<para><link linkend="vpe_show_selection_bar">Show selection bar</link>
+            				( 
+            				<inlinemediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/visual_page/show_selection_bar.png"/>
+            					</imageobject>
+            				</inlinemediaobject>)</para>
+            		</listitem>
+            		
+            		<listitem>
+            			<para><link linkend="inline_styling">Show text formatting bar</link>
+            				( 
+            				<inlinemediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
+            					</imageobject>
+            				</inlinemediaobject>)</para>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Show bundle's messages as EL expressions ( 
+            				<inlinemediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/visual_page/show_bundles_mess_button.png"/>
+            					</imageobject>
+            				</inlinemediaobject>)</para>
+            		</listitem>
+            	</itemizedlist>
+            	     
             <figure>
-                <title>Buttons on the Visual Part of VPE</title>
+                <title>Buttons on the VPE Toolbar</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/visual_page_8.png"/>
@@ -1419,293 +1409,345 @@ two elements with equal id has been used, but should be used only one -->
                 </mediaobject>
             </figure>
 
-            <itemizedlist>
-                <listitem id="vpe_preferences">
-                    <para><emphasis>
-                            <property>Preferences</property>
-                    </emphasis> button
-                        (
-                        <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/icon_1.png"/>
-                            </imageobject>
-                        </inlinemediaobject>
-                        )
-                        provides a quick access to <property>Visual Page
-                            Editor</property> preferences.</para>
-
-                    <figure>
-                        <title>Visual Page Editor Preferences Window</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_9.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                
-                	<para>This page provides a number of options associated with the editor representation.  
-						The more detailed description on each one you can find in the <property>&quot;JBoss Tools Preferences&quot;</property> chapter 
-						under <link linkend="VisualPageEditor2">Visual Page Editor</link>.</para>
-                             
-                </listitem>
-                <listitem> 
-                    <para>Clicking on <emphasis>
-                            <property>Refresh</property>
-                    </emphasis> button     
-                        (
-                        <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/icon_2.png"/>
-                            </imageobject>
-                        </inlinemediaobject>
-                        )  
-                        you refresh the displayed information.</para>
-                </listitem>
-
-                <listitem>
-                    <para><emphasis>
-                            <property>Page Design Options</property>
-                    </emphasis> button 
-                        ( 
-                        <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/icon_3.png"/>
-                            </imageobject>
-                        </inlinemediaobject>
-                        ) 
-                        leads to a window which helps you  specify necessary
-                        references of the resources. It is represented by a window with 4 tabs. The
-                        first one, <emphasis>
-                            <property>Actual Run-Time folders</property>,
-                        </emphasis> is used to replace absolute and relative path values when
-                        generating a preview: </para>
-                    <figure>
-                        <title>Page Design Options: Actual Run-Time folders</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_10.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-
-                    <para>The second tab, <emphasis>
-                            <property>Included CSS files</property>
-                        </emphasis>, is used to add CSS files to be linked by Visual Page Editor
-                        when generating a preview:</para>
-
-                    <figure>
-                        <title>Page Design Options: Included CSS files</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_10_2.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-                    <para>The third one, <emphasis>
-                            <property>Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
-                        getting appropriate templates to generate a preview:</para>
-
-                    <figure>
-                        <title>Page Design Options: Included tag libs</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_10_3.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-                	<para id="el_exp_para">And finally, the <emphasis>
-                            <property>Substituted El expressions</property>
-                        </emphasis> tab is used to add El expressions that will be substituted by
-                        the editor when generating a preview:</para>
-
-                    <figure>
-                        <title>Page Design Options: Substituted El expressions</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_10_4.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-
-                    <para>The first two tabs of the window let you define actual runtime folders.
-                        The example below will help you understand how this can be done.</para>
-
-                    <para>Suppose you have the following project structure:</para>
-
-                    <programlisting role="XML"><![CDATA[WebContent/
+	<section id="vpe_preferences">
+		<title>Preferences</title>
+		
+		<para>The <emphasis>
+			<property>Preferences</property>
+		</emphasis> button
+			(
+			<inlinemediaobject>
+				<imageobject>
+					<imagedata fileref="images/visual_page/icon_1.png"/>
+				</imageobject>
+			</inlinemediaobject>
+			)
+			provides a quick access to the <property>Visual Page
+				Editor</property> preferences.</para>
+		
+		<figure>
+			<title>Visual Page Editor Preferences Window</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/visual_page/visual_page_9.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		
+		<para>This page provides a number of options associated with the editor representation.  
+			The more detailed description on each one you can find in the <property>&quot;JBoss Tools Preferences&quot;</property> chapter 
+			under <link linkend="VisualPageEditor2">Visual Page Editor</link>.</para>
+	</section>
+	
+	<section id="vpe_refresh">
+		<title>Refresh</title>
+		
+		<para>Clicking on the <emphasis>
+			<property>Refresh</property>
+		</emphasis> button     
+			(
+			<inlinemediaobject>
+				<imageobject>
+					<imagedata fileref="images/visual_page/icon_2.png"/>
+				</imageobject>
+			</inlinemediaobject>
+			)  
+			refreshes the displayed information.</para>
+	</section>
+        	
+    <section id="vpe_page_design_options">
+    	<title>Page Design Options</title>
+    	
+    	<para>The <emphasis>
+    		<property>Page Design Options</property>
+    	</emphasis> button 
+    		( 
+    		<inlinemediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/icon_3.png"/>
+    			</imageobject>
+    		</inlinemediaobject>
+    		) 
+    		leads to a window which helps you  specify necessary
+    		references of the resources. It is represented by a window with 4 tabs. The
+    		first one, <emphasis>
+    			<property>Actual Run-Time folders</property>,
+    		</emphasis> is used to replace absolute and relative path values when
+    		generating a preview: </para>
+    	<figure>
+    		<title>Page Design Options: Actual Run-Time folders</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_10.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	
+    	<para>The second tab, <emphasis>
+    		<property>Included CSS files</property>
+    	</emphasis>, is used to add CSS files to be linked by Visual Page Editor
+    		when generating a preview:</para>
+    	
+    	<figure>
+    		<title>Page Design Options: Included CSS files</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_10_2.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	<para>The third one, <emphasis>
+    		<property>Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
+    		getting appropriate templates to generate a preview:</para>
+    	
+    	<figure>
+    		<title>Page Design Options: Included tag libs</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_10_3.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	<para id="el_exp_para">And finally, the <emphasis>
+    		<property>Substituted El expressions</property>
+    	</emphasis> tab is used to add El expressions that will be substituted by
+    		the editor when generating a preview:</para>
+    	
+    	<figure>
+    		<title>Page Design Options: Substituted El expressions</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_10_4.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	
+    	<para>The first two tabs of the window let you define actual runtime folders.
+    		The example below will help you understand how this can be done.</para>
+    	
+    	<para>Suppose you have the following project structure:</para>
+    	
+    	<programlisting role="XML"><![CDATA[WebContent/
   pages/
     img/
        a.gif
     header.jsp
   main.jsp
   ]]></programlisting>
-
-                    <para>The content of the <emphasis>
-                            <property>header.jsp</property>
-                        </emphasis> is:</para>
-                    <programlisting role="XML"><![CDATA[My Header
+    	
+    	<para>The content of the <emphasis>
+    		<property>header.jsp</property>
+    	</emphasis> is:</para>
+    	<programlisting role="XML"><![CDATA[My Header
 <img src="img/a.gif"/>
 ]]></programlisting>
-                    <para>and <emphasis>
-                            <property>main.jsp</property>
-                        </emphasis> content is:</para>
-                    <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
+    	<para>and <emphasis>
+    		<property>main.jsp</property>
+    	</emphasis> content is:</para>
+    	<programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
 ]]></programlisting>
-                    <para> When you open <emphasis>
-                            <property>main.jsp</property>
-                        </emphasis> in <property>Visual Page Editor</property>, it will not be able
-                        to resolve the image from the header, however, it will work fine in runtime.
-                        To fix this in design time, click the <emphasis>
-                            <property>Page Design Options</property>
-                        </emphasis> button and set <emphasis>
-                            <property>Actual Run-Time Relative Folder</property>
-                        </emphasis> to <emphasis>&apos;projectName &gt; WebContent &gt;
-                            pages&apos;</emphasis> and you will see the image appeared.</para>
-                    <para/>
-
-                    <para>Let&apos; consider an example for other tabs. For instance, the
-                        definition of your CSS on the page is the next:</para>
-
-                    <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
+    	<para> When you open <emphasis>
+    		<property>main.jsp</property>
+    	</emphasis> in <property>Visual Page Editor</property>, it will not be able
+    		to resolve the image from the header, however, it will work fine in runtime.
+    		To fix this in design time, click the <emphasis>
+    			<property>Page Design Options</property>
+    		</emphasis> button and set <emphasis>
+    			<property>Actual Run-Time Relative Folder</property>
+    		</emphasis> to <emphasis>&apos;projectName &gt; WebContent &gt;
+    			pages&apos;</emphasis> and you will see the image appeared.</para>
+    	<para/>
+    	
+    	<para>Let&apos; consider an example for other tabs. For instance, the
+    		definition of your CSS on the page is the next:</para>
+    	
+    	<programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
     href="#{facesContext.externalContext.requestContextPath}/style.css"/>
 ]]></programlisting>
+    	
+    	<para>This will work fine in runtime, but the <property>Visual Page
+    		Editor</property> doesn&apos;t know what
+    		<emphasis>requestContextPath</emphasis> in design time is. In order to
+    		see the necessary styles applied in design time your should add a path to
+    		your stylesheet in the <property>CSS File Path</property> section.</para>
+    	
+    	<para>The next <property>URI</property> section lets you add URI taglibs so that
+    		the editor knows where to find the tag libraries.</para>
+    	
+    	<para>And the last <property>Substituted EL expressions</property> section is
+    		provided to specify the values for specific EL variables. It can be useful
+    		for a preview generation.</para>
+    	<para>As an example look at the figure below:</para>
+    	<figure>
+    		<title>EL Expression</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_12.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	<para>Here bath in Source and Visual modes you see the EL expression
+    		<emphasis>#{user.name}</emphasis>. When you switch to <property>Preview
+    			view</property>, you&apos;ll also see this expression. Now press <emphasis>
+    				<property>Page Design Options</property>
+    			</emphasis> button and set the value for the
+    		<emphasis>&quot;user.name&quot;</emphasis> as
+    		<emphasis><property>World</property>.</emphasis></para>
+    	
+    	<figure>
+    		<title>Setting the Value for the EL Expression</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_13.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	<para>As a result in Visual mode and Preview view the word <emphasis>
+    		<property>World</property>
+    	</emphasis> is displayed.</para>
+    	<figure>
+    		<title>The EL Expression Value</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_14.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    </section>
 
-                    <para>This will work fine in runtime, but the <property>Visual Page
-                            Editor</property> doesn&apos;t know what
-                            <emphasis>requestContextPath</emphasis> in design time is. In order to
-                        see the necessary styles applied in design time your should add a path to
-                        your stylesheet in the <property>CSS File Path</property> section.</para>
-
-                    <para>The next <property>URI</property> section lets you add URI taglibs so that
-                        the editor knows where to find the tag libraries.</para>
-
-                    <para>And the last <property>Substituted EL expressions</property> section is
-                        provided to specify the values for specific EL variables. It can be useful
-                        for a preview generation.</para>
-                    <para>As an example look at the figure below:</para>
-                    <figure>
-                        <title>EL Expression</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_12.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-                    <para>Here bath in Source and Visual modes you see the EL expression
-                            <emphasis>#{user.name}</emphasis>. When you switch to <property>Preview
-                            view</property>, you&apos;ll also see this expression. Now press <emphasis>
-                            <property>Page Design Options</property>
-                        </emphasis> button and set the value for the
-                            <emphasis>&quot;user.name&quot;</emphasis> as
-                                <emphasis><property>World</property>.</emphasis></para>
-
-                    <figure>
-                        <title>Setting the Value for the EL Expression</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_13.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-
-                    <para>As a result in Visual mode and Preview view the word <emphasis>
-                            <property>World</property>
-                        </emphasis> is displayed.</para>
-                    <figure>
-                        <title>The EL Expression Value</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_14.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                </listitem>
-                <listitem id="splitting_buttons">
-                    <para><emphasis>
-                        <property>Visual/Source Editors splitting buttons</property></emphasis>
-                        provide the possibility to choose one of the four possible  layouts for the Visual/Source Editor.
-                       </para>
-                    
-                  
-                    <para>The available layouts and corresponding buttons are as follows:
-                    <itemizedlist>
-                        <listitem><para>Vertical Source on top(<inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_top.png"/>
-                            </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                        <listitem><para>Vertical Visual on top ( <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_bottom.png"/>
-                            </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                        <listitem><para>Horizontal Source to the left (  <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_left.png"/>
-                            </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                        <listitem><para>Horizontal Visual to the left ( <inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/source_right.png"/>
-                            </imageobject>
-                        </inlinemediaobject>)</para></listitem>
-                      
-                    </itemizedlist>
-                    <figure>
-                        <title>Visual Page Editor Before Layout Changing </title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_24.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                    Note, at the current view there is only <emphasis>
-                        <property> one</property></emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>
-                            <property>in a clockwise direction</property></emphasis>. 
-                    <figure>
-                        <title>Visual Page Editor After Layout Changing </title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_25.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                    </para>
-                </listitem>
-            </itemizedlist>
-
-            <para>You can find useful one more functionality provided by VPE. At the bottom of the
-                    <property>Visual/Source view</property> there is a <property>Selection Tag
-                    Bar</property>. It allows to see tags tree for a current component selected in
-                Visual or Source mode.</para>
-
-            <figure>
-                <title>Selection Tag Bar</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_15.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>If you want to hide the <property>Selection Tag Bar</property>, use the button in
-                the form of a red cross on the lower right side. To reset it again you should check
-                the <emphasis>
-                	<property>Show Selection Bar</property></emphasis> option in the submenu on the left pane.</para>
+    <section id="splitting_buttons">
+    	<title>Visual/Source Editors splitting buttons</title>
+		
+    	<para>The <emphasis>
+    		<property>Visual/Source Editors splitting buttons</property></emphasis>
+    		provide the possibility to choose one of the four possible  layouts for the Visual/Source Editor.
+    	</para>
+    	
+    	
+    	<para>The available layouts and corresponding buttons are as follows:
+    		<itemizedlist>
+    			<listitem><para>Vertical Source on top(<inlinemediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/source_top.png"/>
+    				</imageobject>
+    			</inlinemediaobject>)</para></listitem>
+    			<listitem><para>Vertical Visual on top ( <inlinemediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/source_bottom.png"/>
+    				</imageobject>
+    			</inlinemediaobject>)</para></listitem>
+    			<listitem><para>Horizontal Source to the left (  <inlinemediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/source_left.png"/>
+    				</imageobject>
+    			</inlinemediaobject>)</para></listitem>
+    			<listitem><para>Horizontal Visual to the left ( <inlinemediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/source_right.png"/>
+    				</imageobject>
+    			</inlinemediaobject>)</para></listitem>
+    			
+    		</itemizedlist>
+    		<figure>
+    			<title>Visual Page Editor Before Layout Changing </title>
+    			<mediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/visual_page_24.png"/>
+    				</imageobject>
+    			</mediaobject>
+    		</figure>
+    		Note, at the current view there is only <emphasis>
+    			<property> one</property></emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>
+    				<property>in a clockwise direction</property></emphasis>. 
+    		<figure>
+    			<title>Visual Page Editor After Layout Changing </title>
+    			<mediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/visual_page_25.png"/>
+    				</imageobject>
+    			</mediaobject>
+    		</figure>
+    	</para>
+	</section>
         	
-        	<figure>
-        		<title>Show the Selection Tag Bar</title>
-        		<mediaobject>
-        			<imageobject>
-        				<imagedata fileref="images/visual_page/show_selection_bar.png"/>
-        			</imageobject>
-        		</mediaobject>
-        	</figure>
+    <section id="vpe_show_border">
+    	<title>Show Border for Unknown Tags</title>
+    	
+    	<para>The option is a self explanatory, i. e. if you want unknown tags to be wrapped in a border in the VPE visual part, just press the 
+    		<emphasis>
+    			<property>Show border for unknown tags</property></emphasis> button
+    		( 
+    		<inlinemediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/show_border_button.png"/>
+    			</imageobject>
+    		</inlinemediaobject>) on the toolbar.</para>
+    </section>
+        	
+    <section id="vpe_show_nonvisual_tags">
+    	<title>Show Non-visual Tags</title>
+    	
+    	<para><property>Visual Page Editor</property> provides the option for displaying
+    		non-visual tags in Visual mode of the editor. To enable it select the <emphasis>
+    			<property>Show non-visual tags</property></emphasis> button ( 
+    		<inlinemediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/show_nonvisual.png"/>
+    			</imageobject>
+    		</inlinemediaobject>) on the VPE toolbar.</para>
+    	
+    	<para>On the figure you can see non-visual elements with gray dashed borders.</para>
+    	
+    	<figure>
+    		<title>Non-visual Tag in the VPE</title>
+    		<mediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/visual_page_4b.png"/>
+    			</imageobject>
+    		</mediaobject>
+    	</figure>
+    	
+    	<para>You can also switch on this option in the VPE preferences,  having clicked on the  <emphasis><property>Preferences</property>
+    	</emphasis> button
+    		(<inlinemediaobject>
+    			<imageobject>
+    				<imagedata fileref="images/visual_page/icon_1.png"/>
+    			</imageobject>
+    		</inlinemediaobject>).</para>
+    </section>
+        	
+      <section id="vpe_show_selection_bar">
+        	<title>Show Selection Bar</title>
+        		
+        		<para>You can find useful one more functionality provided by VPE. At the bottom of the
+        			<property>Visual/Source view</property> there is a <property>Selection Tag
+        				Bar</property>. It allows to see tags tree for a current component selected in
+        			Visual or Source mode.</para>
+        		
+        		<figure>
+        			<title>Selection Tag Bar</title>
+        			<mediaobject>
+        				<imageobject>
+        					<imagedata fileref="images/visual_page/visual_page_15.png"/>
+        				</imageobject>
+        			</mediaobject>
+        		</figure>
+        		
+        		<para>If you want to hide the <property>Selection Tag Bar</property>, use
+        			the <emphasis>
+        				<property>Show Selection Bar</property></emphasis> button 	( 
+        			<inlinemediaobject>
+        				<imageobject>
+        					<imagedata fileref="images/visual_page/show_selection_bar.png"/>
+        				</imageobject>
+        			</inlinemediaobject>) on the VPE toolbar.</para>
+        	</section>
         </section>
 
         <section id="page_preview">
