@@ -2,10 +2,12 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
@@ -14,6 +16,7 @@ import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.vpe.xulrunner.editor.XulRunnerVpeUtils;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -24,7 +27,7 @@ import org.w3c.dom.Node;
  *
  */
 public class JBIDE3473Test extends VpeTest {
-	private static final int INSERTING_POSITION = 179;
+	private static final Point INSERTION_POSITION = new Point(15, 12);
 	private static final String TABLE_ID = "table-id"; //$NON-NLS-1$
 	private static final String TEST_PAGE_NAME = "JBIDE/3473/JBIDE-3473.html"; //$NON-NLS-1$
 	private static final String INSERTING_TEXT = " id=\"td-id\""; //$NON-NLS-1$	
@@ -55,12 +58,13 @@ public class JBIDE3473Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor jspEditor = openEditor(input);
 
-		StyledText styledText = jspEditor.getSourceEditor().getTextViewer()
-				.getTextWidget();
+		final StructuredTextViewer textViewer = jspEditor.getSourceEditor().getTextViewer();
+		StyledText styledText = textViewer.getTextWidget();
 
-		styledText.setCaretOffset(INSERTING_POSITION);
-		IndexedRegion indexedRegion = ContentAssistUtils.getNodeAt(jspEditor
-				.getSourceEditor().getTextViewer(), INSERTING_POSITION);
+		final int offset = TestUtil.getLinePositionOffcet(textViewer,
+				INSERTION_POSITION.x, INSERTION_POSITION.y);
+		styledText.setCaretOffset(offset);
+		IndexedRegion indexedRegion = ContentAssistUtils.getNodeAt(textViewer, offset);
 		Node tdTextEditorNode = (Node) indexedRegion;
 		assertNotNull(tdTextEditorNode);
 		assertTrue("Text under cursor is not TD node", HTML.TAG_TD.equalsIgnoreCase(tdTextEditorNode.getNodeName())); //$NON-NLS-1$
@@ -94,14 +98,15 @@ public class JBIDE3473Test extends VpeTest {
 	 * @return bounds of the element with given {@code id}
 	 * or {@code null} if the element is not found or not accessible
 	 * 
-	 * @see VisualDomUtil#getBounds(nsIDOMNode)
+	 * @see XulRunnerVpeUtils#getElementBounds(nsIDOMNode)
 	 */
 	private Rectangle getBoundsOfElementById(nsIDOMDocument document, String id) {
 		Rectangle bounds = null;
 		
 		nsIDOMElement element = document.getElementById(id);
 		if (element != null) {
-			bounds = VisualDomUtil.getBounds(element);
+			//bounds = VisualDomUtil.getBounds(element);
+			bounds = XulRunnerVpeUtils.getElementBounds(element);
 		}
 		
 		return bounds;
