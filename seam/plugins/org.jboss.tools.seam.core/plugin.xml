@@ -532,21 +532,6 @@
             </with>
          </enablement>
       </renameParticipant>
-      <renameParticipant
-            class="org.jboss.tools.seam.internal.core.refactoring.SeamRenameMethodParticipant"
-            id="org.jboss.tools.seam.internal.core.refactoring.SeamRenameMethodParticipant"
-            name="seam-RenameMethodParticipant">
-         <enablement>
-            <with
-                  variable="element">
-               <or>
-                  <instanceof
-                        value="org.eclipse.jdt.core.IMethod">
-                  </instanceof>
-               </or>
-            </with>
-         </enablement>
-      </renameParticipant>
 	</extension>
 
 	<extension
