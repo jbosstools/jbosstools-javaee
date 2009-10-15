@@ -6,7 +6,7 @@ public class CreateSeamProjects extends TestControl{
 	
 	public void testCreateSeamProject12war(){
 		createSeamProject(seam12Settings, jbossEAPRuntime, TYPE_WAR);
-		waitForBlockingJobsAcomplished(180000, BUILDING_WS);
+//		waitForBlockingJobsAcomplished(180000, BUILDING_WS);
 	}
 	
 //	public void testCreateSeamProject12ear(){

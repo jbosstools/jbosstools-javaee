@@ -176,6 +176,12 @@ public static String TYPE_EAR = "EAR";
 		bot.radio(type).click();
 		bot.comboBoxWithLabel("Connection profile:").setSelection(projectProperties.getProperty("connName"));
 		bot.button("Finish").click();
+		/* All Jobs are executed inside New SeamProject Wizard so there is no reason to 
+		 * find a way to track that all jobs or particular jobs are finished. Just wait 
+		 * until active shell is closed. Move 30000 to constant or setup default timeout 
+		 * for SWTBot long enough to be sure dialog is finished.
+		 */
+		bot.waitUntil(Conditions.shellCloses(bot.activeShell()),30000);
 	}
 	
 /**Creates any Seam Action, Form etc.	*/
