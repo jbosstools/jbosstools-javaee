@@ -1,0 +1,56 @@
+<tests>
+<test id="jbide5015">
+<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;" >
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;" >
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+Not present in rendered output
+</H1>
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;"><BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Hello, Custom Jsf 2.O Components
+</SPAN>
+</H1>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+Not present in rendered output
+</H1>
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<P STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Username:
+</SPAN>
+<INPUT STYLE="-moz-user-modify: read-only;"/>
+
+</P>
+<P STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Password:
+</SPAN>
+<INPUT TYPE="password" STYLE="-moz-user-modify: read-only;"/>
+
+</P>
+<P STYLE="-moz-user-modify: read-only;">
+<INPUT TYPE="button" VALUE="login" STYLE="-moz-user-modify: read-only;"/>
+
+</P>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</FORM>
+</test>
+</tests>

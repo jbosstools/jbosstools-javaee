@@ -4,6 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<vpe:template-taglib uri="http://java.sun.com/jsf/html" prefix="h" />
 	<vpe:template-taglib uri="http://java.sun.com/jsf/core" prefix="f" />
+	<vpe:template-taglib uri="http://java.sun.com/jsf/composite" prefix="composite" />
 
 	<vpe:tag name="f:loadBundle" case-sensitive="yes">
 		<vpe:template children="no" modify="no">
@@ -178,7 +179,6 @@
 		</vpe:template>
 	</vpe:tag>
 
-	<!-- Проблема с адресацией от приложения (30 of 4) -->
 	<vpe:tag name="h:commandButton" case-sensitive="yes">
 		<!-- This is a very big if-statement. 
 		     Its goal is to add support of 'disabled property'
@@ -905,9 +905,37 @@
 		</vpe:if>
 	</vpe:tag>
 	<!-- End of JSF 2.0 Tags -->
+
+	<!-- Jsf 2.0 composite tags -->
+	<vpe:tag name="composite:implementation" case-sensitive="yes">
+		<vpe:if test="tld_version('min=2.0')">
+			<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.facelets.template.VpeCompositionTemplate"
+			namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets">
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
 	
+	<vpe:tag name="composite:interface" case-sensitive="yes">
+		<vpe:if test="tld_version('min=2.0')">
+		<vpe:template children="yes" modify="no"/>
+		</vpe:if>	
+	</vpe:tag>
+
+	<vpe:tag name="composite:actionSource" case-sensitive="yes">
+		<vpe:if test="tld_version('min=2.0')">
+			<vpe:template children="no" modify="no"/>
+		</vpe:if>
+	</vpe:tag>
+	
+	<vpe:tag name="vpejsf2customTemplate" case-sensitive="yes">
+			<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.jsf.template.Jsf2CustomComponentTemplate"> 
+			</vpe:template>
+	</vpe:tag> 
 	<!-- Default template -->
 	<vpe:template children="yes" modify="no">
 		<vpe:any value="{name()}" title="{tagstring()}"/>
 	</vpe:template>
+	
 </vpe:templates>

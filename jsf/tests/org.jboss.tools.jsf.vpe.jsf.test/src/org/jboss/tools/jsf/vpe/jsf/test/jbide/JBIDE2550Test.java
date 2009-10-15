@@ -31,6 +31,9 @@ public class JBIDE2550Test extends ComponentContentTest {
 		performContentTest("JBIDE/4954/inputUserName.jsp"); //$NON-NLS-1$
 	}
 	
+	public void testForJSF2CustomTags() throws Throwable{
+		performContentTest("JBIDE/5015/login.xhtml"); //$NON-NLS-1$
+	}
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
