@@ -122,12 +122,21 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		return JSFSeverityPreferences.shouldValidateEL(project);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
+	 */
+	@Override
 	protected void init(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter, IValidationContext validationContext) {
 		super.init(project, validationHelper, manager, reporter, validationContext);
 		resolvers = ELResolverFactoryManager.getInstance().getResolvers(project);
 		mainFactory = ELParserUtil.getDefaultFactory();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
+	 */
 	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter, IValidationContext validationContext) throws ValidationException {
 		init(project, validationHelper, manager, reporter, validationContext);
 		webRootFolder = null;
