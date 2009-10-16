@@ -33,8 +33,8 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  * JUnit test for http://jira.jboss.com/jira/browse/JBIDE-788
  */
 public class JBIDE788Test extends VpeTest {
-
 	private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT"; //$NON-NLS-1$
+	private static final String REQUIRED_PROPOSAL = "prompt_message"; //$NON-NLS-1$
 
 	public JBIDE788Test(String name) {
 		super(name);
@@ -76,25 +76,25 @@ public class JBIDE788Test extends VpeTest {
 		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAMessageBundlesAndEL.xhtml","",11,31,false); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull(results);
 		assertTrue("The length should be more than 0",results.length>0); //$NON-NLS-1$
-		boolean str_exists=false;
+		boolean proposalExists=false;
 		for (ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();		
-			if(displayString.startsWith("msg.")) { //$NON-NLS-1$
-				str_exists=true;
+			if(displayString.contains(REQUIRED_PROPOSAL)) {
+				proposalExists = true;
+				break;
 			} 
-			
 		}
-		assertEquals("$msg should be in proposals",true, str_exists);
-		str_exists=false;
+		assertTrue(REQUIRED_PROPOSAL + " should be in proposals", proposalExists);
+		proposalExists=false;
 		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,41,false);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
 		for(ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
 			if(displayString.contains("templates")) { //$NON-NLS-1$ //$NON-NLS-2$
-				str_exists=true;
+				proposalExists=true;
 			}  
 		}
-		assertEquals("path proposala should be in proposals",true, str_exists);
+		assertEquals("path proposala should be in proposals",true, proposalExists);
 		// check exception
 		if (getException() != null) {
 
