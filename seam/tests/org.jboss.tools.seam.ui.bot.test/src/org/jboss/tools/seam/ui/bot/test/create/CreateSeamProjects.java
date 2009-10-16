@@ -5,6 +5,7 @@ import org.jboss.tools.seam.ui.bot.test.TestControl;
 public class CreateSeamProjects extends TestControl{
 	
 	public void testCreateSeamProject12war(){
+		createSeamProject(seam12Settings, jbossEAPRuntime, TYPE_WAR);
 		waitForBlockingJobsAcomplished(180000, BUILDING_WS, VALIDATION + 
 				" " + seam12Settings.getProperty("testProjectName")
 				+TYPE_WAR, DEPLOY_SOURCE, REG_IN_SERVER);
