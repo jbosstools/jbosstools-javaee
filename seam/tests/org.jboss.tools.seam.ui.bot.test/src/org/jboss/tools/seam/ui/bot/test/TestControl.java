@@ -26,6 +26,9 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 	private static final String SEAM_SET_12 = "seam12Settings.properties";
 	private static final String SEAM_SET_2FP = "seam2fpSettings.properties";
 	private static final String SEAM_SET_21 = "seam21Settings.properties";
+	protected static final String VALIDATION = "Validation";
+	protected static final String DEPLOY_SOURCE = "Deploying datasource to server";
+	protected static final String REG_IN_SERVER = "Register in server";
 	
 	public static String JBOSS_EAP_HOME;
 	public static String SEAM_12_SETTINGS_HOME;
@@ -148,6 +151,7 @@ public static String TYPE_EAR = "EAR";
 	protected void createSeamRuntime(Properties runtimeSet, String homeFolder){
 		bot.menu("Window").menu("Preferences").click();
 		SWTBotTree tree = bot.tree();
+		delay();
 		tree.expandNode("JBoss Tools")
 			.expandNode("Web")
 			.expandNode("Seam")
