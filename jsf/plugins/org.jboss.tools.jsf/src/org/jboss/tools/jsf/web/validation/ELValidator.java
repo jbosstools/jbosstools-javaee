@@ -560,7 +560,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		projects.add(project);
 		IKbProject kbProject = KbProjectFactory.getKbProject(project, false);
 		if(kbProject!=null) {
-			IValidationContext rootContext = null; // kbProject.getValidationContext();
+			IValidationContext rootContext = kbProject.getValidationContext();
 			return new ValidatingProjectSet(project, projects, rootContext);
 		}
 		return null;

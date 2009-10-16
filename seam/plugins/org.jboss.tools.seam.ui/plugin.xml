@@ -345,54 +345,6 @@
 		point="org.jboss.tools.common.text.xml.contentAssistProcessor"
 		id="org.jboss.tools.seam.ui.contentAssistProcessor"
 		name="org.jboss.tools.seam.ui.contentAssistProcessor">
-
-		<!-- contentAssistProcessor 
-			class="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor" 
-			id="org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor">
-			<contenttype id="org.eclipse.jst.jsp.core.jspsource">
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-				<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
-				<partitiontype id="org.eclipse.jst.jsp.DEFAULT_JSP" />
-				<partitiontype id="org.eclipse.jst.jsp.JSP_DIRECTIVE" />
-				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.DELIMITER" />
-				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
-				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
-			</contenttype>
-			<contenttype id="org.eclipse.wst.html.core.htmlsource">
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-				<partitiontype id="org.eclipse.wst.html.HTML_DEFAULT" />
-				<partitiontype id="org.eclipse.jst.jsp.DEFAULT_JSP" />
-				<partitiontype id="org.eclipse.jst.jsp.JSP_DIRECTIVE" />
-				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.DELIMITER" />
-				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
-				<partitiontype id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
-			</contenttype>
-			<contenttype id="org.eclipse.core.runtime.xml">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-			<contenttype id="org.jboss.tools.common.model.ui.xml">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-
-			<contenttype id="org.jboss.tools.seam.xml.ui.pages12xmlsource">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-			<contenttype id="org.jboss.tools.seam.xml.ui.page12xmlsource">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-			<contenttype id="org.jboss.tools.seam.xml.ui.pages20xmlsource">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-			<contenttype id="org.jboss.tools.seam.xml.ui.page20xmlsource">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-			<contenttype id="org.jboss.tools.seam.xml.ui.pages21xmlsource">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-			<contenttype id="org.jboss.tools.seam.xml.ui.page21xmlsource">  
-				<partitiontype id="org.eclipse.wst.xml.XML_DEFAULT" />
-			</contenttype>
-		</contentAssistProcessor -->
   </extension>
  
  <extension
