@@ -398,5 +398,12 @@
       
    </extension>
 
+	<extension point="org.jboss.tools.jst.web.kb.KbIncludeContext">
+		<include uri="http://jboss.com/products/seam/taglib">
+			<tag name="decorate">
+	        	<attribute name="template" />
+			</tag>
+		</include>
+   </extension>
 
 </plugin>

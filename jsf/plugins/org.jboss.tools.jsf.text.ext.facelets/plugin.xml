@@ -108,4 +108,18 @@
          	</contentType>
 		</hyperlinkPartitioner>
 	</extension>	
+	
+	<extension point="org.jboss.tools.jst.web.kb.KbIncludeContext">
+		<include uri="http://java.sun.com/jsf/facelets">
+			<tag name="composition">
+	        	<attribute name="template" />
+			</tag>
+			<tag name="decorate">
+	        	<attribute name="template" />
+			</tag>
+			<tag name="include">
+	        	<attribute name="page" />
+			</tag>
+		</include>
+   </extension>
 </plugin>

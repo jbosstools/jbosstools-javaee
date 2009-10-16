@@ -344,4 +344,11 @@
 		</hyperlink>
 	</extension>
 		
+	<extension point="org.jboss.tools.jst.web.kb.KbIncludeContext">
+		<include uri="http://richfaces.org/a4j">
+			<tag name="include">
+	        	<attribute name="viewId" />
+			</tag>
+		</include>
+   </extension>
 </plugin>
