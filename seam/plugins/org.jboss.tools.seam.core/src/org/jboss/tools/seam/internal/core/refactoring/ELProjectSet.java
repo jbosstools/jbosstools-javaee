@@ -40,9 +40,12 @@ public class ELProjectSet implements ProjectsSet {
 		else if(project.equals(projectsSet.getEarProject()))
 			return projectsSet.getDefaultEarViewsFolder();
 		
-		IPath path = ProjectHome.getFirstWebContentPath(project).removeFirstSegments(1);
+		IPath path = ProjectHome.getFirstWebContentPath(project);
 		
-		return project.getFolder(path);
+		if(path != null)
+			return project.getFolder(path.removeFirstSegments(1));
+		
+		return null;
 	}
 
 }
