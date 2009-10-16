@@ -33,7 +33,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.jsf.facesconfig,
  org.eclipse.jst.j2ee.core,
  org.eclipse.jst.common.frameworks,
- org.jboss.tools.jst.web.kb;visibility:=reexport
+ org.jboss.tools.jst.web.kb;visibility:=reexport,
+ org.jboss.tools.jsf
 Bundle-Version: 2.0.0
 Export-Package: 
  org.jboss.tools.seam.core,
