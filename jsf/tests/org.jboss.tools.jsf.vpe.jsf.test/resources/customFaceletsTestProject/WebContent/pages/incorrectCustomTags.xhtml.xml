@@ -2,8 +2,8 @@
 <test id="incorrectCustomTags">
 <DIV ID="incorrectCustomTags" >
 <!-- Custom template doesn't defined -->
-<DIV STYLE="margin: 3px 0pt; padding: 0pt 5px; background-color: rgb(236, 243, 255); cursor: pointer; font-style: italic; color: rgb(0, 81, 221);" VPE:INCLUDE-ELEMENT="yes" >
-ma:test<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+<DIV VPE:INCLUDE-ELEMENT="yes" >
+ma:test<BR VPE:PSEUDO-ELEMENT="yes" />
 
 </DIV>
 <!-- Custom template defined, but hasn't source node -->
@@ -15,7 +15,7 @@ mo:paginator<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green
 mo:test<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
 
 </DIV>
-<DIV STYLE="margin: 3px 0pt; padding: 0pt 5px; background-color: rgb(236, 243, 255); cursor: pointer; font-style: italic; color: rgb(0, 81, 221);" VPE:INCLUDE-ELEMENT="yes">
+<DIV VPE:INCLUDE-ELEMENT="yes">
 ma:test1<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
 
 </DIV>
