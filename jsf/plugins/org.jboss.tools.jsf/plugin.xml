@@ -466,12 +466,12 @@
       <initializer class="org.jboss.tools.jsf.preferences.JSFPreferenceInitializer"/>
    </extension>
 
-   <extension
+   <!--extension
          point="org.jboss.tools.jst.web.kb.validator">
          <validator
                class="org.jboss.tools.jsf.web.validation.ELValidator"
                id="org.jboss.tools.jsf.ELValidator">
          </validator>
-   </extension>
+   </extension-->
 
 </plugin>
