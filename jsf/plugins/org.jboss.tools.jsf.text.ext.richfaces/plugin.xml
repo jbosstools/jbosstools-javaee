@@ -350,5 +350,19 @@
 	        	<attribute name="viewId" />
 			</tag>
 		</include>
+			
+		<cssholder uri="http://richfaces.org/a4j">
+       		<tag name="loadStyle">
+	       		<attribute name="src"/>
+	       </tag>
+		</cssholder>
+		
+		<cssholder uri="https://ajax4jsf.dev.java.net/ajax">
+       		<tag name="loadStyle">
+	       		<attribute name="src"/>
+	       </tag>
+		</cssholder>
+		
+		
    </extension>
 </plugin>
