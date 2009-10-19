@@ -40,10 +40,10 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		page2.setProperties(fDropCommand.getProperties());
 		
 		ITagProposal[] proposals = 
-			TagProposalsComposite.getTagProposals(getMimeType(),getMimeData(), fDropCommand.getTagProposalFactory());
+			TagProposalsComposite.getTagProposals(getMimeType(),getWizardModel().getDropData(), fDropCommand.getTagProposalFactory());
 		
 		if(TagProposalsComposite.areThereTagProposals(
-			getMimeType(),getMimeData(), fDropCommand.getTagProposalFactory())
+			getMimeType(),getWizardModel().getDropData(), fDropCommand.getTagProposalFactory())
 		) {
 			if(proposals.length > 1) {
 			}

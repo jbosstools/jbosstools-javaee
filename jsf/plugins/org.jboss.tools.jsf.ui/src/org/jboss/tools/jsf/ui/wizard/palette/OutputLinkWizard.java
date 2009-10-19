@@ -80,7 +80,7 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 		page2 = new OutputLinkWizardPage();
 		
 		ITagProposal[] proposals = 
-			TagProposalsComposite.getTagProposals(getMimeType(),getMimeData(), fDropCommand.getTagProposalFactory());
+			TagProposalsComposite.getTagProposals(getMimeType(),getWizardModel().getDropData(), fDropCommand.getTagProposalFactory());
 		
 		this.addPage(page2);
 

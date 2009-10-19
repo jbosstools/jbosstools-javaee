@@ -81,7 +81,7 @@ public class SelectItemsWizard extends Wizard implements PropertyChangeListener,
 		page2 = new SelectItemsWizardPage();
 
 		ITagProposal[] proposals = TagProposalsComposite.getTagProposals(
-				getMimeType(), getMimeData(), fDropCommand
+				getMimeType(), getWizardModel().getDropData(), fDropCommand
 						.getTagProposalFactory());
 
 		this.addPage(page2);

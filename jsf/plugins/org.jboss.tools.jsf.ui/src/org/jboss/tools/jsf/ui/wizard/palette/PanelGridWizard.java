@@ -48,11 +48,11 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 		page2 = new PanelGridWizardPage();
 
 		ITagProposal[] proposals = TagProposalsComposite.getTagProposals(
-				getMimeType(), getMimeData(), fDropCommand
+				getMimeType(), getWizardModel().getDropData(), fDropCommand
 						.getTagProposalFactory());
 
 		if (TagProposalsComposite.areThereTagProposals(getMimeType(),
-				getMimeData(), fDropCommand.getTagProposalFactory())) {
+				getWizardModel().getDropData(), fDropCommand.getTagProposalFactory())) {
 			if (proposals.length > 1) {
 			}
 		}
