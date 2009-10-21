@@ -443,7 +443,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	class SeamSearcher extends SeamRefactorSearcher{
 		public SeamSearcher(IFile declarationFile, String oldName){
-			super(declarationFile, oldName, component);
+			super(declarationFile, oldName/*, component*/);
 		}
 
 		@Override
@@ -457,7 +457,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
-			if(component != null)
+			if(seamComponent != null)
 				return invocationExpression;
 			
 			ELInvocationExpression invExp = invocationExpression;

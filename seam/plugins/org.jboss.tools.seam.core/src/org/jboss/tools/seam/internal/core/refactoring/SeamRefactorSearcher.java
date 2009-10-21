@@ -30,7 +30,6 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.seam.core.ISeamComponent;
-import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -38,7 +37,7 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 
 public abstract class SeamRefactorSearcher extends RefactorSearcher {
 	private SeamProjectsSet projectsSet;
-	private ISeamComponent component;
+	protected ISeamComponent seamComponent;
 	
 	public SeamRefactorSearcher(IFile file, String name){
 		super(file, name);
@@ -52,7 +51,7 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 	
 	public SeamRefactorSearcher(IFile file, String name, ISeamComponent component){
 		this(file, name);
-		this.component = component;
+		this.seamComponent = component;
 	}
 	
 	protected IProject[] getProjects(){
@@ -83,33 +82,33 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 	protected void checkMatch(IFile file, ELExpression operand, int offset, int length){
 		if(javaElement != null && operand != null)
 			resolve(file, operand, offset-getOffset((ELInvocationExpression)operand));
-		else if(component != null && operand != null)
+		else if(seamComponent != null && operand != null)
 			resolveComponentsReferences(file, operand, offset-getOffset((ELInvocationExpression)operand));
 		else
 			match(file, offset, length);
 	}
 	
 	protected void updateEnvironment(IProject project){
-		if(component == null)
+		if(seamComponent == null)
 			return;
 		
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if(seamProject == null)
 			return;
 		
-		ISeamComponent oldComponent = component;
+		ISeamComponent oldComponent = seamComponent;
 		
 		if(oldComponent.getJavaDeclaration() != null){
-			component = getComponent(seamProject, oldComponent.getName(), (IFile)oldComponent.getJavaDeclaration().getResource());
+			seamComponent = getComponent(seamProject, oldComponent.getName(), (IFile)oldComponent.getJavaDeclaration().getResource());
 		}else{
 			for(ISeamXmlComponentDeclaration xDecl : oldComponent.getXmlDeclarations()){
-				component = getComponent(seamProject, oldComponent.getName(), (IFile)xDecl.getResource());
-				if(component != null)
+				seamComponent = getComponent(seamProject, oldComponent.getName(), (IFile)xDecl.getResource());
+				if(seamComponent != null)
 					return;
 			}
 		}
-		if(component == null)
-			component = oldComponent;
+		if(seamComponent == null)
+			seamComponent = oldComponent;
 	}
 	
 	private ISeamComponent getComponent(ISeamProject seamProject, String name, IFile file){
@@ -141,7 +140,7 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 
 			ELResolution resolution = resolver.resolve(context, operand);
 
-			List<ELSegment> segments = resolution.findSegmentsByVariable(component);
+			List<ELSegment> segments = resolution.findSegmentsByVariable(seamComponent);
 			
 			for(ELSegment segment : segments){
 				match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
