@@ -15,12 +15,16 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.sse.core,
  org.eclipse.jst.jsp.core,
  org.eclipse.wst.html.core,
- org.jboss.tools.vpe.html
+ org.jboss.tools.vpe.html,
+ org.jboss.tools.jsf;bundle-version="2.0.0",
+ org.eclipse.ui.ide,
+ org.eclipse.ui.editors
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.jsf.template,
  org.jboss.tools.jsf.vpe.jsf.template.selectitem,
  org.jboss.tools.jsf.vpe.jsf.template.util,
  org.jboss.tools.jsf.vpe.jsf.template.util.model
 Bundle-Localization: plugin
-Import-Package: org.jboss.tools.jst.web.tld
+Import-Package: org.eclipse.wst.sse.ui,
+ org.jboss.tools.jst.web.tld
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

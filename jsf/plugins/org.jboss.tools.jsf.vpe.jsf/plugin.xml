@@ -7,4 +7,13 @@
             name="JSF Reference Implementation"
             path="templates/vpe-templates-jsf.xml"/>
    </extension>
+   <extension
+         point="org.jboss.tools.vpe.localeProvider">
+      <localeProvider
+            class="org.jboss.tools.jsf.vpe.jsf.i18n.JsfLocaleProvider">
+      </localeProvider>
+      <nature
+            id="org.jboss.tools.jsf.jsfnature">
+      </nature>
+   </extension>
 </plugin>

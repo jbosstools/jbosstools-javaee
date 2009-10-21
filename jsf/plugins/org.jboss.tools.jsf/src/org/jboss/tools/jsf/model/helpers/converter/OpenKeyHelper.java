@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.eclipse.osgi.util.NLS;
-
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
@@ -71,7 +70,7 @@ public class OpenKeyHelper {
 		return bundle.getChildByPath(key);
 	}
 	
-	public String getDeafultLocale(XModel model) {
+	public static String getDeafultLocale(XModel model) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		XModelObject[] fs = conf == null ? new XModelObject[0] : conf.getTreeChildren();
@@ -83,5 +82,4 @@ public class OpenKeyHelper {
 		Locale locale = Locale.getDefault();
 		return locale == null || locale.toString().length() == 0 ? null : locale.toString();
 	}
-
 }

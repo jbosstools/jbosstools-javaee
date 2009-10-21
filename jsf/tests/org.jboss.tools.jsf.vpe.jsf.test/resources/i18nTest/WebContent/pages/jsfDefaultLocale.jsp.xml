@@ -1,0 +1,18 @@
+<tests>
+	<test id="view-id">
+		<TABLE>
+			<TR>
+				<TD>
+					<DIV>
+						<SPAN CLASS="vpe-text">
+							Guten Tag!1
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							Guten Tag!2
+						</SPAN>
+					</DIV>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>
