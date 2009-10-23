@@ -21,6 +21,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
+import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -28,7 +31,7 @@ import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.SeamProject;
-import org.jboss.tools.seam.internal.core.validation.ISeamValidator;
+import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -525,7 +528,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public void testDuplicateVariableName_Validator() throws CoreException {
 		modifyPreferences();
-//		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 
 		IFile contextVariableTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java");
 		
@@ -650,8 +652,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	private void enableUnpairGetterOrSetterValidation(boolean enable) {
-		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
-		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, enable?SeamPreferences.ERROR:SeamPreferences.IGNORE);
+		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
+		store.putValue(JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, enable?SeamPreferences.ERROR:SeamPreferences.IGNORE);
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
 				((IPersistentPreferenceStore)store).save();
@@ -701,8 +703,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	// See https://jira.jboss.org/jira/browse/JBIDE-4515
 	public void testRevalidationUnresolvedELs() {
 		refreshProject(project);
-		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
-		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
+		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
+		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
 
 		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java");
 		IFile xhtmlFile = project.getFile("WebContent/testElRevalidation.xhtml");
@@ -714,7 +716,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		int n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
 		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
 
-		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
+		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
 		// Check if the validator was not invoked.
 		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
 
@@ -723,8 +725,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
 		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
 
-		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
-		SeamCorePlugin.getDefault().getPreferenceStore().setValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
+		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
+		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
 	}
 
 	private static boolean findLine(Integer[] lines, int number) {
@@ -738,10 +740,21 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	private void modifyPreferences(){
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
-		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
-		store.putValue(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.ERROR);
 		store.putValue(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.ERROR);
-//		store.putValue(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
+
+		if(store instanceof IPersistentPreferenceStore) {
+			try {
+				((IPersistentPreferenceStore)store).save();
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
+
+		store = JSFModelPlugin.getDefault().getPreferenceStore();
+		store.putValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
+		store.putValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.ERROR);
+//		store.putValue(JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
+		store.putValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
@@ -771,7 +784,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			int length = markers.length;
 			for (int i = 0; i < markers.length; i++) {
 				String groupName = markers[i].getAttribute("groupName", null);
-				if(groupName==null || (!groupName.equals(ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP) && !groupName.equals(ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP))) {
+				if(groupName==null || (!groupName.equals(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP) && !groupName.equals(IValidator.MARKED_RESOURCE_MESSAGE_GROUP))) {
 					length--;
 				}
 			}
@@ -785,7 +798,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public static class SeamMarkerFilter implements IMarkerFilter {
 		public boolean accept(IMarker marker) {
 			String groupName = marker.getAttribute("groupName", null);
-			return groupName!=null && (groupName.equals(ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP) || groupName.equals(ISeamValidator.MARKED_SEAM_RESOURCE_MESSAGE_GROUP));
+			return groupName!=null && (groupName.equals(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP) || groupName.equals(IValidator.MARKED_RESOURCE_MESSAGE_GROUP));
 		}
 	}
 }

@@ -16,9 +16,9 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
-import org.jboss.tools.seam.internal.core.validation.ISeamValidationContext;
 
 public interface ISeamProject extends ISeamElement {
 
@@ -146,7 +146,7 @@ public interface ISeamProject extends ISeamElement {
 	/**
 	 * @return validation context
 	 */
-	public ISeamValidationContext getValidationContext();
+	public IValidationContext getValidationContext();
 
 	/**
 	 * Adds component into project

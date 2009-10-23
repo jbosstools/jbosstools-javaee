@@ -69,6 +69,7 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 			}
 		}
 		keys.add(getKey(JSFModelPlugin.PLUGIN_ID, JSFSeverityPreferences.CHECK_VARS));
+		keys.add(getKey(JSFModelPlugin.PLUGIN_ID, JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL));
 		return keys.toArray(new Key[0]);
 	}
 

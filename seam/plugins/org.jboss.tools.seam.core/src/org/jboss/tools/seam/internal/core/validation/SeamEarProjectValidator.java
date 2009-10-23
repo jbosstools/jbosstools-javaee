@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -31,6 +32,8 @@ import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentReg
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
+import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
@@ -39,6 +42,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
@@ -52,11 +56,6 @@ import org.w3c.dom.NodeList;
  */
 public class SeamEarProjectValidator implements IValidatorJob {
 
-	protected static final String INVALID_SEAM_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID = "INVALID_SEAM_JAR_MODULE_IN_APPLICATION_XML"; //$NON-NLS-1$
-	protected static final String INVALID_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID = "INVALID_JAR_MODULE_IN_APPLICATION_XML"; //$NON-NLS-1$
-
-	private IValidationErrorManager errorManager;
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#getSchedulingRule(org.eclipse.wst.validation.internal.provisional.core.IValidationContext)
 	 */
@@ -68,13 +67,11 @@ public class SeamEarProjectValidator implements IValidatorJob {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#validateInJob(org.eclipse.wst.validation.internal.provisional.core.IValidationContext, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter)	throws ValidationException {
-		SeamValidationHelper seamHelper = (SeamValidationHelper)helper;
-		IProject project = seamHelper.getProject();
+		IProject project = ((WorkbenchContext)helper).getProject();
 		if(!project.isAccessible()) {
 			return OK_STATUS;
 		}
-		errorManager = new ValidationErrorManager(this, null, reporter, null, project, ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
-		errorManager.removeAllMessagesFromResource(project);
+		WorkbenchReporter.removeAllMessages(project, new String[]{this.getClass().getName()}, null);
 
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		IVirtualReference[] rs = component.getReferences();
@@ -186,15 +183,16 @@ public class SeamEarProjectValidator implements IValidatorJob {
 
 	private void validateJarName(IResource file, String text, int offset) {
 		String jarName = text.trim();
+		TextFileDocumentProvider documentProvider = new TextFileDocumentProvider();
 		for(int jarIndex=0; jarIndex<JARS.length; jarIndex++) {
 			int position = offset + text.indexOf(jarName);
 			int length = jarName.length();
 			if(SEAM_JAR_NAME.equals(jarName)) {
-				errorManager.addError(INVALID_SEAM_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID, IMessage.HIGH_SEVERITY, new String[]{}, length, position, file);
+				ValidationErrorManager.addError(SeamValidationMessages.INVALID_JAR_MODULE_IN_APPLICATION_XML, IMessage.HIGH_SEVERITY, new String[]{jarName}, length, position, file, documentProvider, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP, this.getClass());
 				break;
 			}
 			if(jarName.startsWith(JARS[jarIndex])) {
-				errorManager.addError(INVALID_JAR_MODULE_IN_APPLICATION_XML_MESSAGE_ID, IMessage.NORMAL_SEVERITY, new String[]{jarName}, length, position, file);
+				ValidationErrorManager.addError(SeamValidationMessages.INVALID_JAR_MODULE_IN_APPLICATION_XML, IMessage.NORMAL_SEVERITY, new String[]{jarName}, length, position, file, documentProvider, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP, this.getClass());
 				break;
 			}
 		}

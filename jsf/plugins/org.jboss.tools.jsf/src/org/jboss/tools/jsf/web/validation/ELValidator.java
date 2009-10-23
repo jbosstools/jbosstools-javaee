@@ -61,6 +61,7 @@ import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.parser.SyntaxError;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELResolverFactoryManager;
@@ -96,21 +97,13 @@ import org.w3c.dom.NodeList;
  */
 public class ELValidator extends ValidationErrorManager implements IValidator {
 
-	public static final String ID = "org.jboss.tools.jsf.ELValidator";
-
-	protected static final String UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_NAME"; //$NON-NLS-1$
-	protected static final String UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID = "UNKNOWN_EL_VARIABLE_PROPERTY_NAME"; //$NON-NLS-1$
-	protected static final String UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID = "UNPAIRED_GETTER_OR_SETTER"; //$NON-NLS-1$
-	protected static final String SYNTAX_ERROR_MESSAGE_ID = "EL_SYNTAX_ERROR"; //$NON-NLS-1$
-
-	protected static final String VALIDATING_EL_FILE_MESSAGE_ID = "VALIDATING_EL_FILE"; //$NON-NLS-1$
+	public static final String ID = "org.jboss.tools.jsf.ELValidator"; //$NON-NLS-1$
 
 	private ELResolver[] resolvers;
-	private ELParserFactory mainFactory;
+	protected ELParserFactory mainFactory;
 
 	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
 	private IProject currentProject;
-	private IProject rootProject;
 	private IResource[] currentSources;
 	private IContainer webRootFolder;
 	private boolean revalidateUnresolvedELs = false;
@@ -127,8 +120,8 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
 	 */
 	@Override
-	protected void init(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter, IValidationContext validationContext) {
-		super.init(project, validationHelper, manager, reporter, validationContext);
+	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
+		super.init(project, validationHelper, manager, reporter);
 		resolvers = ELResolverFactoryManager.getInstance().getResolvers(project);
 		mainFactory = ELParserUtil.getDefaultFactory();
 	}
@@ -137,8 +130,8 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
 	 */
-	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter, IValidationContext validationContext) throws ValidationException {
-		init(project, validationHelper, manager, reporter, validationContext);
+	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
+		init(project, validationHelper, manager, reporter);
 		webRootFolder = null;
 		initRevalidationFlag();
 		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -193,11 +186,11 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
 	 */
-	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter, IValidationContext validationContext) throws ValidationException {
-		init(project, validationHelper, manager, reporter, validationContext);
+	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
+		init(project, validationHelper, manager, reporter);
 		webRootFolder = null;
 		initRevalidationFlag();
-		Set<IFile> files = validationContext.getRegisteredFiles();
+		Set<IFile> files = validationHelper.getProjectSetRegisteredFiles();
 		for (IFile file : files) {
 			if(!reporter.isCancelled()) {
 				if(file.exists()) {
@@ -271,7 +264,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			return;
 		}
 		removeAllMessagesFromResource(file);
-		displaySubtask(VALIDATING_EL_FILE_MESSAGE_ID, new String[]{file.getProject().getName(), file.getName()});
+		displaySubtask(JSFValidationMessages.VALIDATING_EL_FILE, new String[]{file.getProject().getName(), file.getName()});
 		String ext = file.getFileExtension();
 		String content = null;
 		try {
@@ -325,7 +318,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			// there is no need to report it, just stop validation.
 			return;
 		}
-		IStructuredModel model = null;		
+		IStructuredModel model = null;
 		try {
 			model = manager.getModelForRead(file);
 			if (model instanceof IDOMModel) {
@@ -389,6 +382,9 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	 */
 	private void validateString(IFile file, String string, int offset) {
 		int startEl = string.indexOf("#{"); //$NON-NLS-1$
+		if(startEl==-1) {
+			startEl = string.indexOf("${"); //$NON-NLS-1$
+		}
 		if(startEl>-1) {
 			ELParser parser = ELParserUtil.getJbossFactory().createParser();
 			ELModel model = parser.parse(string);
@@ -403,10 +399,11 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			List<SyntaxError> errors = model.getSyntaxErrors();
 			if(!errors.isEmpty()) {
 				for (SyntaxError error: errors) {
-					IMarker marker = addError(SYNTAX_ERROR_MESSAGE_ID, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
+					IMarker marker = addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
 					elReference.addMarker(marker);
 				}
 			}
+
 			for (ELInstance i : is) {
 				if (reporter.isCancelled()) {
 					return;
@@ -428,8 +425,6 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		}
 	}
 
-	private SimpleELContext context = new SimpleELContext();
-
 	private void validateElOperand(ELReference elReference, ELInvocationExpression operandToken) {
 		IFile file = elReference.getResource();
 		int documnetOffset = elReference.getStartPosition(); 
@@ -440,6 +435,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		boolean unresolvedTokenIsVariable = false;
 		if (!operand.endsWith(".")) { //$NON-NLS-1$
 			ELResolution resolution = null;
+			ELContext context = new SimpleELContext();
 			context.setVars(varListForCurentValidatedNode);
 			context.setElResolvers(resolvers);
 			context.setResource(file);
@@ -450,7 +446,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 					resolution = elResolution;
 					break;
 				}
-				int number = resolution.getNumberOfResolvedSegments();
+				int number = elResolution.getNumberOfResolvedSegments();
 				if(number>maxNumberOfResolvedSegments) {
 					maxNumberOfResolvedSegments = number;
 					resolution = elResolution;
@@ -490,7 +486,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 							startPosition = startPosition + startPr;
 							length = propertyName.length();
 						}
-						IMarker marker = addError(UNPAIRED_GETTER_OR_SETTER_MESSAGE_ID, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
+						IMarker marker = addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
 						elReference.addMarker(marker);
 					}
 				}
@@ -506,6 +502,10 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			}
 
 			ELSegment segment = resolution.getUnresolvedSegment();
+			if(segment==null) {
+				JSFModelPlugin.getDefault().logError("No one segments were resolved in EL " + operand + " in " + file);
+				return;
+			}
 			LexicalToken token = segment.getToken();
 
 			varName = token.getText();
@@ -521,10 +521,10 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		}
 		// Mark invalid EL
 		if(unresolvedTokenIsVariable) {
-			IMarker marker = addError(UNKNOWN_EL_VARIABLE_NAME_MESSAGE_ID, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
 			elReference.addMarker(marker);
 		} else {
-			IMarker marker = addError(UNKNOWN_EL_VARIABLE_PROPERTY_NAME_MESSAGE_ID, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
 			elReference.addMarker(marker);
 		}
 	}

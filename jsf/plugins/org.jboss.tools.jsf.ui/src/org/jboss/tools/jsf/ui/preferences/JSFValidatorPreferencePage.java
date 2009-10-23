@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.ui.preferences;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.jboss.tools.common.model.ui.preferences.SeverityConfigurationBlock;
 import org.jboss.tools.common.model.ui.preferences.SeverityPreferencePage;
 import org.jboss.tools.jsf.JSFModelPlugin;
 
@@ -23,8 +22,6 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 public class JSFValidatorPreferencePage extends SeverityPreferencePage {
 	public static final String PREF_ID = "org.jboss.tools.jsf.ui.preferences.JSFValidatorPreferencePage"; //$NON-NLS-1$
 	public static final String PROP_ID = "org.jboss.tools.jsf.ui.propertyPages.JSFValidatorPreferencePage"; //$NON-NLS-1$
-
-	private JSFValidatorConfigurationBlock fConfigurationBlock;
 
 	public JSFValidatorPreferencePage() {
 		setPreferenceStore(JSFModelPlugin.getDefault().getPreferenceStore());
@@ -47,10 +44,5 @@ public class JSFValidatorPreferencePage extends SeverityPreferencePage {
 		fConfigurationBlock = new JSFValidatorConfigurationBlock(getNewStatusChangedListener(), getProject(), container);
 
 		super.createControl(parent);
-	}
-
-	@Override
-	protected SeverityConfigurationBlock getConfigurationBlock() {
-		return fConfigurationBlock;
 	}
 }

@@ -28,18 +28,12 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 
 		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(SeamCorePlugin.PLUGIN_ID);
-		for (String name : SeamPreferences.severityOptionNames) {
+		for (String name : SeamPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeamPreferences.ERROR);
 		}
-		defaultPreferences.put(SeamPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
-		defaultPreferences.put(SeamPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.UNKNOWN_VARIABLE_NAME, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, SeamPreferences.WARNING);
-		defaultPreferences.put(SeamPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.IGNORE);
-		defaultPreferences.put(SeamPreferences.EL_SYNTAX_ERROR, SeamPreferences.WARNING);
 		defaultPreferences.put(SeamPreferences.INVALID_XML_VERSION, SeamPreferences.WARNING);
-		defaultPreferences.put(SeamPreferences.CHECK_VARS, SeamPreferences.ENABLE);
-		defaultPreferences.put(SeamPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 
 		//JBIDE-2958 temporary until JBIDE-2957 solved //TODO solve JBIDE-2957
 		defaultPreferences.put(SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME_GUESS, SeamPreferences.WARNING);

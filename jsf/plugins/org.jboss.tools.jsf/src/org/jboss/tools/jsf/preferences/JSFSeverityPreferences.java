@@ -48,6 +48,9 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 		return INSTANCE;
 	}
 
+	private JSFSeverityPreferences() {
+	}
+
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.common.preferences.SeverityPreferences#createSeverityOption(java.lang.String)
 	 */

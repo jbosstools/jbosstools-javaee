@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -178,10 +179,6 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
-					ELSegmentImpl segment = new ELSegmentImpl();
-					segment.setToken(left.getFirstToken());
-					segment.setResolved(true);
-					resolution.addSegment(segment);
 					resolution.setLastResolvedToken(left);
 					break;
 				}
@@ -250,18 +247,25 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		}
 
 		//process segments one by one
-		if(left != null) while(left != expr) {
-			left = (ELInvocationExpression)left.getParent();
-			if (left != expr) { // inside expression
-				ELSegmentImpl segment = new ELSegmentImpl();
-				segment.setResolved(true);
-				resolution.addSegment(segment);
-				resolution.setLastResolvedToken(left);
-				return resolution;
-			} else { // Last segment
-				resolveLastSegment((ELInvocationExpression)operand, resolvedVariables, resolution, returnEqualedVariablesOnly);
-				break;
+		if(left != null) {
+			while(left != expr) {
+				left = (ELInvocationExpression)left.getParent();
+				if (left != expr) { // inside expression
+					ELSegmentImpl segment = new ELSegmentImpl();
+					segment = new ELSegmentImpl();
+					segment.setResolved(true);
+					resolution.addSegment(segment);
+					resolution.setLastResolvedToken(left);
+					return resolution;
+				} else { // Last segment
+					resolveLastSegment((ELInvocationExpression)operand, resolvedVariables, resolution, returnEqualedVariablesOnly);
+					break;
+				}
 			}
+		} else {
+			ELSegmentImpl segment = new ELSegmentImpl();
+			segment.setToken(expr.getFirstToken());
+			resolution.addSegment(segment);
 		}
 
 		return resolution;
@@ -315,7 +319,10 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		resolution.setProposals(kbProposals);
 		if(expr instanceof ELPropertyInvocation) {
 			segment.setToken(((ELPropertyInvocation)expr).getName());			
+		} else {
+			segment.setToken(expr.getFirstToken());			
 		}
+
 		if(segment.getToken()!=null) {
 			resolution.addSegment(segment);
 		}

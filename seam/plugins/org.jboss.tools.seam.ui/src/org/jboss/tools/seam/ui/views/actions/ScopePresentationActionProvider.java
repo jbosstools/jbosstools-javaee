@@ -92,12 +92,12 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 	}
 
 	public static void setPackageStructureFlat(boolean s) {
-		IEclipsePreferences p = SeamPreferences.getInstancePreferences();
+		IEclipsePreferences p = SeamPreferences.getInstance().getInstancePreferences();
 		p.put(PACKAGE_STRUCTURE, s ? PACKAGES_FLAT : PACKAGES_HIERARCHICAL);
 	}
 	
 	public static void setScopePresentedAsLabel(boolean s) {
-		IEclipsePreferences p = SeamPreferences.getInstancePreferences();
+		IEclipsePreferences p = SeamPreferences.getInstance().getInstancePreferences();
 		p.put(SCOPE_PRESENTATION, s ?  SCOPE_AS_LABEL : SCOPE_AS_NODE);
 	}
 	
@@ -132,7 +132,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 			state = memento.getString("seam-isFlatLayout"); //$NON-NLS-1$
 
 		if (state == null) {
-			state = SeamPreferences.getInstancePreference(PACKAGE_STRUCTURE);
+			state = SeamPreferences.getInstance().getInstancePreference(PACKAGE_STRUCTURE);
 		}
 
 		isCurrentLayoutFlat = !(PACKAGES_HIERARCHICAL.equals(state));
@@ -145,7 +145,7 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 			state = memento.getString("seam-isScopeLabel"); //$NON-NLS-1$
 		
 		if (state == null) {
-			state = SeamPreferences.getInstancePreference(SCOPE_PRESENTATION);
+			state = SeamPreferences.getInstance().getInstancePreference(SCOPE_PRESENTATION);
 		}
 		
 		isCurrentScopeLabel = !SCOPE_AS_NODE.equals(state);
@@ -172,5 +172,4 @@ public class ScopePresentationActionProvider extends CommonActionProvider implem
 		stateModel.setBooleanProperty(SCOPE_PRESENTATION, b);
 		actionGroup.setScopeLable(b);
 	}
-
 }

@@ -62,7 +62,7 @@ import org.jboss.tools.seam.internal.core.el.VariableResolver;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
-import org.jboss.tools.seam.internal.core.validation.ProjectValidationContext;
+import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.w3c.dom.Element;
 

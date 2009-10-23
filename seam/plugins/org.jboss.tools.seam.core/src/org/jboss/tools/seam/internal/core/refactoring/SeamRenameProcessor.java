@@ -42,9 +42,9 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
-import org.jboss.tools.seam.internal.core.validation.SeamContextValidationHelper;
 
 /**
  * @author Daniel Azarov
@@ -61,8 +61,6 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	protected static final String SEAM_PROPERTIES_FILE = "seam.properties"; //$NON-NLS-1$
 	
 	protected RefactoringStatus status;
-	
-	private SeamContextValidationHelper coreHelper = new SeamContextValidationHelper();
 	
 	protected CompositeChange rootChange;
 	protected TextFileChange lastChange;
@@ -308,14 +306,14 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	protected void checkDeclarations(ISeamComponent component) throws CoreException{
 		if(component.getJavaDeclaration() != null){
-			if(coreHelper.isJar(component.getJavaDeclaration()) && component.getJavaDeclaration().getName() != null)
+			if(SeamUtil.isJar(component.getJavaDeclaration()) && component.getJavaDeclaration().getName() != null)
 				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
 		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
 
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
-			if(coreHelper.isJar(xmlDecl) && xmlDecl.getName() != null)
+			if(SeamUtil.isJar(xmlDecl) && xmlDecl.getName() != null)
 				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
 		}
 	}
@@ -337,7 +335,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
 		IFile file  = (IFile)javaDecl.getResource();
 		
-		if(file != null && !coreHelper.isJar(javaDecl)){
+		if(file != null && !SeamUtil.isJar(javaDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)javaDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null && !isBadLocation(location, file))
 				change(file, location.getStartPosition(), location.getLength(), "\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -348,7 +346,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	private void renameXMLDeclaration(ISeamXmlComponentDeclaration xmlDecl) throws CoreException{
 		IFile file = (IFile)xmlDecl.getResource();
 		
-		if(file != null && !coreHelper.isJar(xmlDecl)){
+		if(file != null && !SeamUtil.isJar(xmlDecl)){
 			ITextSourceReference location = ((SeamComponentDeclaration)xmlDecl).getLocationFor(ISeamXmlComponentDeclaration.NAME);
 			if(location != null && !isBadLocation(location, file))
 				changeXMLNode(location, file);
@@ -474,6 +472,5 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			}
 			return null;
 		}
-		
 	}
 }

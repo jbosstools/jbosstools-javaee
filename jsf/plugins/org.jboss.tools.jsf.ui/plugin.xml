@@ -30,14 +30,14 @@
             class="org.jboss.tools.jsf.ui.preferences.JSFFlowTabbedPreferencesPage"
             id="org.jboss.tools.jsf.ui.jsfflowdiagram"
             name="%PreferencePage_JSFFlowTabbed"/>
-      <!--page 
+      <page 
          category="org.jboss.tools.jsf.ui" 
          class="org.jboss.tools.jsf.ui.preferences.JSFValidatorPreferencePage" 
          id="org.jboss.tools.jsf.ui.preferences.JSFValidatorPreferencePage" 
-         name="%PreferencePage_Validator"/-->
+         name="%PreferencePage_Validator"/>
    </extension>
 
-   <!--extension
+   <extension
          point="org.eclipse.ui.propertyPages">
       <page
             name="%PreferencePage_JSFValidator"
@@ -49,7 +49,7 @@
 		     </adapt>         
          </enabledWhen>
       </page>
-   </extension-->
+   </extension>
 
    <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
       <xmlEditor 

@@ -26,9 +26,16 @@ import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.operations.WorkbenchContext;
+import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
+import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
+import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
+import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.ProblemMessage;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
@@ -42,23 +49,10 @@ import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
  */
 public class SeamProjectPropertyValidator implements IValidatorJob {
 
-	protected static final String VALIDATING_PROJECT = "VALIDATING_PROJECT";
-	public static final String INVALID_SEAM_RUNTIME = "INVALID_SEAM_RUNTIME";
-	protected static final String INVALID_WEBFOLDER = "INVALID_WEBFOLDER";
-	protected static final String INVALID_PARENT_PROJECT = "INVALID_PARENT_PROJECT";
-	protected static final String INVALID_EJB_PROJECT = "INVALID_EJB_PROJECT";
-	protected static final String INVALID_TEST_PROJECT = "INVALID_TEST_PROJECT";
-	protected static final String INVALID_MODEL_SRC = "INVALID_MODEL_SRC";
-	protected static final String INVALID_ACTION_SRC = "INVALID_ACTION_SRC";
-	protected static final String INVALID_TEST_SRC = "INVALID_TEST_SRC";
-	protected static final String INVALID_MODEL_PACKAGE_NAME = "INVALID_MODEL_PACKAGE_NAME";
-	protected static final String INVALID_ACTION_PACKAGE_NAME = "INVALID_ACTION_PACKAGE_NAME";
-	protected static final String INVALID_TEST_PACKAGE_NAME = "INVALID_TEST_PACKAGE_NAME";
-	protected static final String INVALID_CONNECTION_NAME = "INVALID_CONNECTION_NAME";
-
-	private IValidationErrorManager errorManager;
+	private ValidationErrorManager errorManager;
 	private Set<String> validatedProjects = new HashSet<String>();
 	private static Set<String> beingValidatedProjects = new HashSet<String>();
+	private IReporter reporter;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#getSchedulingRule(org.eclipse.wst.validation.internal.provisional.core.IValidationContext)
@@ -72,26 +66,52 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	 */
 	public IStatus validateInJob(IValidationContext helper, IReporter reporter) throws ValidationException {
 		validatedProjects.clear();
-		SeamValidationHelper seamHelper = (SeamValidationHelper)helper;
-		IProject project = seamHelper.getProject();
-		if(!project.isAccessible()) {
-			return OK_STATUS;
-		}
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
-		errorManager = new ValidationErrorManager(this, null, reporter, seamProject, project, ISeamValidator.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
-		if(seamProject!=null) {
-			validateSeamProject(seamProject);
-		}
-
-		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		String projectName = project.getName();
-		for (int i = 0; i < ps.length; i++) {
-			if(ps[i]!=project) {
-				validateProject(projectName, ps[i]);
+		try {
+			this.reporter = reporter;
+			IProject project = ((WorkbenchContext)helper).getProject();
+			if(!project.isAccessible()) {
+				return OK_STATUS;
 			}
-		}
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
+	
+			errorManager = new SeamValidationErrorManager() {
+				/* (non-Javadoc)
+				 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerOwner()
+				 */
+				@Override
+				protected Class getMarkerOwner() {
+					return SeamProjectPropertyValidator.this.getClass();
+				}
+	
+				/* (non-Javadoc)
+				 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
+				 */
+				@Override
+				public void init(IProject project,
+						ContextValidationHelper validationHelper,
+						IValidator manager, IReporter reporter) {
+					setRootProject(project);
+					setValidationManager(manager);
+					setReporter(reporter);
+					setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+				}
+			};
+			errorManager.init(project, null, this, reporter);
 
-		finishValidating();
+			if(seamProject!=null) {
+				validateSeamProject(seamProject);
+			}
+	
+			IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			String projectName = project.getName();
+			for (int i = 0; i < ps.length; i++) {
+				if(ps[i]!=project) {
+					validateProject(projectName, ps[i]);
+				}
+			}
+		} finally {
+			finishValidating();
+		}
 		return OK_STATUS;
 	}
 
@@ -222,7 +242,6 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	}
 
 	private void validateSeamProject(ISeamProject seamProject) {
-		errorManager.setProject(seamProject);
 		IProject project = seamProject.getProject();
 		if(!project.isAccessible()) {
 			return;
@@ -230,52 +249,55 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 		if(!canStartValidating(project)) {
 			return;
 		}
-		errorManager.removeAllMessagesFromResource(project);
+		WorkbenchReporter.removeAllMessages(project, new String[]{this.getClass().getName()}, null);
+
 		if(!SeamPreferences.shouldValidateSettings(project)) {
 			return;
 		}
-		errorManager.displaySubtask(VALIDATING_PROJECT, new String[]{project.getName()});
+
+		IMessage problemMessage = new ProblemMessage(SeamValidationMessages.VALIDATING_PROJECT, IMessage.NORMAL_SEVERITY, new String[]{project.getName()});
+		reporter.displaySubtask(this, problemMessage);
 
 		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(project);
 		String parentProject = pref.get(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, null);
 		if(parentProject!=null) {
 			// EJB or Test project
-			validateProjectName(project, parentProject, false, INVALID_PARENT_PROJECT);
+			validateProjectName(project, parentProject, false, SeamValidationMessages.INVALID_PARENT_PROJECT);
 		} else {
 			// War project
 			String settingVersion = pref.get(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_0);
 			String seamRuntimeName = pref.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, null);
 			if(seamRuntimeName!=null && seamRuntimeName.length()>0 && (SeamRuntimeManager.getInstance().findRuntimeByName(seamRuntimeName) == null)) {
 				// Mark unknown runtime
-				errorManager.addError(INVALID_SEAM_RUNTIME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{seamRuntimeName!=null?seamRuntimeName:"", project.getName()}, project);
+				errorManager.addError(SeamValidationMessages.INVALID_SEAM_RUNTIME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{seamRuntimeName!=null?seamRuntimeName:"", project.getName()}, project);
 			}
 
 			if(ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(pref.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, null))) {
-				validateProjectName(project, pref.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, null), true, INVALID_EJB_PROJECT);
+				validateProjectName(project, pref.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, null), true, SeamValidationMessages.INVALID_EJB_PROJECT);
 			}
 			String viewFolder = pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
 			if(!isFolderPathValid(viewFolder, true)) {
 				// Mark unknown View folder
-				errorManager.addError(INVALID_WEBFOLDER, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{viewFolder!=null?viewFolder:"", project.getName()}, project);
+				errorManager.addError(SeamValidationMessages.INVALID_WEBFOLDER, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{viewFolder!=null?viewFolder:"", project.getName()}, project);
 			}
 			validateSorceFolder(project, pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null),
 					pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, null),
-					INVALID_MODEL_SRC,
-					INVALID_MODEL_PACKAGE_NAME);
+					SeamValidationMessages.INVALID_MODEL_SRC,
+					SeamValidationMessages.INVALID_MODEL_PACKAGE_NAME);
 
 			validateSorceFolder(project, pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, null),
 					pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, null),
-					INVALID_ACTION_SRC,
-					INVALID_ACTION_PACKAGE_NAME);
+					SeamValidationMessages.INVALID_ACTION_SRC,
+					SeamValidationMessages.INVALID_ACTION_PACKAGE_NAME);
 
 			String createTestString = pref.get(ISeamFacetDataModelProperties.TEST_CREATING, null);
 			if(settingVersion.equals(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_0) || 
 					"true".equals(createTestString)) {
-				validateProjectName(project, pref.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, null), true, INVALID_TEST_PROJECT);
+				validateProjectName(project, pref.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, null), true, SeamValidationMessages.INVALID_TEST_PROJECT);
 				validateSorceFolder(project, pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, null),
 						pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, null),
-						INVALID_TEST_SRC,
-						INVALID_TEST_PACKAGE_NAME);
+						SeamValidationMessages.INVALID_TEST_SRC,
+						SeamValidationMessages.INVALID_TEST_PACKAGE_NAME);
 			}
 //			String connectionProfile = pref.get(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, null);
 //			if(!isConnectionProfileValid(connectionProfile, true)) {

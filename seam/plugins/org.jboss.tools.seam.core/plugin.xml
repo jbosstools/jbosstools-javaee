@@ -351,65 +351,13 @@
 
    <extension
         point="org.eclipse.wst.validation.validator"
-		id="SeamValidator"
-		name="Seam Validator">
-		<validator>
-			<projectNature id="org.jboss.tools.seam.core.seamnature" />
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.java"/>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.xml"/>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.xhtml"/>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.jsp">
-			</filter>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.jspf">
-			</filter>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.jsf">
-			</filter>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.jsv">
-			</filter>
-			<filter
-				objectClass="org.eclipse.core.resources.IFile"
-				nameFilter="*.jtpl">
-			</filter>
-         	<contentTypeBinding contentTypeId="org.eclipse.jst.jsp.core.jspsource"/>
-         	<contentTypeBinding contentTypeId="org.eclipse.jst.jsp.core.jspfragmentsource"/>
-         	<contentTypeBinding contentTypeId="org.eclipse.jst.jsp.core.tagsource"/>
-			<markerId
-               markerIdValue="seamProblem">
-         	</markerId>
-			<helper 
-				class="org.jboss.tools.seam.internal.core.validation.SeamContextValidationHelper">
-			</helper>
-			<run
-         		class="org.jboss.tools.seam.internal.core.validation.SeamValidatorManager"
-         		incremental="true"
-         		fullBuild="true"
-         	/>
-		</validator>
-	</extension>
-
-   <extension
-        point="org.eclipse.wst.validation.validator"
 		id="SeamProjectPropertyValidator"
 		name="Seam Project Property Validator">
 		<validator>
 			<filter objectClass="org.eclipse.core.resources.IFolder" nameFilter="*"/>
 			<filter objectClass="org.eclipse.core.resources.IProject" nameFilter="*"/>
 			<filter objectClass="org.eclipse.core.resources.IFile" nameFilter="org.jboss.tools.seam.core.prefs"/>
-			<helper	class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper"/>
+			<helper	class="org.eclipse.wst.validation.internal.operations.WorkbenchContext"/>
 			<markerId markerIdValue="seamProjectProblem"/>
 			<run
          		class="org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator"
@@ -418,17 +366,6 @@
          	/>
 		</validator>
 	</extension>
-
-   <extension
-         id="seamProblem"
-         name="Seam Problem"
-         point="org.eclipse.core.resources.markers">
-		<super type="org.eclipse.wst.validation.problemmarker"/>
-		<attribute name="kind"/>
-      	<persistent
-            value="true">
-      	</persistent>
-   </extension>
 
    <extension
          id="seamProjectProblem"
@@ -452,7 +389,7 @@
 				</and>
 			</enablement>
 			<filter objectClass="org.eclipse.core.resources.IFile" nameFilter="application.xml"/>
-			<helper	class="org.jboss.tools.seam.internal.core.validation.SeamValidationHelper"/>
+			<helper	class="org.eclipse.wst.validation.internal.operations.WorkbenchContext"/>
 			<markerId markerIdValue="seamEarProjectProblem"/>
 			<run
          		class="org.jboss.tools.seam.internal.core.validation.SeamEarProjectValidator"
@@ -569,4 +506,18 @@
          point="org.jboss.tools.common.el.core.elProjectSet">
          <project-set id="seam.searcher" projectset-class="org.jboss.tools.seam.internal.core.refactoring.ELProjectSet" />
    </extension>
+
+   <extension
+         point="org.jboss.tools.jst.web.kb.validator">
+         <validator
+               class="org.jboss.tools.seam.internal.core.validation.SeamCoreValidator"
+               id="org.jboss.tools.seam.core.CoreValidator">
+         </validator>
+         <validator
+               class="org.jboss.tools.seam.internal.core.validation.SeamELValidator"
+               id="org.jboss.tools.seam.core.ELValidator"
+               extends="org.jboss.tools.jsf.ELValidator">
+         </validator>
+   </extension>
+
 </plugin>
