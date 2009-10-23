@@ -758,7 +758,7 @@
 
        <para>As a new JSF 2.0 specification has been released, support of new features is now implemented in the <property>Visual Page Editor</property>.
        	The JSF 2.0 tags like <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal>&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal>
-       	are supported in the editor as well as the resource handling from the expression language. (See the 
+       	are supported in the editor as well as the composite components and the resource handling from the expression language. (See the <ulink url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">following link</ulink> on how to use composite components and 
        	<ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog post</ulink> on how to handle the resources form the EL).
        </para>
     	
