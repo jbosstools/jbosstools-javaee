@@ -631,6 +631,20 @@
             </mediaobject>
         </figure>
     </section>
+    
+    <section id="JSFValidator">
+        <?dbhtml filename="JSFValidator.html"?>
+        <title>JSF Validator</title>
+        <para>Select <property>JBoss Tools > Web > JSF > Validator</property> page to configure the validator behavior. On this page you can change the severity level for different jsf problems which are controlled by validator.</para>
+        <figure>
+            <title>JSF Validator</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_14a.png" />
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
 
     <section id="JSFFlowDiagram">
         <?dbhtml filename="JSFFlowDiagram.html"?>
