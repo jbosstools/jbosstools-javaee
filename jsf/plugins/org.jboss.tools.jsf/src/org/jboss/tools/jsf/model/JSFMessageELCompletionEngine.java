@@ -22,7 +22,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
-import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -156,8 +155,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			&& ((ELPropertyInvocation)expr).getName() == null;
 		boolean isArgument = expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION;
 
-		ELResolutionImpl resolution = new ELResolutionImpl();
-		resolution.setOperand(expr);
+		ELResolutionImpl resolution = new ELResolutionImpl(expr);
 		ELInvocationExpression left = expr;
 
 		List<Variable> resolvedVariables = new ArrayList<Variable>();
