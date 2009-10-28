@@ -40,7 +40,7 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 		if(parentElement instanceof IWorkspaceRoot) {
 			IWorkspaceRoot root = (IWorkspaceRoot)parentElement;
 			IProject[] ps = root.getProjects();
-			List<ISeamProject> children = new ArrayList<ISeamProject>();
+			List<IProject> children = new ArrayList<IProject>();
 			for (int i = 0; i < ps.length; i++) {
 				if(!isGoodProject(ps[i])) continue;
 				ISeamProject p = SeamCorePlugin.getSeamProject(ps[i], false);
@@ -49,10 +49,17 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 						processed.add(p);
 						p.addSeamProjectListener(this);
 					}
-					children.add(p);
+					children.add(p.getProject());
 				}
 			}
-			return children.toArray(new ISeamProject[0]);
+			return children.toArray(new IProject[0]);
+		} else if(parentElement instanceof IProject) {
+			ISeamProject p = SeamCorePlugin.getSeamProject((IProject)parentElement, false);
+			if(p != null) {
+				return super.getChildren(p);
+			} else {
+				return new Object[0];
+			}
 		} else {
 			return super.getChildren(parentElement);
 		}
