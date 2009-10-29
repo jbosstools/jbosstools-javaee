@@ -58,11 +58,29 @@
             </imageobject>
         </mediaobject>
     </figure>
-    <para>By default the Palette is represented in Web Development Perspective with five groups. If
-        you can&apos;t see it, select <emphasis>
-            <property>Window &gt; Show View Other... &gt; JBoss Tools Web &gt; JBoss
-                Tools Palette</property>
-        </emphasis> from the menu bar.</para>
+    <para> By default <property>JBoss Tools Palette</property> is not displayed. If you want to use it select
+        <emphasis><property>Window &gt; Show View Other... &gt; JBoss Tools Web &gt; JBoss Tools
+            Palette</property></emphasis> from the menu bar. </para>
+    <para>The standard <property>Eclipse Palette</property> is displayed by default in both Web Development and Seam
+        perspectives. Now, the standard <property>Eclipse Palette</property> is featured with all <property>JBoss Tools Palette</property>
+        options and capabilities. </para>
+    <para>To open the standard <property>Eclipse Palette</property> navigate to <emphasis><property>Window-&gt;Show
+        View-&gt;Others-&gt;General-&gt;Palette</property></emphasis>. </para>
+    <para>The differences between the two palettes are as follows:</para>
+    <itemizedlist>
+        <listitem>
+            <para>The standard <property>Eclipse Palette</property> is blank by default; the content of the palette
+                is available only if Visual Page Editor is open and active, while JBoss Tools
+                Palette always contains a predefined set of components.</para>
+        </listitem>
+        <listitem>
+            <para>The Expanded/Collapsed state of components in the standard Eclipse Palette is
+                not global as in JBoss Tools Palette: the state is associated with an instance
+                of Visual Page Editor. It means that the state can be different for various
+                files, and each new file opened in Visual Page Editor will have the default
+                state of Palette with all components collapsed. </para>
+        </listitem>
+    </itemizedlist>
 
     <section id="PaletteOptions">
         <?dbhtml filename="PaletteOptions.html"?>
