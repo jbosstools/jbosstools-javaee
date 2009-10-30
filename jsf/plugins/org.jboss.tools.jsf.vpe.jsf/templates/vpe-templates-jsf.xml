@@ -929,6 +929,12 @@
 		<vpe:template children="yes" modify="no"/>
 		</vpe:if>	
 	</vpe:tag>
+	
+	<vpe:tag name="composite:attribute" case-sensitive="yes">
+		<vpe:if test="tld_version('min=2.0')">
+		<vpe:template children="no" modify="no" class="org.jboss.tools.jsf.vpe.jsf.template.JSF2CompositeAttributeTemplate" />
+		</vpe:if>	
+	</vpe:tag>
 
 	<vpe:tag name="composite:actionSource" case-sensitive="yes">
 		<vpe:if test="tld_version('min=2.0')">

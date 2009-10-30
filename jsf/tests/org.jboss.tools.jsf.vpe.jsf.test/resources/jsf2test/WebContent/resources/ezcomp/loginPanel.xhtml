@@ -11,11 +11,14 @@
 <body>
 <composite:interface>
 	<composite:actionSource name="loginEvent" />
+	<composite:attribute name ="login" default="login"/>
+	<composite:attribute name="username" default = "User Name"/>
+	<composite:attribute name="password"/>
 </composite:interface>
 <composite:implementation>
-	<p>Username: <h:inputText id="usernameInput" /></p>
-	<p>Password: <h:inputSecret id="passwordInput" /></p>
-	<p><h:commandButton id="loginEvent" value="login" /></p>
+	<p><h:outputText value="#{cc.attrs.username}" /> <h:inputText id="usernameInput" /></p>
+	<p><h:outputText value="#{cc.attrs.password}" /> <h:inputSecret id="passwordInput" /></p>
+	<p><h:commandButton value="#{cc.attrs.login}" id="loginEvent"/></p>
 </composite:implementation>
 </body>
 </html>

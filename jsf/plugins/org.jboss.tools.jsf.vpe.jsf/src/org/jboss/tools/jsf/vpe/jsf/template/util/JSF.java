@@ -62,5 +62,10 @@ public class JSF {
 	public static final String ATTR_TITLE = "title"; //$NON-NLS-1$
 
 	public static final String ATTR_LANG = "lang"; //$NON-NLS-1$
-
+	
+	public static final String ATTR_NAME = "name"; //$NON-NLS-1$
+	
+	public static final String ATTR_DEFAULT = "default"; //$NON-NLS-1$
+	
+	public static final String CUSTOM_COMPONENT_ATTR_PREFIX="cc.attrs."; //$NON-NLS-1$
 }
