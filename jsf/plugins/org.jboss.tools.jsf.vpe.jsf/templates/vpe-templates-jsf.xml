@@ -455,6 +455,10 @@
 	<vpe:tag name="h:selectManyListbox" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes"
 			class="org.jboss.tools.jsf.vpe.jsf.template.JsfSelectManyListbox">
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
@@ -498,6 +502,10 @@
 					<vpe:container-child tag-name="selectItems" />
 				</vpe:drop>
 			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
 			<vpe:textFormatting use-default-formats="yes">
 			</vpe:textFormatting>
 		</vpe:template>
