@@ -39,13 +39,11 @@
 						</SPAN>
 					</TH>
 					<TH CLASS="dr-table-subheadercell rich-table-subheadercell">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TH>
 				</TR>
 				<TR CLASS="dr-table-subheader rich-table-subheader">
 					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 						SCOP="col">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 						SCOP="col">
@@ -61,10 +59,8 @@
 					</TD>
 					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 						SCOP="col">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD CLASS="dr-table-subheadercell rich-table-subheadercell">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 				</TR>
 			</THEAD>
@@ -73,26 +69,21 @@
 					<TD
 						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
 						SCOP="col">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD
 						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
 						SCOP="col">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD
 						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
 						SCOP="col">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD
 						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter"
 						SCOP="col">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 					<TD
 						CLASS="dr-table-subfootercell rich-table-subfootercell dr-table-subfooter rich-table-subfooter">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 				</TR>
 			</TFOOT>
@@ -134,7 +125,6 @@
 					<TD WIDTH="17px" ALIGN="right">
 						<DIV STYLE="overflow: scroll; width: 17px; height: 100%;">
 						</DIV>
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
 					</TD>
 				</TR>
 			</TBODY>

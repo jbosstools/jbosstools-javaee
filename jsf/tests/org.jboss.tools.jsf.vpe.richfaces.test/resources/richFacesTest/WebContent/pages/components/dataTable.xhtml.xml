@@ -28,9 +28,7 @@
 			</THEAD>
 			<TFOOT>
 				<TR CLASS="dr-table-footer rich-table-footer">
-					<TD CLASS="dr-table-footercell rich-table-footercell">
-						<BR _MOZ_DIRTY="" TYPE="_moz" />
-					</TD>
+					<TD CLASS="dr-table-footercell rich-table-footercell"></TD>
 					<TD CLASS="dr-table-footercell rich-table-footercell">
 						<SPAN> footer1</SPAN>
 					</TD>
