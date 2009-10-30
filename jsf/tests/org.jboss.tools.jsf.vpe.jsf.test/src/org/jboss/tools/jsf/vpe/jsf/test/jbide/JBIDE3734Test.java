@@ -48,7 +48,7 @@ public class JBIDE3734Test extends VpeTest {
         nsIDOMElement body = vpeController.getVisualBuilder().getContentArea();
 
         assertEquals("bold", body.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$
-        assertEquals("background-color: black;", body.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$
+        assertEquals("border: 2px solid red; background-color: black;", body.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$
 
 		if(getException()!=null) {
 			throw getException();

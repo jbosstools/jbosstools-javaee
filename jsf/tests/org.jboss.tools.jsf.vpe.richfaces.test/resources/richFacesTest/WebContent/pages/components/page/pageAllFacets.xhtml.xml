@@ -1,7 +1,7 @@
 <tests>
 	<test id="id1">
 
-		<DIV STYLE="background-color: white;" CLASS="rich-page someClass">
+		<DIV STYLE="border: 2px solid blue; background-color: white;" CLASS="rich-page someClass">
 			<DIV CLASS="rich-page-header">
 				<DIV CLASS="rich-page-header-content">
 					<SPAN STYLE="font-size: 2em;">
