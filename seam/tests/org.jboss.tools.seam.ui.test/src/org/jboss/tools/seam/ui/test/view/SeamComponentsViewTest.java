@@ -23,6 +23,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -44,6 +45,7 @@ import org.jboss.tools.seam.ui.SeamPerspectiveFactory;
 import org.jboss.tools.seam.ui.views.actions.SeamViewLayoutActionGroup.SeamContributionItem;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
@@ -66,6 +68,9 @@ public class SeamComponentsViewTest extends TestCase {
 			fail("Cannot load perspective '" + SeamPerspectiveFactory.PERSPECTIVE_ID + "'");
 		}
 		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("TestComponentView");
+		if(project==null) {
+			project = ResourcesUtils.createEclipseProject(Platform.getBundle("org.jboss.tools.seam.ui.test"), "/projects/TestComponentView");
+		}
 		assertNotNull("",project);
 		this.project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		componentsFile = project.getFile(new Path("WebContent/WEB-INF/components.xml"));
@@ -103,8 +108,8 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		refreshProject(project);
 
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
-		
 		seamPackage = findSeamPackage(tree, "myPackage");
 		assertTrue("Seam model is not updated, expected package 'myPackage'" +
 				" is not found in tree",seamPackage!=null);
@@ -148,7 +153,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "myPackage");
@@ -171,7 +176,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		JobUtils.waitForIdle();
@@ -209,7 +214,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "myNewPackage");
@@ -240,7 +245,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "demo");
@@ -277,7 +282,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "demo");
@@ -299,7 +304,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "demo");
@@ -335,7 +340,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		refreshProject(project);
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		seamPackage = findSeamPackage(tree, "beatles");
@@ -373,7 +378,7 @@ public class SeamComponentsViewTest extends TestCase {
 			System.out.println(object);
 		}
 		Tree tree = navigator.getCommonViewer().getTree();
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
@@ -406,7 +411,7 @@ public class SeamComponentsViewTest extends TestCase {
 		Object[] expanded = navigator.getCommonViewer().getExpandedElements();
 	
 		Tree tree = navigator.getCommonViewer().getTree();
-		
+		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
 		ISeamPackage seamPackage = findSeamPackage(tree, "package1");
