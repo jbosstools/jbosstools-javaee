@@ -10,6 +10,11 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test;
 
+import java.io.File;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.vpe.ui.test.ComponentContentTest;
 
 /**
@@ -53,4 +58,13 @@ public class Jsf20ComponentContentTest extends ComponentContentTest {
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		if(!ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME).isAccessible()) {
+			ResourcesUtils.importProjectIntoWorkspace((JsfTestPlugin.getPluginResourcePath()
+					+ File.separator+JsfAllTests.IMPORT_JSF_20_PROJECT_NAME),JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		}
+	}
+
 }
