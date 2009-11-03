@@ -126,9 +126,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 		List<TextProposal> completions = new ArrayList<TextProposal>();
 
 		ELResolutionImpl status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, bundles); //$NON-NLS-1$
-		if (status.isResolved()) {
-			completions.addAll(status.getProposals());
-		}
+		completions.addAll(status.getProposals());
 
 		return completions;
 	}
