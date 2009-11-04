@@ -208,6 +208,9 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	private boolean enabled = true;
 
 	private boolean shouldFileBeValidated(IFile file) {
+		if(!file.isAccessible()) {
+			return false;
+		}
 		IProject project = file.getProject();
 		if(currentProject==null || !project.equals(currentProject)) {
 			enabled = isEnabled(project);	
