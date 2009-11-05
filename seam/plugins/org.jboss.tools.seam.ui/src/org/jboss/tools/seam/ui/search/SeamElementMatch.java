@@ -12,10 +12,12 @@
 package org.jboss.tools.seam.ui.search;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaSourceReference;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
  * Seam Element match contains an information on the match found during the Seam Search Action
@@ -42,7 +44,19 @@ public class SeamElementMatch extends Match {
 	 */
 	public SeamElementMatch(ISeamJavaSourceReference element) {
 		super(element, 0, 0);
-		fCreationTimeStamp= element.getSourceMember().getResource().getModificationStamp();
+		if (element != null && element.getSourceMember() != null && element.getSourceMember().getResource() != null) {
+			fCreationTimeStamp= element.getSourceMember().getResource().getModificationStamp();
+		} else
+			try {
+				if (element != null && element.getSourceMember().getUnderlyingResource() != null) {
+					fCreationTimeStamp = element.getSourceMember().getUnderlyingResource().getModificationStamp();
+				} else {
+					fCreationTimeStamp = 0;
+				}
+			} catch (JavaModelException e) {
+				fCreationTimeStamp = 0;
+				SeamGuiPlugin.getDefault().logError(e);
+			}
 	}
 
 	/**
