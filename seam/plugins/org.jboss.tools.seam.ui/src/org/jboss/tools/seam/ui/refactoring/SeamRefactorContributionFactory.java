@@ -78,6 +78,7 @@ import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.ui.SeamUIUtil;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 import org.jboss.tools.seam.ui.wizard.RenameSeamContextVariableWizard;
 import org.w3c.dom.Node;
@@ -423,6 +424,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		} catch (final InterruptedException irex) {
 			// operation was canceled
 		}
+		SeamUIUtil.waiteForBuild();
+		SeamUIUtil.refreshSeamComponentView();
 	}
 	
 	public static void invokeRenameSeamContextVariableWizard(String oldName, Shell activeShell) {
@@ -438,6 +441,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		} catch (final InterruptedException irex) {
 			// operation was canceled
 		}
+		SeamUIUtil.waiteForBuild();
+		SeamUIUtil.refreshSeamComponentView();
 	}
 	
 	class RenameSeamComponentAction extends Action{
