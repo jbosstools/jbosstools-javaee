@@ -424,8 +424,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		} catch (final InterruptedException irex) {
 			// operation was canceled
 		}
-		SeamUIUtil.waiteForBuild();
-		SeamUIUtil.refreshSeamComponentView();
+		//SeamUIUtil.waiteForBuild();
+		//SeamUIUtil.refreshSeamComponentView();
 	}
 	
 	public static void invokeRenameSeamContextVariableWizard(String oldName, Shell activeShell) {
@@ -441,8 +441,8 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		} catch (final InterruptedException irex) {
 			// operation was canceled
 		}
-		SeamUIUtil.waiteForBuild();
-		SeamUIUtil.refreshSeamComponentView();
+		//SeamUIUtil.waiteForBuild();
+		//SeamUIUtil.refreshSeamComponentView();
 	}
 	
 	class RenameSeamComponentAction extends Action{
