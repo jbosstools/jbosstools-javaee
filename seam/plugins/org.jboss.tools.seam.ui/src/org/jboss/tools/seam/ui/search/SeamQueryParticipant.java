@@ -10,17 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.search;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.internal.core.search.JavaSearchScope;
-import org.eclipse.jdt.ui.search.ElementQuerySpecification;
 import org.eclipse.jdt.ui.search.IMatchPresentation;
 import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
@@ -55,7 +48,8 @@ public class SeamQueryParticipant implements IQueryParticipant {
 	public void search(ISearchRequestor requestor, QuerySpecification querySpecification, IProgressMonitor monitor) throws CoreException {
 		
 		//indexIfNeeded();
-		
+		// >>> Fix for JBIDE-5093: If the querySpecification is an ElementQuerySpecification  then we don't need to perform a search here
+		/*
 		// do search based on the particular Java query
 		if(querySpecification instanceof ElementQuerySpecification) {
 			// element search (eg. from global find references in Java file)
@@ -79,7 +73,9 @@ public class SeamQueryParticipant implements IQueryParticipant {
 			query.setParentRequestor(requestor);
 
 			query.run(monitor);
-		} else if(querySpecification instanceof PatternQuerySpecification) {
+		} else */
+		// Fix for JBIDE-5093 <<<
+		if(querySpecification instanceof PatternQuerySpecification) {
 			// pattern search (eg. from Java search page)
 			PatternQuerySpecification patternQuery = (PatternQuerySpecification)querySpecification;
 			String pattern = patternQuery.getPattern();
