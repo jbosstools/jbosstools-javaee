@@ -474,4 +474,11 @@
          </validator>
    </extension>
 
+	<extension point="org.eclipse.core.runtime.adapters">
+	  <factory 
+	         class="org.jboss.tools.jsf.model.pv.JSFProjectsRootAdapterFactory" 
+	         adaptableType="org.jboss.tools.jsf.model.pv.JSFProjectsRoot">	            
+	    <adapter type="org.eclipse.core.resources.IProject"/>
+	  </factory>
+	</extension>
 </plugin>
