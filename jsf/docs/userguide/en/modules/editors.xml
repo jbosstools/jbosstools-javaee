@@ -1727,8 +1727,8 @@ two elements with equal id has been used, but should be used only one -->
         		
         		<para>You can find useful one more functionality provided by VPE. At the bottom of the
         			<property>Visual/Source view</property> there is a <property>Selection Tag
-        				Bar</property>. It allows to see tags tree for a current component selected in
-        			Visual or Source mode and allows to select tags back and forward.</para>
+        				Bar</property>. It's updated automatically allowing to see tags tree for a current component selected in
+        			Visual or Source mode, also it allows to select tags back and forward.</para>
         		
         		<figure>
         			<title>Selection Tag Bar</title>
