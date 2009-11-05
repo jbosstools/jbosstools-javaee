@@ -223,11 +223,14 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 				if(o == null) {
 					((StructuredViewer)viewer).refresh();
 				} else {
-					((StructuredViewer)viewer).refresh(o);
+					((StructuredViewer)viewer).refresh(getTreeObject(o));
 				}
 			}
 		});
-		
+	}
+
+	protected Object getTreeObject(Object source) {
+		return source;
 	}
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {

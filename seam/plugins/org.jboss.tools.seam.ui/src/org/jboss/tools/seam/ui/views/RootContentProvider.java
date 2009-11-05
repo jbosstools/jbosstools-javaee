@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jface.viewers.Viewer;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -67,11 +68,22 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
-		if(element instanceof ISeamProject) {
+		if(element instanceof ISeamProject || element instanceof IProject) {
 			return root;
 		} else {
-			return super.getParent(element);
+			Object o = super.getParent(element);
+			if(o instanceof ISeamProject) {
+				return ((ISeamProject)o).getProject();
+			}
+			return o;
 		}
+	}
+
+	protected Object getTreeObject(Object source) {
+		if(source instanceof ISeamProject) {
+			return ((ISeamProject)source).getProject();
+		}
+		return source;
 	}
 
 	@Override
