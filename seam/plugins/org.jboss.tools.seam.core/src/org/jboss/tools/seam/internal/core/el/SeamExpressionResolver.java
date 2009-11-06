@@ -36,6 +36,7 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.Type;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeMemberInfo;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -45,7 +46,6 @@ import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
@@ -137,10 +137,10 @@ public class SeamExpressionResolver {
 			}
 		}
 		if (member == null && variable instanceof IBijectedAttribute) {
-			member = ((ISeamJavaSourceReference)variable).getSourceMember();
+			member = ((IJavaSourceReference)variable).getSourceMember();
 		}
-		if (member == null && variable instanceof ISeamJavaSourceReference) {
-			member = ((ISeamJavaSourceReference)variable).getSourceMember();
+		if (member == null && variable instanceof IJavaSourceReference) {
+			member = ((IJavaSourceReference)variable).getSourceMember();
 		}
 		if (member == null && variable instanceof ISeamXmlFactory) {
 			ISeamXmlFactory factory = (ISeamXmlFactory)variable;
@@ -216,8 +216,8 @@ public class SeamExpressionResolver {
 		 */
 		@Override
 		public IJavaElement getJavaElement() {
-			if(messages instanceof ISeamJavaSourceReference) {
-				return ((ISeamJavaSourceReference)messages).getSourceMember();
+			if(messages instanceof IJavaSourceReference) {
+				return ((IJavaSourceReference)messages).getSourceMember();
 			} else if(messages instanceof ISeamComponent) {
 				ISeamComponent c = (ISeamComponent)messages;
 				ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
@@ -304,10 +304,10 @@ public class SeamExpressionResolver {
 					break;
 				}
 			}
-			member = TypeInfoCollector.createMemberInfo(((ISeamJavaSourceReference)variable).getSourceMember(), isDataModel);
+			member = TypeInfoCollector.createMemberInfo(((IJavaSourceReference)variable).getSourceMember(), isDataModel);
 		}
-		if (member == null && variable instanceof ISeamJavaSourceReference) {
-			member = TypeInfoCollector.createMemberInfo(((ISeamJavaSourceReference)variable).getSourceMember());
+		if (member == null && variable instanceof IJavaSourceReference) {
+			member = TypeInfoCollector.createMemberInfo(((IJavaSourceReference)variable).getSourceMember());
 		}
 		if (member == null && variable instanceof ISeamXmlFactory) {
 			ISeamXmlFactory factory = (ISeamXmlFactory)variable;

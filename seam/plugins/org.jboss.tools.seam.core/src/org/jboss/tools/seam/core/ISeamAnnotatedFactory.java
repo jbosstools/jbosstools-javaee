@@ -10,11 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.common.java.IJavaSourceReference;
+
 /**
  * Represents seam factory method which was declared by @Factory
  * @author Alexey Kazakov
  */
-public interface ISeamAnnotatedFactory extends ISeamFactory, ISeamJavaSourceReference {
+public interface ISeamAnnotatedFactory extends ISeamFactory, IJavaSourceReference {
 	
 	boolean isAutoCreate();
 

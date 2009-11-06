@@ -49,9 +49,10 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
-import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -59,7 +60,6 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
@@ -524,7 +524,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	}
 }
 
-class StringVariable implements ISeamContextVariable, ISeamJavaSourceReference {
+class StringVariable implements ISeamContextVariable, IJavaSourceReference {
 	IMember member;
 	public StringVariable(IMember member) {
 		this.member = member;

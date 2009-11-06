@@ -45,10 +45,8 @@ import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.search.internal.ui.SearchMessages;
 import org.eclipse.search.internal.ui.text.EditorOpener;
 import org.eclipse.search.internal.ui.text.FileLabelProvider;
-import org.eclipse.search.internal.ui.text.FileSearchQuery;
 import org.eclipse.search.internal.ui.text.IFileSearchContentProvider;
 import org.eclipse.search.internal.ui.text.NewTextSearchActionGroup;
-
 import org.eclipse.search.ui.IContextMenuConstants;
 import org.eclipse.search.ui.ISearchResultViewPart;
 import org.eclipse.search.ui.NewSearchUI;
@@ -72,8 +70,8 @@ import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.IShowInTargetList;
 import org.eclipse.ui.part.ResourceTransfer;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.IOpenableElement;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 
 /**
  * Seam Search Result page
@@ -200,8 +198,8 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 	 * @see org.eclipse.search.ui.text.AbstractTextSearchViewPage#showMatch(org.eclipse.search.ui.text.Match, int, int, boolean)
 	 */
 	protected void showMatch(Match match, int offset, int length, boolean activate) throws PartInitException {
-		if (match.getElement() instanceof ISeamJavaSourceReference) {
-			IJavaElement javaElement = ((ISeamJavaSourceReference)match.getElement()).getSourceMember();
+		if (match.getElement() instanceof IJavaSourceReference) {
+			IJavaElement javaElement = ((IJavaSourceReference)match.getElement()).getSourceMember();
 			try {
 				IEditorPart part = JavaUI.openInEditor(javaElement);
 				if (part != null) {

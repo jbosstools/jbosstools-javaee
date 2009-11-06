@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.search.core.text.TextSearchRequestor;
 import org.eclipse.search.ui.text.Match;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamDeclaration;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 
 /**
  * Seam Search Requestor
@@ -36,7 +36,7 @@ public class SeamSearchRequestor extends TextSearchRequestor implements ISearchR
 	 * @throws CoreException implementors can throw a {@link CoreException} if accessing the resource fails or another
 	 * problem prevented the processing of the search match.
 	 */
-	public boolean acceptSeamDeclarationSourceReferenceMatch(ISeamJavaSourceReference reference) throws CoreException {
+	public boolean acceptSeamDeclarationSourceReferenceMatch(IJavaSourceReference reference) throws CoreException {
 		return true;
 	}
 

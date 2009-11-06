@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -8,26 +8,15 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.seam.core;
+package org.jboss.tools.cdi.core;
 
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.seam.core.event.ISeamValue;
 
 /**
- * A property of Seam Component defined in component.xml or seam.properties files
+ * Represents an injection point.
+ * 
+ * @author Alexey Kazakov
  */
-public interface ISeamProperty extends ISeamDeclaration, ITextSourceReference {
+public interface IInjectionPoint extends ICDIElement, ITextSourceReference {
 
-	/**
-	 * @return value of this property
-	 */
-	public ISeamValue getValue();
-
-	/**
-	 * Sets value of this property
-	 * @param value
-	 */
-	public void setValue(ISeamValue value);
-
-	public ISeamProperty clone() throws CloneNotSupportedException;
 }

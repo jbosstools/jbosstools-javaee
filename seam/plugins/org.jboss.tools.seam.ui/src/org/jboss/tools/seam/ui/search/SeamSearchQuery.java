@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.ui.search;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
@@ -33,8 +32,8 @@ import org.eclipse.search.ui.ISearchResult;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamDeclaration;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -136,7 +135,7 @@ public class SeamSearchQuery implements ISearchQuery {
 			}
 			return buf.toString();
 		}
-		public boolean acceptSeamDeclarationSourceReferenceMatch(ISeamJavaSourceReference element) throws CoreException {
+		public boolean acceptSeamDeclarationSourceReferenceMatch(IJavaSourceReference element) throws CoreException {
 			fCachedMatches.add(new SeamElementMatch(element));
 			return true;
 		}

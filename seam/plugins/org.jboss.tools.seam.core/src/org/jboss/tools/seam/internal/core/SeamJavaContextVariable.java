@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
@@ -29,11 +30,10 @@ import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 
-public abstract class SeamJavaContextVariable extends AbstractContextVariable implements ISeamJavaSourceReference {
+public abstract class SeamJavaContextVariable extends AbstractContextVariable implements IJavaSourceReference {
 	protected IMember javaSource = null;
 	
 	public SeamJavaContextVariable() {}

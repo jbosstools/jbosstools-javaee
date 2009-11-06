@@ -10,11 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.common.java.IJavaSourceReference;
+
 /**
  * Represents @Role of seam component.
  * @author Alexey Kazakov
  */
-public interface IRole extends ISeamJavaSourceReference, ISeamContextVariable {
+public interface IRole extends IJavaSourceReference, ISeamContextVariable {
 
 	public IRole clone() throws CloneNotSupportedException;
 

@@ -12,11 +12,13 @@ package org.jboss.tools.seam.core;
 
 import java.util.Set;
 
+import org.jboss.tools.common.java.IJavaSourceReference;
+
 /**
  * Represents java class of seam component. 
  * @author Alexey Kazakov
  */
-public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration, ISeamJavaSourceReference {
+public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration, IJavaSourceReference {
 
 	public static final int DEFAULT_PRECEDENCE = SeamComponentPrecedenceType.APPLICATION;
 

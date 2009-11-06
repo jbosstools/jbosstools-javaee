@@ -16,8 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.project.ext.event.Change;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;

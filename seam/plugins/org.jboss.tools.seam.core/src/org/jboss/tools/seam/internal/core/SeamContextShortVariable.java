@@ -1,6 +1,6 @@
 package org.jboss.tools.seam.internal.core;
 
-import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ScopeType;

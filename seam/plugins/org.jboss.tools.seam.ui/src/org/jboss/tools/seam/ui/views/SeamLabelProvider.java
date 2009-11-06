@@ -26,13 +26,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 import org.eclipse.ui.navigator.IExtensionStateModel;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
@@ -122,8 +122,8 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 		} else if (element instanceof ISeamFactory) {
 			ISeamFactory f = (ISeamFactory)element;
 			return f.getName() + " - " + f.getSourcePath();
-		} else if(element instanceof ISeamJavaSourceReference) {
-			ISeamJavaSourceReference d = (ISeamJavaSourceReference)element;
+		} else if(element instanceof IJavaSourceReference) {
+			IJavaSourceReference d = (IJavaSourceReference)element;
 			IMember m = d.getSourceMember();
 			IType type = (m instanceof IType) ? (IType)m : m.getTypeRoot().findPrimaryType();
 			if(type.isBinary()) { 

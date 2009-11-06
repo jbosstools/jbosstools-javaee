@@ -10,11 +10,13 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
+import org.jboss.tools.common.java.IJavaSourceReference;
+
 /**
  * Base interface of bijected attribute of seam component.
  * @author Alexey Kazakov
  */
-public interface IBijectedAttribute extends ISeamContextVariable, ISeamJavaSourceReference {
+public interface IBijectedAttribute extends ISeamContextVariable, IJavaSourceReference {
 
 	/**
 	 * @return type of attribute

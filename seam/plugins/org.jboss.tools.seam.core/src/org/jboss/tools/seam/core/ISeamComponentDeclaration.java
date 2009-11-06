@@ -10,7 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core;
 
-import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * Represents declaration of seam component.

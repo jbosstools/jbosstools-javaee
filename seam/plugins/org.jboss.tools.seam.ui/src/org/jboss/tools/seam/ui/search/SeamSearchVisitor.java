@@ -96,12 +96,12 @@ import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.parser.ELParser;
-import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
-import org.jboss.tools.common.model.project.ext.ITextSourceReference;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IOpenableElement;
@@ -110,7 +110,6 @@ import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamDeclaration;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -832,8 +831,8 @@ public class SeamSearchVisitor {
 						SeamComponent comp = (SeamComponent)variable;
 						Set<ISeamComponentDeclaration> declarations = comp.getAllDeclarations();
 						for (ISeamComponentDeclaration decl : declarations) {
-							if (decl instanceof ISeamJavaSourceReference) {
-								ISeamJavaSourceReference sourceRef = (ISeamJavaSourceReference)decl;
+							if (decl instanceof IJavaSourceReference) {
+								IJavaSourceReference sourceRef = (IJavaSourceReference)decl;
 								IResource resource = sourceRef.getSourceMember().getResource();
 								IJavaElement sourceMember = sourceRef.getSourceMember();
 								String name = sourceRef.getSourceMember().getElementName();

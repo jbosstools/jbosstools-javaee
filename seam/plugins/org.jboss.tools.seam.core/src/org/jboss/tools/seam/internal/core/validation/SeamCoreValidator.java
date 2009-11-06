@@ -34,9 +34,10 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.project.ext.ITextSourceReference;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
@@ -55,7 +56,6 @@ import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
@@ -677,7 +677,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		return location;
 	}
 
-	private ITextSourceReference getNameLocation(ISeamJavaSourceReference source) {
+	private ITextSourceReference getNameLocation(IJavaSourceReference source) {
 		int length = 0;
 		int offset = 0;
 		try {

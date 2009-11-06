@@ -14,9 +14,9 @@ package org.jboss.tools.seam.ui.search;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.search.ui.text.Match;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
@@ -42,7 +42,7 @@ public class SeamElementMatch extends Match {
 	 * 
 	 * @param element
 	 */
-	public SeamElementMatch(ISeamJavaSourceReference element) {
+	public SeamElementMatch(IJavaSourceReference element) {
 		super(element, 0, 0);
 		if (element != null && element.getSourceMember() != null && element.getSourceMember().getResource() != null) {
 			fCreationTimeStamp= element.getSourceMember().getResource().getModificationStamp();
@@ -84,8 +84,8 @@ public class SeamElementMatch extends Match {
 	 * @return
 	 */
 	public IFile getFile() {
-		if (getElement() instanceof ISeamJavaSourceReference) {
-			return (IFile) ((ISeamJavaSourceReference)getElement()).getSourceMember().getResource(); 
+		if (getElement() instanceof IJavaSourceReference) {
+			return (IFile) ((IJavaSourceReference)getElement()).getSourceMember().getResource(); 
 		} else if (getElement() instanceof ISeamDeclaration) {
 			return (IFile) ((ISeamDeclaration)getElement()).getResource(); 
 		} else if (getElement() instanceof IFile) {

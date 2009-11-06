@@ -20,9 +20,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.search.internal.ui.text.FileLabelProvider;
 import org.eclipse.search.ui.text.AbstractTextSearchViewPage;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
-import org.jboss.tools.seam.core.ISeamJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.views.SeamLabelProvider;
@@ -57,7 +57,7 @@ public class SeamSearchViewLabelProvider extends LabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof ISeamContextVariable ||
-				element instanceof ISeamJavaSourceReference) {
+				element instanceof IJavaSourceReference) {
 			return fSeamLabelProvider.getImage(element);
 		}
 		if (element instanceof ISeamElement) {
@@ -85,7 +85,7 @@ public class SeamSearchViewLabelProvider extends LabelProvider {
 	@Override
 	public String getText(Object element) {
 		if (element instanceof ISeamContextVariable ||
-				element instanceof ISeamJavaSourceReference) {
+				element instanceof IJavaSourceReference) {
 			return fSeamLabelProvider.getText(element);
 		}
 		if (element instanceof ISeamElement) {
