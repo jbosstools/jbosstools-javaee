@@ -39,7 +39,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.navigator.CommonNavigator;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -100,15 +100,24 @@ public class SeamComponentsViewTest extends TestCase {
 			fail("Cannot find test data file 'WebContent/WEB-INF/components.1'");
 		}
 
-
+		InputStream is = null;
 		try {
-			componentsFile.setContents(file1.getContents(), 
-										true, false, new NullProgressMonitor());
+			is = file1.getContents();
+			componentsFile.setContents(is, 
+					true, false, new NullProgressMonitor());
 		} catch (CoreException e) {
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'WebContent/WEB-INF/components.1'", e);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		
+
 		refreshProject(project);
 
 		navigator.getCommonViewer().refresh(true);
@@ -149,7 +158,7 @@ public class SeamComponentsViewTest extends TestCase {
 		}		
 
 		try{
-			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			FileUtil.copyContent(file1, componentsFile, true, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'WebContent/WEB-INF/components.2'", ex);
@@ -172,7 +181,7 @@ public class SeamComponentsViewTest extends TestCase {
 			fail("Cannot find test data file 'WebContent/WEB-INF/components.3'");
 		}		
 		try{
-			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			FileUtil.copyContent(file1, componentsFile, true, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Error in changing 'components.xml' content to " +
 					"'WebContent/WEB-INF/components.3'", ex);
@@ -209,22 +218,32 @@ public class SeamComponentsViewTest extends TestCase {
 		
 		IFile file1 = project.getFile("WebContent/WEB-INF/components.4");
 		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
-		
-		try{
-			componentsFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
-		}catch(Exception ex){
-			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.4", ex);
+
+		InputStream is = null;
+		try {
+			is = file1.getContents();
+			componentsFile.setContents(is, 
+					true, false, new NullProgressMonitor());
+		} catch (CoreException e) {
+			JUnitUtils.fail("Cannot read file WebContent/WEB-INF/components.4", e);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		
+
 		refreshProject(project);
 		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
-		
+
 		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" found!",seamPackage==null);
-
 	}
-	
+
 	public void testAddComponentInClass(){
 	
 		classFile = project.getFile("JavaSource/demo/Person.java");
@@ -289,7 +308,7 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find Person.2 in test project", file1 != null && file1.exists());
 		
 		try{
-			classFile.setContents(file1.getContents(), true, false, new NullProgressMonitor());
+			FileUtil.copyContent(file1, classFile, true, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.2", ex);
 		}
@@ -311,7 +330,7 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Cannot find Person.3 in test project", file2 != null && file2.exists());
 		
 		try{
-			classFile.setContents(file2.getContents(), true, false, new NullProgressMonitor());
+			FileUtil.copyContent(file2, classFile, true, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.3", ex);
 		}

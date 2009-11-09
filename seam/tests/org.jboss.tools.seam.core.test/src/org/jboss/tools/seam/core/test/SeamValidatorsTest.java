@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -21,6 +22,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
@@ -123,10 +125,20 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	private void copyContentsFile(IFile originalFile, IFile newContentFile){
-		try{
-			originalFile.setContents(newContentFile.getContents(), true, false, null);
-		}catch(Exception e){
+		InputStream is = null;
+		try {
+			is = newContentFile.getContents();
+			originalFile.setContents(is, true, false, null);
+		} catch (CoreException e) {
 			JUnitUtils.fail("Error during changing '"+originalFile.getFullPath()+"' content to '"+newContentFile.getFullPath()+"'", e);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -212,7 +224,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		IFile newContentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.3");
 		IFile targetFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java");
-		targetFile.setContents(newContentFile.getContents(), true, false, null);
+		FileUtil.copyContent(newContentFile, targetFile, true, false, null);
 		refreshProject(project);
 	}
 	
@@ -400,14 +412,26 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	 */
 	protected void assertMarkerIsCreated(String targetPath, String newContentPath,
 			String pattern, int line) throws CoreException {
-		
+
 		IFile newContentFile = project.getFile(newContentPath);
 		IFile targetFile = project.getFile(targetPath);
-		targetFile.setContents(newContentFile.getContents(), true, false, null);
+		InputStream is = null;
+		try {
+			is = newContentFile.getContents();
+			targetFile.setContents(is, true, false, null);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		refreshProject(project);
 		assertMarkerIsCreated(targetFile, MARKER_TYPE, pattern, line);
 	}
-	
+
 	/**
 	 * @param statefulComponentFile
 	 * @param string

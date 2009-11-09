@@ -32,6 +32,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
@@ -290,7 +291,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		IFile newComponent = project.getFile("src/action/demo/TestComponentForVarAttributes.1");
 		IFile emptyComponent = project.getFile("src/action/demo/TestComponentForVarAttributes.2");
 		try{
-			component.setContents(newComponent.getContents(), true, false, new NullProgressMonitor());
+			FileUtil.copyContent(newComponent, component, true, false, new NullProgressMonitor());
 		}catch(Exception e){
 			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.1'", e);
 		}
@@ -300,7 +301,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		checkProposals("/WebContent/varAttributes.xhtml", 640, new String[]{"item.name"}, false);
 
 		try{
-			component.setContents(emptyComponent.getContents(), true, false, new NullProgressMonitor());
+			FileUtil.copyContent(emptyComponent, component, true, false, new NullProgressMonitor());
 		}catch(Exception e){
 			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.2'", e);
 		}

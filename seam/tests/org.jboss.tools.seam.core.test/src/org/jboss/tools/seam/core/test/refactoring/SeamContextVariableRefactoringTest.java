@@ -68,7 +68,7 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
-			content = FileUtil.readStream(file.getContents());
+			content = FileUtil.readStream(file);
 			for(TestTextChange change : changeStructure.getTextChanges()){
 				assertEquals("There is unexpected change in resource - "+file.getName(),change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
 			}
