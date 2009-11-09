@@ -9,13 +9,10 @@
 	<title>A simple example of EZComp</title>
 </h:head>
 <h:body>
-	<h:form id="jbide5015">
-	<h:outputStylesheet />
-		<jar:echo echo="Hello, Custom Jsf 2.O Components" />
-		<ez:loginPanel id="loginPanel" login="LOgin">
-			<f:actionListener for="loginEvent"
-				binding="#{bean.loginEventListener}" />
-		</ez:loginPanel>
+	<h:form id="jbide4812">
+		#{resource['css/stylesBlue.css']}
+		<h:outputText value="#{resource['css/stylesBlue.css']}" />
+		#{resource['css/stylesBlue.css1']}
 	</h:form>
 </h:body>
 </html>

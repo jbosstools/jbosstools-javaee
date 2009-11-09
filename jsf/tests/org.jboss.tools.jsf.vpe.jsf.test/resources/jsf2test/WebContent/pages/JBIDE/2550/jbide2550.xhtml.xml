@@ -20,29 +20,29 @@ resource['ch/img/1.0/img.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test/WebContent/resources/ch/img/1.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/jsf2test/WebContent/resources/ch/img/1.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
 <TR>
 <TD>
-<LABEL>
+<LABEL >
 resource  [ "ch/img/2.0:img.gif"  ]
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test/WebContent/resources/ch/img/2.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/jsf2test/WebContent/resources/ch/img/2.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
 <TR>
 <TD>
-<LABEL>
+<LABEL >
 resource['ru/img/1.0/img.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test/WebContent/resources/ru/img/1.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/ve/unresolved_image.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
@@ -53,7 +53,7 @@ resource['ru/img/2.0/img.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test/WebContent/resources/ru/img/2.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/jsf2test/WebContent/resources/ru/img/2.0/img.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
@@ -64,7 +64,7 @@ resource['ru/img/1.0:img.gif/1.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test/WebContent/resources/ru/img/1.0/img.gif/1.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/jsf2test/WebContent/resources/ru/img/1.0/img.gif/1.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
@@ -75,7 +75,7 @@ resource['ru/img/1.0/img.gif/2.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test/WebContent/resources/ru/img/1.0/img.gif/2.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/jsf2test/WebContent/resources/ru/img/1.0/img.gif/2.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
@@ -97,7 +97,7 @@ resource['us/img/img.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*jsf2test.WebContent.resources.us.img.img.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/jsf2test/WebContent/resources/us/img/img.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>
@@ -108,7 +108,7 @@ This Image Packed into jar file : resource['jarimg:img.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*metadata..plugins.org.jboss.tools.vpe.img.*.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*/org.jboss.tools.vpe/img.*.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>

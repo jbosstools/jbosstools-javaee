@@ -1,0 +1,12 @@
+<tests>
+	<test id="jbide4812">
+	<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
+<SPAN CLASS="vpe-text">
+/resources/css/stylesBlue.css
+</SPAN>
+<SPAN CLASS="vpe-text">
+/resources/css/stylesBlue.css
+</SPAN>
+</FORM>
+	</test>
+</tests>

@@ -34,6 +34,10 @@ public class JBIDE2550Test extends ComponentContentTest {
 	public void testForJSF2CustomTags() throws Throwable{
 		performContentTest("JBIDE/5015/login.xhtml"); //$NON-NLS-1$
 	}
+	//test for https://jira.jboss.org/jira/browse/JBIDE-4812
+	public void testForJSFResourcesForAnyAttribute() throws Throwable{
+		performContentTest("JBIDE/4812/resourceProcessingTestPage.xhtml"); //$NON-NLS-1$
+	}
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
