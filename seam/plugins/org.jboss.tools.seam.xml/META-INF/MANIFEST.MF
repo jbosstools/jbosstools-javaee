@@ -9,7 +9,8 @@ Bundle-Localization: plugin
 Export-Package: org.jboss.tools.seam.xml,
  org.jboss.tools.seam.xml.components.model,
  org.jboss.tools.seam.xml.components.model.handlers,
- org.jboss.tools.seam.xml.components.model.constraint
+ org.jboss.tools.seam.xml.components.model.constraint,
+ org.jboss.tools.seam.xml.ds.model
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ui.ide,
  org.eclipse.ui.views,

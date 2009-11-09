@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="Seam" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="FileVersions">
+   <PAIR name="DSConnectionFactories1.5" value="FileDSConnectionFactories"/>
+   <PAIR name="DSConnectionFactories5.0dtd" value="FileDSConnectionFactories50d"/>
+   <PAIR name="DSDatasources1.5" value="FileDSDatasources"/>
+   <PAIR name="DSDatasources5.0dtd" value="FileDSDatasources50d"/>
+  </MAPPING>
+  <MAPPING name="Recognizers">
+   <PAIR name="xml$42" value="org.jboss.tools.seam.xml.ds.model.DSEntityRecognizer"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action">
+   <GROUP name="new">
+    <GROUP name="ds">
+     <ICON name="case" path="images/jsf/transition.gif"/>
+     <ICON name="faces-config" path="images/jsf/new-jsf-config.gif"/>
+    </GROUP>
+   </GROUP>
+  </GROUP>
+  <GROUP name="main">
+   <GROUP name="ds">
+    <ICON name="action-mappings" path="images/struts/action_mappings.gif"/>
+    <ICON name="application" path="images/jsf/web_application.gif"/>
+    <ICON name="attribute" path="images/jsf/attribute.gif"/>
+    <ICON name="bean" path="images/struts/form_bean.gif"/>
+    <ICON name="component" path="images/struts/plug_in.gif"/>
+    <ICON name="components" path="images/struts/plug_in_folder.gif"/>
+    <ICON name="converter" path="images/jsf/convertor.gif"/>
+    <ICON name="data-source" path="images/struts/data_source.gif"/>
+    <ICON name="event" path="images/webxml/listener.gif"/>
+    <ICON name="exception" path="images/struts/exception.gif"/>
+    <ICON name="extension" path="images/palette/any-tag.gif"/>
+    <ICON name="facet" path="images/jsf/facet.gif"/>
+    <ICON name="factory" path="images/jsf/factory.gif"/>
+    <ICON name="file" path="images/jsf/jsf-config.gif"/>
+    <ICON name="property" path="images/java/property.gif"/>
+    <ICON name="rule" path="images/struts/action.gif"/>
+    <ICON name="rules" path="images/struts/action_mappings.gif"/>
+    <ICON name="validator" path="images/struts/pro/validator.gif"/>
+    <ICON name="validators" path="images/struts/pro/validator_global.gif"/>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;saveDefault=false"
+  XMLSUBPATH="loader-repository" name="DSLoaderRepository">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.event" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="loader-repository" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="Loader Repository" name="name" visibility="false"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="entity=AnyElement" WizardClassName="%Default%"
+     displayName="Add Tag..." kind="action" name="CreateTag">
+     <EntityData EntityName="AnyElementNew">
+      <AttributeData AttributeName="tag"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="mbean" name="DSMBean">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.event" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="mbean" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="Loader Repository" name="_id_"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="entity=AnyElement" WizardClassName="%Default%"
+     displayName="Add Tag..." kind="action" name="CreateTag">
+     <EntityData EntityName="AnyElementNew">
+      <AttributeData AttributeName="tag"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="connection-factories" name="FileDSConnectionFactories">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
+   <XChildEntity name="DSMBean"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="connection-factories" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="-//JBoss//DTD JBOSS JCA Config 1.5//EN"
+    name="publicId" visibility="false"/>
+   <XModelAttribute
+    default="http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd"
+    name="systemId" visibility="false"/>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="connection-factories" name="FileDSConnectionFactories50d">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
+   <XChildEntity name="DSMBean"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="connection-factories" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="-//JBoss//DTD JBOSS JCA Config 5.0//EN"
+    name="publicId" visibility="false"/>
+   <XModelAttribute
+    default="http://www.jboss.org/j2ee/dtd/jboss-ds_5_0.dtd"
+    name="systemId" visibility="false"/>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="datasources" name="FileDSDatasources">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
+   <XChildEntity name="DSMBean"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="datasources" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="-//JBoss//DTD JBOSS JCA Config 1.5//EN"
+    name="publicId" visibility="false"/>
+   <XModelAttribute
+    default="http://www.jboss.org/j2ee/dtd/jboss-ds_1_5.dtd"
+    name="systemId" visibility="false"/>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="datasources" name="FileDSDatasources50d">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
+   <XChildEntity name="DSMBean"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="datasources" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="-//JBoss//DTD JBOSS JCA Config 5.0//EN"
+    name="publicId" visibility="false"/>
+   <XModelAttribute
+    default="http://www.jboss.org/j2ee/dtd/jboss-ds_5_0.dtd"
+    name="systemId" visibility="false"/>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileDSDatasources50d_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItem displayName="New" kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileDSDatasources_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItem displayName="New" kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FileDSDatasources"/>
+   <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSConnectionFactories"/>
+   <XChildEntity name="FileDSConnectionFactories50d"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.newattribute" displayName="File" group="1"
+     kind="list" name="CreateFiles">
+     <XActionItem displayName="Datasources" kind="list" name="DS">
+      <XActionItem HandlerClassName="%SpecialWizard%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="entity=FileDSDatasources;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=DSDatasources"
+       displayName="Datasources File..." kind="action" name="CreateFileDatasources">
+       <EntityData EntityName="NewFileWizard">
+        <AttributeData AttributeName="folder"/>
+        <AttributeData AttributeName="separator" Mandatory="no"/>
+        <AttributeData AttributeName="name"/>
+        <AttributeData AttributeName="version"/>
+       </EntityData>
+      </XActionItem>
+      <XActionItem HIDE="always" HandlerClassName="%WizardInvoker%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
+       displayName="Datasources File..." kind="action" name="CreateFileDatasourcesV"/>
+      <XActionItem HandlerClassName="%SpecialWizard%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="entity=FileDSConnectionFactories;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=DSConnectionFactories"
+       displayName="Connection Factories File..." kind="action" name="CreateFileConnectionFactories">
+       <EntityData EntityName="NewFileWizard">
+        <AttributeData AttributeName="folder"/>
+        <AttributeData AttributeName="separator" Mandatory="no"/>
+        <AttributeData AttributeName="name"/>
+        <AttributeData AttributeName="version"/>
+       </EntityData>
+      </XActionItem>
+      <XActionItem HIDE="always" HandlerClassName="%WizardInvoker%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
+       displayName="Connection Factories File..." kind="action" name="CreateFileConnectionFactoriesV"/>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSystemFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FileDSDatasources"/>
+   <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSConnectionFactories"/>
+   <XChildEntity name="FileDSConnectionFactories50d"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.newattribute" displayName="File" group="1"
+     kind="list" name="CreateFiles">
+     <XActionItem displayName="Datasources" kind="list" name="DS">
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="entity=FileDSDatasources;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=DSDatasources"
+       displayName="Datasources File..." kind="action" name="CreateFileDatasources">
+       <EntityData EntityName="NewFileWizard">
+        <AttributeData AttributeName="folder"/>
+        <AttributeData AttributeName="separator" Mandatory="no"/>
+        <AttributeData AttributeName="name"/>
+        <AttributeData AttributeName="version"/>
+       </EntityData>
+      </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
+       displayName="Datasources File..." kind="action" name="CreateFileDatasourcesV"/>
+      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="entity=FileDSConnectionFactories;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=DSConnectionFactories"
+       displayName="Connection Factories File..." kind="action" name="CreateFileConnectionFactories">
+       <EntityData EntityName="NewFileWizard">
+        <AttributeData AttributeName="folder"/>
+        <AttributeData AttributeName="separator" Mandatory="no"/>
+        <AttributeData AttributeName="name"/>
+        <AttributeData AttributeName="version"/>
+       </EntityData>
+      </XActionItem>
+      <XActionItem HandlerClassName="%WizardInvoker%"
+       ICON="action.new.seam.faces-config"
+       PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
+       displayName="Connection Factories File..." kind="action" name="CreateFileConnectionFactoriesV"/>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSystemJar">
+  <XChildrenEntities>
+   <XChildEntity name="FileDSDatasources"/>
+   <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSConnectionFactories"/>
+   <XChildEntity name="FileDSConnectionFactories50d"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="JarFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FileDSDatasources"/>
+   <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSConnectionFactories"/>
+   <XChildEntity name="FileDSConnectionFactories50d"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+</XModelEntityGroup>

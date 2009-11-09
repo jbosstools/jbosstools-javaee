@@ -30,6 +30,13 @@
       <keys path="help/keys-seam-lists.properties"/>
    </extension>
 
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/ds.meta"/>
+   </extension>
+   <extension point="org.jboss.tools.common.model.keys">
+      <keys path="help/keys-ds.properties"/>
+   </extension>
+
 
 	<extension point="org.jboss.tools.common.model.classes">
 		<xclass id="org.jboss.tools.seam.xml.components.model.FileSeamComponentsImpl"
@@ -375,6 +382,13 @@
 
 
       </catalogContribution>
+   </extension>
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.seam.xml.ds.model.DSEntityRecognizer"
+			class="org.jboss.tools.seam.xml.ds.model.DSEntityRecognizer"/>
+		<xclass id="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+			class="org.jboss.tools.seam.xml.ds.model.DSFileLoader"/>
    </extension>
 
 </plugin>
