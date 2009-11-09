@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -28,8 +29,10 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreferenceInitializer;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * This class is responsible for managing available SeamRuntime list.
@@ -141,6 +144,7 @@ public class SeamRuntimeManager {
 			runtime.setDefault(true);
 		}
 		runtimes.put(runtime.getName(), runtime);
+		updateProjectsForRuntime(runtime);
 		save();
 	}
 
@@ -190,6 +194,24 @@ public class SeamRuntimeManager {
 	 */
 	public void removeRuntime(SeamRuntime rt) {
 		runtimes.remove(rt.getName());
+		updateProjectsForRuntime(rt);
+	}
+
+	private void updateProjectsForRuntime(SeamRuntime rt) {
+		IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (int i = 0; i < ps.length; i++) {
+			ISeamProject sp = SeamCorePlugin.getSeamProject(ps[i], false);
+			if (sp != null && rt.getName().equals(sp.getRuntimeName())) {
+				IEclipsePreferences prefs = ((SeamProject)sp).getSeamPreferences();
+				prefs.remove(ISeamProject.RUNTIME_NAME);
+				prefs.put(ISeamProject.RUNTIME_NAME, rt.getName());
+				try {
+					prefs.flush();
+				} catch (BackingStoreException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
+				}
+			}
+		}
 	}
 
 	/**
@@ -335,6 +357,8 @@ public class SeamRuntimeManager {
 			return;
 		}
 		o.setName(newName);
+		runtimes.remove(oldName);
+		runtimes.put(newName, o);
 		onRuntimeNameChanged(oldName, newName);
 	}
 
