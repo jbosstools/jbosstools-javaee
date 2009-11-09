@@ -14,4 +14,9 @@ public interface DSConstants {
 	public String ENT_DATASOURCES_FILE_50_DTD = ENT_DATASOURCES_FILE + SUFF_50_DTD;
 	public String ENT_CONNECTION_FACTORIES_FILE_50_DTD = ENT_CONNECTION_FACTORIES_FILE + SUFF_50_DTD;
 
+	public String ATTR_TRACK_CONN = "track-connection-by-tx"; //$NON-NLS-1$
+	public String ATTR_TRANSACTION = "transaction"; //$NON-NLS-1$
+	public String ATTR_SECURITY_TYPE = "security-type"; //$NON-NLS-1$
+	public String ATTR_SECURITY_DOMAIN = "security-domain"; //$NON-NLS-1$
+
 }

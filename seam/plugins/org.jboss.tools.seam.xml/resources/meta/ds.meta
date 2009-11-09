@@ -10,6 +10,9 @@
    <PAIR name="DSDatasources1.5" value="FileDSDatasources"/>
    <PAIR name="DSDatasources5.0dtd" value="FileDSDatasources50d"/>
   </MAPPING>
+  <MAPPING name="Implementations">
+   <PAIR name="DS_Datasource" value="org.jboss.tools.seam.xml.ds.model.DatasourceImpl"/>
+  </MAPPING>
   <MAPPING name="Recognizers">
    <PAIR name="xml$42" value="org.jboss.tools.seam.xml.ds.model.DSEntityRecognizer"/>
   </MAPPING>
@@ -26,13 +29,11 @@
   <GROUP name="main">
    <GROUP name="ds">
     <ICON name="action-mappings" path="images/struts/action_mappings.gif"/>
-    <ICON name="application" path="images/jsf/web_application.gif"/>
     <ICON name="attribute" path="images/jsf/attribute.gif"/>
     <ICON name="bean" path="images/struts/form_bean.gif"/>
     <ICON name="component" path="images/struts/plug_in.gif"/>
-    <ICON name="components" path="images/struts/plug_in_folder.gif"/>
     <ICON name="converter" path="images/jsf/convertor.gif"/>
-    <ICON name="data-source" path="images/struts/data_source.gif"/>
+    <ICON name="datasource" path="images/struts/data_source.gif"/>
     <ICON name="event" path="images/webxml/listener.gif"/>
     <ICON name="exception" path="images/struts/exception.gif"/>
     <ICON name="extension" path="images/palette/any-tag.gif"/>
@@ -48,6 +49,258 @@
   </GROUP>
  </ICONS>
  <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="ha-local-tx-datasource" name="DSHALocalTXDatasource">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="ha local tx datasource"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="url-delimiter" xmlname="url-delimiter.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="driver-class" xmlname="driver-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="ha-local-tx-datasource" name="DSHALocalTXDatasource50">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="ha local tx datasource"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="url-delimiter" xmlname="url-delimiter.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="driver-class" xmlname="driver-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="ha-xa-datasource" name="DSHAXADatasource">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="ha xa datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced;save=always"
+    default="true" name="track-connection-by-tx" xmlname="track-connection-by-tx">
+    <Constraint loader="List">
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="xa-datasource-class" xmlname="xa-datasource-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="url-property" xmlname="url-property.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="url-delimiter" xmlname="url-delimiter.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="ha-xa-datasource" name="DSHAXADatasource50">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="ha xa datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced;save=always"
+    name="track-connection-by-tx" xmlname="track-connection-by-tx">
+    <Constraint loader="List">
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="xa-datasource-class" xmlname="xa-datasource-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="url-property" xmlname="url-property.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="url-delimiter" xmlname="url-delimiter.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData;saveDefault=false"
   XMLSUBPATH="loader-repository" name="DSLoaderRepository">
@@ -98,6 +351,120 @@
     <XActionItem HIDE="always" HandlerClassName="%Move%"
      ICON="action.move" displayName="Move" kind="action" name="Move"/>
    </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="local-tx-datasource" name="DSLocalTXDatasource">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="local tx datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="driver-class" xmlname="driver-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="local-tx-datasource" name="DSLocalTXDatasource50">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="local tx datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="driver-class" xmlname="driver-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -154,6 +521,450 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="no-tx-connection-factory" name="DSNoTXConnectionFactory">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.factory" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="no tx connection factory"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="no-tx-connection-factory" name="DSNoTXConnectionFactory50">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.factory" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="no tx connection factory"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="no-tx-datasource" name="DSNoTXDatasource">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="no tx datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="driver-class" xmlname="driver-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="no-tx-datasource" name="DSNoTXDatasource50">
+  <XChildrenEntities>
+   <XChildEntity name="ESBProperty"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.esb.bus" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="no tx datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="driver-class" xmlname="driver-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="tx-connection-factory" name="DSTXConnectionFactory">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.factory" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="tx connection factory" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced;save=always"
+    default="local-transaction" name="transaction" xmlname="transaction">
+    <Constraint loader="List">
+     <value name="local-transaction"/>
+     <value name="xa-transaction"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" default="false"
+    name="track-connection-by-tx" xmlname="track-connection-by-tx">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="tx-connection-factory" name="DSTXConnectionFactory50">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.factory" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="tx connection factory" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced;save=always"
+    default="local-transaction" name="transaction" xmlname="transaction">
+    <Constraint loader="List">
+     <value name="local-transaction"/>
+     <value name="xa-transaction"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" default="false"
+    name="track-connection-by-tx" xmlname="track-connection-by-tx">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="xa-datasource" name="DSXADatasource">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasources" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="xa datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" default="false"
+    name="track-connection-by-tx" xmlname="track-connection-by-tx">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="xa-datasource-class" xmlname="xa-datasource-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%DS_Datasource%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="xa-datasource" name="DSXADatasource50">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.datasource" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="xa datasource" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;id=true;save=always"
+    name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="use-java-context" xmlname="use-java-context.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" default="false"
+    name="track-connection-by-tx" xmlname="track-connection-by-tx">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="xa-datasource-class" xmlname="xa-datasource-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
+    <Constraint loader="List">
+     <value/>
+     <value name="application-managed-security"/>
+     <value name="security-domain"/>
+     <value name="security-domain-and-application"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
+   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
+   <XActionItemReference entity="ESBProperty" name="Properties"/>
+   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity
   ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
   ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
@@ -163,6 +974,8 @@
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
    <XChildEntity name="DSMBean"/>
+   <XChildEntity name="DSTXConnectionFactory"/>
+   <XChildEntity name="DSNoTXConnectionFactory"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -240,7 +1053,22 @@
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions"/>
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="TX Connection Factory..." kind="action" name="AddTXConnectionFactory">
+     <EntityData EntityName="DSTXConnectionFactory">
+      <AttributeData AttributeName="jndi-name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="No TX Connection Factory..." kind="action" name="AddNoTXConnectionFactory">
+     <EntityData EntityName="DSNoTXConnectionFactory">
+      <AttributeData AttributeName="jndi-name"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -277,6 +1105,8 @@
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
    <XChildEntity name="DSMBean"/>
+   <XChildEntity name="DSTXConnectionFactory50"/>
+   <XChildEntity name="DSNoTXConnectionFactory50"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -354,7 +1184,22 @@
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions"/>
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="TX Connection Factory..." kind="action" name="AddTXConnectionFactory">
+     <EntityData EntityName="DSTXConnectionFactory50">
+      <AttributeData AttributeName="jndi-name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="No TX Connection Factory..." kind="action" name="AddNoTXConnectionFactory">
+     <EntityData EntityName="DSNoTXConnectionFactory50">
+      <AttributeData AttributeName="jndi-name"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -382,6 +1227,38 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity name="FileDSConnectionFactories50d_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileDSConnectionFactories50d" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileDSConnectionFactories_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileDSConnectionFactories" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity
   ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
   ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
@@ -391,6 +1268,11 @@
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
    <XChildEntity name="DSMBean"/>
+   <XChildEntity name="DSLocalTXDatasource"/>
+   <XChildEntity name="DSNoTXDatasource"/>
+   <XChildEntity name="DSXADatasource"/>
+   <XChildEntity name="DSHALocalTXDatasource"/>
+   <XChildEntity name="DSHAXADatasource"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -468,7 +1350,54 @@
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions"/>
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Local TX Datasource..." kind="action" name="AddLocalTXDatasource">
+     <EntityData EntityName="DSLocalTXDatasource">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="driver-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="XA Datasource..." kind="action" name="AddXADatasource">
+     <EntityData EntityName="DSXADatasource">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="xa-datasource-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="No TX Datasource..." kind="action" name="AddNoDatasource">
+     <EntityData EntityName="DSNoTXDatasource">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="HA Local TX Datasource..." kind="action" name="AddHALocalTXDatasource">
+     <EntityData EntityName="DSHALocalTXDatasource">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="url-delimiter"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="HA XA Datasource..." kind="action" name="AddHAXADatasource">
+     <EntityData EntityName="DSHAXADatasource">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="xa-datasource-class"/>
+      <AttributeData AttributeName="url-property"/>
+      <AttributeData AttributeName="url-delimiter"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -505,6 +1434,11 @@
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
    <XChildEntity name="DSMBean"/>
+   <XChildEntity name="DSLocalTXDatasource50"/>
+   <XChildEntity name="DSNoTXDatasource50"/>
+   <XChildEntity name="DSXADatasource50"/>
+   <XChildEntity name="DSHALocalTXDatasource50"/>
+   <XChildEntity name="DSHAXADatasource50"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -582,7 +1516,54 @@
      ICON="action.save" displayName="Save" kind="action" name="Save"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="New" group="1"
-    kind="list" name="CreateActions"/>
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Local TX Datasource..." kind="action" name="AddLocalTXDatasource">
+     <EntityData EntityName="DSLocalTXDatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="XA Datasource..." kind="action" name="AddXADatasource">
+     <EntityData EntityName="DSXADatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="xa-datasource-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="No TX Datasource..." kind="action" name="AddNoDatasource">
+     <EntityData EntityName="DSNoTXDatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="HA Local TX Datasource..." kind="action" name="AddHALocalTXDatasource">
+     <EntityData EntityName="DSHALocalTXDatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="url-delimiter"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="HA XA Datasource..." kind="action" name="AddHAXADatasource">
+     <EntityData EntityName="DSHAXADatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="xa-datasource-class"/>
+      <AttributeData AttributeName="url-property"/>
+      <AttributeData AttributeName="url-delimiter"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -615,7 +1596,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" kind="list" name="CreateActions"/>
+   <XActionItemReference entity="FileDSDatasources50d" name="CreateActions"/>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HIDE="always" HandlerClassName="%Properties%"
      ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
@@ -631,7 +1612,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItem displayName="New" kind="list" name="CreateActions"/>
+   <XActionItemReference entity="FileDSDatasources" name="CreateActions"/>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HIDE="always" HandlerClassName="%Properties%"
      ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>

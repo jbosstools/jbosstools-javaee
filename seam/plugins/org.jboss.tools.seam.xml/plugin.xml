@@ -389,6 +389,8 @@
 			class="org.jboss.tools.seam.xml.ds.model.DSEntityRecognizer"/>
 		<xclass id="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
 			class="org.jboss.tools.seam.xml.ds.model.DSFileLoader"/>
+		<xclass id="org.jboss.tools.seam.xml.ds.model.DatasourceImpl"
+			class="org.jboss.tools.seam.xml.ds.model.DatasourceImpl"/>
    </extension>
 
 </plugin>
