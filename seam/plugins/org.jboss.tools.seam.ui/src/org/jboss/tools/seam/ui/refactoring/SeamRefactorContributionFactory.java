@@ -169,23 +169,16 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 				}else if(editor instanceof WebCompoundEditor)
 					sel = ((WebCompoundEditor)editor).getActiveEditor().getSite().getSelectionProvider().getSelection();
 			}
-			
+
 			if(sel instanceof TextSelection){
 				TextSelection selection = (TextSelection)sel;
-				
+
 				selectedText = selection.getText();
-				
-				fileContent = null;
-				try {
-					fileContent = FileUtil.readStream(editorFile.getContents());
-				} catch (CoreException e) {
-					SeamCorePlugin.getPluginLog().logError(e);
-					return;
-				}
-				
+
+				fileContent = EclipseResourceUtil.getFileContent(editorFile);
+
 				boolean status = false;
-				
-				
+
 				if(JAVA_EXT.equalsIgnoreCase(ext)){
 					// check - whether selected component's name or not
 //					if(checkNameAnnotation(selection)){
@@ -199,10 +192,10 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 					status = checkContextVariableInDOM(editorFile, fileContent, selection);
 				else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
 					status = checkContextVariableInProperties(editorFile, fileContent, selection);
-				
+
 				if(status){
 					mm.add(new RenameSeamContextVariableAction());
-					
+
 					if(!separatorIsAdded)
 						additions.addContributionItem(new Separator(), null);
 					additions.addContributionItem(mm, null);

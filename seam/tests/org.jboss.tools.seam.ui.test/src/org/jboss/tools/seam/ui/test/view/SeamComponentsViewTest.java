@@ -11,6 +11,8 @@
 ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.view;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
@@ -37,6 +39,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -238,10 +241,20 @@ public class SeamComponentsViewTest extends TestCase {
 		IFile file1 = project.getFile("JavaSource/demo/Person.1");
 		assertTrue("Cannot find Person.1 in test project", file1 != null && file1.exists());
 		
+		InputStream is = null;
 		try{
-			classFile.create(file1.getContents(), false, new NullProgressMonitor());
+			is = file1.getContents();
+			classFile.create(is, false, new NullProgressMonitor());
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot read file JavaSource/demo/Person.1", ex);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					// ignore
+				}
+			}
 		}
 		
 		refreshProject(project);
