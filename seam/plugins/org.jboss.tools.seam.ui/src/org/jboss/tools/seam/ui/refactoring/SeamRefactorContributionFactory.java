@@ -78,7 +78,6 @@ import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.SeamUIUtil;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 import org.jboss.tools.seam.ui.wizard.RenameSeamContextVariableWizard;
 import org.w3c.dom.Node;
@@ -175,7 +174,11 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 
 				selectedText = selection.getText();
 
-				fileContent = EclipseResourceUtil.getFileContent(editorFile);
+				try {
+					fileContent = FileUtil.readStream(editorFile);
+				} catch (CoreException e) {
+					SeamGuiPlugin.getDefault().logError(e);
+				}
 
 				boolean status = false;
 

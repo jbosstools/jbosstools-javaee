@@ -30,8 +30,8 @@ import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -218,7 +218,13 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		if(!isFileCorrect(file))
 			return;
 
-		String content = EclipseResourceUtil.getFileContent(file);
+		String content = null;
+		try {
+			content = FileUtil.readStream(file);
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
 		if(text.startsWith("<")){ //$NON-NLS-1$
 			int position = text.lastIndexOf("/>"); //$NON-NLS-1$
@@ -238,7 +244,13 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		if(!isFileCorrect(file))
 			return;
 
-		String content = EclipseResourceUtil.getFileContent(file);
+		String content = null;
+		try {
+			content = FileUtil.readStream(file);
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+
 		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
 		int openBracket = text.indexOf("("); //$NON-NLS-1$
 		int openQuote = text.indexOf("\""); //$NON-NLS-1$

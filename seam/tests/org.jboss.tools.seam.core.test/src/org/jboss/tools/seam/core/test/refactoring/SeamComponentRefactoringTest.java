@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -131,15 +130,17 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
-			String content = EclipseResourceUtil.getFileContent(file);
+			String content = null;
+			try {
+				content = FileUtil.readStream(file);
+			} catch (CoreException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			}
 			//System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
 			for(TestTextChange change : changeStructure.getTextChanges()){
 				assertEquals("There is unexpected change in resource - "+file.getName(),change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
 			}
 		}
 	}
-	
-	
-
-	
 }

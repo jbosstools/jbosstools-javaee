@@ -73,6 +73,7 @@ import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.project.JSFNature;
@@ -268,7 +269,13 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		removeAllMessagesFromResource(file);
 		displaySubtask(JSFValidationMessages.VALIDATING_EL_FILE, new String[]{file.getProject().getName(), file.getName()});
 		String ext = file.getFileExtension();
-		String content = EclipseResourceUtil.getFileContent(file);
+		String content = null;
+		try {
+			content = FileUtil.readStream(file);
+		} catch (CoreException e) {
+			JSFModelPlugin.getDefault().logError(e);
+		}
+
 		if(ext.equalsIgnoreCase(JAVA_EXT)) {
 			validateJava(file, content);
 		} else {

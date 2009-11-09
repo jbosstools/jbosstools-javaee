@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
@@ -26,14 +25,21 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		// Test before renaming
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
-			String content = EclipseResourceUtil.getFileContent(file);
+			String content = null;
+			try {
+				content = FileUtil.readStream(file);
+			} catch (CoreException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			}
+
 			for(TestTextChange change : changeStructure.getTextChanges()){
 				assertNotSame(change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
 			}
 		}
 
 		IFile sourceFile = seamProject.getProject().getFile(fileName);
-		
+
 		// Rename Seam Context Variable
 		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, variableName);
 		processor.setNewName(newName);
