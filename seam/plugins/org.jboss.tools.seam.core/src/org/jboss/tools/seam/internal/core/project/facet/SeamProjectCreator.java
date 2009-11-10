@@ -491,10 +491,23 @@ public class SeamProjectCreator {
 		} else {
 			IVirtualComponent component = ComponentCore.createComponent(seamWebProject);
 			IVirtualFolder rootFolder = component.getRootFolder();
-			IPath srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
 
-			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, srcRootFolder.append(ISeamFacetDataModelProperties.DEFAULT_MODEL_SRC_FOLDER_NAME).toString());
-			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, srcRootFolder.append(ISeamFacetDataModelProperties.DEFAULT_ACTION_SRC_FOLDER_NAME).toString());
+			IContainer sourceFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder(); //$NON-NLS-1$
+			IContainer parentFolder = sourceFolder.getParent();
+			IPath srcRootFolder = parentFolder.getFullPath();
+			IPath srcFolder = sourceFolder.getFullPath();
+
+			IPath model = srcRootFolder.append(ISeamFacetDataModelProperties.DEFAULT_MODEL_SRC_FOLDER_NAME);
+			IPath action = srcRootFolder.append(ISeamFacetDataModelProperties.DEFAULT_ACTION_SRC_FOLDER_NAME);
+			IResource modelFolder = parentFolder.findMember(ISeamFacetDataModelProperties.DEFAULT_MODEL_SRC_FOLDER_NAME);
+			IResource actionFolder = parentFolder.findMember(ISeamFacetDataModelProperties.DEFAULT_ACTION_SRC_FOLDER_NAME);
+			if(modelFolder==null || !modelFolder.exists() || actionFolder==null || !actionFolder.exists()) {
+				model = srcFolder;
+				action = srcFolder;
+			}
+
+			prefs.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, model.toString());
+			prefs.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, action.toString());
 		}
 
 		try {
