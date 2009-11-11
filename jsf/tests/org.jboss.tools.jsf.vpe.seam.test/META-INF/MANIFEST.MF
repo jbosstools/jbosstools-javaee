@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe.ui.test,
  org.jboss.tools.jst.jsp,
  org.jboss.tools.vpe.xulrunner,
- org.mozilla.xpcom
+ org.mozilla.xpcom;bundle-version="1.9.1"
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: vpe-seam-test.jar
 Export-Package: org.jboss.tools.jsf.vpe.seam.test

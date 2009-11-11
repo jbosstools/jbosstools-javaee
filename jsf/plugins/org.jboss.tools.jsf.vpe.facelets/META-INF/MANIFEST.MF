@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe,
  org.eclipse.core.resources,
  org.jboss.tools.jst.jsp,
- org.mozilla.xpcom,
+ org.mozilla.xpcom;bundle-version="1.9.1",
  org.eclipse.jface.text;bundle-version="3.5.0"
 Export-Package: org.jboss.tools.jsf.vpe.facelets,
     org.jboss.tools.jsf.vpe.facelets.template

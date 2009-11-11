@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.sse.ui,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.ui.ide,
- org.mozilla.xpcom,
+ org.mozilla.xpcom;bundle-version="1.9.1",
  org.eclipse.wst.sse.core,
  org.jboss.tools.vpe.xulrunner
 Bundle-ActivationPolicy: lazy
