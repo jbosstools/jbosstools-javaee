@@ -47,7 +47,7 @@
                     <property>Ctrl+Click</property>
                 </emphasis> on a reference to another file and the file will be opened.</para>
 
-            <para>OpenOn is available for the following files:</para>
+            <para>OpenOn is available for the following files and classes:</para>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -62,7 +62,11 @@
                 <listitem>
                     <para>Java files</para>
                 </listitem>
+                <listitem>
+                    <para>  <link linkend="cssclasses">CSS classes</link> </para>
+                </listitem>
             </itemizedlist>
+            
             <section id="XMLFiles232">
 
                 <title>XML Files</title>
@@ -162,8 +166,31 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-
             </section>
+            
+            <section id="cssclasses">
+                <title>CSS Classes</title>
+               <para>You can quickly navigate through CSS classes using OpenOn</para>
+                <figure>
+                    <title>OpenOn With CSS Class</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_38.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+                OpenOn is also implemented for css classes added by a complex link.
+                <figure>
+                    <title>OpenOn With CSS Class added by a complex link</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_39.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+              </section>
+                                    
         </section>
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
