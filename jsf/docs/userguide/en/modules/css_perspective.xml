@@ -9,6 +9,7 @@
         </keywordset>
     </chapterinfo>
     <title>CSS Editing Perspective</title>
+    <para>In this chapter we will discuss CSS Editing Perspective views, more information about style sheets can be found in <link linkend="pages_styling">Page Styling section</link> of Editor chapter</para>
     <para>The CSS Editing Perspective combines a set of views which allow you to see the structure of
         your css files,edit them and see the results.
         To use this perspective you need to choose <emphasis><property>Window >Open Perspective> CSS Editing </property></emphasis>

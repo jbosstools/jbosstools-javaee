@@ -1060,7 +1060,7 @@ two elements with equal id has been used, but should be used only one -->
             <para>Most web pages use the cascading style sheets (CSS) to control the way they look.
                 With <property>Visual Page Editor</property> you can easily stylise your pages. In
                 this section we are going to introduce you to a powerful mechanism that
-                    <property>VPE</property> provides for a complete control over pages styling. </para>
+                <property>VPE</property> provides for a complete control over pages styling. More helpful information on wok with CSS files can be found in  <link linkend="css_perspective">CSS Perspective chapter</link> </para>
 
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
