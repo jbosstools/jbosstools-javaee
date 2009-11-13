@@ -73,7 +73,8 @@ public class CreatePageSupport extends SpecialWizardSupport {
 			if(s.length > 0) {
 				setAttributeValue(getStepId(), "template", getDefaultTemplate(s));
 			}
-			String last = StrutsModelPlugin.getDefault().getPluginPreferences().getString(LAST_CREATE_FILE_PREFERENCE);
+			String last = StrutsModelPlugin.getDefault().getPreferenceStore().getString(LAST_CREATE_FILE_PREFERENCE);
+//			String last = StrutsModelPlugin.getDefault().getPluginPreferences().getString(LAST_CREATE_FILE_PREFERENCE);
 			if(last == null || last.length() == 0) {
 				last = "true";
 			} else if(!"true".equals(last)) {
@@ -240,7 +241,8 @@ public class CreatePageSupport extends SpecialWizardSupport {
     	if(!canCreateFile()) return;
 
 		String lastCreateFileValue = getAttributeValue(getStepId(), "create file");
-		StrutsModelPlugin.getDefault().getPluginPreferences().setDefault(LAST_CREATE_FILE_PREFERENCE, lastCreateFileValue);
+		StrutsModelPlugin.getDefault().getPreferenceStore().setDefault(LAST_CREATE_FILE_PREFERENCE, lastCreateFileValue);
+//		StrutsModelPlugin.getDefault().getPluginPreferences().setDefault(LAST_CREATE_FILE_PREFERENCE, lastCreateFileValue);
 		if(!"true".equals(lastCreateFileValue)) return;
 
 		File templateFile = null;
