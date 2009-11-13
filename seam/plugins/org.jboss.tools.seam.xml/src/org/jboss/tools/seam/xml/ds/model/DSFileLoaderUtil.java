@@ -53,7 +53,7 @@ public class DSFileLoaderUtil extends XModelObjectLoaderUtil implements DSConsta
     }
 
     public void saveAttribute(Element element, String xmlname, String value) {
-    	if(ATTR_TRACK_CONN.equals(xmlname)) {
+    	if(ATTR_TRACK_CONN.equals(xmlname) || ATTR_NO_TX_SEPARATE_POOLS.equals(xmlname)) {
     		XMLUtilities.createElement(element, xmlname);
     	} else if(ATTR_TRANSACTION.equals(xmlname)) {
     		if(value.length() > 0) XMLUtilities.createElement(element, value);
@@ -69,7 +69,7 @@ public class DSFileLoaderUtil extends XModelObjectLoaderUtil implements DSConsta
     }
 
     public String getAttribute(Element element, String xmlname, XAttribute attr) {
-    	if(ATTR_TRACK_CONN.equals(xmlname)) {
+    	if(ATTR_TRACK_CONN.equals(xmlname) || ATTR_NO_TX_SEPARATE_POOLS.equals(xmlname)) {
     		return (XMLUtilities.getUniqueChild(element, xmlname) != null) ? "true" : "false"; //$NON-NLS-1$ //$NON-NLS-2$
     	} else if(ATTR_TRANSACTION.equals(xmlname) || ATTR_SECURITY_TYPE.equals(xmlname)) {
     		String[] vs = ((XAttributeConstraintAList)attr.getConstraint()).getValues();

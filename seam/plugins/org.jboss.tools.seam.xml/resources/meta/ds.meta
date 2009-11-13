@@ -82,6 +82,20 @@
     name="driver-class" xmlname="driver-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="transaction-isolation" xmlname="transaction-isolation.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="TRANSACTION_READ_UNCOMMITTED"/>
+     <value name="TRANSACTION_READ_COMMITTED"/>
+     <value name="TRANSACTION_REPEATABLE_READ"/>
+     <value name="TRANSACTION_SERIALIZABLE"/>
+     <value name="TRANSACTION_NONE"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="user-name" xmlname="user-name.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="password" xmlname="password.#text"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -93,6 +107,22 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="min-pool-size" xmlname="min-pool-size.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="max-pool-size" xmlname="max-pool-size.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="blocking-timeout-millis" xmlname="blocking-timeout-millis.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="idle-timeout-minutes" xmlname="idle-timeout-minutes.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" default="false"
+    name="no-tx-separate-pools" xmlname="no-tx-separate-pools">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="metadata" xmlname="metadata.type-mapping.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="type-mapping" xmlname="type-mapping.#text"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -142,6 +172,10 @@
     name="driver-class" xmlname="driver-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -153,6 +187,13 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference
+    attributes="blocking-timeout-millis,idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="timeout"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -204,6 +245,10 @@
     name="xa-datasource-class" xmlname="xa-datasource-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="url-property" xmlname="url-property.#text"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
@@ -219,6 +264,15 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference
+    attributes="blocking-timeout-millis,idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -274,6 +328,10 @@
     name="url-property" xmlname="url-property.#text"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="url-delimiter" xmlname="url-delimiter.#text"/>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -285,6 +343,15 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference
+    attributes="blocking-timeout-millis,idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -380,10 +447,19 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="url-delimiter" xmlname="url-delimiter.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="url-selector-strategy-class-name" xmlname="url-selector-strategy-class-name.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="driver-class" xmlname="driver-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -395,6 +471,32 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="prefill" xmlname="prefill.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="use-fast-fail" xmlname="use-fast-fail.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -437,10 +539,17 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttributeReference
+    attributes="url-delimiter,url-selector-strategy-class-name"
+    entity="DSLocalTXDatasource" name="url"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="driver-class" xmlname="driver-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -452,6 +561,18 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -537,6 +658,9 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;id=true;save=always"
     name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="rar-name" xmlname="rar-name.#text"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="connection-definition" xmlname="connection-definition.#text"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -548,6 +672,16 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -580,6 +714,8 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;id=true;save=always"
     name="jndi-name" xmlname="jndi-name.#text"/>
+   <XModelAttributeReference attributes="rar-name,connection-definition"
+    entity="DSNoTXConnectionFactory" name="rar"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -591,6 +727,16 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -633,10 +779,15 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttributeReference
+    attributes="url-delimiter,url-selector-strategy-class-name"
+    entity="DSLocalTXDatasource" name="url"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="driver-class" xmlname="driver-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -648,6 +799,16 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -692,10 +853,15 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="connection-url" xmlname="connection-url.#text"/>
+   <XModelAttributeReference
+    attributes="url-delimiter,url-selector-strategy-class-name"
+    entity="DSLocalTXDatasource" name="url"/>
    <XModelAttribute PROPERTIES="category=general;save=always"
     name="driver-class" xmlname="driver-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -707,6 +873,16 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -754,6 +930,8 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="rar-name,connection-definition"
+    entity="DSNoTXConnectionFactory" name="rar"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -765,6 +943,18 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -812,6 +1002,8 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
+   <XModelAttributeReference attributes="rar-name,connection-definition"
+    entity="DSNoTXConnectionFactory" name="rar"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -823,6 +1015,18 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -845,7 +1049,7 @@
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.ds.datasources" type="main"/>
+    <ICON info="main.ds.datasource" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -875,6 +1079,14 @@
     name="xa-datasource-class" xmlname="xa-datasource-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="url-property" xmlname="url-property.#text"/>
+   <XModelAttributeReference
+    attributes="url-delimiter,url-selector-strategy-class-name"
+    entity="DSLocalTXDatasource" name="url"/>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -886,6 +1098,18 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
@@ -938,6 +1162,14 @@
     name="xa-datasource-class" xmlname="xa-datasource-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="url-property" xmlname="url-property.#text"/>
+   <XModelAttributeReference
+    attributes="url-delimiter,url-selector-strategy-class-name"
+    entity="DSLocalTXDatasource" name="url"/>
+   <XModelAttributeReference attributes="transaction-isolation"
+    entity="DSHALocalTXDatasource" name="transaction-isolation"/>
+   <XModelAttributeReference attributes="user-name,password"
+    entity="DSHALocalTXDatasource" name="user-name"/>
    <XModelAttribute PROPERTIES="category=advanced" name="security-type" xmlname="security-type">
     <Constraint loader="List">
      <value/>
@@ -949,6 +1181,18 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=advanced"
     name="security-domain" xmlname="security-domain"/>
+   <XModelAttributeReference attributes="min-pool-size,max-pool-size"
+    entity="DSHALocalTXDatasource" name="pool-size"/>
+   <XModelAttributeReference attributes="blocking-timeout-millis"
+    entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference attributes="idle-timeout-minutes"
+    entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference attributes="prefill,use-fast-fail"
+    entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference attributes="metadata,type-mapping"
+    entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>

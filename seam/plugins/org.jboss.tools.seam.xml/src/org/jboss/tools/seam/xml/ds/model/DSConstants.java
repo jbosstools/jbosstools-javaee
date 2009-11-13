@@ -18,5 +18,6 @@ public interface DSConstants {
 	public String ATTR_TRANSACTION = "transaction"; //$NON-NLS-1$
 	public String ATTR_SECURITY_TYPE = "security-type"; //$NON-NLS-1$
 	public String ATTR_SECURITY_DOMAIN = "security-domain"; //$NON-NLS-1$
+	public String ATTR_NO_TX_SEPARATE_POOLS = "no-tx-separate-pools"; //$NON-NLS-1$
 
 }
