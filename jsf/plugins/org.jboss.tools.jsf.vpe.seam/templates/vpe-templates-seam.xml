@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vpe:templates xmlns:vpe="http://org.jboss.org/tools/vpe/template"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <vpe:template-taglib uri="http://jboss.com/products/seam/taglib"
-        prefix="s" />
-        
-   	<vpe:tag name="s:button" case-sensitive="yes">
-		<!-- This is a very big if-statement. 
-		     Its goal is to add support of 'disabled property'
-		     DO NOT FORGET TO EDIT 'ELSE' PART IN FUTURE MODIFICATIONS -->
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<vpe:template-taglib uri="http://jboss.com/products/seam/taglib"
+		prefix="s" />
+	<vpe:template-taglib uri="http://jboss.com/products/seam/mail"
+		prefix="m" />
+
+	<vpe:tag name="s:button" case-sensitive="yes">
+		<!--
+			This is a very big if-statement. Its goal is to add support of
+			'disabled property' DO NOT FORGET TO EDIT 'ELSE' PART IN FUTURE
+			MODIFICATIONS
+		-->
 		<vpe:if test="(@disabled='true')">
 			<vpe:if test="not(attrpresent('image'))">
-					<vpe:template children="no" modify="no">
-						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
-							class="{@styleClass}" style="{@style}" 
-							title="{tagstring()}" dir="{@dir}"
-							disabled='disabled'/>
-						<vpe:resize>
-							<vpe:width width-attr="style.width" />
-							<vpe:height height-attr="style.height" />
-						</vpe:resize>
-						<vpe:dnd>
-							<vpe:drag start-enable="yes" />
-						</vpe:dnd>
-						<vpe:textFormatting use-default-formats="yes">
-						</vpe:textFormatting>
-					</vpe:template>
+				<vpe:template children="no" modify="no">
+					<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+						disabled='disabled' />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
 			</vpe:if>
 			<vpe:if test="attrpresent('image')">
 				<vpe:template children="no" modify="no">
-					<input type="image" src="{src(@image)}"
-						class="{@styleClass}" style="{@style}" title="{tagstring()}" 
-						disabled='disabled'/>
+					<input type="image" src="{src(@image)}" class="{@styleClass}"
+						style="{@style}" title="{tagstring()}" disabled='disabled' />
 					<vpe:resize>
 						<vpe:width width-attr="style.width" />
 						<vpe:height height-attr="style.height" />
@@ -41,179 +43,181 @@
 			</vpe:if>
 		</vpe:if>
 		<!--else-->
-			<vpe:if test="not(attrpresent('image'))">
-					<vpe:template children="no" modify="no">
-						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
-							class="{@styleClass}" style="{@style}" 
-							title="{tagstring()}" dir="{@dir}"/>
-						<vpe:resize>
-							<vpe:width width-attr="style.width" />
-							<vpe:height height-attr="style.height" />
-						</vpe:resize>
-						<vpe:dnd>
-							<vpe:drag start-enable="yes" />
-						</vpe:dnd>
-						<vpe:textFormatting use-default-formats="yes">
-						</vpe:textFormatting>
-					</vpe:template>
-			</vpe:if>
-			<vpe:if test="attrpresent('image')">
-				<vpe:template children="no" modify="no">
-					<input type="image" src="{src(@image)}"
-						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
-					<vpe:resize>
-						<vpe:width width-attr="style.width" />
-						<vpe:height height-attr="style.height" />
-					</vpe:resize>
-					<vpe:textFormatting use-default-formats="yes">
-					</vpe:textFormatting>
-				</vpe:template>
-			</vpe:if>
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:template children="no" modify="no">
+				<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+					class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+				</vpe:dnd>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}" class="{@styleClass}"
+					style="{@style}" title="{tagstring()}" />
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
+			</vpe:template>
+		</vpe:if>
 		<!--end-of-else-->
 	</vpe:tag>
 
-    <vpe:tag name="s:cache" case-sensitive="yes">
-            <vpe:template children="yes" modify="yes">
-                <span class="vpe-text"/>
-            </vpe:template>
-    </vpe:tag>
-    
-    <vpe:tag name="s:conversationId" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes" >
-        	<span class="vpe-text"/>
-        </vpe:template>
-    </vpe:tag>
-    
-    <vpe:tag name="s:conversationPropagation" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-    
-    <vpe:tag name="s:convertDateTime" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-    
-    <vpe:tag name="s:convertEntity" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-    
-    <vpe:tag name="s:convertEnum" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-    
-    <vpe:tag name="s:decorate" case-sensitive="yes">
-            <vpe:template children="yes" modify="yes"
-	               class="org.jboss.tools.jsf.vpe.seam.template.SeamDecorateTemplate">
-            </vpe:template>
-    </vpe:tag>
-    
-       <vpe:tag name="s:div" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes">
-            <div style="{@style}" class="{@styleClass}" />
-        </vpe:template>
-    </vpe:tag>
-        
-    <vpe:tag name="s:defaultAction" case-sensitive="yes">
-        <vpe:template children="no" modify="no"/>
-    </vpe:tag>
-    
-    <vpe:tag name="s:enumItem" case-sensitive="yes">
-        <vpe:if test="hasinparents('h:selectManyCheckbox')">
-            <vpe:template children="yes" modify="yes"
-                class="org.jboss.tools.jsf.vpe.seam.template.SeamCheckboxEnumItemTemplate">
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
-            <vpe:template children="yes" modify="yes"
-                class="org.jboss.tools.jsf.vpe.seam.template.SeamOptionEnumItemTemplate">
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('h:selectOneRadio')|hasinparents('x:selectOneRadio')">
-            <vpe:template children="yes" modify="yes" 
-                class="org.jboss.tools.jsf.vpe.seam.template.SeamRadioEnumItemTemplate">
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
-            <vpe:template children="no" modify="yes">
-                <span title="{tagstring()}">
-                    <input type="checkbox" />
-                    <vpe:value expr="{jsfvalue(@itemLabel)}" />
-                </span>
-                <vpe:dnd>
-                    <vpe:drag start-enable="yes" />
-                </vpe:dnd>
-                <vpe:breaker type="selectItem" />
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('t:selectManyMenu')|
+	<vpe:tag name="s:cache" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="vpe-text" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:conversationId" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="vpe-text" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:conversationPropagation" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:convertDateTime" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:convertEntity" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:convertEnum" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:decorate" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamDecorateTemplate">
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:div" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div style="{@style}" class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:defaultAction" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:enumItem" case-sensitive="yes">
+		<vpe:if test="hasinparents('h:selectManyCheckbox')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamCheckboxEnumItemTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamOptionEnumItemTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('h:selectOneRadio')|hasinparents('x:selectOneRadio')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamRadioEnumItemTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
+			<vpe:template children="no" modify="yes">
+				<span title="{tagstring()}">
+					<input type="checkbox" />
+					<vpe:value expr="{jsfvalue(@itemLabel)}" />
+				</span>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+				</vpe:dnd>
+				<vpe:breaker type="selectItem" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('t:selectManyMenu')|
                         hasinparents('x:selectOneRadio')|
                         hasinparents('x:selectOneMenu')">
-            <vpe:template children="no" modify="yes">
-                <option value="{@itemValue}" title="{tagstring()}">
-                    <vpe:value expr="{jsfvalue(@itemLabel)}" />
-                </option>
-            </vpe:template>
-        </vpe:if> 
-        
-    </vpe:tag>
-    
-    <vpe:tag name="s:fileUpload" case-sensitive="yes">
-        <vpe:template children="no" modify="no">
-                <input type="file" style="{@style}" class="{@styleClass}"
-	                   title="{tagstring()}" size="{@size}" />
-            <vpe:dnd>
-                <vpe:drag start-enable="yes" />
-                <vpe:drop container="no" />
-            </vpe:dnd>
-            <vpe:resize>
-                <vpe:width width-attr="style.width" />
-                <vpe:height height-attr="style.height" />
-            </vpe:resize>
-            <vpe:textFormatting use-default-formats="yes">
-            </vpe:textFormatting>
-        </vpe:template>
-    </vpe:tag>
-    
-       <vpe:tag name="s:formattedText" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes"
-            class="org.jboss.tools.jsf.vpe.seam.template.SeamFormattedTextTemplate">
-        </vpe:template>
-    </vpe:tag>
-    
-    <vpe:tag name="s:fragment" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes" >
-            <span class="vpe-text"/>
-        </vpe:template>
-    </vpe:tag>
-    
-       <vpe:tag name="s:graphicImage" case-sensitive="yes">
-            <vpe:template children="no" modify="yes" class="org.jboss.tools.jsf.vpe.seam.template.SeamGraphicImageTemplate" />
-    </vpe:tag>
-    
-    <vpe:tag name="s:label" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes">
-            <label style="{@style}" class="{@styleClass}" title="{tagstring()}" for="{@for}">
-                <vpe:value expr="{jsfvalue(@value)}"/>
-            </label>
-            <vpe:dnd>
-                <vpe:drag start-enable="yes"/>
-                <vpe:drop container="yes">
-                    <vpe:container-child tag-name="outputText"/>
-                </vpe:drop>
-            </vpe:dnd>
-            <vpe:textFormatting use-default-formats="yes">
-                <vpe:format type="BlockFormat" addChildren="deny" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
-            </vpe:textFormatting>
-        </vpe:template>
-    </vpe:tag>
-    
-    <vpe:tag name="s:link" case-sensitive="yes">
-    	<vpe:template children="yes" modify="yes" 
-    		class="org.jboss.tools.jsf.vpe.seam.template.SeamLinkTemplate">
-    		<vpe:dnd>
+			<vpe:template children="no" modify="yes">
+				<option value="{@itemValue}" title="{tagstring()}">
+					<vpe:value expr="{jsfvalue(@itemLabel)}" />
+				</option>
+			</vpe:template>
+		</vpe:if>
+
+	</vpe:tag>
+
+	<vpe:tag name="s:fileUpload" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<input type="file" style="{@style}" class="{@styleClass}"
+				title="{tagstring()}" size="{@size}" />
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:resize>
+				<vpe:width width-attr="style.width" />
+				<vpe:height height-attr="style.height" />
+			</vpe:resize>
+			<vpe:textFormatting use-default-formats="yes">
+			</vpe:textFormatting>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:formattedText" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamFormattedTextTemplate">
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:fragment" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="vpe-text" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:graphicImage" case-sensitive="yes">
+		<vpe:template children="no" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamGraphicImageTemplate" />
+	</vpe:tag>
+
+	<vpe:tag name="s:label" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<label style="{@style}" class="{@styleClass}" title="{tagstring()}"
+				for="{@for}">
+				<vpe:value expr="{jsfvalue(@value)}" />
+			</label>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="outputText" />
+				</vpe:drop>
+			</vpe:dnd>
+			<vpe:textFormatting use-default-formats="yes">
+				<vpe:format type="BlockFormat" addChildren="deny"
+					handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+			</vpe:textFormatting>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:link" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamLinkTemplate">
+			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
 					<vpe:container-child tag-name="outputText" />
@@ -240,114 +244,160 @@
 				</vpe:format>
 			</vpe:textFormatting>
 			<vpe:pseudoContent />
-		</vpe:template>   
-    </vpe:tag>
+		</vpe:template>
+	</vpe:tag>
 
-    <vpe:tag name="s:message" case-sensitive="yes">
-        <vpe:template children="no" modify="no">
-            <span class="{@styleClass}" style="{@style}">
-                Error Messages
+	<vpe:tag name="s:message" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+			<span class="{@styleClass}" style="{@style}">
+				Error Messages
             </span>
-            <vpe:dnd>
-                <vpe:drag start-enable="yes" />
-                <vpe:drop container="no"/>
-            </vpe:dnd>
-            <vpe:textFormatting use-default-formats="yes">
-                <vpe:format type="BlockFormat" handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler"/>
-            </vpe:textFormatting>
-        </vpe:template>
-    </vpe:tag>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+			<vpe:textFormatting use-default-formats="yes">
+				<vpe:format type="BlockFormat"
+					handler="org.jboss.tools.vpe.editor.toolbar.format.handler.BlockFormatHandler" />
+			</vpe:textFormatting>
+		</vpe:template>
+	</vpe:tag>
 
-    <vpe:tag name="s:remote" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes">
-            <span class="vpe-text"/>
-        </vpe:template>
-    </vpe:tag>
+	<vpe:tag name="s:remote" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="vpe-text" />
+		</vpe:template>
+	</vpe:tag>
 
-    <vpe:tag name="s:selectDate" case-sensitive="yes">
-            <vpe:template children="yes" modify="yes" 
-                namespaceIdentifier="org.jboss.tools.jsf.vpe.richfaces" 
-                class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCalendarTemplate">
-            </vpe:template>
-    </vpe:tag>
+	<vpe:tag name="s:selectDate" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			namespaceIdentifier="org.jboss.tools.jsf.vpe.richfaces"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCalendarTemplate">
+		</vpe:template>
+	</vpe:tag>
 
-        <vpe:tag name="s:selectItems" case-sensitive="yes">
-        <vpe:if test="hasinparents('h:selectManyCheckbox')">
-            <vpe:template children="yes" modify="yes" namespaceIdentifier="org.jboss.tools.jsf.vpe.jsf"
-                class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfCheckboxSelectItemsTemplate">
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
-            <vpe:template children="yes" modify="yes" namespaceIdentifier="org.jboss.tools.jsf.vpe.jsf"
-                class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfOptionSelectItemsTemplate">
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('h:selectOneRadio')|hasinparents('x:selectOneRadio')">
-            <vpe:template children="yes" modify="yes" namespaceIdentifier="org.jboss.tools.jsf.vpe.jsf"
-                class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfRadioSelectItemsTemplate">
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
-            <vpe:template children="no" modify="yes">
-                <span title="{tagstring()}">
-                    <input type="checkbox" />
-                    <vpe:value expr="{jsfvalue(@itemLabel)}" />
-                </span>
-                <vpe:dnd>
-                    <vpe:drag start-enable="yes" />
-                </vpe:dnd>
-                <vpe:breaker type="selectItem" />
-            </vpe:template>
-        </vpe:if>
-        <vpe:if
-            test="hasinparents('t:selectManyMenu')|
+	<vpe:tag name="s:selectItems" case-sensitive="yes">
+		<vpe:if test="hasinparents('h:selectManyCheckbox')">
+			<vpe:template children="yes" modify="yes"
+				namespaceIdentifier="org.jboss.tools.jsf.vpe.jsf"
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfCheckboxSelectItemsTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('h:selectManyListbox')|hasinparents('h:selectManyMenu')|hasinparents('h:selectOneListbox')|hasinparents('h:selectOneMenu')|hasinparents('rich:pickList')">
+			<vpe:template children="yes" modify="yes"
+				namespaceIdentifier="org.jboss.tools.jsf.vpe.jsf"
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfOptionSelectItemsTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('h:selectOneRadio')|hasinparents('x:selectOneRadio')">
+			<vpe:template children="yes" modify="yes"
+				namespaceIdentifier="org.jboss.tools.jsf.vpe.jsf"
+				class="org.jboss.tools.jsf.vpe.jsf.template.selectitem.JsfRadioSelectItemsTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('x:selectManyCheckbox')|hasinparents('t:selectManyCheckbox')">
+			<vpe:template children="no" modify="yes">
+				<span title="{tagstring()}">
+					<input type="checkbox" />
+					<vpe:value expr="{jsfvalue(@itemLabel)}" />
+				</span>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+				</vpe:dnd>
+				<vpe:breaker type="selectItem" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:if
+			test="hasinparents('t:selectManyMenu')|
                         hasinparents('x:selectOneRadio')|
                         hasinparents('x:selectOneMenu')">
-            <vpe:template children="no" modify="yes">
-                <option value="{@itemValue}" title="{tagstring()}">
-                    <vpe:value expr="{jsfvalue(@itemLabel)}" />
-                </option>
-            </vpe:template>
-        </vpe:if>
-    </vpe:tag>
+			<vpe:template children="no" modify="yes">
+				<option value="{@itemValue}" title="{tagstring()}">
+					<vpe:value expr="{jsfvalue(@itemLabel)}" />
+				</option>
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
 
-    <vpe:tag name="s:span" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes">
-            <span style="{@style}" class="{@styleClass}" />
-        </vpe:template>
-    </vpe:tag>
-    
-    <vpe:tag name="s:transformImageSize" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-      
-    <vpe:tag name="s:transformImageBlur" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-    
-    <vpe:tag name="s:transformImageType" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>
-      
-    <vpe:tag name="s:validate" case-sensitive="yes">
-        <vpe:template children="no" modify="no" />
-    </vpe:tag>  
-    
-    <vpe:tag name="s:validateAll" case-sensitive="yes">
-        <vpe:template children="yes" modify="yes">
-        	<span class="vpe-text"/>
-        </vpe:template>
-    </vpe:tag>
-    
-    <vpe:tag name="s:validateFormattedText" case-sensitive="yes">
-        <vpe:template children="no" modify="no"/>
-    </vpe:tag>
-    
-    <vpe:tag name="s:taskId" case-sensitive="yes">
-        <vpe:template children="no" modify="no"/>
-    </vpe:tag>
-      
+	<vpe:tag name="s:span" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span style="{@style}" class="{@styleClass}" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:transformImageSize" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:transformImageBlur" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:transformImageType" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:validate" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:validateAll" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<span class="vpe-text" />
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="s:validateFormattedText" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="s:taskId" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:message" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes">
+			<div/>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="m:body" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.seam.template.SeamMailBodyTemplate"/>
+	</vpe:tag>
+
+	<vpe:tag name="m:from" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:to" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:subject" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:attachment" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:bcc" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:cc" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:header" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="m:replyTo" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
 </vpe:templates>

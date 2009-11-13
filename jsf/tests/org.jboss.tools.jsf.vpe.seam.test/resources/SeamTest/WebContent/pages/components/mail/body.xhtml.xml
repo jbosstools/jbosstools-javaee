@@ -1,0 +1,62 @@
+<tests>
+	<test id="id2">
+		<DIV>
+<P>
+<SPAN>
+Dear Yura
+</SPAN>
+<SPAN>
+,
+</SPAN>
+</P>
+<P>
+<SPAN>
+You can try out Seam by visiting
+</SPAN><A><SPAN>http://labs.jboss.com/jbossseam</SPAN></A>
+<SPAN>
+.
+</SPAN>
+</P>
+<P>
+<SPAN>
+Regards,
+</SPAN>
+</P>
+<P>
+<SPAN>
+Pete
+</SPAN>
+</P>
+</DIV>
+	</test>
+	<test id="id2">
+	<DIV>
+<P STYLE="color: red; -moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Dear Yura
+</SPAN>
+<SPAN CLASS="vpe-text">
+,
+</SPAN>
+</P>
+<P STYLE="color: green; -moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+You can try out Seam by visiting
+</SPAN><A STYLE="-moz-user-modify: read-write;"><SPAN CLASS="vpe-text">http://labs.jboss.com/jbossseam</SPAN></A>
+<SPAN CLASS="vpe-text">
+.
+</SPAN>
+</P>
+<P STYLE="-moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Regards,
+</SPAN>
+</P>
+<P STYLE="-moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Pete
+</SPAN>
+</P>
+</DIV>
+	</test>
+</tests>
