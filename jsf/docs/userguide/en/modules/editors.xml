@@ -1811,11 +1811,15 @@ two elements with equal id has been used, but should be used only one -->
 
             <title>Setup notes for Linux</title>
 
-            <para>Linux users may need to do the following to get the <property>Visual Page
-                    Editor</property> to work correctly on their machines.</para>
+            <para>Linux users who are going to use earlier then JBoss Tools 3.1.0.M4 versions may need to do the following to get the <property>Visual Page
+            Editor</property> to work correctly on their machines.</para>
+          
 
             <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
-                contained in the compat-libstdc++-33.i386 package.</para>
+            contained in the compat-libstdc++-33.i386 package.</para> 
+            
+            <note><title>Note</title>
+                Starting from  JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required. </note>
 
             <itemizedlist>
                 <listitem>
