@@ -314,6 +314,19 @@
          	</contentType>
 		</hyperlinkPartitioner>
 
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesCSSClassHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesCSSClassHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+
 	</extension>	
 
 	<extension 
@@ -340,6 +353,17 @@
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_BUNDLE" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesCSSClassHyperlink" 
+			id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesCSSClassHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.RICHFACES_CSS_CLASS" />
+			</contenttypeidentifier>
+   			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.RICHFACES_CSS_CLASS" />
 			</contenttypeidentifier>
 		</hyperlink>
 	</extension>
