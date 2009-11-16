@@ -44,6 +44,7 @@ public class SeamFacetFilterSetFactory {
 		PROJECT_TEMPLATE.addFilter("debug","true");		 //$NON-NLS-1$ //$NON-NLS-2$
 		//todo: keep this local for seam2 ?
 		PROJECT_TEMPLATE.addFilter("skin","blueSky"); //$NON-NLS-1$ //$NON-NLS-2$
+		PROJECT_TEMPLATE.addFilter("connectionProfile","${seam.project.connection.profile}"); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		FILTERS_TEMPLATE = new FilterSet();
 		FILTERS_TEMPLATE.addFilter("interfaceName","${interface.name}"); //$NON-NLS-1$ //$NON-NLS-2$

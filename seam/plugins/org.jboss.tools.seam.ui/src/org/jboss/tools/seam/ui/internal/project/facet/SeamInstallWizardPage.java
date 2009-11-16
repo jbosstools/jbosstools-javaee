@@ -36,6 +36,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.PlatformUI;
@@ -48,13 +49,16 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
+import org.eclipse.wst.common.project.facet.ui.ModifyFacetedProjectWizard;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -65,7 +69,6 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
-import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
@@ -109,45 +112,17 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					getDeployAsDefaultValue());
 
 	// Database group
-	private IFieldEditor connProfileSelEditor = SeamWizardFactory
-			.createConnectionProfileSelectionFieldEditor(
-					getConnectionProfileDefaultValue(), new IValidator() {
-						public Map<String, IStatus> validate(Object value,
-								Object context) {
-							SeamInstallWizardPage.this.validate();
-							return ValidatorFactory.NO_ERRORS;
-						}
-					});
+	private IFieldEditor connProfileSelEditor;
 
-	private IFieldEditor jBossHibernateDbTypeEditor = IFieldEditorFactory.INSTANCE
-			.createComboEditor(ISeamFacetDataModelProperties.DB_TYPE,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
-					Arrays.asList(HIBERNATE_HELPER.getDialectNames()),
-					getDefaultDbType(), false);
+	private IFieldEditor jBossHibernateDbTypeEditor ;
 
-	private IFieldEditor dbSchemaName = IFieldEditorFactory.INSTANCE
-			.createTextEditor(
-					ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_SCHEMA_NAME,
-					""); //$NON-NLS-1$
+	private IFieldEditor dbSchemaName;
 
-	private IFieldEditor dbCatalogName = IFieldEditorFactory.INSTANCE
-			.createTextEditor(
-					ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_CATALOG_NAME,
-					""); //$NON-NLS-1$
+	private IFieldEditor dbCatalogName;
 
-	private IFieldEditor dbTablesExists = IFieldEditorFactory.INSTANCE
-			.createCheckboxEditor(
-					ISeamFacetDataModelProperties.DB_ALREADY_EXISTS,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DB_TABLES_ALREADY_EXISTS,
-					false);
+	private IFieldEditor dbTablesExists;
 
-	private IFieldEditor recreateTablesOnDeploy = IFieldEditorFactory.INSTANCE
-			.createCheckboxEditor(
-					ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_RECREATE_DATABASE_TABLES_AND_DATA_ON_DEPLOY,
-					false);
+	private IFieldEditor recreateTablesOnDeploy;
 
 	private IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE
 			.createTextEditor(
@@ -166,6 +141,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PACKAGE_NAME,
 					"com.mydomain.projectname.test"); //$NON-NLS-1$
+	
+	private Group databaseGroup;
 
 	/**
 	 * 
@@ -266,8 +243,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	public void setConfig(Object config) {
 		model = (IDataModel) config;
 		model.setProperty(ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
-				HIBERNATE_HELPER.getDialectClass(jBossHibernateDbTypeEditor
-						.getValueAsString()));
+				HIBERNATE_HELPER.getDialectClass(getDefaultDbType()));
 	}
 
 	/**
@@ -289,19 +265,65 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		if (seamRuntime != null) {
 			SeamRuntimeManager.getInstance().setDefaultRuntime(seamRuntime);
 		}
-
-		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-				SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE,
-				connProfileSelEditor.getValueAsString());
+		
+		if (connProfileSelEditor != null) {
+			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
+					SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE,
+					connProfileSelEditor.getValueAsString());
+		} else {
+			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
+					SeamProjectPreferences.SEAM_DEFAULT_CONNECTION_PROFILE,
+					getJpaConnectionProfile());
+			model.setStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, getJpaConnectionProfile());
+		}
+		
+		if (jBossHibernateDbTypeEditor != null) {
+			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
+					SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE,
+					this.jBossHibernateDbTypeEditor.getValueAsString());
+		}		
 
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
-				this.jBossAsDeployAsEditor.getValueAsString());
-
-		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
-				SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE,
-				this.jBossHibernateDbTypeEditor.getValueAsString());
+				this.jBossAsDeployAsEditor.getValueAsString());		
 	}
+	
+	/*
+	 * Don't want to add jpa as required plugin, so use String constant instead of JptCorePlugin.FACET_ID
+	 */
+	private IProjectFacetVersion getJpaFacetVersion(){
+		IFacetedProjectWorkingCopy facetedProject = ( (ModifyFacetedProjectWizard) getWizard() ).getFacetedProjectWorkingCopy();
+		return facetedProject.getProjectFacetVersion(ProjectFacetsManager.getProjectFacet("jpt.jpa"));	//$NON-NLS-1$	
+	}
+	
+	/**
+	 * Used to save connection profile from jpa facet.
+	 * If not null then used as seam connection profile.
+	 */
+	private String jpaConnectioProfile;
+	
+	public void setJpaConnectionProfile(String jpaConnectioProfile){
+		this.jpaConnectioProfile = jpaConnectioProfile;
+	}
+	
+	private String getJpaConnectionProfile(){
+		if (jpaConnectioProfile != null) return jpaConnectioProfile;
+		IProjectFacetVersion jpaVersion = getJpaFacetVersion();	
+		if (jpaVersion == null) throw new NullPointerException("Jpa facet version is null");
+		try {
+			Object config = context.getConfig(jpaVersion, Action.Type.INSTALL, context.getProjectName());
+			if (config instanceof IDataModel) {
+				/*
+				 * Don't want to add jpa as required plugin, so use String constant instead of JpaFacetDataModelProperties.CONNECTION
+				 */
+				return ((IDataModel)config).getStringProperty("JpaFacetDataModelProperties.CONNECTION"); //$NON-NLS-1$
+			}
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+		return null;
+	}
+
 
 	/**
 	 * Registers editor in data synchronizer and put SWT controls for it at
@@ -365,18 +387,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = false;
 
-		Group databaseGroup = new Group(root, SWT.NONE);
+		databaseGroup = new Group(root, SWT.NONE);
 		databaseGroup.setLayoutData(gd);
 		databaseGroup.setText(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE);
 		gridLayout = new GridLayout(4, false);
 		databaseGroup.setLayout(gridLayout);
-		registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);
-		registerEditor(connProfileSelEditor, databaseGroup, 4);
-		registerEditor(dbSchemaName, databaseGroup, 4);
-		registerEditor(dbCatalogName, databaseGroup, 4);
-		registerEditor(dbTablesExists, databaseGroup, 4);
-		registerEditor(recreateTablesOnDeploy, databaseGroup, 4);
-		// registerEditor(pathToJdbcDriverJar,databaseGroup, 4);
+
+		createDatabaseGoupControl();
 
 		Group generationGroup = new Group(root, SWT.NONE);
 		gd = new GridData();
@@ -422,16 +439,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					getDeploymentTypeValidator(getWizard()));
 		}
 
-		jBossHibernateDbTypeEditor
-				.addPropertyChangeListener(new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent evt) {
-						SeamInstallWizardPage.this.model
-								.setProperty(
-										ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
-										HIBERNATE_HELPER.getDialectClass(evt
-												.getNewValue().toString()));
-					}
-				});
+		
 
 		Dialog.applyDialogFont(parent);
 		initDefaultWizardProperties();
@@ -439,6 +447,85 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				.getProperty(FacetInstallDataModelProvider.MASTER_PROJECT_DM);
 		if (parentDm != null) {
 			((IDataModel) parentDm).addListener(this);
+		}
+	}
+
+	public void createDatabaseGoupControl() {
+		disposeControls(jBossHibernateDbTypeEditor);
+		disposeControls(connProfileSelEditor);
+		disposeControls(dbSchemaName);
+		disposeControls(dbCatalogName);
+		disposeControls(dbTablesExists);
+		disposeControls(recreateTablesOnDeploy);
+		if (!needToShowConnectionProfile){
+			jBossHibernateDbTypeEditor = null;
+			connProfileSelEditor = null;
+			dbSchemaName = null;
+			dbCatalogName = null;
+		} else {
+			jBossHibernateDbTypeEditor = IFieldEditorFactory.INSTANCE
+			.createComboEditor(ISeamFacetDataModelProperties.DB_TYPE,
+					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
+					Arrays.asList(HIBERNATE_HELPER.getDialectNames()),
+					getDefaultDbType(), false);
+			connProfileSelEditor = SeamWizardFactory
+			.createConnectionProfileSelectionFieldEditor(
+					getConnectionProfileDefaultValue(), new IValidator() {
+						public Map<String, IStatus> validate(Object value,
+								Object context) {
+							SeamInstallWizardPage.this.validate();
+							return ValidatorFactory.NO_ERRORS;
+						}
+					});
+			dbSchemaName = IFieldEditorFactory.INSTANCE
+				.createTextEditor(
+						ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME,
+						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_SCHEMA_NAME,
+						""); //$NON-NLS-1$
+			dbCatalogName = IFieldEditorFactory.INSTANCE
+				.createTextEditor(
+						ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME,
+						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_CATALOG_NAME,
+						"");	//$NON-NLS-1$
+			
+			jBossHibernateDbTypeEditor
+			.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					SeamInstallWizardPage.this.model
+							.setProperty(
+									ISeamFacetDataModelProperties.HIBERNATE_DIALECT,
+									HIBERNATE_HELPER.getDialectClass(evt
+											.getNewValue().toString()));
+				}
+			});
+			registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);
+			registerEditor(connProfileSelEditor, databaseGroup, 4);
+			registerEditor(dbSchemaName, databaseGroup, 4);
+			registerEditor(dbCatalogName, databaseGroup, 4);				
+		}
+		dbTablesExists = IFieldEditorFactory.INSTANCE
+		.createCheckboxEditor(
+				ISeamFacetDataModelProperties.DB_ALREADY_EXISTS,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DB_TABLES_ALREADY_EXISTS,
+				false);
+		recreateTablesOnDeploy = IFieldEditorFactory.INSTANCE
+		.createCheckboxEditor(
+				ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_RECREATE_DATABASE_TABLES_AND_DATA_ON_DEPLOY,
+				false);
+		registerEditor(dbTablesExists, databaseGroup, 4);
+		registerEditor(recreateTablesOnDeploy, databaseGroup, 4);
+		databaseGroup.getParent().layout(true);
+	}
+	
+	private void disposeControls(IFieldEditor editor){
+		if (editor != null){
+			Object[] controls = editor.getEditorControls();
+			for (int i = 0; i < controls.length; i++) {
+				Control control = (Control) controls[i];
+				if (!control.isDisposed()) control.dispose();
+			}
+			editor.dispose();
 		}
 	}
 
@@ -478,6 +565,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					getTestPkgName(p));
 		}
 	}
+	
+	private boolean needToShowConnectionProfile = true;
 
 	/**
 	 * It is overridden to fill Code Generation group with the default package
@@ -489,6 +578,16 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		if (visible) {
 			setCodeGenerationProperties();
 			setDefaultSeamRuntime();
+			boolean jpaFacetAdded = getJpaFacetVersion() != null;
+			if (jpaFacetAdded == needToShowConnectionProfile){
+				
+				needToShowConnectionProfile = !jpaFacetAdded;
+				createDatabaseGoupControl();
+			}
+			//update selected connection profile
+			if (!needToShowConnectionProfile){
+				model.setStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, getJpaConnectionProfile());
+			}
 			validate();
 		}
 		super.setVisible(visible);
