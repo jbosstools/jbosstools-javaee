@@ -31,7 +31,7 @@ import org.w3c.dom.Text;
 @SuppressWarnings("restriction")
 public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 
-	private final static int clientX = 20;
+	private final static int clientX = 5;
 	private final static int clientY = 10;
 	private final static long delay  = 500;
 	
@@ -52,7 +52,9 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		Mouse mouse = new Mouse(controller, delay);
 		mouse.click(clientX, clientY);
 		Keybord keybord = new Keybord(controller, delay);
-		keybord.pressDel().pressBackSP().pressLeft().pressBackSP();
+		keybord.pressBackSP();
+		mouse.click(clientX*2, clientY);
+		keybord.pressDel().pressDel();
 		compareVisualAndSourceTargets(part);
 	}
 
