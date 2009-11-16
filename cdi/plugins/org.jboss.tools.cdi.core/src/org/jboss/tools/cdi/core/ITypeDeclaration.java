@@ -7,12 +7,21 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.cdi.core;
+
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Alexey Kazakov
  */
-public interface IScope {
+public interface ITypeDeclaration extends ITextSourceReference {
 
+	/**
+	 * Returns the corresponding IType of the declaration.
+	 * 
+	 * @return the corresponding IType of the declaration.
+	 */
+	IType getType();
 }

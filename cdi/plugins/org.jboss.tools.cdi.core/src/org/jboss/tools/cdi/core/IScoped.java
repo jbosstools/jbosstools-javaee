@@ -15,30 +15,28 @@ import java.util.Set;
 import org.eclipse.jdt.core.IType;
 
 /**
+ * This interface if common protocol to have access to scoped of bean class or
+ * producer method or field or stereotype.
+ * 
  * @author Alexey Kazakov
  */
-public interface IBeanManager {
+public interface IScoped {
 
 	/**
-	 * Returns the set of beans which match the given EL name
+	 * Obtains the scope type of the bean class or producer method or filed or
+	 * stereotype annotation. The scope may or may not be declared in the
+	 * object. It may be default one or come from stereotype of the object.
 	 * 
-	 * @param name
-	 *            the name used to restrict the beans matched
-	 * @return the matched beans
+	 * @return the scope type
 	 */
-	Set<IBean> getBeans(String name);
+	IType getScope();
 
 	/**
-	 * Returns the set of beans which have the given required type and qualifier type
-	 * If no qualifiers are given, the
-	 * {@linkplain javax.enterprise.inject.Default default qualifier} is
-	 * assumed.
+	 * Obtains all the scope declarations of the bean class or producer method
+	 * or filed or stereotype annotation. This set doesn't contain scope
+	 * declarations from stereotypes of this object.
 	 * 
-	 * @param beanType
-	 *            the required bean type
-	 * @param qualifiers
-	 *            the required qualifiers
-	 * @return the resulting set of beans
+	 * @return the scope
 	 */
-	Set<IBean> getBeans(IType beanType, IType... qualifierTypes);
+	Set<IAnnotationDeclaration> getScopeDeclarations();
 }

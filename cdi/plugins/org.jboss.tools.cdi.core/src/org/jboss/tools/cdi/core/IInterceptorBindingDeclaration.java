@@ -13,6 +13,12 @@ package org.jboss.tools.cdi.core;
 /**
  * @author Alexey Kazakov
  */
-public interface IInject {
+public interface IInterceptorBindingDeclaration extends IAnnotationDeclaration {
 
+	/**
+	 * Returns the corresponding interceptor binding.
+	 * 
+	 * @return the corresponding interceptor binding.
+	 */
+	IInterceptorBinding getInterceptorBinding();
 }

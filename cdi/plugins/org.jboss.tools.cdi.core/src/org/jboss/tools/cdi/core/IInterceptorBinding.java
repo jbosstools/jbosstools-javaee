@@ -13,6 +13,6 @@ package org.jboss.tools.cdi.core;
 /**
  * @author Alexey Kazakov
  */
-public interface IProduces {
+public interface IInterceptorBinding {
 
 }

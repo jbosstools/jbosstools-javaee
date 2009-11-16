@@ -7,12 +7,22 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import org.eclipse.jdt.core.IAnnotation;
+
 /**
+ * Represents an annotation declaration. For example a qualifier or a scope
+ * declaration of a bean/injection/produce method.
+ * 
  * @author Alexey Kazakov
  */
-public interface IQualifier {
+public interface IAnnotationDeclaration extends ITypeDeclaration {
 
+	/**
+	 * Return the annotation declaration.
+	 * @return the annotation declaration.
+	 */
+	IAnnotation getDeclaration();
 }

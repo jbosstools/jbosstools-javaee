@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -21,39 +20,15 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * 
  * @author Alexey Kazakov
  */
-public interface IBean extends ICDIElement {
+public interface IBean extends IScoped, ICDIElement {
 
 	/**
-	 * Obtains the types of the bean.
+	 * Returns the corresponding IType of the managed bean or session bean or of
+	 * the bean that declares the producer method or field.
 	 * 
-	 * @return the bean types
+	 * @return the bean class
 	 */
-	Set<IType> getTypes();
-
-	/**
-	 * Returns the location of a type declaration of this bean. If the bean
-	 * doesn't have such declaration then null will be returned.
-	 * 
-	 * @param type
-	 * @return the location of the type of this bean.
-	 */
-	ITextSourceReference getTypeLocation(IType type);
-
-	/**
-	 * Obtains the qualifiers of the bean.
-	 * 
-	 * @return the qualifiers
-	 */
-	Set<IAnnotation> getQualifiers();
-
-	/**
-	 * Returns the location of a qualifier declaration of this bean. If the bean
-	 * doesn't have such declaration then null will be returned.
-	 * 
-	 * @param qualifier
-	 * @return the location of the qualifier declaration of this bean.
-	 */
-	ITextSourceReference getQualifierLocation(IType qualifier);
+	IType getBeanClass();
 
 	/**
 	 * Obtains the EL name of the bean, if it has one.
@@ -64,42 +39,52 @@ public interface IBean extends ICDIElement {
 
 	/**
 	 * Returns the location of a name declaration of this bean. If the bean
-	 * doesn't have the name declaration then null will be returned.
+	 * doesn't have the name declaration then null will be returned. May be
+	 * declared in a stereotype. May be a declaration of @Name annotation or
+	 * location of Java class name declaration.
 	 * 
 	 * @return the location of a name declaration of this bean.
 	 */
 	ITextSourceReference getNameLocation();
 
 	/**
-	 * Obtains the scope of the bean.
+	 * Obtains the legal types of the bean class or producer method or field.
 	 * 
-	 * @return the scope
+	 * @return the legal types
 	 */
-	IScope getScope();
+	Set<IType> getLegalTypes();
 
 	/**
-	 * Returns the location of a scope declaration of this bean. If the bean
-	 * doesn't have the scope declaration then null will be returned.
+	 * Obtains the all type declarations of the bean class or producer method or
+	 * field (legal types as well as illegal ones).
 	 * 
-	 * @return the location of a scope declaration of this bean.
+	 * @return the type declarations
 	 */
-	ITextSourceReference getScopeLocation();
+	Set<ITypeDeclaration> getAllTypeDeclarations();
 
 	/**
-	 * Obtains the stereotypes of the bean.
+	 * Obtains the type declarations of the bean class or producer method or
+	 * field (legal types as well as illegal ones) which are defined by @Typed
+	 * annotation.
 	 * 
-	 * @return the set of stereotypes
+	 * @return the type declarations
 	 */
-	Set<IStereotype> getStereotypes();
+	Set<ITypeDeclaration> getRestrictedTypeDeclaratios();
 
 	/**
-	 * Returns the location of a stereotype declaration of this bean. If the
-	 * bean doesn't have such stereotype declaration then null will be returned.
+	 * Obtains the qualifiers of the bean class or producer method or field.
 	 * 
-	 * @param qualifier
-	 * @return the location of the stereotype declaration of this bean.
+	 * @return the qualifiers
 	 */
-	ITextSourceReference getStereotypeLocation(IStereotype stereotype);
+	Set<IAnnotationDeclaration> getQualifierDeclarations();
+
+	/**
+	 * Obtains the stereotype declarations of the bean class or producer method
+	 * or field.
+	 * 
+	 * @return the set of stereotype declarations
+	 */
+	Set<IStereotypeDeclaration> getStereotypeDeclarations();
 
 	/**
 	 * Determines if the bean is an alternative.
@@ -110,10 +95,17 @@ public interface IBean extends ICDIElement {
 	boolean isAlternative();
 
 	/**
+	 * Returns the location of @Alternative declaration of this bean. May be
+	 * declared in a stereotype.
+	 * 
+	 * @return the location of @Alternative declaration.
+	 */
+	IAnnotationDeclaration getAlternativeDeclaration();
+
+	/**
 	 * Obtains the injection points of the bean.
 	 * 
 	 * @return the set of injection points of the bean
 	 */
 	Set<IInjectionPoint> getInjectionPoints();
-
 }

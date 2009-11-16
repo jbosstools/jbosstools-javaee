@@ -7,12 +7,20 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
 /**
+ * Represents a stereotype declaration.
+ * 
  * @author Alexey Kazakov
  */
-public interface INamed {
+public interface IStereotypeDeclaration extends IAnnotationDeclaration {
 
+	/**
+	 * Returns the corresponding stereotype.
+	 * 
+	 * @return the corresponding stereotype.
+	 */
+	IStereotype getStereotype();
 }
