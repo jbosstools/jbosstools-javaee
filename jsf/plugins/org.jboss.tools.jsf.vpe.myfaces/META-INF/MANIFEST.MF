@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.common,
  org.jboss.tools.vpe,
+ org.mozilla.xpcom;bundle-version="1.9.1",
  org.jboss.tools.jst.jsp,
  org.eclipse.jface.text;bundle-version="3.5.0"
 Bundle-ActivationPolicy: lazy
@@ -17,4 +18,3 @@ Export-Package: org.jboss.tools.jsf.vpe.myfaces,
 Bundle-ClassPath: jsf-vpe-myfaces.jar
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.mozilla.xpcom;version="[1.9.1,2.0.0)"

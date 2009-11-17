@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.sse.ui,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.ui.ide,
+ org.mozilla.xpcom;bundle-version="1.9.1",
  org.eclipse.wst.sse.core,
  org.jboss.tools.vpe.xulrunner
 Bundle-ActivationPolicy: lazy
@@ -22,4 +23,3 @@ Bundle-ClassPath: lib/jhighlight-1.0.jar,
 Export-Package: org.jboss.tools.jsf.vpe.richfaces,
  org.jboss.tools.jsf.vpe.richfaces.template.util
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.mozilla.xpcom;version="[1.9.1,2.0.0)"

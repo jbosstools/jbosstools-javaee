@@ -9,10 +9,10 @@ Require-Bundle: org.jboss.tools.vpe,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.jst.jsp,
+ org.mozilla.xpcom;bundle-version="1.9.1",
  org.jboss.tools.jsf.vpe.richfaces;bundle-version="2.1.0",
  org.jboss.tools.jsf.vpe.jsf;bundle-version="2.1.0",
  org.eclipse.jface.text;bundle-version="3.5.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.mozilla.xpcom;version="[1.9.1,2.0.0)"

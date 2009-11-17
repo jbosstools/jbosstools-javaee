@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.common,
  org.jboss.tools.vpe,
+ org.mozilla.xpcom;bundle-version="1.9.1",
  org.jboss.tools.jst.web,
  org.jboss.tools.jst.jsp,
  org.eclipse.wst.sse.core,
@@ -25,6 +26,5 @@ Export-Package: org.jboss.tools.jsf.vpe.jsf.template,
  org.jboss.tools.jsf.vpe.jsf.template.util.model
 Bundle-Localization: plugin
 Import-Package: org.eclipse.wst.sse.ui,
- org.jboss.tools.jst.web.tld,
- org.mozilla.xpcom;version="[1.9.1,2.0.0)"
+ org.jboss.tools.jst.web.tld
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
