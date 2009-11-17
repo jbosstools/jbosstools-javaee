@@ -244,4 +244,22 @@ public class JBIDE4373Test extends VpeTest{
 	    assertEquals("jsp-include.jsp file should be opened","jsp-include.jsp", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
+	/**
+	 * Test open on for <a href="pageName" >Link Text</>
+	 * https://jira.jboss.org/jira/browse/JBIDE-5183
+	 * @throws CoreException
+	 * 
+	 * @author mareshkau
+	 */
+	
+	public void testOpenOnForHREF() throws CoreException {
+	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME, "JBIDE/5183/a.html"); //$NON-NLS-1$
+	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 5, 41);
+	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
+	    nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
+	    vpeController.getSourceBuilder().openOn(domNode);
+	    IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	    assertEquals("File should be opened","opened.html", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+
+	}
 }
