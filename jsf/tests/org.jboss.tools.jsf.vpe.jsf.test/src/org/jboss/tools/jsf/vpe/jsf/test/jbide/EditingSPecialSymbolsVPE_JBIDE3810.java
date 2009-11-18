@@ -33,7 +33,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 
 	private final static int clientX = 5;
 	private final static int clientY = 10;
-	private final static long delay  = 500;
+	private final static long delay  = 1000;
 	
 	public EditingSPecialSymbolsVPE_JBIDE3810(String name) {
 		super(name);
@@ -47,7 +47,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		IEditorInput editorInput = new FileEditorInput(file);
 		JSPMultiPageEditor part = openEditor(editorInput);
 		TestUtil.waitForIdle();
-		TestUtil.delay(3000);
+		TestUtil.delay(5000);
 		VpeController controller = TestUtil.getVpeController(part);
 		Mouse mouse = new Mouse(controller, delay);
 		mouse.click(clientX, clientY);

@@ -106,6 +106,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
 		suite.addTestSuite(JsfComponentTest.class);
@@ -176,7 +177,6 @@ public class JsfAllTests {
 		suite.addTestSuite(OpenOnCssClassTest_JBIDE4775.class);
 		suite.addTestSuite(VPERefreshTest.class);
 		suite.addTestSuite(OpenOnInsideJspRoot_JBIDE4852.class);
-		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
 		suite.addTestSuite(NullPointerWithStyleProperty_JBIDE5193.class);
 		// $JUnit-END$
 		// added by Max Areshkau
