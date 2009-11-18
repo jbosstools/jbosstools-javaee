@@ -12,8 +12,8 @@
     <title>Seam Generate Entities</title>
     
     <para>The main purpose of this chapter is to tell you about Seam Generate Entities.</para>
-    <para>Generate Entities is available directly from within Eclipse using Hibernate Tools plugin for the standard seam-gen generation.</para>
-    <para>Generate Entities generates a set of CRUD Seam components and web pages based on existing tables in a database or on existing entities in your application.</para>
+    <para>Generate Entities is available directly from Eclipse using Hibernate Tools plugin for the standard seam-gen generation.</para>
+    <para>The wizard generates a set of CRUD Seam components and web pages based on existing tables in a database or on existing entities in your application.</para>
     
     
     <figure>
@@ -25,26 +25,32 @@
         </mediaobject>
     </figure>
     
-    <para>In the Generate Seam Entities wizard there are two generation modes: Reverse Engineer from database
-        and Use existing entities.</para>
-        
-    <para>The <property>Reverse Engineer from database</property> mode can be described in four steps:</para>
+	<para>By default, the generation mode is set to <emphasis><property>Reverse engineer from database</property>.</emphasis> 
+		The reverse engineering from a database could be described in four steps:</para>
     <orderedlist>
         <listitem><para>The wizard gets in database, extracts the tables and 
             their connections</para></listitem>
         <listitem><para>On basis of this metainfomation the Entity classes are generated into 
-            <property>org.domain.project.entity</property> package</para></listitem>
+        	<literal>org.domain.project.entity</literal> package</para></listitem>
         <listitem><para>For the entities from step 2 the classes <property>EntityList</property> and <property>EntityHome</property> are generated
-            into <property>org.domain.project.session</property> package</para></listitem>
+        	into <literal>org.domain.project.session</literal> package</para></listitem>
         <listitem><para>The xhtml pages are generated.</para></listitem>
     </orderedlist>
+	
+		<note>
+			<title>Note:</title>
+			<para>The entities are generated from a database based on the console configuration that is created automatically during a Seam project creation. 
+				(Read more about <ulink url="&hibernatelink;#console_conf">console configuration</ulink>). The created console configuration is based on the 
+				connection profile set on the <link linkend="seamFacet">Seam Facets wizard page</link> while creating a project. 
+				Configured connection profile settings are hold in the generated <literal>hibernate-console.properties</literal>. To change the connection
+				profile, double-click the console configuration. It could be found in the <property>Hibernate Configurations</property> view 
+				(<emphasis><property>Window &gt; Show view &gt; Other &gt; Hibernate &gt; Hibernate Configurations</property></emphasis>
+				or just switch to the <property>Hibernate</property> perspective).</para>
+		</note>
     <para>
-        Checking the <property>Use existing entities</property> mode the wizard executes only 3 and 4 steps. It generates missing classes and
+    	Checking the <emphasis><property>Use existing entities</property></emphasis> mode the wizard executes only 3 and 4 steps. It generates missing classes and
         xhtml pages. 
     </para>
     
     <para>Read the <link linkend="crud_database_application">Generate a CRUD Database Application</link> chapter in order to see how the <property>Generate Seam Entities</property> wizard can be used.</para>
-    
-    
   </chapter>
-
