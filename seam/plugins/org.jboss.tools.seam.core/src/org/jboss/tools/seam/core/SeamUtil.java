@@ -181,16 +181,16 @@ public class SeamUtil {
 		String packageName = projectName.toLowerCase();
 		
 		if(packageName.indexOf(" ") >= 0)
-			packageName = packageName.replaceAll(" ", "");
+			packageName = packageName.replace(" ", "");
 		
 		if(packageName.indexOf("-") >= 0)
-			packageName = packageName.replaceAll("-", "");
+			packageName = packageName.replace("-", "");
 			
 		if(packageName.indexOf("+") >= 0)
-			packageName = packageName.replaceAll("+", "");
+			packageName = packageName.replace("+", "");
 			
 		if(packageName.indexOf("_") >= 0)
-			packageName = packageName.replaceAll("_", "");
+			packageName = packageName.replace("_", "");
 			
 		while(packageName.indexOf("..") >= 0){
 			packageName = packageName.replace("..", ".");
