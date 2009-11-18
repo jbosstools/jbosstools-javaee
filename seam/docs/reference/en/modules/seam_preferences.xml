@@ -181,7 +181,7 @@
 
         <tip>
             <title>Tip:</title>
-            <para>On the figure above fields for configuring Seam artifacts are dimmed because Seam
+            <para>On the figure above fields for configuring Seam artifacts are unavailable because Seam
                 Runtime is not selected.</para>
         </tip>
 
