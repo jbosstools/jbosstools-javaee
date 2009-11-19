@@ -75,7 +75,8 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
 	    .include("mvel.*\\.jar") //$NON-NLS-1$
 	    .include("jboss-el.jar") //$NON-NLS-1$
-		.include("jxl\\.jar"); //$NON-NLS-1$
+		.include("jxl\\.jar") //$NON-NLS-1$
+		.include("itext.*\\.jar"); //$NON-NLS-1$
 
 	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("richfaces-impl\\.jar") //$NON-NLS-1$
@@ -89,6 +90,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-excel\\.jar") //$NON-NLS-1$
 		.include("jxl\\.jar") //$NON-NLS-1$
+		.include("itext.*\\.jar") //$NON-NLS-1$
 		.include("jsf-facelets\\.jar"); //$NON-NLS-1$
 
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "lib"; //$NON-NLS-1$

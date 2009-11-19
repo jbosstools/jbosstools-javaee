@@ -139,6 +139,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		seamgenlibs.add("richfaces-api.jar");
 		seamgenlibs.add("richfaces-impl.jar");
 		seamgenlibs.add("richfaces-ui.jar");
+		seamgenlibs.add("itext.jar");
 
 		final IContainer warLibs = (IContainer) warProject.getProject().findMember("WebContent/WEB-INF/lib").getAdapter(IContainer.class);
 		assertOnlyContainsTheseFiles(seamgenlibs, warLibs);
@@ -195,6 +196,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInWar.add("jsf-facelets.jar");
 		onlyInWar.add("richfaces-impl.jar");
 		onlyInWar.add("richfaces-ui.jar");
+		onlyInWar.add("itext.jar");
 		
 		final IContainer earLibsSeam = (IContainer) ear.findMember(new Path("EarContent")).getAdapter(IContainer.class);
 		
