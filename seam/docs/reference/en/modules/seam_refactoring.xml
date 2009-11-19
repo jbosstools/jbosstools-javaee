@@ -9,9 +9,9 @@
             <keyword>rename</keyword>
         </keywordset>
     </chapterinfo>
-    <title>Seam refactoring tools</title>
+    <title>Seam Refactoring Tools</title>
     <para>The goal of Seam components refactoring is to make system-wide code changes without affecting the behavior of the program.
-        The  Seam  module of JBoss Tools provides assistance in easily refactoring code.
+        The  Seam  module of JBoss Tools provides assistance in easily code refactoring. Starting from Jboss Tools M4 refactoring functionality became also available for  managed beans, method and properties used in ELs
         When performing a refactoring operation, you can  preview all of the changes resulting from a refactoring action before you choose to carry them out.
         Refactoring commands are available from the context menus of several views and editors.
         Now Seam refactoring tools include only one refactoring command:<emphasis><property>Rename Seam Component</property></emphasis>. 
