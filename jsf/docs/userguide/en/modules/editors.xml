@@ -266,7 +266,10 @@
                 <itemizedlist>
                     <listitem>
                         <para>Content Assist for XML, XHTML,  JSP and JSF configuration files</para>
-                    </listitem>
+                    </listitem>     
+                    <listitem>
+                        <para>Content Assist for Composite Components</para>
+                    </listitem>    
                     <listitem>
                         <para>Content Assist based on project data</para>
                     </listitem>
@@ -274,6 +277,7 @@
                         <para>Content Assist with graphical JSF editor</para>
                     </listitem>
                 </itemizedlist>
+                
                 <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
 
                     <title>Content Assist for XML, JSP and JSF configuration files</title>
@@ -313,7 +317,25 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                </section>
+                </section>         
+                
+                <section id="ContentAssistforCompositeComponents">
+                    <title>Content Assist for Composite Components</title>
+                    <para>Content assist functionality is also available for composite components. On the screen is shown content assist for a composite component file  <property>&quot;tag.xhtml&quot;</property> within a JSF 1.2 project with facelets</para>
+                    
+                    <figure>
+                        <title>Content Assist in web.xml File</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_ca_composite_component.png"
+                                    scale="85"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section> 
+                    
+                    
+         
                 <section id="ContentAssistBasedOnProjectData86">
 
                     <title>Content Assist Based on Project Data</title>
