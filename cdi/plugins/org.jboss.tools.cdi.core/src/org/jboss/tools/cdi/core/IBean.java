@@ -108,4 +108,33 @@ public interface IBean extends IScoped, ICDIElement {
 	 * @return the set of injection points of the bean
 	 */
 	Set<IInjectionPoint> getInjectionPoints();
+
+	/**
+	 * Returns the bean which is specialized by this bean. May return null.
+	 * 
+	 * @return the bean which is specialized by this bean.
+	 */
+	IBean getSpecializedBean();
+
+	/**
+	 * Returns the declaration of @Specializes annotation of this bean. May
+	 * return null.
+	 * 
+	 * @return the declaration of @Specializes annotation of this bean.
+	 */
+	IAnnotationDeclaration getSpecializesAnnotationDeclaration();
+
+	/**
+	 * Returns "true" if this bean specializes another.
+	 * 
+	 * @return "true" if this bean specializes another.
+	 */
+	boolean isSpecializing();
+
+	/**
+	 * Returns "true" if this bean has @Depended scope.
+	 * 
+	 * @return "true" if this bean has @Depended scope.
+	 */
+	boolean isDependent();
 }
