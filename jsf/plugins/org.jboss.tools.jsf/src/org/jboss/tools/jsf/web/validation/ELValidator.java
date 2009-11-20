@@ -432,6 +432,9 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		IFile file = elReference.getResource();
 		int documnetOffset = elReference.getStartPosition(); 
 		String operand = operandToken.getText();
+		if(operand.trim().length()==0) {
+			return;
+		}
 		String varName = operand;
 		int offsetOfVarName = documnetOffset + operandToken.getFirstToken().getStart();
 		int lengthOfVarName = varName.length();
@@ -506,7 +509,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 			ELSegment segment = resolution.getUnresolvedSegment();
 			if(segment==null) {
-				JSFModelPlugin.getDefault().logError("No one segments were resolved in EL " + operand + " in " + file);
+				JSFModelPlugin.getDefault().logError("No one segment was found in EL " + operand + " in " + file);
 				return;
 			}
 			LexicalToken token = segment.getToken();
