@@ -73,6 +73,12 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * web pages backing beans
 	 */
 	String ENTITY_BEAN_SOURCE_FOLDER = "model.sources"; //$NON-NLS-1$
+	
+	/**
+	 * This flag indicates that we should create test project.
+	 * Can be "true" or "false".
+	 */
+	String TEST_PROJECT_CREATING = "seam.test.project.creating"; //$NON-NLS-1$
 
 	/**
 	 * Package name for Entity Beans classes

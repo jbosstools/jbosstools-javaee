@@ -95,7 +95,10 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	}
 
 	@Override
-	protected void createTestProject() {
+	protected boolean createTestProject() {
+		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING))
+			return false;
+		
 		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), testProjectName); //$NON-NLS-1$
 		testProjectDir.mkdir();
 
@@ -152,7 +155,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 			testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "test-seam2"); //$NON-NLS-1$
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
-			return;
+			return false;
 		}
 		AntCopyUtils.FileSet excludeCvsSvn 
 				 = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.CVS_SVN).dir(testTemplateDir);
@@ -226,6 +229,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		}
 
 		SeamFacetAbstractInstallDelegate.createComponentsProperties(testSrcDir, "", true); //$NON-NLS-1$
+		return true;
 	}
 
 	@Override

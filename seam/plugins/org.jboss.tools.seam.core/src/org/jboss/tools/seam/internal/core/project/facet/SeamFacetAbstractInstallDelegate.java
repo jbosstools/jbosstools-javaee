@@ -846,6 +846,10 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(model.getProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME)==null) {
 			model.setProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.domain." + projectNamePackage + ".entity"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		if(model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING)==null) {
+			model.setProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING, new Boolean(true));
+		}
+
 		if(model.getProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME)==null) {
 			model.setProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.domain." + projectNamePackage + ".test"); //$NON-NLS-1$ //$NON-NLS-2$
 		}

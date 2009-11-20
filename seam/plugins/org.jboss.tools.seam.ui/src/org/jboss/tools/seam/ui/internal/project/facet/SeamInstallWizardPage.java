@@ -136,6 +136,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_ENTITY_BEAN_PACKAGE_NAME,
 					"com.mydomain.projectname.entity"); //$NON-NLS-1$
 
+	private IFieldEditor createTestProjectCheckboxeditor = IFieldEditorFactory.INSTANCE
+	.createCheckboxEditor(
+			ISeamFacetDataModelProperties.TEST_PROJECT_CREATING,
+			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CREATE_TEST_PROJECT,
+			true);
+
 	private IFieldEditor testsPkgNameditor = IFieldEditorFactory.INSTANCE
 			.createTextEditor(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
@@ -409,6 +415,17 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		generationGroup.setLayout(gridLayout);
 		registerEditor(sessionBeanPkgNameditor, generationGroup, 3);
 		registerEditor(entityBeanPkgNameditor, generationGroup, 3);
+		
+		registerEditor(createTestProjectCheckboxeditor, generationGroup, 3);
+		createTestProjectCheckboxeditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent arg0) {
+				Boolean value = (Boolean)createTestProjectCheckboxeditor.getValue();
+				testsPkgNameditor.setEnabled(value.booleanValue());
+			}
+		});
+		
+		createTestProjectCheckboxeditor.setEnabled(isNewProjectWizard());
+		
 		registerEditor(testsPkgNameditor, generationGroup, 3);
 
 		setControl(root);
@@ -560,6 +577,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME,
 					getEntityPkgName(p));
+			model.setProperty(
+					ISeamFacetDataModelProperties.TEST_PROJECT_CREATING,
+					createTestProjectCheckboxeditor.getValue());
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
 					getTestPkgName(p));

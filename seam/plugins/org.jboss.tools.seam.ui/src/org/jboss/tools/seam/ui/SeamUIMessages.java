@@ -130,6 +130,8 @@ public class SeamUIMessages extends NLS {
 	public static String SEAM_INSTALL_WIZARD_PAGE_EDIT;
 
 	public static String SEAM_INSTALL_WIZARD_PAGE_ENTITY_BEAN_PACKAGE_NAME;
+	
+	public static String SEAM_INSTALL_WIZARD_PAGE_CREATE_TEST_PROJECT;
 
 	public static String SEAM_INSTALL_WIZARD_PAGE_GENERAL;
 

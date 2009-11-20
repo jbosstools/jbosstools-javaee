@@ -215,7 +215,7 @@ public class SeamProjectCreator {
 	 * @throws CoreException
 	 */
 	public void execute(IProgressMonitor monitor) throws CoreException {
-		createTestProject();
+		boolean testProjectCreated = createTestProject();
 		final String consoleName = SeamFacetAbstractInstallDelegate.isWarConfiguration(model) ? seamWebProject.getName() : ejbProjectName;
 
 		if(!SeamFacetAbstractInstallDelegate.isWarConfiguration(model)) {
@@ -282,28 +282,35 @@ public class SeamProjectCreator {
 			WtpUtils.reconfigure(earProjectToBeImported, monitor);
 		}
 
-		IProject testProjectToBeImported = wsRoot.getProject(testProjectName);
-
-		ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + testProjectName, testProjectName, monitor, true);
-		// Set up compilation level for test project.
-		String level = JavaFacetUtils.getCompilerLevel(seamWebProject);
-		String testLevel = JavaFacetUtils.getCompilerLevel(testProjectToBeImported);
-		if (!testLevel.equals(level)) {
-			JavaFacetUtils.setCompilerLevel(testProjectToBeImported, level);
+		IProject testProjectToBeImported = null;
+		if(testProjectCreated){
+			testProjectToBeImported = wsRoot.getProject(testProjectName);
+	
+			ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + testProjectName, testProjectName, monitor, true);
+			// Set up compilation level for test project.
+			String level = JavaFacetUtils.getCompilerLevel(seamWebProject);
+			String testLevel = JavaFacetUtils.getCompilerLevel(testProjectToBeImported);
+			if (!testLevel.equals(level)) {
+				JavaFacetUtils.setCompilerLevel(testProjectToBeImported, level);
+			}
+			testProjectToBeImported.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(testProjectToBeImported, consoleName);
 		}
-		testProjectToBeImported.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(testProjectToBeImported, consoleName);
 
 		createSeamProjectPreferenes();
 		WtpUtils.reconfigure(seamWebProject, monitor);
-		WtpUtils.reconfigure(testProjectToBeImported, monitor);
+		if(testProjectToBeImported != null)
+			WtpUtils.reconfigure(testProjectToBeImported, monitor);
 	}
 
 	/**
 	 * Creates test project for given seam web project.
 	 */
-	protected void createTestProject() {
+	protected boolean createTestProject() {
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, testProjectName);
+		
+		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING))
+			return false;
 
 		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), testProjectName); //$NON-NLS-1$
 		testProjectDir.mkdir();
@@ -339,7 +346,7 @@ public class SeamProjectCreator {
 			testTemplateDir = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "test"); //$NON-NLS-1$
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
-			return;
+			return false;
 		}
 		AntCopyUtils.FileSet excludeCvsSvn 
 			 = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.CVS_SVN).dir(testTemplateDir);
@@ -362,18 +369,19 @@ public class SeamProjectCreator {
 			new AntCopyUtils.FileSetFileFilter(includeLibs));
 
 		SeamFacetAbstractInstallDelegate.createComponentsProperties(testSrcDir, "", Boolean.TRUE); //$NON-NLS-1$
+		return true;
 	}
 
 	/**
 	 * Creates test project for given seam web project.
 	 * @param testProjectName
 	 */
-	protected void createTestProject(String testProjectName) {
+	protected boolean createTestProject(String testProjectName) {
 		if(testProjectName==null) {
 			throw new IllegalArgumentException("Test project name must not be null"); 
 		}
 		this.testProjectName = testProjectName;
-		createTestProject();
+		return createTestProject();
 	}
 
 	/**
@@ -484,7 +492,7 @@ public class SeamProjectCreator {
 		IEclipsePreferences prefs = projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 
 		String testSrcPath = seamWebProject.getFullPath().removeLastSegments(1).append(testProjectName).append("test-src").toString();
-		prefs.put(ISeamFacetDataModelProperties.TEST_CREATING, "true");
+		prefs.put(ISeamFacetDataModelProperties.TEST_CREATING, ((Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING)).toString());
 		prefs.put(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, testProjectName);
 		prefs.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, testSrcPath);
 
