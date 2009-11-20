@@ -25,6 +25,7 @@ import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamActionNewWizardTest;
+import org.jboss.tools.seam.ui.test.wizard.SeamCreateTestProjectTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -53,6 +54,7 @@ public class SeamUiAllTests {
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
 		suite.addTestSuite(PackageNamesTest.class);
 		suite.addTestSuite(JBide3989Test.class);
+		suite.addTestSuite(SeamCreateTestProjectTest.class);
 		return suite;
 	}
 }
