@@ -1,5 +1,7 @@
 Manifest-Version: 1.0
 Bundle-Name: %Bundle-Name.0
+Bundle-ClassPath: struts.jar
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.jboss.tools.struts.StrutsModelPlugin
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.struts;singleton:=true

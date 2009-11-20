@@ -24,7 +24,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
  */
 public class StrutsModelPlugin extends BaseUIPlugin {
 	public static final String PLUGIN_ID = "org.jboss.tools.struts";
-	static StrutsModelPlugin INSTANCE = null;
+	static StrutsModelPlugin INSTANCE;
 	
 	public StrutsModelPlugin() {
 		INSTANCE = this;

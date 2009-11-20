@@ -585,6 +585,10 @@ public class StrutsProcessHelper implements StrutsConstants {
                 continue;
             }
             String path = bind.getAttributeValue(ATT_PATH);
+            if(path == null) {
+            	//this is comment node
+            	continue;
+            }
             int ind = path.indexOf('?');
             if (ind > 0) {
                 path = path.substring(0, ind);
