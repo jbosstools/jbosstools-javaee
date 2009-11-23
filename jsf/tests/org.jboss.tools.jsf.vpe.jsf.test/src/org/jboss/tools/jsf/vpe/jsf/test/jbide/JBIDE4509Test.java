@@ -36,8 +36,10 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -96,6 +98,17 @@ public class JBIDE4509Test extends VpeTest{
 		IEditorInput editorInput = new FileEditorInput(file);
 		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 22, 23, "IfHandler.java"); //$NON-NLS-1$
 	}
+	//test for https://jira.jboss.org/jira/browse/JBIDE-4635
+	public void testJBIDE4635OpenOn() throws Throwable{
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IFile file = (IFile) project.findMember("WebContent/pages/index.xhtml"); //$NON-NLS-1$
+		IEditorInput editorInput = new FileEditorInput(file);
+		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 11, 11, "mareshkau.taglib.xml"); //$NON-NLS-1$
+		IEditorPart activeEditor = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		JBIDE4509Test.checkOpenOnInEditor(activeEditor.getEditorInput(),getEditorId(activeEditor.getEditorInput().getName()),
+				8,23,"echo.xhtml"); //$NON-NLS-1$
+	}
 	/**
 	 * Function for checking openOn functionality in jar file;
 	 * 
@@ -138,12 +151,21 @@ public class JBIDE4509Test extends VpeTest{
 	 * @author mareshkau
 	 */
 	private static final void checkOpenOnInEditor(IEditorInput editorInput,String editorId,int lineNumber, int lineOffset, String openedOnFileName) throws Throwable {
-		MultiPageEditorPart editorPart = (MultiPageEditorPart) PlatformUI
+		IEditorPart editorPart = PlatformUI
 				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.openEditor(editorInput, editorId);
-		IEditorPart[] editorParts = editorPart.findEditors(editorInput);
-		editorPart.setActiveEditor(editorParts[0]);
-		StructuredTextEditor textEditor = (StructuredTextEditor) editorParts[0];
+		StructuredTextEditor textEditor = null;
+		if(editorPart instanceof MultiPageEditorPart){
+			IEditorPart[] editorParts = ((MultiPageEditorPart)editorPart).findEditors(editorInput);
+			((MultiPageEditorPart)editorPart).setActiveEditor(editorParts[0]);
+			textEditor = (StructuredTextEditor) editorParts[0];
+		} else if(editorPart instanceof JSPMultiPageEditor) {
+			textEditor = ((JSPMultiPageEditor)editorPart).getSourceEditor();
+		} else if(editorPart instanceof EditorPartWrapper) {
+			IEditorPart[] editorParts = ((MultiPageEditorPart)((EditorPartWrapper)editorPart).getEditor()).findEditors(editorInput);
+			((MultiPageEditorPart)((EditorPartWrapper)editorPart).getEditor()).setActiveEditor(editorParts[1]);
+			textEditor = (StructuredTextEditor) editorParts[1];
+		}
 		int openOnPosition = TestUtil.getLinePositionOffcet(textEditor
 				.getTextViewer(),lineNumber, lineOffset);
 		// hack to get hyperlinks detectors, no other was have been founded
@@ -171,6 +193,7 @@ public class JBIDE4509Test extends VpeTest{
 				"Active page should be ", openedOnFileName, activeEditor.getEditorInput().getName()); //$NON-NLS-1$
 
 	}
+	
 	
 	private static final String getEditorId(String filename) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
