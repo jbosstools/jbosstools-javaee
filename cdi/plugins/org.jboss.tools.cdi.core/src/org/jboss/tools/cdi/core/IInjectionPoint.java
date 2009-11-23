@@ -12,41 +12,28 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IJavaElement;
-import org.jboss.tools.common.text.ITextSourceReference;
+import org.eclipse.jdt.core.IType;
 
 /**
  * Represents an injection point.
  * 
  * @author Alexey Kazakov
  */
-public interface IInjectionPoint extends ICDIElement, ITextSourceReference {
+public interface IInjectionPoint extends ICDIElement, IBeanMember {
+
+	/**
+	 * Returns the required type of this injection point.
+	 * 
+	 * @return the required type of this injection point.
+	 */
+	IType getType();
 
 	/**
 	 * Gets the required qualifiers of the injection point.
 	 * 
 	 * @return the required qualifiers
 	 */
-	Set<IAnnotation> getQualifiers();
-
-	/**
-	 * Gets the object representing the bean that defines the injection point. If
-	 * the injection point does not belong to a bean, return a null value.
-	 * 
-	 * @return the object representing bean that defines the injection point, of
-	 *         null if the injection point does not belong to a bean
-	 */
-	IBean getBean();
-
-	/**
-	 * Obtains an instance of IMember or ITypeParameter, depending upon whether
-	 * the injection point is an injected field or a constructor/method
-	 * parameter.
-	 * 
-	 * @return an IMember or ITypeParameter
-	 */
-	IJavaElement getSourceElement();
+	Set<IAnnotationDeclaration> getQualifierDeclarations();
 
 	/**
 	 * Determines if the injection point is a decorator delegate injection

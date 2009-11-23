@@ -20,17 +20,24 @@ import org.eclipse.jdt.core.IType;
 public interface IBeanManager {
 
 	/**
-	 * Returns the set of beans which match the given EL name
+	 * Returns the set of beans which match the given EL name.
 	 * 
 	 * @param name
 	 *            the name used to restrict the beans matched
+	 * @param attemptToResolveAmbiguousNames
+	 *            if there are a few beans with the given name and
+	 *            attemptToResolveAmbiguousNames==true the manager should try to
+	 *            resolve the EL name. If any of the beans are alternatives, the
+	 *            manager will eliminate all beans that are not alternatives,
+	 *            expect for producer methods and fields of beans that are
+	 *            alternatives.
 	 * @return the matched beans
 	 */
-	Set<IBean> getBeans(String name);
+	Set<IBean> getBeans(String name, boolean attemptToResolveAmbiguousNames);
 
 	/**
-	 * Returns the set of beans which have the given required type and qualifier type
-	 * If no qualifiers are given, the
+	 * Returns the set of beans which have the given required type and qualifier
+	 * type If no qualifiers are given, the
 	 * {@linkplain javax.enterprise.inject.Default default qualifier} is
 	 * assumed.
 	 * 
@@ -40,5 +47,14 @@ public interface IBeanManager {
 	 *            the required qualifiers
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(IType beanType, IType... qualifierTypes);
+	Set<IBean> getBeans(IType beanType, IAnnotationDeclaration... qualifiers);
+
+	/**
+	 * Returns the set of beans which are eligible for the given injection
+	 * points.
+	 * 
+	 * @param injectionPoints
+	 * @return the resulting set of beans
+	 */
+	Set<IBean> getBeans(IInjectionPoint injectionPoints);
 }
