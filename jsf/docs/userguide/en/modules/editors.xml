@@ -47,7 +47,7 @@
                     <property>Ctrl+Click</property>
                 </emphasis> on a reference to another file and the file will be opened.</para>
 
-            <para>OpenOn is available for the following files and classes:</para>
+            <para>OpenOn is available for:</para>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -64,6 +64,9 @@
                 </listitem>
                 <listitem>
                     <para>  <link linkend="cssclasses">CSS classes</link> </para>
+                </listitem>
+                <listitem>
+                    <para>  <link linkend="openonelvariables">Paths to files set using EL variable</link> </para>
                 </listitem>
             </itemizedlist>
             
@@ -180,7 +183,7 @@
                     </mediaobject>
                 </figure>
                 
-                OpenOn is also implemented for css classes added by a complex link.
+                <para>OpenOn is also implemented for css classes added by a complex link.</para> 
                 <figure>
                     <title>OpenOn With CSS Class added by a complex link</title>
                     <mediaobject>
@@ -189,8 +192,23 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-              </section>
-                                    
+            </section>
+            
+            <section id="openonelvariables">
+                <title>OpenOn for EL variables</title>
+                <para>OpenOn can be used for paths to files set with EL variable.</para>
+            <figure>
+                <title>OpenOn  for paths to files set with EL variable</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/editors_features/editors_features_openon_el.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+                
+            </section>
+            
+            
         </section>
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
@@ -333,8 +351,8 @@
                         </mediaobject>
                     </figure>
                 </section> 
-                    
-                    
+                   
+                  
          
                 <section id="ContentAssistBasedOnProjectData86">
 
