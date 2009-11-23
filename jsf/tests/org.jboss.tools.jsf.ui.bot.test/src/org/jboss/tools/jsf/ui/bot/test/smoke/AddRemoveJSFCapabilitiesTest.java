@@ -27,6 +27,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 /**
@@ -39,22 +40,30 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
 
   private static final String WEB_PROJECT_JBT_JSF_POPUP_MENU = "JBoss Tools JSF";
   private static final String PACKAGE_EXPLORER_JBT_POPUP_MENU = "JBoss Tools";
-  private static final String REMOVE_JSF_CAPABILITIES_POPUP_MENU = "Remove JSF Capabilities";
   private static final String ADD_JSF_CAPABILITIES_POPUP_MENU = "Add JSF Capabilities...";
   private static final String CLOSE_PROJECT_POPUP_MENU = "Clo&se Project";
   private static final String OPEN_PROJECT_POPUP_MENU = "Op&en Project";
   private static final String DELETE_PROJECT_POPUP_MENU = "Delete";
   private static final String IMPORT_PROJECT_POPUP_MENU = "Import Existing JSF Project...";
+  private static final String JBDS_REMOVE_JSF_CAPABILITIES_POPUP_MENU = "Remove Red Hat Capabilities";
+  private static final String JBT_REMOVE_JSF_CAPABILITIES_POPUP_MENU = "Remove JSF Capabilities";
   
   private MenuItem miRunOnServer = null;
-
-  public void testAddRemoveJSFCapabilities() {
   
-    removeJSFCapabilities();
+  public void testAddRemoveJSFCapabilities() {
+    boolean jbdsIsRunning = false;
+    // Check out if JBoss Developer Studio Is Running
+    try{
+      bot.menu(IDELabel.Menu.HELP).menu(IDELabel.Menu.ABOUT_JBOSS_DEVELOPER_STUDIO);
+      jbdsIsRunning = true;
+    }catch (WidgetNotFoundException wnfe){
+      // do nothing
+    }
+    removeJSFCapabilities(jbdsIsRunning);
     addJSFCapabilities();
     // Test add/remove JSF capabilities after project is closed and reopened
     closeOpenJsfProject();
-    removeJSFCapabilities();
+    removeJSFCapabilities(jbdsIsRunning);
     addJSFCapabilities();
     // Test import of deleted JSF project 
     deleteJsfProject();
@@ -72,8 +81,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     SWTBot webProjects = bot.viewByTitle(WidgetVariables.WEB_PROJECTS).bot();
     SWTBotTree tree = webProjects.tree();
 
-    tree.setFocus();
-    tree.select(0);
+    ContextMenuHelper.prepareTreeItemForContextMenu(tree);
     
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         IMPORT_PROJECT_POPUP_MENU, false)).click();
@@ -119,8 +127,9 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     SWTBot servers = bot.viewByTitle(WidgetVariables.SERVERS)
       .bot();
     SWTBotTree serverTree = servers.tree();
-    serverTree.setFocus();
-    serverTree.select(0);
+    
+    ContextMenuHelper.prepareTreeItemForContextMenu(serverTree);
+    
     new SWTBotMenu(ContextMenuHelper.getContextMenu(serverTree,
         "Start", false)).click();
     waitForBlockingJobsAcomplished(45*1000L,STARTING_JBOSS_EAP_43_RUNTIME);
@@ -187,8 +196,9 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     editor.close();
     // Stop Application Server and remove Application Server from Server View
     openServerView();
-    serverTree.setFocus();
-    serverTree.select(0);
+    
+    ContextMenuHelper.prepareTreeItemForContextMenu(serverTree);
+    
     new SWTBotMenu(ContextMenuHelper.getContextMenu(serverTree,
         "Stop", false)).click();
     
@@ -211,14 +221,10 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     SWTBot packageExplorer = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
         .bot();
     SWTBotTree tree = packageExplorer.tree();
-
-    tree.setFocus();
-
-    SWTBotTreeItem packageExplorerTreeItem = tree
-        .getTreeItem(JBT_TEST_PROJECT_NAME);
-    packageExplorerTreeItem.select();
-    packageExplorerTreeItem.click();
-
+    
+    ContextMenuHelper.prepareTreeItemForContextMenu(tree,
+      tree.getTreeItem(JBT_TEST_PROJECT_NAME));
+    
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         DELETE_PROJECT_POPUP_MENU, false)).click();
     
@@ -231,27 +237,36 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
 
   /**
    * Remove JSF Capabilities from JSF Project
+   * @param jbdsIsRunning
    */
-  private void removeJSFCapabilities() {
+  private void removeJSFCapabilities(boolean jbdsIsRunning) {
 
     openWebProjects();
+    
+    delay();
+    
     SWTBot webProjects = bot.viewByTitle(WidgetVariables.WEB_PROJECTS).bot();
     SWTBotTree tree = webProjects.tree();
+    
+    ContextMenuHelper.prepareTreeItemForContextMenu(tree,
+      tree.getTreeItem(JBT_TEST_PROJECT_NAME));
 
-    tree.setFocus();
-
-    SWTBotTreeItem webProjectsTreeItem = tree
-        .getTreeItem(JBT_TEST_PROJECT_NAME);
-    webProjectsTreeItem.select();
-    webProjectsTreeItem.click();
-
-    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        WEB_PROJECT_JBT_JSF_POPUP_MENU, true)).menu(
-        REMOVE_JSF_CAPABILITIES_POPUP_MENU).click();
+    if (jbdsIsRunning){
+      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+          JBDS_REMOVE_JSF_CAPABILITIES_POPUP_MENU, true)).click();
+    }
+    else{
+      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+          WEB_PROJECT_JBT_JSF_POPUP_MENU, true)).menu(
+            JBT_REMOVE_JSF_CAPABILITIES_POPUP_MENU).click();
+      
+    }
 
     bot.shell("Confirmation").activate();
     bot.button(WidgetVariables.OK_BUTTON).click();
 
+    delay();
+    
     assertTrue(
         "Project "
             + JBT_TEST_PROJECT_NAME
@@ -279,13 +294,9 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
         .bot();
     SWTBotTree tree = packageExplorer.tree();
 
-    tree.setFocus();
-
-    SWTBotTreeItem packageExplorerTreeItem = tree
-        .getTreeItem(JBT_TEST_PROJECT_NAME);
-    packageExplorerTreeItem.select();
-    packageExplorerTreeItem.click();
-
+    ContextMenuHelper.prepareTreeItemForContextMenu(tree,
+      tree.getTreeItem(JBT_TEST_PROJECT_NAME));
+    
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         PACKAGE_EXPLORER_JBT_POPUP_MENU, false)).menu(
         ADD_JSF_CAPABILITIES_POPUP_MENU).click();
@@ -337,13 +348,9 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
         .bot();
     SWTBotTree tree = packageExplorer.tree();
 
-    tree.setFocus();
-
-    SWTBotTreeItem packageExplorerTreeItem = tree
-        .getTreeItem(JBT_TEST_PROJECT_NAME);
-    packageExplorerTreeItem.select();
-    packageExplorerTreeItem.click();
-
+    ContextMenuHelper.prepareTreeItemForContextMenu(tree, 
+      tree.getTreeItem(JBT_TEST_PROJECT_NAME));
+    
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         CLOSE_PROJECT_POPUP_MENU, false)).click();
     
