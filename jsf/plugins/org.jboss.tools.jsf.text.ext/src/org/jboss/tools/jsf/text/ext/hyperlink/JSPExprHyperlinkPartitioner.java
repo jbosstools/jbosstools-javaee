@@ -13,9 +13,6 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IExclusiblePartitionerRecognition;
@@ -24,10 +21,13 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
  */
+@SuppressWarnings("restriction")
 public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IExclusiblePartitionerRecognition {
 	public static final String JSP_EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"; //$NON-NLS-1$
 
@@ -110,7 +110,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 				if (lineBreaker1 != -1 && lineBreaker1 + valStart < exprEnd) exprEnd =  valStart + lineBreaker1;
 				exprLength = exprEnd - exprStart;
 				
-				if(exprLength==0) { 
+				if(exprLength<=0) { 
 					return null;
 				} else if (exprStart <= offset && exprEnd >= offset) {
 					int start = exprStart;
