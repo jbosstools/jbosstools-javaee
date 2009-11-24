@@ -87,8 +87,9 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
 	    // el-ri needed for JBIDE-939
 	    .include("el-ri.*\\.jar") //$NON-NLS-1$ 
-		.include("itext.*\\.jar"); //$NON-NLS-1$
-
+		.include("itext.*\\.jar") //$NON-NLS-1$
+		.include("jfreechart.*\\.jar") //$NON-NLS-1$
+		.include("jcommon.*\\.jar"); //$NON-NLS-1$
 
 	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
@@ -104,8 +105,9 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
 		.include("jsf-facelets\\.jar") //$NON-NLS-1$
 		.include("oscache.*\\.jar") //$NON-NLS-1$
-		.include("itext.*\\.jar"); //$NON-NLS-1$
-
+		.include("itext.*\\.jar") //$NON-NLS-1$
+		.include("jfreechart.*\\.jar") //$NON-NLS-1$
+		.include("jcommon.*\\.jar"); //$NON-NLS-1$
 
 	private static final String ORG_AJAX4JSF_FILTER_NAME = "ajax4jsf";
 
