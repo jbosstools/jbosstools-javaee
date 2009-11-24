@@ -205,10 +205,9 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-                
+               
             </section>
-            
-            
+                        
         </section>
 
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
@@ -1077,9 +1076,10 @@ two elements with equal id has been used, but should be used only one -->
             </section>
 
             <section id="taglib_versions_support">
-                <title>Support for Taglib versions</title>
+                <title>Support for custom TagLibs and Taglib versions</title>
+                <para>VPE templates  support  custom tag libs, e.g. Seam Mail facelet taglib, RichFaces taglibs or any other created by you.</para>
 
-                <para>VPE templates now support various versions of tag libraries. It means that the
+                <para>VPE templates also provide a support for  various versions of tag libraries. It means that the
                         <property>VPE</property> takes control over those components which have
                     different parameters or preview according to the framework version (like seam
                     1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
