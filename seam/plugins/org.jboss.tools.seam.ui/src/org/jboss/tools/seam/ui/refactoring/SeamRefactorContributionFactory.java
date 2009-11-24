@@ -135,6 +135,10 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 					&& !PROPERTIES_EXT.equalsIgnoreCase(ext))
 				return;
 			
+			ISeamProject seamProject = SeamCorePlugin.getSeamProject(editorFile.getProject(), true);
+			if(seamProject == null)
+				return;
+			
 			MenuManager mm = new MenuManager(SeamUIMessages.SEAM_REFACTOR);
 			mm.setVisible(true);
 			
