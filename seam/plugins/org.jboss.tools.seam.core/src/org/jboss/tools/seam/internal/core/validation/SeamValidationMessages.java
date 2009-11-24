@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import org.eclipse.osgi.util.NLS;
-import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
 
 /**
  * @author Alexey Kazakov
