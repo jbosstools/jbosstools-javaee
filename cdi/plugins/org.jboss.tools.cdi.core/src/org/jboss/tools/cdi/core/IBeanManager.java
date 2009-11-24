@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
@@ -57,4 +58,79 @@ public interface IBeanManager {
 	 * @return the resulting set of beans
 	 */
 	Set<IBean> getBeans(IInjectionPoint injectionPoints);
+
+	/**
+	 * Returns the all available qualifier types.
+	 * 
+	 * @return the all available qualifier types.
+	 */
+	Set<IType> getQualifierTypes();
+
+	/**
+	 * Returns the all available stereotypes.
+	 * 
+	 * @return the all available stereotypes.
+	 */
+	Set<IType> getStereotypes();
+
+	/**
+	 * Returns the source reference to <class>...</class> element of
+	 * <alternatives> of beans.xml. For example:
+	 *     <alternatives>
+	 *        <class>...</class>
+	 *     </alternatives>
+	 * 
+	 * @return the source reference to <class>...</class> element of
+	 *         <alternatives> of beans.xml.
+	 */
+	List<IXmlElementReference> getAlternativeClasses();
+
+	/**
+	 * Returns the source reference to <stereotype>...</stereotype> element of
+	 * <alternatives> of beans.xml. For example:
+	 *     <alternatives>
+	 *        <stereotype>...</stereotype>
+	 *     </alternatives>
+	 * 
+	 * @return the source reference to <stereotype>...</stereotype> element of
+	 *         <alternatives> of beans.xml.
+	 */
+	List<IXmlElementReference> getAlternativeStereotypes();
+
+	/**
+	 * Returns the source reference to <stereotype>...</stereotype> or <class>...<class> element of
+	 * <alternatives> of beans.xml by its full qualified type name. For example:
+	 *     <alternatives>
+	 *        <stereotype>org.compony.Log</stereotype>
+	 *        <class>org.compony.Item</class>
+	 *     </alternatives>
+	 * 
+	 * @return the source reference to <stereotype>...</stereotype> or <class>...</class> element of
+	 *         <alternatives> of beans.xml by its full qualified type name
+	 */
+	List<IXmlElementReference> getAlternatives(String fullQualifiedTypeName);
+
+	/**
+	 * Returns the source reference to <class>...</class> element of
+	 * <decorators> of beans.xml. For example:
+	 *     <decorators>
+	 *        <class>...</class>
+	 *     </decorators>
+	 * 
+	 * @return the source reference to <class>...</class> element of
+	 *         <decorators> of beans.xml.
+	 */
+	List<IXmlElementReference> getDecoratorClasses();
+
+	/**
+	 * Returns the source reference to <class>...</class> element of
+	 * <decorators> of beans.xml by its full qualified type name. For example:
+	 *     <decorators>
+	 *        <class>org.compony.Item</class>
+	 *     </decorators>
+	 * 
+	 * @return the source reference to <class>...</class> element of
+	 *         <decorators> of beans.xml by its full qualified type name.
+	 */
+	List<IXmlElementReference> getDecoratorClasses(String fullQualifiedTypeName);
 }

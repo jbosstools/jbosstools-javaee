@@ -43,4 +43,14 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 *         injection point, and <tt>false</tt> otherwise
 	 */
 	boolean isDelegate();
+
+	/**
+	 * Returns the @Decorator annotation of this injection point field or
+	 * parameter of injection point method. Should not return null if
+	 * isDelegate() returns "true".
+	 * 
+	 * @return the @Decorator annotation of this injection point field or
+	 *         parameter of injection point method. May be null.
+	 */
+	IAnnotationDeclaration getDecoratorAnnotation();
 }
