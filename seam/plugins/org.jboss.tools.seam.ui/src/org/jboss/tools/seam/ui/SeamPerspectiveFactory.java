@@ -33,8 +33,7 @@ public class SeamPerspectiveFactory implements IPerspectiveFactory {
 		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
 		bottom.addView(IPageLayout.ID_TASK_LIST);
 		bottom.addView(SEAM_COMPONENTS_NAVIGATOR);
-		bottom.addView(JBOSS_SERVERS_VIEW);
-		bottom.addPlaceholder(WTP_SERVERS_VIEW);
+		bottom.addView(WTP_SERVERS_VIEW);
 		
 		IFolderLayout rightTop = layout.createFolder("right", IPageLayout.RIGHT, (float)0.8, editorArea); //$NON-NLS-1$
 //		rightTop.addView("org.jboss.tools.common.model.ui.views.palette.PaletteView"); //$NON-NLS-1$
