@@ -11,7 +11,6 @@ Export-Package: org.jboss.tools.seam.core.test,
 Require-Bundle: 
  org.junit,
  org.jboss.tools.seam.core,
- org.jboss.tools.seam.xml,
  org.jboss.tools.common.test,
  org.jboss.tools.jsf,
  org.eclipse.wst.common.project.facet.core,

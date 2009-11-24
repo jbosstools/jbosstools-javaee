@@ -28,12 +28,12 @@ public abstract class AbstractFileSetContentProvider implements
 
 	protected static File[] ZERO_ARRAY = new File[0];
 	protected Object[] elements = ZERO_ARRAY;
-	private final Comparator comparer = new Comparator() {
+	private final Comparator<File> comparer = new Comparator<File>() {
 		private Collator collator = Collator.getInstance();
 
-		public int compare(Object arg0, Object arg1) {
-			String s1 = ((File) arg0).getName();
-			String s2 = ((File) arg1).getName();
+		public int compare(File arg0, File arg1) {
+			String s1 = arg0.getName();
+			String s2 = arg1.getName();
 			return collator.compare(s1, s2);
 		}
 	};

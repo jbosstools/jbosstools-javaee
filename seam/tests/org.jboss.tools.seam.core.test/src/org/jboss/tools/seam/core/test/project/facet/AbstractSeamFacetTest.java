@@ -3,6 +3,7 @@ package org.jboss.tools.seam.core.test.project.facet;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -70,7 +72,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		
 	}
 	
-	protected final Set<IResource> resourcesToCleanup = new HashSet<IResource>();
+	protected final ArrayList<IResource> resourcesToCleanup = new ArrayList<IResource>();
 	protected final List<Runnable> tearDownOperations = new ArrayList<Runnable>();
 
 	protected AbstractSeamFacetTest(final String name) {
@@ -123,8 +125,15 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			for (IResource r : this.resourcesToCleanup) {
 				try {
 					System.out.println("Deleting resource " + r.getLocation());
+					if(r instanceof IProject) {
+						IProject project = (IProject)r;
+						for (String natureId : project.getDescription().getNatureIds()) {
+							IProjectNature nature = project.getNature(natureId);
+							nature.deconfigure();
+						}						
+					}
 					r.delete(true, null);
-					JobUtils.waitForIdle();
+//					JobUtils.delay(5000);
 				} catch(Exception e) {
 					e.printStackTrace();
 					last = e;
@@ -142,9 +151,16 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	}
 
 	protected final void addResourceToCleanup(final IResource resource) {
+		if(resource==null) throw new IllegalArgumentException();
+		if(resourcesToCleanup.contains(resource))  throw new IllegalArgumentException();
 		this.resourcesToCleanup.add(resource);
 	}
 
+	protected final void addResourcesToCleanup(final IResource[] resource) {
+		if(resource==null) throw new IllegalArgumentException();
+		this.resourcesToCleanup.addAll(Arrays.asList(resource));
+	}
+	
 	protected final void addTearDownOperation(final Runnable runnable) {
 		this.tearDownOperations.add(runnable);
 	}
@@ -220,8 +236,9 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			}
 			
 		},new NullProgressMonitor());
-		this.addResourceToCleanup(proj);
-		this.addResourceToCleanup(ResourcesPlugin.getWorkspace().getRoot().getProject(baseProjectName + "-test"));	
+		
+
+			this.addResourcesToCleanup(seamProjectsSet.getAllProjects());
 
 		return fproj;
 	}
@@ -236,31 +253,21 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 
 		assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
 		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
-		this.addResourceToCleanup(testProject);
-		this.addResourceToCleanup(proj);		
 
+		
 		return fproj;
 	}
 
 	protected IFacetedProject createSeamEarProject(String name) throws CoreException {
 		final IFacetedProject fproj = createSeamProject(name, createSeamDataModel("ear"));
-		
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(fproj.getProject());
 		final IProject proj = fproj.getProject();
 		assertNotNull(proj);
-		
-		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
-		IProject ejbProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ejb");
-		IProject earProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-ear");
-		
-		this.resourcesToCleanup.add(proj);
-		this.resourcesToCleanup.add(testProject);
-		this.resourcesToCleanup.add(ejbProject);
-		this.resourcesToCleanup.add(earProject);
 
-		assertTrue(proj.exists());
-		assertTrue(testProject.exists());
-		assertTrue(ejbProject.exists());
-		assertTrue(earProject.exists());
+		assertTrue(seamProjectsSet.getWarProject().exists());
+		assertTrue(seamProjectsSet.getTestProject().exists());
+		assertTrue(seamProjectsSet.getEjbProject().exists());
+		assertTrue(seamProjectsSet.getEarProject().exists());
 		
 		return fproj;
 	}

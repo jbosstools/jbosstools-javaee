@@ -92,7 +92,7 @@ public class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedActi
 
 		String initialValue = getFieldEditor().getValue().toString();
 		IJavaElement initialElement = null;
-		ArrayList packagesWithoutDefaultPackage = new ArrayList();
+		ArrayList<IJavaElement> packagesWithoutDefaultPackage = new ArrayList<IJavaElement>();
 		for (IJavaElement packageElement : packages) {
 			String packageName = packageElement.getElementName();
 			if(packageName.length()>0) {
@@ -103,7 +103,7 @@ public class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedActi
 			}
 		}
 
-		packages = (IJavaElement[])packagesWithoutDefaultPackage.toArray(new IJavaElement[packagesWithoutDefaultPackage.size()]);
+		packages = packagesWithoutDefaultPackage.toArray(new IJavaElement[packagesWithoutDefaultPackage.size()]);
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(), new JavaElementLabelProvider(
 				JavaElementLabelProvider.SHOW_DEFAULT));
 		dialog.setTitle(J2EEUIMessages.PACKAGE_SELECTION_DIALOG_TITLE);

@@ -11,13 +11,8 @@
 
 package org.jboss.tools.seam.ui.wizard;
 
-import java.util.Map;
-
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
 
 /**
  * @author eskimo

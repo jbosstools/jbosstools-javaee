@@ -154,7 +154,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	private Map<String, Object> loadParameters(IAdaptable info,	SeamProjectsSet seamPrjSet) throws BackingStoreException {
-		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);
+		Map<String, INamedElement> params = (Map<String, INamedElement>)info.getAdapter(Map.class);
 		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(seamPrjSet.getWarProject());
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
@@ -250,7 +250,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	protected IProject getProject(IAdaptable info) {
-		Map<String, INamedElement> params = (Map)info.getAdapter(Map.class);
+		Map<String, INamedElement> params = (Map<String, INamedElement>)info.getAdapter(Map.class);
 
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(
 				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
@@ -295,7 +295,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	 * @param vars
 	 * @return
 	 */
-	public FilterSetCollection getFilterSetCollection(Map vars) {
+	public FilterSetCollection getFilterSetCollection(Map<String, Object> vars) {
 		return new FilterSetCollection(SeamFacetFilterSetFactory.createFiltersFilterSet(vars));
 	}
 

@@ -79,8 +79,6 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;

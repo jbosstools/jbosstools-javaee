@@ -470,13 +470,13 @@ public class SeamProjectWizard extends WebProjectWizard {
 
 		protected String[] getValidationPropertyNames() {
 			String[] superProperties = super.getValidationPropertyNames();
-			List list = Arrays.asList(superProperties);
-			ArrayList arrayList = new ArrayList();
+			List<String> list = Arrays.asList(superProperties);
+			ArrayList<String> arrayList = new ArrayList<String>();
 			arrayList.addAll( list );
 			arrayList.add( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
 			arrayList.add( ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
 			arrayList.add( ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
-			return (String[])arrayList.toArray( new String[0] );
+			return arrayList.toArray( new String[0] );
 		}	
 
 		public boolean launchNewServerWizard(Shell shell, IDataModel model) {
