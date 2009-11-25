@@ -38,8 +38,8 @@ Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.ltk.ui.refactoring,
  org.jboss.ide.eclipse.as.core,
  org.jboss.tools.jsf,
- org.jboss.tools.jst.web.ui
- org.eclipse.jst.j2ee.web
+ org.jboss.tools.jst.web.ui,
+ org.eclipse.jst.j2ee.web,
  org.jboss.tools.common.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.seam.ui,
