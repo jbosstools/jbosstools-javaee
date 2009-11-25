@@ -43,6 +43,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("drools-api.*\\.jar") //$NON-NLS-1$
 		.include("jboss-el.*.jar") //$NON-NLS-1$
 		.include("mvel.*\\.jar") //$NON-NLS-1$
 		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
@@ -59,6 +60,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("commons-jci-janino.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
+		.include("drools-api.*\\.jar") //$NON-NLS-1$
 		.include("core.jar") //$NON-NLS-1$
 		//.include("janino.*\\.jar") //$NON-NLS-1$		
 		.include("jboss-seam-debug\\.jar") //$NON-NLS-1$
