@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.text.INodeReference;
 
 /**
  * @author Alexey Kazakov
@@ -83,7 +84,7 @@ public interface IBeanManager {
 	 * @return the source reference to <class>...</class> element of
 	 *         <alternatives> of beans.xml.
 	 */
-	List<IXmlElementReference> getAlternativeClasses();
+	List<INodeReference> getAlternativeClasses();
 
 	/**
 	 * Returns the source reference to <stereotype>...</stereotype> element of
@@ -95,7 +96,7 @@ public interface IBeanManager {
 	 * @return the source reference to <stereotype>...</stereotype> element of
 	 *         <alternatives> of beans.xml.
 	 */
-	List<IXmlElementReference> getAlternativeStereotypes();
+	List<INodeReference> getAlternativeStereotypes();
 
 	/**
 	 * Returns the source reference to <stereotype>...</stereotype> or <class>...<class> element of
@@ -108,7 +109,7 @@ public interface IBeanManager {
 	 * @return the source reference to <stereotype>...</stereotype> or <class>...</class> element of
 	 *         <alternatives> of beans.xml by its full qualified type name
 	 */
-	List<IXmlElementReference> getAlternatives(String fullQualifiedTypeName);
+	List<INodeReference> getAlternatives(String fullQualifiedTypeName);
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
@@ -120,7 +121,7 @@ public interface IBeanManager {
 	 * @return the source reference to <class>...</class> element of
 	 *         <decorators> of beans.xml.
 	 */
-	List<IXmlElementReference> getDecoratorClasses();
+	List<INodeReference> getDecoratorClasses();
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
@@ -132,5 +133,5 @@ public interface IBeanManager {
 	 * @return the source reference to <class>...</class> element of
 	 *         <decorators> of beans.xml by its full qualified type name.
 	 */
-	List<IXmlElementReference> getDecoratorClasses(String fullQualifiedTypeName);
+	List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName);
 }
