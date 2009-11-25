@@ -17,9 +17,9 @@ import junit.framework.TestCase;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage;
 
 /**

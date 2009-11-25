@@ -20,11 +20,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.ui.widget.editor.INamedElement;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.INamedElement;
 
 /**
  * @author eskimo

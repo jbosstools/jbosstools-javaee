@@ -25,10 +25,10 @@ import org.eclipse.jst.j2ee.internal.plugin.J2EEUIMessages;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 
 /**
  * @author Alexey Kazakov

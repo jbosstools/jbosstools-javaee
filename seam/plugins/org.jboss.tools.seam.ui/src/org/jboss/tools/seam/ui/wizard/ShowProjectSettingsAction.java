@@ -9,10 +9,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 
 public class ShowProjectSettingsAction extends ButtonFieldEditor.ButtonPressedAction implements PropertyChangeListener {
 	IFieldEditor editor;

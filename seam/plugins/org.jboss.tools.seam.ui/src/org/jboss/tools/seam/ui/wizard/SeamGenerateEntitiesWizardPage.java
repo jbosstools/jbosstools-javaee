@@ -35,6 +35,9 @@ import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.console.utils.ProjectUtils;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.INamedElement;
+import org.jboss.tools.common.ui.widget.field.RadioField;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
@@ -42,9 +45,6 @@ import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidato
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.INamedElement;
-import org.jboss.tools.seam.ui.widget.field.RadioField;
 
 /**
  * @author Alexey Kazakov

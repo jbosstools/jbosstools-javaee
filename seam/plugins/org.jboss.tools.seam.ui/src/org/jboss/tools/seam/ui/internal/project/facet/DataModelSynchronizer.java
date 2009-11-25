@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 
 /**
  * It is intended to collect all changes from Wizard Page and put it to 

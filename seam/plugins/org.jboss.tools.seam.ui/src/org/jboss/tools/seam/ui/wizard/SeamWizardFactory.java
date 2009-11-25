@@ -33,6 +33,11 @@ import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.console.HibernateConsolePlugin;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ComboFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -41,12 +46,7 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.ComboFieldEditor;
-import org.jboss.tools.seam.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.seam.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**

@@ -12,8 +12,11 @@ package org.jboss.tools.seam.ui.widget.editor;
 
 import java.util.List;
 
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 
 public interface IFieldEditorFactory {
 

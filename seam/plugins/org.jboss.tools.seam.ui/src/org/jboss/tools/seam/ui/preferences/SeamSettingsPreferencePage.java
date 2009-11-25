@@ -56,6 +56,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -69,7 +70,6 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;

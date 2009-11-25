@@ -44,11 +44,22 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ComboFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.LabelFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.LinkFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.TaggedComboFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.TaggedRadioFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.TextFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
 import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
 import org.jboss.tools.seam.ui.wizard.IParameter;
 
 /**

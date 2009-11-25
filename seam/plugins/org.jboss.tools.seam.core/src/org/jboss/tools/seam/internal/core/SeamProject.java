@@ -773,7 +773,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	/**
 	 * Package local method called by builder.
-	 * @param component
+	 * @param seamComponent
 	 * @param source
 	 */	
 	public void registerComponents(LoadedDeclarations ds, IPath source) {

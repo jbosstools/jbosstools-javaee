@@ -16,8 +16,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
+import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.ButtonFieldEditor;
 
 public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedAction {
 
