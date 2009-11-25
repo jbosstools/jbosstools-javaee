@@ -10,28 +10,17 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
-
-import org.eclipse.jdt.core.IType;
-
 /**
- * Represents a decorator.
+ * Represents an interceptor.
  * 
  * @author Alexey Kazakov
  */
-public interface IDecorator extends IClassBean {
+public interface IInterceptor extends IClassBean {
 
 	/**
-	 * Returns the @Decorator annotation of this bean class.
+	 * Returns the @Interceptor annotation of this bean class.
 	 * 
-	 * @return the @Decorator annotation of this bean class
+	 * @return the @Interceptor annotation of this bean class
 	 */
-	IAnnotationDeclaration getDecoratorAnnotation();
-
-	/**
-	 * Obtains the decorated types.
-	 * 
-	 * @return the set of decorated types
-	 */
-	Set<IType> getDecoratedTypes();
+	IAnnotationDeclaration getInterceptorAnnotation();
 }

@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -59,6 +60,22 @@ public interface IBeanManager {
 	 * @return the resulting set of beans
 	 */
 	Set<IBean> getBeans(IInjectionPoint injectionPoints);
+
+	/**
+	 * Returns the bean which is declared in the given IType.
+	 * 
+	 * @param type
+	 * @return the bean which is declared in the given IType
+	 */
+	IClassBean getBeanClass(IType type);
+
+	/**
+	 * Returns the set of beans by resource path. 
+
+	 * @param resource path
+	 * @return the set of beans by resource path.
+	 */
+	Set<IBean> getBeans(IPath path);
 
 	/**
 	 * Returns the all available qualifier types.
@@ -134,4 +151,28 @@ public interface IBeanManager {
 	 *         <decorators> of beans.xml by its full qualified type name.
 	 */
 	List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName);
+
+	/**
+	 * Returns the source reference to <class>...</class> element of
+	 * <interceptors> of beans.xml. For example:
+	 *     <interceptors>
+	 *        <class>...</class>
+	 *     </interceptors>
+	 * 
+	 * @return the source reference to <class>...</class> element of
+	 *         <interceptors> of beans.xml.
+	 */
+	List<INodeReference> getInterceptorClasses();
+
+	/**
+	 * Returns the source reference to <class>...</class> element of
+	 * <interceptors> of beans.xml by its full qualified type name. For example:
+	 *     <interceptors>
+	 *        <class>org.compony.Item</class>
+	 *     </interceptors>
+	 * 
+	 * @return the source reference to <class>...</class> element of
+	 *         <interceptors> of beans.xml by its full qualified type name.
+	 */
+	List<INodeReference> getInterceptorClasses(String fullQualifiedTypeName);
 }

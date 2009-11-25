@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.core;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a class-based bean.
@@ -39,4 +40,11 @@ public interface IClassBean extends IBean {
 	 * @return a list of bean constructor of the bean.
 	 */
 	List<IBeanMethod> getBeanConstructor();
+
+	/**
+	 * Obtains the interceptor bindings of the bean.
+	 * 
+	 * @return the set of interceptor bindings
+	 */
+	Set<IInterceptorBindingDeclaration> getInterceptorBindings();
 }
