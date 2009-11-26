@@ -137,4 +137,13 @@ public interface IBean extends IScoped, ICDIElement {
 	 * @return "true" if this bean has @Depended scope.
 	 */
 	boolean isDependent();
+
+	/**
+	 * Returns "true" if the bean is enabled. Note that implementations of some
+	 * sub-interfaces of IBean like IDecorator and IInterceptor use their own
+	 * mechanisms of enablement.
+	 * 
+	 * @return "true" if the bean is enabled
+	 */
+	boolean isEnabled();
 }

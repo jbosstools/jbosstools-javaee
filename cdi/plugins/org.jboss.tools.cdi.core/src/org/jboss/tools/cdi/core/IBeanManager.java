@@ -92,6 +92,16 @@ public interface IBeanManager {
 	Set<IType> getStereotypes();
 
 	/**
+	 * Returns the set of observers for an event which is injected by given
+	 * injection point.
+	 * 
+	 * @param injectionPoint
+	 * @return the set of observers for an event which is injected by given
+	 *         injection point
+	 */
+	Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint);
+
+	/**
 	 * Returns the source reference to <class>...</class> element of
 	 * <alternatives> of beans.xml. For example:
 	 *     <alternatives>

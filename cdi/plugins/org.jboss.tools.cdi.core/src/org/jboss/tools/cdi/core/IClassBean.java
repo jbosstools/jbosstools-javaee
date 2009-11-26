@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,25 +20,25 @@ import java.util.Set;
 public interface IClassBean extends IBean {
 
 	/**
-	 * Returns a list of producers that are declared in this bean class.
+	 * Returns a set of producers that are declared in this bean class.
 	 * 
-	 * @return a list of producers that are declared in this bean class.
+	 * @return a set of producers that are declared in this bean class.
 	 */
-	List<IProducer> getProducers();
+	Set<IProducer> getProducers();
 
 	/**
-	 * Returns a list of disposer methods that are declared in this bean class.
+	 * Returns a set of disposer methods that are declared in this bean class.
 	 * 
-	 * @return a list of disposer methods that are declared in this bean class.
+	 * @return a set of disposer methods that are declared in this bean class.
 	 */
-	List<IBeanMethod> getDisposers();
+	Set<IBeanMethod> getDisposers();
 
 	/**
-	 * Returns a list of bean constructor of the bean.
+	 * Returns a set of bean constructor of the bean.
 	 * 
-	 * @return a list of bean constructor of the bean.
+	 * @return a set of bean constructor of the bean.
 	 */
-	List<IBeanMethod> getBeanConstructor();
+	Set<IBeanMethod> getBeanConstructor();
 
 	/**
 	 * Obtains the interceptor bindings of the bean.
@@ -47,4 +46,11 @@ public interface IClassBean extends IBean {
 	 * @return the set of interceptor bindings
 	 */
 	Set<IInterceptorBindingDeclaration> getInterceptorBindings();
+
+	/**
+	 * Returns a set of observer methods of the bean.
+	 * 
+	 * @return a set of observer methods of the bean
+	 */
+	Set<IObserverMethod> getObserverMethods();
 }

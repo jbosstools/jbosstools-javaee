@@ -10,11 +10,19 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Set;
+
 /**
- * Represents a producer method.
+ * Represents an observer method of a bean.
  * 
  * @author Alexey Kazakov
  */
-public interface IProducetMethod extends IBeanMethod, IProducer {
+public interface IObserverMethod extends IBeanMethod {
 
+	/**
+	 * Returns the set of @Observes annotations of parameters of this method.
+	 * 
+	 * @return the set of @Observes annotations of parameters of this method
+	 */
+	Set<IAnnotationDeclaration> getObservesAnnotationDeclarations();
 }
