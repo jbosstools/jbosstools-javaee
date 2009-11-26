@@ -677,4 +677,35 @@
       <xclass id="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"
               class="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"/>
    </extension>
+
+	<extension
+		point="org.eclipse.ui.popupMenus">
+
+		<objectContribution
+			id="org.jboss.tools.seam.ui.project.configure"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<and>
+					<objectState 
+						name="projectNature"
+						value="org.eclipse.jdt.core.javanature"/>
+					<not>
+						<objectState 
+							name="projectNature"
+							value="org.jboss.tools.seam.core.seamnature"/>
+					</not>
+				</and>
+			</visibility>
+
+			<action
+				id="org.jboss.tools.seam.ui.AddSeamSupport"
+				label="%ConfigureMenu_AddSeamSupport"
+				class="org.jboss.tools.seam.ui.preferences.AddSeamSupportAction"
+				enablesFor="1"
+				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
+
+		</objectContribution>
+	</extension>
+
 </plugin>
