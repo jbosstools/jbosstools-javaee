@@ -48,9 +48,17 @@ public interface IBeanManager {
 	 *            the required bean type
 	 * @param qualifiers
 	 *            the required qualifiers
+	 * @param attemptToResolveAmbiguousDependency
+	 *            if there are a few beans with the given type and qualifiers
+	 *            and attemptToResolveAmbiguousDependency==true the manager
+	 *            should try to resolve the ambiguity. If any of the beans are
+	 *            alternatives, the manager will eliminate all beans that are
+	 *            not alternatives, expect for producer methods and fields of
+	 *            beans that are alternatives.
+	 * 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(IType beanType, IAnnotationDeclaration... qualifiers);
+	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IType beanType, IAnnotationDeclaration... qualifiers);
 
 	/**
 	 * Returns the set of beans which are eligible for the given injection
@@ -100,6 +108,62 @@ public interface IBeanManager {
 	 *         injection point
 	 */
 	Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint);
+
+	/**
+	 * Applies the ambiguous dependency resolution rules to a set of beans.
+	 * 
+	 * @param beans
+	 *            a set of beans
+	 * @return resolved beans
+	 */
+	Set<IBean> resolve(Set<IBean> beans);
+
+	/**
+	 * Tests the given annotation type to determine if it is a scope type.
+	 * 
+	 * @param annotationType
+	 *            the annotation type
+	 * @return true if the annotation type is a scope type
+	 */
+	boolean isScope(IType annotationType);
+
+	/**
+	 * Tests the given annotation type to determine if it is a normal scope
+	 * type.
+	 * 
+	 * @param annotationType
+	 *            the annotation type
+	 * @return <tt>true</tt> if the annotation type is a normal scope type
+	 */
+	boolean isNormalScope(IType annotationType);
+
+	/**
+	 * Tests the given annotation type to determine if it is a passivating scope
+	 * type.
+	 * 
+	 * @param annotationType
+	 *            the annotation type
+	 * @return <tt>true</tt> if the annotation type is a passivating scope type
+	 */
+	boolean isPassivatingScope(IType annotationType);
+
+	/**
+	 * Tests the given annotation type to determine if it is a qualifier type.
+	 * 
+	 * @param annotationType
+	 *            the annotation type
+	 * @return <tt>true</tt> if the annotation type is a qualifier type
+	 */
+	boolean isQualifier(IType annotationType);
+
+	/**
+	 * Tests the given annotation type to determine if it is a stereotype.
+	 * 
+	 * @param annotationType
+	 *            the annotation type
+	 * @return <tt>true</tt> if the annotation type is a stereotype
+	 */
+	boolean isStereotype(IType annotationType);
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
