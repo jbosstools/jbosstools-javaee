@@ -39,7 +39,13 @@ public class AddSeamSupportAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		IProject project = (IProject) ((IStructuredSelection) currentSelection).getFirstElement();
 		PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, SeamSettingsPreferencePage.ID, new String[] {SeamSettingsPreferencePage.ID}, null);
+		SeamSettingsPreferencePage page = (SeamSettingsPreferencePage)dialog.getSelectedPage();
+		page.setEnabledSeamSuport(shouldEnable());
 		dialog.open();
+	}
+
+	protected boolean shouldEnable() {
+		return true;
 	}
 
 	/* (non-Javadoc)

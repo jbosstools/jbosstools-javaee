@@ -714,7 +714,11 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 	private String getSeamRuntimeName() {
 		if(preferences!=null) {
-			return preferences.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, "");
+			SeamRuntime defaultRuntime = SeamRuntimeManager.getDefaultRuntimeForProject(warProject!=null?warProject:project);
+			if(defaultRuntime==null) {
+				defaultRuntime = SeamRuntimeManager.getInstance().getDefaultRuntime();
+			}
+			return preferences.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, defaultRuntime==null?"":defaultRuntime.getName());
 		}
 		return "";
 	}
@@ -841,9 +845,10 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return suportSeam;
 	}
 
-	private void setEnabledSeamSuport(boolean enabled) {
-		// just for enabling/disabling groups 
+	public void setEnabledSeamSuport(boolean enabled) {
 		suportSeam = enabled;
+		editorRegistry.get(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT).setValue(enabled);
+		// just for enabling/disabling groups
 		if(!enabled) {
 			setEnabledGroups(enabled);
 			// disable all below
@@ -851,7 +856,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				if(key!=SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT) {
 					editorRegistry.get(key).setEnabled(enabled);
 				}
-			}			
+			}
 		} else {
 			editorRegistry.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).setEnabled(enabled);
 			if(runtimeIsSelected) {

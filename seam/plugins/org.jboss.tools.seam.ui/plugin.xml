@@ -410,24 +410,6 @@
 		name="org.jboss.tools.seam.ui.contentAssistProcessor">
   </extension>
  
- <extension
-       point="org.eclipse.ui.popupMenus">
-       <!-- TODO: We should either remove this or move it to a not so prominient place in the final release -->
-    <objectContribution
-          adaptable="true"
-          id="org.jboss.tools.seam.ui.enableSeamAction"
-          nameFilter="*"
-          objectClass="org.eclipse.core.resources.IProject">
-       <!--action
-             class="org.jboss.tools.seam.ui.builder.ToggleSeamNatureAction"
-             enablesFor="+"
-             id="org.jboss.tools.seam.ui.addRemoveSeamNatureAction"
-             label="Add/Remove Seam support"
-             menubarPath="additions">
-       </action-->
-    </objectContribution>
- </extension>
-  
    <extension point="org.eclipse.ui.preferencePages">
       <page 
          category="org.jboss.tools.common.model.ui.seam" 
@@ -682,7 +664,7 @@
 		point="org.eclipse.ui.popupMenus">
 
 		<objectContribution
-			id="org.jboss.tools.seam.ui.project.configure"
+			id="org.jboss.tools.seam.ui.project.configure.enable"
 			objectClass="org.eclipse.core.resources.IProject"
 			adaptable="true">
 			<visibility>
@@ -702,6 +684,25 @@
 				id="org.jboss.tools.seam.ui.AddSeamSupport"
 				label="%ConfigureMenu_AddSeamSupport"
 				class="org.jboss.tools.seam.ui.preferences.AddSeamSupportAction"
+				enablesFor="1"
+				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
+
+		</objectContribution>
+
+		<objectContribution
+			id="org.jboss.tools.seam.ui.project.configure.disable"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<objectState 
+					name="projectNature"
+					value="org.jboss.tools.seam.core.seamnature"/>
+			</visibility>
+
+			<action
+				id="org.jboss.tools.seam.ui.RemoveSeamSupport"
+				label="%ConfigureMenu_RemoveSeamSupport"
+				class="org.jboss.tools.seam.ui.preferences.RemoveSeamSupportAction"
 				enablesFor="1"
 				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
 
