@@ -166,8 +166,66 @@
       </wizard>
    </extension>
    <extension point="org.eclipse.ui.popupMenus">
+   		<objectContribution
+			id="org.jboss.tools.seam.ui.project.configure"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<and>
+					<objectState 
+						name="projectNature"
+						value="org.eclipse.jdt.core.javanature"/>
+					<not>
+						<objectState 
+							name="projectNature"
+							value="org.jboss.tools.jsf.jsfnature"/>
+					</not>
+				</and>
+			</visibility>
+			
+			<action 
+               class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
+               enablesFor="1" 
+               icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
+               id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
+               label="%popupMenus.action.addJSFNature" 
+               menubarPath="org.eclipse.ui.projectConfigure/additions">
+         </action>
+		</objectContribution>
+   		<objectContribution
+			id="org.jboss.tools.seam.ui.project.configure"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<and>
+					<objectState 
+						name="projectNature"
+						value="org.eclipse.jdt.core.javanature"/>
+					<and>
+						<objectState 
+							name="projectNature"
+							value="org.jboss.tools.jsf.jsfnature"/>
+					</and>
+				</and>
+			</visibility>
+			
+			<action 
+               class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
+               enablesFor="1" 
+               id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
+               label="%popupMenus.action.removeJSFNature" 
+               menubarPath="org.eclipse.ui.projectConfigure/additions">
+         </action>
+         <action 
+               class="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
+               enablesFor="1" 
+               id="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
+               label="%popupMenus.action.addCustomCapabilities" 
+               menubarPath="org.eclipse.ui.projectConfigure/additions">
+         </action>
+		</objectContribution>
 <!-- IProject -->
-      <objectContribution id="JSF_IProject" objectClass="org.eclipse.core.resources.IProject">
+      <!--objectContribution id="JSF_IProject" objectClass="org.eclipse.core.resources.IProject">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
@@ -197,9 +255,9 @@
                label="%popupMenus.action.addCustomCapabilities" 
                menubarPath="RedHat4Web/d">
          </action>
-      </objectContribution>
+      </objectContribution-->
 <!-- IJavaProject -->
-      <objectContribution id="JSF_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
+      <!--objectContribution id="JSF_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
@@ -214,30 +272,24 @@
                icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
                id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
                label="%popupMenus.action.addJSFNature" 
-               menubarPath="RedHat4Web/a">
+               menubarPath="org.eclipse.ui.projectConfigure/additions">
          </action>
          <action 
                class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
                enablesFor="*" 
                id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
                label="%popupMenus.action.removeJSFNature" 
-               menubarPath="RedHat4Web/d">
+               menubarPath="org.eclipse.ui.projectConfigure/additions">
          </action>
-         <!--action 
+         <action 
                class="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportAction" 
                enablesFor="*" 
                id="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportAction" 
                label="Add ADF Support" 
                menubarPath="RedHat4Web/d">
-         </action-->
-         <action 
-               class="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
-               label="%popupMenus.action.addCustomCapabilities" 
-               menubarPath="RedHat4Web/d">
          </action>
-      </objectContribution>
+         
+      </objectContribution-->
 <!-- IFile -->
       <!--objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
