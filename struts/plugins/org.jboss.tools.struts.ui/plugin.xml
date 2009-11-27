@@ -158,7 +158,66 @@
       </perspective>
    </extension-->
    <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution id="RedHatStrutsStudio_IProject" objectClass="org.eclipse.core.resources.IProject">
+   <objectContribution
+			id="org.jboss.tools.seam.ui.project.configure"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<and>
+					<objectState 
+						name="projectNature"
+						value="org.eclipse.jdt.core.javanature"/>
+					<not>
+						<objectState 
+							name="projectNature"
+							value="org.jboss.tools.struts.strutsnature"/>
+					</not>
+				</and>
+			</visibility>
+			
+			<action
+				class="org.jboss.tools.struts.ui.internal.action.AddStrutsNatureActionDelegate"
+				enablesFor="1"
+				icon="$nl$/images/xstudio/actions/add_struts_nature.gif"
+				id="org.jboss.tools.struts.ui.action.AddStrutsNatureActionDelegate"
+				label="%popupMenus.action.addStrutsNature"
+				menubarPath="org.eclipse.ui.projectConfigure/additions">
+         	</action>
+		</objectContribution>
+   		<objectContribution
+			id="org.jboss.tools.seam.ui.project.configure"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<and>
+					<objectState 
+						name="projectNature"
+						value="org.eclipse.jdt.core.javanature"/>
+					<and>
+						<objectState 
+							name="projectNature"
+							value="org.jboss.tools.struts.strutsnature"/>
+					</and>
+				</and>
+			</visibility>
+			
+			<action
+				class="org.jboss.tools.struts.ui.internal.action.RemoveStrutsNatureActionDelegate"
+				enablesFor="1"
+				id="org.jboss.tools.common.xstudio.action.RemoveStrutsNatureActionDelegate"
+				label="%popupMenus.action.removeStrutsNature"
+				menubarPath="org.eclipse.ui.projectConfigure/additions">
+         	</action>
+         	<action
+         		class="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate"
+         		enablesFor="1"
+         		id="org.jboss.tools.common.xstudio.action.ModulesConfigurationActionDelegate"
+         		label="%popupMenus.action.modulesConfiguration"
+         		menubarPath="org.eclipse.ui.projectConfigure/additions">
+         	</action>
+			
+		</objectContribution>
+      <!--objectContribution id="RedHatStrutsStudio_IProject" objectClass="org.eclipse.core.resources.IProject">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
             </separator>
@@ -193,7 +252,7 @@
          </action>
          <action class="org.jboss.tools.struts.ui.internal.action.ModulesConfigurationActionDelegate" enablesFor="*" id="org.jboss.tools.common.xstudio.action.ModulesConfigurationActionDelegate" label="%popupMenus.action.modulesConfiguration" menubarPath="RedHat4Web/b">
          </action>
-      </objectContribution>
+      </objectContribution-->
       <!--objectContribution id="RedHatStrutsStudio_IFile" objectClass="org.eclipse.core.resources.IFile">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
             <separator name="a">
