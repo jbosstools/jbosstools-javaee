@@ -65,7 +65,7 @@ public class JBIDE4509Test extends VpeTest{
 	//test openon for taglib from in file
 	public void testOpenOnForTaglibInJarFile() throws Throwable {
 		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/mareshkau.jar", //$NON-NLS-1$
-				"META-INF/mareshkau.taglib.xml", 12, 25, "components/paginator.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
+				"META-INF/mareshkau.taglib.xml", 12, 25, "paginator.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	public void testOpenOnForJavaElementFromDeclarationInJar() throws Throwable {
