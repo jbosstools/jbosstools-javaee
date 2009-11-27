@@ -49,10 +49,142 @@
   </GROUP>
  </ICONS>
  <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="config-property" name="DSConfigProperty">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.event" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="config-property" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="name" xmlname="name"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="type" xmlname="type"/>
+   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="connection-property" name="DSConnectionProperty">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.event" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="connection-property" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="name" xmlname="name"/>
+   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="depends" name="DSDepends">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.event" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="depends" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general" name="value" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="ha-local-tx-datasource" name="DSHALocalTXDatasource">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConnectionProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -121,6 +253,50 @@
     </Constraint>
     <Editor name="List"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="new-connection-sql" xmlname="new-connection-sql.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="check-valid-connection-sql" xmlname="check-valid-connection-sql.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="valid-connection-checker-class-name" xmlname="valid-connection-checker-class-name.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="exception-sorter-class-name" xmlname="exception-sorter-class-name.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="track-statements" xmlname="track-statements.#text">
+    <Constraint loader="List">
+     <value/>
+     <value name="false"/>
+     <value name="true"/>
+     <value name="nowarn"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="prepared-statement-cache-size" xmlname="prepared-statement-cache-size.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="share-prepared-statements" xmlname="share-prepared-statements.#text">
+    <Constraint loader="List">
+     <value/>
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="set-tx-query-timeout" xmlname="set-tx-query-timeout.#text">
+    <Constraint loader="List">
+     <value/>
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="query-timeout" xmlname="query-timeout.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="use-try-lock" xmlname="use-try-lock.#text"/>
    <XModelAttribute PROPERTIES="category=advanced" name="metadata" xmlname="metadata.type-mapping.#text"/>
    <XModelAttribute PROPERTIES="category=advanced" name="type-mapping" xmlname="type-mapping.#text"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -129,20 +305,44 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Depends..." kind="action" name="AddDepends">
+     <EntityData EntityName="DSDepends">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Connection Property..." kind="action" name="AddConnectionProperty">
+     <EntityData EntityName="DSConnectionProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItemReference entity="DSDepends" name="DeleteActions"/>
+   <XActionItemReference entity="DSDepends" name="Properties"/>
+   <XActionItemReference entity="DSDepends" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="ha-local-tx-datasource" name="DSHALocalTXDatasource50">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConnectionProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -192,6 +392,14 @@
    <XModelAttributeReference
     attributes="blocking-timeout-millis,idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="timeout"/>
+   <XModelAttributeReference attributes="no-tx-separate-pools"
+    entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,track-statements"
+    entity="DSHALocalTXDatasource" name="new-connection-sql"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -200,20 +408,24 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddConnectionProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="ha-xa-datasource" name="DSHAXADatasource">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSXAProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -271,6 +483,14 @@
     entity="DSHALocalTXDatasource" name="timeout"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="xa-resource-timeout" xmlname="xa-resource-timeout.#text"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,track-statements"
+    entity="DSHALocalTXDatasource" name="new-connection-sql"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -279,20 +499,31 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Property..." kind="action" name="AddProperty">
+     <EntityData EntityName="DSXAProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="ha-xa-datasource" name="DSHAXADatasource50">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSXAProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -350,6 +581,14 @@
     entity="DSHALocalTXDatasource" name="timeout"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="xa-resource-timeout" xmlname="xa-resource-timeout.#text"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,track-statements"
+    entity="DSHALocalTXDatasource" name="new-connection-sql"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -358,13 +597,14 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHAXADatasource" name="AddProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -424,7 +664,10 @@
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="local-tx-datasource" name="DSLocalTXDatasource">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConnectionProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -475,10 +718,39 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="background-validation" xmlname="background-validation.#text">
+    <Constraint loader="List">
+     <value/>
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="background-validation-minutes" xmlname="background-validation-minutes.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="validate-on-match" xmlname="validate-on-match.#text">
+    <Constraint loader="List">
+     <value/>
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name"
+    entity="DSHALocalTXDatasource" name="new-connection-sql"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="stale-connection-checker-class-name" xmlname="stale-connection-checker-class-name.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttributeReference attributes="track-statements"
+    entity="DSHALocalTXDatasource" name="track-statements"/>
    <XModelAttribute PROPERTIES="category=advanced" name="prefill" xmlname="prefill.#text">
     <Constraint loader="ListString">
      <value/>
@@ -495,6 +767,9 @@
     </Constraint>
     <Editor name="ListString"/>
    </XModelAttribute>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -503,20 +778,24 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddConnectionProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="local-tx-datasource" name="DSLocalTXDatasource50">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConnectionProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -565,12 +844,31 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="background-validation" xmlname="background-validation.#text">
+    <Constraint loader="List">
+     <value/>
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="background-validation-millis" xmlname="background-validation-millis.#text"/>
+   <XModelAttributeReference attributes="validate-on-match"
+    entity="DSHALocalTXDatasource" name="validate-on-match"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,stale-connection-checker-class-name,track-statements"
+    entity="DSLocalTXDatasource" name="new-connection-sql"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -579,13 +877,14 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddConnectionProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -645,7 +944,10 @@
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="no-tx-connection-factory" name="DSNoTXConnectionFactory">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConfigProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.factory" type="main"/>
@@ -676,6 +978,9 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-minutes"
+    entity="DSLocalTXDatasource" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
@@ -688,20 +993,32 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Config Property..." kind="action" name="AddConfigProperty">
+     <EntityData EntityName="DSConfigProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="type"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="no-tx-connection-factory" name="DSNoTXConnectionFactory50">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConfigProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.factory" type="main"/>
@@ -731,6 +1048,9 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-millis"
+    entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
@@ -743,20 +1063,32 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Config Property..." kind="action" name="AddConfigProperty">
+     <EntityData EntityName="DSConfigProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="type"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="no-tx-datasource" name="DSNoTXDatasource">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConnectionProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -803,10 +1135,21 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-minutes"
+    entity="DSLocalTXDatasource" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="validate-on-match"
+    entity="DSLocalTXDatasource" name="validate-on-match"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,stale-connection-checker-class-name,track-statements"
+    entity="DSLocalTXDatasource" name="new-connection-sql"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -815,13 +1158,14 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddConnectionProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -829,11 +1173,12 @@
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="no-tx-datasource" name="DSNoTXDatasource50">
   <XChildrenEntities>
-   <XChildEntity name="ESBProperty"/>
+   <XChildEntity name="DSConnectionProperty"/>
+   <XChildEntity name="DSDepends"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.esb.bus" type="main"/>
+    <ICON info="main.ds.datasource" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -877,10 +1222,21 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-millis"
+    entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="validate-on-match"
+    entity="DSHALocalTXDatasource" name="validate-on-match"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,stale-connection-checker-class-name,track-statements"
+    entity="DSLocalTXDatasource" name="new-connection-sql"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -889,20 +1245,24 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddConnectionProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="tx-connection-factory" name="DSTXConnectionFactory">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConfigProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.factory" type="main"/>
@@ -947,12 +1307,17 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-minutes"
+    entity="DSLocalTXDatasource" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="xa-resource-timeout" xmlname="xa-resource-timeout.#text"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -961,20 +1326,32 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Config Property..." kind="action" name="AddConfigProperty">
+     <EntityData EntityName="DSConfigProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="type"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="tx-connection-factory" name="DSTXConnectionFactory50">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSConfigProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.factory" type="main"/>
@@ -1019,12 +1396,17 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-millis"
+    entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="xa-resource-timeout" xmlname="xa-resource-timeout.#text"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -1033,20 +1415,32 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Config Property..." kind="action" name="AddConfigProperty">
+     <EntityData EntityName="DSConfigProperty">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="type"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="xa-datasource" name="DSXADatasource">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSXAProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -1102,12 +1496,25 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-minutes"
+    entity="DSLocalTXDatasource" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="validate-on-match"
+    entity="DSLocalTXDatasource" name="validate-on-match"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="xa-resource-timeout" xmlname="xa-resource-timeout.#text"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,stale-connection-checker-class-name,track-statements"
+    entity="DSLocalTXDatasource" name="new-connection-sql"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -1116,20 +1523,24 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHAXADatasource" name="AddProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%DS_Datasource%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="xa-datasource" name="DSXADatasource50">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity name="DSXAProperty"/>
+   <XChildEntity name="DSDepends"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.ds.datasource" type="main"/>
@@ -1185,12 +1596,25 @@
     entity="DSHALocalTXDatasource" name="pool-size"/>
    <XModelAttributeReference attributes="blocking-timeout-millis"
     entity="DSHALocalTXDatasource" name="blocking-timeout"/>
+   <XModelAttributeReference
+    attributes="background-validation,background-validation-millis"
+    entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference attributes="validate-on-match"
+    entity="DSHALocalTXDatasource" name="validate-on-match"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="xa-resource-timeout" xmlname="xa-resource-timeout.#text"/>
+   <XModelAttributeReference
+    attributes="new-connection-sql,check-valid-connection-sql,valid-connection-checker-class-name,exception-sorter-class-name,stale-connection-checker-class-name,track-statements"
+    entity="DSLocalTXDatasource" name="new-connection-sql"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
+   <XModelAttributeReference
+    attributes="prepared-statement-cache-size,share-prepared-statements,set-tx-query-timeout,query-timeout,use-try-lock"
+    entity="DSHALocalTXDatasource" name="statement"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
     entity="DSHALocalTXDatasource" name="type-mapping"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -1199,13 +1623,58 @@
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
-    <XActionItemReference entity="ESBAction101" name="AddProperty" path="CreateActions/AddProperty"/>
+    <XActionItemReference entity="DSHALocalTXDatasource" name="AddDepends"/>
+    <XActionItemReference entity="DSHAXADatasource" name="AddProperty"/>
    </XActionItem>
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
-   <XActionItemReference entity="ESBProperty" name="CopyActions"/>
-   <XActionItemReference entity="ESBProperty" name="DeleteActions"/>
-   <XActionItemReference entity="ESBProperty" name="Properties"/>
-   <XActionItemReference entity="ESBProperty" name="MoveActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="CopyActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="DeleteActions"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="Properties"/>
+   <XActionItemReference entity="DSHALocalTXDatasource" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="xa-datasource-property" name="DSXAProperty">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.event" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="xa-datasource-property"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="name" xmlname="name"/>
+   <XModelAttribute PROPERTIES="category=general" name="value" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
