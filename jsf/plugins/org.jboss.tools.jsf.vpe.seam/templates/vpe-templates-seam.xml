@@ -5,6 +5,8 @@
 		prefix="s" />
 	<vpe:template-taglib uri="http://jboss.com/products/seam/mail"
 		prefix="m" />
+	<vpe:template-taglib uri="http://jboss.com/products/seam/pdf"
+		prefix="p" />
 
 	<vpe:tag name="s:button" case-sensitive="yes">
 		<!--
@@ -360,12 +362,13 @@
 
 	<vpe:tag name="m:message" case-sensitive="yes">
 		<vpe:template children="yes" modify="yes">
-			<div/>
+			<div />
 		</vpe:template>
 	</vpe:tag>
 
 	<vpe:tag name="m:body" case-sensitive="yes">
-		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.seam.template.SeamMailBodyTemplate"/>
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamMailBodyTemplate" />
 	</vpe:tag>
 
 	<vpe:tag name="m:from" case-sensitive="yes">
@@ -397,6 +400,216 @@
 	</vpe:tag>
 
 	<vpe:tag name="m:replyTo" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:document" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfDocumentTemplate" />
+	</vpe:tag>
+
+	<vpe:tag name="p:paragraph" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:title')">
+			<vpe:template children="yes" modify="yes">
+				<span class="vpe-text" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfParagraphTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:text" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="no"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfTextTemplate">
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+					<vpe:drop container="yes">
+						<vpe:container-child tag-name="converter" />
+						<vpe:container-child tag-name="convertNumber" />
+						<vpe:container-child tag-name="convertDateTime" />
+						<vpe:container-child tag-name="validator" />
+						<vpe:container-child tag-name="validateDoubleRange" />
+						<vpe:container-child tag-name="validateLongRange" />
+						<vpe:container-child tag-name="validateLength" />
+					</vpe:drop>
+				</vpe:dnd>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:newPage" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="no" modify="no">
+				<div style="page-break-before: always;" />
+				<vpe:drop container="no" />
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:image" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:anchor" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfAnchorTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:footer" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfFooterTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:header" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:pageNumber" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:header')|hasinparents('p:footer')">
+			<vpe:template children="no" modify="no">
+				<span class="vpe-text">1</span>
+			</vpe:template>
+			<vpe:drop container="no" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:chapter" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfChapterTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:title" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:chapter')|hasinparents('p:section')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfTitleTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:section" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:chapter')|hasinparents('p:section')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfSectionTemplate">
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:table" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfTableTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:cell" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:table')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfCellTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:list" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfListTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:listItem" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:list')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfListItemTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:font" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfFontTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:barchart" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="no" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfBarChartTemplate">
+				<vpe:resize>
+					<vpe:width width-attr="width" />
+					<vpe:height height-attr="height" />
+				</vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:linechart" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="no" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfLineChartTemplate">
+				<vpe:resize>
+					<vpe:width width-attr="width" />
+					<vpe:height height-attr="height" />
+				</vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:piechart" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="no" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfPieChartTemplate">
+				<vpe:resize>
+					<vpe:width width-attr="width" />
+					<vpe:height height-attr="height" />
+				</vpe:resize>
+			</vpe:template>
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:series" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:data" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:barcode" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:color" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="p:stroke" case-sensitive="yes">
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
 

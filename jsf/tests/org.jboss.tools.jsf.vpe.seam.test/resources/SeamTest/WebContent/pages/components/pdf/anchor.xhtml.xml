@@ -1,0 +1,12 @@
+<tests>
+	<test id="referenceAnchor">
+		<A HREF="#reason1">
+			<SPAN CLASS="vpe-text">Reason 1</SPAN>
+		</A>
+	</test>
+	<test id="unreferenceAnchor">
+		<A NAME="reason1" STYLE="color: black; text-decoration: none;">
+			<SPAN CLASS="vpe-text">It's the quickest way to get "rich"</SPAN>
+		</A>
+	</test>
+</tests>

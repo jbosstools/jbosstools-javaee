@@ -13,7 +13,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.seam.template.util.Seam;
+import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -71,16 +71,16 @@ public class SeamGraphicImageTemplate extends VpeAbstractTemplate {
 	if (sourceElement.hasAttribute(HTML.ATTR_STYLE)) {
 	    img.setAttribute(HTML.ATTR_STYLE, sourceElement.getAttribute(HTML.ATTR_STYLE));
 	}
-	if (sourceElement.hasAttribute(Seam.ATTR_STYLE_CLASS)) {
-	    img.setAttribute(HTML.ATTR_CLASS, sourceElement.getAttribute(Seam.ATTR_STYLE_CLASS));
+	if (sourceElement.hasAttribute(SeamUtil.ATTR_STYLE_CLASS)) {
+	    img.setAttribute(HTML.ATTR_CLASS, sourceElement.getAttribute(SeamUtil.ATTR_STYLE_CLASS));
 	}
 	if (sourceElement.hasAttribute(HTML.ATTR_VALUE)) {
 	    img.setAttribute(HTML.ATTR_SRC, VpeStyleUtil.addFullPathToImgSrc(
 		    sourceElement.getAttribute(HTML.ATTR_VALUE), pageContext,
 		    true));
-	} else if (sourceElement.hasAttribute(Seam.ATTR_URL)) {
+	} else if (sourceElement.hasAttribute(SeamUtil.ATTR_URL)) {
 	    img.setAttribute(HTML.ATTR_SRC, VpeStyleUtil.addFullPathToImgSrc(
-		    sourceElement.getAttribute(Seam.ATTR_URL), pageContext,
+		    sourceElement.getAttribute(SeamUtil.ATTR_URL), pageContext,
 		    true));
 	}
 	

@@ -1,0 +1,16 @@
+<tests>
+	<test id="footerID">
+		<DIV STYLE="margin: 70px 60px 80px 50px;">
+			<DIV>
+				<SPAN CLASS="vpe-text">
+					Paragraph Text
+</SPAN>
+			</DIV>
+			<DIV ALIGN="center">
+				<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+					1
+</SPAN>
+			</DIV>
+		</DIV>
+	</test>
+</tests>

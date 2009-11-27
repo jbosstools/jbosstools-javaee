@@ -125,47 +125,145 @@ public class SeamComponentContentTest extends ComponentContentTest {
 	public void testTaskId() throws Throwable {
 		performInvisibleTagTest("components/taskId.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
-	//mail components
-	
-	public void testMailMessage() throws Throwable{
+
+	// mail components
+
+	public void testMailMessage() throws Throwable {
 		performContentTest("components/mail/message.xhtml");
 	}
-	
-	public void testMailBody() throws Throwable{
+
+	public void testMailBody() throws Throwable {
 		performContentTest("components/mail/body.xhtml");
 	}
-	
-	public void testMailFrom() throws Throwable{
+
+	public void testMailFrom() throws Throwable {
 		performInvisibleTagTest("components/mail/from.xhtml", "id1");
 	}
-	
-	public void testMailTo() throws Throwable{
+
+	public void testMailTo() throws Throwable {
 		performInvisibleTagTest("components/mail/to.xhtml", "id1");
 	}
-	
-	public void testMailSubject() throws Throwable{
+
+	public void testMailSubject() throws Throwable {
 		performInvisibleTagTest("components/mail/subject.xhtml", "id1");
 	}
-	
-	public void testMailAttachment() throws Throwable{
+
+	public void testMailAttachment() throws Throwable {
 		performInvisibleTagTest("components/mail/attachment.xhtml", "id1");
 	}
-	
-	public void testMailBcc() throws Throwable{
+
+	public void testMailBcc() throws Throwable {
 		performInvisibleTagTest("components/mail/bcc.xhtml", "id1");
 	}
-	
-	public void testMailCc() throws Throwable{
+
+	public void testMailCc() throws Throwable {
 		performInvisibleTagTest("components/mail/cc.xhtml", "id1");
 	}
-	
-	public void testMailHeader() throws Throwable{
+
+	public void testMailHeader() throws Throwable {
 		performInvisibleTagTest("components/mail/header.xhtml", "id1");
 	}
-	
-	public void testMailReplyTo() throws Throwable{
+
+	public void testMailReplyTo() throws Throwable {
 		performInvisibleTagTest("components/mail/replyTo.xhtml", "id1");
 	}
-	
+
+	// pdf components
+
+	public void testPdfDocument() throws Throwable {
+		performContentTest("components/pdf/document.xhtml");
+	}
+
+	public void testPdfParagraph() throws Throwable {
+		performContentTest("components/pdf/paragraph.xhtml");
+	}
+
+	public void testPdfText() throws Throwable {
+		performContentTest("components/pdf/text.xhtml");
+	}
+
+	public void testPdfFont() throws Throwable {
+		performContentTest("components/pdf/font.xhtml");
+	}
+
+	public void testPdfNewPage() throws Throwable {
+		performContentTest("components/pdf/newPage.xhtml");
+	}
+
+	public void testPdfImage() throws Throwable {
+		performInvisibleTagTest("components/pdf/image.xhtml", "id1");
+	}
+
+	public void testPdfAnchor() throws Throwable {
+		performContentTest("components/pdf/anchor.xhtml");
+	}
+
+	public void testPdfHeader() throws Throwable {
+		performInvisibleTagTest("components/pdf/header.xhtml", "id1");
+	}
+
+	public void testPdfFooter() throws Throwable {
+		performContentTest("components/pdf/footer.xhtml");
+	}
+
+	public void testPdfPageNumber() throws Throwable {
+		performContentTest("components/pdf/pageNumber.xhtml");
+	}
+
+	public void testPdfChapter() throws Throwable {
+		performContentTest("components/pdf/chapter.xhtml");
+	}
+
+	public void testPdfSection() throws Throwable {
+		performContentTest("components/pdf/section.xhtml");
+	}
+
+	public void testPdfList() throws Throwable {
+		performContentTest("components/pdf/list.xhtml");
+	}
+
+	public void testPdfListItem() throws Throwable {
+		performContentTest("components/pdf/listItem.xhtml");
+	}
+
+	public void testPdfTable() throws Throwable {
+		performContentTest("components/pdf/table.xhtml");
+	}
+
+	public void testPdfCell() throws Throwable {
+		performContentTest("components/pdf/cell.xhtml");
+	}
+
+	public void testPdfBarChart() throws Throwable {
+		performContentTest("components/pdf/barChart.xhtml");
+	}
+
+	public void testPdfLineChart() throws Throwable {
+		performContentTest("components/pdf/lineChart.xhtml");
+	}
+
+	public void testPdfPieChart() throws Throwable {
+		performContentTest("components/pdf/pieChart.xhtml");
+	}
+
+	public void testPdfSeries() throws Throwable {
+		performInvisibleTagTest("components/pdf/series.xhtml", "id1");
+	}
+
+	public void testPdfData() throws Throwable {
+		performInvisibleTagTest("components/pdf/data.xhtml", "id1");
+	}
+
+	public void testPdfColor() throws Throwable {
+		performInvisibleTagTest("components/pdf/color.xhtml", "id1");
+	}
+
+	public void testPdfStroke() throws Throwable {
+		performInvisibleTagTest("components/pdf/stroke.xhtml", "id1");
+	}
+
+	public void testPdfBarCode() throws Throwable {
+		performInvisibleTagTest("components/pdf/barCode.xhtml", "id1");
+	}
+
 }

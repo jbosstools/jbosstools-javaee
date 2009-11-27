@@ -1,0 +1,16 @@
+<tests>
+	<test id="sectionID">
+		<SPAN CLASS="vpe-text">
+			<H2>
+				3.1.
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-write;">
+						<SPAN CLASS="vpe-text">
+							Section Title
+</SPAN>
+					</SPAN>
+				</SPAN>
+			</H2>
+		</SPAN>
+	</test>
+</tests>

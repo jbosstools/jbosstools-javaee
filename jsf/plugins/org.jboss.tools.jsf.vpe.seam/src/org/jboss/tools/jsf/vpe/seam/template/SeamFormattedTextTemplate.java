@@ -83,7 +83,7 @@ public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 		SeamTemplatesActivator.getPluginLog().logError(e);
 	    }
 
-	    nsIDOMParser parserDom = parserDom = (nsIDOMParser) getComponentManager()
+	    nsIDOMParser parserDom = (nsIDOMParser) getComponentManager()
 	    .createInstanceByContractID(CID_DOMPARSER, null,
 		    nsIDOMParser.NS_IDOMPARSER_IID);
 

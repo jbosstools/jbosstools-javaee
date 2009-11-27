@@ -1,0 +1,8 @@
+<tests>
+	<test id="linechartID1">
+		<IMG SRC="/.*resources/lineChart/lineChart.png/" STYLE="width: 508px; height: 615px;" />
+	</test>
+	<test id="linechartID2">
+		<IMG SRC="/.*resources/lineChart/lineChartSeriesNested.png/" />
+	</test>
+</tests>

@@ -1,0 +1,6 @@
+<tests>
+	<test id="newPageID">
+		<DIV STYLE="page-break-before: always; -moz-user-modify: read-only;">
+		</DIV>
+	</test>
+</tests>

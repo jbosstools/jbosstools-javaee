@@ -1,0 +1,16 @@
+<tests>
+	<test id="paragraphID1">
+		<DIV>
+			<SPAN CLASS="vpe-text">
+				Paragraph
+</SPAN>
+		</DIV>
+	</test>
+	<test id="paragraphID2">
+		<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-write;">
+			<SPAN CLASS="vpe-text">
+				Paragraph inside title
+</SPAN>
+		</SPAN>
+	</test>
+</tests>
