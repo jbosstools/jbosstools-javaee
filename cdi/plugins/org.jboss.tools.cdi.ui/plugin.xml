@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+ 
+   <extension
+         point="org.eclipse.ui.propertyPages">
+       <page
+            name="%PreferencePage_CDISettings"
+            class="org.jboss.tools.cdi.ui.preferences.CDISettingsPreferencePage"
+            id="org.jboss.tools.cdi.ui.propertyPages.CDISettingsPreferencePage">
+         <enabledWhen>
+		     	<adapt type="org.eclipse.core.resources.IProject">
+		     		<test property="org.eclipse.core.resources.projectNature" value="org.eclipse.jdt.core.javanature"/>
+				</adapt>
+         </enabledWhen>
+      </page>
+   </extension>
+
+	<extension
+		point="org.eclipse.ui.popupMenus">
+
+		<objectContribution
+			id="org.jboss.tools.cdi.ui.project.configure.enable"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<and>
+					<objectState 
+						name="projectNature"
+						value="org.eclipse.jdt.core.javanature"/>
+					<not>
+						<objectState 
+							name="projectNature"
+							value="org.jboss.tools.cdi.core.cdinature"/>
+					</not>
+				</and>
+			</visibility>
+
+			<action
+				id="org.jboss.tools.cdi.ui.AddCDISupport"
+				label="%ConfigureMenu_AddCDISupport"
+				class="org.jboss.tools.cdi.ui.preferences.AddCDISupportAction"
+				enablesFor="1"
+				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
+
+		</objectContribution>
+
+		<objectContribution
+			id="org.jboss.tools.cdi.ui.project.configure.disable"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<visibility>
+				<objectState 
+					name="projectNature"
+					value="org.jboss.tools.cdi.core.cdinature"/>
+			</visibility>
+
+			<action
+				id="org.jboss.tools.cdi.ui.RemoveCDISupport"
+				label="%ConfigureMenu_RemoveCDISupport"
+				class="org.jboss.tools.cdi.ui.preferences.RemoveCDISupportAction"
+				enablesFor="1"
+				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
+
+		</objectContribution>
+
+	</extension>
+
+</plugin>
