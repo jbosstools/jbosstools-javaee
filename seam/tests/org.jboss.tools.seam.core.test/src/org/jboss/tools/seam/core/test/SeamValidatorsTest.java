@@ -184,9 +184,16 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertEquals("Problem marker was found in varAttributes.xhtml file. Validator did not recognize 'var' attribute.", 0, number);
 	}
 
+	public void testMessageBundles() throws CoreException {
+		// Test for https://jira.jboss.org/jira/browse/JBIDE-5089
+		IFile file = project.getFile("WebContent/messagesValidation.jsp");
+		int number = getMarkersNumber(file);
+		assertEquals("Problem marker was found in messagesValidation.jsp file. Validator did not recognize a message bundle.", 0, number);
+	}
+
 	public void testJiraJbide1696() throws CoreException {
 		//getSeamProject(project);
-		
+
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1696
 		IFile subclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SubclassTestComponent.java");
 		assertMarkerIsCreated(subclassComponentFile, MARKER_TYPE, "Stateful component \"testComponentJBIDE1696\" must have a method marked @Remove", 25);

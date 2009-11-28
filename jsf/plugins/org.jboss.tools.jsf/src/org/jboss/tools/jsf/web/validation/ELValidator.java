@@ -10,10 +10,10 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.web.validation;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -31,6 +31,7 @@ import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
@@ -39,18 +40,9 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -62,11 +54,11 @@ import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.parser.SyntaxError;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.el.core.resolver.ELContextImpl;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELResolverFactoryManager;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
-import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.SimpleELContext;
@@ -78,18 +70,18 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.IXmlContext;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
+import org.jboss.tools.jst.web.kb.el.KbELReference;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.validation.ELReference;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * EL Validator
@@ -107,6 +99,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	private IResource[] currentSources;
 	private IContainer webRootFolder;
 	private boolean revalidateUnresolvedELs = false;
+	private boolean validateVars = true;
 
 	public ELValidator() {
 	}
@@ -124,6 +117,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		super.init(project, validationHelper, manager, reporter);
 		resolvers = ELResolverFactoryManager.getInstance().getResolvers(project);
 		mainFactory = ELParserUtil.getDefaultFactory();
+		validateVars = JSFSeverityPreferences.ENABLE.equals(JSFSeverityPreferences.getInstance().getProjectPreference(rootProject, JSFSeverityPreferences.CHECK_VARS));
 	}
 
 	/*
@@ -313,70 +307,25 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	}
 
 	private void validateDom(IFile file, String content) {
-		varListForCurentValidatedNode.clear();
-		IModelManager manager = StructuredModelManager.getModelManager();
-		if(manager == null) {
-			// this can happen if plugin org.eclipse.wst.sse.core 
-			// is stopping or uninstalled, that is Eclipse is shutting down.
-			// there is no need to report it, just stop validation.
+		ELContext context = PageContextFactory.createPageContext(file);
+		if(context==null) {
 			return;
 		}
-		IStructuredModel model = null;
-		try {
-			model = manager.getModelForRead(file);
-			if (model instanceof IDOMModel) {
-				IDOMModel domModel = (IDOMModel) model;
-				IDOMDocument document = domModel.getDocument();
-				validateChildNodes(file, document);
-			}
-		} catch (CoreException e) {
-			JSFModelPlugin.getDefault().logError(JSFValidationMessages.EL_VALIDATOR_ERROR_VALIDATING, e);
-        } catch (IOException e) {
-        	JSFModelPlugin.getDefault().logError(JSFValidationMessages.EL_VALIDATOR_ERROR_VALIDATING, e);
-		} finally {
-			if (model != null) {
-				model.releaseFromRead();
+		if(context instanceof IXmlContext) {
+			IXmlContext xmlContext = (IXmlContext)context;
+			ELReference[] references = xmlContext.getELReferences();
+			for (int i = 0; i < references.length; i++) {
+				if(!references[i].getSyntaxErrors().isEmpty()) {
+					for (SyntaxError error: references[i].getSyntaxErrors()) {
+						IMarker marker = addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, references[i].getStartPosition() + error.getPosition(), file);
+						references[i].addMarker(marker);
+					}
+				}
+
+				validateEL(references[i]);
 			}
 		}
 		return;
-	}
-
-	private void validateChildNodes(IFile file, Node parent) {
-		String preferenceValue = JSFSeverityPreferences.getInstance().getProjectPreference(rootProject, JSFSeverityPreferences.CHECK_VARS);
-		NodeList children = parent.getChildNodes();
-		for(int i=0; i<children.getLength() && !reporter.isCancelled(); i++) {
-			Node curentValidatedNode = children.item(i);
-			Var var = null;
-			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
-				if (JSFSeverityPreferences.ENABLE.equals(preferenceValue)) {
-					var = ElVarSearcher.findVar(curentValidatedNode, mainFactory);
-				}
-				if(var!=null) {
-					varListForCurentValidatedNode.add(var);
-				}
-				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
-			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
-				validateNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
-			}
-			validateChildNodes(file, curentValidatedNode);
-			if(var!=null) {
-				varListForCurentValidatedNode.remove(var);
-			}
-		}
-	}
-
-	private void validateNodeContent(IFile file, IStructuredDocumentRegion node, String regionType) {
-		ITextRegionList regions = node.getRegions();
-		for(int i=0; i<regions.size(); i++) {
-			ITextRegion region = regions.get(i);
-			if(region.getType() == regionType) {
-				String text = node.getFullText(region);
-				if(text.indexOf("{")>-1) { //$NON-NLS-1$
-					int offset = node.getStartOffset() + region.getStart();
-					validateString(file, text, offset);
-				}
-			}
-		}
 	}
 
 	/**
@@ -393,7 +342,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			ELModel model = parser.parse(string);
 			List<ELInstance> is = model.getInstances();
 
-			ELReference elReference = new ELReference();
+			ELReference elReference = new KbELReference();
 			elReference.setResource(file);
 			elReference.setEl(is);
 			elReference.setLength(string.length());
@@ -430,7 +379,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 	private void validateElOperand(ELReference elReference, ELInvocationExpression operandToken) {
 		IFile file = elReference.getResource();
-		int documnetOffset = elReference.getStartPosition(); 
+		int documnetOffset = elReference.getStartPosition();
 		String operand = operandToken.getText();
 		if(operand.trim().length()==0) {
 			return;
@@ -441,13 +390,24 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		boolean unresolvedTokenIsVariable = false;
 		if (!operand.endsWith(".")) { //$NON-NLS-1$
 			ELResolution resolution = null;
-			ELContext context = new SimpleELContext();
-			context.setVars(varListForCurentValidatedNode);
-			context.setElResolvers(resolvers);
-			context.setResource(file);
+			ELContext context = PageContextFactory.createPageContext(file);
+			if(context==null) {
+				context = new SimpleELContext();
+				context.setResource(file);
+				context.setElResolvers(resolvers);
+			}
 			int maxNumberOfResolvedSegments = -1;
+			List<Var> vars = null;
+			Map<Region, List<Var>> varMap = null;
+			ELContextImpl c = null;
+			if(!validateVars && context instanceof ELContextImpl) {
+				c = (ELContextImpl)context;
+				vars = c.getAllVars();
+				c.setAllVars(new ArrayList<Var>());
+			}
+
 			for (int i = 0; i < resolvers.length; i++) {
-				ELResolution elResolution = resolvers[i].resolve(context, operandToken);
+				ELResolution elResolution = resolvers[i].resolve(context, operandToken, documnetOffset);
 				if(elResolution.isResolved()) {
 					resolution = elResolution;
 					break;
@@ -457,6 +417,10 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 					maxNumberOfResolvedSegments = number;
 					resolution = elResolution;
 				}
+			}
+
+			if(c!=null) {
+				c.setAllVars(vars);
 			}
 
 			if(!resolution.isResolved()) {

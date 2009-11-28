@@ -69,7 +69,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#getProposals(org.jboss.tools.common.el.core.resolver.ELContext, java.lang.String)
 	 */
-	public List<TextProposal> getProposals(ELContext context, String el) {
+	public List<TextProposal> getProposals(ELContext context, String el, int offset) {
 		return getCompletions(el, false, 0, context);
 	}
 
@@ -98,7 +98,7 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
 	 */
-	public ELResolution resolve(ELContext context, ELExpression operand) {
+	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
 		ELResolutionImpl resolution = resolveELOperand(operand, context, true);
 		resolution.setContext(context);
 		return resolution;
@@ -176,6 +176,12 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
+
+					ELSegmentImpl segment = new ELSegmentImpl();
+					segment.setToken(left.getFirstToken());
+					segment.setResolved(true);
+					resolution.addSegment(segment);
+
 					break;
 				}
 				left = (ELInvocationExpression)left.getLeft();

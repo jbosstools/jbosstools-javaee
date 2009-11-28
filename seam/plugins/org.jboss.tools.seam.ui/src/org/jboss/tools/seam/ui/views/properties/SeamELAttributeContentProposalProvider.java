@@ -112,7 +112,7 @@ public class SeamELAttributeContentProposalProvider implements
 			List<TextProposal> suggestions = null;
 			SimpleELContext context = new SimpleELContext();
 			context.setResource(file);
-			suggestions = engine.getProposals(context, prefix);
+			suggestions = engine.getProposals(context, prefix, -1);
 			if(suggestions == null) {
 				return EMPTY;
 			}

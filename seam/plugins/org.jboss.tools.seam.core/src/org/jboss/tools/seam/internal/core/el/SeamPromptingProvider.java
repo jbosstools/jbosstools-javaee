@@ -59,7 +59,7 @@ public class SeamPromptingProvider implements IPromptingProvider {
 		} else if(MEMBERS.equals(id)) {
 			SimpleELContext context = new SimpleELContext();
 			context.setResource(f);
-			List<TextProposal> proposals = engine.getProposals(context, prefix);
+			List<TextProposal> proposals = engine.getProposals(context, prefix, -1);
 			List<String> suggestions = new ArrayList<String>();
 			if(proposals != null) for (TextProposal proposal: proposals) {
 				suggestions.add(proposal.getReplacementString());

@@ -440,7 +440,7 @@ public class SeamELProposalProcessor extends AbstractContentAssistProcessor {
 			SimpleELContext elContext = new SimpleELContext();
 			elContext.setResource(file);
 			elContext.setVars(vars);
-			List<TextProposal> suggestions = fEngine.getProposals(elContext, prefix);
+			List<TextProposal> suggestions = fEngine.getProposals(elContext, prefix, offset);
 			List<TextProposal> uniqueSuggestions = fEngine.makeKbUnique(suggestions);
 
 			List<ICompletionProposal> result= new ArrayList<ICompletionProposal>();

@@ -138,7 +138,7 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 
 			context.setVars(vars);
 
-			ELResolution resolution = resolver.resolve(context, operand);
+			ELResolution resolution = resolver.resolve(context, operand, offset);
 
 			List<ELSegment> segments = resolution.findSegmentsByVariable(seamComponent);
 			
