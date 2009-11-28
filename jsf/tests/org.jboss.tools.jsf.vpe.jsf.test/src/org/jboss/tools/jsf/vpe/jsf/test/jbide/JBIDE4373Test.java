@@ -158,7 +158,7 @@ public class JBIDE4373Test extends VpeTest{
 	 * 
 	 * @throws CoreException
 	 */
-	public void _testOpenOnForCImport() throws CoreException {
+	public void testOpenOnForCImport() throws CoreException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "c-import.xhtml"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 12, 25);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -219,7 +219,7 @@ public class JBIDE4373Test extends VpeTest{
 	 * 
 	 * @throws CoreException
 	 */
-	public void _testOpenOnForJspDirectiveInclude() throws CoreException {
+	public void testOpenOnForJspDirectiveInclude() throws CoreException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "jsp-directive-include-relative.jsp"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 46);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -234,7 +234,7 @@ public class JBIDE4373Test extends VpeTest{
 	 * 
 	 * @throws CoreException
 	 */
-	public void _testOpenOnForJspInclude() throws CoreException {
+	public void testOpenOnForJspInclude() throws CoreException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "jsp-include-relative.jsp"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 36);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
