@@ -27,7 +27,7 @@ import org.w3c.dom.Node;
 
 public class SeamPdfTextTemplate extends AbstractOutputJsfTemplate {
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		Element element = (Element) sourceNode;

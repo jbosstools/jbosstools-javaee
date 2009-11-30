@@ -26,7 +26,7 @@ public class SeamPdfAnchorTemplate extends SeamPdfAbstractTemplate {
 
 	private static final String ATTR_REF = "reference";
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element) sourceNode;

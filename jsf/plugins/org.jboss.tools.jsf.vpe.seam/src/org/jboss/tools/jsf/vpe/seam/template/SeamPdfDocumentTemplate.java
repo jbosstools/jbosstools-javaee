@@ -29,7 +29,7 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 	private nsIDOMElement headElement;
 	private Element sourceElement;
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		nsIDOMNode headNode = visualDocument.createElement(HTML.TAG_DIV);

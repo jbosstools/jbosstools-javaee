@@ -30,7 +30,7 @@ public class SeamPdfParagraphTemplate extends SeamPdfAbstractTemplate {
 	private Element sourceElement;
 	private nsIDOMDocument visualDocument;
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		this.visualDocument = visualDocument;

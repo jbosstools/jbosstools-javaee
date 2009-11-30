@@ -34,7 +34,7 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 	private nsIDOMElement visualElement;
 	private Element sourceElement;
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		sourceElement = (Element) sourceNode;

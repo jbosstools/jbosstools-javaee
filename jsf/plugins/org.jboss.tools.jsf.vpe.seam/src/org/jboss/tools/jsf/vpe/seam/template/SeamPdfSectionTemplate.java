@@ -37,7 +37,7 @@ public class SeamPdfSectionTemplate extends SeamPdfAbstractTemplate {
 	private String sectionNumberString;
 	private String headNameString;
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		visualElement = VisualDomUtil.createBorderlessContainer(visualDocument);

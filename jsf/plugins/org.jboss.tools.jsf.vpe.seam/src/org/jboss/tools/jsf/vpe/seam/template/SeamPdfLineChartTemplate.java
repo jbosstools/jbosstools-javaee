@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2007-2009 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.vpe.seam.template;
 
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
@@ -14,7 +24,7 @@ public class SeamPdfLineChartTemplate extends SeamPdfAbstractTemplate {
 	private static String LINE_CHART = "/lineChart/lineChart.png"; //$NON-NLS-1$
 	private static String LINE_CHART_SERIES_NESTED = "/lineChart/lineChartSeriesNested.png"; //$NON-NLS-1$
 
-	@Override
+
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		nsIDOMElement visualElement = visualDocument
