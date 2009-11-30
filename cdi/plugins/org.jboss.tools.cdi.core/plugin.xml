@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="cdibuilder"
+         name="CDI Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="false">
+         <run
+               class="org.jboss.tools.cdi.core.CDICoreBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="cdinature"
+         name="CDI Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.jboss.tools.cdi.core.CDICoreNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.jboss.tools.cdi.core.cdibuilder">
+      </builder>
+   </extension>
+
+</plugin>

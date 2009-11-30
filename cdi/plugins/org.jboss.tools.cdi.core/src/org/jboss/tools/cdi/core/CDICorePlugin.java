@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -68,4 +71,23 @@ public class CDICorePlugin extends BaseUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
+
+	public static CDICoreNature getCDI(IProject project, boolean resolve) {
+		if(project == null || !project.exists() || !project.isOpen()) return null;
+		try {
+			if(!project.hasNature(CDICoreNature.NATURE_ID)) return null;
+		} catch (CoreException e) {
+			//ignore - all checks are done above
+			return null;
+		}
+		CDICoreNature n = null;
+		try {
+			n = (CDICoreNature)project.getNature(CDICoreNature.NATURE_ID);
+			if(resolve) n.resolve();
+		} catch (CoreException e) {
+			getDefault().logError(e);
+		}
+		return n;
+	}
+
 }
