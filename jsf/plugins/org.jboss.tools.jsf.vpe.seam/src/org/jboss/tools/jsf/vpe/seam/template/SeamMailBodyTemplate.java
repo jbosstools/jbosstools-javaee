@@ -23,8 +23,8 @@ import org.w3c.dom.Node;
 
 public class SeamMailBodyTemplate extends VpeAbstractTemplate {
 
-	private static final String ATTR_TYPE = "type";
-	private static final String ATTR_VALUE_PLAIN = "plain";
+	private static final String ATTR_TYPE = "type"; //$NON-NLS-1$
+	private static final String ATTR_VALUE_PLAIN = "plain"; //$NON-NLS-1$
 	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {

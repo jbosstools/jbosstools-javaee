@@ -37,7 +37,7 @@ public class SeamPdfCellTemplate extends SeamPdfAbstractTemplate {
 		visualElement = (nsIDOMElement) visualNode
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		copyAttrs(visualElement, sourceElement);
-		visualElement.setAttribute(HTML.ATTR_STYLE, "border-width: 2px; border-color: black; border-style: solid");
+		visualElement.setAttribute(HTML.ATTR_STYLE, "border-width: 2px; border-color: black; border-style: solid"); //$NON-NLS-1$
 		return new VpeCreationData(visualElement);
 	}
 
@@ -48,7 +48,7 @@ public class SeamPdfCellTemplate extends SeamPdfAbstractTemplate {
 				visualNode, data);
 		if (nodeForUpdate == null) {
 			nodeForUpdate = SeamUtil.getParentByName(pageContext, sourceNode,
-					"p:table");
+					"p:table"); //$NON-NLS-1$
 		}
 		return nodeForUpdate;
 	}
@@ -68,9 +68,9 @@ public class SeamPdfCellTemplate extends SeamPdfAbstractTemplate {
 		if (attr != null) {
 			visualElement.setAttribute(HTML.ATTR_VALIGN, attr);
 		}
-		attr = sourceElement.getAttribute("noWrap");
+		attr = sourceElement.getAttribute("noWrap"); //$NON-NLS-1$
 		if (attr != null) {
-			visualElement.setAttribute("nowrap", attr);
+			visualElement.setAttribute("nowrap", attr); //$NON-NLS-1$
 		}
 	}
 

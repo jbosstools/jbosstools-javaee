@@ -48,10 +48,10 @@ public class SeamPdfTextTemplate extends AbstractOutputJsfTemplate {
 	public Node getNodeForUpdate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMNode visualNode, Object data) {
 		Node[] footers = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:footer");
+				"p:footer"); //$NON-NLS-1$
 		if (footers != null && footers.length != 0) {
 			Node parentPdfDocumentNode = SeamUtil.getParentByName(pageContext,
-					sourceNode, "p:document");
+					sourceNode, "p:document"); //$NON-NLS-1$
 			if (parentPdfDocumentNode != null) {
 				return parentPdfDocumentNode;
 			}

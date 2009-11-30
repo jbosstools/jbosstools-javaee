@@ -29,10 +29,10 @@ public abstract class SeamPdfAbstractTemplate extends VpeAbstractTemplate {
 	public Node getNodeForUpdate(VpePageContext pageContext, Node sourceNode,
 			nsIDOMNode visualNode, Object data) {
 		Node[] footers = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:footer");
+				"p:footer"); //$NON-NLS-1$
 		if (footers != null && footers.length != 0) {
 			Node parentPdfDocumentNode = SeamUtil.getParentByName(pageContext,
-					sourceNode, "p:document");
+					sourceNode, "p:document"); //$NON-NLS-1$
 			if (parentPdfDocumentNode != null) {
 				return parentPdfDocumentNode;
 			}
@@ -48,19 +48,19 @@ public abstract class SeamPdfAbstractTemplate extends VpeAbstractTemplate {
 		if (width != null) {
 			String styleAttrValue = visualElement.getAttribute(HTML.ATTR_STYLE);
 			if (styleAttrValue == null) {
-				visualElement.setAttribute(HTML.ATTR_STYLE, "width:" + width);
+				visualElement.setAttribute(HTML.ATTR_STYLE, "width:" + width); //$NON-NLS-1$
 			} else {
 				visualElement.setAttribute(HTML.ATTR_STYLE, styleAttrValue
-						+ "; width:" + width);
+						+ "; width:" + width); //$NON-NLS-1$
 			}
 		}
 		if (height != null) {
 			String styleAttrValue = visualElement.getAttribute(HTML.ATTR_STYLE);
 			if (styleAttrValue == null) {
-				visualElement.setAttribute(HTML.ATTR_STYLE, "height:" + height);
+				visualElement.setAttribute(HTML.ATTR_STYLE, "height:" + height); //$NON-NLS-1$
 			} else {
 				visualElement.setAttribute(HTML.ATTR_STYLE, styleAttrValue
-						+ "; height:" + height);
+						+ "; height:" + height); //$NON-NLS-1$
 			}
 		}
 	}

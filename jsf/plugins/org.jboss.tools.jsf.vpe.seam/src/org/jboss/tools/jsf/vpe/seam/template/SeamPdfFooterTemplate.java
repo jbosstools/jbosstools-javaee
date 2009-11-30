@@ -38,9 +38,9 @@ public class SeamPdfFooterTemplate extends SeamPdfAbstractTemplate {
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		SeamUtil.setAlignment(sourceElement, visualElement);
 		Node parentFontNode = SeamUtil.getParentByName(pageContext, sourceNode,
-				"p:font");
+				"p:font"); //$NON-NLS-1$
 		String styleAttr = SeamUtil.getStyleAttr(parentFontNode);
-		if (styleAttr != null && !"".equals(styleAttr)) {
+		if (styleAttr != null && !"".equals(styleAttr)) { //$NON-NLS-1$
 			visualElement.setAttribute(HTML.ATTR_STYLE, styleAttr);
 		}
 		return new VpeCreationData(visualElement);

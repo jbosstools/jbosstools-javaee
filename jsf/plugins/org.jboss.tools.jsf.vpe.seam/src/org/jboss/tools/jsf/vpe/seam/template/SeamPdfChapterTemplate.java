@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 
 public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 
-	private static final String NUMBER = "number";
+	private static final String NUMBER = "number"; //$NON-NLS-1$
 
 	private nsIDOMElement visualElement;
 	private Element sourceElement;
@@ -45,13 +45,13 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 			try {
 				Integer.parseInt(chapterNumber);
 			} catch (NumberFormatException e) {
-				chapterNumber = "1";
+				chapterNumber = "1"; //$NON-NLS-1$
 			}
 		} else {
-			chapterNumber = "1";
+			chapterNumber = "1"; //$NON-NLS-1$
 		}
 		nsIDOMText chapterNumberNode = visualDocument
-				.createTextNode(chapterNumber + ". ");
+				.createTextNode(chapterNumber + ". "); //$NON-NLS-1$
 		headNode.appendChild(chapterNumberNode);
 		visualElement.appendChild(headNode);
 		return new VpeCreationData(visualElement);
@@ -63,7 +63,7 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 		NodeList children = sourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			if (children.item(i) instanceof Element) {
-				if (children.item(i).getNodeName().endsWith(":title")) {
+				if (children.item(i).getNodeName().endsWith(":title")) { //$NON-NLS-1$
 					sourceTitleNode = children.item(i);
 				}
 			}

@@ -42,7 +42,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 		visualTable.setAttribute(HTML.ATTR_WIDTH, getWidthPerc(sourceElement));
 		visualTable.setAttribute(HTML.ATTR_ALIGN, getAlignment(sourceElement));
-		visualTable.setAttribute(HTML.ATTR_CELLSPACING, "0px");
+		visualTable.setAttribute(HTML.ATTR_CELLSPACING, "0px"); //$NON-NLS-1$
 		return new VpeCreationData(visualElement);
 	}
 
@@ -55,7 +55,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 	private int getNumberOfColumns(Node sourceTableNode) {
 		int columnsNumber = 1;
 		String columnsNumberString = ((Element) sourceTableNode)
-				.getAttribute("columns");
+				.getAttribute("columns"); //$NON-NLS-1$
 		if (columnsNumberString != null) {
 			try {
 				columnsNumber = Integer.parseInt(columnsNumberString);
@@ -75,7 +75,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 			nsIDOMDocument visualDocument, VpeCreationData data) {
 		int numberOfColumns = getNumberOfColumns(sourceNode);
 		Node[] cells = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:cell");
+				"p:cell"); //$NON-NLS-1$
 		int cellsLength = cells.length;
 		if (numberOfColumns > cellsLength) {
 			for (int i = 0; i < cells.length; i++) {
@@ -145,15 +145,15 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 			try {
 				int intWidth = Integer.parseInt(width);
 				if (intWidth < 1 || intWidth > 100) {
-					width = "100%";
+					width = "100%"; //$NON-NLS-1$
 				} else {
-					width = Integer.toString(intWidth) + "%";
+					width = Integer.toString(intWidth) + "%"; //$NON-NLS-1$
 				}
 			} catch (NumberFormatException e) {
-				width = "100%";
+				width = "100%"; //$NON-NLS-1$
 			}
 		} else {
-			width = "100%";
+			width = "100%"; //$NON-NLS-1$
 		}
 		return width;
 	}
@@ -165,7 +165,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 			for (int i = 0; i < SeamUtil.POSSIBLE_ALIGNS.length; i++) {
 				if (SeamUtil.POSSIBLE_ALIGNS[i].equalsIgnoreCase(align)) {
 					if (SeamUtil.POSSIBLE_ALIGNS[i]
-							.equalsIgnoreCase("justifyall")) {
+							.equalsIgnoreCase("justifyall")) { //$NON-NLS-1$
 						return HTML.VALUE_ALIGN_JUSTIFY;
 					}
 					return align;

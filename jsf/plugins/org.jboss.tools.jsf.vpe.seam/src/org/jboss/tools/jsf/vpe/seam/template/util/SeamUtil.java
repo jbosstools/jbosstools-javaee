@@ -38,15 +38,15 @@ public class SeamUtil {
 	public static final String ATTR_TEMPLATE = "template"; //$NON-NLS-1$
 	public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
 	public static final String ATTR_URL = "url"; //$NON-NLS-1$
-	public final static String SEAM_ATTR_MARGINS = "margins";
-	public final static String[] POSSIBLE_ALIGNS = new String[] { "left",
-			"right", "center", "justify", "justifyall" };
-	public final static String SEAM_ATTR_ALIGNMENT = "alignment";
-	public final static String SEAM_DIV_BASIC_STYLE_VALUE = "line-height: 142.0pt; font-family: unknown;";
-	public final static String SEAM_SPAN_BASIC_STYLE_VALUE = "font-family: unknown;";
-	public final static String SEAM_ATTR_HORIZONAL_ALIGNMENT = "horizontalAlignment";
-	public final static String SEAM_ATTR_VERTICAL_ALIGNMENT = "verticalAlignment";
-	public final static String SEAM_ATTR_WIDTH_PERCENTAGE = "widthPercentage";
+	public final static String SEAM_ATTR_MARGINS = "margins"; //$NON-NLS-1$
+	public final static String[] POSSIBLE_ALIGNS = new String[] { "left", //$NON-NLS-1$
+			"right", "center", "justify", "justifyall" };   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
+	public final static String SEAM_ATTR_ALIGNMENT = "alignment"; //$NON-NLS-1$
+	public final static String SEAM_DIV_BASIC_STYLE_VALUE = "line-height: 142.0pt; font-family: unknown;"; //$NON-NLS-1$
+	public final static String SEAM_SPAN_BASIC_STYLE_VALUE = "font-family: unknown;"; //$NON-NLS-1$
+	public final static String SEAM_ATTR_HORIZONAL_ALIGNMENT = "horizontalAlignment"; //$NON-NLS-1$
+	public final static String SEAM_ATTR_VERTICAL_ALIGNMENT = "verticalAlignment"; //$NON-NLS-1$
+	public final static String SEAM_ATTR_WIDTH_PERCENTAGE = "widthPercentage"; //$NON-NLS-1$
 
 	public static Node getParentByName(VpePageContext pageContext,
 			Node sourceNode, String parentName) {
@@ -87,7 +87,7 @@ public class SeamUtil {
 			for (int i = 0; i < SeamUtil.POSSIBLE_ALIGNS.length; i++) {
 				if (SeamUtil.POSSIBLE_ALIGNS[i].equalsIgnoreCase(align)) {
 					if (SeamUtil.POSSIBLE_ALIGNS[i]
-							.equalsIgnoreCase("justifyall")) {
+							.equalsIgnoreCase("justifyall")) { //$NON-NLS-1$
 						visualElement.setAttribute(HTML.ATTR_ALIGN,
 								HTML.VALUE_ALIGN_JUSTIFY);
 						return;
@@ -142,7 +142,7 @@ public class SeamUtil {
 
 	public static String getStyleAttr(Node sourceFontNode) {
 		if (sourceFontNode == null
-				|| !sourceFontNode.getNodeName().endsWith(":font")) {
+				|| !sourceFontNode.getNodeName().endsWith(":font")) { //$NON-NLS-1$
 			return null;
 		}
 		String styleAttrValue = getFontFamily(sourceFontNode)
@@ -151,38 +151,38 @@ public class SeamUtil {
 	}
 
 	private static String parseFontStyleValue(Node sourceFontNode) {
-		StringBuffer styleAttrValue = new StringBuffer("");
+		StringBuffer styleAttrValue = new StringBuffer(""); //$NON-NLS-1$
 		String stringValueToParse = ((Element) sourceFontNode)
 				.getAttribute(HTML.ATTR_STYLE);
 		if (stringValueToParse != null) {
-			int boldPos = stringValueToParse.indexOf("bold");
+			int boldPos = stringValueToParse.indexOf("bold"); //$NON-NLS-1$
 			if (boldPos != -1) {
-				styleAttrValue.append(" font-weight : bold;");
+				styleAttrValue.append(" font-weight : bold;"); //$NON-NLS-1$
 			}
-			int italicPos = stringValueToParse.indexOf("italic");
+			int italicPos = stringValueToParse.indexOf("italic"); //$NON-NLS-1$
 			if (italicPos != -1) {
-				styleAttrValue.append(" font-style : italic;");
+				styleAttrValue.append(" font-style : italic;"); //$NON-NLS-1$
 			}
-			int underLinePos = stringValueToParse.indexOf("underline");
+			int underLinePos = stringValueToParse.indexOf("underline"); //$NON-NLS-1$
 			if (underLinePos != -1) {
-				styleAttrValue.append(" text-decoration : underline;");
+				styleAttrValue.append(" text-decoration : underline;"); //$NON-NLS-1$
 			}
-			int lineThroughPos = stringValueToParse.indexOf("line-through");
+			int lineThroughPos = stringValueToParse.indexOf("line-through"); //$NON-NLS-1$
 			if (lineThroughPos != -1) {
-				styleAttrValue.append(" text-decoration : line-through;");
+				styleAttrValue.append(" text-decoration : line-through;"); //$NON-NLS-1$
 			}
 		}
 		return styleAttrValue.toString();
 	}
 
 	private static String getFontFamily(Node sourceFontNode) {
-		String fontFamily = "unknown";
+		String fontFamily = "unknown"; //$NON-NLS-1$
 		String stringName = ((Element) sourceFontNode)
 				.getAttribute(HTML.ATTR_NAME);
 		if (stringName != null) {
 			fontFamily = stringName;
 		}
-		return " font-family : " + fontFamily + ";";
+		return " font-family : " + fontFamily + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static String getSize(Node sourceFontNode) {
@@ -192,15 +192,15 @@ public class SeamUtil {
 			try {
 				int intSize = Integer.parseInt(stringSizeAttr);
 				if (intSize < 0) {
-					return "";
+					return ""; //$NON-NLS-1$
 				}
 			} catch (NumberFormatException e) {
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		} else {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
-		return " font-size : " + stringSizeAttr + "pt;";
+		return " font-size : " + stringSizeAttr + "pt;"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
     public static String getAbsoluteResourcePath(String resourcePathInPlugin) {

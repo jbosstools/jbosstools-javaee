@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
 
 public class SeamPdfAnchorTemplate extends SeamPdfAbstractTemplate {
 
-	private static final String ATTR_REF = "reference";
+	private static final String ATTR_REF = "reference"; //$NON-NLS-1$
 
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
@@ -35,7 +35,7 @@ public class SeamPdfAnchorTemplate extends SeamPdfAbstractTemplate {
 			visualElement.setAttribute(HTML.ATTR_NAME, sourceElement
 					.getAttribute(HTML.ATTR_NAME));
 			visualElement.setAttribute(HTML.ATTR_STYLE,
-					"color:black; text-decoration:none");
+					"color:black; text-decoration:none"); //$NON-NLS-1$
 		}
 		if (sourceElement.hasAttribute(ATTR_REF)) {
 			visualElement.setAttribute(HTML.ATTR_HREF, sourceElement

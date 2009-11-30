@@ -24,11 +24,11 @@ public class SeamPdfListTemplate extends SeamPdfAbstractTemplate {
 	private static List<String> NUMBERED_VALUES;
 	static{
 		NUMBERED_VALUES = new ArrayList<String>(0);
-		NUMBERED_VALUES.add("numbered");
-		NUMBERED_VALUES.add("greek");
-		NUMBERED_VALUES.add("roman");
-		NUMBERED_VALUES.add("zapfdingbats");
-		NUMBERED_VALUES.add("zapfdingbats_number");
+		NUMBERED_VALUES.add("numbered"); //$NON-NLS-1$
+		NUMBERED_VALUES.add("greek"); //$NON-NLS-1$
+		NUMBERED_VALUES.add("roman"); //$NON-NLS-1$
+		NUMBERED_VALUES.add("zapfdingbats"); //$NON-NLS-1$
+		NUMBERED_VALUES.add("zapfdingbats_number"); //$NON-NLS-1$
 	}
 	
 

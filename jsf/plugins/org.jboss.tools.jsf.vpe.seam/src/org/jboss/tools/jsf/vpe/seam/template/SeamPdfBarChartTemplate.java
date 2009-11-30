@@ -21,14 +21,14 @@ import org.w3c.dom.Node;
 
 public class SeamPdfBarChartTemplate extends SeamPdfAbstractTemplate {
 
-	private static String BAR_CHART = "/barChart/barChart.png"; //$NON-NLS-1$
-	private static String BAR_CHART_SERIES_NESTED = "/barChart/barChartSeriesNested.png"; //$NON-NLS-1$
+	private final static String BAR_CHART = "/barChart/barChart.png"; //$NON-NLS-1$
+	private final static String BAR_CHART_SERIES_NESTED = "/barChart/barChartSeriesNested.png"; //$NON-NLS-1$
 	
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		nsIDOMElement visualElement = visualDocument.createElement(HTML.TAG_IMG);
-		Node[] seriesNodes = SeamUtil.getChildsByName(pageContext, sourceNode, "p:series");
+		Node[] seriesNodes = SeamUtil.getChildsByName(pageContext, sourceNode, "p:series"); //$NON-NLS-1$
 		if (seriesNodes!=null && seriesNodes.length!=0) {
 			SeamUtil.setImg(visualElement, BAR_CHART_SERIES_NESTED);
 		}else {

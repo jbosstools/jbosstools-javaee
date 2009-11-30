@@ -48,9 +48,9 @@ public class SeamPdfParagraphTemplate extends SeamPdfAbstractTemplate {
 		if (firstChild != null) {
 			if (firstChild.getNodeType() == Node.TEXT_NODE) {
 				String nodeValue = firstChild.getNodeValue();
-				nodeValue = nodeValue.replace(" ", "").replace("\n", "")
-						.replace("\t", "").replace("\r", "");
-				if (!nodeValue.equals("")) {
+				nodeValue = nodeValue.replace(" ", "").replace("\n", "")  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+						.replace("\t", "").replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				if (!nodeValue.equals("")) { //$NON-NLS-1$
 					nsIDOMNode brNode = visualDocument
 							.createElement(HTML.TAG_BR);
 					visualElement.appendChild(brNode);

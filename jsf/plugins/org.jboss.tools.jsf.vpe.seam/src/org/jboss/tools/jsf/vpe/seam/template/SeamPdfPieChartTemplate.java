@@ -21,8 +21,8 @@ import org.w3c.dom.Node;
 
 public class SeamPdfPieChartTemplate extends SeamPdfAbstractTemplate {
 
-	private static String PIE_CHART = "/pieChart/pieChart.png"; //$NON-NLS-1$
-	private static String PIE_CHART_SERIES_NESTED = "/pieChart/pieChartSeriesNested.png"; //$NON-NLS-1$
+	private final static String PIE_CHART = "/pieChart/pieChart.png"; //$NON-NLS-1$
+	private final static String PIE_CHART_SERIES_NESTED = "/pieChart/pieChartSeriesNested.png"; //$NON-NLS-1$
 
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
@@ -30,7 +30,7 @@ public class SeamPdfPieChartTemplate extends SeamPdfAbstractTemplate {
 		nsIDOMElement visualElement = visualDocument
 				.createElement(HTML.TAG_IMG);
 		Node[] seriesNodes = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:series");
+				"p:series"); //$NON-NLS-1$
 		if (seriesNodes != null && seriesNodes.length != 0) {
 			SeamUtil.setImg(visualElement, PIE_CHART_SERIES_NESTED);
 		} else {

@@ -21,8 +21,8 @@ import org.w3c.dom.Node;
 
 public class SeamPdfLineChartTemplate extends SeamPdfAbstractTemplate {
 
-	private static String LINE_CHART = "/lineChart/lineChart.png"; //$NON-NLS-1$
-	private static String LINE_CHART_SERIES_NESTED = "/lineChart/lineChartSeriesNested.png"; //$NON-NLS-1$
+	private final static String LINE_CHART = "/lineChart/lineChart.png"; //$NON-NLS-1$
+	private final static String LINE_CHART_SERIES_NESTED = "/lineChart/lineChartSeriesNested.png"; //$NON-NLS-1$
 
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
@@ -30,7 +30,7 @@ public class SeamPdfLineChartTemplate extends SeamPdfAbstractTemplate {
 		nsIDOMElement visualElement = visualDocument
 				.createElement(HTML.TAG_IMG);
 		Node[] seriesNodes = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:series");
+				"p:series"); //$NON-NLS-1$
 		if (seriesNodes != null && seriesNodes.length != 0) {
 			SeamUtil.setImg(visualElement, LINE_CHART_SERIES_NESTED);
 		} else {
