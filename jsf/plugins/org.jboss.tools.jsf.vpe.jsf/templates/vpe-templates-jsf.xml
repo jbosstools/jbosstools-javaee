@@ -863,7 +863,9 @@
 	<!-- JSF 2.0 Tags -->
 	<vpe:tag name="h:body" case-sensitive="yes">
 		<!-- The tag cannot have any attribute. -->
-		<vpe:if test="tld_version('min=2.0')">
+		<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="yes" modify="yes"
 				class="org.jboss.tools.jsf.vpe.jsf.template.JsfBodyTemplate">
 				<vpe:dnd>
@@ -871,19 +873,21 @@
 					<vpe:drop container="no"></vpe:drop>
 				</vpe:dnd>
 			</vpe:template>
-		</vpe:if>
+	<!--	</vpe:if> -->
 	</vpe:tag>
 
 	<vpe:tag name="h:head" case-sensitive="yes">
 		<!-- The tag cannot have any attribute. -->
-		<vpe:if test="tld_version('min=2.0')">
+		<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="yes" modify="no">
 				<div style="display:none;" />
 				<vpe:dnd>
 					<vpe:drop container="yes" />
 				</vpe:dnd>
 			</vpe:template>
-		</vpe:if>
+<!--		</vpe:if> -->
 	</vpe:tag>
 
 	<!--
@@ -893,9 +897,12 @@
 		src="{facesContext.getApplication().getResourceHandler().createResource(name, library).getRequestPath()}"/>
 	-->	
 	<vpe:tag name="h:outputScript" case-sensitive="yes">
-		<vpe:if test="tld_version('min=2.0')">
+			<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
+
 			<vpe:template children="no" modify="no"/>
-		</vpe:if>
+<!-- 		</vpe:if> -->
 	</vpe:tag>
 
 	<!--
@@ -906,40 +913,50 @@
 		href="{facesContext.getApplication().getResourceHandler().createResource(name, library).getRequestPath()}"/>
 	-->	
 	<vpe:tag name="h:outputStylesheet" case-sensitive="yes">
-		<vpe:if test="tld_version('min=2.0')">
+		<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="no" modify="no">
 				<vpe:link rel="stylesheet" href="{href(@name)}" />
 			</vpe:template>
-		</vpe:if>
+<!-- 		</vpe:if> -->
 	</vpe:tag>
 	<!-- End of JSF 2.0 Tags -->
 
 	<!-- Jsf 2.0 composite tags -->
 	<vpe:tag name="composite:implementation" case-sensitive="yes">
-		<vpe:if test="tld_version('min=2.0')">
+		<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="yes" modify="yes"
 			class="org.jboss.tools.jsf.vpe.facelets.template.VpeCompositionTemplate"
 			namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets">
 			</vpe:template>
-		</vpe:if>
+<!--		</vpe:if>-->
 	</vpe:tag>
 	
 	<vpe:tag name="composite:interface" case-sensitive="yes">
-		<vpe:if test="tld_version('min=2.0')">
+		<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 		<vpe:template children="yes" modify="no"/>
-		</vpe:if>	
+<!--		</vpe:if>	-->
 	</vpe:tag>
 	
 	<vpe:tag name="composite:attribute" case-sensitive="yes">
-		<vpe:if test="tld_version('min=2.0')">
+				<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 		<vpe:template children="no" modify="no" class="org.jboss.tools.jsf.vpe.jsf.template.JSF2CompositeAttributeTemplate" />
-		</vpe:if>	
+<!--		</vpe:if>	-->
 	</vpe:tag>
 
 	<vpe:tag name="composite:actionSource" case-sensitive="yes">
-		<vpe:if test="tld_version('min=2.0')">
+				<!-- Checks for min tld version has been comented, 
+		becouse it's not specified correctly in jsf lib, mareshkau -->
+	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="no" modify="no"/>
-		</vpe:if>
+<!--		</vpe:if>-->
 	</vpe:tag>
 	
 	<vpe:tag name="vpejsf2customTemplate" case-sensitive="yes">
