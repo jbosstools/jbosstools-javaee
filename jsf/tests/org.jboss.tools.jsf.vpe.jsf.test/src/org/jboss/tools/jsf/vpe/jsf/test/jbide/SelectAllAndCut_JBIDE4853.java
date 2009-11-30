@@ -41,8 +41,8 @@ public class SelectAllAndCut_JBIDE4853 extends VpeTest {
 		
 		textWidget.selectAll();
 		textWidget.cut();
+		TestUtil.delay(1000);
 		TestUtil.waitForIdle();
-		
 		nsIDOMDocument document = vpeController.getXulRunnerEditor()
 				.getDOMDocument();
 		assertNull("Element with id='" + CUT_ELEMENT_ID //$NON-NLS-1$
