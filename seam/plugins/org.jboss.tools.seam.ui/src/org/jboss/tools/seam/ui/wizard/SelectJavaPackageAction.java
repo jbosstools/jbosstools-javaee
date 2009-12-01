@@ -41,7 +41,7 @@ public class SelectJavaPackageAction extends ButtonFieldEditor.ButtonPressedActi
 
 	@Override
 	public void run() {
-		String projectName = (String)getFieldEditor().getData(IParameter.SEAM_PROJECT_NAME);
+		String projectName = (String)getFieldEditor().getData(ISeamParameter.SEAM_PROJECT_NAME);
 		if(projectName == null) {
 			return;
 		}

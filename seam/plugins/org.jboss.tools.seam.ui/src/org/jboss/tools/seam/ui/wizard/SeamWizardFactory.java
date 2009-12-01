@@ -33,10 +33,12 @@ import org.eclipse.ui.internal.dialogs.PropertyDialog;
 import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.console.HibernateConsolePlugin;
+import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.ComboFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -44,9 +46,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**
@@ -65,7 +65,7 @@ public class SeamWizardFactory {
 		if(!editSettings) {
 			return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
 					name, label, defaultSelection, 
-					 new SelectSeamProjectAction(allowAllProjects), ValidatorFactory.NO_ERRORS_VALIDATOR);
+					 new SelectSeamProjectAction(allowAllProjects), SeamValidatorFactory.NO_ERRORS_VALIDATOR);
 		}
 		SelectSeamProjectAction buttonAction = new SelectSeamProjectAction(allowAllProjects);
 		ShowProjectSettingsAction settingsAction = new ShowProjectSettingsAction();
@@ -78,7 +78,7 @@ public class SeamWizardFactory {
 
 		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createButtonAndLinkFieldEditor(
 				name, label, defaultSelection, 
-				buttonAction, settingsAction, ValidatorFactory.NO_ERRORS_VALIDATOR);
+				buttonAction, settingsAction, SeamValidatorFactory.NO_ERRORS_VALIDATOR);
 
 		settingsAction.setEnabled(false);
 		settingsAction.setEditor(editor);
@@ -91,7 +91,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
-		return createSeamProjectSelectionFieldEditor(IParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false, true);
+		return createSeamProjectSelectionFieldEditor(ISeamParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false, true);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamLocalInterfaceNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_LOCAL_INTERFACE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_LOCAL_INTERFACE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamBeanNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_BEAN_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_BEAN_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMethodNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_METHOD_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_METHOD_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamPageNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PAGE_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMasterPageNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_MASTER_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_MASTER_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -154,8 +154,8 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamJavaPackageSelectionFieldEditor(String defaultSelection) {
 		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
-				IParameter.SEAM_PACKAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PACKAGE_NAME, defaultSelection, 
-				 new SelectJavaPackageAction(), ValidatorFactory.NO_ERRORS_VALIDATOR);
+				ISeamParameter.SEAM_PACKAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PACKAGE_NAME, defaultSelection, 
+				 new SelectJavaPackageAction(), SeamValidatorFactory.NO_ERRORS_VALIDATOR);
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class SeamWizardFactory {
 				defaultValue,
 				false, editAction,
 				newAction,
-				ValidatorFactory.NO_ERRORS_VALIDATOR);
+				SeamValidatorFactory.NO_ERRORS_VALIDATOR);
 		editAction.setEditor(connProfileSelEditor);
 		newAction.setEditor(connProfileSelEditor);
 		final ButtonFieldEditor editButton = (ButtonFieldEditor)((CompositeEditor)connProfileSelEditor).getEditors().get(2);
@@ -551,7 +551,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamComponentNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_COMPONENT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_COMPONENT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -559,7 +559,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamEntityClasNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				IParameter.SEAM_ENTITY_CLASS_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_ENTITY_CLASS_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -581,7 +581,7 @@ public class SeamWizardFactory {
 			}
 		}
 		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createComboEditor(
-				IParameter.HIBERNATE_CONFIGURATION_NAME, 
+				ISeamParameter.HIBERNATE_CONFIGURATION_NAME, 
 				SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, 
 				configurationNames, defaultSelection);
 		return editor;

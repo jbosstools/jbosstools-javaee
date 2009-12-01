@@ -14,7 +14,7 @@ package org.jboss.tools.seam.ui.preferences;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.jboss.tools.common.model.ui.preferences.SeverityPreferencePage;
+import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**

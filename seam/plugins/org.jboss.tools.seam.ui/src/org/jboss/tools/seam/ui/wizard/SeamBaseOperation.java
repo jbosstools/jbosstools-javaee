@@ -174,22 +174,22 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		String entityFolder = getEntityBeanPackageName(seamFacetPrefs, params);
 		String testFolder = getTestCasesPackageName(seamFacetPrefs, params);
 
-		vars.put(IParameter.SEAM_PROJECT_INSTANCE, seamPrjSet.getWarProject());
-		vars.put(IParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(seamPrjSet.getWarProject()).getHomeDir());
+		vars.put(ISeamParameter.SEAM_PROJECT_INSTANCE, seamPrjSet.getWarProject());
+		vars.put(ISeamParameter.JBOSS_SEAM_HOME, SeamRuntimeManager.getInstance().getRuntimeForProject(seamPrjSet.getWarProject()).getHomeDir());
 
-		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_LOCATION_PATH, seamPrjSet.getWarProject());
-		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_WEBCONTENT_PATH, seamPrjSet.getViewsFolder());
-		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_ACTION, seamPrjSet.getActionFolder());
-		putResourceLocationProperty(vars, IParameter.SEAM_PROJECT_SRC_MODEL, seamPrjSet.getModelFolder());
-		putResourceLocationProperty(vars, IParameter.SEAM_EJB_PROJECT_LOCATION_PATH, seamPrjSet.getEjbProject());
-		putResourceLocationProperty(vars, IParameter.SEAM_TEST_PROJECT_LOCATION_PATH, seamPrjSet.getTestProject());
-		putResourceLocationProperty(vars, IParameter.TEST_SOURCE_FOLDER, seamPrjSet.getTestsFolder());
-		putPackageLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder);
-		putResourceLocationProperty(vars, IParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
-		putPackageLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_PATH, testFolder);
-		putResourceLocationProperty(vars, IParameter.TEST_CASES_PACKAGE_NAME, testFolder);
-		putPackageLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder);
-		putResourceLocationProperty(vars, IParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+		putResourceLocationProperty(vars, ISeamParameter.SEAM_PROJECT_LOCATION_PATH, seamPrjSet.getWarProject());
+		putResourceLocationProperty(vars, ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH, seamPrjSet.getViewsFolder());
+		putResourceLocationProperty(vars, ISeamParameter.SEAM_PROJECT_SRC_ACTION, seamPrjSet.getActionFolder());
+		putResourceLocationProperty(vars, ISeamParameter.SEAM_PROJECT_SRC_MODEL, seamPrjSet.getModelFolder());
+		putResourceLocationProperty(vars, ISeamParameter.SEAM_EJB_PROJECT_LOCATION_PATH, seamPrjSet.getEjbProject());
+		putResourceLocationProperty(vars, ISeamParameter.SEAM_TEST_PROJECT_LOCATION_PATH, seamPrjSet.getTestProject());
+		putResourceLocationProperty(vars, ISeamParameter.TEST_SOURCE_FOLDER, seamPrjSet.getTestsFolder());
+		putPackageLocationProperty(vars, ISeamParameter.SESSION_BEAN_PACKAGE_PATH, actionFolder);
+		putResourceLocationProperty(vars, ISeamParameter.SESSION_BEAN_PACKAGE_NAME, actionFolder);
+		putPackageLocationProperty(vars, ISeamParameter.TEST_CASES_PACKAGE_PATH, testFolder);
+		putResourceLocationProperty(vars, ISeamParameter.TEST_CASES_PACKAGE_NAME, testFolder);
+		putPackageLocationProperty(vars, ISeamParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder);
+		putResourceLocationProperty(vars, ISeamParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
 		return vars;
 	}
 
@@ -238,22 +238,22 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(IParameter.SESSION_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamParameter.SESSION_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getEntityBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(IParameter.ENTITY_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamParameter.ENTITY_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getTestCasesPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-		return seamFacetPrefs.get(IParameter.TEST_CASES_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamParameter.TEST_CASES_PACKAGE_NAME, "");
 	}
 
 	protected IProject getProject(IAdaptable info) {
 		Map<String, INamedElement> params = (Map<String, INamedElement>)info.getAdapter(Map.class);
 
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(
-				params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+				params.get(ISeamParameter.SEAM_PROJECT_NAME).getValueAsString());
 	}
 
 	/**
@@ -328,7 +328,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	}
 
 	public File getSeamFolder(Map<String, Object> vars) {
-		return new File(vars.get(IParameter.JBOSS_SEAM_HOME).toString(),"seam-gen");		 //$NON-NLS-1$
+		return new File(vars.get(ISeamParameter.JBOSS_SEAM_HOME).toString(),"seam-gen");		 //$NON-NLS-1$
 	}
 
 	protected void loadCustomVariables(Map<String, Object> vars) {

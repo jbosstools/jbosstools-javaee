@@ -24,7 +24,7 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 
 public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
 
@@ -80,11 +80,11 @@ public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
 		IContainer seamProjectSrcActionFolder = seamPrjSet.getActionFolder();
 		IContainer seamProjectWebContentFolder = seamPrjSet.getViewsFolder();
 
-		String seamPageName = data.getValue(IParameter.SEAM_PAGE_NAME);
+		String seamPageName = data.getValue(ISeamParameter.SEAM_PAGE_NAME);
 		// seam-gen uses @interfaceName@ as class name since 2.0.1
 		// but seam-gen 2.0.0 uses @beanName@ (it's a bug of 2.0.0)
 		// So we expect seam-gen 2.0.1 or higher here.
-		String interfaceName = data.getValue(IParameter.SEAM_LOCAL_INTERFACE_NAME);
+		String interfaceName = data.getValue(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME);
 
 		IResource seamBeanJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + interfaceName + ".java");

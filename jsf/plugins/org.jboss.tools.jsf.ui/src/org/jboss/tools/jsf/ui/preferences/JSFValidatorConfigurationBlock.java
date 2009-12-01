@@ -28,8 +28,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.jboss.tools.common.model.ui.preferences.SeverityConfigurationBlock;
-import org.jboss.tools.common.model.ui.preferences.SeverityPreferencesMessages;
+import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
+import org.jboss.tools.common.ui.preferences.SeverityPreferencesMessages;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 

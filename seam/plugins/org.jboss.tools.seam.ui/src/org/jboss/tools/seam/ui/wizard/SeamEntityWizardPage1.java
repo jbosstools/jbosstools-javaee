@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
@@ -35,8 +36,7 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author eskimo
@@ -76,31 +76,31 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 		setPageComplete(false);
-		if ("".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())) { //$NON-NLS-1$
-			if(getEditor(IParameter.SEAM_PACKAGE_NAME)!=null) {
-				getEditor(IParameter.SEAM_PACKAGE_NAME).setEnabled(false);
+		if ("".equals(editorRegistry.get(ISeamParameter.SEAM_PROJECT_NAME).getValue())) { //$NON-NLS-1$
+			if(getEditor(ISeamParameter.SEAM_PACKAGE_NAME)!=null) {
+				getEditor(ISeamParameter.SEAM_PACKAGE_NAME).setEnabled(false);
 			}
 		}
 	}
 
 	@Override
 	public void doFillDefaults(PropertyChangeEvent event) {
-		if(event.getPropertyName().equals(IParameter.SEAM_ENTITY_CLASS_NAME)) {
+		if(event.getPropertyName().equals(ISeamParameter.SEAM_ENTITY_CLASS_NAME)) {
 			if(event.getNewValue()==null||"".equals(event.getNewValue().toString().trim())) { 
-				setDefaultValue(IParameter.SEAM_ENTITY_CLASS_NAME, ""); 
-				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, ""); 
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, ""); 
+				setDefaultValue(ISeamParameter.SEAM_ENTITY_CLASS_NAME, ""); 
+				setDefaultValue(ISeamParameter.SEAM_MASTER_PAGE_NAME, ""); 
+				setDefaultValue(ISeamParameter.SEAM_PAGE_NAME, ""); 
 			} else {
 				String value = event.getNewValue().toString();
 				String valueL = value.substring(0,1).toLowerCase() + value.substring(1);
-				setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
-				setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL);
+				setDefaultValue(ISeamParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
+				setDefaultValue(ISeamParameter.SEAM_PAGE_NAME, valueL);
 			}
 		}
-		if(event.getPropertyName().equals(IParameter.SEAM_PROJECT_NAME)) {
+		if(event.getPropertyName().equals(ISeamParameter.SEAM_PROJECT_NAME)) {
 			String selectedProject = event.getNewValue().toString();
 			setSeamProjectNameData(selectedProject);
-			setDefaultValue(IParameter.SEAM_PACKAGE_NAME, getDefaultPackageName(selectedProject));
+			setDefaultValue(ISeamParameter.SEAM_PACKAGE_NAME, getDefaultPackageName(selectedProject));
 		}
 	}
 
@@ -134,7 +134,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 	protected void doValidate(PropertyChangeEvent event) {
 		if(!isValidProjectSelected()) return;
 
-		IFieldEditor packageEditor = getEditor(IParameter.SEAM_PACKAGE_NAME);
+		IFieldEditor packageEditor = getEditor(ISeamParameter.SEAM_PACKAGE_NAME);
 		if(packageEditor!=null) {
 			packageEditor.setEnabled(true);
 		}
@@ -143,8 +143,8 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 
 		if(!isValidRuntimeConfigured(project)) return;
 
-		Map<String, IStatus> errors = ValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_ENTITY_CLASS_NAME).getValue(), null);
+		Map<String, IStatus> errors = SeamValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
+				editorRegistry.get(ISeamParameter.SEAM_ENTITY_CLASS_NAME).getValue(), null);
 
 		if(!errors.isEmpty()) {
 			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_CLASS_NAME));
@@ -152,9 +152,9 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			return;
 		}
 
-		IFieldEditor editor = editorRegistry.get(IParameter.SEAM_PACKAGE_NAME);
+		IFieldEditor editor = editorRegistry.get(ISeamParameter.SEAM_PACKAGE_NAME);
 		if(editor!=null) {
-			errors = ValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(editor.getValue(), null);
+			errors = SeamValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(editor.getValue(), null);
 			if(!errors.isEmpty()) {
 				setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage()); //$NON-NLS-1$
 				setPageComplete(false);
@@ -162,8 +162,8 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			}
 		}
 
-		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project,project});
+		errors = SeamValidatorFactory.FILE_NAME_VALIDATOR.validate(
+				editorRegistry.get(ISeamParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project,project});
 
 		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
@@ -171,8 +171,8 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			return;
 		}
 
-		errors = ValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
+		errors = SeamValidatorFactory.FILE_NAME_VALIDATOR.validate(
+				editorRegistry.get(ISeamParameter.SEAM_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
 
 		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
@@ -184,7 +184,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		
 		if(javaProject != null){
 			try{
-				IType component = javaProject.findType((String)editorRegistry.get(IParameter.SEAM_PACKAGE_NAME).getValue()+"."+editorRegistry.get(IParameter.SEAM_ENTITY_CLASS_NAME).getValue());
+				IType component = javaProject.findType((String)editorRegistry.get(ISeamParameter.SEAM_PACKAGE_NAME).getValue()+"."+editorRegistry.get(ISeamParameter.SEAM_ENTITY_CLASS_NAME).getValue());
 				if(component != null){
 					setErrorMessage(null);
 					setMessage(SeamUIMessages.ENTITY_CLASS_ALREADY_EXISTS, IMessageProvider.WARNING);
@@ -199,7 +199,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		SeamProjectsSet seamPrjSet = new SeamProjectsSet(project);
 		IPath webContent = seamPrjSet.getViewsFolder().getFullPath();
 		
-		IPath masterPage = webContent.append(editorRegistry.get(IParameter.SEAM_MASTER_PAGE_NAME).getValue()+".xhtml");
+		IPath masterPage = webContent.append(editorRegistry.get(ISeamParameter.SEAM_MASTER_PAGE_NAME).getValue()+".xhtml");
 		
 		IFile masterPageFile = ResourcesPlugin.getWorkspace().getRoot().getFile(masterPage);
 		if(masterPageFile.exists()){
@@ -209,7 +209,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 			return;
 		}
 		
-		IPath page = webContent.append(editorRegistry.get(IParameter.SEAM_PAGE_NAME).getValue()+".xhtml");
+		IPath page = webContent.append(editorRegistry.get(ISeamParameter.SEAM_PAGE_NAME).getValue()+".xhtml");
 		
 		IFile pageFile = ResourcesPlugin.getWorkspace().getRoot().getFile(page);
 		if(pageFile.exists()){

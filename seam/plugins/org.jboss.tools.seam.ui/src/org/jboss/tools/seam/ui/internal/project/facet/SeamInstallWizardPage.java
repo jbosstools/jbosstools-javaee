@@ -61,8 +61,10 @@ import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.ModifyFacetedProjectWizard;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.hibernate.eclipse.console.utils.DriverClassHelpers;
+import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamUtil;
@@ -73,7 +75,6 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 import org.jboss.tools.seam.ui.wizard.SeamProjectWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
@@ -433,9 +434,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		if (validatorDelegate == null) {
 			validatorDelegate = new DataModelValidatorDelegate(this.model, this);
 			validatorDelegate.addValidatorForProperty(jBossSeamHomeEditor
-					.getName(), ValidatorFactory.SEAM_RUNTIME_NAME_VALIDATOR);
+					.getName(), SeamValidatorFactory.SEAM_RUNTIME_NAME_VALIDATOR);
 			validatorDelegate.addValidatorForProperty(connProfileSelEditor
-					.getName(), ValidatorFactory.CONNECTION_PROFILE_VALIDATOR);
+					.getName(), SeamValidatorFactory.CONNECTION_PROFILE_VALIDATOR);
 			validatorDelegate.addValidatorForProperty(testsPkgNameditor
 					.getName(), new PackageNameValidator(testsPkgNameditor
 					.getName(), "tests")); //$NON-NLS-1$
@@ -491,7 +492,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 						public Map<String, IStatus> validate(Object value,
 								Object context) {
 							SeamInstallWizardPage.this.validate();
-							return ValidatorFactory.NO_ERRORS;
+							return SeamValidatorFactory.NO_ERRORS;
 						}
 					});
 			dbSchemaName = IFieldEditorFactory.INSTANCE
@@ -712,8 +713,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		 */
 		public Map<String, IStatus> validate(Object value, Object context) {
 			IStatus status = JavaConventions.validatePackageName(value.toString(),
-					ValidatorFactory.DEFAULT_SOURCE_LEVEL,
-					ValidatorFactory.DEFAULT_COMPLIANCE_LEVEL);
+					SeamValidatorFactory.DEFAULT_SOURCE_LEVEL,
+					SeamValidatorFactory.DEFAULT_COMPLIANCE_LEVEL);
 			
 			if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
 				return doPackStatus(status,
@@ -721,7 +722,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_NOT_VALID,
 					targetName));
 			}
-			return ValidatorFactory.NO_ERRORS;
+			return SeamValidatorFactory.NO_ERRORS;
 		}
 		
 	}
@@ -777,7 +778,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 									ejbProjectName));
 				}
 			}
-			return ValidatorFactory.NO_ERRORS;
+			return SeamValidatorFactory.NO_ERRORS;
 		}
 	}
 
@@ -791,7 +792,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		// JBOSS_AS_DEPLOY_AS, model);
 		return new IValidator() {
 			public Map<String, IStatus> validate(Object value, Object context) {
-				return ValidatorFactory.NO_ERRORS;
+				return SeamValidatorFactory.NO_ERRORS;
 			}
 		};
 	}
@@ -832,7 +833,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					IRuntime rt = RuntimeManager.getRuntime(runtimeName
 							.toString());
 					if (!rt.supports(EJB_30) || !rt.supports(EAR_50)) {
-						return ValidatorFactory.createErrormessage(
+						return SeamValidatorFactory.createErrormessage(
 									propertyName,
 									new Status(
 											IStatus.ERROR,
@@ -845,7 +846,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					}
 				}
 			}
-			return ValidatorFactory.NO_ERRORS;
+			return SeamValidatorFactory.NO_ERRORS;
 		}
 	}
 
@@ -907,7 +908,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	}
 	
 	private Map<String, IStatus> doPackStatus(IStatus status, String propertyName, String message){
-		return ValidatorFactory.createErrormessage(
+		return SeamValidatorFactory.createErrormessage(
 					propertyName,
 					new Status(status.getSeverity(), SeamCorePlugin.PLUGIN_ID, message));
 	}

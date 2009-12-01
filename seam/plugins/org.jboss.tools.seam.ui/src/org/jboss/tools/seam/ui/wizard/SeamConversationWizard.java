@@ -69,36 +69,36 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 			// seam-gen uses @interfaceName@ as class name since 2.0.1
 			// but seam-gen 2.0.0 and lower ones use @beanName@ (looks like a bug)
 			String version = SeamUtil.getSeamVersionFromManifest(getProject(info));
-			String interfaceName = IParameter.SEAM_BEAN_NAME;
+			String interfaceName = ISeamParameter.SEAM_BEAN_NAME;
 			if(version!=null && version.compareTo("2.0.1")>=0) {
-				interfaceName = IParameter.SEAM_LOCAL_INTERFACE_NAME;
+				interfaceName = ISeamParameter.SEAM_LOCAL_INTERFACE_NAME;
 			}
 
 			actionMapping.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationJavaBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + interfaceName +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + interfaceName +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					FileMapping.TYPE.WAR,
 					false));
 			actionMapping.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/conversation.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + ISeamParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					FileMapping.TYPE.WAR,
 					false));
 
 			// initialize ear files mapping
 			actionMapping.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/ConversationBean.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + ISeamParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					FileMapping.TYPE.EAR,
 					false));
 			actionMapping.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/src/Conversation.java", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/${" + ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					FileMapping.TYPE.EAR,
 					false));
 			actionMapping.add(new FileMapping(
 					"${" + ISeamFacetDataModelProperties.JBOSS_SEAM_HOME + "}/seam-gen/view/conversation.xhtml", //$NON-NLS-1$ //$NON-NLS-2$
-					"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/${" + ISeamParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					FileMapping.TYPE.EAR,
 					false));
 
@@ -111,7 +111,7 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 		 */
 		@Override
 		protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
-			return wizardParams.get(IParameter.SEAM_PACKAGE_NAME).getValue().toString();
+			return wizardParams.get(ISeamParameter.SEAM_PACKAGE_NAME).getValue().toString();
 		}
 	};
 }

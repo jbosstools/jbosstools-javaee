@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.wizard;
 
-import java.util.Map;
-
 import junit.framework.TestCase;
 
 import org.eclipse.jface.wizard.IWizard;
@@ -19,9 +17,8 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
-import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage;
-import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 
 /**
  * @author eskimo
@@ -45,7 +42,7 @@ public class SeamActionNewWizardTest extends TestCase {
 		try {
 			SeamBaseWizardPage page = (SeamBaseWizardPage)dialog.getSelectedPage();
 
-			page.getEditor(IParameter.SEAM_PROJECT_NAME).setValue("Test1-ear");
+			page.getEditor(ISeamParameter.SEAM_PROJECT_NAME).setValue("Test1-ear");
 			assertEquals("Seam web parent project was not initialized for Seam EAR project.", "Test1", page.getRootSeamProject());
 		} finally {
 			dialog.close();

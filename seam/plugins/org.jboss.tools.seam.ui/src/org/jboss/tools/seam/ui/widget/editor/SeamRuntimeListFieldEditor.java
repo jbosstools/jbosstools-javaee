@@ -61,6 +61,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
 import org.jboss.tools.common.ui.widget.editor.BaseFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamUtil;
@@ -68,7 +69,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 
 /**
@@ -641,9 +642,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				setMessage(null);
 			}
 
-			Map<String, IStatus> errors = ValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR
+			Map<String, IStatus> errors = SeamValidatorFactory.JBOSS_SEAM_HOME_FOLDER_VALIDATOR
 					.validate(homeDir.getValueAsString(), seamVersion);
-			if (errors != ValidatorFactory.NO_ERRORS) {
+			if (errors != SeamValidatorFactory.NO_ERRORS) {
 				setErrorMessage(errors.get(
 						ISeamFacetDataModelProperties.JBOSS_SEAM_HOME)
 						.getMessage());

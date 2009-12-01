@@ -35,6 +35,8 @@ import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
 import org.hibernate.eclipse.console.utils.ProjectUtils;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
+import org.jboss.tools.common.ui.CommonUIMessages;
+import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
 import org.jboss.tools.common.ui.widget.field.RadioField;
@@ -43,8 +45,7 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author Alexey Kazakov
@@ -70,7 +71,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		projectEditor = SeamWizardFactory.createSeamProjectSelectionFieldEditor(projectName);
 		projectEditor.addPropertyChangeListener(this);
 		if(projectName!=null && projectName.length()>0) {
-			Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
+			Map<String, IStatus> errors = SeamValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectEditor.getValue(), null);
 			if(!errors.isEmpty()) {
 				IStatus message = errors.get(IValidator.DEFAULT_ERROR);
 				if(message.getSeverity()==IStatus.ERROR) {
@@ -169,7 +170,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		if(IParameter.SEAM_PROJECT_NAME.equals(event.getPropertyName()) &&
+		if(ISeamParameter.SEAM_PROJECT_NAME.equals(event.getPropertyName()) &&
 				event.getNewValue()!=null &&
 				!event.getNewValue().equals(event.getOldValue())) {
 			String consoleConfigName = getConsoleConfigurationName(event.getNewValue().toString());
@@ -200,7 +201,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 	protected boolean isValidRuntimeConfigured(IProject project) {
 		Map<String, IStatus> errors;
 		String seamRt = SeamCorePlugin.getSeamPreferences(project).get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,""); //$NON-NLS-1$
-		errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
+		errors = SeamValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(seamRt, null);
 		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
 			setPageComplete(false);
@@ -211,7 +212,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 
 	private void validate() {
 		String projectName = projectEditor.getValue().toString();
-		Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectName, null);
+		Map<String, IStatus> errors = SeamValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(projectName, null);
 
 		if(!errors.isEmpty() || !isProjectSettingsOk()) {
 			IStatus errorMessage = errors.get(IValidator.DEFAULT_ERROR);
@@ -240,7 +241,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		IContainer viewsFolder = seamProjectsSet.getViewsFolder();
 		if (viewsFolder != null){
 			if (!viewsFolder.getFolder(new Path("layout")).exists()){//$NON-NLS-1$
-				setErrorMessage(SeamUIMessages.bind(SeamUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST, 
+				setErrorMessage(CommonUIMessages.bind(CommonUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST, 
 						viewsFolder.getName() + "/layout"));//$NON-NLS-1$
 				setPageComplete(false);
 				return;

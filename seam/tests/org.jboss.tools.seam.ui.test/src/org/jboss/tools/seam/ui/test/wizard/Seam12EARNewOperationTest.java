@@ -22,7 +22,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -137,14 +137,14 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		IContainer testSourceFolder = seamPrjSet.getTestsFolder();
 		IContainer seamProjectWebContentFolder = seamPrjSet.getViewsFolder();
 		
-		String seamPageName = data.getValue(IParameter.SEAM_PAGE_NAME);
-		String seamLocalInterfaceName = data.getValue(IParameter.SEAM_LOCAL_INTERFACE_NAME);
-		String seamBeanName = data.getValue(IParameter.SEAM_BEAN_NAME);
+		String seamPageName = data.getValue(ISeamParameter.SEAM_PAGE_NAME);
+		String seamLocalInterfaceName = data.getValue(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME);
+		String seamBeanName = data.getValue(ISeamParameter.SEAM_BEAN_NAME);
 
 //
-//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 //		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource beanJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
@@ -153,9 +153,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
 
 //
-//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 //		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource localInterfaceJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
@@ -164,9 +164,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
 		
 //				
-//		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
+//		"${" + ISeamParameter.TEST_SOURCE_FOLDER + "}/
 //		${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
-//		${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${"+ ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource localInterfaceTestJava = testSourceFolder.findMember(
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
@@ -174,9 +174,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				testSourceFolder.toString() + "/" +
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
 
-//		"${" + IParameter.TEST_SOURCE_FOLDER + "}/
+//		"${" + ISeamParameter.TEST_SOURCE_FOLDER + "}/
 //		${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
-//		${"+ IParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${"+ ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource localInterfaceTestXml = testSourceFolder.findMember(
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
@@ -185,8 +185,8 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
 
 //		
-//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-//		${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//		"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + ISeamParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
@@ -205,14 +205,14 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		IContainer seamProjectSrcActionFolder = seamPrjSet.getActionFolder();
 		IContainer seamProjectWebContentFolder = seamPrjSet.getViewsFolder();
 		
-		String seamPageName = data.getValue(IParameter.SEAM_PAGE_NAME);
-		String seamLocalInterfaceName = data.getValue(IParameter.SEAM_LOCAL_INTERFACE_NAME);
-		String seamBeanName = data.getValue(IParameter.SEAM_BEAN_NAME);
+		String seamPageName = data.getValue(ISeamParameter.SEAM_PAGE_NAME);
+		String seamLocalInterfaceName = data.getValue(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME);
+		String seamBeanName = data.getValue(ISeamParameter.SEAM_BEAN_NAME);
 
 //
-//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 //		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_BEAN_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource beanJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
@@ -221,9 +221,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				sessionBeanPackagePath + "/" + seamBeanName + ".java");
 
 //
-//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 //		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource localInterfaceJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
@@ -232,8 +232,8 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
 		
 //		
-//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-//		${" + IParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//		"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + ISeamParameter.SEAM_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
@@ -254,13 +254,13 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		IContainer seamProjectSrcModelFolder = seamPrjSet.getModelFolder();
 		IContainer seamProjectWebContentFolder = seamPrjSet.getViewsFolder();
 		
-		String seamPageName = data.getValue(IParameter.SEAM_PAGE_NAME);
-		String seamMasterPageName = data.getValue(IParameter.SEAM_MASTER_PAGE_NAME);
-		String seamEntityClassName = data.getValue(IParameter.SEAM_ENTITY_CLASS_NAME);
+		String seamPageName = data.getValue(ISeamParameter.SEAM_PAGE_NAME);
+		String seamMasterPageName = data.getValue(ISeamParameter.SEAM_MASTER_PAGE_NAME);
+		String seamEntityClassName = data.getValue(ISeamParameter.SEAM_ENTITY_CLASS_NAME);
 		
 //
-//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-//		${" + IParameter.SEAM_PAGE_NAME +"}.xhtml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//		"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + ISeamParameter.SEAM_PAGE_NAME +"}.xhtml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
@@ -269,8 +269,8 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamPageName + ".xhtml");
 
 //
-//		"${" + IParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
-//		${" + IParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//		"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
+//		${" + ISeamParameter.SEAM_MASTER_PAGE_NAME +"}.xhtml",	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		IResource seamMasterPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamMasterPageName + ".xhtml");
@@ -279,9 +279,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamMasterPageName + ".xhtml");
 
 //
-//		"${" + IParameter.SEAM_PROJECT_SRC_MODEL + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_MODEL + "}/
 //		${" + ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_ENTITY_CLASS_NAME +"}.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource entityClassJava = seamProjectSrcModelFolder.findMember(
 				entityBeanPackagePath + "/" + seamEntityClassName + ".java");
@@ -290,9 +290,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				entityBeanPackagePath + "/" + seamEntityClassName + ".java");
 		
 //		
-//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 //		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_ENTITY_CLASS_NAME +"}Home.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource entityHomeJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamEntityClassName + "Home.java");
@@ -301,9 +301,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				sessionBeanPackagePath + "/" + seamEntityClassName + "Home.java");
 
 //
-//		"${" + IParameter.SEAM_PROJECT_SRC_ACTION + "}/
+//		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 //		${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/
-//		${" + IParameter.SEAM_ENTITY_CLASS_NAME +"}List.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		${" + ISeamParameter.SEAM_ENTITY_CLASS_NAME +"}List.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 		IResource entityListJava = seamProjectSrcActionFolder.findMember(
 				sessionBeanPackagePath + "/" + seamEntityClassName + "List.java");

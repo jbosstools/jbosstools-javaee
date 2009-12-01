@@ -45,7 +45,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.core.test.project.facet.AbstractSeamFacetTest;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 import org.jboss.tools.seam.ui.wizard.SeamActionWizard.SeamActionCreateOperation;
@@ -186,15 +186,15 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	}
 	
 	protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs) {
-		return seamFacetPrefs.get(IParameter.SESSION_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamParameter.SESSION_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getEntityBeanPackageName(IEclipsePreferences seamFacetPrefs) {
-		return seamFacetPrefs.get(IParameter.ENTITY_BEAN_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamParameter.ENTITY_BEAN_PACKAGE_NAME, "");
 	}
 
 	protected String getTestCasesPackageName(IEclipsePreferences seamFacetPrefs) {
-		return seamFacetPrefs.get(IParameter.TEST_CASES_PACKAGE_NAME, "");
+		return seamFacetPrefs.get(ISeamParameter.TEST_CASES_PACKAGE_NAME, "");
 	}
 
 	/**
@@ -291,7 +291,7 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		AdaptableRegistry registry = new AdaptableRegistry() {
 			protected void fillDataDefaults(String componentName, String projectName) {
 				super.fillDataDefaults(componentName, projectName);
-				setDefaultValue(IParameter.SEAM_PACKAGE_NAME, getEntityBeanPackageName(getSeamFacetPreferences(projectName)));
+				setDefaultValue(ISeamParameter.SEAM_PACKAGE_NAME, getEntityBeanPackageName(getSeamFacetPreferences(projectName)));
 			}
 
 		};
@@ -403,15 +403,15 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		protected void fillDataDefaults(String componentName, String projectName) {
 			String valueU = componentName.substring(0,1).toUpperCase() + componentName.substring(1);
 			String valueL = componentName.substring(0,1).toLowerCase() + componentName.substring(1);
-			setDefaultValue(IParameter.SEAM_COMPONENT_NAME, valueU); //$NON-NLS-1$
-			setDefaultValue(IParameter.SEAM_LOCAL_INTERFACE_NAME, valueU); //$NON-NLS-1$
-			setDefaultValue(IParameter.SEAM_BEAN_NAME, valueU+"Bean"); //$NON-NLS-1$
-			setDefaultValue(IParameter.SEAM_ENTITY_CLASS_NAME, valueU); //$NON-NLS-1$
-			setDefaultValue(IParameter.SEAM_METHOD_NAME, valueL); //$NON-NLS-1$
-			setDefaultValue(IParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
-			setDefaultValue(IParameter.SEAM_PAGE_NAME, valueL); //$NON-NLS-1$
+			setDefaultValue(ISeamParameter.SEAM_COMPONENT_NAME, valueU); //$NON-NLS-1$
+			setDefaultValue(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME, valueU); //$NON-NLS-1$
+			setDefaultValue(ISeamParameter.SEAM_BEAN_NAME, valueU+"Bean"); //$NON-NLS-1$
+			setDefaultValue(ISeamParameter.SEAM_ENTITY_CLASS_NAME, valueU); //$NON-NLS-1$
+			setDefaultValue(ISeamParameter.SEAM_METHOD_NAME, valueL); //$NON-NLS-1$
+			setDefaultValue(ISeamParameter.SEAM_MASTER_PAGE_NAME, valueL+"List");
+			setDefaultValue(ISeamParameter.SEAM_PAGE_NAME, valueL); //$NON-NLS-1$
 			setSeamProjectNameData(projectName);
-			setDefaultValue(IParameter.SEAM_PACKAGE_NAME, getDefaultPackageName(projectName));
+			setDefaultValue(ISeamParameter.SEAM_PACKAGE_NAME, getDefaultPackageName(projectName));
 		}
 		
 		protected void setDefaultValue(String name, Object value) {
@@ -421,9 +421,9 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		}
 
 		protected void setSeamProjectNameData(String projectName) {
-			IFieldEditor editor = editorRegistry.get(IParameter.SEAM_PACKAGE_NAME);
+			IFieldEditor editor = editorRegistry.get(ISeamParameter.SEAM_PACKAGE_NAME);
 			if(editor!=null) {
-				editor.setData(IParameter.SEAM_PROJECT_NAME, projectName);
+				editor.setData(ISeamParameter.SEAM_PROJECT_NAME, projectName);
 			}
 		}
 		

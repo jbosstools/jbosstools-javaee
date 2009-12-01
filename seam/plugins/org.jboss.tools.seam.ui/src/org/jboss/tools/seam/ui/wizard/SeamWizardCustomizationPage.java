@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author Alexey Kazakov
@@ -57,12 +57,12 @@ public abstract class SeamWizardCustomizationPage extends SeamBaseWizardPage imp
 	public void createControl(Composite parent) {
 		setControl(new GridLayoutComposite(parent));
 
-		if (!"".equals(editorRegistry.get(IParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
-			Map<String, IStatus> errors = ValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
-					getEditor(IParameter.SEAM_PROJECT_NAME).getValue(), null);
+		if (!"".equals(editorRegistry.get(ISeamParameter.SEAM_PROJECT_NAME).getValue())){ //$NON-NLS-1$
+			Map<String, IStatus> errors = SeamValidatorFactory.SEAM_PROJECT_NAME_VALIDATOR.validate(
+					getEditor(ISeamParameter.SEAM_PROJECT_NAME).getValue(), null);
 		}
 
-		String selectedProject = getEditor(IParameter.SEAM_PROJECT_NAME).getValueAsString();
+		String selectedProject = getEditor(ISeamParameter.SEAM_PROJECT_NAME).getValueAsString();
 
 		if(selectedProject!=null && !"".equals(selectedProject) && isValidProjectSelected()) {
 			isValidRuntimeConfigured(getSelectedProject());

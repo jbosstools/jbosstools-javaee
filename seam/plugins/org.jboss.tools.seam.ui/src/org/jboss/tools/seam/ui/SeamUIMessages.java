@@ -231,26 +231,13 @@ public class SeamUIMessages extends NLS {
 	
 	public static String SHOW_PROJECT_SETTINGS_ACTION;
 
-	public static String SWT_FIELD_EDITOR_FACTORY_BROWS;
-
-	public static String SWT_FIELD_EDITOR_FACTORY_ERROR;
-
-	public static String SWT_FIELD_EDITOR_FACTORY_NOT_IMPLEMENTED_YET;
-
-	public static String SWT_FIELD_EDITOR_FACTORY_OK;
-
-	public static String SWT_FIELD_EDITOR_FACTORY_SELECT_SEAM_HOME_FOLDER;
-
 	public static String VALIDATOR_FACTORY_CANNOT_FIND_SEAM_RUNTIME;
 
 	public static String VALIDATOR_FACTORY_COMPONENT_NAME_IS_NOT_VALID;
 
-
 	public static String VALIDATOR_FACTORY_CONNECTION_PROFILE_IS_NOT_SELECTED;
 
 	public static String VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED_CONNECTION_PROFILE;
-
-	public static String VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST;
 
 	public static String VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER;
 
@@ -263,10 +250,6 @@ public class SeamUIMessages extends NLS {
 	public static String VALIDATOR_FACTORY_NAME_IS_NOT_VALID;
 	
 	public static String VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS;
-
-	public static String VALIDATOR_FACTORY_PATH_POINTS_TO_FILE;
-
-	public static String VALIDATOR_FACTORY_PATH_TO_A_FOLDER_CANNOT_BE_NULL;
 
 	public static String VALIDATOR_FACTORY_PRJ_NOT_SELECTED;
 
@@ -333,9 +316,6 @@ public class SeamUIMessages extends NLS {
 	public static String FIND_REFERENCES_ACTION_DESCRIPTION;
 	public static String FIND_REFERENCES_ACTION_TOOL_TIP;
 
-	public static String SELECT_WORKSPACE_FOLDER_DIALOG_TITLE;
-	public static String SELECT_WORKSPACE_FOLDER_DIALOG_MESSAGE;
-	
 	public static String SeamSearchQuery_label;
 
 	public static String SeamSearchQuery_singularPatternWithLimitTo;

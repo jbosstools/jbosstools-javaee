@@ -89,7 +89,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 		@Override
 		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			Map<String, INamedElement> params = (Map<String, INamedElement>)info.getAdapter(Map.class);	
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(params.get(IParameter.SEAM_PROJECT_NAME).getValueAsString());
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(params.get(ISeamParameter.SEAM_PROJECT_NAME).getValueAsString());
 
 			try {
 				
@@ -107,7 +107,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 				//Main
 				wc.setAttribute(
 					HibernateLaunchConstants.ATTR_CONSOLE_CONFIGURATION_NAME, 
-					params.get(IParameter.HIBERNATE_CONFIGURATION_NAME).getValueAsString());
+					params.get(ISeamParameter.HIBERNATE_CONFIGURATION_NAME).getValueAsString());
 
 				SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
 

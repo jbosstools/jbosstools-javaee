@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
+import org.jboss.tools.common.ui.IValidator;
 
 /**
  * Delegate class used during validation process in wizard dialog. It contains 
@@ -129,7 +130,7 @@ public class DataModelValidatorDelegate implements IDataModelListener {
 	 */
 	public IValidator getValidator(String name) {
 		IValidator validator = mapPropToValidator.get(name);
-		return validator==null?ValidatorFactory.NO_ERRORS_VALIDATOR:validator;
+		return validator==null?SeamValidatorFactory.NO_ERRORS_VALIDATOR:validator;
 	}
 	
 	/**

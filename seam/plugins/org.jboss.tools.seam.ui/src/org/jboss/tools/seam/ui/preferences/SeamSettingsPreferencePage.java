@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +46,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.dialogs.PropertyPage;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
@@ -56,7 +54,11 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.ui.IValidator;
+import org.jboss.tools.common.ui.preferences.SettingsPage;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
+import org.jboss.tools.common.ui.wizard.IParameter;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -68,10 +70,8 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.internal.project.facet.IValidator;
-import org.jboss.tools.seam.ui.internal.project.facet.ValidatorFactory;
-import org.jboss.tools.seam.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.seam.ui.wizard.IParameter;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
+import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 import org.osgi.service.prefs.BackingStoreException;
@@ -80,10 +80,9 @@ import org.osgi.service.prefs.BackingStoreException;
  * Seam Settings Preference Page
  * @author Alexey Kazakov
  */
-public class SeamSettingsPreferencePage extends PropertyPage implements PropertyChangeListener {
+public class SeamSettingsPreferencePage extends SettingsPage {
 
 	public static final String ID = "org.jboss.tools.seam.ui.propertyPages.SeamSettingsPreferencePage";
-	private Map<String,IFieldEditor> editorRegistry = new HashMap<String,IFieldEditor>();
 	private IProject project;
 	private IProject warProject;
 	private IEclipsePreferences preferences;
@@ -166,9 +165,9 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 
 		IFieldEditor projectNameEditor = 
 			SeamWizardFactory.createSeamProjectSelectionFieldEditor(
-					IParameter.SEAM_PROJECT_NAME,
+					ISeamParameter.SEAM_PROJECT_NAME,
 					SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCES_PAGE_SEAM_PROJECT, 
-					getPrefValue(IParameter.SEAM_PROJECT_NAME, getSeamProjectName()),
+					getPrefValue(ISeamParameter.SEAM_PROJECT_NAME, getSeamProjectName()),
 					false,
 					false);
 		projectNameEditor.addPropertyChangeListener(new PropertyChangeListener() {
@@ -323,7 +322,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	}
 
 	private IProject getMainProjectFromField() {
-		String name = getValue(IParameter.SEAM_PROJECT_NAME).trim();
+		String name = getValue(ISeamParameter.SEAM_PROJECT_NAME).trim();
 		if(name.length()==0) {
 			return null;
 		}
@@ -537,7 +536,12 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 	private boolean warning;
 	private boolean error;
 
-	private void validate() {
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.ui.preferences.SettingsPage#validate()
+	 */
+	@Override
+	protected void validate() {
 		warning = false;
 		error = false;
 
@@ -560,7 +564,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				setValid(false);
 				return;
 			}
-			Map<String, IStatus> errors = ValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(value, null);
+			Map<String, IStatus> errors = SeamValidatorFactory.SEAM_RUNTIME_VALIDATOR.validate(value, null);
 			if(!errors.isEmpty()) {
 				IStatus status = errors.get(IValidator.DEFAULT_ERROR);
 				if(IStatus.ERROR == status.getSeverity()) {
@@ -580,7 +584,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 				setValid(true);
 			}
 		}
-		validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_IS_EMPTY, IParameter.SEAM_PROJECT_NAME, false);
+		validateProjectName(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_DOES_NOT_EXIST, SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_MAIN_SEAM_PROJECT_IS_EMPTY, ISeamParameter.SEAM_PROJECT_NAME, false);
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(getValue(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
 		if(deployAsEar) {
@@ -747,19 +751,6 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		return projectName;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	public void propertyChange(PropertyChangeEvent evt) {
-		validate();
-	}
-
-	private void registerEditor(IFieldEditor editor, Composite parent) {
-		editorRegistry.put(editor.getName(), editor);
-		editor.doFillIntoGrid(parent);
-		editor.addPropertyChangeListener(this);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
@@ -791,7 +782,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 			prefs = childProjectPrefs;
 		}
 		if(project!=getSeamProject()) {
-			childProjectPrefs.put(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, getValue(IParameter.SEAM_PROJECT_NAME));
+			childProjectPrefs.put(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, getValue(ISeamParameter.SEAM_PROJECT_NAME));
 		}
 
 		prefs.put(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, 
@@ -831,14 +822,6 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		} catch (BackingStoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
-	}
-
-	public String getValue(String editorName) {
-		return editorRegistry.get(editorName).getValue().toString();
-	}
-
-	public IFieldEditor getEditor(String editorName) {
-		return editorRegistry.get(editorName);
 	}
 
 	private boolean isSeamSupported() {
@@ -913,7 +896,7 @@ public class SeamSettingsPreferencePage extends PropertyPage implements Property
 		getEditor(SeamPreferencesMessages.SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT).setValue(Boolean.TRUE);
 		getEditor(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).setValue(getDefaultRuntimeName());
 		IProject mainProject = SeamWizardUtils.getRootSeamProject(project);
-		getEditor(IParameter.SEAM_PROJECT_NAME).setValue(mainProject!=null?mainProject.getName():project.getName());
+		getEditor(ISeamParameter.SEAM_PROJECT_NAME).setValue(mainProject!=null?mainProject.getName():project.getName());
 		getEditor(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS).setValue(seamProjectSet.getDefaultDeployType());
 		getEditor(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT).setValue(seamProjectSet.getEjbProject()==null?project.getName():seamProjectSet.getEjbProject().getName());
 		getEditor(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER).setValue(getDefaultViewFolder());
