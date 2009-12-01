@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JarEntryFile;
@@ -32,6 +33,8 @@ public class JBIDE4510Test extends VpeTest {
 
 	private static final String JAR_NAME = "WebContent/WEB-INF/lib/mareshkau.jar"; //$NON-NLS-1$
 	private static final String FILE_NAME = "components/paginator.xhtml"; //$NON-NLS-1$
+	private static final String PACKAGE_NAME = "components"; //$NON-NLS-1$
+	private static final String SHORT_NAME = "paginator.xhtml"; //$NON-NLS-1$
 	
 	public JBIDE4510Test(String name) {
 		super(name);
@@ -59,14 +62,15 @@ public class JBIDE4510Test extends VpeTest {
 		assertNotNull("Cannot process java project:" //$NON-NLS-1$
 				+ JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME, javaProject);
 		
-		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(jarArchive);
+		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(jarArchive.getLocation().toString());
 		/*
 		 * Root element should have the correct type.
 		 */
 		if (root instanceof JarPackageFragmentRoot) {
-			JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root; 
-			JarEntryFile jarFile = new JarEntryFile(FILE_NAME);
-			jarFile.setParent(jarRoot);
+			JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root;
+			IPackageFragment pf = jarRoot.getPackageFragment(PACKAGE_NAME);
+			JarEntryFile jarFile = new JarEntryFile(SHORT_NAME);
+			jarFile.setParent(pf);
 			JarEntryEditorInput jarEditorInput = new JarEntryEditorInput(jarFile);
 			JSPMultiPageEditor editor = openEditor(jarEditorInput);
 			/*
