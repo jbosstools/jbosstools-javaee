@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.ICompilationUnit;
 
 /**
  * Builder delegate performs build for specific kind of cdi project.
@@ -29,6 +30,7 @@ public interface ICDIBuilderDelegate {
 
 	public Class<? extends ICDIProject> getProjectImplementationClass();
 
+	public void build(IFile file, ICompilationUnit unit, CDICoreNature projectNature);
 	public void build(IFile file, CDICoreNature projectNature);
 
 }

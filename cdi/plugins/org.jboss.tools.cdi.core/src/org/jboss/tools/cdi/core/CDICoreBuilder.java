@@ -11,10 +11,14 @@
 package org.jboss.tools.cdi.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -22,7 +26,17 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
+import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.plugin.ModelPlugin;
+import org.jboss.tools.common.model.project.ProjectHome;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class CDICoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.cdi.core.cdibuilder";
@@ -32,7 +46,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	static Set<ICDIBuilderDelegate> getDelegates() {
 		if(delegates == null) {
 			delegates = new HashSet<ICDIBuilderDelegate>();
-			//TODO populate			
+			//TODO populate; extension point will be used
+			delegates.add(new CDIBuilderDelegate()); //default
 		}
 		return delegates;
 	}
@@ -74,6 +89,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
+		resourceVisitor = null;
 		findDelegate();
 		if(getDelegate() == null) {
 			return null;
@@ -183,10 +199,91 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	}
 
 	class CDIResourceVisitor implements IResourceVisitor {
+		IPath[] outs = new IPath[0];
+		IPath[] srcs = new IPath[0];
+		IPath webinf = null;
+		
+		CDIResourceVisitor() {
+			webinf = ProjectHome.getWebInfPath(getProject());
+			getJavaSourceRoots(getProject());
+		}
+
+		void getJavaSourceRoots(IProject project) {
+			IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+			if(javaProject == null) return;
+			List<IPath> ps = new ArrayList<IPath>();
+			List<IPath> os = new ArrayList<IPath>();
+			try {
+				IPath output = javaProject.getOutputLocation();
+				if(output != null) os.add(output);
+				IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
+				for (int i = 0; i < es.length; i++) {
+					if(es[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
+						IResource findMember = ModelPlugin.getWorkspace().getRoot().findMember(es[i].getPath());
+						if(findMember != null && findMember.exists()) {
+							ps.add(findMember.getFullPath());
+						}
+						IPath out = es[i].getOutputLocation();
+						if(out != null && !os.contains(out)) {
+							os.add(out);
+						}
+					} 
+				}
+				srcs = ps.toArray(new IPath[0]);
+				outs = os.toArray(new IPath[0]);
+			} catch(CoreException ce) {
+				CDICorePlugin.getDefault().logError("Error while locating java source roots for " + project, ce);
+			}
+		}
 
 		public boolean visit(IResource resource) throws CoreException {
-			// TODO 
-			return false;
+			IPath path = resource.getFullPath();
+			if(resource instanceof IFile) {
+				IFile f = (IFile)resource;
+				for (int i = 0; i < outs.length; i++) {
+					if(outs[i].isPrefixOf(path)) {
+						return false;
+					}
+				}
+				for (int i = 0; i < srcs.length; i++) {
+					if(srcs[i].isPrefixOf(path)) {
+						if(f.getName().endsWith(".java")) {
+							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
+							builderDelegate.build(f, unit, getCDICoreNature());
+						}
+						return false;
+					}
+				}
+				if(webinf != null && webinf.isPrefixOf(path)) {
+					if(f.getName().equals("beans.xml")) {
+						//TODO
+					}
+				}
+			}
+			
+			if(resource instanceof IFolder) {
+				for (int i = 0; i < outs.length; i++) {
+					if(outs[i].isPrefixOf(path)) {
+						return false;
+					}
+				}
+				for (int i = 0; i < srcs.length; i++) {
+					if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
+						return true;
+					}
+				}
+				if(webinf != null) {
+					if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
+						return true;
+					}
+				}
+				if(resource == resource.getProject()) {
+					return true;
+				}
+				return false;
+			}
+			//return true to continue visiting children.
+			return true;
 		}
 		
 	}

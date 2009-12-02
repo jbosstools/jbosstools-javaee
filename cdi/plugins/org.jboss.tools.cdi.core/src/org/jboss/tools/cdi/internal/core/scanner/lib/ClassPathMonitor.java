@@ -10,18 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.scanner.lib;
 
+import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.common.model.project.ext.AbstractClassPathMonitor;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
-//TODO implement
-public class ClassPathMonitor {
+public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 
 	public ClassPathMonitor(CDICoreNature project) {
-		
+		this.project = project;
 	}
 
-	public boolean update() {
-		//TODO
-		return true;
+	public void init() {
+		model = EclipseResourceUtil.createObjectForResource(getProjectResource()).getModel();
 	}
 
 	public void validateProjectDependencies() {
@@ -37,8 +38,8 @@ public class ClassPathMonitor {
 		return false;
 	}
 
-	public void clean() {
-		//TODO
+	public IProject getProjectResource() {
+		return project.getProject();
 	}
 
 }

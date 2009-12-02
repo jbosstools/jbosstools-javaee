@@ -53,6 +53,7 @@ public class CDICoreNature implements IProjectNature {
 
 	public void setProject(IProject project) {
 		this.project = project;
+		classPath.init();
 	}
 
 	public void setCDIProject(ICDIProject cdiProject) {
