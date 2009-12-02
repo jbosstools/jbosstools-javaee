@@ -1,0 +1,23 @@
+<tests>
+	<test id="jbide5353Test">
+<DIV ID="jbide5353Test">
+<TABLE STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
+<TR>
+<TD>
+<DIV>
+<SPAN CLASS="vpe-text">
+Default namespace detection test page
+</SPAN>
+<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+h1<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+
+</DIV>
+<INPUT VALUE="Test"/>
+
+</DIV>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+	</test>
+</tests>

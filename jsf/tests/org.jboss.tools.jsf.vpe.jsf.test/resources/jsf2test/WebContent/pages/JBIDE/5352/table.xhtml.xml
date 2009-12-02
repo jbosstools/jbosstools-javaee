@@ -1,0 +1,138 @@
+<tests>
+	<test id="jbide5352Test">
+	<DIV STYLE="margin: 36px;">
+<SPAN STYLE="">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+Table Test
+</SPAN>
+</DIV>
+</SPAN>
+<DIV>
+<TABLE CELLSPACING="0px" ALIGN="center" WIDTH="100%">
+</TABLE>
+<DIV STYLE="display: none;">
+</DIV>
+<TD COLSPAN="2" STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 1
+</SPAN>
+</DIV>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 2
+</SPAN>
+</DIV>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 3
+</SPAN>
+</DIV>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 4
+</SPAN>
+</DIV>
+</TD>
+<TD COLSPAN="2" STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 5
+</SPAN>
+</DIV>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 6
+</SPAN>
+</DIV>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 7
+</SPAN>
+</DIV>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 8
+</SPAN>
+</DIV>
+</TD>
+<TD COLSPAN="2" STYLE="border: 2px solid black;">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+cell 9
+</SPAN>
+</DIV>
+</TD>
+</DIV>
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+This is another table.  It should be large enough to span multiple pages with the headers repeated on other page
+</SPAN>
+</DIV>
+<DIV>
+<TABLE CELLSPACING="0px" ALIGN="center" WIDTH="100%">
+</TABLE>
+<TD ALIGN="center" COLSPAN="2" STYLE="border: 2px solid black;">
+<SPAN STYLE="">
+<DIV ALIGN="center"><BR/>
+
+<SPAN CLASS="vpe-text">
+This is a header
+</SPAN>
+</DIV>
+</SPAN>
+</TD>
+<TD ALIGN="center" VALIGN="middle" STYLE="border: 2px solid black;">
+<SPAN STYLE="">
+<DIV><BR/>
+
+<SPAN CLASS="vpe-text">
+Week #{week}
+</SPAN>
+</DIV>
+</SPAN>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<DIV>
+<TABLE CELLSPACING="0px" ALIGN="center" WIDTH="100%">
+</TABLE>
+<TD STYLE="border: 2px solid black;">
+<SPAN CLASS="vpe-text">
+#{day}
+</SPAN>
+</TD>
+<TD STYLE="border: 2px solid black;">
+<SPAN CLASS="vpe-text">
+Blah blah blah
+</SPAN>
+</TD>
+</DIV>
+</TD>
+</DIV>
+</DIV>
+	</test>
+</tests>

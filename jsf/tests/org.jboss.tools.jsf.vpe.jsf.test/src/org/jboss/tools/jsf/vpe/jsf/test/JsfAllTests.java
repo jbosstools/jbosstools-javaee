@@ -72,6 +72,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestForUsingComponentsLibrariesWithDefaultNamespace;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1501Test;
@@ -106,6 +107,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);
 		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
