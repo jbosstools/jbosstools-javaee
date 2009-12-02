@@ -55,6 +55,9 @@ public class SeamUtil {
 
 		while (parentNode != null) {
 			String parentSourcePrefix = parentNode.getPrefix();
+			if(parentSourcePrefix==null) {
+				parentSourcePrefix=""; //$NON-NLS-1$
+			}
 			List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(parentNode,
 					pageContext);
 			TaglibData sourceNodeTaglib = XmlUtil.getTaglibForPrefix(
@@ -107,6 +110,9 @@ public class SeamUtil {
 			for (int i = 0; i < children.getLength(); i++) {
 				Node childNode = children.item(i);
 				String childSourcePrefix = childNode.getPrefix();
+				if(childSourcePrefix==null) {
+					childSourcePrefix=""; //$NON-NLS-1$
+				}
 				List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(childNode,
 						pageContext);
 
@@ -142,7 +148,7 @@ public class SeamUtil {
 
 	public static String getStyleAttr(Node sourceFontNode) {
 		if (sourceFontNode == null
-				|| !sourceFontNode.getNodeName().endsWith(":font")) { //$NON-NLS-1$
+				|| !sourceFontNode.getNodeName().endsWith("font")) { //$NON-NLS-1$
 			return null;
 		}
 		String styleAttrValue = getFontFamily(sourceFontNode)

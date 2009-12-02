@@ -1,7 +1,7 @@
 <tests>
 	<test id="jbide5352Test">
 	<DIV STYLE="margin: 36px;">
-<SPAN STYLE="">
+<SPAN STYLE="font-family: unknown; font-size: 24pt;">
 <DIV><BR/>
 
 <SPAN CLASS="vpe-text">
@@ -10,10 +10,10 @@ Table Test
 </DIV>
 </SPAN>
 <DIV>
-<TABLE CELLSPACING="0px" ALIGN="center" WIDTH="100%">
-</TABLE>
-<DIV STYLE="display: none;">
-</DIV>
+<TABLE WIDTH="100%" CELLSPACING="0px" ALIGN="center">
+<TR>
+<TD VALIGN="middle" ALIGN="center" STYLE="border: 2px solid black;">
+</TD>
 <TD COLSPAN="2" STYLE="border: 2px solid black;">
 <DIV><BR/>
 
@@ -30,6 +30,8 @@ cell 2
 </SPAN>
 </DIV>
 </TD>
+</TR>
+<TR>
 <TD STYLE="border: 2px solid black;">
 <DIV><BR/>
 
@@ -54,6 +56,8 @@ cell 5
 </SPAN>
 </DIV>
 </TD>
+</TR>
+<TR>
 <TD STYLE="border: 2px solid black;">
 <DIV><BR/>
 
@@ -86,6 +90,8 @@ cell 9
 </SPAN>
 </DIV>
 </TD>
+</TR>
+</TABLE>
 </DIV>
 <DIV><BR/>
 
@@ -94,10 +100,10 @@ This is another table.  It should be large enough to span multiple pages with th
 </SPAN>
 </DIV>
 <DIV>
-<TABLE CELLSPACING="0px" ALIGN="center" WIDTH="100%">
-</TABLE>
+<TABLE WIDTH="100%" CELLSPACING="0px" ALIGN="center">
+<TR>
 <TD ALIGN="center" COLSPAN="2" STYLE="border: 2px solid black;">
-<SPAN STYLE="">
+<SPAN STYLE="font-family: unknown; font-size: 20pt;">
 <DIV ALIGN="center"><BR/>
 
 <SPAN CLASS="vpe-text">
@@ -106,8 +112,10 @@ This is a header
 </DIV>
 </SPAN>
 </TD>
-<TD ALIGN="center" VALIGN="middle" STYLE="border: 2px solid black;">
-<SPAN STYLE="">
+</TR>
+<TR>
+<TD VALIGN="middle" ALIGN="center" STYLE="border: 2px solid black;">
+<SPAN STYLE="font-family: unknown; font-size: 30pt;">
 <DIV><BR/>
 
 <SPAN CLASS="vpe-text">
@@ -118,8 +126,8 @@ Week #{week}
 </TD>
 <TD STYLE="border: 2px solid black;">
 <DIV>
-<TABLE CELLSPACING="0px" ALIGN="center" WIDTH="100%">
-</TABLE>
+<TABLE WIDTH="100%" CELLSPACING="0px" ALIGN="center">
+<TR>
 <TD STYLE="border: 2px solid black;">
 <SPAN CLASS="vpe-text">
 #{day}
@@ -130,8 +138,12 @@ Week #{week}
 Blah blah blah
 </SPAN>
 </TD>
+</TR>
+</TABLE>
 </DIV>
 </TD>
+</TR>
+</TABLE>
 </DIV>
 </DIV>
 	</test>

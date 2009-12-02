@@ -5,30 +5,52 @@
 		</SPAN>
 	</test>
 	<test id="id3">
-
-		<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-			ui:composition
-			<DIV CLASS="__any__tag__caption"
-				STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-				ui:define
-				<SPAN CLASS="vpe-text">
-					Greeting to User
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+</H1>
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<TABLE WIDTH="400" CELLSPACING="0" CELLPADDING="0" BORDER="0" ALIGN="center" STYLE="border: 1px solid rgb(202, 214, 224); -moz-user-modify: read-only;">
+<TBODY STYLE="-moz-user-modify: read-only;">
+<TR STYLE="-moz-user-modify: read-only;">
+<TD WIDTH="100%" VALIGN="middle" HEIGHT="42" BGCOLOR="#e4ebeb" ALIGN="center" CLASS="header" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+Greeting Page
 </SPAN>
-			</DIV>
-			<DIV CLASS="__any__tag__caption"
-				STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-				ui:define
-				<SPAN CLASS="vpe-text">
-					Greeting Page
+</TD>
+</TR>
+<TR STYLE="-moz-user-modify: read-only;">
+<TD WIDTH="100%" HEIGHT="1" BGCOLOR="#cad6e0" ALIGN="center" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+#{user}
 </SPAN>
-			</DIV>
-			<DIV CLASS="__any__tag__caption"
-				STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-				ui:define
-				<SPAN CLASS="vpe-text">
-					Hello #{person.name}!
+</TD>
+</TR>
+<TR STYLE="-moz-user-modify: read-only;">
+<TD WIDTH="100%" COLSPAN="2" STYLE="-moz-user-modify: read-only;">
+<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0" ALIGN="left" STYLE="height: 150px; -moz-user-modify: read-only;">
+<TBODY STYLE="-moz-user-modify: read-only;">
+<TR STYLE="-moz-user-modify: read-only;">
+<TD WIDTH="100%" VALIGN="middle" ALIGN="center" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+Hello #{person.name}!
 </SPAN>
-			</DIV>
-		</DIV>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+<TR STYLE="-moz-user-modify: read-only;">
+<TD WIDTH="100%" VALIGN="bottom" HEIGHT="1" BGCOLOR="#cad6e0" COLSPAN="2" STYLE="-moz-user-modify: read-only;">
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</DIV>
+</DIV>
+</DIV>
 	</test>
 </tests>
