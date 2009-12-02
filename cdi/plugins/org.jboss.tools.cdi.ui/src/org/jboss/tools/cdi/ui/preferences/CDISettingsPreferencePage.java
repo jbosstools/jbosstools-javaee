@@ -14,17 +14,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.common.ui.CommonUIPlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.common.ui.preferences.SettingsPage;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
@@ -119,19 +116,11 @@ public class CDISettingsPreferencePage extends SettingsPage {
 		if(project==null) {
 			return;
 		}
-		try {
-			EclipseUtil.addNatureToProject(project,	CDICoreNature.NATURE_ID);
-		} catch (CoreException e) {
-			CommonUIPlugin.getDefault().logError(e);
-		}
+		CDIUtil.enableCDI(project);
 	}
 
 	private void removeCDISupport(IProject project) {
-		try {
-			EclipseUtil.removeNatureFromProject(project, CDICoreNature.NATURE_ID);
-		} catch (CoreException e) {
-			CommonUIPlugin.getDefault().logError(e);
-		}
+		CDIUtil.disableCDI(project);
 	}
 
 	private boolean isCDIEnabled(IProject project) {

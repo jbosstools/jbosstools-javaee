@@ -27,4 +27,60 @@
       </builder>
    </extension>
 
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.facets">
+      <project-facet
+            id="jst.cdi">
+         <label>
+            CDI
+         </label>
+         <description>
+            Enables the project to work with CDI           
+         </description>
+      </project-facet>
+      <project-facet-version
+            facet="jst.cdi"
+            version="1.0">
+         <constraint>
+           <requires
+    	         facet="jst.java"
+	             version="[5.0">
+           </requires>
+         </constraint>
+      </project-facet-version>
+      <action
+            facet="jst.cdi"
+            id="jst.cdi.1.0.install"
+            type="install"
+            version="1.0">
+         <delegate
+               class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetInstallDelegate">
+         </delegate>
+         <config-factory
+               class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetInstallDataModelProvider">
+         </config-factory>
+      </action>
+      <action
+            facet="jst.cdi"
+            id="jst.cdi.1.0.uninstall"
+            type="uninstall"
+            version="1.0">
+         <delegate
+               class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetUninstallDelegate">
+         </delegate>
+      </action>
+   </extension>
+
+   <extension
+         point="org.eclipse.wst.common.project.facet.core.runtimes">
+      <supported>
+         <runtime-component
+               any="true">
+         </runtime-component>
+         <facet
+               id="jst.cdi"
+               version="[1.0">
+         </facet>
+      </supported>
+   </extension>
 </plugin>

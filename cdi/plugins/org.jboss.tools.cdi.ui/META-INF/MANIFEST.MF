@@ -14,4 +14,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: %Bundle-Vendor.0
-Export-Package: org.jboss.tools.cdi.ui
+Export-Package: org.jboss.tools.cdi.ui,
+ org.jboss.tools.cdi.ui.preferences
