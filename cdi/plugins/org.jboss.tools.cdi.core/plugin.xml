@@ -32,7 +32,7 @@
       <project-facet
             id="jst.cdi">
          <label>
-            CDI
+            Contexts and Dependency Injection
          </label>
          <description>
             Enables the project to work with CDI           
