@@ -14,8 +14,11 @@ package org.jboss.tools.jsf.vpe.seam.template;
  * @author yzhishko
  */
 
+import java.util.List;
+
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -28,7 +31,6 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 
 	private nsIDOMElement visualElement;
 	private Element sourceElement;
-
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -43,7 +45,21 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 		visualTable.setAttribute(HTML.ATTR_WIDTH, getWidthPerc(sourceElement));
 		visualTable.setAttribute(HTML.ATTR_ALIGN, getAlignment(sourceElement));
 		visualTable.setAttribute(HTML.ATTR_CELLSPACING, "0px"); //$NON-NLS-1$
-		return new VpeCreationData(visualElement);
+		VpeCreationData creationData = new VpeCreationData(visualElement);
+		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(visualElement);
+		Node[] cells = SeamUtil.getChildsByName(pageContext, sourceNode,
+				"p:cell"); //$NON-NLS-1$
+		if (cells != null) {
+			for (int i = 0; i < cells.length; i++) {
+				Node parentNode = SeamUtil.getParentByName(pageContext,
+						cells[i], "p:table"); //$NON-NLS-1$
+				if (parentNode != null && parentNode == sourceNode) {
+					childrenInfo.addSourceChild(cells[i]);
+				}
+			}
+		}
+		creationData.addChildrenInfo(childrenInfo);
+		return creationData;
 	}
 
 	@Override
@@ -74,8 +90,16 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 	private void setColumns(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument, VpeCreationData data) {
 		int numberOfColumns = getNumberOfColumns(sourceNode);
-		Node[] cells = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:cell"); //$NON-NLS-1$
+		List<VpeChildrenInfo> cellsList = data.getChildrenInfoList();
+		if (cellsList == null) {
+			return;
+		}
+		VpeChildrenInfo childrenInfo = cellsList.get(0);
+		List<Node> children = childrenInfo.getSourceChildren();
+		if (children == null) {
+			return;
+		}
+		Node[] cells = children.toArray(new Element[0]);
 		int cellsLength = cells.length;
 		if (numberOfColumns > cellsLength) {
 			for (int i = 0; i < cells.length; i++) {
@@ -89,52 +113,48 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 		nsIDOMNode visualTable = ((nsIDOMElement) data.getNode()
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID))
 				.getElementsByTagName(HTML.TAG_TABLE).item(0);
-		if (cellsLength != 0) {
-			nsIDOMNode trVisualNode = visualDocument.createElement(HTML.TAG_TR);
-			visualTable.appendChild(trVisualNode);
-			int posCounter = 0;
-			for (int i = 0; i < cellsLength; i++) {
-				nsIDOMNode visualCell = pageContext.getDomMapping()
-						.getVisualNode(cells[i]);
-				nsIDOMNode parentNode = visualCell.getParentNode();
-				if (parentNode != null) {
-					parentNode.removeChild(visualCell);
-					trVisualNode.appendChild(visualCell);
-					int colspanValue = getColspanValue(visualCell);
-					posCounter++;
-					if (colspanValue > 1 && posCounter % numberOfColumns != 0) {
-						int posInRow = posCounter - 1;
-						int numEndCells = numberOfColumns - posInRow;
-						if (numEndCells <= colspanValue) {
-							colspanValue = numEndCells;
-							trVisualNode = visualDocument
-									.createElement(HTML.TAG_TR);
-							visualTable.appendChild(trVisualNode);
-							posCounter = 0;
-							continue;
-						} else {
-							for (int j = 0; j < numberOfColumns
-									- (colspanValue); j++) {
-								i++;
-								visualCell = pageContext.getDomMapping()
-										.getVisualNode(cells[i]);
-								trVisualNode.appendChild(visualCell);
-							}
-							i -= numberOfColumns - (colspanValue);
-							posCounter += colspanValue - 1;
+		nsIDOMNode trVisualNode = visualDocument.createElement(HTML.TAG_TR);
+		visualTable.appendChild(trVisualNode);
+		int posCounter = 0;
+		for (int i = 0; i < cellsLength; i++) {
+			nsIDOMNode visualCell = pageContext.getDomMapping().getVisualNode(
+					cells[i]);
+			nsIDOMNode parentNode = visualCell.getParentNode();
+			if (parentNode != null) {
+				parentNode.removeChild(visualCell);
+				trVisualNode.appendChild(visualCell);
+				int colspanValue = getColspanValue(visualCell);
+				posCounter++;
+				if (colspanValue > 1 && posCounter % numberOfColumns != 0) {
+					int posInRow = posCounter - 1;
+					int numEndCells = numberOfColumns - posInRow;
+					if (numEndCells <= colspanValue) {
+						colspanValue = numEndCells;
+						trVisualNode = visualDocument
+								.createElement(HTML.TAG_TR);
+						visualTable.appendChild(trVisualNode);
+						posCounter = 0;
+						continue;
+					} else {
+						for (int j = 0; j < numberOfColumns - (colspanValue); j++) {
+							i++;
+							visualCell = pageContext.getDomMapping()
+									.getVisualNode(cells[i]);
+							trVisualNode.appendChild(visualCell);
 						}
+						i -= numberOfColumns - (colspanValue);
+						posCounter += colspanValue - 1;
 					}
 				}
-				if ((posCounter % numberOfColumns == 0)
-						&& ((i + 1) != cellsLength)) {
-					trVisualNode = visualDocument.createElement(HTML.TAG_TR);
-					visualTable.appendChild(trVisualNode);
-					posCounter = 0;
-				}
 			}
-			if (trVisualNode.getChildNodes().getLength() != numberOfColumns) {
-				trVisualNode.getParentNode().removeChild(trVisualNode);
+			if ((posCounter % numberOfColumns == 0) && ((i + 1) != cellsLength)) {
+				trVisualNode = visualDocument.createElement(HTML.TAG_TR);
+				visualTable.appendChild(trVisualNode);
+				posCounter = 0;
 			}
+		}
+		if (trVisualNode.getChildNodes().getLength() != numberOfColumns) {
+			trVisualNode.getParentNode().removeChild(trVisualNode);
 		}
 	}
 

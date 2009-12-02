@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.mozilla.xpcom;bundle-version="1.9.1",
  org.jboss.tools.jsf.vpe.jsf;bundle-version="2.1.0",
- org.eclipse.jface.text;bundle-version="3.5.0"
+ org.eclipse.jface.text;bundle-version="3.5.0",
+ org.eclipse.wst.sse.core;bundle-version="1.1.401"
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr.jar,

@@ -1,0 +1,73 @@
+<tests>
+	<test id="htmlID1">
+		<DIV>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					This is HTML that is just plain text.
+</SPAN>
+			</SPAN>
+		</DIV>
+	</test>
+	<test id="htmlID2">
+		<DIV>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					This is HTML with
+</SPAN>
+				<B STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						some markup
+</SPAN>
+				</B>
+				<SPAN CLASS="vpe-text">
+					.
+</SPAN>
+			</SPAN>
+		</DIV>
+	</test>
+	<test id="htmlID3">
+		<DIV>
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<SPAN CLASS="vpe-text">
+				This is HTML with text with text in the
+</SPAN>
+			<B STYLE="-moz-user-modify: read-write;">
+				<SPAN CLASS="vpe-text">
+					body
+</SPAN>
+			</B>
+			<SPAN CLASS="vpe-text">
+				.
+</SPAN>
+		</DIV>
+	</test>
+	<test id="htmlID4">
+		<DIV>
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<H1 STYLE="-moz-user-modify: read-write;">
+				<SPAN CLASS="vpe-text">
+					This is more complex HTML
+</SPAN>
+			</H1>
+			<UL STYLE="-moz-user-modify: read-write;">
+				<LI STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						one
+</SPAN>
+				</LI>
+				<LI STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						two
+</SPAN>
+				</LI>
+				<LI STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						three
+</SPAN>
+				</LI>
+			</UL>
+		</DIV>
+	</test>
+</tests>

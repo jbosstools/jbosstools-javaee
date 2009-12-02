@@ -23,7 +23,7 @@ public class SeamComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testConversationId() throws Throwable {
-		performContentTest("components/conversationId.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
+		performContentTest("components/conversationId.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testConvertDateTime() throws Throwable {
@@ -115,7 +115,7 @@ public class SeamComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testValidateAll() throws Throwable {
-		performContentTest("components/validateAll.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
+		performContentTest("components/validateAll.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testValidateFormattedText() throws Throwable {
@@ -129,141 +129,145 @@ public class SeamComponentContentTest extends ComponentContentTest {
 	// mail components
 
 	public void testMailMessage() throws Throwable {
-		performContentTest("components/mail/message.xhtml");
+		performContentTest("components/mail/message.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testMailBody() throws Throwable {
-		performContentTest("components/mail/body.xhtml");
+		performContentTest("components/mail/body.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testMailFrom() throws Throwable {
-		performInvisibleTagTest("components/mail/from.xhtml", "id1");
+		performInvisibleTagTest("components/mail/from.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailTo() throws Throwable {
-		performInvisibleTagTest("components/mail/to.xhtml", "id1");
+		performInvisibleTagTest("components/mail/to.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailSubject() throws Throwable {
-		performInvisibleTagTest("components/mail/subject.xhtml", "id1");
+		performInvisibleTagTest("components/mail/subject.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailAttachment() throws Throwable {
-		performInvisibleTagTest("components/mail/attachment.xhtml", "id1");
+		performInvisibleTagTest("components/mail/attachment.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailBcc() throws Throwable {
-		performInvisibleTagTest("components/mail/bcc.xhtml", "id1");
+		performInvisibleTagTest("components/mail/bcc.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailCc() throws Throwable {
-		performInvisibleTagTest("components/mail/cc.xhtml", "id1");
+		performInvisibleTagTest("components/mail/cc.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailHeader() throws Throwable {
-		performInvisibleTagTest("components/mail/header.xhtml", "id1");
+		performInvisibleTagTest("components/mail/header.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testMailReplyTo() throws Throwable {
-		performInvisibleTagTest("components/mail/replyTo.xhtml", "id1");
+		performInvisibleTagTest("components/mail/replyTo.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	// pdf components
 
 	public void testPdfDocument() throws Throwable {
-		performContentTest("components/pdf/document.xhtml");
+		performContentTest("components/pdf/document.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfParagraph() throws Throwable {
-		performContentTest("components/pdf/paragraph.xhtml");
+		performContentTest("components/pdf/paragraph.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfText() throws Throwable {
-		performContentTest("components/pdf/text.xhtml");
+		performContentTest("components/pdf/text.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfFont() throws Throwable {
-		performContentTest("components/pdf/font.xhtml");
+		performContentTest("components/pdf/font.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfNewPage() throws Throwable {
-		performContentTest("components/pdf/newPage.xhtml");
+		performContentTest("components/pdf/newPage.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfImage() throws Throwable {
-		performInvisibleTagTest("components/pdf/image.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/image.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPdfAnchor() throws Throwable {
-		performContentTest("components/pdf/anchor.xhtml");
+		performContentTest("components/pdf/anchor.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfHeader() throws Throwable {
-		performInvisibleTagTest("components/pdf/header.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/header.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPdfFooter() throws Throwable {
-		performContentTest("components/pdf/footer.xhtml");
+		performContentTest("components/pdf/footer.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfPageNumber() throws Throwable {
-		performContentTest("components/pdf/pageNumber.xhtml");
+		performContentTest("components/pdf/pageNumber.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfChapter() throws Throwable {
-		performContentTest("components/pdf/chapter.xhtml");
+		performContentTest("components/pdf/chapter.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfSection() throws Throwable {
-		performContentTest("components/pdf/section.xhtml");
+		performContentTest("components/pdf/section.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfList() throws Throwable {
-		performContentTest("components/pdf/list.xhtml");
+		performContentTest("components/pdf/list.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfListItem() throws Throwable {
-		performContentTest("components/pdf/listItem.xhtml");
+		performContentTest("components/pdf/listItem.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfTable() throws Throwable {
-		performContentTest("components/pdf/table.xhtml");
+		performContentTest("components/pdf/table.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfCell() throws Throwable {
-		performContentTest("components/pdf/cell.xhtml");
+		performContentTest("components/pdf/cell.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfBarChart() throws Throwable {
-		performContentTest("components/pdf/barChart.xhtml");
+		performContentTest("components/pdf/barChart.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfLineChart() throws Throwable {
-		performContentTest("components/pdf/lineChart.xhtml");
+		performContentTest("components/pdf/lineChart.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfPieChart() throws Throwable {
-		performContentTest("components/pdf/pieChart.xhtml");
+		performContentTest("components/pdf/pieChart.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testPdfSeries() throws Throwable {
-		performInvisibleTagTest("components/pdf/series.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/series.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPdfData() throws Throwable {
-		performInvisibleTagTest("components/pdf/data.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/data.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPdfColor() throws Throwable {
-		performInvisibleTagTest("components/pdf/color.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/color.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPdfStroke() throws Throwable {
-		performInvisibleTagTest("components/pdf/stroke.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/stroke.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public void testPdfBarCode() throws Throwable {
-		performInvisibleTagTest("components/pdf/barCode.xhtml", "id1");
+		performInvisibleTagTest("components/pdf/barCode.xhtml", "id1"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testPdfHTML() throws Throwable {
+		performContentTest("components/pdf/html.xhtml"); //$NON-NLS-1$
 	}
 
 }

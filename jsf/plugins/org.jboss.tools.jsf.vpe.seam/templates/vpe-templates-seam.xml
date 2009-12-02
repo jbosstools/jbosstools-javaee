@@ -601,7 +601,7 @@
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
 
-	<vpe:tag name="p:barcode" case-sensitive="yes">
+	<vpe:tag name="p:barCode" case-sensitive="yes">
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
 
@@ -612,5 +612,15 @@
 	<vpe:tag name="p:stroke" case-sensitive="yes">
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
+
+	<vpe:tag name="p:html" case-sensitive="yes">
+		<vpe:if test="hasinparents('p:document')">
+			<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.seam.template.SeamPdfHTMLTemplate" />
+		</vpe:if>
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+	
+	
 
 </vpe:templates>
