@@ -71,15 +71,32 @@ public class OpenKeyHelper {
 	}
 	
 	public static String getDeafultLocale(XModel model) {
+		String facesConfigLocale = getDeafultLocaleFromFacesConfig(model);
+		if (facesConfigLocale.length() == 0) {
+			Locale locale = Locale.getDefault();
+			facesConfigLocale = locale == null || locale.toString().length() == 0 ? null : locale.toString();
+		}
+		return facesConfigLocale;
+	}
+	
+	/**
+	 * Gets the default locale from faces config file.
+	 * 
+	 * @param model XModel
+	 * @return locale string or empty string if no locale was found
+	 */
+	public static String getDeafultLocaleFromFacesConfig(XModel model) {
+		String facesConfigLocale = ""; //$NON-NLS-1$
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		XModelObject[] fs = conf == null ? new XModelObject[0] : conf.getTreeChildren();
 		for (int i = 0; i < fs.length; i++) {
 			XModelObject o = fs[i].getChildByPath("application/Locale Config"); //$NON-NLS-1$
 			String res = (o == null) ? "" : o.getAttributeValue("default-locale"); //$NON-NLS-1$ //$NON-NLS-2$
-			if(res != null && res.length() > 0) return res;
+			if(res != null && res.length() > 0) {
+				facesConfigLocale = res;
+			}
 		}
-		Locale locale = Locale.getDefault();
-		return locale == null || locale.toString().length() == 0 ? null : locale.toString();
+		return facesConfigLocale;
 	}
 }

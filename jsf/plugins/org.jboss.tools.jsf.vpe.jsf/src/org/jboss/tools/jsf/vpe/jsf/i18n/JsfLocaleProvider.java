@@ -28,6 +28,11 @@ import org.jboss.tools.vpe.editor.i18n.ILocaleProvider;
  */
 public class JsfLocaleProvider implements ILocaleProvider {
 	
+	/*
+	 * Stores the string representation of the current locale.
+	 */
+	private String localeString = ""; //$NON-NLS-1$
+	
 	/**
 	 * Returns the locale for given {@code editor}, or {@code null} if it
 	 * can not determine it.
@@ -39,9 +44,15 @@ public class JsfLocaleProvider implements ILocaleProvider {
 					.getFile().getProject();
 			XModel model = EclipseResourceUtil.getModelNature(project)
 					.getModel();
-			return new Locale(OpenKeyHelper.getDeafultLocale(model));
+			localeString = OpenKeyHelper.getDeafultLocaleFromFacesConfig(model);
+			return new Locale(localeString);
 		} else {
 			return null;
 		}
 	}
+
+	public String getLocaleString() {
+		return localeString;
+	}
+	
 }
