@@ -32,7 +32,9 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
+import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.project.ProjectHome;
@@ -161,7 +163,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	protected void fullBuild(final IProgressMonitor monitor)
 		throws CoreException {
 		try {
-			getProject().accept(getResourceVisitor());
+			CDIResourceVisitor rv = getResourceVisitor();
+			getProject().accept(rv);
+			FileSet fs = rv.fileSet;
+			
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -169,7 +174,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 	protected void incrementalBuild(IResourceDelta delta,
 			IProgressMonitor monitor) throws CoreException {
+		CDIResourceVisitor rv = getResourceVisitor();
 		delta.accept(new SampleDeltaVisitor());
+		FileSet fs = rv.fileSet;
+		builderDelegate.build(fs, getCDICoreNature());
 	}
 
 	protected void clean(IProgressMonitor monitor) throws CoreException {
@@ -199,6 +207,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	}
 
 	class CDIResourceVisitor implements IResourceVisitor {
+		FileSet fileSet = new FileSet();
 		IPath[] outs = new IPath[0];
 		IPath[] srcs = new IPath[0];
 		IPath webinf = null;
@@ -249,14 +258,21 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					if(srcs[i].isPrefixOf(path)) {
 						if(f.getName().endsWith(".java")) {
 							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
-							builderDelegate.build(f, unit, getCDICoreNature());
+							IType[] ts = unit.getTypes();
+							if(ts == null || ts.length == 0) {
+								fileSet.getNonModelFiles().add(f);
+							} else if(findPublicAnnotation(ts) != null) {
+								fileSet.getAnnotations().put(f, unit);
+							} else if(findPublicInterface(ts) != null) {
+								fileSet.getInterfaces().put(f, unit);
+							}
 						}
 						return false;
 					}
 				}
 				if(webinf != null && webinf.isPrefixOf(path)) {
 					if(f.getName().equals("beans.xml")) {
-						//TODO
+						fileSet.setBeanXML(f);
 					}
 				}
 			}
@@ -288,5 +304,21 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		
 	}
 
+	static IType findPublicAnnotation(IType[] ts) throws JavaModelException {
+		for (IType t: ts) {
+			if(t.isAnnotation()) {				
+				return t;
+			}
+		}
+		return null;
+	}
+	static IType findPublicInterface(IType[] ts) throws JavaModelException {
+		for (IType t: ts) {
+			if(t.isInterface()) {
+				return t;				
+			}
+		}
+		return null;
+	}
 }
 

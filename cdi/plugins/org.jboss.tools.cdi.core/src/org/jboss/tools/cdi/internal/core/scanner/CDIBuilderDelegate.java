@@ -1,5 +1,7 @@
 package org.jboss.tools.cdi.internal.core.scanner;
 
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IAnnotation;
@@ -10,7 +12,6 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.ICDIBuilderDelegate;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 
@@ -27,33 +28,21 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 		return CDIProject.class;
 	}
 
-	public void build(IFile file, CDICoreNature projectNature) {
-		IProject project = projectNature.getProject();
-		
-
-	}
-
-	public void build(IFile file, ICompilationUnit unit, CDICoreNature projectNature) {
-		if(unit != null) {
-			try {
-				IType[] types = unit.getTypes();
-				if(types != null) {
-					for (IType type: types) {
-						if(type.isAnnotation()) {
-							IAnnotation[] as = type.getAnnotations();
-							for (IAnnotation a: as) {
-								String name = a.getElementName();
-								String qName = EclipseJavaUtil.resolveType(type, name);
-								System.out.println(qName);
-							}
-						}
-					}
-				}
-			} catch (JavaModelException e) {
-				e.printStackTrace();
-			}
-		} else {
+	public void build(FileSet fileSet, CDICoreNature projectNature) {
+		Map<IFile, ICompilationUnit> as = fileSet.getAnnotations();
+		for (IFile f: as.keySet()) {
 			
 		}
+		
+		Map<IFile, ICompilationUnit> is = fileSet.getInterfaces();
+		for (IFile f: is.keySet()) {
+			
+		}
+		
+		Map<IFile, ICompilationUnit> cs = fileSet.getClasses();
+		for (IFile f: cs.keySet()) {
+			
+		}
+		
 	}
 }
