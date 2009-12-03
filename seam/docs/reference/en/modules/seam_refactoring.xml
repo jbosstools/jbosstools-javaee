@@ -40,12 +40,13 @@
 	
     <section id="RefactornigWizard">
         <title>Using the Refactorinig Wizard</title>
-        <para>This wizard is opened always when the user clicks <property>Rename Seam Component</property>/<property>Rename Seam Context Variable</property>/<property>Rename</property> command in any 
-            of the mentioned views.
+        <para>This wizard is opened always when the user clicks the <emphasis><property>Rename Seam Component</property>,</emphasis>
+        	<emphasis><property>Rename Seam Context Variable</property></emphasis>
+        	or <emphasis><property>Rename</property></emphasis> command in any of the views/editors mentioned later in this chapter.
          </para>
         
         <figure>
-            <title>Refactoring Seam wizard</title>
+            <title>Refactoring Wizard</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_refactoring/seam_refactor2.png"/>
@@ -58,7 +59,7 @@
         </para>
     	
         <figure>
-            <title>Navigating between the differences</title>
+            <title>Navigating Between the Differences</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_refactoring/seam_refactor3.png"/>
@@ -99,8 +100,8 @@
     	
         <para>To apply the changes click <emphasis><property>Finish</property>.</emphasis></para>
     	
-    	<para>Renaming the selected seam component also corrects all references to the 
-    		component (also in other files in the project). Renaming a type doesn't  allow to rename
+    	<para>Renaming the selected seam component corrects all references to the 
+    		component (also in other files in the project). Renaming a type doesn&apos;t  allow to rename
     		similarly named variables and methods.
     	</para>
     </section>
@@ -118,26 +119,28 @@
 		
 		<section id="JavaEditor">
 			<title>Renaming Seam Components in the Java Editor</title>
-			<para>If you want to rename certain seam component using Java Editor,first of all it's necessary to open it. 
-				If you don't know ,where the seam component is declared,use <link linkend="open_seam_component">Open Seam Components icon</link>.
-				
-			</para>
-			<para>To open the rename Seam Component  command in Java Editor it's necessary to left click the file  <emphasis><property>>Seam Refactor>Rename Seam Component</property></emphasis>.
+			<para>If you want to rename certain seam component using Java editor, first of all it&apos;s necessary to open it. 
+				If you don&apos;t know, where the seam component is declared, use <link linkend="open_seam_component">Open Seam Components</link> icon.</para>
+			<para>To rename a Seam component  in the Java editor it's necessary to select the component, left click the file and then select
+				<emphasis><property>Seam Refactor &gt; Rename Seam Component</property>.</emphasis>
 			</para>
 			<figure>
-				<title>Opening Refactoring wizard in Java Editor</title>
+				<title>Opening Refactoring Wizard in Java Editor</title>
 				<mediaobject>
 					<imageobject>
 						<imagedata fileref="images/seam_refactoring/seam_refactor1.png"/>
 					</imageobject>
 				</mediaobject>
 			</figure>
+			
+			<para>For details, see also the movie, 
+				<ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_java/rename_seam_components_java.htm">&quot;Renaming a Seam component in the Java Editor&quot;</ulink>.</para>
 		</section>
 		
 		<section id="SeamComponents">
 			<title>Renaming Seam Components in the Seam Components View</title>
-			<para>To open <property>Refactoring</property> wizard in  the <property>Seam Components</property> view 
-				you should left click the component you wants to open and choose <property>Rename Seam Component</property> option.</para>
+			<para>To open the <property>Refactoring</property> wizard in  the <property>Seam Components</property> view 
+				you should left click the component you want to open and choose <property>Rename Seam Component</property> option.</para>
 			
 			<figure>
 				<title>Opening Refactoring Wizard in Seam Components View</title>
@@ -147,11 +150,14 @@
 					</imageobject>
 				</mediaobject>
 			</figure>
+			
+			<para>For details, see also the movie, 
+				<ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_view/rename_seam_components_comp_view.htm">&quot;Renaming a Seam component in the Seam Components view&quot;</ulink>.</para>
 		</section>
 		
 		<section id="components_xml_editor">
 			<title>Renaming Seam Components in the Seam Components Editor</title>
-			<para>When you open <literal>components.xml</literal> file using <property>JBossTools XML Editor</property>, open the 
+			<para>When you open <literal>components.xml</literal> file using <property>JBoss Tools XML Editor</property>, open the 
 				<property>Refactoring</property> wizard in the Tree tab by left-clicking the component in 
 				<property>components</property> area and choosing <property>Rename</property> option.</para>
 					
@@ -164,6 +170,8 @@
 						</mediaobject>
 					</figure>
 					
+			<para>For details, see also the movie, 
+				<ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_xml/rename_seam_components_comp_xml.htm">&quot;Renaming a Seam component in the components.xml file&quot;</ulink>.</para>
 		</section>
 		
 	</section>
@@ -201,6 +209,22 @@
 				</imageobject>
 			</mediaobject>
 		</figure>
+		
+		<para>For details, see also a set of movies about renaming Seam context variables in EL in different locations:</para>
+		<itemizedlist>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_java/rename_context_variables_java.htm">In the Java editor</ulink></para>
+			</listitem>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_properties/rename_context_variables_properties.htm">In the JBoss Tools Properties Editor</ulink></para>
+			</listitem>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_xml/rename_context_variables_xml.htm">In the XML editor</ulink></para>
+			</listitem>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_vpe/rename_context_variables_vpe.htm">In the Visual Page Editor</ulink></para>
+			</listitem>
+		</itemizedlist>
 	</section>
 </chapter>
 
