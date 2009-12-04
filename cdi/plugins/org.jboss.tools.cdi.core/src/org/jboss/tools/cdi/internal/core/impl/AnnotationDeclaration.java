@@ -8,13 +8,13 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class AnnotationDeclaration implements IAnnotationDeclaration {
 	IAnnotation annotation;
 	int startPosition = -1;
 	int length = 0;	
 	String annotationTypeName = null;
+	IType type = null;
 
 	public AnnotationDeclaration() {}
 
@@ -26,11 +26,12 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 				startPosition = range.getOffset();
 				length = range.getLength();
 			}
+			String name = annotation.getElementName();
+			annotationTypeName = EclipseJavaUtil.resolveType(declaringType, name);
+			type = EclipseJavaUtil.findType(declaringType.getJavaProject(), annotationTypeName);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		String name = annotation.getElementName();
-		annotationTypeName = EclipseJavaUtil.resolveType(declaringType, name);
 	}
 
 	public IAnnotation getDeclaration() {
@@ -41,8 +42,12 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		return (IMember)annotation.getParent();
 	}
 
+	public String getTypeName() {
+		return annotationTypeName;
+	}
+
 	public IType getType() {
-		return getParentMember().getDeclaringType();
+		return type;
 	}
 
 	public int getLength() {
