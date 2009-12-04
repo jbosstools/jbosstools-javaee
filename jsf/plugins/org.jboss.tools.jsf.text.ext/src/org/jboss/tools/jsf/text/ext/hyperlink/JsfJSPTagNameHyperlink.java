@@ -16,8 +16,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -25,6 +27,11 @@ import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
+import org.jboss.tools.jst.web.kb.KbProjectFactory;
+import org.jboss.tools.jst.web.kb.internal.taglib.AbstractComponent;
+import org.jboss.tools.jst.web.kb.taglib.IComponent;
+import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
+import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,12 +62,48 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 			openFileInEditor((String)list.get(0));
 			return;
 		}
-		String error = p.getProperty(WebPromptingProvider.ERROR); 
+
+		String error = p.getProperty(WebPromptingProvider.ERROR);
+
+		if(error != null) {
+			String error1 = openJSF2Component(documentFile, p);
+			if(error1 != null) error = error1;
+		}
 		if ( error != null && error.length() > 0) {
 			openFileFailed();
 		}
 	}
-	
+
+	protected String openJSF2Component(IFile documentFile, Properties p) {
+		String uri = p.getProperty("prefix");
+		if(uri == null || !uri.startsWith("http://java.sun.com/jsf/composite/")) {
+			return null;
+		}
+		ITagLibrary[] ls = KbProjectFactory.getKbProject(documentFile.getProject(), true).getTagLibraries(uri);
+		if(ls == null || ls.length == 0) {
+			return "Cannot find JSF 2 library " + uri;
+		}
+		String error = "";
+		String tagName = p.getProperty(IWebPromptingProvider.NAME);
+//		String attributeName = p.getProperty(IWebPromptingProvider.ATTRIBUTE);
+		IComponent c = ls[0].getComponent(tagName);
+		if(c != null) {
+			IResource r = ((AbstractComponent)c).getResource();
+			if(r instanceof IFile) {
+				IFile f = (IFile)r;
+				IEditorPart part = openFileInEditor(f);
+				if(part == null) {
+					error = "Cannot open file " + r;
+				}
+			} else {
+				error = "Cannot find file for tag " + tagName;
+			}
+		} else {
+			error = "Component " + tagName + " not found in library " + p.getProperty("prefix");
+		}
+		return error;
+		
+	}
 
 	protected Properties getRequestProperties(IRegion region) {
 		Properties p = new Properties();
