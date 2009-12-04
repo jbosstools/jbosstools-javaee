@@ -83,4 +83,12 @@
          </facet>
       </supported>
    </extension>
+
+   <extension
+         point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="cdiELResolver">
+         	<project-nature id="org.jboss.tools.cdi.core.cdinature" 
+         		resolver-class="org.jboss.tools.cdi.internal.core.el.CdiElResolver"/>
+         </el-resolver>
+   </extension>
 </plugin>

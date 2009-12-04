@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -20,7 +21,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * 
  * @author Alexey Kazakov
  */
-public interface IBean extends IScoped, ICDIElement {
+public interface IBean extends IScoped, ICDIElement, IVariable {
 
 	/**
 	 * Returns the corresponding IType of the managed bean or session bean or of

@@ -59,7 +59,6 @@ import org.jboss.tools.common.ui.preferences.SettingsPage;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.wizard.IParameter;
-import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -952,9 +951,6 @@ public class SeamSettingsPreferencePage extends SettingsPage {
 	private void removeSeamSupport() {
 		try {
 			EclipseResourceUtil.removeNatureFromProject(project, ISeamProject.NATURE_ID);
-			if(!project.hasNature(JSFNature.NATURE_ID)) {
-				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
-			}
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}

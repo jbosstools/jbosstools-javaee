@@ -291,7 +291,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 					}
 				}
 			} catch (JavaModelException e) {
-				//ignore
+				SeamCorePlugin.getDefault().logError(e);
 			}
 			
 		}

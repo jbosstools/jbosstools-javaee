@@ -14,7 +14,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.common.project.facet.core,
  org.eclipse.wst.common.modulecore,
  org.eclipse.wst.common.frameworks,
- org.jboss.tools.jst.web.kb
+ org.jboss.tools.jst.web.kb,
+ org.jboss.tools.common.el.core,
+ org.eclipse.jface.text
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: JBoss by Red Hat
