@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
  * 
  * @author dmaliarevich
  */
-public class JBIDE5218Test extends VpeTest {
+public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 
 	private static final String DEFAULT_LOCALE_PAGE = "defaultLocale.jsp"; //$NON-NLS-1$
 	private static final String LOCALE_ATTRIBUTE_PAGE = "JBIDE/5218/localeAttribute.jsp"; //$NON-NLS-1$
@@ -34,7 +34,7 @@ public class JBIDE5218Test extends VpeTest {
 	private static final String FVIEW_ID = "fviewid"; //$NON-NLS-1$
 	
 	
-	public JBIDE5218Test(String name) {
+	public TestFViewLocaleAttribute_JBIDE5218(String name) {
 		super(name);
 	}
 

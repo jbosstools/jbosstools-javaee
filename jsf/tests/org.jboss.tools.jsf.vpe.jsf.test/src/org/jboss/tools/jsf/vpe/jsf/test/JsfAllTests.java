@@ -67,7 +67,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE5218Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
@@ -181,7 +181,7 @@ public class JsfAllTests {
 		suite.addTestSuite(VPERefreshTest.class);
 		suite.addTestSuite(OpenOnInsideJspRoot_JBIDE4852.class);
 		suite.addTestSuite(NullPointerWithStyleProperty_JBIDE5193.class);
-		suite.addTestSuite(JBIDE5218Test.class);
+		suite.addTestSuite(TestFViewLocaleAttribute_JBIDE5218.class);
 		
 		// $JUnit-END$
 		// added by Max Areshkau
