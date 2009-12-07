@@ -246,4 +246,7 @@ public class CDICoreNature implements IProjectNature {
 		//TODO
 	}
 
+	public void registerDefinitions(DefinitionContext newDefinitions) {
+		System.out.println("ok");
+	}
 }

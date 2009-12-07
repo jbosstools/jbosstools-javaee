@@ -27,16 +27,29 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		for (int i = 0; i < fs.length; i++) {
 			FieldDefinition f = new FieldDefinition();
 			f.setField(fs[i], context);
-			//TODO check if it is annotated
-			fields.add(f);
+			int k = getMaxAnnotationKind(f.getAnnotations(), context);
+			if(k >= AnnotationDefinition.CDI) {
+				fields.add(f);
+			}
 		}
 		IMethod[] ms = getType().getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			MethodDefinition m = new MethodDefinition();
 			m.setMethod(ms[i], context);
-			//TODO check if it is annotated
-			methods.add(m);
+			int k = getMaxAnnotationKind(m.getAnnotations(), context);
+			if(k >= AnnotationDefinition.CDI) {
+				methods.add(m);
+			}
 		}
+	}
+
+	private int getMaxAnnotationKind(List<AnnotationDeclaration> as, DefinitionContext context) throws CoreException {
+		int result = -1;
+		for (AnnotationDeclaration a: as) {
+			int k = context.getAnnotationKind(a.getType());
+			if(k > result) result = k;
+		}
+		return result;
 	}
 
 }

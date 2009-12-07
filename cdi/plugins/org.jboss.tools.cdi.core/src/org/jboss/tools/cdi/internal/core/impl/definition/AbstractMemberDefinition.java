@@ -27,11 +27,14 @@ public abstract class AbstractMemberDefinition {
 
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
 		IAnnotation[] ts = member.getAnnotations();
-		for (int i = 0; i < annotations.size(); i++) {
+		for (int i = 0; i < ts.length; i++) {
 			AnnotationDeclaration a = new AnnotationDeclaration();
 			a.setDeclaration(ts[i], contextType);
 			annotations.add(a);
 		}
 	}
 
+	public List<AnnotationDeclaration> getAnnotations() {
+		return annotations;
+	}
 }

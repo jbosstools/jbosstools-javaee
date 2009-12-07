@@ -17,6 +17,7 @@ import org.jboss.tools.cdi.core.ICDIBuilderDelegate;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 
 public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 
@@ -54,8 +55,15 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 		
 		Map<IPath, Set<IType>> cs = fileSet.getClasses();
 		for (IPath f: cs.keySet()) {
-			
+			Set<IType> ts = cs.get(f);
+			for (IType type: ts) {
+				TypeDefinition def = new TypeDefinition();
+				def.setType(type, context);
+				context.addType(f, type, def);
+			}
 		}
 		
+		projectNature.registerDefinitions(context);
 	}
+
 }

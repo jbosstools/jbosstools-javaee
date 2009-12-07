@@ -8,7 +8,6 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 
 public class FileSet {

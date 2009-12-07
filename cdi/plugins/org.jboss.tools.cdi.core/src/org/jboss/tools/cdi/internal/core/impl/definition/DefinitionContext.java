@@ -96,5 +96,6 @@ public class DefinitionContext {
 		addType(annotationType.getPath(), annotationType, d);
 		return kind;
 	}
+
 }
 
