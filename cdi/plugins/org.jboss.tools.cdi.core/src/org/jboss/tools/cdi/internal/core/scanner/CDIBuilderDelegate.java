@@ -1,10 +1,12 @@
 package org.jboss.tools.cdi.internal.core.scanner;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
@@ -32,33 +34,26 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 	}
 
 	public void build(FileSet fileSet, CDICoreNature projectNature) {
-		//TODO get context from projectNature 
-		DefinitionContext context = new DefinitionContext();
+		DefinitionContext context = projectNature.getDefinitions().copy();
+		Set<IPath> ps = fileSet.getAllPaths();
+		for (IPath p: ps) context.clean(p);
 		context.setProject(projectNature);
-		Map<IFile, ICompilationUnit> as = fileSet.getAnnotations();
-		for (IFile f: as.keySet()) {
-			ICompilationUnit u = as.get(f);
-			IType[] ts = null;
-			try {
-				ts = u.getTypes();
-				if(ts != null) for (int i = 0; i < ts.length; i++) {
-					if(ts[i].isAnnotation()) {
-						//this builds annotation definition
-						context.getAnnotationKind(ts[i]);
-					}
-				}
-			} catch (CoreException e) {
-				CDICorePlugin.getDefault().logError(e);
+		Map<IPath, Set<IType>> as = fileSet.getAnnotations();
+		for (IPath f: as.keySet()) {
+			Set<IType> ts = as.get(f);
+			for (IType type: ts) {
+				//this builds annotation definition
+				context.getAnnotationKind(type);
 			}
 		}
 		
-		Map<IFile, ICompilationUnit> is = fileSet.getInterfaces();
-		for (IFile f: is.keySet()) {
-			
+		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
+		for (IPath f: is.keySet()) {
+			//TODO
 		}
 		
-		Map<IFile, ICompilationUnit> cs = fileSet.getClasses();
-		for (IFile f: cs.keySet()) {
+		Map<IPath, Set<IType>> cs = fileSet.getClasses();
+		for (IPath f: cs.keySet()) {
 			
 		}
 		

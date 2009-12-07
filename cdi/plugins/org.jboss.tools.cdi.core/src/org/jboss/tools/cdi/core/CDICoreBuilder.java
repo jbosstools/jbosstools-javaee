@@ -25,13 +25,20 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
@@ -128,7 +135,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			}		
 
 			if(n.getClassPath().update()) {
-				n.getClassPath().process();
+				List<String> newJars = n.getClassPath().process();
+				buildJars(newJars);
+				
+				n.getClassPath().validateProjectDependencies();
 			} else if(n.getClassPath().hasToUpdateProjectDependencies()) {
 				n.getClassPath().validateProjectDependencies();
 			}
@@ -166,6 +176,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			CDIResourceVisitor rv = getResourceVisitor();
 			getProject().accept(rv);
 			FileSet fs = rv.fileSet;
+			builderDelegate.build(fs, getCDICoreNature());
 			
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
@@ -178,6 +189,31 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		delta.accept(new SampleDeltaVisitor());
 		FileSet fs = rv.fileSet;
 		builderDelegate.build(fs, getCDICoreNature());
+	}
+
+	protected void buildJars(List<String> newJars) throws CoreException {
+		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
+		if(jp == null) return;
+		FileSet fileSet = new FileSet();
+		
+		for (String jar: newJars) {
+			Path path = new Path(jar);
+			IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
+			if (root == null || !root.exists())
+				return;
+			IJavaElement[] es = root.getChildren();
+			for (IJavaElement e : es) {
+				if (e instanceof IPackageFragment) {
+					IPackageFragment pf = (IPackageFragment) e;
+					IClassFile[] cs = pf.getClassFiles();
+					for (IClassFile c : cs) {
+						fileSet.add(path, c.getType());
+					}
+				}
+			}
+			//TODO add beans.xml object
+		}
+		builderDelegate.build(fileSet, getCDICoreNature());
 	}
 
 	protected void clean(IProgressMonitor monitor) throws CoreException {
@@ -259,20 +295,14 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 						if(f.getName().endsWith(".java")) {
 							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
 							IType[] ts = unit.getTypes();
-							if(ts == null || ts.length == 0) {
-								fileSet.getNonModelFiles().add(f);
-							} else if(findPublicAnnotation(ts) != null) {
-								fileSet.getAnnotations().put(f, unit);
-							} else if(findPublicInterface(ts) != null) {
-								fileSet.getInterfaces().put(f, unit);
-							}
+							fileSet.add(f.getFullPath(), ts);
 						}
 						return false;
 					}
 				}
 				if(webinf != null && webinf.isPrefixOf(path)) {
 					if(f.getName().equals("beans.xml")) {
-						fileSet.setBeanXML(f);
+						fileSet.setBeanXML(f.getFullPath(), f); //file
 					}
 				}
 			}
@@ -304,21 +334,5 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		
 	}
 
-	static IType findPublicAnnotation(IType[] ts) throws JavaModelException {
-		for (IType t: ts) {
-			if(t.isAnnotation()) {				
-				return t;
-			}
-		}
-		return null;
-	}
-	static IType findPublicInterface(IType[] ts) throws JavaModelException {
-		for (IType t: ts) {
-			if(t.isInterface()) {
-				return t;				
-			}
-		}
-		return null;
-	}
 }
 

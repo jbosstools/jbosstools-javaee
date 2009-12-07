@@ -22,6 +22,16 @@ public class DefinitionContext {
 
 	public DefinitionContext() {}
 
+	public DefinitionContext copy() {
+		DefinitionContext copy = new DefinitionContext();
+		copy.project = project;
+		copy.javaProject = javaProject;
+		copy.types.addAll(types);
+		copy.typeDefinitions.putAll(typeDefinitions);
+		
+		return copy;
+	}
+
 	public void setProject(CDICoreNature project) {
 		this.project = project;
 		javaProject = EclipseResourceUtil.getJavaProject(project.getProject());

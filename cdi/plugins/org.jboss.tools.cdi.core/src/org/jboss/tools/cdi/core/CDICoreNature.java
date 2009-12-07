@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.util.FileUtil;
 
@@ -32,6 +33,9 @@ public class CDICoreNature implements IProjectNature {
 	ICDIProject cdiProjectDelegate;
 
 	ClassPathMonitor classPath = new ClassPathMonitor(this);
+	DefinitionContext definitions = new DefinitionContext();
+
+	boolean isBuilt = false;
 
 	Map<IPath, Object> sourcePaths2 = new HashMap<IPath, Object>(); //TODO
 
@@ -58,6 +62,10 @@ public class CDICoreNature implements IProjectNature {
 
 	public void setCDIProject(ICDIProject cdiProject) {
 		this.cdiProjectDelegate = cdiProject;
+	}
+
+	public DefinitionContext getDefinitions() {
+		return definitions;
 	}
 
 	public ICDIProject getDelegate() {
@@ -120,6 +128,7 @@ public class CDICoreNature implements IProjectNature {
 		if(file != null && file.isFile()) {
 			file.delete();
 		}
+		isBuilt = false;
 		classPath.clean();
 		postponeFiring();
 		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
@@ -135,10 +144,10 @@ public class CDICoreNature implements IProjectNature {
 	 * @throws IOException 
 	 */
 	public void store() throws IOException {
+		isBuilt = true;
 		File file = getStorageFile();
-		file.getParentFile().mkdirs();
-
-		//TODO
+//TODO
+//		file.getParentFile().mkdirs();
 	}
 	/**
 	 * 
@@ -216,6 +225,7 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public boolean hasNoStorage() {
+			if(isBuilt) return false;
 		File f = getStorageFile();
 		return f == null || !f.exists();
 	}
@@ -232,6 +242,7 @@ public class CDICoreNature implements IProjectNature {
 	public List<Long> statistics;
 
 	public void pathRemoved(IPath source) {
+		definitions.clean(source);
 		//TODO
 	}
 
