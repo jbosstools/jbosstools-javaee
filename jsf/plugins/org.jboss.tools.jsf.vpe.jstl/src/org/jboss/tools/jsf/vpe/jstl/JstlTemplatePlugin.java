@@ -60,4 +60,10 @@ public class JstlTemplatePlugin extends BaseUIPlugin {
 	public static JstlTemplatePlugin getDefault() {
 		return plugin;
 	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return PLUGIN_ID;
+	}
 }
