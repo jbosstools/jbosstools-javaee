@@ -12,7 +12,6 @@ package org.jboss.tools.seam.core;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -27,9 +26,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
@@ -48,15 +44,12 @@ public class SeamCorePlugin extends BaseUIPlugin {
 
 	// The shared instance
 	private static SeamCorePlugin plugin;
-	
-	// A Map to save a descriptor for each image
-	private HashMap fImageDescRegistry = null;
 
-	
 	public static final String CA_SEAM_EL_IMAGE_PATH = "images/ca/icons_Seam_EL.gif";
 	public static final String CA_SEAM_MESSAGES_IMAGE_PATH = "images/ca/icons_Message_Bundles.gif";
-	
+
 	static final String M2_FACET_ID = "jboss.m2"; //$NON-NLS-1$
+
 	/**
 	 * The constructor
 	 */
@@ -73,7 +66,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		cleanCachedProjects();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 	}
-	
+
 	static void cleanCachedProjects() {
 		IPath path = SeamCorePlugin.getDefault().getStateLocation();
 		File file = new File(path.toFile(), "projects"); //$NON-NLS-1$
@@ -90,7 +83,6 @@ public class SeamCorePlugin extends BaseUIPlugin {
 				}
 			}
 		}
-		
 	}
 
 	IResourceChangeListener resourceChangeListener = new RCL();
@@ -109,9 +101,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 					}
 				}
 			}
-			
 		}
-		
 	}
 
 	/*
@@ -134,23 +124,12 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-	
-	/**
 	 * @return IPluginLog object
 	 */
 	public static IPluginLog getPluginLog() {
 		return getDefault();
 	}
-	
+
 	/**
 	 * Factory method creating seam project instance by project resource.
 	 * Returns null if 
@@ -171,14 +150,14 @@ public class SeamCorePlugin extends BaseUIPlugin {
 			return null;
 		}
 
-			ISeamProject seamProject;
-			try {
-				seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
-				if(resolve) seamProject.resolve();
-				return seamProject;
-			} catch (CoreException e) {
-				getPluginLog().logError(e);
-			}
+		ISeamProject seamProject;
+		try {
+			seamProject = (ISeamProject)project.getNature(ISeamProject.NATURE_ID);
+			if(resolve) seamProject.resolve();
+			return seamProject;
+		} catch (CoreException e) {
+			getPluginLog().logError(e);
+		}
 		return null;
 	}
 
@@ -186,7 +165,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		IScopeContext projectScope = new ProjectScope(project);
 		return projectScope.getNode(PLUGIN_ID);
 	}
-	
+
 	/**
 	 * @param string
 	 * @return
@@ -194,9 +173,9 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	public static IStatus createErrorStatus(String message, Throwable exception) {
 		return new Status(IStatus.ERROR, PLUGIN_ID, -1, message, exception);
 	}
-	
+
 	private static List<ISeamProjectChangeListener> listeners = new ArrayList<ISeamProjectChangeListener>();
-	
+
 	/**
 	 * 
 	 */
@@ -215,7 +194,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 			listeners.remove(listener);
 		}
 	}
-	
+
 	public static void fire(SeamProjectChangeEvent event) {
 		ISeamProjectChangeListener[] ls = null;
 		synchronized(listeners) {
@@ -228,106 +207,6 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		}
 	}
 
-	/**
-	 * Creates an image from the given resource and adds the image to the
-	 * image registry.
-	 * 
-	 * @param resource
-	 * @return Image
-	 */
-	private Image createImage(String resource) {
-		ImageDescriptor desc = getImageDescriptorFromRegistry(resource);
-		Image image = null;
-
-		if (desc != null) {
-			image = desc.createImage();
-			// dont add the missing image descriptor image to the image
-			// registry
-			if (!desc.equals(ImageDescriptor.getMissingImageDescriptor())) {
-				getImageRegistry().put(resource, image);
-			}
-		}
-		return image;
-	}
-
-	/**
-	 * Creates an image descriptor from the given imageFilePath and adds the
-	 * image descriptor to the image descriptor registry. If an image
-	 * descriptor could not be created, the default "missing" image descriptor
-	 * is returned but not added to the image descriptor registry.
-	 * 
-	 * @param imageFilePath
-	 * @return ImageDescriptor image descriptor for imageFilePath or default
-	 *         "missing" image descriptor if resource could not be found
-	 */
-	private ImageDescriptor createImageDescriptor(String imageFilePath) {
-		ImageDescriptor imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, imageFilePath);
-		if (imageDescriptor != null) {
-			getImageDescriptorRegistry().put(imageFilePath, imageDescriptor);
-		}
-		else {
-			imageDescriptor = ImageDescriptor.getMissingImageDescriptor();
-		}
-
-		return imageDescriptor;
-	}
-
-	/**
-	 * Retrieves the image associated with resource from the image registry.
-	 * If the image cannot be retrieved, attempt to find and load the image at
-	 * the location specified in resource.
-	 * 
-	 * @param resource
-	 *            the image to retrieve
-	 * @return Image the image associated with resource or null if one could
-	 *         not be found
-	 */
-	public Image getImage(String resource) {
-		Image image = getImageRegistry().get(resource);
-		if (image == null) {
-			// create an image
-			image = createImage(resource);
-		}
-		return image;
-	}
-
-	/**
-	 * Retrieves the image descriptor associated with resource from the image
-	 * descriptor registry. If the image descriptor cannot be retrieved,
-	 * attempt to find and load the image descriptor at the location specified
-	 * in resource.
-	 * 
-	 * @param resource
-	 *            the image descriptor to retrieve
-	 * @return ImageDescriptor the image descriptor assocated with resource or
-	 *         the default "missing" image descriptor if one could not be
-	 *         found
-	 */
-	public ImageDescriptor getImageDescriptorFromRegistry(String resource) {
-		ImageDescriptor imageDescriptor = null;
-		Object o = getImageDescriptorRegistry().get(resource);
-		if (o == null) {
-			// create a descriptor
-			imageDescriptor = createImageDescriptor(resource);
-		}
-		else {
-			imageDescriptor = (ImageDescriptor) o;
-		}
-		return imageDescriptor;
-	}
-
-	/**
-	 * Returns the image descriptor registry for this plugin.
-	 * 
-	 * @return HashMap - image descriptor registry for this plugin
-	 */
-	private HashMap getImageDescriptorRegistry() {
-		if (fImageDescRegistry == null) {
-			fImageDescRegistry = new HashMap();
-		}
-		return fImageDescRegistry;
-	}
-	
 	public boolean hasM2Facet(IProject project) {
 		try {
 			return FacetedProjectFramework.hasProjectFacet(project, M2_FACET_ID);
@@ -336,4 +215,12 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
+	 */
+	@Override
+	public String getId() {
+		return PLUGIN_ID;
+	}
 }

@@ -13,7 +13,6 @@ package org.jboss.tools.seam.ui.pages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -55,5 +54,14 @@ public class SeamUiPagesPlugin extends BaseUIPlugin {
 
 	public static Shell getShell() {
 		return INSTANCE.getWorkbench().getActiveWorkbenchWindow().getShell();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
+	 */
+	@Override
+	public String getId() {
+		return PLUGIN_ID;
 	}
 }

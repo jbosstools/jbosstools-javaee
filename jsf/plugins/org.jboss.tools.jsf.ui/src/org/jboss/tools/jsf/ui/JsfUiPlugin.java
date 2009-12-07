@@ -22,11 +22,11 @@ public class JsfUiPlugin extends BaseUIPlugin {
 
 	public JsfUiPlugin() {
 	}
-	
+
 	public void start(BundleContext context) throws Exception {
 	    super.start(context);
 	}
-	
+
 	public static JsfUiPlugin getDefault() {
 		return PluginHolder.INSTANCE;
 	}
@@ -34,20 +34,28 @@ public class JsfUiPlugin extends BaseUIPlugin {
 	public static boolean isDebugEnabled() {
 		return PluginHolder.INSTANCE.isDebugging();
 	}
-	
+
 	static class PluginHolder {
 		static JsfUiPlugin INSTANCE = (JsfUiPlugin)Platform.getPlugin(PLUGIN_ID); 
 	}
-	
 
 	public static Shell getShell() {
 		return PluginHolder.INSTANCE.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
-	
+
 	/**
 	 * @return IPluginLog object
 	 */
 	public static IPluginLog getPluginLog() {
 		return getDefault();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
+	 */
+	@Override
+	public String getId() {
+		return PLUGIN_ID;
 	}
 }

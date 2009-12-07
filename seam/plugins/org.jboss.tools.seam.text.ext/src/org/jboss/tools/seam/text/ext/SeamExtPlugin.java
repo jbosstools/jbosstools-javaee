@@ -54,4 +54,13 @@ public class SeamExtPlugin extends BaseUIPlugin {
 	public static IPluginLog getPluginLog() {
 		return getDefault();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
+	 */
+	@Override
+	public String getId() {
+		return PLUGIN_ID;
+	}
 }

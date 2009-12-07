@@ -7,17 +7,17 @@
  *
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.struts.verification;
+
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
 
-
 public class StrutsVerificationPlugin extends BaseUIPlugin {
 	public static final String PLUGIN_ID = "org.jboss.tools.struts.verification";
-	
+
 	private static StrutsVerificationPlugin plugin = null;
-	
+
 	public StrutsVerificationPlugin() {
 		plugin = this;
 	}
@@ -25,7 +25,18 @@ public class StrutsVerificationPlugin extends BaseUIPlugin {
 	public static StrutsVerificationPlugin getDefault() {
 		return plugin;
 	}
-	
+
 	public static IPluginLog getPluginLog() {
 		return getDefault();
-	}}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
+	 */
+	@Override
+	public String getId() {
+		return PLUGIN_ID;
+	}
+}
