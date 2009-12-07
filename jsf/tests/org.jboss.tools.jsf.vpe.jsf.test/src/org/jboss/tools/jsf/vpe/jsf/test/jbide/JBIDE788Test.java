@@ -308,8 +308,15 @@ public class JBIDE788Test extends VpeTest {
 			    for (int i = 0; i < results.length; i++) {
 			    	if(results[i] instanceof AutoContentAssistantProposal ) {
 			        String displayString = ((ICompletionProposal) results[i]).getDisplayString();
+			        // Fixed due to satisfy the changes performed by fix for JBIDE-4877
+			        // The proposal is valid if:
+			        //	- the display string starts with the mask specified
+			        //  - the tag name part (without a prefix and ":"-character) starts with the mask specified
+			        String tagNamePart = displayString.indexOf(":") == -1 ? 
+			        		displayString : 
+			        		displayString.substring(displayString.indexOf(":") + 1);
 			        assertNotNull(displayString);
-			        assertEquals(true, displayString.startsWith(partOfString));
+			        assertEquals(true, displayString.startsWith(partOfString) || tagNamePart.startsWith(partOfString));
 			    	}
 			    }
 			}
