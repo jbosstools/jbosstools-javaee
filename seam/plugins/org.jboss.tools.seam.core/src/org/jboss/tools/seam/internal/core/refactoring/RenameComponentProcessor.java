@@ -58,6 +58,9 @@ public class RenameComponentProcessor extends SeamRenameProcessor {
 		if(component != null){
 			checkDeclarations(component);
 			
+			if(status.hasFatalError())
+				return status;
+			
 			rootChange = new CompositeChange(SeamCoreMessages.RENAME_SEAM_COMPONENT_PROCESSOR_TITLE);
 			
 			renameComponent(pm, component);

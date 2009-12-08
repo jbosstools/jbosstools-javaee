@@ -65,6 +65,9 @@ public class RenameSeamContextVariableProcessor extends SeamRenameProcessor {
 		if(component != null){
 			checkDeclarations(component);
 			
+			if(status.hasFatalError())
+				return status;
+			
 			renameComponent(pm, component);
 		}else{
 			renameSeamContextVariable(pm, file);
