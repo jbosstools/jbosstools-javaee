@@ -20,8 +20,10 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.util.FileUtil;
@@ -102,25 +104,30 @@ public class CDICoreNature implements IProjectNature {
 	public void load() {
 		if(isStorageResolved) return;
 		isStorageResolved = true;
-		
-		postponeFiring();
-		
-		try {		
-			boolean b = getClassPath().update();
-			if(b) {
-				getClassPath().validateProjectDependencies();
-			}
-			File file = getStorageFile();
-
-			//TODO
-
-			if(b) {
-				getClassPath().process();
-			}
-
-		} finally {
-			fireChanges();
+		try {
+			getProject().build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
 		}
+		
+//		postponeFiring();
+//		
+//		try {		
+//			boolean b = getClassPath().update();
+//			if(b) {
+//				getClassPath().validateProjectDependencies();
+//			}
+//			File file = getStorageFile();
+//
+//			//TODO
+//
+//			if(b) {
+//				getClassPath().process();
+//			}
+//
+//		} finally {
+//			fireChanges();
+//		}
 	}
 
 	public void clean() {
@@ -246,7 +253,4 @@ public class CDICoreNature implements IProjectNature {
 		//TODO
 	}
 
-	public void registerDefinitions(DefinitionContext newDefinitions) {
-		System.out.println("ok");
-	}
 }

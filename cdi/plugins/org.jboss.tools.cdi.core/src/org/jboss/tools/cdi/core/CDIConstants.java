@@ -21,6 +21,7 @@ public interface CDIConstants {
 	public String PRODUCES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Produces";
 
 	public String SCOPE_ANNOTATION_TYPE_NAME = "javax.inject.Scope";
+	public String NORMAL_SCOPE_ANNOTATION_TYPE_NAME = "javax.enterprise.context.NormalScope";
 
 	public String PROVIDER_ANNOTATION_TYPE_NAME = "javax.inject.Provider";
 
@@ -34,5 +35,8 @@ public interface CDIConstants {
 	public String CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ConversationScoped";
 	public String REQUEST_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.RequestScoped";
 	public String SESSION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
+	public String DEPENDENT_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
+
+	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
 }

@@ -25,7 +25,6 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -38,8 +37,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeRoot;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.EclipseUtil;
@@ -153,6 +150,9 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					incrementalBuild(delta, monitor);
 				}
 			}
+
+			getCDICoreNature().getDefinitions().applyWorkingCopy();
+			
 			long end = System.currentTimeMillis();
 			n.fullBuildTime += end - begin;
 			try {
@@ -232,7 +232,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				return getResourceVisitor().visit(resource);
 			case IResourceDelta.REMOVED:
 				CDICoreNature p = getCDICoreNature();
-				if(p != null) p.pathRemoved(resource.getFullPath());
+				if(p != null) p.getDefinitions().getWorkingCopy().clean(resource.getFullPath());
 				break;
 			case IResourceDelta.CHANGED:
 				return getResourceVisitor().visit(resource);

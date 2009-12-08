@@ -10,11 +10,11 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class AnnotationDeclaration implements IAnnotationDeclaration {
-	IAnnotation annotation;
-	int startPosition = -1;
-	int length = 0;	
-	String annotationTypeName = null;
-	IType type = null;
+	protected IAnnotation annotation;
+	protected int startPosition = -1;
+	protected int length = 0;	
+	protected String annotationTypeName = null;
+	protected IType type = null;
 
 	public AnnotationDeclaration() {}
 

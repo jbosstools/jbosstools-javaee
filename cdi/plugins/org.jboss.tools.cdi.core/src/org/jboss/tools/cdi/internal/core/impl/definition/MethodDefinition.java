@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.IType;
 
 public class MethodDefinition extends AbstractMemberDefinition {
 	IMethod method;
+	boolean isConstructor;
 
 	public MethodDefinition() {}
 
@@ -18,9 +19,20 @@ public class MethodDefinition extends AbstractMemberDefinition {
 		return method;
 	}
 
+	public boolean isConstructor() {
+		return isConstructor();
+	}
+
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
 		super.init(contextType, context);
-		//TODO process parameters
+		isConstructor = method.isConstructor();
+		//TODO process parameters for disposers and observers
 		
 	}
+
+	public boolean isCDIAnnotated() {
+		//TODO return true if it is disposer or observer
+		return super.isCDIAnnotated();
+	}
+
 }

@@ -15,6 +15,7 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 	public static final int QUALIFIER = 3; //has Qualifier
 	public static final int STEREOTYPE = 4;	//has Stereotype
 	public static final int INTERCEPTOR_BINDING = 5; //has InterceptorBinding
+	public static final int SCOPE = 6; //has Scope or NormalScope
 	//TODO add other definition kinds of interest
 
 	protected int kind = NON_RELEVANT;
@@ -43,16 +44,19 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 			ds.put(typeName, a);
 		}
 
-		if(ds.containsKey(CDIConstants.STEREOTYPE_ANNOTATION_TYPE_NAME)) {
+		if(ds.containsKey(CDIConstants.SCOPE_ANNOTATION_TYPE_NAME) 
+				|| ds.containsKey(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME)) {
+			kind = SCOPE;
+		} else if(ds.containsKey(CDIConstants.STEREOTYPE_ANNOTATION_TYPE_NAME)) {
 			kind = STEREOTYPE;
 		} else if(ds.containsKey(CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME)) {
 			kind = QUALIFIER;
 		} else if(ds.containsKey(CDIConstants.INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME)) {
 			kind = INTERCEPTOR_BINDING;
 		} else if(AnnotationHelper.BASIC_ANNOTATION_TYPES.contains(qualifiedName)) {
-			kind =  AnnotationDefinition.BASIC;
+			kind = AnnotationDefinition.BASIC;
 		} else if(AnnotationHelper.CDI_ANNOTATION_TYPES.contains(qualifiedName)) {
-			kind =  AnnotationDefinition.CDI;
+			kind = AnnotationDefinition.CDI;
 		}
 	}
 

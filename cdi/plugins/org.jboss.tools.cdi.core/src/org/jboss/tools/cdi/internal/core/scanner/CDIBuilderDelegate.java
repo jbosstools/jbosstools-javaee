@@ -35,7 +35,7 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 	}
 
 	public void build(FileSet fileSet, CDICoreNature projectNature) {
-		DefinitionContext context = projectNature.getDefinitions().copy();
+		DefinitionContext context = projectNature.getDefinitions().getWorkingCopy();
 		Set<IPath> ps = fileSet.getAllPaths();
 		for (IPath p: ps) context.clean(p);
 		context.setProject(projectNature);
@@ -59,11 +59,10 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 			for (IType type: ts) {
 				TypeDefinition def = new TypeDefinition();
 				def.setType(type, context);
-				context.addType(f, type, def);
+				context.addType(f, type.getFullyQualifiedName(), def);
 			}
 		}
 		
-		projectNature.registerDefinitions(context);
 	}
 
 }
