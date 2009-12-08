@@ -22,9 +22,9 @@ import org.eclipse.jdt.core.IType;
 public interface IParameter extends IBeanMember {
 
 	/**
-	 * Returns the all annotations of this parameter.
+	 * Returns all the annotations of this parameter.
 	 * 
-	 * @return the all annotations of this parameter.
+	 * @return all the annotations of this parameter.
 	 */
 	Set<IAnnotationDeclaration> getAnnotationDeclarations();
 

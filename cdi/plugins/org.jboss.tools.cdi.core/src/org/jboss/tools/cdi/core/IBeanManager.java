@@ -86,16 +86,16 @@ public interface IBeanManager {
 	Set<IBean> getBeans(IPath path);
 
 	/**
-	 * Returns the all available qualifier types.
+	 * Returns all the available qualifier types.
 	 * 
-	 * @return the all available qualifier types.
+	 * @return all the available qualifier types.
 	 */
 	Set<IType> getQualifierTypes();
 
 	/**
-	 * Returns the all available stereotypes.
+	 * Returns all the available stereotypes.
 	 * 
-	 * @return the all available stereotypes.
+	 * @return all the available stereotypes.
 	 */
 	Set<IType> getStereotypes();
 
