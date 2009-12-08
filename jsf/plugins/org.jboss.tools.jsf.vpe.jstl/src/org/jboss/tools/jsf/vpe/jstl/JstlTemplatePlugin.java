@@ -60,9 +60,5 @@ public class JstlTemplatePlugin extends BaseUIPlugin {
 	public static JstlTemplatePlugin getDefault() {
 		return plugin;
 	}
-
-	@Override
-	public String getId() {
-		return PLUGIN_ID;
-	}
+	
 }
