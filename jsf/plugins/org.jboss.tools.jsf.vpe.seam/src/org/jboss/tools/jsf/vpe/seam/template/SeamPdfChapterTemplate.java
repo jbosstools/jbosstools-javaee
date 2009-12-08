@@ -63,7 +63,7 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 		NodeList children = sourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			if (children.item(i) instanceof Element) {
-				if (children.item(i).getNodeName().endsWith(":title")) { //$NON-NLS-1$
+				if (children.item(i).getNodeName().endsWith("title")) { //$NON-NLS-1$
 					sourceTitleNode = children.item(i);
 				}
 			}

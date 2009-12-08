@@ -88,7 +88,7 @@ public class SeamPdfSectionTemplate extends SeamPdfAbstractTemplate {
 			int sectionNum = 0;
 			NodeList children = parentSection.getChildNodes();
 			for (int i = 0; i < children.getLength(); i++) {
-				if (children.item(i).getNodeName().endsWith(":section")) { //$NON-NLS-1$
+				if (children.item(i).getNodeName().endsWith("section")) { //$NON-NLS-1$
 					sectionNum++;
 					if (children.item(i) == sourceElement) {
 						sectionNumberString.insert(0, Integer
@@ -106,7 +106,7 @@ public class SeamPdfSectionTemplate extends SeamPdfAbstractTemplate {
 			int sectionNum = 0;
 			NodeList children = parentChapter.getChildNodes();
 			for (int i = 0; i < children.getLength(); i++) {
-				if (children.item(i).getNodeName().endsWith(":section")) { //$NON-NLS-1$
+				if (children.item(i).getNodeName().endsWith("section")) { //$NON-NLS-1$
 					sectionNum++;
 					if (children.item(i) == sourceElement) {
 						sectionNumberString.insert(0, Integer
@@ -141,7 +141,7 @@ public class SeamPdfSectionTemplate extends SeamPdfAbstractTemplate {
 		NodeList children = sourceElement.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			if (children.item(i) instanceof Element) {
-				if (children.item(i).getNodeName().endsWith(":title")) { //$NON-NLS-1$
+				if (children.item(i).getNodeName().endsWith("title")) { //$NON-NLS-1$
 					sourceTitleNode = children.item(i);
 				}
 			}

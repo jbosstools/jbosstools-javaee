@@ -119,7 +119,10 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 		for (int i = 0; i < cellsLength; i++) {
 			nsIDOMNode visualCell = pageContext.getDomMapping().getVisualNode(
 					cells[i]);
-			nsIDOMNode parentNode = visualCell.getParentNode();
+			nsIDOMNode parentNode = null;
+			if (visualCell != null) {
+				parentNode = visualCell.getParentNode();
+			}
 			if (parentNode != null) {
 				parentNode.removeChild(visualCell);
 				trVisualNode.appendChild(visualCell);
