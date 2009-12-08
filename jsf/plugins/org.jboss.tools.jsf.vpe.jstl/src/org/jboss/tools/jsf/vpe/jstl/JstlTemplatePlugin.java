@@ -63,7 +63,6 @@ public class JstlTemplatePlugin extends BaseUIPlugin {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return PLUGIN_ID;
 	}
 }
