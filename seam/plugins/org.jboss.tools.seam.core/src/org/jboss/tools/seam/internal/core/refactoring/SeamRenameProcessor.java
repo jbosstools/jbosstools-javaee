@@ -306,6 +306,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		if(component.getJavaDeclaration() != null){
 			if(SeamUtil.isJar(component.getJavaDeclaration()) && component.getJavaDeclaration().getName() != null)
 				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
+			else if(component.getJavaDeclaration().getResource() == null)
+				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_BROKEN_DECLARATION, new String[]{component.getName()}));
 		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
@@ -313,6 +315,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
 			if(SeamUtil.isJar(xmlDecl) && xmlDecl.getName() != null)
 				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
+			else if(xmlDecl.getResource() == null)
+				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_BROKEN_DECLARATION, new String[]{component.getName()}));
 		}
 	}
 	
