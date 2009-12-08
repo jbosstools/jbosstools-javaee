@@ -15,7 +15,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.jst.jsp.test.ca.CommonContentAssistantTestCase;
-import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 
 /**
  * @author Eugene Stherbin
@@ -52,18 +51,9 @@ public class JBide2277Test extends CommonContentAssistantTestCase {
      */
     private void checkResult(ICompletionProposal[] rst) {
         assertTrue(rst.length > 5);
-        String prevDisplay = "";
         for (ICompletionProposal p : rst) {
             //Check stars with  #{
             assertTrue(p.getDisplayString().startsWith(EL_START_EXPRESSION));
-            
-            //Check alphabetical order
-            
-            
         }
-  
-        
     }
-    
-
 }

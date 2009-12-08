@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.seam.ui.text.java;
+package org.jboss.tools.cdi.ui.ca;
 
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.el.ui.ca.JavaELProposalComputer;
@@ -19,9 +19,9 @@ import org.jboss.tools.common.el.ui.ca.JavaELProposalComputer;
  * 
  * @author Jeremy
  */
-public class SeamELProposalComputer extends JavaELProposalComputer {
+public class CDIJavaELProposalComputer extends JavaELProposalComputer {
 
-	private final SeamELProposalProcessor fProcessor = new SeamELProposalProcessor();
+	private final CDIELProposalProcessor fProcessor = new CDIELProposalProcessor();
 
 	/*
 	 * (non-Javadoc)

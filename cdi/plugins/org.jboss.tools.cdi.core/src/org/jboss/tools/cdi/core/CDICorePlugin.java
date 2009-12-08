@@ -25,6 +25,8 @@ public class CDICorePlugin extends BaseUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.core";
 
+	public static final String CA_CDI_EL_IMAGE_PATH = "images/ca/icons_CDI_EL.gif";
+
 	// The shared instance
 	private static CDICorePlugin plugin;
 

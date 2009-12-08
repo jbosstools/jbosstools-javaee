@@ -10,9 +10,16 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.cdi.core,
  org.jboss.tools.common,
  org.eclipse.core.resources,
- org.jboss.tools.common.ui
+ org.jboss.tools.common.ui,
+ org.jboss.tools.common.el.ui,
+ org.jboss.tools.common.el.core,
+ org.eclipse.wst.xml.ui,
+ org.eclipse.jdt.ui,
+ org.eclipse.jface.text,
+ org.eclipse.wst.sse.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.cdi.ui,
+ org.jboss.tools.cdi.ui.ca,
  org.jboss.tools.cdi.ui.preferences

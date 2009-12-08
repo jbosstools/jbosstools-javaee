@@ -31,15 +31,14 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELObjectType;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.model.ELUtil;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
@@ -54,7 +53,6 @@ import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
@@ -86,9 +84,12 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	 * Constructs SeamELCompletionEngine object
 	 */
 	public SeamELCompletionEngine() {
-		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
+	 */
 	public Image getELProposalImage() {
 		return SEAM_EL_PROPOSAL_IMAGE;
 	}
@@ -299,66 +300,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	}
 
 	/**
-	 * Removes duplicates of completion strings
-	 *
-	 * @param suggestions a list of suggestions ({@link String}).
-	 * @return a list of unique completion suggestions.
-	 */
-	public List<TextProposal> makeKbUnique(List<TextProposal> suggestions) {
-		HashSet<String> present = new HashSet<String>();
-		ArrayList<TextProposal> unique= new ArrayList<TextProposal>();
-
-		if (suggestions == null)
-			return unique;
-
-		for (TextProposal item : suggestions) {
-			if (!present.contains(item.getReplacementString())) {
-				present.add(item.getReplacementString());
-				unique.add(item);
-			}
-		}
-
-		present.clear();
-		return unique;
-	}
-
-	/**
-	 * Calculates the EX expression operand string
-	 * 
-	 * @param viewer
-	 * @param offset
-	 * @param start  start of relevant region in document
-	 * @param end    end of relevant region in document
-	 * @return
-	 * @throws BadLocationException
-	 */
-	public String getPrefix(ITextViewer viewer, int offset, int start, int end) throws StringIndexOutOfBoundsException {
-		IDocument doc= viewer.getDocument();
-		if (doc == null || offset > doc.getLength())
-			return null;
-		return getPrefix(doc, offset, start, end);
-	}
-
-	/**
-	 * Calculates the EX expression operand string
-	 * 
-	 * @param viewer
-	 * @param offset
-	 * @param start  start of relevant region in document
-	 * @param end    end of relevant region in document
-	 * @return
-	 * @throws StringIndexOutOfBoundsException
-	 */
-	public String getPrefix(IDocument document, int offset, int start, int end) throws StringIndexOutOfBoundsException {
-		if (document == null || document.get() == null || offset > document.get().length())
-			return null;
-		ELInvocationExpression expr = findExpressionAtOffset(document, offset, start, end);
-		if (expr == null)
-			return null;
-		return document.get().substring(expr.getStartPosition(), offset);
-	}
-
-	/**
 	 * @param documentContent
 	 * @param offset
 	 * @param region
@@ -436,55 +377,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			}
 		}
 		return res;
-	}
-
-	/**
-	 * 
-	 * @param document
-	 * @param offset
-	 * @param start  start of relevant region in document
-	 * @param end    end of relevant region in document
-	 * @return
-	 */
-	public static ELInvocationExpression findExpressionAtOffset(IDocument document, int offset, int start, int end) {
-		return findExpressionAtOffset(document.get(), offset, start, end);
-	}
-
-	public static ELInvocationExpression findExpressionAtOffset(String content, int offset, int start, int end) {
-
-		//TODO this naive calculations should be removed; 
-		//	   this method should be called with reasonable start and end. 
-		if(start <= 0) start = guessStart(content, offset);
-		if(end >= content.length()) end = guessEnd(content, offset);
-		
-		ELParser parser = factory.createParser();
-		ELModel model = parser.parse(content, start, end - start);
-		
-		return ELUtil.findExpression(model, offset);
-	}
-
-	static int guessStart(String content, int offset) {
-		if(offset > content.length()) offset = content.length();
-		if(offset < 2) return 0;
-		int s = offset - 2;
-		
-		while(s >= 0) {
-			if(content.charAt(s + 1) == '{') {
-				char ch = content.charAt(s);
-				if(ch == '#' || ch == '$') return s;
-			}
-			s--;
-		}
-		return 0;
-	}
-
-	static int guessEnd(String content, int offset) {
-		if(offset >= content.length()) return content.length();
-		while(offset < content.length()) {
-			if(content.charAt(offset) == '}') return offset;
-			offset++;
-		}
-		return content.length();
 	}
 
 	public static ISeamMessages getSeamMessagesComponentVariable(ISeamContextVariable variable) {

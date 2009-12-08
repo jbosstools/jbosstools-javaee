@@ -36,13 +36,13 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine;
 
 /**
  * @author Alexey Kazakov
@@ -51,13 +51,16 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
+	public static final Image CDI_EL_PROPOSAL_IMAGE = 
+		CDICorePlugin.getDefault().getImage(CDICorePlugin.CA_CDI_EL_IMAGE_PATH);
+
+
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
 	 */
 	@Override
 	public Image getELProposalImage() {
-		// TODO
-		return null;
+		return CDI_EL_PROPOSAL_IMAGE;
 	}
 
 	/* (non-Javadoc)

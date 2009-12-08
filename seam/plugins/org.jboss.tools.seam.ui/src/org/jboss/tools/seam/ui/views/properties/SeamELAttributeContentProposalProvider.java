@@ -20,6 +20,7 @@ import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
@@ -116,7 +117,7 @@ public class SeamELAttributeContentProposalProvider implements
 			if(suggestions == null) {
 				return EMPTY;
 			}
-			List<TextProposal> uniqueSuggestions = engine.makeKbUnique(suggestions);
+			List<TextProposal> uniqueSuggestions = AbstractELCompletionEngine.makeProposalsUnique(suggestions);
 			
 			List<IContentProposal> list = new ArrayList<IContentProposal>();
 			for (TextProposal p: uniqueSuggestions) {

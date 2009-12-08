@@ -22,10 +22,10 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.seam.ui.text.java.SeamELProposalProcessor;
 import org.jboss.tools.test.util.JobUtils;
 
 public class SeamELContentAssistJbide1676Test extends TestCase {
@@ -305,8 +305,8 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 
 		for (int j = 0; j < result.length; j++) {
 			// Look only for SeamELProposalProcessor proposals
-			if (result[j] instanceof SeamELProposalProcessor.Proposal) {
-				SeamELProposalProcessor.Proposal proposal = (SeamELProposalProcessor.Proposal)result[j];
+			if (result[j] instanceof ELProposalProcessor.Proposal) {
+				ELProposalProcessor.Proposal proposal = (ELProposalProcessor.Proposal)result[j];
 				String proposalString = proposal.getPrefixCompletionText(document, offsetToTest).toString();
 				
 				if (filteredValidProposals.contains(proposalString)) {

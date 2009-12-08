@@ -66,4 +66,21 @@
 
 	</extension>
 
+   <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+   		id="cdi_el_proposals"
+			name="CDI EL Proposals">
+	   	<proposalCategory icon="$nl$/icons/cdi16.png"/>
+ 	</extension>
+
+	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+   		id="CDIJavaELCompletionProposalComputer" 
+   		name="CDI EL Java Completion Proposal Computer">
+	   	<javaCompletionProposalComputer
+	      		class="org.jboss.tools.cdi.ui.ca.CDIJavaELProposalComputer"
+	      		categoryId="org.jboss.tools.cdi.ui.cdi_el_proposals"
+	      		activate="true">
+				<partition type="__java_string"/>
+	   	</javaCompletionProposalComputer>
+	</extension>
+
 </plugin>

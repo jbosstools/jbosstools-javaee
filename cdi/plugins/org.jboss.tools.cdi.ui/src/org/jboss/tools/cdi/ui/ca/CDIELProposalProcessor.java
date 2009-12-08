@@ -8,19 +8,20 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.seam.ui.text.java;
+package org.jboss.tools.cdi.ui.ca;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.el.CdiElResolver;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
-import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * @author Alexey Kazakov
  */
-public class SeamELProposalProcessor extends ELProposalProcessor {
+public class CDIELProposalProcessor extends ELProposalProcessor {
 
 	/*
 	 * (non-Javadoc)
@@ -29,8 +30,8 @@ public class SeamELProposalProcessor extends ELProposalProcessor {
 	@Override
 	protected boolean isEnabled(IFile file) {
 		IProject project = (file == null ? null : file.getProject());
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-		return seamProject!=null;
+		CDICoreNature nature = CDICorePlugin.getCDI(project, true);
+		return nature!=null;
 	}
 
 	/*
@@ -39,6 +40,6 @@ public class SeamELProposalProcessor extends ELProposalProcessor {
 	 */
 	@Override
 	protected Image getImage() {
-		return SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
+		return CdiElResolver.CDI_EL_PROPOSAL_IMAGE;
 	}
 }
