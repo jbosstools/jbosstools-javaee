@@ -55,13 +55,4 @@ public class SeamUiPagesPlugin extends BaseUIPlugin {
 	public static Shell getShell() {
 		return INSTANCE.getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
-	 */
-	@Override
-	public String getId() {
-		return PLUGIN_ID;
-	}
 }

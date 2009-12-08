@@ -81,13 +81,4 @@ public class JsfTestPlugin extends BaseUIPlugin {
 		}
 		return (url == null) ? null : url.getPath();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.log.BaseUIPlugin#getId()
-	 */
-	@Override
-	public String getId() {
-		return PLUGIN_ID;
-	}
 }
