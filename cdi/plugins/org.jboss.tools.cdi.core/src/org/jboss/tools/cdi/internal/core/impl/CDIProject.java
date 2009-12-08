@@ -25,7 +25,7 @@ import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.common.text.INodeReference;
 
-public class CDIProject implements ICDIProject, ICDIElement {
+public class CDIProject extends CDIElement implements ICDIProject {
 	CDICoreNature n;
 
 	Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
@@ -214,7 +214,7 @@ public class CDIProject implements ICDIProject, ICDIElement {
 		return new HashSet<IObserverMethod>();
 	}
 
-	public ICDIProject getCDIProject() {
+	public CDIProject getCDIProject() {
 		return this;
 	}
 
@@ -237,6 +237,11 @@ public class CDIProject implements ICDIProject, ICDIElement {
 			if(d.getKind() == AnnotationDefinition.STEREOTYPE) {
 				StereotypeElement s = new StereotypeElement();
 				s.setDefinition(d);
+				s.setParent(this);
+				IResource r = d.getType().getResource();
+				if(r != null) {
+					s.setSourcePath(r.getFullPath());
+				}
 				stereotypes.put(d.getQualifiedName(), s);
 			}
 		}

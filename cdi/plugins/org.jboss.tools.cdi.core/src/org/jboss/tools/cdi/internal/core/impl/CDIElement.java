@@ -34,4 +34,8 @@ public class CDIElement implements ICDIElement {
 		return source != null ? source : parent != null ? parent.getSourcePath() : null;
 	}
 
+	public void setSourcePath(IPath source) {
+		this.source = source;
+	}
+
 }

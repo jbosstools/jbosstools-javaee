@@ -18,7 +18,9 @@ import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
-public class ClassBean implements IClassBean {
+public class ClassBean extends CDIElement implements IClassBean {
+
+	public ClassBean() {}
 
 	public Set<IBeanMethod> getBeanConstructor() {
 		// TODO Auto-generated method stub
@@ -131,21 +133,6 @@ public class ClassBean implements IClassBean {
 	}
 
 	public Set<IAnnotationDeclaration> getScopeDeclarations() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public ICDIProject getCDIProject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IResource getResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IPath getSourcePath() {
 		// TODO Auto-generated method stub
 		return null;
 	}
