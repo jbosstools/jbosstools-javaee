@@ -446,7 +446,6 @@
 		<vpe:if test="hasinparents('p:document')">
 			<vpe:template children="no" modify="no">
 				<div style="page-break-before: always;" />
-				<vpe:drop container="no" />
 			</vpe:template>
 		</vpe:if>
 		<vpe:template children="no" modify="no" />
@@ -483,7 +482,6 @@
 			<vpe:template children="no" modify="no">
 				<span class="vpe-text">1</span>
 			</vpe:template>
-			<vpe:drop container="no" />
 		</vpe:if>
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
@@ -620,7 +618,5 @@
 		</vpe:if>
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
-	
-	
 
 </vpe:templates>
