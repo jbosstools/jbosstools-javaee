@@ -14,6 +14,9 @@ package org.jboss.tools.jsf.vpe.seam.template;
  * @author yzhishko
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -21,6 +24,7 @@ import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -28,7 +32,6 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 
 	private nsIDOMElement headElement;
 	private Element sourceElement;
-
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -45,7 +48,7 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 			return false;
 		}
 		headElement.removeAttribute("style"); //$NON-NLS-1$
-		headElement.setAttribute("style", "margin-left:"  //$NON-NLS-1$//$NON-NLS-2$
+		headElement.setAttribute("style", "margin-left:" //$NON-NLS-1$//$NON-NLS-2$
 				+ Float.toString(marginValues[0]) + ";margin-right:" //$NON-NLS-1$
 				+ Float.toString(marginValues[1]) + ";margin-top:" //$NON-NLS-1$
 				+ Float.toString(marginValues[2]) + ";margin-bottom:" //$NON-NLS-1$
@@ -92,21 +95,20 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 
 	private void setFooter(VpePageContext pageContext, Node sourceNode,
 			VpeCreationData data) {
-		Node[] footers = SeamUtil.getChildsByName(pageContext, sourceNode,
-				"p:footer"); //$NON-NLS-1$
-		nsIDOMNode visualFooter = null;
-		if (footers != null && footers.length != 0) {
-			visualFooter = pageContext.getDomMapping().getVisualNode(
-					footers[footers.length - 1]);
-
+		nsIDOMNode[] footers = findFootersForVisualDoc((nsIDOMElement) data
+				.getNode().queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID));
+		int footersLength = footers.length;
+		if (footersLength == 0) {
+			return;
 		}
+		nsIDOMNode visualFooter = footers[footersLength-1];
 		if (visualFooter != null) {
 			for (int i = 0; i < footers.length; i++) {
-				nsIDOMNode visualFootersRepresent = pageContext.getDomMapping()
-						.getVisualNode(footers[i]);
+				nsIDOMNode visualFootersRepresent = footers[i];
 				if (visualFootersRepresent != null
 						&& visualFootersRepresent != visualFooter) {
-					nsIDOMNode parentNode = visualFootersRepresent.getParentNode();
+					nsIDOMNode parentNode = visualFootersRepresent
+							.getParentNode();
 					parentNode.removeChild(visualFootersRepresent);
 				}
 			}
@@ -117,4 +119,23 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 			}
 		}
 	}
+
+	private nsIDOMNode[] findFootersForVisualDoc(nsIDOMElement visualElement) {
+		nsIDOMNodeList children = visualElement
+				.getElementsByTagName(HTML.TAG_DIV);
+		List<nsIDOMElement> childrenElements = new ArrayList<nsIDOMElement>();
+		for (int i = 0; i < children.getLength(); i++) {
+			nsIDOMElement childElement = (nsIDOMElement) children.item(i)
+					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			String attrType = childElement
+					.getAttribute(SeamUtil.SEAM_ATTR_TYPE_ID);
+			if (attrType != null
+					&& SeamUtil.SEAM_ATTR_TYPE_ID_VALUE_PDF_FOOTER
+							.equalsIgnoreCase(attrType)) {
+				childrenElements.add(childElement);
+			}
+		}
+		return childrenElements.toArray(new nsIDOMElement[0]);
+	}
+
 }

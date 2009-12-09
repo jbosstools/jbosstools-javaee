@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
  * @author yzhishko
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
@@ -24,6 +25,7 @@ import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import org.mozilla.interfaces.nsIDOMNodeList;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -90,35 +92,22 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 	private void setColumns(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument, VpeCreationData data) {
 		int numberOfColumns = getNumberOfColumns(sourceNode);
-		List<VpeChildrenInfo> cellsList = data.getChildrenInfoList();
-		if (cellsList == null) {
-			return;
-		}
-		VpeChildrenInfo childrenInfo = cellsList.get(0);
-		List<Node> children = childrenInfo.getSourceChildren();
-		if (children == null) {
-			return;
-		}
-		Node[] cells = children.toArray(new Element[0]);
-		int cellsLength = cells.length;
-		if (numberOfColumns > cellsLength) {
-			for (int i = 0; i < cells.length; i++) {
-				nsIDOMNode visualCell = pageContext.getDomMapping()
-						.getVisualNode(cells[i]);
-				nsIDOMNode parentNode = visualCell.getParentNode();
-				parentNode.removeChild(visualCell);
-			}
-			return;
-		}
 		nsIDOMNode visualTable = ((nsIDOMElement) data.getNode()
 				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID))
 				.getElementsByTagName(HTML.TAG_TABLE).item(0);
+		nsIDOMNode[] visualCells = getCells(data.getNode());
+		if (visualCells == null) {
+			return;
+		}
+		int cellsLength = visualCells.length;
+		if (cellsLength == 0) {
+			return;
+		}
 		nsIDOMNode trVisualNode = visualDocument.createElement(HTML.TAG_TR);
 		visualTable.appendChild(trVisualNode);
 		int posCounter = 0;
 		for (int i = 0; i < cellsLength; i++) {
-			nsIDOMNode visualCell = pageContext.getDomMapping().getVisualNode(
-					cells[i]);
+			nsIDOMNode visualCell = visualCells[i];
 			nsIDOMNode parentNode = null;
 			if (visualCell != null) {
 				parentNode = visualCell.getParentNode();
@@ -141,8 +130,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 					} else {
 						for (int j = 0; j < numberOfColumns - (colspanValue); j++) {
 							i++;
-							visualCell = pageContext.getDomMapping()
-									.getVisualNode(cells[i]);
+							visualCell = visualCells[i];
 							trVisualNode.appendChild(visualCell);
 						}
 						i -= numberOfColumns - (colspanValue);
@@ -214,6 +202,24 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 			}
 		}
 		return colspan;
+	}
+
+	private nsIDOMNode[] getCells(nsIDOMNode visualTable) {
+		nsIDOMNodeList children = visualTable.getChildNodes();
+		if (children == null) {
+			return null;
+		}
+		List<nsIDOMElement> childrenList = new ArrayList<nsIDOMElement>();
+		for (int i = 0; i < children.getLength(); i++) {
+			nsIDOMNode child = children.item(i);
+			if (child.getNodeType() == nsIDOMNode.ELEMENT_NODE) {
+				if ("TD".equals(child.getNodeName())) { //$NON-NLS-1$
+					childrenList.add((nsIDOMElement) child
+							.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID));
+				}
+			}
+		}
+		return childrenList.toArray(new nsIDOMElement[0]);
 	}
 
 }

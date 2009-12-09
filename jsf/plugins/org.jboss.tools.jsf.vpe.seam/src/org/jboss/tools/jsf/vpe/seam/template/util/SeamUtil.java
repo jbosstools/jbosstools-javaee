@@ -40,13 +40,16 @@ public class SeamUtil {
 	public static final String ATTR_URL = "url"; //$NON-NLS-1$
 	public final static String SEAM_ATTR_MARGINS = "margins"; //$NON-NLS-1$
 	public final static String[] POSSIBLE_ALIGNS = new String[] { "left", //$NON-NLS-1$
-			"right", "center", "justify", "justifyall" };   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
+			"right", "center", "justify", "justifyall" }; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
 	public final static String SEAM_ATTR_ALIGNMENT = "alignment"; //$NON-NLS-1$
 	public final static String SEAM_DIV_BASIC_STYLE_VALUE = "line-height: 142.0pt; font-family: unknown;"; //$NON-NLS-1$
 	public final static String SEAM_SPAN_BASIC_STYLE_VALUE = "font-family: unknown;"; //$NON-NLS-1$
 	public final static String SEAM_ATTR_HORIZONAL_ALIGNMENT = "horizontalAlignment"; //$NON-NLS-1$
 	public final static String SEAM_ATTR_VERTICAL_ALIGNMENT = "verticalAlignment"; //$NON-NLS-1$
 	public final static String SEAM_ATTR_WIDTH_PERCENTAGE = "widthPercentage"; //$NON-NLS-1$
+	public final static String SEAM_ATTR_TYPE_ID_VALUE_PDF_TITLE = "pdf-title"; //$NON-NLS-1$
+	public final static String SEAM_ATTR_TYPE_ID = "TYPEID"; //$NON-NLS-1$
+	public final static String SEAM_ATTR_TYPE_ID_VALUE_PDF_FOOTER = "pdf-footer"; //$NON-NLS-1$
 
 	public static Node getParentByName(VpePageContext pageContext,
 			Node sourceNode, String parentName) {
@@ -55,8 +58,8 @@ public class SeamUtil {
 
 		while (parentNode != null) {
 			String parentSourcePrefix = parentNode.getPrefix();
-			if(parentSourcePrefix==null) {
-				parentSourcePrefix=""; //$NON-NLS-1$
+			if (parentSourcePrefix == null) {
+				parentSourcePrefix = ""; //$NON-NLS-1$
 			}
 			List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(parentNode,
 					pageContext);
@@ -110,8 +113,8 @@ public class SeamUtil {
 			for (int i = 0; i < children.getLength(); i++) {
 				Node childNode = children.item(i);
 				String childSourcePrefix = childNode.getPrefix();
-				if(childSourcePrefix==null) {
-					childSourcePrefix=""; //$NON-NLS-1$
+				if (childSourcePrefix == null) {
+					childSourcePrefix = ""; //$NON-NLS-1$
 				}
 				List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(childNode,
 						pageContext);
@@ -208,22 +211,22 @@ public class SeamUtil {
 		}
 		return " font-size : " + stringSizeAttr + "pt;"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
-    public static String getAbsoluteResourcePath(String resourcePathInPlugin) {
-        String pluginPath = SeamTemplatesActivator.getPluginResourcePath();
-        IPath pluginFile = new Path(pluginPath);
-        File file = pluginFile.append(resourcePathInPlugin).toFile();
-        if (file.exists()) {
-            return file.getAbsolutePath();
-        } else {
-            throw new IllegalArgumentException("Can't get path for " //$NON-NLS-1$
-                    + resourcePathInPlugin);
-        }
-    }
-	
-    public static void setImg(nsIDOMElement img, String fileImageName) {
-        img.setAttribute(HTML.ATTR_SRC, "file://" //$NON-NLS-1$
-                + getAbsoluteResourcePath(fileImageName).replace('\\', '/'));
-    }
-    
+
+	public static String getAbsoluteResourcePath(String resourcePathInPlugin) {
+		String pluginPath = SeamTemplatesActivator.getPluginResourcePath();
+		IPath pluginFile = new Path(pluginPath);
+		File file = pluginFile.append(resourcePathInPlugin).toFile();
+		if (file.exists()) {
+			return file.getAbsolutePath();
+		} else {
+			throw new IllegalArgumentException("Can't get path for " //$NON-NLS-1$
+					+ resourcePathInPlugin);
+		}
+	}
+
+	public static void setImg(nsIDOMElement img, String fileImageName) {
+		img.setAttribute(HTML.ATTR_SRC, "file://" //$NON-NLS-1$
+				+ getAbsoluteResourcePath(fileImageName).replace('\\', '/'));
+	}
+
 }

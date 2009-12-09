@@ -29,7 +29,6 @@ public class SeamPdfFooterTemplate extends SeamPdfAbstractTemplate {
 	private nsIDOMElement visualElement;
 	private Element sourceElement;
 
-
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		sourceElement = (Element) sourceNode;
@@ -43,6 +42,8 @@ public class SeamPdfFooterTemplate extends SeamPdfAbstractTemplate {
 		if (styleAttr != null && !"".equals(styleAttr)) { //$NON-NLS-1$
 			visualElement.setAttribute(HTML.ATTR_STYLE, styleAttr);
 		}
+		visualElement.setAttribute(SeamUtil.SEAM_ATTR_TYPE_ID,
+				SeamUtil.SEAM_ATTR_TYPE_ID_VALUE_PDF_FOOTER);
 		return new VpeCreationData(visualElement);
 	}
 

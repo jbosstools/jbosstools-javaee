@@ -25,15 +25,13 @@ import org.mozilla.interfaces.nsIDOMNodeList;
 import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
+public class SeamPdfChapterTemplate extends SeamPdfAbstractChapterTemplate {
 
 	private static final String NUMBER = "number"; //$NON-NLS-1$
 
 	private nsIDOMElement visualElement;
 	private Element sourceElement;
-
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
@@ -57,33 +55,8 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 		return new VpeCreationData(visualElement);
 	}
 
-	private void setTitle(VpePageContext pageContext, Element sourceElement,
-			VpeCreationData data) {
-		Node sourceTitleNode = null;
-		NodeList children = sourceElement.getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			if (children.item(i) instanceof Element) {
-				if (children.item(i).getNodeName().endsWith("title")) { //$NON-NLS-1$
-					sourceTitleNode = children.item(i);
-				}
-			}
-		}
-		nsIDOMNode visualTitleNode = null;
-		if (sourceTitleNode != null) {
-			visualTitleNode = pageContext.getDomMapping().getVisualNode(
-					sourceTitleNode);
-		}
-		if (visualTitleNode != null) {
-			nsIDOMElement headElement = getHeadElement(data);
-			nsIDOMNode parentNode = visualTitleNode.getParentNode();
-			if (parentNode != null) {
-				parentNode.removeChild(visualTitleNode);
-				headElement.appendChild(visualTitleNode);
-			}
-		}
-	}
-
-	private nsIDOMElement getHeadElement(VpeCreationData data) {
+	@Override
+	protected nsIDOMElement getHeadElement(VpeCreationData data) {
 		nsIDOMNode visualNode = data.getNode();
 		nsIDOMNodeList children = visualNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -96,12 +69,6 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractTemplate {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public void validate(VpePageContext pageContext, Node sourceNode,
-			nsIDOMDocument visualDocument, VpeCreationData data) {
-			setTitle(pageContext, (Element) sourceNode, data);
 	}
 
 }
