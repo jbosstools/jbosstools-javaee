@@ -39,4 +39,6 @@ public interface CDIConstants {
 
 	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
+	public String DELEGATE_STEREOTYPE_TYPE_NAME = "javax.decorator.Delegate";
+
 }

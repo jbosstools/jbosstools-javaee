@@ -1,11 +1,16 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected String qualifiedName;
-	IType type;
+	protected IType type;
+	protected Set<IType> inheritedTypes = new HashSet<IType>();
 
 	public AbstractTypeDefinition() {}
 
@@ -26,6 +31,26 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		this.type = contextType;
 		super.init(contextType, context);
 		qualifiedName = getType().getFullyQualifiedName();
+		String sc = type.getSuperclassTypeSignature();
+		if(sc != null) {
+			sc = EclipseJavaUtil.resolveType(contextType, sc);
+			if(sc != null && sc.length() > 0) {
+				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), sc);
+				if(t != null) inheritedTypes.add(t);
+			}
+		}
+		String[] is = type.getSuperInterfaceTypeSignatures();
+		if(is != null) for (int i = 0; i < is.length; i++) {
+			String c = EclipseJavaUtil.resolveType(contextType, is[i]);
+			if(c != null && c.length() > 0) {
+				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), c);
+				if(t != null) inheritedTypes.add(t);
+			}
+		}
+	}
+
+	public Set<IType> getInheritedTypes() {
+		return inheritedTypes;
 	}
 
 }

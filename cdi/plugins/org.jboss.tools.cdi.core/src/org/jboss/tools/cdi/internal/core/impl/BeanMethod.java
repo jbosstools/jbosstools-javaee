@@ -10,15 +10,15 @@ import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 
 public class BeanMethod extends BeanMember implements IBeanMethod {
-	protected MethodDefinition definition;
 	protected IMethod method;
+	protected AnnotationDeclaration inject;
 
 	public BeanMethod() {}
 
 	public void setDefinition(MethodDefinition definition) {
-		this.definition = definition;
+		super.setDefinition(definition);
 		setMethod(definition.getMethod());
-		setAnnotations(definition.getAnnotations());
+		inject = definition.getInjectAnnotation();
 	}
 
 	public IMethod getMethod() {
@@ -39,4 +39,7 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 		return new ArrayList<IParameter>();
 	}
 
+	public MethodDefinition getDefinition() {
+		return (MethodDefinition)definition;
+	}
 }

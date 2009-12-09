@@ -36,13 +36,23 @@ public class StereotypeElement extends CDIElement implements IStereotype {
 		}
 	}
 
-	public IAnnotationDeclaration getAlternativeDeclaration() {
+	public AnnotationDeclaration getAlternativeDeclaration() {
 		return alternative;
 	}
 
+	public AnnotationDeclaration getNameDeclaration() {
+		return named;
+	}
+
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
-		// TODO 
-		return new HashSet<IInterceptorBindingDeclaration>();
+		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
+		List<AnnotationDeclaration> as = definition.getAnnotations();
+		for (AnnotationDeclaration a: as) {
+			if(a instanceof InterceptorBindingDeclaration) {
+				result.add((InterceptorBindingDeclaration)a);
+			}
+		}
+		return result;
 	}
 
 	public IAnnotation getNameLocation() {
@@ -65,7 +75,12 @@ public class StereotypeElement extends CDIElement implements IStereotype {
 
 	public boolean isAlternative() {
 		if(alternative != null) return true;
-		return alternative != null;
+		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+		for (IStereotypeDeclaration d: ds) {
+			IStereotype s = d.getStereotype();
+			if(s != null && s.isAlternative()) return true;
+		}		
+		return false;
 	}
 
 	public IType getScope() {
@@ -75,7 +90,7 @@ public class StereotypeElement extends CDIElement implements IStereotype {
 		}
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
 		for (IStereotypeDeclaration d: ds) {
-			
+			//TODO
 		}
 		return null;
 	}

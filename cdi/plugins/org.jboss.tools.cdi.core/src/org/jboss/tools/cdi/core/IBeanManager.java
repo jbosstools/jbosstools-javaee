@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingElement;
 import org.jboss.tools.common.text.INodeReference;
 
 /**
@@ -98,6 +99,23 @@ public interface IBeanManager {
 	 * @return all the available stereotypes.
 	 */
 	Set<IType> getStereotypes();
+
+	/**
+	 * Returns stereotype model element for fully qualified name 
+	 * of stereotype annotation type
+	 * @param qualifiedName
+	 * @return stereotype model element for fully qualified name of stereotype annotation type
+	 */
+	public IStereotype getStereotype(String qualifiedName);
+
+	/**
+	 * Returns interceptor binding model element for fully qualified name 
+	 * of interceptor binding annotation type
+	 * @param qualifiedName
+	 * @return Returns interceptor binding model element for fully qualified name 
+	 * of interceptor binding annotation type
+	 */
+	public InterceptorBindingElement getInterceptorBinding(String qualifiedName);
 
 	/**
 	 * Returns the set of observers for an event which is injected by given

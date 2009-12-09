@@ -17,11 +17,11 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -29,6 +29,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	CDICoreNature n;
 
 	Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
+	Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
 
 	public CDIProject() {}
 
@@ -112,11 +113,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public Set<IType> getStereotypes() {
 		Set<IType> result = new HashSet<IType>();
-		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
-		for (AnnotationDefinition d: ds) {
-			if(d.getKind() == AnnotationDefinition.STEREOTYPE) {
-				result.add(d.getType());
-			}
+		for (IStereotype d: stereotypes.values()) {
+			result.add(d.getSourceType());
 		}
 		return result;
 	}
@@ -230,19 +228,33 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return stereotypes.get(qualifiedName);
 	}
 
-	public void rebuildStereotypes() {
+	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {
+		return interceptorBindings.get(qualifiedName);
+	}
+
+	public void rebuildAnnotationTypes() {
 		stereotypes.clear();
+		interceptorBindings.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if(d.getKind() == AnnotationDefinition.STEREOTYPE) {
 				StereotypeElement s = new StereotypeElement();
 				s.setDefinition(d);
 				s.setParent(this);
-				IResource r = d.getType().getResource();
+				IPath r = d.getType().getPath();
 				if(r != null) {
-					s.setSourcePath(r.getFullPath());
+					s.setSourcePath(r);
 				}
 				stereotypes.put(d.getQualifiedName(), s);
+			} else if(d.getKind() == AnnotationDefinition.INTERCEPTOR_BINDING) {
+				InterceptorBindingElement s = new InterceptorBindingElement();
+				s.setDefinition(d);
+				s.setParent(this);
+				IPath r = d.getType().getPath();
+				if(r != null) {
+					s.setSourcePath(r);
+				}
+				interceptorBindings.put(d.getQualifiedName(), s);
 			}
 		}
 	}

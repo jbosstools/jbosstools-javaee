@@ -6,15 +6,13 @@ import org.jboss.tools.cdi.core.IBeanField;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 
 public class BeanField extends BeanMember implements IBeanField {
-	protected FieldDefinition definition;
 	protected IField field;
 
 	public BeanField() {}
 
 	public void setDefinition(FieldDefinition definition) {
-		this.definition = definition;
+		super.setDefinition(definition);
 		setField(definition.getField());
-		setAnnotations(definition.getAnnotations());
 	}
 
 	public IField getField() {
@@ -30,4 +28,7 @@ public class BeanField extends BeanMember implements IBeanField {
 		return getField();
 	}
 
+	public FieldDefinition getDefinition() {
+		return (FieldDefinition)definition;
+	}
 }

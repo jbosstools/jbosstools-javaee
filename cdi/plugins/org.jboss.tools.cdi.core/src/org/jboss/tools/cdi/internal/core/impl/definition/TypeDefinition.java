@@ -41,4 +41,12 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		}
 	}
 
+	public List<FieldDefinition> getFields() {
+		return fields;
+	}
+
+	public List<MethodDefinition> getMethods() {
+		return methods;
+	}
+
 }

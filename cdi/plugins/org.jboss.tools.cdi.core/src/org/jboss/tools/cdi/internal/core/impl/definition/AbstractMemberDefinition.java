@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
 
 public abstract class AbstractMemberDefinition {
@@ -33,9 +34,12 @@ public abstract class AbstractMemberDefinition {
 		IAnnotation[] ts = member.getAnnotations();
 		for (int i = 0; i < ts.length; i++) {
 			AnnotationDeclaration a = new AnnotationDeclaration();
+			a.setProject(context.getProject());
 			a.setDeclaration(ts[i], contextType);
 			if(context.getAnnotationKind(a.getType()) == AnnotationDefinition.STEREOTYPE) {
 				a = new StereotypeDeclaration(a);
+			} else if(context.getAnnotationKind(a.getType()) == AnnotationDefinition.INTERCEPTOR_BINDING) {
+				a = new InterceptorBindingDeclaration(a);
 			}
 			annotations.add(a);
 			if(CDIConstants.INJECT_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
@@ -52,6 +56,14 @@ public abstract class AbstractMemberDefinition {
 
 	public boolean isCDIAnnotated() {
 		return injectAnnotation != null || producesAnnotation != null;
+	}
+
+	public AnnotationDeclaration getProducesAnnotation() {
+		return producesAnnotation;
+	}
+
+	public AnnotationDeclaration getInjectAnnotation() {
+		return injectAnnotation;
 	}
 
 }

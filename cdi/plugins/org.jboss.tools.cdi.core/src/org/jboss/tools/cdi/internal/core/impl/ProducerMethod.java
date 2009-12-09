@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -21,13 +18,20 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
-import org.jboss.tools.common.java.IJavaSourceReference;
+import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 public class ProducerMethod extends BeanMethod implements IProducerMethod {
+	protected AnnotationDeclaration produces;
 
 	public ProducerMethod() {}
+
+	public void setDefinition(MethodDefinition definition) {
+		super.setDefinition(definition);
+		produces = definition.getProducesAnnotation();
+	}
 
 	public Set<ITypeDeclaration> getAllTypeDeclarations() {
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
@@ -56,6 +60,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 	public String getName() {
 		String name = getMethod().getElementName();
+		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) {
 			return name;
 		}
@@ -81,44 +86,11 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public ITextSourceReference getNameLocation() {
-		final IMethod f = getMethod();
-		return new IJavaSourceReference(){
-		
-			public int getStartPosition() {
-				try {
-					ISourceRange r = f.getSourceRange();
-					return r == null ? -1 : r.getOffset();
-				} catch (JavaModelException e) {
-					CDICorePlugin.getDefault().logError(e);
-					return -1;
-				}
-			}
-		
-			public int getLength() {
-				try {
-					ISourceRange r = f.getSourceRange();
-					return r == null ? 0 : r.getLength();
-				} catch (JavaModelException e) {
-					CDICorePlugin.getDefault().logError(e);
-					return 0;
-				}
-			}
-		
-			public IMember getSourceMember() {
-				return f;
-			}
-		};
-	}
-
-	public Set<IAnnotationDeclaration> getQualifierDeclarations() {
-		Set<IAnnotationDeclaration> result = new HashSet<IAnnotationDeclaration>();
-		for(AnnotationDeclaration a: definition.getAnnotations()) {
-			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
-			if(k == AnnotationDefinition.QUALIFIER) {
-				result.add(a);
-			}
+		AnnotationDeclaration named = findNamedAnnotation();
+		if(named != null) {
+			return ValueInfo.getValueInfo(named.getDeclaration(), null);
 		}
-		return result;
+		return null;
 	}
 
 	//similar to ProducerField.getRestrictedTypeDeclaratios
@@ -166,21 +138,14 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return specializes;
 	}
 
-	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
-		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
-		for (AnnotationDeclaration d: definition.getAnnotations()) {
-			if(d instanceof IStereotypeDeclaration) {
-				StereotypeDeclaration sd = (StereotypeDeclaration)d;
-				StereotypeElement s = getCDIProject().getStereotype(d.getTypeName());
-				sd.setStereotype(s);
-				result.add(sd);
-			}
-		}
-		return result;
-	}
-
 	public boolean isAlternative() {
-		return alternative != null;
+		if(alternative != null) return true;
+		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+		for (IStereotypeDeclaration d: ds) {
+			IStereotype s = d.getStereotype();
+			if(s != null && s.isAlternative()) return true;
+		}		
+		return false;
 	}
 
 	public boolean isDependent() {

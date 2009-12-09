@@ -5,11 +5,13 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class AnnotationDeclaration implements IAnnotationDeclaration {
+	protected CDICoreNature project;
 	protected IAnnotation annotation;
 	protected int startPosition = -1;
 	protected int length = 0;	
@@ -17,6 +19,19 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 	protected IType type = null;
 
 	public AnnotationDeclaration() {}
+
+	protected void copyTo(AnnotationDeclaration other) {
+		other.project = project;
+		other.annotation = annotation;
+		other.startPosition = startPosition;
+		other.length = length;
+		other.annotationTypeName = annotationTypeName;
+		other.type = type;
+	}
+
+	public void setProject(CDICoreNature project) {
+		this.project = project;
+	}
 
 	public void setDeclaration(IAnnotation annotation, IType declaringType) {
 		this.annotation = annotation;

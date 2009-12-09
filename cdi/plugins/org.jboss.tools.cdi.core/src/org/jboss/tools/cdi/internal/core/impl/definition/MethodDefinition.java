@@ -3,6 +3,8 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 public class MethodDefinition extends AbstractMemberDefinition {
 	IMethod method;

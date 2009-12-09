@@ -46,6 +46,10 @@ public class DefinitionContext {
 		return project;
 	}
 
+	public IJavaProject getJavaProject() {
+		return javaProject;
+	}
+
 	public void addType(IPath file, String typeName, AbstractTypeDefinition def) {
 		if(file != null) {
 			Set<String> ts = resources.get(file);
