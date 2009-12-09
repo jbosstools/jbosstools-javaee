@@ -45,6 +45,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
 		.include("drools-api.*\\.jar") //$NON-NLS-1$
 		.include("jboss-el.*.jar") //$NON-NLS-1$
+		.include("jboss-seam-remoting\\.jar") //$NON-NLS-1$
 		.include("mvel.*\\.jar") //$NON-NLS-1$
 		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
 		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
@@ -90,7 +91,6 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-mail\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-pdf\\.jar") //$NON-NLS-1$
-		.include("jboss-seam-remoting\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-excel\\.jar") //$NON-NLS-1$
 		.include("jxl\\.jar") //$NON-NLS-1$

@@ -56,6 +56,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("drools-core.*\\.jar") //$NON-NLS-1$
 		.include("janino.*\\.jar") //$NON-NLS-1$
 		.include("jboss-seam.jar") //$NON-NLS-1$
+		.include("jboss-seam-remoting\\.jar") //$NON-NLS-1$
 		.include("jbpm.*\\.jar") //$NON-NLS-1$
 		.include("security\\.drl") //$NON-NLS-1$
 		.include("stringtemplate.*\\.jar") //$NON-NLS-1$
@@ -101,7 +102,6 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 		.include("jboss-seam-ioc\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-mail\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-pdf\\.jar") //$NON-NLS-1$
-		.include("jboss-seam-remoting\\.jar") //$NON-NLS-1$
 		.include("jboss-seam-ui\\.jar") //$NON-NLS-1$
 		.include("jsf-facelets\\.jar") //$NON-NLS-1$
 		.include("oscache.*\\.jar") //$NON-NLS-1$
