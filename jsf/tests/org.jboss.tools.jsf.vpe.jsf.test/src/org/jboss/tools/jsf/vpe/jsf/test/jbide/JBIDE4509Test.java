@@ -117,10 +117,6 @@ public class JBIDE4509Test extends VpeTest{
 	public void testJBIDE5099OpenOn() throws Throwable{
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		IResource r = project.findMember("WebContent");
-		System.out.println(r);
-		r = project.findMember("WebContent/pages");
-		System.out.println(r);
 		IFile file = (IFile) project.findMember("WebContent/pages/JBIDE/5015/login.xhtml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 15, 17, "loginPanel.xhtml"); //$NON-NLS-1$
@@ -130,10 +126,6 @@ public class JBIDE4509Test extends VpeTest{
 	public void testJBIDE5099JarOpenOn() throws Throwable{
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		IResource r = project.findMember("WebContent");
-		System.out.println(r);
-		r = project.findMember("WebContent/pages");
-		System.out.println(r);
 		IFile file = (IFile) project.findMember("WebContent/pages/JBIDE/5015/login.xhtml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 14, 16, "echo.xhtml"); //$NON-NLS-1$
