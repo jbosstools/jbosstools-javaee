@@ -33,5 +33,5 @@ public interface IDecorator extends IClassBean {
 	 * 
 	 * @return the set of decorated types
 	 */
-	Set<IType> getDecoratedTypes();
+	Set<IParametedType> getDecoratedTypes();
 }

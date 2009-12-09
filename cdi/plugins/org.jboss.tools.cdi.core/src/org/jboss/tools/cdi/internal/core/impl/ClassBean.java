@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
@@ -142,8 +143,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IType> getLegalTypes() {
-		// TODO Auto-generated method stub
+	public Set<IParametedType> getLegalTypes() {
+		// TODO 
 		return null;
 	}
 

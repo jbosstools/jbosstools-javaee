@@ -13,6 +13,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
@@ -53,7 +54,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return new HashSet<IInjectionPoint>();
 	}
 
-	public Set<IType> getLegalTypes() {
+	public Set<IParametedType> getLegalTypes() {
 		// TODO Auto-generated method stub
 		return null;
 	}

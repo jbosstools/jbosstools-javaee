@@ -14,6 +14,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
@@ -47,7 +48,7 @@ public class ProducerField extends BeanField implements IProducerField {
 		return new HashSet<IInjectionPoint>();
 	}
 
-	public Set<IType> getLegalTypes() {
+	public Set<IParametedType> getLegalTypes() {
 		// TODO 
 		return null;
 	}

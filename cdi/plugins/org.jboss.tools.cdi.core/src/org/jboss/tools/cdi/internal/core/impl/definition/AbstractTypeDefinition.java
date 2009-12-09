@@ -5,12 +5,13 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected String qualifiedName;
 	protected IType type;
-	protected Set<IType> inheritedTypes = new HashSet<IType>();
+	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
 
 	public AbstractTypeDefinition() {}
 
@@ -33,10 +34,12 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		qualifiedName = getType().getFullyQualifiedName();
 		String sc = type.getSuperclassTypeSignature();
 		if(sc != null) {
+			//TODO process parameter types correctly!!!
 			sc = EclipseJavaUtil.resolveType(contextType, sc);
 			if(sc != null && sc.length() > 0) {
 				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), sc);
-				if(t != null) inheritedTypes.add(t);
+//TODO
+//				if(t != null) inheritedTypes.add(t);
 			}
 		}
 		String[] is = type.getSuperInterfaceTypeSignatures();
@@ -44,12 +47,13 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 			String c = EclipseJavaUtil.resolveType(contextType, is[i]);
 			if(c != null && c.length() > 0) {
 				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), c);
-				if(t != null) inheritedTypes.add(t);
+//TODO
+//				if(t != null) inheritedTypes.add(t);
 			}
 		}
 	}
 
-	public Set<IType> getInheritedTypes() {
+	public Set<IParametedType> getInheritedTypes() {
 		return inheritedTypes;
 	}
 

@@ -16,12 +16,6 @@ import org.jboss.tools.common.text.ITextSourceReference;
 /**
  * @author Alexey Kazakov
  */
-public interface ITypeDeclaration extends ITextSourceReference {
+public interface ITypeDeclaration extends IParametedType, ITextSourceReference {
 
-	/**
-	 * Returns the corresponding IType of the declaration.
-	 * 
-	 * @return the corresponding IType of the declaration.
-	 */
-	IType getType();
 }

@@ -33,6 +33,7 @@ import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.EclipseUtil;
@@ -167,7 +168,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 			return Collections.emptySet();
 		}
 
-		public Set<IType> getLegalTypes() {
+		public Set<IParametedType> getLegalTypes() {
 			return Collections.emptySet();
 		}
 

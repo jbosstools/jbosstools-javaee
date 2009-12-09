@@ -53,7 +53,7 @@ public interface IBean extends IScoped, ICDIElement, IVariable {
 	 * 
 	 * @return the legal types
 	 */
-	Set<IType> getLegalTypes();
+	Set<IParametedType> getLegalTypes();
 
 	/**
 	 * Obtains all the type declarations of the bean class or producer method or
