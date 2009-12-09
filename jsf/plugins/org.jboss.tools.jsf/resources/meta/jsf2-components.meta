@@ -35,7 +35,7 @@
  <XModelEntity
   ImplementationLoadingClass="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentLoader"
   ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
-  ObjectEditorClass="%XML%" XMLSUBPATH="html" name="FileJSF2Component">
+  ObjectEditorClass="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor" XMLSUBPATH="html" name="FileJSF2Component">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSF2ComponentInterface" required="yes"/>
    <XChildEntity name="JSF2ComponentImplementation"/>
