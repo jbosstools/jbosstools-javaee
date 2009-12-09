@@ -14,7 +14,10 @@ import java.lang.reflect.Method;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
@@ -108,6 +111,32 @@ public class JBIDE4509Test extends VpeTest{
 				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		JBIDE4509Test.checkOpenOnInEditor(activeEditor.getEditorInput(),getEditorId(activeEditor.getEditorInput().getName()),
 				8,23,"echo.xhtml"); //$NON-NLS-1$
+	}
+
+	//test for https://jira.jboss.org/jira/browse/JBIDE-5099
+	public void testJBIDE5099OpenOn() throws Throwable{
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		IResource r = project.findMember("WebContent");
+		System.out.println(r);
+		r = project.findMember("WebContent/pages");
+		System.out.println(r);
+		IFile file = (IFile) project.findMember("WebContent/pages/JBIDE/5015/login.xhtml"); //$NON-NLS-1$
+		IEditorInput editorInput = new FileEditorInput(file);
+		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 15, 17, "loginPanel.xhtml"); //$NON-NLS-1$
+	}
+
+	//test for https://jira.jboss.org/jira/browse/JBIDE-5099
+	public void testJBIDE5099JarOpenOn() throws Throwable{
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		IResource r = project.findMember("WebContent");
+		System.out.println(r);
+		r = project.findMember("WebContent/pages");
+		System.out.println(r);
+		IFile file = (IFile) project.findMember("WebContent/pages/JBIDE/5015/login.xhtml"); //$NON-NLS-1$
+		IEditorInput editorInput = new FileEditorInput(file);
+		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 14, 16, "echo.xhtml"); //$NON-NLS-1$
 	}
 	/**
 	 * Function for checking openOn functionality in jar file;
