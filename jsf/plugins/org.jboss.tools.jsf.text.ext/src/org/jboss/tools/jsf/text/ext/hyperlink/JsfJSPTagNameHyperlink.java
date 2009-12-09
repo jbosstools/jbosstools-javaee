@@ -22,6 +22,8 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
@@ -90,10 +92,22 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 		if(c != null) {
 			IResource r = ((AbstractComponent)c).getResource();
 			if(r instanceof IFile) {
+				IEditorPart part = null;
 				IFile f = (IFile)r;
-				IEditorPart part = openFileInEditor(f);
-				if(part == null) {
-					error = "Cannot open file " + r;
+				if(f.getFullPath() != null && f.getFullPath().toString().endsWith(".jar")) {
+					Object id = ((AbstractComponent)c).getId();
+					if(id instanceof XModelObject) {
+						XModelObject o = (XModelObject)id;
+						int q = FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
+						if(q == 1) {
+							error = "Cannot open resource " + r.getName();
+						}
+					}
+				} else {
+					part = openFileInEditor(f);
+					if(part == null) {
+						error = "Cannot open file " + r;
+					}
 				}
 			} else {
 				error = "Cannot find file for tag " + tagName;
