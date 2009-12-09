@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**

@@ -37,5 +37,10 @@ public interface IAnnotationDeclaration extends ITextSourceReference {
 	 */
 	IMember getParentMember();
 
-	public IType getType();
+	/**
+	 * Returns the corresponding IType of the annotation.
+	 * 
+	 * @return the corresponding IType of the annotation
+	 */
+	IType getType();
 }
