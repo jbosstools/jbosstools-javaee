@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core;
 
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * Represents an annotation declaration. For example a qualifier or a scope
@@ -19,7 +21,7 @@ import org.eclipse.jdt.core.IMember;
  * 
  * @author Alexey Kazakov
  */
-public interface IAnnotationDeclaration extends ITypeDeclaration {
+public interface IAnnotationDeclaration extends ITextSourceReference {
 
 	/**
 	 * Return the annotation declaration.
@@ -34,4 +36,6 @@ public interface IAnnotationDeclaration extends ITypeDeclaration {
 	 * @return the member which is annotated by this declaration
 	 */
 	IMember getParentMember();
+
+	public IType getType();
 }

@@ -61,6 +61,7 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		return annotationTypeName;
 	}
 
+	
 	public IType getType() {
 		return type;
 	}

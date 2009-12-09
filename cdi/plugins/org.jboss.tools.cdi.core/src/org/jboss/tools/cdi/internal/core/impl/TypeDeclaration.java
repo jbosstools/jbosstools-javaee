@@ -3,8 +3,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 
-public class TypeDeclaration implements ITypeDeclaration {
-	IType type;
+public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
 	int length;
 	int startPosition;
 
@@ -14,10 +13,6 @@ public class TypeDeclaration implements ITypeDeclaration {
 		this.type = type;
 		this.length = length;
 		this.startPosition = startPosition;
-	}
-
-	public IType getType() {
-		return type;
 	}
 
 	public int getLength() {

@@ -10,4 +10,11 @@ public interface IParametedType {
 	 * @return the corresponding IType of the declaration.
 	 */
 	IType getType();
+
+	/**
+	 * Returns signature of the declaration
+	 * 
+	 * @return signature of the declaration
+	 */
+	public String getSignature();
 }
