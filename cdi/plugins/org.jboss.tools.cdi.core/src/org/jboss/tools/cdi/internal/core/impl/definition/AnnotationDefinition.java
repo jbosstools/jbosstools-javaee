@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2007 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.HashMap;
@@ -8,6 +18,11 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class AnnotationDefinition extends AbstractTypeDefinition {
 	public static final int NON_RELEVANT = 0;
 	public static final int BASIC = 1; //has Inherited, Target, Retention
