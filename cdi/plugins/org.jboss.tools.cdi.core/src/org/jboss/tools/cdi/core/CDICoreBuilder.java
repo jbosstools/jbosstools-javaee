@@ -129,7 +129,9 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				} catch (InstantiationException e2) {
 					CDICorePlugin.getDefault().logError(e2);
 				}
-			}		
+			}
+
+			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
 
 			if(n.getClassPath().update()) {
 				List<String> newJars = n.getClassPath().process();

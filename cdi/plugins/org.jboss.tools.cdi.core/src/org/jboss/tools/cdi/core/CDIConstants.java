@@ -30,6 +30,7 @@ public interface CDIConstants {
 	public String ALTERNATIVE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Alternative";
 
 	public String INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME = "javax.interceptor.InterceptorBinding";
+	public String INTERCEPTOR_ANNOTATION_TYPE_NAME = "javax.interceptor.Interceptor";
 
 	public String APPLICATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ApplicationScoped";
 	public String CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ConversationScoped";

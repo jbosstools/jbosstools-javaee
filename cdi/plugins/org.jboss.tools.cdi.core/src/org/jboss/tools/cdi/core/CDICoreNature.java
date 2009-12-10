@@ -39,11 +39,13 @@ public class CDICoreNature implements IProjectNature {
 
 	boolean isBuilt = false;
 
-	Map<IPath, Object> sourcePaths2 = new HashMap<IPath, Object>(); //TODO
+//	Map<IPath, Object> sourcePaths2 = new HashMap<IPath, Object>(); //TODO
 
 	private boolean isStorageResolved = false;
 
-	public CDICoreNature() {}
+	public CDICoreNature() {
+		definitions.setProject(this);
+	}
 
 	public void configure() throws CoreException {
 		addToBuildSpec(CDICoreBuilder.BUILDER_ID);
@@ -64,6 +66,7 @@ public class CDICoreNature implements IProjectNature {
 
 	public void setCDIProject(ICDIProject cdiProject) {
 		this.cdiProjectDelegate = cdiProject;
+		cdiProject.setNature(this);
 	}
 
 	public DefinitionContext getDefinitions() {
@@ -138,10 +141,15 @@ public class CDICoreNature implements IProjectNature {
 		isBuilt = false;
 		classPath.clean();
 		postponeFiring();
-		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
-		for (int i = 0; i < ps.length; i++) {
-			pathRemoved(ps[i]);
+
+		definitions.clean();
+		if(cdiProjectDelegate != null) {
+			cdiProjectDelegate.update();
 		}
+//		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
+//		for (int i = 0; i < ps.length; i++) {
+//			pathRemoved(ps[i]);
+//		}
 		fireChanges();
 	}
 	
@@ -249,8 +257,10 @@ public class CDICoreNature implements IProjectNature {
 	public List<Long> statistics;
 
 	public void pathRemoved(IPath source) {
+//		sourcePaths2.remove(source);
 		definitions.clean(source);
 		//TODO
 	}
+
 
 }

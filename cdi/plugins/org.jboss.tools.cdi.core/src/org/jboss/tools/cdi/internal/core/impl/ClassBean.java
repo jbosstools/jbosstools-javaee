@@ -51,6 +51,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public ClassBean() {}
 
 	public void setDefinition(TypeDefinition definition) {
+		setSourcePath(definition.getType().getPath());
 		super.setDefinition(definition);
 		setAnnotations(definition.getAnnotations());
 		List<MethodDefinition> ms = definition.getMethods();
@@ -63,6 +64,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				bm = new BeanMethod();
 			}
 			bm.setDefinition(m);
+			bm.setParent(this);
 			methods.add(bm);
 		}
 		List<FieldDefinition> fs = definition.getFields();
@@ -77,6 +79,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				bf = new BeanField();
 			}
 			bf.setDefinition(f);
+			bf.setParent(this);
 			fields.add(bf);
 		}
 	}
@@ -164,13 +167,14 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public String getName() {
-		String name = ((TypeDefinition)definition).getQualifiedName();
+		AnnotationDeclaration named = findNamedAnnotation();
+		if(named == null) return null;
+
+		String name = ((TypeDefinition)definition).getType().getElementName();
 		if(name.length() > 0) {
 			name = name.substring(0, 1).toLowerCase() + name.substring(1);
 		}
-		if(named == null) {
-			return name;
-		}
+
 		IAnnotation a = named.getDeclaration();
 		try {
 			IMemberValuePair[] vs = a.getMemberValuePairs();

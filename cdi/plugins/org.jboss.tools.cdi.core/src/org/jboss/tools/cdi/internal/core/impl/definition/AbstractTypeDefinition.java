@@ -39,7 +39,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	}
 
 	public void setType(IType type, DefinitionContext context) {
-		super.setAnnotatable(type, type,context);
+		super.setAnnotatable(type, type, context);
 	}
 
 	@Override

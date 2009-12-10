@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,8 +32,11 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.text.INodeReference;
 
 /**
@@ -46,10 +50,18 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
 	Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
 
+	Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
+	Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
+	
+
 	public CDIProject() {}
 
 	public CDICoreNature getNature() {
 		return n;
+	}
+
+	public void setNature(CDICoreNature n) {
+		this.n = n;
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
@@ -72,10 +84,22 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return null;
 	}
 
-	public Set<IBean> getBeans(String name,
-			boolean attemptToResolveAmbiguousNames) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<IBean> getBeans(String name,	boolean attemptToResolveAmbiguousNames) {
+		Set<IBean> result = new HashSet<IBean>();
+		Set<IBean> beans = beansByName.get(name);
+		if(beans == null || beans.isEmpty()) {
+			return result;
+		}
+		result.addAll(beans);
+		if(result.size() == 1 || !attemptToResolveAmbiguousNames) {
+			return result;
+		}
+		Iterator<IBean> it = result.iterator();
+		while(it.hasNext()) {
+			IBean bean = it.next();
+			if(!bean.isAlternative()) it.remove();
+		}
+		return result;
 	}
 
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
@@ -85,13 +109,16 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IBean> getBeans(IInjectionPoint injectionPoints) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<IBean> result = new HashSet<IBean>();
+		//TODO
+		return result;
 	}
 
 	public Set<IBean> getBeans(IPath path) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<IBean> result = new HashSet<IBean>();
+		Set<IBean> beans = beansByPath.get(path);
+		if(beans != null && !beans.isEmpty()) result.addAll(beans);
+		return result;
 	}
 
 	public List<INodeReference> getDecoratorClasses() {
@@ -247,6 +274,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return interceptorBindings.get(qualifiedName);
 	}
 
+	public void update() {
+		rebuildAnnotationTypes();
+		rebuildBeans();
+	}
+
 	public void rebuildAnnotationTypes() {
 		stereotypes.clear();
 		interceptorBindings.clear();
@@ -273,4 +305,46 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 	}
+
+	public void rebuildBeans() {
+		beansByPath.clear();
+		beansByName.clear();
+		List<TypeDefinition> typeDefinitions = n.getDefinitions().getTypeDefinitions();
+		for (TypeDefinition typeDefinition : typeDefinitions) {
+			ClassBean bean = null;
+			if(typeDefinition.getInterceptorAnnotation() != null) {
+				bean = new InterceptorBean();
+			} else if(typeDefinition.getDecoratorAnnotation() != null) {
+				bean = new DecoratorBean();
+			} else {
+				bean = new ClassBean();
+			}
+			bean.setDefinition(typeDefinition);
+			addBean(bean);
+			Set<IProducer> ps = bean.getProducers();
+			for (IProducer producer: ps) {
+				addBean(producer);
+			}
+		}
+	}
+
+	void addBean(IBean bean) {
+		String name = bean.getName();
+		if(name != null && name.length() > 0) {
+			Set<IBean> bs = beansByName.get(name);
+			if(bs == null) {
+				bs = new HashSet<IBean>();
+				beansByName.put(name, bs);				
+			}
+			bs.add(bean);
+		}
+		IPath path = bean.getSourcePath();
+		Set<IBean> bs = beansByPath.get(path);
+		if(bs == null) {
+			bs = new HashSet<IBean>();
+			beansByPath.put(path, bs);
+		}
+		bs.add(bean);
+	}
+
 }

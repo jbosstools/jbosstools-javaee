@@ -34,7 +34,7 @@ public class DefinitionContext {
 
 	Set<String> types = new HashSet<String>();
 	Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
-	Map<String, AbstractTypeDefinition> typeDefinitions = new HashMap<String, AbstractTypeDefinition>();
+	Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
 	Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
 
 	DefinitionContext workingCopy;
@@ -42,12 +42,23 @@ public class DefinitionContext {
 
 	public DefinitionContext() {}
 
-	private DefinitionContext copy() {
+	private DefinitionContext copy(boolean clean) {
 		DefinitionContext copy = new DefinitionContext();
 		copy.project = project;
 		copy.javaProject = javaProject;
-		copy.types.addAll(types);
-		copy.typeDefinitions.putAll(typeDefinitions);
+		if(!clean) {
+			copy.types.addAll(types);
+			copy.typeDefinitions.putAll(typeDefinitions);
+			copy.annotations.putAll(annotations);
+			for (IPath p: resources.keySet()) {
+				Set<String> set = resources.get(p);
+				if(set != null) {
+					Set<String> s1 = new HashSet<String>();
+					s1.addAll(set);
+					copy.resources.put(p, s1);
+				}
+			}
+		}
 		
 		return copy;
 	}
@@ -82,9 +93,20 @@ public class DefinitionContext {
 				}
 			} else {
 				synchronized (typeDefinitions) {
-					typeDefinitions.put(def.getQualifiedName(), def);
+					typeDefinitions.put(def.getQualifiedName(), (TypeDefinition)def);
 				}
 			}
+		}
+	}
+
+	public void clean() {
+		resources.clear();
+		types.clear();
+		synchronized (typeDefinitions) {
+			typeDefinitions.clear();
+		}
+		synchronized (annotations) {
+			annotations.clear();
 		}
 	}
 
@@ -102,9 +124,11 @@ public class DefinitionContext {
 		}
 	}
 
+	private Set<String> underConstruction = new HashSet<String>();
+
 	public int getAnnotationKind(IType annotationType) {
 		if(annotationType == null) return -1;
-		AnnotationDefinition d = annotations.get(annotationType);
+		AnnotationDefinition d = getAnnotation(annotationType);
 		if(d != null) {
 			return d.getKind();
 		}
@@ -127,11 +151,15 @@ public class DefinitionContext {
 		if(AnnotationHelper.CDI_ANNOTATION_TYPES.contains(name)) {
 			return AnnotationDefinition.CDI;
 		}
-
+		if(underConstruction.contains(name)) {
+			return AnnotationDefinition.BASIC;
+		}
+		System.out.println(name);
 		return createAnnotation(annotationType, name);
 	}
 
 	private int createAnnotation(IType annotationType, String name) {
+		underConstruction.add(name);
 		AnnotationDefinition d = new AnnotationDefinition();
 		d.setType(annotationType, this);
 		int kind = d.getKind();
@@ -139,7 +167,14 @@ public class DefinitionContext {
 			d = null;
 		}
 		addType(annotationType.getPath(), name, d);
+		underConstruction.remove(name);
 		return kind;
+	}
+
+	public void newWorkingCopy(boolean forFullBuild) {
+		if(original != null) return;
+		workingCopy = copy(forFullBuild);
+		workingCopy.original = this;
 	}
 
 	public DefinitionContext getWorkingCopy() {
@@ -149,7 +184,7 @@ public class DefinitionContext {
 		if(workingCopy != null) {
 			return workingCopy;
 		}
-		workingCopy = copy();
+		workingCopy = copy(false);
 		workingCopy.original = this;
 		return workingCopy;
 	}
@@ -162,8 +197,14 @@ public class DefinitionContext {
 		if(workingCopy == null) {
 			return;
 		}
-		//TODO
-		
+
+		types = workingCopy.types;
+		resources = workingCopy.resources;
+		typeDefinitions = workingCopy.typeDefinitions;
+		annotations = workingCopy.annotations;
+	
+		project.getDelegate().update();
+
 		workingCopy = null;
 	}
 
@@ -178,9 +219,15 @@ public class DefinitionContext {
 			result.addAll(annotations.values());
 		}
 		return result;
-
 	}
 
+	public List<TypeDefinition> getTypeDefinitions() {
+		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
+		synchronized (typeDefinitions) {
+			result.addAll(typeDefinitions.values());
+		}
+		return result;
+	}
 	
 }
 

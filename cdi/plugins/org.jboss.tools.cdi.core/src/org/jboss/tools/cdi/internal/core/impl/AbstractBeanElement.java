@@ -27,11 +27,13 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
  */
 public class AbstractBeanElement extends CDIElement {
 	protected AbstractMemberDefinition definition;
+
 	protected AnnotationDeclaration named;
 	protected AnnotationDeclaration alternative;
 	protected AnnotationDeclaration specializes;
 	protected AnnotationDeclaration typed;
 	protected AnnotationDeclaration decorator;
+	protected AnnotationDeclaration interceptor;
 	protected AnnotationDeclaration delegate;
 
 	public AbstractBeanElement() {}
@@ -56,6 +58,8 @@ public class AbstractBeanElement extends CDIElement {
 				decorator = d;
 			} else if(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME.equals(typeName)) {
 				delegate = d;
+			} else if(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME.equals(typeName)) {
+				interceptor = d;
 			}
 		}
 	}

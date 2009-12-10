@@ -14,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
@@ -25,8 +27,11 @@ import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
  *
  */
 public class TypeDefinition extends AbstractTypeDefinition {
+	boolean isAbstract;
 	List<FieldDefinition> fields = new ArrayList<FieldDefinition>();
 	List<MethodDefinition> methods = new ArrayList<MethodDefinition>();
+	AnnotationDeclaration decoratorAnnotation;
+	AnnotationDeclaration interceptorAnnotation;
 
 	public TypeDefinition() {
 	}
@@ -34,9 +39,15 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	@Override
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
 		super.init(contextType, context);
-		for (AnnotationDeclaration d: annotations) {
-			int kind = context.getAnnotationKind(d.getType());
+		isAbstract = Flags.isAbstract(type.getFlags());
+		for (AnnotationDeclaration a: annotations) {
+			int kind = context.getAnnotationKind(a.getType());
 			//TODO do we need to create members for specific annotations?
+			if(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME.equals(a.getTypeName())) {
+				decoratorAnnotation = a;
+			} else if(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
+				interceptorAnnotation = a;
+			}
 		}
 		IField[] fs = getType().getFields();
 		for (int i = 0; i < fs.length; i++) {
@@ -64,4 +75,16 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		return methods;
 	}
 
+	public boolean isAbstract() {
+		return isAbstract;
+	}
+
+	public AnnotationDeclaration getDecoratorAnnotation() {
+		return decoratorAnnotation;
+	}
+
+	public AnnotationDeclaration getInterceptorAnnotation() {
+		return interceptorAnnotation;
+	}
+	
 }

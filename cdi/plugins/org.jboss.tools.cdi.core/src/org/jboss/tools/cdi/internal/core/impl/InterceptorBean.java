@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2007 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -8,14 +8,22 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.cdi.core;
+package org.jboss.tools.cdi.internal.core.impl;
+
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IInterceptor;
 
 /**
- * @author Alexey Kazakov
+ * 
+ * @author Viacheslav Kabanovich
+ *
  */
-public interface ICDIProject extends IBeanManager {
+public class InterceptorBean extends ClassBean implements IInterceptor {
 
-	public void setNature(CDICoreNature n);
-	public void update();
+	public InterceptorBean() {}
+
+	public IAnnotationDeclaration getInterceptorAnnotation() {
+		return interceptor;
+	}
 
 }
