@@ -24,6 +24,13 @@ import org.jboss.tools.common.text.INodeReference;
 public interface IBeanManager {
 
 	/**
+	 * Returns all @Named beans.
+	 * 
+	 * @return all @Named beans
+	 */
+	Set<IBean> getNamedBeans();
+
+	/**
 	 * Returns the set of beans which match the given EL name.
 	 * 
 	 * @param name

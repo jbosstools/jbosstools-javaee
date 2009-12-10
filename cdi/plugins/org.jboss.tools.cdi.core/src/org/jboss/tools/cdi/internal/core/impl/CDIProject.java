@@ -34,7 +34,6 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
-import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.text.INodeReference;
@@ -347,4 +346,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		bs.add(bean);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getNamedBeans()
+	 */
+	public Set<IBean> getNamedBeans() {
+		// TODO
+		return new HashSet<IBean>();
+	}
 }

@@ -14,7 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -69,7 +73,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 */
 	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		IModelNature project = EclipseResourceUtil.getModelNature(file.getProject());
-		return resolveVariables(project, expr, isFinal, onlyEqualNames);
+		return resolveVariables(file, project, expr, isFinal, onlyEqualNames);
 	}
 
 	/**
@@ -80,7 +84,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * @param onlyEqualNames
 	 * @return
 	 */
-	public List<IJSFVariable> resolveVariables(IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<IJSFVariable> resolveVariables(IFile file, IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<IJSFVariable>resolvedVars = new ArrayList<IJSFVariable>();
 		
 		if (project == null)
@@ -105,6 +109,24 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 				}
 			}
 			return newResolvedVars;
+		} else if (varName != null && (varName.startsWith("\"") || varName.startsWith("'")) && (varName.endsWith("\"") || varName.endsWith("'"))) {
+			IJavaProject jp = EclipseResourceUtil.getJavaProject(file.getProject());
+			if(jp!=null) {
+				try {
+					IType type = jp.findType("java.lang.String");
+					if (type != null) {
+						IMethod m = type.getMethod("toString", new String[0]);
+						if (m != null) {
+							IJSFVariable v = new Variable("String", m);
+							List<IJSFVariable> newResolvedVars = new ArrayList<IJSFVariable>();
+							newResolvedVars.add(v);
+							return newResolvedVars;
+						}
+					}
+				} catch (JavaModelException e) {
+					JSFModelPlugin.getDefault().logError(e);
+				}
+			}
 		}
 		return new ArrayList<IJSFVariable>(); 
 	}
@@ -138,5 +160,32 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 
 	public static interface IJSFVariable extends IVariable {
 		public IMember getSourceMember();
+	}
+
+	public static class Variable implements IJSFVariable {
+
+		private String name;
+		private IMember source;
+
+		public Variable(String name, IMember source) {
+			this.name = name;
+			this.source = source;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.jsf.model.JSFELCompletionEngine.IJSFVariable#getSourceMember()
+		 */
+		public IMember getSourceMember() {
+			return source;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine.IVariable#getName()
+		 */
+		public String getName() {
+			return name;
+		}
 	}
 }

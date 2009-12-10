@@ -105,14 +105,8 @@ public class SeamExpressionResolver {
 		}
 		for (ISeamContextVariable variable : variables) {
 			String n = variable.getName();
-			if(onlyEqualNames) {
-				if (n.equals(name)) {
-					resolvedVariables.add(variable);
-				}
-			} else {
-				if (n.startsWith(name)) {
-					resolvedVariables.add(variable);
-				}
+			if (n.startsWith(name)) {
+				resolvedVariables.add(variable);
 			}
 		}
 		return resolvedVariables;

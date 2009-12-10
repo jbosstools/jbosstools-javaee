@@ -18,7 +18,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
@@ -152,32 +151,5 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 			log(e);
 		}
 		return list;
-	}
-
-	public static class Variable implements IJSFVariable {
-
-		private String name;
-		private IMember source;
-
-		public Variable(String name, IMember source) {
-			this.name = name;
-			this.source = source;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.jboss.tools.jsf.model.JSFELCompletionEngine.IJSFVariable#getSourceMember()
-		 */
-		public IMember getSourceMember() {
-			return source;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine.IVariable#getName()
-		 */
-		public String getName() {
-			return name;
-		}
 	}
 }
