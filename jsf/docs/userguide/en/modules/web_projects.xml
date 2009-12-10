@@ -201,7 +201,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 
 <title>Expanding Tag Library Files</title>
 
-<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Set Expanded</property></emphasis>:</para>
+<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Expand</property></emphasis>:</para>
     
     <figure>
         <title>Expanding Tag Library File</title>
