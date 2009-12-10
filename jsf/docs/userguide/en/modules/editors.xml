@@ -31,16 +31,29 @@
     <section id="editors_features">
 
         <title>Editors Features</title>
-        <para>JBoss Developer Studio has powerful editor features that help you easily navigate
+        <para><property>JBoss Developer Studio</property> has powerful editor features that help you easily navigate
             within your application and make use of content and code assist no matter what project
-            file (jsp, xhtml, xml, css, etc...) you are working on.</para>
-
+            file (<literal>.jsp</literal>, <literal>.xhtml</literal>, <literal>.xml</literal>, <literal>.css</literal>, etc.) you are working on.</para>
+    	<para>The mentioned features are the following:</para>
+    	
+    	<itemizedlist>
+    		<listitem>
+    			<para><link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link></para>
+    		</listitem>
+    		<listitem>
+    			<para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Content Assist</link></para>
+    		</listitem>
+    		<listitem>
+    			<para><link linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">Synchronized Source and Visual Editing</link></para>
+    		</listitem>
+    	</itemizedlist>
+    	
         <section id="OpenOnSelection4Hyperlinknavigation">
 
             <title>OpenOn</title>
 
-            <para><property>OpenOn</property> lets you easily link directly from one resource to
-                another in your project without using the Package Explorer view (project tree). With
+            <para>OpenOn lets you easily link directly from one resource to
+                another in your project without using the <property>Package Explorer</property> view (project tree). With
                 OpenOn, you can simply use <emphasis>
                     <property>F3</property>
                 </emphasis> or <emphasis>
@@ -74,101 +87,135 @@
 
                 <title>XML Files</title>
 
-                <para>Press and hold down the Ctrl key. As you move the mouse cursor over different
+            	<para>Press and hold down the <emphasis><property>Ctrl</property></emphasis> key. As you move the mouse cursor over different
                     file references in the file, they display an underline. When you hover the name
-                    of the file you want to open, click and the file will open in its own editor. In
-                    this example the managed bean NameBean will open.</para>
-                <figure>
-                    <title>NameBean Managed Bean</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_1.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>This is the result of using OpenOn.</para>
-                <figure>
-                    <title>NameBean Java Class</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_2.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>You can also use OpenOn with defined attributes.</para>
-                <figure>
-                    <title>OpenOn With Defined Attributes</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_3.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>You can also open any JSP pages.</para>
-                <figure>
-                    <title>JSP Page OpenOn</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_4.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+                    of the file you want to open, click and the file will open in its own editor.</para>
+                    
+                   <para>Use the OpenOn functionality for the next entries defined in XML file:</para>
+                    
+                    <orderedlist>
+                    	<listitem>
+                    		<para>Managed beans</para>
+                    		<para>In this example the managed bean <emphasis><property>&quot;User&quot;</property></emphasis> will open.</para>
+                    		
+                    		<figure>
+                    			<title>Opening a Managed Bean</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_1.png"/>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    		
+                    		<para>This is the result of using OpenOn.</para>
+                    		
+                    		<figure>
+                    			<title>Opened Managed Bean</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_2.png"/>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    	</listitem>
+                    	
+                    	<listitem>
+                    		<para>Beans properties</para>
+                    		<figure>
+                    			<title>OpenOn for the Bean Property</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_3.png"/>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    	</listitem>
+                    	
+                    	<listitem>
+                    		<para>JSP file references</para>
+                    		<figure>
+                    			<title>OpenOn for JSP Page</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_4.png"/>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    	</listitem>
+                    </orderedlist>
             </section>
+        	
             <section id="JSPPages223">
 
-                <title>JSP Pages</title>
+                <title>JSP/XHTML Pages</title>
 
-                <para><property>OpenOn</property> is also very useful in JSP pages. It will allow
+                <para>OpenOn is also available in JSP and XHTML pages edited in the <property>Visual Page Editor</property>. It will allow
                     you to quickly jump to the reference instead of having to hunt around in the
                     project structure.</para>
 
-                <para>You can easily open the imported property files.</para>
-                <figure>
-                    <title>OpenOn With Imported Property Files</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_5.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>Use OpenOn to open a CSS file used with a JSP page:</para>
-                <figure>
-                    <title>OpenOn With CSS File</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_6.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>Open managed beans:</para>
-                <figure>
-                    <title>OpenOn With Managed Beans</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_7.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>You can use OpenOn to open custom tag libraries:</para>
-                <figure>
-                    <title>OpenOn With custom tags</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_7a.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>For JSP files in a JSF project, you can also easily open the navigation rules
-                    by applying <property>OpenOn</property> to the JSF tag for the navigation
-                    outcome:</para>
-                <figure>
-                    <title>OpenOn With JSF Tag</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_8.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+				
+            	<para>You can use OpenOn for the following JSP/XHTML file entries:</para>
+            	
+            	<orderedlist>
+            		<listitem>
+            			<para>Imported property files</para>
+            			<figure>
+            				<title>OpenOn for Property File Imported to the JSP Page</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_5.png"/>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>CSS files used in a JSP/XHTML page</para>
+            			<figure>
+            				<title>OpenOn With CSS File</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_6.png"/>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Managed beans and their properties</para>
+            			<figure>
+            				<title>OpenOn With Managed Beans</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_7.png"/>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Navigation rules in JSP files</para>
+            			
+            			<para>For JSP files in a JSF project, you can easily open the navigation rules
+            				by applying <property>OpenOn</property> to the JSF tag for the navigation
+            				outcome:</para>
+            			
+            			<figure>
+            				<title>OpenOn With JSF Tag</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_8.png"/>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Custom Facelets tag libraries in XHTML pages</para>           
+            			<para>For details, see <link linkend="openOnForCustomFacelets">&quot;OpenOn for Custom Facelets Tag Libraries&quot;</link>
+            			later in this guide.</para>
+            		</listitem>
+            	</orderedlist>
             </section>
             
             <section id="cssclasses">
@@ -237,6 +284,11 @@
                         <link linkend="JSPPages434">JSP files</link>
                     </para>
                 </listitem>
+            	<listitem>
+            		<para>
+            			<link linkend="ContentAssistForXHTMLPages">XHTML files</link>
+            		</para>
+            	</listitem>
                 <listitem>
                     <para>
                         <link linkend="ContentAssistForRF">RichFaces components</link>
@@ -663,7 +715,23 @@
                 </section>
             </section>
 
-            <section id="AddingDynamicCodeAssistToCustomComponents8745">
+        	<section id="ContentAssistForXHTMLPages">
+				<title>Content Assist for XHTML Pages</title>
+        		
+        		<para>The code completion for the Seam components in a Seam project shows the proposals marked with Seam icon.</para>
+        		<figure>
+        			<title>Content Assist for Seam Components in the XHTML Page</title>
+        			<mediaobject>
+        				<imageobject>
+        					<imagedata fileref="images/visual_page/contentAssistXHTMLpages1.png"/>
+        				</imageobject>
+        			</mediaobject>
+        		</figure>
+        		
+        		<para>If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
+        			<link linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom Facelets Components&quot;</link> later in this guide.</para>
+        	</section>
+        	<section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
@@ -1092,8 +1160,7 @@ two elements with equal id has been used, but should be used only one -->
                      JSF element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
-
-        
+    	
         <section id="pages_styling">
             <title>Pages Styling</title>
 
@@ -1816,38 +1883,160 @@ two elements with equal id has been used, but should be used only one -->
         			</inlinemediaobject>) on the VPE toolbar.</para>
         	</section>
         </section>
+		
+    	<section id="page_preview">
+    		<title>Page Preview</title>
+    		
+    		<para><property>VPE</property> comes with design-time preview feature which is available
+    			for:</para>
+    		
+    		<itemizedlist>
+    			<listitem>
+    				<para>Struts Pages</para>
+    			</listitem>
+    			<listitem>
+    				<para>JSF Pages</para>
+    			</listitem>
+    		</itemizedlist>
+    		
+    		<para><property>Preview view</property> is read-only, it shows how the page will look
+    			like in a browser.</para>
+    		<figure>
+    			<title>Preview View</title>
+    			<mediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/visual_page_16.png"/>
+    				</imageobject>
+    			</mediaobject>
+    		</figure>
+    		
+    		<!--para>You can even
+    			attach your stylesheet to the preview.</para-->
+    	</section>
+    	
+		<section id="custom_facelets_support">
+			<title>Support for Custom Facelets Components</title>
+			
+			<para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of <property>JBoss Tools</property>) supports
+				custom Facelets tag libraries both declared in the <literal>web.xml</literal> file 
+				(for details, see 
+				<ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the JAR file.</para>
+			
+				<tip>
+					<title>Tip:</title>
+					<para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to put <literal>*.taglib.xml</literal> in right place:
+						<literal>[filename].jar/META-INF/*.taglib.xml</literal></para>
+				</tip>
+			
+			<para><property>Visual Page Editor</property> recognizes the tags from the custom Facelets tag library and correctly
+			renders them both in source and visual view of the editor.</para>
+			
+			<figure>
+				<title>Custom Facelets Tags in the VPE</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/visual_page/customFacelets1.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			
+			<para>While editing an XHTML file that uses a custom Facelets components
+				you can always make use of the following editor&apos;s features:</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom Facelets Components</link></para>
+				</listitem>
+				<listitem>
+					<para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets Components</link></para>
+				</listitem>
+			</itemizedlist>
+		
+			<section id="contentAssistForCustomFacelets">
+				<title>Content Assist for Custom Facelets Components</title>
+				<para>Call the content assist as usual by using <emphasis><property>Ctrl+Space</property></emphasis>
+					when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.</para>
+				
+				<figure>
+					<title>Content Assist for Custom Facelets Tags</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/visual_page/customFacelets2.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</section>
+			
+			<section id="openOnForCustomFacelets">
+				<title>OpenOn for Custom Facelets Components</title>
+				
+				<para>While developing using Facelets you can make use of:</para>
+				<itemizedlist>
+					<listitem><para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom Facelets Components</link></para></listitem>
+					<listitem><para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para></listitem>
+				</itemizedlist>
+				
+				<section id="openOnInXHTML">
+					<title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
+					<para>OpenOn functionality in XHTML files is available in two views of the <property>Visual Page Editor</property>:</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>Source view</para>
+							
+							<para><emphasis><property>Ctrl+Click</property></emphasis> on the namespace will open the Facelets tag file
+								in a separate window.</para>
+							
+							<figure>
+								<title>Opening a Custom Facelets Tag File</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/visual_page/customFacelets3.png"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							
+							<para><emphasis><property>Ctrl+Click</property></emphasis> on any custom Facelets tag declared on the page will do the same.
+								The selected tag will be highlighted in the opened file.</para>
+							
+							<figure>
+								<title>Opening a Custom Facelets Tag File</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/visual_page/customFacelets4.png"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+						</listitem>
+						
+						<listitem>
+							<para>Visual view</para>
+							
+							<para>In the visual view of the <property>VPE</property>, double-click a custom component and the Facelets tag file 
+								(<literal>*.taglib.xml</literal>) where it is declared will be opened.</para>
+						</listitem>
+					</orderedlist>
+				</section>
+				
+				<section id="openOnInCustomFaceletsTaglibs">
+					<title>OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</title>
+					
+					<para><emphasis><property>Ctrl+Click</property></emphasis> on the path to source of the Facelets tag will
+					open the component in its own editor.</para>
+					<figure>
+						<title>Opening a Custom Facelets Component</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="images/visual_page/customFacelets5.png"/>
+							</imageobject>
+						</mediaobject>
+					</figure>
+				</section>
 
-        <section id="page_preview">
-            <title>Page Preview</title>
-
-            <para><property>VPE</property> comes with design-time preview feature which is available
-                for:</para>
-
-            <itemizedlist>
-                <listitem>
-                    <para>Struts Pages</para>
-                </listitem>
-                <listitem>
-                    <para>JSF Pages</para>
-                </listitem>
-            </itemizedlist>
-
-            <para><property>Preview view</property> is read-only, it shows how the page will look
-                like in a browser.</para>
-            <figure>
-                <title>Preview View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_16.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <!--para>You can even
-                    attach your stylesheet to the preview.</para-->
-        </section>
-
-        <section id="SetupnotesforLinu895x">
+			</section>
+		</section>
+    	
+    	<section id="SetupnotesforLinu895x">
 
             <title>Setup notes for Linux</title>
 
