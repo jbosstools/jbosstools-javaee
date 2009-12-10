@@ -6,6 +6,7 @@ Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.jsf;singleton:=true
 Bundle-Localization: plugin
 Export-Package: org.jboss.tools.jsf,
+ org.jboss.tools.jsf.el.refactoring,
  org.jboss.tools.jsf.facelet.model,
  org.jboss.tools.jsf.jsf2.model,
  org.jboss.tools.jsf.messages,

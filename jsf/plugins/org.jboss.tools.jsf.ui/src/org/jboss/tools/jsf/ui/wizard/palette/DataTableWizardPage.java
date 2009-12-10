@@ -43,7 +43,7 @@ import org.jboss.tools.common.model.util.AbstractTableHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
-import org.jboss.tools.jsf.ui.Messages;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.attribute.adapter.JSFKnowledgeBaseAdapter;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
@@ -200,7 +200,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		generalTabContent.setLayoutData(data);
 
 		Label properties = new Label(generalTabContent, SWT.NONE);
-		properties.setText(Messages.DataTableWizardPage_Properties);
+		properties.setText(JsfUIMessages.DataTableWizardPage_Properties);
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		properties.setLayoutData(data);
@@ -223,11 +223,11 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 			try {
 				boolean b1 = value.matches("[#\\$]\\{[^#\\$\\}\\{]*\\}"); //$NON-NLS-1$
 				if(!b1) {
-					throw new ValidationException(Messages.DataTableWizardPage_ValueMustBeSetWithEL);
+					throw new ValidationException(JsfUIMessages.DataTableWizardPage_ValueMustBeSetWithEL);
 				}
 				boolean b2 = value.matches("[#\\$]\\{[^#\\$\\}\\{\\.]+(\\.[^#\\$\\}\\{\\.]+)*\\}"); //$NON-NLS-1$
 				if(!b2) {
-					throw new ValidationException(Messages.DataTableWizardPage_ValueELNotCorrect);
+					throw new ValidationException(JsfUIMessages.DataTableWizardPage_ValueELNotCorrect);
 				}
 			} catch (PatternSyntaxException e) {
 				JsfUiPlugin.getPluginLog().logError(e);
@@ -333,7 +333,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 
 			p.put("data", vs); //$NON-NLS-1$
 			SelectPropertiesWizard w = new SelectPropertiesWizard();
-			p.setProperty("title", Messages.DataTableWizardPage_BeanProperties);			 //$NON-NLS-1$
+			p.setProperty("title", JsfUIMessages.DataTableWizardPage_BeanProperties);			 //$NON-NLS-1$
 			w.setObject(p);			
 			int r = w.execute();
 			if (r != 0)
@@ -451,17 +451,17 @@ class SelectPropertiesWizard extends AbstractQueryWizard {
 class SelectPropertiesWizardView extends AbstractListWizardView {
 
 	protected String[] getActions() {
-		return new String[] { Messages.DataTableWizardPage_SelectAll, Messages.DataTableWizardPage_DeselectAll };
+		return new String[] { JsfUIMessages.DataTableWizardPage_SelectAll, JsfUIMessages.DataTableWizardPage_DeselectAll };
 	}
 
 	protected void internalAction(String command) {
-		if (command.equals(Messages.DataTableWizardPage_SelectAll)) {
+		if (command.equals(JsfUIMessages.DataTableWizardPage_SelectAll)) {
 			for (int i = 0; i < boxes.length; i++)
 				if ("yes".equals(vs[i][1])) { //$NON-NLS-1$
 					boxes[i].setSelection(true);
 					apply(i);
 				}
-		} else if (command.equals(Messages.DataTableWizardPage_DeselectAll)) {
+		} else if (command.equals(JsfUIMessages.DataTableWizardPage_DeselectAll)) {
 			for (int i = 0; i < boxes.length; i++)
 				if ("no".equals(vs[i][1])) { //$NON-NLS-1$
 					boxes[i].setSelection(false);

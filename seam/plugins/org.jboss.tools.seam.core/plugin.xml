@@ -503,7 +503,7 @@
    </extension>
    
    <extension
-         point="org.jboss.tools.common.el.core.elProjectSet">
+         point="org.jboss.tools.jsf.elProjectSet">
          <project-set id="seam.searcher" projectset-class="org.jboss.tools.seam.internal.core.refactoring.ELProjectSet" />
    </extension>
 

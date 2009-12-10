@@ -14,12 +14,12 @@ import org.jboss.tools.common.model.ui.*;
 import org.jboss.tools.common.model.ui.attribute.adapter.DefaultValueAdapter;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.common.meta.action.XActionInvoker;
-import org.jboss.tools.jsf.ui.Messages;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 
 public class JSFManagedPropertyNameAdapter extends DefaultValueAdapter implements IActionHelper, IActionHelperExtension {
 
 	public String getCommand() {
-		return Messages.JSFManagedPropertyNameAdapter_Rename;
+		return JsfUIMessages.JSFManagedPropertyNameAdapter_Rename;
 	}
 
 	public String invoke(Control control) {

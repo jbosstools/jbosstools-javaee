@@ -34,7 +34,7 @@ import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.figures.GEFLabel;
 import org.jboss.tools.common.gef.figures.xpl.CustomLocator;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
-import org.jboss.tools.jsf.ui.Messages;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.editor.JSFEditor;
 import org.jboss.tools.jsf.ui.editor.figures.ConnectionFigure;
 import org.jboss.tools.jsf.ui.editor.figures.FigureFactory;
@@ -180,7 +180,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 		if (acc == null)
 			acc = new AccessibleGraphicalEditPart() {
 				public void getName(AccessibleEvent e) {
-					e.result = Messages.LinkEditPart_Link;
+					e.result = JsfUIMessages.LinkEditPart_Link;
 				}
 			};
 		return acc;

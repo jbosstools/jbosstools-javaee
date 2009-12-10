@@ -23,7 +23,7 @@ import org.eclipse.gef.tools.DeselectAllTracker;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 
-import org.jboss.tools.jsf.ui.Messages;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.editor.figures.DiagramFigure;
 import org.jboss.tools.jsf.ui.editor.model.IGroup;
 import org.jboss.tools.jsf.ui.editor.model.IJSFModel;
@@ -144,7 +144,7 @@ public class JSFDiagramEditPart extends JSFContainerEditPart implements
 	protected AccessibleEditPart createAccessible() {
 		return new AccessibleGraphicalEditPart() {
 			public void getName(AccessibleEvent event) {
-				event.result = Messages.JSFDiagramEditPart_JSFDiagram;
+				event.result = JsfUIMessages.JSFDiagramEditPart_JSFDiagram;
 			}
 		};
 	}

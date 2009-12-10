@@ -16,7 +16,7 @@ import org.jboss.tools.common.model.ui.*;
 import org.jboss.tools.common.model.ui.attribute.adapter.DefaultValueAdapter;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.common.meta.key.WizardKeys;
-import org.jboss.tools.jsf.ui.Messages;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.jsp.contentassist.JSPDialogContentProposalProvider;
 import org.jboss.tools.jst.jsp.outline.*;
 
@@ -28,7 +28,7 @@ public class JSFKnowledgeBaseAdapter extends DefaultValueAdapter implements IAct
 	}
 
 	public String getCommand() {
-		return Messages.JSFKnowledgeBaseAdapter_Browse;
+		return JsfUIMessages.JSFKnowledgeBaseAdapter_Browse;
 	}
 
 	public String invoke(Control control) {
@@ -50,7 +50,7 @@ public class JSFKnowledgeBaseAdapter extends DefaultValueAdapter implements IAct
 		String query = "/" + nodeName + "@" + attrName; //$NON-NLS-1$ //$NON-NLS-2$
 		context.setProperty("query", query); //$NON-NLS-1$
 		context.setProperty("help", query); //$NON-NLS-1$
-		context.setProperty("title", MessageFormat.format(Messages.JSFKnowledgeBaseAdapter_Edit, WizardKeys.toDisplayName(attrName))); //$NON-NLS-1$
+		context.setProperty("title", MessageFormat.format(JsfUIMessages.JSFKnowledgeBaseAdapter_Edit, WizardKeys.toDisplayName(attrName))); //$NON-NLS-1$
 		context.setProperty("subtitle", "<" + context.getProperty("nodeName") + ">"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		if(getValue() instanceof String) context.put("value", getValue()); //$NON-NLS-1$
 		JSPTreeDialog dialog = new JSPTreeDialog();

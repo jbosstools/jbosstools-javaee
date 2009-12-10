@@ -12,6 +12,8 @@
 package org.jboss.tools.jsf.ui.test;
 
 import org.jboss.tools.jsf.ui.preferences.JSFCapabilitiesPreferencesPage;
+import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -31,6 +33,10 @@ public class JsfUiAllTests {
 		suite.addTestSuite(PropertiesNewWizardTest.class);
 		suite.addTestSuite(XhtmlFileNewWizardTest.class);
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELReferencesRenameTest.class),
+				"org.jboss.tools.jsf.ui.test",
+				new String[]{"projects/testJSFProject",},
+				new String[]{"testJSFProject"}));
 		
 		return new TestWizardsProject(suite);
 	}
