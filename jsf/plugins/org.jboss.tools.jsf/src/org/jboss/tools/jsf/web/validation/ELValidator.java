@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.web.validation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -27,13 +26,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
-import org.eclipse.jdt.ui.text.IJavaPartitions;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.Region;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -44,11 +36,8 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
-import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
-import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
@@ -65,15 +54,12 @@ import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jst.web.kb.IKbProject;
-import org.jboss.tools.jst.web.kb.IXmlContext;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
-import org.jboss.tools.jst.web.kb.el.KbELReference;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
@@ -94,7 +80,6 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	private ELResolver[] resolvers;
 	protected ELParserFactory mainFactory;
 
-	private List<Var> varListForCurentValidatedNode = new ArrayList<Var>();
 	private IProject currentProject;
 	private IResource[] currentSources;
 	private IContainer webRootFolder;
@@ -262,18 +247,18 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		}
 		removeAllMessagesFromResource(file);
 		displaySubtask(JSFValidationMessages.VALIDATING_EL_FILE, new String[]{file.getProject().getName(), file.getName()});
-		String ext = file.getFileExtension();
-		String content = null;
-		try {
-			content = FileUtil.readStream(file);
-		} catch (CoreException e) {
-			JSFModelPlugin.getDefault().logError(e);
-		}
-
-		if(ext.equalsIgnoreCase(JAVA_EXT)) {
-			validateJava(file, content);
-		} else {
-			validateDom(file, content);
+		ELContext context = PageContextFactory.createPageContext(file);
+		if(context!=null) {
+			ELReference[] references = context.getELReferences();
+			for (int i = 0; i < references.length; i++) {
+				if(!references[i].getSyntaxErrors().isEmpty()) {
+					for (SyntaxError error: references[i].getSyntaxErrors()) {
+						IMarker marker = addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, references[i].getStartPosition() + error.getPosition(), context.getResource());
+						references[i].addMarker(marker);
+					}
+				}
+				validateEL(references[i]);
+			}
 		}
 	}
 
@@ -281,91 +266,6 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		el.deleteMarkers();
 		for (ELExpression expresion : el.getEl()) {
 			validateELExpression(el, expresion);
-		}
-	}
-
-	private void validateJava(IFile file, String content) {
-		try {
-			FastJavaPartitionScanner scaner = new FastJavaPartitionScanner();
-			Document document = new Document(content);
-			scaner.setRange(document, 0, document.getLength());
-			IToken token = scaner.nextToken();
-			while(token!=null && token!=Token.EOF && !reporter.isCancelled()) {
-				if(IJavaPartitions.JAVA_STRING.equals(token.getData())) {
-					int length = scaner.getTokenLength();
-					int offset = scaner.getTokenOffset();
-					String value = document.get(offset, length);
-					if(value.indexOf('{')>-1) {
-						validateString(file, value, offset);
-					}
-				}
-				token = scaner.nextToken();
-			}
-		} catch (BadLocationException e) {
-			JSFModelPlugin.getDefault().logError(JSFValidationMessages.EL_VALIDATOR_ERROR_VALIDATING, e);
-		}
-	}
-
-	private void validateDom(IFile file, String content) {
-		ELContext context = PageContextFactory.createPageContext(file);
-		if(context==null) {
-			return;
-		}
-		if(context instanceof IXmlContext) {
-			IXmlContext xmlContext = (IXmlContext)context;
-			ELReference[] references = xmlContext.getELReferences();
-			for (int i = 0; i < references.length; i++) {
-				if(!references[i].getSyntaxErrors().isEmpty()) {
-					for (SyntaxError error: references[i].getSyntaxErrors()) {
-						IMarker marker = addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, references[i].getStartPosition() + error.getPosition(), file);
-						references[i].addMarker(marker);
-					}
-				}
-
-				validateEL(references[i]);
-			}
-		}
-		return;
-	}
-
-	/**
-	 * @param offset - offset of string in file
-	 * @param length - length of string in file
-	 */
-	private void validateString(IFile file, String string, int offset) {
-		int startEl = string.indexOf("#{"); //$NON-NLS-1$
-		if(startEl==-1) {
-			startEl = string.indexOf("${"); //$NON-NLS-1$
-		}
-		if(startEl>-1) {
-			ELParser parser = ELParserUtil.getJbossFactory().createParser();
-			ELModel model = parser.parse(string);
-			List<ELInstance> is = model.getInstances();
-
-			ELReference elReference = new KbELReference();
-			elReference.setResource(file);
-			elReference.setEl(is);
-			elReference.setLength(string.length());
-			elReference.setStartPosition(offset);
-
-			List<SyntaxError> errors = model.getSyntaxErrors();
-			if(!errors.isEmpty()) {
-				for (SyntaxError error: errors) {
-					IMarker marker = addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, offset + error.getPosition(), file);
-					elReference.addMarker(marker);
-				}
-			}
-
-			for (ELInstance i : is) {
-				if (reporter.isCancelled()) {
-					return;
-				}
-				if(!i.getErrors().isEmpty()) {
-					//Already reported syntax problem in this piece of EL.
-					continue;
-				}
-				validateELExpression(elReference, i.getExpression());
-			}
 		}
 	}
 
@@ -398,7 +298,6 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			}
 			int maxNumberOfResolvedSegments = -1;
 			List<Var> vars = null;
-			Map<Region, List<Var>> varMap = null;
 			ELContextImpl c = null;
 			if(!validateVars && context instanceof ELContextImpl) {
 				c = (ELContextImpl)context;
