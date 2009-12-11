@@ -22,6 +22,7 @@ import org.w3c.dom.Node;
 
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
@@ -82,11 +83,14 @@ public class JsfJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			if(project==null) {
 				return false;
 			}
-			for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
-				if (project.getNature(JSF_PROJECT_NATURES[i]) != null) 
-					return true;
+			if(EclipseResourceUtil.getModelNature(project) != null) {
+				for (int i = 0; i < JSF_PROJECT_NATURES.length; i++) {
+					if (project.getNature(JSF_PROJECT_NATURES[i]) != null)
+						return true;
+				}
+				return false;
 			}
-			return false;
+			return true;
 		} catch (CoreException x) {
 			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return false;
