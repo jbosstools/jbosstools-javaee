@@ -973,7 +973,7 @@
             <para> You can insert a tag/component from the palette into either the Source or the
                 Visual part by calling a context menu and selecting <property>Insert
                     around</property>, <property>Insert before</property>, <property>Insert
-                    after</property> or <property>Replace With</property>, pointing to
+                    after</property>, <property>Replace With</property> or <property>Insert Into</property> pointing to
                     <property>From Palette</property>, picking the type of the tag and finally
                 choosing the tag you want to insert. </para>
 
