@@ -51,6 +51,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
+	Set<IBean> namedBeans = new HashSet<IBean>();
 	
 
 	public CDIProject() {}
@@ -89,7 +90,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(beans == null || beans.isEmpty()) {
 			return result;
 		}
-		result.addAll(beans);
+		synchronized (beans) {
+			result.addAll(beans);
+		}
 		if(result.size() == 1 || !attemptToResolveAmbiguousNames) {
 			return result;
 		}
@@ -306,8 +309,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public void rebuildBeans() {
-		beansByPath.clear();
-		beansByName.clear();
+		synchronized (beansByPath) {
+			beansByPath.clear();
+		}
+		synchronized (beansByName) {
+			beansByName.clear();
+		}
 		List<TypeDefinition> typeDefinitions = n.getDefinitions().getTypeDefinitions();
 		for (TypeDefinition typeDefinition : typeDefinitions) {
 			ClassBean bean = null;
@@ -333,17 +340,28 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			Set<IBean> bs = beansByName.get(name);
 			if(bs == null) {
 				bs = new HashSet<IBean>();
-				beansByName.put(name, bs);				
+				synchronized (beansByName) {
+					beansByName.put(name, bs);				
+				}
 			}
-			bs.add(bean);
+			synchronized (bs) {
+				bs.add(bean);
+			}
+			synchronized (namedBeans) {
+				namedBeans.add(bean);
+			}
 		}
 		IPath path = bean.getSourcePath();
 		Set<IBean> bs = beansByPath.get(path);
 		if(bs == null) {
 			bs = new HashSet<IBean>();
-			beansByPath.put(path, bs);
+			synchronized (beansByPath) {
+				beansByPath.put(path, bs);
+			}
 		}
-		bs.add(bean);
+		synchronized (bs) {
+			bs.add(bean);
+		}
 	}
 
 	/*
@@ -351,7 +369,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getNamedBeans()
 	 */
 	public Set<IBean> getNamedBeans() {
-		// TODO
-		return new HashSet<IBean>();
+		Set<IBean> result = new HashSet<IBean>();
+		synchronized (namedBeans) {
+			result.addAll(namedBeans);
+		}
+		return result;
 	}
+
 }

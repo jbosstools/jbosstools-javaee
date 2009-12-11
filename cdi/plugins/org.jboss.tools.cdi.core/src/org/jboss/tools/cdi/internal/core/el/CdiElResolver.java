@@ -101,6 +101,8 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 						beans.add(bean);
 					}
 				}
+				resolvedBeans.clear();
+				resolvedBeans.addAll(beans);
 			}
 		}
 		if (resolvedBeans != null && !resolvedBeans.isEmpty()) {
