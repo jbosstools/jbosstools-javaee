@@ -9,14 +9,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.model.XModelObject;
 
 public class FileSet {
-	Set<IPath> allpaths = new HashSet<IPath>();
-	Set<IPath> nonmodel = new HashSet<IPath>();
-	Map<IPath, Set<IType>> annotations = new HashMap<IPath, Set<IType>>();
-	Map<IPath, Set<IType>> interfaces = new HashMap<IPath, Set<IType>>();
-	Map<IPath, Set<IType>> classes = new HashMap<IPath, Set<IType>>();
-	Map<IPath, Object> beanXMLs = new HashMap<IPath, Object>();
+	private Set<IPath> allpaths = new HashSet<IPath>();
+	private Set<IPath> nonmodel = new HashSet<IPath>();
+	private Map<IPath, Set<IType>> annotations = new HashMap<IPath, Set<IType>>();
+	private Map<IPath, Set<IType>> interfaces = new HashMap<IPath, Set<IType>>();
+	private Map<IPath, Set<IType>> classes = new HashMap<IPath, Set<IType>>();
+	private Map<IPath, XModelObject> beanXMLs = new HashMap<IPath, XModelObject>();
 
 	public FileSet() {}
 
@@ -77,11 +78,11 @@ public class FileSet {
 		return classes;
 	}
 
-	public Object getBeanXML(IPath f) {
+	public XModelObject getBeanXML(IPath f) {
 		return beanXMLs.get(f);
 	}
 
-	public void setBeanXML(IPath f, Object o) {
+	public void setBeanXML(IPath f, XModelObject o) {
 		beanXMLs.put(f, o);
 	}
 

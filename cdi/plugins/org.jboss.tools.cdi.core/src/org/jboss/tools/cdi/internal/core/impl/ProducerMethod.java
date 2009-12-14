@@ -75,11 +75,11 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public String getName() {
-		String name = getMethod().getElementName();
 		AnnotationDeclaration named = findNamedAnnotation();
-		if(named == null) {
-			return name;
-		}
+		if(named == null) return null;
+
+		String name = getMethod().getElementName();
+
 		IAnnotation a = named.getDeclaration();
 		try {
 			IMemberValuePair[] vs = a.getMemberValuePairs();

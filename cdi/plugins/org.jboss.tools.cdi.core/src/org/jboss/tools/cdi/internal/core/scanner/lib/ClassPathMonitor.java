@@ -12,8 +12,10 @@ package org.jboss.tools.cdi.internal.core.scanner.lib;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Path;
@@ -39,8 +41,8 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		//TODO
 	}
 
-	public List<String> process() {
-		List<String> newJars = new ArrayList<String>();
+	public Map<String, XModelObject> process() {
+		Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
 		Iterator<String> it = processedPaths.iterator();
 		while(it.hasNext()) {
 			String p = it.next();
@@ -60,7 +62,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			if(o == null) continue;
 			XModelObject b = o.getChildByPath("META-INF/beans.xml");
 			if(b == null) continue;
-			newJars.add(p);
+			newJars.put(p, b);
 		}
 		
 		return newJars;

@@ -69,10 +69,10 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public String getName() {
+		AnnotationDeclaration named = findNamedAnnotation();
+		if(named == null) return null;
+
 		String name = getField().getElementName();
-		if(named == null) {
-			return name;
-		}
 		IAnnotation a = named.getDeclaration();
 		try {
 			IMemberValuePair[] vs = a.getMemberValuePairs();

@@ -32,13 +32,15 @@ public class DefinitionContext {
 	protected CDICoreNature project;
 	protected IJavaProject javaProject;
 
-	Set<String> types = new HashSet<String>();
-	Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
-	Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
-	Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
+	private Set<String> types = new HashSet<String>();
+	private Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
+	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
+	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
 
-	DefinitionContext workingCopy;
-	DefinitionContext original;
+	private Map<IPath, BeansXMLDefinition> beanXMLs = new HashMap<IPath, BeansXMLDefinition>();
+
+	private DefinitionContext workingCopy;
+	private DefinitionContext original;
 
 	public DefinitionContext() {}
 
@@ -58,6 +60,7 @@ public class DefinitionContext {
 					copy.resources.put(p, s1);
 				}
 			}
+			copy.beanXMLs.putAll(beanXMLs);
 		}
 		
 		return copy;
@@ -99,6 +102,12 @@ public class DefinitionContext {
 		}
 	}
 
+	public void addBeanXML(IPath path, BeansXMLDefinition def) {
+		synchronized (beanXMLs) {
+			beanXMLs.put(path, def);
+		}
+	}
+
 	public void clean() {
 		resources.clear();
 		types.clear();
@@ -108,12 +117,14 @@ public class DefinitionContext {
 		synchronized (annotations) {
 			annotations.clear();
 		}
+		synchronized (beanXMLs) {
+			beanXMLs.clear();
+		}
 	}
 
 	public void clean(IPath path) {
 		Set<String> ts = resources.remove(path);
-		if(ts == null) return;
-		for (String t: ts) {
+		if(ts != null) for (String t: ts) {
 			types.remove(t);
 			synchronized (typeDefinitions) {
 				typeDefinitions.remove(t);
@@ -121,6 +132,9 @@ public class DefinitionContext {
 			synchronized (annotations) {
 				annotations.remove(t);
 			}
+		}
+		synchronized (beanXMLs) {
+			beanXMLs.remove(path);
 		}
 	}
 
@@ -225,6 +239,14 @@ public class DefinitionContext {
 		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
 		synchronized (typeDefinitions) {
 			result.addAll(typeDefinitions.values());
+		}
+		return result;
+	}
+
+	public Set<BeansXMLDefinition> getBeansXMLDefinitions() {
+		Set<BeansXMLDefinition> result = new HashSet<BeansXMLDefinition>();
+		synchronized (beanXMLs) {
+			result.addAll(beanXMLs.values());
 		}
 		return result;
 	}

@@ -40,6 +40,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -134,7 +135,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
 
 			if(n.getClassPath().update()) {
-				List<String> newJars = n.getClassPath().process();
+				Map<String, XModelObject> newJars = n.getClassPath().process();
 				buildJars(newJars);
 				
 				n.getClassPath().validateProjectDependencies();
@@ -193,12 +194,12 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		builderDelegate.build(fs, getCDICoreNature());
 	}
 
-	protected void buildJars(List<String> newJars) throws CoreException {
+	protected void buildJars(Map<String, XModelObject> newJars) throws CoreException {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
 		FileSet fileSet = new FileSet();
 		
-		for (String jar: newJars) {
+		for (String jar: newJars.keySet()) {
 			Path path = new Path(jar);
 			IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
 			if (root == null || !root.exists())
@@ -213,7 +214,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					}
 				}
 			}
-			//TODO add beans.xml object
+			XModelObject beansXML = newJars.get(jar);
+			fileSet.setBeanXML(path, beansXML);
 		}
 		builderDelegate.build(fileSet, getCDICoreNature());
 	}
@@ -304,7 +306,13 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				}
 				if(webinf != null && webinf.isPrefixOf(path)) {
 					if(f.getName().equals("beans.xml")) {
-						fileSet.setBeanXML(f.getFullPath(), f); //file
+						XModelObject beansXML = EclipseResourceUtil.getObjectByResource(f);
+						if(beansXML == null) {
+							beansXML = EclipseResourceUtil.createObjectForResource(f);
+						}
+						if(beansXML != null) {
+							fileSet.setBeanXML(f.getFullPath(), beansXML);
+						}
 					}
 				}
 			}

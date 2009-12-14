@@ -16,8 +16,10 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIBuilderDelegate;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.model.XModelObject;
 
 public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 
@@ -60,6 +62,17 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 				def.setType(type, context);
 				context.addType(f, type.getFullyQualifiedName(), def);
 			}
+		}
+
+		for (IPath f: ps) {
+			XModelObject beansXML = fileSet.getBeanXML(f);
+			if(beansXML == null) continue;
+			
+			BeansXMLDefinition def = new BeansXMLDefinition();
+			def.setPath(f);
+			def.setBeansXML(beansXML);
+			
+			context.addBeanXML(f, def);			
 		}
 		
 	}

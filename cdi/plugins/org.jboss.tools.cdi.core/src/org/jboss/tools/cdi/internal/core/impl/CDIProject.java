@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -35,6 +36,7 @@ import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -46,12 +48,17 @@ import org.jboss.tools.common.text.INodeReference;
 public class CDIProject extends CDIElement implements ICDIProject {
 	CDICoreNature n;
 
-	Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
-	Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
+	private Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
+	private Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
 
-	Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
-	Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
-	Set<IBean> namedBeans = new HashSet<IBean>();
+	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
+	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
+	private Set<IBean> namedBeans = new HashSet<IBean>();
+
+	private Set<INodeReference> interceptors = new HashSet<INodeReference>();
+	private Set<INodeReference> decorators = new HashSet<INodeReference>();
+	private Set<INodeReference> stereotypeAlternatives = new HashSet<INodeReference>();
+	private Set<INodeReference> typeAlternatives = new HashSet<INodeReference>();
 	
 
 	public CDIProject() {}
@@ -65,22 +72,54 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (typeAlternatives) {
+			result.addAll(typeAlternatives);
+		}
+		return result;
 	}
 
 	public List<INodeReference> getAlternativeStereotypes() {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (stereotypeAlternatives) {
+			result.addAll(stereotypeAlternatives);
+		}
+		return result;
 	}
 
 	public List<INodeReference> getAlternatives(String fullQualifiedTypeName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (typeAlternatives) {
+			for (INodeReference r: typeAlternatives) {
+				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
+			}
+		}
+		synchronized (stereotypeAlternatives) {
+			for (INodeReference r: stereotypeAlternatives) {
+				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
+			}
+		}
+		return result;
 	}
 
 	public IClassBean getBeanClass(IType type) {
-		// TODO Auto-generated method stub
+		IPath path = type.getPath();
+		if(path != null) {
+			Set<IBean> bs = null;
+			synchronized (beansByPath) {
+				bs = beansByPath.get(path);
+			}
+			if(bs != null) synchronized(bs) {
+				for (IBean b: bs) {
+					if(b instanceof IClassBean) {
+						IClassBean result = (IClassBean)b;
+						if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
+							return result;
+						}
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -124,24 +163,40 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public List<INodeReference> getDecoratorClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (decorators) {
+			result.addAll(decorators);
+		}
+		return result;
 	}
 
 	public List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (decorators) {
+			for (INodeReference r: decorators) {
+				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
+			}
+		}
+		return result;
 	}
 
 	public List<INodeReference> getInterceptorClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (interceptors) {
+			result.addAll(interceptors);
+		}
+		return result;
 	}
 
 	public List<INodeReference> getInterceptorClasses(
 			String fullQualifiedTypeName) {
-		// TODO Auto-generated method stub
-		return null;
+		List<INodeReference> result = new ArrayList<INodeReference>();
+		synchronized (interceptors) {
+			for (INodeReference r: interceptors) {
+				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
+			}
+		}
+		return result;
 	}
 
 	public Set<IType> getQualifierTypes() {
@@ -246,8 +301,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IBean> resolve(Set<IBean> beans) {
+		if(beans.size() <= 1) {
+			return beans;
+		}
+		Set<IBean> result = new HashSet<IBean>();
+		for (IBean bean: beans) {
+			if(bean.isAlternative()) {
+				IType type = bean.getBeanClass(); // ?
+			}
+		}
 		// TODO 
-		return beans;
+		return result;
 	}
 
 	public Set<IObserverMethod> resolveObserverMethods(
@@ -279,9 +343,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public void update() {
 		rebuildAnnotationTypes();
 		rebuildBeans();
+		rebuildXML();
 	}
 
-	public void rebuildAnnotationTypes() {
+	void rebuildAnnotationTypes() {
 		stereotypes.clear();
 		interceptorBindings.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
@@ -308,7 +373,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	}
 
-	public void rebuildBeans() {
+	void rebuildBeans() {
 		synchronized (beansByPath) {
 			beansByPath.clear();
 		}
@@ -361,6 +426,36 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		synchronized (bs) {
 			bs.add(bean);
+		}
+	}
+
+	void rebuildXML() {
+		synchronized (interceptors) {
+			interceptors.clear();
+		}
+		synchronized (decorators) {
+			decorators.clear();
+		}
+		synchronized (stereotypeAlternatives) {
+			stereotypeAlternatives.clear();
+		}
+		synchronized (typeAlternatives) {
+			typeAlternatives.clear();
+		}
+		Set<BeansXMLDefinition> beanXMLs = n.getDefinitions().getBeansXMLDefinitions();
+		for (BeansXMLDefinition b: beanXMLs) {
+			synchronized (interceptors) {
+				interceptors.addAll(b.getInterceptors());
+			}
+			synchronized (decorators) {
+				decorators.addAll(b.getDecorators());
+			}
+			synchronized (stereotypeAlternatives) {
+				stereotypeAlternatives.addAll(b.getStereotypeAlternatives());
+			}
+			synchronized (typeAlternatives) {
+				typeAlternatives.addAll(b.getTypeAlternatives());
+			}
 		}
 	}
 
