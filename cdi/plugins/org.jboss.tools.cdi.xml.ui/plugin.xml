@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">
+      <xmlEditor 
+            class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
+            contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
+            entities="FileCDIBeans" 
+            icon="$nl$/images/xstudio/editors/seam-components.gif" 
+            name="%editors.spring-beans.name">
+      </xmlEditor>
+   </extension>
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.cdi.xml.ui.editor.form.CDIXMLFormLayoutData"
+			class="org.jboss.tools.cdi.xml.ui.editor.form.CDIXMLFormLayoutData"/>
+	</extension>
+
+
+</plugin>
