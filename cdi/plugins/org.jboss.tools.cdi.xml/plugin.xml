@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.jboss.tools.common.model.meta">
+      <meta path="meta/cdi-beans.meta"/>
+   </extension>
+
+   <extension point="org.jboss.tools.common.model.keys">
+      <keys path="help/keys-cdi.properties"/>
+      <keys path="help/keys-cdi-attrs.properties"/>
+      <keys path="help/keys-cdi-menu.properties"/>
+   </extension>
+
+	<extension point="org.jboss.tools.common.model.classes">
+		<xclass id="org.jboss.tools.cdi.xml.beans.model.FileCDIBeansImpl"
+			class="org.jboss.tools.cdi.xml.beans.model.FileCDIBeansImpl"/>
+		<xclass id="org.jboss.tools.cdi.xml.beans.model.CDIBeansFileLoader"
+			class="org.jboss.tools.cdi.xml.beans.model.CDIBeansFileLoader"/>
+		<xclass id="org.jboss.tools.cdi.xml.beans.model.CDIBeansEntityRecognizer"
+			class="org.jboss.tools.cdi.xml.beans.model.CDIBeansEntityRecognizer"/>
+
+	</extension>
+
+ <extension point="org.eclipse.wst.xml.core.catalogContributions">
+      <catalogContribution id="default">
+
+      </catalogContribution>
+   </extension>
+
+
+</plugin>
