@@ -67,6 +67,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
@@ -110,6 +111,7 @@ public class JsfAllTests {
 		// $JUnit-BEGIN$
 		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);
 		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
+		suite.addTestSuite(OpenOnJsf20Test_JBIDE5382.class);
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
 		suite.addTestSuite(JsfComponentTest.class);

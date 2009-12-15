@@ -901,19 +901,23 @@
 		becouse it's not specified correctly in jsf lib, mareshkau -->
 	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 
-			<vpe:template children="no" modify="no"/>
+			<vpe:template children="no" modify="no"
+					class="org.jboss.tools.jsf.vpe.jsf.template.JsfOutputScriptTemplate"/>
 <!-- 		</vpe:if> -->
 	</vpe:tag>
 
 	<!--
 	Tag h:outputStylesheet can have any of next attributes: name, library, target.
 	Value of target could be either 'head' or 'body'. 
-	Mojarra 2.0 EDR1 implementation of JSF 2.0 links a stylesheet as follows:
+		Mojarra 2.0 EDR1 implementation of JSF 2.0 links a stylesheet as follows:
 	<link type="text/css" rel="stylesheet" 
 		href="{facesContext.getApplication().getResourceHandler().createResource(name, library).getRequestPath()}"/>
+	
+	NOTE: See VpeHtmlTemplate.getSourceRegionForOpenOn(...)
+		  for OpenOn implementation.
 	-->	
 	<vpe:tag name="h:outputStylesheet" case-sensitive="yes">
-		<!-- Checks for min tld version has been comented, 
+		<!-- Checks for min tld version has been comented,
 		becouse it's not specified correctly in jsf lib, mareshkau -->
 	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="no" modify="no">

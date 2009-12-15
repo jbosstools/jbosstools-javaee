@@ -55,29 +55,11 @@ public class SeamUtil {
 			Node sourceNode, String parentName) {
 
 		Node parentNode = sourceNode.getParentNode();
+		VpeTemplateManager templateManager = VpeTemplateManager.getInstance();
 
 		while (parentNode != null) {
-			String parentSourcePrefix = parentNode.getPrefix();
-			if (parentSourcePrefix == null) {
-				parentSourcePrefix = ""; //$NON-NLS-1$
-			}
-			List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(parentNode,
-					pageContext);
-			TaglibData sourceNodeTaglib = XmlUtil.getTaglibForPrefix(
-					parentSourcePrefix, taglibs);
-
-			String parentNodeName = parentNode.getNodeName();
-			if (sourceNodeTaglib != null) {
-				String sourceNodeUri = sourceNodeTaglib.getUri();
-				String templateTaglibPrefix = VpeTemplateManager.getInstance()
-						.getTemplateTaglibPrefix(sourceNodeUri);
-
-				if (templateTaglibPrefix != null) {
-					parentNodeName = templateTaglibPrefix
-							+ ":" + parentNode.getLocalName(); //$NON-NLS-1$
-				}
-			}
-			if (parentNodeName.equals(parentName)) {
+			if (parentName.equals(
+					templateManager.getTemplateName(pageContext, parentNode))) {
 				return parentNode;
 			}
 			parentNode = parentNode.getParentNode();

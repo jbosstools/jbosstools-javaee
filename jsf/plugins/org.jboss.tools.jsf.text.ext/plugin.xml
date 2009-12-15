@@ -407,9 +407,17 @@
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFJSPLinkHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputStylesheet/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputScript/name/" />
+         		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputStylesheet/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputScript/name/" />
+         		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
 
