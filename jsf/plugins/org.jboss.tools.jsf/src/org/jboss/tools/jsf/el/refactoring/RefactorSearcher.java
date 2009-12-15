@@ -10,7 +10,6 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.el.refactoring;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -26,23 +25,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
-import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
-import org.eclipse.jdt.ui.text.IJavaPartitions;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.Token;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.el.core.ELCorePlugin;
+import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -52,6 +36,7 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELResolverFactoryManager;
@@ -61,8 +46,7 @@ import org.jboss.tools.common.el.core.resolver.SimpleELContext;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 
 public abstract class RefactorSearcher {
 	protected static final String JAVA_EXT = "java"; //$NON-NLS-1$
@@ -180,19 +164,14 @@ public abstract class RefactorSearcher {
 	
 	private void scanForJava(IFile file){
 		if(isFileCorrect(file)) {
-			String content = null;
-			if(content!= null) { 
-				String ext = file.getFileExtension();
-				if(JAVA_EXT.equalsIgnoreCase(ext)){
-					content = getFileContent(file);
-					scanJava(file, content);
-				} else if(XML_EXT.equalsIgnoreCase(ext)) {
-					content = getFileContent(file);
-					scanDOM(file, content);
-				} else if(PROPERTIES_EXT.equalsIgnoreCase(ext)) {
-					content = getFileContent(file);
-					scanProperties(file, content);
-				}
+			if(PROPERTIES_EXT.equalsIgnoreCase(file.getFileExtension())){
+				String content = getFileContent(file);
+				scanProperties(file, content);
+			} else if (JAVA_EXT.equalsIgnoreCase(file.getFileExtension())
+					|| JSP_EXT.equalsIgnoreCase(file.getFileExtension())
+					|| XHTML_EXT.equalsIgnoreCase(file.getFileExtension())
+					|| XML_EXT.equalsIgnoreCase(file.getFileExtension())) {
+				searchInCach(file);
 			}
 		}
 	}
@@ -203,88 +182,55 @@ public abstract class RefactorSearcher {
 			if(XML_EXT.equalsIgnoreCase(ext) 
 				|| XHTML_EXT.equalsIgnoreCase(ext) 
 				|| JSP_EXT.equalsIgnoreCase(ext)) {
-				String content = getFileContent(file);
-				scanDOM(file, content);
+				searchInCach(file);
 			}
 		}
 	}
 	
-	private void scanJava(IFile file, String content){
-		try {
-			FastJavaPartitionScanner scaner = new FastJavaPartitionScanner();
-			Document document = new Document(content);
-			scaner.setRange(document, 0, document.getLength());
-			IToken token = scaner.nextToken();
-			while(token!=null && token!=Token.EOF) {
-				if(IJavaPartitions.JAVA_STRING.equals(token.getData())) {
-					int length = scaner.getTokenLength();
-					int offset = scaner.getTokenOffset();
-					String value = document.get(offset, length);
-					if(value.indexOf('{')>-1) {
-						scanString(file, value, offset);
+	private void searchInCach(IFile file){
+		ELContext context = PageContextFactory.createPageContext(file);
+		
+		if(context == null)
+			return;
+		
+		ELReference[] references = context.getELReferences();
+		ELResolver[] resolvers = context.getElResolvers();
+		
+		if(javaElement != null){
+			for(ELReference reference : references){
+				for(ELExpression operand : reference.getEl()){
+					int offset = operand.getStartPosition();
+					for (ELResolver resolver : resolvers) {
+						if (!(resolver instanceof ELCompletionEngine))
+							continue;
+
+						ELResolution resolution = resolver.resolve(context, operand, offset);
+	
+						List<ELSegment> segments = resolution.findSegmentsByJavaElement(javaElement);
+						
+						for(ELSegment segment : segments){
+							match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
+						}
 					}
 				}
-				token = scaner.nextToken();
 			}
-		} catch (BadLocationException e) {
-			ELCorePlugin.getDefault().logError(e);
-		}
-	}
-	
-//	private void searchInCach(IFile file){
-//		//ELResolver[] resolvers = PageContextFactory.createPageContext(file).getElResolvers();
-//		
-//	}
-	
-	private void scanDOM(IFile file, String content){
-		IModelManager manager = StructuredModelManager.getModelManager();
-		if(manager != null) {
-			IStructuredModel model = null;		
-			try {
-				model = manager.getModelForRead(file);
-				if (model instanceof IDOMModel) {
-					IDOMModel domModel = (IDOMModel) model;
-					IDOMDocument document = domModel.getDocument();
-					scanChildNodes(file, document);
-				}
-			} catch (CoreException e) {
-				ELCorePlugin.getDefault().logError(e);
-	        } catch (IOException e) {
-	        	ELCorePlugin.getDefault().logError(e);
-			} finally {
-				if (model != null) {
-					model.releaseFromRead();
+		}else{
+			for(ELReference reference : references){
+				int offset = reference.getStartPosition();
+				ELExpression[] expressions = reference.getEl();
+				for(ELExpression operand : expressions){
+					if(operand instanceof ELInvocationExpression){
+						ELInvocationExpression expression = findComponentReference((ELInvocationExpression)operand);
+						if(expression != null){
+							checkMatch(file, expression, offset+getOffset(expression), getLength(expression));
+						}
+					}
 				}
 			}
 		}
+		
 	}
 	
-	private void scanChildNodes(IFile file, Node parent) {
-		NodeList children = parent.getChildNodes();
-		for(int i=0; i<children.getLength(); i++) {
-			Node curentValidatedNode = children.item(i);
-			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
-				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE);
-			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
-				scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT);
-			}
-			scanChildNodes(file, curentValidatedNode);
-		}
-	}
-
-	private void scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType) {
-		ITextRegionList regions = node.getRegions();
-		for(int i=0; i<regions.size(); i++) {
-			ITextRegion region = regions.get(i);
-			if(region.getType() == regionType) {
-				String text = node.getFullText(region);
-				if(text.indexOf("{")>-1) { //$NON-NLS-1$
-					int offset = node.getStartOffset() + region.getStart();
-					scanString(file, text, offset);
-				}
-			}
-		}
-	}
 
 	// looking for component references in EL
 	private void scanString(IFile file, String string, int offset) {
