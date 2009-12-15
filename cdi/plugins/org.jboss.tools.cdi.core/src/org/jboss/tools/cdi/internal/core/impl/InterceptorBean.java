@@ -23,7 +23,7 @@ public class InterceptorBean extends ClassBean implements IInterceptor {
 	public InterceptorBean() {}
 
 	public IAnnotationDeclaration getInterceptorAnnotation() {
-		return interceptor;
+		return getDefinition().getInterceptorAnnotation();
 	}
 
 }

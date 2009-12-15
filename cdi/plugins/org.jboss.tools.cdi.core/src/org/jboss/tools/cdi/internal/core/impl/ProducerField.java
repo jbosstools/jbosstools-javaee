@@ -52,7 +52,7 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public IAnnotationDeclaration getAlternativeDeclaration() {
-		return alternative;
+		return getDefinition().getAlternativeAnnotation();
 	}
 
 	public IType getBeanClass() {
@@ -98,37 +98,6 @@ public class ProducerField extends BeanField implements IProducerField {
 		return null;
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
-		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
-		if(typed != null) {
-			IAnnotation a = typed.getDeclaration();
-			try {
-				IMemberValuePair[] ps = a.getMemberValuePairs();
-				if(ps == null || ps.length == 0) return result;
-				Object value = ps[0].getValue();
-				if(value instanceof Object[]) {
-					Object[] os = (Object[])value;
-					for (int i = 0; i < os.length; i++) {
-						String typeName = os[i].toString();
-						IType type = EclipseJavaUtil.findType(getField().getJavaProject(), typeName);
-						if(type != null) {
-							result.add(new TypeDeclaration(type, -1, 0));
-						}
-					}
-				} else if(value != null) {
-					String typeName = value.toString();
-					IType type = EclipseJavaUtil.findType(getField().getJavaProject(), typeName);
-					if(type != null) {
-						result.add(new TypeDeclaration(type, -1, 0));
-					}
-				}
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
-		}
-		return result;
-	}
-
 	public IBean getSpecializedBean() {
 		return null;
 	}
@@ -138,7 +107,7 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public boolean isAlternative() {
-		if(alternative != null) return true;
+		if(getDefinition().getAlternativeAnnotation() != null) return true;
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
 		for (IStereotypeDeclaration d: ds) {
 			IStereotype s = d.getStereotype();

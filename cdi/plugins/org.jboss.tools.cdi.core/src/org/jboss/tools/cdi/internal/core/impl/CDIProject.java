@@ -380,6 +380,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized (beansByName) {
 			beansByName.clear();
 		}
+		synchronized (namedBeans) {
+			namedBeans.clear();
+		}
 		List<TypeDefinition> typeDefinitions = n.getDefinitions().getTypeDefinitions();
 		for (TypeDefinition typeDefinition : typeDefinitions) {
 			ClassBean bean = null;
@@ -387,9 +390,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				bean = new InterceptorBean();
 			} else if(typeDefinition.getDecoratorAnnotation() != null) {
 				bean = new DecoratorBean();
+			} else if(typeDefinition.getStatefulAnnotation() != null || typeDefinition.getStatelessAnnotation() != null) {
+				bean = new SessionBean();
 			} else {
 				bean = new ClassBean();
 			}
+			bean.setParent(this);
 			bean.setDefinition(typeDefinition);
 			addBean(bean);
 			Set<IProducer> ps = bean.getProducers();
@@ -397,6 +403,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				addBean(producer);
 			}
 		}
+		System.out.println("Project=" + getNature().getProject());
+		System.out.println("Named beans=" + beansByName.size());
+		System.out.println("Bean paths=" + beansByPath.size());
 	}
 
 	void addBean(IBean bean) {

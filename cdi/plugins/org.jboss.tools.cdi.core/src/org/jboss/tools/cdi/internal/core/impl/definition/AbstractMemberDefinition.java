@@ -11,7 +11,9 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotatable;
@@ -31,8 +33,7 @@ import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
 public abstract class AbstractMemberDefinition {
 	protected List<AnnotationDeclaration> annotations = new ArrayList<AnnotationDeclaration>();
 	protected IAnnotatable member;
-	protected AnnotationDeclaration injectAnnotation;
-	protected AnnotationDeclaration producesAnnotation;
+	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
 
 	public AbstractMemberDefinition() {}
 
@@ -57,11 +58,7 @@ public abstract class AbstractMemberDefinition {
 				a = new InterceptorBindingDeclaration(a);
 			}
 			annotations.add(a);
-			if(CDIConstants.INJECT_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
-				injectAnnotation = a;
-			} else if(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
-				producesAnnotation = a;
-			}
+			annotationsByType.put(a.getTypeName(), a);
 		}
 	}
 
@@ -69,16 +66,20 @@ public abstract class AbstractMemberDefinition {
 		return annotations;
 	}
 
-	public boolean isCDIAnnotated() {
-		return injectAnnotation != null || producesAnnotation != null;
+	public AnnotationDeclaration getNamedAnnotation() {
+		return annotationsByType.get(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 	}
 
-	public AnnotationDeclaration getProducesAnnotation() {
-		return producesAnnotation;
+	public AnnotationDeclaration getTypedAnnotation() {
+		return annotationsByType.get(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
 	}
 
-	public AnnotationDeclaration getInjectAnnotation() {
-		return injectAnnotation;
+	public AnnotationDeclaration getAlternativeAnnotation() {
+		return annotationsByType.get(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME);
+	}
+
+	public AnnotationDeclaration getSpecializesAnnotation() {
+		return annotationsByType.get(CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
 	}
 
 }

@@ -58,7 +58,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public IAnnotationDeclaration getAlternativeDeclaration() {
-		return alternative;
+		return getDefinition().getAlternativeAnnotation();
 	}
 
 	public IType getBeanClass() {
@@ -109,40 +109,8 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return null;
 	}
 
-	//similar to ProducerField.getRestrictedTypeDeclaratios
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
-		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
-		if(typed != null) {
-			IAnnotation a = typed.getDeclaration();
-			try {
-				IMemberValuePair[] ps = a.getMemberValuePairs();
-				if(ps == null || ps.length == 0) return result;
-				Object value = ps[0].getValue();
-				if(value instanceof Object[]) {
-					Object[] os = (Object[])value;
-					for (int i = 0; i < os.length; i++) {
-						String typeName = os[i].toString();
-						IType type = EclipseJavaUtil.findType(getMethod().getJavaProject(), typeName);
-						if(type != null) {
-							result.add(new TypeDeclaration(type, -1, 0));
-						}
-					}
-				} else if(value != null) {
-					String typeName = value.toString();
-					IType type = EclipseJavaUtil.findType(getMethod().getJavaProject(), typeName);
-					if(type != null) {
-						result.add(new TypeDeclaration(type, -1, 0));
-					}
-				}
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
-		}
-		return result;
-	}
-
 	public IBean getSpecializedBean() {
-		if(specializes == null) {
+		if(getDefinition().getSpecializesAnnotation() == null) {
 			return null;
 		}
 		//TODO find producer method in super type
@@ -151,11 +119,11 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public IAnnotationDeclaration getSpecializesAnnotationDeclaration() {
-		return specializes;
+		return getDefinition().getSpecializesAnnotation();
 	}
 
 	public boolean isAlternative() {
-		if(alternative != null) return true;
+		if(getDefinition().getAlternativeAnnotation() != null) return true;
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
 		for (IStereotypeDeclaration d: ds) {
 			IStereotype s = d.getStereotype();
@@ -175,7 +143,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public boolean isSpecializing() {
-		return specializes != null;
+		return getDefinition().getSpecializesAnnotation() != null;
 	}
 
 	//same as ProducerField.getScope

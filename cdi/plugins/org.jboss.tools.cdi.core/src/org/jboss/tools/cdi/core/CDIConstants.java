@@ -15,6 +15,7 @@ public interface CDIConstants {
 	public String STEREOTYPE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Stereotype";
 	public String MODEL_STEREOTYPE_TYPE_NAME = "javax.enterprise.inject.Model";
 	public String DECORATOR_STEREOTYPE_TYPE_NAME = "javax.decorator.Decorator";
+	public String DELEGATE_STEREOTYPE_TYPE_NAME = "javax.decorator.Delegate";
 
 	public String TYPED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Typed";
 
@@ -40,6 +41,7 @@ public interface CDIConstants {
 
 	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
-	public String DELEGATE_STEREOTYPE_TYPE_NAME = "javax.decorator.Delegate";
+	public String STATEFUL_ANNOTATION_TYPE_NAME = "javax.ejb.Stateful";
+	public String STATELESS_ANNOTATION_TYPE_NAME = "javax.ejb.Stateless";
 
 }

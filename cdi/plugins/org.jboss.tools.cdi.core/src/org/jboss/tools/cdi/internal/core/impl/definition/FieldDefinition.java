@@ -11,13 +11,15 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IField;
+import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class FieldDefinition extends AbstractMemberDefinition {
+public class FieldDefinition extends BeanMemberDefinition {
 	IField field;
 
 	public FieldDefinition() {}
@@ -29,6 +31,10 @@ public class FieldDefinition extends AbstractMemberDefinition {
 
 	public IField getField() {
 		return field;
+	}
+
+	public AnnotationDeclaration getDelegateAnnotation() {
+		return annotationsByType.get(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
 	}
 
 }

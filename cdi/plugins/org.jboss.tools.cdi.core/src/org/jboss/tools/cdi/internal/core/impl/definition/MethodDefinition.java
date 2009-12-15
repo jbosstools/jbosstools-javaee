@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.IType;
  * @author Viacheslav Kabanovich
  *
  */
-public class MethodDefinition extends AbstractMemberDefinition {
+public class MethodDefinition extends BeanMemberDefinition {
 	IMethod method;
 	boolean isConstructor;
 

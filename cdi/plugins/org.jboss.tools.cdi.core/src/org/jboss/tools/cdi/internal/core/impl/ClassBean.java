@@ -53,7 +53,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public void setDefinition(TypeDefinition definition) {
 		setSourcePath(definition.getType().getPath());
 		super.setDefinition(definition);
-		setAnnotations(definition.getAnnotations());
 		List<MethodDefinition> ms = definition.getMethods();
 		for (MethodDefinition m: ms) {
 			BeanMethod bm = null;
@@ -82,6 +81,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			bf.setParent(this);
 			fields.add(bf);
 		}
+	}
+
+	public TypeDefinition getDefinition() {
+		return (TypeDefinition)definition;
 	}
 
 	public Set<IBeanMethod> getBeanConstructor() {
@@ -141,7 +144,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public IAnnotationDeclaration getAlternativeDeclaration() {
-		return alternative;
+		return getDefinition().getAlternativeAnnotation();
 	}
 
 	public IType getBeanClass() {
@@ -191,29 +194,27 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public ITextSourceReference getNameLocation() {
+		AnnotationDeclaration named = getDefinition().getNamedAnnotation();
 		if(named != null) {
 			return ValueInfo.getValueInfo(named.getDeclaration(), null);
 		}
 		return null;
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public IBean getSpecializedBean() {
+		if(getDefinition().getSpecializesAnnotation() == null) {
+			return null;
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public IAnnotationDeclaration getSpecializesAnnotationDeclaration() {
-		// TODO Auto-generated method stub
-		return null;
+		return getDefinition().getSpecializesAnnotation();
 	}
 
 	public boolean isAlternative() {
-		if(alternative != null) return true;
+		if(getDefinition().getAlternativeAnnotation() != null) return true;
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
 		for (IStereotypeDeclaration d: ds) {
 			IStereotype s = d.getStereotype();
@@ -233,7 +234,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public boolean isSpecializing() {
-		return specializes != null;
+		return getDefinition().getSpecializesAnnotation() != null;
 	}
 
 	public IType getScope() {

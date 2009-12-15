@@ -32,6 +32,8 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	List<MethodDefinition> methods = new ArrayList<MethodDefinition>();
 	AnnotationDeclaration decoratorAnnotation;
 	AnnotationDeclaration interceptorAnnotation;
+	AnnotationDeclaration statefulAnnotation;
+	AnnotationDeclaration statelessAnnotation;
 
 	public TypeDefinition() {
 	}
@@ -41,13 +43,8 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		super.init(contextType, context);
 		isAbstract = Flags.isAbstract(type.getFlags());
 		for (AnnotationDeclaration a: annotations) {
-			int kind = context.getAnnotationKind(a.getType());
-			//TODO do we need to create members for specific annotations?
-			if(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME.equals(a.getTypeName())) {
-				decoratorAnnotation = a;
-			} else if(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
-				interceptorAnnotation = a;
-			}
+			//provide initialization
+			context.getAnnotationKind(a.getType());
 		}
 		IField[] fs = getType().getFields();
 		for (int i = 0; i < fs.length; i++) {
@@ -80,11 +77,19 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	}
 
 	public AnnotationDeclaration getDecoratorAnnotation() {
-		return decoratorAnnotation;
+		return annotationsByType.get(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getInterceptorAnnotation() {
-		return interceptorAnnotation;
+		return annotationsByType.get(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 	}
 	
+	public AnnotationDeclaration getStatefulAnnotation() {
+		return annotationsByType.get(CDIConstants.STATEFUL_ANNOTATION_TYPE_NAME);
+	}
+
+	public AnnotationDeclaration getStatelessAnnotation() {
+		return annotationsByType.get(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME);
+	}
+
 }

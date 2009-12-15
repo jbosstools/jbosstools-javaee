@@ -30,7 +30,7 @@ public class DecoratorBean extends ClassBean implements IDecorator {
 	}
 
 	public IAnnotationDeclaration getDecoratorAnnotation() {
-		return decorator;
+		return getDefinition().getDecoratorAnnotation();
 	}
 
 }

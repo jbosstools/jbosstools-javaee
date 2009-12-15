@@ -31,7 +31,6 @@ public class InterceptorBindingElement extends CDIElement implements IIntercepto
 
 	public void setDefinition(AnnotationDefinition definition) {
 		this.definition = definition;
-//		setAnnotations(definition.getAnnotations());
 	}	
 
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {

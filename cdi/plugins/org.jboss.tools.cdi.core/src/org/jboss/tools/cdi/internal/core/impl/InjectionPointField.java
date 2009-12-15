@@ -23,8 +23,8 @@ public class InjectionPointField extends BeanField implements IInjectionPointFie
 
 	public InjectionPointField() {}
 
-	public IAnnotationDeclaration getDecoratorAnnotation() {
-		return decorator;
+	public IAnnotationDeclaration getDelegateAnnotation() {
+		return getDefinition().getDelegateAnnotation();
 	}
 
 	public IType getType() {
@@ -32,7 +32,7 @@ public class InjectionPointField extends BeanField implements IInjectionPointFie
 	}
 
 	public boolean isDelegate() {
-		return delegate != null;
+		return getDelegateAnnotation() != null;
 	}
 
 }

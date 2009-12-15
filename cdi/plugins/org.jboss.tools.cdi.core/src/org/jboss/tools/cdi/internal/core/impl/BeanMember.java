@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 /**
@@ -30,6 +31,10 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 	protected ITypeDeclaration typeDeclaration;
 
 	public BeanMember() {}
+
+	public BeanMemberDefinition getDefinition() {
+		return (BeanMemberDefinition)definition;
+	}
 
 	protected void setMember(IMember member) {
 		try {

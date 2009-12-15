@@ -168,7 +168,6 @@ public class DefinitionContext {
 		if(underConstruction.contains(name)) {
 			return AnnotationDefinition.BASIC;
 		}
-		System.out.println(name);
 		return createAnnotation(annotationType, name);
 	}
 

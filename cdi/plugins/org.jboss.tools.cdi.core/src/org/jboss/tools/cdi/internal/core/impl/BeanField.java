@@ -30,6 +30,10 @@ public class BeanField extends BeanMember implements IBeanField {
 		setField(definition.getField());
 	}
 
+	public FieldDefinition getDefinition() {
+		return (FieldDefinition)definition;
+	}
+
 	public IField getField() {
 		return field;
 	}
@@ -43,7 +47,4 @@ public class BeanField extends BeanMember implements IBeanField {
 		return getField();
 	}
 
-	public FieldDefinition getDefinition() {
-		return (FieldDefinition)definition;
-	}
 }

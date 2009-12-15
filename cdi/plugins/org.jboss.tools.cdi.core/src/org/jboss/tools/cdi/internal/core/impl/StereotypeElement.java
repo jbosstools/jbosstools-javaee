@@ -30,33 +30,19 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
  */
 public class StereotypeElement extends CDIElement implements IStereotype {
 	AnnotationDefinition definition;
-	protected AnnotationDeclaration named;
-	protected AnnotationDeclaration alternative;
 
 	public StereotypeElement() {}
 
 	public void setDefinition(AnnotationDefinition definition) {
 		this.definition = definition;
-		setAnnotations(definition.getAnnotations());
 	}
 	
-	protected void setAnnotations(List<AnnotationDeclaration> ds) {
-		for (AnnotationDeclaration d: ds) {
-			String typeName = d.getTypeName();
-			if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(typeName)) {
-				named = d;
-			} else if(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME.equals(typeName)) {
-				alternative = d;
-			}
-		}
-	}
-
 	public AnnotationDeclaration getAlternativeDeclaration() {
-		return alternative;
+		return definition.getAlternativeAnnotation();
 	}
 
 	public AnnotationDeclaration getNameDeclaration() {
-		return named;
+		return definition.getNamedAnnotation();
 	}
 
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
@@ -71,7 +57,7 @@ public class StereotypeElement extends CDIElement implements IStereotype {
 	}
 
 	public IAnnotation getNameLocation() {
-		return named != null ? named.getDeclaration() : null;
+		return getNameDeclaration() != null ? getNameDeclaration().getDeclaration() : null;
 	}
 
 	public IType getSourceType() {
@@ -89,7 +75,7 @@ public class StereotypeElement extends CDIElement implements IStereotype {
 	}
 
 	public boolean isAlternative() {
-		if(alternative != null) return true;
+		if(getAlternativeDeclaration() != null) return true;
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
 		for (IStereotypeDeclaration d: ds) {
 			IStereotype s = d.getStereotype();
