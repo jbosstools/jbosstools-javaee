@@ -259,7 +259,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     }
     else{
       new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-          WEB_PROJECT_JBT_JSF_POPUP_MENU, true)).menu(
+          WEB_PROJECT_JBT_JSF_POPUP_MENU, false)).menu(
             JBT_REMOVE_JSF_CAPABILITIES_POPUP_MENU).click();
       
     }
@@ -299,6 +299,8 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
 
     ContextMenuHelper.prepareTreeItemForContextMenu(tree,
       tree.getTreeItem(JBT_TEST_PROJECT_NAME));
+    
+    delay();
     
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         PACKAGE_EXPLORER_JBT_POPUP_MENU, false)).menu(
