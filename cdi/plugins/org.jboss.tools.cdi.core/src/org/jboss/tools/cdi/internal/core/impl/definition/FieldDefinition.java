@@ -33,8 +33,4 @@ public class FieldDefinition extends BeanMemberDefinition {
 		return field;
 	}
 
-	public AnnotationDeclaration getDelegateAnnotation() {
-		return annotationsByType.get(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
-	}
-
 }

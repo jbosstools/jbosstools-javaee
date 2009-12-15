@@ -16,6 +16,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 /**
@@ -50,7 +51,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		String sc = type.getSuperclassTypeSignature();
 		if(sc != null) {
 			//TODO process parameter types correctly!!!
-			sc = EclipseJavaUtil.resolveType(contextType, sc);
+			sc = EclipseJavaUtil.resolveTypeAsString(contextType, sc);
 			if(sc != null && sc.length() > 0) {
 				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), sc);
 //TODO
@@ -59,7 +60,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		}
 		String[] is = type.getSuperInterfaceTypeSignatures();
 		if(is != null) for (int i = 0; i < is.length; i++) {
-			String c = EclipseJavaUtil.resolveType(contextType, is[i]);
+			String c = EclipseJavaUtil.resolveTypeAsString(contextType, is[i]);
 			if(c != null && c.length() > 0) {
 				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), c);
 //TODO

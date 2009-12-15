@@ -19,4 +19,8 @@ public class BeanMemberDefinition extends AbstractMemberDefinition {
 		return annotationsByType.get(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 	}
 
+	public AnnotationDeclaration getDelegateAnnotation() {
+		return annotationsByType.get(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
+	}
+
 }

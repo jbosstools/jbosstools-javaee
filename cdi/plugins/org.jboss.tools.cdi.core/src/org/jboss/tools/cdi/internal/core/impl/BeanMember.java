@@ -58,6 +58,10 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		this.classBean = classBean;
 	}
 
+	public IType getType() {
+		return typeDeclaration == null ? null : typeDeclaration.getType();
+	}
+
 	public int getLength() {
 		ISourceRange r = null;
 		try {

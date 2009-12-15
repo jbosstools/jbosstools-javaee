@@ -11,16 +11,15 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
-import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointMethod;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class InjectionPointField extends BeanField implements IInjectionPointField {
-
-	public InjectionPointField() {}
+public class InjectionPointMethod extends BeanMethod implements
+		IInjectionPointMethod {
 
 	public IAnnotationDeclaration getDelegateAnnotation() {
 		return getDefinition().getDelegateAnnotation();
