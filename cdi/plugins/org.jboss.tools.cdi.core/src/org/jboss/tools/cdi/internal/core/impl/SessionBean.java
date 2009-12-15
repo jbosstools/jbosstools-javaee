@@ -6,13 +6,12 @@ import org.jboss.tools.cdi.core.ISessionBean;
 public class SessionBean extends ClassBean implements ISessionBean {
 
 	public IAnnotation getStatefulDeclaration() {
-		// TODO Auto-generated method stub
-		return null;
+		AnnotationDeclaration stateful = getDefinition().getStatefulAnnotation();
+		return stateful != null ? stateful.getDeclaration() : null;
 	}
 
 	public boolean isStateful() {
-		// TODO Auto-generated method stub
-		return false;
+		return getDefinition().getStatefulAnnotation() != null;
 	}
 
 }
