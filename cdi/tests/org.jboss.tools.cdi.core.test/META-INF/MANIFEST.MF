@@ -6,5 +6,8 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: JBoss by Red Hat
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.jboss.tools.tests,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
  org.junit,
- org.jboss.tools.cdi.core
+ org.jboss.tools.cdi.core,
+ org.jboss.tools.common
