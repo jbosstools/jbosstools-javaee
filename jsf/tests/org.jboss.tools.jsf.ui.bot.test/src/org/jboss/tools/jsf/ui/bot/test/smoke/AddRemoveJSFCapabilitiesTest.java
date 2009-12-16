@@ -35,6 +35,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
 
   private static final String WEB_PROJECT_JBT_JSF_POPUP_MENU = "JBoss Tools JSF";
   private static final String PACKAGE_EXPLORER_JBT_POPUP_MENU = "JBoss Tools";
+  private static final String PACKAGE_EXPLORER_CONFIGURE_POPUP_MENU = "Configure";
   private static final String ADD_JSF_CAPABILITIES_POPUP_MENU = "Add JSF Capabilities...";
   private static final String CLOSE_PROJECT_POPUP_MENU = "Clo&se Project";
   private static final String OPEN_PROJECT_POPUP_MENU = "Op&en Project";
@@ -302,9 +303,16 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     
     delay();
     
-    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+    try{
+      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         PACKAGE_EXPLORER_JBT_POPUP_MENU, false)).menu(
         ADD_JSF_CAPABILITIES_POPUP_MENU).click();
+    } catch (WidgetNotFoundException wnfe){
+      // From 3.1.0.RC1 version this menu is moved to Configure submenu
+      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+        PACKAGE_EXPLORER_CONFIGURE_POPUP_MENU, false)).menu(
+        ADD_JSF_CAPABILITIES_POPUP_MENU).click();
+    }
 
     bot.shell("Add JSF Capabilities").activate();
     bot.button(WidgetVariables.NEXT_BUTTON).click();
