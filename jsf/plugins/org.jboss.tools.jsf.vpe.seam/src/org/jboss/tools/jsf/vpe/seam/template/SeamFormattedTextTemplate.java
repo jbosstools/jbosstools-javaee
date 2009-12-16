@@ -19,6 +19,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIComponentManager;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -106,7 +107,7 @@ public class SeamFormattedTextTemplate extends VpeAbstractTemplate {
 	    if (null != patronItem) {
 		list = patronItem.getChildNodes();
 		// mainItem = visualDocument.createElement("DIV");
-		patronItem = visualDocument.createElement(HTML.TAG_SPAN);
+		patronItem = VisualDomUtil.createBorderlessContainer(visualDocument);
 		createCopyChildren(visualDocument, patronItem, list);
 	    }
 	    VpeCreationData creationData = new VpeCreationData(patronItem);

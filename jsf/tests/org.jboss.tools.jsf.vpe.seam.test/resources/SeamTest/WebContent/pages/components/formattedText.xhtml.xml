@@ -1,6 +1,6 @@
 <tests>
 	<test id="id1">
-		<SPAN>
+		<SPAN CLASS="vpe-text">
 			<OL>
 				<LI>
 					{blog.text}
@@ -11,7 +11,7 @@
 		</SPAN>
 	</test>
 	<test id="id2">
-		<SPAN>
+		<SPAN CLASS="vpe-text">
 			<SPAN CLASS="vpe-text">
 				It's easy to make *emphasis*, |monospace|,~deleted text~, super^scripts^ or _underlines_.
         </SPAN>
@@ -19,7 +19,7 @@
 	</test>
 
 	<test id="id3">
-		<SPAN>
+		<SPAN CLASS="vpe-text">
 			<P>
 				It's easy to make
 				<B>
