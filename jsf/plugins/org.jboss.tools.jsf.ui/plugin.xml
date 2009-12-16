@@ -437,7 +437,6 @@
             <with variable="element">
                <or>
                   <instanceof value="org.eclipse.jdt.core.IMethod"/>
-                  <instanceof value="org.eclipse.jdt.core.IType"/>
                </or>
             </with>
          </enablement>

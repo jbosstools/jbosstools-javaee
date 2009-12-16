@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -100,20 +99,6 @@ public class RenameMethodParticipant extends RenameParticipant{
 			searcher = new SeamRenameMethodSearcher((IFile)method.getResource(), oldName);
 			added = false;
 			return true;
-		}else if(element instanceof IType){
-			IType type = (IType)element;
-			status = new RefactoringStatus();
-			
-			rootChange = new CompositeChange(JsfUIMessages.RENAME_METHOD_PARTICIPANT_UPDATE_METHOD_REFERENCES);
-			
-			this.element = type;
-			
-			oldName = type.getElementName();
-			
-			newName = RefactorSearcher.getPropertyName(type, getArguments().getNewName());
-			searcher = new SeamRenameMethodSearcher((IFile)type.getResource(), oldName);
-			added = false;
-			return true;
 		}
 		return false;
 	}
@@ -132,20 +117,6 @@ public class RenameMethodParticipant extends RenameParticipant{
 			
 			this.newName = newName;
 			searcher = new SeamRenameMethodSearcher((IFile)method.getResource(), oldName);
-			added = false;
-			return true;
-		}else if(element instanceof IType){
-			IType type = (IType)element;
-			status = new RefactoringStatus();
-			
-			rootChange = new CompositeChange(JsfUIMessages.RENAME_METHOD_PARTICIPANT_UPDATE_METHOD_REFERENCES);
-			
-			this.element = type;
-			
-			oldName = type.getElementName();
-			
-			this.newName = newName;
-			searcher = new SeamRenameMethodSearcher((IFile)type.getResource(), oldName);
 			added = false;
 			return true;
 		}

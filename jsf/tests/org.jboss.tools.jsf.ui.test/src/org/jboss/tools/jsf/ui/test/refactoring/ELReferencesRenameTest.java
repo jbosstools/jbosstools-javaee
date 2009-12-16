@@ -45,25 +45,6 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 
 		renameELReferences(method, "alias", list);
 	}
-
-	public void testRenameClass() throws CoreException {
-		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
-
-
-		TestChangeStructure structure = new TestChangeStructure(jsfProject, "/WebContent/pages/hello.jsp");
-		TestTextChange change = new TestTextChange(348, 4, "user");
-		structure.addTextChange(change);
-		list.add(structure);
-
-		structure = new TestChangeStructure(jsfProject, "/WebContent/pages/inputUserName.jsp");
-		change = new TestTextChange(494, 4, "user");
-		structure.addTextChange(change);
-		list.add(structure);
-		
-		IType type = getJavaType(jsfProject, "demo.User");
-
-		renameELReferences(type, "person", list);
-	}
 	
 	private void renameELReferences(IJavaElement element, String newName, List<TestChangeStructure> changeList) throws CoreException{
 		JobUtils.waitForIdle();

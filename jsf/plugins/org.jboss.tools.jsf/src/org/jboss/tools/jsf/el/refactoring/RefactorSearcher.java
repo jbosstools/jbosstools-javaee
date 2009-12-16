@@ -198,8 +198,9 @@ public abstract class RefactorSearcher {
 		
 		if(javaElement != null){
 			for(ELReference reference : references){
+				int offset = reference.getStartPosition();
 				for(ELExpression operand : reference.getEl()){
-					int offset = operand.getStartPosition();
+					
 					for (ELResolver resolver : resolvers) {
 						if (!(resolver instanceof ELCompletionEngine))
 							continue;
