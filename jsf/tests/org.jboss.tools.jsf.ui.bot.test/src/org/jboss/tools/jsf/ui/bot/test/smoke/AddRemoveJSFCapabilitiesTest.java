@@ -19,6 +19,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.helper.WidgetFinderHelper;
@@ -33,27 +34,10 @@ import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
 
-  private static final String WEB_PROJECT_JBT_JSF_POPUP_MENU = "JBoss Tools JSF";
-  private static final String PACKAGE_EXPLORER_JBT_POPUP_MENU = "JBoss Tools";
-  private static final String PACKAGE_EXPLORER_CONFIGURE_POPUP_MENU = "Configure";
-  private static final String ADD_JSF_CAPABILITIES_POPUP_MENU = "Add JSF Capabilities...";
-  private static final String CLOSE_PROJECT_POPUP_MENU = "Clo&se Project";
-  private static final String OPEN_PROJECT_POPUP_MENU = "Op&en Project";
-  private static final String DELETE_PROJECT_POPUP_MENU = "Delete";
-  private static final String JBDS_REMOVE_JSF_CAPABILITIES_POPUP_MENU = "Remove Red Hat Capabilities";
-  private static final String JBT_REMOVE_JSF_CAPABILITIES_POPUP_MENU = "Remove JSF Capabilities";
-  
   private MenuItem miRunOnServer = null;
   
   public void testAddRemoveJSFCapabilities() {
-    boolean jbdsIsRunning = false;
-    // Check out if JBoss Developer Studio Is Running
-    try{
-      bot.menu(IDELabel.Menu.HELP).menu(IDELabel.Menu.ABOUT_JBOSS_DEVELOPER_STUDIO);
-      jbdsIsRunning = true;
-    }catch (WidgetNotFoundException wnfe){
-      // do nothing
-    }
+    boolean jbdsIsRunning = SWTEclipseExt.isJBDSRun(bot);
     removeJSFCapabilities(jbdsIsRunning);
     addJSFCapabilities();
     // Test add/remove JSF capabilities after project is closed and reopened
@@ -229,7 +213,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     ContextMenuHelper.prepareTreeItemForContextMenu(tree,
       tree.getTreeItem(JBT_TEST_PROJECT_NAME));
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        DELETE_PROJECT_POPUP_MENU, false)).click();
+      IDELabel.Menu.DELETE, false)).click();
     bot.shell("Delete Resources").activate();
     bot.button(WidgetVariables.OK_BUTTON).click();
     
@@ -256,12 +240,12 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
 
     if (jbdsIsRunning){
       new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-          JBDS_REMOVE_JSF_CAPABILITIES_POPUP_MENU, true)).click();
+        IDELabel.Menu.JBDS_REMOVE_JSF_CAPABILITIES, true)).click();
     }
     else{
       new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-          WEB_PROJECT_JBT_JSF_POPUP_MENU, false)).menu(
-            JBT_REMOVE_JSF_CAPABILITIES_POPUP_MENU).click();
+        IDELabel.Menu.WEB_PROJECT_JBT_JSF, false)).menu(
+          IDELabel.Menu.JBT_REMOVE_JSF_CAPABILITIES).click();
       
     }
 
@@ -305,13 +289,13 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     
     try{
       new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        PACKAGE_EXPLORER_JBT_POPUP_MENU, false)).menu(
-        ADD_JSF_CAPABILITIES_POPUP_MENU).click();
+        IDELabel.Menu.PACKAGE_EXPLORER_JBT, false)).menu(
+        IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
     } catch (WidgetNotFoundException wnfe){
       // From 3.1.0.RC1 version this menu is moved to Configure submenu
       new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        PACKAGE_EXPLORER_CONFIGURE_POPUP_MENU, false)).menu(
-        ADD_JSF_CAPABILITIES_POPUP_MENU).click();
+        IDELabel.Menu.PACKAGE_EXPLORER_CONFIGURE, false)).menu(
+        IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
     }
 
     bot.shell("Add JSF Capabilities").activate();
@@ -366,12 +350,12 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       tree.getTreeItem(JBT_TEST_PROJECT_NAME));
     
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        CLOSE_PROJECT_POPUP_MENU, false)).click();
+      IDELabel.Menu.CLOSE_PROJECT, false)).click();
     
     delay();
     
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        OPEN_PROJECT_POPUP_MENU, false)).click();
+      IDELabel.Menu.OPEN_PROJECT, false)).click();
     
     delay();
     
