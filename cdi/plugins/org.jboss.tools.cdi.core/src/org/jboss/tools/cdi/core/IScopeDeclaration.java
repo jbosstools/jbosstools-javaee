@@ -18,9 +18,9 @@ package org.jboss.tools.cdi.core;
 public interface IScopeDeclaration extends IAnnotationDeclaration {
 
 	/**
-	 * Returns the corresponding stereotype.
+	 * Returns the corresponding scope.
 	 * 
-	 * @return the corresponding stereotype.
+	 * @return the corresponding scope.
 	 */
 	IScope getScope();
 }

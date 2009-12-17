@@ -18,9 +18,9 @@ package org.jboss.tools.cdi.core;
 public interface IQualifierDeclaration extends IAnnotationDeclaration {
 
 	/**
-	 * Returns the corresponding stereotype.
+	 * Returns the corresponding qualifier.
 	 * 
-	 * @return the corresponding stereotype.
+	 * @return the corresponding qualifier.
 	 */
 	IQualifier getQualifier();
 }
