@@ -159,6 +159,10 @@ public class DefinitionContext {
 			createAnnotation(annotationType, name);
 			return AnnotationDefinition.STEREOTYPE;
 		}
+		if(AnnotationHelper.QUALIFIER_ANNOTATION_TYPES.contains(name)) {
+			createAnnotation(annotationType, name);
+			return AnnotationDefinition.QUALIFIER;
+		}
 		if(AnnotationHelper.BASIC_ANNOTATION_TYPES.contains(name)) {
 			return AnnotationDefinition.BASIC;
 		}

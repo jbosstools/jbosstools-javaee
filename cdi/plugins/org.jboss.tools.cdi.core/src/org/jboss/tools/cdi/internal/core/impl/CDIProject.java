@@ -50,6 +50,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	private Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
 	private Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
+	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
+	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
 
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
@@ -340,6 +342,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return interceptorBindings.get(qualifiedName);
 	}
 
+	public QualifierElement getQualifier(String qualifiedName) {
+		return qualifiers.get(qualifiedName);
+	}
+
+	public ScopeElement getScope(String qualifiedName) {
+		return scopes.get(qualifiedName);
+	}
+
 	public void update() {
 		rebuildAnnotationTypes();
 		rebuildBeans();
@@ -349,27 +359,36 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	void rebuildAnnotationTypes() {
 		stereotypes.clear();
 		interceptorBindings.clear();
+		qualifiers.clear();
+		scopes.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if(d.getKind() == AnnotationDefinition.STEREOTYPE) {
 				StereotypeElement s = new StereotypeElement();
-				s.setDefinition(d);
-				s.setParent(this);
-				IPath r = d.getType().getPath();
-				if(r != null) {
-					s.setSourcePath(r);
-				}
+				initAnnotationElement(s, d);
 				stereotypes.put(d.getQualifiedName(), s);
 			} else if(d.getKind() == AnnotationDefinition.INTERCEPTOR_BINDING) {
 				InterceptorBindingElement s = new InterceptorBindingElement();
-				s.setDefinition(d);
-				s.setParent(this);
-				IPath r = d.getType().getPath();
-				if(r != null) {
-					s.setSourcePath(r);
-				}
+				initAnnotationElement(s, d);
 				interceptorBindings.put(d.getQualifiedName(), s);
+			} else if(d.getKind() == AnnotationDefinition.QUALIFIER) {
+				QualifierElement s = new QualifierElement();
+				initAnnotationElement(s, d);
+				qualifiers.put(d.getQualifiedName(), s);
+			} else if(d.getKind() == AnnotationDefinition.SCOPE) {
+				ScopeElement s = new ScopeElement();
+				initAnnotationElement(s, d);
+				scopes.put(d.getQualifiedName(), s);
 			}
+		}
+	}
+
+	private void initAnnotationElement(CDIAnnotationElement s, AnnotationDefinition d) {
+		s.setDefinition(d);
+		s.setParent(this);
+		IPath r = d.getType().getPath();
+		if(r != null) {
+			s.setSourcePath(r);
 		}
 	}
 
@@ -404,6 +423,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		System.out.println("Project=" + getNature().getProject());
+		System.out.println("Qualifiers=" + qualifiers.size());
+		System.out.println("Stereotypes=" + stereotypes.size());
+		System.out.println("Scopes=" + scopes.size());
 		System.out.println("Named beans=" + beansByName.size());
 		System.out.println("Bean paths=" + beansByPath.size());
 	}

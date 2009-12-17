@@ -75,4 +75,8 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		}
 	}
 
+	public AnnotationDeclaration getInheritedAnnotation() {
+		return annotationsByType.get(CDIConstants.INHERITED_ANNOTATION_TYPE_NAME);
+	}
+
 }

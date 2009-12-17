@@ -23,6 +23,8 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.QualifierDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.ScopeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
 
 /**
@@ -52,13 +54,20 @@ public abstract class AbstractMemberDefinition {
 			AnnotationDeclaration a = new AnnotationDeclaration();
 			a.setProject(context.getProject());
 			a.setDeclaration(ts[i], contextType);
-			if(context.getAnnotationKind(a.getType()) == AnnotationDefinition.STEREOTYPE) {
+			int kind = context.getAnnotationKind(a.getType());
+			if(kind == AnnotationDefinition.STEREOTYPE) {
 				a = new StereotypeDeclaration(a);
-			} else if(context.getAnnotationKind(a.getType()) == AnnotationDefinition.INTERCEPTOR_BINDING) {
+			} else if(kind == AnnotationDefinition.INTERCEPTOR_BINDING) {
 				a = new InterceptorBindingDeclaration(a);
+			} else if(kind == AnnotationDefinition.QUALIFIER) {
+				a = new QualifierDeclaration(a);
+			} else if(kind == AnnotationDefinition.SCOPE) {
+				a = new ScopeDeclaration(a);
 			}
 			annotations.add(a);
-			annotationsByType.put(a.getTypeName(), a);
+			if(a.getTypeName() != null) {
+				annotationsByType.put(a.getTypeName(), a);
+			}
 		}
 	}
 

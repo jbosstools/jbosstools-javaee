@@ -16,27 +16,20 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
-import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class StereotypeElement extends CDIElement implements IStereotype {
-	AnnotationDefinition definition;
+public class StereotypeElement extends CDIAnnotationElement implements IStereotype {
 
 	public StereotypeElement() {}
 
-	public void setDefinition(AnnotationDefinition definition) {
-		this.definition = definition;
-	}
-	
 	public AnnotationDeclaration getAlternativeDeclaration() {
 		return definition.getAlternativeAnnotation();
 	}
@@ -58,10 +51,6 @@ public class StereotypeElement extends CDIElement implements IStereotype {
 
 	public IAnnotation getNameLocation() {
 		return getNameDeclaration() != null ? getNameDeclaration().getDeclaration() : null;
-	}
-
-	public IType getSourceType() {
-		return definition.getType();
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {

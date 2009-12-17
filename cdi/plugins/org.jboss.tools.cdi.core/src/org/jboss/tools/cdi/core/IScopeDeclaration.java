@@ -10,28 +10,17 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
-
-import org.eclipse.jdt.core.IType;
-
 /**
- * Represents an interceptor binding type.
+ * Represents a qualifier declaration.
  * 
- * @author Alexey Kazakov
+ * @author Viacheslav Kabanovich
  */
-public interface IInterceptorBinding extends ICDIAnnotation {
+public interface IScopeDeclaration extends IAnnotationDeclaration {
 
 	/**
-	 * Returns the corresponding IType of the interceptor binding.
+	 * Returns the corresponding stereotype.
 	 * 
-	 * @return the corresponding IType
+	 * @return the corresponding stereotype.
 	 */
-	IType getSourceType();
-
-	/**
-	 * Returns the interceptor binding declarations of the interceptor binding.
-	 * 
-	 * @return the interceptor binding declarations.
-	 */
-	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations();
+	IScope getScope();
 }

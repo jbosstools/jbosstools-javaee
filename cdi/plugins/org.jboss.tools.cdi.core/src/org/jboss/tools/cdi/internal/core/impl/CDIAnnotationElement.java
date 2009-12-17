@@ -10,36 +10,31 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.IInterceptorBinding;
-import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class InterceptorBindingElement extends CDIAnnotationElement implements IInterceptorBinding {
+public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation {
+	protected AnnotationDefinition definition;
 
-	public InterceptorBindingElement() {}
+	public CDIAnnotationElement() {}
 
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
-		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
-		List<AnnotationDeclaration> as = definition.getAnnotations();
-		for (AnnotationDeclaration a: as) {
-			if(a instanceof InterceptorBindingDeclaration) {
-				result.add((InterceptorBindingDeclaration)a);
-			}
-		}
-		return result;
-	}
+	public void setDefinition(AnnotationDefinition definition) {
+		this.definition = definition;
+	}	
 
 	public IType getSourceType() {
 		return definition.getType();
+	}
+
+	public IAnnotationDeclaration getInheritedDeclaration() {
+		return definition.getInheritedAnnotation();
 	}
 
 }
