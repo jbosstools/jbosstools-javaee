@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Seam UI SWTBot Tests
 Bundle-SymbolicName: org.jboss.tools.seam.ui.bot.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.jboss.tools.seam.ui.bot.test.Activator
@@ -17,4 +17,4 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-RegisterBuddy: org.apache.log4j
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-Vendor: %providerName
+Bundle-Vendor: JBoss by Red Hat
