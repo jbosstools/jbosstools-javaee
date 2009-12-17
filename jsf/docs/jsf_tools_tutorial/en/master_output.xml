@@ -27,13 +27,13 @@
     
     <bookinfo>
         <title>JSF Tools Tutorial</title>
-            <corpauthor diffmk:change="added">
-                <inlinemediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added" role="fo">
-                        <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+            <corpauthor>
+                <inlinemediaobject>
+                    <imageobject role="fo">
+                        <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                     </imageobject>	
-                    <imageobject diffmk:change="added" role="html">
-                        <imagedata diffmk:change="added"></imagedata>
+                    <imageobject role="html">
+                        <imagedata></imagedata>
                     </imageobject>	
                 </inlinemediaobject>           
             </corpauthor>
@@ -45,11 +45,11 @@
         <copyright>
             <year>2007</year>
             <year>2009</year>
-            <holder><diffmk:wrapper diffmk:change="changed">JBoss by Red Hat</diffmk:wrapper></holder>
+            <holder>JBoss by Red Hat</holder>
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-              Version: 3.1.0.M2
+              Version: 3.1.0.CR1
             </diffmk:wrapper></releaseinfo>
 
 
@@ -67,7 +67,7 @@
     
     
     
-<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
+<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
   <?dbhtml filename="introduction.html"?>
   <chapterinfo>
     <keywordset>
@@ -89,67 +89,67 @@
     will display the familiar message, "Hello &lt;name&gt;!" This
     tutorial will show you how to create and run such an application from the beginning along the
     way demonstrating some of the powerful features of <property moreinfo="none">JBoss Tools</property>.</para>
-  <section diffmk:change="added"><title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Features of JSF Tools</diffmk:wrapper></title>
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Here, we provide you with a key functionality which is integrated in JSF tooling.</diffmk:wrapper></para>
+  <section><title>Key Features of JSF Tools</title>
+    <para>Here, we provide you with a key functionality which is integrated in JSF tooling.</para>
   
-    <table diffmk:change="added">
-      <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Functionality for JSF Tools</diffmk:wrapper></title>
-      <tgroup cols="2" diffmk:change="added">
+    <table>
+      <title>Key Functionality for JSF Tools</title>
+      <tgroup cols="2">
         
-        <colspec align="left" colnum="1" colwidth="2*" diffmk:change="added"></colspec>
-        <colspec colnum="2" colwidth="4*" diffmk:change="added"></colspec>
+        <colspec align="left" colnum="1" colwidth="2*"></colspec>
+        <colspec colnum="2" colwidth="4*"></colspec>
      
         
-        <thead diffmk:change="added">
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Feature</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Benefit</diffmk:wrapper></entry>
+        <thead>
+          <row>
+            <entry>Feature</entry>
+            <entry>Benefit</entry>
            
           </row>
         </thead>
-        <tbody diffmk:change="added">
+        <tbody>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">JSF and Facelets support</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</diffmk:wrapper></entry>
+          <row>
+            <entry>JSF and Facelets support</entry>
+            <entry>Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</entry>
             
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Flexible and customizable project template management</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Jump-start development with out-of-the-box templates or easily
-              customized templates for re-use.</diffmk:wrapper></entry>
+          <row>
+            <entry>Flexible and customizable project template management</entry>
+            <entry>Jump-start development with out-of-the-box templates or easily
+              customized templates for re-use.</entry>
             
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for JSF Configuration File</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Working on file using three modes: diagram, tree and source.
+          <row>
+            <entry>Support for JSF Configuration File</entry>
+            <entry>Working on file using three modes: diagram, tree and source.
               Synchronization between the modes and full control over the code. Easy
-              moving around the diagram using the Diagram Navigator.</diffmk:wrapper></entry>
+              moving around the diagram using the Diagram Navigator.</entry>
            
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Managed Beans</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Adding new managed beans, generating code for attributes, properties
-              and getter/setter methods.</diffmk:wrapper></entry>
+          <row>
+            <entry>Support for Managed Beans</entry>
+            <entry>Adding new managed beans, generating code for attributes, properties
+              and getter/setter methods.</entry>
           
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Custom Converters and Validators</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Fast creating of custom converters and validators with tree view of
-              faces-config.xml file.</diffmk:wrapper></entry>
+          <row>
+            <entry>Support for Custom Converters and Validators</entry>
+            <entry>Fast creating of custom converters and validators with tree view of
+              faces-config.xml file.</entry>
             
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Verification and Validation</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">All occuring errors will be immediately reported by verification
+          <row>
+            <entry>Verification and Validation</entry>
+            <entry>All occuring errors will be immediately reported by verification
               feature, no matter in what view you are working. Constant validation and
               errors checking allows to catch many of the errors during development
-              process that significantly reduces development time.</diffmk:wrapper></entry>
+              process that significantly reduces development time.</entry>
                         
           </row>
         </tbody>
@@ -161,14 +161,14 @@
   
   <section>
     <title>Other relevant resources on the topic</title>
-    <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at </diffmk:wrapper><ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+    <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at <ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
     <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
   </section>
   
 </chapter>
 
     
-<chapter id="jsf_application" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/jsf_application.xml" xreflabel="jsf_application">
+<chapter id="jsf_application" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/jsf_application.xml" xreflabel="jsf_application">
     <?dbhtml filename="jsf_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -269,7 +269,7 @@
 </chapter>
 
     
-<chapter id="adding_navigation" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/adding_navigation.xml" xreflabel="adding_navigation">
+<chapter id="adding_navigation" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/adding_navigation.xml" xreflabel="adding_navigation">
     <?dbhtml filename="adding_navigation.html"?>
     <chapterinfo>
         <keywordset>
@@ -377,7 +377,7 @@
    
 </chapter>
     
-<chapter id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
+<chapter id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
     <?dbhtml filename="adding_managed_bean.html"?>
     <chapterinfo>
         <keywordset>
@@ -467,7 +467,7 @@
     
     </chapter>
     
-<chapter id="jsp_view_files" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/jsp_view_files.xml" xreflabel="jsp_view_files">
+<chapter id="jsp_view_files" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/jsp_view_files.xml" xreflabel="jsp_view_files">
     <?dbhtml filename="jsp_view_files.html"?>
     <chapterinfo>
         <keywordset>
@@ -721,7 +721,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </section>
     </chapter>
     
-<chapter id="start_page" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/start_page.xml" xreflabel="start_page">
+<chapter id="start_page" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/start_page.xml" xreflabel="start_page">
     <?dbhtml filename="start_page.html"?>
     <chapterinfo>
         <keywordset>
@@ -784,7 +784,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </itemizedlist>
     </chapter>
     
-<chapter id="running_application" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/running_application.xml" xreflabel="running_application">
+<chapter id="running_application" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/running_application.xml" xreflabel="running_application">
     <?dbhtml filename="running_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -831,7 +831,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
             appear.</para>
     </chapter>    
     
-<chapter id="relevant_resources" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/jsf/docs/jsf_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
+<chapter id="relevant_resources" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
     <?dbhtml filename="relevant_resources.html"?>
     <chapterinfo>
         <keywordset>
