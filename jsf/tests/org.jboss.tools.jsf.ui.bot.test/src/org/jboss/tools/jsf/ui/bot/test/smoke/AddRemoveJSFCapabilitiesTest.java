@@ -19,7 +19,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
-import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.helper.WidgetFinderHelper;
@@ -37,7 +37,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
   private MenuItem miRunOnServer = null;
   
   public void testAddRemoveJSFCapabilities() {
-    boolean jbdsIsRunning = SWTEclipseExt.isJBDSRun(bot);
+    boolean jbdsIsRunning = SWTJBTExt.isJBDSRun(bot);
     removeJSFCapabilities(jbdsIsRunning);
     addJSFCapabilities();
     // Test add/remove JSF capabilities after project is closed and reopened
@@ -47,7 +47,6 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     // Test import of deleted JSF project 
     deleteJsfProject();
     importJsfProject();
-
   }
   /**
    * Import existing JSF Project to Workspace
@@ -84,13 +83,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       String asStartingJob = IDELabel.ServerJobName.STARTING_JBOSS_EAP;
       String asStoppingJob = IDELabel.ServerJobName.STOPPING_JBOSS_EAP;
       // Check if there is defined Application Server if not create one
-      boolean isServerDefined = false;
-      try{
-        bot.label(IDELabel.ImportJSFProjectDialog.CHOICE_LIST_IS_EMPTY);
-      } catch (WidgetNotFoundException wnfe){
-        isServerDefined = true;
-      }
-      if (!isServerDefined){
+      if (!SWTJBTExt.isServerDefinedInWebWizardPage(bot)){
         // Specify Application Server for Deployment
         bot.button(WidgetVariables.NEW_BUTTON, 1).click();
         bot.shell("New Server").activate();
@@ -109,16 +102,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       
       waitForBlockingJobsAcomplished(BUILDING_WS);
       // Start Application Server
-      openServerView();
-      SWTBot servers = bot.viewByTitle(WidgetVariables.SERVERS)
-        .bot();
-      SWTBotTree serverTree = servers.tree();
-      
-      ContextMenuHelper.prepareTreeItemForContextMenu(serverTree);
-      
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(serverTree,
-          "Start", false)).click();
-      waitForBlockingJobsAcomplished(45*1000L,asStartingJob);
+      SWTJBTExt.startApplicationServer(bot, 0);
       // Run it on server
       openPackageExplorer();
       SWTBot packageExplorer = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
@@ -174,20 +158,8 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       assertTrue("Displayed HTML page has wrong content", 
         browserText.indexOf("<TITLE>Input User Name Page</TITLE>") > - 1);
       // Stop Application Server and remove Application Server from Server View
-      openServerView();
-      
-      ContextMenuHelper.prepareTreeItemForContextMenu(serverTree);
-      
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(serverTree,
-          "Stop", false)).click();
-      
-      waitForBlockingJobsAcomplished(10*1000L , asStoppingJob);
-      
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(serverTree,
-          "Delete", false)).click();
-      bot.shell("Delete Server").activate();
-      bot.button(WidgetVariables.OK_BUTTON).click();
-    
+      SWTJBTExt.stopApplicationServer(bot, 0);
+      SWTJBTExt.deleteApplicationServer(bot, 0);
       setException(null);      
     }
     else{
