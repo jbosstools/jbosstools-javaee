@@ -450,7 +450,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			return project.hasNature(JSFNature.NATURE_ID) && KbProject.checkKBBuilderInstalled(project);
+			return project!=null && project.isAccessible() && project.hasNature(JSFNature.NATURE_ID) && KbProject.checkKBBuilderInstalled(project);
 		} catch (CoreException e) {
 			JSFModelPlugin.getDefault().logError(e);
 		}

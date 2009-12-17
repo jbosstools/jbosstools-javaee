@@ -104,7 +104,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		SeamProjectsSet set = new SeamProjectsSet(project);
 		IProject war = set.getWarProject();
 		IValidationContext rootContext = null;
-		if(war!=null) {
+		if(war!=null && war.isAccessible()) {
 			IKbProject kbProject = KbProjectFactory.getKbProject(war, false);
 			if(kbProject!=null) {
 				rootContext = kbProject.getValidationContext();
@@ -126,7 +126,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		List<IProject> projects = new ArrayList<IProject>();
 		IProject[] array = set.getAllProjects();
 		for (int i = 0; i < array.length; i++) {
-			projects.add(array[i]);
+			if(array[i].isAccessible()) {
+				projects.add(array[i]);
+			}
 		}
 		return new ValidatingProjectSet(project, projects, rootContext);
 	}
@@ -138,7 +140,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public boolean shouldValidate(IProject project) {
 		try {
 			// TODO check preferences
-			return project.hasNature(ISeamProject.NATURE_ID);
+			return project!=null && project.isAccessible() && project.hasNature(ISeamProject.NATURE_ID);
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
