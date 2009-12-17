@@ -30,13 +30,13 @@
     <bookinfo>
         <title>Struts Tools Reference Guide</title>
         
-        <corpauthor diffmk:change="added">
-            <inlinemediaobject diffmk:change="added">
-                <imageobject diffmk:change="added" role="fo">
-                    <imagedata diffmk:change="added" fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+        <corpauthor>
+            <inlinemediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
                 </imageobject>	
-                <imageobject diffmk:change="added" role="html">
-                    <imagedata diffmk:change="added"></imagedata>
+                <imageobject role="html">
+                    <imagedata></imagedata>
                 </imageobject>	
             </inlinemediaobject>           
         </corpauthor>
@@ -48,10 +48,10 @@
         <copyright>
             <year>2007</year>
              <year>2009</year>
-             <holder><diffmk:wrapper diffmk:change="changed">JBoss by Red Hat</diffmk:wrapper></holder>
+             <holder>JBoss by Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.M2
+             Version: 3.1.0.CR1
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -67,7 +67,7 @@
     <toc></toc>  
     
     
-<chapter id="intoduction" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/introduction.xml">
+<chapter id="intoduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/introduction.xml">
     <?dbhtml filename="introduction.html"?>
 
     <chapterinfo>
@@ -170,15 +170,15 @@
     <section>
         <title>Other relevant resources on the topic</title>
         
-        <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools documentation you can find on</diffmk:wrapper><ulink url="http://docs.jboss.org/tools/"><diffmk:wrapper diffmk:change="changed">JBoss Tools project page </diffmk:wrapper></ulink>.</para>
-        <para><diffmk:wrapper diffmk:change="changed">The latest documentation builds are available on</diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/nightly-docs/"><diffmk:wrapper diffmk:change="changed">nightly docs page</diffmk:wrapper></ulink>.</para>
+        <para>All JBoss Developer Studio/JBoss Tools documentation you can find on<ulink url="http://docs.jboss.org/tools/">JBoss Tools project page </ulink>.</para>
+        <para>The latest documentation builds are available on<ulink url="http://download.jboss.org/jbosstools/nightly-docs/">nightly docs page</ulink>.</para>
         
     </section>
     
 </chapter>
 
     
-<chapter id="projects" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/projects.xml">
+<chapter id="projects" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/projects.xml">
     <?dbhtml filename="projects.html"?>
 
     <chapterinfo>
@@ -444,16 +444,16 @@
         </figure>
     </section>
 
-    <section diffmk:change="added">
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Relevant Resources Links</diffmk:wrapper></title>
+    <section>
+        <title>Relevant Resources Links</title>
         
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can find more in-depth explanation on how to work with special wizards, editors and views that can
-            be used in various scenarios while developing Struts applications in our </diffmk:wrapper><ulink diffmk:change="added" url="../../jsf/html_single/index.html"><diffmk:wrapper diffmk:change="added">Visual Web Tools guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+        <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
+            be used in various scenarios while developing Struts applications in our <ulink url="../../jsf/html_single/index.html">Visual Web Tools guide</ulink>.</para>
     </section>
 </chapter>
 
     
-<chapter id="editors" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/editors.xml">
+<chapter id="editors" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/editors.xml">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -466,20 +466,20 @@
     </chapterinfo>
 
     <title>Editors</title>
-    <para><diffmk:wrapper diffmk:change="changed">In this chapter we'll introduce you to featured graphical editors for specific
-    Struts files such as Struts Configuration files, Tiles files, Struts Validation files and web.xml.</diffmk:wrapper></para>
+    <para>In this chapter we'll introduce you to featured graphical editors for specific
+    Struts files such as Struts Configuration files, Tiles files, Struts Validation files and web.xml.</para>
 	
-	<section diffmk:change="added" id="webxml_editor">
-		<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Web.xml Editor</diffmk:wrapper></title>
+	<section id="webxml_editor">
+		<title>Web.xml Editor</title>
 		
-		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><emphasis diffmk:change="added">
-			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> file inside the </diffmk:wrapper><emphasis diffmk:change="added">
-				<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">WEB-INF</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> folder is a deployment descriptor file for a Web Application. It 
-			describes the servlets and other components and deployment properties that make up your application.</diffmk:wrapper></para>
+		<para>The <emphasis>
+			<property moreinfo="none">web.xml</property></emphasis> file inside the <emphasis>
+				<property moreinfo="none">WEB-INF</property></emphasis> folder is a deployment descriptor file for a Web Application. It 
+			describes the servlets and other components and deployment properties that make up your application.</para>
 		
-		<para diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> add the </diffmk:wrapper><emphasis diffmk:change="added">
-			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> file to created Struts project automatically and provides a special editor for its editing.
-			See the Visual Web Tools guide that gives a descriptive information on the </diffmk:wrapper><ulink diffmk:change="added" url="../../jsf/html_single/index.html#GraphicalWebApplicationFileEditor"><diffmk:wrapper diffmk:change="added">web.xml editor</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+		<para><property moreinfo="none">JBoss Tools</property> add the <emphasis>
+			<property moreinfo="none">web.xml</property></emphasis> file to created Struts project automatically and provides a special editor for its editing.
+			See the Visual Web Tools guide that gives a descriptive information on the <ulink url="../../jsf/html_single/index.html#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
 	</section>
 	
     <section id="struts_config_editor">
@@ -566,8 +566,8 @@
 
             <title>Tree View</title>
 
-        	<para><diffmk:wrapper diffmk:change="changed">The Tree view represents the different elements of the Struts application that are organized into functional categories 
-        		on the left-hand side and a form for editing the properties of currently selected items on the right-hand side.</diffmk:wrapper></para>
+        	<para>The Tree view represents the different elements of the Struts application that are organized into functional categories 
+        		on the left-hand side and a form for editing the properties of currently selected items on the right-hand side.</para>
 
             <figure float="0">
                 <title>Tree View</title>
@@ -578,9 +578,9 @@
                 </mediaobject>
             </figure>        	
         
-            <para><diffmk:wrapper diffmk:change="changed">You can right-click on any node in the category tree and perform appropriate
+            <para>You can right-click on any node in the category tree and perform appropriate
                 operations through a context menu. For instance, by right-clicking on the
-                action-mappings category node, you can add new actions to the application.</diffmk:wrapper></para>
+                action-mappings category node, you can add new actions to the application.</para>
 
             <figure float="0">
                 <title>Tree Context Menu</title>
@@ -591,38 +591,38 @@
                 </mediaobject>
             </figure>
         	
-        	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Let's consider the tree on the left more closely.</diffmk:wrapper></para>
+        	<para>Let's consider the tree on the left more closely.</para>
         	
-        	<itemizedlist diffmk:change="added">
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Under the </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">data-sources</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node you can create a Data Source object that will be configured 
-        			and made available as a servlet context attribute.</diffmk:wrapper></para></listitem>
+        	<itemizedlist>
+        		<listitem><para>Under the <emphasis>
+        			<property moreinfo="none">data-sources</property></emphasis> node you can create a Data Source object that will be configured 
+        			and made available as a servlet context attribute.</para></listitem>
         		
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">form-beans</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node is meant for creating a set of form bean descriptors for this module. 
+        		<listitem><para>The <emphasis>
+        			<property moreinfo="none">form-beans</property></emphasis> node is meant for creating a set of form bean descriptors for this module. 
         			Every created element under this node is a JavaBean that implements the org.apache.struts.action.ActionForm class. 
-        			Use the Properties editor on the right to adjust properties specific to every created form-bean.</diffmk:wrapper></para></listitem>
+        			Use the Properties editor on the right to adjust properties specific to every created form-bean.</para></listitem>
         		
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">global-exceptions</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node is intended for registering the handlers for the exceptions 
-        			that might be thrown by an Action object.</diffmk:wrapper></para></listitem>
+        		<listitem><para>The <emphasis>
+        			<property moreinfo="none">global-exceptions</property></emphasis> node is intended for registering the handlers for the exceptions 
+        			that might be thrown by an Action object.</para></listitem>
         		
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Use the </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">global-forwards</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node to add, edit or delete a global forwards that represent
-        			ActionForward objects available to all Action objects as a return value.</diffmk:wrapper></para></listitem>
+        		<listitem><para>Use the <emphasis>
+        			<property moreinfo="none">global-forwards</property></emphasis> node to add, edit or delete a global forwards that represent
+        			ActionForward objects available to all Action objects as a return value.</para></listitem>
         		
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">controller</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node allows you to configure the controller properties.</diffmk:wrapper></para></listitem>
+        		<listitem><para>The <emphasis>
+        			<property moreinfo="none">controller</property></emphasis> node allows you to configure the controller properties.</para></listitem>
         		
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Under the </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">resources</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node you can add, delete, or edit message resources.</diffmk:wrapper></para></listitem>
+        		<listitem><para>Under the <emphasis>
+        			<property moreinfo="none">resources</property></emphasis> node you can add, delete, or edit message resources.</para></listitem>
         		
-        		<listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Under the </diffmk:wrapper><emphasis diffmk:change="added">
-        			<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">plug-ins</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> node you can define a Struts plug-in. Right-click the node, select </diffmk:wrapper><emphasis diffmk:change="added">
-        				<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Create Plug-in</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> 
-        			and specify the plug-ib </diffmk:wrapper><emphasis diffmk:change="added">
-        				<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Id</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> and </diffmk:wrapper><emphasis diffmk:change="added">
-        					<property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">ClassName</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> by pointing to the Java class which implements the org.apache.struts.action.PlugIn interface. </diffmk:wrapper></para></listitem>
+        		<listitem><para>Under the <emphasis>
+        			<property moreinfo="none">plug-ins</property></emphasis> node you can define a Struts plug-in. Right-click the node, select <emphasis>
+        				<property moreinfo="none">Create Plug-in</property></emphasis> 
+        			and specify the plug-ib <emphasis>
+        				<property moreinfo="none">Id</property></emphasis> and <emphasis>
+        					<property moreinfo="none">ClassName</property></emphasis> by pointing to the Java class which implements the org.apache.struts.action.PlugIn interface. </para></listitem>
         		
         	</itemizedlist>
         </section>
@@ -687,7 +687,7 @@
                 </mediaobject>
             </figure>
             
-            <para>Find more information about editor features <ulink url="../../jsf/html_single/index.html#editors_features"><diffmk:wrapper diffmk:change="changed">in the editor features  chapter</diffmk:wrapper></ulink>.</para>
+            <para>Find more information about editor features <ulink url="../../jsf/html_single/index.html#editors_features">in the editor features  chapter</ulink>.</para>
         </section>
     </section>
 
@@ -933,7 +933,7 @@
 </chapter>
 
     
-<chapter id="modules" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/modules.xml">
+<chapter id="modules" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/modules.xml">
     <?dbhtml filename="modules.html"?>
     <chapterinfo>
         <keywordset>
@@ -1033,7 +1033,7 @@
 </chapter>
 
     
-<chapter id="code_generation" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/code_generation.xml">
+<chapter id="code_generation" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/code_generation.xml">
     <?dbhtml filename="code_generation.html"?>
     
     <chapterinfo>
@@ -1130,7 +1130,7 @@
     </figure>
 </chapter>
     
-<chapter id="config_file_debugger" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/config_file_debugger.xml">
+<chapter id="config_file_debugger" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/config_file_debugger.xml">
     <?dbhtml filename="config_file_debugger.html"?>
     <chapterinfo>
         <keywordset>
@@ -1160,7 +1160,7 @@
     </figure>
 </chapter>
     
-<chapter id="page_links_recognizer" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/page_links_recognizer.xml">
+<chapter id="page_links_recognizer" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/page_links_recognizer.xml">
     <?dbhtml filename="page_links_recognizer.html"?>
     
     <chapterinfo>
@@ -1191,7 +1191,7 @@
     </figure>
 </chapter>
     
-<chapter id="project_verification" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/project_verification.xml">
+<chapter id="project_verification" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/project_verification.xml">
     <?dbhtml filename="project_verification.html"?>
     <chapterinfo>
         <keywordset>
@@ -1294,7 +1294,7 @@
     </figure>
 </chapter>
     
-<chapter id="rel_resources_links" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_ref_guide/en/modules/rel_resources_links.xml">
+<chapter id="rel_resources_links" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/rel_resources_links.xml">
         <?dbhtml filename="rel_resources_links.html"?>
         <chapterinfo>
                 <keywordset>
