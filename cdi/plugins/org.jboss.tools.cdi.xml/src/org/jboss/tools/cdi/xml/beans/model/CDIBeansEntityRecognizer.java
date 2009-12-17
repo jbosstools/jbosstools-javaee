@@ -10,9 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.xml.beans.model;
 
-import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.loaders.EntityRecognizerExtension;
 
-public class CDIBeansEntityRecognizer implements EntityRecognizer, CDIBeansConstants {
+public class CDIBeansEntityRecognizer implements EntityRecognizerExtension, CDIBeansConstants {
 
     public CDIBeansEntityRecognizer() {}
 
@@ -23,7 +23,19 @@ public class CDIBeansEntityRecognizer implements EntityRecognizer, CDIBeansConst
     	}    	
         return null;
     }
-    
+
+	public String getEntityName(String fileName, String ext, String body) {
+        if(body == null) return null;
+		String result = getEntityName(ext, body);
+		if(result != null) {
+			return result;
+		}
+		if("beans.xml".equals(fileName) && body.indexOf("<beans") >= 0) {
+			return ENT_CDI_BEANS;
+		}
+		return null;
+	}    
+
     private boolean isComponentsSchema(String body) {
     	int i = body.indexOf("<beans"); //$NON-NLS-1$
     	if(i < 0) return false;
@@ -32,5 +44,5 @@ public class CDIBeansEntityRecognizer implements EntityRecognizer, CDIBeansConst
     	String s = body.substring(i, j);
     	return s.indexOf("\"" + BEANS_NAMESPACE + "\"") > 0; //$NON-NLS-1$
     }
-    
+
 }
