@@ -47,7 +47,7 @@
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.M2
+            Version: 3.1.0.CR1
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -63,7 +63,7 @@
     <toc></toc>  
    
     
-<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
+<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
   <?dbhtml filename="introduction.html"?>
   <chapterinfo>
     <keywordset>
@@ -89,60 +89,60 @@
     application, and finally run it all from inside the Eclipse.</para>
   
   <section>
-    <title><diffmk:wrapper diffmk:change="added">Key Features Struts Tools</diffmk:wrapper></title>
+    <title>Key Features Struts Tools</title>
   
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For a start, we propose you to look through the table of main features of Struts
-      Tools:</diffmk:wrapper></para>
-    <table diffmk:change="added">
+    <para>For a start, we propose you to look through the table of main features of Struts
+      Tools:</para>
+    <table>
       
-      <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Key Functionality of Struts Tools</diffmk:wrapper></title>
-      <tgroup cols="2" diffmk:change="added">
+      <title>Key Functionality of Struts Tools</title>
+      <tgroup cols="2">
         
-        <colspec align="left" colnum="1" colwidth="2*" diffmk:change="added"></colspec>
-        <colspec colnum="2" colwidth="4*" diffmk:change="added"></colspec>
+        <colspec align="left" colnum="1" colwidth="2*"></colspec>
+        <colspec colnum="2" colwidth="4*"></colspec>
         
         
-        <thead diffmk:change="added">
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Feature</diffmk:wrapper></entry>
-            <entry diffmk:change="added"><diffmk:wrapper diffmk:change="added">Benefit</diffmk:wrapper></entry>
+        <thead>
+          <row>
+            <entry>Feature</entry>
+            <entry>Benefit</entry>
            
           </row>
         </thead>
-        <tbody diffmk:change="added">
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Struts Support</diffmk:wrapper></para></entry>
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Step-by-step wizards for creating a new struts project with a number
+        <tbody>
+          <row>
+            <entry><para>Struts Support</para></entry>
+            <entry><para>Step-by-step wizards for creating a new struts project with a number
               of predefined templates, importing existing ones and adding struts
-              capabilities to non-struts web projects.</diffmk:wrapper></para></entry>
+              capabilities to non-struts web projects.</para></entry>
             
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Struts Configuration File</diffmk:wrapper></para></entry>
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Working on file using three modes: diagram, tree and source.
+          <row>
+            <entry><para>Support for Struts Configuration File</para></entry>
+            <entry><para>Working on file using three modes: diagram, tree and source.
               Synchronization between the modes and full control over the code. Easy
               moving around the diagram using the Diagram Navigator. Working with
               struts projects that have multiple modules. Possibility to use Struts
               configuration file debugger allowing to set break points on struts
-              diagram and then launch the server in debug mode.</diffmk:wrapper></para></entry>
+              diagram and then launch the server in debug mode.</para></entry>
             
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Struts modules</diffmk:wrapper></para></entry>
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">A Struts module (struts-config.xml) is automatically created while
+          <row>
+            <entry><para>Support for Struts modules</para></entry>
+            <entry><para>A Struts module (struts-config.xml) is automatically created while
               creating a new project. There is also possibility to add new ones or edit
-              already existing modules in your existing project or while importing Struts project.</diffmk:wrapper></para></entry>
+              already existing modules in your existing project or while importing Struts project.</para></entry>
             
           </row>
           
-          <row diffmk:change="added">
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Verification and Validation</diffmk:wrapper></para></entry>
-            <entry diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">All occurring errors will be immediately reported by verification
+          <row>
+            <entry><para>Verification and Validation</para></entry>
+            <entry><para>All occurring errors will be immediately reported by verification
               feature, no matter in what view you are working. Constant validation and
               errors checking allows to catch many of the errors during development
-              process that significantly reduces development time.</diffmk:wrapper></para></entry>
+              process that significantly reduces development time.</para></entry>
             
             
           </row>
@@ -153,8 +153,8 @@
   
   
   
-  <section diffmk:change="added">
-    <title diffmk:change="added">Other relevant resources on the topic</title>
+  <section>
+    <title>Other relevant resources on the topic</title>
     
     <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
     <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
@@ -164,7 +164,7 @@
 </chapter>
 
     
-<chapter id="struts_application" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/struts_application.xml" xreflabel="struts_application">
+<chapter id="struts_application" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/struts_application.xml" xreflabel="struts_application">
     <?dbhtml filename="struts_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -591,7 +591,7 @@
     </section>
 </chapter>
     
-<chapter id="generating_stub" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/generating_stub.xml" xreflabel="generating_stub">
+<chapter id="generating_stub" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/generating_stub.xml" xreflabel="generating_stub">
     <?dbhtml filename="generating_stub.html"?>
     <chapterinfo>
         <keywordset>
@@ -642,7 +642,7 @@
             been generated.</para>
     </chapter>
     
-<chapter id="coding_files" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/coding_files.xml" xreflabel="coding_files">
+<chapter id="coding_files" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/coding_files.xml" xreflabel="coding_files">
     <?dbhtml filename="coding_files.html"?>
     <chapterinfo>
         <keywordset>
@@ -1071,7 +1071,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         </section>
     </chapter>
     
-<chapter id="compiling_and_running" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/compiling_and_running.xml" xreflabel="compiling_and_running">
+<chapter id="compiling_and_running" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/compiling_and_running.xml" xreflabel="compiling_and_running">
     <?dbhtml filename="compiling_and_running.html"?>
     <chapterinfo>
         <keywordset>
@@ -1114,7 +1114,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         <para>The browser should appear with the application started.</para>
     </chapter>
     
-<chapter id="struts_validation" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/struts_validation.xml" xreflabel="struts_validation">
+<chapter id="struts_validation" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/struts_validation.xml" xreflabel="struts_validation">
   <?dbhtml filename="struts_validation.html"?>
   <chapterinfo>
         <keywordset>
@@ -1353,7 +1353,7 @@ org.apache.struts.validator.ValidatorForm
 
 </chapter>
     
-<chapter id="relevant_resources" xml:base="file:///home/ochikvina/WORK/for_compare/trunk/struts/docs/struts_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
+<chapter id="relevant_resources" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
     <?dbhtml filename="relevant_resources.html"?>
     <chapterinfo>
         <keywordset>
