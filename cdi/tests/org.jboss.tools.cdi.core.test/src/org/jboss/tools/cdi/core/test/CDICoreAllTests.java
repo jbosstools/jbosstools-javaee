@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.tests.AbstractPluginsLoadTest;
 
 /**
@@ -22,6 +23,7 @@ public class CDICoreAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI Core Tests");
+		suite.addTestSuite(TCKTest.class);
 		return suite;
 	}
 
