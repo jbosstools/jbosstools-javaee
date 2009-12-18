@@ -45,6 +45,9 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public class ClassBean extends AbstractBeanElement implements IClassBean {
+	protected ClassBean superClassBean = null;
+	protected Set<ClassBean> specializingClassBeans = new HashSet<ClassBean>();
+	
 	protected List<BeanField> fields = new ArrayList<BeanField>();
 	protected List<BeanMethod> methods = new ArrayList<BeanMethod>();
 
@@ -97,6 +100,17 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			}
 		}
 		return result;
+	}
+
+	public void setSuperClassBean(ClassBean bean) {
+		superClassBean = bean;
+		if(superClassBean != null && isSpecializing()) {
+			superClassBean.specializingClassBeans.add(this);
+		}
+	}
+
+	public ClassBean getSuperClassBean() {
+		return superClassBean;
 	}
 
 	public Set<IBeanMethod> getDisposers() {
@@ -174,6 +188,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public String getName() {
+		ClassBean specialized = getSpecializedBean();
+		if(specialized != null) {
+			return specialized.getName();
+		}
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
@@ -205,12 +223,15 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return null;
 	}
 
-	public IBean getSpecializedBean() {
+	public ClassBean getSpecializedBean() {
 		if(getDefinition().getSpecializesAnnotation() == null) {
 			return null;
 		}
-		// TODO Auto-generated method stub
-		return null;
+		return superClassBean;
+	}
+
+	public Set<ClassBean> getSpecializingBeans() {
+		return specializingClassBeans;
 	}
 
 	public IAnnotationDeclaration getSpecializesAnnotationDeclaration() {
@@ -233,8 +254,16 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public boolean isEnabled() {
+		if(!specializingClassBeans.isEmpty()) {
+			return false;
+		}
+		if(getDefinition().getAlternativeAnnotation() != null) {
+			if(!getCDIProject().isClassAlternativeActivated(getDefinition().getQualifiedName())) {
+				return false;
+			}
+		}
 		// TODO 
-		return false;
+		return true;
 	}
 
 	public boolean isSpecializing() {

@@ -16,6 +16,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
@@ -27,6 +28,7 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected String qualifiedName;
 	protected IType type;
+	protected ParametedType superType = null;
 	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
 
 	public AbstractTypeDefinition() {}
@@ -48,24 +50,15 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		this.type = contextType;
 		super.init(contextType, context);
 		qualifiedName = getType().getFullyQualifiedName();
-		String sc = type.getSuperclassTypeSignature();
-		if(sc != null) {
-			//TODO process parameter types correctly!!!
-			sc = EclipseJavaUtil.resolveTypeAsString(contextType, sc);
-			if(sc != null && sc.length() > 0) {
-				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), sc);
-//TODO
-//				if(t != null) inheritedTypes.add(t);
-			}
+		if(!type.isInterface() && !type.isAnnotation()) {
+			String sc = type.getSuperclassTypeSignature();
+			superType = ParametedTypeFactory.getParametedType(type, sc);
+			if(superType != null) inheritedTypes.add(superType);
 		}
 		String[] is = type.getSuperInterfaceTypeSignatures();
 		if(is != null) for (int i = 0; i < is.length; i++) {
-			String c = EclipseJavaUtil.resolveTypeAsString(contextType, is[i]);
-			if(c != null && c.length() > 0) {
-				IType t = EclipseJavaUtil.findType(contextType.getJavaProject(), c);
-//TODO
-//				if(t != null) inheritedTypes.add(t);
-			}
+			ParametedType t = ParametedTypeFactory.getParametedType(type, is[i]);
+			if(t != null) inheritedTypes.add(t);
 		}
 	}
 

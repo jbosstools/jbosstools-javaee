@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 
 /**
  * 
@@ -30,10 +31,6 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	boolean isAbstract;
 	List<FieldDefinition> fields = new ArrayList<FieldDefinition>();
 	List<MethodDefinition> methods = new ArrayList<MethodDefinition>();
-	AnnotationDeclaration decoratorAnnotation;
-	AnnotationDeclaration interceptorAnnotation;
-	AnnotationDeclaration statefulAnnotation;
-	AnnotationDeclaration statelessAnnotation;
 
 	public TypeDefinition() {
 	}
@@ -62,6 +59,10 @@ public class TypeDefinition extends AbstractTypeDefinition {
 				methods.add(m);
 			}
 		}
+	}
+
+	public ParametedType getSuperType() {
+		return superType;
 	}
 
 	public List<FieldDefinition> getFields() {

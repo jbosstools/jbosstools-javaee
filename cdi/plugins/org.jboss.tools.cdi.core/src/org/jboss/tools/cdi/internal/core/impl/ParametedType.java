@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IParametedType;
 
@@ -21,6 +24,7 @@ import org.jboss.tools.cdi.core.IParametedType;
 public class ParametedType implements IParametedType {
 	protected IType type;
 	protected String signature;
+	protected List<ParametedType> parameterTypes = new ArrayList<ParametedType>();
 
 	public ParametedType() {}
 
@@ -32,8 +36,16 @@ public class ParametedType implements IParametedType {
 		return signature;
 	}
 
+	public void setType(IType type) {
+		this.type = type;
+	}
+
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public void addParameter(ParametedType p) {
+		parameterTypes.add(p);
 	}
 
 }

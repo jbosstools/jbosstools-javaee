@@ -53,4 +53,13 @@ public interface IClassBean extends IBean {
 	 * @return a set of observer methods of the bean
 	 */
 	Set<IObserverMethod> getObserverMethods();
+
+
+	/**
+	 * Returns all directly derived classes that declare annotation @Specializes
+	 * 
+	 * @return
+	 */
+	Set<? extends IClassBean> getSpecializingBeans();
+
 }

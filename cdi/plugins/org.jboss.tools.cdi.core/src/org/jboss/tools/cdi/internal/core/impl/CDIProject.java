@@ -56,12 +56,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
-
-	private Set<INodeReference> interceptors = new HashSet<INodeReference>();
-	private Set<INodeReference> decorators = new HashSet<INodeReference>();
-	private Set<INodeReference> stereotypeAlternatives = new HashSet<INodeReference>();
-	private Set<INodeReference> typeAlternatives = new HashSet<INodeReference>();
+	private Map<IType, ClassBean> classBeans = new HashMap<IType, ClassBean>();
 	
+	BeansXMLData beansXMLData = new BeansXMLData();
 
 	public CDIProject() {}
 
@@ -75,6 +72,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getAlternativeClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> typeAlternatives = beansXMLData.getTypeAlternatives();
 		synchronized (typeAlternatives) {
 			result.addAll(typeAlternatives);
 		}
@@ -83,19 +81,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getAlternativeStereotypes() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> stereotypeAlternatives = beansXMLData.getStereotypeAlternatives();
 		synchronized (stereotypeAlternatives) {
 			result.addAll(stereotypeAlternatives);
 		}
 		return result;
 	}
 
+	public boolean isClassAlternativeActivated(String fullQualifiedTypeName) {
+		return beansXMLData.getTypeAlternativeTypes().contains(fullQualifiedTypeName);
+	}
+
 	public List<INodeReference> getAlternatives(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> typeAlternatives = beansXMLData.getTypeAlternatives();
 		synchronized (typeAlternatives) {
 			for (INodeReference r: typeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
 		}
+		Set<INodeReference> stereotypeAlternatives = beansXMLData.getStereotypeAlternatives();
 		synchronized (stereotypeAlternatives) {
 			for (INodeReference r: stereotypeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
@@ -166,6 +171,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getDecoratorClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> decorators = beansXMLData.getDecorators();
 		synchronized (decorators) {
 			result.addAll(decorators);
 		}
@@ -174,6 +180,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> decorators = beansXMLData.getDecorators();
 		synchronized (decorators) {
 			for (INodeReference r: decorators) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
@@ -184,6 +191,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getInterceptorClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> interceptors = beansXMLData.getInterceptors();
 		synchronized (interceptors) {
 			result.addAll(interceptors);
 		}
@@ -193,6 +201,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public List<INodeReference> getInterceptorClasses(
 			String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
+		Set<INodeReference> interceptors = beansXMLData.getInterceptors();
 		synchronized (interceptors) {
 			for (INodeReference r: interceptors) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
@@ -351,9 +360,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public void update() {
+		rebuildXML();
 		rebuildAnnotationTypes();
 		rebuildBeans();
-		rebuildXML();
 	}
 
 	void rebuildAnnotationTypes() {
@@ -393,16 +402,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	void rebuildBeans() {
-		synchronized (beansByPath) {
-			beansByPath.clear();
-		}
-		synchronized (beansByName) {
-			beansByName.clear();
-		}
-		synchronized (namedBeans) {
-			namedBeans.clear();
-		}
 		List<TypeDefinition> typeDefinitions = n.getDefinitions().getTypeDefinitions();
+		List<IBean> beans = new ArrayList<IBean>();
+		Map<IType, ClassBean> newClassBeans = new HashMap<IType, ClassBean>();
+
 		for (TypeDefinition typeDefinition : typeDefinitions) {
 			ClassBean bean = null;
 			if(typeDefinition.getInterceptorAnnotation() != null) {
@@ -416,12 +419,41 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 			bean.setParent(this);
 			bean.setDefinition(typeDefinition);
-			addBean(bean);
+
+			beans.add(bean);
+			newClassBeans.put(typeDefinition.getType(), bean);
+
 			Set<IProducer> ps = bean.getProducers();
 			for (IProducer producer: ps) {
-				addBean(producer);
+				beans.add(producer);
 			}
 		}
+	
+		for (ClassBean bean: newClassBeans.values()) {
+			ParametedType s = bean.getDefinition().getSuperType();
+			if(s != null && s.getType() != null) {
+				ClassBean superClassBean = newClassBeans.get(s.getType());
+				if(superClassBean != null) {
+					bean.setSuperClassBean(superClassBean);
+				}
+			}
+		}
+	
+
+		synchronized (beansByPath) {
+			beansByPath.clear();
+		}
+		synchronized (beansByName) {
+			beansByName.clear();
+		}
+		synchronized (namedBeans) {
+			namedBeans.clear();
+		}
+		classBeans = newClassBeans;
+		for (IBean bean: beans) {
+			addBean(bean);
+		}
+		
 		System.out.println("Project=" + getNature().getProject());
 		System.out.println("Qualifiers=" + qualifiers.size());
 		System.out.println("Stereotypes=" + stereotypes.size());
@@ -461,31 +493,20 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	void rebuildXML() {
-		synchronized (interceptors) {
-			interceptors.clear();
-		}
-		synchronized (decorators) {
-			decorators.clear();
-		}
-		synchronized (stereotypeAlternatives) {
-			stereotypeAlternatives.clear();
-		}
-		synchronized (typeAlternatives) {
-			typeAlternatives.clear();
-		}
+		beansXMLData.clean();
 		Set<BeansXMLDefinition> beanXMLs = n.getDefinitions().getBeansXMLDefinitions();
 		for (BeansXMLDefinition b: beanXMLs) {
-			synchronized (interceptors) {
-				interceptors.addAll(b.getInterceptors());
+			for (INodeReference r: b.getInterceptors()) {
+				beansXMLData.addInterceptor(r);
 			}
-			synchronized (decorators) {
-				decorators.addAll(b.getDecorators());
+			for (INodeReference r: b.getDecorators()) {
+				beansXMLData.addDecorator(r);
 			}
-			synchronized (stereotypeAlternatives) {
-				stereotypeAlternatives.addAll(b.getStereotypeAlternatives());
+			for (INodeReference r: b.getStereotypeAlternatives()) {
+				beansXMLData.addStereotypeAlternative(r);
 			}
-			synchronized (typeAlternatives) {
-				typeAlternatives.addAll(b.getTypeAlternatives());
+			for (INodeReference r: b.getTypeAlternatives()) {
+				beansXMLData.addTypeAlternative(r);
 			}
 		}
 	}
