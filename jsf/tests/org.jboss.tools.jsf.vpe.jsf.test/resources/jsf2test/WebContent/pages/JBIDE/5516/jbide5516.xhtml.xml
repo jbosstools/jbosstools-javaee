@@ -1,0 +1,30 @@
+<tests>
+<test id="jbide5516">
+<DIV ID="jbide5516">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<TABLE BORDER="0" STYLE="margin-right: auto; margin-left: auto; -moz-user-modify: read-only;">
+<TBODY>
+<TR>
+<TD>
+<INPUT TYPE="submit" VALUE="1" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+<TD>
+<INPUT TYPE="submit" VALUE="2" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+<TD>
+<INPUT TYPE="submit" VALUE="3" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+<TD>
+<INPUT TYPE="submit" VALUE="4" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</DIV>
+</DIV>
+</test>
+</tests>

@@ -71,6 +71,7 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 		XModelObject webRoot = FileSystemsHelper.getWebRoot(getModel());
 		if(webxml == null || webRoot == null) return null;
 		XModelObject cp = WebAppHelper.findWebAppContextParam(webxml, "facelets.LIBRARIES");
+		if(cp == null) cp = WebAppHelper.findWebAppContextParam(webxml, "javax.faces.FACELETS_LIBRARIES");
 		if(cp == null) return null;
 		String value = cp.getAttributeValue("param-value");
 		if(value == null || value.length() == 0) return null;

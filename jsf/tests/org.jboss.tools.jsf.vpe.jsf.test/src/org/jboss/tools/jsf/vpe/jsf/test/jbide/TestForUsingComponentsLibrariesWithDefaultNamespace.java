@@ -28,7 +28,13 @@ public class TestForUsingComponentsLibrariesWithDefaultNamespace extends Compone
 		performContentTest("JBIDE/5352/jbide5352.xhtml"); //$NON-NLS-1$
 		
 	}
-
+	/**
+	 * Test Case for https://jira.jboss.org/jira/browse/JBIDE-5516
+	 * @throws Throwable
+	 */
+	public void testFaceletsLibrariesSupport() throws Throwable{
+		performContentTest("JBIDE/5516/jbide5516.xhtml");  //$NON-NLS-1$
+	}
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
