@@ -6,7 +6,6 @@ Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: org.jboss.tools.seam.ui.SeamGuiPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui.ide,
- org.eclipse.ui.forms,
  org.eclipse.ui.navigator,
  org.eclipse.ui.navigator.resources,
  org.eclipse.jst.servlet.ui,

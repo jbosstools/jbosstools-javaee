@@ -91,4 +91,8 @@
          		resolver-class="org.jboss.tools.cdi.internal.core.el.CdiElResolver"/>
          </el-resolver>
    </extension>
+
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.cdi.core.preferences.CDIPreferenceInitializer"/>
+   </extension>
 </plugin>

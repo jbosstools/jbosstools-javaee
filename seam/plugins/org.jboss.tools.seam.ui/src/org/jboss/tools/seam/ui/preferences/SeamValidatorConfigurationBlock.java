@@ -14,23 +14,15 @@ package org.jboss.tools.seam.ui.preferences;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.ui.preferences.ScrolledPageContent;
 import org.eclipse.jdt.internal.ui.wizards.IStatusChangeListener;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 
 /**
- * Find in SeamPreferences the instruction to Framework for Severity preferences
+ * Find the Severity Framework instruction in SeamPreferences
  * To modify section descriptions:
  * 1) If new option is to be added to existing description,
  *    add array of two String objects, where first is the preference name 
@@ -133,13 +125,6 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 		SECTION_SETTINGS
 	};
 
-	private static final String ERROR = SeamPreferences.ERROR;
-	private static final String WARNING = SeamPreferences.WARNING;
-	private static final String IGNORE = SeamPreferences.IGNORE;
-
-	private static final String ENABLED= JavaCore.ENABLED;
-	private static final String DISABLED= JavaCore.DISABLED;
-
 	//private PixelConverter fPixelConverter;
 
 	private static Key[] getKeys() {
@@ -159,52 +144,17 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 	}
 
 	@Override
-	protected Composite createStyleTabContent(Composite folder) {
-		String[] errorWarningIgnore = new String[] {ERROR, WARNING, IGNORE};
+	protected SectionDescription[] getAllSections() {
+		return ALL_SECTIONS;
+	}
 
-		String[] errorWarningIgnoreLabels = new String[] {
-			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_ERROR,  
-			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_WARNING, 
-			SeamPreferencesMessages.SEAM_VALIDATOR_CONFIGURATION_BLOCK_IGNORE
-		};
+	@Override
+	protected String getCommonDescription() {
+		return SeamPreferencesMessages.SeamValidatorConfigurationBlock_common_description;
+	}
 
-		int nColumns = 3;
-
-		final ScrolledPageContent sc1 = new ScrolledPageContent(folder);
-
-		Composite composite = sc1.getBody();
-		GridLayout layout= new GridLayout(nColumns, false);
-		layout.marginHeight= 0;
-		layout.marginWidth= 0;
-		composite.setLayout(layout);
-
-		Label description= new Label(composite, SWT.LEFT | SWT.WRAP);
-		description.setFont(description.getFont());
-		description.setText(SeamPreferencesMessages.SeamValidatorConfigurationBlock_common_description); 
-		description.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, false, nColumns - 1, 1));
-
-		int defaultIndent = 0;
-
-		for (int i = 0; i < ALL_SECTIONS.length; i++) {
-			SectionDescription section = ALL_SECTIONS[i];
-			String label = section.label; 
-			ExpandableComposite excomposite = createStyleSection(composite, label, nColumns);
-
-			Composite inner = new Composite(excomposite, SWT.NONE);
-			inner.setFont(composite.getFont());
-			inner.setLayout(new GridLayout(nColumns, false));
-			excomposite.setClient(inner);
-
-			for (int j = 0; j < section.options.length; j++) {
-				OptionDescription option = section.options[j];
-				label = option.label;
-				addComboBox(inner, label, option.key, errorWarningIgnore, errorWarningIgnoreLabels, defaultIndent);
-			}
-		}
-
-		IDialogSettings section = SeamCorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
-		restoreSectionExpansionStates(section);
-
-		return sc1;
+	@Override
+	protected IDialogSettings getDialogSettings() {
+		return SeamCorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 	}
 }

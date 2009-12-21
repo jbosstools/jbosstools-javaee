@@ -16,14 +16,17 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.wst.common.frameworks,
  org.jboss.tools.jst.web.kb,
  org.jboss.tools.common.el.core,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.equinox.preferences
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: JBoss by Red Hat
 Export-Package: org.jboss.tools.cdi.core,
+ org.jboss.tools.cdi.core.preferences,
  org.jboss.tools.cdi.internal.core.el,
  org.jboss.tools.cdi.internal.core.impl,
  org.jboss.tools.cdi.internal.core.impl.definition,
  org.jboss.tools.cdi.internal.core.project.facet,
  org.jboss.tools.cdi.internal.core.scanner,
- org.jboss.tools.cdi.internal.core.scanner.lib
+ org.jboss.tools.cdi.internal.core.scanner.lib,
+ org.jboss.tools.cdi.internal.core.validation

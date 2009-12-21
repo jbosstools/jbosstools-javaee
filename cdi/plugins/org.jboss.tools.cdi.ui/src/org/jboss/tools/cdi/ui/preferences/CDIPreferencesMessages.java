@@ -21,6 +21,19 @@ public class CDIPreferencesMessages extends NLS {
 
 	public static String CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT;
 
+	// Validator Preference page
+	public static String CDIValidatorConfigurationBlock_common_description;
+	
+	public static String CDIValidatorConfigurationBlock_needsbuild_title;
+	public static String CDIValidatorConfigurationBlock_needsfullbuild_message;
+	public static String CDIValidatorConfigurationBlock_needsprojectbuild_message;
+
+	// Section Test
+	public static String CDIValidatorConfigurationBlock_section_test;
+	public static String CDIValidatorConfigurationBlock_pb_test_label;
+
+	public static String CDI_VALIDATOR_PREFERENCE_PAGE_CDI_VALIDATOR;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, CDIPreferencesMessages.class);
 	}

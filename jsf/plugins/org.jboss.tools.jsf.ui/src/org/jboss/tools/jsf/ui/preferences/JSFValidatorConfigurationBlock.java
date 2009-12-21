@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
-import org.jboss.tools.common.ui.preferences.SeverityPreferencesMessages;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 
@@ -81,15 +80,6 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 
 	@Override
 	protected Composite createStyleTabContent(Composite folder) {
-		String[] errorWarningIgnore = new String[] {ERROR, WARNING, IGNORE};
-		String[] enableDisableValues= new String[] {ENABLED, DISABLED};
-
-		String[] errorWarningIgnoreLabels = new String[] {
-				SeverityPreferencesMessages.VALIDATOR_CONFIGURATION_BLOCK_ERROR,  
-				SeverityPreferencesMessages.VALIDATOR_CONFIGURATION_BLOCK_WARNING, 
-				SeverityPreferencesMessages.VALIDATOR_CONFIGURATION_BLOCK_IGNORE
-		};
-
 		int nColumns = 3;
 
 		final ScrolledPageContent sc1 = new ScrolledPageContent(folder);
@@ -102,7 +92,7 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 
 		Label description= new Label(composite, SWT.LEFT | SWT.WRAP);
 		description.setFont(description.getFont());
-		description.setText(JSFSeverityPreferencesMessages.JSFValidatorConfigurationBlock_common_description); 
+		description.setText(getCommonDescription()); 
 		description.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, false, nColumns - 1, 1));
 
 		int defaultIndent = 0;
@@ -153,8 +143,7 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 			}
 		}
 
-		IDialogSettings section = JSFModelPlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
-		restoreSectionExpansionStates(section);
+		restoreSectionExpansionStates(getDialogSettings());
 
 		updateELCombox();
 
@@ -171,5 +160,20 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 		boolean enable = elPropertiesCombo.getSelectionIndex()!=2 || elVariablesCombo.getSelectionIndex()!=2;
 		recognizeVarsCheckBox.setEnabled(enable);
 		revalidateUnresolvedElCheckBox.setEnabled(enable);
+	}
+
+	@Override
+	protected SectionDescription[] getAllSections() {
+		return ALL_SECTIONS;
+	}
+
+	@Override
+	protected String getCommonDescription() {
+		return JSFSeverityPreferencesMessages.JSFValidatorConfigurationBlock_common_description;
+	}
+
+	@Override
+	protected IDialogSettings getDialogSettings() {
+		return JSFModelPlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 	}
 }

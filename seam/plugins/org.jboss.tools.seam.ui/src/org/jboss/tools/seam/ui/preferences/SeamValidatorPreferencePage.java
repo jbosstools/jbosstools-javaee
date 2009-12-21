@@ -11,7 +11,6 @@
 
 package org.jboss.tools.seam.ui.preferences;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
@@ -37,11 +36,6 @@ public class SeamValidatorPreferencePage extends SeverityPreferencePage {
 	@Override
 	protected String getPropertyPageID() {
 		return PROP_ID;
-	}
-
-	@Override
-	protected boolean hasProjectSpecificOptions(IProject project) {
-		return fConfigurationBlock.hasProjectSpecificOptions(project);
 	}
 
 	@Override

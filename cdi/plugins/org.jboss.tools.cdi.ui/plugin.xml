@@ -16,6 +16,21 @@
       </page>
    </extension>
 
+   <extension point="org.eclipse.ui.preferencePages">
+      <page 
+         category="org.jboss.tools.common.model.ui.cdi" 
+         class="org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage" 
+         id="org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage" 
+         name="%PreferencePage_Validator">
+      </page>
+      <page
+            category="org.jboss.tools.common.model.ui"
+            class="org.jboss.tools.cdi.ui.preferences.CDIPreferencePage"
+            id="org.jboss.tools.common.model.ui.cdi"
+            name="%PreferencePage_CDI">
+      </page>
+   </extension>
+
 	<extension
 		point="org.eclipse.ui.popupMenus">
 
