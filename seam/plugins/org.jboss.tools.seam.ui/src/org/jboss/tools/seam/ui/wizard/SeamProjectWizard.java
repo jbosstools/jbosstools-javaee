@@ -13,14 +13,15 @@ package org.jboss.tools.seam.ui.wizard;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,9 +31,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -60,6 +58,7 @@ import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.internal.datamodel.ui.DataModelSynchHelper;
+import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
@@ -85,6 +84,7 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
 import org.jboss.tools.seam.internal.core.project.facet.DataSourceXmlDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegate;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -106,6 +106,8 @@ public class SeamProjectWizard extends WebProjectWizard {
 	private Combo matchedServerTargetCombo;
 	private Control[] dependentServerControls;
 	private Combo serverRuntimeTargetCombo;
+
+	private IPreset oldPreset;
 
 	public SeamProjectWizard() {
 		super();
@@ -161,6 +163,13 @@ public class SeamProjectWizard extends WebProjectWizard {
 			public void handleEvent(IFacetedProjectEvent event) {
 				IPreset preset = getFacetedProjectWorkingCopy().getSelectedPreset();
 				if(preset!=null) {
+					Set<IProjectFacetVersion> facets = preset.getProjectFacets();
+					for (IProjectFacetVersion facet : facets) {
+						if(SeamFacetInstallDelegate.SEAM_FACET_ID.equals(facet.getProjectFacet().getId())) {
+							oldPreset = null;
+							break;
+						}
+					}
 					setSeamConfigTemplate(templates.get(preset.getId()));
 				}
 			}
@@ -182,7 +191,44 @@ public class SeamProjectWizard extends WebProjectWizard {
 		firstPage.isPageComplete();
 	}
 
-	private void synchSeamActionModels() {
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard#setRuntimeAndDefaultFacets(org.eclipse.wst.common.project.facet.core.runtime.IRuntime)
+	 */
+	@Override
+    protected void setRuntimeAndDefaultFacets(IRuntime runtime) {
+		IPreset preset = getFacetedProjectWorkingCopy().getSelectedPreset();
+		if(preset!=null) {
+			oldPreset = preset;
+		}
+		IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
+		dm.setTargetedRuntimes(Collections.<IRuntime> emptySet());
+		boolean dontUseRuntimeConfig = false;
+		if (runtime != null) {
+	        if(oldPreset!=null) {
+	            dm.setProjectFacets(oldPreset.getProjectFacets());
+	            dontUseRuntimeConfig = true;
+	        } else {
+				Set<IProjectFacetVersion> minFacets = new HashSet<IProjectFacetVersion>();
+				try {
+					for (IProjectFacet f : dm.getFixedProjectFacets()) {
+						minFacets.add(f.getLatestSupportedVersion(runtime));
+					}
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
+				dm.setProjectFacets(minFacets);
+	        }
+			dm.setTargetedRuntimes(Collections.singleton(runtime));
+		}
+		if(dontUseRuntimeConfig) {
+            dm.setSelectedPreset(oldPreset.getId());
+		} else {
+			dm.setSelectedPreset(FacetedProjectFramework.DEFAULT_CONFIGURATION_PRESET_ID);
+		}
+    }
+
+    private void synchSeamActionModels() {
 		Set<Action> actions = getFacetedProjectWorkingCopy().getProjectFacetActions();
 		for (Action action : actions) {
 			if(ISeamFacetDataModelProperties.SEAM_FACET_ID.equals(action.getProjectFacetVersion().getProjectFacet().getId())) {
