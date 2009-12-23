@@ -99,7 +99,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 		
 		for(ELReference reference : references){
 			for(ELExpression expression : reference.getEl()){
-				if (reference.getStartPosition()+expression.getStartPosition() <= offset && reference.getStartPosition()+expression.getEndPosition() >= offset)
+				if (reference.getStartPosition()+expression.getStartPosition() <= offset && reference.getStartPosition()+expression.getEndPosition() > offset)
 					return new ExpressionStructure(reference, expression);
 			}
 		}
@@ -123,7 +123,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 			return null;
 		
 		for(ELInvocationExpression ie : expression.getInvocations()){
-			if (reference.getStartPosition()+ie.getStartPosition() <= offset && reference.getStartPosition()+ie.getEndPosition() >= offset) {
+			if (reference.getStartPosition()+ie.getStartPosition() <= offset && reference.getStartPosition()+ie.getEndPosition() > offset) {
 				return ie;
 			}
 		}
