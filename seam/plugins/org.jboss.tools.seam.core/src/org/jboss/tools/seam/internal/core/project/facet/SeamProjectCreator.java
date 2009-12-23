@@ -90,7 +90,7 @@ public class SeamProjectCreator {
 	protected File seamGenResFolder;
 	protected File persistenceFile;
 	protected File hibernateConsoleLaunchFile;
-	//protected File hibernateConsolePropsFile;
+	protected File hibernateConsolePropsFile;
 
 	protected FilterSet jdbcFilterSet;
 	protected FilterSet encodedJdbcFilterSet;
@@ -137,11 +137,11 @@ public class SeamProjectCreator {
 		
 		try {
 			hibernateConsoleLaunchFile = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "hibernatetools/hibernate-console.launch");
+			hibernateConsolePropsFile = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 		//hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
-		//hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
 		dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
 
 		IVirtualComponent component = ComponentCore.createComponent(seamWebProject);
@@ -443,10 +443,10 @@ public class SeamProjectCreator {
 				new File(ejbProjectFolder, ejbProjectFolder.getName() + ".launch"),  //$NON-NLS-1$
 				new FilterSetCollection(ejbFilterSet), true);
 
-		/*AntCopyUtils.copyFileToFolder(
+		AntCopyUtils.copyFileToFolder(
 			hibernateConsolePropsFile,
 			ejbProjectFolder,
-			hibernateDialectFilterSet, true);*/
+			hibernateDialectFilterSet, true);
 	}
 
 	protected void createEarProject() {

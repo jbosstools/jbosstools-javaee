@@ -10,4 +10,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="@projectName@"/>
 <stringAttribute key="org.hibernate.eclipse.launch.CONFIGURATION_FACTORY" value="JPA"/>
 <stringAttribute key="org.hibernate.eclipse.launch.CONNECTION_PROFILE_NAME" value="@connectionProfile@"/>
+<stringAttribute key="org.hibernate.eclipse.launch.PROPERTY_FILE" value="/@projectName@/hibernate-console.properties"/>
 </launchConfiguration>
