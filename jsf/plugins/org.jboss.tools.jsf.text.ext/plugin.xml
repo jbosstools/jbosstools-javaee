@@ -1019,6 +1019,41 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME" />
 			</contenttypeidentifier>
 		</hyperlink>
+		
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.ExpressionHyperlink" 
+    		id="org.jboss.tools.jsf.text.ext.hyperlink.ExpressionHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.pages12xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page12xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.pages20xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page20xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.pages21xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page21xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+		</hyperlink>
 
 	</extension>
 

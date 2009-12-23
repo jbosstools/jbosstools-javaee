@@ -11,16 +11,24 @@
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IExclusiblePartitionerRecognition;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 
@@ -30,9 +38,15 @@ import org.jboss.tools.jst.web.kb.PageContextFactory;
 @SuppressWarnings("restriction")
 public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IExclusiblePartitionerRecognition {
 	public static final String JSP_EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"; //$NON-NLS-1$
+	public static final String EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.EXPRESSION"; //$NON-NLS-1$
+	
+	private boolean jspExpression = false;
 
 	protected String getPartitionType() {
-		return JSP_EXPRESSION_PARTITION;
+		if(jspExpression)
+			return EXPRESSION_PARTITION;
+		else
+			return JSP_EXPRESSION_PARTITION;
 	}
 	
 	/**
@@ -60,35 +74,76 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	}
 	
 	private IHyperlinkRegion getRegion(IDocument document, final int offset) {
-		ELExpression expression = getExpression(document, offset);
-		if(expression != null){
-			IHyperlinkRegion region = new HyperlinkRegion(expression.getStartPosition(), expression.getLength(), null, null, null);
-			return region;
+		jspExpression = false;
+		ELContext context = getELContext(document);
+		if(context != null){
+			ExpressionStructure eStructure = getExpression(context, offset);
+			if(eStructure != null){
+				ELInvocationExpression invocationExpression = getInvocationExpression(eStructure.reference, eStructure.expression, offset);
+				if(invocationExpression != null){
+					jspExpression = decide(context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition());
+					if(jspExpression){
+						IHyperlinkRegion region = new HyperlinkRegion(invocationExpression.getStartPosition(), invocationExpression.getLength(), null, null, null);
+						return region;
+					}
+				}
+				IHyperlinkRegion region = new HyperlinkRegion(eStructure.expression.getStartPosition(), eStructure.expression.getLength(), null, null, null);
+				return region;
+			}
 		}
 		return null;
 	}
 	
-	public static ELExpression getExpression(IDocument document, final int offset){
+	public static ExpressionStructure getExpression(ELContext context, final int offset){
+		ELReference[] references = context.getELReferences();
+		
+		for(ELReference reference : references){
+			for(ELExpression expression : reference.getEl()){
+				if (reference.getStartPosition()+expression.getStartPosition() <= offset && reference.getStartPosition()+expression.getEndPosition() >= offset)
+					return new ExpressionStructure(reference, expression);
+			}
+		}
+		return null;
+	}
+	
+	public static ELContext getELContext(IDocument document){
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
 			IFile file = smw.getFile();
 			ELContext context = PageContextFactory.getInstance().createPageContext(file);
-			if(context != null){
-				
-				ELReference[] references = context.getELReferences();
-				
-				for(ELReference reference : references){
-					for(ELExpression expression : reference.getEl()){
-						if (reference.getStartPosition()+expression.getStartPosition() <= offset && reference.getStartPosition()+expression.getEndPosition() >= offset)
-							return expression;
-					}
-				}
-			}
-			return null;
+			return context;
 		} finally {
 			smw.dispose();
 		}
+	}
+	
+	public static ELInvocationExpression getInvocationExpression(ELReference reference, ELExpression expression, int offset){
+		if(expression == null || reference == null)
+			return null;
+		
+		for(ELInvocationExpression ie : expression.getInvocations()){
+			if (reference.getStartPosition()+ie.getStartPosition() <= offset && reference.getStartPosition()+ie.getEndPosition() >= offset) {
+				return ie;
+			}
+		}
+		return null;
+	}
+	
+	public boolean decide(ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset){
+		for(ELResolver resolver : context.getElResolvers()){
+			ELResolution resolution = resolver.resolve(context, expression, invocationExpression.getStartPosition());
+			ELSegment segment = resolution.findSegmentByOffset(offset);
+			if(segment != null){
+				if(segment instanceof JavaMemberELSegment){
+					JavaMemberELSegment javaSegment = (JavaMemberELSegment)segment;
+					if(javaSegment.getJavaElement() != null){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -106,6 +161,17 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 
 	public String getExclusionPartitionType() {
 		return getPartitionType();
+	}
+	
+	public static class ExpressionStructure{
+		public ELReference reference;
+		public ELExpression expression;
+		
+		public ExpressionStructure(ELReference reference, ELExpression expression){
+			this.reference = reference;
+			this.expression = expression;
+		}
+		
 	}
 
 }

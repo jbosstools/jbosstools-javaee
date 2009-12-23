@@ -40,4 +40,5 @@ public class JSFTextExtMessages extends NLS {
 	public static String OpenRenderKit;
 	public static String Validator;
 	public static String OpenValidatorForId;
+	public static String OpenJavaElement;
 }
