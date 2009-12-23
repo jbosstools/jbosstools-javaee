@@ -39,12 +39,17 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.jst.j2ee.application.Application;
@@ -768,14 +773,12 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
-			if (jpaVersion != null) {
+			/*if (jpaVersion != null) {
 				IScopeContext context = new ProjectScope(project);
 				IEclipsePreferences prefs = context.getNode("org.eclipse.jpt.core");
 				String platformId = prefs.get("org.eclipse.jpt.core.platform", null);
 				if ("hibernate".equals(platformId)){
-					/*
-					 * Hibernate automatically creates console configuration
-					 */
+					 // Hibernate automatically creates console configuration
 					hibernateConsoleLaunchFile = null;
 				} else {
 					try {
@@ -792,6 +795,38 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 					SeamCorePlugin.getPluginLog().logError(e);
 				}
 				//hibernateConsoleLaunchFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.launch"); //$NON-NLS-1$
+			}*/
+			try {
+				hibernateConsoleLaunchFile = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "hibernatetools/hibernate-console.launch");
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+			if (jpaVersion != null) {
+				IScopeContext context = new ProjectScope(project);
+				IEclipsePreferences prefs = context.getNode("org.eclipse.jpt.core");
+				String platformId = prefs.get("org.eclipse.jpt.core.platform", null);
+				if ("hibernate".equals(platformId)){
+					 // Delete launch configuration
+					ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
+					ILaunchConfigurationType lct = lm.getLaunchConfigurationType("org.hibernate.eclipse.launch.ConsoleConfigurationLaunchConfigurationType");
+					ILaunchConfiguration[] lcs = lm.getLaunchConfigurations(lct);
+					ILaunchConfiguration lsForDelete = null;
+					for(int i = 0; i < lcs.length && lcs[i].exists(); i++) {
+						String lcProject = lcs[i].getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, (String)null);
+						if (project.getName().equals(lcProject)) {
+							lsForDelete = lcs[i];
+							break;
+						}
+					}
+					if (lsForDelete != null){
+						lsForDelete.delete();
+					}
+					try {
+						hibernateConsoleLaunchFile = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "hibernatetools/hibernate-console_jpa.launch");//$NON-NLS-1$
+					} catch (IOException e) {
+						SeamCorePlugin.getPluginLog().logError(e);
+					}
+				}
 			}
 			//final File hibernateConsolePref = new File(seamGenHomeFolder, "hibernatetools/.settings/org.hibernate.eclipse.console.prefs"); //$NON-NLS-1$
 			persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
