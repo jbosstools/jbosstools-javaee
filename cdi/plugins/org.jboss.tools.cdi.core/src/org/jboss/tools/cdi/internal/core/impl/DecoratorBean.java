@@ -33,4 +33,8 @@ public class DecoratorBean extends ClassBean implements IDecorator {
 		return getDefinition().getDecoratorAnnotation();
 	}
 
+	public boolean isEnabled() {
+		return !getCDIProject().getDecoratorClasses(getBeanClass().getFullyQualifiedName()).isEmpty();
+	}
+
 }

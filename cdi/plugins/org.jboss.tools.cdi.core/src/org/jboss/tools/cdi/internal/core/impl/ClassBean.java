@@ -11,8 +11,10 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
@@ -71,7 +73,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				bm = new BeanMethod();
 			}
 			bm.setDefinition(m);
-			bm.setParent(this);
+			bm.setClassBean(this);
 			methods.add(bm);
 		}
 		List<FieldDefinition> fs = definition.getFields();
@@ -86,7 +88,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				bf = new BeanField();
 			}
 			bf.setDefinition(f);
-			bf.setParent(this);
+			bf.setClassBean(this);
 			fields.add(bf);
 		}
 	}
@@ -108,8 +110,41 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public void setSuperClassBean(ClassBean bean) {
 		superClassBean = bean;
 		if(superClassBean != null && isSpecializing()) {
-			superClassBean.specializingClassBeans.add(this);
+			superClassBean.addSpecializingClassBean(this);
 		}
+		if(bean != null) {
+			Map<String, ProducerMethod> thisProducers = getProducerMethodsForSignatures();
+			Map<String, ProducerMethod> superProducers = bean.getProducerMethodsForSignatures();
+			for (String s: thisProducers.keySet()) {
+				ProducerMethod thisProducer = thisProducers.get(s);
+				ProducerMethod superProducer = superProducers.get(s);
+				if(thisProducer != null && superProducer != null) {
+					if(thisProducer.getSpecializesAnnotationDeclaration() != null) {
+						thisProducer.setSpecializedBean(superProducer);
+					}
+				}
+			}			
+		}
+	}
+
+	Map<String, ProducerMethod> getProducerMethodsForSignatures() {
+		Map<String, ProducerMethod> result = new HashMap<String, ProducerMethod>();
+		for (BeanMethod b: methods) {
+			if(b instanceof ProducerMethod) {
+				String s = b.getMethod().getElementName();
+				try {
+					s += ":" + b.getMethod().getSignature();
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+				result.put(s, (ProducerMethod)b);
+			}
+		}
+		return result;
+	}
+
+	void addSpecializingClassBean(ClassBean bean) {
+		specializingClassBeans.add(bean);
 	}
 
 	public ClassBean getSuperClassBean() {
@@ -245,31 +280,35 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return getDefinition().getSpecializesAnnotation();
 	}
 
-	public boolean isAlternative() {
-		if(getDefinition().getAlternativeAnnotation() != null) return true;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
-			IStereotype s = d.getStereotype();
-			if(s != null && s.isAlternative()) return true;
-		}		
-		return false;
-	}
-
 	public boolean isDependent() {
 		IScope scope = getScope();
 		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
+	boolean hasEnabledSpecializingClassBean() {
+		for (ClassBean sb: specializingClassBeans) {
+			if(sb.hasEnabledSpecializingClassBean() || sb.isEnabled()) return true;
+		}
+		return false;
+	}
+
 	public boolean isEnabled() {
-		if(!specializingClassBeans.isEmpty()) {
+		if(hasEnabledSpecializingClassBean()) {
 			return false;
 		}
-		if(getDefinition().getAlternativeAnnotation() != null) {
-			if(!getCDIProject().isClassAlternativeActivated(getDefinition().getQualifiedName())) {
-				return false;
+		if(isAlternative()) {
+			if(getCDIProject().isClassAlternativeActivated(getDefinition().getQualifiedName())) {
+				return true;
 			}
+			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+			for (IStereotypeDeclaration d: ds) {
+				IStereotype s = d.getStereotype();
+				if(s != null && s.isAlternative() && !getCDIProject().getAlternatives(s.getSourceType().getFullyQualifiedName()).isEmpty()) {
+					return true;
+				}
+			}
+			return false;
 		}
-		// TODO 
 		return true;
 	}
 

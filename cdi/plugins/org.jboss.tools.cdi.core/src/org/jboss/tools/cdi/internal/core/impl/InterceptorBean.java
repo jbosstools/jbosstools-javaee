@@ -26,4 +26,8 @@ public class InterceptorBean extends ClassBean implements IInterceptor {
 		return getDefinition().getInterceptorAnnotation();
 	}
 
+	public boolean isEnabled() {
+		return !getCDIProject().getInterceptorClasses(getBeanClass().getFullyQualifiedName()).isEmpty();
+	}
+
 }

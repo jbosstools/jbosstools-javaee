@@ -44,6 +44,9 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	protected AnnotationDeclaration produces;
 
+	ProducerMethod specialized = null;
+	Set<ProducerMethod> specializingProducerMethods = new HashSet<ProducerMethod>();
+
 	public ProducerMethod() {}
 
 	public void setDefinition(MethodDefinition definition) {
@@ -77,6 +80,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public String getName() {
+		ProducerMethod specialized = getSpecializedBean();
+		if(specialized != null) {
+			return specialized.getName();
+		}
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
@@ -111,27 +118,22 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return null;
 	}
 
-	public IBean getSpecializedBean() {
+	public void setSpecializedBean(ProducerMethod other) {
+		specialized = other;
+		if(other != null) {
+			other.specializingProducerMethods.add(this);
+		}
+	}
+
+	public ProducerMethod getSpecializedBean() {
 		if(getDefinition().getSpecializesAnnotation() == null) {
 			return null;
 		}
-		//TODO find producer method in super type
-		
-		return null;
+		return specialized;
 	}
 
 	public IAnnotationDeclaration getSpecializesAnnotationDeclaration() {
 		return getDefinition().getSpecializesAnnotation();
-	}
-
-	public boolean isAlternative() {
-		if(getDefinition().getAlternativeAnnotation() != null) return true;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
-			IStereotype s = d.getStereotype();
-			if(s != null && s.isAlternative()) return true;
-		}		
-		return false;
 	}
 
 	public boolean isDependent() {
@@ -139,8 +141,33 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
+	boolean hasEnabledSpecializingProducerMethod() {
+		for (ProducerMethod sb: specializingProducerMethods) {
+			if(sb.hasEnabledSpecializingProducerMethod() || sb.isEnabled()) return true;
+		}
+		return false;
+	}
+
 	public boolean isEnabled() {
-		//if it is overrided by producer method which specializes it, return false!
+		if(classBean != null && !classBean.isEnabled()) {
+			return false;
+		}
+		if(hasEnabledSpecializingProducerMethod()) {
+			return false;
+		}
+		if(isAlternative()) {
+			if(classBean != null && !getCDIProject().getAlternatives(classBean.getBeanClass().getFullyQualifiedName()).isEmpty()) {
+				return true;
+			}
+			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+			for (IStereotypeDeclaration d: ds) {
+				IStereotype s = d.getStereotype();
+				if(s != null && s.isAlternative() && !getCDIProject().getAlternatives(s.getSourceType().getFullyQualifiedName()).isEmpty()) {
+					return true;
+				}
+			}
+			return false;
+		}
 		return true;
 	}
 

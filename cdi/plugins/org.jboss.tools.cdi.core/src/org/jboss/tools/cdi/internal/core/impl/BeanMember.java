@@ -58,8 +58,9 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return classBean;
 	}
 
-	public void setClassBean(IClassBean classBean) {
+	public void setClassBean(ClassBean classBean) {
 		this.classBean = classBean;
+		setParent(classBean);
 	}
 
 	public IType getType() {

@@ -24,6 +24,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
+import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
@@ -59,6 +60,16 @@ public class AbstractBeanElement extends CDIElement {
 			if(s.getNameDeclaration() != null) return s.getNameDeclaration();
 		}
 		return null;
+	}
+
+	public boolean isAlternative() {
+		if(getDefinition().getAlternativeAnnotation() != null) return true;
+		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+		for (IStereotypeDeclaration d: ds) {
+			IStereotype s = d.getStereotype();
+			if(s != null && s.isAlternative()) return true;
+		}		
+		return false;
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {

@@ -107,22 +107,28 @@ public class ProducerField extends BeanField implements IProducerField {
 		return null;
 	}
 
-	public boolean isAlternative() {
-		if(getDefinition().getAlternativeAnnotation() != null) return true;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
-			IStereotype s = d.getStereotype();
-			if(s != null && s.isAlternative()) return true;
-		}		
-		return false;
-	}
-
 	public boolean isDependent() {
 		IScope scope = getScope();
 		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
 	public boolean isEnabled() {
+		if(classBean != null && !classBean.isEnabled()) {
+			return false;
+		}
+		if(isAlternative()) {
+			if(classBean != null && !getCDIProject().getAlternatives(classBean.getBeanClass().getFullyQualifiedName()).isEmpty()) {
+				return true;
+			}
+			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+			for (IStereotypeDeclaration d: ds) {
+				IStereotype s = d.getStereotype();
+				if(s != null && s.isAlternative() && !getCDIProject().getAlternatives(s.getSourceType().getFullyQualifiedName()).isEmpty()) {
+					return true;
+				}
+			}
+			return false;
+		}
 		return true;
 	}
 
