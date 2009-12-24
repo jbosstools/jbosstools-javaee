@@ -591,17 +591,6 @@
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
-         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPBeanHyperlinkPartitioner"
-         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPBeanHyperlinkPartitioner">
-         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="org.eclipse.wst.html.core.htmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-		</hyperlinkPartitioner>
-
-		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPLoadBundleHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPLoadBundleHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -811,17 +800,6 @@
       	<contenttypeidentifier id="org.eclipse.jst.jee.ee5webDD">
 				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_RENDER_KIT" />
      		</contenttypeidentifier>
-		</hyperlink>
-
-		<hyperlink 
-			class="org.jboss.tools.jsf.text.ext.hyperlink.BeanHyperlink" 
-			id="org.jboss.tools.common.text.ext.jsf.hyperlink.BeanHyperlink">
-			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
-				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
-				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BEAN" />
-			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 

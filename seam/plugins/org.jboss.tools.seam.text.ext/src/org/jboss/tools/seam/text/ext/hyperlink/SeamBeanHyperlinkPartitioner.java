@@ -35,9 +35,9 @@ import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperLinkPartitionPriority;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -54,7 +54,6 @@ import org.w3c.dom.Text;
  * @author Jeremy
  */
 public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IHyperLinkPartitionPriority { 
-	public static final String SEAM_BEAN_PARTITION = "org.jboss.tools.seam.text.ext.SEAM_BEAN";
 	public static final String SEAM_MESSAGES_BEAN_PARTITION = "org.jboss.tools.seam.text.ext.SEAM_MESSAGES_BEAN";
 
 	private ELParserFactory factory = ELParserUtil.getJbossFactory();
@@ -90,18 +89,6 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				return region;
 			}
 			
-			List<IJavaElement> javaElements = findJavaElements(document, superRegion);
-			if (javaElements != null && !javaElements.isEmpty()) {///
-				String axis = getAxis(document, superRegion);
-				String contentType = superRegion.getContentType();
-				String type = SEAM_BEAN_PARTITION;
-				int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
-				int offset = superRegion.getOffset();
-				
-				IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
-				return region;
-			}
-		
 			return null;
 		} finally {
 			smw.dispose();

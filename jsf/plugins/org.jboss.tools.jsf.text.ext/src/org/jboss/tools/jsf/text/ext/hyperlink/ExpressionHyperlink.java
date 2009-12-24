@@ -10,12 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PartInitException;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
@@ -23,6 +23,7 @@ import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner.ExpressionStructure;
 
@@ -60,13 +61,18 @@ public class ExpressionHyperlink extends AbstractHyperlink{
 		IEditorPart part = null;
 		
 		if(javaSegment != null){
-			IResource resource = javaSegment.getJavaElement().getResource();
-			if(resource != null && resource instanceof IFile)
-				part = openFileInEditor((IFile)javaSegment.getJavaElement().getResource());
-			if (part != null) {
-				if (javaSegment.getJavaElement() != null)
+			if (javaSegment.getJavaElement() != null){
+				try{
+					part = JavaUI.openInEditor(javaSegment.getJavaElement());
+				}catch(JavaModelException ex){
+					JSFExtensionsPlugin.log(ex);
+				}catch(PartInitException ex){
+					JSFExtensionsPlugin.log(ex);
+				}
+				if (part != null) {
 					JavaUI.revealInEditor(part, javaSegment.getJavaElement());
-			} 
+				} 
+			}
 		}
 		if (part == null)
 			openFileFailed();

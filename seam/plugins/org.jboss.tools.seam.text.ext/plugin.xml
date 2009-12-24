@@ -282,41 +282,6 @@
 		name="org.jboss.tools.seam.text.ext.hyperlink">
 
 		<hyperlink 
-			class="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlink" 
-			id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlink">
-			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.pages12xmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page12xmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.pages20xmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page20xmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.pages21xmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page21xmlsource">
-				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_BEAN" />
-			</contenttypeidentifier>
-		</hyperlink>
-
-		<hyperlink 
 			class="org.jboss.tools.seam.text.ext.hyperlink.SeamMessagesBeanHyperlink" 
 			id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
