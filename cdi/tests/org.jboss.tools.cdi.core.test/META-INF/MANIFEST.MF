@@ -11,3 +11,5 @@ Require-Bundle: org.jboss.tools.tests,
  org.junit,
  org.jboss.tools.cdi.core,
  org.jboss.tools.common
+Export-Package: org.jboss.tools.cdi.core.test,
+ org.jboss.tools.cdi.core.test.tck

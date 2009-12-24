@@ -8,28 +8,24 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.cdi.core.test;
+package org.jboss.tools.cdi.core.test.tck;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.jboss.tools.cdi.core.test.tck.DefinitionTest;
-import org.jboss.tools.tests.AbstractPluginsLoadTest;
+import org.eclipse.core.resources.IProject;
 
 /**
  * @author Alexey Kazakov
  */
-public class CDICoreAllTests {
+public class DefinitionTest extends TCKTest {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite("CDI Core Tests");
-		suite.addTestSuite(DefinitionTest.class);
-		return suite;
+	protected void setUp() throws Exception {
+		IProject p = importPreparedProject("/definition/qualifier");
 	}
 
-	public class CDIPluginsLoadTest extends AbstractPluginsLoadTest {
-		public void testBundlesAreLoadedForSeamFeature(){
-			testBundlesAreLoadedFor("org.jboss.tools.cdi.feature");
-		}
+	public void test1() {
+		
+	}
+
+	protected void tearDown() throws Exception {
+		cleanProject("/definition/qualifier");
 	}
 }

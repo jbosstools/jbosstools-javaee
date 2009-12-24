@@ -10,26 +10,23 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.jboss.tools.cdi.core.test.tck.DefinitionTest;
-import org.jboss.tools.tests.AbstractPluginsLoadTest;
+import org.eclipse.core.resources.IProject;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 
 /**
  * @author Alexey Kazakov
  */
-public class CDICoreAllTests {
+public class CATest extends TCKTest {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite("CDI Core Tests");
-		suite.addTestSuite(DefinitionTest.class);
-		return suite;
+	protected void setUp() throws Exception {
+		IProject p = importPreparedProject("/definition/qualifier");
 	}
 
-	public class CDIPluginsLoadTest extends AbstractPluginsLoadTest {
-		public void testBundlesAreLoadedForSeamFeature(){
-			testBundlesAreLoadedFor("org.jboss.tools.cdi.feature");
-		}
+	public void test1() {
+		
+	}
+
+	protected void tearDown() throws Exception {
+		cleanProject("/definition/qualifier");
 	}
 }

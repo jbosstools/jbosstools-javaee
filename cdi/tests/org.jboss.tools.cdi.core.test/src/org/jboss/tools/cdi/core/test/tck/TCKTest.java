@@ -3,14 +3,14 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.io.File;
 import java.io.FileFilter;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
-
-import junit.framework.TestCase;
 
 public class TCKTest extends TestCase {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
@@ -26,8 +26,6 @@ public class TCKTest extends TestCase {
 	static String PACKAGE = "/org/jboss/jsr299/tck/tests";
 
 	protected static String TCK_RESOURCES_PREFIX = "/resources/tck";
-
-	public TCKTest() {}
 
 	public IProject importPreparedProject(String packPath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
@@ -99,17 +97,5 @@ public class TCKTest extends TestCase {
 			if(fs[i].getName().equals("lib")) continue;
 			FileUtil.remove(fs[i]);
 		}
-	}
-
-	protected void setUp() throws Exception {
-		IProject p = importPreparedProject("/definition/qualifier");
-	}
-
-	public void test1() {
-		
-	}
-
-	protected void tearDown() throws Exception {
-		cleanProject("/definition/qualifier");
 	}
 }
