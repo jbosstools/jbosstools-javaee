@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+	<h:head>
+		<title>Resource Handling Case 1</title>
+	</h:head>
+	<h:body>
+	<h:outputText value="#{facesContext.viewRoot.locale}" />
+	<h:panelGrid  border="1" columns="6">
+		<h:outputText value="Locale"/>
+		<h:outputText value="Library"/>
+		<h:outputText value="Version"/>
+		<h:outputText value="Resource"/>
+		<h:outputText value="Version"/>
+		<h:graphicImage value="#{resource['title.png']}" />
+		
+		<h:outputText value="#{facesContext.viewRoot.locale}"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['image.png']}" />
+		
+		<h:outputText value="#{facesContext.viewRoot.locale}"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['library3:image.png']}" />
+			
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['library1:image.png']}" />
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['library1/1_0:image.png']}" />
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['library1/1_1:image.png']}" />
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['library1/1_2:duke.png/1_0.png']}" />		
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage value="#{resource['library1/1_2:duke.png/1_1.png']}" />
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage name="image.png" />
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage name="image.png" library="library1" />
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage name="duke1.jpeg"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="n/a"/>
+		<h:outputText value="image.png"/>
+		<h:outputText value="n/a"/>
+		<h:graphicImage name="duke3.jpeg"/>		
+	</h:panelGrid>
+
+	<img src="/jsf-basics/javax.faces.resource/image.png?loc=en_US" />
+		
+	</h:body>
+</html>
