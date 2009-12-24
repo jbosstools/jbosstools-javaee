@@ -417,7 +417,7 @@
             connection to it.</para>
         <para>In the <property>Code Generation</property> section the wizard has already provided the
             names for your <property>Session Bean</property>, <property>Entity Bean</property> and
-                <property>Test</property> packages. Of course, you can change them on others
+                <property>Test</property> packages generation (optional). Of course, you can change them on others
             of your choice.</para>
         <figure>
             <title>Code Generation Section</title>
