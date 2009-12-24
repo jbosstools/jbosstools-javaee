@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -57,7 +58,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
 	private Map<IType, ClassBean> classBeans = new HashMap<IType, ClassBean>();
-	
+
 	BeansXMLData beansXMLData = new BeansXMLData();
 
 	public CDIProject() {}

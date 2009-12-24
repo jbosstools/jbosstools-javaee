@@ -20,14 +20,7 @@ import org.eclipse.jdt.core.IType;
  * 
  * @author Alexey Kazakov
  */
-public interface IStereotype extends IScoped, ICDIElement {
-
-	/**
-	 * Returns the corresponding IType of the stereotype.
-	 * 
-	 * @return the corresponding IType
-	 */
-	IType getSourceType();
+public interface IStereotype extends IScoped, ICDIAnnotation {
 
 	/**
 	 * Returns the location of @Name declaration of this stereotype. If the bean

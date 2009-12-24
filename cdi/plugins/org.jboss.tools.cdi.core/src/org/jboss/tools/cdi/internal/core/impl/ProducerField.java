@@ -19,13 +19,14 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerField;
+import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
@@ -117,8 +118,8 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public boolean isDependent() {
-		IType scope = getScope();
-		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getFullyQualifiedName());
+		IScope scope = getScope();
+		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
 	public boolean isEnabled() {
@@ -129,43 +130,26 @@ public class ProducerField extends BeanField implements IProducerField {
 		return false;
 	}
 
-	public IType getScope() {
-		Set<IAnnotationDeclaration> ds = getScopeDeclarations();
+	public IScope getScope() {
+		Set<IScopeDeclaration> ds = getScopeDeclarations();
 		if(!ds.isEmpty()) {
-			return ds.iterator().next().getType();
+			return ds.iterator().next().getScope();
 		}
-		List<AnnotationDeclaration> ds2 = definition.getAnnotations();
-		for (AnnotationDeclaration d: ds2) {
-			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(d.getType());
-			if(k == AnnotationDefinition.STEREOTYPE) {
-				AnnotationDefinition a = getCDIProject().getNature().getDefinitions().getAnnotation(d.getType());
-				ds = getScopeDeclarations(getCDIProject().getNature(), a.getAnnotations());
-				if(!ds.isEmpty()) {
-					return ds.iterator().next().getType();
-				}
+		Set<IStereotypeDeclaration> ss = getStereotypeDeclarations();
+		Set<IScope> defaults = new HashSet<IScope>();
+		for (IStereotypeDeclaration d: ss) {
+			IStereotype s = d.getStereotype();
+			IScope sc = s.getScope();
+			if(sc != null) {
+				defaults.add(sc);
 			}
 		}
-		try {
-			return EclipseJavaUtil.findType(getField().getJavaProject(), CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
+		if(defaults.size() == 1) {
+			return defaults.iterator().next();
+		} else if(defaults.size() > 1) {
+			return null;
 		}
-		return null;
-	}
-
-	public Set<IAnnotationDeclaration> getScopeDeclarations() {
-		return getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
-	}
-
-	public static Set<IAnnotationDeclaration> getScopeDeclarations(CDICoreNature n, List<? extends IAnnotationDeclaration> ds) {
-		Set<IAnnotationDeclaration> result = new HashSet<IAnnotationDeclaration>();
-		for (IAnnotationDeclaration d: ds) {
-			int k = n.getDefinitions().getAnnotationKind(d.getType());
-			if(k == AnnotationDefinition.SCOPE) {
-				result.add(d);
-			}
-		}
-		return result;
+		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
 
 }

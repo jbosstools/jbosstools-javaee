@@ -15,15 +15,20 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 /**
@@ -79,6 +84,21 @@ public class AbstractBeanElement extends CDIElement {
 		return result;
 	}
 
+	public Set<IScopeDeclaration> getScopeDeclarations() {
+		return getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
+	}
+
+	public static Set<IScopeDeclaration> getScopeDeclarations(CDICoreNature n, List<? extends IAnnotationDeclaration> ds) {
+		Set<IScopeDeclaration> result = new HashSet<IScopeDeclaration>();
+		for (IAnnotationDeclaration d: ds) {
+			int k = n.getDefinitions().getAnnotationKind(d.getType());
+			if(k == AnnotationDefinition.SCOPE) {
+				result.add((IScopeDeclaration)d);
+			}
+		}
+		return result;
+	}
+
 	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		AnnotationDeclaration typed = getDefinition().getTypedAnnotation();
@@ -92,16 +112,16 @@ public class AbstractBeanElement extends CDIElement {
 					Object[] os = (Object[])value;
 					for (int i = 0; i < os.length; i++) {
 						String typeName = os[i].toString();
-						IType type = EclipseJavaUtil.findType(getCDIProject().getNature().getDefinitions().getJavaProject(), typeName);
-						if(type != null) {
-							result.add(new TypeDeclaration(type, -1, 0));
+						ParametedType p = ParametedTypeFactory.getParametedType(((IMember)definition.getMember()).getDeclaringType(), typeName);
+						if(p != null) {
+							result.add(new TypeDeclaration(p, -1, 0));
 						}
 					}
 				} else if(value != null) {
 					String typeName = value.toString();
-					IType type = EclipseJavaUtil.findType(getCDIProject().getNature().getDefinitions().getJavaProject(), typeName);
-					if(type != null) {
-						result.add(new TypeDeclaration(type, -1, 0));
+					ParametedType p = ParametedTypeFactory.getParametedType(((IMember)definition.getMember()).getDeclaringType(), typeName);
+					if(p != null) {
+						result.add(new TypeDeclaration(p, -1, 0));
 					}
 				}
 			} catch (JavaModelException e) {

@@ -18,6 +18,8 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 
@@ -73,19 +75,23 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 		return false;
 	}
 
-	public IType getScope() {
-		Set<IAnnotationDeclaration> ss = getScopeDeclarations();
+	public IScope getScope() {
+		Set<IScopeDeclaration> ss = getScopeDeclarations();
 		if(!ss.isEmpty()) {
-			return ss.iterator().next().getType();
+			return ss.iterator().next().getScope();
 		}
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
 		for (IStereotypeDeclaration d: ds) {
-			//TODO
+			IStereotype s = d.getStereotype();
+			IScope result = s.getScope();
+			if(result != null) {
+				return result;
+			}
 		}
 		return null;
 	}
 
-	public Set<IAnnotationDeclaration> getScopeDeclarations() {
+	public Set<IScopeDeclaration> getScopeDeclarations() {
 		return ProducerField.getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
 	}
 

@@ -48,6 +48,10 @@ public abstract class AbstractMemberDefinition {
 		}
 	}
 
+	public IAnnotatable getMember() {
+		return member;
+	}
+
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
 		IAnnotation[] ts = member.getAnnotations();
 		for (int i = 0; i < ts.length; i++) {

@@ -24,10 +24,12 @@ public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
 
 	public TypeDeclaration() {}
 
-	TypeDeclaration(IType type, int startPosition, int length) {
-		this.type = type;
+	TypeDeclaration(ParametedType type, int startPosition, int length) {
+		this.type = type.getType();
 		this.length = length;
 		this.startPosition = startPosition;
+		this.signature = type.signature;
+		this.parameterTypes = type.parameterTypes;
 	}
 
 	public int getLength() {

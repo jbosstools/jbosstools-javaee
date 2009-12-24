@@ -29,7 +29,7 @@ public interface IScoped {
 	 * 
 	 * @return the scope type
 	 */
-	IType getScope();
+	IScope getScope();
 
 	/**
 	 * Obtains all the scope declarations of the bean class or producer method
@@ -38,5 +38,5 @@ public interface IScoped {
 	 * 
 	 * @return the scope
 	 */
-	Set<IAnnotationDeclaration> getScopeDeclarations();
+	Set<IScopeDeclaration> getScopeDeclarations();
 }

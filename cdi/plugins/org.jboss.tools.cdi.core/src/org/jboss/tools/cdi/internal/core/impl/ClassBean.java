@@ -22,7 +22,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
-import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -30,6 +29,8 @@ import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
@@ -50,6 +51,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	
 	protected List<BeanField> fields = new ArrayList<BeanField>();
 	protected List<BeanMethod> methods = new ArrayList<BeanMethod>();
+
+	protected IScope scope = null;
 
 	public ClassBean() {}
 
@@ -155,8 +158,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public Set<ITypeDeclaration> getAllTypeDeclarations() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<IParametedType> ps = getDefinition().getInheritedTypes();
+		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
+		for (IParametedType p: ps) {
+			result.add(new TypeDeclaration((ParametedType)p, -1, 0));
+		}
+		return result;
 	}
 
 	public IAnnotationDeclaration getAlternativeDeclaration() {
@@ -249,8 +256,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public boolean isDependent() {
-		IType scope = getScope();
-		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getFullyQualifiedName());
+		IScope scope = getScope();
+		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
 	public boolean isEnabled() {
@@ -270,14 +277,67 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return getDefinition().getSpecializesAnnotation() != null;
 	}
 
-	public IType getScope() {
-		// TODO Auto-generated method stub
-		return null;
+	public IScope getScope() {
+		if(scope == null) {
+			computeScope();
+		} 
+		return scope;
 	}
 
-	public Set<IAnnotationDeclaration> getScopeDeclarations() {
-		// TODO Auto-generated method stub
-		return null;
+	protected void computeScope() {
+		//1. Declaration of scope in the class.
+		Set<IScopeDeclaration> scopes = getScopeDeclarations();
+		if(!scopes.isEmpty()) {
+			scope = scopes.iterator().next().getScope();
+			return;
+		}
+		//2. Declaration of inheritable scope in a superclass.
+		ClassBean scb = getSuperClassBean();
+		while(scb != null) {
+			scopes = getScopeDeclarations();
+			if(!scopes.isEmpty()) {
+				scope = scopes.iterator().next().getScope();
+				if(scope.getInheritedDeclaration() == null) {
+					scope = null;
+				} else {
+					return;
+				}
+			}
+			scb = scb.getSuperClassBean();
+		}
+		//3. Get default scope from stereotype.
+		Set<IScope> defaults = new HashSet<IScope>();
+		Set<IStereotypeDeclaration> ss = getStereotypeDeclarations();
+		for (IStereotypeDeclaration d: ss) {
+			IStereotype s = d.getStereotype();
+			IScope sc = s.getScope();
+			if(sc != null) {
+				defaults.add(sc);
+			}
+		}
+		scb = getSuperClassBean();
+		while(scb != null) {
+			ss = getStereotypeDeclarations();
+			for (IStereotypeDeclaration d: ss) {
+				IStereotype s = d.getStereotype();
+				if(s.getInheritedDeclaration() == null) {
+					continue;
+				}
+				IScope sc = s.getScope();
+				if(sc != null) {
+					defaults.add(sc);
+				}
+			}
+			scb = scb.getSuperClassBean();
+		}
+		if(defaults.size() == 1) {
+			scope = defaults.iterator().next();
+		} else if(defaults.size() > 1) {
+			scope = getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+		} else {
+			//4. Scope is @Dependent
+			scope = getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+		}
 	}
 
 }

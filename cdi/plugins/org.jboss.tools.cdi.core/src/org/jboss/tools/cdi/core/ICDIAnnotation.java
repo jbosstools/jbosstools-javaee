@@ -10,8 +10,19 @@ import org.eclipse.jdt.core.IType;
  */
 public interface ICDIAnnotation extends ICDIElement {
 
+	/**
+	 * Returns the corresponding IType of the annotation type.
+	 * 
+	 * @return the corresponding IType
+	 */
 	public IType getSourceType();
 
+	/**
+	 * Returns the location of @Inherited declaration of this annotation type. If the bean
+	 * doesn't have the @Inherited declaration then null will be returned.
+	 * 
+	 * @return the location of @Name declaration of this bean.
+	 */
 	public IAnnotationDeclaration getInheritedDeclaration();
 
 }
