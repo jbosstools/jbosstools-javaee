@@ -27,10 +27,18 @@ public interface IBeanManager {
 
 	/**
 	 * Returns all @Named beans.
-	 * 
+	 *
+ 	 * @param attemptToResolveAmbiguousNames
+	 *            if there are a few beans with the same name and
+	 *            attemptToResolveAmbiguousNames==true the manager should try to
+	 *            resolve the EL name. If any of the beans are alternatives, the
+	 *            manager will eliminate all beans that are not alternatives,
+	 *            expect for producer methods and fields of beans that are
+	 *            alternatives. If the name of a bean is not resolvable then
+	 *            both beans would be included in the result list.  
 	 * @return all @Named beans
 	 */
-	Set<IBean> getNamedBeans();
+	Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames);
 
 	/**
 	 * Returns the set of beans which match the given EL name.

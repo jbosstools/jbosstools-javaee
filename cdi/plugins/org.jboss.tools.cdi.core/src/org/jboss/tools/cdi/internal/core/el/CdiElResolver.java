@@ -95,7 +95,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 				resolvedBeans = manager.getBeans(varName, true);
 				beans.addAll(resolvedBeans);
 			} else {
-				resolvedBeans = manager.getNamedBeans();
+				resolvedBeans = manager.getNamedBeans(true);
 				for (IBean bean : resolvedBeans) {
 					if(bean.getName().startsWith(varName)) {
 						beans.add(bean);

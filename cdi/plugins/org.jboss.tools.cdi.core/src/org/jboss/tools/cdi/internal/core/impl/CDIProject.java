@@ -27,7 +27,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -153,7 +152,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IType beanType, IAnnotationDeclaration... qualifiers) {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 
@@ -514,12 +513,29 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IBeanManager#getNamedBeans()
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getNamedBeans(boolean)
 	 */
-	public Set<IBean> getNamedBeans() {
+	public Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
+		//TODO use a cache for named beans with attemptToResolveAmbiguousNames==true
 		Set<IBean> result = new HashSet<IBean>();
 		synchronized (namedBeans) {
-			result.addAll(namedBeans);
+			if(attemptToResolveAmbiguousNames) {
+				Set<String> names = new HashSet<String>();
+				for (IBean bean : result) {
+					if(names.contains(bean.getName())) {
+						continue;
+					}
+					Set<IBean> beans = getBeans(bean.getName(), attemptToResolveAmbiguousNames);
+					if(beans.isEmpty()) {
+						result.add(bean);
+					} else {
+						result.addAll(beans);
+						names.add(bean.getName());
+					}
+				}
+			} else {
+				result.addAll(namedBeans);
+			}
 		}
 		return result;
 	}
