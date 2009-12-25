@@ -13,14 +13,14 @@ package org.jboss.tools.seam.ui.text.java;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.graphics.Image;
-import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
+import org.jboss.tools.jst.web.kb.el.KbELProposalProcessor;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
  * @author Alexey Kazakov
  */
-public class SeamELProposalProcessor extends ELProposalProcessor {
+public class SeamELProposalProcessor extends KbELProposalProcessor {
 
 	/*
 	 * (non-Javadoc)

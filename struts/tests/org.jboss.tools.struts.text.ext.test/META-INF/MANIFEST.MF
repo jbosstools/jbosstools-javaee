@@ -17,7 +17,8 @@ Require-Bundle: org.junit,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.jst.jsp,
  org.jboss.tools.jst.jsp.test,
- org.jboss.tools.jst.web
+ org.jboss.tools.jst.web,
+ org.jboss.tools.common.ui
 Export-Package: org.jboss.tools.struts.text.tests
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin

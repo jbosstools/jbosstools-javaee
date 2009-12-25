@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -34,9 +35,9 @@ import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
-import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.IVariable;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -46,9 +47,13 @@ import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 
-public class JSFMessageELCompletionEngine implements ELResolver {
+public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVariable> {
 	private static final Image JSF_EL_MESSAGES_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage()
+	 */
 	public Image getELProposalImage() {
 		return JSF_EL_MESSAGES_PROPOSAL_IMAGE;
 	}
@@ -57,10 +62,18 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 
 	public JSFMessageELCompletionEngine() {}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.resolver.ELResolver#getParserFactory()
+	 */
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#log(java.lang.Exception)
+	 */
 	protected void log(Exception e) {
 		JSFModelPlugin.getPluginLog().logError(e);
 	}
@@ -496,5 +509,25 @@ public class JSFMessageELCompletionEngine implements ELResolver {
 			}
 			return result;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.common.el.core.resolver.IVariable, boolean)
+	 */
+	@Override
+	protected MemberInfo getMemberInfoByVariable(IVariable var,
+			boolean onlyEqualNames) {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
+	 */
+	@Override
+	public List<IVariable> resolveVariables(IFile file,
+			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+		return null;
 	}
 }

@@ -16,12 +16,12 @@ import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.el.CdiElResolver;
-import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
+import org.jboss.tools.jst.web.kb.el.KbELProposalProcessor;
 
 /**
  * @author Alexey Kazakov
  */
-public class CDIELProposalProcessor extends ELProposalProcessor {
+public class CDIELProposalProcessor extends KbELProposalProcessor {
 
 	/*
 	 * (non-Javadoc)
