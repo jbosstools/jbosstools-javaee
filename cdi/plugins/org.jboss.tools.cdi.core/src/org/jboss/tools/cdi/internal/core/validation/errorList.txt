@@ -1,0 +1,190 @@
+Definition Errors
+
+2.2.2. Restricting the bean types of a bean
+- bean class or producer method or field specifies a @Typed annotation, 
+  and the value member specifies a class which does not correspond to a type 
+  in the unrestricted set of bean types of a bean
+
+2.4.3. Declaring the bean scope
+- bean class or producer method or field specifies multiple scope type annotations
+
+2.4.4. Default scope
+- bean does not explicitly declare a scope when there is no default scope 
+  (there are two different stereotypes declared by the bean that declare different default scopes)
+
+2.7.1.1. Declaring the default scope for a stereotype
+- stereotype declares more than one scope
+
+2.7.1.3. Declaring a @Named stereotype
+- stereotype declares a non-empty @Named annotation
+
+3.1. Managed beans
+- the bean class of a managed bean is annotated with both 
+  the @Interceptor and @Decorator stereotypes
+- managed bean with a public field declares any scope other than @Dependent
+- managed bean with a parameterized bean class declares any scope other than @Dependent
+
+3.1.4. Specializing a managed bean
+- managed bean class annotated @Specializes does not directly extend 
+  the bean class of another managed bean
+
+3.2. Session beans
+
+- session bean specifies an illegal scope (a stateless session bean must belong 
+  to the @Dependent pseudo-scope; a singleton bean must belong to either the
+  @ApplicationScoped scope or to the @Dependent pseudo-scope, a stateful session 
+  bean may have any scope)
+- bean class of a session bean is annotated @Interceptor or @Decorator
+- session bean with a parameterized bean class declares any scope other than @Dependent
+
+3.2.4. Specializing a session bean
+- session bean class annotated @Specializes does not directly extend 
+  the bean class of another session bean
+
+3.3. Producer methods 
+- producer method return type contains a wildcard type parameter
+- producer method with a parameterized return type with a type variable declares 
+  any scope other than @Dependent
+- producer method return type is a type variable
+
+3.3.2. Declaring a producer method
+- producer method is annotated @Inject
+- producer method has a parameter annotated @Disposes
+- producer method has a parameter annotated @Observes
+- non-static method of a session bean class is annotated @Produces, and the method 
+  is not a business method of the session bean
+- interceptor or decorator has a method annotated @Produces
+
+3.3.3. Specializing a producer method
+- method annotated @Specializes is static or does not directly override another producer method
+
+3.3.6. Declaring a disposer method
+- method has more than one parameter annotated @Disposes
+- disposer method is annotated @Produces or @Inject or has a parameter annotated @Observes
+- non-static method of a session bean class has a parameter annotated @Disposes, and 
+  the method is not a business method of the session bean
+- interceptor or decorator has a method annotated @Disposes
+
+3.3.7. Disposer method resolution
+- there is no producer method declared by the (same) bean class that is assignable 
+  to the disposed parameter of a disposer method
+- there are multiple disposer methods for a single producer method 
+
+3.4. Producer fields
+- producer field type contains a wildcard type parameter
+- producer field with a parameterized type with a type variable declares any 
+  scope other than @Dependent
+- producer field type is a type variable
+
+3.4.2. Declaring a producer field
+- producer field is annotated @Inject
+- non-static field of a session bean class is annotated @Produces
+- interceptor or decorator has a field annotated @Produces
+
+3.5.1. Declaring a resource
+- producer field declaration specifies an EL name (together with one of 
+  @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+- matching object in the Java EE component environment is not of the same type 
+  as the producer field declaration
+
+3.6. Additional built-in beans
+- Java EE component class has an injection point of type UserTransaction 
+  and qualifier @Default, and may not validly make use of the JTA UserTransaction 
+  according to the Java EE platform specification
+
+3.7.1. Declaring a bean constructor
+- bean class has more than one constructor annotated @Inject
+- bean constructor has a parameter annotated @Disposes, or @Observes
+
+3.8.1. Declaring an injected field
+- injected field is annotated @Produces
+
+3.9.1. Declaring an initializer method
+- generic method of a bean is annotated @Inject (initializer method is a non-abstract, 
+  non-static, non-generic method of a bean class)
+
+3.11. The qualifier @Named at injection points
+- injection point other than injected field declares a @Named annotation that 
+  does not specify the value member
+
+4.3.1. Direct and indirect specialization
+- X specializes Y but does not have some bean type of Y
+- X specializes Y and Y has a name and X declares a name explicitly, using @Named
+
+5.2.2. Legal injection point types
+- injection point type is a type variable
+
+5.5.7. Injection point metadata
+- bean that declares any scope other than @Dependent has an injection point of type 
+  InjectionPoint and qualifier @Default
+- Java EE component class supporting injection that is not a bean has an injection 
+  point of type InjectionPoint and qualifier @Default
+
+8.1.2. Decorator delegate injection points
+- decorator has more than one delegate injection point, or
+  does not have a delegate injection point
+- injection point that is not an injected field, initializer method parameter 
+  or bean constructor method parameter is annotated @Delegate
+- bean class that is not a decorator has an injection point annotated @Delegate
+
+8.1.3. Decorated types of a decorator
+- delegate type does not implement or extend a decorated type of the decorator,
+  or specifies different type parameters
+
+9.2. Declaring the interceptor bindings of an interceptor
+- interceptor for lifecycle callbacks declares an interceptor binding type 
+  that is defined @Target({TYPE, METHOD})
+
+9.3. Binding an interceptor to a bean
+- managed bean has a class level interceptor binding and is declared final 
+  or has a non-static, non-private, final method
+- non-static, non-private, final method of a managed bean has a method level 
+  interceptor binding
+
+9.5.2. Interceptor binding types with members
+- the set of interceptor bindings of a bean or interceptor, including bindings 
+  inherited from stereotypes and other interceptor bindings, has two instances 
+  of a certain interceptor binding type and the instances have different values 
+  of some annotation member
+
+10.4.2. Declaring an observer method
+- method has more than one parameter annotated @Observes
+- observer method is annotated @Produces or @Inject or has a parameter annotated @Disposes
+- non-static method of a session bean class has a parameter annotated @Observes, 
+  and the method is not a business method of the EJB
+- interceptor or decorator has a method with a parameter annotated @Observes
+
+10.4.3. Conditional observer methods
+- bean with scope @Dependent has an observer method declared receive=IF_EXISTS
+
+Non-Portable behavior
+
+2.4.1. Built-in scope types
+- interceptor or decorator has any scope other than @Dependent
+
+2.5.3. Beans with no EL name
+- interceptor or decorator has a name
+
+2.6.1. Declaring an alternative
+- interceptor or decorator is an alternative
+
+2.7.1.3. Declaring a @Named stereotype
+- stereotype declares any other qualifier annotation
+- stereotype is annotated @Typed
+
+4.3.1. Direct and indirect specialization
+- interceptor or decorator is annotated @Specializes
+
+5.2.5. Qualifier annotations with members
+- array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding
+
+9.2. Declaring the interceptor bindings of an interceptor
+- interceptor declared using @Interceptor does not declare any interceptor binding
+
+9.5.2. Interceptor binding types with members
+- array-valued or annotation-valued member of an interceptor binding type 
+  is not annotated @Nonbinding
+
+12.1. Bean archives
+- bean class is deployed in two different bean archives
+
