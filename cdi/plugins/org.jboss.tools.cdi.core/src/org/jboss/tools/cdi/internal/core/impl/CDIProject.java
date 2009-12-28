@@ -521,7 +521,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized (namedBeans) {
 			if(attemptToResolveAmbiguousNames) {
 				Set<String> names = new HashSet<String>();
-				for (IBean bean : result) {
+				for (IBean bean : namedBeans) {
 					if(names.contains(bean.getName())) {
 						continue;
 					}
