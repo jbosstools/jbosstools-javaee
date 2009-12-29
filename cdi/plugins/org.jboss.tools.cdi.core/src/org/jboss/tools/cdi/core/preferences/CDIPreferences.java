@@ -149,8 +149,9 @@ public class CDIPreferences extends SeverityPreferences {
 
 //	- the bean class of a managed bean is annotated with both 
 //	  the @Interceptor and @Decorator stereotypes (3.1)
-//	- bean class of a session bean is annotated @Interceptor or @Decorator (3.2)
 	public static final String BOTH_INTERCEPTOR_AND_DECORATOR = INSTANCE.createSeverityOption("bothInterceptorAndDecorator"); //$NON-NLS-1$
+//	- bean class of a session bean is annotated @Interceptor or @Decorator (3.2)
+	public static final String SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("sessionBeanAnnotatedInterceptorOrDecorator"); //$NON-NLS-1$
 //	- interceptor or decorator has a method annotated @Produces (3.3.2)
 //	- interceptor or decorator has a field annotated @Produces (3.4.2)
 	public static final String PRODUCER_IN_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("producerInInterceptorOrDecorator"); //$NON-NLS-1$
