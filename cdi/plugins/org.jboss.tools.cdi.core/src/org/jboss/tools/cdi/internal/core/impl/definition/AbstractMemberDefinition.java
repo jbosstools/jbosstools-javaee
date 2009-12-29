@@ -79,6 +79,10 @@ public abstract class AbstractMemberDefinition {
 		return annotations;
 	}
 
+	public AnnotationDeclaration getAnnotation(String typeName) {
+		return annotationsByType.get(typeName);
+	}
+
 	public AnnotationDeclaration getNamedAnnotation() {
 		return annotationsByType.get(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 	}

@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
@@ -35,6 +38,16 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation {
 
 	public IAnnotationDeclaration getInheritedDeclaration() {
 		return definition.getInheritedAnnotation();
+	}
+
+	public List<IAnnotationDeclaration> getAnnotationDeclarations() {
+		List<IAnnotationDeclaration> result = new ArrayList<IAnnotationDeclaration>();
+		result.addAll(definition.getAnnotations());
+		return result;
+	}
+
+	public IAnnotationDeclaration getAnnotationDeclaration(String typeName) {
+		return definition.getAnnotation(typeName);
 	}
 
 }

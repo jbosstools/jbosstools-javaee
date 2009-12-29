@@ -95,4 +95,13 @@
    <extension point="org.eclipse.core.runtime.preferences">
       <initializer class="org.jboss.tools.cdi.core.preferences.CDIPreferenceInitializer"/>
    </extension>
+
+   <extension
+         point="org.jboss.tools.jst.web.kb.validator">
+         <validator
+               class="org.jboss.tools.cdi.internal.core.validation.CDICoreValidator"
+               id="org.jboss.tools.cdi.core.CoreValidator">
+         </validator>
+   </extension>
+
 </plugin>

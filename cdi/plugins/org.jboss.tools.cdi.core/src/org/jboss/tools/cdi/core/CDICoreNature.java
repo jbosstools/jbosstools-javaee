@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 
 public class CDICoreNature implements IProjectNature {
 	public static String NATURE_ID = "org.jboss.tools.cdi.core.cdinature";
@@ -36,6 +37,8 @@ public class CDICoreNature implements IProjectNature {
 
 	ClassPathMonitor classPath = new ClassPathMonitor(this);
 	DefinitionContext definitions = new DefinitionContext();
+
+	ProjectValidationContext validationContext = null;
 
 	boolean isBuilt = false;
 
@@ -262,5 +265,15 @@ public class CDICoreNature implements IProjectNature {
 		//TODO
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.core.ISeamProject#getValidationContext()
+	 */
+	public ProjectValidationContext getValidationContext() {
+		if(validationContext==null) {
+			validationContext = new ProjectValidationContext();
+		}
+		return validationContext;
+	}
 
 }
