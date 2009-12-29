@@ -8,153 +8,174 @@
 			<keyword>JBDS</keyword>
 		</keywordset>
 	</chapterinfo>
-	
 	<title>Maven Integration for Seam Projects</title>
-	<para>Starting from 3.1 M2 version <property>JBoss Tools</property> includes new Jboss Maven Integration plug-in which for now allows
-	to  create mavenized Seam projects and enable Seam tools support for imported Maven projects.</para>
-	
+	<para>Starting from 3.1 M2 version <property>JBoss Tools</property> includes new Jboss Maven
+		Integration plug-in which for now allows to create mavenized Seam projects and enable Seam
+		tools support for imported Maven projects.</para>
 	<para>The Jboss Maven Integration requires <ulink url="http://m2eclipse.sonatype.org/"
-		>m2eclipse</ulink> to be installed.</para>
-	
+			>m2eclipse</ulink> to be installed.</para>
 	<note>
 		<title>Note:</title>
-		<para>For M2 release of <property>Jboss Tools</property> it is important to use m2eclipse <ulink
-			url="http://m2eclipse.sonatype.org/update/">stable updatesite</ulink> or the <ulink url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351">latest integration build</ulink> that M2 was
-			developed against. If you want to use the latest development release of m2eclipse you need to use the <ulink url="http://download.jboss.org/jbosstools/updates/nightly/trunk/">nightly builds</ulink> of
-			<property>JBoss Tools</property>.</para>
+		<para>For M2 release of <property>Jboss Tools</property> it is important to use m2eclipse
+				<ulink url="http://m2eclipse.sonatype.org/update/">stable updatesite</ulink> or the
+				<ulink url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351">latest
+				integration build</ulink> that M2 was developed against. If you want to use the
+			latest development release of m2eclipse you need to use the <ulink
+				url="http://download.jboss.org/jbosstools/updates/nightly/trunk/">nightly
+				builds</ulink> of <property>JBoss Tools</property>.</para>
 	</note>
-	
 	<section id="create_mavenized_project">
-	<title>Creating Maven ready Seam project</title>
-
-	<para>Maven Integration makes the Seam Wizard capable of creating
-		Maven ready projects to let Maven get the libraries instead of using the Seam runtime.</para>
-	
-	<para>To create a mavenized Seam project you should perform the following steps:</para>
-	
-	<itemizedlist>
-		<listitem>
-			<para>Navigate to <emphasis>
-				<property>File &gt; New Seam Project</property>.</emphasis> Give the project a meaningful name, specify a target runtime and server
-				and select the proper configuration for your Seam project:</para>
-			
-			<figure>
-				<title>Starting the Mavenized Seam Project</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/create_mavenized_seam/createMavenizedSeamProject.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-		</listitem>
-		
-		<listitem>
-			<para>Click the <emphasis>
-				<property>Modify</property></emphasis> button to enable the <emphasis>
-					<property>Jboss Maven Integration</property></emphasis> facet:</para>
-			
-			<figure>
-				<title>Enabling the Jboss Maven Integration Facet</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/create_mavenized_seam/jbossMavenIntegrationFacet.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-		</listitem>
-		
-		<listitem>
-			<para>On the <property>JBoss M2 capabilities</property> page you&apos;ll be prompted to add the following maven properties: 
-				groupId, artifactId, version, packaging, name and description. Here it&apos;s possible to set a maven version of Seam 
-				and also decide whether to remove WTP classpath containers (where the path starts with org.eclipse.jst).
-			</para>
-			
-			<figure>
-				<title>Adjusting JBoss M2 Capabilities</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/create_mavenized_seam/jbossM2capabilities.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-		</listitem>
-		
-		<listitem>
-			<para>On the <property>Seam Facet</property> page configure the Seam Facet settings and click <emphasis>
-				<property>Finish</property>:</emphasis></para>
-			
-			<figure>
-				<title>Seam Facet Settings</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/create_mavenized_seam/seamFacetPage.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-		</listitem>
-	</itemizedlist>
-	
-	<para>The organized Seam project contains five projects with the Maven nature, builder, Maven classpath and the <emphasis>
-		<property>pom.xml</property></emphasis> files added: 
-		projectname, projectname-ear, projectname-ejb, projectname-parent and projectname-test.</para>
-	
-	<figure>
-		<title>Mavenized Seam Project</title>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="images/create_mavenized_seam/mavenizedProjectStructure.png"/>
-			</imageobject>
-		</mediaobject>
-	</figure>
-	</section>
-	
-	<section id="import_maven_project">
-		<title>Existing Maven Projects Import</title>
-		
-		<para>Maven Integration includes the Seam Maven configurator which is called when importing a project, changing 
-			<emphasis>
-				<property>pom.xml</property></emphasis> and/or calling <emphasis>
-					<property>Maven &gt; Update Project Configuration</property>.</emphasis>	When importing a Maven Seam project,  the Seam Maven configurator 
-			picks up the settings set up in <emphasis>
-				<property>pom.xml</property></emphasis> and adds to the project the following:</para>
-		
+		<title>Creating Maven ready Seam project</title>
+		<para>Maven Integration makes the Seam Wizard capable of creating Maven ready projects to
+			let Maven get the libraries instead of using the Seam runtime.</para>
+		<para>To create a mavenized Seam project you should perform the following steps:</para>
 		<itemizedlist>
-			<listitem><para>Seam nature</para></listitem>
-			<listitem><para>Seam facet and dependent facets to the EJB, EAR and WAR projects</para></listitem>
-			<listitem><para>JBoss Maven Integration facet if the Maven project contains a dependency with the 
-			org.jboss.seam groupId and an artifactId starting with 'jboss-seam'</para></listitem>
-			<listitem><para>other required facets (Web Module, Java, JSF, etc.)</para></listitem>
+			<listitem>
+				<para>Navigate to <emphasis>
+						<property>File &gt; New Seam Project</property>.</emphasis> Give the project
+					a meaningful name, specify a target runtime and server and select the proper
+					configuration for your Seam project:</para>
+				<figure>
+					<title>Starting the Mavenized Seam Project</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata
+								fileref="images/create_mavenized_seam/createMavenizedSeamProject.png"
+							/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</listitem>
+			<listitem>
+				<para>Click the <emphasis>
+						<property>Modify</property></emphasis> button to enable the <emphasis>
+						<property>Jboss Maven Integration</property></emphasis> facet:</para>
+				<figure>
+					<title>Enabling the Jboss Maven Integration Facet</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata
+								fileref="images/create_mavenized_seam/jbossMavenIntegrationFacet.png"
+							/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</listitem>
+			<listitem>
+				<para>On the <property>JBoss M2 capabilities</property> page you&apos;ll be prompted
+					to add the following maven properties: groupId, artifactId, version, packaging,
+					name and description. Here it&apos;s possible to set a maven version of Seam and
+					also decide whether to remove WTP classpath containers (where the path starts
+					with org.eclipse.jst). </para>
+				<figure>
+					<title>Adjusting JBoss M2 Capabilities</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata
+								fileref="images/create_mavenized_seam/jbossM2capabilities.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</listitem>
+			<listitem>
+				<para> On the <property>JSF Capabilities</property> page you can choose Maven as
+					libraries provider. This is possible when you use Maven JSF 1.2 Libraries as
+					type of JSF Implementing Library. Also it gives you capability to edit
+					Dependencies and Exclusions for the mavenized Seam project directly from the
+					wizard. </para>
+				<figure>
+					<title>Using JSF Implementation libraries provided by Maven</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata
+								fileref="images/create_mavenized_seam/seamJSFImplementation.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</listitem>
+			<listitem>
+				<para>On the <property>Seam Facet</property> page configure the Seam Facet settings
+					and click <emphasis>
+						<property>Finish</property>:</emphasis></para>
+				<figure>
+					<title>Seam Facet Settings</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/create_mavenized_seam/seamFacetPage.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</listitem>
 		</itemizedlist>
-		
-		<para>If the Seam version from <emphasis>
-			<property>pom.xml</property></emphasis> matches a version of a Seam runtime configured in the workspace, 
-			Seam configurator will set that runtime, otherwise no Seam runtime will be set and you&apos;ll have to set it manually under 
-			<link linkend="project_pref">Seam Settings in the project preferences</link>.</para>
-		
-		<para>Seam configurator recognizes the Seam artifacts in the following way: the view folder is a web content folder from the WAR project, 
-			the source folder is the first Eclipse source folder. If there is a folder containing &quot;hot&quot; in the name, it will be chosen as the action source folder. 
-			Package is the first package that has children or doesn&apos;t have any subpackage.
-		</para>
-		
-		<para>Configuring the Seam when importing a Maven project as well as a Seam Runtime, Seam artifacts and some facets could be suspended
-			in the JBoss Maven Integration preferences (<emphasis>
-				<property>Window &gt; Preferences &gt; JBoss Tools &gt; JBoss Maven Integration</property></emphasis>).</para>
-		
+		<para>The organized Seam project contains five projects with the Maven nature, builder,
+			Maven classpath and the <emphasis>
+				<property>pom.xml</property></emphasis> files added: projectname, projectname-ear,
+			projectname-ejb, projectname-parent and projectname-test.</para>
 		<figure>
-			<title>JBoss Maven Integration Preferences</title>
+			<title>Mavenized Seam Project</title>
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="images/create_mavenized_seam/configure_maven_integration.png"/>
+					<imagedata fileref="images/create_mavenized_seam/mavenizedProjectStructure.png"
+					/>
 				</imageobject>
 			</mediaobject>
 		</figure>
 	</section>
-	
+	<section id="import_maven_project">
+		<title>Existing Maven Projects Import</title>
+		<para>Maven Integration includes the Seam Maven configurator which is called when importing
+			a project, changing <emphasis>
+				<property>pom.xml</property></emphasis> and/or calling <emphasis>
+				<property>Maven &gt; Update Project Configuration</property>.</emphasis> When
+			importing a Maven Seam project, the Seam Maven configurator picks up the settings set up
+			in <emphasis>
+				<property>pom.xml</property></emphasis> and adds to the project the
+			following:</para>
+		<itemizedlist>
+			<listitem>
+				<para>Seam nature</para>
+			</listitem>
+			<listitem>
+				<para>Seam facet and dependent facets to the EJB, EAR and WAR projects</para>
+			</listitem>
+			<listitem>
+				<para>JBoss Maven Integration facet if the Maven project contains a dependency with
+					the org.jboss.seam groupId and an artifactId starting with 'jboss-seam'</para>
+			</listitem>
+			<listitem>
+				<para>other required facets (Web Module, Java, JSF, etc.)</para>
+			</listitem>
+		</itemizedlist>
+		<para>If the Seam version from <emphasis>
+				<property>pom.xml</property></emphasis> matches a version of a Seam runtime
+			configured in the workspace, Seam configurator will set that runtime, otherwise no Seam
+			runtime will be set and you&apos;ll have to set it manually under <link
+				linkend="project_pref">Seam Settings in the project preferences</link>.</para>
+		<para>Seam configurator recognizes the Seam artifacts in the following way: the view folder
+			is a web content folder from the WAR project, the source folder is the first Eclipse
+			source folder. If there is a folder containing &quot;hot&quot; in the name, it will be
+			chosen as the action source folder. Package is the first package that has children or
+			doesn&apos;t have any subpackage. </para>
+		<para>Configuring the Seam when importing a Maven project as well as a Seam Runtime, Seam
+			artifacts and some facets could be suspended in the JBoss Maven Integration preferences
+				(<emphasis>
+				<property>Window &gt; Preferences &gt; JBoss Tools &gt; JBoss Maven
+					Integration</property></emphasis>).</para>
+		<figure>
+			<title>JBoss Maven Integration Preferences</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata
+						fileref="images/create_mavenized_seam/configure_maven_integration.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+	</section>
 	<section>
 		<title>Relevant Resources Links</title>
-		
-		<para>In the <ulink url="http://in.relation.to/Bloggers/UsingMavenWithJBossTools">Using Maven with JBoss Tools</ulink> 
-			article written by Max Andersen you&apos;ll find references to the 
-		screencasts on how to use the examples of mavenized Seam projects provided by <property>JBoss Tools</property>.</para>
+		<para>In the <ulink url="http://in.relation.to/Bloggers/UsingMavenWithJBossTools">Using
+				Maven with JBoss Tools</ulink> article written by Max Andersen you&apos;ll find
+			references to the screencasts on how to use the examples of mavenized Seam projects
+			provided by <property>JBoss Tools</property>.</para>
 	</section>
 </chapter>
