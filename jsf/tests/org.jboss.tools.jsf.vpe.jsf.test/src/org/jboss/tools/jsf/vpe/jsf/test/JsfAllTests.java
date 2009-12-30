@@ -75,6 +75,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestForUsingComponentsLibrariesWithDefaultNamespace;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestOpenOnForXhtmlFiles_JBIDE5577;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1501Test;
@@ -184,6 +185,7 @@ public class JsfAllTests {
 		suite.addTestSuite(OpenOnInsideJspRoot_JBIDE4852.class);
 		suite.addTestSuite(NullPointerWithStyleProperty_JBIDE5193.class);
 		suite.addTestSuite(TestFViewLocaleAttribute_JBIDE5218.class);
+		suite.addTestSuite(TestOpenOnForXhtmlFiles_JBIDE5577.class);
 		
 		// $JUnit-END$
 		// added by Max Areshkau
