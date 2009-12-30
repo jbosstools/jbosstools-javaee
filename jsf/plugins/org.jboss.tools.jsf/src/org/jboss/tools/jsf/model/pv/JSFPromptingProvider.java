@@ -469,16 +469,31 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	//JSF_GET_PATH
 	
 	List<Object> getPathAsList(XModel model, String url) {
-		String s = getPath(model, url);
-		if(s == null) return EMPTY_LIST;
-		List<Object> l = new ArrayList<Object>();
-		l.add(s);
-		return l;
+		/*
+		 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5577
+		 * List will return all possible paths for url. 
+		 */
+		List<Object> pathsList = new ArrayList<Object>();
+		JSFWebProject p = JSFWebProject.getInstance(model);
+		if(p == null) {
+			pathsList.add(url);
+		} else {
+			JSFUrlPattern pattern = p.getUrlPattern();
+			if (pattern != null) {
+				pathsList.addAll(pattern.getJSFPaths(url));
+			} else {
+				pathsList.add(url);
+			}
+		}
+		return pathsList;
+		
 	}
 	
 	String getPath(XModel model, String url) {
 		JSFWebProject p = JSFWebProject.getInstance(model);
-		if(p == null) return url;
+		if(p == null) {
+			return url;
+		}
 		JSFUrlPattern pattern = p.getUrlPattern();
 		return (pattern == null) ? url : pattern.getJSFPath(url);
 	}

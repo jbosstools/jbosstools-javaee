@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.web.pattern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompoundPattern implements JSFUrlPattern {
 	JSFUrlPattern[] patterns = PatternLoader.DEFAULT_PATTERNS;
 	
@@ -47,6 +50,14 @@ public class CompoundPattern implements JSFUrlPattern {
 			if(patterns[i].matches(path)) return path;
 		}
 		return patterns[0].getJSFUrl(path);
+	}
+	
+	/**
+	 * Stub implementation
+	 * @see org.jboss.tools.jsf.web.pattern.JSFUrlPattern#getJSFPaths(java.lang.String)
+	 */
+	public List<String> getJSFPaths(String url) {
+		return new ArrayList<String>();
 	}
 
 }

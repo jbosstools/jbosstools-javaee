@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.web.pattern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrefixUrlPattern implements JSFUrlPattern {
 	protected String prefix = "/faces/";
 	
@@ -37,6 +40,14 @@ public class PrefixUrlPattern implements JSFUrlPattern {
 		return path;
 	}
 	
+	/**
+	 * Stub implementation
+	 * @see org.jboss.tools.jsf.web.pattern.JSFUrlPattern#getJSFPaths(java.lang.String)
+	 */
+	public List<String> getJSFPaths(String url) {
+		return new ArrayList<String>();
+	}
+
 	public String toString() {
 		return "PrefixUrlPattern:" + prefix;
 	}

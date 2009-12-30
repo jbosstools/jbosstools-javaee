@@ -10,10 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.web.pattern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PostfixUrlPattern implements JSFUrlPattern {
 	protected String postfix = ".jsf";
 	protected String fileSuffix = ".jsp";
-	
+	/*
+	 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5577
+	 * JSF files could be mapped to xhtml files also.
+	 * All of this extensions should be checked.
+	 */
+	protected String[] fileExtensions = {".jsp", ".xhtml"};
+
 	public void setPostfix(String postfix) {
 		this.postfix = postfix;
 	}
@@ -22,6 +31,10 @@ public class PostfixUrlPattern implements JSFUrlPattern {
 		fileSuffix = s;
 	}
 
+	public void setFileExtentions(String[] fileExtentions) {
+		this.fileExtensions = fileExtentions;
+	}
+	
 	public boolean matches(String path) {
 		return path.endsWith(postfix);
 	}
@@ -33,6 +46,20 @@ public class PostfixUrlPattern implements JSFUrlPattern {
 	public String getJSFPath(String url) {
 		if(url == null || url.length() == 0) return url;
 		return (url.endsWith(postfix)) ? url.substring(0, url.length() - postfix.length()) + fileSuffix : url;
+	}
+	
+	public List<String> getJSFPaths(String url) {
+		List<String> jsfPathsList = new ArrayList<String>();
+		if((url != null) && (url.length() > 0)) {
+			if (url.endsWith(postfix)) {
+				for (String extension : fileExtensions) {
+					jsfPathsList.add(url.substring(0, url.length() - postfix.length()) + extension);
+				}
+			} else {
+				jsfPathsList.add(url);
+			}
+		}
+		return jsfPathsList;
 	}
 	
 	public String getJSFUrl(String path) {

@@ -31,7 +31,6 @@ public class JSFLinkHyperlink extends LinkHyperlink {
 	protected String updateFilenameForModel(String filename, IProject project) {
 		// Begin of Slava's magic
 		WebPromptingProvider provider = WebPromptingProvider.getInstance();
-
 		IModelNature n = EclipseResourceUtil.getModelNature(project);
 		XModel xModel = n == null ? null : n.getModel();
 		
@@ -50,11 +49,35 @@ public class JSFLinkHyperlink extends LinkHyperlink {
 	}
 	
 	protected IFile getFileFromProject(String fileName) {
+		IFile fileFromProject = null;
 		IFile documentFile = getFile();
-		if(documentFile == null) return null;
-		
+		if(documentFile == null) {
+			return null;
+		}
 		IProject project = documentFile.getProject();
-		return super.getFileFromProject(updateFilenameForModel(fileName, project));
+		/*
+		 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5577
+		 * Get existed file from the project.
+		 * There could be several files, the first one will be returned.
+		 */
+		WebPromptingProvider provider = WebPromptingProvider.getInstance();
+		IModelNature n = EclipseResourceUtil.getModelNature(project);
+		XModel xModel = n == null ? null : n.getModel();
+		if (xModel != null) {
+			List<Object> list = provider.getList(xModel, WebPromptingProvider.JSF_GET_PATH, fileName, null);
+			if ((list != null) && (list.size() > 0)) {
+				for (Object realFileName : list) {
+					if (realFileName instanceof String) {
+						fileFromProject = super.getFileFromProject((String)realFileName);
+						if (fileFromProject != null) {
+							break;
+						}
+					}	
+				}
+			}
+		}
+		
+		return fileFromProject;
 	}
 	
 }

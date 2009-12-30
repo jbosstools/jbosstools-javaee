@@ -10,9 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.web.pattern;
 
+import java.util.List;
+
 public interface JSFUrlPattern {
-	public boolean matches(String path);
-	public boolean isJSFUrl(String path);
-	public String getJSFPath(String url);
-	public String getJSFUrl(String path);
+	boolean matches(String path);
+	boolean isJSFUrl(String path);
+	String getJSFPath(String url);
+	String getJSFUrl(String path);
+	/**
+	 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5577
+	 * <p>
+	 * Searches files that could have been mapped to jsf servlet. 
+	 * 
+	 * @param url the jsf mapping path
+	 * @return the list of possible jsf files
+	 */
+	List<String> getJSFPaths(String url);
 }
