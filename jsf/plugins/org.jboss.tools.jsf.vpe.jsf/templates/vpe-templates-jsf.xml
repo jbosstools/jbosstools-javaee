@@ -832,6 +832,32 @@
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
 
+	<!-- JSF 2.0 Core Tags -->
+	<vpe:tag name="f:ajax" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="f:event" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="f:validateBean" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="f:validateRequired" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" />
+	</vpe:tag>
+
+	<vpe:tag name="f:viewParam" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" />
+	</vpe:tag>
+
+    <vpe:tag name="f:metadata" case-sensitive="yes">
+		<vpe:template children="yes" modify="no" />
+	</vpe:tag>
+	<!-- End of JSF 2.0 Core Tags -->
+
 	<vpe:tag name="h:message">
 		<vpe:template children="no" modify="no">
 			<ul class="{@styleClass}" style="{@style}">
@@ -860,7 +886,7 @@
 		</vpe:template>
 	</vpe:tag>
 	
-	<!-- JSF 2.0 Tags -->
+	<!-- JSF 2.0 HTML Tags -->
 	<vpe:tag name="h:body" case-sensitive="yes">
 		<!-- The tag cannot have any attribute. -->
 		<!-- Checks for min tld version has been comented, 
@@ -925,18 +951,155 @@
 			</vpe:template>
 <!-- 		</vpe:if> -->
 	</vpe:tag>
-	<!-- End of JSF 2.0 Tags -->
+
+	<vpe:tag name="h:button" case-sensitive="yes">
+		<!-- This is a very big if-statement. 
+		     Its goal is to add support of 'disabled property'
+		     DO NOT FORGET TO EDIT 'ELSE' PART IN FUTURE MODIFICATIONS -->
+		<vpe:if test="(@disabled='true')">
+			<vpe:if test="not(attrpresent('image'))">
+				<vpe:if test="(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" 
+							title="{tagstring()}" dir="{@dir}"
+							disabled='disabled'/>
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+				<vpe:if test="not(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" 
+							title="{tagstring()}" dir="{@dir}"
+							disabled='disabled'/>
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+			</vpe:if>
+			<vpe:if test="attrpresent('image')">
+				<vpe:template children="no" modify="no">
+					<input type="image" src="{src(@image)}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" 
+						disabled='disabled'/>
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<!--else-->
+			<vpe:if test="not(attrpresent('image'))">
+				<vpe:if test="(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" 
+							title="{tagstring()}" dir="{@dir}"/>
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+				<vpe:if test="not(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" 
+							title="{tagstring()}" dir="{@dir}"/>
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+			</vpe:if>
+			<vpe:if test="attrpresent('image')">
+				<vpe:template children="no" modify="no">
+					<input type="image" src="{src(@image)}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		<!--end-of-else-->
+	</vpe:tag>
+
+	<vpe:tag name="h:link" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes" class="org.jboss.tools.jsf.vpe.jsf.template.JsfLinkTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="outputText" />
+				</vpe:drop>
+			</vpe:dnd>
+			<vpe:textFormatting>
+				<vpe:format type="BoldFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ItalicFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontNameFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="FontSizeFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="BackgroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+				<vpe:format type="ForegroundColorFormat">
+					<vpe:formatAttribute type="style" />
+				</vpe:format>
+			</vpe:textFormatting>
+			<vpe:pseudoContent />
+		</vpe:template>
+	</vpe:tag>
+	<!-- End of JSF 2.0 HTML Tags -->
 
 	<!-- Jsf 2.0 composite tags -->
 	<vpe:tag name="composite:implementation" case-sensitive="yes">
 		<!-- Checks for min tld version has been comented, 
-		becouse it's not specified correctly in jsf lib, mareshkau -->
-	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
+			 becouse it's not specified correctly in jsf lib, mareshkau
+		<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="yes" modify="yes"
 			class="org.jboss.tools.jsf.vpe.facelets.template.VpeCompositionTemplate"
 			namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets">
 			</vpe:template>
-<!--		</vpe:if>-->
+<!--	</vpe:if>-->
 	</vpe:tag>
 	
 	<vpe:tag name="composite:interface" case-sensitive="yes">

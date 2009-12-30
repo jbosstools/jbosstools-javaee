@@ -1,0 +1,20 @@
+<tests>
+	<test id="button1">
+		<input type="button" value="button"/>
+	</test>
+	<test id="button2">
+		<input type="button" value="button1" />
+	</test>
+	<test id="button3">
+		<input type="reset" value="button3" />
+	</test>
+	<test id="button4">
+		<input type="submit" value="button4" />
+	</test>
+	<test id="button5">
+		<input type="image"  SRC="/.*ve/unresolved_image.gif/" />
+	</test>
+	<test id="button6">
+		<INPUT TYPE="button" CLASS="redClass" STYLE="/.*font-style: italic;.*/" VALUE="button6"/>
+	</test>
+</tests>

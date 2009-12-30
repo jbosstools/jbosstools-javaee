@@ -1,0 +1,11 @@
+<tests>
+	<test id="link1">
+		<span CLASS="vpe-text">link1</span>
+	</test>
+	<test id="link2">
+		<a>link2</a>
+	</test>
+	<test id="link3">
+		<A STYLE="font-style: italic;" CLASS="redClass">link3</A>
+	</test>
+</tests>

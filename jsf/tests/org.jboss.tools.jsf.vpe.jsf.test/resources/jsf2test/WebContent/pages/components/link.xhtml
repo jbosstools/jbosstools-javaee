@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html"/>
+<h:head>
+	<style>
+		.redClass {
+			color: red;	
+		}
+	</style>
+</h:head>
+<h:body>
+    <h:form>
+		<h:link id="link1" value="link1" disabled="true" />
+		<h:link id="link2" value="link2" disabled="false" />
+		<h:link id="link3" value="link3" styleClass="redClass" style="font-style:italic;"/>
+		<h:link id="link4" value="link3" rendered="false"/>
+    </h:form>
+</h:body>
+</html>

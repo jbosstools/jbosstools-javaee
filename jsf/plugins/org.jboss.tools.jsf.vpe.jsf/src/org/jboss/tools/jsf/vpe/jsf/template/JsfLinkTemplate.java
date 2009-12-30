@@ -11,9 +11,9 @@
 package org.jboss.tools.jsf.vpe.jsf.template;
 
 /**
- * Template for h:commandLink
+ * Template for h:link
  * 
- * @author Yahor Radtsevich (yradtsevich)
+ * @author yradtsevich
  */
-public class JsfCommandLinkTemplate extends AbstarctLinkJsfTemplate {
+public class JsfLinkTemplate extends AbstarctLinkJsfTemplate {
 }
