@@ -20,7 +20,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.ITypedRegion;
@@ -54,12 +53,6 @@ public class ELExprPartitionerTest extends TestCase {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.text.ext.test", null, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 		Throwable exception = null;
-//		try {
-//			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-//		} catch (Exception x) {
-//			exception = x;
-//			x.printStackTrace();
-//		}
 		
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 	}
@@ -95,7 +88,7 @@ public class ELExprPartitionerTest extends TestCase {
 		}
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
-		assertTrue("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", (documentProvider != null));
+		assertNotNull("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", documentProvider);
 
 		try {
 			documentProvider.connect(editorInput);
@@ -108,7 +101,7 @@ public class ELExprPartitionerTest extends TestCase {
 		
 		IDocument document = documentProvider.getDocument(editorInput);
 
-		assertTrue("The document for the file \"" + PAGE_NAME + "\" is not loaded", (document != null));
+		assertNotNull("The document for the file \"" + PAGE_NAME + "\" is not loaded", document);
 		
 		IStructuredModel model = null;
 		if (document instanceof IStructuredDocument) {
@@ -118,7 +111,7 @@ public class ELExprPartitionerTest extends TestCase {
 			EditorModelUtil.addFactoriesTo(model);
 		}
 
-		assertTrue("The document model for the file \"" + PAGE_NAME + "\" is not loaded", (model != null));
+		assertNotNull("The document model for the file \"" + PAGE_NAME + "\" is not loaded", model);
 
 		JSPExprHyperlinkPartitioner elPartitioner = new JSPExprHyperlinkPartitioner();
 
@@ -132,22 +125,29 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList.add(new Region(972, 18));
 		regionList.add(new Region(1041, 17));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE", regionList);
+		
 		regionList = new ArrayList<Region>();
 		regionList.add(new Region(859, 11));
 		regionList.add(new Region(871, 16));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_BEAN", regionList);
+		
 		regionList = new ArrayList<Region>();
 		regionList.add(new Region(859, 11));
 		regionList.add(new Region(871, 16));
 		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_BEAN", regionList);
+		
 		regionList = new ArrayList<Region>();
-		regionList.add(new Region(639, 1));
-		regionList.add(new Region(722, 1));
-		regionList.add(new Region(831, 1));
-		regionList.add(new Region(933, 1));
-		regionList.add(new Region(990, 1));
-		regionList.add(new Region(1058, 1));
+		
+		regionList.add(new Region(859, 11));
+		regionList.add(new Region(870, 16));
+		regionList.add(new Region(886, 1));
+		
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
+		
+		regionList = new ArrayList<Region>();
+		regionList.add(new Region(859, 11));
+		regionList.add(new Region(871, 16));
+		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.EXPRESSION", regionList);
 		
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
@@ -155,7 +155,6 @@ public class ELExprPartitionerTest extends TestCase {
 			boolean recognized = elPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
 			if (recognized) {
 				String childPartitionType = elPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
-
 				if (childPartitionType != null) {
 					ArrayList<Region> test = (ArrayList<Region>)recognitionTest.get(childPartitionType);
 					boolean testResult = false;
@@ -209,14 +208,13 @@ public class ELExprPartitionerTest extends TestCase {
 							testResult = true;
 					}
 				}
-				assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
-						+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , (testResult == false));
+				assertFalse("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
+						+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , testResult);
 			}
 		}
 
-		assertTrue("Wrong recognized region count: " + counter  
-				+ " (must be 137)" , (counter == 137));
-
+		assertEquals("Wrong recognized region count: ", 132,  counter);
+		
 		model.releaseFromEdit();
 
 		documentProvider.disconnect(editorInput);
