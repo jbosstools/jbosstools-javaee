@@ -20,6 +20,7 @@ public class CDIUIAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI UI Tests");
+		suite.addTestSuite(CATest.class);
 		return suite;
 	}
 }

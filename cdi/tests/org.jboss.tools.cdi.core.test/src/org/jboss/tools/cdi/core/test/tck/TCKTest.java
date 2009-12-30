@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
@@ -29,22 +30,24 @@ public class TCKTest extends TestCase {
 
 	public IProject importPreparedProject(String packPath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
-		String projectPath = FileLocator.resolve(b.getEntry(PROJECT_PATH)).getFile();
+		
+		IProject project = ResourcesUtils.importProject(b, PROJECT_PATH);
+		String projectPath = project.getLocation().toOSString();
 		String resourcePath = FileLocator.resolve(b.getEntry(TCK_RESOURCES_PREFIX)).getFile();
 		
 		File from = new File(resourcePath + packPath);
 		if(from.isDirectory()) {
 			File javaSourceTo = new File(projectPath + JAVA_SOURCE_SUFFIX + PACKAGE + packPath);
-			FileUtil.copyDir(from, javaSourceTo, false, true, true, new JavaFileFilter());
+			FileUtil.copyDir(from, javaSourceTo, true, true, true, new JavaFileFilter());
 
 			File webContentTo = new File(projectPath + WEB_CONTENT_SUFFIX);
-			FileUtil.copyDir(from, webContentTo, false, true, true, new PageFileFilter());
+			FileUtil.copyDir(from, webContentTo, true, true, true, new PageFileFilter());
 
 			File webInfTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX);
-			FileUtil.copyDir(from, webInfTo, false, true, true, new XmlFileFilter());
+			FileUtil.copyDir(from, webInfTo, true, true, true, new XmlFileFilter());
 		}	
-		
-		return ResourcesUtils.importProject(b, PROJECT_PATH);
+		JobUtils.waitForIdle();
+		return project;
 	}
 
 	class JavaFileFilter implements FileFilter {
