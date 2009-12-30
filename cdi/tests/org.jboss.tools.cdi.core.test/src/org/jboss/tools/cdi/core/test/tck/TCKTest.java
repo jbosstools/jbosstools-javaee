@@ -6,7 +6,9 @@ import java.io.FileFilter;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
@@ -45,7 +47,8 @@ public class TCKTest extends TestCase {
 
 			File webInfTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX);
 			FileUtil.copyDir(from, webInfTo, true, true, true, new XmlFileFilter());
-		}	
+		}
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		JobUtils.waitForIdle();
 		return project;
 	}

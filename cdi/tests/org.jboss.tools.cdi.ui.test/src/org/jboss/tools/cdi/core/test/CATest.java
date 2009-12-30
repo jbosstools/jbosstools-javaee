@@ -13,7 +13,9 @@ package org.jboss.tools.cdi.core.test;
 import java.io.File;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.util.FileUtil;
@@ -31,7 +33,7 @@ public class CATest extends TCKTest {
 	private static final String PAGE_NAME = "WebContent/test.jsp";
 	private static final String RESOURCE_NAME = "/resources/CATest/test.jsp";
 	private String[] beanProposals = new String[] {"example", "example.com", "fish", "game", "haddock", "salmon", "sheep", "tunaFarm", "whitefish", "wolf"};
-	private String[] propertyProposals = new String[] {"value", "initialize"};
+	private String[] propertyProposals = new String[] {"game.value", "game.initialize"};
 	private final static String UI_TEST_PLUGIN_ID = "org.jboss.tools.cdi.ui.test";
 
 	public CATest() {
@@ -47,13 +49,15 @@ public class CATest extends TCKTest {
 
 			FileUtil.copyFile(from, to);
 			caTest.setProject(project);
-			JobUtils.waitForIdle();
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			JobUtils.waitForIdle(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void testEL() {
+		JobUtils.waitForIdle(2000);
 		caTest.checkProposals(PAGE_NAME, "value=\"#{", 9, beanProposals, false);
 		caTest.checkProposals(PAGE_NAME, "rendered=\"#{(game.", 18, propertyProposals, false);
 	}
