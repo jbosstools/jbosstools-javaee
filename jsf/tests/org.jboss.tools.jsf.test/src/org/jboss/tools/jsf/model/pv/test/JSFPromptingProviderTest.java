@@ -127,9 +127,15 @@ public class JSFPromptingProviderTest extends TestCase {
 
 	public void testGetPath() {
 		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_GET_PATH, "/a.jsf", new Properties());
-		assertEquals(1, list.size());
+		/*
+		 * After fixing https://jira.jboss.org/jira/browse/JBIDE-5577
+		 * there are two files in the list: .jsp and .xhtml.
+		 */
+		assertEquals(2, list.size());
 		String s = (String)list.get(0);
 		assertEquals("/a.jsp", s);
+		s = (String)list.get(1);
+		assertEquals("/a.xhtml", s);
 	}
 	
 	public void testGetTaglibs() {
