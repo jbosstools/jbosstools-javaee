@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.struts.ui.bot.test;
 
+import org.jboss.tools.struts.ui.bot.test.smoke.AddRemoveStrutsCapabilities;
 import org.jboss.tools.struts.ui.bot.test.smoke.CreateNewStrutsProjectTest;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -27,8 +28,10 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  */
 @RunWith(Suite.class)
-@SuiteClasses( {CreateNewStrutsProjectTest.class})  
+@SuiteClasses( {CreateNewStrutsProjectTest.class,
+  AddRemoveStrutsCapabilities.class})  
 public class StrutsAllBotTests extends SWTTestExt {
+  public static final String STRUTS_PROJECT_NAME = "strutsTest";
   @BeforeClass
   public static void setUp() {
     properties = util.loadProperties(Activator.PLUGIN_ID);
