@@ -12,6 +12,7 @@
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
 import java.io.File;
+
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
@@ -44,7 +45,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     closeOpenJsfProject();
     removeJSFCapabilities(jbdsIsRunning);
     addJSFCapabilities();
-    // Test import of deleted JSF project 
+    // Test import of deleted JSF project
     deleteJsfProject();
     importJsfProject();
   }
@@ -79,9 +80,6 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       bot.textWithLabel("web.xml Location*").setText(webXmlFileLocation);
     
       bot.button(WidgetVariables.NEXT_BUTTON).click();
-      // Default Application Server is the one bundled with JBDS Installation
-      String asStartingJob = IDELabel.ServerJobName.STARTING_JBOSS_EAP;
-      String asStoppingJob = IDELabel.ServerJobName.STOPPING_JBOSS_EAP;
       // Check if there is defined Application Server if not create one
       if (!SWTJBTExt.isServerDefinedInWebWizardPage(bot)){
         // Specify Application Server for Deployment
@@ -91,8 +89,6 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
           .select("JBoss Enterprise Application Platform 4.3");
         bot.button(WidgetVariables.FINISH_BUTTON).click();
         // Server Jobs has different labels now
-        asStartingJob = IDELabel.ServerJobName.STARTING_JBOSS_EAP_43_RUNTIME;
-        asStoppingJob = IDELabel.ServerJobName.STOPPING_JBOSS_EAP_43_RUNTIME;
       }
       delay();
       // Finish Import
