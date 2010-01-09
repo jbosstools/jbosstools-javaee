@@ -131,11 +131,13 @@ public class JSFPromptingProviderTest extends TestCase {
 		 * After fixing https://jira.jboss.org/jira/browse/JBIDE-5577
 		 * there are two files in the list: .jsp and .xhtml.
 		 */
-		assertEquals(2, list.size());
+		assertEquals(3, list.size());
 		String s = (String)list.get(0);
 		assertEquals("/a.jsp", s);
 		s = (String)list.get(1);
 		assertEquals("/a.xhtml", s);
+		s = (String)list.get(2);
+		assertEquals("/a.jspx", s);
 	}
 	
 	public void testGetTaglibs() {

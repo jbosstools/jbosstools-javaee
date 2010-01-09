@@ -18,10 +18,11 @@ public class PostfixUrlPattern implements JSFUrlPattern {
 	protected String fileSuffix = ".jsp";
 	/*
 	 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5577
-	 * JSF files could be mapped to xhtml files also.
+	 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5635
+	 * JSF files could be mapped to xhtml or jspx files also.
 	 * All of this extensions should be checked.
 	 */
-	protected String[] fileExtensions = {".jsp", ".xhtml"};
+	protected String[] fileExtensions = {".jsp", ".xhtml", ".jspx"};
 
 	public void setPostfix(String postfix) {
 		this.postfix = postfix;
