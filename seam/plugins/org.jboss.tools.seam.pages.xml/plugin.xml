@@ -108,6 +108,10 @@
             name="http://jboss.com/products/seam/pages-2.1.xsd" 
             uri="platform:/plugin/org.jboss.tools.seam.pages.xml/schemas/pages-2.1.xsd"/>
 
+        <uri 
+            name="http://jboss.com/products/seam/pages-2.2.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.pages.xml/schemas/pages-2.2.xsd"/>
+
       </catalogContribution>
    </extension>
 
