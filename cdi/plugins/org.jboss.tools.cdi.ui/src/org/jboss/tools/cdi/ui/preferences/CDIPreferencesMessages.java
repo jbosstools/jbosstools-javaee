@@ -89,6 +89,7 @@ public class CDIPreferencesMessages extends NLS {
 	// Interceptor & Decorator
 	public static String CDIValidatorConfigurationBlock_section_interceptor_and_decorator;
 	public static String CDIValidatorConfigurationBlock_pb_bothInterceptorAndDecorator_label;
+	public static String CDIValidatorConfigurationBlock_pb_sessionBeanAnnotatedInterceptorOrDecorator_label;
 	public static String CDIValidatorConfigurationBlock_pb_producerInInterceptorOrDecorator_label;
 	public static String CDIValidatorConfigurationBlock_pb_disposerInInterceptorOrDecorator_label;
 	public static String CDIValidatorConfigurationBlock_pb_multipleDelegate_label;
