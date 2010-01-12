@@ -113,7 +113,8 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	 */
 	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
 		ELResolutionImpl resolution = resolveELOperand(operand, context, true);
-		resolution.setContext(context);
+		if(resolution != null)
+			resolution.setContext(context);
 		return resolution;
 	}
 
