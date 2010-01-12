@@ -768,11 +768,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			dataSourceDsFile = new File(seamGenResFolder, "datasource-ds.xml"); //$NON-NLS-1$
 			componentsFile = new File(seamGenResFolder, "WEB-INF/components" + (isWarConfiguration(model) ? "-war" : "") + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-			try {
-				hibernateConsolePropsFile = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
-			} catch (IOException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-			}
+			hibernateConsolePropsFile = new File(seamGenHomeFolder, "hibernatetools/hibernate-console.properties"); //$NON-NLS-1$
+
 			/*if (jpaVersion != null) {
 				IScopeContext context = new ProjectScope(project);
 				IEclipsePreferences prefs = context.getNode("org.eclipse.jpt.core");

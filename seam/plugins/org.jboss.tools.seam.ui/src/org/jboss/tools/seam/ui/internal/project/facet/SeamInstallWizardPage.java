@@ -115,7 +115,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	// Database group
 	private IFieldEditor connProfileSelEditor;
 
-	//private IFieldEditor jBossHibernateDbTypeEditor ;
+	private IFieldEditor jBossHibernateDbTypeEditor ;
 
 	private IFieldEditor dbSchemaName;
 
@@ -284,11 +284,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, getJpaConnectionProfile());
 		}
 		
-		/*if (jBossHibernateDbTypeEditor != null) {
+		if (jBossHibernateDbTypeEditor != null) {
 			SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 					SeamProjectPreferences.HIBERNATE_DEFAULT_DB_TYPE,
 					this.jBossHibernateDbTypeEditor.getValueAsString());
-		}*/		
+		}	
 
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
@@ -399,6 +399,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		databaseGroup.setText(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE);
 		gridLayout = new GridLayout(4, false);
 		databaseGroup.setLayout(gridLayout);
+		
+		jBossHibernateDbTypeEditor = IFieldEditorFactory.INSTANCE
+		.createComboEditor(ISeamFacetDataModelProperties.DB_TYPE,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
+				Arrays.asList(HIBERNATE_HELPER.getDialectNames()),
+				getDefaultDbType(), false);
+		registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);
 
 		createDatabaseGoupControl();
 
@@ -506,7 +513,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_CATALOG_NAME,
 						"");	//$NON-NLS-1$
 			
-			/*jBossHibernateDbTypeEditor
+			jBossHibernateDbTypeEditor
 			.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
 					SeamInstallWizardPage.this.model
@@ -516,7 +523,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 											.getNewValue().toString()));
 				}
 			});
-			registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);*/
+			//registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);
 			registerEditor(connProfileSelEditor, databaseGroup, 4);
 			registerEditor(dbSchemaName, databaseGroup, 4);
 			registerEditor(dbCatalogName, databaseGroup, 4);				
