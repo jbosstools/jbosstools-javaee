@@ -165,8 +165,11 @@ public abstract class RefactorSearcher {
 	private void scanForJava(IFile file){
 		if(isFileCorrect(file)) {
 			if(PROPERTIES_EXT.equalsIgnoreCase(file.getFileExtension())){
-				String content = getFileContent(file);
-				scanProperties(file, content);
+				if(file.getName().equals(SEAM_PROPERTIES_FILE)){
+					String content = getFileContent(file);
+					scanProperties(file, content);
+				}else
+					searchInCach(file);
 			} else if (JAVA_EXT.equalsIgnoreCase(file.getFileExtension())
 					|| JSP_EXT.equalsIgnoreCase(file.getFileExtension())
 					|| XHTML_EXT.equalsIgnoreCase(file.getFileExtension())
@@ -200,12 +203,14 @@ public abstract class RefactorSearcher {
 			for(ELReference reference : references){
 				int offset = reference.getStartPosition();
 				for(ELExpression operand : reference.getEl()){
-					
 					for (ELResolver resolver : resolvers) {
 						if (!(resolver instanceof ELCompletionEngine))
 							continue;
-
+						
 						ELResolution resolution = resolver.resolve(context, operand, offset);
+						
+						if(resolution == null)
+							continue;
 	
 						List<ELSegment> segments = resolution.findSegmentsByJavaElement(javaElement);
 						
@@ -283,7 +288,7 @@ public abstract class RefactorSearcher {
 	}
 	
 	private void scanProperties(IFile file, String content){
-		scanString(file, content, 0);
+		//scanString(file, content, 0);
 		
 		if(!file.getName().equals(SEAM_PROPERTIES_FILE))
 			return;
