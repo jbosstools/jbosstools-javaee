@@ -31,4 +31,8 @@
 		<function-class>demo.FaceletFunctions</function-class>
 		<function-signature>java.lang.String getStringForDisplay(java.lang.String)</function-signature>
  </function>
+ 	<tag>
+		<tag-name>actionMapper</tag-name>
+		<handler-class>demo.IfHandler</handler-class>
+	</tag>
 </facelet-taglib>

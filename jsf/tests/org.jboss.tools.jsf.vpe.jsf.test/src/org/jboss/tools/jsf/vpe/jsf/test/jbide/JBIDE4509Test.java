@@ -101,6 +101,14 @@ public class JBIDE4509Test extends VpeTest{
 		IEditorInput editorInput = new FileEditorInput(file);
 		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 22, 23, "IfHandler.java"); //$NON-NLS-1$
 	}
+	//test for <handler-class> in tag
+	public void testJBIDE4638OpenOnForHandlerClassWithTagAxis() throws Throwable{
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+				JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
+		IEditorInput editorInput = new FileEditorInput(file);
+		JBIDE4509Test.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 36, 29, "IfHandler.java"); //$NON-NLS-1$
+	}
 	//test for https://jira.jboss.org/jira/browse/JBIDE-4635
 	public void testJBIDE4635OpenOn() throws Throwable{
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
