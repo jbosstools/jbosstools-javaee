@@ -35,7 +35,9 @@ public class StrutsAllBotTests extends SWTTestExt {
   @BeforeClass
   public static void setUp() {
     properties = util.loadProperties(Activator.PLUGIN_ID);
-    eclipse.closeView(IDELabel.View.WELCOME);
+    if(eclipse.getBot().viewByTitle(IDELabel.View.WELCOME)!=null) {
+    	eclipse.closeView(IDELabel.View.WELCOME);
+    }
   }
 
   @AfterClass
