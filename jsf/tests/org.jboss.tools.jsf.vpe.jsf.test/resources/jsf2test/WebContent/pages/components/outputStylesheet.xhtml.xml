@@ -1,12 +1,17 @@
 <tests>
 	<test id="outputStylesheetRed">
 		<style>
-			span {    color: red;}
+			span {	color: red;	background-color: black;}
 		</style>
 	</test>
 	<test id="outputStylesheetBlue">
 		<style>
-			span {    color: blue;}
+			span {    color: blue;	font-style: italic;}
+		</style>
+	</test>
+	<test id="outputStylesheetYellowBold">
+		<style>
+			span {	color: yellow;	font-weight: bold;}
 		</style>
 	</test>
 </tests>

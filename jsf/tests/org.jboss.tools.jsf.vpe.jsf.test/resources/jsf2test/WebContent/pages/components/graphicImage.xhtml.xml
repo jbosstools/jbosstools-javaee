@@ -1,0 +1,14 @@
+<tests>
+	<test id="graphicImageNameOnly">
+		<IMG SRC="/.*jsf2test/WebContent/resources/img/img.gif/" />
+	</test>
+	<test id="graphicImageNameAndLib">
+		<IMG SRC="/.*jsf2test/WebContent/resources/img/img.gif/" />
+	</test>
+	<test id="graphicImageNameOnlyJar">
+		<IMG SRC="/.*[/\\]org.jboss.tools.vpe[/\\]img.*.gif/" />
+	</test>
+	<test id="graphicImageNameAndLibJar">
+		<IMG SRC="/.*[/\\]org.jboss.tools.vpe[/\\]img.*.gif/" />
+	</test>
+</tests>

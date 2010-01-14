@@ -108,7 +108,7 @@ This Image Packed into jar file : resource['jarimg:img.gif']
 </LABEL>
 </TD>
 <TD>
-<IMG SRC="/.*/org.jboss.tools.vpe/img.*.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*[/\\]org.jboss.tools.vpe[/\\]img.*.gif/" STYLE="-moz-user-modify: read-write;"/>
 
 </TD>
 </TR>

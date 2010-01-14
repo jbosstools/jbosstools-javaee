@@ -154,6 +154,20 @@
 		</vpe:template>
 	</vpe:tag>
 	<vpe:tag name="h:graphicImage" case-sensitive="yes">
+		<vpe:if test="attrpresent('name')">
+			<vpe:template children="no" modify="yes">
+				<img src="{href(jsf2resource(@library,@name))}" width="{@width}"
+					height="{@height}" class="{@styleClass}" style="{@style}"
+					title="{tagstring()}" alt="{jsfvalue(@alt)}"/>
+				<vpe:dnd>
+					<vpe:drag start-enable="yes" />
+				</vpe:dnd>
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+			</vpe:template>
+		</vpe:if>
 		<vpe:if test="attrpresent('value')">
 			<vpe:template children="no" modify="yes">
 				<img src="{src(jsfvalue(@value))}" width="{@width}"
@@ -947,7 +961,7 @@
 		becouse it's not specified correctly in jsf lib, mareshkau -->
 	<!-- 	<vpe:if test="tld_version('min=2.0')"> -->
 			<vpe:template children="no" modify="no">
-				<vpe:link rel="stylesheet" href="{href(@name)}" />
+				<vpe:link rel="stylesheet" href="{href(jsf2resource(@library,@name))}" />
 			</vpe:template>
 <!-- 		</vpe:if> -->
 	</vpe:tag>

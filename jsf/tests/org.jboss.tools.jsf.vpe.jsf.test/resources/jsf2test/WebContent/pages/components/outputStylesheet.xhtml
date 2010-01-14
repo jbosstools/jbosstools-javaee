@@ -4,8 +4,10 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <h:head />
 <h:body>
-	<h:outputStylesheet name="/resources/css/stylesRed.css" id="outputStylesheetRed"/>
-	<h:outputStylesheet name="/resources/css/stylesBlue.css" id="outputStylesheetBlue"/>
-	<span>Blue text</span>
+	<h:outputStylesheet name="css/stylesRed.css" id="outputStylesheetRed"/>
+	<h:outputStylesheet library="css" name="stylesBlue.css" id="outputStylesheetBlue"/>
+	<h:outputStylesheet library="jarcss" name="stylesYellowBold.css" id="outputStylesheetYellowBold"/>
+
+	<span>Yellow bold italic text on black background</span>
 </h:body>
 </html> 

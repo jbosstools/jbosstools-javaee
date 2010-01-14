@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<f:view contentType="text/html" />
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>First JSF 2.0 application</title>
+</h:head>
+
+
+<h:body>
+	<h:form>
+		<p><h:graphicImage name="img/img.gif" id="graphicImageNameOnly"/></p>
+		<p><h:graphicImage library="img" name="img.gif" id="graphicImageNameAndLib"/></p>
+		<p><h:graphicImage name="jarimg/img.gif" id="graphicImageNameOnlyJar"/></p>
+		<p><h:graphicImage library="jarimg" name="img.gif" id="graphicImageNameAndLibJar"/></p>
+	</h:form>
+</h:body>
+</html>

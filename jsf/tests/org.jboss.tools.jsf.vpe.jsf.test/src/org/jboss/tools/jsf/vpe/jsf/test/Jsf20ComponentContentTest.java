@@ -61,6 +61,10 @@ public class Jsf20ComponentContentTest extends ComponentContentTest {
 	public void testBody2() throws Throwable {
 		performContentTest("components/body2.xhtml"); //$NON-NLS-1$
 	}
+	
+	public void testGraphicImage() throws Throwable {
+		performContentTest("components/graphicImage.xhtml"); //$NON-NLS-1$
+	}
 
 	public void testHead1() throws Throwable {
 		performContentTest("components/head1.xhtml"); //$NON-NLS-1$
