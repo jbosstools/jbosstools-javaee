@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="JSF" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="FileVersions">
+   <PAIR name="FaceletTaglib2.0" value="FileFaceletTaglib20"/>
+  </MAPPING>
+  <MAPPING name="FilteredTreeConstraints"/>
+  <MAPPING name="FilteredTrees"/>
+  <MAPPING name="Handlers"/>
+  <MAPPING name="Implementations"/>
+  <MAPPING name="Recognizers"/>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action"/>
+  <GROUP name="main"/>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="attribute" name="FaceletTaglibAttribute20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.attribute" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="attribute" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
+   <XModelAttribute PROPERTIES="save=always;category=general;id=true"
+    name="name" xmlname="name.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="required" xmlname="required.#text">
+    <Constraint loader="ListString">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="type" xmlname="type.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="method-signature" xmlname="method-signature.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibConverter" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibConverter" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibConverter" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="converter" name="FaceletTaglibBehavior20">
+  <XChildrenEntities>
+   <XChildEntity name="FaceletTaglibBehaviorExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.converter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="behavior" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="declaration"
+    name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="behavior-id" xmlname="behavior-id.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="handler-class" xmlname="handler-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibConverter" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibConverter" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibConverter" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="behavior-extension" name="FaceletTaglibBehaviorExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="behavior-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="component" name="FaceletTaglibComponent20">
+  <XChildrenEntities>
+   <XChildEntity name="FaceletTaglibComponentExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.component" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="component" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="declaration"
+    name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="component-type" xmlname="component-type.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="renderer-type" xmlname="renderer-type.#text"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="handler-class" xmlname="handler-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibComponent" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibComponent" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibComponent" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="component-extension" name="FaceletTaglibComponentExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="component-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="converter" name="FaceletTaglibConverter20">
+  <XChildrenEntities>
+   <XChildEntity name="FaceletTaglibConverterExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.converter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="converter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="declaration"
+    name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="converter-id" xmlname="converter-id.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="handler-class" xmlname="handler-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibConverter" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibConverter" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibConverter" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="converter-extension" name="FaceletTaglibConverterExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="converter-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="taglib-extension" name="FaceletTaglibExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="taglib-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="entity=AnyElement" WizardClassName="%Default%"
+     displayName="Add Tag..." kind="action" name="CreateTag">
+     <EntityData EntityName="AnyElementNew">
+      <AttributeData AttributeName="tag"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="function" name="FaceletTaglibFunction20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.component" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="function" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
+   <XModelAttribute PROPERTIES="save=always;category=general;id=true"
+    name="function-name" xmlname="function-name.#text"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="function-class" xmlname="function-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="function-signature" xmlname="function-signature.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibFunction" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="handler-class" name="FaceletTaglibHandler20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.bean" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="handler" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="declaration"
+    name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="handler-class" xmlname="#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibHandler" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibHandler" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibHandler" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="source" name="FaceletTaglibSource20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.data-source" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="source" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="declaration"
+    name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="source" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibSource" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibSource" name="MoveActions"/>
+   <XActionItemReference entity="FaceletTaglibSource" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="tag" name="FaceletTaglibTag20">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="FaceletTaglibHandler20"/>
+   <XChildEntity maxCount="1" name="FaceletTaglibBehavior20"/>
+   <XChildEntity maxCount="1" name="FaceletTaglibComponent20"/>
+   <XChildEntity maxCount="1" name="FaceletTaglibConverter20"/>
+   <XChildEntity maxCount="1" name="FaceletTaglibValidator20"/>
+   <XChildEntity maxCount="1" name="FaceletTaglibSource20"/>
+   <XChildEntity name="FaceletTaglibAttribute20"/>
+   <XChildEntity name="FaceletTaglibTagExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.tag" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="tag" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always;id=true;category=general"
+    name="tag-name" xmlname="tag-name.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Handler..." kind="action" name="AddHandler">
+     <EntityData EntityName="FaceletTaglibHandler20">
+      <AttributeData AttributeName="handler-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Behavior..." kind="action" name="AddBehavior">
+     <EntityData EntityName="FaceletTaglibBehavior20">
+      <AttributeData AttributeName="behavior-id"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Component..."
+     kind="action" name="AddComponent">
+     <EntityData EntityName="FaceletTaglibComponent20">
+      <AttributeData AttributeName="component-type"/>
+      <AttributeData AttributeName="renderer-type" Mandatory="no"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Converter..."
+     kind="action" name="AddConverter">
+     <EntityData EntityName="FaceletTaglibConverter20">
+      <AttributeData AttributeName="converter-id"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Validator..."
+     kind="action" name="AddValidator">
+     <EntityData EntityName="FaceletTaglibValidator20">
+      <AttributeData AttributeName="validator-id"/>
+      <AttributeData AttributeName="handler-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=declaration"
+     WizardClassName="%Default%" displayName="Source..." kind="action" name="AddSource">
+     <EntityData EntityName="FaceletTaglibSource20">
+      <AttributeData AttributeName="source"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Handler..." kind="action" name="AddAttribute">
+     <EntityData EntityName="FaceletTaglibAttribute20">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="FaceletTaglibTag" name="CopyActions"/>
+   <XActionItemReference entity="FaceletTaglibTag" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibTag" name="Properties"/>
+   <XActionItemReference entity="FaceletTaglibTag" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="tag-extension" name="FaceletTaglibTagExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="tag-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%FT_TagDecl%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="validator" name="FaceletTaglibValidator20">
+  <XChildrenEntities>
+   <XChildEntity name="FaceletTaglibValidatorExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.converter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="validator" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="declaration"
+    name="name" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="validator-id" xmlname="validator-id.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="handler-class" xmlname="handler-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=handler-class" displayName="Open Handler"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="validator-extension" name="FaceletTaglibValidatorExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="validator-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
+   <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  AdoptManagerClass="org.jboss.tools.jsf.model.handlers.FacesConfigAdopt"
+  ImplementationLoadingClass="org.jboss.tools.jsf.facelet.model.FaceletTaglibLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  XMLSUBPATH="facelet-taglib" name="FileFaceletTaglib20">
+  <XChildrenEntities>
+   <XChildEntity name="FaceletTaglibTag20"/>
+   <XChildEntity name="FaceletTaglibFunction20"/>
+   <XChildEntity name="FaceletTaglibExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.facelet.taglib" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="facelet-taglib" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://java.sun.com/xml/ns/javaee" name="xmlns" xmlname="xmlns"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+    name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute default="false" name="expanded" visibility="false">
+    <Constraint loader="List">
+     <value name="false"/>
+     <value name="true"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="version"
+    visibility="false" xmlname="version">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="description" xmlname="description.#text">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
+   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="library-class" xmlname="library-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="uri" xmlname="namespace.#text"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="composite-library-name" xmlname="composite-library-name.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FileESB110">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItemReference entity="FileTXT" name="SaveActions"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.facelet.model.AddTagHandler"
+     ICON="action.empty" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Tag..." kind="action" name="AddTag">
+     <EntityData EntityName="FaceletTaglibTag20">
+      <AttributeData AttributeName="tag-name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%CreateInCollapsed%"
+     ICON="action.empty" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Function..." kind="action" name="AddFunction">
+     <EntityData EntityName="FaceletTaglibFunction20">
+      <AttributeData AttributeName="function-name"/>
+      <AttributeData AttributeName="function-class"/>
+      <AttributeData AttributeName="function-signature"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem HIDE="disabled"
+    HandlerClassName="org.jboss.tools.jst.web.tld.model.handlers.ExpandTLDHandler"
+    ICON="action.empty" displayName="Set Expanded" kind="action" name="SetExpanded"/>
+   <XActionItemReference entity="FileFaceletTaglib" name="CopyActions"/>
+   <XActionItemReference entity="FileTXT" name="DeleteActions"/>
+   <XActionItemReference entity="FileTXT" name="Properties"/>
+   <XActionItemReference entity="FileTXT" name="DiscardActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileFaceletTaglib20_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileFaceletTaglib20" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FileFaceletTaglib20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="FileSystemFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FileFaceletTaglib20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="FileSystemJar">
+  <XChildrenEntities>
+   <XChildEntity name="FileFaceletTaglib20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="JarFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FileFaceletTaglib20"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+</XModelEntityGroup>
