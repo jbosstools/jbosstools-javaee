@@ -68,6 +68,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
@@ -186,7 +187,8 @@ public class JsfAllTests {
 		suite.addTestSuite(NullPointerWithStyleProperty_JBIDE5193.class);
 		suite.addTestSuite(TestFViewLocaleAttribute_JBIDE5218.class);
 		suite.addTestSuite(TestOpenOnForXhtmlFiles_JBIDE5577.class);
-		
+		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
+			
 		// $JUnit-END$
 		// added by Max Areshkau
 		// add here projects which should be imported for junit tests
