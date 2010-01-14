@@ -76,6 +76,9 @@ public class FaceletTaglibXMLFormLayoutData implements IFormLayoutData, FaceletT
 //		} else if(entity.getChild(ENT_ESB_PROPERTY) != null) {
 //			list.add(ESBListsFormLayoutData.ESB_PROPERTY_LIST_DEFINITION);
 //		}
+		if(entity.getChild("AnyElement") != null) {
+			list.add(ModelFormLayoutData.TAG_LIST);
+		}
 		IFormData a = ModelFormLayoutData.createAdvancedFormData(entityName);
 		if(a != null) list.add(a);
 		IFormData[] ds = list.toArray(new IFormData[0]);
