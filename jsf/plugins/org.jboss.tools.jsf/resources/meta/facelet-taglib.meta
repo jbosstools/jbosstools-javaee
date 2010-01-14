@@ -27,6 +27,7 @@
   </GROUP>
   <GROUP name="main">
    <GROUP name="facelet">
+    <ICON name="attribute" path="images/jsf/attribute.gif"/>
     <ICON name="component" path="images/struts/plug_in.gif"/>
     <ICON name="converter" path="images/jsf/convertor.gif"/>
     <ICON name="data-source" path="images/struts/data_source.gif"/>

@@ -18,5 +18,6 @@ public interface FaceletTaglibConstants {
 	public static final String DOC_PUBLICID = "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"; //$NON-NLS-1$
 	
 	public static final String ENT_FACELET_TAGLIB = "FileFaceletTaglib"; //$NON-NLS-1$
+	public static final String ENT_FACELET_TAGLIB_20 = "FileFaceletTaglib20"; //$NON-NLS-1$
 
 }

@@ -89,6 +89,10 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 	static String TLD_ENTITIES = ".FileTLD_PRO.FileTLD_1_2.FileTLD_2_0.FileTLD_2_1.";
 
 	protected boolean acceptFile(XModelObject o) {
+		if(o.getParent() == null) {
+			System.out.println("Null parent " + o);
+			return false;
+		}
 		if("META-INF".equals(o.getParent().getAttributeValue("name"))) {
 			if(TLDUtil.isFaceletTaglib(o)) return true;
 		}

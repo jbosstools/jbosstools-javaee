@@ -20,7 +20,17 @@ public class FaceletTaglibEntityRecognizer implements EntityRecognizer, FaceletT
     public String getEntityName(String ext, String body) {
         if (body == null) return null;
         if (body.indexOf(DOC_PUBLICID) > 0) return ENT_FACELET_TAGLIB;
+        if(is20(body)) return ENT_FACELET_TAGLIB_20;
         return null;
     }
 
+    private boolean is20(String body) {
+    	int i = body.indexOf("<facelet-taglib"); //$NON-NLS-1$
+    	if(i < 0) return false;
+    	int j = body.indexOf(">", i); //$NON-NLS-1$
+    	if(j < 0) return false;
+    	String s = body.substring(i, j);
+    	return s.indexOf("version=\"2.0\"") > 0 && //$NON-NLS-1$
+    		s.indexOf("\"http://java.sun.com/xml/ns/javaee\"") > 0; //$NON-NLS-1$
+    }
 }
