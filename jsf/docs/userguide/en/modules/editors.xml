@@ -1885,157 +1885,299 @@ two elements with equal id has been used, but should be used only one -->
         </section>
 		
     	<section id="page_preview">
-    		<title>Page Preview</title>
-    		
-    		<para><property>VPE</property> comes with design-time preview feature which is available
-    			for:</para>
-    		
-    		<itemizedlist>
-    			<listitem>
-    				<para>Struts Pages</para>
-    			</listitem>
-    			<listitem>
-    				<para>JSF Pages</para>
-    			</listitem>
-    		</itemizedlist>
-    		
-    		<para><property>Preview view</property> is read-only, it shows how the page will look
-    			like in a browser.</para>
-    		<figure>
-    			<title>Preview View</title>
-    			<mediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/visual_page_16.png"/>
-    				</imageobject>
-    			</mediaobject>
-    		</figure>
-    		
-    		<!--para>You can even
-    			attach your stylesheet to the preview.</para-->
+    	    <title>Page Preview</title>
+    	    <para><property>VPE</property> comes with design-time preview feature which is available
+    	        for:</para>
+    	    <itemizedlist>
+    	        <listitem>
+    	            <para>Struts Pages</para>
+    	        </listitem>
+    	        <listitem>
+    	            <para>JSF Pages</para>
+    	        </listitem>
+    	        <listitem>
+    	            <para>Seam Pages</para>
+    	        </listitem>
+    	    </itemizedlist>
+    	    <para><property>Preview view</property> is read-only, it shows how the page will look
+    	        like in a browser.</para>
+    	    <figure>
+    	        <title>Preview View</title>
+    	        <mediaobject>
+    	            <imageobject>
+    	                <imagedata fileref="images/visual_page/visual_page_16.png"/>
+    	            </imageobject>
+    	        </mediaobject>
+    	    </figure>
+    	    <!--para>You can even
+    	        attach your stylesheet to the preview.</para-->
     	</section>
-    	
-		<section id="custom_facelets_support">
-			<title>Support for Custom Facelets Components</title>
-			
-			<para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of <property>JBoss Tools</property>) supports
-				custom Facelets tag libraries both declared in the <literal>web.xml</literal> file 
-				(for details, see 
-				<ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the JAR file.</para>
-			
-				<tip>
-					<title>Tip:</title>
-					<para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to put <literal>*.taglib.xml</literal> in right place:
-						<literal>[filename].jar/META-INF/*.taglib.xml</literal></para>
-				</tip>
-			
-			<para><property>Visual Page Editor</property> recognizes the tags from the custom Facelets tag library and correctly
-			renders them both in source and visual view of the editor.</para>
-			
-			<figure>
-				<title>Custom Facelets Tags in the VPE</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/visual_page/customFacelets1.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-			
-			<para>While editing an XHTML file that uses a custom Facelets components
-				you can always make use of the following editor&apos;s features:</para>
-			
-			<itemizedlist>
-				<listitem>
-					<para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom Facelets Components</link></para>
-				</listitem>
-				<listitem>
-					<para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets Components</link></para>
-				</listitem>
-			</itemizedlist>
-		
-			<section id="contentAssistForCustomFacelets">
-				<title>Content Assist for Custom Facelets Components</title>
-				<para>Call the content assist as usual by using <emphasis><property>Ctrl+Space</property></emphasis>
-					when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.</para>
-				
-				<figure>
-					<title>Content Assist for Custom Facelets Tags</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/visual_page/customFacelets2.png"/>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</section>
-			
-			<section id="openOnForCustomFacelets">
-				<title>OpenOn for Custom Facelets Components</title>
-				
-				<para>While developing using Facelets you can make use of:</para>
-				<itemizedlist>
-					<listitem><para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom Facelets Components</link></para></listitem>
-					<listitem><para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para></listitem>
-				</itemizedlist>
-				
-				<section id="openOnInXHTML">
-					<title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
-					<para>OpenOn functionality in XHTML files is available in two views of the <property>Visual Page Editor</property>:</para>
-					
-					<orderedlist>
-						<listitem>
-							<para>Source view</para>
-							
-							<para><emphasis><property>Ctrl+Click</property></emphasis> on the namespace will open the Facelets tag file
-								in a separate window.</para>
-							
-							<figure>
-								<title>Opening a Custom Facelets Tag File</title>
-								<mediaobject>
-									<imageobject>
-										<imagedata fileref="images/visual_page/customFacelets3.png"/>
-									</imageobject>
-								</mediaobject>
-							</figure>
-							
-							<para><emphasis><property>Ctrl+Click</property></emphasis> on any custom Facelets tag declared on the page will do the same.
-								The selected tag will be highlighted in the opened file.</para>
-							
-							<figure>
-								<title>Opening a Custom Facelets Tag File</title>
-								<mediaobject>
-									<imageobject>
-										<imagedata fileref="images/visual_page/customFacelets4.png"/>
-									</imageobject>
-								</mediaobject>
-							</figure>
-						</listitem>
-						
-						<listitem>
-							<para>Visual view</para>
-							
-							<para>In the visual view of the <property>VPE</property>, double-click a custom component and the Facelets tag file 
-								(<literal>*.taglib.xml</literal>) where it is declared will be opened.</para>
-						</listitem>
-					</orderedlist>
-				</section>
-				
-				<section id="openOnInCustomFaceletsTaglibs">
-					<title>OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</title>
-					
-					<para><emphasis><property>Ctrl+Click</property></emphasis> on the path to source of the Facelets tag will
-					open the component in its own editor.</para>
-					<figure>
-						<title>Opening a Custom Facelets Component</title>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="images/visual_page/customFacelets5.png"/>
-							</imageobject>
-						</mediaobject>
-					</figure>
-				</section>
-
-			</section>
-		</section>
-    	
+        <section id="custom_facelets_support">
+            <title>Support for Custom Facelets Components</title>
+            <para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of
+                <property>JBoss Tools</property>) supports custom Facelets tag libraries both
+                declared in the <literal>web.xml</literal> file (for details, see <ulink
+                    url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating
+                    a component</ulink>) and packed into the JAR file.</para>
+            <tip>
+                <title>Tip:</title>
+                <para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to
+                    put <literal>*.taglib.xml</literal> in right place: <literal
+                        >[filename].jar/META-INF/*.taglib.xml</literal></para>
+            </tip>
+            <para><property>Visual Page Editor</property> recognizes the tags from the custom
+                Facelets tag library and correctly renders them both in source and visual view of
+                the editor.</para>
+            <figure>
+                <title>Custom Facelets Tags in the VPE</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/customFacelets1.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>While editing an XHTML file that uses a custom Facelets components you can always
+                make use of the following editor&apos;s features:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom
+                        Facelets Components</link></para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets
+                        Components</link></para>
+                </listitem>
+            </itemizedlist>
+            <section id="contentAssistForCustomFacelets">
+                <title>Content Assist for Custom Facelets Components</title>
+                <para>Call the content assist as usual by using <emphasis><property
+                    >Ctrl+Space</property></emphasis> when typing a tag. As proposals you
+                    should see custom Facelets tags defined in your Facelets tag library.</para>
+                <figure>
+                    <title>Content Assist for Custom Facelets Tags</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/customFacelets2.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section id="openOnForCustomFacelets">
+                <title>OpenOn for Custom Facelets Components</title>
+                <para>While developing using Facelets you can make use of:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom
+                            Facelets Components</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom
+                            Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para>
+                    </listitem>
+                </itemizedlist>
+                <section id="openOnInXHTML">
+                    <title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
+                    <para>OpenOn functionality in XHTML files is available in two views of the
+                        <property>Visual Page Editor</property>:</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Source view</para>
+                            <para><emphasis><property>Ctrl+Click</property></emphasis> on the
+                                namespace will open the Facelets tag file in a separate
+                                window.</para>
+                            <figure>
+                                <title>Opening a Custom Facelets Tag File</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/customFacelets3.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>
+                            <para><emphasis><property>Ctrl+Click</property></emphasis> on any custom
+                                Facelets tag declared on the page will do the same. The selected tag
+                                will be highlighted in the opened file.</para>
+                            <figure>
+                                <title>Opening a Custom Facelets Tag File</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/customFacelets4.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>
+                        </listitem>
+                        <listitem>
+                            <para>Visual view</para>
+                            <para>In the visual view of the <property>VPE</property>, double-click a
+                                custom component and the Facelets tag file (<literal
+                                    >*.taglib.xml</literal>) where it is declared will be
+                                opened.</para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section id="openOnInCustomFaceletsTaglibs">
+                    <title>OpenOn in Custom Facelets Tag File (<literal
+                        >*.taglib.xml</literal>)</title>
+                    <para><emphasis><property>Ctrl+Click</property></emphasis> on the path to source
+                        of the Facelets tag will open the component in its own editor.</para>
+                    <figure>
+                        <title>Opening a Custom Facelets Component</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/customFacelets5.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+            </section>
+        </section><title>Page Preview</title>
+        <para><property>VPE</property> comes with design-time preview feature which is available
+            for:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Struts Pages</para>
+            </listitem>
+            <listitem>
+                <para>JSF Pages</para>
+            </listitem>
+            <listitem>
+                <para>Seam Pages</para>
+            </listitem>
+        </itemizedlist>
+        <para><property>Preview view</property> is read-only, it shows how the page will look
+            like in a browser.</para>
+        <figure>
+            <title>Preview View</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/visual_page_16.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <!--para>You can even
+            attach your stylesheet to the preview.</para-->
+    </section>
+    <section id="custom_facelets_support">
+        <title>Support for Custom Facelets Components</title>
+        <para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of
+            <property>JBoss Tools</property>) supports custom Facelets tag libraries both
+            declared in the <literal>web.xml</literal> file (for details, see <ulink
+                url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating
+                a component</ulink>) and packed into the JAR file.</para>
+        <tip>
+            <title>Tip:</title>
+            <para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to
+                put <literal>*.taglib.xml</literal> in right place: <literal
+                    >[filename].jar/META-INF/*.taglib.xml</literal></para>
+        </tip>
+        <para><property>Visual Page Editor</property> recognizes the tags from the custom
+            Facelets tag library and correctly renders them both in source and visual view of
+            the editor.</para>
+        <figure>
+            <title>Custom Facelets Tags in the VPE</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/visual_page/customFacelets1.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>While editing an XHTML file that uses a custom Facelets components you can always
+            make use of the following editor&apos;s features:</para>
+        <itemizedlist>
+            <listitem>
+                <para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom
+                    Facelets Components</link></para>
+            </listitem>
+            <listitem>
+                <para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets
+                    Components</link></para>
+            </listitem>
+        </itemizedlist>
+        <section id="contentAssistForCustomFacelets">
+            <title>Content Assist for Custom Facelets Components</title>
+            <para>Call the content assist as usual by using <emphasis><property
+                >Ctrl+Space</property></emphasis> when typing a tag. As proposals you
+                should see custom Facelets tags defined in your Facelets tag library.</para>
+            <figure>
+                <title>Content Assist for Custom Facelets Tags</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/customFacelets2.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section id="openOnForCustomFacelets">
+            <title>OpenOn for Custom Facelets Components</title>
+            <para>While developing using Facelets you can make use of:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom
+                        Facelets Components</link></para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom
+                        Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para>
+                </listitem>
+            </itemizedlist>
+            <section id="openOnInXHTML">
+                <title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
+                <para>OpenOn functionality in XHTML files is available in two views of the
+                    <property>Visual Page Editor</property>:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Source view</para>
+                        <para><emphasis><property>Ctrl+Click</property></emphasis> on the
+                            namespace will open the Facelets tag file in a separate
+                            window.</para>
+                        <figure>
+                            <title>Opening a Custom Facelets Tag File</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/customFacelets3.png"
+                                    />
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                        <para><emphasis><property>Ctrl+Click</property></emphasis> on any custom
+                            Facelets tag declared on the page will do the same. The selected tag
+                            will be highlighted in the opened file.</para>
+                        <figure>
+                            <title>Opening a Custom Facelets Tag File</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="images/visual_page/customFacelets4.png"
+                                    />
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>Visual view</para>
+                        <para>In the visual view of the <property>VPE</property>, double-click a
+                            custom component and the Facelets tag file (<literal
+                                >*.taglib.xml</literal>) where it is declared will be
+                            opened.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section id="openOnInCustomFaceletsTaglibs">
+                <title>OpenOn in Custom Facelets Tag File (<literal
+                    >*.taglib.xml</literal>)</title>
+                <para><emphasis><property>Ctrl+Click</property></emphasis> on the path to source
+                    of the Facelets tag will open the component in its own editor.</para>
+                <figure>
+                    <title>Opening a Custom Facelets Component</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/customFacelets5.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+        </section>
+    </section>    	
     	<section id="SetupnotesforLinu895x">
 
             <title>Setup notes for Linux</title>
