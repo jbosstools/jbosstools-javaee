@@ -28,10 +28,16 @@ public class FaceletTaglibXMLFormLayoutData implements IFormLayoutData, FaceletT
 	
 	public static String EMPTY_DESCRIPTION = ""; //$NON-NLS-1$
 
-	private final static IFormData[] FORM_LAYOUT_DEFINITIONS = new IFormData[] {
-
-		
+	private final static IFormData[] FORM_LAYOUT_DEFINITIONS = new IFormData[] {		
 	};
+
+	public static IFormData ATTRIBUTE_LIST = new FormData(
+		"Attributes",
+		"", //"Description //$NON-NLS-1$
+		new FormAttributeData[]{new FormAttributeData("name", 100)}, //$NON-NLS-1$
+		new String[]{"FaceletTaglibAttribute20"}, //$NON-NLS-1$
+		FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddAttribute") //$NON-NLS-1$
+	);
 
 	private static Map<String,IFormData> FORM_LAYOUT_DEFINITION_MAP = Collections.synchronizedMap(new ArrayToMap(FORM_LAYOUT_DEFINITIONS));
 	
@@ -78,6 +84,9 @@ public class FaceletTaglibXMLFormLayoutData implements IFormLayoutData, FaceletT
 //		}
 		if(entity.getChild("AnyElement") != null) {
 			list.add(ModelFormLayoutData.TAG_LIST);
+		}
+		if(entityName.equals("FaceletTaglibTag20")) {
+			list.add(ATTRIBUTE_LIST);
 		}
 		IFormData a = ModelFormLayoutData.createAdvancedFormData(entityName);
 		if(a != null) list.add(a);
