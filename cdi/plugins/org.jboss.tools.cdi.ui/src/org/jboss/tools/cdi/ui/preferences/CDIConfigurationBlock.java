@@ -119,7 +119,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 	);
 
 	private static SectionDescription SECTION_SPECIALIZATION = new SectionDescription(
-			CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_miscellaneous,
+			CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_specializing,
 			new String[][]{
 				{CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingManagedBean_label},
 				{CDIPreferences.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingSessionBean_label},
