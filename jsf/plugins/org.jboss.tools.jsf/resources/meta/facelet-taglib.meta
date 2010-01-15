@@ -371,6 +371,8 @@
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"

@@ -73,7 +73,7 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%FT_TagDecl%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
-  XMLSUBPATH="converter" name="FaceletTaglibBehavior20">
+  XMLSUBPATH="behavior" name="FaceletTaglibBehavior20">
   <XChildrenEntities>
    <XChildEntity name="FaceletTaglibBehaviorExtension"/>
   </XChildrenEntities>
@@ -106,11 +106,21 @@
    <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
     PROPERTIES="attribute=handler-class" displayName="Open Handler"
     kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" displayName="Extension..."
+     kind="action" name="AddBehaviorExtension">
+     <EntityData EntityName="FaceletTaglibBehaviorExtension"/>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItemReference entity="FaceletTaglibConverter" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibConverter" name="MoveActions"/>
@@ -180,11 +190,21 @@
    <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
     PROPERTIES="attribute=handler-class" displayName="Open Handler"
     kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" displayName="Extension..."
+     kind="action" name="AddComponentExtension">
+     <EntityData EntityName="FaceletTaglibComponentExtension"/>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItemReference entity="FaceletTaglibComponent" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibComponent" name="MoveActions"/>
@@ -252,11 +272,21 @@
    <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
     PROPERTIES="attribute=handler-class" displayName="Open Handler"
     kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" displayName="Extension..."
+     kind="action" name="AddConverterExtension">
+     <EntityData EntityName="FaceletTaglibConverterExtension"/>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItemReference entity="FaceletTaglibConverter" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibConverter" name="MoveActions"/>
@@ -541,10 +571,15 @@
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Handler..." kind="action" name="AddAttribute">
+     displayName="Attribute..." kind="action" name="AddAttribute">
      <EntityData EntityName="FaceletTaglibAttribute20">
       <AttributeData AttributeName="name"/>
      </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" displayName="Extension..."
+     kind="action" name="AddTagExtension">
+     <EntityData EntityName="FaceletTaglibTagExtension"/>
     </XActionItem>
    </XActionItem>
    <XActionItemReference entity="FaceletTaglibTag" name="CopyActions"/>
@@ -614,11 +649,21 @@
    <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
     PROPERTIES="attribute=handler-class" displayName="Open Handler"
     kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" displayName="Extension..."
+     kind="action" name="AddValidatorExtension">
+     <EntityData EntityName="FaceletTaglibValidatorExtension"/>
+    </XActionItem>
+   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
@@ -721,12 +766,13 @@
     visibility="false" xmlname="version">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute TRIM="no" name="description" xmlname="description.#text">
+   <XModelAttribute PROPERTIES="category=general" TRIM="no"
+    name="description" xmlname="description.#text">
     <Editor name="Note"/>
    </XModelAttribute>
-   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
-   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
-   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="display-name" xmlname="display-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="large-icon" xmlname="icon.large-icon.#text"/>
    <XModelAttribute PROPERTIES="category=general" name="library-class" xmlname="library-class.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
@@ -789,6 +835,11 @@
       <AttributeData AttributeName="function-class"/>
       <AttributeData AttributeName="function-signature"/>
      </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" displayName="Extension..."
+     kind="action" name="AddTaglibExtension">
+     <EntityData EntityName="FaceletTaglibExtension"/>
     </XActionItem>
    </XActionItem>
    <XActionItem HIDE="disabled"
