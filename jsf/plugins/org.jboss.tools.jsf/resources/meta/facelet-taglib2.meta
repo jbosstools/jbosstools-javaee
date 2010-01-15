@@ -150,6 +150,7 @@
    <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -234,6 +235,7 @@
    <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -316,6 +318,7 @@
    <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -352,9 +355,14 @@
      ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
     <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -611,6 +619,7 @@
    <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
@@ -702,6 +711,7 @@
    <XActionItemReference entity="FaceletTaglibExtension" name="CreateActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="DeleteActions"/>
    <XActionItemReference entity="FaceletTaglibExtension" name="CopyActions"/>
+   <XActionItemReference entity="FaceletTaglibFunction" name="MoveActions"/>
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
