@@ -72,7 +72,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%FT_TagDecl%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="behavior" name="FaceletTaglibBehavior20">
   <XChildrenEntities>
    <XChildEntity name="FaceletTaglibBehaviorExtension"/>
@@ -154,7 +154,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%FT_TagDecl%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="component" name="FaceletTaglibComponent20">
   <XChildrenEntities>
    <XChildEntity name="FaceletTaglibComponentExtension"/>
@@ -238,7 +238,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%FT_TagDecl%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="converter" name="FaceletTaglibConverter20">
   <XChildrenEntities>
    <XChildEntity name="FaceletTaglibConverterExtension"/>
@@ -483,7 +483,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData;children=%EntityOrdered%"
   XMLSUBPATH="tag" name="FaceletTaglibTag20">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="FaceletTaglibHandler20"/>
@@ -615,7 +615,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%FT_TagDecl%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="validator" name="FaceletTaglibValidator20">
   <XChildrenEntities>
    <XChildEntity name="FaceletTaglibValidatorExtension"/>
@@ -710,7 +710,7 @@
   ImplementationLoadingClass="org.jboss.tools.jsf.facelet.model.FaceletTaglibLoader"
   ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
   ObjectEditorClass="%XML%"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.FaceletTaglibXMLFormLayoutData;children=%Ordered%"
   XMLSUBPATH="facelet-taglib" name="FileFaceletTaglib20">
   <XChildrenEntities>
    <XChildEntity name="FaceletTaglibTag20"/>
