@@ -67,6 +67,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
@@ -190,6 +191,7 @@ public class JsfAllTests {
 		suite.addTestSuite(TestOpenOnForXhtmlFiles_JBIDE5577.class);
 		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
 		suite.addTestSuite(OpenOnInJarPackageFragment_JBIDE5682.class);
+		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
 			
 		// $JUnit-END$
 		// added by Max Areshkau

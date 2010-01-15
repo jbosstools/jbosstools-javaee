@@ -21,10 +21,12 @@
   </navigation-case>
  </navigation-rule>
  <application>
+  <resource-bundle>
+   <base-name>demo.Messages</base-name>
+   <var>msg</var>
+  </resource-bundle> 
   <locale-config>
    <default-locale>de</default-locale>
   </locale-config>
  </application>
- <factory/>
- <lifecycle/>
 </faces-config>
