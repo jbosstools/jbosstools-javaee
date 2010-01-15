@@ -110,7 +110,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
-		plugin = null;
+//		plugin = null;
 		super.stop(context);
 	}
 
