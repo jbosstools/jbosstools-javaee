@@ -589,7 +589,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 							if(dec instanceof ISeamJavaComponentDeclaration) {
 								ISeamJavaComponentDeclaration javaDec = (ISeamJavaComponentDeclaration)dec;
 								// Check names
-								if(javaDec.getName()!=null && javaDec.getName().equals(declaration.getName())) {
+								if(declaration.getClassName()!=null && javaDec.getName()!=null && javaDec.getName().equals(declaration.getName())) {
 									// Check precedences
 									String javaPrecedence = "" + javaDec.getPrecedence();
 									if(javaPrecedence.equals(precedence)) {
