@@ -2031,7 +2031,9 @@ two elements with equal id has been used, but should be used only one -->
                     </figure>
                 </section>
             </section>
-        </section><title>Page Preview</title>
+        </section>
+        
+        <title>Page Preview</title>
         <para><property>VPE</property> comes with design-time preview feature which is available
             for:</para>
         <itemizedlist>
@@ -2280,7 +2282,7 @@ two elements with equal id has been used, but should be used only one -->
 </section>
 -->
 
-    </section>
+    <!-- </section>-->
 
     <section id="more_editors">
 
