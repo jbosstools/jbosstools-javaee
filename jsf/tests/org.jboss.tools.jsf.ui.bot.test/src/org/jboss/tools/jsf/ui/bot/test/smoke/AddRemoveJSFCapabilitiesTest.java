@@ -11,9 +11,10 @@
 
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
+import static org.jboss.tools.ui.bot.ext.SWTTestExt.eclipse;
+
 import java.io.File;
 
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
@@ -34,9 +35,11 @@ import org.jboss.tools.ui.bot.test.WidgetVariables;
  */
 
 public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
-
-  private MenuItem miRunOnServer = null;
   
+  private SWTJBTExt swtJbtExt = null;
+  public AddRemoveJSFCapabilitiesTest(){
+    swtJbtExt = new SWTJBTExt(bot);
+  }
   public void testAddRemoveJSFCapabilities() {
     boolean jbdsIsRunning = SWTJBTExt.isJBDSRun(bot);
     removeJSFCapabilities(jbdsIsRunning);
@@ -63,8 +66,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     }
 
     if (parts.length > index + 1){
-      String webXmlFileLocation = parts[index + 1] + File.separator
-        + JBT_TEST_PROJECT_NAME + File.separator
+      String webXmlFileLocation = SWTUtilExt.getTestPluginLocation(JBT_TEST_PROJECT_NAME) + File.separator
         + "WebContent" + File.separator
         + "WEB-INF" + File.separator
         + "web.xml";
@@ -78,79 +80,17 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       bot.shell(IDELabel.Shell.IMPORT_JSF_PROJECT).activate();
       
       bot.textWithLabel("web.xml Location*").setText(webXmlFileLocation);
-    
       bot.button(WidgetVariables.NEXT_BUTTON).click();
-      // Check if there is defined Application Server if not create one
-      if (!SWTJBTExt.isServerDefinedInWebWizardPage(bot)){
-        // Specify Application Server for Deployment
-        bot.button(WidgetVariables.NEW_BUTTON, 1).click();
-        bot.shell("New Server").activate();
-        bot.tree().expandNode("JBoss Enterprise Middleware")
-          .select("JBoss Enterprise Application Platform 4.3");
-        bot.button(WidgetVariables.FINISH_BUTTON).click();
-        // Server Jobs has different labels now
-      }
-      delay();
-      // Finish Import
-      bot.button(WidgetVariables.FINISH_BUTTON).click();
-      bot.shell("Warning").activate();
-      bot.button(WidgetVariables.CONTINUE_BUTTON).click();
-      
-      waitForBlockingJobsAcomplished(BUILDING_WS);
+      SWTJBTExt.addServerToServerViewOnWizardPage(bot, IDELabel.ServerGroup.JBOSS_EAP_4_3, IDELabel.ServerType.JBOSS_EAP_4_3);
+      bot.sleep(1000L);
+      bot.button(IDELabel.Button.FINISH).click();
+      eclipse.closeWarningWindowIfOpened(true);
+      eclipse.closeOpenAssociatedPerspectiveShellIfOpened(false);
       // Start Application Server
-      SWTJBTExt.startApplicationServer(bot, 0);
-      // Run it on server
-      openPackageExplorer();
-      SWTBot packageExplorer = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
-          .bot();
-      SWTBotTree packageExplorerTree = packageExplorer.tree();
-
-      packageExplorerTree.setFocus();
-
-      SWTBotTreeItem packageExplorerTreeItem = packageExplorerTree
-          .getTreeItem(JBT_TEST_PROJECT_NAME);
-      packageExplorerTreeItem.select();
-      packageExplorerTreeItem.click();
-      // Search for Menu Item with Run on Server substring within label
-      final SWTBotMenu menuRunAs = bot.menu("Run").menu("Run As");
-      bot.getDisplay().syncExec(new Runnable() {
-        public void run() {
-          int menuItemIndex = 0;
-          boolean isFound = false;
-          final MenuItem[] menuItems = menuRunAs.widget.getMenu().getItems();
-          while (!isFound && menuItemIndex < menuItems.length){
-            if (menuItems[menuItemIndex].getText().indexOf("Run on Server") > - 1){
-              isFound = true;
-            }
-            else{
-              menuItemIndex++;
-            }
-          }
-          if (isFound){
-            setMiRunOnServer(menuItems[menuItemIndex]); 
-          }
-          else{
-            setMiRunOnServer(null);
-          }
-        }
-      });
-      
-      if (getMiRunOnServer() != null){
-        new SWTBotMenu(getMiRunOnServer()).click();
-      }
-      else
-      {
-        throw new WidgetNotFoundException("Menu item with mnemonic Run on Server"); 
-      }
-    
-      bot.shell("Run On Server").activate();
-      bot.button(WidgetVariables.FINISH_BUTTON).click();
-
-      waitForBlockingJobsAcomplished(10*1000L , BUILDING_WS);
-      waitForBlockingJobsAcomplished(10*1000L , UPDATING_INDEXES);
+      swtJbtExt.startApplicationServer(0);
+      swtJbtExt.runProjectOnServer(JBT_TEST_PROJECT_NAME);
       // Check Browser Content
       String browserText = WidgetFinderHelper.browserInEditorText(bot, "Input User Name Page",true);
-
       assertTrue("Displayed HTML page has wrong content", 
         browserText.indexOf("<TITLE>Input User Name Page</TITLE>") > - 1);
       // Stop Application Server and remove Application Server from Server View
@@ -327,14 +267,6 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     
     delay();
     
-  }
-  
-  private void setMiRunOnServer(MenuItem menuItem){
-    miRunOnServer = menuItem;
-  }
-  
-  private MenuItem getMiRunOnServer(){
-    return miRunOnServer;
   }
   /**
    * Remove JSF Test Project from all Servers

@@ -14,6 +14,7 @@ package org.jboss.tools.struts.ui.bot.test.smoke;
 import static org.junit.Assert.assertTrue;
 
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.types.EntityType;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -36,13 +37,15 @@ public class CreateNewStrutsProjectTest extends SWTTestExt{
 	  eclipse.showView(ViewType.WEB_PROJECTS);
 	  eclipse.addServerRuntime(IDELabel.ServerRuntimeName.JBOSS_EAP_4_3,
 	    IDELabel.ServerGroup.JBOSS_EAP_4_3,
-	    IDELabel.ServerType.JBOSS_EAP_4_3,
+	    IDELabel.ServerRuntimeType.JBOSS_EAP_4_3,
 	    StrutsAllBotTests.getProperty("JBossEap4.3Home"));
 	  eclipse.createNew(EntityType.STRUTS_PROJECT);
 	  bot.shell(IDELabel.Shell.NEW_STRUTS_PROJECT).activate();
 	  bot.textWithLabel(IDELabel.NewStrutsProjectDialog.NAME).setText(StrutsAllBotTests.STRUTS_PROJECT_NAME);
 	  bot.comboBoxWithLabel(IDELabel.NewStrutsProjectDialog.TEMPLATE).setSelection(IDELabel.NewStrutsProjectDialog.TEMPLATE_KICK_START);
 	  bot.button(IDELabel.Button.NEXT).click();
+	  SWTJBTExt.addServerToServerViewOnWizardPage(bot, IDELabel.ServerGroup.JBOSS_EAP_4_3, IDELabel.ServerType.JBOSS_EAP_4_3);
+	  bot.sleep(1000L);
 	  bot.button(IDELabel.Button.NEXT).click();
 	  bot.button(IDELabel.Button.FINISH).click();
     eclipse.closeOpenAssociatedPerspectiveShellIfOpened(false);
