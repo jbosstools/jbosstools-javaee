@@ -377,9 +377,15 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		findDeclarations(component);
 		
+		if(status.hasFatalError())
+			return;
+		
 		pm.worked(1);
 		
 		findAnnotations();
+		
+		if(status.hasFatalError())
+			return;
 		
 		pm.worked(1);
 		
@@ -396,6 +402,9 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		declarationFile = sourceFile;
 		
 		findOutDataModelFactory();
+		
+		if(status.hasFatalError())
+			return;
 		
 		pm.worked(1);
 		
