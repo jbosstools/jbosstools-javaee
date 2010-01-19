@@ -11,10 +11,8 @@
 
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
@@ -24,11 +22,9 @@ import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.javaeditor.JarEntryEditorInput;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorRegistry;
-import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
-import org.jboss.tools.common.model.ui.editor.ModelObjectStorageEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.ui.test.OpenOnUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
