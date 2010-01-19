@@ -25,6 +25,10 @@ for a full listing of individual contributors.
       <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/"/>
    </url>
 
+   <requires>
+      <import feature="org.jboss.tools.richfaces.feature" version="3.1.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="org.jboss.tools.cdi.core"
          download-size="0"
