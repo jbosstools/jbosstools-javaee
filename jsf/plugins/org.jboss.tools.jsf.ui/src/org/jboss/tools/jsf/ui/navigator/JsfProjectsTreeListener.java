@@ -71,7 +71,7 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 				invalidateTagLibs(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
-			} else if("JSFManagedBean".equals(entity)) { //$NON-NLS-1$
+			} else if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) { //$NON-NLS-1$
 				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
 			} else if("JSFReferencedBean".equals(entity)) { //$NON-NLS-1$
 				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
@@ -89,7 +89,7 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 				return;
 			} else if("FileSystems".equals(entity)) { //$NON-NLS-1$
 				invalidateTagLibs(source.getModel());
-			} else if("JSFManagedBeans".equals(entity)) { //$NON-NLS-1$
+			} else if("JSFManagedBeans".equals(entity) || "JSFManagedBeans20".equals(entity)) { //$NON-NLS-1$
 				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
 			} else if("JSFReferencedBeans".equals(entity)) { //$NON-NLS-1$
 				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$

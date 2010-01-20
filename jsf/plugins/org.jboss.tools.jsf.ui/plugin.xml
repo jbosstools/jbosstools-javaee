@@ -55,7 +55,7 @@
       <xmlEditor 
             class="org.jboss.tools.jsf.ui.editor.FacesConfigEditor" 
             contributorClass="org.jboss.tools.jsf.ui.action.JSFMultiPageContributor" 
-            entities="FacesConfig,FacesConfig11,FacesConfig12" 
+            entities="FacesConfig,FacesConfig11,FacesConfig12,FacesConfig20" 
             icon="$nl$/images/xstudio/editors/jsf.gif" 
             name="%editors.jsf.name">
       </xmlEditor>

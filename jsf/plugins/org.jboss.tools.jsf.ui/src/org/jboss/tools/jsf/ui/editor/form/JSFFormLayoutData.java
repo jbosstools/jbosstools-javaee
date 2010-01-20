@@ -11,7 +11,11 @@
 package org.jboss.tools.jsf.ui.editor.form;
 
 import java.util.*;
+
+import org.jboss.tools.common.meta.XModelEntity;
+import org.jboss.tools.common.meta.impl.XModelMetaDataImpl;
 import org.jboss.tools.common.model.ui.forms.*;
+import org.jboss.tools.jsf.model.JSFConstants;
 /**
  * @author Igels
  */
@@ -28,24 +32,36 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		return FormLayoutDataUtil.createDefaultFormActionData(actionPath);
 	}
 
+	private final static IFormData FACTORIES_SUB_LIST_DEFINITION = new FormData(
+		"Factories",
+		"", //$NON-NLS-1$
+		"factory", //$NON-NLS-1$
+		new FormAttributeData[]{new FormAttributeData("application-factory", null, STBFE_CLASS_NAME), new FormAttributeData("faces-context-factory", null, STBFE_CLASS_NAME), new FormAttributeData("lifecycle-factory", null, STBFE_CLASS_NAME), new FormAttributeData("render-kit-factory", null, STBFE_CLASS_NAME)} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	);
+	// Faces Config Lifecycle Form
+	private final static IFormData LIFECYCLE_SUB_LIST_DEFINITION = new FormData(
+		"Lifecycle",
+		"", //$NON-NLS-1$
+		"lifecycle", //$NON-NLS-1$
+		new FormAttributeData[]{new FormAttributeData("phase-listener", 100)}, //$NON-NLS-1$
+		new String[]{"JSFPhaseListener"}, //$NON-NLS-1$
+		FormLayoutDataUtil.createDefaultFormActionData("CreateActions.CreatePhaseListener", true) //$NON-NLS-1$
+	);
+
 	private final static IFormData[] FACES_CONFIG_DEFINITIONS =
 		new IFormData[] {
-			new FormData(
-				"Factories",
-				"", //$NON-NLS-1$
-				"factory", //$NON-NLS-1$
-				new FormAttributeData[]{new FormAttributeData("application-factory", null, STBFE_CLASS_NAME), new FormAttributeData("faces-context-factory", null, STBFE_CLASS_NAME), new FormAttributeData("lifecycle-factory", null, STBFE_CLASS_NAME), new FormAttributeData("render-kit-factory", null, STBFE_CLASS_NAME)} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			),
-			// Faces Config Lifecycle Form
-			new FormData(
-				"Lifecycle",
-				"", //$NON-NLS-1$
-				"lifecycle", //$NON-NLS-1$
-				new FormAttributeData[]{new FormAttributeData("phase-listener", 100)}, //$NON-NLS-1$
-				new String[]{"JSFPhaseListener"}, //$NON-NLS-1$
-				FormLayoutDataUtil.createDefaultFormActionData("CreateActions.CreatePhaseListener", true) //$NON-NLS-1$
-			)
+		FACTORIES_SUB_LIST_DEFINITION,
+		LIFECYCLE_SUB_LIST_DEFINITION,
+//			ModelFormLayoutData.createAdvancedFormData(entityName)
 		};
+
+	private final static IFormData[] FACES_CONFIG_20_DEFINITIONS =
+		new IFormData[] {
+		FACTORIES_SUB_LIST_DEFINITION,
+		LIFECYCLE_SUB_LIST_DEFINITION,
+		ModelFormLayoutData.createAdvancedFormData(JSFConstants.ENT_FACESCONFIG_20)
+	};
+
 	private final static IFormData ATTRIBUTES_FORM_DEFINITIONS =
 		new FormData(
 			"Attributes",
@@ -149,10 +165,57 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		)
 	};
 
+	private final static IFormData[] APPLICATION_20_DEFINITIONS = new IFormData[] {
+		new FormData(
+			"Application",
+			"", //$NON-NLS-1$
+			FormLayoutDataUtil.createGeneralFormAttributeData("JSFApplication20") //$NON-NLS-1$
+		),
+		createResolver("EL Resolvers", "JSFELResolver", "AddELResolver"), //$NON-NLS-2$ //$NON-NLS-3$
+		createResolver("Property Resolvers", "JSFPropertyResolver", "AddPropertyResolver"), //$NON-NLS-2$ //$NON-NLS-3$
+		createResolver("Variable Resolvers", "JSFVariableResolver", "AddVariableResolver"), //$NON-NLS-2$ //$NON-NLS-3$
+		new FormData(
+			"Message Bundles",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("message-bundle", 100)}, //$NON-NLS-1$
+			new String[]{"JSFMessageBundle"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddMessageBundle", true) //$NON-NLS-1$
+		),
+		new FormData(
+			"Resource Bundles",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("base-name", 70), new FormAttributeData("var", 30)}, //$NON-NLS-1$ //$NON-NLS-2$
+			new String[]{"JSFResourceBundle"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddResourceBundle") //$NON-NLS-1$
+		),
+		new FormData("org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"), //$NON-NLS-1$
+		new FormData(
+			"Extensions",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("element type", 100, "element")}, //$NON-NLS-1$
+			new String[]{"JSFApplicationExtension"}, //$NON-NLS-1$
+			createDefaultFormActionData("CreateActions.CreateExtension") //$NON-NLS-1$
+		),
+		new FormData(
+			"Default Validators",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("validator-id", 100, "Validator ID")}, //$NON-NLS-1$
+			new String[]{"JSFDefaultValidator"}, //$NON-NLS-1$
+			createDefaultFormActionData("CreateActions.AddDefaultValidator") //$NON-NLS-1$
+		),
+		new FormData(
+			"Advanced",
+			"", //$NON-NLS-1$
+			FormLayoutDataUtil.createAdvancedFormAttributeData("JSFApplication20") //$NON-NLS-1$
+		)
+	};
+
 	private final static IFormData APPLICATION_DEFINITION =
 		new FormData("JSFApplication", new String[]{null}, APPLICATION_DEFINITIONS); //$NON-NLS-1$
 	private final static IFormData APPLICATION_12_DEFINITION =
 		new FormData("JSFApplication12", new String[]{null}, APPLICATION_12_DEFINITIONS); //$NON-NLS-1$
+	private final static IFormData APPLICATION_20_DEFINITION =
+		new FormData("JSFApplication20", new String[]{null}, APPLICATION_20_DEFINITIONS); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -235,7 +298,7 @@ public class JSFFormLayoutData implements IFormLayoutData {
 	 */
 	private final static IFormData createRenderKitFormDefinitions(String parentEntity, String childEntity) {
 		int size = 3;
-		boolean is12 = parentEntity.endsWith("12"); //$NON-NLS-1$
+		boolean is12 = parentEntity.endsWith(JSFConstants.SUFF_12) || parentEntity.endsWith(JSFConstants.SUFF_20);
 		if(is12) size++;
 		IFormData[] result = new IFormData[size];
 		result[0] = new FormData(
@@ -309,8 +372,10 @@ public class JSFFormLayoutData implements IFormLayoutData {
 			new FormData("FacesConfig", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
 			new FormData("FacesConfig11", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
 			new FormData("FacesConfig12", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
+			new FormData("FacesConfig20", new String[]{null}, FACES_CONFIG_20_DEFINITIONS), //$NON-NLS-1$
 			APPLICATION_DEFINITION,
 			APPLICATION_12_DEFINITION,
+			APPLICATION_20_DEFINITION,
 			createComponentsFormDefinitions("JSFComponents", "JSFComponent"), //$NON-NLS-1$ //$NON-NLS-2$
 			createComponentsFormDefinitions("JSFComponents11", "JSFComponent11"), //$NON-NLS-1$ //$NON-NLS-2$
 			createComponentFormDefinitions("JSFComponent", false), //$NON-NLS-1$
@@ -411,6 +476,14 @@ public class JSFFormLayoutData implements IFormLayoutData {
 				createDefaultFormActionData("CreateActions.AddManagedBean") //$NON-NLS-1$
 			),
 			new FormData(
+				"Managed Beans",
+				"", //$NON-NLS-1$
+				"JSFManagedBeans20", //$NON-NLS-1$
+				new FormAttributeData[]{new FormAttributeData("managed-bean-name", 50, "name"), new FormAttributeData("managed-bean-class", 35, "class"), new FormAttributeData("managed-bean-scope", 15, "scope")}, //$NON-NLS-1$ //$NON-NLS-3$ //$NON-NLS-5$
+				new String[]{"JSFManagedBean20"}, //$NON-NLS-1$
+				createDefaultFormActionData("CreateActions.AddManagedBean") //$NON-NLS-1$
+			),
+			new FormData(
 				"JSFManagedBean", //$NON-NLS-1$
 				new String[]{null},
 				new IFormData[] {
@@ -419,6 +492,32 @@ public class JSFFormLayoutData implements IFormLayoutData {
 						"Managed Bean",
 						"", //$NON-NLS-1$
 						new FormAttributeData[]{new FormAttributeData("managed-bean-name"), new FormAttributeData("managed-bean-class", null, STBFE_CLASS_NAME), new FormAttributeData("managed-bean-scope"), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					),
+					// Properties Form
+					new FormData(
+						"Properties",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("property-name", 50, "name"), new FormAttributeData("property-class", 30, "class"), new FormAttributeData("value", 20)}, //$NON-NLS-1$ //$NON-NLS-3$ //$NON-NLS-5$
+						new String[]{"JSFManagedProperty"}, //$NON-NLS-1$
+						createDefaultFormActionData("CreateActions.CreatePropertySafe") //$NON-NLS-1$
+					),
+					// Advanced Managed Bean Form
+					new FormData(
+						"Advanced",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
+					)
+				}
+			),
+			new FormData(
+				"JSFManagedBean20", //$NON-NLS-1$
+				new String[]{null},
+				new IFormData[] {
+					// Managed Bean Form
+					new FormData(
+						"Managed Bean",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("managed-bean-name"), new FormAttributeData("managed-bean-class", null, STBFE_CLASS_NAME), new FormAttributeData("managed-bean-scope"), new FormAttributeData("eager"), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					),
 					// Properties Form
 					new FormData(
@@ -469,6 +568,14 @@ public class JSFFormLayoutData implements IFormLayoutData {
 				"JSFNavigationRules", //$NON-NLS-1$
 				new FormAttributeData[]{new FormAttributeData("presentation", 100, "from-view-id")}, //$NON-NLS-1$
 				new String[]{"JSFNavigationRule"}, //$NON-NLS-1$
+				createDefaultFormActionData("CreateActions.AddRule") //$NON-NLS-1$
+			),
+			new FormData(
+				"Navigation Rules",
+				"", //$NON-NLS-1$
+				"JSFNavigationRules20", //$NON-NLS-1$
+				new FormAttributeData[]{new FormAttributeData("presentation", 100, "from-view-id")}, //$NON-NLS-1$
+				new String[]{"JSFNavigationRule20"}, //$NON-NLS-1$
 				createDefaultFormActionData("CreateActions.AddRule") //$NON-NLS-1$
 			),
 			new FormData(
@@ -549,6 +656,7 @@ public class JSFFormLayoutData implements IFormLayoutData {
 			createRenderKitFormDefinitions("JSFRenderKit", "JSFRenderer"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitFormDefinitions("JSFRenderKit11", "JSFRenderer11"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitFormDefinitions("JSFRenderKit12", "JSFRenderer11"), //$NON-NLS-1$ //$NON-NLS-2$ 
+			createRenderKitFormDefinitions("JSFRenderKit20", "JSFRenderer11"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRendererFormDefinitions("JSFRenderer", false), //$NON-NLS-1$ 
 			createRendererFormDefinitions("JSFRenderer11", true), //$NON-NLS-1$ 
 			// Supported Component Type Form
@@ -653,7 +761,7 @@ public class JSFFormLayoutData implements IFormLayoutData {
 			),
 		};
 
-	private static Map FORM_LAYOUT_DEFINITION_MAP = Collections.unmodifiableMap(new ArrayToMap(FORM_LAYOUT_DEFINITIONS));
+	private static Map<String,IFormData> FORM_LAYOUT_DEFINITION_MAP = Collections.synchronizedMap(new ArrayToMap(FORM_LAYOUT_DEFINITIONS));
 
 	private static final JSFFormLayoutData INSTANCE = new JSFFormLayoutData();
 
@@ -665,7 +773,39 @@ public class JSFFormLayoutData implements IFormLayoutData {
 	} 
 
 	public IFormData getFormData(String entityName) {
-		return (IFormData)FORM_LAYOUT_DEFINITION_MAP.get(entityName);
+		IFormData data = (IFormData)FORM_LAYOUT_DEFINITION_MAP.get(entityName);
+		if(data == null) {
+			data = generateDefaultFormData(entityName);
+		}
+		return data;
 	}
+	
+	private IFormData generateDefaultFormData(String entityName) {
+		IFormData data = null;
+		XModelEntity entity = XModelMetaDataImpl.getInstance().getEntity(entityName);
+		if(entity != null) {
+			data = generateDefaultFormData(entity);
+		}
+		if(data != null) {
+			FORM_LAYOUT_DEFINITION_MAP.put(entityName, data);
+		}
+		return data;		
+	}
+	
+	public IFormData generateDefaultFormData(XModelEntity entity) {
+		String entityName = entity.getName();
+		List<IFormData> list = new ArrayList<IFormData>();
+		IFormData g = ModelFormLayoutData.createGeneralFormData(entity);
+		if(g != null) list.add(g);
+
+		//add lists here
+
+		IFormData a = ModelFormLayoutData.createAdvancedFormData(entityName);
+		if(a != null) list.add(a);
+		IFormData[] ds = list.toArray(new IFormData[0]);
+		IFormData data = new FormData(entityName, new String[0], ds);
+		return data;
+	}
+
 
 }
