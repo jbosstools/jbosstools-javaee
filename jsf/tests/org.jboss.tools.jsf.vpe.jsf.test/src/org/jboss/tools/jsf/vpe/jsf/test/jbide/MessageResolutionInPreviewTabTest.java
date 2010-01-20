@@ -30,6 +30,8 @@ import org.mozilla.interfaces.nsIDOMElement;
  */
 public class MessageResolutionInPreviewTabTest extends VpeTest {
 
+	JSPMultiPageEditor part;
+	
 	public MessageResolutionInPreviewTabTest(String name) {
 		super(name);
 	}
@@ -41,9 +43,8 @@ public class MessageResolutionInPreviewTabTest extends VpeTest {
 		IEditorInput input = new FileEditorInput(file);
 		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 		// open and get editor
-		JSPMultiPageEditor part = openEditor(input);
+		part = openEditor(input);
 		part.pageChange(part.getPreviewIndex());
-		part.setPreviewIndex(2);
 		
 		MozillaPreview mozillaPreview = (MozillaPreview) part.getVisualEditor().getPreviewWebBrowser();
 		//here we wait for preview initialization, but it's should be less then 1 second 
@@ -59,6 +60,12 @@ public class MessageResolutionInPreviewTabTest extends VpeTest {
 		if(getException()!=null) {
 			throw getException();
 		}
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		part.pageChange(part.getVisualSourceIndex());
+		super.tearDown();
 	}
 
 }

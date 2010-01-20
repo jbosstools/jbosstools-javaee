@@ -71,6 +71,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.PreferencesForEditors_JBIDE5692;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
@@ -194,6 +195,7 @@ public class JsfAllTests {
 		suite.addTestSuite(OpenOnInJarPackageFragment_JBIDE5682.class);
 		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
 		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);
+		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
 			
 		// $JUnit-END$
 		// added by Max Areshkau
