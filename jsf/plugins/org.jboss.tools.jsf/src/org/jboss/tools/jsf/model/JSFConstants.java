@@ -16,15 +16,27 @@ public interface JSFConstants {
 	public static final String DOC_EXTDTD = "http://java.sun.com/dtd/web-facesconfig_1_0.dtd"; //$NON-NLS-1$
 	public static final String DOC_PUBLICID_11 = "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"; //$NON-NLS-1$
 	public static final String DOC_EXTDTD_11 = "http://java.sun.com/dtd/web-facesconfig_1_1.dtd"; //$NON-NLS-1$
+	
+	public static final String JAVAEE_URI = "http://java.sun.com/xml/ns/javaee"; //$NON-NLS-1$
 
 	public static final String ELM_PROCESS = "process"; //$NON-NLS-1$
 
+	public static final String SUFF_11 = "11"; //$NON-NLS-1$
+	public static final String SUFF_12 = "12"; //$NON-NLS-1$
+	public static final String SUFF_20 = "20"; //$NON-NLS-1$
+
 	public static final String ENT_FACESCONFIG  = "FacesConfig"; //$NON-NLS-1$
 	public static final String ENT_FACESCONFIG_10  = ENT_FACESCONFIG;
-	public static final String ENT_FACESCONFIG_11  = ENT_FACESCONFIG + "11"; //$NON-NLS-1$
-	public static final String ENT_FACESCONFIG_12  = ENT_FACESCONFIG + "12"; //$NON-NLS-1$
+	public static final String ENT_FACESCONFIG_11  = ENT_FACESCONFIG + SUFF_11;
+	public static final String ENT_FACESCONFIG_12  = ENT_FACESCONFIG + SUFF_12;
+	public static final String ENT_FACESCONFIG_20  = ENT_FACESCONFIG + SUFF_20;
+
+	public static final String ENT_NAVIGATION_RULES = "JSFNavigationRules"; //$NON-NLS-1$
+	
 	public static final String ENT_NAVIGATION_RULE = "JSFNavigationRule"; //$NON-NLS-1$
 	public static final String ENT_NAVIGATION_CASE = "JSFNavigationCase"; //$NON-NLS-1$
+	public static final String ENT_NAVIGATION_RULE_20 = ENT_NAVIGATION_RULE + SUFF_20;
+	public static final String ENT_NAVIGATION_CASE_20 = ENT_NAVIGATION_CASE + SUFF_20;
 	
 	public static final String ENT_PROCESS = "JSFProcess"; //$NON-NLS-1$
 	public static final String ENT_PROCESS_GROUP = "JSFProcessGroup"; //$NON-NLS-1$

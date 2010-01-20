@@ -198,17 +198,18 @@ class SFUtil extends XModelObjectLoaderUtil {
 
 
 	public void loadChildren(Element element, XModelObject o) {
+		String entity = o.getModelEntity().getName();
 		if(o.getFileType() == XModelObject.FILE) {
 			super.loadChildren(element, o);
 			for (int i = 0; i < folders.length; i++) {
 				XModelObject c = o.getChildByPath(folders[i]);
 				if(c != null) super.loadChildren(element, c);
 			}
-		} else if("JSFManagedBean".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
+		} else if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) { //$NON-NLS-1$
 			loadManagedBeanChildren(element, o);
-		} else if("JSFManagedProperty".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
+		} else if("JSFManagedProperty".equals(entity)) { //$NON-NLS-1$
 			loadManagedPropertyChildren(element, o);
-		} else if("JSFListEntries".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
+		} else if("JSFListEntries".equals(entity)) { //$NON-NLS-1$
 			loadListEntriesChildren(element, o);
 		} else {
 			super.loadChildren(element, o);
@@ -221,17 +222,17 @@ class SFUtil extends XModelObjectLoaderUtil {
     }
     boolean needToSave(XModelObject o) {
     	if(o == null) return false;
-    	String entity = o.getModelEntity().getName();
-    	if("JSFApplication".equals(entity) || "JSFApplication12".equals(entity)) { //$NON-NLS-1$ //$NON-NLS-2$
-    		return (hasSetAttributes(o) 
-    				|| o.getChildren().length > 1
-    				|| needToSave(o.getChildByPath("Locale Config"))); //$NON-NLS-1$
-    	} else if("JSFLifecycle".equals(entity) || "JSFLocaleConfig".equals(entity)) { //$NON-NLS-1$ //$NON-NLS-2$
-    		return (hasSetAttributes(o) || o.getChildren().length > 0);
-    	} else if("JSFFactory".equals(entity)) { //$NON-NLS-1$
-    		return (hasSetAttributes(o));
+    	
+    	String s = o.getModelEntity().getProperty("saveDefault"); //$NON-NLS-1$
+    	if(!"false".equals(s)) return true; //$NON-NLS-1$
+    	if(hasSetAttributes(o)) return true;
+    	XModelObject[] cs = o.getChildren();
+    	if(cs.length > 2) return true;
+    	for (int i = 0; i < cs.length; i++) {
+    		if(needToSave(cs[i])) return true;
     	}
-    	return true;
+
+    	return false;
     }
     
     private boolean hasSetAttributes(XModelObject o) {
@@ -249,6 +250,7 @@ class SFUtil extends XModelObjectLoaderUtil {
     }
 
 	public boolean saveChildren(Element element, XModelObject o) {
+		String entity = o.getModelEntity().getName();
 		if(o.getFileType() == XModelObject.FILE) {
 			for (int i = 0; i < folders.length; i++) {
 				XModelObject c = o.getChildByPath(folders[i]);
@@ -256,13 +258,13 @@ class SFUtil extends XModelObjectLoaderUtil {
 			}
 			super.saveChildren(element, o);
 			return true;
-		} else if("JSFManagedBean".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
+		} else if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) { //$NON-NLS-1$
 			saveManagedBeanChildren(element, o);
 			return true;
-		} else if("JSFManagedProperty".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
+		} else if("JSFManagedProperty".equals(entity)) { //$NON-NLS-1$
 			saveManagedPropertyChildren(element, o);
 			return true;
-		} else if("JSFListEntries".equals(o.getModelEntity().getName())) { //$NON-NLS-1$
+		} else if("JSFListEntries".equals(entity)) { //$NON-NLS-1$
 			saveListEntriesChildren(element, o);
 			return true;
 		} else {

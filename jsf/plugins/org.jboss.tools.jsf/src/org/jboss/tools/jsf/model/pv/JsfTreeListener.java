@@ -64,7 +64,7 @@ public class JsfTreeListener implements XModelTreeListener {
 				invalidateConfig(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
-			} else if("JSFManagedBean".equals(entity)) {
+			} else if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) {
 				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBean".equals(entity)) {
 				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
@@ -82,7 +82,7 @@ public class JsfTreeListener implements XModelTreeListener {
 				return;
 			} else if("FileSystems".equals(entity)) {
 				invalidateTagLibs(source.getModel());
-			} else if("JSFManagedBeans".equals(entity)) {
+			} else if("JSFManagedBeans".equals(entity) || "JSFManagedBean20".equals(entity)) {
 				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBeans".equals(entity)) {
 				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);

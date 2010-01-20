@@ -453,10 +453,10 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		for (int i = 0; i < os.length; i++) {
 			XModelObject r = os[i].getChildByPath(JSFConstants.FOLDER_NAVIGATION_RULES);
 			if(r == null) continue;
-			XModelObject[] rs = r.getChildren(JSFConstants.ENT_NAVIGATION_RULE);
+			XModelObject[] rs = r.getChildren();
 			for (int j = 0; j < rs.length; j++) {
 				if(!OpenCaseHelper.isPatternMatches(rs[j].getAttributeValue(JSFConstants.ATT_FROM_VIEW_ID), viewPath)) continue;
-				XModelObject[] cs = rs[j].getChildren(JSFConstants.ENT_NAVIGATION_CASE);
+				XModelObject[] cs = rs[j].getChildren();
 				for (int k = 0; k < cs.length; k++) {
 					String q = cs[k].getAttributeValue(JSFConstants.ATT_FROM_OUTCOME);
 					if(!list.contains(q)) list.add(q); 

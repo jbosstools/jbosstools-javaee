@@ -216,7 +216,7 @@ public class JSPAdopt implements XAdoptManager {
 		XModelObject g = object.getParent().getParent();
 		String entity = g.getModelEntity().getName();
 		String start = null;
-		if("JSFManagedBean".equals(entity)) { //$NON-NLS-1$
+		if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) { //$NON-NLS-1$
 			String bean = g.getAttributeValue("managed-bean-name"); //$NON-NLS-1$
 			start = "#{" + bean + "." + key + "}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		} else if("JSFManagedProperty".equals(entity)) { //$NON-NLS-1$

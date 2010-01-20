@@ -10,12 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.model.handlers;
 
+
 import java.util.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.jsf.JSFPreference;
-import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
 
 public class DeleteOutputHandler extends DefaultRemoveHandler {
@@ -27,7 +27,7 @@ public class DeleteOutputHandler extends DefaultRemoveHandler {
 		XModelObject ruleObject = caseObject.getParent();
 		super.removeFromParent(caseObject);
 		boolean q = "yes".equals(JSFPreference.DO_NOT_CREATE_EMPTY_RULE.getValue()); //$NON-NLS-1$
-		if(q && ruleObject.getChildren(JSFConstants.ENT_NAVIGATION_CASE).length == 0) {
+		if(q && ruleObject.getChildren().length == 0) {
 			group.getModel().changeObjectAttribute(group, "persistent", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 			super.removeFromParent(ruleObject); 
 		}		

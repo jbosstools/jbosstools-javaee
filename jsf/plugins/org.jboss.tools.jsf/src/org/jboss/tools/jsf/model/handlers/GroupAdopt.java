@@ -37,10 +37,10 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		if(ENT_PROCESS_GROUP.equals(entity)) {
 			return canBeOutputTarget(target);
 		}
-		if(ENT_NAVIGATION_RULE.equals(entity)) {
+		if(ENT_NAVIGATION_RULE.equals(entity) || ENT_NAVIGATION_RULE_20.equals(entity)) {
 			return canBeOutputTarget(target);
 		}
-		if(ENT_NAVIGATION_CASE.equals(entity)) {
+		if(ENT_NAVIGATION_CASE.equals(entity) || ENT_NAVIGATION_CASE_20.equals(entity)) {
 			return canBeOutputTarget(target);
 		}
 		return false;
@@ -79,8 +79,8 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		}
 		else if(ENT_PROCESS_ITEM.equals(entity)) adoptItem(object, target, p);
 		else if(ENT_PROCESS_GROUP.equals(entity)) adoptGroup(object, target, p);
-		else if(ENT_NAVIGATION_RULE.equals(entity)) adoptRule(object, target, p);
-		else if(ENT_NAVIGATION_CASE.equals(entity)) adoptCase(object, target, p);
+		else if(ENT_NAVIGATION_RULE.equals(entity) || ENT_NAVIGATION_RULE_20.equals(entity)) adoptRule(object, target, p);
+		else if(ENT_NAVIGATION_CASE.equals(entity) || ENT_NAVIGATION_CASE_20.equals(entity)) adoptCase(object, target, p);
 	}
 	
 	protected void adoptOutput(XModelObject source, XModelObject target, Properties p) throws XModelException {
@@ -102,7 +102,8 @@ public class GroupAdopt implements XAdoptManager, JSFConstants {
 		String n = path;
 		if(n.lastIndexOf('.') > 0) n = n.substring(0, n.lastIndexOf('.'));
 		if(n.lastIndexOf('/') >= 0) n = n.substring(n.lastIndexOf('/') + 1);
-		XModelObject cs = source.getModel().createModelObject(ENT_NAVIGATION_CASE, null);
+		String caseEntity = source.getModelEntity().getChildren()[0].getName();
+		XModelObject cs = source.getModel().createModelObject(caseEntity, null);
 		cs.setAttributeValue(ATT_TO_VIEW_ID, path);
 		cs.setAttributeValue(ATT_FROM_OUTCOME, n);
 		int i = 0;

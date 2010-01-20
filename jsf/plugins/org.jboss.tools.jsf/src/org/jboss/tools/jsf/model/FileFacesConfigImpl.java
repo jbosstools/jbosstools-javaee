@@ -31,12 +31,13 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 	}
 
 	protected boolean hasDTD() {
-		return !"FacesConfig12".equals(getModelEntity().getName()); //$NON-NLS-1$
+		String entity = getModelEntity().getName();
+		return ENT_FACESCONFIG_10.equals(entity) || ENT_FACESCONFIG_11.equals(entity);
 	}
 
 	public void updateRuleIndices() {
 		Map<String,Integer> paths = new HashMap<String,Integer>();
-		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren(ENT_NAVIGATION_RULE);
+		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren();
 		Map<String,XModelObject> pps = new HashMap<String,XModelObject>();
 		int[] is = new int[rs.length];
 		for (int i = 0; i < rs.length; i++) {
@@ -81,7 +82,7 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 		XModelObject[] os = children.getObjects();
 		boolean updateRules = false;
 		if(from >= 0 && from < os.length && to >= 0 && to < os.length && from != to) {
-			updateRules = ENT_NAVIGATION_RULE.equals(os[from].getModelEntity().getName());
+			updateRules = os[from].getModelEntity().getName().startsWith(ENT_NAVIGATION_RULE);
 		}
 		boolean b = super.move(from, to, firechange);
 		if(b && updateRules) updateRuleIndices();
@@ -89,11 +90,13 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 	}
 
 	public XModelObject addRule(String fromViewId) {
-		XModelObject rule = getModel().createModelObject(ENT_NAVIGATION_RULE, null);
+		XModelObject rules = getChildByPath(FOLDER_NAVIGATION_RULES);
+		String ruleEntity = getNavigationRuleEntity(rules);
+		XModelObject rule = getModel().createModelObject(ruleEntity, null);
 		rule.setAttributeValue(ATT_FROM_VIEW_ID, fromViewId);
 		int i = getRuleCount(fromViewId);
 		rule.setAttributeValue("index", "" + i); //$NON-NLS-1$ //$NON-NLS-2$
-		getChildByPath(FOLDER_NAVIGATION_RULES).addChild(rule);
+		rules.addChild(rule);
 		return rule;		
 	}
 
@@ -117,4 +120,8 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 		}
 	}
 
+	public static String getNavigationRuleEntity(XModelObject folder) {
+		if(folder == null || !folder.getModelEntity().getName().startsWith(ENT_NAVIGATION_RULES)) return null;
+		return folder.getModelEntity().getChildren()[0].getName();
+	}
 }

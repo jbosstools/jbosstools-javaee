@@ -658,7 +658,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;saveDefault=false"
   XMLSUBPATH="application" name="JSFApplication">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFLocaleConfig" required="yes"/>
@@ -772,7 +772,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"
-  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;saveDefault=false"
   XMLSUBPATH="application" name="JSFApplication12">
   <XChildrenEntities>
    <XChildEntity maxCount="1" name="JSFLocaleConfig" required="yes"/>
@@ -1758,7 +1758,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.FactoryObjectImpl"
-  XMLSUBPATH="factory" name="JSFFactory">
+  PROPERTIES="saveDefault=false" XMLSUBPATH="factory" name="JSFFactory">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
@@ -1826,7 +1826,7 @@
  </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.LifecycleObjectImpl"
-  XMLSUBPATH="lifecycle" name="JSFLifecycle">
+  PROPERTIES="saveDefault=false" XMLSUBPATH="lifecycle" name="JSFLifecycle">
   <XChildrenEntities>
    <XChildEntity name="JSFPhaseListener"/>
   </XChildrenEntities>
@@ -1971,7 +1971,8 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Ordered%" XMLSUBPATH="locale-config" name="JSFLocaleConfig">
+ <XModelEntity ImplementingClass="%Ordered%"
+  PROPERTIES="saveDefault=false" XMLSUBPATH="locale-config" name="JSFLocaleConfig">
   <XChildrenEntities>
    <XChildEntity name="JSFSupportedLocale"/>
   </XChildrenEntities>

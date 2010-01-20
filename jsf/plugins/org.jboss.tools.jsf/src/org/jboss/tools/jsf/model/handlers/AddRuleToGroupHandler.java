@@ -22,12 +22,14 @@ public class AddRuleToGroupHandler extends AbstractHandler implements JSFConstan
 	}
 
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
+		XModelObject rules = object.getParent().getParent().getChildByPath(FOLDER_NAVIGATION_RULES);
+		String ruleEntity = FileFacesConfigImpl.getNavigationRuleEntity(rules);
 		String path = object.getAttributeValue(ATT_PATH);
 		JSFNavigationModel nm = (JSFNavigationModel)object.getParent().getParent();
-		XModelObject o = object.getModel().createModelObject(ENT_NAVIGATION_RULE, null);
+		XModelObject o = object.getModel().createModelObject(ruleEntity, null);
 		o.setAttributeValue(ATT_FROM_VIEW_ID, path);
 		o.setAttributeValue("index", "" + nm.getRuleCount(path)); //$NON-NLS-1$ //$NON-NLS-2$
-		object.getParent().getParent().getChildByPath(FOLDER_NAVIGATION_RULES).addChild(o);
+		rules.addChild(o);
 	}
 
 }

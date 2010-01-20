@@ -42,18 +42,27 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
         	if(dt.indexOf(DOC_PUBLICID_11) > 0) return ENT_FACESCONFIG_11;
         	if(dt.indexOf("SYSTEM") > 0 && dt.indexOf("web-facesconfig_1_1.dtd") > 0) return ENT_FACESCONFIG_11; //$NON-NLS-1$ //$NON-NLS-2$
         }
-        if(is12(body)) return ENT_FACESCONFIG_12;
+        String versionSuffix = getVersion(body);
+        if(SUFF_12.equals(versionSuffix)) {
+        	return ENT_FACESCONFIG_12;
+        }
+        if(SUFF_20.equals(versionSuffix)) {
+        	return ENT_FACESCONFIG_20;
+        }
         return null;
     }
     
-    private boolean is12(String body) {
+    private String getVersion(String body) {
     	int i = body.indexOf("<faces-config"); //$NON-NLS-1$
-    	if(i < 0) return false;
+    	if(i < 0) return null;
     	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
+    	if(j < 0) return null;
     	String s = body.substring(i, j);
-    	return s.indexOf("version=\"1.2\"") > 0 && //$NON-NLS-1$
-    		s.indexOf("\"http://java.sun.com/xml/ns/javaee\"") > 0; //$NON-NLS-1$
+    	String uriValue = "" + '"' + JAVAEE_URI + '"';
+    	if(s.indexOf(uriValue) < 0) return null;
+    	if(s.indexOf("version=\"1.2\"") > 0) return SUFF_12; //$NON-NLS-1$
+    	if(s.indexOf("version=\"2.0\"") > 0) return SUFF_20; //$NON-NLS-1$
+    	return null;
     }
 
 }

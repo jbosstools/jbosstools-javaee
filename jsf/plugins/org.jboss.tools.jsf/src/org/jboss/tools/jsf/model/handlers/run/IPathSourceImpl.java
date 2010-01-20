@@ -52,9 +52,9 @@ public class IPathSourceImpl implements IPathSource, JSFConstants {
     public static String getPath(XModelObject object) {
 		String f = null;
 		String entity = object.getModelEntity().getName();
-		if(ENT_NAVIGATION_RULE.equals(entity)) {
+		if(ENT_NAVIGATION_RULE.equals(entity) || ENT_NAVIGATION_RULE_20.equals(entity)) {
 			f = object.getAttributeValue(ATT_FROM_VIEW_ID);
-		} else if(ENT_NAVIGATION_CASE.equals(entity)) {
+		} else if(ENT_NAVIGATION_CASE.equals(entity) || ENT_NAVIGATION_CASE_20.equals(entity)) {
 			f = object.getAttributeValue(ATT_TO_VIEW_ID);
 		} else if(ENT_PROCESS_GROUP.equals(entity)) {
 			f = object.getAttributeValue(ATT_PATH);

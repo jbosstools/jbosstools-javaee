@@ -35,9 +35,13 @@ public class AddCaseToGroupHandler extends AbstractHandler implements JSFConstan
 		}
 		fv = AddViewSupport.revalidatePath(fv);
 		p.setProperty(ATT_TO_VIEW_ID, fv);
-		XModelObject ncase = object.getModel().createModelObject(ENT_NAVIGATION_CASE, p); 
+		String caseEntity = ENT_NAVIGATION_CASE;
+		if(object.getParent().getParent().getModelEntity().getName().endsWith(SUFF_20)) {
+			caseEntity = ENT_NAVIGATION_CASE_20;
+		}
+		XModelObject ncase = object.getModel().createModelObject(caseEntity, p); 
 		ReferenceGroupImpl g = (ReferenceGroupImpl)object;
-		/*TRIAL_JSF*/
+
 		XModelObject[] rs = g.getReferences();
 		if(rs.length > 0) {
 			DefaultCreateHandler.addCreatedObject(rs[rs.length - 1], ncase, p); 

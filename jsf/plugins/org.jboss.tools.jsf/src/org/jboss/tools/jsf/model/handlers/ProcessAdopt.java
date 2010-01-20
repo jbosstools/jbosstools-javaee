@@ -79,7 +79,8 @@ public class ProcessAdopt implements XAdoptManager, JSFConstants {
 			group.setModified(true);
 		} else {
 			XModelObject rules = process.getParent().getChildByPath(FOLDER_NAVIGATION_RULES);
-			XModelObject rule = rules.getModel().createModelObject(ENT_NAVIGATION_RULE, null);
+			String ruleEntity = FileFacesConfigImpl.getNavigationRuleEntity(rules);
+			XModelObject rule = rules.getModel().createModelObject(ruleEntity, null);
 			rule.setAttributeValue(ATT_FROM_VIEW_ID, path);
 			DefaultCreateHandler.addCreatedObject(rules, rule, p);
 		}

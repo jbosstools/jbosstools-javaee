@@ -23,6 +23,7 @@ import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemImpl;
+import org.jboss.tools.common.model.impl.XModelObjectImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
@@ -181,9 +182,14 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		XModelObject[] rs = ((ReferenceGroupImpl)sample).getReferences();
 		if(rs == null || rs.length == 0) return;
 		for (int i = 0; i < rs.length; i++) {
-			XModelObject[] cs = rs[i].getChildren(ENT_NAVIGATION_CASE);
+			String caseEntity = rule.getModelEntity().getChildren()[0].getName();
+			XModelObject[] cs = rs[i].getChildren();
 			for (int j = 0; j < cs.length; j++) {
-				rule.addChild(cs[j].copy());
+				XModelObject c = cs[j].copy();
+				if(c.getModelEntity().getName().equals(caseEntity)) {
+					((XModelObjectImpl)c).changeEntity(caseEntity);
+				}
+				rule.addChild(c);
 			}
 		}
 		

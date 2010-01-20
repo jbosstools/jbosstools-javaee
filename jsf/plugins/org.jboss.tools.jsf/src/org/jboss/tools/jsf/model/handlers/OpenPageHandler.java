@@ -20,13 +20,13 @@ public class OpenPageHandler extends DefaultRedirectHandler implements JSFConsta
 		String entity = source.getModelEntity().getName();
 		String attr = null;
 		/*TRIAL_JSF*/
-		if(ENT_NAVIGATION_RULE.equals(entity)) {
+		if(ENT_NAVIGATION_RULE.equals(entity) || ENT_NAVIGATION_RULE_20.equals(entity)) {
 			attr = ATT_FROM_VIEW_ID;
 		} else if(ENT_PROCESS_GROUP.equals(entity) || 
 		          ENT_PROCESS_ITEM.equals(entity) ||
 		          ENT_PROCESS_ITEM_OUTPUT.equals(entity)) {
 			attr = ATT_PATH;
-		} else if(ENT_NAVIGATION_CASE.equals(entity)) {
+		} else if(ENT_NAVIGATION_CASE.equals(entity) || ENT_NAVIGATION_CASE_20.equals(entity)) {
 			attr = ATT_TO_VIEW_ID;
 		}
 		if(attr == null) return null;

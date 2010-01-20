@@ -78,11 +78,11 @@ public class OpenCaseHelper {
 		for (int i = 0; i < os.length; i++) {
 			XModelObject r = os[i].getChildByPath(JSFConstants.FOLDER_NAVIGATION_RULES);
 			if(r == null) continue;
-			XModelObject[] rs = r.getChildren(JSFConstants.ENT_NAVIGATION_RULE);
+			XModelObject[] rs = r.getChildren();
 			for (int j = 0; j < rs.length; j++) {
 				String fromViewId = rs[j].getAttributeValue(JSFConstants.ATT_FROM_VIEW_ID);
 				if(!OpenCaseHelper.isPatternMatches(fromViewId, viewPath)) continue;
-				XModelObject[] cs = rs[j].getChildren(JSFConstants.ENT_NAVIGATION_CASE);
+				XModelObject[] cs = rs[j].getChildren();
 				for (int k = 0; k < cs.length; k++) {
 					String q1 = cs[k].getAttributeValue(JSFConstants.ATT_FROM_OUTCOME);
 					String q2 = cs[k].getAttributeValue(JSFConstants.ATT_FROM_ACTION);

@@ -78,7 +78,7 @@ public class JSFProcessHelper implements JSFConstants {
 	}
 	private void updateProcess0() {
 		reset();
-		rules = config.getChildByPath(FOLDER_NAVIGATION_RULES).getChildren(ENT_NAVIGATION_RULE);
+		rules = config.getChildByPath(FOLDER_NAVIGATION_RULES).getChildren();
         for (int i = 0; i < rules.length; i++) {
         	String fvi = rules[i].getAttributeValue(ATT_FROM_VIEW_ID);
         	if(fvi == null) continue;

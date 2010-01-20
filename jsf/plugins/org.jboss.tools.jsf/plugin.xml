@@ -6,6 +6,8 @@
    <extension point="org.jboss.tools.common.model.meta">
       <meta path="meta/jsf.meta">
       </meta>
+      <meta path="meta/jsf2.meta">
+      </meta>
       <meta path="meta/jsfcapabilities.meta">
       </meta>
       <meta path="meta/jsfprojects.meta">

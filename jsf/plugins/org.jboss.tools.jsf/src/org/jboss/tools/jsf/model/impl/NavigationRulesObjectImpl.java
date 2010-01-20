@@ -22,7 +22,7 @@ public class NavigationRulesObjectImpl extends OrderedObjectImpl implements JSFC
 		XModelObject[] os = children.getObjects();
 		boolean updateRules = false;
 		if(from >= 0 && from < os.length && to >= 0 && to < os.length && from != to) {
-			updateRules = ENT_NAVIGATION_RULE.equals(os[from].getModelEntity().getName());
+			updateRules = os[from].getModelEntity().getName().startsWith(ENT_NAVIGATION_RULE);
 		}
 		boolean b = super.move(from, to, firechange);
 		if(b && updateRules) ((JSFNavigationModel)getParent()).updateRuleIndices();
