@@ -12,11 +12,18 @@
 			<value />
 		</managed-property>
 	</managed-bean>
-	<behavior></behavior>
-	<application>
+   <application>
   <resource-bundle>
-   <base-name>demo.Messages</base-name>
+   <base-name>de.hska.messages</base-name>
    <var>msg</var>
-  </resource-bundle> 
+  </resource-bundle>
+  <resource-bundle>
+   <base-name>de.hska.kundenverwaltung.ui.messages</base-name>
+   <var>msgKv</var>
+  </resource-bundle>
+   <locale-config>
+   <default-locale>en</default-locale>
+   <supported-locale>de</supported-locale>
+  </locale-config>
   </application>
 </faces-config>
