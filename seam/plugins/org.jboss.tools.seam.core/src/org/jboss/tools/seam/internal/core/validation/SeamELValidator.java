@@ -58,7 +58,7 @@ public class SeamELValidator extends ELValidator {
 	@Override
 	public boolean shouldValidate(IProject project) {
 		try {
-			return super.shouldValidate(project) || project.hasNature(ISeamProject.NATURE_ID);
+			return super.shouldValidate(project) || (project!=null && project.isAccessible() && project.hasNature(ISeamProject.NATURE_ID));
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
