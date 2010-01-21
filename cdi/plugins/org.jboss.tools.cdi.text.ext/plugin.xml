@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector"
+            id="org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector"
+            name="%InjectedPointHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+   
+</plugin>
