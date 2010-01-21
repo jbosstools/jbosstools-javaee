@@ -18,8 +18,8 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.editor.mozilla.MozillaPreview;
+import org.jboss.tools.vpe.ui.test.ComponentContentTest;
 import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMElement;
 
 /**
@@ -28,7 +28,7 @@ import org.mozilla.interfaces.nsIDOMElement;
  * @author mareshkau
  * 
  */
-public class MessageResolutionInPreviewTabTest extends VpeTest {
+public class MessageResolutionInPreviewTabTest extends ComponentContentTest {
 
 	JSPMultiPageEditor part;
 	
@@ -37,7 +37,7 @@ public class MessageResolutionInPreviewTabTest extends VpeTest {
 	}
 	
 	public void testMessageResolutionInPreviewTab() throws Throwable {
-		setException(null);
+
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/5639/messageResolutionTest.jsp", //$NON-NLS-1$
 				JsfAllTests.IMPORT_I18N_PROJECT_NAME);
 		IEditorInput input = new FileEditorInput(file);
@@ -57,15 +57,20 @@ public class MessageResolutionInPreviewTabTest extends VpeTest {
         }
 		nsIDOMElement contentArea = mozillaPreview.getContentArea();
 		assertEquals("The Message Should be from resource bundles","Guten Tag!",contentArea.getFirstChild().getFirstChild().getNodeValue().trim()); //$NON-NLS-1$ //$NON-NLS-2$
-		if(getException()!=null) {
-			throw getException();
-		}
+		part.pageChange(part.getVisualSourceIndex());
+	}
+	/**
+	 * test for support web-facesconfig_2_0.xsd
+	 * @throws Throwable
+	 */
+	public void testMessageResolutionForJSF2Config() throws Throwable {
+		performContentTest("JBIDE/5639/message-resolution.xhtml"); //$NON-NLS-1$
 	}
 	
+
 	@Override
-	protected void tearDown() throws Exception {
-		part.pageChange(part.getVisualSourceIndex());
-		super.tearDown();
+	protected String getTestProjectName() {
+		return JsfAllTests.IMPORT_PROJECT_NAME;
 	}
 
 }

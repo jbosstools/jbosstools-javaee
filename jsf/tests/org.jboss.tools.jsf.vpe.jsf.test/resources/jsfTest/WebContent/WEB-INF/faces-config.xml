@@ -2,7 +2,7 @@
 <faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xi="http://www.w3.org/2001/XInclude"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 	<managed-bean>
 		<managed-bean-name>user</managed-bean-name>
 		<managed-bean-class>demo.User</managed-bean-class>
@@ -12,4 +12,11 @@
 			<value />
 		</managed-property>
 	</managed-bean>
+	<behavior></behavior>
+	<application>
+  <resource-bundle>
+   <base-name>demo.Messages</base-name>
+   <var>msg</var>
+  </resource-bundle> 
+  </application>
 </faces-config>
