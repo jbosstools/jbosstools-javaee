@@ -499,7 +499,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			if (hibernateConsoleLaunchFile != null) {
 				AntCopyUtils.copyFileToFile(
 						hibernateConsoleLaunchFile, 
-						new File(project.getLocation().toFile(), project.getName() + ".launch"),  //$NON-NLS-1$
+						new File(project.getLocation().toFile(), getLaunchCfgName(project.getName()) + ".launch"),  //$NON-NLS-1$
 						viewFilterSetCollection, false);
 			}			
 
@@ -514,6 +514,11 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "messages_en.properties"), srcFolder, false); //$NON-NLS-1$
 			WtpUtils.createSourceFolder(project, source.getFullPath().removeFirstSegments(1), source.getFullPath().removeFirstSegments(1), webRootFolder.getFullPath().removeFirstSegments(1).append("WEB-INF/dev")); //$NON-NLS-1$
 		}
+	}
+	
+	protected String getLaunchCfgName(String baseName){
+		ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
+		return lm.generateUniqueLaunchConfigurationNameFrom(baseName);
 	}
 
 	protected File earContentsFolder;
@@ -685,9 +690,10 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 		}
 
-		AntCopyUtils.copyFileToFile(hibernateConsoleLaunchFile, new File(
-			ejbProjectFolder, ejbProjectFolder.getName() + ".launch"), //$NON-NLS-1$
-			new FilterSetCollection(ejbFilterSet), false);
+		AntCopyUtils.copyFileToFile(
+				hibernateConsoleLaunchFile,
+				new File(ejbProjectFolder, getLaunchCfgName(ejbProjectFolder.getName()) + ".launch"), //$NON-NLS-1$
+				new FilterSetCollection(ejbFilterSet), false);
 
 		AntCopyUtils.copyFileToFolder(hibernateConsolePropsFile,
 			ejbProjectFolder, hibernateDialectFilterSet, false);

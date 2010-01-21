@@ -29,6 +29,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jst.common.project.facet.JavaFacetUtils;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
 import org.eclipse.wst.common.componentcore.ComponentCore;
@@ -438,15 +441,21 @@ public class SeamProjectCreator {
 		ejbFilterSet.addFilter("projectName", ejbProjectFolder.getName()); //$NON-NLS-1$
 		ejbFilterSet.addFilter("connectionProfile", model.getStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE));//$NON-NLS-1$
 
+		
 		AntCopyUtils.copyFileToFile(
 				hibernateConsoleLaunchFile,
-				new File(ejbProjectFolder, ejbProjectFolder.getName() + ".launch"),  //$NON-NLS-1$
+				new File(ejbProjectFolder, getLaunchCfgName(ejbProjectFolder.getName()) + ".launch"),  //$NON-NLS-1$
 				new FilterSetCollection(ejbFilterSet), true);
 
 		AntCopyUtils.copyFileToFolder(
 			hibernateConsolePropsFile,
 			ejbProjectFolder,
 			hibernateDialectFilterSet, true);
+	}
+	
+	protected String getLaunchCfgName(String baseName){
+		ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
+		return lm.generateUniqueLaunchConfigurationNameFrom(baseName);
 	}
 
 	protected void createEarProject() {
