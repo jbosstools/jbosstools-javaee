@@ -32,11 +32,18 @@ import org.w3c.dom.Node;
 public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 	private static final String OUTPUT_STYLESHEET_ELEMENT_ID
 			= "outputStylesheet1"; //$NON-NLS-1$
+	private static final String OUTPUT_STYLESHEET_LIB_ELEMENT_ID
+			= "outputStylesheet2"; //$NON-NLS-1$
 	private static final String OUTPUT_SCRIPT_ELEMENT_ID
 			= "outputScript1"; //$NON-NLS-1$
+	private static final String OUTPUT_SCRIPT_LIB_ELEMENT_ID
+			= "outputScript2"; //$NON-NLS-1$
 	private static final String SCRIPT_FILE_NAME = "f1.js"; //$NON-NLS-1$
+	private static final String SCRIPT_LIB_FILE_NAME = "f2.js"; //$NON-NLS-1$
 	private static final String STYLESHEET_FILE_NAME
 			= "stylesRed.css"; //$NON-NLS-1$
+	private static final String STYLESHEET_LIB_FILE_NAME
+			= "stylesBlue.css"; //$NON-NLS-1$
 	private static final String TEST_FILE_PATH
 			= "JBIDE/5382/OpenOnJsf20.xhtml"; //$NON-NLS-1$
 	private VpeController vpeController;
@@ -62,10 +69,21 @@ public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 				.getAttributeNode(JSF.ATTR_NAME));
 		assertActiveEditorInputNameEquals(STYLESHEET_FILE_NAME);
 	}
+	
+	public void testSourceOpenOnOutputStylesheetLib() throws Throwable {
+		openOnSourceNode(getOutputStylesheetLibNode()
+				.getAttributeNode(JSF.ATTR_NAME));
+		assertActiveEditorInputNameEquals(STYLESHEET_LIB_FILE_NAME);
+	}
 
 	public void testSourceOpenOnOutputScript() throws Throwable {
 		openOnSourceNode(getOutputScriptNode().getAttributeNode(JSF.ATTR_NAME));
 		assertActiveEditorInputNameEquals(SCRIPT_FILE_NAME);
+	}
+	
+	public void testSourceOpenOnOutputScriptLib() throws Throwable {
+		openOnSourceNode(getOutputScriptLibNode().getAttributeNode(JSF.ATTR_NAME));
+		assertActiveEditorInputNameEquals(SCRIPT_LIB_FILE_NAME);
 	}
 	
 	public void testVisualOpenOnOutputStylesheet() {
@@ -86,9 +104,17 @@ public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 	private Element getOutputScriptNode() {
 		return sourceDocument.getElementById(OUTPUT_SCRIPT_ELEMENT_ID);
 	}
+
+	private Element getOutputScriptLibNode() {
+		return sourceDocument.getElementById(OUTPUT_SCRIPT_LIB_ELEMENT_ID);
+	}
 	
 	private Element getOutputStylesheetNode() {
 		return sourceDocument.getElementById(OUTPUT_STYLESHEET_ELEMENT_ID);
+	}
+	
+	private Element getOutputStylesheetLibNode() {
+		return sourceDocument.getElementById(OUTPUT_STYLESHEET_LIB_ELEMENT_ID);
 	}
 	
 	private void openOnSourceNode(Node sourceNode) throws Throwable {

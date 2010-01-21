@@ -4,9 +4,10 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <h:head />
 <h:body>
-	<h:outputScript name="/resources/scripts/f1.js" id="outputScript1"/>
-	<h:outputStylesheet name="/resources/css/stylesRed.css" id="outputStylesheet1"/>
-	<h:outputStylesheet name="/resources/css/stylesBlue.css" id="outputStylesheetBlue"/>
+	<h:outputScript name="scripts/f1.js" id="outputScript1"/>
+	<h:outputScript library="scripts" name="f2.js" id="outputScript2"/>
+	<h:outputStylesheet name="css/stylesRed.css" id="outputStylesheet1"/>
+	<h:outputStylesheet library="css" name="stylesBlue.css" id="outputStylesheet2"/>
 	<span>Blue text</span>
 </h:body>
 </html> 

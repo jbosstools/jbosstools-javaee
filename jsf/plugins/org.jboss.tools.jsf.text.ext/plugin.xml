@@ -403,13 +403,14 @@
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
-         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSFJSPLinkHyperlinkPartitioner"
-         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSFJSPLinkHyperlinkPartitioner">
+         	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSF2JSPLinkHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSF2JSPLinkHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/html]:outputStylesheet/name/" />
          			<axis path="*/[http://java.sun.com/jsf/html]:outputScript/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/name/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
@@ -417,6 +418,7 @@
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/html]:outputStylesheet/name/" />
          			<axis path="*/[http://java.sun.com/jsf/html]:outputScript/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/name/" />
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
@@ -951,6 +953,17 @@
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_LINK" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JSF2LinkHyperlink" 
+	  		id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSF2LinkHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_JSP_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_JSP_LINK" />
 			</contenttypeidentifier>
 		</hyperlink>
 
