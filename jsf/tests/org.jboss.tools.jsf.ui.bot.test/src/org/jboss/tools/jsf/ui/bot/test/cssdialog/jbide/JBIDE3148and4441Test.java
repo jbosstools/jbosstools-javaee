@@ -39,7 +39,6 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
 		"background-color:green;\r}");
 		eclipseEditor.save();
 		eclipseEditor.contextMenu("Open CSS Dialog").click();
-
 		//Test edit attrs of the first Class
 
 		bot.shell("CSS Class").activate();
@@ -57,14 +56,22 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
 		bot.comboBoxWithLabel("Font Weight:").setSelection("lighter");
 		bot.button("Apply").click();
 		bot.button("OK").click();
-
-		//Test check css file content
-
-		String fileContainer = bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().getText();
-		assertEquals("cssclass{\r\tcolor: red;\r\tbackground-color: green;\r" +
-				"\tfont-weight: bold;\r\ttext-decoration: underline\r}\rcssclass" +
-				"{\r\tcolor: green;\r\tbackground-color: red;\r" +
-				"\tfont-weight: lighter;\r\ttext-decoration: overline\r}", fileContainer);
+		//Test check CSS file content
+		assertTrue("Content of CSS file in Editor is not as expected.\n" +
+				"Content: " + bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().getText(),
+  				JBIDE3148and4441Test.testCssFileEditorContent(bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor(),
+		    "cssclass{",
+		    "color: red;",
+		    "background-color: green;",
+        "font-weight: bold;",
+        "text-decoration: underline",
+        "}",
+        "cssclass{",
+        "color: green;",
+        "background-color: red;",
+        "font-weight: lighter;",
+        "text-decoration: overline",
+        "}"));
 		bot.editorByTitle(CSS_FILE_NAME+".css").close();
 		
 	}
@@ -86,6 +93,18 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
 		} catch (WidgetNotFoundException e) {
 		}
 		return isOpened;
+	}
+	
+	private static boolean testCssFileEditorContent (SWTBotEclipseEditor cssFileEditor, String... lines){
+	  
+	  CssFileParser parserCssFileEditor = new CssFileParser();
+	  for (String line : cssFileEditor.getLines()){
+	    parserCssFileEditor.addLine(line);
+	  }
+	  CssFileParser parserExceptedCssFile = new CssFileParser(lines);
+	  
+	  return parserCssFileEditor.compare(parserExceptedCssFile);
+	  
 	}
 	
 }

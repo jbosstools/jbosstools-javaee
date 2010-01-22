@@ -56,15 +56,9 @@ public class AddRemoveStrutsCapabilities extends SWTTestExt{
     ContextMenuHelper.prepareTreeItemForContextMenu(tree,
       tree.getTreeItem(StrutsAllBotTests.STRUTS_PROJECT_NAME));
 
-    if (jbdsIsRunning){
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        IDELabel.Menu.JBDS_REMOVE_STRUTS_CAPABILITIES, true)).click();
-    }
-    else{
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        IDELabel.Menu.WEB_PROJECT_JBT_STRUTS, false)).menu(
-          IDELabel.Menu.JBT_REMOVE_STRUTS_CAPABILITIES).click();
-    }
+    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+      IDELabel.Menu.WEB_PROJECT_JBT_STRUTS, false)).menu(
+        IDELabel.Menu.JBT_REMOVE_STRUTS_CAPABILITIES).click();
 
     bot.shell("Confirmation").activate();
     bot.button(IDELabel.Button.OK).click();

@@ -37,8 +37,11 @@ import org.jboss.tools.ui.bot.test.WidgetVariables;
 public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
   
   private SWTJBTExt swtJbtExt = null;
+  private SWTUtilExt swtUtilExt = null;
+  
   public AddRemoveJSFCapabilitiesTest(){
     swtJbtExt = new SWTJBTExt(bot);
+    swtUtilExt = new SWTUtilExt(bot);
   }
   public void testAddRemoveJSFCapabilities() {
     boolean jbdsIsRunning = SWTJBTExt.isJBDSRun(bot);
@@ -146,16 +149,9 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     ContextMenuHelper.prepareTreeItemForContextMenu(tree,
       tree.getTreeItem(JBT_TEST_PROJECT_NAME));
 
-    if (jbdsIsRunning){
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        IDELabel.Menu.JBDS_REMOVE_JSF_CAPABILITIES, true)).click();
-    }
-    else{
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
         IDELabel.Menu.WEB_PROJECT_JBT_JSF, false)).menu(
           IDELabel.Menu.JBT_REMOVE_JSF_CAPABILITIES).click();
-      
-    }
 
     bot.shell("Confirmation").activate();
     bot.button(WidgetVariables.OK_BUTTON).click();
@@ -260,12 +256,12 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
       IDELabel.Menu.CLOSE_PROJECT, false)).click();
     
-    delay();
+    swtUtilExt.waitForNonIgnoredJobs(5*1000L);
     
     new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
       IDELabel.Menu.OPEN_PROJECT, false)).click();
     
-    delay();
+    swtUtilExt.waitForNonIgnoredJobs(5*1000L);
     
   }
   /**
