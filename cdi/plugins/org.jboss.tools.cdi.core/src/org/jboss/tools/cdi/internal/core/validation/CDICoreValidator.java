@@ -47,7 +47,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
-import org.jboss.tools.jst.web.kb.validation.ValidatorUtil;
+import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 
 public class CDICoreValidator extends CDIValidationErrorManager implements IValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator";
@@ -147,7 +147,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			if(reporter.isCancelled()) {
 				break;
 			}
-			if (ValidatorUtil.checkFileExtensionForJavaAndXml(currentFile)) {
+			if (ValidationUtil.checkFileExtensionForJavaAndXml(currentFile)) {
 				resources.add(currentFile.getFullPath());
 
 				// Get all the paths of related resources for given file. These links were saved in previous validation process.

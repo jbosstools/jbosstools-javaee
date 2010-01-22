@@ -47,7 +47,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
-import org.jboss.tools.jst.web.kb.validation.ValidatorUtil;
+import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
@@ -190,7 +190,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				// We need to check only file names here. 
 				validateUnnamedResources = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
-			if (ValidatorUtil.checkFileExtensionForJavaAndXml(currentFile)) {
+			if (ValidationUtil.checkFileExtensionForJavaAndXml(currentFile)) {
 				resources.add(currentFile.getFullPath());
 				// Get new variable names from model
 				Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
