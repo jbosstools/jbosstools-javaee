@@ -11,15 +11,18 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICodeAssist;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -33,6 +36,11 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointMethod;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 
@@ -69,8 +77,19 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		if(file == null)
 			return null;
 		
-		CDICoreNature cdiProject = CDICorePlugin.getCDI(file.getProject(), false);
-		Set<IBean> beans = cdiProject.getDelegate().getBeans(file.getFullPath());
+		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), false);
+		
+		if(cdiNature == null)
+			return null;
+		
+		ICDIProject cdiProject = cdiNature.getDelegate();
+		
+		if(cdiProject == null)
+			return null;
+		
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		
+		System.out.println("beans - "+beans.size());
 
 		int[] range = new int[]{wordRegion.getOffset(), wordRegion.getOffset() + wordRegion.getLength()};
 		
@@ -81,34 +100,26 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			if (elements == null) 
 				return null;
 			
+			System.out.println("elements - "+elements.length);
+			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			for (IJavaElement element : elements) {
 				if (element instanceof IAnnotatable) {
+					System.out.println("element - "+element.getElementName());
+					
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
 					IAnnotation annotation = annotatable.getAnnotation("Injected");
 					if (annotation == null)
 						continue;
-					
-					String nameToSearch = element.getElementName();
-					
-					IMemberValuePair[] mvPairs = annotation.getMemberValuePairs();
-					if (mvPairs != null) {
-						for (IMemberValuePair mvPair : mvPairs) {
-							if ("value".equals(mvPair.getMemberName()) && mvPair.getValue() != null) {
-								String name = mvPair.getValue().toString();
-								if (name != null && name.trim().length() != 0) {
-									nameToSearch = name;
-									break;
-								}
-							}
+					IInjectionPoint injectionPoint = findInjectionPoint(beans, element);
+					if(injectionPoint != null){
+						Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
+						List<IBean> resultBeanList = sortBeans(resultBeanSet);
+						for(IBean bean : resultBeanList){
+							hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean));
 						}
 					}
-					
-
-					if (nameToSearch == null && nameToSearch.trim().length() == 0)
-						continue;
-					
 				}
 			}
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
@@ -118,6 +129,45 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			// ignore
 		}
 		return null;
+	}
+	
+	private IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element){
+		if(!(element instanceof IField) && (element instanceof IMethod) )
+			return null;
+		
+		for(IBean bean : beans){
+			if(bean instanceof IClassBean){
+				Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
+				for(IInjectionPoint iPoint : injectionPoints){
+					if(element instanceof IField && iPoint instanceof IInjectionPointField){
+						if(((IInjectionPointField)iPoint).getField() != null && ((IInjectionPointField)iPoint).getField().equals(element))
+							return iPoint;
+					}else if(element instanceof IMethod && iPoint instanceof IInjectionPointMethod){
+						if(((IInjectionPointMethod)iPoint).getMethod() != null && ((IInjectionPointMethod)iPoint).getMethod().equals(element))
+							return iPoint;
+						
+					}
+				}
+			}
+		}
+	return null;
+	}
+	
+	private List<IBean> sortBeans(Set<IBean> beans){
+		TreeSet<IBean> alternativeBeans = new TreeSet<IBean>();
+		TreeSet<IBean> nonAlternativeBeans = new TreeSet<IBean>();
+		
+		for(IBean bean : beans){
+			if(bean.isAlternative())
+				alternativeBeans.add(bean);
+			else
+				nonAlternativeBeans.add(bean);
+		}
+		
+		ArrayList<IBean> sortedBeans = new ArrayList<IBean>();
+		sortedBeans.addAll(alternativeBeans);
+		sortedBeans.addAll(nonAlternativeBeans);
+		return sortedBeans;
 	}
 
 }
