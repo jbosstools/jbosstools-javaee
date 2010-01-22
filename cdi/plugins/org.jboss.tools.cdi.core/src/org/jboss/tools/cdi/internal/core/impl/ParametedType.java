@@ -48,4 +48,14 @@ public class ParametedType implements IParametedType {
 		parameterTypes.add(p);
 	}
 
+	public boolean equals(Object object) {
+		if(!(object instanceof ParametedType)) return false;
+		ParametedType other = (ParametedType)object;
+		if(signature != null && signature.equals(other.signature)) {
+			return true;
+		}
+		//TODO
+		return false;
+	}
+
 }

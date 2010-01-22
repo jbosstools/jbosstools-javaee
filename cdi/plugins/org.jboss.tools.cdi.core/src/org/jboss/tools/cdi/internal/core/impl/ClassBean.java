@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
@@ -38,6 +39,7 @@ import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -225,8 +227,43 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public Set<IParametedType> getLegalTypes() {
-		// TODO 
-		return null;
+		Set<IParametedType> result = new HashSet<IParametedType>();
+		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
+		if(d != null) {
+			try {
+				IMemberValuePair[] ps = d.getDeclaration().getMemberValuePairs();
+				if(ps != null) for (IMemberValuePair p: ps) {
+					Object o = p.getValue();
+					if(o instanceof Object[]) {
+						Object[] os = (Object[])o;
+						for (int i = 0; i < os.length; i++) {
+							String s = os[i].toString();
+							if(!s.endsWith(";")) s = "Q" + s + ";";
+							IParametedType t = ParametedTypeFactory.getParametedType(getDefinition().getType(), s);
+							result.add(t);
+						}
+					}
+				}
+			} catch (CoreException e) {
+				//TODO
+			}
+		}
+		IType type = getDefinition().getType();
+		if(type != null) {
+			ParametedType p = new ParametedType();
+			p.setType(type);
+			try {
+				String[] ps = type.getTypeParameterSignatures();
+				//TODO set parameters
+				p.setSignature(type.getFullyQualifiedName());
+			} catch (CoreException e) {
+				//TODO
+			}
+			result.add(p);
+		}
+		Set<IParametedType> inh = getDefinition().getInheritedTypes();
+		if(inh != null) result.addAll(inh);
+		return result;
 	}
 
 	public String getName() {

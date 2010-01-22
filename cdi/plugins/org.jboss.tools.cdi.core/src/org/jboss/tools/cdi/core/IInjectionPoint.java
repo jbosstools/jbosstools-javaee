@@ -26,7 +26,7 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 * 
 	 * @return the required type of this injection point.
 	 */
-	IType getType();
+	IParametedType getType();
 
 	/**
 	 * Gets the required qualifiers of the injection point.

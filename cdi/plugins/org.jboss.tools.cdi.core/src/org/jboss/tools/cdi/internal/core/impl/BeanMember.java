@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
@@ -63,8 +64,8 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		setParent(classBean);
 	}
 
-	public IType getType() {
-		return typeDeclaration == null ? null : typeDeclaration.getType();
+	public IParametedType getType() {
+		return typeDeclaration;
 	}
 
 	public int getLength() {

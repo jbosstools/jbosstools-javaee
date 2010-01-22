@@ -33,7 +33,7 @@ public interface IParameter extends IBeanMember {
 	 * 
 	 * @return the declared type of this parameter.
 	 */
-	IType getType();
+	IParametedType getType();
 
 	/**
 	 * Returns the name of this parameter.

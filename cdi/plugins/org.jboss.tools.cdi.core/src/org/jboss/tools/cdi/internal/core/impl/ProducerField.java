@@ -65,8 +65,9 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public Set<IParametedType> getLegalTypes() {
-		// TODO 
-		return null;
+		Set<IParametedType> result = new HashSet<IParametedType>();
+		if(typeDeclaration != null) result.add(typeDeclaration);
+		return result;
 	}
 
 	public String getName() {

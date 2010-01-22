@@ -75,8 +75,9 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public Set<IParametedType> getLegalTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<IParametedType> result = new HashSet<IParametedType>();
+		if(typeDeclaration != null) result.add(typeDeclaration);
+		return result;
 	}
 
 	public String getName() {

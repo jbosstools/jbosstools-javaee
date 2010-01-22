@@ -17,12 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -33,6 +36,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -178,8 +182,106 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public Set<IBean> getBeans(IInjectionPoint injectionPoints) {
 		Set<IBean> result = new HashSet<IBean>();
-		//TODO
+		IParametedType type = injectionPoints.getType();
+		if(type == null) {
+			return result;
+		}
+
+		Set<IAnnotationDeclaration> qs = injectionPoints.getQualifierDeclarations();
+		
+		Set<IBean> beans = new HashSet<IBean>();
+		synchronized(allBeans) {
+			beans.addAll(allBeans);
+		}
+		for (IBean b: beans) {
+			Set<IParametedType> types = b.getLegalTypes();
+			if(containsType(types, type)) {
+				try {
+					Set<IAnnotationDeclaration> qsb = b.getQualifierDeclarations();
+					if(areMatchingQualifiers(qsb, qs)) {
+						result.add(b);
+					}
+				} catch (CoreException e) {
+					
+				}
+			}
+		}
+
 		return result;
+	}
+
+	public static boolean containsType(Set<IParametedType> types, IParametedType type) {
+		for (IParametedType t: types) {
+			if(t.equals(type)) return true;
+		}
+		return false;
+	}
+
+	public static boolean areMatchingQualifiers(Set<IAnnotationDeclaration> beanQualifiers, Set<IAnnotationDeclaration> injectionQualifiers) throws CoreException {
+		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
+			if(injectionQualifiers == null || injectionQualifiers.isEmpty()) {
+				return true;
+			}
+		}
+
+		TreeSet<String> injectionKeys = new TreeSet<String>();
+		if(injectionQualifiers != null) for (IAnnotationDeclaration d: beanQualifiers) {
+			injectionKeys.add(getQualifierDeclarationKey(d));
+		}
+
+		if(injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+			return true;
+		}
+		if(!injectionKeys.contains(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)) {
+			injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		}
+
+		TreeSet<String> beanKeys = new TreeSet<String>();
+		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
+			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		} else for (IAnnotationDeclaration d: beanQualifiers) {
+			beanKeys.add(getQualifierDeclarationKey(d));
+		}
+		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
+			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		}
+
+		for(String k: injectionKeys) {
+			if(!beanKeys.contains(k)) return false;
+		}		
+		return true;
+	}
+
+	static String getQualifierDeclarationKey(IAnnotationDeclaration d) throws CoreException {
+		IType type = d.getType();
+		IMethod[] ms = type.getMethods();
+		StringBuffer result = new StringBuffer();
+			result.append(type.getFullyQualifiedName());
+		if(ms != null && ms.length > 0) {
+			TreeMap<String, String> values = new TreeMap<String, String>();
+			IMemberValuePair[] ps = d.getDeclaration().getMemberValuePairs();
+			if (ps != null) for (IMemberValuePair p: ps) {
+				String n = p.getMemberName();
+				Object o = p.getValue();
+				if(o != null) {
+					values.put(n, o.toString());
+				}
+			}
+			for (IMethod m: ms) {
+				String n = m.getElementName();
+				if(values.containsKey(n)) continue;
+				IMemberValuePair p = m.getDefaultValue();
+				n = p.getMemberName();
+				Object o = p.getValue();
+				if(values.containsKey(n) || o == null) continue;
+				values.put(n, o.toString());
+			}
+			for (String n: values.keySet()) {
+				String v = values.get(n);
+				result.append(';').append(n).append('=').append(v);
+			}
+		}		
+		return result.toString();
 	}
 
 	public Set<IBean> getBeans(IPath path) {
@@ -408,7 +510,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				StereotypeElement s = new StereotypeElement();
 				initAnnotationElement(s, d);
 				stereotypes.put(d.getQualifiedName(), s);
-				stereotypesByPath.put(d.getResource().getFullPath(), s);
+				if(d.getResource() != null && d.getResource().getFullPath() != null) {
+					stereotypesByPath.put(d.getResource().getFullPath(), s);
+				}
 			} else if(d.getKind() == AnnotationDefinition.INTERCEPTOR_BINDING) {
 				InterceptorBindingElement s = new InterceptorBindingElement();
 				initAnnotationElement(s, d);
