@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN" "meta.dtd">
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
 <XModelEntityGroup>
  <VERSION DEPENDS="Model:1.0" MODULE="JSF" VERSION="1.0"/>
  <MAPPINGS/>
@@ -64,7 +65,6 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="save=always" name="value" xmlname="value.#text">
-    <Constraint/>
     <Editor name="Note"/>
    </XModelAttribute>
    <XModelAttribute default="true" name="add java property">
@@ -109,14 +109,10 @@
     <Editor name="ContainerChooser"/>
    </XModelAttribute>
    <XModelAttribute name="separator">
-    <Constraint/>
     <Editor name="Separator"/>
    </XModelAttribute>
    <XModelAttribute default="faces-config" name="name"
-    visibility="false" xmlname="NAME">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+    visibility="false" xmlname="NAME"/>
    <XModelAttribute name="version">
     <Constraint loader="ListString"/>
     <Editor name="DropDown"/>
@@ -127,6 +123,30 @@
      <value name="no"/>
     </Constraint>
     <Editor name="CheckBox"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list"/>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="JSFAddOrderingWizard">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes>
+   <XModelAttribute name="after name"/>
+   <XModelAttribute PROPERTIES="category=general" default="false" name="after others">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute name="before name"/>
+   <XModelAttribute PROPERTIES="category=general" default="false" name="before others">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list"/>
@@ -169,10 +189,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute PROPERTIES="id=true" name="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" name="name"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem HandlerClassName="%Edit%" ICON="action.empty"
@@ -215,10 +232,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute PROPERTIES="id=true" name="name">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" name="name"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
@@ -248,10 +262,7 @@
   <XChildrenEntities/>
   <XEntityRenderer/>
   <XModelAttributes>
-   <XModelAttribute name="var">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="var"/>
    <XModelAttribute PROPERTIES="nodeName=dataTable;attrName=value" name="value">
     <Constraint loader="ListString"/>
     <Editor name="KnowledgeBase"/>
@@ -272,10 +283,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute PROPERTIES="save=always" name="managed-bean-class" xmlname="managed-bean-class.#text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always" name="managed-bean-class" xmlname="managed-bean-class.#text"/>
   </XModelAttributes>
   <XActionItem kind="list"/>
   <XDependencies/>
@@ -319,10 +327,7 @@
     </Constraint>
     <Editor name="CheckBox"/>
    </XModelAttribute>
-   <XModelAttribute name="index" visibility="false">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="index" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list"/>
   <XDependencies/>
@@ -331,10 +336,7 @@
   <XChildrenEntities/>
   <XEntityRenderer/>
   <XModelAttributes>
-   <XModelAttribute name="link text">
-    <Constraint/>
-    <Editor/>
-   </XModelAttribute>
+   <XModelAttribute name="link text"/>
   </XModelAttributes>
   <XActionItem kind="list"/>
   <XDependencies/>

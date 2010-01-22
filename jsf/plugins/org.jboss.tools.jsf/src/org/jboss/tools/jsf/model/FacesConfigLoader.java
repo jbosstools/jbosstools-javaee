@@ -22,6 +22,7 @@ import org.jboss.tools.common.model.filesystems.*;
 import org.jboss.tools.common.model.filesystems.impl.*;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.*;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.*;
 
@@ -173,6 +174,7 @@ class SFUtil extends XModelObjectLoaderUtil {
 		JSFConstants.FOLDER_CONVERTERS, 
 		JSFConstants.FOLDER_MANAGED_BEANS, 
 		JSFConstants.FOLDER_NAVIGATION_RULES, 
+		JSFConstants.FOLDER_ORDERINGS,
 		JSFConstants.FOLDER_REFENCED_BEANS, 
 		JSFConstants.FOLDER_RENDER_KITS, 
 		JSFConstants.FOLDER_VALIDATORS, 
@@ -187,6 +189,9 @@ class SFUtil extends XModelObjectLoaderUtil {
 			children.add("null-value"); //$NON-NLS-1$
 		} else if("JSFNavigationCase".equals(entity.getName())) { //$NON-NLS-1$
 			children.add("redirect"); //$NON-NLS-1$
+		}
+		if(entity.getAttribute("others") != null) {
+			children.add("others");
 		}
 		return children;
 	}
@@ -239,9 +244,12 @@ class SFUtil extends XModelObjectLoaderUtil {
     	XAttribute[] as = o.getModelEntity().getAttributes();
     	for (int i = 0; i < as.length; i++) {
     		String xml = as[i].getXMLName();
+    		String v = o.getAttributeValue(as[i].getName());
+    		if("others".equals(as[i].getName())) {
+    			if("true".equals(v)) return true;
+    		}
     		// it would be more safe to check isSavable
     		if(xml == null || xml.length() == 0 || "NAME".equals(xml)) continue; //$NON-NLS-1$
-    		String v = o.getAttributeValue(as[i].getName());
     		if(v != null && v.length() > 0) return true;
     	}
     	String finalComment = o.get("#final-comment"); //$NON-NLS-1$
@@ -268,7 +276,11 @@ class SFUtil extends XModelObjectLoaderUtil {
 			saveListEntriesChildren(element, o);
 			return true;
 		} else {
-			return super.saveChildren(element, o);
+			boolean b = super.saveChildren(element, o);
+			if("true".equals(o.getAttributeValue("others"))) {
+				XMLUtilities.createElement(element, "others");
+			}
+			return b;
 		}
 	}
 
@@ -284,7 +296,10 @@ class SFUtil extends XModelObjectLoaderUtil {
 				o.setAttributeValue("null-value", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 				o.setAttributeValue("value", super.getAttribute(element, "value.#text")); //$NON-NLS-1$ //$NON-NLS-2$
 			}			
-		}	
+		}
+		if(XMLUtilities.getUniqueChild(element, "others") != null) {
+			o.setAttributeValue("others", "true");
+		}
 	}
 
 	protected boolean isSaveable(XModelEntity entity, String n, String v, String dv) {

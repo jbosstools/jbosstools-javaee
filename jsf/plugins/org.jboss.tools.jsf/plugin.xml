@@ -170,6 +170,9 @@
 			class="org.jboss.tools.jsf.model.ReferenceGroupImpl"/>
 		<xclass id="org.jboss.tools.jsf.model.ReferenceObjectImpl"
 			class="org.jboss.tools.jsf.model.ReferenceObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.OrderingObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.OrderingObjectImpl"/>
+
 		<xclass id="org.jboss.tools.jsf.model.handlers.AddCaseToGroupHandler"
 			class="org.jboss.tools.jsf.model.handlers.AddCaseToGroupHandler"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.AddNavigationCaseHandler"
@@ -234,6 +237,10 @@
 			class="org.jboss.tools.jsf.model.handlers.SetApplicationHandler"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.SetFactoryHandler"
 			class="org.jboss.tools.jsf.model.handlers.SetFactoryHandler"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.AddOrderingSupport"
+			class="org.jboss.tools.jsf.model.handlers.AddOrderingSupport"/>
+
+
 		<xclass id="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySafeHandler"
 			class="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySafeHandler"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.bean.DeleteManagedPropertyHandler"

@@ -50,6 +50,7 @@ public interface JSFConstants {
 	public static final String FOLDER_CONVERTERS = "Converters"; //$NON-NLS-1$
 	public static final String FOLDER_RENDER_KITS = "Render Kits"; //$NON-NLS-1$
 	public static final String FOLDER_VALIDATORS = "Validators"; //$NON-NLS-1$
+	public static final String FOLDER_ORDERINGS = "Orderings"; //$NON-NLS-1$
 	public static final String FOLDER_EXTENSIONS = "Extensions"; //$NON-NLS-1$
 	
 	public static final String ATT_ID             = "id"; //$NON-NLS-1$
