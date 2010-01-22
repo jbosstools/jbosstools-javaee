@@ -201,7 +201,7 @@
             				outcome:</para>
             			
             			<figure>
-            				<title>OpenOn With JSF Tag</title>
+            				<title>OpenOn with JSF Tag</title>
             				<mediaobject>
             					<imageobject>
             						<imagedata fileref="images/editors_features/editors_features_8.png"/>
@@ -215,6 +215,18 @@
             			<para>For details, see <link linkend="openOnForCustomFacelets">&quot;OpenOn for Custom Facelets Tag Libraries&quot;</link>
             			later in this guide.</para>
             		</listitem>
+            	    
+            	    <listitem>
+            	        <para>Custom JJSF 2.0 components</para>           
+            	        <figure>
+            	            <title>OpenOn with JSF 2.0 Component</title>
+            	            <mediaobject>
+            	                <imageobject>
+            	                    <imagedata fileref="images/editors_features/editors_features_openon_jsf2_components.png"/>
+            	                </imageobject>
+            	            </mediaobject>
+            	        </figure>            	              	    
+            	    </listitem>
             	</orderedlist>
             </section>
             
