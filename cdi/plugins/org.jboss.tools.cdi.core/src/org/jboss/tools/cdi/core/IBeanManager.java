@@ -125,21 +125,32 @@ public interface IBeanManager {
 	IStereotype[] getStereotypes();
 
 	/**
-	 * Returns stereotype model element for fully qualified name 
-	 * of stereotype annotation type
+	 * Returns stereotype model element for fully qualified name of stereotype
+	 * annotation type
+	 * 
 	 * @param qualifiedName
-	 * @return stereotype model element for fully qualified name of stereotype annotation type
+	 * @return stereotype model element for fully qualified name of stereotype
+	 *         annotation type
 	 */
-	public IStereotype getStereotype(String qualifiedName);
+	IStereotype getStereotype(String qualifiedName);
 
 	/**
-	 * Returns interceptor binding model element for fully qualified name 
-	 * of interceptor binding annotation type
-	 * @param qualifiedName
-	 * @return Returns interceptor binding model element for fully qualified name 
-	 * of interceptor binding annotation type
+	 * Returns the stereotype by resource path.
+	 * 
+	 * @param resource path
+	 * @return the stereotype by resource path
 	 */
-	public InterceptorBindingElement getInterceptorBinding(String qualifiedName);
+	IStereotype getStereotype(IPath path);
+
+	/**
+	 * Returns interceptor binding model element for fully qualified name of
+	 * interceptor binding annotation type
+	 * 
+	 * @param qualifiedName
+	 * @return interceptor binding model element for fully qualified name of
+	 *         interceptor binding annotation type
+	 */
+	InterceptorBindingElement getInterceptorBinding(String qualifiedName);
 
 	/**
 	 * Returns qualifier model element for fully qualified name 
@@ -148,16 +159,18 @@ public interface IBeanManager {
 	 * @return Returns qualifier model element for fully qualified name 
 	 * of qualifier annotation type
 	 */
-	public QualifierElement getQualifier(String qualifiedName);
+	QualifierElement getQualifier(String qualifiedName);
 
 	/**
-	 * Returns scope model element for fully qualified name 
-	 * of scope annotation type
+	 * Returns scope model element for fully qualified name of scope annotation
+	 * type
+	 * 
 	 * @param qualifiedName
-	 * @return Returns scope model element for fully qualified name 
-	 * of scope annotation type
+	 * @return the scope model element for fully qualified name of scope
+	 *         annotation type
 	 */
-	public ScopeElement getScope(String qualifiedName);
+	ScopeElement getScope(String qualifiedName);
+
 	/**
 	 * Returns the set of observers for an event which is injected by given
 	 * injection point.

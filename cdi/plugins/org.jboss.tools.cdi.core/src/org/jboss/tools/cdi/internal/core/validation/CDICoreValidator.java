@@ -217,6 +217,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IBean bean : beans) {
 			validateBean(bean);
 		}
+		IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
+		validateStereotype(stereotype);
+
+		// TODO
 	}
 
 	/**
@@ -232,6 +236,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(name!=null) {
 			validationContext.addVariableNameForELValidation(name);
 		}
+		// TODO
 	}
 
 	/**

@@ -49,6 +49,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	CDICoreNature n;
 
 	private Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
+	private Map<IPath, StereotypeElement> stereotypesByPath = new HashMap<IPath, StereotypeElement>();
 	private Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
 	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
 	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
@@ -373,6 +374,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return stereotypes.get(qualifiedName);
 	}
 
+	public StereotypeElement getStereotype(IPath path) {
+		return stereotypesByPath.get(path);
+	}
+
 	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {
 		return interceptorBindings.get(qualifiedName);
 	}
@@ -393,6 +398,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	void rebuildAnnotationTypes() {
 		stereotypes.clear();
+		stereotypesByPath.clear();
 		interceptorBindings.clear();
 		qualifiers.clear();
 		scopes.clear();
@@ -402,6 +408,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				StereotypeElement s = new StereotypeElement();
 				initAnnotationElement(s, d);
 				stereotypes.put(d.getQualifiedName(), s);
+				stereotypesByPath.put(d.getResource().getFullPath(), s);
 			} else if(d.getKind() == AnnotationDefinition.INTERCEPTOR_BINDING) {
 				InterceptorBindingElement s = new InterceptorBindingElement();
 				initAnnotationElement(s, d);

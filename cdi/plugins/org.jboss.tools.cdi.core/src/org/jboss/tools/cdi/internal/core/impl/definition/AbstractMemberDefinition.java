@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
@@ -36,6 +37,7 @@ public abstract class AbstractMemberDefinition {
 	protected List<AnnotationDeclaration> annotations = new ArrayList<AnnotationDeclaration>();
 	protected IAnnotatable member;
 	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
+	protected IResource resource;
 
 	public AbstractMemberDefinition() {}
 
@@ -53,6 +55,7 @@ public abstract class AbstractMemberDefinition {
 	}
 
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
+		resource = contextType.getResource();
 		IAnnotation[] ts = member.getAnnotations();
 		for (int i = 0; i < ts.length; i++) {
 			AnnotationDeclaration a = new AnnotationDeclaration();
@@ -99,4 +102,7 @@ public abstract class AbstractMemberDefinition {
 		return annotationsByType.get(CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
 	}
 
+	public IResource getResource() {
+		return resource;
+	}
 }
