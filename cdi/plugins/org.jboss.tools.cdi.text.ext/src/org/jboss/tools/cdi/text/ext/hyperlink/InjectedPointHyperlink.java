@@ -38,8 +38,6 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 	protected void doHyperlink(IRegion region) {
 		IEditorPart part = null;
 		
-		
-		
 		if(bean != null && bean.getBeanClass() != null){
 			try{
 				part = JavaUI.openInEditor(bean.getBeanClass());
@@ -58,9 +56,10 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 
 	@Override
 	public String getHyperlinkText() {
+		String text = "Open Bean ";
 		if(bean != null)
-			return bean.getName();
-		return null;
+			text += bean.getBeanClass().getElementName();
+		return text;
 	}
 
 }

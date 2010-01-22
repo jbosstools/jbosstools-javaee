@@ -11,9 +11,9 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -37,7 +37,6 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
-import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -77,7 +76,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		if(file == null)
 			return null;
 		
-		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), false);
+		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 		
 		if(cdiNature == null)
 			return null;
@@ -89,8 +88,6 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
-		System.out.println("beans - "+beans.size());
-
 		int[] range = new int[]{wordRegion.getOffset(), wordRegion.getOffset() + wordRegion.getLength()};
 		
 		IJavaElement[] elements = null;
@@ -100,13 +97,9 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			if (elements == null) 
 				return null;
 			
-			System.out.println("elements - "+elements.length);
-			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			for (IJavaElement element : elements) {
 				if (element instanceof IAnnotatable) {
-					System.out.println("element - "+element.getElementName());
-					
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
 					IAnnotation annotation = annotatable.getAnnotation("Injected");
@@ -117,7 +110,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 						Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
 						List<IBean> resultBeanList = sortBeans(resultBeanSet);
 						for(IBean bean : resultBeanList){
-							hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean));
+							if(bean != null)
+								hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean));
 						}
 					}
 				}
@@ -136,17 +130,15 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			return null;
 		
 		for(IBean bean : beans){
-			if(bean instanceof IClassBean){
-				Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
-				for(IInjectionPoint iPoint : injectionPoints){
-					if(element instanceof IField && iPoint instanceof IInjectionPointField){
-						if(((IInjectionPointField)iPoint).getField() != null && ((IInjectionPointField)iPoint).getField().equals(element))
-							return iPoint;
-					}else if(element instanceof IMethod && iPoint instanceof IInjectionPointMethod){
-						if(((IInjectionPointMethod)iPoint).getMethod() != null && ((IInjectionPointMethod)iPoint).getMethod().equals(element))
-							return iPoint;
-						
-					}
+			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
+			for(IInjectionPoint iPoint : injectionPoints){
+				if(element instanceof IField && iPoint instanceof IInjectionPointField){
+					if(((IInjectionPointField)iPoint).getField() != null && ((IInjectionPointField)iPoint).getField().equals(element))
+						return iPoint;
+				}else if(element instanceof IMethod && iPoint instanceof IInjectionPointMethod){
+					if(((IInjectionPointMethod)iPoint).getMethod() != null && ((IInjectionPointMethod)iPoint).getMethod().equals(element))
+						return iPoint;
+					
 				}
 			}
 		}
@@ -154,8 +146,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	}
 	
 	private List<IBean> sortBeans(Set<IBean> beans){
-		TreeSet<IBean> alternativeBeans = new TreeSet<IBean>();
-		TreeSet<IBean> nonAlternativeBeans = new TreeSet<IBean>();
+		Set<IBean> alternativeBeans = new HashSet<IBean>();
+		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
 		
 		for(IBean bean : beans){
 			if(bean.isAlternative())
