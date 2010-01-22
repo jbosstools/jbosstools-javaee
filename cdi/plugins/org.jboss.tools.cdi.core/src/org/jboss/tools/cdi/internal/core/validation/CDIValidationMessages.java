@@ -94,6 +94,10 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_INJECTING_INJECTIONPOINT_TYPE;
 	public static String ILLEGAL_QUALIFIER_IN_STEREOTYPE;
 
+	public static String SEARCHING_RESOURCES;
+	public static String VALIDATING_RESOURCE;
+	public static String VALIDATING_PROJECT;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, CDIValidationMessages.class);
 	}

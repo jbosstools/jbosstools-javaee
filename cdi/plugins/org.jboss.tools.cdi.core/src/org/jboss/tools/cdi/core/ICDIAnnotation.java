@@ -1,12 +1,14 @@
 package org.jboss.tools.cdi.core;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.IType;
 
 /**
- * Common interface for qualifier, stereotype, intercepror binding and scope objects.
+ * Common interface for an annotation interface.
  * 
  * @author Viacheslav Kabanovich
- *
+ * 
  */
 public interface ICDIAnnotation extends ICDIElement {
 
@@ -15,14 +17,31 @@ public interface ICDIAnnotation extends ICDIElement {
 	 * 
 	 * @return the corresponding IType
 	 */
-	public IType getSourceType();
+	IType getSourceType();
 
 	/**
-	 * Returns the location of @Inherited declaration of this annotation type. If the bean
-	 * doesn't have the @Inherited declaration then null will be returned.
+	 * Returns the declaration of @Inherited declaration of this annotation
+	 * type. If the interface doesn't have the @Inherited declaration then null
+	 * will be returned.
 	 * 
-	 * @return the location of @Name declaration of this bean.
+	 * @return the declaration of @Inherited declaration of this bean
 	 */
-	public IAnnotationDeclaration getInheritedDeclaration();
+	IAnnotationDeclaration getInheritedDeclaration();
 
+	/**
+	 * Returns all the available annotations which are declared for this
+	 * interface.
+	 * 
+	 * @return all the available annotations which are declared for this
+	 *         interface
+	 */
+	List<IAnnotationDeclaration> getAnnotationDeclarations();
+
+	/**
+	 * Returns the annotations with given type name.
+	 * 
+	 * @param typeName
+	 * @return the annotations with given type name
+	 */
+	IAnnotationDeclaration getAnnotationDeclaration(String typeName);
 }

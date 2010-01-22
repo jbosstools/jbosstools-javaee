@@ -26,6 +26,13 @@ import org.jboss.tools.common.text.INodeReference;
 public interface IBeanManager {
 
 	/**
+	 * Returns all the beans.
+	 *
+	 * @return all the beans
+	 */
+	IBean[] getBeans();
+
+	/**
 	 * Returns all @Named beans.
 	 *
  	 * @param attemptToResolveAmbiguousNames
@@ -115,7 +122,7 @@ public interface IBeanManager {
 	 * 
 	 * @return all the available stereotypes.
 	 */
-	Set<IType> getStereotypes();
+	IStereotype[] getStereotypes();
 
 	/**
 	 * Returns stereotype model element for fully qualified name 

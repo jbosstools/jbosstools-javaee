@@ -15,7 +15,7 @@ package org.jboss.tools.cdi.core;
  */
 public interface ICDIProject extends IBeanManager {
 
+	public CDICoreNature getNature();
 	public void setNature(CDICoreNature n);
 	public void update();
-
 }

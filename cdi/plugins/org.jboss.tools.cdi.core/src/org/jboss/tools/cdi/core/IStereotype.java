@@ -13,14 +13,13 @@ package org.jboss.tools.cdi.core;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IType;
 
 /**
  * Represents a stereotype.
  * 
  * @author Alexey Kazakov
  */
-public interface IStereotype extends IScoped, ICDIAnnotation {
+public interface IStereotype extends IScoped, ICDINamedAnnotation {
 
 	/**
 	 * Returns the location of @Name declaration of this stereotype. If the bean

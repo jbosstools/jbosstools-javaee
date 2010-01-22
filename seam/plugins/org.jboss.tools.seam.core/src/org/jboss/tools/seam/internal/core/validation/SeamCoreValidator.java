@@ -47,6 +47,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
+import org.jboss.tools.jst.web.kb.validation.ValidatorUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
@@ -189,7 +190,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				// We need to check only file names here. 
 				validateUnnamedResources = fileName.endsWith(".java") || fileName.endsWith(".properties") || fileName.equals("components.xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
-			if (checkFileExtension(currentFile)) {
+			if (ValidatorUtil.checkFileExtensionForJavaAndXml(currentFile)) {
 				resources.add(currentFile.getFullPath());
 				// Get new variable names from model
 				Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
@@ -245,7 +246,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			Set<IPath> unnamedResources = validationContext.getUnnamedCoreResources();
 			newResources.addAll(unnamedResources);
 			for (IPath path : newResources) {
-				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				IFile file = root.getFile(path);
 				if(file!=null && file.exists()) {
 					if(!resources.contains(path)) {
 						removeAllMessagesFromResource(file);
@@ -931,17 +932,5 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			if(c != '.' && !Character.isDigit(c)) return false;
 		}
 		return true;
-	}
-
-	private final static String[] extns = new String[]{"java", "xml"}; //$NON-NLS-1$ //$NON-NLS-2$
-
-	private boolean checkFileExtension(IFile file) {
-		String ext = file.getFileExtension();
-		for (int i = 0; i < extns.length; i++) {
-			if(extns[i].equalsIgnoreCase(ext)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

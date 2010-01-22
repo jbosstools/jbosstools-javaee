@@ -53,6 +53,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
 	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
 
+	private Set<IBean> allBeans = new HashSet<IBean>();
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
@@ -68,6 +69,24 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public void setNature(CDICoreNature n) {
 		this.n = n;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans()
+	 */
+	public IBean[] getBeans() {
+		if(allBeans == null || allBeans.isEmpty()) {
+			return new IBean[0];
+		}
+		IBean[] result = new IBean[allBeans.size()];
+		synchronized (allBeans) {
+			int i=0;
+			for (IBean bean : allBeans) {
+				result[i++] = bean;
+			}
+		}
+		return result;
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
@@ -221,10 +240,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result;
 	}
 
-	public Set<IType> getStereotypes() {
-		Set<IType> result = new HashSet<IType>();
-		for (IStereotype d: stereotypes.values()) {
-			result.add(d.getSourceType());
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotypes()
+	 */
+	public IStereotype[] getStereotypes() {
+		IStereotype[] result = new IStereotype[stereotypes.size()];
+		synchronized (stereotypes) {
+			int i=0;
+			for (IStereotype s: stereotypes.values()) {
+				result[i++] = s;
+			}
 		}
 		return result;
 	}
@@ -449,6 +475,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized (namedBeans) {
 			namedBeans.clear();
 		}
+		synchronized (allBeans) {
+			allBeans.clear();
+		}
+
 		classBeans = newClassBeans;
 		for (IBean bean: beans) {
 			addBean(bean);
@@ -489,6 +519,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		synchronized (bs) {
 			bs.add(bean);
+		}
+		synchronized (allBeans) {
+			allBeans.add(bean);
 		}
 	}
 
@@ -539,5 +572,4 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		return result;
 	}
-
 }

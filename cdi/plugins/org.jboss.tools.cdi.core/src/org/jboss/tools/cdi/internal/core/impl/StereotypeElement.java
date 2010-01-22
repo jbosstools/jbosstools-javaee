@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -32,14 +30,26 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 
 	public StereotypeElement() {}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IStereotype#getAlternativeDeclaration()
+	 */
 	public AnnotationDeclaration getAlternativeDeclaration() {
 		return definition.getAlternativeAnnotation();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ICDINamedAnnotation#getNameDeclaration()
+	 */
 	public AnnotationDeclaration getNameDeclaration() {
 		return definition.getNamedAnnotation();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IStereotype#getInterceptorBindingDeclarations()
+	 */
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
 		List<AnnotationDeclaration> as = definition.getAnnotations();
@@ -51,10 +61,18 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IStereotype#getNameLocation()
+	 */
 	public IAnnotation getNameLocation() {
 		return getNameDeclaration() != null ? getNameDeclaration().getDeclaration() : null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IStereotype#getStereotypeDeclarations()
+	 */
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
 		for (AnnotationDeclaration d: definition.getAnnotations()) {
@@ -65,6 +83,10 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IStereotype#isAlternative()
+	 */
 	public boolean isAlternative() {
 		if(getAlternativeDeclaration() != null) return true;
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
@@ -75,6 +97,10 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IScoped#getScope()
+	 */
 	public IScope getScope() {
 		Set<IScopeDeclaration> ss = getScopeDeclarations();
 		if(!ss.isEmpty()) {
@@ -91,8 +117,11 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IScoped#getScopeDeclarations()
+	 */
 	public Set<IScopeDeclaration> getScopeDeclarations() {
 		return ProducerField.getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
 	}
-
 }
