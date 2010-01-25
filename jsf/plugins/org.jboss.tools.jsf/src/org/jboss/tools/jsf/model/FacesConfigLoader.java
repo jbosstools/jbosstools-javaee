@@ -170,6 +170,7 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 class SFUtil extends XModelObjectLoaderUtil {
 
 	static String[] folders = new String[]{
+		JSFConstants.FOLDER_BEHAVIORS,
 		JSFConstants.FOLDER_COMPONENTS, 
 		JSFConstants.FOLDER_CONVERTERS, 
 		JSFConstants.FOLDER_MANAGED_BEANS, 
@@ -188,6 +189,7 @@ class SFUtil extends XModelObjectLoaderUtil {
 			children.add("value"); //$NON-NLS-1$
 			children.add("null-value"); //$NON-NLS-1$
 		} else if("JSFNavigationCase".equals(entity.getName())) { //$NON-NLS-1$
+			// no 2.0 case
 			children.add("redirect"); //$NON-NLS-1$
 		}
 		if(entity.getAttribute("others") != null) {
@@ -245,7 +247,7 @@ class SFUtil extends XModelObjectLoaderUtil {
     	for (int i = 0; i < as.length; i++) {
     		String xml = as[i].getXMLName();
     		String v = o.getAttributeValue(as[i].getName());
-    		if("others".equals(as[i].getName())) {
+    		if("others".equals(as[i].getName()) || "redirect".equals(as[i].getName())) { // 2.0 cases
     			if("true".equals(v)) return true;
     		}
     		// it would be more safe to check isSavable
@@ -299,6 +301,9 @@ class SFUtil extends XModelObjectLoaderUtil {
 		}
 		if(XMLUtilities.getUniqueChild(element, "others") != null) {
 			o.setAttributeValue("others", "true");
+		}
+		if(element.getNodeName().equals("redirect")) { // 2.0 case
+			o.setAttributeValue("redirect", "true");
 		}
 	}
 

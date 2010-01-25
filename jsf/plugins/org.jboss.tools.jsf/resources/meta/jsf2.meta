@@ -21,6 +21,7 @@
    <XChildEntity maxCount="1" name="JSFApplication20" required="yes"/>
    <XChildEntity maxCount="1" name="JSFFactory20" required="yes"/>
    <XChildEntity maxCount="1" name="JSFLifecycle" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFBehaviors20" required="yes"/>
    <XChildEntity maxCount="1" name="JSFComponents11" required="yes"/>
    <XChildEntity maxCount="1" name="JSFConverters" required="yes"/>
    <XChildEntity maxCount="1" name="JSFManagedBeans20" required="yes"/>
@@ -144,6 +145,9 @@
     <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Navigation Rules;actionpath=CreateActions/AddRule"
      WizardClassName="%Default%" displayName="Rule..." kind="action" name="AddRule"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Components;actionpath=CreateActions/AddBehavior"
+     WizardClassName="%Default%" displayName="Behavior..." kind="action" name="AddBehavior"/>
     <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Components;actionpath=CreateActions/AddComponent"
      WizardClassName="%Default%" displayName="Component..."
@@ -534,6 +538,232 @@
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
     <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="behavior" name="JSFBehavior20">
+  <XChildrenEntities>
+   <XChildEntity name="JSFAttribute"/>
+   <XChildEntity name="JSFProperty"/>
+   <XChildEntity name="JSFBehaviorExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.component" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="behavior" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="description" xmlname="description.#text">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
+   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute PROPERTIES="id=true;save=always" name="behavior-id" xmlname="behavior-id.#text"/>
+   <XModelAttribute PROPERTIES="save=always" name="behavior-class" xmlname="behavior-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.attribute"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Attribute..." kind="action" name="CreateAttribute">
+     <EntityData EntityName="JSFAttribute">
+      <AttributeData AttributeName="attribute-name"/>
+      <AttributeData AttributeName="attribute-class" Mandatory="no"/>
+      <AttributeData AttributeName="suggested-value" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.property"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Property..." kind="action" name="CreateProperty">
+     <EntityData EntityName="JSFProperty">
+      <AttributeData AttributeName="property-name"/>
+      <AttributeData AttributeName="property-class" Mandatory="no"/>
+      <AttributeData AttributeName="suggested-value" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     displayName="Extension" kind="action" name="CreateExtension">
+     <EntityData EntityName="JSFBehaviorExtension"/>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=behavior-class" displayName="Open Declaration"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="behavior-extension" name="JSFBehaviorExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="behavior-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="entity=AnyElement" WizardClassName="%Default%"
+     displayName="Add Tag..." kind="action" name="CreateTag">
+     <EntityData EntityName="AnyElementNew">
+      <AttributeData AttributeName="tag"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Ordered%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFBehaviors20">
+  <XChildrenEntities>
+   <XChildEntity name="JSFBehavior20"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.components" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="behavior list" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="Behaviors" name="name" xmlname="NAME">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.component"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Behavior..." kind="action" name="AddBehavior">
+     <EntityData EntityName="JSFBehavior20">
+      <AttributeData AttributeName="behavior-id"/>
+      <AttributeData AttributeName="behavior-class"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%CopyChildren%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="%DeleteChildren%" ICON="action.delete"
+     displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="client-behavior-renderer" name="JSFClientBehaviorRenderer20">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.render" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="client-behavior-renderer"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;save=always;category=general"
+    name="renderer-type" xmlname="client-behavior-renderer-type.#text"/>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="renderer-class" xmlname="client-behavior-renderer-class.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions"/>
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=renderer-class" displayName="Open Declaration"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
    </XActionItem>
    <XActionItem displayName="move" kind="list" name="MoveActions">
     <XActionItem HIDE="always" HandlerClassName="%Move%"
@@ -938,7 +1168,9 @@
   ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationCaseObjectImpl"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="navigation-case" name="JSFNavigationCase20">
-  <XChildrenEntities/>
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="JSFRedirect20" required="yes"/>
+  </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
     <ICON info="main.jsf.case" type="main"/>
@@ -964,13 +1196,6 @@
      <value name="linkAction=OpenPage"/>
     </Constraint>
     <Editor name="TreeChooser"/>
-   </XModelAttribute>
-   <XModelAttribute default="no" name="redirect" xmlname="redirect">
-    <Constraint loader="List">
-     <value name="yes"/>
-     <value name="no"/>
-    </Constraint>
-    <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute name="id" xmlname="id"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
@@ -1279,12 +1504,88 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;saveDefault=false"
+  XMLSUBPATH="redirect" name="JSFRedirect20">
+  <XChildrenEntities>
+   <XChildEntity name="JSFViewParam"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.component" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="redirect" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;save=always" default="Redirect" name="name"/>
+   <XModelAttribute PROPERTIES="category=general" default="false" name="redirect">
+    <Constraint loader="List">
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="include-view-params" xmlname="include-view-params">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="List"/>
+   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.attribute"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="View Param..." kind="action" name="CreateViewParam">
+     <EntityData EntityName="JSFViewParam">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="attribute=behavior-class" displayName="Open Declaration"
+    kind="action" name="OpenSource"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity
   ImplementingClass="org.jboss.tools.jsf.model.impl.RenderKitObjectImpl"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="render-kit" name="JSFRenderKit20">
   <XChildrenEntities>
    <XChildEntity name="JSFRenderer11"/>
+   <XChildEntity name="JSFClientBehaviorRenderer20"/>
    <XChildEntity name="JSFRenderKitExtension"/>
   </XChildrenEntities>
   <XEntityRenderer>
@@ -1318,6 +1619,14 @@
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Renderer..." kind="action" name="CreateRenderer">
      <EntityData EntityName="JSFRenderer11">
+      <AttributeData AttributeName="renderer-type"/>
+      <AttributeData AttributeName="renderer-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Client Behavior Renderer..." kind="action" name="CreateClientBehaviorRenderer">
+     <EntityData EntityName="JSFClientBehaviorRenderer20">
       <AttributeData AttributeName="renderer-type"/>
       <AttributeData AttributeName="renderer-class"/>
      </EntityData>
@@ -1437,6 +1746,59 @@
      ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
     <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="view-param" name="JSFViewParam">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.attribute" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="view-param" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;save=always;category=general"
+    name="name" xmlname="name.#text">
+    <Constraint loader="JavaName">
+     <value name="acceptKeyWord=true"/>
+    </Constraint>
+    <Editor name="Name"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always;category=general"
+    name="value" xmlname="value.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" ICON="action.paste"
+     displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"

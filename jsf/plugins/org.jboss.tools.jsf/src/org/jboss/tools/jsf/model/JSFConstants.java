@@ -46,6 +46,7 @@ public interface JSFConstants {
 	public static final String FOLDER_NAVIGATION_RULES = "Navigation Rules";	 //$NON-NLS-1$
 	public static final String FOLDER_MANAGED_BEANS = "Managed Beans"; //$NON-NLS-1$
 	public static final String FOLDER_REFENCED_BEANS = "Referenced Beans"; //$NON-NLS-1$
+	public static final String FOLDER_BEHAVIORS = "Behaviors"; //$NON-NLS-1$
 	public static final String FOLDER_COMPONENTS = "Components"; //$NON-NLS-1$
 	public static final String FOLDER_CONVERTERS = "Converters"; //$NON-NLS-1$
 	public static final String FOLDER_RENDER_KITS = "Render Kits"; //$NON-NLS-1$
