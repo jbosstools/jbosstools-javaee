@@ -111,7 +111,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 						List<IBean> resultBeanList = sortBeans(resultBeanSet);
 						for(IBean bean : resultBeanList){
 							if(bean != null)
-								hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean));
+								hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean, document));
 						}
 					}
 				}

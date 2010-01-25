@@ -80,7 +80,7 @@ public class CDIExtensionsPlugin extends AbstractUIPlugin{
 		CDIExtensionsPlugin.getDefault().getLog().log(new Status(Status.ERROR, CDIExtensionsPlugin.PLUGIN_ID, Status.OK, message, exception));		
 	}
 	static public void log(Exception ex) {
-		CDIExtensionsPlugin.getDefault().getLog().log(new Status(Status.ERROR, CDIExtensionsPlugin.PLUGIN_ID, Status.OK, "No message", ex));
+		CDIExtensionsPlugin.getDefault().getLog().log(new Status(Status.ERROR, CDIExtensionsPlugin.PLUGIN_ID, Status.OK, CDIExtensionsMessages.CDI_EXT_PLUGIN_NO_MESSAGE, ex));
 	}
 
 

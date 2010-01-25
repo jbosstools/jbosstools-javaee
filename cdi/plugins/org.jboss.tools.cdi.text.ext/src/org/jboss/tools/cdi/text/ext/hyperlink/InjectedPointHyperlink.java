@@ -13,10 +13,12 @@ package org.jboss.tools.cdi.text.ext.hyperlink;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
@@ -24,9 +26,10 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 	IBean bean;
 	IRegion region;
 	
-	public InjectedPointHyperlink(IRegion region, IBean bean){
+	public InjectedPointHyperlink(IRegion region, IBean bean, IDocument document){
 		this.bean = bean;
 		this.region = region;
+		setDocument(document);
 	}
 	
 
@@ -56,7 +59,7 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 
 	@Override
 	public String getHyperlinkText() {
-		String text = "Open Bean ";
+		String text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
 		if(bean != null)
 			text += bean.getBeanClass().getElementName();
 		return text;
