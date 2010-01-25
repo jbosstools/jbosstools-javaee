@@ -86,7 +86,15 @@ public class JSFFormLayoutData implements IFormLayoutData {
 			new String[]{"JSFFacet11"}, //$NON-NLS-1$
 			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.CreateFacet") //$NON-NLS-1$
 	);
-	
+
+	private final static IFormData VIEW_PARAM_LIST = new FormData(
+		"View Params",
+		"", //$NON-NLS-1$
+		new FormAttributeData[]{new FormAttributeData("name", 30), new FormAttributeData("value", 70)}, //$NON-NLS-1$ //$NON-NLS-2$
+		new String[]{"JSFViewParam"}, //$NON-NLS-1$
+		createDefaultFormActionData("CreateActions.CreateViewParam") //$NON-NLS-1$
+	);
+
 	/**
 	 * 
 	 * @param name (translatable)
@@ -275,6 +283,22 @@ public class JSFFormLayoutData implements IFormLayoutData {
 	
 	/**
 	 * 
+	 * @param entity (non-translatable)
+	 * @param facets
+	 * @return
+	 */
+	private final static IFormData createBehaviorFormDefinitions(String entity) {
+		IFormData behavior = new FormData(
+			"Behavior",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("behavior-id"), new FormAttributeData("behavior-class", null, STBFE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		);
+		IFormData[] definitions = new IFormData[] {behavior, ATTRIBUTES_FORM_DEFINITIONS, PROPERTIES_FORM_DEFINITIONS};
+		return new FormData(entity,	new String[]{null},	definitions);
+	}
+	
+	/**
+	 * 
 	 * @param parentEntity (non-translatable)
 	 * @param childEntity (non-translatable)
 	 * @return
@@ -297,38 +321,46 @@ public class JSFFormLayoutData implements IFormLayoutData {
 	 * @return
 	 */
 	private final static IFormData createRenderKitFormDefinitions(String parentEntity, String childEntity) {
-		int size = 3;
-		boolean is12 = parentEntity.endsWith(JSFConstants.SUFF_12) || parentEntity.endsWith(JSFConstants.SUFF_20);
-		if(is12) size++;
-		IFormData[] result = new IFormData[size];
-		result[0] = new FormData(
+		boolean is12 = parentEntity.endsWith(JSFConstants.SUFF_12);
+		boolean is20 = parentEntity.endsWith(JSFConstants.SUFF_20);
+		List<IFormData> result = new ArrayList<IFormData>();
+		result.add( new FormData(
 			"Render Kit",
 			"", //$NON-NLS-1$
 			new FormAttributeData[]{new FormAttributeData("render-kit-id"), new FormAttributeData("render-kit-class", null, STBFE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		);
-		result[1] = new FormData(
+		) );
+		result.add( new FormData(
 			"Renderers",
 			"", //$NON-NLS-1$
 			new FormAttributeData[]{new FormAttributeData("renderer-class", 70, "class"), new FormAttributeData("renderer-type", 30, "type")}, //$NON-NLS-1$ //$NON-NLS-3$
 			new String[]{childEntity},
 			createDefaultFormActionData("CreateActions.CreateRenderer") //$NON-NLS-1$
-		);
-		if(is12) {
-			result[2] = new FormData(
+		) );
+		if(is20) {
+			result.add( new FormData(
+				"Client Behavior Renderers",
+				"", //$NON-NLS-1$
+				new FormAttributeData[]{new FormAttributeData("renderer-class", 70, "class"), new FormAttributeData("renderer-type", 30, "type")}, //$NON-NLS-1$ //$NON-NLS-3$
+				new String[]{"JSFClientBehaviorRenderer20"},
+				createDefaultFormActionData("CreateActions.CreateClientBehaviorRenderer") //$NON-NLS-1$
+			) );
+		}
+		if(is12 || is20) {
+			result.add( new FormData(
 				"Extensions",
 				"", //$NON-NLS-1$
 				new FormAttributeData[]{new FormAttributeData("element type", 100, "element"), }, //$NON-NLS-1$
 				new String[]{"JSFRenderKitExtension"}, //$NON-NLS-1$
 				createDefaultFormActionData("CreateActions.CreateExtension") //$NON-NLS-1$
-			);
+			) );
 		}
-		result[size - 1] = new FormData(
+		result.add( new FormData(
 			"Advanced",
 			"", //$NON-NLS-1$
 			new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		);
+		) );
 		
-		return new FormData(parentEntity, new String[]{null}, result);
+		return new FormData(parentEntity, new String[]{null}, result.toArray(new IFormData[0]));
 	}
 
 	/**
@@ -373,13 +405,18 @@ public class JSFFormLayoutData implements IFormLayoutData {
 			new FormData("FacesConfig11", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
 			new FormData("FacesConfig12", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
 			new FormData("FacesConfig20", new String[]{null}, FACES_CONFIG_20_DEFINITIONS), //$NON-NLS-1$
+
 			APPLICATION_DEFINITION,
 			APPLICATION_12_DEFINITION,
 			APPLICATION_20_DEFINITION,
+
 			createComponentsFormDefinitions("JSFComponents", "JSFComponent"), //$NON-NLS-1$ //$NON-NLS-2$
 			createComponentsFormDefinitions("JSFComponents11", "JSFComponent11"), //$NON-NLS-1$ //$NON-NLS-2$
 			createComponentFormDefinitions("JSFComponent", false), //$NON-NLS-1$
 			createComponentFormDefinitions("JSFComponent11", true), //$NON-NLS-1$
+
+			createBehaviorFormDefinitions("JSFBehavior20"), //$NON-NLS-1$
+
 			new FormData(
 				"JSFFacet11", //$NON-NLS-1$
 				new String[]{null},
@@ -604,6 +641,34 @@ public class JSFFormLayoutData implements IFormLayoutData {
 					)
 				}
 			),
+
+			new FormData(
+				"JSFNavigationRule20", //$NON-NLS-1$
+				new String[]{null},
+				new IFormData[] {
+					// Navigation Rule Form
+					new FormData(
+						"Navigation Rule",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("from-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$
+					),
+					// Navigation Cases Form
+					new FormData(
+						"Navigation Cases",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("from-outcome", 30), new FormAttributeData("from-action", 30), new FormAttributeData("to-view-id", 40)}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						new String[]{"JSFNavigationCase20"}, //$NON-NLS-1$
+						createDefaultFormActionData("CreateActions.CreateCase") //$NON-NLS-1$
+					),
+					// Advanced Navigation Rule Form
+					new FormData(
+						"Advanced",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
+					)
+				}
+			),
+
 			new FormData(
 				"JSFNavigationCase", //$NON-NLS-1$
 				new String[]{null},
@@ -622,6 +687,26 @@ public class JSFFormLayoutData implements IFormLayoutData {
 					)
 				}
 			),
+
+			new FormData(
+				"JSFNavigationCase20", //$NON-NLS-1$
+				new String[]{null},
+				new IFormData[] {
+					// Navigation Case Form
+					new FormData(
+						"Navigation Case",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("from-outcome"), new FormAttributeData("from-action"), new FormAttributeData("to-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ 
+					),
+					// Advanced Navigation Case Form
+					new FormData(
+						"Advanced",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
+					)
+				}
+			),
+
 			// Referenced Beans Form
 			new FormData(
 				"Referenced Beans",
@@ -649,16 +734,19 @@ public class JSFFormLayoutData implements IFormLayoutData {
 					)
 				}
 			),
+
 			// Render Kits Form
 			createRenderKitsFormDefinitions("JSFRenderKits", "JSFRenderKit"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitsFormDefinitions("JSFRenderKits11", "JSFRenderKit11"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitsFormDefinitions("JSFRenderKits12", "JSFRenderKit12"), //$NON-NLS-1$ //$NON-NLS-2$ 
+			createRenderKitsFormDefinitions("JSFRenderKits20", "JSFRenderKit20"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitFormDefinitions("JSFRenderKit", "JSFRenderer"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitFormDefinitions("JSFRenderKit11", "JSFRenderer11"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitFormDefinitions("JSFRenderKit12", "JSFRenderer11"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRenderKitFormDefinitions("JSFRenderKit20", "JSFRenderer11"), //$NON-NLS-1$ //$NON-NLS-2$ 
 			createRendererFormDefinitions("JSFRenderer", false), //$NON-NLS-1$ 
 			createRendererFormDefinitions("JSFRenderer11", true), //$NON-NLS-1$ 
+
 			// Supported Component Type Form
 			new FormData(
 				"Supported Component Type",
@@ -799,6 +887,9 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		if(g != null) list.add(g);
 
 		//add lists here
+		if(entity.getChild("JSFViewParam") != null) {
+			list.add(VIEW_PARAM_LIST);
+		}
 
 		IFormData a = ModelFormLayoutData.createAdvancedFormData(entityName);
 		if(a != null) list.add(a);
