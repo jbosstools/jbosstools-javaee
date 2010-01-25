@@ -11,6 +11,12 @@
     </locale-config>
     <message-bundle>messages_ru</message-bundle>
     <message-bundle>messages_en</message-bundle>
-	<message-bundle>messages_en_US</message-bundle> 
+	<message-bundle>messages_en_US </message-bundle>
+	
+	<resource-bundle>
+	<base-name>demo.Messages</base-name>
+	<var>Message</var>
+	</resource-bundle>
+	 
   </application>
 </faces-config>
