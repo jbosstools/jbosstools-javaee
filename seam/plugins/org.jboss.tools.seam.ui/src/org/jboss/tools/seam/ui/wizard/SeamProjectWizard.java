@@ -222,8 +222,10 @@ public class SeamProjectWizard extends WebProjectWizard {
 			dm.setTargetedRuntimes(Collections.singleton(runtime));
 		}
 		if(dontUseRuntimeConfig) {
-            dm.setSelectedPreset(oldPreset.getId());
-		} else {
+			if(dm.getAvailablePresets().contains(oldPreset)) {
+				dm.setSelectedPreset(oldPreset.getId());
+			}
+		} else if(dm.getAvailablePresets().contains(FacetedProjectFramework.DEFAULT_CONFIGURATION_PRESET_ID)) {
 			dm.setSelectedPreset(FacetedProjectFramework.DEFAULT_CONFIGURATION_PRESET_ID);
 		}
     }
