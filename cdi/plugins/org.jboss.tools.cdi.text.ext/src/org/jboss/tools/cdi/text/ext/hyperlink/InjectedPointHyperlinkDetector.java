@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,9 +19,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICodeAssist;
-import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -35,11 +32,10 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 
@@ -102,13 +98,13 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 				if (element instanceof IAnnotatable) {
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
-					IAnnotation annotation = annotatable.getAnnotation("Injected");
+					IAnnotation annotation = annotatable.getAnnotation("Injected");  //$NON-NLS-1$
 					if (annotation == null)
 						continue;
-					IInjectionPoint injectionPoint = findInjectionPoint(beans, element);
+					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);
 					if(injectionPoint != null){
 						Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
-						List<IBean> resultBeanList = sortBeans(resultBeanSet);
+						List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
 						for(IBean bean : resultBeanList){
 							if(bean != null)
 								hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean, document));
@@ -125,41 +121,6 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	private IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element){
-		if(!(element instanceof IField) && (element instanceof IMethod) )
-			return null;
-		
-		for(IBean bean : beans){
-			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
-			for(IInjectionPoint iPoint : injectionPoints){
-				if(element instanceof IField && iPoint instanceof IInjectionPointField){
-					if(((IInjectionPointField)iPoint).getField() != null && ((IInjectionPointField)iPoint).getField().equals(element))
-						return iPoint;
-				}else if(element instanceof IMethod && iPoint instanceof IInjectionPointMethod){
-					if(((IInjectionPointMethod)iPoint).getMethod() != null && ((IInjectionPointMethod)iPoint).getMethod().equals(element))
-						return iPoint;
-					
-				}
-			}
-		}
-	return null;
-	}
 	
-	private List<IBean> sortBeans(Set<IBean> beans){
-		Set<IBean> alternativeBeans = new HashSet<IBean>();
-		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
-		
-		for(IBean bean : beans){
-			if(bean.isAlternative())
-				alternativeBeans.add(bean);
-			else
-				nonAlternativeBeans.add(bean);
-		}
-		
-		ArrayList<IBean> sortedBeans = new ArrayList<IBean>();
-		sortedBeans.addAll(alternativeBeans);
-		sortedBeans.addAll(nonAlternativeBeans);
-		return sortedBeans;
-	}
 
 }

@@ -97,5 +97,13 @@
 				<partition type="__java_string"/>
 	   	</javaCompletionProposalComputer>
 	</extension>
-
+	<extension
+        point="org.eclipse.jdt.ui.queryParticipants">
+     <queryParticipant
+           class="org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant"
+           id="org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant"
+           name="cdi-InjectionPointReferencesParticipant"
+           nature="org.jboss.tools.cdi.core.cdinature">
+     </queryParticipant>
+  </extension>
 </plugin>

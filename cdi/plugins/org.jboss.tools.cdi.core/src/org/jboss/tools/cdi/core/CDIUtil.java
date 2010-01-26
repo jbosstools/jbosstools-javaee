@@ -10,8 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -50,5 +58,54 @@ public class CDIUtil {
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+	}
+	
+	/**
+	 * Finds CDI injected point in beans for particular java element.
+	 * 
+	 * @param beans
+	 * @param element
+	 */
+	public static IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element){
+		if(!(element instanceof IField) && (element instanceof IMethod) )
+			return null;
+		
+		for(IBean bean : beans){
+			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
+			for(IInjectionPoint iPoint : injectionPoints){
+				if(element instanceof IField && iPoint instanceof IInjectionPointField){
+					if(((IInjectionPointField)iPoint).getField() != null && ((IInjectionPointField)iPoint).getField().equals(element))
+						return iPoint;
+				}else if(element instanceof IMethod && iPoint instanceof IInjectionPointMethod){
+					if(((IInjectionPointMethod)iPoint).getMethod() != null && ((IInjectionPointMethod)iPoint).getMethod().equals(element))
+						return iPoint;
+					
+				}
+			}
+		}
+	return null;
+	}
+
+	/**
+	 * Sorts CDI beans. Sets for alternative beans higher position and for nonalternative beans lower position.
+	 * 
+	 * @param beans
+	 * @param element
+	 */
+	public static List<IBean> sortBeans(Set<IBean> beans){
+		Set<IBean> alternativeBeans = new HashSet<IBean>();
+		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
+		
+		for(IBean bean : beans){
+			if(bean.isAlternative())
+				alternativeBeans.add(bean);
+			else
+				nonAlternativeBeans.add(bean);
+		}
+		
+		ArrayList<IBean> sortedBeans = new ArrayList<IBean>();
+		sortedBeans.addAll(alternativeBeans);
+		sortedBeans.addAll(nonAlternativeBeans);
+		return sortedBeans;
 	}
 }

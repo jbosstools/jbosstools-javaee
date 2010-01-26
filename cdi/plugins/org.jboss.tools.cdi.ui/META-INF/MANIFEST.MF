@@ -17,7 +17,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.ui,
  org.eclipse.jface.text,
  org.eclipse.wst.sse.ui,
- org.jboss.tools.jst.web.kb
+ org.jboss.tools.jst.web.kb,
+ org.eclipse.jdt.core;bundle-version="3.5.0",
+ org.eclipse.search;bundle-version="3.5.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: %Bundle-Vendor.0
