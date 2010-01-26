@@ -206,7 +206,7 @@
 	    </possibleChildren>
         <actionProvider
               class="org.eclipse.ui.internal.navigator.resources.actions.EditActionProvider"
-              id="org.eclipse.ui.navigator.resources.actions.EditActions">         
+              id="org.jboss.tools.seam.ui.resources.actions.EditActions">         
 				<enablement>
 					<or>
 						<adapt type="org.eclipse.core.resources.IFile" />	
@@ -216,7 +216,7 @@
         </actionProvider>     
         <actionProvider
               class="org.eclipse.ui.internal.navigator.resources.actions.RefactorActionProvider"
-              id="org.eclipse.ui.navigator.resources.actions.RefactorActions">
+              id="org.jboss.tools.seam.ui.resources.actions.RefactorActions">
 				<enablement>
 					<or>
 						<adapt type="org.eclipse.core.resources.IFile" />	
@@ -271,7 +271,7 @@
 
         <actionProvider
             	class="org.eclipse.ui.internal.navigator.resources.actions.NewActionProvider"
-            	id="org.eclipse.ui.navigator.resources.NewActions"> 
+            	id="org.jboss.tools.seam.ui.resources.NewActions"> 
         	<enablement> 
         			<or>
 						<adapt type="org.eclipse.core.resources.IResource" />	 
