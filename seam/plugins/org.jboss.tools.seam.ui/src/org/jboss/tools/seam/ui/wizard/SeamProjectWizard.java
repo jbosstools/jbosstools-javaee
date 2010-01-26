@@ -397,7 +397,19 @@ public class SeamProjectWizard extends WebProjectWizard {
 		// register project on the selected server;
 		// deploy datasource xml file to the selected server;
 
-		IServer server = (IServer) model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+		Object serverObject = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+		IServer server = null;
+		if(serverObject instanceof String) {
+			IServer[] servers = ServerCore.getServers();
+			for (IServer i : servers) {
+				if(serverObject.equals(i.getName())) {
+					server = i;
+					break;
+				}
+			}
+		} else if(serverObject instanceof IServer) {
+			server = (IServer)serverObject;
+		}
 		if (server != null) {
 			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
 			if (jbs != null) {
