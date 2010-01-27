@@ -19,7 +19,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICodeAssist;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -84,8 +86,6 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
-		int[] range = new int[]{wordRegion.getOffset(), wordRegion.getOffset() + wordRegion.getLength()};
-		
 		IJavaElement[] elements = null;
 		
 		try {
@@ -95,6 +95,16 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			for (IJavaElement element : elements) {
+				
+				if(element instanceof IType){
+					if("Inject".equals(element.getElementName())){  //$NON-NLS-1$
+						ICompilationUnit cUnit = (ICompilationUnit)input;
+						element = cUnit.getElementAt(wordRegion.getOffset());
+						if(element == null)
+							continue;
+					}
+				}
+
 				if (element instanceof IAnnotatable) {
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
