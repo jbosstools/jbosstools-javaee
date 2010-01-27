@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
@@ -36,6 +37,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -236,11 +238,40 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(name!=null) {
 			validationContext.addVariableNameForELValidation(name);
 		}
+
+		// 2.2.2. Restricting the bean types of a bean
+		//	      - bean class or producer method or field specifies a @Typed annotation, 
+		//		  and the value member specifies a class which does not correspond to a type 
+		//		  in the unrestricted set of bean types of a bean
+		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
+		if(!typedDeclarations.isEmpty()) {
+			Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+			for (ITypeDeclaration typedDeclaration : typedDeclarations) {
+				IType type = typedDeclaration.getType();
+				if(type!=null) {
+					boolean typeWasFound = false;
+					for (ITypeDeclaration declaration : declarations) {
+						IType dType = declaration.getType();
+						if(dType!=null && type.getFullyQualifiedName().equals(dType.getFullyQualifiedName())) {
+							typeWasFound = true;
+							break;
+						}
+					}
+					if(!typeWasFound) {
+						addError(CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration, bean.getResource());
+					}
+				}
+			}
+		}
 		// TODO
 	}
 
 	/**
 	 * Validates a stereotype.
+	 * 2.7.1.3. Declaring a @Named stereotype
+	 * - stereotype declares a non-empty @Named annotation (Non-Portable behavior)
+	 * - stereotype declares any other qualifier annotation
+	 * - stereotype is annotated @Typed
 	 * 
 	 * @param type
 	 */
