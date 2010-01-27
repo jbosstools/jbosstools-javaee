@@ -76,7 +76,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 				if (element instanceof IAnnotatable) {
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
-					IAnnotation annotation = annotatable.getAnnotation("Injected");  //$NON-NLS-1$
+					IAnnotation annotation = annotatable.getAnnotation(CDIUtil.INJECT_ANNOTATION_NAME);
 					if (annotation == null)
 						return;
 					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);

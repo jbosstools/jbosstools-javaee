@@ -40,7 +40,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
-	private final static String INJECT_ANNOTATION_NAME = "Inject"; //$NON-NLS-1$
+	
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
@@ -98,7 +98,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			for (IJavaElement element : elements) {
 				
 				if(element instanceof IType){
-					if(INJECT_ANNOTATION_NAME.equals(element.getElementName())){
+					if(CDIUtil.INJECT_ANNOTATION_NAME.equals(element.getElementName())){
 						ICompilationUnit cUnit = (ICompilationUnit)input;
 						element = cUnit.getElementAt(wordRegion.getOffset());
 						if(element == null)
@@ -109,7 +109,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 				if (element instanceof IAnnotatable) {
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
-					IAnnotation annotation = annotatable.getAnnotation(INJECT_ANNOTATION_NAME);
+					IAnnotation annotation = annotatable.getAnnotation(CDIUtil.INJECT_ANNOTATION_NAME);
 					if (annotation == null)
 						continue;
 					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);

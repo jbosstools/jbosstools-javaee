@@ -28,6 +28,10 @@ import org.jboss.tools.jst.web.kb.IKbProject;
  * @author Alexey Kazakov
  */
 public class CDIUtil {
+	/**
+	 * CDI Inject annotation's name 
+	 */
+	public final static String INJECT_ANNOTATION_NAME = "Inject"; //$NON-NLS-1$
 
 	/**
 	 * Adds CDI and KB builders to the project.
