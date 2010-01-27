@@ -154,8 +154,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 				// Get all the paths of related resources for given file. These links were saved in previous validation process.
 				Set<String> oldReletedResources = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), false);
-				for (String resourcePath : oldReletedResources) {
-					resources.add(Path.fromOSString(resourcePath));
+				if(oldReletedResources!=null) {
+					for (String resourcePath : oldReletedResources) {
+						resources.add(Path.fromOSString(resourcePath));
+					}
 				}
 			}
 		}
