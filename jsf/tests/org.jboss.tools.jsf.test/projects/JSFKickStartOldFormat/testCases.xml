@@ -520,5 +520,71 @@
 		<property name="attributeValue" value="Function Example."/>
 	</test>
 	
+	<!-- Test Faces Config 2.0 -->
+	<!-- @metadata-complete -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml"/>
+		<property name="attributeName" value="metadata-complete"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<!-- <name> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml"/>
+		<property name="attributeName" value="faces config name"/>
+		<property name="attributeValue" value="myFacesConfig"/>
+	</test>
+
+	<!-- <resource-handler> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/application"/>
+		<property name="attributeName" value="resource-handler"/>
+		<property name="attributeValue" value="MyResourceHandler"/>
+	</test>
+
+	<!-- <system-event-listener> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/application/MySystemEventListener"/>
+		<property name="attributeName" value="system-event-class"/>
+		<property name="attributeValue" value="MySystemEvent"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/application/MySystemEventListener"/>
+		<property name="attributeName" value="source-class"/>
+		<property name="attributeValue" value="MySource"/>
+	</test>
+
+	<!-- <behavior> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Behaviors/behavior1"/>
+		<property name="attributeName" value="behavior-class"/>
+		<property name="attributeValue" value="MyBehavior"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Behaviors/behavior1/a1"/>
+		<property name="attributeName" value="attribute-class"/>
+		<property name="attributeValue" value="MyAttribute"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Behaviors/behavior1/p1"/>
+		<property name="attributeName" value="property-class"/>
+		<property name="attributeValue" value="MyProperty"/>
+	</test>
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config-2.xml/Behaviors/behavior1/behavior-extension"/>
+	</test>
+
+	<!--  <default-validators> -->
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config-2.xml/application/Default Validators"/>
+	</test>
+	<!--   <validator-id> -->
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config-2.xml/application/Default Validators/validator1"/>
+	</test>
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/application/Default Validators/validator1"/>
+		<property name="attributeName" value="id"/>
+		<property name="attributeValue" value="MyDefaultValidator"/>
+	</test>
 
 </tests>

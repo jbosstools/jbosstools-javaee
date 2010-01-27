@@ -97,6 +97,20 @@ public class JSFModelTest extends TestCase {
 			}
 		}
 		assertTrue(sb.toString(), errorCount == 0);
+		
+		XModelObject o = n.getModel().getByPath("/faces-config-2.xml");
+//		printPaths(o);
+		
+	}
+
+	void printPaths(XModelObject o) {
+		if(o == null) {
+			System.out.println("null");
+			return;
+		}
+		System.out.println(o.getPath());
+		XModelObject[] cs = o.getChildren();
+		for (int i = 0; i < cs.length; i++) printPaths(cs[i]);
 	}
 	
 	public void testJSFProjectStructure() {

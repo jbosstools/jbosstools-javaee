@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<faces-config metadata-complete="true" version="2.0"
+ xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <name>myFacesConfig</name>
+ <behavior>
+  <description>kk</description>
+  <behavior-id>behavior1</behavior-id>
+  <behavior-class>MyBehavior</behavior-class>
+  <attribute>
+   <attribute-name>a1</attribute-name>
+   <attribute-class>MyAttribute</attribute-class>
+  </attribute>
+  <property>
+   <property-name>p1</property-name>
+   <property-class>MyProperty</property-class>
+  </property>
+  <behavior-extension/>
+  <behavior-extension/>
+ </behavior>
+ <managed-bean>
+  <managed-bean-name>a</managed-bean-name>
+  <managed-bean-class>A</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <navigation-rule>
+  <from-view-id>cc</from-view-id>
+  <navigation-case>
+   <from-outcome>aaa</from-outcome>
+   <to-view-id>/c2.jsp</to-view-id>
+   <redirect include-view-params="true">
+    <view-param>
+     <name>p1</name>
+     <value>v1</value>
+    </view-param>
+   </redirect>
+  </navigation-case>
+ </navigation-rule>
+ <absolute-ordering>
+  <name>name1</name>
+ </absolute-ordering>
+ <ordering>
+  <before>
+   <name>n3</name>
+  </before>
+ </ordering>
+ <render-kit>
+  <render-kit-id>kit</render-kit-id>
+  <client-behavior-renderer>
+   <client-behavior-renderer-type>MyClientBehaviorRendererType</client-behavior-renderer-type>
+   <client-behavior-renderer-class>MyRenderer</client-behavior-renderer-class>
+  </client-behavior-renderer>
+ </render-kit>
+ <application>
+  <resource-handler>MyResourceHandler</resource-handler>
+  <system-event-listener>
+   <system-event-listener-class>MySystemEventListener</system-event-listener-class>
+   <system-event-class>MySystemEvent</system-event-class>
+   <source-class>MySource</source-class>
+  </system-event-listener>
+  <default-validators>
+   <validator-id id="MyDefaultValidator">validator1</validator-id>
+  </default-validators>
+ </application>
+</faces-config>

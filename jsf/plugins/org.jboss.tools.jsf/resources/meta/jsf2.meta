@@ -372,10 +372,6 @@
     name="navigation-handler" xmlname="navigation-handler.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="category=general"
-    name="partial-traversal" xmlname="partial-traversal.#text">
-    <Editor name="AccessibleJava"/>
-   </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="view-handler" xmlname="view-handler.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
@@ -789,6 +785,7 @@
     name="validator-id" xmlname="#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="id" xmlname="id"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
