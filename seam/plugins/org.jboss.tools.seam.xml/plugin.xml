@@ -273,6 +273,14 @@
             uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/pages-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/pages-2.1.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/pages-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/pages-2.2.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/pages-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/pdf-2.0.xsd" 
             uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/pdf-2.0.xsd"/>
 
@@ -325,8 +333,24 @@
             uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/spring-2.0.xsd"/>
 
          <uri 
+            name="http://jboss.com/products/seam/spring-2.1.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/spring-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring-2.2.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/spring-2.2.xsd"/>
+
+         <uri 
             name="http://jboss.com/products/seam/spring-seam-2.0.xsd" 
             uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/spring-seam-2.0.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring-seam-2.1.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/spring-seam-2.1.xsd"/>
+
+         <uri 
+            name="http://jboss.com/products/seam/spring-seam-2.2.xsd" 
+            uri="platform:/plugin/org.jboss.tools.seam.xml/schemas/spring-seam-2.2.xsd"/>
 
          <uri 
             name="http://jboss.com/products/seam/theme-2.0.xsd" 
