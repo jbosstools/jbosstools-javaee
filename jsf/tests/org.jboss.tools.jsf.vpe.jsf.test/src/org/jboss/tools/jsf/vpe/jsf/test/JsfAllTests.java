@@ -68,6 +68,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.NaturesChecker_JBIDE5701;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
@@ -110,6 +111,7 @@ public class JsfAllTests {
 	public static final String IMPORT_CUSTOM_FACELETS_PROJECT = "customFaceletsTestProject";//$NON-NLS-1$
 	public static final String IMPORT_JBIDE3247_PROJECT_NAME = "JBIDE3247"; //$NON-NLS-1$
 	public static final String IMPORT_I18N_PROJECT_NAME = "i18nTest"; //$NON-NLS-1$
+	public static final String IMPORT_NATURES_CHECKER_PROJECT = "naturesCheckTest"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
@@ -196,6 +198,7 @@ public class JsfAllTests {
 		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
 		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);
 		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
+		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 			
 		// $JUnit-END$
 		// added by Max Areshkau
@@ -226,6 +229,11 @@ public class JsfAllTests {
 		i18nTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(i18nTestProject);
 
+		ImportBean naturesCheckTestProject = new ImportBean();
+		naturesCheckTestProject.setImportProjectName(JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT);
+		naturesCheckTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(naturesCheckTestProject);
+		
 		return new VpeTestSetup(suite, projectToImport);
 	}
 }
