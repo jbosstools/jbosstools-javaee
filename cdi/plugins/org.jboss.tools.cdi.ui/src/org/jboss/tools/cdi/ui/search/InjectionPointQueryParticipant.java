@@ -31,6 +31,7 @@ import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.search.ui.text.Match;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -76,7 +77,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 				if (element instanceof IAnnotatable) {
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
-					IAnnotation annotation = annotatable.getAnnotation(CDIUtil.INJECT_ANNOTATION_NAME);
+					IAnnotation annotation = annotatable.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 					if (annotation == null)
 						return;
 					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);
