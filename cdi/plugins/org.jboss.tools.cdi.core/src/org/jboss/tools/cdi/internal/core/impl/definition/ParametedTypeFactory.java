@@ -17,7 +17,7 @@ public class ParametedTypeFactory {
 		if(startToken < 0) {
 			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(context, typeSignature);
 			if(resovedTypeName == null) return null;
-			result.setSignature(resovedTypeName);
+			result.setSignature("Q" + resovedTypeName + ";");
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {
 				result.setType(type);
@@ -33,7 +33,7 @@ public class ParametedTypeFactory {
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {
 				result.setType(type);
-				result.setSignature(resovedTypeName + '<' + params + '>');
+				StringBuffer newParams = new StringBuffer();
 				StringTokenizer st = new StringTokenizer(params, ",");
 				while(st.hasMoreTokens()) {
 					String paramSignature = st.nextToken();
@@ -43,10 +43,14 @@ public class ParametedTypeFactory {
 						param.setSignature(paramSignature);
 					}
 					result.addParameter(param);
+					if(newParams.length() > 0) newParams.append(',');
+					newParams.append(param.getSignature());
 				}
+				result.setSignature("Q" + resovedTypeName + '<' + newParams + '>' + ';');
 				return result;
 			}
 		}
 		return null;
 	}
+
 }

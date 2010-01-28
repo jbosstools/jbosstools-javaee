@@ -229,6 +229,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public Set<IParametedType> getLegalTypes() {
 		Set<IParametedType> result = new HashSet<IParametedType>();
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
+		if(d != null) {
+			Set<ITypeDeclaration> ts = getRestrictedTypeDeclaratios();
+			result.addAll(ts);
+			return result;
+		}
 		IType type = getDefinition().getType();
 		if(type != null) {
 			ParametedType p = new ParametedType();
@@ -236,7 +241,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			String[] ps = null;
 			try {
 				ps = type.getTypeParameterSignatures();
-				p.setSignature(type.getFullyQualifiedName());
+				p.setSignature("Q" + type.getFullyQualifiedName() + ',');
 			} catch (CoreException e) {
 				//TODO
 			}
@@ -247,29 +252,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}
 		Set<IParametedType> inh = getDefinition().getAllInheritedTypes();
 		if(inh != null) result.addAll(inh);
-		if(d != null) {
-			try {
-				Set<IParametedType> reducedResult = new HashSet<IParametedType>();
-				IMemberValuePair[] ps = d.getDeclaration().getMemberValuePairs();
-				if(ps != null) for (IMemberValuePair p: ps) {
-					Object o = p.getValue();
-					if(o instanceof Object[]) {
-						Object[] os = (Object[])o;
-						for (int i = 0; i < os.length; i++) {
-							String s = os[i].toString();
-							if(!s.endsWith(";")) s = "Q" + s + ";";
-							IParametedType t = ParametedTypeFactory.getParametedType(getDefinition().getType(), s);
-							if(CDIProject.containsType(result, t)) {
-								reducedResult.add(t);
-							}
-						}
-					}
-				}
-				result = reducedResult;
-			} catch (CoreException e) {
-				//TODO
-			}
-		}
 		return result;
 	}
 

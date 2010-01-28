@@ -123,6 +123,7 @@ public class AbstractBeanElement extends CDIElement {
 					Object[] os = (Object[])value;
 					for (int i = 0; i < os.length; i++) {
 						String typeName = os[i].toString();
+						if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
 						ParametedType p = ParametedTypeFactory.getParametedType(((IMember)definition.getMember()).getDeclaringType(), typeName);
 						if(p != null) {
 							result.add(new TypeDeclaration(p, -1, 0));
@@ -130,6 +131,7 @@ public class AbstractBeanElement extends CDIElement {
 					}
 				} else if(value != null) {
 					String typeName = value.toString();
+					if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
 					ParametedType p = ParametedTypeFactory.getParametedType(((IMember)definition.getMember()).getDeclaringType(), typeName);
 					if(p != null) {
 						result.add(new TypeDeclaration(p, -1, 0));

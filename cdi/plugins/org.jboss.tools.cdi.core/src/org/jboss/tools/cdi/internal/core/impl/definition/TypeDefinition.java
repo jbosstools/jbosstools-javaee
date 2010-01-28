@@ -62,7 +62,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	}
 
 	public ParametedType getSuperType() {
-		return superType;
+		return parametedType == null ? null : parametedType.getSuperType();
 	}
 
 	public List<FieldDefinition> getFields() {

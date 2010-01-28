@@ -11,10 +11,17 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeParameter;
+import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 
 /**
  * 
@@ -25,6 +32,10 @@ public class ParametedType implements IParametedType {
 	protected IType type;
 	protected String signature;
 	protected List<ParametedType> parameterTypes = new ArrayList<ParametedType>();
+
+	boolean inheritanceIsBuilt = false;
+	protected ParametedType superType = null;
+	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
 
 	public ParametedType() {}
 
@@ -56,6 +67,102 @@ public class ParametedType implements IParametedType {
 		}
 		//TODO
 		return false;
+	}
+
+	void buildInheritance() {
+		inheritanceIsBuilt = true;
+		if(type == null) return;
+		try {
+			if(!type.isInterface() && !type.isAnnotation()) {
+				String sc = type.getSuperclassTypeSignature();
+				if(sc != null) {
+					sc = resolveParameters(sc);
+				}
+				superType = ParametedTypeFactory.getParametedType(type, sc);
+				if(superType != null) {
+					inheritedTypes.add(superType);
+				}
+			}
+			String[] is = type.getSuperInterfaceTypeSignatures();
+			if(is != null) for (int i = 0; i < is.length; i++) {
+				String p = resolveParameters(is[i]);
+				ParametedType t = ParametedTypeFactory.getParametedType(type, p);
+				if(t != null) {
+					inheritedTypes.add(t);
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+	}
+
+	public ParametedType getSuperType() {
+		if(!inheritanceIsBuilt) {
+			buildInheritance();
+		}
+		return superType;
+	}
+
+	public Set<IParametedType> getInheritedTypes() {
+		if(!inheritanceIsBuilt) {
+			buildInheritance();
+		}
+		return inheritedTypes;
+	}
+
+	public String resolveParameters(String typeSignature) {
+		if(typeSignature == null) {
+			return typeSignature;
+		}
+		int i = typeSignature.indexOf('<');
+		if(i < 0) {
+			if(( typeSignature.startsWith("T") || typeSignature.startsWith("Q")) && typeSignature.endsWith(";")) {
+				String param = typeSignature.substring(1, typeSignature.length() - 1);
+				String s = findParameterSignature(param);
+				return s == null ? typeSignature : s;
+			}
+			return typeSignature;
+		}
+		int j = typeSignature.lastIndexOf('>');
+		if(j < i) {
+			return typeSignature;
+		}
+		String params = typeSignature.substring(i + 1, j);
+		boolean replaced = false;
+		StringBuffer newParams = new StringBuffer();
+		StringTokenizer st = new StringTokenizer(params);
+		while(st.hasMoreTokens()) {
+			String param = st.nextToken();
+			String newParam = resolveParameters( param);
+			if(!param.equals(newParam)) replaced = true;
+			if(newParam.length() == 0) newParams.append(',');
+			newParams.append(newParam);
+		}
+		if(replaced) {
+			typeSignature = typeSignature.substring(0, i) + '<' + newParams.toString() + '>' + ';';
+		}
+		return typeSignature;
+	}
+
+	public String findParameterSignature(String paramName) {
+		if(type == null) {
+			return null;
+		}
+		ITypeParameter[] ps = null;
+		try {
+			ps = type.getTypeParameters();
+		} catch (JavaModelException e) {
+			return null;
+		}
+		if(ps != null) for (int i = 0; i < ps.length; i++) {
+			if(ps[i].getElementName().equals(paramName)) {
+				if(parameterTypes.size() > i) {
+					ParametedType p = parameterTypes.get(i);
+					return p.getSignature();
+				}
+			}
+		}
+		return null;
 	}
 
 }

@@ -17,8 +17,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
-import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 /**
  * 
@@ -28,10 +26,10 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected String qualifiedName;
 	protected IType type;
-	protected ParametedType superType = null;
-	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
-	protected Set<IParametedType> allInheritedTypes = new HashSet<IParametedType>();
+	protected ParametedType parametedType = null;
 
+	Set<IParametedType> allInheritedTypes = null;
+	
 	public AbstractTypeDefinition() {}
 
 	public String getQualifiedName() {
@@ -51,45 +49,32 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		this.type = contextType;
 		super.init(contextType, context);
 		qualifiedName = getType().getFullyQualifiedName();
-		if(!type.isInterface() && !type.isAnnotation()) {
-			String sc = type.getSuperclassTypeSignature();
-			superType = ParametedTypeFactory.getParametedType(type, sc);
-			if(superType != null) inheritedTypes.add(superType);
-		}
-		String[] is = type.getSuperInterfaceTypeSignatures();
-		if(is != null) for (int i = 0; i < is.length; i++) {
-			ParametedType t = ParametedTypeFactory.getParametedType(type, is[i]);
-			if(t != null) inheritedTypes.add(t);
-		}
-		buildAllInheritedTypes(new HashSet<String>(), inheritedTypes);
+		parametedType = new ParametedType();
+		parametedType.setType(this.type);
+		parametedType.setSignature("Q" + qualifiedName + ";");
 	}
 
-	void buildAllInheritedTypes(Set<String> processed, Set<IParametedType> addition) throws CoreException {
-		for (IParametedType p: addition) {
-			IType t = p.getType();
-			if(t == null) continue;
-			if(processed.contains(t.getFullyQualifiedName())) continue;
-			allInheritedTypes.add(p);
-			Set<IParametedType> add = new HashSet<IParametedType>();
-			if(!t.isInterface() && !t.isAnnotation()) {
-				String sc = t.getSuperclassTypeSignature();
-				IParametedType st = ParametedTypeFactory.getParametedType(t, sc);
-				if(st != null) add.add(st);
-			}
-			String[] is = t.getSuperInterfaceTypeSignatures();
-			if(is != null) for (int i = 0; i < is.length; i++) {
-				ParametedType t1 = ParametedTypeFactory.getParametedType(t, is[i]);
-				if(t1 != null) add.add(t1);
-			}
-			buildAllInheritedTypes(processed, add);
+	void buildAllInheritedTypes(Set<String> processed, ParametedType p) {
+		IType t = p.getType();
+		if(t == null) return;
+		if(processed.contains(t.getFullyQualifiedName())) return;
+		processed.add(t.getFullyQualifiedName());
+		allInheritedTypes.add(p);
+		Set<IParametedType> ts = p.getInheritedTypes();
+		if(ts != null) for (IParametedType pp: ts) {
+			buildAllInheritedTypes(processed, (ParametedType)pp);
 		}
 	}
 
 	public Set<IParametedType> getInheritedTypes() {
-		return inheritedTypes;
+		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getInheritedTypes();
 	}
 
 	public Set<IParametedType> getAllInheritedTypes() {
+		if(allInheritedTypes == null) {
+			Set<String> processed = new HashSet<String>();
+			buildAllInheritedTypes(processed, parametedType);
+		}
 		return allInheritedTypes;
 	}
 

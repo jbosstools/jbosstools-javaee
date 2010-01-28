@@ -76,7 +76,16 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 	public Set<IParametedType> getLegalTypes() {
 		Set<IParametedType> result = new HashSet<IParametedType>();
-		if(typeDeclaration != null) result.add(typeDeclaration);
+		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
+		if(d != null) {
+			Set<ITypeDeclaration> ts = getRestrictedTypeDeclaratios();
+			result.addAll(ts);
+			return result;
+		}
+		if(typeDeclaration != null) {
+			result.add(typeDeclaration);
+			//TODO add all inherited types
+		}
 		return result;
 	}
 
