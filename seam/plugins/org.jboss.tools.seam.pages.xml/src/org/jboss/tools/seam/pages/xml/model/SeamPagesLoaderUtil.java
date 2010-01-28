@@ -14,6 +14,7 @@ import org.jboss.tools.common.meta.XAttribute;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
+import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -116,32 +117,19 @@ public class SeamPagesLoaderUtil extends XModelObjectLoaderUtil implements SeamP
     protected String getChildEntity(XModelEntity entity, Element e) {
     	String n = e.getNodeName();
     	if("page".equals(entity.getXMLSubPath())) {
-    		String suff = (entity.getName().endsWith(SUFF_12))
-    			? SUFF_12
-    			: (entity.getName().endsWith(SUFF_20))
-    			? SUFF_20
-    			: (entity.getName().endsWith(SUFF_21))
-    			? SUFF_21
-    			: (entity.getName().endsWith(SUFF_22))
-    			? SUFF_22
-    			: null;
-    		if(suff == null) {
-    			System.out.println("Unknown suffix in seam page entity " + entity.getName());
-    			suff = SUFF_20;
-    		}
     		if("navigation".equals(n)) {
     			NodeList nl = e.getChildNodes();
     			for (int i = 0; i < nl.getLength(); i++) {
     				Node ni = nl.item(i);
     				if(ni.getNodeType() == Node.ELEMENT_NODE) {
     					if(ni.getNodeName().equals("rule")) {
-    						return ENT_NAVIGATION + suff;
+    						return XModelObjectUtil.getVersionedChildEntity(entity, ENT_NAVIGATION);
     					} else {
-    						return ENT_NAVIGATION_RULE + suff;
+    						return XModelObjectUtil.getVersionedChildEntity(entity, ENT_NAVIGATION_RULE);
     					}
     				}
     			}
-   				return ENT_NAVIGATION + suff;
+   				return XModelObjectUtil.getVersionedChildEntity(entity, ENT_NAVIGATION);
     		}
     	}
 

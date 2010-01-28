@@ -172,9 +172,9 @@ public class PageAdopt implements XAdoptManager, SeamPagesConstants {
 //		String n = path;
 //		if(n.lastIndexOf('.') > 0) n = n.substring(0, n.lastIndexOf('.'));
 //		if(n.lastIndexOf('/') >= 0) n = n.substring(n.lastIndexOf('/') + 1);
-		String suffix = DiagramAdopt.getPageSuffix(source.getModelEntity().getName());
-		XModelObject cs = source.getModel().createModelObject(ENT_NAVIGATION_RULE + suffix, null);
-		XModelObject redirect = source.getModel().createModelObject("SeamPageRedirect" + suffix, null);
+
+		XModelObject cs = source.getModel().createModelObject(XModelObjectUtil.getVersionedChildEntity(source.getModelEntity(), ENT_NAVIGATION_RULE), null);
+		XModelObject redirect = source.getModel().createModelObject(XModelObjectUtil.getVersionedChildEntity(cs.getModelEntity(), "SeamPageRedirect"), null);
 		redirect.setAttributeValue(ATTR_VIEW_ID, path);
 		cs.addChild(redirect);
 //TODO
