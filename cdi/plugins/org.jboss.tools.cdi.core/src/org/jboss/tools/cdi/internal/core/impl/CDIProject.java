@@ -225,7 +225,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		TreeSet<String> injectionKeys = new TreeSet<String>();
-		if(injectionQualifiers != null) for (IAnnotationDeclaration d: beanQualifiers) {
+		if(injectionQualifiers != null) for (IAnnotationDeclaration d: injectionQualifiers) {
 			injectionKeys.add(getQualifierDeclarationKey(d));
 		}
 
