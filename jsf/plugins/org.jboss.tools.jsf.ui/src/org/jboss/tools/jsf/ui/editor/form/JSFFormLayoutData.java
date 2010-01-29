@@ -696,7 +696,7 @@ public class JSFFormLayoutData implements IFormLayoutData {
 					new FormData(
 						"Navigation Case",
 						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("from-outcome"), new FormAttributeData("from-action"), new FormAttributeData("to-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ 
+						new FormAttributeData[]{new FormAttributeData("from-outcome"), new FormAttributeData("from-action"), new FormAttributeData("if"), new FormAttributeData("to-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ 
 					),
 					// Advanced Navigation Case Form
 					new FormData(
