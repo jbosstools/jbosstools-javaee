@@ -196,6 +196,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInEar.add("drools-compiler.jar");
 		onlyInEar.add("drools-core.jar");
 		onlyInEar.add("jboss-el.jar");
+		onlyInEar.add("jboss-seam-remoting.jar");
 		onlyInEar.add("mvel14.jar");
 		onlyInEar.add("richfaces-api.jar");
 		onlyInEar.add("jbpm-jpdl.jar");
@@ -205,7 +206,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInWar.add("jboss-seam-ioc.jar");
 		onlyInWar.add("jboss-seam-mail.jar");
 		onlyInWar.add("jboss-seam-pdf.jar");
-		onlyInWar.add("jboss-seam-remoting.jar");
 		onlyInWar.add("jboss-seam-ui.jar");
 		onlyInWar.add("jsf-facelets.jar");
 		onlyInWar.add("richfaces-impl.jar");
