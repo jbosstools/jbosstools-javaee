@@ -587,4 +587,96 @@
 		<property name="attributeValue" value="MyDefaultValidator"/>
 	</test>
 
+	<!-- <client-behavior-renderer> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Render Kits/kit/MyClientBehaviorRendererType"/>
+		<property name="attributeName" value="renderer-class"/>
+		<property name="attributeValue" value="MyRenderer"/>
+	</test>
+
+	<!-- @include-view-params -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Navigation Rules/rules:cc:0/aaa::#c2.jsp/Redirect"/>
+		<property name="attributeName" value="include-view-params"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<!-- <view-param -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Navigation Rules/rules:cc:0/aaa::#c2.jsp/Redirect/p1"/>
+		<property name="attributeName" value="value"/>
+		<property name="attributeValue" value="v1"/>
+	</test>
+	
+	<!-- @if -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Navigation Rules/rules:cc:0/aaa::#c2.jsp"/>
+		<property name="attributeName" value="if"/>
+		<property name="attributeValue" value="#{a.b}"/>
+	</test>
+
+	<!-- <exception-handler-factory> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/factory"/>
+		<property name="attributeName" value="exception-handler-factory"/>
+		<property name="attributeValue" value="MyExceptionHandlerFactory"/>
+	</test>
+
+	<!-- <external-context-factory> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/factory"/>
+		<property name="attributeName" value="external-context-factory"/>
+		<property name="attributeValue" value="MyExternalContextFactory"/>
+	</test>
+
+	<!-- <partial-view-context-factory> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/factory"/>
+		<property name="attributeName" value="partial-view-context-factory"/>
+		<property name="attributeValue" value="MyPartialViewContextFactory"/>
+	</test>
+
+	<!-- <view-declaration-language-factory> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/factory"/>
+		<property name="attributeName" value="view-declaration-language-factory"/>
+		<property name="attributeValue" value="MyViewDeclarationLanguageFactory"/>
+	</test>
+
+	<!-- <tag-handler-delegate-factory> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/factory"/>
+		<property name="attributeName" value="tag-handler-delegate-factory"/>
+		<property name="attributeValue" value="MyTagHandlerDelegateFactory"/>
+	</test>
+
+	<!-- <visit-context-factory> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/factory"/>
+		<property name="attributeName" value="visit-context-factory"/>
+		<property name="attributeValue" value="MyVisitContextFactory"/>
+	</test>
+
+	<!-- @eager -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Managed Beans/a"/>
+		<property name="attributeName" value="eager"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+
+	<!-- <absolute-ordering> -->
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config-2.xml/Orderings/Absolute Ordering/n1"/>
+	</test>
+	
+	<!-- <after> <others> -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config-2.xml/Orderings/ordering/After"/>
+		<property name="attributeName" value="others"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<!-- <before> -->
+	<test name="JSFModelTest:testPaths">
+		<property name="path" value="/faces-config-2.xml/Orderings/ordering/Before/n2"/>
+	</test>
+	
 </tests>

@@ -19,7 +19,7 @@
   <behavior-extension/>
   <behavior-extension/>
  </behavior>
- <managed-bean>
+ <managed-bean eager="true">
   <managed-bean-name>a</managed-bean-name>
   <managed-bean-class>A</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
@@ -28,6 +28,7 @@
   <from-view-id>cc</from-view-id>
   <navigation-case>
    <from-outcome>aaa</from-outcome>
+   <if>#{a.b}</if>
    <to-view-id>/c2.jsp</to-view-id>
    <redirect include-view-params="true">
     <view-param>
@@ -38,11 +39,14 @@
   </navigation-case>
  </navigation-rule>
  <absolute-ordering>
-  <name>name1</name>
+  <name>n1</name>
  </absolute-ordering>
  <ordering>
+  <after>
+   <others/>
+  </after>
   <before>
-   <name>n3</name>
+   <name>n2</name>
   </before>
  </ordering>
  <render-kit>
@@ -53,6 +57,7 @@
   </client-behavior-renderer>
  </render-kit>
  <application>
+  <default-render-kit-id>kit</default-render-kit-id>
   <resource-handler>MyResourceHandler</resource-handler>
   <system-event-listener>
    <system-event-listener-class>MySystemEventListener</system-event-listener-class>
@@ -63,4 +68,12 @@
    <validator-id id="MyDefaultValidator">validator1</validator-id>
   </default-validators>
  </application>
+ <factory>
+  <exception-handler-factory>MyExceptionHandlerFactory</exception-handler-factory>
+  <external-context-factory>MyExternalContextFactory</external-context-factory>
+  <partial-view-context-factory>MyPartialViewContextFactory</partial-view-context-factory>
+  <view-declaration-language-factory>MyViewDeclarationLanguageFactory</view-declaration-language-factory>
+  <tag-handler-delegate-factory>MyTagHandlerDelegateFactory</tag-handler-delegate-factory>
+  <visit-context-factory>MyVisitContextFactory</visit-context-factory>
+ </factory>
 </faces-config>
