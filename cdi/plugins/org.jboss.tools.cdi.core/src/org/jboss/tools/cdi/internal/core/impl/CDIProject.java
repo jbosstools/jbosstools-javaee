@@ -232,7 +232,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
 			return true;
 		}
-		if(!injectionKeys.contains(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)) {
+		if(injectionKeys.isEmpty()) {
 			injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		}
 
