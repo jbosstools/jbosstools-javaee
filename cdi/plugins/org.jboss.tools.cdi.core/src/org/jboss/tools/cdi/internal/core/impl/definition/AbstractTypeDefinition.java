@@ -59,6 +59,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		if(t == null) return;
 		if(processed.contains(t.getFullyQualifiedName())) return;
 		processed.add(t.getFullyQualifiedName());
+		allInheritedTypes = new HashSet<IParametedType>();
 		allInheritedTypes.add(p);
 		Set<IParametedType> ts = p.getInheritedTypes();
 		if(ts != null) for (IParametedType pp: ts) {
