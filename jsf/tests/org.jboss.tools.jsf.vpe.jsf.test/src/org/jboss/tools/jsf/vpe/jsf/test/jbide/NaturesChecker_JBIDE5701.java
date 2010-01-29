@@ -15,7 +15,11 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 
 	private static final String FIRST_TEST_PAGE_NAME = "inputUserName.jsp"; //$NON-NLS-1$
 	private static final String TEST_SHELL_NAME = "Missing Natures"; //$NON-NLS-1$
-	private static final String TEST_STRING = "The project \"naturesCheckTest\" doesn't contain following natures:\norg.jboss.tools.jst.web.kb.kbnature\norg.jboss.tools.jsf.jsfnature\n\nVisual Editor may not work properly."; //$NON-NLS-1$
+	private static final String TEST_STRING = "JBoss Tools Visual Editor might not fully work in project \""  //$NON-NLS-1$
+		+ JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT + 
+		"\" because it does not have JSF and code completion enabled completely.\n\n" + //$NON-NLS-1$
+		"Please use the Configure menu on the project to enable JSF if " + //$NON-NLS-1$
+		"you want all features of the editor working."; //$NON-NLS-1$
 	private static final String SECOND_TEST_PAGE_NAME = "components/commandButton.jsp"; //$NON-NLS-1$
 	
 	public NaturesChecker_JBIDE5701(String name) {
