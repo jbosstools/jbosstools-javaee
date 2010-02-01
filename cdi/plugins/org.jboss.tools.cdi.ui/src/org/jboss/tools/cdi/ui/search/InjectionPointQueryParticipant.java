@@ -46,7 +46,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	}
 
 	public IMatchPresentation getUIParticipant() {
-		return null;
+		return new InjectionPointMatchPresentation();
 	}
 
 	public void search(ISearchRequestor requestor,
@@ -88,7 +88,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 							if(bean != null){
 								IType type = bean.getBeanClass();
 								ISourceRange range = ((Member)type).getNameRange();
-								Match match = new Match(type.getResource(), range.getOffset(), range.getLength());
+								Match match = new InjectionPointMatch(bean, range.getOffset(), range.getLength());
 								requestor.reportMatch(match);
 							}
 						}
