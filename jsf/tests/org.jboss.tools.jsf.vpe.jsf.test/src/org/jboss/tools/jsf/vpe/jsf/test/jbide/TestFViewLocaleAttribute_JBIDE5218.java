@@ -31,6 +31,10 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	private static final String LOCALE_ATTRIBUTE_PAGE = "JBIDE/5218/localeAttribute.xhtml"; //$NON-NLS-1$
 	private static final String SEVERAL_FVIEWS_PAGE = "JBIDE/5218/severalFViews.xhtml"; //$NON-NLS-1$
 	private static final String CHANGE_LOCALE_AND_REFRESH_PAGE = "JBIDE/5218/changeLocaleAndRefresh.xhtml"; //$NON-NLS-1$
+	private static final String NO_DEFLOC_ATTRIBUTE_PAGE = "Lattr.jsp"; //$NON-NLS-1$
+	private static final String NO_DEFLOC_SEVERAL_FVIEWS_PAGE = "LSeveral.jsp"; //$NON-NLS-1$
+	private static final String NO_DEFLOC_CHANGE_REFRESH_PAGE = "LChangeRefresh.jsp"; //$NON-NLS-1$
+	private static final String NO_DEFLOC_ONE_LOAD_BUNDLE_PAGE = "LOneLoadBundle.jsp"; //$NON-NLS-1$
 	
 	private static final String HELLO_DE = "Guten Tag!"; //$NON-NLS-1$
 	private static final String HELLO2_DE = "German Hello"; //$NON-NLS-1$
@@ -42,6 +46,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	private static final String LOCALE_TEXT0_ID = "localeText0"; //$NON-NLS-1$
 	private static final String LOCALE_TEXT1_ID = "localeText1"; //$NON-NLS-1$
 	private static final String LOCALE_TEXT2_ID = "localeText2"; //$NON-NLS-1$
+	private static final String LOCALE_TEXT3_ID = "localeText3"; //$NON-NLS-1$
 	private static final String FVIEW_ID = "fviewid"; //$NON-NLS-1$
 	
 	
@@ -167,6 +172,102 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
+	
+	public void testNoDefaultLocaleForLocaleAttribute() throws Throwable {
+		VpeController controller = openInVpe(
+				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME,
+				NO_DEFLOC_ATTRIBUTE_PAGE);
+		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
+		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT_ID);
+		String localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO2_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		closeEditors();
+	}
+	
+	public void testNoDefaultLocaleForSeveralFViews() throws Throwable {
+		VpeController controller = openInVpe(
+				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME, NO_DEFLOC_SEVERAL_FVIEWS_PAGE);
+		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
+		
+		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT0_ID);
+		String localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+
+		localeText = doc.getElementById(LOCALE_TEXT1_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		localeText = doc.getElementById(LOCALE_TEXT2_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO2_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		localeText = doc.getElementById(LOCALE_TEXT3_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		localeText = doc.getElementById(LOCALE_TEXT_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		closeEditors();
+	}
+	
+	public void _testNoDefaultLocaleForChangeAndRefresh() throws Throwable {
+		VpeController controller = openInVpe(
+				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME,
+				NO_DEFLOC_CHANGE_REFRESH_PAGE);
+		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
+		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT_ID);
+		String localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO2_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		/*
+		 * Change the locale
+		 */
+		Element fViewElement = controller.getSourceBuilder().getSourceDocument().getElementById(FVIEW_ID);
+		assertTrue("Previous locale should be 'de'", "de".equalsIgnoreCase(fViewElement.getAttribute("locale"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		fViewElement.setAttribute("locale", "en_GB"); //$NON-NLS-1$ //$NON-NLS-2$
+		/*
+		 * Wait until new value is applied and children are refreshed.
+		 */
+		TestUtil.waitForIdle();
+		assertTrue("Current locale should be 'en_GB'", "en_GB".equalsIgnoreCase(fViewElement.getAttribute("locale"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		doc = controller.getXulRunnerEditor().getDOMDocument();
+		localeText = doc.getElementById(LOCALE_TEXT_ID);
+		localizedText = getLocalizedText(localeText);
+		/*
+		 * Check the new localized message.
+		 */
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		closeEditors();
+	}
+	
+	public void testNoDefaultLocaleForSingleFLoadBundle() throws Throwable {
+		VpeController controller = openInVpe(
+				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME, NO_DEFLOC_ONE_LOAD_BUNDLE_PAGE);
+		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
+		
+		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT0_ID);
+		String localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+
+		localeText = doc.getElementById(LOCALE_TEXT1_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		localeText = doc.getElementById(LOCALE_TEXT2_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		localeText = doc.getElementById(LOCALE_TEXT3_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		localeText = doc.getElementById(LOCALE_TEXT_ID);
+		localizedText = getLocalizedText(localeText);
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		closeEditors();
+	}
 
 	/**
 	 * Gets the text value from the container.
@@ -179,9 +280,12 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 */
 	private String getLocalizedText(nsIDOMElement textContainer) {
 		String text = ""; //$NON-NLS-1$
-		if ((textContainer.getFirstChild() != null) && (textContainer.getFirstChild().getFirstChild() != null) 
-				&& HTML.TAG_SPAN.equalsIgnoreCase(textContainer.getFirstChild().getNodeName())) {
-			text = textContainer.getFirstChild().getFirstChild().getNodeValue();
+		if ((textContainer != null) && (textContainer.getFirstChild() != null)
+				&& (textContainer.getFirstChild().getFirstChild() != null)
+				&& HTML.TAG_SPAN.equalsIgnoreCase(textContainer.getFirstChild()
+						.getNodeName())) {
+			text = textContainer.getFirstChild().getFirstChild().getNodeValue()
+					.trim();
 		}
 		return text;
 	}

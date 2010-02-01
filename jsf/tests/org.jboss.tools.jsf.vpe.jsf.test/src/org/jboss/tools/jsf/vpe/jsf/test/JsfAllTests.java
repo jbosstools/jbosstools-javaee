@@ -112,6 +112,7 @@ public class JsfAllTests {
 	public static final String IMPORT_JBIDE3247_PROJECT_NAME = "JBIDE3247"; //$NON-NLS-1$
 	public static final String IMPORT_I18N_PROJECT_NAME = "i18nTest"; //$NON-NLS-1$
 	public static final String IMPORT_NATURES_CHECKER_PROJECT = "naturesCheckTest"; //$NON-NLS-1$
+	public static final String IMPORT_JSF_LOCALES_PROJECT_NAME = "jsfLocales"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
@@ -233,6 +234,11 @@ public class JsfAllTests {
 		naturesCheckTestProject.setImportProjectName(JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT);
 		naturesCheckTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(naturesCheckTestProject);
+		
+		ImportBean jsfLocalesProject = new ImportBean();
+		jsfLocalesProject.setImportProjectName(JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME);
+		jsfLocalesProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(jsfLocalesProject);
 		
 		return new VpeTestSetup(suite, projectToImport);
 	}
