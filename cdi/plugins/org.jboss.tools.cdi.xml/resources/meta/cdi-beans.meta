@@ -254,7 +254,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity
-  ImplementationLoadingClass="org.jboss.tools.seam.xml.components.model.SeamComponentsFileLoader"
+  ImplementationLoadingClass="org.jboss.tools.cdi.xml.beans.model.CDIBeansFileLoader"
   ImplementingClass="org.jboss.tools.cdi.xml.beans.model.FileCDIBeansImpl"
   ObjectEditorClass="%XML%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.cdi.xml.ui.editor.form.CDIXMLFormLayoutData"
@@ -266,7 +266,7 @@
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.seam.file" type="main"/>
+    <ICON info="main.cdi.file" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
@@ -345,7 +345,7 @@
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
     <XActionItem BaseActionName="Delete"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     HandlerClassName="%DeleteFile%"
      ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
@@ -354,7 +354,7 @@
    </XActionItem>
    <XActionItem kind="list" name="DiscardActions">
     <XActionItem HIDE="always"
-     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.DiscardFileHandler"
      ICON="action.delete"
      PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
      displayName="Discard Changes" kind="action" name="Discard"/>
@@ -367,9 +367,9 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItemReference entity="FileSeamComponents20"
+   <XActionItemReference entity="FileCDIBeans"
     name="CreateActions" path="CreateActions"/>
-   <XActionItemReference entity="FileSeamComponents20" name="Properties" path="Properties"/>
+   <XActionItemReference entity="FileCDIBeans" name="Properties" path="Properties"/>
    <XActionItem kind="list" name="VerifyActions">
     <XActionItem kind="list" name="StaticActions"/>
    </XActionItem>
