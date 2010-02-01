@@ -10,18 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.search;
 
-import org.eclipse.jdt.ui.ISharedImages;
-import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 
 public class InjectionPointLabelProvider implements ILabelProvider {
 
 	public Image getImage(Object element) {
-		return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_CLASS);
+		//return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_CLASS);
+		return CDIUiImages.WELD_IMAGE;
 	}
 
 	public String getText(Object element) {

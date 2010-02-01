@@ -20,4 +20,6 @@ public class CDIUIMessages extends NLS{
 	}
 	
 	public static String INJECTION_POINT_LABEL_PROVIDER;
+	public static String CDI_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL;
+	public static String CDI_UI_IMAGESIMAGE_NAME_CANNOT_BE_NULL;
 }
