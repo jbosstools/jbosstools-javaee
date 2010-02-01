@@ -512,6 +512,9 @@
    <XModelAttribute default="tag" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="FileFaceletTaglib20" name="description"/>
    <XModelAttribute PROPERTIES="save=always;id=true;category=general"
     name="tag-name" xmlname="tag-name.#text"/>
    <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
