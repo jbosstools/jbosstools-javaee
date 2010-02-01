@@ -80,17 +80,19 @@ public class JsfView extends VpeAbstractTemplate {
 		 * These expressions are parsed before template creating 
 		 * in VpeVisualDomBuilder, f:view template has already got parsed el.
 		 * 
-		 * 1.2 If there is a default locale specified - use it in any case, 
-		 * otherwise get the locale from the attribute. 
+		 * 1.2 If there is a defined locale - use it in any case, 
+		 * otherwise get the default locale from the faces-config. 
 		 */
-		String defaultLocaleString = MainLocaleProvider.getInstance().getLocaleString();
-		if (ComponentUtil.isNotBlank(defaultLocaleString)) {
-			localeString = defaultLocaleString; 
+		String localeAttribute = sourceElement.getAttribute(ATTR_LOCALE);
+		String defaultLocaleString = Constants.EMPTY;
+		if (ComponentUtil.isNotBlank(localeAttribute)) {
+			localeString = localeAttribute; 
+		} else if (ComponentUtil
+				.isNotBlank(defaultLocaleString = MainLocaleProvider
+						.getInstance().getLocaleString())) {
+			localeString = defaultLocaleString;
 		} else {
-			String localeAttribute = sourceElement.getAttribute(ATTR_LOCALE); 
-			if (ComponentUtil.isNotBlank(localeAttribute)) {
-				localeString = localeAttribute;
-			}
+			localeString = Constants.EMPTY;
 		}
 		
 		/*
