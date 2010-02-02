@@ -19,6 +19,8 @@ import org.jboss.tools.common.test.util.TestDescription;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
@@ -121,6 +123,19 @@ public class JSFModelTest extends TestCase {
 		for (int i = 0; i < cs.length; i++) {
 			System.out.println(cs[i].getPath());
 		}		
+	}
+
+	static String TLD_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+	+ "<!DOCTYPE taglib PUBLIC \"-//Sun Microsystems,     Inc.//DTD \r\n    JSP Tag  \n Library 1.2//EN\"\n"
+    + "\"http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd\">\n"
+	+ "<taglib/>";
+
+
+	public void testRecognizer() {
+		IModelNature n = EclipseResourceUtil.getModelNature(project);
+		EntityRecognizer recognizer = n.getModel().getEntityRecognizer();
+		String entity = recognizer.getEntityName(new EntityRecognizerContext("tld", TLD_FILE));
+		assertEquals("FileTLD_1_2", entity);
 	}
 	
 	
