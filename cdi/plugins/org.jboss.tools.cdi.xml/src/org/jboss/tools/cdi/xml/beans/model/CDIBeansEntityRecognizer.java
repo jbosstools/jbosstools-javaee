@@ -10,27 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.xml.beans.model;
 
-import org.jboss.tools.common.model.loaders.EntityRecognizerExtension;
+import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
 
-public class CDIBeansEntityRecognizer implements EntityRecognizerExtension, CDIBeansConstants {
+public class CDIBeansEntityRecognizer implements EntityRecognizer, CDIBeansConstants {
 
     public CDIBeansEntityRecognizer() {}
 
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if(body == null) return null;
     	if(isComponentsSchema(body)) {
     		return ENT_CDI_BEANS;
     	}    	
-        return null;
-    }
-
-	public String getEntityName(String fileName, String ext, String body) {
-        if(body == null) return null;
-		String result = getEntityName(ext, body);
-		if(result != null) {
-			return result;
-		}
-		if("beans.xml".equals(fileName) && body.indexOf("<beans") >= 0) {
+		if("beans.xml".equals(context.getFileName()) && body.indexOf("<beans") >= 0) {
 			return ENT_CDI_BEANS;
 		}
 		return null;
