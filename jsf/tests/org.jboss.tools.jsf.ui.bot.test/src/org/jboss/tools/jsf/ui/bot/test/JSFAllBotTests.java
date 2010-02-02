@@ -18,7 +18,7 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
  */
 public class JSFAllBotTests{
 	public static Test suite(){
-		TestSuite suite = new TestSuite("JSF all tests");
+		TestSuite suite = new TestSuite("JSF all tests"); //$NON-NLS-1$
 		suite.addTestSuite(CreateNewJSFProjectTest.class);		
 		suite.addTestSuite(AddRemoveJSFCapabilitiesTest.class);
 		suite.addTestSuite(JBIDE3148and4441Test.class);
@@ -26,7 +26,6 @@ public class JSFAllBotTests{
 		suite.addTestSuite(JBIDE3577Test.class);
 		suite.addTestSuite(JBIDE3579Test.class);
 		suite.addTestSuite(JBIDE3920Test.class);
-
 		return suite;
 	}
 }

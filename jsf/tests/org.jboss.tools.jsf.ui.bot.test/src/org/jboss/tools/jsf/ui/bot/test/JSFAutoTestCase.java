@@ -9,7 +9,7 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase{
 	
 	@Override
 	protected String getPathToResources(String testPage) throws IOException{
-		return FileLocator.toFileURL(Platform.getBundle(Activator.PLUGIN_ID).getEntry("/")).getFile()+"resources/"+testPage ;
+		return FileLocator.toFileURL(Platform.getBundle(Activator.PLUGIN_ID).getEntry("/")).getFile()+"resources/"+testPage ; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	protected abstract void closeUnuseDialogs(); 
