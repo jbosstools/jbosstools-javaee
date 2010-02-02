@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.model;
 
 import java.io.IOException;
-
 import org.jboss.tools.common.model.loaders.*;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -30,17 +29,19 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
     
     public JSFEntityRecognizer() {}
 
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if(body == null) return null;
-        int i = body.indexOf("<!DOCTYPE"); //$NON-NLS-1$
-        if(i >= 0) {
-        	int j = body.indexOf(">", i); //$NON-NLS-1$
-        	if(j < 0) return null;
-        	String dt = body.substring(i, j);
-        	if(dt.indexOf("faces-config") < 0) return null; //$NON-NLS-1$
-        	if(dt.indexOf(DOC_PUBLICID) > 0) return ENT_FACESCONFIG;
-        	if(dt.indexOf(DOC_PUBLICID_11) > 0) return ENT_FACESCONFIG_11;
-        	if(dt.indexOf("SYSTEM") > 0 && dt.indexOf("web-facesconfig_1_1.dtd") > 0) return ENT_FACESCONFIG_11; //$NON-NLS-1$ //$NON-NLS-2$
+		XMLRecognizerContext xml = context.getXMLContext();
+		if(xml.isDTD()) {
+			String publicId = xml.getPublicId();
+			String systemId = xml.getSystemId();
+			String root = xml.getRootName();
+			if(!"faces-config".equals(root)) return null; //$NON-NLS-1$
+        	if(DOC_PUBLICID.equals(publicId)) return ENT_FACESCONFIG;
+        	if(DOC_PUBLICID_11.equals(publicId)) return ENT_FACESCONFIG_11;
+        	if(systemId != null && systemId.indexOf("web-facesconfig_1_1.dtd") >= 0) return ENT_FACESCONFIG_11; //$NON-NLS-1$
+        	return null;
         }
         String versionSuffix = getVersion(body);
         if(SUFF_12.equals(versionSuffix)) {
