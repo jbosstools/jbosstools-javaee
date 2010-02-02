@@ -28,10 +28,15 @@ public class FileValidatorRecognizer implements EntityRecognizer, ValidatorConst
 
     public FileValidatorRecognizer() {}
 
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+       	String body = context.getBody();
         if(body == null) return null;
-        if(body.indexOf(DOC_PUBLICID) >= 0) return "FileValidationRules";
-        if(body.indexOf(DOC_PUBLICID_11) >= 0) return "FileValidationRules11";
+		XMLRecognizerContext xml = context.getXMLContext();
+		if(xml.isDTD()) {
+			String publicId = xml.getPublicId();
+			if(DOC_PUBLICID.equals(publicId)) return "FileValidationRules";
+			if(DOC_PUBLICID_11.equals(publicId)) return "FileValidationRules11";
+		}
         return null;
     }
 

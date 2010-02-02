@@ -18,9 +18,10 @@ public class StrutsAuxEntityRecognizer implements EntityRecognizer {
     public StrutsAuxEntityRecognizer() {
     }
     
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if (body == null) return null;
-        return StrutsConfigLoader.LAYOUT_FILE_EXTENSION.equals(ext) ? "FileAnyAuxiliary" : null;
+        return StrutsConfigLoader.LAYOUT_FILE_EXTENSION.equals(context.getExtension()) ? "FileAnyAuxiliary" : null;
     }
     
 }

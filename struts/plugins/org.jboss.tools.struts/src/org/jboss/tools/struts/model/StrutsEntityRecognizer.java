@@ -29,12 +29,17 @@ public class StrutsEntityRecognizer implements EntityRecognizer, StrutsConstants
     
     public StrutsEntityRecognizer() {}
 
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if (body == null) return null;
-        if(body.indexOf(DOC_PUBLICID_PR) < 0) return null;
-        if (body.indexOf(DOC_PUBLICID_10) > 0) return ENT_STRUTSCONFIG+VER_SUFFIX_10;
-        if (body.indexOf(DOC_PUBLICID_11) > 0) return ENT_STRUTSCONFIG+VER_SUFFIX_11;
-        if (body.indexOf(DOC_PUBLICID_12) > 0) return ENT_STRUTSCONFIG+VER_SUFFIX_12;
+		XMLRecognizerContext xml = context.getXMLContext();
+		if(xml.isDTD()) {
+			String publicId = xml.getPublicId();
+			if(publicId == null || !publicId.startsWith(DOC_PUBLICID_PR)) return null;
+			if(DOC_PUBLICID_10.equals(publicId)) return ENT_STRUTSCONFIG + VER_SUFFIX_10;
+			if(DOC_PUBLICID_11.equals(publicId)) return ENT_STRUTSCONFIG + VER_SUFFIX_11;
+			if(DOC_PUBLICID_12.equals(publicId)) return ENT_STRUTSCONFIG + VER_SUFFIX_12;
+		}
         return null;
     }
 
