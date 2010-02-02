@@ -139,7 +139,7 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList = new ArrayList<Region>();
 		
 		regionList.add(new Region(859, 11));
-		regionList.add(new Region(870, 16));
+		//regionList.add(new Region(870, 16));
 		regionList.add(new Region(886, 1));
 		
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
@@ -213,7 +213,7 @@ public class ELExprPartitionerTest extends TestCase {
 			}
 		}
 
-		assertEquals("Wrong recognized region count: ", 132,  counter);
+		assertEquals("Wrong recognized region count: ", 131,  counter);
 		
 		model.releaseFromEdit();
 
