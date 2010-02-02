@@ -13,6 +13,8 @@ package org.jboss.tools.seam.pages.xml.model;
 import java.io.IOException;
 
 import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
+import org.jboss.tools.common.model.loaders.XMLRecognizerContext;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLPlugin;
 
@@ -29,25 +31,34 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     
     public SeamPagesEntityRecognizer() {}
 
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if(body == null) return null;
-        Parser p = new Parser(body);
-        if(!p.recognized) {
-        	return null;
-        } else if(p.is12) {
-        	return p.isSingle ? ENT_FILE_SEAM_PAGE_12 : ENT_FILE_SEAM_PAGES_12;
-        } else if(p.is20) {
-        	return p.isSingle ? ENT_FILE_SEAM_PAGE_20 : ENT_FILE_SEAM_PAGES_20;
-        } else if(p.is21) {
-        	return p.isSingle ? ENT_FILE_SEAM_PAGE_21 : ENT_FILE_SEAM_PAGES_21;
-        } else {
-        	return p.isSingle ? ENT_FILE_SEAM_PAGE_22 : ENT_FILE_SEAM_PAGES_22;
-        }
+		XMLRecognizerContext xml = context.getXMLContext();
+		if(xml.isDTD()) {
+			String publicId = xml.getPublicId();
+			String name = xml.getRootName();
+			if(PUBLIC_ID_12.equals(publicId)) {
+				if("page".equals(name)) return ENT_FILE_SEAM_PAGE_12;
+				if("pages".equals(name)) return ENT_FILE_SEAM_PAGES_12;
+			}
+			return null;
+		} else {
+	        Parser p = new Parser(body);
+	        if(!p.recognized) {
+	        	return null;
+	        } else if(p.is20) {
+	        	return p.isSingle ? ENT_FILE_SEAM_PAGE_20 : ENT_FILE_SEAM_PAGES_20;
+	        } else if(p.is21) {
+	        	return p.isSingle ? ENT_FILE_SEAM_PAGE_21 : ENT_FILE_SEAM_PAGES_21;
+	        } else {
+	        	return p.isSingle ? ENT_FILE_SEAM_PAGE_22 : ENT_FILE_SEAM_PAGES_22;
+	        }
+		}
     }
 
     class Parser {
     	boolean recognized = false;
-    	boolean is12 = false;
     	boolean isSingle = false;
     	boolean is20 = false;
     	boolean is21 = false;
@@ -59,18 +70,14 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     		if(i2 < 0) {
     			isSingle = true; 
     		}
-    		if(body.indexOf(PUBLIC_ID_12) >= 0) {
-    			is12 = true;
-    		} else {
-    	    	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	    	if(j < 0) return;
-    	    	String s = body.substring(i, j);
-    	    	if(s.indexOf("\"http://jboss.com/products/seam/pages\"") < 0) { //$NON-NLS-1$
-    	    		return;
-    	    	}
-    	    	if(s.indexOf("2.0") >= 0) is20 = true;
-    	    	if(s.indexOf("2.1") >= 0) is21 = true;
-    		}
+    	    int j = body.indexOf(">", i); //$NON-NLS-1$
+    	    if(j < 0) return;
+    	    String s = body.substring(i, j);
+    	    if(s.indexOf("\"http://jboss.com/products/seam/pages\"") < 0) { //$NON-NLS-1$
+    	    	return;
+    	    }
+    	    if(s.indexOf("2.0") >= 0) is20 = true;
+    	    if(s.indexOf("2.1") >= 0) is21 = true;
     		recognized = true;
     	}
     }

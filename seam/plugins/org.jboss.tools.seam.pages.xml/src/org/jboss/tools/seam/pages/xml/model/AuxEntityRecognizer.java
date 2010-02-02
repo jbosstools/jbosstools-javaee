@@ -16,7 +16,11 @@ public class AuxEntityRecognizer implements EntityRecognizer {
     
     public AuxEntityRecognizer() {}
     
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	return getEntityName(context.getExtension(), context.getBody());
+    }
+
+    String getEntityName(String ext, String body) {
         if (body == null) return null;
         return SeamPagesFileLoader.AUXILIARY_FILE_EXTENSION.equals(ext) ? "FileAnyAuxiliary" : null;
     }
