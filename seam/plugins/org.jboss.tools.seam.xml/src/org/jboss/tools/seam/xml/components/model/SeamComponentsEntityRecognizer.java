@@ -13,6 +13,8 @@ package org.jboss.tools.seam.xml.components.model;
 import java.io.IOException;
 
 import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
+import org.jboss.tools.common.model.loaders.XMLRecognizerContext;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.seam.xml.SeamXMLPlugin;
 
@@ -29,11 +31,15 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     
     public SeamComponentsEntityRecognizer() {}
 
-    public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if(body == null) return null;
-    	if(body.indexOf(PUBLIC_ID_11) >= 0) {
-    		return ENT_SEAM_COMPONENTS_11;
-    	}
+		XMLRecognizerContext xml = context.getXMLContext();
+		if(xml.isDTD()) {
+			String publicId = xml.getPublicId();
+			if(PUBLIC_ID_11.equals(publicId)) return ENT_SEAM_COMPONENTS_11;
+			return null;
+		}
     	if(!isComponentsSchema(body)) {
     		return null;
     	}

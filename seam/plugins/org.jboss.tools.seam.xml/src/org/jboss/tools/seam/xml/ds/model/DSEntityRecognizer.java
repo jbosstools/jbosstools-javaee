@@ -3,6 +3,8 @@ package org.jboss.tools.seam.xml.ds.model;
 import java.io.IOException;
 
 import org.jboss.tools.common.model.loaders.EntityRecognizer;
+import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
+import org.jboss.tools.common.model.loaders.XMLRecognizerContext;
 import org.jboss.tools.common.xml.XMLEntityResolver;
 import org.jboss.tools.seam.xml.SeamXMLPlugin;
 
@@ -19,23 +21,23 @@ public class DSEntityRecognizer implements EntityRecognizer, DSConstants {
 
     public DSEntityRecognizer() {}
 
-	public String getEntityName(String ext, String body) {
+    public String getEntityName(EntityRecognizerContext context) {
+    	String body = context.getBody();
         if(body == null) return null;
-    	if(body.indexOf(PUBLIC_ID_1_5) >= 0) {
-			if (body.indexOf("DOCTYPE datasources") >= 0) {
-				return ENT_DATASOURCES_FILE;
+		XMLRecognizerContext xml = context.getXMLContext();
+		if(xml.isDTD()) {
+			String publicId = xml.getPublicId();
+			String root = xml.getRootName();
+			if(PUBLIC_ID_1_5.equals(publicId)) {
+				if("datasources".equals(root)) return ENT_DATASOURCES_FILE;
+				if("connection-factories".equals(root)) return ENT_CONNECTION_FACTORIES_FILE;
 			}
-			if (body.indexOf("DOCTYPE connection-factories") >= 0) {
-				return ENT_CONNECTION_FACTORIES_FILE;
+			if(PUBLIC_ID_5_0.equals(publicId)) {
+				if("datasources".equals(root)) return ENT_DATASOURCES_FILE_50_DTD;
+				if("connection-factories".equals(root)) return ENT_CONNECTION_FACTORIES_FILE_50_DTD;
 			}
-    	} else if(body.indexOf(PUBLIC_ID_5_0) >= 0) {
-			if (body.indexOf("DOCTYPE datasources") >= 0) {
-				return ENT_DATASOURCES_FILE_50_DTD;
-			}
-			if (body.indexOf("DOCTYPE connection-factories") >= 0) {
-				return ENT_CONNECTION_FACTORIES_FILE_50_DTD;
-			}
-    	}
+		}
+
 		return null;
 	}
 
