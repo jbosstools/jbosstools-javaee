@@ -188,19 +188,14 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME, NO_DEFLOC_SEVERAL_FVIEWS_PAGE);
 		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
-		/*
-		 * Make a visual refresh
-		 */
-		controller.visualRefresh();
-		TestUtil.waitForIdle();
 		
 		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT0_ID);
 		String localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 
 		localeText = doc.getElementById(LOCALE_TEXT1_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT2_ID);
 		localizedText = getLocalizedText(localeText);
@@ -208,7 +203,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		
 		localeText = doc.getElementById(LOCALE_TEXT3_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT_ID);
 		localizedText = getLocalizedText(localeText);
@@ -222,11 +217,6 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME,
 				NO_DEFLOC_CHANGE_REFRESH_PAGE);
 		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
-		/*
-		 * Make a visual refresh
-		 */
-		controller.visualRefresh();
-		TestUtil.waitForIdle();
 		
 		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT_ID);
 		String localizedText = getLocalizedText(localeText);
@@ -256,31 +246,26 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME, NO_DEFLOC_ONE_LOAD_BUNDLE_PAGE);
 		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
-		/*
-		 * Make a visual refresh
-		 */
-		controller.visualRefresh();
-		TestUtil.waitForIdle();
 		
 		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT0_ID);
 		String localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 
 		localeText = doc.getElementById(LOCALE_TEXT1_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT2_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT3_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		closeEditors();
 	}
