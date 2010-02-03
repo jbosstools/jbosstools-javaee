@@ -638,7 +638,7 @@
      <XActionItem displayName="JSF" kind="list" name="JSF">
       <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.facelet.facelet-taglib"
-       PROPERTIES="entity=FileFaceletTaglib;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.jsf.model.handlers.CreateFaceletTaglibSupport;extension=xml;entityVersion=FileFaceletTaglib"
+       PROPERTIES="entity=FileFaceletTaglib;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.jsf.model.handlers.CreateFaceletTaglibSupport;extension=xml;entityVersion=FaceletTaglib"
        displayName="Facelet Taglib" kind="action" name="CreateFaceletTaglib">
        <EntityData EntityName="CreateFacesConfigHelper">
         <AttributeData AttributeName="folder"/>

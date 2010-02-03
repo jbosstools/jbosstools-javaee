@@ -794,6 +794,7 @@
     name="composite-library-name" xmlname="composite-library-name.#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="id" xmlname="id"/>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
