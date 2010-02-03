@@ -186,7 +186,7 @@ public class JsfJbide2362Test extends VpeTest {
 				}
 
 				// wait
-				TestUtil.delay(500);
+				TestUtil.delay(700);
 				// wait
 				assertNotNull(xulRunnerEditor.getLastSelectedNode());
 			}
