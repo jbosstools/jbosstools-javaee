@@ -212,7 +212,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		closeEditors();
 	}
 	
-	public void _testNoDefaultLocaleForChangeAndRefresh() throws Throwable {
+	public void testNoDefaultLocaleForChangeAndRefresh() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME,
 				NO_DEFLOC_CHANGE_REFRESH_PAGE);
