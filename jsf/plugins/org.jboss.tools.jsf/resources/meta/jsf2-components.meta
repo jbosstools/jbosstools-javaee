@@ -27,7 +27,7 @@
     <ICON name="bean" path="images/struts/form_bean.gif"/>
     <ICON name="component" path="images/struts/plug_in.gif"/>
     <ICON name="components" path="images/struts/plug_in_folder.gif"/>
-    <ICON name="file" path="images/jsf/jsf-config.gif"/>
+    <ICON name="file" path="images/file/html_file.gif"/>
    </GROUP>
   </GROUP>
  </ICONS>
