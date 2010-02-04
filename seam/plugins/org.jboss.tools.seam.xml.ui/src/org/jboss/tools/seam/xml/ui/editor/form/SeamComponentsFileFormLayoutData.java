@@ -10,26 +10,42 @@
  ******************************************************************************/
 package org.jboss.tools.seam.xml.ui.editor.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jboss.tools.common.meta.XChild;
+import org.jboss.tools.common.meta.XModelEntity;
+import org.jboss.tools.common.meta.XModelMetaData;
+import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.ui.forms.*;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
 
 public class SeamComponentsFileFormLayoutData implements SeamComponentConstants {
 
-	static IFormData SEAM_COMPONENT_LIST_DEFINITION = new FormData(
-		"Components", //$NON-NLS-1$
-		SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
-		new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 40), new FormAttributeData("class", 60)}, //$NON-NLS-1$
-		new String[]{ENT_SEAM_COMPONENT},
-		FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddComponent") //$NON-NLS-1$
-	);
-	
-	static IFormData SEAM_COMPONENT_20_LIST_DEFINITION = new FormData(
-		"Components", //$NON-NLS-1$
-		SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
-		new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 40), new FormAttributeData("class", 60)}, //$NON-NLS-1$
-		new String[]{ENT_SEAM_COMPONENT_20},
-		FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddComponent") //$NON-NLS-1$
-	);
+	static IFormData createSeamComponentListDefinition(String parentEntity) {
+		XModelMetaData meta = PreferenceModelUtilities.getPreferenceModel().getMetaData();
+		XModelEntity entity = meta.getEntity(parentEntity);
+		List<String> childEntities = new ArrayList<String>();
+		if(entity != null) {
+			XChild[] cs = entity.getChildren();
+			for (XChild c: cs) {
+				XModelEntity e = meta.getEntity(c.getName());
+				if(e != null && e.getAttribute(ATTR_NAME) != null && e.getAttribute(ATTR_CLASS) != null) {
+					childEntities.add(c.getName());
+					System.out.println(parentEntity + " "  + c.getName());
+				}
+			}
+		}
+		
+		IFormData result = new FormData(
+			"Components", //$NON-NLS-1$
+			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
+			new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 40), new FormAttributeData(ATTR_CLASS, 60)}, //$NON-NLS-1$
+			childEntities.toArray(new String[0]),
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddComponent") //$NON-NLS-1$
+		);
+		return result;
+	}
 		
 	static IFormData getFactoryList(String entity) {
 		return new FormData(	
@@ -65,7 +81,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_11)
 		),
-		SEAM_COMPONENT_LIST_DEFINITION,
+		createSeamComponentListDefinition(ENT_SEAM_COMPONENTS_11),
 		getFactoryList(ENT_SEAM_FACTORY),
 		getEventList(ENT_SEAM_EVENT)
 	};
@@ -76,7 +92,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_12)
 		),
-		SEAM_COMPONENT_LIST_DEFINITION,
+		createSeamComponentListDefinition(ENT_SEAM_COMPONENTS_12),
 		getFactoryList(ENT_SEAM_FACTORY),
 		getEventList(ENT_SEAM_EVENT)
 	};
@@ -87,7 +103,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_20)
 		),
-		SEAM_COMPONENT_20_LIST_DEFINITION,
+		createSeamComponentListDefinition(ENT_SEAM_COMPONENTS_20),
 		getFactoryList(ENT_SEAM_FACTORY_20),
 		getEventList(ENT_SEAM_EVENT_20),
 		SEAM_IMPORT_LIST_DEFINITION
@@ -99,7 +115,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_21)
 		),
-		SEAM_COMPONENT_20_LIST_DEFINITION,
+		createSeamComponentListDefinition(ENT_SEAM_COMPONENTS_21),
 		getFactoryList(ENT_SEAM_FACTORY_20),
 		getEventList(ENT_SEAM_EVENT_20),
 		SEAM_IMPORT_LIST_DEFINITION
@@ -111,7 +127,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
 			FormLayoutDataUtil.createGeneralFormAttributeData(ENT_SEAM_COMPONENTS_22)
 		),
-		SEAM_COMPONENT_20_LIST_DEFINITION,
+		createSeamComponentListDefinition(ENT_SEAM_COMPONENTS_22),
 		getFactoryList(ENT_SEAM_FACTORY_20),
 		getEventList(ENT_SEAM_EVENT_20),
 		SEAM_IMPORT_LIST_DEFINITION
