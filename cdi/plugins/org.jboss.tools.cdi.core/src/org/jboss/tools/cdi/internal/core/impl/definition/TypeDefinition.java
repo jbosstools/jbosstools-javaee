@@ -46,6 +46,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		IField[] fs = getType().getFields();
 		for (int i = 0; i < fs.length; i++) {
 			FieldDefinition f = new FieldDefinition();
+			f.setTypeDefinition(this);
 			f.setField(fs[i], context);
 			if(f.isCDIAnnotated()) {
 				fields.add(f);
@@ -54,6 +55,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		IMethod[] ms = getType().getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			MethodDefinition m = new MethodDefinition();
+			m.setTypeDefinition(this);
 			m.setMethod(ms[i], context);
 			if(m.isCDIAnnotated()) {
 				methods.add(m);

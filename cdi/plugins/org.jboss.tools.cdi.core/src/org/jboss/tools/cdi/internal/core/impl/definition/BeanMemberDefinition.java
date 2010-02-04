@@ -4,8 +4,17 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 public class BeanMemberDefinition extends AbstractMemberDefinition {
+	AbstractTypeDefinition typeDefinition;
 
 	public BeanMemberDefinition() {}
+
+	public void setTypeDefinition(AbstractTypeDefinition typeDefinition) {
+		this.typeDefinition = typeDefinition;
+	}
+
+	public AbstractTypeDefinition getTypeDefinition() {
+		return typeDefinition;
+	}
 
 	public boolean isCDIAnnotated() {
 		return getInjectAnnotation() != null || getProducesAnnotation() != null;

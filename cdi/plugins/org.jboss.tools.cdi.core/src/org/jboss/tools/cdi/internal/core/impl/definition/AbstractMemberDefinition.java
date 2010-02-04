@@ -54,6 +54,10 @@ public abstract class AbstractMemberDefinition {
 		return member;
 	}
 
+	public AbstractTypeDefinition getTypeDefinition() {
+		return null;
+	}
+
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
 		resource = contextType.getResource();
 		IAnnotation[] ts = member.getAnnotations();

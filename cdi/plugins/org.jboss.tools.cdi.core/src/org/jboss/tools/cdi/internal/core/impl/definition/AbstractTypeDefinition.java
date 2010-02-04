@@ -13,10 +13,12 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
+import org.jboss.tools.common.util.FileUtil;
 
 /**
  * 
@@ -29,8 +31,14 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected ParametedType parametedType = null;
 
 	Set<IParametedType> allInheritedTypes = null;
+
+	protected String content = null;
 	
 	public AbstractTypeDefinition() {}
+
+	public AbstractTypeDefinition getTypeDefinition() {
+		return this;
+	}
 
 	public String getQualifiedName() {
 		return qualifiedName;
@@ -77,6 +85,14 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 			buildAllInheritedTypes(processed, parametedType);
 		}
 		return allInheritedTypes;
+	}
+
+	public String getContent() {
+		if(type == null || type.isBinary()) return null;
+		if(content == null && resource instanceof IFile && resource.getName().endsWith(".java")) {
+			content = FileUtil.getContentFromEditorOrFile((IFile)resource);
+		}
+		return content;
 	}
 
 }
