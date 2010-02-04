@@ -52,5 +52,6 @@ public interface SeamComponentConstants {
 	public String ATTR_TYPE = "type"; //$NON-NLS-1$
 	public String ATTR_EXPR = "expression"; //$NON-NLS-1$
 	public String ATTR_EXEC = "execute"; //$NON-NLS-1$
+	public String ATTR_CLASS = "class"; //$NON-NLS-1$
 
 }
