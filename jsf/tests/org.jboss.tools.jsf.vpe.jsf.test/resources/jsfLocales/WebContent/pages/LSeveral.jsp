@@ -27,7 +27,7 @@
 <div id="localeText2">#{Message.hello_message}</div>
 </f:view>
 
-<f:view locale="en">
+<f:view locale="">
 <f:loadBundle var="Message" basename="demo.Messages"/>
 <h:outputText value="locale=empty"/><br></br>
 <div id="localeText3">#{Message.hello_message}</div>

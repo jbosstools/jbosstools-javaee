@@ -195,7 +195,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 
 		localeText = doc.getElementById(LOCALE_TEXT1_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT2_ID);
 		localizedText = getLocalizedText(localeText);
@@ -203,7 +203,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		
 		localeText = doc.getElementById(LOCALE_TEXT3_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_US' locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Text is '"+localizedText+"', but should be in 'default' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		localeText = doc.getElementById(LOCALE_TEXT_ID);
 		localizedText = getLocalizedText(localeText);
