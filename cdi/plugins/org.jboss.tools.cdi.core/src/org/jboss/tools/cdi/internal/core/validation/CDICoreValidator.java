@@ -35,6 +35,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
@@ -247,14 +248,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		//		  in the unrestricted set of bean types of a bean
 		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
 		if(!typedDeclarations.isEmpty()) {
-			Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+			Set<IParametedType> allTypes = bean.getAllTypes();
 			for (ITypeDeclaration typedDeclaration : typedDeclarations) {
-				IType type = typedDeclaration.getType();
-				if(type!=null) {
+				IType typedType = typedDeclaration.getType();
+				if(typedType!=null) {
 					boolean typeWasFound = false;
-					for (ITypeDeclaration declaration : declarations) {
-						IType dType = declaration.getType();
-						if(dType!=null && type.getFullyQualifiedName().equals(dType.getFullyQualifiedName())) {
+					for (IParametedType type : allTypes) {
+						if(type!=null && typedType.getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
 							typeWasFound = true;
 							break;
 						}

@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
@@ -21,7 +20,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
-import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerMethod;
@@ -30,10 +28,8 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
-import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -67,7 +63,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public IType getBeanClass() {
-		return typeDeclaration != null ? typeDeclaration.getType() : null;
+		return getClassBean().getBeanClass();
 	}
 
 	public Set<IInjectionPoint> getInjectionPoints() {
@@ -82,9 +78,34 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 			result.addAll(ts);
 			return result;
 		}
+		return getAllTypes();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
+	 */
+	public Set<IParametedType> getAllTypes() {
+		Set<IParametedType> result = new HashSet<IParametedType>();
 		if(typeDeclaration != null) {
-			result.add(typeDeclaration);
-			//TODO add all inherited types
+			IType type = typeDeclaration.getType();
+			if(type != null) {
+				ParametedType p = new ParametedType();
+				p.setType(type);
+//				String[] ps = null;
+//				try {
+//					ps = type.getTypeParameterSignatures();
+					p.setSignature("Q" + type.getFullyQualifiedName() + ',');
+//				} catch (CoreException e) {
+//					CDICorePlugin.getDefault().logError(e);
+//				}
+//				if(ps == null || ps.length == 0) {
+//					//type with parameters is not legal
+					result.add(p);
+//				}
+			}
+			Set<IParametedType> inh = typeDeclaration.getInheritedTypes();
+			if(inh != null) result.addAll(inh);
 		}
 		return result;
 	}

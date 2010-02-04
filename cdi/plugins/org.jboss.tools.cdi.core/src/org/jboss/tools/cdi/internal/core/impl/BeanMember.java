@@ -32,7 +32,7 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
  */
 public abstract class BeanMember extends AbstractBeanElement implements IBeanMember {
 	protected IClassBean classBean;
-	protected ITypeDeclaration typeDeclaration;
+	protected TypeDeclaration typeDeclaration;
 
 	public BeanMember() {}
 

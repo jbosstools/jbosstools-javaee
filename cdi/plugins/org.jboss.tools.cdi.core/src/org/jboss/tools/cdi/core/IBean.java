@@ -56,6 +56,14 @@ public interface IBean extends IScoped, ICDIElement, IVariable {
 	Set<IParametedType> getLegalTypes();
 
 	/**
+	 * Obtains all the types of the bean class or producer method or
+	 * field (legal types as well as illegal ones). This set will contain inherited types of the bean.
+	 * 
+	 * @return the legal types
+	 */
+	Set<IParametedType> getAllTypes();
+
+	/**
 	 * Obtains all the type declarations of the bean class or producer method or
 	 * field (legal types as well as illegal ones).
 	 * 

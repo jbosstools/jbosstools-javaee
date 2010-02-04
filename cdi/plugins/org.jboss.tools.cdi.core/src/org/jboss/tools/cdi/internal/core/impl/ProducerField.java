@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
@@ -30,9 +29,7 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
-import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -57,7 +54,7 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public IType getBeanClass() {
-		return typeDeclaration != null ? typeDeclaration.getType() : null;
+		return getClassBean().getBeanClass();
 	}
 
 	public Set<IInjectionPoint> getInjectionPoints() {
@@ -72,9 +69,25 @@ public class ProducerField extends BeanField implements IProducerField {
 			result.addAll(ts);
 			return result;
 		}
+		return getAllTypes();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
+	 */
+	public Set<IParametedType> getAllTypes() {
+		Set<IParametedType> result = new HashSet<IParametedType>();
 		if(typeDeclaration != null) {
-			result.add(typeDeclaration);
-			//TODO add all inherited types
+			IType type = typeDeclaration.getType();
+			if(type != null) {
+				ParametedType p = new ParametedType();
+				p.setType(type);
+				p.setSignature("Q" + type.getFullyQualifiedName() + ',');
+				result.add(p);
+			}
+			Set<IParametedType> inh = typeDeclaration.getInheritedTypes();
+			if(inh != null) result.addAll(inh);
 		}
 		return result;
 	}
@@ -167,5 +180,4 @@ public class ProducerField extends BeanField implements IProducerField {
 		}
 		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
-
 }

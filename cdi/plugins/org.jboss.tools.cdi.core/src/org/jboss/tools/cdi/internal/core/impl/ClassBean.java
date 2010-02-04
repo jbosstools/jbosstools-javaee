@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -234,6 +234,15 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			result.addAll(ts);
 			return result;
 		}
+		return getAllTypes();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
+	 */
+	public Set<IParametedType> getAllTypes() {
+		Set<IParametedType> result = new HashSet<IParametedType>();
 		IType type = getDefinition().getType();
 		if(type != null) {
 			ParametedType p = new ParametedType();
@@ -243,6 +252,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				ps = type.getTypeParameterSignatures();
 				p.setSignature("Q" + type.getFullyQualifiedName() + ',');
 			} catch (CoreException e) {
+				CDICorePlugin.getDefault().logError(e);
 				//TODO
 			}
 			if(ps == null || ps.length == 0) {
@@ -404,5 +414,4 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			scope = getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 		}
 	}
-
 }
