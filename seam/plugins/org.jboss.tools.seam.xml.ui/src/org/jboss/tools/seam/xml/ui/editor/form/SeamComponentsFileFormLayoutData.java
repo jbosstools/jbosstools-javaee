@@ -32,7 +32,6 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 				XModelEntity e = meta.getEntity(c.getName());
 				if(e != null && e.getAttribute(ATTR_NAME) != null && e.getAttribute(ATTR_CLASS) != null) {
 					childEntities.add(c.getName());
-					System.out.println(parentEntity + " "  + c.getName());
 				}
 			}
 		}
