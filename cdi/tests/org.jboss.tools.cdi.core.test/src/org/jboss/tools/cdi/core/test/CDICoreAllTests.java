@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.cdi.core.test.tck.DefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ValidationTest;
 import org.jboss.tools.tests.AbstractPluginsLoadTest;
 
 /**
@@ -24,6 +25,7 @@ public class CDICoreAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI Core Tests");
 		suite.addTestSuite(DefinitionTest.class);
+		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}
 

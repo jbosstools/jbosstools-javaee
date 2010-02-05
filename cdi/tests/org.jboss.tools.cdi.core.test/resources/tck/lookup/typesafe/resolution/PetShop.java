@@ -5,6 +5,9 @@ import javax.enterprise.inject.Typed;
 
 public class PetShop
 {
+   @Produces
+   @Typed(String.class)
+   private Dove brokenProducer = new Dove("charlie");
    
    @Produces @Typed(Dove.class)
    private Dove dove = new Dove("charlie");

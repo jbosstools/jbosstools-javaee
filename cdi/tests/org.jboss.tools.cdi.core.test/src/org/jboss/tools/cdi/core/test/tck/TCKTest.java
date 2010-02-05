@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -17,6 +18,7 @@ import org.osgi.framework.Bundle;
 
 public class TCKTest extends TestCase {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
+	protected static String PROJECT_NAME = "tck";
 	protected static String PROJECT_PATH = "/projects/tck";
 
 	protected static String JAVA_SOURCE_SUFFIX = "/JavaSource";
@@ -32,8 +34,10 @@ public class TCKTest extends TestCase {
 
 	public IProject importPreparedProject(String packPath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
-		
-		IProject project = ResourcesUtils.importProject(b, PROJECT_PATH);
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		if(project==null || !project.exists()) {
+			project = ResourcesUtils.importProject(b, PROJECT_PATH);
+		}
 		String projectPath = project.getLocation().toOSString();
 		String resourcePath = FileLocator.resolve(b.getEntry(TCK_RESOURCES_PREFIX)).getFile();
 		

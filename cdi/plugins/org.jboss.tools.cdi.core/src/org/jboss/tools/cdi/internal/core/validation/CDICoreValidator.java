@@ -124,10 +124,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	@Override
 	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
 		super.init(project, validationHelper, manager, reporter);
-
-		CDICoreNature nature = CDICorePlugin.getCDI(project, false);
-		cdiProject = nature != null ? nature.getDelegate() : null;
-
+		cdiProject = CDICorePlugin.getCDIProject(project, false);
 		projectName = project.getName();
 	}
 

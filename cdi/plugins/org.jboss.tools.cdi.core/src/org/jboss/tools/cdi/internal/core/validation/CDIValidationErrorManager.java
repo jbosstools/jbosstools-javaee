@@ -16,9 +16,12 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 
 public class CDIValidationErrorManager extends ValidationErrorManager {
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getPreference(org.eclipse.core.resources.IProject, java.lang.String)
+	 */
 	@Override
 	protected String getPreference(IProject project, String preferenceKey) {
 		return CDIPreferences.getInstance().getProjectPreference(project, preferenceKey);
 	}
-
 }

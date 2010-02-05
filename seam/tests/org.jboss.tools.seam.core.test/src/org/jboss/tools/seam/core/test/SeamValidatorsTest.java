@@ -44,7 +44,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	IProject project = null;
 	
-	public static final String MARKER_TYPE = "org.eclipse.wst.validation.problemmarker";
 	public static SeamMarkerFilter SEAM_MARKER_FILTER = new SeamMarkerFilter();
 
 	public SeamValidatorsTest() {
@@ -180,14 +179,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testVarAttributes() throws CoreException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-999
 		IFile file = project.getFile("WebContent/varAttributes.xhtml");
-		int number = getMarkersNumber(file);
+		int number = getMarkersNumberByGroupName(file, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 		assertEquals("Problem marker was found in varAttributes.xhtml file. Validator did not recognize 'var' attribute.", 0, number);
 	}
 
 	public void testMessageBundles() throws CoreException {
 		// Test for https://jira.jboss.org/jira/browse/JBIDE-5089
 		IFile file = project.getFile("WebContent/messagesValidation.jsp");
-		int number = getMarkersNumber(file);
+		int number = getMarkersNumberByGroupName(file, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 		assertEquals("Problem marker was found in messagesValidation.jsp file. Validator did not recognize a message bundle.", 0, number);
 	}
 
@@ -202,7 +201,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		copyContentsFile(superclassComponentFile, "src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
 		
 		refreshProject(project);
-		int number = getMarkersNumber(subclassComponentFile);
+		int number = getMarkersNumberByGroupName(subclassComponentFile, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 		assertTrue("We changed super class of component but it still don't see changes.", number == 0);
 	}
 
@@ -459,7 +458,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testDuplicateRemoveMethodInComponent_Validator() {
 		getSeamProject(project);
 		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/UsualComponent.java");
-		int number = getMarkersNumber(componentFile);
+		int number = getMarkersNumberByGroupName(componentFile, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 		assertEquals("Problem marker was found in UsualComponent.java file", 0, number);
 	}
 
@@ -760,6 +759,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
 	}
 
+	public static int getMarkersNumber(IResource resource) {
+		return getMarkersNumberByGroupName(resource, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+	}
+
 	private static boolean findLine(Integer[] lines, int number) {
 		for (int i = 0; i < lines.length; i++) {
 			if(lines[i]==number) {
@@ -804,26 +807,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		} catch (CoreException e) {
 			// ignore
 		}
-	}
-
-	public static int getMarkersNumber(IResource resource){
-		try{
-			IMarker[] markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
-//			for(int i=0;i<markers.length;i++){
-//				System.out.println("Marker - "+markers[i].getAttribute(IMarker.MESSAGE, ""));
-//			}
-			int length = markers.length;
-			for (int i = 0; i < markers.length; i++) {
-				String groupName = markers[i].getAttribute("groupName", null);
-				if(groupName==null || (!groupName.equals(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP) && !groupName.equals(IValidator.MARKED_RESOURCE_MESSAGE_GROUP))) {
-					length--;
-				}
-			}
-			return length;
-		}catch(CoreException ex){
-			JUnitUtils.fail("Can'r get problem markers", ex);
-		}
-		return -1;
 	}
 
 	public static class SeamMarkerFilter implements IMarkerFilter {

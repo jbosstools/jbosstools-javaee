@@ -74,6 +74,20 @@ public class CDICorePlugin extends BaseUIPlugin {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
+	/**
+	 * Returns CDI project.
+	 * @param project
+	 * @param resolve
+	 * @return
+	 */
+	public static ICDIProject getCDIProject(IProject project, boolean resolve) {
+		CDICoreNature nature = getCDI(project, resolve);
+		if(nature!=null) {
+			return nature.getDelegate();
+		}
+		return null;
+	}
+
 	public static CDICoreNature getCDI(IProject project, boolean resolve) {
 		if(project == null || !project.exists() || !project.isOpen()) return null;
 		try {
