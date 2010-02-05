@@ -86,7 +86,7 @@ public class CDIUtil {
 	}
 
 	/**
-	 * Sorts CDI beans. Sets for alternative beans higher position and for nonalternative beans lower position.
+	 * Sorts CDI beans which may be injected. Sets for alternative beans higher position and for nonalternative beans lower position.
 	 * 
 	 * @param beans
 	 * @param element
@@ -96,6 +96,9 @@ public class CDIUtil {
 		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
 		
 		for(IBean bean : beans){
+			if(bean == null || bean instanceof IDecorator || bean instanceof IInterceptor)
+				continue;
+			
 			if(bean.isAlternative())
 				alternativeBeans.add(bean);
 			else

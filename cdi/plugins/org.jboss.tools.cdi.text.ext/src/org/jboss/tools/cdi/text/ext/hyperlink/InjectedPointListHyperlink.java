@@ -84,8 +84,7 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 		
 		int index=0;
 		for(IBean bean : resultBeanList){
-			if(bean != null)
-				hyperlinks[index++] = new InjectedPointHyperlink(region, bean, getDocument());
+			hyperlinks[index++] = new InjectedPointHyperlink(region, bean, getDocument());
 		}
 		
 		if(hyperlinks.length == 0){
