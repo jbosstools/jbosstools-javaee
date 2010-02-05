@@ -21,4 +21,5 @@ public class CDIExtensionsMessages extends NLS {
 
 	public static String CDI_EXT_PLUGIN_NO_MESSAGE;
 	public static String CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN;
+	public static String CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECTED_CLASS;
 }

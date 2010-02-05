@@ -11,8 +11,6 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -33,12 +31,6 @@ import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.ICDIProject;
-import org.jboss.tools.cdi.core.IInjectionPoint;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	
@@ -76,17 +68,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		if(file == null)
 			return null;
 		
-		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 		
-		if(cdiNature == null)
-			return null;
-		
-		ICDIProject cdiProject = cdiNature.getDelegate();
-		
-		if(cdiProject == null)
-			return null;
-		
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
 		IJavaElement[] elements = null;
 		
@@ -113,17 +95,11 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 					IAnnotation annotation = annotatable.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 					if (annotation == null)
 						continue;
-					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);
-					if(injectionPoint != null){
-						Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
-						List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
-						for(IBean bean : resultBeanList){
-							if(bean != null)
-								hyperlinks.add(new InjectedPointHyperlink(wordRegion, bean, document));
-						}
-					}
+					
+					hyperlinks.add(new InjectedPointListHyperlink(file, textViewer, wordRegion, element, document));
 				}
 			}
+			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
