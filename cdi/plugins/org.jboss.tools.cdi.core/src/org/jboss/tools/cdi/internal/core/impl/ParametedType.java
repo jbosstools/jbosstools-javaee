@@ -36,6 +36,8 @@ public class ParametedType implements IParametedType {
 	boolean inheritanceIsBuilt = false;
 	protected ParametedType superType = null;
 	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
+	Set<IParametedType> allInheritedTypes = null;
+
 
 	public ParametedType() {}
 
@@ -163,6 +165,27 @@ public class ParametedType implements IParametedType {
 			}
 		}
 		return null;
+	}
+
+	public Set<IParametedType> getAllTypes() {
+		if(allInheritedTypes == null) {
+			allInheritedTypes = new HashSet<IParametedType>();
+			Set<String> processed = new HashSet<String>();
+			buildAllTypes(processed, this);
+		}
+		return allInheritedTypes;
+	}
+
+	void buildAllTypes(Set<String> processed, ParametedType p) {
+		IType t = p.getType();
+		if(t == null) return;
+		if(processed.contains(t.getFullyQualifiedName())) return;
+		processed.add(t.getFullyQualifiedName());
+		allInheritedTypes.add(p);
+		Set<IParametedType> ts = p.getInheritedTypes();
+		if(ts != null) for (IParametedType pp: ts) {
+			buildAllTypes(processed, (ParametedType)pp);
+		}
 	}
 
 }

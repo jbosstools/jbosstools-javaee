@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
@@ -242,27 +242,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
 	 */
 	public Set<IParametedType> getAllTypes() {
-		Set<IParametedType> result = new HashSet<IParametedType>();
-		IType type = getDefinition().getType();
-		if(type != null) {
-			ParametedType p = new ParametedType();
-			p.setType(type);
-			String[] ps = null;
-			try {
-				ps = type.getTypeParameterSignatures();
-				p.setSignature("Q" + type.getFullyQualifiedName() + ',');
-			} catch (CoreException e) {
-				CDICorePlugin.getDefault().logError(e);
-				//TODO
-			}
-			if(ps == null || ps.length == 0) {
-				//type with parameters is not legal
-				result.add(p);
-			}
-		}
-		Set<IParametedType> inh = getDefinition().getAllInheritedTypes();
-		if(inh != null) result.addAll(inh);
-		return result;
+		return getDefinition().getAllTypes();
 	}
 
 	public String getName() {

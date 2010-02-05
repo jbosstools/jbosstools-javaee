@@ -30,8 +30,6 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected IType type;
 	protected ParametedType parametedType = null;
 
-	Set<IParametedType> allInheritedTypes = null;
-
 	protected String content = null;
 	
 	public AbstractTypeDefinition() {}
@@ -62,29 +60,12 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		parametedType.setSignature("Q" + qualifiedName + ";");
 	}
 
-	void buildAllInheritedTypes(Set<String> processed, ParametedType p) {
-		IType t = p.getType();
-		if(t == null) return;
-		if(processed.contains(t.getFullyQualifiedName())) return;
-		processed.add(t.getFullyQualifiedName());
-		allInheritedTypes = new HashSet<IParametedType>();
-		allInheritedTypes.add(p);
-		Set<IParametedType> ts = p.getInheritedTypes();
-		if(ts != null) for (IParametedType pp: ts) {
-			buildAllInheritedTypes(processed, (ParametedType)pp);
-		}
-	}
-
 	public Set<IParametedType> getInheritedTypes() {
 		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getInheritedTypes();
 	}
 
-	public Set<IParametedType> getAllInheritedTypes() {
-		if(allInheritedTypes == null) {
-			Set<String> processed = new HashSet<String>();
-			buildAllInheritedTypes(processed, parametedType);
-		}
-		return allInheritedTypes;
+	public Set<IParametedType> getAllTypes() {
+		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getAllTypes();
 	}
 
 	public String getContent() {

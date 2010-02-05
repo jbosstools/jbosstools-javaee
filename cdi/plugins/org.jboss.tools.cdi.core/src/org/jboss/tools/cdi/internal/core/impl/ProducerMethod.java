@@ -86,28 +86,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
 	 */
 	public Set<IParametedType> getAllTypes() {
-		Set<IParametedType> result = new HashSet<IParametedType>();
 		if(typeDeclaration != null) {
-			IType type = typeDeclaration.getType();
-			if(type != null) {
-				ParametedType p = new ParametedType();
-				p.setType(type);
-//				String[] ps = null;
-//				try {
-//					ps = type.getTypeParameterSignatures();
-					p.setSignature("Q" + type.getFullyQualifiedName() + ',');
-//				} catch (CoreException e) {
-//					CDICorePlugin.getDefault().logError(e);
-//				}
-//				if(ps == null || ps.length == 0) {
-//					//type with parameters is not legal
-					result.add(p);
-//				}
-			}
-			Set<IParametedType> inh = typeDeclaration.getInheritedTypes();
-			if(inh != null) result.addAll(inh);
+			return typeDeclaration.getAllTypes();
 		}
-		return result;
+		return new HashSet<IParametedType>();
 	}
 
 	public String getName() {
