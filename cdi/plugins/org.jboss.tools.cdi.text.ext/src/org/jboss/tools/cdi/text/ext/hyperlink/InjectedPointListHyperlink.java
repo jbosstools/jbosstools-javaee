@@ -71,7 +71,6 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 		
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
-		
 		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);
 		if(injectionPoint == null){
 			openFileFailed();
@@ -88,6 +87,12 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 			if(bean != null)
 				hyperlinks[index++] = new InjectedPointHyperlink(region, bean, getDocument());
 		}
+		
+		if(hyperlinks.length == 0){
+			openFileFailed();
+			return;
+		}
+		
 		if(hyperlinks.length == 1){
 			((InjectedPointHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
@@ -97,10 +102,7 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 			installed = true;
 			
 			mhp.install(viewer);
-//			if(mhp.canHideHyperlinks())
-//				mhp.hideHyperlinks();
-//			else
-				mhp.showHyperlinks(hyperlinks);
+			mhp.showHyperlinks(hyperlinks);
 		}
 	}
 
