@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable"/>
+      <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/galileo/"/>
    </url>
 
    <plugin
