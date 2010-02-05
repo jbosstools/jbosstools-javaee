@@ -108,8 +108,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>Next page allows you to verify the information for a chosen server. Leave everything as
-            it is and click on <emphasis>
+        <para>Next page allows you to verify the information for a chosen server. Leave everything
+            as it is and click on <emphasis>
                 <property>Next</property>
             </emphasis>.</para>
         <figure>
@@ -136,8 +136,8 @@
                 wizard</property>.</para>
         <tip>
             <title>Tip:</title>
-            <para>We suggest that you look through <ulink url="&aslink;">AS manager
-                    guide</ulink> to find out more about runtimes and servers.</para>
+            <para>We suggest that you look through <ulink url="&aslink;">AS manager guide</ulink> to
+                find out more about runtimes and servers.</para>
         </tip>
         <figure>
             <title>Completion of Runtime and Server Configuration</title>
@@ -159,8 +159,8 @@
     <section id="projectFacets">
         <title>Selecting the Project Facets</title>
         <para>The <property>Project Facets wizard</property> allows you to enable or disable
-            specific facets which define necessary features for the project. When you
-            switch to this wizard form, all critical facets are already checked for the chosen
+            specific facets which define necessary features for the project. When you switch to this
+            wizard form, all critical facets are already checked for the chosen
             Configuration.</para>
         <para>Notice that this page of the wizard also allows you to set the necessary version for
             any facet. </para>
@@ -189,8 +189,8 @@
                 <property>New</property>
             </emphasis> button. If more than one runtime is checked here, the <emphasis>
                 <property>Make Primary</property>
-            </emphasis> button won&apos;t be dimmed yet. Thus, you can make use of it to mark primary
-            runtime.</para>
+            </emphasis> button won&apos;t be dimmed yet. Thus, you can make use of it to mark
+            primary runtime.</para>
         <figure>
             <title>Setting Runtime</title>
             <mediaobject>
@@ -203,6 +203,34 @@
                 <property>Ok</property>
             </emphasis> button will bring you to the <property>Web Module</property> wizard form
             again.</para>
+        <section id="seamWithJPA">
+            <title>Seam project with JPA facets</title>
+            <para>For creating Seam project with JPA support you need to select<property> Java
+                    Persistent</property> facet on <property>Project Facets</property> page and
+                click <property>OK</property>.</para>
+            <para>Then you should press <property>Next</property> and may leave the default value on
+                    <property>Java application building</property> page and <property>Web Module
+                    Settings</property> page.</para>
+            <para>After that  you will see <property>JPA facet</property> page.</para>
+            <figure>
+                <title>JPA Facet page</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/create_new_seam/create_seam_16b.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>On this page you can choose <property>Platform</property> (vendor-specific JPA
+                implementation) for your project, type of JPA Implementation, and configure the
+                    <property>Connection</property> to database in the <property
+                    >Connection</property> area.</para>
+            <para>More about <property>JPA facet</property> page you can read in <ulink
+                    url="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.jpt.doc.user/ref_jpa_facet.htm"
+                    >Eclipse documentation</ulink>. </para>
+            <para>On the next step you will see <property>JSF Capabilities</property> and <property>Seam
+                    facet</property> pages, which are mostly the same as in general Seam
+                project.</para>
+        </section>
     </section>
     <section id="configureJava">
         <title>Java application building configuration</title>
@@ -263,12 +291,12 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para> If a new library is required, click <property>Manage libraries...</property> ( <inlinemediaobject>
+        <para> If a new library is required, click <property>Manage libraries...</property> (
+                <inlinemediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam_17a.png"/>
                 </imageobject>
-            </inlinemediaobject>) button. Then you should click <property
-                >New</property>.</para>
+            </inlinemediaobject>) button. Then you should click <property>New</property>.</para>
         <figure>
             <title>Using Custom JSF implementation Library </title>
             <mediaobject>
@@ -286,8 +314,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>To add proper <property>Library JARs</property>, click <property>Add JARs...</property>
-        button and select the JARs on your hard drive. </para>
+        <para>To add proper <property>Library JARs</property>, click <property>Add
+                JARs...</property> button and select the JARs on your hard drive. </para>
         <figure>
             <title>Selection Library JARs</title>
             <mediaobject>
@@ -296,11 +324,12 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>You can download necessary JSF implementation libraries provided by Sun and Apache Foundation as well. Click <property>Download...</property> (<inlinemediaobject>
-            <imageobject>
-                <imagedata fileref="images/create_new_seam/create_seam_23a.png"/>
-            </imageobject>
-        </inlinemediaobject>) button and choose one of proposed libraries.</para>
+        <para>You can download necessary JSF implementation libraries provided by Sun and Apache
+            Foundation as well. Click <property>Download...</property> (<inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="images/create_new_seam/create_seam_23a.png"/>
+                </imageobject>
+            </inlinemediaobject>) button and choose one of proposed libraries.</para>
         <figure>
             <title>Download JSF Implementation Library</title>
             <mediaobject>
@@ -320,8 +349,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>Since we are arranging the Seam Web project, the last step we should do is to
-            adjust project configurations associated with the Seam.</para>
+        <para>Since we are arranging the Seam Web project, the last step we should do is to adjust
+            project configurations associated with the Seam.</para>
     </section>
     <section id="seamFacet">
         <title>Configure Seam Facet Settings</title>
@@ -342,10 +371,10 @@
         </itemizedlist>
         <para>For that click on <emphasis>
                 <property>Add</property>
-            </emphasis> button in the <property>General</property> section. Note, in the
-            wizard shown below you can create a Seam runtime only for the version that was
-            selected in the <link linkend="projectFacets">Project Facets</link> wizard (version 1.2
-            in our case).</para>
+            </emphasis> button in the <property>General</property> section. Note, in the wizard
+            shown below you can create a Seam runtime only for the version that was selected in the
+                <link linkend="projectFacets">Project Facets</link> wizard (version 1.2 in our
+            case).</para>
         <figure>
             <title>Seam Runtime Creation</title>
             <mediaobject>
@@ -400,8 +429,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>On the dialog you&apos;ll be asked to enter its name and description. And then
-            you should select a proper driver and adjust connection details. Press <emphasis>
+        <para>On the dialog you&apos;ll be asked to enter its name and description. And then you
+            should select a proper driver and adjust connection details. Press <emphasis>
                 <property>Next</property>
             </emphasis> to preview all the adjusted settings and complete the creation of the new
             profile.</para>
@@ -415,10 +444,10 @@
         </figure>
         <para>The next block of settings in the Seam Facet wizard are describing a Database and a
             connection to it.</para>
-        <para>In the <property>Code Generation</property> section the wizard has already provided the
-            names for your <property>Session Bean</property>, <property>Entity Bean</property> and
-                <property>Test</property> packages generation (optional). Of course, you can change them on others
-            of your choice.</para>
+        <para>In the <property>Code Generation</property> section the wizard has already provided
+            the names for your <property>Session Bean</property>, <property>Entity Bean</property>
+            and <property>Test</property> packages generation (optional). Of course, you can change
+            them on others of your choice.</para>
         <figure>
             <title>Code Generation Section</title>
             <mediaobject>
