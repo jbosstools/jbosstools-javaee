@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.util.FileUtil;
 
@@ -56,6 +57,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		super.init(contextType, context);
 		qualifiedName = getType().getFullyQualifiedName();
 		parametedType = new ParametedType();
+		parametedType.setFactory(context.getProject().getDelegate().getNature().getTypeFactory());
 		parametedType.setType(this.type);
 		parametedType.setSignature("Q" + qualifiedName + ";");
 	}

@@ -41,6 +41,7 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.text.INodeReference;
 

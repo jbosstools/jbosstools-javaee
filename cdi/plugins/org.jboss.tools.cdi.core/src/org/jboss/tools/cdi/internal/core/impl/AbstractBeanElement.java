@@ -135,6 +135,8 @@ public class AbstractBeanElement extends CDIElement {
 				
 				IMemberValuePair[] ps = a.getMemberValuePairs();
 				if(ps == null || ps.length == 0) return result;
+				IMember member = (IMember)definition.getMember();
+				IType declaringType = member instanceof IType ? (IType)member : member.getDeclaringType();
 				Object value = ps[0].getValue();
 				if(value instanceof Object[]) {
 					Object[] os = (Object[])value;
@@ -142,9 +144,7 @@ public class AbstractBeanElement extends CDIElement {
 						String rawTypeName = os[i].toString();
 						String typeName = rawTypeName;
 						if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
-						IMember member = (IMember)definition.getMember();
-						IType declaringType = member instanceof IType ? (IType)member : member.getDeclaringType();
-						ParametedType p = ParametedTypeFactory.getParametedType(declaringType, typeName);
+						ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(declaringType, typeName);
 						if(p != null) {
 							int offset = 0;
 							int length = 0;
@@ -162,7 +162,7 @@ public class AbstractBeanElement extends CDIElement {
 					String rawTypeName = value.toString();
 					String typeName = rawTypeName;
 					if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
-					ParametedType p = ParametedTypeFactory.getParametedType(((IMember)definition.getMember()).getDeclaringType(), typeName);
+					ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(declaringType, typeName);
 					if(p != null) {
 						int offset = 0;
 						int length = 0;

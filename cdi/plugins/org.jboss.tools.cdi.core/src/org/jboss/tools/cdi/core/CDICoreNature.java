@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
@@ -34,6 +35,8 @@ public class CDICoreNature implements IProjectNature {
 
 	IProject project = null;
 	ICDIProject cdiProjectDelegate;
+
+	ParametedTypeFactory typeFactory = new ParametedTypeFactory();
 
 	ClassPathMonitor classPath = new ClassPathMonitor(this);
 	DefinitionContext definitions = new DefinitionContext();
@@ -78,6 +81,10 @@ public class CDICoreNature implements IProjectNature {
 
 	public ICDIProject getDelegate() {
 		return cdiProjectDelegate;
+	}
+
+	public ParametedTypeFactory getTypeFactory() {
+		return typeFactory;
 	}
 
 	public ClassPathMonitor getClassPath() {

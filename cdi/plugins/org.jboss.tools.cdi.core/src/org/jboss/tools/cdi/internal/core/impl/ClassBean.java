@@ -74,8 +74,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				//add observer case
 				bm = new BeanMethod();
 			}
-			bm.setDefinition(m);
 			bm.setClassBean(this);
+			bm.setDefinition(m);
 			methods.add(bm);
 		}
 		List<FieldDefinition> fs = definition.getFields();
@@ -89,8 +89,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				//add observer case
 				bf = new BeanField();
 			}
-			bf.setDefinition(f);
 			bf.setClassBean(this);
+			bf.setDefinition(f);
 			fields.add(bf);
 		}
 	}

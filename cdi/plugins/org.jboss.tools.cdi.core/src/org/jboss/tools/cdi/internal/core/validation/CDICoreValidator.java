@@ -246,6 +246,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		//	      - bean class or producer method or field specifies a @Typed annotation, 
 		//		  and the value member specifies a class which does not correspond to a type 
 		//		  in the unrestricted set of bean types of a bean
+		int i = 0;
 		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
 		if(!typedDeclarations.isEmpty()) {
 			Set<IParametedType> allTypes = bean.getAllTypes();

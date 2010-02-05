@@ -139,6 +139,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				}
 			}
 
+			n.getTypeFactory().clean();
+
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
 
 			if(n.getClassPath().update()) {

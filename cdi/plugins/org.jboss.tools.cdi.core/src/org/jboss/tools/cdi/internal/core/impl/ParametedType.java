@@ -29,6 +29,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
  *
  */
 public class ParametedType implements IParametedType {
+	protected ParametedTypeFactory typeFactory = null;
 	protected IType type;
 	protected String signature;
 	protected List<ParametedType> parameterTypes = new ArrayList<ParametedType>();
@@ -38,8 +39,15 @@ public class ParametedType implements IParametedType {
 	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
 	Set<IParametedType> allInheritedTypes = null;
 
-
 	public ParametedType() {}
+
+	public ParametedTypeFactory getFactory() {
+		return typeFactory;
+	}
+
+	public void setFactory(ParametedTypeFactory typefactory) {
+		this.typeFactory = typefactory;
+	}
 
 	public IType getType() {
 		return type;
@@ -79,8 +87,10 @@ public class ParametedType implements IParametedType {
 				String sc = type.getSuperclassTypeSignature();
 				if(sc != null) {
 					sc = resolveParameters(sc);
+				} else if(!"java.lang.Object".equals(type.getFullyQualifiedName())) {
+					sc = "QObject;";
 				}
-				superType = ParametedTypeFactory.getParametedType(type, sc);
+				superType = getFactory().getParametedType(type, sc);
 				if(superType != null) {
 					inheritedTypes.add(superType);
 				}
@@ -88,7 +98,7 @@ public class ParametedType implements IParametedType {
 			String[] is = type.getSuperInterfaceTypeSignatures();
 			if(is != null) for (int i = 0; i < is.length; i++) {
 				String p = resolveParameters(is[i]);
-				ParametedType t = ParametedTypeFactory.getParametedType(type, p);
+				ParametedType t = getFactory().getParametedType(type, p);
 				if(t != null) {
 					inheritedTypes.add(t);
 				}
