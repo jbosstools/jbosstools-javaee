@@ -1,0 +1,49 @@
+<tests>
+<test id="footerIsMissing">
+<TABLE BORDER="1" ID="footerIsMissing" CLASS="dr-table rich-table "
+	TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+	<COLGROUP SPAN="0" TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+	</COLGROUP>
+	<THEAD TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+		<TR CLASS="dr-table-header rich-table-header "
+			STYLE="/background-image: url\(.*resources/common/background.gif\);/"
+			TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+			<TD CLASS="dr-table-headercell rich-table-headercell " COLSPAN="100"
+				SCOPE="colgroup" TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+				<SPAN CLASS="vpe-text">
+					HEADER
+</SPAN>
+			</TD>
+		</TR>
+	</THEAD>
+	<TFOOT TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+		<TR CLASS="dr-table-footer rich-table-footer "
+			STYLE="/background-image: url\(.*resources/common/background.gif\);/"
+			TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+			<TD CLASS="dr-table-footercell rich-table-footercell " COLSPAN="100"
+				SCOPE="colgroup" TITLE="rich:dataTable
+id: footerIsMissing
+border: 1">
+				<SPAN CLASS="vpe-text">
+					FOOTER
+</SPAN>
+			</TD>
+		</TR>
+	</TFOOT>
+</TABLE>
+</test>
+</tests>

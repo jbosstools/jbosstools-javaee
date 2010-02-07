@@ -91,7 +91,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		}
 
 		// Encode Footer
-		Element footer = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
+		Node footer = ComponentUtil.getFacet((Element)sourceElement, RichFaces.NAME_FACET_FOOTER,true);
 		final boolean hasColumnWithFooter = hasColumnWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
 		if (footer != null || hasColumnWithFooter) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
