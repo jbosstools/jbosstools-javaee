@@ -1,8 +1,54 @@
 <tests>
 <test id="footerIsMissing">
-
+<TABLE BORDER="1" ID="footerIsMissing" CLASS="dr-table rich-table ">
+<COLGROUP SPAN="0">
+</COLGROUP>
+<THEAD>
+<TR CLASS="dr-table-header rich-table-header " STYLE="/background-image: url\(.*/resources/common/background.gif\);/">
+<TD CLASS="dr-table-headercell rich-table-headercell " COLSPAN="100" SCOPE="colgroup">
+<SPAN CLASS="vpe-text">
+HEADER
+</SPAN>
+</TD>
+</TR>
+</THEAD>
+<TFOOT>
+<TR CLASS="dr-table-footer rich-table-footer " STYLE="/background-image: url\(.*/resources/common/background.gif\);/">
+<TD CLASS="dr-table-footercell rich-table-footercell " COLSPAN="100" SCOPE="colgroup">
+<SPAN CLASS="vpe-text">
+FOOTER
+</SPAN>
+</TD>
+</TR>
+</TFOOT>
+</TABLE>
 </test>
 <test id="headermIsMissingAsWell">
-
+<TABLE BORDER="1" ID="headermIsMissingAsWell" CLASS="dr-table rich-table ">
+<COLGROUP SPAN="0">
+</COLGROUP>
+<TR>
+<TD COLSPAN="100">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+HEADER
+</SPAN>
+</DIV>
+</DIV>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="100">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+FOOTER
+</SPAN>
+</DIV>
+</DIV>
+</TD>
+</TR>
+</TABLE>
 </test>
 </tests>

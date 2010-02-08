@@ -17,6 +17,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.FacetProcessingTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1105Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1460Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1479Test;
@@ -200,6 +201,7 @@ public class JsfAllTests {
 		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);
 		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
 		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
+		suite.addTestSuite(FacetProcessingTest.class);
 			
 		// $JUnit-END$
 		// added by Max Areshkau
