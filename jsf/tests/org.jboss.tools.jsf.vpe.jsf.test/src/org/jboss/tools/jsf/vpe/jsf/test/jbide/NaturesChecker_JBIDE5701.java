@@ -7,7 +7,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.jst.jsp.JspEditorPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.jsp.preferences.IVpePreferencesPage;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -21,7 +23,7 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		"Please use the Configure menu on the project to enable JSF if " + //$NON-NLS-1$
 		"you want all features of the editor working."; //$NON-NLS-1$
 	private static final String SECOND_TEST_PAGE_NAME = "components/commandButton.jsp"; //$NON-NLS-1$
-	
+
 	public NaturesChecker_JBIDE5701(String name) {
 		super(name);
 	}
@@ -123,6 +125,18 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 
 		TestUtil.delay(3000);
 		
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	    JspEditorPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		JspEditorPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, false);
+		super.tearDown();
 	}
 	
 }
