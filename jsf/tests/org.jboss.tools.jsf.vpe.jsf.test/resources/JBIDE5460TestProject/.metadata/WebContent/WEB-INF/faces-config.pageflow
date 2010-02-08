@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12015070253210" configfile="/calypso-showcase/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="html/basicWizard/basicWizardPage1" id="pf12337618848080" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" outlinks="pf12337618848081 pf12337618848082" inlinks="pf12337618848083 pf12337618848084" path="/html/basicWizard/basicWizardPage1.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/basicWizard/basicWizardPage2" id="pf12337618848085" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf12337618848086 pf12337618848083" inlinks="pf12337618848081 pf12337618848087" path="/html/basicWizard/basicWizardPage2.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/basicWizard/basicWizardPage3" id="pf12337618848088" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf12337618848089 pf12337618848087 pf12337618848084" inlinks="pf12337618848086 pf12337618848082" path="/html/basicWizard/basicWizardPage3.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/basicWizard/summary.xhtml" id="pf123376188480810" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf12337618848089" path="/html/basicWizard/summary.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" id="pf123376188480811" outlinks="pf123376188480812" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/tableCreate/details.xhtml" id="pf123376188480813" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf123376188480812" path="/html/tableCreate/details.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/components/navigationModel/navigationModel.xhtml" id="pf123376188480814" referenceLink="//@navigationRule.9/@fromViewId|" outlinks="pf123376188480815 pf123376188480816" path="/html/components/navigationModel/navigationModel.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/components/navigationModel/navigationModel2.xhtml" id="pf123376188480817" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" inlinks="pf123376188480815 pf123376188480816" path="/html/components/navigationModel/navigationModel2.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/tableForm/tableForm.xhtml" id="pf123376188480818" referenceLink="//@navigationRule.10/@fromViewId|" outlinks="pf123376188480819" path="/html/tableForm/tableForm.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="html/tableForm/tableShow.xhtml" id="pf123376188480820" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" inlinks="pf123376188480819" path="/html/tableForm/tableShow.xhtml"/>
+  <links id="pf12337618848081" target="pf12337618848085" source="pf12337618848080" outcome="toPage2"/>
+  <links id="pf12337618848086" target="pf12337618848088" source="pf12337618848085" outcome="toPage3"/>
+  <links id="pf12337618848089" target="pf123376188480810" source="pf12337618848088" outcome="toSummary"/>
+  <links id="pf12337618848087" target="pf12337618848085" source="pf12337618848088" outcome="toPage2"/>
+  <links id="pf12337618848083" target="pf12337618848080" source="pf12337618848085" outcome="toPage1"/>
+  <links id="pf12337618848082" target="pf12337618848088" source="pf12337618848080" outcome="toPage3"/>
+  <links id="pf12337618848084" target="pf12337618848080" source="pf12337618848088" outcome="toPage1"/>
+  <links id="pf123376188480812" target="pf123376188480813" source="pf123376188480811" outcome="tablecreate_detail"/>
+  <links id="pf123376188480815" target="pf123376188480817" source="pf123376188480814" outcome="success" fromaction="#{navigationModelBean.submit}"/>
+  <links id="pf123376188480816" target="pf123376188480817" source="pf123376188480814" outcome="success"/>
+  <links id="pf123376188480819" target="pf123376188480820" source="pf123376188480818" outcome="showTable"/>
+</pageflow:Pageflow>

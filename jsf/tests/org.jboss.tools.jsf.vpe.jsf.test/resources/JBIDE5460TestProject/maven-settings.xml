@@ -1,0 +1,15 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository>C:\caltools\repository</localRepository>
+	<proxies>
+		<proxy><active>true</active>
+		<protocol>http</protocol>
+		<host>10.102.8.5</host>
+		<port>8080</port>
+		</proxy>
+	</proxies>
+	<mirrors>
+  </mirrors>
+</settings>

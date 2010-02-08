@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"  
+      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:t="http://myfaces.apache.org/tomahawk" 
+      xmlns:c="http://java.sun.com/jstl/core" >
+<ui:composition>
+
+<f:view locale="#{sessionScope.WW_TRANS_I18N_LOCALE}">
+	<f:loadBundle basename="npedemoResources" var="bundle" />
+
+	<h:panelGrid columns="1">
+		<h:outputText value="#{bundle.tableBasic_title}" styleClass="applicationTitle" />
+		<h:outputText value="#{bundle.tableBasic_description}" />
+	</h:panelGrid>
+
+	<h:form>
+		<h:panelGrid columns="1" width="600">
+			<h:dataTable id="dataTable" var="user"
+				value="#{tableBasicBean.tableModel.wrappedData}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{bundle.user_firstName}" />
+					</f:facet>
+					<h:outputText value="#{user.firstName}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{bundle.user_lastName}" />
+					</f:facet>
+					<h:outputText value="#{user.lastName}" />
+				</h:column>
+			</h:dataTable>
+		</h:panelGrid>
+	</h:form>
+
+</f:view>
+
+
+</ui:composition>
+</html>

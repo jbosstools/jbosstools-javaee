@@ -74,6 +74,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE56
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.PreferencesForEditors_JBIDE5692;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.RefreshBundles_JBIDE5460;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
@@ -114,6 +115,7 @@ public class JsfAllTests {
 	public static final String IMPORT_I18N_PROJECT_NAME = "i18nTest"; //$NON-NLS-1$
 	public static final String IMPORT_NATURES_CHECKER_PROJECT = "naturesCheckTest"; //$NON-NLS-1$
 	public static final String IMPORT_JSF_LOCALES_PROJECT_NAME = "jsfLocales"; //$NON-NLS-1$
+	public static final String IMPORT_JBIDE5460_PROJECT_NAME = "JBIDE5460TestProject"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
@@ -202,6 +204,7 @@ public class JsfAllTests {
 		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
 		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 		suite.addTestSuite(FacetProcessingTest.class);
+		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
 			
 		// $JUnit-END$
 		// added by Max Areshkau
@@ -211,6 +214,11 @@ public class JsfAllTests {
 		importBeanJsf1.setImportProjectName(JsfAllTests.IMPORT_PROJECT_NAME);
 		importBeanJsf1.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(importBeanJsf1);
+		
+		ImportBean importBeanJBIDE5460 = new ImportBean();
+		importBeanJBIDE5460.setImportProjectName(JsfAllTests.IMPORT_JBIDE5460_PROJECT_NAME);
+		importBeanJBIDE5460.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(importBeanJBIDE5460);
 		
 		ImportBean importBeanJsf20 = new ImportBean();
 		importBeanJsf20.setImportProjectName(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);

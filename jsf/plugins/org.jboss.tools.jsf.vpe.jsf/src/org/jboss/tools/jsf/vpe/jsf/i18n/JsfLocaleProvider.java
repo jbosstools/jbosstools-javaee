@@ -17,6 +17,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
 import org.jboss.tools.vpe.editor.i18n.ILocaleProvider;
@@ -42,8 +43,11 @@ public class JsfLocaleProvider implements ILocaleProvider {
 		if (editorInput instanceof IFileEditorInput) {
 			IProject project = ((IFileEditorInput)editorInput)
 					.getFile().getProject();
-			XModel model = EclipseResourceUtil.getModelNature(project)
-					.getModel();
+			IModelNature modelNature = EclipseResourceUtil.getModelNature(project);
+			if (modelNature == null) {
+				return null;
+			}
+			XModel model = modelNature.getModel();
 			localeString = OpenKeyHelper.getDeafultLocaleFromFacesConfig(model);
 			return new Locale(localeString);
 		} else {
