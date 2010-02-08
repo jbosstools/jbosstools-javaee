@@ -31,6 +31,7 @@ import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	
@@ -68,7 +69,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		if(file == null)
 			return null;
 		
-		
+		if(CDICorePlugin.getCDI(file.getProject(), true) == null)
+			return null;
 		
 		IJavaElement[] elements = null;
 		
