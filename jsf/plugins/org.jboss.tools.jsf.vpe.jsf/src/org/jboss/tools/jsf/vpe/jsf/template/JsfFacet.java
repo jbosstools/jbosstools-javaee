@@ -10,15 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
-import java.util.List;
-
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.VisualDomUtil;
-import org.jboss.tools.vpe.editor.util.XmlUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Node;
@@ -51,22 +47,33 @@ public class JsfFacet extends VpeAbstractTemplate {
 	 */
 	for (int i = 0; i < children.getLength(); i++) {
 	    Node child = children.item(i);
-	    String sourcePrefix = child.getPrefix();
-	    if (XmlUtil.hasTaglib(sourceNode, pageContext, sourcePrefix)) {
-		String sourceNodeUri = XmlUtil.getTaglibUri(sourceNode, pageContext, sourcePrefix);
-		if ((child.getNodeType() == Node.ELEMENT_NODE)
-			&& (VisualDomUtil.JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri)
-				|| VisualDomUtil.JSF_HTML_URI.equalsIgnoreCase(sourceNodeUri)
-				|| VisualDomUtil.RICH_FACES_URI.equalsIgnoreCase(sourceNodeUri) 
-				|| VisualDomUtil.A4J_URI.equalsIgnoreCase(sourceNodeUri)
-				|| VisualDomUtil.FACELETS_URI.equalsIgnoreCase(sourceNodeUri))) {
+//	    String sourcePrefix = child.getPrefix();
+//	    if (XmlUtil.hasTaglib(sourceNode, pageContext, sourcePrefix)) {
+//		String sourceNodeUri = XmlUtil.getTaglibUri(sourceNode, pageContext, sourcePrefix);
+		if( ((child.getNodeType()==Node.TEXT_NODE) && 
+				(child.getNodeValue()!=null)
+				&& (child.getNodeValue().trim().length()>0)
+				) ||(child.getNodeType() == Node.ELEMENT_NODE)) {
 		    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
 		    childrenInfo.addSourceChild(child);
 		    creationData.addChildrenInfo(childrenInfo);
 		    jsfComponentFound = true;
 		    break;
 		}
-	    }
+		//commented by Maksim Areshkau as fix for https://jira.jboss.org/jira/browse/JBIDE-5744
+//	    if ((child.getNodeType() == Node.ELEMENT_NODE)){
+////			&& (VisualDomUtil.JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri)
+////				|| VisualDomUtil.JSF_HTML_URI.equalsIgnoreCase(sourceNodeUri)
+////				|| VisualDomUtil.RICH_FACES_URI.equalsIgnoreCase(sourceNodeUri) 
+////				|| VisualDomUtil.A4J_URI.equalsIgnoreCase(sourceNodeUri)
+////				|| VisualDomUtil.FACELETS_URI.equalsIgnoreCase(sourceNodeUri))) {
+//		    VpeChildrenInfo childrenInfo = new VpeChildrenInfo(div);
+//		    childrenInfo.addSourceChild(child);
+//		    creationData.addChildrenInfo(childrenInfo);
+//		    jsfComponentFound = true;
+//		    break;
+////		}
+//	    }
 	}
 	
 	if (!jsfComponentFound) {
