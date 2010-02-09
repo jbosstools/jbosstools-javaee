@@ -32,6 +32,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	
@@ -63,7 +64,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			if (resource instanceof IFile)
 				file = (IFile) resource;
 		} catch (JavaModelException e) {
-			// Ignore. It is probably because of Java element's resource is not found 
+			CDIExtensionsPlugin.log(e);
 		}
 		
 		if(file == null)
@@ -106,7 +107,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
 		} catch (JavaModelException jme) {
-			// ignore
+			CDIExtensionsPlugin.log(jme);
 		}
 		return null;
 	}
