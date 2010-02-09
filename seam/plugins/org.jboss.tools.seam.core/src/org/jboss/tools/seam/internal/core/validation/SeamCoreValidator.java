@@ -172,7 +172,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 */
 	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
 		init(project, validationHelper, manager, reporter);
-		displaySubtask(SeamValidationMessages.SEARCHING_RESOURCES);
+		displaySubtask(SeamValidationMessages.SEARCHING_RESOURCES, new String[]{projectName});
 
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		Set<ISeamComponent> checkedComponents = new HashSet<ISeamComponent>();

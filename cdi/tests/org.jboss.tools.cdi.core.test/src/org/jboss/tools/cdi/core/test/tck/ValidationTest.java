@@ -26,8 +26,43 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, "Bean class or producer method or field specifies a @Typed annotation, and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean", 9);
 		int markerNumbers = getMarkersNumber(petShopFile);
 		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
-		// TODO
 		cleanProject("/lookup/typesafe/resolution");
+	}
+
+	/*
+	 * 	 2.7.1.3. Stereotype declares a non-empty @Named annotation (Non-Portable behavior)
+	 */
+	public void testNonEmptyNamedForStereotype() throws Exception {
+		IProject p = importPreparedProject("/definition/stereotype");
+		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/nonEmptyNamed/StereotypeWithNonEmptyNamed_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Stereotype declares a non-empty @Named annotation", 15);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithNonEmptyNamed_Broken.java should has the only error marker.", markerNumbers, 1);
+		cleanProject("/definition/stereotype");
+	}
+
+	/*
+	 * 	 2.7.1.3. Stereotype declares any other qualifier annotation
+	 */
+	public void testAnnotatedStereotype() throws Exception {
+		IProject p = importPreparedProject("/definition/stereotype");
+		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithBindingTypes_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Stereotype declares any qualifier annotation other than @Named", 14);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithBindingTypes_Broken.java should has the only error marker.", markerNumbers, 1);
+		cleanProject("/definition/stereotype");
+	}
+
+	/*
+	 * 	 2.7.1.3. Stereotype is annotated @Typed
+	 */
+	public void testTypedStereotype() throws Exception {
+		IProject p = importPreparedProject("/definition/stereotype");
+		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithTyped_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Stereotype is annotated @Typed", 15);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
+		cleanProject("/definition/stereotype");
 	}
 
 	public static int getMarkersNumber(IResource resource) {
