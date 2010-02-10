@@ -66,16 +66,43 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/*
+	 *  2.7.1.1. Declaring the default scope for a stereotype
+	 *           - stereotype declares more than one scope
+	 */
+	public void testStereotypeScope() throws Exception {
+		IProject p = importPreparedProject("/definition/stereotype");
+		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/tooManyScopes/StereotypeWithTooManyScopeTypes_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Stereotype declares more than one scope", 16, 17);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithTooManyScopeTypes_Broken.java should has two error markers.", markerNumbers, 2);
+		cleanProject("/definition/stereotype");
+	}
+
+	/*
 	 *  2.4.3. Declaring the bean scope
 	 *         - bean class or producer method or field specifies multiple scope type annotations
 	 */
-	public void testBeanScope() throws Exception {
+	public void testMultipleBeanScope() throws Exception {
 		IProject p = importPreparedProject("/definition/scope");
 		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/scope/broken/tooManyScopes/BeanWithTooManyScopeTypes_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Bean class or producer method or field specifies multiple scope type annotations", 6, 7);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithTyped_Broken.java should has two error markers.", markerNumbers, 2);
 		cleanProject("/definition/scope");
+	}
+
+	/*
+	 *  2.4.4. Default scope
+	 *         - bean does not explicitly declare a scope when there is no default scope 
+	 *         (there are two different stereotypes declared by the bean that declare different default scopes)
+	 */
+	public void testBeanWithMultipleScopedStereotypes() throws Exception {
+		IProject p = importPreparedProject("/definition/stereotype");
+		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/scopeConflict/Scallop_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Bean does not explicitly declare a scope when there is no default scope", 8, 9);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("Scallop_Broken.java should has two error markers.", markerNumbers, 2);
+		cleanProject("/definition/stereotype");
 	}
 
 	public static int getMarkersNumber(IResource resource) {

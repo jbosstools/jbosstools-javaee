@@ -11,8 +11,10 @@
 package org.jboss.tools.cdi.internal.core.validation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -37,8 +39,10 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -235,11 +239,28 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(reporter.isCancelled()) {
 			return;
 		}
+		// Collect all relations between the bean and other CDI elements.
 		String name = bean.getName();
 		if(name!=null) {
 			validationContext.addVariableNameForELValidation(name);
 		}
+		String beanPath = bean.getResource().getFullPath().toOSString();
+		Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
+		for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
+			IScope scope = scopeDeclaration.getScope();
+			if(!scope.getSourceType().isReadOnly()) {
+				validationContext.addLinkedCoreResource(beanPath, scope.getResource().getFullPath(), false);
+			}
+		}
+		Set<IStereotypeDeclaration> stereotypeDeclarations = bean.getStereotypeDeclarations();
+		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
+			IStereotype stereotype = stereotypeDeclaration.getStereotype();
+			if(!stereotype.getSourceType().isReadOnly()) {
+				validationContext.addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
+			}
+		}
 
+		// validate
 		validateTyped(bean);
 		validateBeanScope(bean);
 
@@ -274,29 +295,51 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
-	/*
-	 *  2.4.3. Declaring the bean scope
-	 *         - bean class or producer method or field specifies multiple scope type annotations
-	 */
 	private void validateBeanScope(IBean bean) {
 		Set<IScopeDeclaration> scopes = bean.getScopeDeclarations();
+		//  2.4.3. Declaring the bean scope
+		//         - bean class or producer method or field specifies multiple scope type annotations
+		//
 		if(scopes.size()>1) {
 			for (IScopeDeclaration scope : scopes) {
 				addError(CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, scope, bean.getResource());
+			}
+		}
+
+		// 2.4.4. Default scope
+		//        - bean does not explicitly declare a scope when there is no default scope 
+		//        (there are two different stereotypes declared by the bean that declare different default scopes)
+		// 
+		//        Such bean definitions are invalid because they declares two stereotypes that have different default scopes and the bean does not explictly define a scope to resolve the conflict.
+		Set<IStereotypeDeclaration> stereotypeDeclarations = bean.getStereotypeDeclarations();
+		if(!stereotypeDeclarations.isEmpty() && scopes.isEmpty()) {
+			Map<String, IStereotypeDeclaration> declarationMap = new HashMap<String, IStereotypeDeclaration>();
+			for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
+				IStereotype stereotype = stereotypeDeclaration.getStereotype();
+				IScope scope = stereotype.getScope();
+				if(scope!=null) {
+					declarationMap.put(scope.getSourceType().getFullyQualifiedName(), stereotypeDeclaration);
+				}
+			}
+			if(declarationMap.size()>1) {
+				for (IStereotypeDeclaration stereotypeDeclaration : declarationMap.values()) {
+					addError(CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, CDIPreferences.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, stereotypeDeclaration, bean.getResource());
+				}
 			}
 		}
 	}
 
 	/**
 	 * Validates a stereotype.
-	 * 2.7.1.3. Declaring a @Named stereotype
-	 * - stereotype declares a non-empty @Named annotation (Non-Portable behavior)
-	 * - stereotype declares any other qualifier annotation
-	 * - stereotype is annotated @Typed
 	 * 
 	 * @param type
 	 */
 	private void validateStereotype(IStereotype stereotype) {
+		// 2.7.1.3. Declaring a @Named stereotype
+		//          - stereotype declares a non-empty @Named annotation (Non-Portable behavior)
+		//          - stereotype declares any other qualifier annotation
+		//          - stereotype is annotated @Typed
+
 		if(stereotype == null) {
 			return;
 		}
@@ -307,7 +350,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		List<IAnnotationDeclaration> as = stereotype.getAnnotationDeclarations();
 
-//		1. non-empty name
+		// 1. non-empty name
 		IAnnotationDeclaration nameDeclaration = stereotype.getNameDeclaration();
 		if(nameDeclaration != null) {
 			IMemberValuePair[] ps = null;
@@ -325,18 +368,27 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		}
 
-//		2. typed annotation			
+		// 2. typed annotation			
 		IAnnotationDeclaration typedDeclaration = stereotype.getAnnotationDeclaration(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
 		if(typedDeclaration != null) {
 			ITextSourceReference location = typedDeclaration;
 			addError(CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, location, resource);
 		}
 
-//		3. Qualifier other than @Named
+		// 3. Qualifier other than @Named
 		for (IAnnotationDeclaration a: as) {
 			if(a instanceof IQualifierDeclaration && a != nameDeclaration) {
 				ITextSourceReference location = a;
 				addError(CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, CDIPreferences.ILLEGAL_QUALIFIER_IN_STEREOTYPE, location, resource);
+			}
+		}
+
+		// 2.7.1.1. Declaring the default scope for a stereotype
+		//          - stereotype declares more than one scope
+		Set<IScopeDeclaration> scopeDeclarations = stereotype.getScopeDeclarations();
+		if(scopeDeclarations.size()>1) {
+			for (IScopeDeclaration scope : scopeDeclarations) {
+				addError(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());
 			}
 		}
 	}
