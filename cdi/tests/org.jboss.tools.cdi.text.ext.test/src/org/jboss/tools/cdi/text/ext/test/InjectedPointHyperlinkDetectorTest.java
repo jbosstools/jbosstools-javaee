@@ -3,14 +3,11 @@ package org.jboss.tools.cdi.text.ext.test;
 import java.util.ArrayList;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
 import org.eclipse.jface.text.IDocument;
@@ -30,45 +27,21 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
-import org.jboss.tools.test.util.JobUtils;
 
-public class InjectedPointHyperlinkDetectorTest  extends TestCase {
-	TestProjectProvider provider = null;
-	IProject project = null;
-	boolean makeCopy = false;
-	private static final String PROJECT_NAME = "test_cdi_project";
-	private static final String FILE_NAME = "/src/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java";
+public class InjectedPointHyperlinkDetectorTest extends TCKTest {
+	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java";
 
 	public static Test suite() {
 		return new TestSuite(InjectedPointHyperlinkDetectorTest.class);
 	}
 
-	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.cdi.text.ext.test", null, PROJECT_NAME, makeCopy); 
-		project = provider.getProject();
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		Throwable exception = null;
-		
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
-	}
 
-	protected void tearDown() throws Exception {
-		if(provider != null) {
-			provider.dispose();
-		}
-	}
-
-	public void testInjectedPointHyperlinkDetector() {
-		try { 
-			JobUtils.waitForIdle(3000); 
-		} catch (Exception e) { 
-			assertNull("An exception caught: " + e.getMessage(), e);
-		}
-		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
+	public void testInjectedPointHyperlinkDetector()  throws Exception {
+		IProject project = importPreparedProject("/lookup/injectionpoint");
 
 		IFile javaFile = project.getFile(FILE_NAME);
 
@@ -106,9 +79,9 @@ public class InjectedPointHyperlinkDetectorTest  extends TestCase {
 		
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(115, 6)); // Inject
-		regionList.add(new Region(145, 6)); // logger
-		regionList.add(new Region(201, 6)); // logger
-		regionList.add(new Region(255, 6)); // logger
+		regionList.add(new Region(140, 6)); // logger
+		regionList.add(new Region(196, 6)); // logger
+		regionList.add(new Region(250, 6)); // logger
 
 		
 		IEditorPart part = openFileInEditor(javaFile);
@@ -134,7 +107,7 @@ public class InjectedPointHyperlinkDetectorTest  extends TestCase {
 			}else{
 				for(Region region : regionList){
 					if(i >= region.getOffset() && i <= region.getOffset()+region.getLength())
-						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength());
+						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength()+region.getLength()+" region - "+i);
 				}
 			}
 		}
