@@ -1,5 +1,8 @@
 package org.jboss.tools.seam.xml.ds.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.common.meta.XAttribute;
@@ -9,6 +12,8 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class DSFileLoaderUtil extends XModelObjectLoaderUtil implements DSConstants {
 
@@ -25,8 +30,13 @@ public class DSFileLoaderUtil extends XModelObjectLoaderUtil implements DSConsta
 
 	public boolean save(Element parent, XModelObject o) {
     	if(!needToSave(o)) return true;
-    	boolean b = super.save(parent, o);
+    	return super.save(parent, o);
+    }
+
+    public boolean saveChildren(Element element, XModelObject o) {
+    	boolean b = super.saveChildren(element, o);
     	//TODO check dtd
+    	moveProperties(element);
     	return b;
     }
 
@@ -108,5 +118,68 @@ public class DSFileLoaderUtil extends XModelObjectLoaderUtil implements DSConsta
     		}			
 		}
 		return children;
+	}
+
+	static Set<String> beforeXADatasourceProperty = new HashSet<String>();
+	static Set<String> beforeConnectionProperty = new HashSet<String>();
+	static Set<String> beforeConfigProperty = new HashSet<String>();
+
+	static Map<String, Set<String>> propertiesToMove = new HashMap<String, Set<String>>();
+
+	static {
+		beforeXADatasourceProperty.add("xa-datasource-class");
+
+		String[] beforeConfigNames = {"connection-definition", "rar-name", "track-connection-by-tx", "xa-transaction", "local-transaction", "jndi-name"};
+		for (String n: beforeConfigNames) beforeConfigProperty.add(n);
+
+		String[] beforeConnectionNames = {"driver-class", "transaction-isolation"};
+		for (String n: beforeConnectionNames) beforeConnectionProperty.add(n);
+	
+		propertiesToMove.put("xa-datasource-property", beforeXADatasourceProperty);
+		propertiesToMove.put("connection-property", beforeConnectionProperty);
+		propertiesToMove.put("config-property", beforeConfigProperty);
+	}
+
+	void moveProperties(Element parent) {
+		NodeList ns = parent.getChildNodes();
+		String childName = null;
+		for (int i = 0; i < ns.getLength(); i++) {
+			Node n = ns.item(i);
+			if(!(n instanceof Element)) continue;
+			String name = n.getNodeName();
+			if(propertiesToMove.containsKey(name)) {
+				childName = name;
+				break;
+			}
+		}
+		if(childName != null) {
+			moveChildren(parent, childName, propertiesToMove.get(childName));
+		}
+	}
+
+	void moveChildren(Element parent, String childName, Set<String> namesBeforeChild) {
+		Element[] ps = XMLUtilities.getChildren(parent, childName);
+		if(ps == null || ps.length == 0) return;
+		Node after = null;
+		Node before = null;
+		NodeList ns = parent.getChildNodes();
+		for (int i = 0; i < ns.getLength(); i++) {
+			Node n = ns.item(i);
+			if(!(n instanceof Element)) continue;
+			if(namesBeforeChild.contains(n.getNodeName())) {
+				after = n;
+			} else {
+				if(after != null) {
+					before = n;
+					break;
+				}
+			}
+			
+		}
+		if(before == null || before == ps[0]) return;
+
+		for (int i = 0; i < ps.length; i++) {
+			parent.insertBefore(ps[i], before);
+		}
 	}
 }

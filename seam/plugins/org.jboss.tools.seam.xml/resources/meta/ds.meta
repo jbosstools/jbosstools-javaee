@@ -7,8 +7,10 @@
   <MAPPING name="FileVersions">
    <PAIR name="DSConnectionFactories1.5" value="FileDSConnectionFactories"/>
    <PAIR name="DSConnectionFactories5.0dtd" value="FileDSConnectionFactories50d"/>
+   <PAIR name="DSConnectionFactories5.0xsd" value="FileDSConnectionFactories50s"/>
    <PAIR name="DSDatasources1.5" value="FileDSDatasources"/>
    <PAIR name="DSDatasources5.0dtd" value="FileDSDatasources50d"/>
+   <PAIR name="DSDatasources5.0xsd" value="FileDSDatasources50s"/>
   </MAPPING>
   <MAPPING name="Implementations">
    <PAIR name="DS_Datasource" value="org.jboss.tools.seam.xml.ds.model.DatasourceImpl"/>
@@ -392,6 +394,10 @@
    <XModelAttributeReference
     attributes="blocking-timeout-millis,idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="timeout"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="allocation-retry" xmlname="allocation-retry.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="allocation-retry-wait-millis" xmlname="allocation-retry-wait-millis.#text"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
    <XModelAttributeReference
@@ -579,6 +585,9 @@
    <XModelAttributeReference
     attributes="blocking-timeout-millis,idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="timeout"/>
+   <XModelAttributeReference
+    attributes="allocation-retry,allocation-retry-wait-millis"
+    entity="DSHALocalTXDatasource50" name="allocation"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
    <XModelAttribute PROPERTIES="category=advanced"
@@ -859,6 +868,9 @@
     entity="DSHALocalTXDatasource" name="validate-on-match"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference
+    attributes="allocation-retry,allocation-retry-wait-millis"
+    entity="DSHALocalTXDatasource50" name="allocation"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
    <XModelAttributeReference
@@ -1053,6 +1065,9 @@
     entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference
+    attributes="allocation-retry,allocation-retry-wait-millis"
+    entity="DSHALocalTXDatasource50" name="allocation"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
     entity="DSLocalTXDatasource" name="prefill"/>
    <XModelAttributeReference attributes="metadata,type-mapping"
@@ -1227,6 +1242,9 @@
     entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference
+    attributes="allocation-retry,allocation-retry-wait-millis"
+    entity="DSHALocalTXDatasource50" name="allocation"/>
    <XModelAttributeReference attributes="validate-on-match"
     entity="DSHALocalTXDatasource" name="validate-on-match"/>
    <XModelAttributeReference
@@ -1401,6 +1419,9 @@
     entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference
+    attributes="allocation-retry,allocation-retry-wait-millis"
+    entity="DSHALocalTXDatasource50" name="allocation"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
     entity="DSHALocalTXDatasource" name="no-tx-separate-pools"/>
    <XModelAttributeReference attributes="prefill,use-fast-fail"
@@ -1601,6 +1622,9 @@
     entity="DSLocalTXDatasource50" name="background"/>
    <XModelAttributeReference attributes="idle-timeout-minutes"
     entity="DSHALocalTXDatasource" name="idle-timeout"/>
+   <XModelAttributeReference
+    attributes="allocation-retry,allocation-retry-wait-millis"
+    entity="DSHALocalTXDatasource50" name="allocation"/>
    <XModelAttributeReference attributes="validate-on-match"
     entity="DSHALocalTXDatasource" name="validate-on-match"/>
    <XModelAttributeReference attributes="no-tx-separate-pools"
@@ -1946,6 +1970,154 @@
   <XModelAttributes/>
   <XActionItem kind="list">
    <XActionItemReference entity="FileDSConnectionFactories50d" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="connection-factories" name="FileDSConnectionFactories50s">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
+   <XChildEntity name="DSTXConnectionFactory50"/>
+   <XChildEntity name="DSNoTXConnectionFactory50"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="connection-factories" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.jboss.com/xml/ns/javaee" name="xmlns" xmlname="xmlns"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ds_5_0.xsd"
+    name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="TX Connection Factory..." kind="action" name="AddTXConnectionFactory">
+     <EntityData EntityName="DSTXConnectionFactory50">
+      <AttributeData AttributeName="jndi-name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="No TX Connection Factory..." kind="action" name="AddNoTXConnectionFactory">
+     <EntityData EntityName="DSNoTXConnectionFactory50">
+      <AttributeData AttributeName="jndi-name"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileDSConnectionFactories50s_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileDSConnectionFactories50s" name="CreateActions"/>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HIDE="always" HandlerClassName="%Properties%"
      ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
@@ -2320,6 +2492,167 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
+ <XModelEntity
+  ImplementationLoadingClass="org.jboss.tools.seam.xml.ds.model.DSFileLoader"
+  ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
+  XMLSUBPATH="datasources" name="FileDSDatasources50s">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="DSLoaderRepository" required="yes"/>
+   <XChildEntity name="DSLocalTXDatasource50"/>
+   <XChildEntity name="DSNoTXDatasource50"/>
+   <XChildEntity name="DSXADatasource50"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.ds.file" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="datasources" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.jboss.com/xml/ns/javaee" name="xmlns" xmlname="xmlns"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ds_5_0.xsd"
+    name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Local TX Datasource..." kind="action" name="AddLocalTXDatasource">
+     <EntityData EntityName="DSLocalTXDatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="XA Datasource..." kind="action" name="AddXADatasource">
+     <EntityData EntityName="DSXADatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="xa-datasource-class"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="No TX Datasource..." kind="action" name="AddNoDatasource">
+     <EntityData EntityName="DSNoTXDatasource50">
+      <AttributeData AttributeName="jndi-name"/>
+      <AttributeData AttributeName="connection-url"/>
+      <AttributeData AttributeName="driver-class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FileDSDatasources50s_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItemReference entity="FileDSDatasources50s" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HIDE="always" HandlerClassName="%Properties%"
+     ICON="action.empty" displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
  <XModelEntity name="FileDSDatasources_EditorActionList">
   <XChildrenEntities/>
   <XEntityRenderer/>
@@ -2340,8 +2673,10 @@
   <XChildrenEntities>
    <XChildEntity name="FileDSDatasources"/>
    <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSDatasources50s"/>
    <XChildEntity name="FileDSConnectionFactories"/>
    <XChildEntity name="FileDSConnectionFactories50d"/>
+   <XChildEntity name="FileDSConnectionFactories50s"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -2388,8 +2723,10 @@
   <XChildrenEntities>
    <XChildEntity name="FileDSDatasources"/>
    <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSDatasources50s"/>
    <XChildEntity name="FileDSConnectionFactories"/>
    <XChildEntity name="FileDSConnectionFactories50d"/>
+   <XChildEntity name="FileDSConnectionFactories50s"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -2436,8 +2773,10 @@
   <XChildrenEntities>
    <XChildEntity name="FileDSDatasources"/>
    <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSDatasources50s"/>
    <XChildEntity name="FileDSConnectionFactories"/>
    <XChildEntity name="FileDSConnectionFactories50d"/>
+   <XChildEntity name="FileDSConnectionFactories50s"/>
   </XChildrenEntities>
   <XActionItem kind="list"/>
  </XEntityExtension>
@@ -2445,8 +2784,10 @@
   <XChildrenEntities>
    <XChildEntity name="FileDSDatasources"/>
    <XChildEntity name="FileDSDatasources50d"/>
+   <XChildEntity name="FileDSDatasources50s"/>
    <XChildEntity name="FileDSConnectionFactories"/>
    <XChildEntity name="FileDSConnectionFactories50d"/>
+   <XChildEntity name="FileDSConnectionFactories50s"/>
   </XChildrenEntities>
   <XActionItem kind="list"/>
  </XEntityExtension>

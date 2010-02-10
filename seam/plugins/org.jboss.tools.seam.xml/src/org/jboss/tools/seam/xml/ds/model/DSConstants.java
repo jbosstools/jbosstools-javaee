@@ -10,9 +10,13 @@ public interface DSConstants {
 	public String ENT_CONNECTION_FACTORIES_FILE = "FileDSConnectionFactories"; //$NON-NLS-1$
 
 	public String SUFF_50_DTD = "50d"; //$NON-NLS-1$
+	public String SUFF_50_XSD = "50s"; //$NON-NLS-1$
 
 	public String ENT_DATASOURCES_FILE_50_DTD = ENT_DATASOURCES_FILE + SUFF_50_DTD;
 	public String ENT_CONNECTION_FACTORIES_FILE_50_DTD = ENT_CONNECTION_FACTORIES_FILE + SUFF_50_DTD;
+
+	public String ENT_DATASOURCES_FILE_50_XSD = ENT_DATASOURCES_FILE + SUFF_50_XSD;
+	public String ENT_CONNECTION_FACTORIES_FILE_50_XSD = ENT_CONNECTION_FACTORIES_FILE + SUFF_50_XSD;
 
 	public String ATTR_TRACK_CONN = "track-connection-by-tx"; //$NON-NLS-1$
 	public String ATTR_TRANSACTION = "transaction"; //$NON-NLS-1$
