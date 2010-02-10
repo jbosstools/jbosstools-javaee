@@ -1,0 +1,44 @@
+<BODY ID="__content__area__">
+<DIV STYLE="-moz-user-modify: read-write;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-write;">
+Input User Name Page
+</H1>
+</DIV>
+<DIV>
+<TABLE STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
+<TR>
+<TD>
+<DIV>
+<H1 STYLE="-moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Hello Demo Application
+</SPAN>
+</H1>
+<B CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+</B>
+<UL STYLE="color: red; -moz-user-modify: read-only;">
+<LI>
+Error Messages
+</LI>
+</UL>
+<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
+<SPAN CLASS="vpe-text">
+Name:
+</SPAN>
+<SPAN CLASS="vpe-text">
+<SPAN CLASS="vpe-text">
+</SPAN>
+<INPUT VALUE="#{user.name}"/>
+
+</SPAN>
+<INPUT TYPE="button" VALUE="Say Hello!" STYLE="-moz-user-modify: read-only;"/>
+
+</FORM>
+</DIV>
+</TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+</BODY>

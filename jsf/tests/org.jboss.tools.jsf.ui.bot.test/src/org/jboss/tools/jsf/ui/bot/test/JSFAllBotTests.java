@@ -10,6 +10,8 @@ import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3920Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE4391Test;
 import org.jboss.tools.jsf.ui.bot.test.smoke.AddRemoveJSFCapabilitiesTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
+import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
+import org.jboss.tools.jsf.ui.bot.test.templates.UnknownTemplateTest;
 
 /**
  * 
@@ -26,6 +28,8 @@ public class JSFAllBotTests{
 		suite.addTestSuite(JBIDE3577Test.class);
 		suite.addTestSuite(JBIDE3579Test.class);
 		suite.addTestSuite(JBIDE3920Test.class);
+		suite.addTestSuite(UnknownTemplateTest.class);
+		suite.addTestSuite(SetTemplateForUnknownTagTest.class);
 		return suite;
 	}
 }
