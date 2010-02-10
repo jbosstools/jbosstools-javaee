@@ -37,6 +37,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
@@ -239,11 +240,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validationContext.addVariableNameForELValidation(name);
 		}
 
-		// 2.2.2. Restricting the bean types of a bean
-		//	      - bean class or producer method or field specifies a @Typed annotation, 
-		//		  and the value member specifies a class which does not correspond to a type 
-		//		  in the unrestricted set of bean types of a bean
-		int i = 0;
+		validateTyped(bean);
+		validateBeanScope(bean);
+
+		// TODO
+	}
+
+	/*
+	 * 2.2.2. Restricting the bean types of a bean
+	 *	      - bean class or producer method or field specifies a @Typed annotation, 
+	 *		  and the value member specifies a class which does not correspond to a type 
+	 *		  in the unrestricted set of bean types of a bean
+	 */
+	private void validateTyped(IBean bean) {
 		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
 		if(!typedDeclarations.isEmpty()) {
 			Set<IParametedType> allTypes = bean.getAllTypes();
@@ -263,7 +272,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 		}
-		// TODO
+	}
+
+	/*
+	 *  2.4.3. Declaring the bean scope
+	 *         - bean class or producer method or field specifies multiple scope type annotations
+	 */
+	private void validateBeanScope(IBean bean) {
+		Set<IScopeDeclaration> scopes = bean.getScopeDeclarations();
+		if(scopes.size()>1) {
+			for (IScopeDeclaration scope : scopes) {
+				addError(CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, scope, bean.getResource());
+			}
+		}
 	}
 
 	/**

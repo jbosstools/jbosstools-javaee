@@ -65,6 +65,19 @@ public class ValidationTest extends TCKTest {
 		cleanProject("/definition/stereotype");
 	}
 
+	/*
+	 *  2.4.3. Declaring the bean scope
+	 *         - bean class or producer method or field specifies multiple scope type annotations
+	 */
+	public void testBeanScope() throws Exception {
+		IProject p = importPreparedProject("/definition/scope");
+		IFile file = p.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/scope/broken/tooManyScopes/BeanWithTooManyScopeTypes_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Bean class or producer method or field specifies multiple scope type annotations", 6, 7);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithTyped_Broken.java should has two error markers.", markerNumbers, 2);
+		cleanProject("/definition/scope");
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}

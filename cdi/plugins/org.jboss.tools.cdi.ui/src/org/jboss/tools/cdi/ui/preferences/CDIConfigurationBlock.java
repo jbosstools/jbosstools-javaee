@@ -55,10 +55,10 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDICorePlugin.PLUGIN_ID
 	);
 
-//	private static SectionDescription SECTION_SCOPE = new SectionDescription(
-//		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_scope,
-//		new String[][]{
-//			{CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleScopeTypeAnnotations_label},
+	private static SectionDescription SECTION_SCOPE = new SectionDescription(
+		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_scope,
+		new String[][]{
+			{CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleScopeTypeAnnotations_label},
 //			{CDIPreferences.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingScopeWhenThereIsNoDefaultScope_label},
 //			{CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_stereotypeDeclaresMoreThanOneScope_label},
 //			{CDIPreferences.ILLEGAL_SCOPE_FOR_MANAGED_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForManagedBean_label},
@@ -68,9 +68,9 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 //			{CDIPreferences.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeWhenTypeInjectionPointIsInjected_label},
 //			{CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForInterceptor_label},
 //			{CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForDecorator_label},
-//		},
-//		CDICorePlugin.PLUGIN_ID
-//	);
+		},
+		CDICorePlugin.PLUGIN_ID
+	);
 
 //	private static SectionDescription SECTION_MEMBER = new SectionDescription(
 //		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_member,
@@ -145,7 +145,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_NAME,
 		SECTION_TYPE,
-//		SECTION_SCOPE,
+		SECTION_SCOPE,
 //		SECTION_MEMBER,
 //		SECTION_INTERCEPTOR,
 //		SECTION_SPECIALIZATION,
