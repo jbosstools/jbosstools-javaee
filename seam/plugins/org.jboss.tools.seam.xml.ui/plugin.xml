@@ -101,7 +101,7 @@
       <xmlEditor 
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
-            entities="FileDSDatasources,FileDSConnectionFactories,FileDSDatasources50d,FileDSConnectionFactories50d" 
+            entities="FileDSDatasources,FileDSConnectionFactories,FileDSDatasources50d,FileDSConnectionFactories50d,FileDSDatasources50s,FileDSConnectionFactories50s" 
             icon="$nl$/images/xstudio/editors/seam-components.gif" 
             name="%editors.spring-beans.name">
       </xmlEditor>
