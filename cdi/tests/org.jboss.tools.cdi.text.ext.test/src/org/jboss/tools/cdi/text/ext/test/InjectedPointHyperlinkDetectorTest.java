@@ -33,16 +33,20 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
 public class InjectedPointHyperlinkDetectorTest extends TCKTest {
+	private static final String PROJECT_NAME = "/lookup/injectionpoint";
 	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java";
 
 	public static Test suite() {
 		return new TestSuite(InjectedPointHyperlinkDetectorTest.class);
 	}
-
-
+	
 	public void testInjectedPointHyperlinkDetector()  throws Exception {
-		IProject project = importPreparedProject("/lookup/injectionpoint");
+		IProject project = importPreparedProject(PROJECT_NAME);
+		doTest(project);
+		cleanProject(PROJECT_NAME);
+	}
 
+	private void doTest(IProject project) throws Exception {
 		IFile javaFile = project.getFile(FILE_NAME);
 
 		assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile != null));
