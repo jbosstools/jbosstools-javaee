@@ -16,6 +16,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.FacetProcessingTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1105Test;
@@ -121,6 +122,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
 		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);
 		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
 		suite.addTestSuite(OpenOnJsf20Test_JBIDE5382.class);

@@ -1,0 +1,23 @@
+<html xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html">
+    <head>
+    	<title>Input User Name Page</title>
+    </head>
+    <body>
+	<f:view>
+		<f:loadBundle var="Message" basename="jbide5818.MessagesJBIDE5818"></f:loadBundle>
+		<h1><h:outputText value="#{Message.header}"/></h1>
+
+		<h:messages style="color: red"/>
+
+    	<h:form id="greetingForm">
+    		<h:outputText value="#{Message.prompt_message}"/>
+    		<h:inputText value="#{user.name}" required="true">
+	    		<f:validateLength maximum="30" minimum="3"/>
+    		</h:inputText>
+
+		 	<h:commandButton action="hello" value="Say Hello!" />
+    	</h:form>
+	</f:view>
+    </body>
+</html>
