@@ -81,17 +81,17 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		renameComponent(seamEjbProject, "test", "best", list, false);
 	}
 	
-	public void testRemaningMailSessionDeclarationInComponentsXml_JBIDE4447() throws CoreException {
-		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
-
-		TestChangeStructure structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml");
-		TestTextChange change = new TestTextChange(2345, 41, "name=\"org.jboss.seam.mail.newMailSession\"");
-		structure.addTextChange(change);
-		
-		list.add(structure);
-
-		renameComponent(seamWarProject, "org.jboss.seam.mail.mailSession", "org.jboss.seam.mail.newMailSession", list, true);
-	}
+//	public void testRemaningMailSessionDeclarationInComponentsXml_JBIDE4447() throws CoreException {
+//		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+//
+//		TestChangeStructure structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml");
+//		TestTextChange change = new TestTextChange(2345, 41, "name=\"org.jboss.seam.mail.newMailSession\"");
+//		structure.addTextChange(change);
+//		
+//		list.add(structure);
+//
+//		renameComponent(seamWarProject, "org.jboss.seam.mail.mailSession", "org.jboss.seam.mail.newMailSession", list, true);
+//	}
 
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList, boolean fromJar) throws CoreException{
 		JobUtils.waitForIdle();
