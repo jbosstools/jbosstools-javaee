@@ -17,7 +17,7 @@ public class JsfTextExtAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite(JsfTextExtAllTests.class.getName());
-		suite.addTest(ELExprPartitionerTest.suite());
+		//suite.addTest(ELExprPartitionerTest.suite());
 		return suite;
 	}
 }
