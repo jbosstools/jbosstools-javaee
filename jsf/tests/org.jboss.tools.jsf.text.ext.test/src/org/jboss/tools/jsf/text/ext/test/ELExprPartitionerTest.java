@@ -137,12 +137,15 @@ public class ELExprPartitionerTest extends TestCase {
 		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_BEAN", regionList);
 		
 		regionList = new ArrayList<Region>();
-		
 		regionList.add(new Region(859, 11));
-		//regionList.add(new Region(870, 16));
+		regionList.add(new Region(870, 16));
 		regionList.add(new Region(886, 1));
 		
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
+		
+//		regionList = new ArrayList<Region>();
+//		regionList.add(new Region(870, 16));
+//		recognitionTest.put("org.eclipse.jst.jsp.SCRIPT.JSP_EL2", regionList);
 		
 		regionList = new ArrayList<Region>();
 		regionList.add(new Region(859, 11));
@@ -213,7 +216,7 @@ public class ELExprPartitionerTest extends TestCase {
 			}
 		}
 
-		assertEquals("Wrong recognized region count: ", 131,  counter);
+		assertEquals("Wrong recognized region count: ", 132,  counter);
 		
 		model.releaseFromEdit();
 
