@@ -26,8 +26,12 @@ public class SeamComponentTest extends VpeTest {
 	super(name);
 	setCheckWarning(false);
     }
-    
-    public void testButton() throws Throwable {
+    /**
+     * Commented by Maksim Areshkau, because possible concurent modification exception
+     * see https://jira.jboss.org/jira/browse/JBIDE-5820
+     * @throws Throwable
+     */
+    public void _testButton() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/button.xhtml", SeamAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
