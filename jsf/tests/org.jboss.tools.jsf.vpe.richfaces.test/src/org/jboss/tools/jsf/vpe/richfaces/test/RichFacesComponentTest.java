@@ -203,12 +203,8 @@ public class RichFacesComponentTest extends VpeTest {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/componentControl.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
-    /**
-     * Commented by Maksim Areshkau as workaround for https://jira.jboss.org/jira/browse/JBIDE-5821
-     * 
-     * @throws Throwable
-     */
-    public void _testContextMenu() throws Throwable {
+
+    public void testContextMenu() throws Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/contextMenu.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
