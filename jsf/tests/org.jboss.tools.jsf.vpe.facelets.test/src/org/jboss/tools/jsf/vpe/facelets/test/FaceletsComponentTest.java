@@ -329,7 +329,6 @@ public class FaceletsComponentTest extends VpeTest {
      */
     private nsIDOMElement performTestForFaceletComponent(String componentPage)
 	    throws Throwable {
-	TestUtil.waitForJobs();
 	// set exception
 	setException(null);
 
@@ -344,6 +343,7 @@ public class FaceletsComponentTest extends VpeTest {
 
 	assertNotNull("Editor input is null", input); //$NON-NLS-1$
 	// open and get editor
+	TestUtil.waitForIdle();
 	JSPMultiPageEditor part = openEditor(input);
 
 	// get dom document
