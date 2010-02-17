@@ -40,14 +40,15 @@
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
         
-        <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-            <year>2009</year>
+            <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
+            <year diffmk:change="added">2009</year>
+            <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.CR1
+            Version: 3.1.0.CR2
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -63,7 +64,7 @@
     <toc></toc>  
    
     
-<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
   <?dbhtml filename="introduction.html"?>
   <chapterinfo>
     <keywordset>
@@ -164,7 +165,7 @@
 </chapter>
 
     
-<chapter id="struts_application" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/struts_application.xml" xreflabel="struts_application">
+<chapter id="struts_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/struts_application.xml" xreflabel="struts_application">
     <?dbhtml filename="struts_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -591,7 +592,7 @@
     </section>
 </chapter>
     
-<chapter id="generating_stub" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/generating_stub.xml" xreflabel="generating_stub">
+<chapter id="generating_stub" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/generating_stub.xml" xreflabel="generating_stub">
     <?dbhtml filename="generating_stub.html"?>
     <chapterinfo>
         <keywordset>
@@ -642,7 +643,7 @@
             been generated.</para>
     </chapter>
     
-<chapter id="coding_files" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/coding_files.xml" xreflabel="coding_files">
+<chapter id="coding_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/coding_files.xml" xreflabel="coding_files">
     <?dbhtml filename="coding_files.html"?>
     <chapterinfo>
         <keywordset>
@@ -1071,7 +1072,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         </section>
     </chapter>
     
-<chapter id="compiling_and_running" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/compiling_and_running.xml" xreflabel="compiling_and_running">
+<chapter id="compiling_and_running" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/compiling_and_running.xml" xreflabel="compiling_and_running">
     <?dbhtml filename="compiling_and_running.html"?>
     <chapterinfo>
         <keywordset>
@@ -1114,7 +1115,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         <para>The browser should appear with the application started.</para>
     </chapter>
     
-<chapter id="struts_validation" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/struts_validation.xml" xreflabel="struts_validation">
+<chapter id="struts_validation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/struts_validation.xml" xreflabel="struts_validation">
   <?dbhtml filename="struts_validation.html"?>
   <chapterinfo>
         <keywordset>
@@ -1353,7 +1354,7 @@ org.apache.struts.validator.ValidatorForm
 
 </chapter>
     
-<chapter id="relevant_resources" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
+<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
     <?dbhtml filename="relevant_resources.html"?>
     <chapterinfo>
         <keywordset>
@@ -1383,7 +1384,8 @@ org.apache.struts.validator.ValidatorForm
 
     <para>To find out all the features of <property moreinfo="none">JBoss Tools</property> for working with Struts
         refer to our <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink>. If you
-        still have questions you are always welcome on <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+        still have questions you are always welcome on 
+        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
 
