@@ -32,8 +32,8 @@ import org.w3c.dom.Text;
 public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 
 	private final static int clientX = 5;
-	private final static int clientY = 10;
-	private final static long delay  = 1000;
+	private final static int clientY = 12;
+	private final static long delay  = 2000;
 	
 	public EditingSPecialSymbolsVPE_JBIDE3810(String name) {
 		super(name);
@@ -47,13 +47,13 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		IEditorInput editorInput = new FileEditorInput(file);
 		JSPMultiPageEditor part = openEditor(editorInput);
 		TestUtil.waitForIdle();
-		TestUtil.delay(5000);
+		TestUtil.delay(3000);
 		VpeController controller = TestUtil.getVpeController(part);
 		Mouse mouse = new Mouse(controller, delay);
 		mouse.click(clientX, clientY);
 		Keybord keybord = new Keybord(controller, delay);
 		keybord.pressBackSP();
-		mouse.click(clientX*2, clientY);
+		mouse.click(clientX+2, clientY);
 		keybord.pressDel().pressDel();
 		compareVisualAndSourceTargets(part);
 	}
@@ -79,11 +79,11 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		}
 
 		public Keybord pressDel() {
-			nsIDOMEvent delEvent = documentEvent.createEvent("KeyboardEvent");
+			nsIDOMEvent delEvent = documentEvent.createEvent("KeyboardEvent"); //$NON-NLS-1$
 			nsIDOMKeyEvent delKeyEvent = (nsIDOMKeyEvent) delEvent
 					.queryInterface(nsIDOMKeyEvent.NS_IDOMKEYEVENT_IID);
 			delKeyEvent
-					.initKeyEvent("keypress", true, true, abstractView, false,
+					.initKeyEvent("keypress", true, true, abstractView, false, //$NON-NLS-1$
 							false, false, false, nsIDOMKeyEvent.DOM_VK_DELETE,
 							0);
 			eventTarget.dispatchEvent(delKeyEvent);
@@ -93,10 +93,10 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		}
 
 		public Keybord pressBackSP() {
-			nsIDOMEvent bsEvent = documentEvent.createEvent("KeyboardEvent");
+			nsIDOMEvent bsEvent = documentEvent.createEvent("KeyboardEvent"); //$NON-NLS-1$
 			nsIDOMKeyEvent bsKeyEvent = (nsIDOMKeyEvent) bsEvent
 					.queryInterface(nsIDOMKeyEvent.NS_IDOMKEYEVENT_IID);
-			bsKeyEvent.initKeyEvent("keypress", true, true, abstractView,
+			bsKeyEvent.initKeyEvent("keypress", true, true, abstractView, //$NON-NLS-1$
 					false, false, false, false,
 					nsIDOMKeyEvent.DOM_VK_BACK_SPACE, 0);
 			eventTarget.dispatchEvent(bsKeyEvent);
@@ -107,10 +107,10 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 
 		public Keybord pressLeft() {
 			nsIDOMEvent leftArrowEvent = documentEvent
-					.createEvent("KeyboardEvent");
+					.createEvent("KeyboardEvent"); //$NON-NLS-1$
 			nsIDOMKeyEvent leftArrowKeyEvent = (nsIDOMKeyEvent) leftArrowEvent
 					.queryInterface(nsIDOMKeyEvent.NS_IDOMKEYEVENT_IID);
-			leftArrowKeyEvent.initKeyEvent("keypress", true, true,
+			leftArrowKeyEvent.initKeyEvent("keypress", true, true, //$NON-NLS-1$
 					abstractView, false, false, false, false,
 					nsIDOMKeyEvent.DOM_VK_LEFT, 0);
 			eventTarget.dispatchEvent(leftArrowKeyEvent);
@@ -140,9 +140,9 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		}
 
 		public Mouse click(int clientX, int clientY) {
-			windowUtils.sendMouseEvent("mousedown", clientX, clientY, 0, 1,
+			windowUtils.sendMouseEvent("mousedown", clientX, clientY, 0, 1, //$NON-NLS-1$
 					nsIDOMNSEvent.MOUSEDOWN, true);
-			windowUtils.sendMouseEvent("mouseup", clientX, clientY, 0, 1,
+			windowUtils.sendMouseEvent("mouseup", clientX, clientY, 0, 1, //$NON-NLS-1$
 					nsIDOMNSEvent.MOUSEUP, true);
 			TestUtil.delay(this.delay);
 			return this;
@@ -154,17 +154,17 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 	private void compareVisualAndSourceTargets(JSPMultiPageEditor part) {
 		nsIDOMElement headElement = ((VpeEditorPart) part.getVisualEditor())
 				.getVisualEditor().getContentArea();
-		nsIDOMNodeList nodeList = headElement.getElementsByTagName("SPAN");
+		nsIDOMNodeList nodeList = headElement.getElementsByTagName("SPAN"); //$NON-NLS-1$
 		nsIDOMNode node = nodeList.item(0).getChildNodes().item(0);
 		String valueToCompare = node.getNodeValue();
-		assertEquals("\na\n", valueToCompare);
+		assertEquals("\na\n", valueToCompare); //$NON-NLS-1$
 		IStructuredModel model = part.getSourceEditor().getModel();
 		IDOMModel sourceModel = (IDOMModel) model;
 		IDOMDocument sourceDocument = sourceModel.getDocument();
-		Node domNode = sourceDocument.getElementsByTagName("body").item(0);
+		Node domNode = sourceDocument.getElementsByTagName("body").item(0); //$NON-NLS-1$
 		String sourceValueToCompare = ((Text) domNode.getChildNodes().item(0))
 				.getNodeValue();
-		assertEquals("\r\na\r\n", sourceValueToCompare);
+		assertEquals("\r\na\r\n", sourceValueToCompare); //$NON-NLS-1$
 	}
 
 }
