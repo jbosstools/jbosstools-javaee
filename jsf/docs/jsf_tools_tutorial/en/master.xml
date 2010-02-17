@@ -52,14 +52,14 @@
         </copyright>
 
           <releaseinfo>
-              Version: 3.1.0.CR1
+              Version: 3.1.0.CR2
             </releaseinfo>
 
 
 <abstract>
    <title/>
        <para>
-           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/struts_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
        </para>
 </abstract>
 
