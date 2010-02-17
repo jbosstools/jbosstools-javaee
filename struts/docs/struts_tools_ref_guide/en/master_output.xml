@@ -44,14 +44,15 @@
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
         
-        <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
-             <year>2009</year>
+             <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
+             <year diffmk:change="added">2009</year>
+              <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
              <holder>JBoss by Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.CR1
+             Version: 3.1.0.CR2
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -67,7 +68,7 @@
     <toc></toc>  
     
     
-<chapter id="intoduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/introduction.xml">
+<chapter id="intoduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/introduction.xml">
     <?dbhtml filename="introduction.html"?>
 
     <chapterinfo>
@@ -178,7 +179,7 @@
 </chapter>
 
     
-<chapter id="projects" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/projects.xml">
+<chapter id="projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/projects.xml">
     <?dbhtml filename="projects.html"?>
 
     <chapterinfo>
@@ -453,7 +454,7 @@
 </chapter>
 
     
-<chapter id="editors" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/editors.xml">
+<chapter id="editors" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/editors.xml">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -933,7 +934,7 @@
 </chapter>
 
     
-<chapter id="modules" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/modules.xml">
+<chapter id="modules" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/modules.xml">
     <?dbhtml filename="modules.html"?>
     <chapterinfo>
         <keywordset>
@@ -1033,7 +1034,7 @@
 </chapter>
 
     
-<chapter id="code_generation" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/code_generation.xml">
+<chapter id="code_generation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/code_generation.xml">
     <?dbhtml filename="code_generation.html"?>
     
     <chapterinfo>
@@ -1130,7 +1131,7 @@
     </figure>
 </chapter>
     
-<chapter id="config_file_debugger" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/config_file_debugger.xml">
+<chapter id="config_file_debugger" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/config_file_debugger.xml">
     <?dbhtml filename="config_file_debugger.html"?>
     <chapterinfo>
         <keywordset>
@@ -1160,7 +1161,7 @@
     </figure>
 </chapter>
     
-<chapter id="page_links_recognizer" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/page_links_recognizer.xml">
+<chapter id="page_links_recognizer" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/page_links_recognizer.xml">
     <?dbhtml filename="page_links_recognizer.html"?>
     
     <chapterinfo>
@@ -1191,7 +1192,7 @@
     </figure>
 </chapter>
     
-<chapter id="project_verification" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/project_verification.xml">
+<chapter id="project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/project_verification.xml">
     <?dbhtml filename="project_verification.html"?>
     <chapterinfo>
         <keywordset>
@@ -1294,7 +1295,7 @@
     </figure>
 </chapter>
     
-<chapter id="rel_resources_links" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/struts/docs/struts_tools_ref_guide/en/modules/rel_resources_links.xml">
+<chapter id="rel_resources_links" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/rel_resources_links.xml">
         <?dbhtml filename="rel_resources_links.html"?>
         <chapterinfo>
                 <keywordset>
@@ -1319,9 +1320,12 @@
                 Struts application using a set of views and editors provided by <property moreinfo="none">JBoss
                 Tools</property>.</para>
 
-        <para>If you'd like to contribute your feedback is always appreciated. You can
-                leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">Forum</ulink>.</para>
-        <para>We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss forum</ulink>.</para>
+    <para>If you&apos;d like to contribute your feedback is always appreciated. You can
+        leave your questions and suggestions on our <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201"
+            >Forum</ulink>.</para>
+    <para>We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on <ulink
+        url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss forum</ulink>.</para>
 </chapter>
 
 </book>
