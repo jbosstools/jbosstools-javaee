@@ -161,6 +161,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		/*
 		 * Wait until new value is applied and children are refreshed.
 		 */
+		TestUtil.delay(500);
 		TestUtil.waitForIdle();
 		assertTrue("Current locale should be 'en_GB'", "en_GB".equalsIgnoreCase(fViewElement.getAttribute("locale"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		doc = controller.getXulRunnerEditor().getDOMDocument();
