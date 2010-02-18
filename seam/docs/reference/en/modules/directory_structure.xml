@@ -95,7 +95,7 @@
         <title>Changing the Seam Version</title>
 
         <para>To upgrade or downgrade your projects Seam version use the facet preferences. You
-            should right-click your project and choose <emphasis>
+            should right-click your project, open its <property>Properties</property>  and choose <emphasis>
                 <property>Project Facets</property>
             </emphasis> category. Next select <emphasis>
                 <property>Seam</property>
