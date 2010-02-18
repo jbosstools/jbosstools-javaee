@@ -6,8 +6,11 @@ import java.util.Properties;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.test.TestProperties;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
+import org.jboss.tools.ui.bot.ext.types.IDELabel.PreferencesDialog;
 import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
@@ -19,33 +22,26 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 	protected static Properties jbossEAPRuntime;
 	protected static Properties seam12Settings;
 	protected static Properties seam2fpSettings;
-	protected static Properties seam21Settings;
+	protected static Properties seam22Settings;
 	
 	private static final String PROJECT_PROPERTIES = "projectProperties.properties";
 	private static final String EAP_RUNTIME = "jbossEAPRuntime.properties";
 	private static final String SEAM_SET_12 = "seam12Settings.properties";
 	private static final String SEAM_SET_2FP = "seam2fpSettings.properties";
-	private static final String SEAM_SET_21 = "seam21Settings.properties";
+	private static final String SEAM_SET_22 = "seam22Settings.properties";
 	protected static final String VALIDATION = "Validation";
 	protected static final String DEPLOY_SOURCE = "Deploying datasource to server";
 	protected static final String REG_IN_SERVER = "Register in server";
 	
 	public static String JBOSS_EAP_HOME;
 	public static String SEAM_12_SETTINGS_HOME;
-	public static String SEAM_21_SETTINGS_HOME;
+	public static String SEAM_22_SETTINGS_HOME;
 	public static String SEAM_2FP_SETTINGS_HOME;	
 
-	public static final String[] SUBSTITUTE_PROPERTIES = {
-		"jbosstools.test.jboss.home",
-		"jbosstools.test.seam.1.2.1.eap.home",
-		"jbosstools.test.seam.2.1.0.GA.home",
-		"jbosstools.test.seam.2fp.eap.home"
-	};
-	
 	static {
-//		System.setProperty("jbosstools.test.seam.1.2.1.eap.home", "C:/jbdevstudio0609/jboss-eap/seam");
-//		System.setProperty("jbosstools.test.seam.2fp.eap.home", "C:/jbdevstudio0609/jboss-eap/seamfp");
-//		System.setProperty("jbosstools.test.seam.2.1.0.GA.home", "C:/jbdevstudio0609/jboss-eap/jboss-seam-2.1.1.GA");
+	  
+	  Properties vmArgsProps = TestControl.parseEclipseVMArgs();
+	  
 		try {
 			InputStream is = TestControl.class.getResourceAsStream("/" + PROJECT_PROPERTIES);
 			projectProperties = new TestProperties();
@@ -60,7 +56,8 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + EAP_RUNTIME);
 			jbossEAPRuntime = new TestProperties();
 			jbossEAPRuntime.load(is);
-		} catch (IOException e) {
+			TestControl.overrideValueFromSystemProperty(jbossEAPRuntime,"runtimePath","-Djboss.tools.test.jboss.home",vmArgsProps);
+	  } catch (IOException e) {
 			fail("Can't load properties from " + EAP_RUNTIME + " file");		
 		}
 		catch (IllegalStateException e) {
@@ -70,6 +67,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_12);
 			seam12Settings = new TestProperties();
 			seam12Settings.load(is);
+			TestControl.overrideValueFromSystemProperty(seam12Settings,"seamRuntimePath","-Djboss.tools.test.seam.1.2.1.eap.home",vmArgsProps);
 		} catch (IOException e) {
 			fail("Can't load properties from " + SEAM_SET_12 + " file");		
 		}
@@ -80,6 +78,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_2FP);
 			seam2fpSettings = new TestProperties();
 			seam2fpSettings.load(is);
+			TestControl.overrideValueFromSystemProperty(seam2fpSettings,"seamRuntimePath","-Djboss.tools.test.seam.2fp.eap.home",vmArgsProps);
 		} catch (IOException e) {
 			fail("Can't load properties from " + SEAM_SET_2FP + " file");		
 		}
@@ -87,24 +86,21 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			fail("Property file " + SEAM_SET_2FP + " was not found");
 		}
 		try {
-			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_21);
-			seam21Settings = new TestProperties();
-			seam21Settings.load(is);
+			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_22);
+			seam22Settings = new TestProperties();
+			seam22Settings.load(is);
+			TestControl.overrideValueFromSystemProperty(seam22Settings,"seamRuntimePath","-Djboss.tools.test.seam.2.2.0.eap.home",vmArgsProps);
 		} catch (IOException e) {
-			fail("Can't load properties from " + SEAM_SET_21 + " file");		
+			fail("Can't load properties from " + SEAM_SET_22 + " file");		
 		}
 		catch (IllegalStateException e) {
-			fail("Property file " + SEAM_SET_21 + " was not found");
+			fail("Property file " + SEAM_SET_22 + " was not found");
 		}
 		JBOSS_EAP_HOME = jbossEAPRuntime.getProperty("runtimePath");
 		SEAM_12_SETTINGS_HOME = seam12Settings.getProperty("seamRuntimePath");
-		SEAM_21_SETTINGS_HOME = seam21Settings.getProperty("seamRuntimePath");
-		SEAM_2FP_SETTINGS_HOME = seam2fpSettings.getProperty("seamRuntimePath");	
+		SEAM_22_SETTINGS_HOME = seam22Settings.getProperty("seamRuntimePath");
+		SEAM_2FP_SETTINGS_HOME = seam2fpSettings.getProperty("seamRuntimePath");
 	}
-	
-	
-	
-	
 /*Pre-launch operations here:*/
 
 	@Override
@@ -134,17 +130,40 @@ public static String TYPE_EAR = "EAR";
 
 /**Creates any Server Runtime + Server. */
 	protected void createServerRuntime(Properties serverType){
-		bot.menu("File").menu("New").menu("Other...").click();
-		SWTBotTree tree = bot.tree();
-		tree.expandNode("Server").select("Server");
-		bot.button("Next >").click();
-		SWTBotTree tree2 = bot.tree();
-		tree2.expandNode(serverType.getProperty("runtimeGroup")).select(serverType.getProperty("runtimeItem"));
-		bot.textWithLabel("Server name:").setText(serverType.getProperty("serverName"));
-		bot.button("Next >").click();
-		bot.textWithLabel("Name").setText(serverType.getProperty("runtimeName"));
-		bot.textWithLabel("Home Directory").setText(serverType.getProperty("runtimePath"));
-		bot.button("Finish").click();
+	  // Check if server is not already defined
+	  bot.menu(IDELabel.Menu.WINDOW).menu(IDELabel.Menu.PREFERENCES).click();
+    bot.shell(IDELabel.Shell.PREFERENCES).activate();
+    bot.tree().expandNode(IDELabel.PreferencesDialog.SERVER_GROUP).select(
+      PreferencesDialog.RUNTIME_ENVIRONMENTS);
+    SWTBotTable tbRuntimeEnvironments = bot.table();
+    boolean createRuntime = true;
+    int numRows = tbRuntimeEnvironments.rowCount();
+    if (numRows > 0) {
+      int currentRow = 0;
+      while (createRuntime && currentRow < numRows) {
+        if (tbRuntimeEnvironments.cell(currentRow, 0).equalsIgnoreCase(
+            serverType.getProperty("runtimeName"))) {
+          createRuntime = false;
+        } else {
+          currentRow++;
+        }
+      }
+    }
+    bot.button(IDELabel.Button.OK).click();
+    
+	  if (createRuntime){
+	    bot.menu("File").menu("New").menu("Other...").click();
+	    SWTBotTree tree = bot.tree();
+	    tree.expandNode("Server").select("Server");
+	    bot.button("Next >").click();
+	    SWTBotTree tree2 = bot.tree();
+	    tree2.expandNode(serverType.getProperty("runtimeGroup")).select(serverType.getProperty("runtimeItem"));
+	    bot.textWithLabel("Server name:").setText(serverType.getProperty("serverName"));
+	    bot.button("Next >").click();
+	    bot.textWithLabel("Name").setText(serverType.getProperty("runtimeName"));
+	    bot.textWithLabel("Home Directory").setText(serverType.getProperty("runtimePath"));
+	    bot.button("Finish").click();
+	  }
 	}
 
 /** Creates any Seam runtime.	*/
@@ -222,5 +241,44 @@ public static String TYPE_EAR = "EAR";
 			bot.button("OK").click();
 			bot.sleep(1000);
 		}
+	}
+	/**
+	 * Overrides propertyName property value within properties with value stored within vmargProperties with name vmargPropertyName
+	 * @param properties
+	 * @param propertyName
+	 * @param vmargPropertyName
+	 * @param vmargProperties
+	 */
+	private static void overrideValueFromSystemProperty (Properties properties, String propertyName , 
+    String vmargPropertyName, Properties vmargProperties){
+	  
+	  String vmargProperty = vmargProperties.getProperty(vmargPropertyName);
+	  if (vmargProperty != null){
+	    properties.setProperty(propertyName, vmargProperty);
+	  }
+	  
+	}
+	/**
+	 * Returns Properties which contains Virtual Machine arguments
+	 * with name starting with "-D"
+	 * @return
+	 */
+	private static Properties parseEclipseVMArgs (){
+    
+	  Properties vmArgsProps = new Properties();
+    
+	  String vmArgs = System.getProperty("eclipse.vmargs");
+	  
+	  if (vmArgs != null){
+	    for (String line : vmArgs.split("\n")){
+	      if (line.startsWith("-D")){
+	        String[] splitLine = line.split("=");
+	        vmArgsProps.setProperty(splitLine[0], splitLine[1]);
+	      }
+	    }
+	  }
+    
+    return vmArgsProps;
+    
 	}
 }

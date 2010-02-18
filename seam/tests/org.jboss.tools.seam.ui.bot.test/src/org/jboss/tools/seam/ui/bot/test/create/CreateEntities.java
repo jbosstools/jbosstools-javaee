@@ -1,5 +1,7 @@
 package org.jboss.tools.seam.ui.bot.test.create;
 
+import java.io.IOException;
+
 import org.jboss.tools.seam.ui.bot.test.TestControl;
 
 public class CreateEntities extends TestControl{
@@ -10,29 +12,32 @@ public class CreateEntities extends TestControl{
 		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_WAR);		
 	}
 	
-/*	public void testCreateEntityFor12ear(){
+	public void testCreateEntityFor12ear(){
 		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_EAR);		
-		waitForJobs();
 	}
 
 	public void testCreateEntityFor2fpwar(){
 		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_WAR);		
-		waitForJobs();
 	}
 	
 	public void testCreateEntityFor2fpear(){
 		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_EAR);		
-		waitForJobs();
 	}
 	
-	public void testCreateEntityFor21war(){
-		createSeamUnit(TEST_TYPE, seam21Settings, TYPE_WAR);		
-		waitForJobs();
+	public void testCreateEntityFor22war(){
+		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_WAR);		
 	}
 
-	public void testCreateEntityFor21ear(){
-		createSeamUnit(TEST_TYPE, seam21Settings, TYPE_EAR);		
-		waitForJobs();
-	}*/
+	public void testCreateEntityFor22ear(){
+		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);
+		// TODO: Remove it
+	  try {
+      System.in.read();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+	}
+	
 }
 	

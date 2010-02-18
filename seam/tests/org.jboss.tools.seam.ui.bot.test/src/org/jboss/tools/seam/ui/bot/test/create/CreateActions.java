@@ -10,7 +10,7 @@ public class CreateActions extends TestControl{
 		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_WAR);		
 	}
 	
-/*	public void testCreateActionFor12ear(){
+	public void testCreateActionFor12ear(){
 		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_EAR);		
 	}
 
@@ -22,12 +22,12 @@ public class CreateActions extends TestControl{
 		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_EAR);		
 	}
 	
-	public void testCreateActionFor21war(){
-		createSeamUnit(TEST_TYPE, seam21Settings, TYPE_WAR);		
+	public void testCreateActionFor22war(){
+		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_WAR);		
 	}
 
-	public void testCreateActionFor21ear(){
-		createSeamUnit(TEST_TYPE, seam21Settings, TYPE_EAR);		
-	}*/
+	public void testCreateActionFor22ear(){
+		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);		
+	}
 }
 	

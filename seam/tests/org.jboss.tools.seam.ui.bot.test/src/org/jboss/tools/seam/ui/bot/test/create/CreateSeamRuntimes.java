@@ -12,7 +12,7 @@ public class CreateSeamRuntimes extends TestControl{
 		createSeamRuntime(seam2fpSettings, SEAM_2FP_SETTINGS_HOME);
 		}
 	
-	public void testCreateSeamRuntime21(){
-		createSeamRuntime(seam21Settings, SEAM_21_SETTINGS_HOME);
+	public void testCreateSeamRuntime22(){
+		createSeamRuntime(seam22Settings, SEAM_22_SETTINGS_HOME);
 		}
 }

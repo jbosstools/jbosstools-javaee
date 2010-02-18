@@ -10,7 +10,7 @@ public class CreateForms extends TestControl{
 		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_WAR);		
 	}
 	
-/*	public void testCreateFormFor12ear(){
+	public void testCreateFormFor12ear(){
 		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_EAR);		
 	}
 
@@ -22,12 +22,12 @@ public class CreateForms extends TestControl{
 		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_EAR);		
 	}
 	
-	public void testCreateFormFor21war(){
-		createSeamUnit(TEST_TYPE, seam21Settings, TYPE_WAR);		
+	public void testCreateFormFor22war(){
+		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_WAR);		
 	}
 
-	public void testCreateFormFor21ear(){
-		createSeamUnit(TEST_TYPE, seam21Settings, TYPE_EAR);		
-	}*/
+	public void testCreateFormFor22ear(){
+		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);		
+	}
 }
 	
