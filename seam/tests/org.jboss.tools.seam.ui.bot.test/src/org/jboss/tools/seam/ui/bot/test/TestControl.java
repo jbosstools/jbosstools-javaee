@@ -6,11 +6,9 @@ import java.util.Properties;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.test.TestProperties;
-import org.jboss.tools.ui.bot.ext.types.IDELabel;
-import org.jboss.tools.ui.bot.ext.types.IDELabel.PreferencesDialog;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
@@ -130,28 +128,8 @@ public static String TYPE_EAR = "EAR";
 
 /**Creates any Server Runtime + Server. */
 	protected void createServerRuntime(Properties serverType){
-	  // Check if server is not already defined
-	  bot.menu(IDELabel.Menu.WINDOW).menu(IDELabel.Menu.PREFERENCES).click();
-    bot.shell(IDELabel.Shell.PREFERENCES).activate();
-    bot.tree().expandNode(IDELabel.PreferencesDialog.SERVER_GROUP).select(
-      PreferencesDialog.RUNTIME_ENVIRONMENTS);
-    SWTBotTable tbRuntimeEnvironments = bot.table();
-    boolean createRuntime = true;
-    int numRows = tbRuntimeEnvironments.rowCount();
-    if (numRows > 0) {
-      int currentRow = 0;
-      while (createRuntime && currentRow < numRows) {
-        if (tbRuntimeEnvironments.cell(currentRow, 0).equalsIgnoreCase(
-            serverType.getProperty("runtimeName"))) {
-          createRuntime = false;
-        } else {
-          currentRow++;
-        }
-      }
-    }
-    bot.button(IDELabel.Button.OK).click();
-    
-	  if (createRuntime){
+	  
+	  if (SWTJBTExt.isServerRuntimeDefined(bot,serverType.getProperty("runtimeName"))){
 	    bot.menu("File").menu("New").menu("Other...").click();
 	    SWTBotTree tree = bot.tree();
 	    tree.expandNode("Server").select("Server");
@@ -164,6 +142,7 @@ public static String TYPE_EAR = "EAR";
 	    bot.textWithLabel("Home Directory").setText(serverType.getProperty("runtimePath"));
 	    bot.button("Finish").click();
 	  }
+	  
 	}
 
 /** Creates any Seam runtime.	*/
