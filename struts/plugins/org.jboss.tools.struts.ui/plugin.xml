@@ -350,13 +350,13 @@
             <separator name="d">
             </separator>
          </menu>
-         <action 
+         <!--action 
              class="org.jboss.tools.struts.ui.internal.action.VerifyActionDelegate" 
              enablesFor="*" 
              id="org.jboss.tools.common.xstudio.action.VerifyActionDelegate" 
              label="%popupMenus.action.verify" 
              menubarPath="RedHat4Web/b">
-         </action>
+         </action-->
       </objectContribution>
       <objectContribution id="RedHatEclipse4Web_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
@@ -369,13 +369,13 @@
             <separator name="d">
             </separator>
          </menu>
-         <action 
+         <!--action 
              class="org.jboss.tools.struts.ui.internal.action.VerifyActionDelegate" 
              enablesFor="*" 
              id="org.jboss.tools.common.xstudio.action.VerifyActionDelegate" 
              label="%popupMenus.action.verify" 
              menubarPath="RedHat4Web/b">
-         </action>
+         </action-->
       </objectContribution>
       <!--objectContribution id="RedHatEclipse4Web_IFile" objectClass="org.eclipse.core.resources.IFile">
          <menu id="RedHat4Web" label="JBoss Tools" path="additions">
