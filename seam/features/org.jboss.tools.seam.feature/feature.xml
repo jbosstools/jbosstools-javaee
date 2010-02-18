@@ -18,9 +18,11 @@
       %license
    </license>
 
+	<!--
    <url>
       <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/galileo/"/>
    </url>
+   -->
 
    <requires>
       <import feature="org.jboss.tools.richfaces.feature" version="2.0.0" match="greaterOrEqual"/>

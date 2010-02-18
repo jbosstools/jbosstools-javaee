@@ -18,9 +18,11 @@
       %license
    </license>
 
+	<!--
    <url>
       <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/galileo/"/>
    </url>
+   -->
 
    <plugin
          id="org.jboss.tools.struts"
