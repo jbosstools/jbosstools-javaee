@@ -11,8 +11,6 @@
 
 package org.jboss.tools.struts.ui.bot.test.smoke;
 
-import static org.junit.Assert.assertTrue;
-
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
@@ -35,9 +33,11 @@ public class AddRemoveStrutsCapabilities extends SWTTestExt{
     swtJbtExt = new SWTJBTExt(bot);
   }
   @Test
-	public void testCreateNewStrutsProject() {
+	public void testAddRemoveStrutsCapabilities() {
      boolean jbdsIsRunning = SWTJBTExt.isJBDSRun(bot);
+     swtJbtExt.delay();
      removeStrutsCapabilities(jbdsIsRunning);
+     swtJbtExt.delay();
      addStrutsCapabilities();
 	}
   
