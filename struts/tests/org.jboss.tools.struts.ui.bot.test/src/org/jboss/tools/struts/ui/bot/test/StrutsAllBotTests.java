@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.struts.ui.bot.test;
 
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.jboss.tools.struts.ui.bot.test.smoke.AddRemoveStrutsCapabilities;
 import org.jboss.tools.struts.ui.bot.test.smoke.CreateNewStrutsProjectTest;
 import org.jboss.tools.struts.ui.bot.test.smoke.ImportStrutsProjectTest;
@@ -37,19 +39,25 @@ import org.junit.runners.Suite.SuiteClasses;
   AddRemoveStrutsCapabilities.class,
   ImportStrutsProjectTest.class,
   RenameStrutsConfigXmlFile.class,
-  RenameTldFile.class})  
+  RenameTldFile.class
+  })  
 public class StrutsAllBotTests extends SWTTestExt {
   public static final String STRUTS_PROJECT_NAME = "strutsTest";
   @BeforeClass
-  public static void setUp() {
+  public static void setUpTest() {
     properties = util.loadProperties(Activator.PLUGIN_ID);
-    if(eclipse.getBot().viewByTitle(IDELabel.View.WELCOME)!=null) {
-    	eclipse.closeView(IDELabel.View.WELCOME);
+    try{
+      SWTBotView welcomeView = eclipse.getBot().viewByTitle(IDELabel.View.WELCOME);
+      welcomeView.close();
+    } catch (WidgetNotFoundException wnfe){
+      // Do nothing ignore this error
     }
+    	
   }
 
   @AfterClass
-  public static void tearDown() {
+  public static void tearDownTest() {
     // Ready for later usage
   }
+ 
 }
