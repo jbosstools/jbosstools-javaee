@@ -126,7 +126,7 @@ public class JsfAllTests {
 		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
 		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
 		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);
-		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
+//		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
 		suite.addTestSuite(OpenOnJsf20Test_JBIDE5382.class);
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
