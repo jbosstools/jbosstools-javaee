@@ -11,7 +11,6 @@
 
 package org.jboss.tools.struts.ui.bot.test.smoke;
 
-import static org.junit.Assert.assertNull;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.helper.FileRenameHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -30,7 +29,7 @@ public class RenameTldFile extends SWTTestExt{
    * Test renaming of struts-config.xml file
    */
   @Test
-	public void testRenameStrutsConfigXmlFile() {
+	public void testRenameTldFile() {
     String checkResult = FileRenameHelper.checkFileRenamingWithinWebProjects(bot,
         OLD_TLD_FILE_NAME, NEW_TLD_FILE_NAME,
         new String[]{StrutsAllBotTests.STRUTS_PROJECT_NAME, IDELabel.WebProjectsTree.TAG_LIBRARIES},
