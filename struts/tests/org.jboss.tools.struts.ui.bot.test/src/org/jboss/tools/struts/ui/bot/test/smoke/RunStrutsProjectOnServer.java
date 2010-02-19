@@ -11,8 +11,6 @@
 
 package org.jboss.tools.struts.ui.bot.test.smoke;
 
-import static org.junit.Assert.assertTrue;
-
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.helper.WidgetFinderHelper;
