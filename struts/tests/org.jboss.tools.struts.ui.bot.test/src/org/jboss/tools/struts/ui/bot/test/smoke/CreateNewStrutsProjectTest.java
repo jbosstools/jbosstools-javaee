@@ -11,8 +11,6 @@
 
 package org.jboss.tools.struts.ui.bot.test.smoke;
 
-import static org.junit.Assert.assertTrue;
-
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
@@ -33,12 +31,13 @@ public class CreateNewStrutsProjectTest extends SWTTestExt{
    */
   @Test
 	public void testCreateNewStrutsProject() {
-    
+    if (!SWTJBTExt.isServerRuntimeDefined(bot)){
+      eclipse.addServerRuntime(IDELabel.ServerRuntimeName.JBOSS_EAP_4_3,
+          IDELabel.ServerGroup.JBOSS_EAP_4_3,
+          IDELabel.ServerRuntimeType.JBOSS_EAP_4_3,
+          StrutsAllBotTests.getProperty("JBossEap4.3Home"));
+    }
 	  eclipse.showView(ViewType.WEB_PROJECTS);
-	  eclipse.addServerRuntime(IDELabel.ServerRuntimeName.JBOSS_EAP_4_3,
-	    IDELabel.ServerGroup.JBOSS_EAP_4_3,
-	    IDELabel.ServerRuntimeType.JBOSS_EAP_4_3,
-	    StrutsAllBotTests.getProperty("JBossEap4.3Home"));
 	  eclipse.createNew(EntityType.STRUTS_PROJECT);
 	  bot.shell(IDELabel.Shell.NEW_STRUTS_PROJECT).activate();
 	  bot.textWithLabel(IDELabel.NewStrutsProjectDialog.NAME).setText(StrutsAllBotTests.STRUTS_PROJECT_NAME);
@@ -53,7 +52,6 @@ public class CreateNewStrutsProjectTest extends SWTTestExt{
 		assertTrue("Project "+ StrutsAllBotTests.STRUTS_PROJECT_NAME + " was not created properly.",
 		  SWTEclipseExt.treeContainsItemWithLabel(bot.viewByTitle(IDELabel.View.WEB_PROJECTS).bot().tree(),
 	      StrutsAllBotTests.STRUTS_PROJECT_NAME));
-		  
 	}
 	
 }
