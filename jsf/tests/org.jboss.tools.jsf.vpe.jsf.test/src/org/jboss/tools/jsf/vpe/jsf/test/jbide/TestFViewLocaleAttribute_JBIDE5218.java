@@ -150,22 +150,22 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
 		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT0_ID);
 		String localizedText = getLocalizedText(localeText);
-		checkLocaleStrings(file, "en", localizedText);
+		checkLocaleStrings(file, "en", localizedText); //$NON-NLS-1$
 		
 		localeText = doc.getElementById(LOCALE_TEXT1_ID);
 		localizedText = getLocalizedText(localeText);
-		checkLocaleStrings(file, "de", localizedText);
+		checkLocaleStrings(file, "de", localizedText); //$NON-NLS-1$
 		
 		localeText = doc.getElementById(LOCALE_TEXT2_ID);
 		localizedText = getLocalizedText(localeText);
 		/*
 		 * f:view will use default locale if nothing is specified.
 		 */
-		checkLocaleStrings(file, "en_US", localizedText);
+		checkLocaleStrings(file, "en_US", localizedText); //$NON-NLS-1$
 		
 		localeText = doc.getElementById(LOCALE_TEXT_ID);
 		localizedText = getLocalizedText(localeText);
-		checkLocaleStrings(file, "en_GB", localizedText);
+		checkLocaleStrings(file, "en_GB", localizedText); //$NON-NLS-1$
 		
 		closeEditors();
 	}
@@ -352,13 +352,16 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		}
 		ClassLoader classLoader = new URLClassLoader(urls, ClassLoader
 				.getSystemClassLoader());
+
 		ResourceBundle bundle = ResourceBundle.getBundle(bundleName,
 				new Locale(localeName), classLoader);
 		String bundleText = bundle.getString(bundleKey);
 		assertNotNull(bundleText);
 		assertTrue(
 				"Text is '" + currentText + "', but should be in '"//$NON-NLS-1$ //$NON-NLS-2$
-				+ localeName + "' locale", bundleText.equalsIgnoreCase(currentText)); //$NON-NLS-1$
+						+ localeName
+						+ "' locale, bundle's value is '" + bundleText + "'", bundleText.equalsIgnoreCase(currentText) //$NON-NLS-1$ //$NON-NLS-2$ 
+		);
 	}
 	
 	/**
