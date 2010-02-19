@@ -147,12 +147,21 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		boolean isCheck = true;
+		String isCheckString = System.getProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER"); //$NON-NLS-1$
+		if (isCheckString != null) {
+			isCheck = Boolean.parseBoolean(isCheckString);
+		}
+		if (isCheck == false) {
+			System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "true");  //$NON-NLS-1$ //$NON-NLS-2$
+		}
 	    JspEditorPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
 	}
 	
 	@Override
 	protected void tearDown() throws Exception {
 		JspEditorPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, false);
+		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		super.tearDown();
 	}
 	
