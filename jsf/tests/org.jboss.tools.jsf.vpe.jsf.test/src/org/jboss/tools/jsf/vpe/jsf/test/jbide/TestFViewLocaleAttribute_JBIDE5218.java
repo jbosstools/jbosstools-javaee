@@ -10,7 +10,21 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.VpePlugin;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
@@ -49,6 +63,10 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	private static final String LOCALE_TEXT3_ID = "localeText3"; //$NON-NLS-1$
 	private static final String FVIEW_ID = "fviewid"; //$NON-NLS-1$
 	
+
+	private static final String DEFAUT_BUNDLE_NAME = "demo.Messages"; //$NON-NLS-1$
+	private static final String DEFAUT_MESSAGE_KEY = "hello_message"; //$NON-NLS-1$
+	private String[] javaSources;
 	
 	public TestFViewLocaleAttribute_JBIDE5218(String name) {
 		super(name);
@@ -114,25 +132,40 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 * @throws Throwable
 	 */
 	public void testSeveralFViewsWithLocales() throws Throwable {
-		VpeController controller = openInVpe(
-				JsfAllTests.IMPORT_JSF_20_PROJECT_NAME, SEVERAL_FVIEWS_PAGE);
-		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
 		
+		IFile file =
+			(IFile) TestUtil.getComponentPath(SEVERAL_FVIEWS_PAGE, JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		assertNotNull("Could not open specified file."		//$NON-NLS-1$
+				+ " componentPage = " + SEVERAL_FVIEWS_PAGE			//$NON-NLS-1$
+				+ ";projectName = " + JsfAllTests.IMPORT_JSF_20_PROJECT_NAME, file);	//$NON-NLS-1$
+		IEditorInput input = new FileEditorInput(file);
+		assertNotNull("Editor input is null", input);		//$NON-NLS-1$
+		 /*
+		  * open and get the editor
+		  */
+		JSPMultiPageEditor part = openEditor(input);
+		VpeController controller = TestUtil.getVpeController(part);
+		
+		javaSources = EclipseResourceUtil.getJavaProjectSrcLocations(file.getProject());
+		nsIDOMDocument doc = controller.getXulRunnerEditor().getDOMDocument();
 		nsIDOMElement localeText = doc.getElementById(LOCALE_TEXT0_ID);
 		String localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en' locale", HELLO_EN.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
-
+		checkLocaleStrings(file, "en", localizedText);
+		
 		localeText = doc.getElementById(LOCALE_TEXT1_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO2_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		checkLocaleStrings(file, "de", localizedText);
 		
 		localeText = doc.getElementById(LOCALE_TEXT2_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in default locale", HELLO_EN_US.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		/*
+		 * f:view will use default locale if nothing is specified.
+		 */
+		checkLocaleStrings(file, "en_US", localizedText);
 		
 		localeText = doc.getElementById(LOCALE_TEXT_ID);
 		localizedText = getLocalizedText(localeText);
-		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
+		checkLocaleStrings(file, "en_GB", localizedText);
 		
 		closeEditors();
 	}
@@ -270,7 +303,64 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		
 		closeEditors();
 	}
+	
+	/**
+	 * Short version of {@link #checkLocaleStrings(IFile, String, String, String, String)}
+	 * <p>
+	 * Uses default values for bundle name and message key.
+	 */
+	private void checkLocaleStrings(IFile openedFile, String localeName, String currentText) {
+		checkLocaleStrings(openedFile, localeName, DEFAUT_BUNDLE_NAME,
+				DEFAUT_MESSAGE_KEY, currentText);
+	}
+	
+	/**
+	 * Loads a message from resource bundle and
+	 * compares it to the specified one.
+	 * <p>
+	 * Fixes difference in JVM 5 and 6 bundles loading. 
+	 * 
+	 * @param openedFile file opened in the editor
+	 * @param localeName string code of the locale
+	 * @param bundleName the name of the bundle
+	 * @param bundleKey message key
+	 * @param currentText compared string
+	 */
+	private void checkLocaleStrings(IFile openedFile, String localeName,
+			String bundleName, String bundleKey, String currentText) {
+		/*
+		 * javaSources should be initialized before call.
+		 */
+		URL[] urls = new URL[0];
+		try {
+			if (javaSources != null) {
+				File tempFile;
+				urls = new URL[javaSources.length];
+				for (int i = 0; i < javaSources.length; ++i) {
+					try {
+						tempFile = new File(javaSources[i]).getCanonicalFile();
+						urls[i] = tempFile.toURL();
+					} catch (IOException ioe) {
+						VpePlugin.reportProblem(ioe);
+					}
+				}
 
+			}
+		} catch (MissingResourceException ex) {
+			VpePlugin.getDefault().logError(
+					"Project source folder is missing!", ex); //$NON-NLS-1$
+		}
+		ClassLoader classLoader = new URLClassLoader(urls, ClassLoader
+				.getSystemClassLoader());
+		ResourceBundle bundle = ResourceBundle.getBundle(bundleName,
+				new Locale(localeName), classLoader);
+		String bundleText = bundle.getString(bundleKey);
+		assertNotNull(bundleText);
+		assertTrue(
+				"Text is '" + currentText + "', but should be in '"//$NON-NLS-1$ //$NON-NLS-2$
+				+ localeName + "' locale", bundleText.equalsIgnoreCase(currentText)); //$NON-NLS-1$
+	}
+	
 	/**
 	 * Gets the text value from the container.
 	 * Container should be a simple tag like div or span.
