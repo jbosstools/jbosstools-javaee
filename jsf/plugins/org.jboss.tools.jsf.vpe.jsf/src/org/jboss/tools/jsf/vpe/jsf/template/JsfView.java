@@ -98,7 +98,7 @@ public class JsfView extends VpeAbstractTemplate {
 		/*
 		 * 2. Create Locale object from locale string.
 		 */
-		locale = createLocale(localeString);
+		locale = ComponentUtil.createLocale(localeString);
 		
 		/*
 		 * 3. Get bundles for this Locale and Refresh the page.
@@ -118,27 +118,6 @@ public class JsfView extends VpeAbstractTemplate {
 		}
 
 		return creationData;
-	}
-	
-	/**
-	 * Creates the locale.
-	 * <p>If the locale string could be parsed into language and country -
-	 * creates Locale for this arguments.
-	 * <p> By default - locale for empty string is created.
-	 * 
-	 * @param localeString the locale string
-	 * @return Locale object
-	 */
-	Locale createLocale(String localeString) {
-		Locale newLocale = null;
-		if (localeString.length() == 2) {
-			newLocale = new Locale(localeString);
-		} else if ((localeString.length() == 5) && (localeString.indexOf("_") == 2)) { //$NON-NLS-1$
-			newLocale = new Locale(localeString.substring(0, 2), localeString.substring(3));
-		} else {
-			newLocale = new Locale(Constants.EMPTY);
-		}
-		return newLocale;	
 	}
 	
 	/**

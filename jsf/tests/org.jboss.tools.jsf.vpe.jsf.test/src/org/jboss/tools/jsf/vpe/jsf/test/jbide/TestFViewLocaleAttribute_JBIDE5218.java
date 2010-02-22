@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.VpePlugin;
@@ -353,8 +354,9 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		ClassLoader classLoader = new URLClassLoader(urls, ClassLoader
 				.getSystemClassLoader());
 
+		Locale locale = ComponentUtil.createLocale(localeName);
 		ResourceBundle bundle = ResourceBundle.getBundle(bundleName,
-				new Locale(localeName), classLoader);
+				locale, classLoader);
 		String bundleText = bundle.getString(bundleKey);
 		assertNotNull(bundleText);
 		assertTrue(
