@@ -93,33 +93,30 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 	}
 
 	private ResultObject startCheckerThread() {
-		final ResultObject resultObject = new ResultObject();
-		Thread thread = new Thread(new Runnable() {
-			public void run() {
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-						Shell shell = null;
-						while (shell == null && isCheckNeed) {
-							TestUtil.delay(1000);
-							Shell[] shells = null;
-							while (shells == null) {
-								shells = Display.getCurrent().getShells();
-							}
-							shell = findShellWithText(shells, TEST_SHELL_NAME);
-							if (shell != null) {
-								resultObject.setShellName(TEST_SHELL_NAME);
-								Label label = (Label)shell.getChildren()[1];
-								resultObject.setTextLabel(label.getText());
-								shell.close();
-							}
-						}
-					}
-				});
-			}
-		});
-		thread.start();
-		return resultObject;
-	}
+        final Shell[] shell = new Shell[1];
+        final ResultObject resultObject = new ResultObject();
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                TestUtil.waitForIdle();
+                while (shell[0] == null && isCheckNeed) {
+                	Display.getDefault().syncExec(new Runnable() {
+                		public void run() {
+                            Shell[] shells = Display.getCurrent().getShells();
+                            shell[0] = findShellWithText(shells, TEST_SHELL_NAME);
+                            if (shell[0] != null) {
+                                resultObject.setShellName(TEST_SHELL_NAME);
+                                Label label = (Label)shell[0].getChildren()[1];
+                                resultObject.setTextLabel(label.getText());
+                                shell[0].close();
+                            }
+                		}
+                	});
+                }
+            }
+        });
+        thread.start();
+        return resultObject;
+    }
 	
 	private static Shell findShellWithText (Shell[] shells, String text){
 		for (int i = 0; i < shells.length; i++) {
