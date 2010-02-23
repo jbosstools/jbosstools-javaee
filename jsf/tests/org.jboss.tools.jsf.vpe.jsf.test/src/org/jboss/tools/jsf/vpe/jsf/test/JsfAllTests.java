@@ -126,7 +126,7 @@ public class JsfAllTests {
 		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
 		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
 		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);
-////		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
+//		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
 		suite.addTestSuite(OpenOnJsf20Test_JBIDE5382.class);
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
@@ -206,13 +206,6 @@ public class JsfAllTests {
 		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
 		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);
 		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 		suite.addTestSuite(FacetProcessingTest.class);
 		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
