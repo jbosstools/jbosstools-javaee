@@ -3,7 +3,12 @@
 <plugin>
    <extension
          point="org.jboss.tools.vpe.ui.tests">
-			<tests testSuite="org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests" name="Tests For Rich Faces Components"/>
+			<tests
+					testSuite="org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests"
+					name="Tests For Rich Faces Components"/>
+			<testProject
+         			name="richFacesTest"
+         			path="resources/richFacesTest"/>
    </extension>
 
 </plugin>

@@ -28,6 +28,7 @@ import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.tld.TaglibMapping;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -47,8 +48,8 @@ public class JBIDE4534Test extends VpeTest{
 	protected void setUp() throws Exception {
 		super.setUp();
 		setVpeController(null);
-		this.project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		this.project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
 		this.nonUIJob = new Job("Revalidate Taglibs Test Job name"){ //$NON-NLS-1$
 			@SuppressWarnings("synthetic-access")
 			@Override

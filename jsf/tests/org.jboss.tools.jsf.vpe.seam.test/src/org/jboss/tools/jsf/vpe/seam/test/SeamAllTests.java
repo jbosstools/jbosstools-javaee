@@ -10,14 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.seam.test;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
-import org.jboss.tools.tests.ImportBean;
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 /**
  * Class for testing all Seam components
@@ -31,17 +27,11 @@ public class SeamAllTests {
     public static final String IMPORT_PROJECT_NAME = "SeamTest"; //$NON-NLS-1$
     
     public static Test suite() {
-	TestSuite suite = new TestSuite("Tests for Vpe Seam components"); //$NON-NLS-1$
-	// $JUnit-BEGIN$
-	suite.addTestSuite(SeamComponentTest.class);
-	suite.addTestSuite(SeamComponentContentTest.class);
-	// $JUnit-END$
-	List<ImportBean> importProjects = new ArrayList<ImportBean>();
-	ImportBean importBean = new ImportBean();
-	importBean.setImportProjectName(SeamAllTests.IMPORT_PROJECT_NAME);
-	importBean.setImportProjectPath(SeamTestPlugin.getPluginResourcePath());
-	importProjects.add(importBean);
-	return new VpeTestSetup(suite, importProjects);
-
+		TestSuite suite = new TestSuite("Tests for Vpe Seam components"); //$NON-NLS-1$
+		// $JUnit-BEGIN$
+		suite.addTestSuite(SeamComponentTest.class);
+		suite.addTestSuite(SeamComponentContentTest.class);
+		// $JUnit-END$
+		return new VpeTestSetup(suite);
     }
 }

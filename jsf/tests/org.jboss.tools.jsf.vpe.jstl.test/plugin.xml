@@ -2,6 +2,10 @@
    <extension
          point="org.jboss.tools.vpe.ui.tests">
             <tests testSuite="org.jboss.tools.jsf.vpe.jstl.test.JstlAllTests" name="Tests For Jstl Components"/>
+            <testProject
+                  name="jstlTests"
+                  path="resources/jstlTests">
+            </testProject>
    </extension>
 
 </plugin>

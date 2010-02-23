@@ -10,31 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jstl.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jboss.tools.tests.ImportBean;
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 public class JstlAllTests {
     
     public static final String IMPORT_PROJECT_NAME = "jstlTests"; //$NON-NLS-1$
     
     public static Test suite() {
-	
-	TestSuite suite = new TestSuite("Tests for Vpe JSTL components"); //$NON-NLS-1$
-	
-	suite.addTestSuite(JstlComponentContentTest.class);
-	
-	List<ImportBean> projectToImport = new ArrayList<ImportBean>();
-	ImportBean importBean = new ImportBean();
-	importBean.setImportProjectName(JstlAllTests.IMPORT_PROJECT_NAME);
-	importBean.setImportProjectPath(JstlTestPlugin.getPluginResourcePath());
-	projectToImport.add(importBean);
-
-	return new VpeTestSetup(suite, projectToImport);
+		TestSuite suite = new TestSuite("Tests for Vpe JSTL components"); //$NON-NLS-1$
+		suite.addTestSuite(JstlComponentContentTest.class);
+		return new VpeTestSetup(suite);
     }
 }

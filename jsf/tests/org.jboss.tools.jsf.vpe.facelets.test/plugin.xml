@@ -8,6 +8,10 @@
             name="Facelets Tests"
             testSuite="org.jboss.tools.jsf.vpe.facelets.test.FaceletsAllTests">
       </tests>
+      <testProject
+            name="faceletsTest"
+            path="resources/faceletsTest">
+      </testProject>
    </extension>
 
 </plugin>

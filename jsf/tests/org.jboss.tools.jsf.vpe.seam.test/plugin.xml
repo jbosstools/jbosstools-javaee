@@ -5,8 +5,10 @@
          point="org.jboss.tools.vpe.ui.tests">
       <tests
             name="Vpe test&apos;s for seam ui components"
-            testSuite="org.jboss.tools.jsf.vpe.seam.test.SeamAllTests">
-      </tests>
+            testSuite="org.jboss.tools.jsf.vpe.seam.test.SeamAllTests"/>
+      <testProject
+            name="SeamTest"
+            path="resources/SeamTest"/>
    </extension>
 
 </plugin>

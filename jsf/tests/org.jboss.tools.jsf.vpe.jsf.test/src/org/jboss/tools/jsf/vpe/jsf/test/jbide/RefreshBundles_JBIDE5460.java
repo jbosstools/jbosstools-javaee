@@ -31,14 +31,15 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
 
 public class RefreshBundles_JBIDE5460 extends VpeTest {
 
-	private static String TEST_PAGE = "tableBasic/tableBasic.xhtml"; //$NON-NLS-1$
+	private static String TEST_PAGE = "html/tableBasic/tableBasic.xhtml"; //$NON-NLS-1$
 	
 	public RefreshBundles_JBIDE5460(String name) {
 		super(name);
 	}
 
 	public void testRefreshBundles() throws Throwable{
-		IFile file = (IFile) getFile(TEST_PAGE, JsfAllTests.IMPORT_JBIDE5460_PROJECT_NAME);
+		IFile file = (IFile) TestUtil.getWebContentPath(
+				TEST_PAGE, JsfAllTests.IMPORT_JBIDE5460_PROJECT_NAME);
 
 		assertNotNull("Could not open specified file. componentPage = " //$NON-NLS-1$
 						+ TEST_PAGE
@@ -55,15 +56,4 @@ public class RefreshBundles_JBIDE5460 extends VpeTest {
 
 		TestUtil.delay(2000);
 	}
-	
-	private IResource getFile(String pagePath, String projectName) throws CoreException{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				projectName);
-		if (project != null) {
-			return project.getFolder("WebContent/html").findMember(pagePath);
-
-		}
-		return null;
-	}
-	
 }

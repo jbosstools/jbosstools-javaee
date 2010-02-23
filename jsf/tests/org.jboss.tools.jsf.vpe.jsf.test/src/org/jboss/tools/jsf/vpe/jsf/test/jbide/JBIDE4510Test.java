@@ -24,6 +24,7 @@ import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.ui.javaeditor.JarEntryEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -41,8 +42,8 @@ public class JBIDE4510Test extends VpeTest {
 	}
 
 	public void testCorrectDoctypeOnFileFromJarArchive() throws Throwable {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
 		/*
 		 * Project should exist in the workspace 
 		 */

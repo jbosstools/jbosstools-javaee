@@ -10,13 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
-import java.lang.reflect.Method;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -24,10 +20,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.javaeditor.JarEntryEditorInput;
-import org.eclipse.jface.text.Region;
-import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -36,14 +28,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.wst.sse.ui.StructuredTextEditor;
-import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
-import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.ui.test.OpenOnUtil;
+import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -58,8 +45,8 @@ public class JBIDE4509Test extends VpeTest{
 	}
 	//tests openOn from  taglib
 	public void testOpenOnTaglibDefinitionFile() throws Throwable {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 12, 17, "paginator.xhtml"); //$NON-NLS-1$
@@ -79,8 +66,8 @@ public class JBIDE4509Test extends VpeTest{
 	
 	//test for <function-class>
 	public void testJBIDE4638OpenOnForFunctionClass() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 31, 37, "FaceletFunctions.java"); //$NON-NLS-1$
@@ -88,31 +75,32 @@ public class JBIDE4509Test extends VpeTest{
 	
 	//test for <function-class>
 	public void testJBIDE4638OpenOnForLibraryClass() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
 		IFile file = (IFile) project.findMember("WebContent/WEB-INF/test.taglib.xml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 6, 25, "CoreLibrary.java"); //$NON-NLS-1$
 	}
 	//test for <function-class>
 	public void testJBIDE4638OpenOnForHandlerClass() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 22, 23, "IfHandler.java"); //$NON-NLS-1$
 	}
 	//test for <handler-class> in tag
 	public void testJBIDE4638OpenOnForHandlerClassWithTagAxis() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 		IFile file = (IFile) project.findMember("WebContent/tags/facelets.taglib.xml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 36, 29, "IfHandler.java"); //$NON-NLS-1$
 	}
 	//test for https://jira.jboss.org/jira/browse/JBIDE-4635
 	public void testJBIDE4635OpenOn() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
 		IFile file = (IFile) project.findMember("WebContent/pages/index.xhtml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 11, 11, "mareshkau.taglib.xml"); //$NON-NLS-1$
@@ -124,7 +112,8 @@ public class JBIDE4509Test extends VpeTest{
 
 	//test for https://jira.jboss.org/jira/browse/JBIDE-5099
 	public void testJBIDE5099OpenOn() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		IFile file = (IFile) project.findMember("WebContent/pages/JBIDE/5015/login.xhtml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
@@ -133,7 +122,8 @@ public class JBIDE4509Test extends VpeTest{
 
 	//test for https://jira.jboss.org/jira/browse/JBIDE-5099
 	public void testJBIDE5099JarOpenOn() throws Throwable{
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		IFile file = (IFile) project.findMember("WebContent/pages/JBIDE/5015/login.xhtml"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
@@ -154,8 +144,8 @@ public class JBIDE4509Test extends VpeTest{
 	@SuppressWarnings("restriction")
 	private static final void checkOpenOnFromJarFile(final String jarFilePath,final String jarEntryPath,
 			final int line, final int position,final String expectedResult) throws Throwable {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
 		IJavaProject javaProject = JavaCore.create(project);
 		
 		IFile jarArchive = (IFile) project.findMember(jarFilePath);

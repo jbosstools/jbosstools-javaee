@@ -4,9 +4,32 @@
    <extension
          point="org.jboss.tools.vpe.ui.tests">
       <tests
-            name="JSf Tests"
-            testSuite="org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests">
-      </tests>
+            name="JsfAllTests"
+            testSuite="org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests"/>
+      <testProject
+            name="jsfTest"
+            path="resources/jsfTest"/>
+      <testProject
+            name="jsf2test"
+            path="resources/jsf2test"/>
+      <testProject
+            name="customFaceletsTestProject"
+            path="resources/customFaceletsTestProject"/>
+      <testProject
+            name="JBIDE3247"
+            path="resources/JBIDE3247"/>
+      <testProject
+            name="i18nTest"
+            path="resources/i18nTest"/>
+      <testProject
+            name="naturesCheckTest"
+            path="resources/naturesCheckTest"/>
+      <testProject
+            name="jsfLocales"
+            path="resources/jsfLocales"/>
+      <testProject
+            name="JBIDE5460TestProject"
+            path="resources/JBIDE5460TestProject"/>
    </extension>
 
 </plugin>

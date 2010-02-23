@@ -26,6 +26,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.ui.test.OpenOnUtil;
+import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
@@ -47,8 +48,8 @@ public class OpenOnInJarPackageFragment_JBIDE5682 extends VpeTest {
 	}
 
 	public void testOpenOnInJarPackageFragment() throws Throwable {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
+		IProject project = ProjectsLoader.getInstance()
+				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
 		IJavaProject javaProject = JavaCore.create(project);
 		IPackageFragmentRoot fragmentRoot = javaProject
 				.getPackageFragmentRoot(javaProject.getPath().toString() + "/" //$NON-NLS-1$

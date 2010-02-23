@@ -6,8 +6,10 @@
       <tests
             description="Unit tests for Struts support in VPE"
             name="Struts Tests"
-            testSuite="org.jboss.tools.struts.vpe.struts.test.StrutsAllTests">
-      </tests>
+            testSuite="org.jboss.tools.struts.vpe.struts.test.StrutsAllTests"/>
+      <testProject
+            name="StrutsTest"
+            path="resources/StrutsTest"/>
    </extension>
 
 </plugin>

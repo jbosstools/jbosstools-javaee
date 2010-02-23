@@ -7,6 +7,10 @@
             name="MyFaces Tests"
             testSuite="org.jboss.tools.jsf.vpe.myfaces.test.MyFacesAllTests">
       </tests>
+      <testProject
+            name="myFacesTest"
+            path="resources/myFacesTest">
+      </testProject>
    </extension>
 
 </plugin>

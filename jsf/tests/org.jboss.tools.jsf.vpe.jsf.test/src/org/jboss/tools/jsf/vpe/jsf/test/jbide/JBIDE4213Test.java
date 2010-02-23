@@ -10,21 +10,16 @@
 ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.tld.ITaglibMapping;
 import org.jboss.tools.jst.web.tld.TaglibMapping;
+import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -45,7 +40,8 @@ public class JBIDE4213Test extends VpeTest {
 	TestUtil.waitForJobs();
 	setException(null);
 
-	IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("customFaceletsTestProject");
+	IProject project = ProjectsLoader.getInstance()
+			.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
 	assertNotNull(project);
 
 	IModelNature nature = EclipseResourceUtil.getModelNature(project);

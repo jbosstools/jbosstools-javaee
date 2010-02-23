@@ -95,13 +95,4 @@ public class Jsf20ComponentContentTest extends ComponentContentTest {
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;
 	}
-	
-	@Override
-	protected void setUp() throws Exception {
-		if(!ResourcesPlugin.getWorkspace().getRoot().getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME).isAccessible()) {
-			ResourcesUtils.importProjectIntoWorkspace((JsfTestPlugin.getPluginResourcePath()
-					+ File.separator+JsfAllTests.IMPORT_JSF_20_PROJECT_NAME),JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
-		}
-	}
-
 }

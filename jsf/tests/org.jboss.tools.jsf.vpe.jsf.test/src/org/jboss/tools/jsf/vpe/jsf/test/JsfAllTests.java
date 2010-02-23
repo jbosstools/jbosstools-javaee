@@ -10,9 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -61,7 +58,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3617Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3632Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3650Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3734Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditingSPecialSymbolsVPE_JBIDE3810;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE3969Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4037Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4179Test;
@@ -70,35 +66,34 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.NaturesChecker_JBIDE5701;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.PreferencesForEditors_JBIDE5692;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.RefreshBundles_JBIDE5460;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestForUsingComponentsLibrariesWithDefaultNamespace;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestOpenOnForXhtmlFiles_JBIDE5577;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1501Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1568Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1718Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2170Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2362Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.NaturesChecker_JBIDE5701;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnCssClassTest_JBIDE4775;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInsideJspRoot_JBIDE4852;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.PreferencesForEditors_JBIDE5692;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.RefreshBundles_JBIDE5460;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectAllAndCut_JBIDE4853;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectWholeElement_JBIDE4713;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestForUsingComponentsLibrariesWithDefaultNamespace;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestOpenOnForXhtmlFiles_JBIDE5577;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VPERefreshTest;
-import org.jboss.tools.tests.ImportBean;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 /**
@@ -118,7 +113,7 @@ public class JsfAllTests {
 	public static final String IMPORT_NATURES_CHECKER_PROJECT = "naturesCheckTest"; //$NON-NLS-1$
 	public static final String IMPORT_JSF_LOCALES_PROJECT_NAME = "jsfLocales"; //$NON-NLS-1$
 	public static final String IMPORT_JBIDE5460_PROJECT_NAME = "JBIDE5460TestProject"; //$NON-NLS-1$
-	
+
 	public static Test suite() {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
@@ -209,51 +204,8 @@ public class JsfAllTests {
 		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 		suite.addTestSuite(FacetProcessingTest.class);
 		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
-			
+
 		// $JUnit-END$
-		// added by Max Areshkau
-		// add here projects which should be imported for junit tests
-		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
-		ImportBean importBeanJsf1 = new ImportBean();
-		importBeanJsf1.setImportProjectName(JsfAllTests.IMPORT_PROJECT_NAME);
-		importBeanJsf1.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(importBeanJsf1);
-		
-		ImportBean importBeanJBIDE5460 = new ImportBean();
-		importBeanJBIDE5460.setImportProjectName(JsfAllTests.IMPORT_JBIDE5460_PROJECT_NAME);
-		importBeanJBIDE5460.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(importBeanJBIDE5460);
-		
-		ImportBean importBeanJsf20 = new ImportBean();
-		importBeanJsf20.setImportProjectName(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
-		importBeanJsf20.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(importBeanJsf20);
-
-		ImportBean customFaceletsTestProject = new ImportBean();
-		customFaceletsTestProject.setImportProjectName(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
-		customFaceletsTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(customFaceletsTestProject);
-		
-		ImportBean jbide3247TestProject = new ImportBean();
-		jbide3247TestProject.setImportProjectName(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
-		jbide3247TestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(jbide3247TestProject);
-
-		ImportBean i18nTestProject = new ImportBean();
-		i18nTestProject.setImportProjectName(JsfAllTests.IMPORT_I18N_PROJECT_NAME);
-		i18nTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(i18nTestProject);
-
-		ImportBean naturesCheckTestProject = new ImportBean();
-		naturesCheckTestProject.setImportProjectName(JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT);
-		naturesCheckTestProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(naturesCheckTestProject);
-		
-		ImportBean jsfLocalesProject = new ImportBean();
-		jsfLocalesProject.setImportProjectName(JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME);
-		jsfLocalesProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
-		projectToImport.add(jsfLocalesProject);
-		
-		return new VpeTestSetup(suite, projectToImport);
+		return new VpeTestSetup(suite);
 	}
 }

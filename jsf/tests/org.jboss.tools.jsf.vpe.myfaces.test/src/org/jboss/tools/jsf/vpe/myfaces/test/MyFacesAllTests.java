@@ -1,12 +1,8 @@
 package org.jboss.tools.jsf.vpe.myfaces.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 /**
@@ -26,15 +22,6 @@ public class MyFacesAllTests {
 		// $JUnit-BEGIN$
 		suite.addTestSuite(MyFacesComponentTest.class);
 		// $JUnit-END$
-
-		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
-		ImportBean importBean = new ImportBean();
-		importBean
-				.setImportProjectName(MyFacesComponentTest.IMPORT_PROJECT_NAME);
-		importBean.setImportProjectPath(MyFacesTestPlugin
-				.getPluginResourcePath());
-		projectToImport.add(importBean);
-
-		return new VpeTestSetup(suite, projectToImport);
+		return new VpeTestSetup(suite);
 	}
 }

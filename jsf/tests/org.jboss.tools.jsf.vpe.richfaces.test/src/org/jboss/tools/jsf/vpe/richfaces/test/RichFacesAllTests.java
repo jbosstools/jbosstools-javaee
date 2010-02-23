@@ -10,9 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -26,7 +23,6 @@ import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1614Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1639Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1682Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.RichFacesJBIDE1169Test;
-import org.jboss.tools.tests.ImportBean;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 /**
@@ -65,16 +61,6 @@ public class RichFacesAllTests {
 		suite.addTestSuite(RichFacesComponentContentTest.class);
 
 		// $JUnit-END$
-
-		List<ImportBean> projectToImport = new ArrayList<ImportBean>();
-		ImportBean importBean = new ImportBean();
-		importBean.setImportProjectName(RichFacesAllTests.IMPORT_PROJECT_NAME);
-		importBean.setImportProjectPath(RichFacesTestPlugin
-				.getPluginResourcePath());
-		projectToImport.add(importBean);
-
-		return new VpeTestSetup(suite, projectToImport);
-
+		return new VpeTestSetup(suite);
 	}
-
 }
