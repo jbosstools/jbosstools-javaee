@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+ <head>
+  <title>panel</title>
+ </head>
+<body>
+ 
+<composite:interface>
+    <composite:attribute name="style" required="false"/>
+    <composite:attribute name="styleClass" required="false"/>
+    <composite:attribute name="headerClass" required="false"/>
+    <composite:attribute name="bodyClass" required="true"/>
+</composite:interface>
+ 
+<composite:implementation>
+    <h:outputStylesheet name="rich/css/panel.css" />
+  
+ <div class="rich-panel #{compositeComponent.attrs.styleClass}"
+   style="#{compositeComponent.attrs.style}"
+   onclick="#{compositeComponent.attrs.onclick}" 
+   ondblclick="#{compositeComponent.attrs.ondblclick}"
+   onkeydown="#{compositeComponent.attrs.onkeydown}"
+   onkeypress="#{compositeComponent.attrs.onkeypress}"
+   onkeyup="#{compositeComponent.attrs.onkeyup}"
+   onmousedown="#{compositeComponent.attrs.onmousedown}"
+   onmousemove="#{compositeComponent.attrs.onmousemove}"
+   onmouseout="#{compositeComponent.attrs.onmouseout}"
+   onmouseover="#{compositeComponent.attrs.onmouseover}"
+   onmouseup="#{compositeComponent.attrs.onmouseup}">
+
+   <h:panelGroup rendered="#{not empty cc.facets.header}">
+   <div class="rich-panel-header #{compositeComponent.attrs.headerClass}">
+     <composite:renderFacet name="header"/>
+   </div>      
+   </h:panelGroup>   
+  <div class="rich-panel-body #{compositeComponent.attrs.bodyClass}" > 
+   <composite:insertChildren /> 
+  </div>   
+ 
+ </div> 
+</composite:implementation>
+</body>
+</html>

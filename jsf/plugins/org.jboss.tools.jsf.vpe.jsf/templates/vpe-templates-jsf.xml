@@ -1116,6 +1116,18 @@
 <!--	</vpe:if>-->
 	</vpe:tag>
 	
+	<vpe:tag name="composite:renderFacet">
+			<vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets"
+			defineElementName="facet">
+			</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="composite:insertChildren">
+			<vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets"
+			defineElementName="facet">
+			</vpe:template>
+	</vpe:tag>
+		
 	<vpe:tag name="composite:interface" case-sensitive="yes">
 		<!-- Checks for min tld version has been comented, 
 		becouse it's not specified correctly in jsf lib, mareshkau -->
@@ -1123,6 +1135,7 @@
 		<vpe:template children="yes" modify="no"/>
 <!--		</vpe:if>	-->
 	</vpe:tag>
+	
 	
 	<vpe:tag name="composite:attribute" case-sensitive="yes">
 				<!-- Checks for min tld version has been comented, 

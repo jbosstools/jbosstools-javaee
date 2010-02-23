@@ -31,9 +31,14 @@ import org.w3c.dom.Text;
 
 public class VpeInsertTemplate extends VpeAbstractTemplate {
 	
+	private static final String DEFINE_ELEMENT_NAME_PARAM="defineElementName"; //$NON-NLS-1$
+	private String defineElementName=Facelets.TAG_DEFINE; 
+	
+	@Override
 	protected void init(Element templateElement) {
 		children = true;
 		modify = false;
+		this.defineElementName = templateElement.getAttribute(DEFINE_ELEMENT_NAME_PARAM)!=null?templateElement.getAttribute(DEFINE_ELEMENT_NAME_PARAM):Facelets.TAG_DEFINE;
 		initTemplateSections(templateElement, false, true, false, false, false);
 	}
 
@@ -89,7 +94,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 			if (child.getNodeType() == Node.ELEMENT_NODE) {
 				Element childElement = (Element) child;
-				if (Facelets.TAG_DEFINE.equals(childElement.getLocalName())
+				if (this.defineElementName.equals(childElement.getLocalName())
 						&& defineName.equals(childElement
 								.getAttribute(Facelets.ATTR_NAME))) {
 					defineElement = childElement;
@@ -113,7 +118,9 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 			if ((child.getNodeType() == Node.ELEMENT_NODE||child.getNodeType() == Node.TEXT_NODE)) {
 				
-				if(child.getNodeType() == Node.ELEMENT_NODE&&!Facelets.TAG_DEFINE.equals(child.getLocalName())&&((Element)child).getAttribute("name")==null) { //$NON-NLS-1$
+				if(child.getNodeType() == Node.ELEMENT_NODE&&!this.defineElementName.equals(child.getLocalName())
+						//&&((Element)child).getAttribute("name")==null
+						) { 
 					result.add(child);
 					
 				} else if(child.getNodeType() == Node.TEXT_NODE&&((Text)child).getNodeValue()!=null&&
