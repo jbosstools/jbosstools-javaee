@@ -40,7 +40,9 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		"Please use the Configure menu on the project to enable JSF if " + //$NON-NLS-1$
 		"you want all features of the editor working."; //$NON-NLS-1$
 	private static final String SECOND_TEST_PAGE_NAME = "components/commandButton.jsp"; //$NON-NLS-1$
-
+	private volatile boolean isCheckNeed = true;
+	
+	
 	public NaturesChecker_JBIDE5701(String name) {
 		super(name);
 	}
@@ -51,6 +53,10 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		
 		openPage(JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT, FIRST_TEST_PAGE_NAME);
 		
+		if ("".equals(resultObject.getShellName()) && "".equals(resultObject.getTextLabel())) { //$NON-NLS-1$ //$NON-NLS-2$
+			throw new Exception("Project natures checker dialog hasn't appeared :(("); //$NON-NLS-1$
+		}
+		
 		assertEquals(TEST_SHELL_NAME, resultObject.getShellName());
 		assertEquals(TEST_STRING, resultObject.getTextLabel());
 
@@ -58,8 +64,9 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		
 		openPage(JsfAllTests.IMPORT_PROJECT_NAME, SECOND_TEST_PAGE_NAME);
 		
-		assertEquals("", resultObject.getShellName()); //$NON-NLS-1$
-		assertEquals("", resultObject.getTextLabel()); //$NON-NLS-1$
+		if (!"".equals(resultObject.getShellName()) || !"".equals(resultObject.getTextLabel())) { //$NON-NLS-1$ //$NON-NLS-2$
+			throw new Exception("Enexpected shell has appeared " + "\"" + resultObject.getShellName() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
 
 	}
 
@@ -91,21 +98,20 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 			public void run() {
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
-						Shell[] shells = null;
-						while (shells == null) {
-							shells = Display.getCurrent().getShells();
-						}
-						Shell shell = findShellWithText(shells, TEST_SHELL_NAME);
-						if (shell == null) {
-							TestUtil.delay(5000);
-							shells = Display.getCurrent().getShells();
+						Shell shell = null;
+						while (shell == null && isCheckNeed) {
+							TestUtil.delay(1000);
+							Shell[] shells = null;
+							while (shells == null) {
+								shells = Display.getCurrent().getShells();
+							}
 							shell = findShellWithText(shells, TEST_SHELL_NAME);
-						}
-						if (shell != null) {
-							resultObject.setShellName(TEST_SHELL_NAME);
-							Label label = (Label)shell.getChildren()[1];
-							resultObject.setTextLabel(label.getText());
-							shell.close();
+							if (shell != null) {
+								resultObject.setShellName(TEST_SHELL_NAME);
+								Label label = (Label)shell.getChildren()[1];
+								resultObject.setTextLabel(label.getText());
+								shell.close();
+							}
 						}
 					}
 				});
@@ -138,6 +144,8 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 
 		JSPMultiPageEditor part = openEditor(input);
 
+		isCheckNeed = false;
+		
 		assertNotNull("Editor is not opened", part); //$NON-NLS-1$
 
 		TestUtil.delay(3000);
@@ -147,14 +155,7 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		boolean isCheck = true;
-		String isCheckString = System.getProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER"); //$NON-NLS-1$
-		if (isCheckString != null) {
-			isCheck = Boolean.parseBoolean(isCheckString);
-		}
-		if (isCheck == false) {
-			System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "true");  //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "true");  //$NON-NLS-1$ //$NON-NLS-2$
 	    JspEditorPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
 	}
 	
