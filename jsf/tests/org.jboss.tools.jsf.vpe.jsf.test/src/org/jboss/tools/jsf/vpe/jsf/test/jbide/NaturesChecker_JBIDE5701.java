@@ -65,7 +65,7 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		openPage(JsfAllTests.IMPORT_PROJECT_NAME, SECOND_TEST_PAGE_NAME);
 		
 		if (!"".equals(resultObject.getShellName()) || !"".equals(resultObject.getTextLabel())) { //$NON-NLS-1$ //$NON-NLS-2$
-			throw new Exception("Enexpected shell has appeared " + "\"" + resultObject.getShellName() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			throw new Exception("Unexpected shell has appeared " + "\"" + resultObject.getShellName() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 	}
