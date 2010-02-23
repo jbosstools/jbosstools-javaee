@@ -15,10 +15,6 @@
   location="%workspace.home%/lib/commons-digester.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-commons-logging.jar" info="hidden=yes"
   location="%workspace.home%/lib/commons-logging.jar" model-entity="FileSystemJar"/>
- <file-system NAME="lib-jsf-api.jar" info="hidden=yes"
-  location="%workspace.home%/lib/jsf-api.jar" model-entity="FileSystemJar"/>
- <file-system NAME="lib-jsf-impl.jar" info="hidden=yes"
-  location="%workspace.home%/lib/jsf-impl.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-jstl.jar" info="hidden=yes"
   location="%workspace.home%/lib/jstl.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-standard.jar" info="hidden=yes"
@@ -36,6 +32,6 @@
   location="%workspace.home%/lib/common-annotations.jar" model-entity="FileSystemJar"/>
  <web SERVLET_VERSION="2.5" model-entity="JstWeb" model-path="/web.xml">
   <module URI="/WEB-INF/faces-config.xml" model-entity="WebJSFModule"
-   model-path="/faces-config.xml" root="WEB-ROOT" src="src"/>
+   model-path="/faces-config.xml" src="src" web-root="WEB-ROOT"/>
  </web>
 </file-systems>

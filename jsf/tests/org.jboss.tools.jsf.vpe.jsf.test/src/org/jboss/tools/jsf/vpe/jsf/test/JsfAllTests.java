@@ -86,6 +86,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.PreferencesForEditors_JBIDE5692;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.RefreshBundles_JBIDE5460;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.RenderFacetAndInsertChildrenTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectAllAndCut_JBIDE4853;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectWholeElement_JBIDE4713;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
@@ -118,6 +119,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(RenderFacetAndInsertChildrenTest.class);
 		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
 		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
 		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);

@@ -32,7 +32,7 @@
     </vpe:tag>
 
     <vpe:tag name="ui:insert" case-sensitive="yes" >
-	    <vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate"/>
+	    <vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate" defineElementName="define"/>
     </vpe:tag>
 
     <vpe:tag name="ui.component" case-sensitive="yes">
