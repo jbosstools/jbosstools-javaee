@@ -1121,12 +1121,6 @@
 			defineElementName="facet">
 			</vpe:template>
 	</vpe:tag>
-
-	<vpe:tag name="composite:renderFacet">
-			<vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets"
-			defineElementName="facet">
-			</vpe:template>
-	</vpe:tag>
 	<vpe:tag name="composite:insertChildren">
 			<vpe:template class="org.jboss.tools.jsf.vpe.facelets.template.VpeInsertTemplate" namespaceIdentifier="org.jboss.tools.jsf.vpe.facelets"
 			defineElementName="facet">

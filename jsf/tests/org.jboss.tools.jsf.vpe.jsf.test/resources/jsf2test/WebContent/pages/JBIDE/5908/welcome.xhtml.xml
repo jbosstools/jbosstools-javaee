@@ -1,0 +1,158 @@
+<tests>
+<test id="jbide5908">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+page
+</H1>
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+</SPAN>
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+#{cc.attrs.pageTitle}
+</H1>
+<DIV STYLE="-moz-user-modify: read-only;">
+</DIV>
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" CLASS="rich-page #{cc.attrs.pageClass}" STYLE="-moz-user-modify: read-only;">
+<TBODY STYLE="-moz-user-modify: read-only;">
+<TR STYLE="-moz-user-modify: read-only;">
+<TD CLASS="header_bg" STYLE="-moz-user-modify: read-only;">
+<DIV CLASS="header_content rich-page-header #{cc.attrs.headerClass}" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Welcome to RichFaces demo!
+</SPAN>
+</H1>
+</DIV>
+</DIV>
+</TD>
+</TR>
+<TR STYLE="-moz-user-modify: read-only;">
+<TD HEIGHT="100%" WIDTH="100%" CLASS="bg_tabbody" STYLE="-moz-user-modify: read-only;">
+<TABLE HEIGHT="100%" WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0" CLASS="rich-page-content #{cc.attrs.contentClass}" STYLE="-moz-user-modify: read-only;">
+<TBODY STYLE="-moz-user-modify: read-only;">
+<TR STYLE="-moz-user-modify: read-only;">
+<TD CLASS="menu_col rich-page-sidebar #{cc.attrs.sidebarClass}" STYLE="-moz-user-modify: read-only;">
+<DIV CLASS="menu_width spacer" STYLE="-moz-user-modify: read-only;"><BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="display: none; -moz-user-modify: read-only;">
+<H1 STYLE="-moz-user-modify: read-only;">
+panel
+</H1>
+</DIV>
+<DIV STYLE="-moz-user-modify: read-only;">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+<DIV CLASS="rich-panel #{compositeComponent.attrs.styleClass}" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+<DIV CLASS="rich-panel-header #{compositeComponent.attrs.headerClass}" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+Navigation
+</SPAN>
+</DIV>
+</DIV>
+</SPAN>
+<DIV CLASS="rich-panel-body #{compositeComponent.attrs.bodyClass}" STYLE="-moz-user-modify: read-only;">
+<TABLE BORDER="0" STYLE="-moz-user-modify: read-only;">
+<TBODY>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:ajax</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:jsFunction</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:mediaOutput</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:push</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:status</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:outputPanel</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:commandButton</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:commandLink</SPAN></A>
+</TD>
+</TR>
+<TR>
+<TD><A STYLE="-moz-user-modify: read-only;" CLASS=""><SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">a4j:log</SPAN></A>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</TD>
+<TD CLASS="content_col  rich-page-body #{cc.attrs.bodyClass}" STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+Welcome To RichFaces 4.x Demo
+</SPAN>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+<TR STYLE="-moz-user-modify: read-only;">
+<TD CLASS="footer_bg" STYLE="-moz-user-modify: read-only;">
+<DIV CLASS="footer_bg_content rich-page-footer #{cc.attrs.footerClass}" STYLE="-moz-user-modify: read-only;">
+<DIV STYLE="-moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+footer
+</SPAN>
+</DIV>
+</DIV>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</test>
+</tests>
