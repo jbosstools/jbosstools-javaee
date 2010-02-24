@@ -10,7 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.struts.vpe.struts.test;
 
+import java.util.HashMap;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
@@ -50,7 +55,35 @@ public class StrutsHTMLComponentTest extends VpeTest {
 	}
 	
 	public void testImage() throws Throwable {
-		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/image.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+		/*
+		 * XXX temporary code is used to debug Struts tests on Hudson.
+		 * It must be removed when the problem with the failing tests is resolved.
+		 */
+		StringBuilder debugInfo = new StringBuilder();
+		debugInfo.append("projectNameToPath = ")
+				.append(ProjectsLoader.getInstance().getProjectNameToPath())
+				.append(";\n");
+		
+		IProject project = ProjectsLoader.getInstance().getProject(IMPORT_PROJECT_NAME);
+		assertNotNull(debugInfo.toString(), project);
+		debugInfo.append("project = ").append(project).append(";\n")
+				.append("project.exists() = ").append(project.exists()).append(";\n")
+				.append("project.isOpen() = ").append(project.isOpen()).append(";\n");
+				
+		IFolder folder = project.getFolder("WebContent/pages");
+		assertNotNull(debugInfo.toString(), folder);
+		debugInfo.append("folder = ").append(folder).append(";\n")
+				.append("folder.exists() = ").append(folder.exists()).append(";\n");
+		
+		IFile testFile = (IFile) folder.findMember("components/html/image.jsp");
+		assertNotNull(debugInfo.toString(), testFile);
+		debugInfo.append("testFile = ").append(folder).append(";\n")
+				.append("testFile.exists() = ").append(testFile.exists()).append(";\n");
+
+		performTestForVpeComponent(testFile);
+		fail(debugInfo.toString());
+		
+		// performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/image.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
 	public void testImg() throws Throwable {
