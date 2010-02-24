@@ -91,6 +91,10 @@ public class StrutsHTMLComponentTest extends VpeTest {
 	}
 	
 	public void testLink() throws Throwable {
+		// XXX wait is added just to check if the test will fail on Hudson.
+		// Most probably it is not needed.
+		TestUtil.waitForIdle();
+		
 		performTestForVpeComponent((IFile)TestUtil.getComponentPath("components/html/link.jsp", IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
 	
