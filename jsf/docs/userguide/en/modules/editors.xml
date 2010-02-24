@@ -311,6 +311,11 @@
                         <ulink url="&esblink;#ESBContentAssist">ESB XML files</ulink>
                     </para>
                 </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="ContentAssistForInsertTag">Insert Tag Wizard</link>
+                    </para>
+                </listitem>
             </itemizedlist>
 
             <para>Notice, that code completion for EL variables has icons illustrating what they are
@@ -743,7 +748,21 @@
         		<para>If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
         			<link linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom Facelets Components&quot;</link> later in this guide.</para>
         	</section>
-        	<section id="AddingDynamicCodeAssistToCustomComponents8745">
+            <section id="ContentAssistForInsertTag">
+                <title>Content Assist for Insert Tag Wizard</title>
+                <para>Content Assist is also available for any attribute value of <emphasis>Insert Tag wizard</emphasis>.</para>
+                <figure>
+                    <title>Content Assist for Insert Tag Wizard</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/editors_features_27a.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+            </section>
+            
+            <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
