@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class JBIDE2624Test extends VpeTest {
         super(name);
     }
 
-    public void testJBide2624() throws CoreException {
+    public void testJBide2624() throws CoreException, IOException {
         // get test page path
         setException(null);
         IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME, //$NON-NLS-1$

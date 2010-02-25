@@ -13,6 +13,7 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -119,9 +120,11 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
      * Test selection with resource string.
      * 
      * @throws CoreException the core exception
+     * @throws IOException 
      */
     @SuppressWarnings("restriction")
-    public void testSelectionWithResourceString() throws CoreException {
+    public void testSelectionWithResourceString()
+    		throws CoreException, IOException {
         IFile lfile = (IFile) TestUtil.getComponentPath(PAGE_2, getOpenProjectName());
         IEditorInput input = new FileEditorInput(lfile);
         // open and get editor

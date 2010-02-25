@@ -10,6 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.IOException;
+
 import junit.framework.Assert;
 
 import org.eclipse.core.resources.IFile;
@@ -80,7 +82,7 @@ public class JBIDE3441Test  extends VpeTest {
 	}
 
 	private VpeController openPageInVpe(final String pageName) throws CoreException,
-			PartInitException {
+			PartInitException, IOException {
 		IFile elementPageFile = (IFile) TestUtil.getComponentPath(
 				pageName, JsfAllTests.IMPORT_PROJECT_NAME);
 		IEditorInput input = new FileEditorInput(elementPageFile);

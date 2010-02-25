@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -233,9 +235,11 @@ public class JBIDE788Test extends VpeTest {
 	 * @param linePosition
 	 * @return
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
     private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
-            String partOfString, int lineIndex, int linePosition) throws CoreException {
+            String partOfString, int lineIndex, int linePosition)
+    		throws CoreException, IOException {
         return this.checkOfCAByStartString(caName, testPagePath, partOfString, lineIndex, linePosition,true);
         
     }
@@ -249,10 +253,11 @@ public class JBIDE788Test extends VpeTest {
 	 * @param isCheck
 	 * @return
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
 	
 	private ICompletionProposal[] checkOfCAByStartString(String caName, String testPagePath,
-            String partOfString, int lineIndex, int linePosition,boolean isCheck) throws CoreException {
+            String partOfString, int lineIndex, int linePosition,boolean isCheck) throws CoreException, IOException {
         // get test page path
         IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
         		JsfAllTests.IMPORT_PROJECT_NAME);

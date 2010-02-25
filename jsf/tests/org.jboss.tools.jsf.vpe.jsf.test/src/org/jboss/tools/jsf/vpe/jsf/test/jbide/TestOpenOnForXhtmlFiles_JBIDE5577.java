@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorInput;
@@ -36,7 +38,7 @@ public class TestOpenOnForXhtmlFiles_JBIDE5577 extends VpeTest {
 		super(name);
 	}
 
-	public void testOpenOnForXhtmlFiles() throws CoreException {
+	public void testOpenOnForXhtmlFiles() throws CoreException, IOException {
 		/*
 		 * Open index.html
 		 */

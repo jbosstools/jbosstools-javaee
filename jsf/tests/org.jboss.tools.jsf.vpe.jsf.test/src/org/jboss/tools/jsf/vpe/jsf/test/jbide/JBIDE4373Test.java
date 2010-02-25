@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.IOException;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
@@ -40,7 +42,7 @@ public class JBIDE4373Test extends VpeTest{
 	/**
 	 * OpenOn test for Custom elements
 	 */
-	public void testCorrectCustomElements() throws CoreException {
+	public void testCorrectCustomElements() throws CoreException, IOException {
 
 		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "correctCustomTags.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 8);
@@ -61,7 +63,8 @@ public class JBIDE4373Test extends VpeTest{
 	/**
 	 * test openOn for undefined template
 	 */
-	public void testIncorrectCustomElements() throws CoreException {
+	public void testIncorrectCustomElements()
+				throws CoreException, IOException {
 		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "incorrectCustomTags.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 9, 6);
 		
@@ -80,9 +83,11 @@ public class JBIDE4373Test extends VpeTest{
 	/**
 	 * test open on for following case <h:outputText value="#{msg.greeting}" />
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForMessageBundlesInJSFElements() throws CoreException{
-		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "testOutputText.xhtml"); //$NON-NLS-1$
+	public void testOpenOnForMessageBundlesInJSFElements()
+				throws CoreException, IOException{
+		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "testOutputText.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 30);		
 		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
 		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
@@ -93,8 +98,10 @@ public class JBIDE4373Test extends VpeTest{
 	/**
 	 * test open on for following case #{msg.prompt}
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForTextNodesMessageBundles() throws CoreException{
+	public void testOpenOnForTextNodesMessageBundles()
+			throws CoreException, IOException{
 		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "testOutputText.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 12, 15);		
 		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -109,8 +116,9 @@ public class JBIDE4373Test extends VpeTest{
 	 *  in facelets' ui:composition template (VpeCompositionTemplate).
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnforFacelets() throws CoreException {
+	public void testOpenOnforFacelets() throws CoreException, IOException {
 		VpeController vpeController =	openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "inputName.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 10, 38);
 		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -125,8 +133,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * in facelets' ui:decorate template (VpeDecorateTemplate). 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForUiDecorate() throws CoreException {
+	public void testOpenOnForUiDecorate() throws CoreException, IOException {
 		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "ui-decorate.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 33);
 		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -141,8 +150,9 @@ public class JBIDE4373Test extends VpeTest{
 	 *  in facelets' ui:define template (VpeDefineTemplate). 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForUiDefine() throws CoreException {
+	public void testOpenOnForUiDefine() throws CoreException, IOException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "ui-define.xhtml"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 6, 40);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -157,8 +167,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * in JSTL's c:import template (JstlImportTemplate). 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForCImport() throws CoreException {
+	public void testOpenOnForCImport() throws CoreException, IOException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "c-import.xhtml"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 12, 25);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -173,8 +184,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * in Seam's s:decorate template (SeamDecorateTemplate). 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForSDecorate() throws CoreException {
+	public void testOpenOnForSDecorate() throws CoreException, IOException {
 		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "s-decorate.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 33);
 		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -188,8 +200,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * Test openOn mechanism for VpeIncludeTemplate in ajax4jsf a4j:include. 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForA4JInclude() throws CoreException {
+	public void testOpenOnForA4JInclude() throws CoreException, IOException {
 		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "a4j-include.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 15, 55);
 		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -203,8 +216,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * Test openOn mechanism for VpeIncludeTemplate in facelets' ui:include. 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForUiInclude() throws CoreException {
+	public void testOpenOnForUiInclude() throws CoreException, IOException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "ui-include-relative.xhtml"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 27);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -218,8 +232,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * Test openOn mechanism for VpeIncludeTemplate in jsp's jsp:directive.include. 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForJspDirectiveInclude() throws CoreException {
+	public void testOpenOnForJspDirectiveInclude() throws CoreException, IOException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "jsp-directive-include-relative.jsp"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 46);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -233,8 +248,9 @@ public class JBIDE4373Test extends VpeTest{
 	 * Test openOn mechanism for VpeIncludeTemplate in jsp's jsp:include. 
 	 * 
 	 * @throws CoreException
+	 * @throws IOException 
 	 */
-	public void testOpenOnForJspInclude() throws CoreException {
+	public void testOpenOnForJspInclude() throws CoreException, IOException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "jsp-include-relative.jsp"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 13, 36);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
@@ -252,7 +268,7 @@ public class JBIDE4373Test extends VpeTest{
 	 * @author mareshkau
 	 */
 	
-	public void testOpenOnForHREF() throws CoreException {
+	public void testOpenOnForHREF() throws CoreException, IOException {
 	    VpeController vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME, "JBIDE/5183/a.html"); //$NON-NLS-1$
 	    int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 5, 41);
 	    Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);

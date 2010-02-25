@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -71,7 +73,7 @@ public class ChangeMessageBundleTest_JBIDE5818 extends VpeTest {
 	 * with {@code newContent} and saves it.
 	 */
 	private TextEditor replaceFileContent(final String path,
-			final String newContent) throws CoreException {
+			final String newContent) throws CoreException, IOException {
 		IFile elementPageFile = (IFile) TestUtil.getResource(path, JsfAllTests.IMPORT_PROJECT_NAME);
 		IEditorInput input = new FileEditorInput(elementPageFile);
 		TextEditor editor = (TextEditor)
