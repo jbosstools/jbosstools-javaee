@@ -18,6 +18,8 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IProducerField;
+import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -49,8 +51,10 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 			}catch(PartInitException ex){
 				CDIExtensionsPlugin.log(ex);
 			}
+			
+			IJavaElement element = getJavaElement();
 			if (part != null) {
-				JavaUI.revealInEditor(part, (IJavaElement)bean.getBeanClass());
+				JavaUI.revealInEditor(part, element);
 			} 
 		}
 		if (part == null)
@@ -63,6 +67,16 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 		if(bean != null)
 			text += bean.getBeanClass().getElementName();
 		return text;
+	}
+	
+	private IJavaElement getJavaElement(){
+		if(bean instanceof IProducerField){
+			return ((IProducerField)bean).getField();
+		}else if(bean instanceof IProducerMethod){
+			return ((IProducerMethod)bean).getMethod();
+		}else{
+			return bean.getBeanClass();
+		}
 	}
 
 }
