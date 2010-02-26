@@ -56,13 +56,13 @@
          
          <copyright>
              <year>2007</year>
-             <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
-             <year diffmk:change="added">2009</year>
-             <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
+             <year>2008</year>
+             <year>2009</year>
+             <year>2010</year>
              <holder>JBoss by Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.CR2
+             Version: 3.1.0.GA
          </diffmk:wrapper></releaseinfo>
          
 <abstract>
@@ -334,8 +334,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para><diffmk:wrapper diffmk:change="changed">Next page allows you to verify the information for a chosen server. Leave everything
-            as it is and click on </diffmk:wrapper><emphasis>
+        <para>Next page allows you to verify the information for a chosen server. Leave everything
+            as it is and click on <emphasis>
                 <property moreinfo="none">Next</property>
             </emphasis>.</para>
         <figure float="0">
@@ -362,8 +362,8 @@
                 wizard</property>.</para>
         <tip>
             <title>Tip:</title>
-            <para>We suggest that you look through <ulink url="../../as/html_single/index.html"><diffmk:wrapper diffmk:change="changed">AS manager guide</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="changed"> to
-                find out more about runtimes and servers.</diffmk:wrapper></para>
+            <para>We suggest that you look through <ulink url="../../as/html_single/index.html">AS manager guide</ulink> to
+                find out more about runtimes and servers.</para>
         </tip>
         <figure float="0">
             <title>Completion of Runtime and Server Configuration</title>
@@ -384,10 +384,10 @@
     </section>
     <section id="projectFacets">
         <title>Selecting the Project Facets</title>
-        <para>The <property moreinfo="none">Project Facets wizard</property><diffmk:wrapper diffmk:change="changed"> allows you to enable or disable
+        <para>The <property moreinfo="none">Project Facets wizard</property> allows you to enable or disable
             specific facets which define necessary features for the project. When you switch to this
             wizard form, all critical facets are already checked for the chosen
-            Configuration.</diffmk:wrapper></para>
+            Configuration.</para>
         <para>Notice that this page of the wizard also allows you to set the necessary version for
             any facet. </para>
         <figure float="0">
@@ -415,8 +415,8 @@
                 <property moreinfo="none">New</property>
             </emphasis> button. If more than one runtime is checked here, the <emphasis>
                 <property moreinfo="none">Make Primary</property>
-            </emphasis><diffmk:wrapper diffmk:change="changed"> button won't be dimmed yet. Thus, you can make use of it to mark
-            primary runtime.</diffmk:wrapper></para>
+            </emphasis> button won't be dimmed yet. Thus, you can make use of it to mark
+            primary runtime.</para>
         <figure float="0">
             <title>Setting Runtime</title>
             <mediaobject>
@@ -429,30 +429,30 @@
                 <property moreinfo="none">Ok</property>
             </emphasis> button will bring you to the <property moreinfo="none">Web Module</property> wizard form
             again.</para>
-        <section diffmk:change="added" id="seamWithJPA">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam project with JPA facets</diffmk:wrapper></title>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For creating Seam project with JPA support you need to select</diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added"> Java
-                    Persistent</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> facet on </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Project Facets</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page and
-                click </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OK</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Then you should press </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Next</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and may leave the default value on
-                    </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Java application building</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page and </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Web Module
-                    Settings</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page.</diffmk:wrapper></para>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">After that  you will see </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JPA facet</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page.</diffmk:wrapper></para>
-            <figure diffmk:change="added" float="0">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">JPA Facet page</diffmk:wrapper></title>
-                <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/create_new_seam/create_seam_16b.png"></imagedata>
+        <section id="seamWithJPA">
+            <title>Seam project with JPA facets</title>
+            <para>For creating Seam project with JPA support you need to select<property moreinfo="none"> Java
+                    Persistent</property> facet on <property moreinfo="none">Project Facets</property> page and
+                click <property moreinfo="none">OK</property>.</para>
+            <para>Then you should press <property moreinfo="none">Next</property> and may leave the default value on
+                    <property moreinfo="none">Java application building</property> page and <property moreinfo="none">Web Module
+                    Settings</property> page.</para>
+            <para>After that  you will see <property moreinfo="none">JPA facet</property> page.</para>
+            <figure float="0">
+                <title>JPA Facet page</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/create_new_seam/create_seam_16b.png"></imagedata>
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On this page you can choose </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Platform</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> (vendor-specific JPA
+            <para>On this page you can choose <property moreinfo="none">Platform</property> (vendor-specific JPA
                 implementation) for your project, type of JPA Implementation, and configure the
-                    </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Connection</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> to database in the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Connection</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> area.</diffmk:wrapper></para>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">More about </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JPA facet</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page you can read in </diffmk:wrapper><ulink diffmk:change="added" url="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.jpt.doc.user/ref_jpa_facet.htm"><diffmk:wrapper diffmk:change="added">Eclipse documentation</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">. </diffmk:wrapper></para>
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">On the next step you will see </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JSF Capabilities</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> and </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Seam
-                    facet</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> pages, which are mostly the same as in general Seam
-                project.</diffmk:wrapper></para>
+                    <property moreinfo="none">Connection</property> to database in the <property moreinfo="none">Connection</property> area.</para>
+            <para>More about <property moreinfo="none">JPA facet</property> page you can read in <ulink url="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.jpt.doc.user/ref_jpa_facet.htm">Eclipse documentation</ulink>. </para>
+            <para>On the next step you will see <property moreinfo="none">JSF Capabilities</property> and <property moreinfo="none">Seam
+                    facet</property> pages, which are mostly the same as in general Seam
+                project.</para>
         </section>
     </section>
     <section id="configureJava">
@@ -514,8 +514,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para> If a new library is required, click <property moreinfo="none">Manage libraries...</property><diffmk:wrapper diffmk:change="changed"> (
-                </diffmk:wrapper><inlinemediaobject>
+        <para> If a new library is required, click <property moreinfo="none">Manage libraries...</property> (
+                <inlinemediaobject>
                 <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam_17a.png"></imagedata>
                 </imageobject>
@@ -537,8 +537,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para>To add proper <property moreinfo="none">Library JARs</property>, click <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Add
-                JARs...</diffmk:wrapper></property><diffmk:wrapper diffmk:change="changed"> button and select the JARs on your hard drive. </diffmk:wrapper></para>
+        <para>To add proper <property moreinfo="none">Library JARs</property>, click <property moreinfo="none">Add
+                JARs...</property> button and select the JARs on your hard drive. </para>
         <figure float="0">
             <title>Selection Library JARs</title>
             <mediaobject>
@@ -547,9 +547,9 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para><diffmk:wrapper diffmk:change="changed">You can download necessary JSF implementation libraries provided by Sun and Apache
-            Foundation as well. Click </diffmk:wrapper><property moreinfo="none">Download...</property> (<inlinemediaobject>
-                <imageobject diffmk:change="added">
+        <para>You can download necessary JSF implementation libraries provided by Sun and Apache
+            Foundation as well. Click <property moreinfo="none">Download...</property> (<inlinemediaobject>
+                <imageobject>
                     <imagedata fileref="images/create_new_seam/create_seam_23a.png"></imagedata>
                 </imageobject>
             </inlinemediaobject>) button and choose one of proposed libraries.</para>
@@ -572,8 +572,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para><diffmk:wrapper diffmk:change="changed">Since we are arranging the Seam Web project, the last step we should do is to adjust
-            project configurations associated with the Seam.</diffmk:wrapper></para>
+        <para>Since we are arranging the Seam Web project, the last step we should do is to adjust
+            project configurations associated with the Seam.</para>
     </section>
     <section id="seamFacet">
         <title>Configure Seam Facet Settings</title>
@@ -594,10 +594,10 @@
         </itemizedlist>
         <para>For that click on <emphasis>
                 <property moreinfo="none">Add</property>
-            </emphasis> button in the <property moreinfo="none">General</property><diffmk:wrapper diffmk:change="changed"> section. Note, in the wizard
+            </emphasis> button in the <property moreinfo="none">General</property> section. Note, in the wizard
             shown below you can create a Seam runtime only for the version that was selected in the
-                </diffmk:wrapper><link linkend="projectFacets">Project Facets</link><diffmk:wrapper diffmk:change="changed"> wizard (version 1.2 in our
-            case).</diffmk:wrapper></para>
+                <link linkend="projectFacets">Project Facets</link> wizard (version 1.2 in our
+            case).</para>
         <figure float="0">
             <title>Seam Runtime Creation</title>
             <mediaobject>
@@ -652,8 +652,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <para><diffmk:wrapper diffmk:change="changed">On the dialog you'll be asked to enter its name and description. And then you
-            should select a proper driver and adjust connection details. Press </diffmk:wrapper><emphasis>
+        <para>On the dialog you'll be asked to enter its name and description. And then you
+            should select a proper driver and adjust connection details. Press <emphasis>
                 <property moreinfo="none">Next</property>
             </emphasis> to preview all the adjusted settings and complete the creation of the new
             profile.</para>
@@ -667,10 +667,10 @@
         </figure>
         <para>The next block of settings in the Seam Facet wizard are describing a Database and a
             connection to it.</para>
-        <para>In the <property moreinfo="none">Code Generation</property><diffmk:wrapper diffmk:change="changed"> section the wizard has already provided
-            the names for your </diffmk:wrapper><property moreinfo="none">Session Bean</property>, <property moreinfo="none">Entity Bean</property><diffmk:wrapper diffmk:change="changed">
-            and </diffmk:wrapper><property moreinfo="none">Test</property><diffmk:wrapper diffmk:change="changed"> packages generation (optional). Of course, you can change
-            them on others of your choice.</diffmk:wrapper></para>
+        <para>In the <property moreinfo="none">Code Generation</property> section the wizard has already provided
+            the names for your <property moreinfo="none">Session Bean</property>, <property moreinfo="none">Entity Bean</property>
+            and <property moreinfo="none">Test</property> packages generation (optional). Of course, you can change
+            them on others of your choice.</para>
         <figure float="0">
             <title>Code Generation Section</title>
             <mediaobject>
@@ -697,104 +697,104 @@
 		</keywordset>
 	</chapterinfo>
 	<title>Maven Integration for Seam Projects</title>
-	<para>Starting from 3.1 M2 version <property moreinfo="none">JBoss Tools</property><diffmk:wrapper diffmk:change="changed"> includes new Jboss Maven
+	<para>Starting from 3.1 M2 version <property moreinfo="none">JBoss Tools</property> includes new Jboss Maven
 		Integration plug-in which for now allows to create mavenized Seam projects and enable Seam
-		tools support for imported Maven projects.</diffmk:wrapper></para>
+		tools support for imported Maven projects.</para>
 	<para>The Jboss Maven Integration requires <ulink url="http://m2eclipse.sonatype.org/">m2eclipse</ulink> to be installed.</para>
 	<note>
 		<title>Note:</title>
-		<para>For M2 release of <property moreinfo="none">Jboss Tools</property><diffmk:wrapper diffmk:change="changed"> it is important to use m2eclipse
-				</diffmk:wrapper><ulink url="http://m2eclipse.sonatype.org/update/">stable updatesite</ulink><diffmk:wrapper diffmk:change="changed"> or the
-				</diffmk:wrapper><ulink url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351"><diffmk:wrapper diffmk:change="changed">latest
-				integration build</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="changed"> that M2 was developed against. If you want to use the
-			latest development release of m2eclipse you need to use the </diffmk:wrapper><ulink url="http://download.jboss.org/jbosstools/updates/nightly/trunk/"><diffmk:wrapper diffmk:change="changed">nightly
-				builds</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="changed"> of </diffmk:wrapper><property moreinfo="none">JBoss Tools</property>.</para>
+		<para>For M2 release of <property moreinfo="none">Jboss Tools</property> it is important to use m2eclipse
+				<ulink url="http://m2eclipse.sonatype.org/update/">stable updatesite</ulink> or the
+				<ulink url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351">latest
+				integration build</ulink> that M2 was developed against. If you want to use the
+			latest development release of m2eclipse you need to use the <ulink url="http://download.jboss.org/jbosstools/updates/nightly/trunk/">nightly
+				builds</ulink> of <property moreinfo="none">JBoss Tools</property>.</para>
 	</note>
-	<section diffmk:change="added" id="create_mavenized_project">
+	<section id="create_mavenized_project">
 		<title>Creating Maven ready Seam project</title>
-		<para><diffmk:wrapper diffmk:change="changed">Maven Integration makes the Seam Wizard capable of creating Maven ready projects to
-			let Maven get the libraries instead of using the Seam runtime.</diffmk:wrapper></para>
+		<para>Maven Integration makes the Seam Wizard capable of creating Maven ready projects to
+			let Maven get the libraries instead of using the Seam runtime.</para>
 		<para>To create a mavenized Seam project you should perform the following steps:</para>
-		<itemizedlist diffmk:change="added">
-			<listitem diffmk:change="added">
+		<itemizedlist>
+			<listitem>
 				<para>Navigate to <emphasis>
-						<property moreinfo="none">File &gt; New Seam Project</property>.</emphasis><diffmk:wrapper diffmk:change="changed"> Give the project
+						<property moreinfo="none">File &gt; New Seam Project</property>.</emphasis> Give the project
 					a meaningful name, specify a target runtime and server and select the proper
-					configuration for your Seam project:</diffmk:wrapper></para>
-				<figure diffmk:change="added" float="0">
+					configuration for your Seam project:</para>
+				<figure float="0">
 					<title>Starting the Mavenized Seam Project</title>
-					<mediaobject diffmk:change="added">
-						<imageobject diffmk:change="added">
+					<mediaobject>
+						<imageobject>
 							<imagedata fileref="images/create_mavenized_seam/createMavenizedSeamProject.png"></imagedata>
 						</imageobject>
 					</mediaobject>
 				</figure>
 			</listitem>
-			<listitem diffmk:change="added">
+			<listitem>
 				<para>Click the <emphasis>
 						<property moreinfo="none">Modify</property></emphasis> button to enable the <emphasis>
 						<property moreinfo="none">Jboss Maven Integration</property></emphasis> facet:</para>
-				<figure diffmk:change="added" float="0">
+				<figure float="0">
 					<title>Enabling the Jboss Maven Integration Facet</title>
-					<mediaobject diffmk:change="added">
-						<imageobject diffmk:change="added">
+					<mediaobject>
+						<imageobject>
 							<imagedata fileref="images/create_mavenized_seam/jbossMavenIntegrationFacet.png"></imagedata>
 						</imageobject>
 					</mediaobject>
 				</figure>
 			</listitem>
-			<listitem diffmk:change="added">
-				<para>On the <property moreinfo="none">JBoss M2 capabilities</property><diffmk:wrapper diffmk:change="changed"> page you'll be prompted
+			<listitem>
+				<para>On the <property moreinfo="none">JBoss M2 capabilities</property> page you'll be prompted
 					to add the following maven properties: groupId, artifactId, version, packaging,
 					name and description. Here it's possible to set a maven version of Seam and
 					also decide whether to remove WTP classpath containers (where the path starts
-					with org.eclipse.jst). </diffmk:wrapper></para>
-				<figure diffmk:change="added" float="0">
+					with org.eclipse.jst). </para>
+				<figure float="0">
 					<title>Adjusting JBoss M2 Capabilities</title>
-					<mediaobject diffmk:change="added">
-						<imageobject diffmk:change="added">
+					<mediaobject>
+						<imageobject>
 							<imagedata fileref="images/create_mavenized_seam/jbossM2capabilities.png"></imagedata>
 						</imageobject>
 					</mediaobject>
 				</figure>
 			</listitem>
 			<listitem>
-				<para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> On the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JSF Capabilities</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page you can choose Maven as
+				<para> On the <property moreinfo="none">JSF Capabilities</property> page you can choose Maven as
 					libraries provider. This is possible when you use Maven JSF 1.2 Libraries as
 					type of JSF Implementing Library. Also it gives you capability to edit
 					Dependencies and Exclusions for the mavenized Seam project directly from the
-					wizard. </diffmk:wrapper></para>
-				<figure diffmk:change="added" float="0">
-					<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Using JSF Implementation libraries provided by Maven</diffmk:wrapper></title>
-					<mediaobject diffmk:change="added">
-						<imageobject diffmk:change="added">
-							<imagedata diffmk:change="added" fileref="images/create_mavenized_seam/seamJSFImplementation.png"></imagedata>
+					wizard. </para>
+				<figure float="0">
+					<title>Using JSF Implementation libraries provided by Maven</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/create_mavenized_seam/seamJSFImplementation.png"></imagedata>
 						</imageobject>
 					</mediaobject>
 				</figure>
 			</listitem>
-			<listitem diffmk:change="added">
-				<para>On the <property moreinfo="none">Seam Facet</property><diffmk:wrapper diffmk:change="changed"> page configure the Seam Facet settings
-					and click </diffmk:wrapper><emphasis>
+			<listitem>
+				<para>On the <property moreinfo="none">Seam Facet</property> page configure the Seam Facet settings
+					and click <emphasis>
 						<property moreinfo="none">Finish</property>:</emphasis></para>
-				<figure diffmk:change="added" float="0">
+				<figure float="0">
 					<title>Seam Facet Settings</title>
-					<mediaobject diffmk:change="added">
-						<imageobject diffmk:change="added">
+					<mediaobject>
+						<imageobject>
 							<imagedata fileref="images/create_mavenized_seam/seamFacetPage.png"></imagedata>
 						</imageobject>
 					</mediaobject>
 				</figure>
 			</listitem>
 		</itemizedlist>
-		<para><diffmk:wrapper diffmk:change="changed">The organized Seam project contains five projects with the Maven nature, builder,
-			Maven classpath and the </diffmk:wrapper><emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis><diffmk:wrapper diffmk:change="changed"> files added: projectname, projectname-ear,
-			projectname-ejb, projectname-parent and projectname-test.</diffmk:wrapper></para>
-		<figure diffmk:change="added" float="0">
+		<para>The organized Seam project contains five projects with the Maven nature, builder,
+			Maven classpath and the <emphasis>
+				<property moreinfo="none">pom.xml</property></emphasis> files added: projectname, projectname-ear,
+			projectname-ejb, projectname-parent and projectname-test.</para>
+		<figure float="0">
 			<title>Mavenized Seam Project</title>
-			<mediaobject diffmk:change="added">
-				<imageobject diffmk:change="added">
+			<mediaobject>
+				<imageobject>
 					<imagedata fileref="images/create_mavenized_seam/mavenizedProjectStructure.png"></imagedata>
 				</imageobject>
 			</mediaobject>
@@ -802,14 +802,14 @@
 	</section>
 	<section id="import_maven_project">
 		<title>Existing Maven Projects Import</title>
-		<para><diffmk:wrapper diffmk:change="changed">Maven Integration includes the Seam Maven configurator which is called when importing
-			a project, changing </diffmk:wrapper><emphasis>
+		<para>Maven Integration includes the Seam Maven configurator which is called when importing
+			a project, changing <emphasis>
 				<property moreinfo="none">pom.xml</property></emphasis> and/or calling <emphasis>
-				<property moreinfo="none">Maven &gt; Update Project Configuration</property>.</emphasis><diffmk:wrapper diffmk:change="changed"> When
+				<property moreinfo="none">Maven &gt; Update Project Configuration</property>.</emphasis> When
 			importing a Maven Seam project, the Seam Maven configurator picks up the settings set up
-			in </diffmk:wrapper><emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis><diffmk:wrapper diffmk:change="changed"> and adds to the project the
-			following:</diffmk:wrapper></para>
+			in <emphasis>
+				<property moreinfo="none">pom.xml</property></emphasis> and adds to the project the
+			following:</para>
 		<itemizedlist>
 			<listitem>
 				<para>Seam nature</para>
@@ -818,27 +818,27 @@
 				<para>Seam facet and dependent facets to the EJB, EAR and WAR projects</para>
 			</listitem>
 			<listitem>
-				<para><diffmk:wrapper diffmk:change="changed">JBoss Maven Integration facet if the Maven project contains a dependency with
-					the org.jboss.seam groupId and an artifactId starting with 'jboss-seam'</diffmk:wrapper></para>
+				<para>JBoss Maven Integration facet if the Maven project contains a dependency with
+					the org.jboss.seam groupId and an artifactId starting with 'jboss-seam'</para>
 			</listitem>
 			<listitem>
 				<para>other required facets (Web Module, Java, JSF, etc.)</para>
 			</listitem>
 		</itemizedlist>
 		<para>If the Seam version from <emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis><diffmk:wrapper diffmk:change="changed"> matches a version of a Seam runtime
+				<property moreinfo="none">pom.xml</property></emphasis> matches a version of a Seam runtime
 			configured in the workspace, Seam configurator will set that runtime, otherwise no Seam
-			runtime will be set and you'll have to set it manually under </diffmk:wrapper><link linkend="project_pref">Seam Settings in the project preferences</link>.</para>
-		<para><diffmk:wrapper diffmk:change="changed">Seam configurator recognizes the Seam artifacts in the following way: the view folder
+			runtime will be set and you'll have to set it manually under <link linkend="project_pref">Seam Settings in the project preferences</link>.</para>
+		<para>Seam configurator recognizes the Seam artifacts in the following way: the view folder
 			is a web content folder from the WAR project, the source folder is the first Eclipse
 			source folder. If there is a folder containing "hot" in the name, it will be
 			chosen as the action source folder. Package is the first package that has children or
-			doesn't have any subpackage. </diffmk:wrapper></para>
-		<para><diffmk:wrapper diffmk:change="changed">Configuring the Seam when importing a Maven project as well as a Seam Runtime, Seam
+			doesn't have any subpackage. </para>
+		<para>Configuring the Seam when importing a Maven project as well as a Seam Runtime, Seam
 			artifacts and some facets could be suspended in the JBoss Maven Integration preferences
-				(</diffmk:wrapper><emphasis>
-				<property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Window &gt; Preferences &gt; JBoss Tools &gt; JBoss Maven
-					Integration</diffmk:wrapper></property></emphasis>).</para>
+				(<emphasis>
+				<property moreinfo="none">Window &gt; Preferences &gt; JBoss Tools &gt; JBoss Maven
+					Integration</property></emphasis>).</para>
 		<figure float="0">
 			<title>JBoss Maven Integration Preferences</title>
 			<mediaobject>
@@ -850,10 +850,10 @@
 	</section>
 	<section>
 		<title>Relevant Resources Links</title>
-		<para>In the <ulink url="http://in.relation.to/Bloggers/UsingMavenWithJBossTools"><diffmk:wrapper diffmk:change="changed">Using
-				Maven with JBoss Tools</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="changed"> article written by Max Andersen you'll find
+		<para>In the <ulink url="http://in.relation.to/Bloggers/UsingMavenWithJBossTools">Using
+				Maven with JBoss Tools</ulink> article written by Max Andersen you'll find
 			references to the screencasts on how to use the examples of mavenized Seam projects
-			provided by </diffmk:wrapper><property moreinfo="none">JBoss Tools</property>.</para>
+			provided by <property moreinfo="none">JBoss Tools</property>.</para>
 	</section>
 </chapter>
 
@@ -951,8 +951,8 @@
 
         <title>Changing the Seam Version</title>
 
-        <para>To upgrade or downgrade your projects Seam version use the facet preferences. You
-            should right-click your project and choose <emphasis>
+        <para><diffmk:wrapper diffmk:change="added">To upgrade or downgrade your projects Seam version use the facet preferences. You
+            should right-click your project, open its </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Properties</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">  and choose </diffmk:wrapper><emphasis>
                 <property moreinfo="none">Project Facets</property>
             </emphasis> category. Next select <emphasis>
                 <property moreinfo="none">Seam</property>
@@ -2913,13 +2913,13 @@
 	
     <section id="RefactornigWizard">
         <title>Using the Refactorinig Wizard</title>
-        <para><diffmk:wrapper diffmk:change="added">This wizard is opened always when the user clicks the </diffmk:wrapper><emphasis diffmk:change="added"><property moreinfo="none">Rename Seam Component</property><diffmk:wrapper diffmk:change="added">,</diffmk:wrapper></emphasis>
-        	<emphasis diffmk:change="added"><property moreinfo="none">Rename Seam Context Variable</property></emphasis><diffmk:wrapper diffmk:change="added">
-        	or </diffmk:wrapper><emphasis diffmk:change="added"><property moreinfo="none">Rename</property></emphasis><diffmk:wrapper diffmk:change="added"> command in any of the views/editors mentioned later in this chapter.
-         </diffmk:wrapper></para>
+        <para>This wizard is opened always when the user clicks the <emphasis><property moreinfo="none">Rename Seam Component</property>,</emphasis>
+        	<emphasis><property moreinfo="none">Rename Seam Context Variable</property></emphasis>
+        	or <emphasis><property moreinfo="none">Rename</property></emphasis> command in any of the views/editors mentioned later in this chapter.
+         </para>
         
         <figure float="0">
-            <title><diffmk:wrapper diffmk:change="changed">Refactoring Wizard</diffmk:wrapper></title>
+            <title>Refactoring Wizard</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_refactoring/seam_refactor2.png"></imagedata>
@@ -2932,7 +2932,7 @@
         </para>
     	
         <figure float="0">
-            <title><diffmk:wrapper diffmk:change="changed">Navigating Between the Differences</diffmk:wrapper></title>
+            <title>Navigating Between the Differences</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/seam_refactoring/seam_refactor3.png"></imagedata>
@@ -2973,10 +2973,10 @@
     	
         <para>To apply the changes click <emphasis><property moreinfo="none">Finish</property>.</emphasis></para>
     	
-    	<para><diffmk:wrapper diffmk:change="changed">Renaming the selected seam component corrects all references to the 
+    	<para>Renaming the selected seam component corrects all references to the 
     		component (also in other files in the project). Renaming a type doesn't  allow to rename
     		similarly named variables and methods.
-    	</diffmk:wrapper></para>
+    	</para>
     </section>
 	
 	<section id="renaming_seam_components">
@@ -2992,13 +2992,13 @@
 		
 		<section id="JavaEditor">
 			<title>Renaming Seam Components in the Java Editor</title>
-			<para><diffmk:wrapper diffmk:change="changed">If you want to rename certain seam component using Java editor, first of all it's necessary to open it. 
-				If you don't know, where the seam component is declared, use </diffmk:wrapper><link linkend="open_seam_component"><diffmk:wrapper diffmk:change="changed">Open Seam Components</diffmk:wrapper></link><diffmk:wrapper diffmk:change="changed"> icon.</diffmk:wrapper></para>
-			<para><diffmk:wrapper diffmk:change="changed">To rename a Seam component  in the Java editor it's necessary to select the component, left click the file and then select
-				</diffmk:wrapper><emphasis><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Seam Refactor &gt; Rename Seam Component</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></emphasis>
+			<para>If you want to rename certain seam component using Java editor, first of all it's necessary to open it. 
+				If you don't know, where the seam component is declared, use <link linkend="open_seam_component">Open Seam Components</link> icon.</para>
+			<para>To rename a Seam component  in the Java editor it's necessary to select the component, left click the file and then select
+				<emphasis><property moreinfo="none">Seam Refactor &gt; Rename Seam Component</property>.</emphasis>
 			</para>
 			<figure float="0">
-				<title><diffmk:wrapper diffmk:change="changed">Opening Refactoring Wizard in Java Editor</diffmk:wrapper></title>
+				<title>Opening Refactoring Wizard in Java Editor</title>
 				<mediaobject>
 					<imageobject>
 						<imagedata fileref="images/seam_refactoring/seam_refactor1.png"></imagedata>
@@ -3006,14 +3006,14 @@
 				</mediaobject>
 			</figure>
 			
-			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For details, see also the movie, 
-				</diffmk:wrapper><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_java/rename_seam_components_java.htm"><diffmk:wrapper diffmk:change="added">"Renaming a Seam component in the Java Editor"</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+			<para>For details, see also the movie, 
+				<ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_java/rename_seam_components_java.htm">"Renaming a Seam component in the Java Editor"</ulink>.</para>
 		</section>
 		
 		<section id="SeamComponents">
 			<title>Renaming Seam Components in the Seam Components View</title>
-			<para><diffmk:wrapper diffmk:change="changed">To open the </diffmk:wrapper><property moreinfo="none">Refactoring</property> wizard in  the <property moreinfo="none">Seam Components</property><diffmk:wrapper diffmk:change="changed"> view 
-				you should left click the component you want to open and choose </diffmk:wrapper><property moreinfo="none">Rename Seam Component</property> option.</para>
+			<para>To open the <property moreinfo="none">Refactoring</property> wizard in  the <property moreinfo="none">Seam Components</property> view 
+				you should left click the component you want to open and choose <property moreinfo="none">Rename Seam Component</property> option.</para>
 			
 			<figure float="0">
 				<title>Opening Refactoring Wizard in Seam Components View</title>
@@ -3024,13 +3024,13 @@
 				</mediaobject>
 			</figure>
 			
-			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For details, see also the movie, 
-				</diffmk:wrapper><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_view/rename_seam_components_comp_view.htm"><diffmk:wrapper diffmk:change="added">"Renaming a Seam component in the Seam Components view"</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+			<para>For details, see also the movie, 
+				<ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_view/rename_seam_components_comp_view.htm">"Renaming a Seam component in the Seam Components view"</ulink>.</para>
 		</section>
 		
 		<section id="components_xml_editor">
 			<title>Renaming Seam Components in the Seam Components Editor</title>
-			<para>When you open <literal moreinfo="none">components.xml</literal> file using <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">JBoss Tools XML Editor</diffmk:wrapper></property>, open the 
+			<para>When you open <literal moreinfo="none">components.xml</literal> file using <property moreinfo="none">JBoss Tools XML Editor</property>, open the 
 				<property moreinfo="none">Refactoring</property> wizard in the Tree tab by left-clicking the component in 
 				<property moreinfo="none">components</property> area and choosing <property moreinfo="none">Rename</property> option.</para>
 					
@@ -3043,8 +3043,8 @@
 						</mediaobject>
 					</figure>
 					
-			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For details, see also the movie, 
-				</diffmk:wrapper><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_xml/rename_seam_components_comp_xml.htm"><diffmk:wrapper diffmk:change="added">"Renaming a Seam component in the components.xml file"</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+			<para>For details, see also the movie, 
+				<ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_xml/rename_seam_components_comp_xml.htm">"Renaming a Seam component in the components.xml file"</ulink>.</para>
 		</section>
 		
 	</section>
@@ -3083,19 +3083,19 @@
 			</mediaobject>
 		</figure>
 		
-		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For details, see also a set of movies about renaming Seam context variables in EL in different locations:</diffmk:wrapper></para>
-		<itemizedlist diffmk:change="added">
-			<listitem diffmk:change="added">
-				<para diffmk:change="added"><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_java/rename_context_variables_java.htm"><diffmk:wrapper diffmk:change="added">In the Java editor</diffmk:wrapper></ulink></para>
+		<para>For details, see also a set of movies about renaming Seam context variables in EL in different locations:</para>
+		<itemizedlist>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_java/rename_context_variables_java.htm">In the Java editor</ulink></para>
 			</listitem>
-			<listitem diffmk:change="added">
-				<para diffmk:change="added"><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_properties/rename_context_variables_properties.htm"><diffmk:wrapper diffmk:change="added">In the JBoss Tools Properties Editor</diffmk:wrapper></ulink></para>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_properties/rename_context_variables_properties.htm">In the JBoss Tools Properties Editor</ulink></para>
 			</listitem>
-			<listitem diffmk:change="added">
-				<para diffmk:change="added"><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_xml/rename_context_variables_xml.htm"><diffmk:wrapper diffmk:change="added">In the XML editor</diffmk:wrapper></ulink></para>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_xml/rename_context_variables_xml.htm">In the XML editor</ulink></para>
 			</listitem>
-			<listitem diffmk:change="added">
-				<para diffmk:change="added"><ulink diffmk:change="added" url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_vpe/rename_context_variables_vpe.htm"><diffmk:wrapper diffmk:change="added">In the Visual Page Editor</diffmk:wrapper></ulink></para>
+			<listitem>
+				<para><ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_vpe/rename_context_variables_vpe.htm">In the Visual Page Editor</ulink></para>
 			</listitem>
 		</itemizedlist>
 	</section>
@@ -4155,7 +4155,7 @@
         
         <para>In conclusion, the main goal of this document is to get you know with a full featureset
             that <property moreinfo="none">JBoss Tools</property> provides to support Seam development. Thus if you have
-            some questions, comments or suggestions on the topic, please fell free to ask in the
+            some questions, comments or suggestions on the topic, please fell free to ask in the 
             <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
                 Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
             future leaving your vote on the article <ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture">Overview of the improvements required by JBossTools/JBDS Docs users</ulink>. </para>
