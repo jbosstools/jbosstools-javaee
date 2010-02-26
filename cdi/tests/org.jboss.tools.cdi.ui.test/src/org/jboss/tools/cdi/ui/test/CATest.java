@@ -39,7 +39,7 @@ public class CATest extends TCKTest {
 	public CATest() {
 		super();
 		try {
-			project = importPreparedProject("/lookup");
+			project = importPreparedProject("/tests/lookup");
 			Bundle ui = Platform.getBundle(UI_TEST_PLUGIN_ID);
 			String projectPath = project.getLocation().toString();
 			String resourcePath = FileLocator.resolve(ui.getEntry(RESOURCE_NAME)).getFile();

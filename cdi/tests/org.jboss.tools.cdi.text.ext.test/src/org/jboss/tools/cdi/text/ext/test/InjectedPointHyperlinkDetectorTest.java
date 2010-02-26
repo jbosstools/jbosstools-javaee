@@ -33,7 +33,7 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
 public class InjectedPointHyperlinkDetectorTest extends TCKTest {
-	private static final String PROJECT_NAME = "/lookup/injectionpoint";
+	private static final String PROJECT_NAME = "/tests/lookup/injectionpoint";
 	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java";
 
 	public static Test suite() {

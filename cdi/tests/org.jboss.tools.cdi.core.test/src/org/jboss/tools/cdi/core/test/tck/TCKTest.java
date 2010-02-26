@@ -28,7 +28,7 @@ public class TCKTest extends TestCase {
 //	protected static String WEB_CONTENT = PROJECT_PATH + WEB_CONTENT_SUFFIX;
 //	protected static String WEB_INF = WEB_CONTENT + WEB_INF_SUFFIX;
 
-	static String PACKAGE = "/org/jboss/jsr299/tck/tests";
+	static String PACKAGE = "/org/jboss/jsr299/tck";
 
 	protected static String TCK_RESOURCES_PREFIX = "/resources/tck";
 
