@@ -6,7 +6,9 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
 import org.jboss.tools.common.model.util.NamespaceMapping;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class FileCompositeComponentLoader extends SimpleWebFileLoader {
 
@@ -56,6 +58,20 @@ class FileCompositeComponentUtil extends XModelObjectLoaderUtil {
 		return super.isSaveable(entity, n, v, dv);
 	}
 
+    public void load(Element element, XModelObject o) {
+    	super.load(element, o);
+    	if(o.getModelEntity().getName().startsWith("FileJSF2Component")) {
+    		Element c = XMLUtilities.getUniqueChild(element, "composite:interface");
+    		if(c == null) {
+    			NodeList l = element.getElementsByTagName("composite:interface");
+    			if(l != null && l.getLength() > 0) {
+    				Element is = (Element)l.item(0);
+    				XModelObject io = o.getChildByPath("Interface");
+    				if(io != null) load(is, io);
+    			}
+    		}
+    	}
+    }
 
     public boolean save(Element parent, XModelObject o) {
     	if(!needToSave(o)) return true;
