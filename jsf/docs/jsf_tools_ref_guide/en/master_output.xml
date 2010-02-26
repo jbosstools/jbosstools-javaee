@@ -45,13 +45,13 @@
         
         <copyright>
             <year>2007</year>
-             <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
+             <year>2008</year>
             <year>2009</year>
-             <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
+             <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.CR2
+            Version: 3.1.0.GA
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -1979,7 +1979,7 @@
         reference introduces you to wizards for creating and importing JSF projects, JSF
         Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
     
-    <para>If you have questions or good suggestions, please refer to 
+    <para>If you have questions or good suggestions, please refer to
         <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>

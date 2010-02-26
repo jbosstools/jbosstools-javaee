@@ -43,14 +43,14 @@
     
         <copyright>
             <year>2007</year>
-            <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
-            <year diffmk:change="added">2009</year>
-            <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
+            <year>2008</year>
+            <year>2009</year>
+            <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-              Version: 3.1.0.CR2
+              Version: 3.1.0.GA
             </diffmk:wrapper></releaseinfo>
 
 
@@ -863,7 +863,8 @@ Hello <h:outputText value="#{personBean.name}"/>!
         finally run it on the <property moreinfo="none">JBoss Server</property>.</para>
 
     <para>Find out more features on JSF tooling in our <ulink url="../../jsf_tools_ref_guide/html_single/index.html">JSF Tools
-    Reference Guide</ulink>. If you have questions and suggestions, please refer to 
+    Reference Guide</ulink>. 
+        If you have questions and suggestions, please refer to
         <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>

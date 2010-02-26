@@ -34,14 +34,14 @@
         
         <copyright>
             <year>2007</year>
-            <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
-            <year diffmk:change="added">2009</year>
-            <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
+            <year>2008</year>
+            <year>2009</year>
+            <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
-        <releaseinfo><diffmk:wrapper diffmk:change="changed">
+        <releaseinfo>
             Version: 3.0.0.GA
-           </diffmk:wrapper></releaseinfo>
+           </releaseinfo>
 <abstract>
    <title></title>
        <para>
@@ -286,20 +286,20 @@
     <section id="editors_features">
 
         <title>Editors Features</title>
-        <para><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> has powerful editor features that help you easily navigate
+        <para><property moreinfo="none">JBoss Developer Studio</property> has powerful editor features that help you easily navigate
             within your application and make use of content and code assist no matter what project
-            file (</diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.jsp</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.xhtml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.xml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.css</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, etc.) you are working on.</diffmk:wrapper></para>
-    	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The mentioned features are the following:</diffmk:wrapper></para>
+            file (<literal moreinfo="none">.jsp</literal>, <literal moreinfo="none">.xhtml</literal>, <literal moreinfo="none">.xml</literal>, <literal moreinfo="none">.css</literal>, etc.) you are working on.</para>
+    	<para>The mentioned features are the following:</para>
     	
-    	<itemizedlist diffmk:change="added">
-    		<listitem diffmk:change="added">
-    			<para diffmk:change="added"><link diffmk:change="added" linkend="OpenOnSelection4Hyperlinknavigation"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></link></para>
+    	<itemizedlist>
+    		<listitem>
+    			<para><link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link></para>
     		</listitem>
-    		<listitem diffmk:change="added">
-    			<para diffmk:change="added"><link diffmk:change="added" linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"><diffmk:wrapper diffmk:change="added">Content Assist</diffmk:wrapper></link></para>
+    		<listitem>
+    			<para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Content Assist</link></para>
     		</listitem>
-    		<listitem diffmk:change="added">
-    			<para diffmk:change="added"><link diffmk:change="added" linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74"><diffmk:wrapper diffmk:change="added">Synchronized Source and Visual Editing</diffmk:wrapper></link></para>
+    		<listitem>
+    			<para><link linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">Synchronized Source and Visual Editing</link></para>
     		</listitem>
     	</itemizedlist>
     	
@@ -307,9 +307,9 @@
 
             <title>OpenOn</title>
 
-            <para><diffmk:wrapper diffmk:change="added">OpenOn lets you easily link directly from one resource to
-                another in your project without using the </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Package Explorer</diffmk:wrapper></property><diffmk:wrapper diffmk:change="changed"> view (project tree). With
-                OpenOn, you can simply use </diffmk:wrapper><emphasis>
+            <para>OpenOn lets you easily link directly from one resource to
+                another in your project without using the <property moreinfo="none">Package Explorer</property> view (project tree). With
+                OpenOn, you can simply use <emphasis>
                     <property moreinfo="none">F3</property>
                 </emphasis> or <emphasis>
                     <property moreinfo="none">Ctrl+Click</property>
@@ -342,19 +342,19 @@
 
                 <title>XML Files</title>
 
-            	<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Press and hold down the </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> key. As you move the mouse cursor over different
+            	<para>Press and hold down the <emphasis><property moreinfo="none">Ctrl</property></emphasis> key. As you move the mouse cursor over different
                     file references in the file, they display an underline. When you hover the name
-                    of the file you want to open, click and the file will open in its own editor.</diffmk:wrapper></para>
+                    of the file you want to open, click and the file will open in its own editor.</para>
                     
-                   <para><diffmk:wrapper diffmk:change="changed">Use the OpenOn functionality for the next entries defined in XML file:</diffmk:wrapper></para>
+                   <para>Use the OpenOn functionality for the next entries defined in XML file:</para>
                     
-                    <orderedlist continuation="restarts" diffmk:change="added" inheritnum="ignore">
-                    	<listitem diffmk:change="added">
-                    		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Managed beans</diffmk:wrapper></para>
-                    		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In this example the managed bean </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">"User"</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> will open.</diffmk:wrapper></para>
+                    <orderedlist continuation="restarts" inheritnum="ignore">
+                    	<listitem>
+                    		<para>Managed beans</para>
+                    		<para>In this example the managed bean <emphasis><property moreinfo="none">"User"</property></emphasis> will open.</para>
                     		
                     		<figure float="0">
-                    			<title><diffmk:wrapper diffmk:change="changed">Opening a Managed Bean</diffmk:wrapper></title>
+                    			<title>Opening a Managed Bean</title>
                     			<mediaobject>
                     				<imageobject>
                     					<imagedata fileref="images/editors_features/editors_features_1.png"></imagedata>
@@ -365,7 +365,7 @@
                     		<para>This is the result of using OpenOn.</para>
                     		
                     		<figure float="0">
-                    			<title><diffmk:wrapper diffmk:change="changed">Opened Managed Bean</diffmk:wrapper></title>
+                    			<title>Opened Managed Bean</title>
                     			<mediaobject>
                     				<imageobject>
                     					<imagedata fileref="images/editors_features/editors_features_2.png"></imagedata>
@@ -374,10 +374,10 @@
                     		</figure>
                     	</listitem>
                     	
-                    	<listitem diffmk:change="added">
-                    		<para><diffmk:wrapper diffmk:change="changed">Beans properties</diffmk:wrapper></para>
+                    	<listitem>
+                    		<para>Beans properties</para>
                     		<figure float="0">
-                    			<title><diffmk:wrapper diffmk:change="changed">OpenOn for the Bean Property</diffmk:wrapper></title>
+                    			<title>OpenOn for the Bean Property</title>
                     			<mediaobject>
                     				<imageobject>
                     					<imagedata fileref="images/editors_features/editors_features_3.png"></imagedata>
@@ -386,10 +386,10 @@
                     		</figure>
                     	</listitem>
                     	
-                    	<listitem diffmk:change="added">
-                    		<para><diffmk:wrapper diffmk:change="changed">JSP file references</diffmk:wrapper></para>
+                    	<listitem>
+                    		<para>JSP file references</para>
                     		<figure float="0">
-                    			<title><diffmk:wrapper diffmk:change="changed">OpenOn for JSP Page</diffmk:wrapper></title>
+                    			<title>OpenOn for JSP Page</title>
                     			<mediaobject>
                     				<imageobject>
                     					<imagedata fileref="images/editors_features/editors_features_4.png"></imagedata>
@@ -402,20 +402,20 @@
         	
             <section id="JSPPages223">
 
-                <title><diffmk:wrapper diffmk:change="changed">JSP/XHTML Pages</diffmk:wrapper></title>
+                <title>JSP/XHTML Pages</title>
 
-                <para><diffmk:wrapper diffmk:change="added">OpenOn is also available in JSP and XHTML pages edited in the </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="changed">. It will allow
+                <para>OpenOn is also available in JSP and XHTML pages edited in the <property moreinfo="none">Visual Page Editor</property>. It will allow
                     you to quickly jump to the reference instead of having to hunt around in the
-                    project structure.</diffmk:wrapper></para>
+                    project structure.</para>
 
 				
-            	<para><diffmk:wrapper diffmk:change="changed">You can use OpenOn for the following JSP/XHTML file entries:</diffmk:wrapper></para>
+            	<para>You can use OpenOn for the following JSP/XHTML file entries:</para>
             	
-            	<orderedlist continuation="restarts" diffmk:change="added" inheritnum="ignore">
-            		<listitem diffmk:change="added">
-            			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Imported property files</diffmk:wrapper></para>
+            	<orderedlist continuation="restarts" inheritnum="ignore">
+            		<listitem>
+            			<para>Imported property files</para>
             			<figure float="0">
-            				<title><diffmk:wrapper diffmk:change="changed">OpenOn for Property File Imported to the JSP Page</diffmk:wrapper></title>
+            				<title>OpenOn for Property File Imported to the JSP Page</title>
             				<mediaobject>
             					<imageobject>
             						<imagedata fileref="images/editors_features/editors_features_5.png"></imagedata>
@@ -424,8 +424,8 @@
             			</figure>
             		</listitem>
             		
-            		<listitem diffmk:change="added">
-            			<para><diffmk:wrapper diffmk:change="changed">CSS files used in a JSP/XHTML page</diffmk:wrapper></para>
+            		<listitem>
+            			<para>CSS files used in a JSP/XHTML page</para>
             			<figure float="0">
             				<title>OpenOn With CSS File</title>
             				<mediaobject>
@@ -436,8 +436,8 @@
             			</figure>
             		</listitem>
             		
-            		<listitem diffmk:change="added">
-            			<para><diffmk:wrapper diffmk:change="changed">Managed beans and their properties</diffmk:wrapper></para>
+            		<listitem>
+            			<para>Managed beans and their properties</para>
             			<figure float="0">
             				<title>OpenOn With Managed Beans</title>
             				<mediaobject>
@@ -448,36 +448,36 @@
             			</figure>
             		</listitem>
             		
-            		<listitem diffmk:change="added">
-            			<para><diffmk:wrapper diffmk:change="changed">Navigation rules in JSP files</diffmk:wrapper></para>
+            		<listitem>
+            			<para>Navigation rules in JSP files</para>
             			
-            			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For JSP files in a JSF project, you can easily open the navigation rules
-            				by applying </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">OpenOn</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> to the JSF tag for the navigation
-            				outcome:</diffmk:wrapper></para>
+            			<para>For JSP files in a JSF project, you can easily open the navigation rules
+            				by applying <property moreinfo="none">OpenOn</property> to the JSF tag for the navigation
+            				outcome:</para>
             			
             			<figure float="0">
-            				<title><diffmk:wrapper diffmk:change="changed">OpenOn with JSF Tag</diffmk:wrapper></title>
+            				<title>OpenOn with JSF Tag</title>
             				<mediaobject>
             					<imageobject>
-            					    <imagedata fileref="images/editors_features/editors_features_8.png"/>	
+            						<imagedata fileref="images/editors_features/editors_features_8.png"></imagedata>
             					</imageobject>
             				</mediaobject>
             			</figure>
             		</listitem>
             		
-            		<listitem diffmk:change="added">
-            			<para><diffmk:wrapper diffmk:change="added">Custom Facelets tag libraries in XHTML pages</diffmk:wrapper></para>           
-            			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">For details, see </diffmk:wrapper><link diffmk:change="added" linkend="openOnForCustomFacelets"><diffmk:wrapper diffmk:change="added">"OpenOn for Custom Facelets Tag Libraries"</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added">
-            			later in this guide.</diffmk:wrapper></para>
+            		<listitem>
+            			<para>Custom Facelets tag libraries in XHTML pages</para>           
+            			<para>For details, see <link linkend="openOnForCustomFacelets">"OpenOn for Custom Facelets Tag Libraries"</link>
+            			later in this guide.</para>
             		</listitem>
             	    
-            	    <listitem diffmk:change="added">
-            	        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Custom JJSF 2.0 components</diffmk:wrapper></para>           
+            	    <listitem>
+            	        <para>Custom JJSF 2.0 components</para>           
             	        <figure float="0">
-            	            <title><diffmk:wrapper diffmk:change="changed">OpenOn with JSF 2.0 Component</diffmk:wrapper></title>
+            	            <title>OpenOn with JSF 2.0 Component</title>
             	            <mediaobject>
             	                <imageobject>
-            	                    <imagedata fileref="images/editors_features/editors_features_openon_jsf2_components.png"/> 
+            	                    <imagedata fileref="images/editors_features/editors_features_openon_jsf2_components.png"></imagedata>
             	                </imageobject>
             	            </mediaobject>
             	        </figure>            	              	    
@@ -551,9 +551,9 @@
                         <link linkend="JSPPages434">JSP files</link>
                     </para>
                 </listitem>
-            	<listitem diffmk:change="added">
-            		<para diffmk:change="added">
-            			<link diffmk:change="added" linkend="ContentAssistForXHTMLPages"><diffmk:wrapper diffmk:change="added">XHTML files</diffmk:wrapper></link>
+            	<listitem>
+            		<para>
+            			<link linkend="ContentAssistForXHTMLPages">XHTML files</link>
             		</para>
             	</listitem>
                 <listitem>
@@ -564,6 +564,11 @@
                 <listitem>
                     <para>
                         <ulink url="../../esb_ref_guide/html_single/index.html#ESBContentAssist">ESB XML files</ulink>
+                    </para>
+                </listitem>
+                <listitem diffmk:change="added">
+                    <para diffmk:change="added">
+                        <link diffmk:change="added" linkend="ContentAssistForInsertTag"><diffmk:wrapper diffmk:change="added">Insert Tag Wizard</diffmk:wrapper></link>
                     </para>
                 </listitem>
             </itemizedlist>
@@ -965,28 +970,42 @@
                 </section>
             </section>
 
-        	<section diffmk:change="added" id="ContentAssistForXHTMLPages">
-				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for XHTML Pages</diffmk:wrapper></title>
+        	<section id="ContentAssistForXHTMLPages">
+				<title>Content Assist for XHTML Pages</title>
         		
-        		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The code completion for the Seam components in a Seam project shows the proposals marked with Seam icon.</diffmk:wrapper></para>
-        		<figure diffmk:change="added" float="0">
-        			<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Seam Components in the XHTML Page</diffmk:wrapper></title>
-        			<mediaobject diffmk:change="added">
-        				<imageobject diffmk:change="added">
-        					<imagedata diffmk:change="added" fileref="images/visual_page/contentAssistXHTMLpages1.png"></imagedata>
+        		<para>The code completion for the Seam components in a Seam project shows the proposals marked with Seam icon.</para>
+        		<figure float="0">
+        			<title>Content Assist for Seam Components in the XHTML Page</title>
+        			<mediaobject>
+        				<imageobject>
+        					<imagedata fileref="images/visual_page/contentAssistXHTMLpages1.png"></imagedata>
         				</imageobject>
         			</mediaobject>
         		</figure>
         		
-        		<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
-        			</diffmk:wrapper><link diffmk:change="added" linkend="contentAssistForCustomFacelets"><diffmk:wrapper diffmk:change="added">"Content Assist for Custom Facelets Components"</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> later in this guide.</diffmk:wrapper></para>
+        		<para>If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
+        			<link linkend="contentAssistForCustomFacelets">"Content Assist for Custom Facelets Components"</link> later in this guide.</para>
         	</section>
-        	<section id="AddingDynamicCodeAssistToCustomComponents8745">
+            <section diffmk:change="added" id="ContentAssistForInsertTag">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Insert Tag Wizard</diffmk:wrapper></title>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist is also available for any attribute value of </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">Insert Tag wizard</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Insert Tag Wizard</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/visual_page/editors_features_27a.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+            </section>
+            
+            <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
-                    component added in <property moreinfo="none">JBoss Developer Studio</property>:</para>
+                    component added in <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">JBoss Developer Studio 2.X</diffmk:wrapper></property>:</para>
                 <orderedlist continuation="restarts" inheritnum="ignore">
                     <listitem>
                         <para>Create a new xml file in <emphasis>
@@ -1073,7 +1092,24 @@
                             component.</para>
                     </listitem>
                 </orderedlist>
-
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">From </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio 3.0.0.M1</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> you should not do any of the steps described 
+                before,dynamic code assist to custom components is added automatically.</diffmk:wrapper></para>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you open projects that were created in older studio versions such message could appear:</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Missing Natures Message</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/visual_page/message.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">It shows that some features of content assist including this one probably will not work.
+                    To fix this problem and turn off the message box execute the following steps:</diffmk:wrapper></para>
+                <itemizedlist diffmk:change="added">
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Right click the project in Package Explorer.</diffmk:wrapper></para></listitem>
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Select </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Configure -&gt; Add JSF Capabilities</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> from the context menu.</diffmk:wrapper></para></listitem>
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Configure your project using Add JSF Capabilities wizard and press </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Finish</diffmk:wrapper></property></para></listitem>
+                </itemizedlist>
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
@@ -2134,8 +2170,8 @@ two elements with equal id has been used, but should be used only one -->
     	<section id="page_preview">
     		<title>Page Preview</title>
     		
-    		<para><property moreinfo="none">VPE</property><diffmk:wrapper diffmk:change="changed"> comes with design-time preview feature which is available
-    			for:</diffmk:wrapper></para>
+    		<para><property moreinfo="none">VPE</property> comes with design-time preview feature which is available
+    			for:</para>
     		
     		<itemizedlist>
     			<listitem>
@@ -2144,13 +2180,13 @@ two elements with equal id has been used, but should be used only one -->
     			<listitem>
     				<para>JSF Pages</para>
     			</listitem>
-    		<listitem diffmk:change="added">
-                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Seam Pages</diffmk:wrapper></para>
+    		<listitem>
+                    <para>Seam Pages</para>
                 </listitem>
             </itemizedlist>
     		
-    		<para><property moreinfo="none">Preview view</property><diffmk:wrapper diffmk:change="changed"> is read-only, it shows how the page will look
-    			like in a browser.</diffmk:wrapper></para>
+    		<para><property moreinfo="none">Preview view</property> is read-only, it shows how the page will look
+    			like in a browser.</para>
     		<figure float="0">
     			<title>Preview View</title>
     			<mediaobject>
@@ -2160,123 +2196,124 @@ two elements with equal id has been used, but should be used only one -->
     			</mediaobject>
     		</figure>
     		
-    		
+    		<!--para>You can even
+    			attach your stylesheet to the preview.</para-->
     	</section>
     	
-		<section diffmk:change="added" id="custom_facelets_support">
-			<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Support for Custom Facelets Components</diffmk:wrapper></title>
+		<section id="custom_facelets_support">
+			<title>Support for Custom Facelets Components</title>
 			
-			<para diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> (starting from 3.0.0.M3 version of </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">) supports
-				custom Facelets tag libraries both declared in the </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added"> file 
+			<para><property moreinfo="none">Visual Page Editor</property> (starting from 3.0.0.M3 version of <property moreinfo="none">JBoss Tools</property>) supports
+				custom Facelets tag libraries both declared in the <literal moreinfo="none">web.xml</literal> file 
 				(for details, see 
-				</diffmk:wrapper><ulink diffmk:change="added" url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294"><diffmk:wrapper diffmk:change="added">Creating a component</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added">) and packed into the JAR file.</diffmk:wrapper></para>
+				<ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the JAR file.</para>
 			
-				<tip diffmk:change="added">
-					<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tip:</diffmk:wrapper></title>
-					<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In case of Facelets tag library packed in </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">.jar</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">, remember to put </diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">*.taglib.xml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added"> in right place:
-						</diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">[filename].jar/META-INF/*.taglib.xml</diffmk:wrapper></literal></para>
+				<tip>
+					<title>Tip:</title>
+					<para>In case of Facelets tag library packed in <literal moreinfo="none">.jar</literal>, remember to put <literal moreinfo="none">*.taglib.xml</literal> in right place:
+						<literal moreinfo="none">[filename].jar/META-INF/*.taglib.xml</literal></para>
 				</tip>
 			
-			<para diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> recognizes the tags from the custom Facelets tag library and correctly
-			renders them both in source and visual view of the editor.</diffmk:wrapper></para>
+			<para><property moreinfo="none">Visual Page Editor</property> recognizes the tags from the custom Facelets tag library and correctly
+			renders them both in source and visual view of the editor.</para>
 			
-			<figure diffmk:change="added" float="0">
-				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Custom Facelets Tags in the VPE</diffmk:wrapper></title>
-				<mediaobject diffmk:change="added">
-					<imageobject diffmk:change="added">
-						<imagedata diffmk:change="added" fileref="images/visual_page/customFacelets1.png"></imagedata>
+			<figure float="0">
+				<title>Custom Facelets Tags in the VPE</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/visual_page/customFacelets1.png"></imagedata>
 					</imageobject>
 				</mediaobject>
 			</figure>
 			
-			<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">While editing an XHTML file that uses a custom Facelets components
-				you can always make use of the following editor's features:</diffmk:wrapper></para>
+			<para>While editing an XHTML file that uses a custom Facelets components
+				you can always make use of the following editor's features:</para>
 			
-			<itemizedlist diffmk:change="added">
-				<listitem diffmk:change="added">
-					<para diffmk:change="added"><link diffmk:change="added" linkend="contentAssistForCustomFacelets"><diffmk:wrapper diffmk:change="added">Content Assist for Custom Facelets Components</diffmk:wrapper></link></para>
+			<itemizedlist>
+				<listitem>
+					<para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom Facelets Components</link></para>
 				</listitem>
-				<listitem diffmk:change="added">
-					<para diffmk:change="added"><link diffmk:change="added" linkend="openOnForCustomFacelets"><diffmk:wrapper diffmk:change="added">OpenOn for Custom Facelets Components</diffmk:wrapper></link></para>
+				<listitem>
+					<para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets Components</link></para>
 				</listitem>
 			</itemizedlist>
 		
-			<section diffmk:change="added" id="contentAssistForCustomFacelets">
-				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Custom Facelets Components</diffmk:wrapper></title>
-				<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Call the content assist as usual by using </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Space</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">
-					when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.</diffmk:wrapper></para>
+			<section id="contentAssistForCustomFacelets">
+				<title>Content Assist for Custom Facelets Components</title>
+				<para>Call the content assist as usual by using <emphasis><property moreinfo="none">Ctrl+Space</property></emphasis>
+					when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.</para>
 				
-				<figure diffmk:change="added" float="0">
-					<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Custom Facelets Tags</diffmk:wrapper></title>
-					<mediaobject diffmk:change="added">
-						<imageobject diffmk:change="added">
-							<imagedata diffmk:change="added" fileref="images/visual_page/customFacelets2.png"></imagedata>
+				<figure float="0">
+					<title>Content Assist for Custom Facelets Tags</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/visual_page/customFacelets2.png"></imagedata>
 						</imageobject>
 					</mediaobject>
 				</figure>
 			</section>
 			
-			<section diffmk:change="added" id="openOnForCustomFacelets">
-				<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn for Custom Facelets Components</diffmk:wrapper></title>
+			<section id="openOnForCustomFacelets">
+				<title>OpenOn for Custom Facelets Components</title>
 				
-				<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">While developing using Facelets you can make use of:</diffmk:wrapper></para>
-				<itemizedlist diffmk:change="added">
-					<listitem diffmk:change="added"><para diffmk:change="added"><link diffmk:change="added" linkend="openOnInXHTML"><diffmk:wrapper diffmk:change="added">OpenOn in XHTML Files That Use Custom Facelets Components</diffmk:wrapper></link></para></listitem>
-					<listitem diffmk:change="added"><para diffmk:change="added"><link diffmk:change="added" linkend="openOnInCustomFaceletsTaglibs"><diffmk:wrapper diffmk:change="added">OpenOn in Custom Facelets Tag File (</diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">*.taglib.xml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></link></para></listitem>
+				<para>While developing using Facelets you can make use of:</para>
+				<itemizedlist>
+					<listitem><para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom Facelets Components</link></para></listitem>
+					<listitem><para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom Facelets Tag File (<literal moreinfo="none">*.taglib.xml</literal>)</link></para></listitem>
 				</itemizedlist>
 				
-				<section diffmk:change="added" id="openOnInXHTML">
-					<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in XHTML Files That Use Custom Facelets Components</diffmk:wrapper></title>
-					<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn functionality in XHTML files is available in two views of the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Visual Page Editor</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">:</diffmk:wrapper></para>
+				<section id="openOnInXHTML">
+					<title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
+					<para>OpenOn functionality in XHTML files is available in two views of the <property moreinfo="none">Visual Page Editor</property>:</para>
 					
-					<orderedlist continuation="restarts" diffmk:change="added" inheritnum="ignore">
-						<listitem diffmk:change="added">
-							<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Source view</diffmk:wrapper></para>
+					<orderedlist continuation="restarts" inheritnum="ignore">
+						<listitem>
+							<para>Source view</para>
 							
-							<para diffmk:change="added"><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Click</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> on the namespace will open the Facelets tag file
-								in a separate window.</diffmk:wrapper></para>
+							<para><emphasis><property moreinfo="none">Ctrl+Click</property></emphasis> on the namespace will open the Facelets tag file
+								in a separate window.</para>
 							
-							<figure diffmk:change="added" float="0">
-								<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Opening a Custom Facelets Tag File</diffmk:wrapper></title>
-								<mediaobject diffmk:change="added">
-									<imageobject diffmk:change="added">
-										<imagedata diffmk:change="added" fileref="images/visual_page/customFacelets3.png"></imagedata>
+							<figure float="0">
+								<title>Opening a Custom Facelets Tag File</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/visual_page/customFacelets3.png"></imagedata>
 									</imageobject>
 								</mediaobject>
 							</figure>
 							
-							<para diffmk:change="added"><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Click</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> on any custom Facelets tag declared on the page will do the same.
-								The selected tag will be highlighted in the opened file.</diffmk:wrapper></para>
+							<para><emphasis><property moreinfo="none">Ctrl+Click</property></emphasis> on any custom Facelets tag declared on the page will do the same.
+								The selected tag will be highlighted in the opened file.</para>
 							
-							<figure diffmk:change="added" float="0">
-								<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Opening a Custom Facelets Tag File</diffmk:wrapper></title>
-								<mediaobject diffmk:change="added">
-									<imageobject diffmk:change="added">
-										<imagedata diffmk:change="added" fileref="images/visual_page/customFacelets4.png"></imagedata>
+							<figure float="0">
+								<title>Opening a Custom Facelets Tag File</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/visual_page/customFacelets4.png"></imagedata>
 									</imageobject>
 								</mediaobject>
 							</figure>
 						</listitem>
 						
-						<listitem diffmk:change="added">
-							<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Visual view</diffmk:wrapper></para>
+						<listitem>
+							<para>Visual view</para>
 							
-							<para diffmk:change="added"><diffmk:wrapper diffmk:change="added">In the visual view of the </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">VPE</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">, double-click a custom component and the Facelets tag file 
-								(</diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">*.taglib.xml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">) where it is declared will be opened.</diffmk:wrapper></para>
+							<para>In the visual view of the <property moreinfo="none">VPE</property>, double-click a custom component and the Facelets tag file 
+								(<literal moreinfo="none">*.taglib.xml</literal>) where it is declared will be opened.</para>
 						</listitem>
 					</orderedlist>
 				</section>
 				
-				<section diffmk:change="added" id="openOnInCustomFaceletsTaglibs">
-					<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn in Custom Facelets Tag File (</diffmk:wrapper><literal diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">*.taglib.xml</diffmk:wrapper></literal><diffmk:wrapper diffmk:change="added">)</diffmk:wrapper></title>
+				<section id="openOnInCustomFaceletsTaglibs">
+					<title>OpenOn in Custom Facelets Tag File (<literal moreinfo="none">*.taglib.xml</literal>)</title>
 					
-					<para diffmk:change="added"><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Ctrl+Click</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> on the path to source of the Facelets tag will
-					open the component in its own editor.</diffmk:wrapper></para>
-					<figure diffmk:change="added" float="0">
-						<title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Opening a Custom Facelets Component</diffmk:wrapper></title>
-						<mediaobject diffmk:change="added">
-							<imageobject diffmk:change="added">
-								<imagedata diffmk:change="added" fileref="images/visual_page/customFacelets5.png"></imagedata>
+					<para><emphasis><property moreinfo="none">Ctrl+Click</property></emphasis> on the path to source of the Facelets tag will
+					open the component in its own editor.</para>
+					<figure float="0">
+						<title>Opening a Custom Facelets Component</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="images/visual_page/customFacelets5.png"></imagedata>
 							</imageobject>
 						</mediaobject>
 					</figure>
@@ -2823,7 +2860,7 @@ two elements with equal id has been used, but should be used only one -->
             <para>JBoss Developer Studio fully supports XML files based on schemas as well as
                 DTDs:</para>
             <figure float="0">
-                <title><diffmk:wrapper diffmk:change="changed">XML File </diffmk:wrapper></title>
+                <title>XML File </title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_53.png"></imagedata>
@@ -4013,7 +4050,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 
 <title>Expanding Tag Library Files</title>
 
-<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Expand</diffmk:wrapper></property></emphasis>:</para>
+<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property moreinfo="none">Expand</property></emphasis>:</para>
     
     <figure float="0">
         <title>Expanding Tag Library File</title>
@@ -5506,9 +5543,11 @@ buttons below.</para>
         representing and editing web resources you are working with.</para>
     
     <para>If there's anything we didn't cover or you can't figure
-        out, please feel free to visit our
-        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss Developer Studio Users Forum</ulink> or
-        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
+        out, please feel free to visit our <ulink 
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">
+            JBoss Developer Studio Users Forum</ulink> 
+        or <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">
+            JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
                 your suggestions and comments.</para>
 </chapter>
 </book>
