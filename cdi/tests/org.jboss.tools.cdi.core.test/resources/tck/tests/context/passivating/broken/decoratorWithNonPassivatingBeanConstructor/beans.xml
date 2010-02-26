@@ -1,5 +1,0 @@
-<beans> 
-   <decorators>
-      <decorator>org.jboss.jsr299.tck.tests.context.passivating.broken.decoratorWithNonPassivatingBeanConstructor.CityDecorator</decorator>
-   </decorators>
-</beans>
