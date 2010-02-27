@@ -76,6 +76,9 @@ public class SeamLinkHelper implements ILinkHelper {
 			ISeamComponent[] cs = seamProject.getComponents();
 			for (ISeamComponent c : cs) {
 				ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+				if(d == null) {
+					continue;
+				}
 				IMember m = d.getSourceMember();
 				if(m == type)
 					return new StructuredSelection(d);
