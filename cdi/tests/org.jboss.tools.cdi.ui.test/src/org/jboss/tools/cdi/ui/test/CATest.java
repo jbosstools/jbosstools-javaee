@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.ui.test;
 
 import java.io.File;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.FileLocator;
@@ -26,7 +28,7 @@ import org.osgi.framework.Bundle;
 /**
  * @author Alexey Kazakov
  */
-public class CATest extends TCKTest {
+public class CATest extends TestCase {
 
 	private IProject project;
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
@@ -39,7 +41,7 @@ public class CATest extends TCKTest {
 	public CATest() {
 		super();
 		try {
-			project = importPreparedProject("/tests/lookup");
+			project = TCKTest.importPreparedProject("/tests/lookup");
 			Bundle ui = Platform.getBundle(UI_TEST_PLUGIN_ID);
 			String projectPath = project.getLocation().toString();
 			String resourcePath = FileLocator.resolve(ui.getEntry(RESOURCE_NAME)).getFile();

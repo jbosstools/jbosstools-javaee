@@ -3,6 +3,7 @@ package org.jboss.tools.cdi.text.ext.test;
 import java.util.ArrayList;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
@@ -32,28 +33,28 @@ import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
-public class InjectedPointHyperlinkDetectorTest extends TCKTest {
+public class InjectedPointHyperlinkDetectorTest extends TestCase {
 	private static final String PROJECT_NAME = "/tests/lookup/injectionpoint";
 	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java";
 
 	public static Test suite() {
 		return new TestSuite(InjectedPointHyperlinkDetectorTest.class);
 	}
-	
+
 	public void testInjectedPointHyperlinkDetector()  throws Exception {
-		IProject project = importPreparedProject(PROJECT_NAME);
+		IProject project = TCKTest.importPreparedProject(PROJECT_NAME);
 		doTest(project);
-		cleanProject(PROJECT_NAME);
+		TCKTest.cleanProject(PROJECT_NAME);
 	}
 
 	private void doTest(IProject project) throws Exception {
 		IFile javaFile = project.getFile(FILE_NAME);
 
-		assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile != null));
-		assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile.exists()));
+		TCKTest.assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile != null));
+		TCKTest.assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile.exists()));
 
 		FileEditorInput editorInput = new FileEditorInput(javaFile);
-		
+
 		IDocumentProvider documentProvider = null;
 		Throwable exception = null;
 		try {
@@ -74,41 +75,40 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 			assertTrue("The document provider is not able to be initialized with the editor input", false);
 		}
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
-		
+
 		IDocument document = documentProvider.getDocument(editorInput);
 
 		assertNotNull("The document for the file \"" + FILE_NAME + "\" is not loaded", document);
-		
+
 		InjectedPointHyperlinkDetector elPartitioner = new InjectedPointHyperlinkDetector();
-		
+
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(115, 6)); // Inject
 		regionList.add(new Region(140, 6)); // logger
 		regionList.add(new Region(196, 6)); // logger
 		regionList.add(new Region(250, 6)); // logger
 
-		
 		IEditorPart part = openFileInEditor(javaFile);
 		ISourceViewer viewer = null;
 		if(part instanceof JavaEditor){
 			viewer = ((JavaEditor)part).getViewer();
 		}
-		
+
 		elPartitioner.setContext(new TestContext((ITextEditor)part));
-		
+
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
 			TestData testData = new TestData(document, i);
 			IHyperlink[] links = elPartitioner.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
 
 			boolean recognized = links != null;
-			
+
 			if (recognized) {
 				counter++;
 				if(!findOffsetInRegions(i, regionList)){
 					fail("Wrong detection for offset - "+i);
 				}
-			}else{
+			} else {
 				for(Region region : regionList){
 					if(i >= region.getOffset() && i <= region.getOffset()+region.getLength())
 						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength()+region.getLength()+" region - "+i);
@@ -117,10 +117,10 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 		}
 
 		assertEquals("Wrong recognized region count: ", 28,  counter);
-		
+
 		documentProvider.disconnect(editorInput);
 	}
-	
+
 	private boolean findOffsetInRegions(int offset, ArrayList<Region> regionList){
 		for(Region region : regionList){
 			if(offset >= region.getOffset() && offset <= region.getOffset()+region.getLength())
@@ -128,7 +128,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 		}
 		return false;
 	}
-	
+
 	private IEditorPart openFileInEditor(IFile input) {
 		if (input != null && input.exists()) {
 			try {
@@ -141,26 +141,26 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 		}
 		return null;
 	}
-	
+
 	class TestData {
 		IDocument document;
 		int offset;
 		IRegion region;
 		String contentType;
 		private IHyperlinkRegion hyperlinkRegion = null;
-	
+
 		TestData (IDocument document, int offset) {
 			this.document = document;
 			this.offset = offset;
 			init();
 		}
-		
+
 		private void init() {
 			this.region = getDocumentRegion();
 			this.contentType = getContentType();
 			this.hyperlinkRegion = getHyperlinkRegion();
 		}
-		
+
 		private IRegion getDocumentRegion() {
 			IRegion region = null;
 			try {
@@ -169,11 +169,11 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 			
 			return region;
 		}
-		
+
 		public IHyperlinkRegion getHyperlinkRegion() {
 			if (hyperlinkRegion != null)
 				return hyperlinkRegion;
-			
+
 			return new IHyperlinkRegion() {
 		        public String getAxis() {
                     return AxisUtil.getAxis(document, region.getOffset());
@@ -195,8 +195,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
                 }
             };
 		}
-		
-		
+
 		/**
 		 * Returns the content type of document
 		 * 
@@ -222,19 +221,18 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 			return type;
 		}
 	}
-	
+
 	class TestContext implements IAdaptable{
 		ITextEditor editor;
-		
+
 		public TestContext(ITextEditor editor){
 			this.editor = editor;
 		}
-		
+
 		public Object getAdapter(Class adapter) {
 			if(adapter.equals(ITextEditor.class))
 				return editor;
 			return null;
 		}
 	}
-
 }

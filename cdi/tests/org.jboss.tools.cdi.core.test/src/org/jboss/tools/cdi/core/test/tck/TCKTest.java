@@ -11,6 +11,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -32,7 +34,34 @@ public class TCKTest extends TestCase {
 
 	protected static String TCK_RESOURCES_PREFIX = "/resources/tck";
 
-	public IProject importPreparedProject(String packPath) throws Exception {
+	protected IProject tckProject;
+	protected ICDIProject cdiProject;
+
+	public TCKTest() {
+		tckProject = getTestProject();
+		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
+	}
+
+	public IProject getTestProject() {
+		if(tckProject==null) {
+			try {
+				tckProject = findTestProject();
+				if(tckProject==null || !tckProject.exists()) {
+					tckProject = importPreparedProject("/");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				fail("Can't import CDI test project: " + e.getMessage());
+			}
+		}
+		return tckProject;
+	}
+
+	public static IProject findTestProject() {
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+	}
+
+	public static IProject importPreparedProject(String packPath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 		if(project==null || !project.exists()) {
@@ -57,28 +86,28 @@ public class TCKTest extends TestCase {
 		return project;
 	}
 
-	class JavaFileFilter implements FileFilter {
+	static class JavaFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
-			return pathname.isDirectory() || (name.endsWith(".java") && !name.endsWith("Test.java"));
+			return (pathname.isDirectory() && !name.endsWith(".svn")) || (name.endsWith(".java") && !name.endsWith("Test.java"));
+		}
+	}
+
+	static class XmlFileFilter implements FileFilter {
+		public boolean accept(File pathname) {
+			String name = pathname.getName();
+			return (pathname.isDirectory() && !name.endsWith(".svn")) || name.endsWith(".xml");
 		}		
 	}
 
-	class XmlFileFilter implements FileFilter {
+	static class PageFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
-			return pathname.isDirectory() || name.endsWith(".xml");
+			return (pathname.isDirectory() && !name.endsWith(".svn")) && !name.endsWith(".xml");
 		}		
 	}
 
-	class PageFileFilter implements FileFilter {
-		public boolean accept(File pathname) {
-			String name = pathname.getName();
-			return pathname.isDirectory() || !name.endsWith(".java") && !name.endsWith(".xml");
-		}		
-	}
-
-	public void cleanProject(String _resourcePath) throws Exception {
+	public static void cleanProject(String _resourcePath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
 		String projectPath = FileLocator.resolve(b.getEntry(PROJECT_PATH)).getFile();
 		

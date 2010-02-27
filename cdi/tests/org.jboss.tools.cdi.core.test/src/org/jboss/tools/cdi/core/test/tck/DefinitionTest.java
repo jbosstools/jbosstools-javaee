@@ -10,22 +10,25 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
-import org.eclipse.core.resources.IProject;
+import java.util.Set;
+
+import org.eclipse.core.resources.IFile;
+import org.jboss.tools.cdi.core.IBean;
 
 /**
+ * Section 2 - Concepts
+ *
  * @author Alexey Kazakov
  */
 public class DefinitionTest extends TCKTest {
 
-	protected void setUp() throws Exception {
-		IProject p = importPreparedProject("/definition/qualifier");
-	}
-
-	public void test1() {
-		
-	}
-
-	protected void tearDown() throws Exception {
-		cleanProject("/definition/qualifier");
+	/**
+	 * a) A bean comprises of a (nonempty) set of bean types.
+	 */
+	public void testBeanTypesNonEmpty() {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
+		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", beans.iterator().next().getLegalTypes().size() > 0);
 	}
 }
