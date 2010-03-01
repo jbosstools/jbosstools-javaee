@@ -35,6 +35,7 @@ public class DefinitionTest extends TCKTest {
 		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", bean.getLegalTypes().size() > 0);
 		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be two type declarations in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", declarations.size(), 2);
+		// TODO use correct start position instead of 0. 
 		assertLocationEquals(declarations, 0, 10);
 		assertLocationEquals(declarations, 0, 6);
 	}
