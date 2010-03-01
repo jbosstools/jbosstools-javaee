@@ -100,6 +100,12 @@ public class AbstractBeanElement extends CDIElement {
 		return result;
 	}
 
+	public Set<IType> getQualifiers() {
+		Set<IType> result = new HashSet<IType>();
+		// TODO
+		return result;
+	}
+
 	public Set<IScopeDeclaration> getScopeDeclarations() {
 		return getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
 	}

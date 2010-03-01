@@ -684,4 +684,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		return result;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.eclipse.jdt.core.IType, org.eclipse.jdt.core.IType[])
+	 */
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+			IType beanType, IType... qualifiers) {
+		// TODO
+		return null;
+	}
 }

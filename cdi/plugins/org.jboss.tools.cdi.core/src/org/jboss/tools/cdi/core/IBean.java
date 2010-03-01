@@ -81,11 +81,20 @@ public interface IBean extends IScoped, ICDIElement, IVariable {
 	Set<ITypeDeclaration> getRestrictedTypeDeclaratios();
 
 	/**
-	 * Obtains the qualifiers of the bean class or producer method or field.
+	 * Obtains the qualifier declarations of the bean class or producer method or field.
 	 * 
 	 * @return the qualifiers
 	 */
 	Set<IAnnotationDeclaration> getQualifierDeclarations();
+
+	/**
+	 * Obtains the qualifiers of the bean class or producer method or field.
+	 * Note a Bean has @Any (except for the special @New) and @Default qualifiers even
+	 * if there is not any Qualifier declarations.
+	 *  
+	 * @return the qualifiers
+	 */
+	Set<IType> getQualifiers();
 
 	/**
 	 * Obtains the stereotype declarations of the bean class or producer method
