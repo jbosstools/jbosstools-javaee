@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -35,7 +36,6 @@ public class DefinitionTest extends TCKTest {
 		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", bean.getLegalTypes().size() > 0);
 		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be two type declarations in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", declarations.size(), 2);
-		// TODO use correct start position instead of 0. 
 		assertLocationEquals(declarations, 936, 10);
 		assertLocationEquals(declarations, 958, 6);
 	}
@@ -47,6 +47,19 @@ public class DefinitionTest extends TCKTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", beans.iterator().next().getQualifiers().size() > 0);
+	}
+
+	/**
+	 * c) A bean comprises of a scope.
+	 */
+	public void testHasScopeType() {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		IBean bean = beans.iterator().next();
+		IScope scope = bean.getScope();
+		assertNotNull("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean desn't have a scope.", scope);
+		assertNotNull("Scope of org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean doesn't have a link to IType.", scope.getSourceType());
+		assertEquals("Wrong scope type for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", "javax.enterprise.context.RequestScoped", scope.getSourceType().getFullyQualifiedName());
 	}
 
 	private void assertLocationEquals(Set<? extends ITextSourceReference> references, int startPosition, int length) {

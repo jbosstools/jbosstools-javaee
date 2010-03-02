@@ -12,6 +12,7 @@ Require-Bundle: org.jboss.tools.tests,
  org.jboss.tools.cdi.core,
  org.jboss.tools.common,
  org.eclipse.ui,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.jboss.tools.common.el.core
 Export-Package: org.jboss.tools.cdi.core.test,
  org.jboss.tools.cdi.core.test.tck
