@@ -23,9 +23,14 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
@@ -100,9 +105,31 @@ public class AbstractBeanElement extends CDIElement {
 		return result;
 	}
 
-	public Set<IType> getQualifiers() {
-		Set<IType> result = new HashSet<IType>();
-		// TODO
+	public Set<IQualifier> getQualifiers() {
+		IQualifier any = getCDIProject().getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
+		IQualifier def = getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		IQualifier name = getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+
+		Set<IQualifier> result = new HashSet<IQualifier>();
+		Set<IAnnotationDeclaration> ds = getQualifierDeclarations();
+		for (IAnnotationDeclaration d: ds) {
+			if(d instanceof IQualifierDeclaration) {
+				IQualifier q = ((IQualifierDeclaration)d).getQualifier();
+				if(q != null) result.add(q);
+			}
+		}
+		if(this instanceof IInjectionPoint) {
+			if(def != null && result.isEmpty()) {
+				result.add(def);
+			}
+		} else if(this instanceof IBean) {
+			if(def != null) {
+				if(result.isEmpty() || (name != null && result.size() == 1 && result.contains(name))) {
+					result.add(def);
+				}
+			}			
+			if(any != null) result.add(any);
+		}
 		return result;
 	}
 

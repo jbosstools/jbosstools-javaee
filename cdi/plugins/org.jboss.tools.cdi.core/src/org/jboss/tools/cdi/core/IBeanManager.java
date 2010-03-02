@@ -172,7 +172,7 @@ public interface IBeanManager {
 	 * @return interceptor binding model element for fully qualified name of
 	 *         interceptor binding annotation type
 	 */
-	InterceptorBindingElement getInterceptorBinding(String qualifiedName);
+	IInterceptorBinding getInterceptorBinding(String qualifiedName);
 
 	/**
 	 * Returns qualifier model element for fully qualified name 
@@ -181,7 +181,7 @@ public interface IBeanManager {
 	 * @return Returns qualifier model element for fully qualified name 
 	 * of qualifier annotation type
 	 */
-	QualifierElement getQualifier(String qualifiedName);
+	IQualifier getQualifier(String qualifiedName);
 
 	/**
 	 * Returns scope model element for fully qualified name of scope annotation
@@ -191,7 +191,7 @@ public interface IBeanManager {
 	 * @return the scope model element for fully qualified name of scope
 	 *         annotation type
 	 */
-	ScopeElement getScope(String qualifiedName);
+	IScope getScope(String qualifiedName);
 
 	/**
 	 * Returns the set of observers for an event which is injected by given

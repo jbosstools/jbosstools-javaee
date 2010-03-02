@@ -94,7 +94,7 @@ public interface IBean extends IScoped, ICDIElement, IVariable {
 	 *  
 	 * @return the qualifiers
 	 */
-	Set<IType> getQualifiers();
+	Set<IQualifier> getQualifiers();
 
 	/**
 	 * Obtains the stereotype declarations of the bean class or producer method

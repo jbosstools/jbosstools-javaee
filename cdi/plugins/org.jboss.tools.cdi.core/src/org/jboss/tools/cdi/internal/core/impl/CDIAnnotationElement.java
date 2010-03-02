@@ -65,4 +65,10 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation {
 	public IAnnotationDeclaration getAnnotationDeclaration(String typeName) {
 		return definition.getAnnotation(typeName);
 	}
+
+	public String toString() {
+		String type = getSourceType() == null ? "" : getSourceType().getFullyQualifiedName();
+		return super.toString() + " type=" + type; 
+	}
+
 }
