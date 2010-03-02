@@ -19,6 +19,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 
+import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.wst.common.uriresolver.internal.provisional.URIResolverPlugin;
 import org.eclipse.wst.validation.ValidationResult;
@@ -74,9 +75,9 @@ public class XHTMLSyntaxValidator extends Validator {
 		XMLValidationReport valreport = null;
 		if (inputstream != null) {
 			valreport = validator.validate(uri, inputstream, configuration,
-					result);
+					context, result);
 		} else {
-			valreport = validator.validate(uri, null, configuration, result);
+			valreport = validator.validate(uri, null, configuration, context, result);
 		}
 	
 		if (JSFModelPlugin.getDefault().isDebugging()) {
@@ -131,7 +132,7 @@ public class XHTMLSyntaxValidator extends Validator {
 	     *    Returns an XML validation report.
 	     */
 	    public XMLValidationReport validate(String uri, InputStream inputStream, 
-	    		XMLValidationConfiguration configuration, ValidationResult result) {
+	    		XMLValidationConfiguration configuration, NestedValidatorContext context, ValidationResult result) {
 	    	String grammarFile = "";
 	    	Reader reader1 = null; // Used for the preparse.
 	    	Reader reader2 = null; // Used for validation parse.
@@ -143,8 +144,9 @@ public class XHTMLSyntaxValidator extends Validator {
 	    	} 
 	        
 	    	XMLValidationInfo valinfo = new XMLValidationInfo(uri);
-	    	XHTMLValidatorHelper helper = new XHTMLValidatorHelper();
-
+	    	XHTMLEntityResolver entityResolver = new XHTMLEntityResolver(uriResolver, context);
+	    	XHTMLValidatorHelper helper = new XHTMLValidatorHelper(entityResolver);
+	    	
 	    	try {  
 	    		helper.computeValidationInformation(uri, reader1, uriResolver);
 	        
@@ -160,7 +162,7 @@ public class XHTMLSyntaxValidator extends Validator {
 		        	return valinfo;
 		        }
 	        
-		        XMLReader reader = createXMLReader(valinfo, new XMLEntityResolverImpl());
+		        XMLReader reader = createXMLReader(valinfo, entityResolver);
 		        XMLErrorHandler errorhandler = new XMLErrorHandler(valinfo);
 		        reader.setErrorHandler(errorhandler);
 	        
@@ -216,7 +218,12 @@ public class XHTMLSyntaxValidator extends Validator {
 		 */
 		class XHTMLValidatorHelper extends ValidatorHelper {
 			public boolean isXHTMLDoctype = false;
+			private XHTMLEntityResolver entityResolver;
 	
+			public XHTMLValidatorHelper(XHTMLEntityResolver entityResolver) {
+				this.entityResolver = entityResolver;
+			}
+
 			protected XMLReader createXMLReader(String uri) throws Exception
 			{     
 				XMLReader reader = super.createXMLReader(uri);
@@ -259,7 +266,9 @@ public class XHTMLSyntaxValidator extends Validator {
 	    	    	}
 	    	    };
 	    	    reader.setProperty("http://xml.org/sax/properties/lexical-handler", lexicalHandler); //$NON-NLS-1$
-	    	    reader.setProperty("http://apache.org/xml/properties/internal/entity-resolver", new XMLEntityResolverImpl()); //$NON-NLS-1$
+	    	    if (entityResolver != null) {
+	    	    	reader.setProperty("http://apache.org/xml/properties/internal/entity-resolver", entityResolver); //$NON-NLS-1$
+	    	    }
 	    	    return reader;
 			}  
 		}
