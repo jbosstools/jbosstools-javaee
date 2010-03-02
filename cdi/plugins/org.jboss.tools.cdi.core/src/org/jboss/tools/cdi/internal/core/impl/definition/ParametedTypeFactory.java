@@ -19,11 +19,16 @@ public class ParametedTypeFactory {
 		ParametedType result = new ParametedType();
 		result.setFactory(this);
 		result.setSignature(typeSignature);
+
+		typeSignature = typeSignature.substring(result.getArrayPrefix().length());
+
 		int startToken = typeSignature.indexOf('<');
 		if(startToken < 0) {
 			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(context, typeSignature);
 			if(resovedTypeName == null) return null;
-			result.setSignature("Q" + resovedTypeName + ";");
+			if(!context.isBinary()) {
+				result.setSignature(result.getArrayPrefix() + "Q" + resovedTypeName + ";");
+			}
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {
 				result.setType(type);
@@ -53,7 +58,9 @@ public class ParametedTypeFactory {
 					if(newParams.length() > 0) newParams.append(',');
 					newParams.append(param.getSignature());
 				}
-				result.setSignature("Q" + resovedTypeName + '<' + newParams + '>' + ';');
+				if(!context.isBinary()) {
+					result.setSignature(result.getArrayPrefix() + "Q" + resovedTypeName + '<' + newParams + '>' + ';');
+				}
 				cache.put(key, result);
 				return result;
 			}

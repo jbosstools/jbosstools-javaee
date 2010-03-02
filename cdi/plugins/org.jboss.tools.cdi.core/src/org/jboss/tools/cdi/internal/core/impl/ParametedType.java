@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
@@ -31,6 +32,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 public class ParametedType implements IParametedType {
 	protected ParametedTypeFactory typeFactory = null;
 	protected IType type;
+	protected String arrayPrefix = "";
 	protected String signature;
 	protected List<ParametedType> parameterTypes = new ArrayList<ParametedType>();
 
@@ -38,6 +40,12 @@ public class ParametedType implements IParametedType {
 	protected ParametedType superType = null;
 	protected Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
 	Set<IParametedType> allInheritedTypes = null;
+
+	public static interface PositionProvider {
+		ISourceRange getRange(String superTypeName);
+	}
+
+	PositionProvider provider = null;
 
 	public ParametedType() {}
 
@@ -53,6 +61,10 @@ public class ParametedType implements IParametedType {
 		return type;
 	}
 
+	public String getArrayPrefix() {
+		return arrayPrefix;
+	}
+
 	public String getSignature() {
 		return signature;
 	}
@@ -63,10 +75,19 @@ public class ParametedType implements IParametedType {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+		if(signature != null) {
+			for (int i = 0; i < signature.length(); i++) {
+				if(signature.charAt(i) == '[') arrayPrefix += "["; else break;
+			}
+		}
 	}
 
 	public void addParameter(ParametedType p) {
 		parameterTypes.add(p);
+	}
+
+	public void setPositionProvider(PositionProvider p) {
+		provider = p;
 	}
 
 	public boolean equals(Object object) {
@@ -85,21 +106,46 @@ public class ParametedType implements IParametedType {
 		try {
 			if(!type.isInterface() && !type.isAnnotation()) {
 				String sc = type.getSuperclassTypeSignature();
+				boolean objectArray = false;
 				if(sc != null) {
 					sc = resolveParameters(sc);
 				} else if(!"java.lang.Object".equals(type.getFullyQualifiedName())) {
 					sc = "QObject;";
+				} else if("java.lang.Object".equals(type.getFullyQualifiedName()) && arrayPrefix.length() > 0) {
+					objectArray = true;
+					sc = "QObject;";
 				}
+				if(!objectArray && arrayPrefix.length() > 0) {
+					sc = arrayPrefix + sc;
+				}
+				
 				superType = getFactory().getParametedType(type, sc);
 				if(superType != null) {
+					if(provider != null) {
+						String scn = type.getSuperclassName();
+						if(scn != null && provider.getRange(scn) != null) {
+							ISourceRange r = provider.getRange(scn);
+							superType = new TypeDeclaration(superType, r.getOffset(), r.getLength());
+						}
+						
+					}
 					inheritedTypes.add(superType);
 				}
 			}
 			String[] is = type.getSuperInterfaceTypeSignatures();
 			if(is != null) for (int i = 0; i < is.length; i++) {
 				String p = resolveParameters(is[i]);
+				if(arrayPrefix.length() > 0) p = arrayPrefix + p;
 				ParametedType t = getFactory().getParametedType(type, p);
 				if(t != null) {
+					if(provider != null) {
+						String scn = type.getSuperInterfaceNames()[i];
+						if(scn != null && provider.getRange(scn) != null) {
+							ISourceRange r = provider.getRange(scn);
+							t = new TypeDeclaration(t, r.getOffset(), r.getLength());
+						}
+						
+					}
 					inheritedTypes.add(t);
 				}
 			}

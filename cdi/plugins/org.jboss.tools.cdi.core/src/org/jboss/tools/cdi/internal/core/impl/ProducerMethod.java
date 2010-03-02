@@ -52,7 +52,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 	public Set<ITypeDeclaration> getAllTypeDeclarations() {
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
-		if(typeDeclaration != null) {
+		if(typeDeclaration != null && typeDeclaration.getStartPosition() > 0) {
 			result.add(typeDeclaration);
 		}
 		return result;

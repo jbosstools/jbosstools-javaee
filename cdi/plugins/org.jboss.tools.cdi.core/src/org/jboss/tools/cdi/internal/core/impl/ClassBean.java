@@ -198,7 +198,15 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		Set<IParametedType> ps = getDefinition().getInheritedTypes();
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		for (IParametedType p: ps) {
-			result.add(new TypeDeclaration((ParametedType)p, -1, 0));
+			if(p instanceof TypeDeclaration) {
+				result.add((TypeDeclaration)p);
+			}
+		}
+		IParametedType p = getDefinition().getParametedType();
+		if(p != null) {
+			if(p instanceof TypeDeclaration) {
+				result.add((TypeDeclaration)p);
+			}
 		}
 		return result;
 	}

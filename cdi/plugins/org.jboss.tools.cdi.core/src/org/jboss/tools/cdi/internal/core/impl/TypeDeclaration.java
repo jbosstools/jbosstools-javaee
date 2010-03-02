@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 
 /**
@@ -22,13 +21,20 @@ public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
 	int length;
 	int startPosition;
 
-	TypeDeclaration(ParametedType type, int startPosition, int length) {
+	public TypeDeclaration(ParametedType type, int startPosition, int length) {
 		this.setFactory(type.getFactory());
 		this.type = type.getType();
+		arrayPrefix = type.arrayPrefix;
 		this.length = length;
 		this.startPosition = startPosition;
-		this.signature = type.signature;
-		this.parameterTypes = type.parameterTypes;
+
+		signature = type.signature;
+		parameterTypes = type.parameterTypes;
+
+		allInheritedTypes = type.allInheritedTypes;
+		inheritanceIsBuilt = type.inheritanceIsBuilt;
+		inheritedTypes = type.inheritedTypes;
+		superType = type.superType;
 	}
 
 	public int getLength() {
