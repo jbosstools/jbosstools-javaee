@@ -13,8 +13,11 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -46,7 +49,28 @@ public class DefinitionTest extends TCKTest {
 	public void testQualifiersNonEmpty() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", beans.iterator().next().getQualifiers().size() > 0);
+
+		Set<IQualifier> qs = beans.iterator().next().getQualifiers();
+		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", qs.size() > 0);
+
+// Use for next, more sophisticated test
+//		IQualifier any = cdiProject.getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
+//		assertTrue("No @Any found for RedSnapper ", qs.contains(any));
+//		IQualifier def = cdiProject.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+//		assertTrue("No @Default found for RedSnapper bean", qs.contains(def));
+//		
+//		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/SpiderProducer.java");
+//		beans = cdiProject.getBeans(file.getFullPath());
+//		IBean b = null;
+//		for (IBean b1: beans) {
+//			if (b1 instanceof IProducer) {
+//				b = b1;
+//				break;
+//			}
+//		}
+//		qs = b.getQualifiers();
+//		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.SpiderProducer bean.", qs.size() > 0);
+//		assertTrue("No @Any found for SpiderProducer bean", qs.contains(any));
 	}
 
 	/**
