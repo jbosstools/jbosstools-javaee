@@ -144,10 +144,13 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
 
 			if(n.getClassPath().update()) {
+				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				Map<String, XModelObject> newJars = n.getClassPath().process();
 				buildJars(newJars);
 				
 				n.getClassPath().validateProjectDependencies();
+				
+				kind = FULL_BUILD;
 			} else if(n.getClassPath().hasToUpdateProjectDependencies()) {
 				n.getClassPath().validateProjectDependencies();
 			}

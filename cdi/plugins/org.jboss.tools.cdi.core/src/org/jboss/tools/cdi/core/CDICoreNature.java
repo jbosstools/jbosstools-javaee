@@ -268,7 +268,7 @@ public class CDICoreNature implements IProjectNature {
 
 	public void pathRemoved(IPath source) {
 //		sourcePaths2.remove(source);
-		definitions.clean(source);
+		definitions.getWorkingCopy().clean(source);
 		//TODO
 	}
 
