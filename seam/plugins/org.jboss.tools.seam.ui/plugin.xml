@@ -2,12 +2,12 @@
 <?eclipse version="3.2"?>
 <plugin>
 
-   <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=207146 --> 
+   <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=207146  
    <extension
          point="org.eclipse.ui.startup">
       <startup class="org.jboss.tools.seam.ui.WorkaroundFor207146"/>
    </extension>
-
+   -->
    <extension
          point="org.eclipse.ui.newWizards">
       <category
