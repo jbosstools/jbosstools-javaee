@@ -40,23 +40,24 @@
         <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
-        
-        <pubdate>April 2008</pubdate>
+    
         <copyright>
             <year>2007</year>
+            <year>2008</year>
             <year>2009</year>
+            <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-              Version: 3.1.0.CR1
+              Version: 3.1.0.GA
             </diffmk:wrapper></releaseinfo>
 
 
 <abstract>
    <title></title>
        <para>
-           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/struts_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
        </para>
 </abstract>
 
@@ -67,7 +68,7 @@
     
     
     
-<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
   <?dbhtml filename="introduction.html"?>
   <chapterinfo>
     <keywordset>
@@ -168,7 +169,7 @@
 </chapter>
 
     
-<chapter id="jsf_application" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/jsf_application.xml" xreflabel="jsf_application">
+<chapter id="jsf_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/jsf_application.xml" xreflabel="jsf_application">
     <?dbhtml filename="jsf_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -269,7 +270,7 @@
 </chapter>
 
     
-<chapter id="adding_navigation" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/adding_navigation.xml" xreflabel="adding_navigation">
+<chapter id="adding_navigation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/adding_navigation.xml" xreflabel="adding_navigation">
     <?dbhtml filename="adding_navigation.html"?>
     <chapterinfo>
         <keywordset>
@@ -377,7 +378,7 @@
    
 </chapter>
     
-<chapter id="adding_managed_bean" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
+<chapter id="adding_managed_bean" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
     <?dbhtml filename="adding_managed_bean.html"?>
     <chapterinfo>
         <keywordset>
@@ -467,7 +468,7 @@
     
     </chapter>
     
-<chapter id="jsp_view_files" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/jsp_view_files.xml" xreflabel="jsp_view_files">
+<chapter id="jsp_view_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/jsp_view_files.xml" xreflabel="jsp_view_files">
     <?dbhtml filename="jsp_view_files.html"?>
     <chapterinfo>
         <keywordset>
@@ -721,7 +722,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </section>
     </chapter>
     
-<chapter id="start_page" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/start_page.xml" xreflabel="start_page">
+<chapter id="start_page" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/start_page.xml" xreflabel="start_page">
     <?dbhtml filename="start_page.html"?>
     <chapterinfo>
         <keywordset>
@@ -784,7 +785,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </itemizedlist>
     </chapter>
     
-<chapter id="running_application" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/running_application.xml" xreflabel="running_application">
+<chapter id="running_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/running_application.xml" xreflabel="running_application">
     <?dbhtml filename="running_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -831,7 +832,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
             appear.</para>
     </chapter>    
     
-<chapter id="relevant_resources" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
+<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
     <?dbhtml filename="relevant_resources.html"?>
     <chapterinfo>
         <keywordset>
@@ -862,7 +863,9 @@ Hello <h:outputText value="#{personBean.name}"/>!
         finally run it on the <property moreinfo="none">JBoss Server</property>.</para>
 
     <para>Find out more features on JSF tooling in our <ulink url="../../jsf_tools_ref_guide/html_single/index.html">JSF Tools
-            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+    Reference Guide</ulink>. 
+        If you have questions and suggestions, please refer to
+        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
         
