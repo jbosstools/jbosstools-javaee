@@ -306,7 +306,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsCreated(
 				componentsFile,
 				MARKER_TYPE,
-				"Class \"StatefulComponent\" of component \"statefulComponent\" does not have a setter or a field for the property \"abc\"", 16);
+				"Class \"StatefulComponent\" of component \"statefulComponent\" does not have a setter or a field for the property \"abc\"", 16, 20);
 	}
 
 	public void testEntityHasWrongScope_Validator() throws CoreException {
