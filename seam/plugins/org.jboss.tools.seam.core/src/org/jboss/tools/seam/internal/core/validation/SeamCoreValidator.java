@@ -620,8 +620,8 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				}
 
 				String className = declaration.getClassName();
+				IType type = null;
 				if(className!=null) {
-					IType type = null;
 					// validate class name
 					try {
 						IProject p = seamProject.getProject();
@@ -648,16 +648,24 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 					} catch (JavaModelException e) {
 						SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 					}
-					// validate properties
-					Collection<ISeamProperty> properties = declaration.getProperties();
-					for (ISeamProperty property : properties) {
-						if(SeamUtil.isJar(property)) {
-							return;
+				}
+				// validate properties
+				Collection<ISeamProperty> properties = declaration.getProperties();
+				for (ISeamProperty property : properties) {
+					if(SeamUtil.isJar(property)) {
+						return;
+					}
+					String name = property.getName();
+					if(name==null) {
+						return;
+					}
+					if(type==null && component.getJavaDeclaration()!=null) {
+						IMember member = component.getJavaDeclaration().getSourceMember();
+						if(member instanceof IType) {
+							type = (IType)member;
 						}
-						String name = property.getName();
-						if(name==null) {
-							return;
-						}
+					}
+					if(type!=null) {
 						boolean ok = type.isBinary() || SeamUtil.findProperty(type, name)!=null;
 						if(!ok) {
 							addError(SeamValidationMessages.UNKNOWN_COMPONENT_PROPERTY, SeamPreferences.UNKNOWN_COMPONENT_PROPERTY, new String[]{type.getElementName(), componentName, name}, property, declaration.getResource());
