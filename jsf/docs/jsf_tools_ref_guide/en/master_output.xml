@@ -43,14 +43,15 @@
         <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
         <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
         
-        <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
+             <year>2008</year>
             <year>2009</year>
+             <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.CR1
+            Version: 3.1.0.GA
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -65,7 +66,7 @@
     <toc></toc>  
     
     
-<chapter id="introduction" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/introduction.xml">
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/introduction.xml">
     <?dbhtml filename="introduction.html"?>
 
     <chapterinfo>
@@ -177,7 +178,7 @@
 </chapter>
 
     
-<chapter id="jsf_support" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_support.xml">
+<chapter id="jsf_support" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_support.xml">
         <?dbhtml filename="jsf_support.html"?>
         <chapterinfo>
                 <keywordset>
@@ -477,7 +478,7 @@
 </chapter>
 
     
-<chapter id="projects" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/projects.xml">
+<chapter id="projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/projects.xml">
         <?dbhtml filename="projects.html"?>
         <chapterinfo>
                 <keywordset>
@@ -879,7 +880,7 @@
 </chapter>
 
     
-<chapter id="webxml_editor" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/webxml_editor.xml" xreflabel="webxml_editor">
+<chapter id="webxml_editor" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/webxml_editor.xml" xreflabel="webxml_editor">
 	<?dbhtml filename="webxml_editor.html"?>
 	<chapterinfo>
 		<keywordset>
@@ -900,7 +901,7 @@
 		See the Visual Web Tools guide that gives a descriptive information on the <ulink url="../../jsf/html_single/index.html#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
 </chapter>
     
-<chapter id="jsf_config_file" role="updated" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
+<chapter id="jsf_config_file" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
     <?dbhtml filename="jsf_config_file.html"?>
     <chapterinfo>
         <keywordset>
@@ -1334,7 +1335,7 @@
 </chapter>
 
     
-<chapter id="managed_beans" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/managed_beans.xml">
+<chapter id="managed_beans" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/managed_beans.xml">
     <?dbhtml filename="managed_beans.html"?>
     <chapterinfo>
         <keywordset>
@@ -1542,7 +1543,7 @@
 </chapter>
 
     
-<chapter id="creation_and_registration" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/creation_and_registration.xml">
+<chapter id="creation_and_registration" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/creation_and_registration.xml">
     <?dbhtml filename="creation_and_registration.html"?>
     <chapterinfo>
         <keywordset>
@@ -1876,7 +1877,7 @@
      </section>
 </chapter>
     
-<chapter id="jsf_project_verification" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_project_verification.xml">
+<chapter id="jsf_project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_project_verification.xml">
     <?dbhtml filename="struts_project_verification.html"?>
 
     <chapterinfo>
@@ -1978,7 +1979,8 @@
         reference introduces you to wizards for creating and importing JSF projects, JSF
         Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
     
-    <para>If you have questions or good suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+    <para>If you have questions or good suggestions, please refer to
+        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
 
