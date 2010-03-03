@@ -57,7 +57,11 @@ public class CompoundPattern implements JSFUrlPattern {
 	 * @see org.jboss.tools.jsf.web.pattern.JSFUrlPattern#getJSFPaths(java.lang.String)
 	 */
 	public List<String> getJSFPaths(String url) {
-		return new ArrayList<String>();
+		List<String> result = new ArrayList<String>();
+		for (JSFUrlPattern pattern: patterns) {
+			result.addAll(pattern.getJSFPaths(url));
+		}
+		return result;
 	}
 
 }

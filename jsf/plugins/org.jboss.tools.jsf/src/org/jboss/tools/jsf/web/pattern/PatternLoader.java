@@ -83,7 +83,6 @@ public class PatternLoader {
 			String n = p.substring(2);
 			for (int i = 0; i < n.length(); i++)
 			  if(!Character.isJavaIdentifierPart(n.charAt(i))) return null;
-			if(n.equals("jsf")) return null; //default pattern
 			PostfixUrlPattern up = new PostfixUrlPattern();
 			up.setPostfix(p.substring(1));
 			return up;

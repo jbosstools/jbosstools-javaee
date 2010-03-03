@@ -45,7 +45,10 @@ public class PrefixUrlPattern implements JSFUrlPattern {
 	 * @see org.jboss.tools.jsf.web.pattern.JSFUrlPattern#getJSFPaths(java.lang.String)
 	 */
 	public List<String> getJSFPaths(String url) {
-		return new ArrayList<String>();
+		List<String> result = new ArrayList<String>();
+		String path = getJSFPath(url);
+		if(path != null && path.length() > 0) result.add(path);
+		return result;
 	}
 
 	public String toString() {
