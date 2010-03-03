@@ -311,6 +311,11 @@
                         <ulink url="&esblink;#ESBContentAssist">ESB XML files</ulink>
                     </para>
                 </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="ContentAssistForInsertTag">Insert Tag Wizard</link>
+                    </para>
+                </listitem>
             </itemizedlist>
 
             <para>Notice, that code completion for EL variables has icons illustrating what they are
@@ -743,12 +748,26 @@
         		<para>If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
         			<link linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom Facelets Components&quot;</link> later in this guide.</para>
         	</section>
-        	<section id="AddingDynamicCodeAssistToCustomComponents8745">
+            <section id="ContentAssistForInsertTag">
+                <title>Content Assist for Insert Tag Wizard</title>
+                <para>Content Assist is also available for any attribute value of <emphasis>Insert Tag wizard</emphasis>.</para>
+                <figure>
+                    <title>Content Assist for Insert Tag Wizard</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/editors_features_27a.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+            </section>
+            
+            <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
-                    component added in <property>JBoss Developer Studio</property>:</para>
+                    component added in <property>JBoss Developer Studio 2.X</property>:</para>
                 <orderedlist>
                     <listitem>
                         <para>Create a new xml file in <emphasis>
@@ -835,7 +854,24 @@
                             component.</para>
                     </listitem>
                 </orderedlist>
-
+                <para>From <emphasis>JBoss Developer Studio 3.0.0.M1</emphasis> you should not do any of the steps described 
+                before,dynamic code assist to custom components is added automatically.</para>
+                <para>If you open projects that were created in older studio versions such message could appear:</para>
+                <figure>
+                    <title>Missing Natures Message</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/message.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>It shows that some features of content assist including this one probably will not work.
+                    To fix this problem and turn off the message box execute the following steps:</para>
+                <itemizedlist>
+                    <listitem><para>Right click the project in Package Explorer.</para></listitem>
+                    <listitem><para>Select <property>Configure -> Add JSF Capabilities</property> from the context menu.</para></listitem>
+                    <listitem><para>Configure your project using Add JSF Capabilities wizard and press <property>Finish</property></para></listitem>
+                </itemizedlist>
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">

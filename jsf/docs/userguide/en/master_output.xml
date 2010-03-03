@@ -32,15 +32,16 @@
     <bookinfo>
         <title>Visual Web Tools Reference Guide</title>
         
-        <pubdate>April 2008</pubdate>
         <copyright>
             <year>2007</year>
+            <year>2008</year>
             <year>2009</year>
+            <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
-        <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.CR1
-           </diffmk:wrapper></releaseinfo>
+        <releaseinfo>
+            Version: 3.0.0.GA
+           </releaseinfo>
 <abstract>
    <title></title>
        <para>
@@ -53,7 +54,7 @@
 <toc></toc>  
     
     
-<chapter id="Visual_Web_Tools" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/Visual_Web_Tools.xml" xreflabel="Visual_Web_Tools">
+<chapter id="Visual_Web_Tools" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/Visual_Web_Tools.xml" xreflabel="Visual_Web_Tools">
  <?dbhtml filename="Visual_Web_Tools.html"?>
  <chapterinfo>
   <keywordset>
@@ -228,7 +229,7 @@
 </chapter>
 
     
-<chapter id="springTools" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/spring_tools.xml">
+<chapter id="springTools" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/spring_tools.xml">
  <?dbhtml filename="springTools.html"?>
     <title>Spring Tools</title>
 
@@ -256,7 +257,7 @@
  </chapter>
 
     
-<chapter id="jbds_editors" role="updated" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/editors.xml" xreflabel="jbds_editors">
+<chapter id="jbds_editors" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/editors.xml" xreflabel="jbds_editors">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -285,23 +286,36 @@
     <section id="editors_features">
 
         <title>Editors Features</title>
-        <para>JBoss Developer Studio has powerful editor features that help you easily navigate
+        <para><property moreinfo="none">JBoss Developer Studio</property> has powerful editor features that help you easily navigate
             within your application and make use of content and code assist no matter what project
-            file (jsp, xhtml, xml, css, etc...) you are working on.</para>
-
+            file (<literal moreinfo="none">.jsp</literal>, <literal moreinfo="none">.xhtml</literal>, <literal moreinfo="none">.xml</literal>, <literal moreinfo="none">.css</literal>, etc.) you are working on.</para>
+    	<para>The mentioned features are the following:</para>
+    	
+    	<itemizedlist>
+    		<listitem>
+    			<para><link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link></para>
+    		</listitem>
+    		<listitem>
+    			<para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Content Assist</link></para>
+    		</listitem>
+    		<listitem>
+    			<para><link linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">Synchronized Source and Visual Editing</link></para>
+    		</listitem>
+    	</itemizedlist>
+    	
         <section id="OpenOnSelection4Hyperlinknavigation">
 
             <title>OpenOn</title>
 
-            <para><property moreinfo="none">OpenOn</property> lets you easily link directly from one resource to
-                another in your project without using the Package Explorer view (project tree). With
+            <para>OpenOn lets you easily link directly from one resource to
+                another in your project without using the <property moreinfo="none">Package Explorer</property> view (project tree). With
                 OpenOn, you can simply use <emphasis>
                     <property moreinfo="none">F3</property>
                 </emphasis> or <emphasis>
                     <property moreinfo="none">Ctrl+Click</property>
                 </emphasis> on a reference to another file and the file will be opened.</para>
 
-            <para><diffmk:wrapper diffmk:change="changed">OpenOn is available for:</diffmk:wrapper></para>
+            <para>OpenOn is available for:</para>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -316,11 +330,11 @@
                 <listitem>
                     <para>Java files</para>
                 </listitem>
-                <listitem diffmk:change="added">
-                    <para diffmk:change="added">  <link diffmk:change="added" linkend="cssclasses"><diffmk:wrapper diffmk:change="added">CSS classes</diffmk:wrapper></link> </para>
+                <listitem>
+                    <para>  <link linkend="cssclasses">CSS classes</link> </para>
                 </listitem>
-                <listitem diffmk:change="added">
-                    <para diffmk:change="added">  <link diffmk:change="added" linkend="openonelvariables"><diffmk:wrapper diffmk:change="added">Paths to files set using EL variable</diffmk:wrapper></link> </para>
+                <listitem>
+                    <para>  <link linkend="openonelvariables">Paths to files set using EL variable</link> </para>
                 </listitem>
             </itemizedlist>
             
@@ -328,134 +342,180 @@
 
                 <title>XML Files</title>
 
-                <para>Press and hold down the Ctrl key. As you move the mouse cursor over different
+            	<para>Press and hold down the <emphasis><property moreinfo="none">Ctrl</property></emphasis> key. As you move the mouse cursor over different
                     file references in the file, they display an underline. When you hover the name
-                    of the file you want to open, click and the file will open in its own editor. In
-                    this example the managed bean NameBean will open.</para>
-                <figure float="0">
-                    <title>NameBean Managed Bean</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_1.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>This is the result of using OpenOn.</para>
-                <figure float="0">
-                    <title>NameBean Java Class</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_2.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>You can also use OpenOn with defined attributes.</para>
-                <figure float="0">
-                    <title>OpenOn With Defined Attributes</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_3.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>You can also open any JSP pages.</para>
-                <figure float="0">
-                    <title>JSP Page OpenOn</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_4.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+                    of the file you want to open, click and the file will open in its own editor.</para>
+                    
+                   <para>Use the OpenOn functionality for the next entries defined in XML file:</para>
+                    
+                    <orderedlist continuation="restarts" inheritnum="ignore">
+                    	<listitem>
+                    		<para>Managed beans</para>
+                    		<para>In this example the managed bean <emphasis><property moreinfo="none">"User"</property></emphasis> will open.</para>
+                    		
+                    		<figure float="0">
+                    			<title>Opening a Managed Bean</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_1.png"></imagedata>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    		
+                    		<para>This is the result of using OpenOn.</para>
+                    		
+                    		<figure float="0">
+                    			<title>Opened Managed Bean</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_2.png"></imagedata>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    	</listitem>
+                    	
+                    	<listitem>
+                    		<para>Beans properties</para>
+                    		<figure float="0">
+                    			<title>OpenOn for the Bean Property</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_3.png"></imagedata>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    	</listitem>
+                    	
+                    	<listitem>
+                    		<para>JSP file references</para>
+                    		<figure float="0">
+                    			<title>OpenOn for JSP Page</title>
+                    			<mediaobject>
+                    				<imageobject>
+                    					<imagedata fileref="images/editors_features/editors_features_4.png"></imagedata>
+                    				</imageobject>
+                    			</mediaobject>
+                    		</figure>
+                    	</listitem>
+                    </orderedlist>
             </section>
+        	
             <section id="JSPPages223">
 
-                <title>JSP Pages</title>
+                <title>JSP/XHTML Pages</title>
 
-                <para><property moreinfo="none">OpenOn</property> is also very useful in JSP pages. It will allow
+                <para>OpenOn is also available in JSP and XHTML pages edited in the <property moreinfo="none">Visual Page Editor</property>. It will allow
                     you to quickly jump to the reference instead of having to hunt around in the
                     project structure.</para>
 
-                <para>You can easily open the imported property files.</para>
-                <figure float="0">
-                    <title>OpenOn With Imported Property Files</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_5.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>Use OpenOn to open a CSS file used with a JSP page:</para>
-                <figure float="0">
-                    <title>OpenOn With CSS File</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_6.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>Open managed beans:</para>
-                <figure float="0">
-                    <title>OpenOn With Managed Beans</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_7.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>You can use OpenOn to open custom tag libraries:</para>
-                <figure float="0">
-                    <title>OpenOn With custom tags</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_7a.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>For JSP files in a JSF project, you can also easily open the navigation rules
-                    by applying <property moreinfo="none">OpenOn</property> to the JSF tag for the navigation
-                    outcome:</para>
-                <figure float="0">
-                    <title>OpenOn With JSF Tag</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_8.png"></imagedata>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
+				
+            	<para>You can use OpenOn for the following JSP/XHTML file entries:</para>
+            	
+            	<orderedlist continuation="restarts" inheritnum="ignore">
+            		<listitem>
+            			<para>Imported property files</para>
+            			<figure float="0">
+            				<title>OpenOn for Property File Imported to the JSP Page</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_5.png"></imagedata>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>CSS files used in a JSP/XHTML page</para>
+            			<figure float="0">
+            				<title>OpenOn With CSS File</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_6.png"></imagedata>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Managed beans and their properties</para>
+            			<figure float="0">
+            				<title>OpenOn With Managed Beans</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_7.png"></imagedata>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Navigation rules in JSP files</para>
+            			
+            			<para>For JSP files in a JSF project, you can easily open the navigation rules
+            				by applying <property moreinfo="none">OpenOn</property> to the JSF tag for the navigation
+            				outcome:</para>
+            			
+            			<figure float="0">
+            				<title>OpenOn with JSF Tag</title>
+            				<mediaobject>
+            					<imageobject>
+            						<imagedata fileref="images/editors_features/editors_features_8.png"></imagedata>
+            					</imageobject>
+            				</mediaobject>
+            			</figure>
+            		</listitem>
+            		
+            		<listitem>
+            			<para>Custom Facelets tag libraries in XHTML pages</para>           
+            			<para>For details, see <link linkend="openOnForCustomFacelets">"OpenOn for Custom Facelets Tag Libraries"</link>
+            			later in this guide.</para>
+            		</listitem>
+            	    
+            	    <listitem>
+            	        <para>Custom JJSF 2.0 components</para>           
+            	        <figure float="0">
+            	            <title>OpenOn with JSF 2.0 Component</title>
+            	            <mediaobject>
+            	                <imageobject>
+            	                    <imagedata fileref="images/editors_features/editors_features_openon_jsf2_components.png"></imagedata>
+            	                </imageobject>
+            	            </mediaobject>
+            	        </figure>            	              	    
+            	    </listitem>
+            	</orderedlist>
             </section>
             
-            <section diffmk:change="added" id="cssclasses">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">CSS Classes</diffmk:wrapper></title>
-               <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">You can quickly navigate through CSS classes using OpenOn</diffmk:wrapper></para>
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn With CSS Class</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_38.png"></imagedata>
+            <section id="cssclasses">
+                <title>CSS Classes</title>
+               <para>You can quickly navigate through CSS classes using OpenOn</para>
+                <figure float="0">
+                    <title>OpenOn With CSS Class</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_38.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
                 
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn is also implemented for css classes added by a complex link.</diffmk:wrapper></para> 
-                <figure diffmk:change="added" float="0">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn With CSS Class added by a complex link</diffmk:wrapper></title>
-                    <mediaobject diffmk:change="added">
-                        <imageobject diffmk:change="added">
-                            <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_39.png"></imagedata>
+                <para>OpenOn is also implemented for css classes added by a complex link.</para> 
+                <figure float="0">
+                    <title>OpenOn With CSS Class added by a complex link</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_39.png"></imagedata>
                         </imageobject>
                     </mediaobject>
                 </figure>
             </section>
             
-            <section diffmk:change="added" id="openonelvariables">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn for EL variables</diffmk:wrapper></title>
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn can be used for paths to files set with EL variable.</diffmk:wrapper></para>
-            <figure diffmk:change="added" float="0">
-                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">OpenOn  for paths to files set with EL variable</diffmk:wrapper></title>
-                <mediaobject diffmk:change="added">
-                    <imageobject diffmk:change="added">
-                        <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_openon_el.png"></imagedata>
+            <section id="openonelvariables">
+                <title>OpenOn for EL variables</title>
+                <para>OpenOn can be used for paths to files set with EL variable.</para>
+            <figure float="0">
+                <title>OpenOn  for paths to files set with EL variable</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/editors_features/editors_features_openon_el.png"></imagedata>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -491,6 +551,11 @@
                         <link linkend="JSPPages434">JSP files</link>
                     </para>
                 </listitem>
+            	<listitem>
+            		<para>
+            			<link linkend="ContentAssistForXHTMLPages">XHTML files</link>
+            		</para>
+            	</listitem>
                 <listitem>
                     <para>
                         <link linkend="ContentAssistForRF">RichFaces components</link>
@@ -499,6 +564,11 @@
                 <listitem>
                     <para>
                         <ulink url="../../esb_ref_guide/html_single/index.html#ESBContentAssist">ESB XML files</ulink>
+                    </para>
+                </listitem>
+                <listitem diffmk:change="added">
+                    <para diffmk:change="added">
+                        <link diffmk:change="added" linkend="ContentAssistForInsertTag"><diffmk:wrapper diffmk:change="added">Insert Tag Wizard</diffmk:wrapper></link>
                     </para>
                 </listitem>
             </itemizedlist>
@@ -538,8 +608,8 @@
                     <listitem>
                         <para>Content Assist for XML, XHTML,  JSP and JSF configuration files</para>
                     </listitem>     
-                    <listitem diffmk:change="added">
-                        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Composite Components</diffmk:wrapper></para>
+                    <listitem>
+                        <para>Content Assist for Composite Components</para>
                     </listitem>    
                     <listitem>
                         <para>Content Assist based on project data</para>
@@ -587,15 +657,15 @@
                     </figure>
                 </section>         
                 
-                <section diffmk:change="added" id="ContentAssistforCompositeComponents">
-                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Composite Components</diffmk:wrapper></title>
-                    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content assist functionality is also available for composite components. On the screen is shown content assist for a composite component file  </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">"tag.xhtml"</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> within a JSF 1.2 project with facelets</diffmk:wrapper></para>
+                <section id="ContentAssistforCompositeComponents">
+                    <title>Content Assist for Composite Components</title>
+                    <para>Content assist functionality is also available for composite components. On the screen is shown content assist for a composite component file  <property moreinfo="none">"tag.xhtml"</property> within a JSF 1.2 project with facelets</para>
                     
-                    <figure diffmk:change="added" float="0">
-                        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist in web.xml File</diffmk:wrapper></title>
-                        <mediaobject diffmk:change="added">
-                            <imageobject diffmk:change="added">
-                                <imagedata diffmk:change="added" fileref="images/editors_features/editors_features_ca_composite_component.png" scale="85"></imagedata>
+                    <figure float="0">
+                        <title>Content Assist in web.xml File</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_ca_composite_component.png" scale="85"></imagedata>
                             </imageobject>
                         </mediaobject>
                     </figure>
@@ -900,12 +970,42 @@
                 </section>
             </section>
 
+        	<section id="ContentAssistForXHTMLPages">
+				<title>Content Assist for XHTML Pages</title>
+        		
+        		<para>The code completion for the Seam components in a Seam project shows the proposals marked with Seam icon.</para>
+        		<figure float="0">
+        			<title>Content Assist for Seam Components in the XHTML Page</title>
+        			<mediaobject>
+        				<imageobject>
+        					<imagedata fileref="images/visual_page/contentAssistXHTMLpages1.png"></imagedata>
+        				</imageobject>
+        			</mediaobject>
+        		</figure>
+        		
+        		<para>If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
+        			<link linkend="contentAssistForCustomFacelets">"Content Assist for Custom Facelets Components"</link> later in this guide.</para>
+        	</section>
+            <section diffmk:change="added" id="ContentAssistForInsertTag">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Insert Tag Wizard</diffmk:wrapper></title>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist is also available for any attribute value of </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">Insert Tag wizard</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added">.</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content Assist for Insert Tag Wizard</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/visual_page/editors_features_27a.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
+            </section>
+            
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
 
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
-                    component added in <property moreinfo="none">JBoss Developer Studio</property>:</para>
+                    component added in <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">JBoss Developer Studio 2.X</diffmk:wrapper></property>:</para>
                 <orderedlist continuation="restarts" inheritnum="ignore">
                     <listitem>
                         <para>Create a new xml file in <emphasis>
@@ -992,7 +1092,24 @@
                             component.</para>
                     </listitem>
                 </orderedlist>
-
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">From </diffmk:wrapper><emphasis diffmk:change="added"><diffmk:wrapper diffmk:change="added">JBoss Developer Studio 3.0.0.M1</diffmk:wrapper></emphasis><diffmk:wrapper diffmk:change="added"> you should not do any of the steps described 
+                before,dynamic code assist to custom components is added automatically.</diffmk:wrapper></para>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you open projects that were created in older studio versions such message could appear:</diffmk:wrapper></para>
+                <figure diffmk:change="added" float="0">
+                    <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Missing Natures Message</diffmk:wrapper></title>
+                    <mediaobject diffmk:change="added">
+                        <imageobject diffmk:change="added">
+                            <imagedata diffmk:change="added" fileref="images/visual_page/message.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">It shows that some features of content assist including this one probably will not work.
+                    To fix this problem and turn off the message box execute the following steps:</diffmk:wrapper></para>
+                <itemizedlist diffmk:change="added">
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Right click the project in Package Explorer.</diffmk:wrapper></para></listitem>
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Select </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Configure -&gt; Add JSF Capabilities</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> from the context menu.</diffmk:wrapper></para></listitem>
+                    <listitem diffmk:change="added"><para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Configure your project using Add JSF Capabilities wizard and press </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Finish</diffmk:wrapper></property></para></listitem>
+                </itemizedlist>
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
@@ -1057,9 +1174,9 @@
             develop an application using any technology: JSF, Struts, JSP, HTML and others. Double-click on the necessary file in the Package Explorer view to open it in the Visual Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).</para>
 
        <para>As a new JSF 2.0 specification has been released, support of new features is now implemented in the <property moreinfo="none">Visual Page Editor</property>.
-       	The JSF 2.0 tags like <literal moreinfo="none">&lt;h:body&gt;</literal>, <literal moreinfo="none">&lt;h:head&gt;</literal>, <literal moreinfo="none">&lt;h:outputscript&gt;</literal>, <literal moreinfo="none">&lt;h:outputstyle&gt;</literal><diffmk:wrapper diffmk:change="added">
-       	are supported in the editor as well as the composite components and the resource handling from the expression language. (See the </diffmk:wrapper><ulink diffmk:change="added" url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html"><diffmk:wrapper diffmk:change="added">following link</diffmk:wrapper></ulink><diffmk:wrapper diffmk:change="added"> on how to use composite components and 
-       	</diffmk:wrapper><ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog post</ulink> on how to handle the resources form the EL).
+       	The JSF 2.0 tags like <literal moreinfo="none">&lt;h:body&gt;</literal>, <literal moreinfo="none">&lt;h:head&gt;</literal>, <literal moreinfo="none">&lt;h:outputscript&gt;</literal>, <literal moreinfo="none">&lt;h:outputstyle&gt;</literal>
+       	are supported in the editor as well as the composite components and the resource handling from the expression language. (See the <ulink url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">following link</ulink> on how to use composite components and 
+       	<ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog post</ulink> on how to handle the resources form the EL).
        </para>
     	
     	<para>Current VPE version has three tabs: <property moreinfo="none">Visual/Source</property>,
@@ -1310,11 +1427,11 @@ two elements with equal id has been used, but should be used only one -->
             </section>
 
             <section id="taglib_versions_support">
-                <title><diffmk:wrapper diffmk:change="changed">Support for custom TagLibs and Taglib versions</diffmk:wrapper></title>
-                <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">VPE templates  support  custom tag libs, e.g. Seam Mail facelet taglib, RichFaces taglibs or any other created by you.</diffmk:wrapper></para>
+                <title>Support for custom TagLibs and Taglib versions</title>
+                <para>VPE templates  support  custom tag libs, e.g. Seam Mail facelet taglib, RichFaces taglibs or any other created by you.</para>
 
-                <para><diffmk:wrapper diffmk:change="changed">VPE templates also provide a support for  various versions of tag libraries. It means that the
-                        </diffmk:wrapper><property moreinfo="none">VPE</property> takes control over those components which have
+                <para>VPE templates also provide a support for  various versions of tag libraries. It means that the
+                        <property moreinfo="none">VPE</property> takes control over those components which have
                     different parameters or preview according to the framework version (like seam
                     1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
 
@@ -1326,15 +1443,14 @@ two elements with equal id has been used, but should be used only one -->
                      JSF element has different preview in versions 1.1 and 1.2.</para>
             </section>
         </section>
-
-        
+    	
         <section id="pages_styling">
             <title>Pages Styling</title>
 
             <para>Most web pages use the cascading style sheets (CSS) to control the way they look.
-                With <property moreinfo="none">Visual Page Editor</property><diffmk:wrapper diffmk:change="changed"> you can easily stylise your pages. In
+                With <property moreinfo="none">Visual Page Editor</property> you can easily stylise your pages. In
                 this section we are going to introduce you to a powerful mechanism that
-                </diffmk:wrapper><property moreinfo="none">VPE</property><diffmk:wrapper diffmk:change="added"> provides for a complete control over pages styling. More helpful information on wok with CSS files can be found in  </diffmk:wrapper><link diffmk:change="added" linkend="css_perspective"><diffmk:wrapper diffmk:change="added">CSS Perspective chapter</diffmk:wrapper></link> </para>
+                <property moreinfo="none">VPE</property> provides for a complete control over pages styling. More helpful information on wok with CSS files can be found in  <link linkend="css_perspective">CSS Perspective chapter</link> </para>
 
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
@@ -2028,8 +2144,8 @@ two elements with equal id has been used, but should be used only one -->
         		
         		<para>You can find useful one more functionality provided by VPE. At the bottom of the
         			<property moreinfo="none">Visual/Source view</property> there is a <property moreinfo="none">Selection Tag
-        				Bar</property><diffmk:wrapper diffmk:change="changed">. It's updated automatically allowing to see tags tree for a current component selected in
-        			Visual or Source mode, also it allows to select tags back and forward.</diffmk:wrapper></para>
+        				Bar</property>. It's updated automatically allowing to see tags tree for a current component selected in
+        			Visual or Source mode, also it allows to select tags back and forward.</para>
         		
         		<figure float="0">
         			<title>Selection Tag Bar</title>
@@ -2050,50 +2166,175 @@ two elements with equal id has been used, but should be used only one -->
         			</inlinemediaobject>) on the VPE toolbar.</para>
         	</section>
         </section>
-
-        <section id="page_preview">
-            <title>Page Preview</title>
-
-            <para><property moreinfo="none">VPE</property> comes with design-time preview feature which is available
-                for:</para>
-
-            <itemizedlist>
-                <listitem>
-                    <para>Struts Pages</para>
-                </listitem>
-                <listitem>
-                    <para>JSF Pages</para>
+		
+    	<section id="page_preview">
+    		<title>Page Preview</title>
+    		
+    		<para><property moreinfo="none">VPE</property> comes with design-time preview feature which is available
+    			for:</para>
+    		
+    		<itemizedlist>
+    			<listitem>
+    				<para>Struts Pages</para>
+    			</listitem>
+    			<listitem>
+    				<para>JSF Pages</para>
+    			</listitem>
+    		<listitem>
+                    <para>Seam Pages</para>
                 </listitem>
             </itemizedlist>
+    		
+    		<para><property moreinfo="none">Preview view</property> is read-only, it shows how the page will look
+    			like in a browser.</para>
+    		<figure float="0">
+    			<title>Preview View</title>
+    			<mediaobject>
+    				<imageobject>
+    					<imagedata fileref="images/visual_page/visual_page_16.png"></imagedata>
+    				</imageobject>
+    			</mediaobject>
+    		</figure>
+    		
+    		<!--para>You can even
+    			attach your stylesheet to the preview.</para-->
+    	</section>
+    	
+		<section id="custom_facelets_support">
+			<title>Support for Custom Facelets Components</title>
+			
+			<para><property moreinfo="none">Visual Page Editor</property> (starting from 3.0.0.M3 version of <property moreinfo="none">JBoss Tools</property>) supports
+				custom Facelets tag libraries both declared in the <literal moreinfo="none">web.xml</literal> file 
+				(for details, see 
+				<ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the JAR file.</para>
+			
+				<tip>
+					<title>Tip:</title>
+					<para>In case of Facelets tag library packed in <literal moreinfo="none">.jar</literal>, remember to put <literal moreinfo="none">*.taglib.xml</literal> in right place:
+						<literal moreinfo="none">[filename].jar/META-INF/*.taglib.xml</literal></para>
+				</tip>
+			
+			<para><property moreinfo="none">Visual Page Editor</property> recognizes the tags from the custom Facelets tag library and correctly
+			renders them both in source and visual view of the editor.</para>
+			
+			<figure float="0">
+				<title>Custom Facelets Tags in the VPE</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/visual_page/customFacelets1.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			
+			<para>While editing an XHTML file that uses a custom Facelets components
+				you can always make use of the following editor's features:</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom Facelets Components</link></para>
+				</listitem>
+				<listitem>
+					<para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets Components</link></para>
+				</listitem>
+			</itemizedlist>
+		
+			<section id="contentAssistForCustomFacelets">
+				<title>Content Assist for Custom Facelets Components</title>
+				<para>Call the content assist as usual by using <emphasis><property moreinfo="none">Ctrl+Space</property></emphasis>
+					when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.</para>
+				
+				<figure float="0">
+					<title>Content Assist for Custom Facelets Tags</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/visual_page/customFacelets2.png"></imagedata>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</section>
+			
+			<section id="openOnForCustomFacelets">
+				<title>OpenOn for Custom Facelets Components</title>
+				
+				<para>While developing using Facelets you can make use of:</para>
+				<itemizedlist>
+					<listitem><para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom Facelets Components</link></para></listitem>
+					<listitem><para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom Facelets Tag File (<literal moreinfo="none">*.taglib.xml</literal>)</link></para></listitem>
+				</itemizedlist>
+				
+				<section id="openOnInXHTML">
+					<title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
+					<para>OpenOn functionality in XHTML files is available in two views of the <property moreinfo="none">Visual Page Editor</property>:</para>
+					
+					<orderedlist continuation="restarts" inheritnum="ignore">
+						<listitem>
+							<para>Source view</para>
+							
+							<para><emphasis><property moreinfo="none">Ctrl+Click</property></emphasis> on the namespace will open the Facelets tag file
+								in a separate window.</para>
+							
+							<figure float="0">
+								<title>Opening a Custom Facelets Tag File</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/visual_page/customFacelets3.png"></imagedata>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							
+							<para><emphasis><property moreinfo="none">Ctrl+Click</property></emphasis> on any custom Facelets tag declared on the page will do the same.
+								The selected tag will be highlighted in the opened file.</para>
+							
+							<figure float="0">
+								<title>Opening a Custom Facelets Tag File</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/visual_page/customFacelets4.png"></imagedata>
+									</imageobject>
+								</mediaobject>
+							</figure>
+						</listitem>
+						
+						<listitem>
+							<para>Visual view</para>
+							
+							<para>In the visual view of the <property moreinfo="none">VPE</property>, double-click a custom component and the Facelets tag file 
+								(<literal moreinfo="none">*.taglib.xml</literal>) where it is declared will be opened.</para>
+						</listitem>
+					</orderedlist>
+				</section>
+				
+				<section id="openOnInCustomFaceletsTaglibs">
+					<title>OpenOn in Custom Facelets Tag File (<literal moreinfo="none">*.taglib.xml</literal>)</title>
+					
+					<para><emphasis><property moreinfo="none">Ctrl+Click</property></emphasis> on the path to source of the Facelets tag will
+					open the component in its own editor.</para>
+					<figure float="0">
+						<title>Opening a Custom Facelets Component</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="images/visual_page/customFacelets5.png"></imagedata>
+							</imageobject>
+						</mediaobject>
+					</figure>
+				</section>
 
-            <para><property moreinfo="none">Preview view</property> is read-only, it shows how the page will look
-                like in a browser.</para>
-            <figure float="0">
-                <title>Preview View</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_16.png"></imagedata>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <!--para>You can even
-                    attach your stylesheet to the preview.</para-->
-        </section>
-
-        <section id="SetupnotesforLinu895x">
+			</section>
+		</section>
+    	
+    	<section id="SetupnotesforLinu895x">
 
             <title>Setup notes for Linux</title>
 
-            <para><diffmk:wrapper diffmk:change="changed">Linux users who are going to use earlier then JBoss Tools 3.1.0.M4 versions may need to do the following to get the </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Visual Page
-            Editor</diffmk:wrapper></property> to work correctly on their machines.</para>
+            <para>Linux users who are going to use earlier then JBoss Tools 3.1.0.M4 versions may need to do the following to get the <property moreinfo="none">Visual Page
+            Editor</property> to work correctly on their machines.</para>
           
 
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added"> The Visual Page Editor requires the library libstdc++.so.5. This library is
-            contained in the compat-libstdc++-33.i386 package.</diffmk:wrapper></para> 
+            <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
+            contained in the compat-libstdc++-33.i386 package.</para> 
             
-            <note diffmk:change="added"><title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Note</diffmk:wrapper></title>
-                <para><diffmk:wrapper diffmk:change="changed">Starting from  JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required. </diffmk:wrapper></para></note>
+            <note><title>Note</title>
+                Starting from  JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required. </note>
 
             <itemizedlist>
                 <listitem>
@@ -2619,7 +2860,7 @@ two elements with equal id has been used, but should be used only one -->
             <para>JBoss Developer Studio fully supports XML files based on schemas as well as
                 DTDs:</para>
             <figure float="0">
-                <title>XML File</title>
+                <title>XML File </title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_53.png"></imagedata>
@@ -2633,7 +2874,7 @@ two elements with equal id has been used, but should be used only one -->
 </chapter>
 
     
-<chapter id="palette" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/palette.xml" xreflabel="palette">
+<chapter id="palette" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/palette.xml" xreflabel="palette">
     <?dbhtml filename="palette.html"?>
     <chapterinfo>
         <keywordset>
@@ -2692,27 +2933,27 @@ two elements with equal id has been used, but should be used only one -->
             </imageobject>
         </mediaobject>
     </figure>
-    <para><diffmk:wrapper diffmk:change="added"> By default </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is not displayed. If you want to use it select
-        </diffmk:wrapper><emphasis diffmk:change="added"><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Window &gt; Show View Other... &gt; JBoss Tools Web &gt; JBoss Tools
-            Palette</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added"> from the menu bar. </diffmk:wrapper></para>
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The standard </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Eclipse Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is displayed by default in both Web Development and Seam
-        perspectives. Now, the standard </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Eclipse Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is featured with all </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">
-        options and capabilities. </diffmk:wrapper></para>
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To open the standard </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Eclipse Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> navigate to </diffmk:wrapper><emphasis><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Window-&gt;Show
-        View-&gt;Others-&gt;General-&gt;Palette</diffmk:wrapper></property></emphasis><diffmk:wrapper diffmk:change="added">. </diffmk:wrapper></para>
-    <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The differences between the two palettes are as follows:</diffmk:wrapper></para>
-    <itemizedlist diffmk:change="added">
-        <listitem diffmk:change="added">
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The standard </diffmk:wrapper><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Eclipse Palette</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> is blank by default; the content of the palette
+    <para> By default <property moreinfo="none">JBoss Tools Palette</property> is not displayed. If you want to use it select
+        <emphasis><property moreinfo="none">Window &gt; Show View Other... &gt; JBoss Tools Web &gt; JBoss Tools
+            Palette</property></emphasis> from the menu bar. </para>
+    <para>The standard <property moreinfo="none">Eclipse Palette</property> is displayed by default in both Web Development and Seam
+        perspectives. Now, the standard <property moreinfo="none">Eclipse Palette</property> is featured with all <property moreinfo="none">JBoss Tools Palette</property>
+        options and capabilities. </para>
+    <para>To open the standard <property moreinfo="none">Eclipse Palette</property> navigate to <emphasis><property moreinfo="none">Window-&gt;Show
+        View-&gt;Others-&gt;General-&gt;Palette</property></emphasis>. </para>
+    <para>The differences between the two palettes are as follows:</para>
+    <itemizedlist>
+        <listitem>
+            <para>The standard <property moreinfo="none">Eclipse Palette</property> is blank by default; the content of the palette
                 is available only if Visual Page Editor is open and active, while JBoss Tools
-                Palette always contains a predefined set of components.</diffmk:wrapper></para>
+                Palette always contains a predefined set of components.</para>
         </listitem>
-        <listitem diffmk:change="added">
-            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">The Expanded/Collapsed state of components in the standard Eclipse Palette is
+        <listitem>
+            <para>The Expanded/Collapsed state of components in the standard Eclipse Palette is
                 not global as in JBoss Tools Palette: the state is associated with an instance
                 of Visual Page Editor. It means that the state can be different for various
                 files, and each new file opened in Visual Page Editor will have the default
-                state of Palette with all components collapsed. </diffmk:wrapper></para>
+                state of Palette with all components collapsed. </para>
         </listitem>
     </itemizedlist>
 
@@ -3200,7 +3441,7 @@ two elements with equal id has been used, but should be used only one -->
 </chapter>
 
     
-<chapter id="css_perspective" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/css_perspective.xml" xreflabel="css_perspective">
+<chapter id="css_perspective" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/css_perspective.xml" xreflabel="css_perspective">
     <?dbhtml filename="css_perspective.html"?>
     <chapterinfo>
         <keywordset>
@@ -3210,8 +3451,8 @@ two elements with equal id has been used, but should be used only one -->
         </keywordset>
     </chapterinfo>
     <title>CSS Editing Perspective</title>
-    <para><diffmk:wrapper diffmk:change="added">In this chapter we will discuss CSS Editing Perspective views, more information about style sheets can be found in </diffmk:wrapper><link diffmk:change="added" linkend="pages_styling"><diffmk:wrapper diffmk:change="added">Page Styling section</diffmk:wrapper></link><diffmk:wrapper diffmk:change="added"> of Editor chapter</diffmk:wrapper></para>
-    <para diffmk:change="added">The CSS Editing Perspective combines a set of views which allow you to see the structure of
+    <para>In this chapter we will discuss CSS Editing Perspective views, more information about style sheets can be found in <link linkend="pages_styling">Page Styling section</link> of Editor chapter</para>
+    <para>The CSS Editing Perspective combines a set of views which allow you to see the structure of
         your css files,edit them and see the results.
         To use this perspective you need to choose <emphasis><property moreinfo="none">Window &gt;Open Perspective&gt; CSS Editing </property></emphasis>
         .All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.</para>
@@ -3439,7 +3680,7 @@ two elements with equal id has been used, but should be used only one -->
 
 
     
-<chapter id="richfaces_support" role="new" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/richfaces_support.xml" xreflabel="richfaces_support">
+<chapter id="richfaces_support" role="new" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/richfaces_support.xml" xreflabel="richfaces_support">
     <?dbhtml filename="richfaces_support.html"?>
     <chapterinfo>
         <keywordset>
@@ -3607,7 +3848,7 @@ two elements with equal id has been used, but should be used only one -->
     </section>
 </chapter>
     
-<chapter id="web_projects" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/web_projects.xml" xreflabel="web_projects">
+<chapter id="web_projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/web_projects.xml" xreflabel="web_projects">
     <?dbhtml filename="web_projects.html"?>
 <title>Web Projects View</title>
 <para><property moreinfo="none">Web Projects</property> is a special view that comes with JBoss Developer Studio.</para>
@@ -3809,7 +4050,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 
 <title>Expanding Tag Library Files</title>
 
-<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property moreinfo="none">Set Expanded</property></emphasis>:</para>
+<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property moreinfo="none">Expand</property></emphasis>:</para>
     
     <figure float="0">
         <title>Expanding Tag Library File</title>
@@ -3867,7 +4108,7 @@ buttons below.</para>
 
 </chapter>
     
-<chapter id="preferences" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/preferences.xml" xreflabel="preferences">
+<chapter id="preferences" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/preferences.xml" xreflabel="preferences">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
 
@@ -4496,15 +4737,15 @@ buttons below.</para>
         </figure>
     </section>
     
-    <section diffmk:change="added" id="JSFValidator">
+    <section id="JSFValidator">
         <?dbhtml filename="JSFValidator.html"?>
-        <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">JSF Validator</diffmk:wrapper></title>
-        <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">Select </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools &gt; Web &gt; JSF &gt; Validator</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added"> page to configure the validator behavior. On this page you can change the severity level for different jsf problems which are controlled by validator.</diffmk:wrapper></para>
-        <figure diffmk:change="added" float="0">
-            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">JSF Validator</diffmk:wrapper></title>
-            <mediaobject diffmk:change="added">
-                <imageobject diffmk:change="added">
-                    <imagedata diffmk:change="added" fileref="images/preferences/preferences_14a.png"></imagedata>
+        <title>JSF Validator</title>
+        <para>Select <property moreinfo="none">JBoss Tools &gt; Web &gt; JSF &gt; Validator</property> page to configure the validator behavior. On this page you can change the severity level for different jsf problems which are controlled by validator.</para>
+        <figure float="0">
+            <title>JSF Validator</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_14a.png"></imagedata>
                 </imageobject>
             </mediaobject>
         </figure>
@@ -5137,7 +5378,7 @@ buttons below.</para>
 </chapter>
  
     
-<chapter id="context_menu_preferences" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/context_menu_preferences.xml" xreflabel="context_menu_preferences">
+<chapter id="context_menu_preferences" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/context_menu_preferences.xml" xreflabel="context_menu_preferences">
     <?dbhtml filename="context_menu_preferences.html"?>
     <title>Context Menu Preferences and Options</title>
 
@@ -5224,7 +5465,7 @@ buttons below.</para>
 </chapter>
 
     
-<chapter id="vwt_faq" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/vwt_faq.xml" xreflabel="vwt_faq">
+<chapter id="vwt_faq" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/vwt_faq.xml" xreflabel="vwt_faq">
     <?dbhtml filename="vwt_faq.html"?>
     <title>FAQ</title>
 
@@ -5292,7 +5533,7 @@ buttons below.</para>
 </chapter>
 
     
-<chapter id="conclusion" xml:base="file:///home/ochikvina/WORK/for_compare/jbosstools-3.1.0.CR1/jsf/docs/userguide/en/modules/conclusion.xml" xreflabel="conclusion">
+<chapter id="conclusion" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/userguide/en/modules/conclusion.xml" xreflabel="conclusion">
     <?dbhtml filename="conclusion.html"?>
     <title>Conclusion</title>
 
@@ -5302,7 +5543,11 @@ buttons below.</para>
         representing and editing web resources you are working with.</para>
     
     <para>If there's anything we didn't cover or you can't figure
-        out, please feel free to visit our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">JBoss Developer Studio Users Forum</ulink> or <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
+        out, please feel free to visit our <ulink 
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=258">
+            JBoss Developer Studio Users Forum</ulink> 
+        or <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">
+            JBoss Tools Users Forum</ulink> to ask questions. There we are also looking for
                 your suggestions and comments.</para>
 </chapter>
 </book>
