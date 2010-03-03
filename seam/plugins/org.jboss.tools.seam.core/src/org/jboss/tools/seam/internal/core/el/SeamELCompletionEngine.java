@@ -382,4 +382,9 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	public static boolean isSeamMessagesComponentVariable(ISeamContextVariable variable) {
 		return (null != getSeamMessagesComponentVariable(variable));
 	}
+
+	@Override
+	protected boolean isStaticMethodsCollectingEnabled() {
+		return true; // Static methods are always enabled for Seam
+	}
 }

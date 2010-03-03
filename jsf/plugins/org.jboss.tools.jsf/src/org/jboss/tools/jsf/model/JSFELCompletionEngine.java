@@ -73,6 +73,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 */
 	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		IModelNature project = EclipseResourceUtil.getModelNature(file.getProject());
+		
 		return resolveVariables(file, project, expr, isFinal, onlyEqualNames);
 	}
 
@@ -187,5 +188,10 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 		public String getName() {
 			return name;
 		}
+	}
+
+	@Override
+	protected boolean isStaticMethodsCollectingEnabled() {
+		return false;
 	}
 }

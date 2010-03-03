@@ -130,4 +130,9 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}
+
+	@Override
+	protected boolean isStaticMethodsCollectingEnabled() {
+		return true;
+	}
 }
