@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorRegistry;
@@ -21,7 +22,6 @@ import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.ui.test.OpenOnUtil;
-import org.jboss.tools.vpe.ui.test.ProjectsLoader;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
@@ -36,8 +36,8 @@ public class JBIDE5920Test extends VpeTest{
 
 	//test for https://jira.jboss.org/jira/browse/JBIDE-5920
 	public void testOpenOnInProjectWith2URLPatterns() throws Throwable{
-		IProject project = ProjectsLoader.getInstance()
-				.getProject(JsfAllTests.IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME);
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
+				JsfAllTests.IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME);
 		IFile file = (IFile) project.findMember("WebContent/index.jsp"); //$NON-NLS-1$
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 5, 30, "welcome.xhtml"); //$NON-NLS-1$
