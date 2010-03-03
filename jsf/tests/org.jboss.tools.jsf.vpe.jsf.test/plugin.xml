@@ -30,6 +30,9 @@
       <testProject
             name="JBIDE5460TestProject"
             path="resources/JBIDE5460TestProject"/>
+      <testProject
+            name="TestWith2URLPatterns"
+            path="resources/TestWith2URLPatterns"/>
    </extension>
 
 </plugin>

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="body">
+		<p>The <b>&lt;a4j:push&gt;</b> periodically perform AJAX request to
+		server, to simulate 'push' data.</p>
+		<p><b>&lt;a4j:push&gt;</b> makes request to
+		minimal code only (not to JSF tree) in order to check the presence of
+		messages in the queue. If the message exists the complete request will
+		be performed. The component doesn't poll registered beans but
+		registers EventListener which receives messages about events.</p>
+		<p>Attribute '<b>interval</b>' is used as for poll component. It
+		specifies the interval in ms. for call push request. Simple example of
+		usage:</p>
+				<fieldset>
+				<legend>
+					Push Sample
+				</legend>
+				<ui:include src="/richfaces/push/usage.xhtml" />
+			</fieldset>
+		</ui:define>
+	</ui:composition>
+
+</html>

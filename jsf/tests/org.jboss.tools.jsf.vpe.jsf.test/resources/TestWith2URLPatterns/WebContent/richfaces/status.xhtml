@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+				<p>a4j:status is an indicator of an Ajax request. It has two states - start and stop. The start
+				state indicates that an Ajax request is in progress. When Ajax Response comes back,
+				the component switches to the stop stage.
+			</p>
+		<p>	Status could be defined:
+		<ul> 
+		<li>Default for View</li>
+		<li>Default for form</li>
+		<li>Referenced explicity from the component which sends request</li>
+		</ul>
+		</p>
+		<p>
+			Example of View scoped status
+		</p>
+		<fieldset>
+			<legend>Default view status sample</legend>
+			<ui:include src="/richfaces/status/viewusage.xhtml" />
+		</fieldset>
+		<p>
+			Example of form scoped status
+		</p>
+		<fieldset>
+			<legend>Default form status sample</legend>
+			<ui:include src="/richfaces/status/usage.xhtml" />
+		</fieldset>
+		<p>
+			Example of status which referenced from the components
+		</p>
+		<fieldset>
+			<legend>Referenced status sample</legend>
+				<ui:include src="/richfaces/status/referencedusage.xhtml" />
+		</fieldset>
+	</ui:define>		
+	</ui:composition>
+</html>

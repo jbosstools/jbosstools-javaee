@@ -1,0 +1,57 @@
+/*
+Copyright (c) 2008, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.5.2
+*/
+/*
+	Note: Throughout this file, the *property filter is used to 
+	      give a value to IE that other browsers do not see.	
+*/
+
+/*
+	Section: General Rules
+*/
+
+	body {
+		text-align:center;
+	}
+	
+	.rich-page-footer {
+		clear:both;
+	}
+
+/*
+	Section: Page Width Rules (#doc, #doc2, #doc3, #doc4)
+*/
+
+	/* 
+		Subsection: General 
+	*/ 	
+
+	.rich-page {
+		margin:auto;
+		text-align:left;
+		min-width:750px;
+	}
+	
+/*
+	Section: Preset Template Rules (.yui-t[1-6])
+*/
+	
+	/* 
+		Subsection: General
+	*/
+
+	/* to preserve source-order independence for Gecko */
+	.rich-page-sidebar{position:relative;}
+	.rich-page-sidebar,.rich-page-body{_position:static;}
+	.rich-page-body{position:static;}
+
+	.rich-page-main {width:100%;}
+/*
+	Section: Clearing 
+*/
+
+.rich-page-content:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
+.rich-page-content {zoom:1;}

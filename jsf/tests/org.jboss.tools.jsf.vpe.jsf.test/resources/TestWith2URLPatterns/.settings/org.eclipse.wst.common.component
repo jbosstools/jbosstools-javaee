@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+<wb-module deploy-name="Richfaces-demo-4.0.0.ALPHA1-tomcat6">
+<wb-resource deploy-path="/" source-path="/WebContent"/>
+<property name="context-root" value="Richfaces-demo-4.0.0.ALPHA1-tomcat6"/>
+<property name="java-output-path"/>
+</wb-module>
+</project-modules>
