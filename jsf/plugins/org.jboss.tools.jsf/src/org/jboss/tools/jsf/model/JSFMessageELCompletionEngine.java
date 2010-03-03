@@ -531,4 +531,9 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		return null;
 	}
+
+	@Override
+	protected boolean isStaticMethodsCollectingEnabled() {
+		return false;
+	}
 }
