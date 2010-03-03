@@ -70,6 +70,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE5920Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NaturesChecker_JBIDE5701;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
@@ -119,11 +120,13 @@ public class JsfAllTests {
 	public static final String IMPORT_NATURES_CHECKER_PROJECT = "naturesCheckTest"; //$NON-NLS-1$
 	public static final String IMPORT_JSF_LOCALES_PROJECT_NAME = "jsfLocales"; //$NON-NLS-1$
 	public static final String IMPORT_JBIDE5460_PROJECT_NAME = "JBIDE5460TestProject"; //$NON-NLS-1$
+	public static final String IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME = "TestWith2URLPatterns"; //$NON-NLS-1$
 	
 	public static Test suite() {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(JBIDE5920Test.class);
 		suite.addTestSuite(RenderFacetAndInsertChildrenTest.class);
 		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
 		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
@@ -255,6 +258,11 @@ public class JsfAllTests {
 		jsfLocalesProject.setImportProjectName(JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME);
 		jsfLocalesProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
 		projectToImport.add(jsfLocalesProject);
+		
+		ImportBean testWith2URLPatternsProject = new ImportBean();
+		testWith2URLPatternsProject.setImportProjectName(JsfAllTests.IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME);
+		testWith2URLPatternsProject.setImportProjectPath(JsfTestPlugin.getPluginResourcePath());
+		projectToImport.add(testWith2URLPatternsProject);
 		
 		return new VpeTestSetup(suite, projectToImport);
 	}

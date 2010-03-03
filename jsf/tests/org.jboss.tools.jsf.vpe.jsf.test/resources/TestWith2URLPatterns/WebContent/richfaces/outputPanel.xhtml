@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<p>
+			<b>a4j:outputPanel</b> component designed to provide next features:
+			<ul>
+				<li><b>Automaticall updates</b> of the child content on Ajax requests</li>
+				<li>Wrapper component for <b>conditional rendering of nested elements</b> via Ajax</li>
+				<li><b>Configurable layouts</b>:
+					<ul>
+						<li>inline - rendered as span element</li>
+						<li>block - rendered as div element</li>
+						<li>none - special layout for nested components confitional rendering cases</li>
+					</ul>
+				</li>
+				<li></li>
+			</ul>
+		</p>
+		<fieldset>
+			<legend>Sample</legend>
+			<ui:include src="/richfaces/outputPanel/usage.xhtml" />
+		</fieldset>
+		<p>
+			Next sample shows how you could simply create composite component from
+			standard h:messages and a4j:outputPanel in order to get them updated 
+			for any ajax request without render definition. 
+		</p>
+		<fieldset>
+			<legend>Sample</legend>
+			<ui:include src="/richfaces/outputPanel/compositemessages.xhtml" />
+		</fieldset>
+	</ui:define>
+</ui:composition>
+
+</html>

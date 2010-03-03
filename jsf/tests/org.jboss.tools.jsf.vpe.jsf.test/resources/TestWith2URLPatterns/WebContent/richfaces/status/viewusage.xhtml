@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://java.sun.com/jsf/composite/rich"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:composition>
+		<h:panelGrid columns="3">
+		<h:form>
+		<rich:panel id="psnel">
+			<f:facet name="header">
+				<h:outputText value="User Details Panel" />
+			</f:facet>
+			<h:panelGrid columns="2">
+				<f:ajax event="keyup">
+					<h:outputText value="User name:" />
+					<h:inputText value="#{userBean.name}"/>
+					<h:outputText value="Adress:" />
+					<h:inputText value="#{userBean.address}"/>
+				</f:ajax>
+			</h:panelGrid>
+			<h:commandButton value="Submit" type="button" action="#{userBean.store}">
+				<f:ajax render="out"/>
+			</h:commandButton> 
+			<h:outputText value="#{userBean.recordStatus}" id="out"/>
+		</rich:panel>
+		</h:form>
+		<h:form>
+			<rich:panel>
+				<f:facet name="header">
+					<h:outputText value="Simple search panel" />
+				</f:facet>
+				<h:inputText value="Search..."/>
+				<h:commandButton value="Submit" type="button">
+					<f:ajax />
+				</h:commandButton> 
+			</rich:panel>
+		</h:form>
+		<a4j:status>
+			<f:facet name="start">
+				<h:graphicImage value="/images/ai.gif"/>
+			</f:facet>
+		</a4j:status>
+		</h:panelGrid>
+	</ui:composition>
+</html>
