@@ -13,11 +13,9 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IScope;
-import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -84,6 +82,28 @@ public class DefinitionTest extends TCKTest {
 		assertNotNull("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean desn't have a scope.", scope);
 		assertNotNull("Scope of org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean doesn't have a link to IType.", scope.getSourceType());
 		assertEquals("Wrong scope type for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", "javax.enterprise.context.RequestScoped", scope.getSourceType().getFullyQualifiedName());
+	}
+
+	/**
+	 * e) A bean comprises of an optional bean EL name.
+	 */
+	public void testNonDefaultNamed() {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/name/Moose.java");
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		assertEquals("org.jboss.jsr299.tck.tests.definition.name.Moose should have the only bean.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Moose bean.", "aMoose", bean.getName());
+	}
+
+	/**
+	 * e) A bean comprises of an optional bean EL name (continue).
+	 */
+	public void testNotNamedInJava() {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/name/SeaBass.java");
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		assertEquals("org.jboss.jsr299.tck.tests.definition.name.SeaBass should have the only bean.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertNull("org.jboss.jsr299.tck.tests.definition.name.Moose bean should not have any EL name.", bean.getName());
 	}
 
 	private void assertLocationEquals(Set<? extends ITextSourceReference> references, int startPosition, int length) {
