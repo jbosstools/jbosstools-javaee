@@ -851,7 +851,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 						ISeamXmlComponentDeclaration[] xds = oc.getXmlDeclarations().toArray(new ISeamXmlComponentDeclaration[0]);
 						for (ISeamXmlComponentDeclaration x: xds) {
 							String n = x.getName();
-							if(loadedClassName.equals(x.getClassName()) && (n == null || n.length() == 0)) {
+							if(loadedClassName != null && loadedClassName.equals(x.getClassName()) && (n == null || n.length() == 0)) {
 								old.put(((SeamXmlComponentDeclaration)x).getId(), x);
 								nameless.add(x);
 							}
