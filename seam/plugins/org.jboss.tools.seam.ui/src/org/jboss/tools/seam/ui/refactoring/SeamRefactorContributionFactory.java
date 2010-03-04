@@ -297,6 +297,10 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	
 	private boolean scanChildNodes(IFile file, Node parent, TextSelection selection) {
 		boolean status = false;
+		
+		if(parent == null)
+			return false;
+		
 		NodeList children = parent.getChildNodes();
 		for(int i=0; i<children.getLength(); i++) {
 			Node curentValidatedNode = children.item(i);
@@ -318,6 +322,10 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 
 	private boolean scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType, TextSelection selection) {
 		boolean status = false;
+		
+		if(node == null)
+			return false;
+		
 		ITextRegionList regions = node.getRegions();
 		for(int i=0; i<regions.size(); i++) {
 			ITextRegion region = regions.get(i);
