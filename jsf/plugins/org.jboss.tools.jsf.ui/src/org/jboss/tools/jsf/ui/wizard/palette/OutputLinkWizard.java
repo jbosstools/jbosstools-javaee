@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
+import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
@@ -31,6 +32,8 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 	
 	public OutputLinkWizard (){
 		setWindowTitle(DropWizardMessages.Wizard_Window_Title);
+		setDefaultPageImageDescriptor(ModelUIImages
+				.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
 	}
 	
 	public boolean canFinish() {		

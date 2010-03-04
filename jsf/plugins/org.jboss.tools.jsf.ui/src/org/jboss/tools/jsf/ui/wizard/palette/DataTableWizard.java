@@ -17,6 +17,7 @@ import java.util.Properties;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
+import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagProposalsComposite;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
@@ -31,6 +32,8 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	
 	public DataTableWizard () {
 		setWindowTitle(DropWizardMessages.Wizard_Window_Title);
+		setDefaultPageImageDescriptor(ModelUIImages
+				.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
 	}
 	
 	
