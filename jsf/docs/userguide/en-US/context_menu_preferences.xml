@@ -30,16 +30,15 @@
     <section id="add_remove_struts_cap">
         <title>Add/Remove Struts Capabilities</title>
 
-        <para>Please, for details refer to the <ulink
-                url="&strutsreflink;#AddingStrutsCapabilityToAnExistingWebApplication532">Struts
-                Tools Reference Guide</ulink>.</para>
+        <para>Please, for details refer to the Struts
+                Tools Reference Guide.</para>
     </section>
 
     <section id="add_remove_jsf_cap">
         <title>Add/Remove JSF Capabilities</title>
 
-        <para>Please, for details refer to the <ulink url="&jsfreflink;#add_jsf_capability">JSF
-                Tools Reference Guide</ulink>.</para>
+        <para>Please, for details refer to the JSF
+                Tools Reference Guide.</para>
     </section>
 
     <section id="add_custom_cap">
