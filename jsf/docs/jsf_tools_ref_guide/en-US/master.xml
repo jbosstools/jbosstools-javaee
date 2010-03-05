@@ -3,14 +3,14 @@
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
 [
-<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY jsf_support SYSTEM "modules/jsf_support.xml">
-<!ENTITY projects SYSTEM "modules/projects.xml">
-<!ENTITY webxml_editor SYSTEM "modules/webxml_editor.xml">
-<!ENTITY jsf_config_file SYSTEM "modules/jsf_config_file.xml">
-<!ENTITY managed_beans SYSTEM "modules/managed_beans.xml">
-<!ENTITY creation_and_registration SYSTEM "modules/creation_and_registration.xml">
-<!ENTITY jsf_project_verification SYSTEM "modules/jsf_project_verification.xml">
+<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY jsf_support SYSTEM "jsf_support.xml">
+<!ENTITY projects SYSTEM "projects.xml">
+<!ENTITY webxml_editor SYSTEM "webxml_editor.xml">
+<!ENTITY jsf_config_file SYSTEM "jsf_config_file.xml">
+<!ENTITY managed_beans SYSTEM "managed_beans.xml">
+<!ENTITY creation_and_registration SYSTEM "creation_and_registration.xml">
+<!ENTITY jsf_project_verification SYSTEM "jsf_project_verification.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">

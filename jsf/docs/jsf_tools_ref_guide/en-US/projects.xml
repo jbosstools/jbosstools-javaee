@@ -70,14 +70,13 @@
                         customizable. Thus you can pick a different template on which the projects
                         Importing Existing should be based on. Almost all templates come in two
                         variations: with jsf libraries and without ones.</para>
-                <figure>
-                        <title>Choosing JSF Templates</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_12.png "
-                                        />
-                                </imageobject>
-                        </mediaobject>
+		<figure>
+			<title>Choosing JSF Templates</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_12.png"/>
+				</imageobject>
+			</mediaobject>
                 </figure>
 
                 <para>The table below provides description for each possible JSF template.</para>
@@ -214,9 +213,8 @@
 
                 <title>Importing Existing JSF Projects with Any Structure</title>
 
-                <para>For detailed information on migration of JSF projects into a workspace see
-                                <ulink url="&migrationlink;#jsf_struts">Migration
-                        Guide</ulink>.</para>
+                <para>For detailed information on migration of JSF projects into a workspace see the Migration
+                        Guide.</para>
 
         </section>
         <section id="add_jsf_capability">
@@ -400,6 +398,6 @@
                 <title>Relevant Resources Links</title>
 
                 <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
-                        be used in various scenarios while developing JSF applications in our <ulink url="&jsflink;">Visual Web Tools guide</ulink>.</para>
+                        be used in various scenarios while developing JSF applications in our Visual Web Tools Guide.</para>
         </section>
 </chapter>
