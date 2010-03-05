@@ -11,8 +11,8 @@
   </chapterinfo>
   <title>Introduction</title>
   <para>The following chapters describe how to deal with classic/old style of JSF development. We
-    recommend users to use <ulink url="&seamlink;">JBoss
-    Seam</ulink> to simplify development, but until then you can read about classical JSF 
+    recommend users to use JBoss
+    Seam to simplify development, but until then you can read about classical JSF 
     usage here.</para>
   
   <para>Thus, in this document we are going to show you how to create a simple <property>JSF application

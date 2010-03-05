@@ -30,8 +30,8 @@
         using the wizards provided by <property>JBoss Tools</property>, configure its stuff and
         finally run it on the <property>JBoss Server</property>.</para>
 
-    <para>Find out more features on JSF tooling in our <ulink url="&jsfreflink;">JSF Tools
-            Reference Guide</ulink>. If you have questions and suggestions, please refer to <ulink
+    <para>Find out more features on JSF tooling in our JSF Tools
+            Reference Guide. If you have questions and suggestions, please refer to <ulink
             url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
