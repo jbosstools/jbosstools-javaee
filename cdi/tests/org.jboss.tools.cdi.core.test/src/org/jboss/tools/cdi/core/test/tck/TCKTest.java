@@ -11,8 +11,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -55,6 +59,10 @@ public class TCKTest extends TestCase {
 			}
 		}
 		return tckProject;
+	}
+
+	protected IType getType(String name) throws JavaModelException {
+		return EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), name);
 	}
 
 	public static IProject findTestProject() {

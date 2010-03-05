@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.cdi.core.test.tck.DefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.ValidationTest;
 
 /**
@@ -23,7 +23,7 @@ public class CDICoreTestSuite extends TestSuite {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI Core Tests");
-		suite.addTestSuite(DefinitionTest.class);
+		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}

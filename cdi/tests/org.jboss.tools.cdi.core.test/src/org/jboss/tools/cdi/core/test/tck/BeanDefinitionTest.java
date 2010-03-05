@@ -13,6 +13,8 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
@@ -20,14 +22,13 @@ import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
- * Section 2 - Concepts
- *
  * @author Alexey Kazakov
  */
-public class DefinitionTest extends TCKTest {
+public class BeanDefinitionTest extends TCKTest {
 
 	/**
-	 * a) A bean comprises of a (nonempty) set of bean types.
+	 * Section 2 - Concepts
+	 *   a) A bean comprises of a (nonempty) set of bean types.
 	 */
 	public void testBeanTypesNonEmpty() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
@@ -42,7 +43,10 @@ public class DefinitionTest extends TCKTest {
 	}
 
 	/**
-	 * b) A bean comprises of a (nonempty) set of qualifiers.
+	 * Section 2 - Concepts
+	 *   b) A bean comprises of a (nonempty) set of qualifiers.
+	 * Section 11.1 - The Bean interface
+	 *   ba) getTypes(), getQualifiers(), getScope(), getName() and getStereotypes() must return the bean types, qualifiers, scope type, EL name and stereotypes of the bean, as defined in Chapter 2, Concepts.
 	 */
 	public void testQualifiersNonEmpty() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
@@ -72,7 +76,15 @@ public class DefinitionTest extends TCKTest {
 	}
 
 	/**
-	 * c) A bean comprises of a scope.
+	 * Section 2 - Concepts 
+	 *   c) A bean comprises of a scope.
+	 * Section 2.4 - Scopes
+	 *   a) All beans have a scope.
+	 * Section 3.1.3 - Declaring a managed bean
+	 *   ba) Test a bean with a scope.
+	 * Section 11.1 - The Bean interface
+	 *   ba) getTypes(), getQualifiers(), getScope(), getName() and getStereotypes() must return the bean types, qualifiers, scope type, EL name and stereotypes of the bean, as defined in Chapter 2, Concepts.
+	 *   
 	 */
 	public void testHasScopeType() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
@@ -82,6 +94,23 @@ public class DefinitionTest extends TCKTest {
 		assertNotNull("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean desn't have a scope.", scope);
 		assertNotNull("Scope of org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean doesn't have a link to IType.", scope.getSourceType());
 		assertEquals("Wrong scope type for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", "javax.enterprise.context.RequestScoped", scope.getSourceType().getFullyQualifiedName());
+	}
+
+	/**
+	 * Section 2.2.1 - Legal bean types
+	 *   j) A bean type may be a primitive type. Primitive types are considered to be identical to their corresponding wrapper types in java.lang.
+	 *   
+	 * @throws JavaModelException
+	 */
+	public void testPrivitiveTypes() throws JavaModelException {
+		IType type = getType("java.lang.Integer");
+		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
+		assertNotNull("There should be the only bean with int type", beans);
+		assertEquals("There should be the only bean with int type", 1, beans.size());
+		type = getType("org.jboss.jsr299.tck.tests.definition.bean.Animal");
+		beans = cdiProject.getBeans(true, type, new IType[0]);
+		assertNotNull("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Animal type", beans);
+		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Animal type", 1, beans.size());
 	}
 
 	/**
