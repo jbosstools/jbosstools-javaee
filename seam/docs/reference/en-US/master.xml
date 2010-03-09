@@ -2,23 +2,23 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
-[<!ENTITY intro SYSTEM "modules/intro.xml">
-<!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
-<!ENTITY creating_mavenized_seam SYSTEM "modules/creating_mavenized_seam.xml">
-<!ENTITY directory_structure SYSTEM "modules/directory_structure.xml">
-<!ENTITY menus_and_actions SYSTEM "modules/seam_menus_and_actions.xml">
-<!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
-<!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
-<!ENTITY seam_refactoring SYSTEM "modules/seam_refactoring.xml">
-<!ENTITY seam_editors SYSTEM "modules/seam_editors.xml">
-<!ENTITY seam_view SYSTEM "modules/seam_view.xml">
-<!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">
-<!ENTITY adding_seam_support_to_ear_project  SYSTEM "modules/adding_seam_support_to_ear_project.xml">
-<!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
-<!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
-<!ENTITY business_application SYSTEM "modules/business_application.xml">
-<!ENTITY testng SYSTEM "modules/testng.xml">
-<!ENTITY seam_faq SYSTEM "modules/seam_faq.xml">
+[<!ENTITY intro SYSTEM "intro.xml">
+<!ENTITY creating_new_seam SYSTEM "creating_new_seam.xml">
+<!ENTITY creating_mavenized_seam SYSTEM "creating_mavenized_seam.xml">
+<!ENTITY directory_structure SYSTEM "directory_structure.xml">
+<!ENTITY menus_and_actions SYSTEM "seam_menus_and_actions.xml">
+<!ENTITY seam_wizards SYSTEM "seam_wizards.xml">
+<!ENTITY generate_entities SYSTEM "generate_entities.xml">
+<!ENTITY seam_refactoring SYSTEM "seam_refactoring.xml">
+<!ENTITY seam_editors SYSTEM "seam_editors.xml">
+<!ENTITY seam_view SYSTEM "seam_view.xml">
+<!ENTITY seam_preferences SYSTEM "seam_preferences.xml">
+<!ENTITY adding_seam_support_to_ear_project  SYSTEM "adding_seam_support_to_ear_project.xml">
+<!ENTITY crud_database_application SYSTEM "crud_database_application.xml">
+<!ENTITY crud_application_walkthrough SYSTEM "crud_application_walkthrough.xml">
+<!ENTITY business_application SYSTEM "business_application.xml">
+<!ENTITY testng SYSTEM "testng.xml">
+<!ENTITY seam_faq SYSTEM "seam_faq.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -38,7 +38,7 @@
     
      <bookinfo>
          
-         <title>Seam Dev Tools Reference Guide</title>
+         <title>Seam Developer Tools Reference Guide</title>
              <corpauthor>
                  <inlinemediaobject>
                      <imageobject role="fo">
