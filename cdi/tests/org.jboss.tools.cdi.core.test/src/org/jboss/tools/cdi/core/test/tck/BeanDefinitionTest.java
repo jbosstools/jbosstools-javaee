@@ -55,7 +55,7 @@ public class BeanDefinitionTest extends TCKTest {
 //		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
 //		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
-
+		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
 		Set<IQualifier> qs = beans.iterator().next().getQualifiers();
 		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", qs.size() > 0);
 
@@ -95,6 +95,7 @@ public class BeanDefinitionTest extends TCKTest {
 //		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
 //		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
+		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		IScope scope = bean.getScope();
 		assertNotNull("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean desn't have a scope.", scope);
@@ -137,11 +138,31 @@ public class BeanDefinitionTest extends TCKTest {
 
 		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", declarations.size(), 3);
-		// TODO use real start position instead of 0.
-		assertLocationEquals(declarations, 0, 9);
-		assertLocationEquals(declarations, 0, 6);
-		assertLocationEquals(declarations, 0, 12);
+		assertLocationEquals(declarations, 859, 9);
+		assertLocationEquals(declarations, 877, 6);
+		assertLocationEquals(declarations, 895, 12);
+	}
 
+	/**
+	 * section 2.2.1 c)
+	 *
+	 * @throws JavaModelException
+	 */
+	public void testAbstractApiType() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
+		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IParametedType> types = bean.getLegalTypes();
+		assertEquals("Wrong number of legal types were found for org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope bean.", 4, types.size());
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.AbstractAntelope");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Animal");
+		assertContainsBeanType(bean, "java.lang.Object");
+
+		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope bean.", declarations.size(), 2);
+		assertLocationEquals(declarations, 842, 16);
+		assertLocationEquals(declarations, 867, 16);
 	}
 
 	/**
