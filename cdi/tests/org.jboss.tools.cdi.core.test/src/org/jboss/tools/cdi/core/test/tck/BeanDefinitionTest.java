@@ -113,6 +113,15 @@ public class BeanDefinitionTest extends TCKTest {
 		assertTheOnlyBean("org.jboss.jsr299.tck.tests.definition.bean.Animal");
 	}
 
+	/**
+	 * section 3.1.2 a)
+	 * section 2.2 a)
+	 * section 2.2.1 a)
+	 * section 2.2.1 d)
+	 * section 2.2.1 e)
+	 * section 2.2 l)
+	 * section 11.1 ba)
+	 */
 	public void testBeanTypes() throws JavaModelException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
 		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.Tarantula", 1, beans.size());
