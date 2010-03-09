@@ -25,7 +25,7 @@
 		
 		<para><property>JBoss Tools</property> add the <emphasis>
 			<property>web.xml</property></emphasis> file to created Struts project automatically and provides a special editor for its editing.
-			See the Visual Web Tools guide that gives a descriptive information on the <ulink url="&jsflink;#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
+			See the Visual Web Tools guide that gives a descriptive information on the <filename>web.xml</filename> editor.</para>
 	</section>
 	
     <section id="struts_config_editor">
@@ -200,7 +200,7 @@
                     <para>File Folding</para>
                 </listitem>
             </itemizedlist>
-            <para>You can take advantage of <ulink url="&jsflink;#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</ulink>.</para>
+            <para>You can take advantage of code assist.</para>
             <figure>
                 <title>Code Assist</title>
                 <mediaobject>
@@ -233,8 +233,7 @@
                 </mediaobject>
             </figure>
             
-            <para>Find more information about editor features <ulink url="&jsflink;#editors_features"
-                >in the editor features  chapter</ulink>.</para>
+            <para>Find more information about editor features in the editor features chapter.</para>
         </section>
     </section>
 
@@ -355,8 +354,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para><ulink url="&jsflink;#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Code
-                assist</ulink> is available in the Source mode.</para>
+            <para>Code
+                assist is available in the Source mode.</para>
             <figure>
                 <title>Code Assist</title>
                 <mediaobject>

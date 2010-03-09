@@ -3,15 +3,15 @@
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
 [
-<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY projects SYSTEM "modules/projects.xml">
-<!ENTITY editors SYSTEM "modules/editors.xml">
-<!ENTITY modules SYSTEM "modules/modules.xml">
-<!ENTITY code_generation SYSTEM "modules/code_generation.xml">
-<!ENTITY config_file_debugger SYSTEM "modules/config_file_debugger.xml">
-<!ENTITY page_links_recognizer SYSTEM "modules/page_links_recognizer.xml">
-<!ENTITY project_verification SYSTEM "modules/project_verification.xml">
-<!ENTITY rel_resources_links SYSTEM "modules/rel_resources_links.xml">
+<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY projects SYSTEM "projects.xml">
+<!ENTITY editors SYSTEM "editors.xml">
+<!ENTITY modules SYSTEM "modules.xml">
+<!ENTITY code_generation SYSTEM "code_generation.xml">
+<!ENTITY config_file_debugger SYSTEM "config_file_debugger.xml">
+<!ENTITY page_links_recognizer SYSTEM "page_links_recognizer.xml">
+<!ENTITY project_verification SYSTEM "project_verification.xml">
+<!ENTITY rel_resources_links SYSTEM "rel_resources_links.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
