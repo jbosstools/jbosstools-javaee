@@ -2,13 +2,13 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
-[<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY struts_application  SYSTEM "modules/struts_application.xml">
-<!ENTITY generating_stub  SYSTEM "modules/generating_stub.xml">
-<!ENTITY coding_files  SYSTEM "modules/coding_files.xml">
-<!ENTITY compiling_and_running  SYSTEM "modules/compiling_and_running.xml">
-<!ENTITY struts_validation  SYSTEM "modules/struts_validation.xml">
-<!ENTITY relevant_resources  SYSTEM "modules/relevant_resources.xml">
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY struts_application  SYSTEM "struts_application.xml">
+<!ENTITY generating_stub  SYSTEM "generating_stub.xml">
+<!ENTITY coding_files  SYSTEM "coding_files.xml">
+<!ENTITY compiling_and_running  SYSTEM "compiling_and_running.xml">
+<!ENTITY struts_validation  SYSTEM "struts_validation.xml">
+<!ENTITY relevant_resources  SYSTEM "relevant_resources.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">

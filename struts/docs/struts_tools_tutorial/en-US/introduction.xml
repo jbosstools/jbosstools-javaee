@@ -11,7 +11,7 @@
   </chapterinfo>
   <title>Introduction</title>
   <para>The following chapters describe how to deal with classic/old style of Struts development. We
-    recommend users to use <ulink url="&seamlink;">JBoss Seam</ulink> to
+    recommend users to use JBoss Seam to
     simplify development, but until then you can read about classical Struts usage here.</para>
 
   <para>We are going to show you how to create a simple <emphasis>
