@@ -17,8 +17,10 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -128,6 +130,38 @@ public class TCKTest extends TestCase {
 			String name = pathname.getName();
 			return (pathname.isDirectory() && !name.endsWith(".svn")) && !name.endsWith(".xml");
 		}		
+	}
+
+	public static void assertLocationEquals(Set<? extends ITextSourceReference> references, int startPosition, int length) {
+		for (ITextSourceReference reference : references) {
+			if(reference.getStartPosition()==startPosition) {
+				assertLocationEquals(reference, startPosition, length);
+				return;
+			}
+		}
+		StringBuffer message = new StringBuffer("Location [start positopn=").append(startPosition).append(", lengt=").append(length).append("] has not been found among ");
+		for (ITextSourceReference reference : references) {
+			message.append("[").append(reference.getStartPosition()).append(", ").append(reference.getLength()).append("] ");
+		}
+		fail(message.toString());
+	}
+
+	protected void assertContainsBeanType(IBean bean, String typeName) {
+		Set<IParametedType> types = bean.getLegalTypes();
+		StringBuffer allTypes = new StringBuffer("[");
+		for (IParametedType type : types) {
+			allTypes.append(" ").append(type.getType().getFullyQualifiedName()).append(";");
+			if (typeName.equals(type.getType().getFullyQualifiedName())) {
+				return;
+			}
+		}
+		allTypes.append("]");
+		fail(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.");
+	}
+
+	public static void assertLocationEquals(ITextSourceReference reference, int startPosition, int length) {
+		assertEquals("Wrong start position", startPosition, reference.getStartPosition());
+		assertEquals("Wrong length", length, reference.getLength());
 	}
 
 	public static void cleanProject(String _resourcePath) throws Exception {

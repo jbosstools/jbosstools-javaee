@@ -127,7 +127,7 @@ public interface IBeanManager {
 	 * 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, String fullQualifiedBeanType, String... fullQualifiedQualifiersTypes);
+	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, String fullyQualifiedBeanType, String... fullyQualifiedQualifiersTypes);
 
 	/**
 	 * Returns the set of beans which are eligible for the given injection

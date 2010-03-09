@@ -15,10 +15,10 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Alexey Kazakov
@@ -113,16 +113,26 @@ public class BeanDefinitionTest extends TCKTest {
 		assertTheOnlyBean("org.jboss.jsr299.tck.tests.definition.bean.Animal");
 	}
 
-	public void testBeanTypes() {
-//		assert getBeans(Tarantula.class).size() == 1;
-//		Bean<Tarantula> bean = getBeans(Tarantula.class).iterator().next();
-//		assert bean.getTypes().size() == 6;
-//		assert bean.getTypes().contains(Tarantula.class);
-//		assert bean.getTypes().contains(Spider.class);
-//		assert bean.getTypes().contains(Animal.class);
-//		assert bean.getTypes().contains(Object.class);
-//		assert bean.getTypes().contains(DeadlySpider.class);
-//		assert bean.getTypes().contains(DeadlyAnimal.class);
+	public void testBeanTypes() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
+		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.Tarantula", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IParametedType> types = bean.getLegalTypes();
+		assertEquals("Wrong number of legal types were found for org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", 6, types.size());
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Spider");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Animal");
+		assertContainsBeanType(bean, "java.lang.Object");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.DeadlySpider");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.DeadlyAnimal");
+
+		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", declarations.size(), 3);
+		// TODO use real start position instead of 0.
+		assertLocationEquals(declarations, 0, 9);
+		assertLocationEquals(declarations, 0, 6);
+		assertLocationEquals(declarations, 0, 12);
+
 	}
 
 	/**
@@ -146,24 +156,5 @@ public class BeanDefinitionTest extends TCKTest {
 		assertEquals("org.jboss.jsr299.tck.tests.definition.name.SeaBass should have the only bean.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertNull("org.jboss.jsr299.tck.tests.definition.name.Moose bean should not have any EL name.", bean.getName());
-	}
-
-	private void assertLocationEquals(Set<? extends ITextSourceReference> references, int startPosition, int length) {
-		for (ITextSourceReference reference : references) {
-			if(reference.getStartPosition()==startPosition) {
-				assertLocationEquals(reference, startPosition, length);
-				return;
-			}
-		}
-		StringBuffer message = new StringBuffer("Location [start positopn=").append(startPosition).append(", lengt=").append(length).append("] has not been found among ");
-		for (ITextSourceReference reference : references) {
-			message.append("[").append(reference.getStartPosition()).append(", ").append(reference.getLength()).append("] ");
-		}
-		fail(message.toString());
-	}
-
-	private void assertLocationEquals(ITextSourceReference reference, int startPosition, int length) {
-		assertEquals("Wrong start position", startPosition, reference.getStartPosition());
-		assertEquals("Wrong length", length, reference.getLength());
 	}
 }

@@ -700,8 +700,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, java.lang.String, java.lang.String[])
 	 */
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
-			String fullQualifiedBeanType,
-			String... fullQualifiedQualifiersTypes) {
+			String fullyQualifiedBeanType,
+			String... fullyQualifiedQualifiersTypes) {
 		// TODO
 		return Collections.emptySet();
 	}
