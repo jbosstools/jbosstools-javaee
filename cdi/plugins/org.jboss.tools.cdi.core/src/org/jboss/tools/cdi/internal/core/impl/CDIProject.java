@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,7 +42,6 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -692,6 +692,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IType beanType, IType... qualifiers) {
 		// TODO
-		return null;
+		return Collections.emptySet();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, java.lang.String, java.lang.String[])
+	 */
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+			String fullQualifiedBeanType,
+			String... fullQualifiedQualifiersTypes) {
+		// TODO
+		return Collections.emptySet();
 	}
 }

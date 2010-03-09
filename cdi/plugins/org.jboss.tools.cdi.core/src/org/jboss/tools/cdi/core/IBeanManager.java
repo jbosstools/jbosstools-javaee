@@ -108,6 +108,28 @@ public interface IBeanManager {
 	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IType beanType, IType... qualifiers);
 
 	/**
+	 * Returns the set of beans which have the given required type and qualifier
+	 * type If no qualifiers are given, the
+	 * {@linkplain javax.enterprise.inject.Default default qualifier} is
+	 * assumed.
+	 * 
+	 * @param fullQualifiedBeanType
+	 *            the required bean type
+	 * @param fullQualifiedQualifiersTypes
+	 *            the required qualifiers
+	 * @param attemptToResolveAmbiguousDependency
+	 *            if there are a few beans with the given type and qualifiers
+	 *            and attemptToResolveAmbiguousDependency==true the manager
+	 *            should try to resolve the ambiguity. If any of the beans are
+	 *            alternatives, the manager will eliminate all beans that are
+	 *            not alternatives, expect for producer methods and fields of
+	 *            beans that are alternatives.
+	 * 
+	 * @return the resulting set of beans
+	 */
+	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, String fullQualifiedBeanType, String... fullQualifiedQualifiersTypes);
+
+	/**
 	 * Returns the set of beans which are eligible for the given injection
 	 * points.
 	 * 

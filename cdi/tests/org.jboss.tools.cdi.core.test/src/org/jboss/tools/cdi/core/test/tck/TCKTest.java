@@ -2,6 +2,7 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -14,6 +15,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -92,6 +94,19 @@ public class TCKTest extends TestCase {
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		JobUtils.waitForIdle();
 		return project;
+	}
+
+	protected Set<IBean> getBeans(String typeName) throws JavaModelException {
+		IType type = getType(typeName);
+		assertNotNull("Can't find " + typeName + " type.", type);
+		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
+		assertNotNull("There is no eny beans with " + typeName + " type", beans);
+		return beans;
+	}
+
+	protected void assertTheOnlyBean(String typeName) throws JavaModelException {
+		Set<IBean> beans = getBeans(typeName);
+		assertEquals("There should be the only bean with " + typeName + " type", 1, beans.size());
 	}
 
 	static class JavaFileFilter implements FileFilter {

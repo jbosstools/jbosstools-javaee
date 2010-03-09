@@ -13,7 +13,6 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -29,10 +28,13 @@ public class BeanDefinitionTest extends TCKTest {
 	/**
 	 * Section 2 - Concepts
 	 *   a) A bean comprises of a (nonempty) set of bean types.
+	 * @throws JavaModelException 
 	 */
-	public void testBeanTypesNonEmpty() {
+	public void testBeanTypesNonEmpty() throws JavaModelException {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
+		beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
 		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", bean.getLegalTypes().size() > 0);
@@ -47,10 +49,12 @@ public class BeanDefinitionTest extends TCKTest {
 	 *   b) A bean comprises of a (nonempty) set of qualifiers.
 	 * Section 11.1 - The Bean interface
 	 *   ba) getTypes(), getQualifiers(), getScope(), getName() and getStereotypes() must return the bean types, qualifiers, scope type, EL name and stereotypes of the bean, as defined in Chapter 2, Concepts.
+	 * @throws JavaModelException 
 	 */
-	public void testQualifiersNonEmpty() {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+	public void testQualifiersNonEmpty() throws JavaModelException {
+//		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
+//		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
 
 		Set<IQualifier> qs = beans.iterator().next().getQualifiers();
 		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", qs.size() > 0);
@@ -84,11 +88,13 @@ public class BeanDefinitionTest extends TCKTest {
 	 *   ba) Test a bean with a scope.
 	 * Section 11.1 - The Bean interface
 	 *   ba) getTypes(), getQualifiers(), getScope(), getName() and getStereotypes() must return the bean types, qualifiers, scope type, EL name and stereotypes of the bean, as defined in Chapter 2, Concepts.
+	 * @throws JavaModelException 
 	 *   
 	 */
-	public void testHasScopeType() {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+	public void testHasScopeType() throws JavaModelException {
+//		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
+//		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
 		IBean bean = beans.iterator().next();
 		IScope scope = bean.getScope();
 		assertNotNull("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean desn't have a scope.", scope);
@@ -103,14 +109,20 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testPrivitiveTypes() throws JavaModelException {
-		IType type = getType("java.lang.Integer");
-		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
-		assertNotNull("There should be the only bean with int type", beans);
-		assertEquals("There should be the only bean with int type", 1, beans.size());
-		type = getType("org.jboss.jsr299.tck.tests.definition.bean.Animal");
-		beans = cdiProject.getBeans(true, type, new IType[0]);
-		assertNotNull("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Animal type", beans);
-		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Animal type", 1, beans.size());
+		assertTheOnlyBean("java.lang.Integer");
+		assertTheOnlyBean("org.jboss.jsr299.tck.tests.definition.bean.Animal");
+	}
+
+	public void testBeanTypes() {
+//		assert getBeans(Tarantula.class).size() == 1;
+//		Bean<Tarantula> bean = getBeans(Tarantula.class).iterator().next();
+//		assert bean.getTypes().size() == 6;
+//		assert bean.getTypes().contains(Tarantula.class);
+//		assert bean.getTypes().contains(Spider.class);
+//		assert bean.getTypes().contains(Animal.class);
+//		assert bean.getTypes().contains(Object.class);
+//		assert bean.getTypes().contains(DeadlySpider.class);
+//		assert bean.getTypes().contains(DeadlyAnimal.class);
 	}
 
 	/**
