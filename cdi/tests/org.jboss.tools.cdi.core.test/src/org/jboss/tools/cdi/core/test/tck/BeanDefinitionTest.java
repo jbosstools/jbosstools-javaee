@@ -208,27 +208,4 @@ public class BeanDefinitionTest extends TCKTest {
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong Bean Class type of org.jboss.jsr299.tck.tests.definition.bean.Horse bean", "org.jboss.jsr299.tck.tests.definition.bean.Horse", bean.getBeanClass().getFullyQualifiedName());
 	}
-
-	/**
-	 * e) A bean comprises of an optional bean EL name.
-	 */
-	public void testNonDefaultNamed() {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/name/Moose.java");
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		assertEquals("org.jboss.jsr299.tck.tests.definition.name.Moose should have the only bean.", 1, beans.size());
-		IBean bean = beans.iterator().next();
-		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Moose bean.", "aMoose", bean.getName());
-		assertLocationEquals(bean.getNameLocation(), 918, 16);
-	}
-
-	/**
-	 * e) A bean comprises of an optional bean EL name (continue).
-	 */
-	public void testNotNamedInJava() {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/name/SeaBass.java");
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		assertEquals("org.jboss.jsr299.tck.tests.definition.name.SeaBass should have the only bean.", 1, beans.size());
-		IBean bean = beans.iterator().next();
-		assertNull("org.jboss.jsr299.tck.tests.definition.name.Moose bean should not have any EL name.", bean.getName());
-	}
 }
