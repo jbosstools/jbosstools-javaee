@@ -3,6 +3,7 @@ package org.jboss.tools.jsf.ui.bot.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.CSSSelectorJBIDE3288;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3148and4441Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3577Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3579Test;
@@ -30,6 +31,7 @@ public class JSFAllBotTests{
 		suite.addTestSuite(JBIDE3920Test.class);
 		suite.addTestSuite(UnknownTemplateTest.class);
 		suite.addTestSuite(SetTemplateForUnknownTagTest.class);
+		suite.addTestSuite(CSSSelectorJBIDE3288.class);
 		return suite;
 	}
 }
