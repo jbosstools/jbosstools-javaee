@@ -197,7 +197,7 @@
         </itemizedlist>
 
         <figure>
-            <title>Adding a New JSF Component to the JSF Configuration File</title>
+            <title>Adding a New JSF Renderer Kit to the JSF Configuration File</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_support/jsf_support_24d.png"/>
