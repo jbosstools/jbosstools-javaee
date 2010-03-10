@@ -186,6 +186,30 @@ public class BeanDefinitionTest extends TCKTest {
 	}
 
 	/**
+	 * section 3.1.3 c)
+	 *
+	 * @throws JavaModelException 
+	 */
+	public void testBeanExtendsAnotherBean() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Spider");
+		assertFalse("No beans found for org.jboss.jsr299.tck.tests.definition.bean.Spider type", beans.isEmpty());
+		beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
+		assertFalse("No beans found for org.jboss.jsr299.tck.tests.definition.bean.Tarantula type", beans.isEmpty());
+	}
+
+	/**
+	 * section 11.1 bb)
+	 *
+	 * @throws JavaModelException 
+	 */
+	public void testBeanClassOnSimpleBean() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Horse");
+		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Horse type", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong Bean Class type of org.jboss.jsr299.tck.tests.definition.bean.Horse bean", "org.jboss.jsr299.tck.tests.definition.bean.Horse", bean.getBeanClass().getFullyQualifiedName());
+	}
+
+	/**
 	 * e) A bean comprises of an optional bean EL name.
 	 */
 	public void testNonDefaultNamed() {
