@@ -407,7 +407,7 @@
                     <para>Content assist functionality is also available for composite components. On the screen is shown content assist for a composite component file  <property>&quot;tag.xhtml&quot;</property> within a JSF 1.2 project with facelets</para>
                     
                     <figure>
-                        <title>Content Assist in web.xml File</title>
+                        <title>Content Assist for Composite Components</title>
                         <mediaobject>
                             <imageobject>
                                 <imagedata fileref="images/editors_features/editors_features_ca_composite_component.png"
