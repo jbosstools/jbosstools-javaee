@@ -15,6 +15,7 @@ import junit.framework.TestSuite;
 
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.ValidationTest;
 
 /**
@@ -26,6 +27,7 @@ public class CDICoreTestSuite extends TestSuite {
 		TestSuite suite = new TestSuite("CDI Core Tests");
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
+		suite.addTestSuite(QualifierDefinitionTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}

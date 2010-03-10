@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -157,6 +158,19 @@ public class TCKTest extends TestCase {
 		}
 		allTypes.append("]");
 		fail(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.");
+	}
+
+	protected void assertContainsQualifierType(IBean bean, String typeName) {
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		StringBuffer allTypes = new StringBuffer("[");
+		for (IQualifier qualifier : qualifiers) {
+			allTypes.append(" ").append(qualifier.getSourceType().getFullyQualifiedName()).append(";");
+			if (typeName.equals(qualifier.getSourceType().getFullyQualifiedName())) {
+				return;
+			}
+		}
+		allTypes.append("]");
+		fail(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier with " + typeName + " type.");
 	}
 
 	public static void assertLocationEquals(ITextSourceReference reference, int startPosition, int length) {
