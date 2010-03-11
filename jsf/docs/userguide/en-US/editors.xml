@@ -316,8 +316,136 @@
             </itemizedlist>
 
             <para>Notice, that code completion for EL variables has icons illustrating what they are
-                from. Currently it&apos;s performed for resource bundles, JSF and Seam
-                components.</para>
+            from. The most of this icons are described in the table below.</para>
+            <table>
+                <title>Content assist icons</title>
+                <tgroup cols="3">
+                    <colspec colnum="1" align="left" colwidth="2*"/>
+                    <colspec colnum="2" colwidth="4*"/>
+                    <colspec colnum="3" colwidth="2*" align="left" />
+                    <thead>
+                        <row>
+                            <entry>Icon      </entry>
+                            <entry>Type      </entry>
+                            <entry>Context      </entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                       <row>
+                           <entry>
+                               <para><inlinemediaobject><imageobject>
+                                   <imagedata fileref="images/editors_features/icons_enumaration.png"/>
+                               </imageobject>
+                               </inlinemediaobject>
+                               </para>
+                           </entry>
+                           <entry>
+                               <para>Enumeration                                 
+                               </para>
+                           </entry>
+                           <entry>
+                               <para>Used to show items which exist in the predefined set of equivalent proposals.
+                               </para>
+                           </entry>
+                       </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                    <imagedata fileref="images/editors_features/icons_seam_el.png"/>
+                                </imageobject>
+                                </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Seam Proposal</para>
+                            </entry>
+                            <entry>
+                                <para>Used to show Seam Context variables, its properties and methods. 
+                                    
+                                </para>
+                            </entry>                            
+                        </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                    <imagedata fileref="images/editors_features/icons_jsf_el.png"/>
+                                </imageobject>
+                                </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>JSF EL
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Used to show Managed Beans, Managed Bean Properties, Managed Bean Methods, Constants, Resource Bundles, Resource Bundle Properties. 
+                                    
+                                    
+                                </para>
+                            </entry>
+                            
+                        </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                    <imagedata fileref="images/editors_features/icons_jsf_actions.png"/>
+                                </imageobject>
+                                </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>JSF Action
+                                    
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Used to show  navigation rules defined in the <property>faces-config.xml</property> .
+                                    
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                    <imagedata fileref="images/editors_features/icons_message_bundles.png"/>
+                                </imageobject>
+                                </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Message Bundle</para>
+                            </entry>
+                            <entry>
+                                <para>Used to show <property>Messages Resources</property> items.
+                                    
+                                </para>
+                            </entry>
+                        </row>
+                        
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                    <imagedata fileref="images/editors_features/icons_resource_paths.png"/>
+                                </imageobject>
+                                </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Resource path
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Used to show paths which are accessible from the cursor place.
+                                    
+                                    
+                                </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+                
+                
+            </table>
 
             <figure>
                 <title>JSF Content Assist</title>
@@ -441,6 +569,9 @@
                         <listitem>
                             <para>JSF variables (context, request etc...)</para>
                         </listitem>
+                        <listitem>
+                            <para>Resource Bundles from template page</para>
+                        </listitem>
                     </itemizedlist>
                     <para>The figure below shows how to insert message from a Properties files. You
                         simply put the cursor inside the <emphasis role="italic">
@@ -498,6 +629,17 @@
                         </imageobject>
                     </mediaobject>
                     </figure>
+                    <para>Moreover <property>Code Assist</property> is able to define <property>Resource Bundles</property> on template page and gives the proposals on the client page. </para>
+                    <figure>
+                        <title>Code Assist: Message Bundles proposals from template page</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_14_b.png"/>
+                            </imageobject>
+                            
+                        </mediaobject>
+                    </figure>
+                    
                     
                 </section>
                 <section id="ContentAssistWithinJSFGraphicalEditor44">
