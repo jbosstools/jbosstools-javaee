@@ -15,7 +15,8 @@ Require-Bundle:
  org.jboss.tools.jst.web;bundle-version="2.0.0",
  org.jboss.tools.jst.web.kb;bundle-version="1.0.0",
  org.eclipse.wst.css.core;bundle-version="1.1.300",
- org.jboss.tools.common.el.core;bundle-version="2.0.0"
+ org.jboss.tools.common.el.core;bundle-version="2.0.0",
+ org.jboss.tools.jsf.text.ext.facelets;bundle-version="2.0.0"
 Export-Package: org.jboss.tools.jsf.text.ext.richfaces,
  org.jboss.tools.jsf.text.ext.richfaces.hyperlink
 Bundle-Version: 2.0.0

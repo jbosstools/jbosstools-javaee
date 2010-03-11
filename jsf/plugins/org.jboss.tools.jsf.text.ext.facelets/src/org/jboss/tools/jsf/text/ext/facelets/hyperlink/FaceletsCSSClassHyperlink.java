@@ -9,7 +9,7 @@
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.text.ext.richfaces.hyperlink;
+package org.jboss.tools.jsf.text.ext.facelets.hyperlink;
 
 import java.text.MessageFormat;
 
@@ -21,7 +21,7 @@ import org.jboss.tools.jst.text.ext.hyperlink.CSSClassHyperlink;
  * @author Victor Rubezhny
  * 
  */
-public class RichfacesCSSClassHyperlink  extends CSSClassHyperlink {
+public class FaceletsCSSClassHyperlink  extends CSSClassHyperlink {
 	/*
 	 * (non-Javadoc)
 	 * 
