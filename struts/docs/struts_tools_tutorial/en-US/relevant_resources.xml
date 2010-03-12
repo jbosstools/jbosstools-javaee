@@ -11,7 +11,7 @@
 
     <title>Other Relevant Resources on the topic</title>
 
-    <para>Our reference: <ulink url="&strutsreflink;">Struts Tools Reference Guide</ulink></para>
+    <para>Our reference: Struts Tools Reference Guide</para>
     <para>Apache Struts: <ulink url="http://struts.apache.org/">Struts Technology</ulink></para>
     <para>Struts 2: <ulink url="http://struts.apache.org/2.x/">Apache Struts 2</ulink></para>
     <para>Get Started: <ulink url="http://struts.apache.org/2.x/docs/home.html">Struts Getting
@@ -28,7 +28,7 @@
         deploying it onto the <property>JBoss Server</property>.</para>
 
     <para>To find out all the features of <property>JBoss Tools</property> for working with Struts
-        refer to our <ulink url="&strutsreflink;">Struts Tools Reference Guide</ulink>. If you
+        refer to our Struts Tools Reference Guide. If you
         still have questions you are always welcome on <ulink
             url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
