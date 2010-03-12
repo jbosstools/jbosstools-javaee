@@ -265,6 +265,11 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 
 	public List<IVariable> resolveVariablesInternal(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<IVariable> result = new ArrayList<IVariable>();
+
+		XModelObject o = EclipseResourceUtil.createObjectForResource(file);
+		if(o == null) return result;
+		if(!"FileJSF2Component".equals(o.getModelEntity().getName())) return result;
+
 		String varName = expr.toString();
 		String[] vs = {"cc.attrs", "compositeComponent.attrs"};
 		for (int i = 0; i < vs.length; i++) {
