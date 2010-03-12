@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE Book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<book>
+<xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="introduction.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="jsf_application.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="adding_navigation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="adding_managed_bean.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="jsp_view_files.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="start_page.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="running_application.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="relevant_resources.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</book>

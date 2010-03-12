@@ -2,14 +2,14 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
-[<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY jsf_application SYSTEM "modules/jsf_application.xml">
-<!ENTITY adding_navigation SYSTEM "modules/adding_navigation.xml">
-<!ENTITY adding_managed_bean SYSTEM "modules/adding_managed_bean.xml">
-<!ENTITY jsp_view_files SYSTEM "modules/jsp_view_files.xml">
-<!ENTITY start_page SYSTEM "modules/start_page.xml">
-<!ENTITY running_application SYSTEM "modules/running_application.xml">
-<!ENTITY relevant_resources SYSTEM "modules/relevant_resources.xml">
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY jsf_application SYSTEM "jsf_application.xml">
+<!ENTITY adding_navigation SYSTEM "adding_navigation.xml">
+<!ENTITY adding_managed_bean SYSTEM "adding_managed_bean.xml">
+<!ENTITY jsp_view_files SYSTEM "jsp_view_files.xml">
+<!ENTITY start_page SYSTEM "start_page.xml">
+<!ENTITY running_application SYSTEM "running_application.xml">
+<!ENTITY relevant_resources SYSTEM "relevant_resources.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
