@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <chapter id="jbds_editors" xreflabel="jbds_editors" role="updated">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
@@ -11,14 +11,12 @@
 
     <title>Editors</title>
 
-    <para>In the <ulink url="&jsfreflink;">JSF Tools Reference Guide</ulink> and <ulink
-            url="&strutsreflink;">Struts Tools Reference Guide</ulink> you had possibility to
-        read about Graphical Editor for <ulink url="&jsfreflink;#jsf_config_file">JSF</ulink>
-        and <ulink url="&strutsreflink;#struts_config_editor">Struts</ulink> configuration
-        files, <ulink url="&strutsreflink;#GraphicalEditorForTilesFiles132">Graphical Editor for
-            Tiles Files</ulink>, <ulink
-            url="&strutsreflink;#GraphicalEditorForStrutsValidationFiles86">Graphical Editor for
-            Struts Validation Files</ulink>. All these editors have <link
+    <para>In the JSF Tools Reference Guide and Struts Tools Reference Guide you had possibility to
+        read about Graphical Editor for JSF
+        and Struts configuration
+        files, Graphical Editor for
+            Tiles Files, Graphical Editor for
+            Struts Validation Files. All these editors have <link
             linkend="OpenOnSelection4Hyperlinknavigation">
             <property>OpenOn</property>
         </link> and <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
@@ -277,7 +275,7 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        <ulink url="&seamlink;#ContentAssist">Seam project files</ulink>
+                       Seam project files
                     </para>
 
                 </listitem>
@@ -308,7 +306,7 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <ulink url="&esblink;#ESBContentAssist">ESB XML files</ulink>
+                        ESB XML files
                     </para>
                 </listitem>
                 <listitem>
@@ -2098,8 +2096,8 @@ two elements with equal id has been used, but should be used only one -->
             <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
             contained in the compat-libstdc++-33.i386 package.</para> 
             
-            <note><title>Note</title>
-                Starting from  JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required. </note>
+            <note><title>Note</title><para>
+                Starting from  JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required. </para></note>
 
             <itemizedlist>
                 <listitem>

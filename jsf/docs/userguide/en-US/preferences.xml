@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <chapter id="preferences" xreflabel="preferences">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
@@ -567,8 +567,7 @@
             </emphasis> to see JSF Project preferences page.</para>
         <para>On the <emphasis>
                 <property>New Project</property>
-            </emphasis> tab you can set default values for <ulink
-                url=" &jsfreflink;#new_jsf_project">New JSF Project</ulink> wizard:</para>
+            </emphasis> tab you can set default values for New JSF Project wizard:</para>
 
         <itemizedlist>
             <listitem>
@@ -617,7 +616,7 @@
         <para>On the <emphasis>
                 <property>Import Project</property>
             </emphasis> tab in the JSF Project screen you can determine the default Servlet version
-            for the <ulink url=" &migrationlink;#import_jsf_screen">Import JSF Project</ulink>
+            for the Import JSF Project
             wizard and also whether to register Web Context in <emphasis>
                 <property>server.xml</property>
             </emphasis> or not.</para>

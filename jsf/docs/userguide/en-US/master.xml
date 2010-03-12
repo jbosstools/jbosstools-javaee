@@ -3,17 +3,17 @@
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
 [
-<!ENTITY Visual_Web_Tools  SYSTEM "modules/Visual_Web_Tools.xml">
-<!ENTITY springTools SYSTEM "modules/spring_tools.xml">
-<!ENTITY editors SYSTEM "modules/editors.xml">
-<!ENTITY cssPerspective SYSTEM "modules/css_perspective.xml">
-<!ENTITY palette SYSTEM "modules/palette.xml">
-<!ENTITY richfaces_support SYSTEM "modules/richfaces_support.xml">
-<!ENTITY web_projects SYSTEM "modules/web_projects.xml">
-<!ENTITY preferences SYSTEM "modules/preferences.xml">
-<!ENTITY context_menu_preferences SYSTEM "modules/context_menu_preferences.xml">
-<!ENTITY vwt_faq SYSTEM "modules/vwt_faq.xml">
-<!ENTITY conclusion SYSTEM "modules/conclusion.xml">
+<!ENTITY Visual_Web_Tools  SYSTEM "Visual_Web_Tools.xml">
+<!ENTITY springTools SYSTEM "spring_tools.xml">
+<!ENTITY editors SYSTEM "editors.xml">
+<!ENTITY cssPerspective SYSTEM "css_perspective.xml">
+<!ENTITY palette SYSTEM "palette.xml">
+<!ENTITY richfaces_support SYSTEM "richfaces_support.xml">
+<!ENTITY web_projects SYSTEM "web_projects.xml">
+<!ENTITY preferences SYSTEM "preferences.xml">
+<!ENTITY context_menu_preferences SYSTEM "context_menu_preferences.xml">
+<!ENTITY vwt_faq SYSTEM "vwt_faq.xml">
+<!ENTITY conclusion SYSTEM "conclusion.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">

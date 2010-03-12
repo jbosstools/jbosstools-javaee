@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE Book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<book>
+<xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Visual_Web_Tools.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="spring_tools.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="editors.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="palette.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="css_perspective.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="richfaces_support.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="web_projects.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="preferences.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="context_menu_preferences.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="vwt_faq.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="conclusion.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</book>
