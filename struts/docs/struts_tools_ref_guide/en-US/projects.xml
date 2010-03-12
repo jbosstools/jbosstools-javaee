@@ -156,8 +156,7 @@
 
         <title>Importing an Existing Struts Project with Any Structure</title>
 
-        <para>For detailed information on migration projects to JBoss Developer Studio see <ulink
-            url="&migrationlink;">Migration Guide</ulink>.</para>
+        <para>For detailed information on migration projects to JBoss Developer Studio see Migration Guide.</para>
 
     </section>
     <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
@@ -271,6 +270,6 @@
         <title>Relevant Resources Links</title>
         
         <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
-            be used in various scenarios while developing Struts applications in our <ulink url="&jsflink;">Visual Web Tools guide</ulink>.</para>
+            be used in various scenarios while developing Struts applications in our Visual Web Tools guide.</para>
     </section>
 </chapter>
