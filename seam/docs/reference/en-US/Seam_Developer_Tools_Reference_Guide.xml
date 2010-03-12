@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE Book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+<book>
+<xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="intro.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="creating_new_seam.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<!--<xi:include href="creating_mavenized_seam.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>-->
+<xi:include href="directory_structure.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_menus_and_actions.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_wizards.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="generate_entities.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_editors.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_view.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_preferences.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_refactoring.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="adding_seam_support_to_ear_project.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="crud_database_application.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="crud_application_walkthrough.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="testng.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="seam_faq.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<!--<xi:include href="business_application.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>-->
+<xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+</book>

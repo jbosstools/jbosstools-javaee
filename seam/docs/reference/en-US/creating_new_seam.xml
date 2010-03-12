@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <chapter id="create_seam" xreflabel="create_seam" role="updated">
     <?dbhtml filename="create_new_seam.html"?>
     <chapterinfo>
@@ -136,7 +136,7 @@
                 wizard</property>.</para>
         <tip>
             <title>Tip:</title>
-            <para>We suggest that you look through <ulink url="&aslink;">AS manager guide</ulink> to
+            <para>We suggest that you look through AS manager guide to
                 find out more about runtimes and servers.</para>
         </tip>
         <figure>
