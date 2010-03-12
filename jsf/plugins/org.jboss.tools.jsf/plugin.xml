@@ -454,6 +454,13 @@
          </el-resolver>
    </extension>
    <extension
+         point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="ccAttrsELResolver">
+         	<project-nature id="org.jboss.tools.jsf.jsfnature" 
+         		resolver-class="org.jboss.tools.jsf.model.JSF2CCAttrsELCompletionEngine"/>
+         </el-resolver>
+   </extension>
+   <extension
          point="org.jboss.tools.common.model.modelnatures">
       <modelnature 
       	name="org.jboss.tools.jsf.jsfnature"
