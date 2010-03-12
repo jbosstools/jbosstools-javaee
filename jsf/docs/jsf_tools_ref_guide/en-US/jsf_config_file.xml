@@ -382,9 +382,8 @@
         <section id="jsf_openOn">
             <title>Open On</title>
             <para>The JSF configuration file editor comes with a very useful OpenOn navigating
-                feature. More fully you can read about it in our <ulink
-                    url="&jsflink;#OpenOnSelection4Hyperlinknavigation">Visual Web Tools
-                    Guide</ulink>.</para>
+                feature. More fully you can read about it in our Visual Web Tools
+                    Guide.</para>
         </section>
 
         <section id="ContentAssist976">

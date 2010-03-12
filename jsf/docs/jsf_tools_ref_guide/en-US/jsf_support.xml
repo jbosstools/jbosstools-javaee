@@ -161,8 +161,8 @@
                 <section>
                         <title>Facelets components</title>
 
-                        <para>The <ulink url="&jsflink;#palette">JBoss Tools
-                                        Palette</ulink> comes with the Facelets components ready to
+                        <para>The JBoss Tools
+                                        Palette comes with the Facelets components ready to
                                 use. A useful tip appears when you hover the mouse cursor over the
                                 tag, the tip includes a detailed description of the tag component,
                                 the syntax and available attributes.</para>

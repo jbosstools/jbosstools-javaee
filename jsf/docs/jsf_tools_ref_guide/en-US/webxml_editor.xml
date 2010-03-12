@@ -17,5 +17,5 @@
 	
 	<para><property>JBoss Tools</property> add the <emphasis>
 		<property>web.xml</property></emphasis> file to created JSF project automatically and provides a special editor for its editing.
-		See the Visual Web Tools guide that gives a descriptive information on the <ulink url="&jsflink;#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
+		See the Visual Web Tools guide that gives a descriptive information on the <filename>web.xml</filename> editor.</para>
 </chapter>
