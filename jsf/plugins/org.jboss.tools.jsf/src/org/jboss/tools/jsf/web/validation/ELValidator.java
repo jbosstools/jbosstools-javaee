@@ -307,6 +307,9 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 			for (int i = 0; i < resolvers.length; i++) {
 				ELResolution elResolution = resolvers[i].resolve(context, operandToken, documnetOffset);
+				if(elResolution==null) {
+					continue;
+				}
 				if(elResolution.isResolved()) {
 					resolution = elResolution;
 					break;
