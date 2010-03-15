@@ -22,7 +22,7 @@
     <para>Download: <ulink url="http://struts.apache.org/download.cgi#struts206">Release of Apache
             Struts</ulink></para>
 
-    <para>Thus, this tutorial should help you to execute the hole development circle for building a
+    <para>Thus, this tutorial should help you to execute the whole development circle for building a
         sample Struts-based Web application using <property>JBoss Tools</property> bundle of Eclipse
         plugins starting from organizing a new Struts project and ending with the running and
         deploying it onto the <property>JBoss Server</property>.</para>
