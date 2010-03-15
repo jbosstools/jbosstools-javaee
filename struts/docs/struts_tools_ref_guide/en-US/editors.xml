@@ -166,7 +166,7 @@
         		<listitem><para>Under the <emphasis>
         			<property>plug-ins</property></emphasis> node you can define a Struts plug-in. Right-click the node, select <emphasis>
         				<property>Create Plug-in</property></emphasis> 
-        			and specify the plug-ib <emphasis>
+        			and specify the plug-in <emphasis>
         				<property>Id</property></emphasis> and <emphasis>
         					<property>ClassName</property></emphasis> by pointing to the Java class which implements the org.apache.struts.action.PlugIn interface. </para></listitem>
         		
