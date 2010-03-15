@@ -91,6 +91,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.RenderFacetAndInsertChildrenTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectAllAndCut_JBIDE4853;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectWholeElement_JBIDE4713;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestContextPathResolution;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestForUsingComponentsLibrariesWithDefaultNamespace;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestOpenOnForXhtmlFiles_JBIDE5577;
@@ -121,6 +122,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(TestContextPathResolution.class);
 		suite.addTestSuite(JBIDE5920Test.class);
 		suite.addTestSuite(RenderFacetAndInsertChildrenTest.class);
 		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
