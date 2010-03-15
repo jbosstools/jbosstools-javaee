@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
@@ -85,5 +86,20 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		// TODO use correct start position instead of 0. 
 		assertLocationEquals(declarations, 0, 12);
+	}
+
+	/**
+	 * section 2.3.3 d)
+	 * @throws JavaModelException 
+	 */
+	public void testMultipleQualifiers() throws JavaModelException {
+		IAnnotationDeclaration chunky = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Chunky");
+		IAnnotationDeclaration whitefish = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Whitefish");
+		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.Cod");
+		Set<IBean> beans = cdiProject.getBeans(true, type, chunky, whitefish);
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		assertEquals("Wrong number of qualifiers.", 4, qualifiers.size());
 	}
 }

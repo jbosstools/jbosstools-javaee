@@ -6,15 +6,19 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -105,6 +109,37 @@ public class TCKTest extends TestCase {
 		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
 		assertNotNull("There is no eny beans with " + typeName + " type", beans);
 		return beans;
+	}
+
+	protected IAnnotationDeclaration getAnnotationDeclarationFromBean(String beanClassFilePath, String annotationTypeName) throws JavaModelException {
+		IFile file = tckProject.getFile(beanClassFilePath);
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		IBean bean = beans.iterator().next();
+		final IType beanClass = bean.getBeanClass();
+		final IType type = getType(annotationTypeName);
+		final IAnnotation annotation = beanClass.getAnnotation(type.getElementName());
+		IAnnotationDeclaration annotationDeclaration = new IAnnotationDeclaration() {
+			public IAnnotation getDeclaration() {
+				return annotation;
+			}
+
+			public IMember getParentMember() {
+				return beanClass;
+			}
+
+			public IType getType() {
+				return type;
+			}
+
+			public int getLength() {
+				return 0;
+			}
+
+			public int getStartPosition() {
+				return 0;
+			}
+		};
+		return annotationDeclaration;
 	}
 
 	protected void assertTheOnlyBean(String typeName) throws JavaModelException {

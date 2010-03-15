@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -178,7 +179,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IType beanType, IAnnotationDeclaration... qualifiers) {
 		// TODO
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Set<IBean> getBeans(IInjectionPoint injectionPoints) {
@@ -203,7 +204,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 						result.add(b);
 					}
 				} catch (CoreException e) {
-					
+					CDICorePlugin.getDefault().logError(e);
 				}
 			}
 		}
@@ -397,7 +398,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 						}
 					}
 				} catch (JavaModelException e) {
-					
+					CDICorePlugin.getDefault().logError(e);
 				}
 				return true;
 			}
@@ -596,12 +597,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			addBean(bean);
 		}
 		
-		System.out.println("Project=" + getNature().getProject());
-		System.out.println("Qualifiers=" + qualifiers.size());
-		System.out.println("Stereotypes=" + stereotypes.size());
-		System.out.println("Scopes=" + scopes.size());
-		System.out.println("Named beans=" + beansByName.size());
-		System.out.println("Bean paths=" + beansByPath.size());
+//		System.out.println("Project=" + getNature().getProject());
+//		System.out.println("Qualifiers=" + qualifiers.size());
+//		System.out.println("Stereotypes=" + stereotypes.size());
+//		System.out.println("Scopes=" + scopes.size());
+//		System.out.println("Named beans=" + beansByName.size());
+//		System.out.println("Bean paths=" + beansByPath.size());
 	}
 
 	void addBean(IBean bean) {
