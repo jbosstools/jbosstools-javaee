@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -52,5 +53,37 @@ public class QualifierDefinitionTest extends TCKTest {
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		// TODO do we need to care about default qualifiers for InjectionPoint in CDI Tools?
 //		assertContainsQualifierType(point, "javax.enterprise.inject.Default");
+	}
+
+	/**
+	 * section 2.3.1 a0)
+	 */
+	public void testNewQualifierAndAnyBindingMutualExclusive() {
+		// TODO
+	}
+
+	/**
+	 * section 2.3.2 ba)
+	 */
+	public void testQualifierDeclaresBindingAnnotation() {
+		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.qualifier.Tarantula", "org.jboss.jsr299.tck.tests.definition.qualifier.Tame");
+		assertFalse("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.Tarantula type and org.jboss.jsr299.tck.tests.definition.qualifier.Tame qualifier.", beans.isEmpty());
+	}
+
+	/**
+	 * section 2.3.3 a)
+	 * section 3.1.3 be)
+	 */
+	public void testQualifiersDeclaredInJava() {
+		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.qualifier.Cat", "org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier");
+		assertEquals("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.Cat type and org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier qualifier.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		assertEquals("Wrong number of qualifiers.", 2, qualifiers.size());
+		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier");
+		Set<IAnnotationDeclaration> declarations = bean.getQualifierDeclarations();
+		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
+		// TODO use correct start position instead of 0. 
+		assertLocationEquals(declarations, 0, 12);
 	}
 }
