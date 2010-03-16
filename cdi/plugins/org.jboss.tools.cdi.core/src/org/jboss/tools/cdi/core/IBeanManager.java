@@ -130,10 +130,10 @@ public interface IBeanManager {
 	 * Returns the set of beans which are eligible for the given injection
 	 * points.
 	 * 
-	 * @param injectionPoints
+	 * @param injectionPoint
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(IInjectionPoint injectionPoints);
+	Set<IBean> getBeans(IInjectionPoint injectionPoint);
 
 	/**
 	 * Returns the bean which is declared in the given IType.

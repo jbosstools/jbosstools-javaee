@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
@@ -189,7 +190,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			return result;
 		}
 
-		Set<IAnnotationDeclaration> qs = injectionPoints.getQualifierDeclarations();
+		Set<IQualifierDeclaration> qs = injectionPoints.getQualifierDeclarations();
 		
 		Set<IBean> beans = new HashSet<IBean>();
 		synchronized(allBeans) {
@@ -199,7 +200,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			Set<IParametedType> types = b.getLegalTypes();
 			if(containsType(types, type)) {
 				try {
-					Set<IAnnotationDeclaration> qsb = b.getQualifierDeclarations();
+					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations();
 					if(areMatchingQualifiers(qsb, qs)) {
 						result.add(b);
 					}
@@ -219,7 +220,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return false;
 	}
 
-	public static boolean areMatchingQualifiers(Set<IAnnotationDeclaration> beanQualifiers, Set<IAnnotationDeclaration> injectionQualifiers) throws CoreException {
+	public static boolean areMatchingQualifiers(Set<? extends IAnnotationDeclaration> beanQualifiers, Set<? extends IAnnotationDeclaration> injectionQualifiers) throws CoreException {
 		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
 			if(injectionQualifiers == null || injectionQualifiers.isEmpty()) {
 				return true;

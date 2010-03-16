@@ -17,12 +17,10 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -38,9 +36,6 @@ import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
-import org.jboss.tools.common.util.FileUtil;
 
 /**
  * 
@@ -94,12 +89,12 @@ public class AbstractBeanElement extends CDIElement {
 		return result;
 	}
 
-	public Set<IAnnotationDeclaration> getQualifierDeclarations() {
-		Set<IAnnotationDeclaration> result = new HashSet<IAnnotationDeclaration>();
+	public Set<IQualifierDeclaration> getQualifierDeclarations() {
+		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
 		for(AnnotationDeclaration a: definition.getAnnotations()) {
 			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
 			if(k == AnnotationDefinition.QUALIFIER) {
-				result.add(a);
+				result.add((IQualifierDeclaration)a);
 			}
 		}
 		return result;
@@ -111,12 +106,10 @@ public class AbstractBeanElement extends CDIElement {
 		IQualifier name = getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 
 		Set<IQualifier> result = new HashSet<IQualifier>();
-		Set<IAnnotationDeclaration> ds = getQualifierDeclarations();
-		for (IAnnotationDeclaration d: ds) {
-			if(d instanceof IQualifierDeclaration) {
-				IQualifier q = ((IQualifierDeclaration)d).getQualifier();
-				if(q != null) result.add(q);
-			}
+		Set<IQualifierDeclaration> ds = getQualifierDeclarations();
+		for (IQualifierDeclaration d: ds) {
+			IQualifier q = d.getQualifier();
+			if(q != null) result.add(q);
 		}
 		if(this instanceof IInjectionPoint) {
 			if(def != null && result.isEmpty()) {

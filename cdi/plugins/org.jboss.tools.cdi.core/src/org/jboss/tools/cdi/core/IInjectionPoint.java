@@ -12,8 +12,6 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.IType;
-
 /**
  * Represents an injection point.
  * 
@@ -33,7 +31,7 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 * 
 	 * @return the required qualifiers
 	 */
-	Set<IAnnotationDeclaration> getQualifierDeclarations();
+	Set<IQualifierDeclaration> getQualifierDeclarations();
 
 	/**
 	 * Determines if the injection point is a decorator delegate injection

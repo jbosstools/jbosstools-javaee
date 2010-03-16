@@ -17,7 +17,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 
 /**
  * @author Alexey Kazakov
@@ -82,7 +84,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers.", 2, qualifiers.size());
 		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier");
-		Set<IAnnotationDeclaration> declarations = bean.getQualifierDeclarations();
+		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		// TODO use correct start position instead of 0. 
 		assertLocationEquals(declarations, 0, 12);
@@ -101,5 +103,38 @@ public class QualifierDefinitionTest extends TCKTest {
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers.", 4, qualifiers.size());
+		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+		assertEquals("Wrong number of qualifier declarations.", 2, declarations.size());
+		// TODO use correct start position instead of 0.
+		assertLocationEquals(declarations, 0, 6);
+		assertLocationEquals(declarations, 0, 9);
+	}
+
+	/**
+	 * section 2.3.5 a)
+	 * @throws JavaModelException 
+	 */
+	public void testFieldInjectedFromProducerMethod() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.qualifier.Barn");
+		assertEquals("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.Barn type.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		IInjectionPoint point = points.iterator().next();
+		Set<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
+		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
+		// TODO use correct start position instead of 0.
+		assertLocationEquals(declarations, 0, 5);
+
+		Set<IBean> injectedBeans = cdiProject.getBeans(point);
+		assertEquals("Wrong number of beans.", 1, injectedBeans.size());
+		IBean injectedBean = injectedBeans.iterator().next();
+		IType beanClass = injectedBean.getBeanClass();
+		assertEquals("Wrong bean class.", "org.jboss.jsr299.tck.tests.definition.qualifier.SpiderProducer", beanClass.getFullyQualifiedName());
+		assertTrue("The bean should be a producer method.", injectedBean instanceof IProducerMethod);
+		IProducerMethod producer = (IProducerMethod)injectedBean;
+		declarations = producer.getQualifierDeclarations();
+		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
+		// TODO use correct start position instead of 0.
+		assertLocationEquals(declarations, 0, 5);
 	}
 }

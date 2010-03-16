@@ -85,7 +85,7 @@ public interface IBean extends IScoped, ICDIElement, IVariable {
 	 * 
 	 * @return the qualifiers
 	 */
-	Set<IAnnotationDeclaration> getQualifierDeclarations();
+	Set<IQualifierDeclaration> getQualifierDeclarations();
 
 	/**
 	 * Obtains the qualifiers of the bean class or producer method or field.
