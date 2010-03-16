@@ -67,8 +67,8 @@
      <row>
       <entry>Visual Page Editor</entry>
       <entry>Powerful and customizable visual page editor. Possibility to develop an application
-       using any web technology: jsf, seam, struts, jsp, html and others. Developing using four
-       tabs: visual/source, visual, source and preview. Fast and easy switching between these tabs.
+       using any web technology: jsf, seam, struts, jsp, html and others. Developing using three
+       tabs: visual/source,  source and preview. Fast and easy switching between these tabs.
        Split screen design of visual and source views. Full and instant synchronization between
        source and visual views. Integration with properties and outline views. Graphical toolbar to
        add inline styling to any tag.</entry>
