@@ -8,14 +8,10 @@
             <keyword>Editor</keyword>
         </keywordset>
     </chapterinfo>
-
     <title>Editors</title>
     <para>In the JSF Tools Reference Guide and Struts Tools Reference Guide you had possibility to
-        read about Graphical Editor for JSF
-        and Struts configuration
-        files, Graphical Editor for
-            Tiles Files, Graphical Editor for
-            Struts Validation Files. All these editors have <link
+        read about Graphical Editor for JSF and Struts configuration files, Graphical Editor for
+        Tiles Files, Graphical Editor for Struts Validation Files. All these editors have <link
             linkend="OpenOnSelection4Hyperlinknavigation">
             <property>OpenOn</property>
         </link> and <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
@@ -24,39 +20,35 @@
         to know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and
         source editing of Web pages and many <link linkend="more_editors">other editors</link> for
         different types of files.</para>
-
     <section id="editors_features">
-
         <title>Editors Features</title>
-        <para><property>JBoss Developer Studio</property> has powerful editor features that help you easily navigate
-            within your application and make use of content and code assist no matter what project
-            file (<literal>.jsp</literal>, <literal>.xhtml</literal>, <literal>.xml</literal>, <literal>.css</literal>, etc.) you are working on.</para>
-    	<para>The mentioned features are the following:</para>
-    	
-    	<itemizedlist>
-    		<listitem>
-    			<para><link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link></para>
-    		</listitem>
-    		<listitem>
-    			<para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Content Assist</link></para>
-    		</listitem>
-    		<listitem>
-    			<para><link linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">Synchronized Source and Visual Editing</link></para>
-    		</listitem>
-    	</itemizedlist>
-    	
+        <para><property>JBoss Developer Studio</property> has powerful editor features that help you
+            easily navigate within your application and make use of content and code assist no
+            matter what project file (<literal>.jsp</literal>, <literal>.xhtml</literal>, <literal
+                >.xml</literal>, <literal>.css</literal>, etc.) you are working on.</para>
+        <para>The mentioned features are the following:</para>
+        <itemizedlist>
+            <listitem>
+                <para><link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link></para>
+            </listitem>
+            <listitem>
+                <para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Content
+                        Assist</link></para>
+            </listitem>
+            <listitem>
+                <para><link linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74"
+                        >Synchronized Source and Visual Editing</link></para>
+            </listitem>
+        </itemizedlist>
         <section id="OpenOnSelection4Hyperlinknavigation">
-
             <title>OpenOn</title>
-
-            <para>OpenOn lets you easily link directly from one resource to
-                another in your project without using the <property>Package Explorer</property> view (project tree). With
+            <para>OpenOn lets you easily link directly from one resource to another in your project
+                without using the <property>Package Explorer</property> view (project tree). With
                 OpenOn, you can simply use <emphasis>
                     <property>F3</property>
                 </emphasis> or <emphasis>
                     <property>Ctrl+Click</property>
                 </emphasis> on a reference to another file and the file will be opened.</para>
-
             <para>OpenOn is available for:</para>
             <itemizedlist>
                 <listitem>
@@ -73,163 +65,157 @@
                     <para>Java files</para>
                 </listitem>
                 <listitem>
-                    <para>  <link linkend="cssclasses">CSS classes</link> </para>
+                    <para>
+                        <link linkend="cssclasses">CSS classes</link>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>  <link linkend="openonelvariables">Paths to files set using EL variable</link> </para>
+                    <para>
+                        <link linkend="openonelvariables">Paths to files set using EL
+                            variable</link>
+                    </para>
                 </listitem>
             </itemizedlist>
-            
             <section id="XMLFiles232">
-
                 <title>XML Files</title>
-
-            	<para>Press and hold down the <emphasis><property>Ctrl</property></emphasis> key. As you move the mouse cursor over different
-                    file references in the file, they display an underline. When you hover the name
-                    of the file you want to open, click and the file will open in its own editor.</para>
-                    
-                   <para>Use the OpenOn functionality for the next entries defined in XML file:</para>
-                    
-                    <orderedlist>
-                    	<listitem>
-                    		<para>Managed beans</para>
-                    		<para>In this example the managed bean <emphasis><property>&quot;User&quot;</property></emphasis> will open.</para>
-                    		
-                    		<figure>
-                    			<title>Opening a Managed Bean</title>
-                    			<mediaobject>
-                    				<imageobject>
-                    					<imagedata fileref="images/editors_features/editors_features_1.png"/>
-                    				</imageobject>
-                    			</mediaobject>
-                    		</figure>
-                    		
-                    		<para>This is the result of using OpenOn.</para>
-                    		
-                    		<figure>
-                    			<title>Opened Managed Bean</title>
-                    			<mediaobject>
-                    				<imageobject>
-                    					<imagedata fileref="images/editors_features/editors_features_2.png"/>
-                    				</imageobject>
-                    			</mediaobject>
-                    		</figure>
-                    	</listitem>
-                    	
-                    	<listitem>
-                    		<para>Beans properties</para>
-                    		<figure>
-                    			<title>OpenOn for the Bean Property</title>
-                    			<mediaobject>
-                    				<imageobject>
-                    					<imagedata fileref="images/editors_features/editors_features_3.png"/>
-                    				</imageobject>
-                    			</mediaobject>
-                    		</figure>
-                    	</listitem>
-                    	
-                    	<listitem>
-                    		<para>JSP file references</para>
-                    		<figure>
-                    			<title>OpenOn for JSP Page</title>
-                    			<mediaobject>
-                    				<imageobject>
-                    					<imagedata fileref="images/editors_features/editors_features_4.png"/>
-                    				</imageobject>
-                    			</mediaobject>
-                    		</figure>
-                    	</listitem>
-                    </orderedlist>
+                <para>Press and hold down the <emphasis><property>Ctrl</property></emphasis> key. As
+                    you move the mouse cursor over different file references in the file, they
+                    display an underline. When you hover the name of the file you want to open,
+                    click and the file will open in its own editor.</para>
+                <para>Use the OpenOn functionality for the next entries defined in XML file:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Managed beans</para>
+                        <para>In this example the managed bean <emphasis><property
+                                    >&quot;User&quot;</property></emphasis> will open.</para>
+                        <figure>
+                            <title>Opening a Managed Bean</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_1.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                        <para>This is the result of using OpenOn.</para>
+                        <figure>
+                            <title>Opened Managed Bean</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_2.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>Beans properties</para>
+                        <figure>
+                            <title>OpenOn for the Bean Property</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_3.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>JSP file references</para>
+                        <figure>
+                            <title>OpenOn for JSP Page</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_4.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                </orderedlist>
             </section>
-        	
             <section id="JSPPages223">
-
                 <title>JSP/XHTML Pages</title>
-
-                <para>OpenOn is also available in JSP and XHTML pages edited in the <property>Visual Page Editor</property>. It will allow
-                    you to quickly jump to the reference instead of having to hunt around in the
-                    project structure.</para>
-
-				
-            	<para>You can use OpenOn for the following JSP/XHTML file entries:</para>
-            	
-            	<orderedlist>
-            		<listitem>
-            			<para>Imported property files</para>
-            			<figure>
-            				<title>OpenOn for Property File Imported to the JSP Page</title>
-            				<mediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/editors_features/editors_features_5.png"/>
-            					</imageobject>
-            				</mediaobject>
-            			</figure>
-            		</listitem>
-            		
-            		<listitem>
-            			<para>CSS files used in a JSP/XHTML page</para>
-            			<figure>
-            				<title>OpenOn With CSS File</title>
-            				<mediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/editors_features/editors_features_6.png"/>
-            					</imageobject>
-            				</mediaobject>
-            			</figure>
-            		</listitem>
-            		
-            		<listitem>
-            			<para>Managed beans and their properties</para>
-            			<figure>
-            				<title>OpenOn With Managed Beans</title>
-            				<mediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/editors_features/editors_features_7.png"/>
-            					</imageobject>
-            				</mediaobject>
-            			</figure>
-            		</listitem>
-            		
-            		<listitem>
-            			<para>Navigation rules in JSP files</para>
-            			
-            			<para>For JSP files in a JSF project, you can easily open the navigation rules
-            				by applying <property>OpenOn</property> to the JSF tag for the navigation
-            				outcome:</para>
-            			
-            			<figure>
-            				<title>OpenOn with JSF Tag</title>
-            				<mediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/editors_features/editors_features_8.png"/>
-            					</imageobject>
-            				</mediaobject>
-            			</figure>
-            		</listitem>
-            		
-            		<listitem>
-            			<para>Custom Facelets tag libraries in XHTML pages</para>           
-            			<para>For details, see <link linkend="openOnForCustomFacelets">&quot;OpenOn for Custom Facelets Tag Libraries&quot;</link>
-            			later in this guide.</para>
-            		</listitem>
-            	    
-            	    <listitem>
-            	        <para>Custom JJSF 2.0 components</para>           
-            	        <figure>
-            	            <title>OpenOn with JSF 2.0 Component</title>
-            	            <mediaobject>
-            	                <imageobject>
-            	                    <imagedata fileref="images/editors_features/editors_features_openon_jsf2_components.png"/>
-            	                </imageobject>
-            	            </mediaobject>
-            	        </figure>            	              	    
-            	    </listitem>
-            	</orderedlist>
+                <para>OpenOn is also available in JSP and XHTML pages edited in the <property>Visual
+                        Page Editor</property>. It will allow you to quickly jump to the reference
+                    instead of having to hunt around in the project structure.</para>
+                <para>You can use OpenOn for the following JSP/XHTML file entries:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Imported property files</para>
+                        <figure>
+                            <title>OpenOn for Property File Imported to the JSP Page</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_5.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>CSS files used in a JSP/XHTML page</para>
+                        <figure>
+                            <title>OpenOn With CSS File</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_6.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>Managed beans and their properties</para>
+                        <figure>
+                            <title>OpenOn With Managed Beans</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_7.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>Navigation rules in JSP files</para>
+                        <para>For JSP files in a JSF project, you can easily open the navigation
+                            rules by applying <property>OpenOn</property> to the JSF tag for the
+                            navigation outcome:</para>
+                        <figure>
+                            <title>OpenOn with JSF Tag</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_8.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                    <listitem>
+                        <para>Custom Facelets tag libraries in XHTML pages</para>
+                        <para>For details, see <link linkend="openOnForCustomFacelets">&quot;OpenOn
+                                for Custom Facelets Tag Libraries&quot;</link> later in this
+                            guide.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Custom JSF 2.0 components</para>
+                        <figure>
+                            <title>OpenOn with JSF 2.0 Component</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="images/editors_features/editors_features_openon_jsf2_components.png"
+                                    />
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                    </listitem>
+                </orderedlist>
             </section>
-            
             <section id="cssclasses">
                 <title>CSS Classes</title>
-               <para>You can quickly navigate through CSS classes using OpenOn</para>
+                <para>You can quickly navigate through CSS classes using OpenOn</para>
                 <figure>
                     <title>OpenOn With CSS Class</title>
                     <mediaobject>
@@ -238,8 +224,7 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
-                <para>OpenOn is also implemented for css classes added by a complex link.</para> 
+                <para>OpenOn is also implemented for css classes added by a complex link.</para>
                 <figure>
                     <title>OpenOn With CSS Class added by a complex link</title>
                     <mediaobject>
@@ -249,34 +234,26 @@
                     </mediaobject>
                 </figure>
             </section>
-            
             <section id="openonelvariables">
                 <title>OpenOn for EL variables</title>
                 <para>OpenOn can be used for paths to files set with EL variable.</para>
-            <figure>
-                <title>OpenOn  for paths to files set with EL variable</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_openon_el.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-               
+                <figure>
+                    <title>OpenOn for paths to files set with EL variable</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata
+                                fileref="images/editors_features/editors_features_openon_el.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
             </section>
-                        
         </section>
-
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
-
             <title>Content Assist</title>
             <para><property>Content assist</property> is available when working with</para>
-
             <itemizedlist>
                 <listitem>
-                    <para>
-                        Seam project files
-                    </para>
-
+                    <para> Seam project files </para>
                 </listitem>
                 <listitem>
                     <para>
@@ -293,20 +270,18 @@
                         <link linkend="JSPPages434">JSP files</link>
                     </para>
                 </listitem>
-            	<listitem>
-            		<para>
-            			<link linkend="ContentAssistForXHTMLPages">XHTML files</link>
-            		</para>
-            	</listitem>
+                <listitem>
+                    <para>
+                        <link linkend="ContentAssistForXHTMLPages">XHTML files</link>
+                    </para>
+                </listitem>
                 <listitem>
                     <para>
                         <link linkend="ContentAssistForRF">RichFaces components</link>
                     </para>
                 </listitem>
                 <listitem>
-                    <para>
-                        ESB XML files
-                    </para>
+                    <para> ESB XML files </para>
                 </listitem>
                 <listitem>
                     <para>
@@ -314,102 +289,102 @@
                     </para>
                 </listitem>
             </itemizedlist>
-
             <para>Notice, that code completion for EL variables has icons illustrating what they are
-            from. The most of this icons are described in the table below.</para>
+                from. The most of this icons are described in the table below.</para>
             <table>
                 <title>Content assist icons</title>
                 <tgroup cols="3">
                     <colspec colnum="1" align="left" colwidth="2*"/>
                     <colspec colnum="2" colwidth="4*"/>
-                    <colspec colnum="3" colwidth="2*" align="left" />
+                    <colspec colnum="3" colwidth="2*" align="left"/>
                     <thead>
                         <row>
-                            <entry>Icon      </entry>
-                            <entry>Type      </entry>
-                            <entry>Context      </entry>
+                            <entry>Icon </entry>
+                            <entry>Type </entry>
+                            <entry>Context </entry>
                         </row>
                     </thead>
                     <tbody>
-                       <row>
-                           <entry>
-                               <para><inlinemediaobject><imageobject>
-                                   <imagedata fileref="images/editors_features/icons_enumaration.png"/>
-                               </imageobject>
-                               </inlinemediaobject>
-                               </para>
-                           </entry>
-                           <entry>
-                               <para>Enumeration                                 
-                               </para>
-                           </entry>
-                           <entry>
-                               <para>Used to show items which exist in the predefined set of equivalent proposals.
-                               </para>
-                           </entry>
-                       </row>
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata fileref="images/editors_features/icons_seam_el.png"/>
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_enumaration.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>Enumeration </para>
+                            </entry>
+                            <entry>
+                                <para>Used to show items which exist in the predefined set of
+                                    equivalent proposals. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_seam_el.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
                                 <para>Seam Proposal</para>
                             </entry>
                             <entry>
-                                <para>Used to show Seam Context variables, its properties and methods. 
-                                    
-                                </para>
-                            </entry>                            
-                        </row>
-                        <row>
-                            <entry>
-                                <para><inlinemediaobject><imageobject>
-                                    <imagedata fileref="images/editors_features/icons_jsf_el.png"/>
-                                </imageobject>
-                                </inlinemediaobject>
-                                </para>
-                            </entry>
-                            <entry>
-                                <para>JSF EL
-                                </para>
-                            </entry>
-                            <entry>
-                                <para>Used to show Managed Beans, Managed Bean Properties, Managed Bean Methods, Constants, Resource Bundles, Resource Bundle Properties. 
-                                    
-                                    
-                                </para>
-                            </entry>
-                            
-                        </row>
-                        <row>
-                            <entry>
-                                <para><inlinemediaobject><imageobject>
-                                    <imagedata fileref="images/editors_features/icons_jsf_actions.png"/>
-                                </imageobject>
-                                </inlinemediaobject>
-                                </para>
-                            </entry>
-                            <entry>
-                                <para>JSF Action
-                                    
-                                </para>
-                            </entry>
-                            <entry>
-                                <para>Used to show  navigation rules defined in the <property>faces-config.xml</property> .
-                                    
-                                </para>
+                                <para>Used to show Seam Context variables, its properties and
+                                    methods. </para>
                             </entry>
                         </row>
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata fileref="images/editors_features/icons_message_bundles.png"/>
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_jsf_el.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>JSF EL </para>
+                            </entry>
+                            <entry>
+                                <para>Used to show Managed Beans, Managed Bean Properties, Managed
+                                    Bean Methods, Constants, Resource Bundles, Resource Bundle
+                                    Properties. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_jsf_actions.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
+                                </para>
+                            </entry>
+                            <entry>
+                                <para>JSF Action </para>
+                            </entry>
+                            <entry>
+                                <para>Used to show navigation rules defined in the <property
+                                        >faces-config.xml</property> . </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <para><inlinemediaobject><imageobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_message_bundles.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -417,36 +392,30 @@
                             </entry>
                             <entry>
                                 <para>Used to show <property>Messages Resources</property> items.
-                                    
                                 </para>
                             </entry>
                         </row>
-                        
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata fileref="images/editors_features/icons_resource_paths.png"/>
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_resource_paths.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
-                                <para>Resource path
-                                </para>
+                                <para>Resource path </para>
                             </entry>
                             <entry>
                                 <para>Used to show paths which are accessible from the cursor place.
-                                    
-                                    
                                 </para>
                             </entry>
                         </row>
                     </tbody>
                 </tgroup>
-                
-                
             </table>
-
             <figure>
                 <title>JSF Content Assist</title>
                 <mediaobject>
@@ -455,7 +424,6 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <figure>
                 <title>Seam Content Assist</title>
                 <mediaobject>
@@ -464,23 +432,19 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>Also, as you can see, the ranking and sorting are available in EL code
                 completions.</para>
-
             <section id="JSFProjectFiles3087">
-
                 <title>JSF Project Files</title>
-
                 <para>When working with JSF project in JBoss Developer Studio, you can use various
                         <property>Content Assist features</property> while developing:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Content Assist for XML, XHTML,  JSP and JSF configuration files</para>
-                    </listitem>     
+                        <para>Content Assist for XML, XHTML, JSP and JSF configuration files</para>
+                    </listitem>
                     <listitem>
                         <para>Content Assist for Composite Components</para>
-                    </listitem>    
+                    </listitem>
                     <listitem>
                         <para>Content Assist based on project data</para>
                     </listitem>
@@ -488,16 +452,12 @@
                         <para>Content Assist with graphical JSF editor</para>
                     </listitem>
                 </itemizedlist>
-                
                 <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
-
                     <title>Content Assist for XML, JSP and JSF configuration files</title>
-
                     <para>At any point when working with any XML, JSP and JSF configuration files
                         Content Assist is available to help you. Simply type <emphasis>
                             <property>Ctrl-Space</property>
                         </emphasis> to see what is available.</para>
-
                     <para>Content Assist for JSF configuration file:</para>
                     <figure>
                         <title>Content Assist in JSF Configuration File</title>
@@ -528,29 +488,26 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                </section>         
-                
+                </section>
                 <section id="ContentAssistforCompositeComponents">
                     <title>Content Assist for Composite Components</title>
-                    <para>Content assist functionality is also available for composite components. On the screen is shown content assist for a composite component file  <property>&quot;tag.xhtml&quot;</property> within a JSF 1.2 project with facelets</para>
-                    
+                    <para>Content assist functionality is also available for composite components.
+                        On the screen is shown content assist for a composite component file
+                            <property>&quot;tag.xhtml&quot;</property> within a JSF 1.2 project with
+                        facelets</para>
                     <figure>
                         <title>Content Assist for Composite Components</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_ca_composite_component.png"
+                                <imagedata
+                                    fileref="images/editors_features/editors_features_ca_composite_component.png"
                                     scale="85"/>
                             </imageobject>
                         </mediaobject>
                     </figure>
-                </section> 
-                   
-                  
-         
+                </section>
                 <section id="ContentAssistBasedOnProjectData86">
-
                     <title>Content Assist Based on Project Data</title>
-
                     <para>JBoss Developer Studio takes Content Assist to the next level. Studio will
                         constantly scan your project and you will be able to insert code into the
                         JSP page from your project that includes:</para>
@@ -590,11 +547,9 @@
                     </figure>
                     <para>In the following screenshot we are inserting a <emphasis role="italic">
                             <property>&quot;Managed bean&quot;</property>
-                        </emphasis> attribute value. Again, by simply clicking
-                                <emphasis><property>Ctrl-Space</property>,</emphasis> JBoss
-                        Developer Studio will show a list of all possible values that you can
-                        insert.</para>
-
+                        </emphasis> attribute value. Again, by simply clicking <emphasis><property
+                                >Ctrl-Space</property>,</emphasis> JBoss Developer Studio will show
+                        a list of all possible values that you can insert.</para>
                     <para>Once you select a Managed bean, it will show you a list of all available
                         attributes for the selected Managed bean (userBean).</para>
                     <figure>
@@ -617,35 +572,32 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    
-                    <para>Code Assist can also provide you with access to the beans located in jar archives.</para>
-                    
+                    <para>Code Assist can also provide you with access to the beans located in jar
+                        archives.</para>
                     <figure>
-                    <title>Code Assist: accessing beans in jar archives</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_14_a.png"
-                            />
-                        </imageobject>
-                    </mediaobject>
+                        <title>Code Assist: accessing beans in jar archives</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata
+                                    fileref="images/editors_features/editors_features_14_a.png"/>
+                            </imageobject>
+                        </mediaobject>
                     </figure>
-                    <para>Moreover <property>Code Assist</property> is able to define <property>Resource Bundles</property> on template page and gives the proposals on the client page. </para>
+                    <para>Moreover <property>Code Assist</property> is able to define <property
+                            >Resource Bundles</property> on template page and gives the proposals on
+                        the client page. </para>
                     <figure>
                         <title>Code Assist: Message Bundles proposals from template page</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_14_b.png"/>
+                                <imagedata
+                                    fileref="images/editors_features/editors_features_14_b.png"/>
                             </imageobject>
-                            
                         </mediaobject>
                     </figure>
-                    
-                    
                 </section>
                 <section id="ContentAssistWithinJSFGraphicalEditor44">
-
                     <title>Content Assist within Tree JSF Editor</title>
-
                     <para>JBoss Developer Studio also provides Content Assist when working within
                         the Tree JSF configuration editor. Just click <emphasis>
                             <property>Ctrl-Space</property>. </emphasis></para>
@@ -658,7 +610,6 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-
                     <!--
                         
                         <para>If a field contains right class name and you click a link near the
@@ -744,20 +695,13 @@
                         -->
                 </section>
             </section>
-
             <section id="StrutsProjectFile46s3">
                 <title>Struts Project Files</title>
                 <para>Content Assist features are available when you work with Struts
                     projects.</para>
-
-
                 <section id="ContentAssistForStrutsConfigurationFile75">
-
-
                     <title>Content Assist for Struts Configuration File</title>
-
                     <para>Content Assist helps you in Struts Configuration file.</para>
-
                     <figure>
                         <title>Struts Content Assist</title>
                         <mediaobject>
@@ -769,11 +713,8 @@
                     </figure>
                 </section>
                 <section id="ContentAssistForStrutsJSPFile07">
-
                     <title>Content Assist for Struts JSP File</title>
-
                     <para>Using Code Assist in Struts JSP file is shown below.</para>
-
                     <figure>
                         <title>Struts JSP Content Assist</title>
                         <mediaobject>
@@ -786,15 +727,10 @@
                 </section>
             </section>
             <section id="JSPPages434">
-
                 <title>JSP Pages</title>
-
-
                 <section id="ContentAssistForJSFTags96">
-
                     <title>Content Assist for JSF Tags</title>
                     <para>JBDS provides full code completion for JSF tags:</para>
-
                     <figure>
                         <title>JSF Tags Content Assist</title>
                         <mediaobject>
@@ -816,10 +752,8 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-
                 </section>
                 <section id="ContentAssistForJSTLTags6332">
-
                     <title>Content Assist for JSTL Tags</title>
                     <figure>
                         <title>JSTL Tags Content Assist</title>
@@ -832,7 +766,6 @@
                     </figure>
                 </section>
                 <section id="ContentAssistForHTMLTags7454">
-
                     <title>Content Assist for HTML Tags</title>
                     <para>Content assist for HTML tags has the same mechanism as for JSF
                         tags:</para>
@@ -857,7 +790,6 @@
                     </figure>
                 </section>
                 <section id="ContentAssistForJavaScriptTags67433">
-
                     <title>Content Assist for JavaScript Tags</title>
                     <figure>
                         <title>JavaScript Tags Content Assist</title>
@@ -870,26 +802,27 @@
                     </figure>
                 </section>
             </section>
-
-        	<section id="ContentAssistForXHTMLPages">
-				<title>Content Assist for XHTML Pages</title>
-        		
-        		<para>The code completion for the Seam components in a Seam project shows the proposals marked with Seam icon.</para>
-        		<figure>
-        			<title>Content Assist for Seam Components in the XHTML Page</title>
-        			<mediaobject>
-        				<imageobject>
-        					<imagedata fileref="images/visual_page/contentAssistXHTMLpages1.png"/>
-        				</imageobject>
-        			</mediaobject>
-        		</figure>
-        		
-        		<para>If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see
-        			<link linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom Facelets Components&quot;</link> later in this guide.</para>
-        	</section>
+            <section id="ContentAssistForXHTMLPages">
+                <title>Content Assist for XHTML Pages</title>
+                <para>The code completion for the Seam components in a Seam project shows the
+                    proposals marked with Seam icon.</para>
+                <figure>
+                    <title>Content Assist for Seam Components in the XHTML Page</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/contentAssistXHTMLpages1.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>If XHTML file uses custom Facelets components, the Content Assist should also
+                    be available for them. For details, see <link
+                        linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom
+                        Facelets Components&quot;</link> later in this guide.</para>
+            </section>
             <section id="ContentAssistForInsertTag">
                 <title>Content Assist for Insert Tag Wizard</title>
-                <para>Content Assist is also available for any attribute value of <emphasis>Insert Tag wizard</emphasis>.</para>
+                <para>Content Assist is also available for any attribute value of <emphasis>Insert
+                        Tag wizard</emphasis>.</para>
                 <figure>
                     <title>Content Assist for Insert Tag Wizard</title>
                     <mediaobject>
@@ -898,11 +831,8 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
             </section>
-            
             <section id="AddingDynamicCodeAssistToCustomComponents8745">
-
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
@@ -922,8 +852,7 @@
                 <itemizedlist>
                     <listitem>
                         <para>Adds code assist for JSF pre-defined objects, such as
-                                <code>value=&quot;#{param}&quot;</code>
-                            :</para>
+                                <code>value=&quot;#{param}&quot;</code> :</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -987,15 +916,16 @@
             uri="http://www.jenia.org/jsf/dataTools"/>]]>
                         </programlisting>
                     </listitem>
-
                     <listitem>
                         <para>Restart Eclipse. You should now have code assist for the
                             component.</para>
                     </listitem>
                 </orderedlist>
-                <para>From <emphasis>JBoss Developer Studio 3.0.0.M1</emphasis> you should not do any of the steps described 
-                before,dynamic code assist to custom components is added automatically.</para>
-                <para>If you open projects that were created in older studio versions such message could appear:</para>
+                <para>From <emphasis>JBoss Developer Studio 3.0.0.M1</emphasis> you should not do
+                    any of the steps described before,dynamic code assist to custom components is
+                    added automatically.</para>
+                <para>If you open projects that were created in older studio versions such message
+                    could appear:</para>
                 <figure>
                     <title>Missing Natures Message</title>
                     <mediaobject>
@@ -1004,28 +934,33 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>It shows that some features of content assist including this one probably will not work.
-                    To fix this problem and turn off the message box execute the following steps:</para>
+                <para>It shows that some features of content assist including this one probably will
+                    not work. To fix this problem and turn off the message box execute the following
+                    steps:</para>
                 <itemizedlist>
-                    <listitem><para>Right click the project in Package Explorer.</para></listitem>
-                    <listitem><para>Select <property>Configure -> Add JSF Capabilities</property> from the context menu.</para></listitem>
-                    <listitem><para>Configure your project using Add JSF Capabilities wizard and press <property>Finish</property></para></listitem>
+                    <listitem>
+                        <para>Right click the project in Package Explorer.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Select <property>Configure -> Add JSF Capabilities</property> from the
+                            context menu.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Configure your project using Add JSF Capabilities wizard and press
+                                <property>Finish</property></para>
+                    </listitem>
                 </itemizedlist>
             </section>
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
-
             <title>Synchronized Source and Visual Editing</title>
-
             <para><property>JBoss Developer Studio</property> offers the flexibility to edit any
                 files in either source or extra visual modes at the same time.</para>
-
             <para>The project is yours and so is the source. <property>JBoss Developer
                     Studio</property> provides you many different graphical editors to speed your
                 application development. At the same time, you always have a full control over all
                 project source files. Any changes you make in the source view immediately appear in
                 the graphical view.</para>
-
             <para>The JSF configuration file editor has three views: <property>Diagram</property>,
                     <property>Tree</property> and <property>Source</property>. All views are
                 synchronized, you can edit the file in any view.</para>
@@ -1038,13 +973,10 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>The same is relevant to all other <property>JBoss Developer Studio</property>
                 editors.</para>
-
             <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source
                 (Source).</para>
-
             <figure>
                 <title>Two Views are Synchronized</title>
                 <mediaobject>
@@ -1054,7 +986,6 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para><property>JBoss Developer Studio</property> TLD file editor is shown in Tree view.
                 At any point you can edit the source by switching to Source view.</para>
             <figure>
@@ -1066,29 +997,31 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
         </section>
     </section>
     <section id="visual_page" role="updated">
-
         <title>Visual Page Editor</title>
-
         <para><property>JBoss Developer Studio</property> comes with a powerful and customizable
                 <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
-            develop an application using any technology: JSF, Struts, JSP, HTML and others. Double-click on the necessary file in the Package Explorer view to open it in the Visual Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).</para>
-
-       <para>As a new JSF 2.0 specification has been released, support of new features is now implemented in the <property>Visual Page Editor</property>.
-       	The JSF 2.0 tags like <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal>&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal>
-       	are supported in the editor as well as the composite components and the resource handling from the expression language. (See the <ulink url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">following link</ulink> on how to use composite components and 
-       	<ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog post</ulink> on how to handle the resources form the EL).
-       </para>
-    	
-    	<para>Current VPE version has three tabs: <property>Visual/Source</property>,
-                <property>Source</property> and <property>Preview</property>. To switch between the
-            views you can use tabs at the bottom of the VPE or the shortcuts <emphasis>
+            develop an application using any technology: JSF, Struts, JSP, HTML and others.
+            Double-click on the necessary file in the Package Explorer view to open it in the Visual
+            Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also
+            applied to JSP, XHTML or HTML files created locally).</para>
+        <para>As a new JSF 2.0 specification has been released, support of new features is now
+            implemented in the <property>Visual Page Editor</property>. The JSF 2.0 tags like
+                <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal
+                >&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal> are
+            supported in the editor as well as the composite components and the resource handling
+            from the expression language. (See the <ulink
+                url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">following
+                link</ulink> on how to use composite components and <ulink
+                url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog
+                post</ulink> on how to handle the resources form the EL). </para>
+        <para>Current VPE version has three tabs: <property>Visual/Source</property>, <property
+                >Source</property> and <property>Preview</property>. To switch between the views you
+            can use tabs at the bottom of the VPE or the shortcuts <emphasis>
                 <property>Ctrl + PageUp/Ctrl + PageDown</property>
             </emphasis>.</para>
-
         <figure>
             <title>Visual Page Editor</title>
             <mediaobject>
@@ -1097,10 +1030,8 @@
                 </imageobject>
             </mediaobject>
         </figure>
-
         <section id="visual_source">
             <title>Visual/Source View</title>
-
             <para>Using the <property>Visual/Source view</property> you can edit your pages in the
                 Source and Visual modes simultaneously having an instant synchronization between
                 them:</para>
@@ -1112,11 +1043,9 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>The view is designed in the form of a split pane with toggle buttons for quickly
                 moving between Source, Visual or Source/Visual modes as shown on the figure
                 above.</para>
-
             <para>One more way to toggle between the various states of the split pane is using the
                 shortcuts <emphasis>
                     <property>Shift + F6</property>
@@ -1128,7 +1057,6 @@
                 <para>When editing large documents hiding the Visual part will speed up the
                     editing.</para>
             </tip>
-
             <para>It should be pointed out that, no matter in what mode you are working, you get a
                 full integration with <property>Properties</property> and <property>Outline
                     views</property>:</para>
@@ -1140,12 +1068,16 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
-
-            <para>The Outline view displays a specific outline of a structured file that is currently open in the editor area, and lists its structural elements. Right-click on the elements will open additional options that allow adding other specific elements in necessary positions.</para>
-            <para>The Properties view shows property names and their values for a selected item. The values are editable, just select any and click on the button that appeared to choose a new value. Key combination <property>Ctrl+Z</property> will return the previous value, <property>Ctrl+Y</property> will return the new value again. The Properties view has additional options and can be set up to display categories and advanced properties. </para>
-
-
+            <para>The Outline view displays a specific outline of a structured file that is
+                currently open in the editor area, and lists its structural elements. Right-click on
+                the elements will open additional options that allow adding other specific elements
+                in necessary positions.</para>
+            <para>The Properties view shows property names and their values for a selected item. The
+                values are editable, just select any and click on the button that appeared to choose
+                a new value. Key combination <property>Ctrl+Z</property> will return the previous
+                value, <property>Ctrl+Y</property> will return the new value again. The Properties
+                view has additional options and can be set up to display categories and advanced
+                properties. </para>
             <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
                     Palette</link> to insert any tag from the list of tag libraries to the page you
                 are editing with just a click or drag-and-drop.</para>
@@ -1160,10 +1092,9 @@
             <para> You can insert a tag/component from the palette into either the Source or the
                 Visual part by calling a context menu and selecting <property>Insert
                     around</property>, <property>Insert before</property>, <property>Insert
-                    after</property> or <property>Replace With</property>, pointing to
-                    <property>From Palette</property>, picking the type of the tag and finally
-                choosing the tag you want to insert. </para>
-
+                    after</property> or <property>Replace With</property>, pointing to <property
+                    >From Palette</property>, picking the type of the tag and finally choosing the
+                tag you want to insert. </para>
             <para>The image below illustrates how you can insert a tag into the Source part.</para>
             <figure>
                 <title>Inserting a tag into the Source part </title>
@@ -1173,9 +1104,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>And this is how a tag is inserted using a context menu in the Visual part.</para>
-
             <figure>
                 <title>Inserting a tag into the Visual part</title>
                 <mediaobject>
@@ -1184,10 +1113,10 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-        	
-            <para>Visual Page Editor also displays custom tags correctly if they are configured properly.
-                The picture below shows  an example  how custom tags  <emphasis><property>&quot;pagination&quot;</property></emphasis> and <emphasis><property>&quot;echo&quot;</property></emphasis> will be displayed in VPE.
-            </para>
+            <para>Visual Page Editor also displays custom tags correctly if they are configured
+                properly. The picture below shows an example how custom tags <emphasis><property
+                        >&quot;pagination&quot;</property></emphasis> and <emphasis><property
+                        >&quot;echo&quot;</property></emphasis> will be displayed in VPE. </para>
             <figure>
                 <title>Custom Tags in the VPE</title>
                 <mediaobject>
@@ -1196,21 +1125,19 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>
-                The listings of the custom tags implementations will help to clear how VPE works.
-            </para>
-  
-                <itemizedlist>
-                    <listitem><para>echo.xhtml: </para>               
-                        <programlisting role="XML"><![CDATA[
+            <para> The listings of the custom tags implementations will help to clear how VPE works. </para>
+            <itemizedlist>
+                <listitem>
+                    <para>echo.xhtml: </para>
+                    <programlisting role="XML"><![CDATA[
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
 	<span class="message">#{msg}</span>
 </ui:composition>
-]]></programlisting></listitem>  
-                    
-                    <listitem><para>paginator.xhtml:</para>
-                        
-  <programlisting role="XML"><![CDATA[
+]]></programlisting>
+                </listitem>
+                <listitem>
+                    <para>paginator.xhtml:</para>
+                    <programlisting role="XML"><![CDATA[
                         <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -1239,11 +1166,10 @@ two elements with equal id has been used, but should be used only one -->
 </ui:component>
 </html>
 ]]></programlisting>
-                    </listitem>
-                </itemizedlist>
-            <para>
-                If your custom tags aren&apos;t configured correctly your Visual mode will look like this: 
-            </para>
+                </listitem>
+            </itemizedlist>
+            <para> If your custom tags aren&apos;t configured correctly your Visual mode will look
+                like this: </para>
             <figure>
                 <title>Wrong configured Custom Tags in the VPE</title>
                 <mediaobject>
@@ -1252,26 +1178,22 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-           
             <section id="comments">
                 <title>Commenting out Code</title>
-
                 <para><property>VPE</property> supports possibility to add comments in files you are
                     working with (JSP, XHTML, etc.):</para>
-
                 <itemizedlist>
                     <listitem>
-                        <para>HTML comments (<code>&lt;!-- --&gt;</code>) which are output to the client </para>
+                        <para>HTML comments (<code>&lt;!-- --&gt;</code>) which are output to the
+                            client </para>
                     </listitem>
                     <listitem>
-                        <para>JSP comments (<code>
-                               &lt;%-- --%&gt;
+                        <para>JSP comments (<code> &lt;%-- --%&gt;
                             </code>) which are not output to the client as part of the JSP page
                             output</para>
                     </listitem>
                 </itemizedlist>
             </section>
-
             <section id="codefolding">
                 <title>Using Code Folding</title>
                 <para>
@@ -1288,7 +1210,6 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </inlinemediaobject> ) will appear on the left margin of the editor next to each
                     opening block tag. </para>
-
                 <figure>
                     <title>Enabled Code Folding </title>
                     <mediaobject>
@@ -1297,9 +1218,7 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>Click the minus sign to collapse a block tag.</para>
-
                 <para>When the minus sing is clicked on the appropriate tag collapses and a plus
                     sing ( <inlinemediaobject>
                         <imageobject>
@@ -1311,7 +1230,6 @@ two elements with equal id has been used, but should be used only one -->
                             <imagedata fileref="images/visual_page/visual_page_23e.png"/>
                         </imageobject>
                     </inlinemediaobject> ) appears after opening and closing tags. </para>
-
                 <figure>
                     <title>Collapsed Code</title>
                     <mediaobject>
@@ -1320,54 +1238,44 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
             </section>
-
             <section id="JSPsyntaxvalidation84">
-
                 <title>JSP Syntax Validation</title>
                 <para>When working in JBoss Tools JSP editor you are constantly provided with
                     feedback and contextual error checking as you type.</para>
             </section>
-
             <section id="taglib_versions_support">
                 <title>Support for custom TagLibs and Taglib versions</title>
-                <para>VPE templates  support  custom tag libs, e.g. Seam Mail facelet taglib, RichFaces taglibs or any other created by you.</para>
-
-                <para>VPE templates also provide a support for  various versions of tag libraries. It means that the
-                        <property>VPE</property> takes control over those components which have
-                    different parameters or preview according to the framework version (like seam
-                    1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
-
-                <para>For example, <code>
-                        &lt;s:decorate&gt;
-                    </code> element in seam has different parameters in versions 1.2 and 2.0 as
-                    well as 
-                        <code>&lt;h:outputLink&gt;</code>
-                     JSF element has different preview in versions 1.1 and 1.2.</para>
+                <para>VPE templates support custom tag libs, e.g. Seam Mail facelet taglib,
+                    RichFaces taglibs or any other created by you.</para>
+                <para>VPE templates also provide a support for various versions of tag libraries. It
+                    means that the <property>VPE</property> takes control over those components
+                    which have different parameters or preview according to the framework version
+                    (like seam 1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).</para>
+                <para>For example, <code> &lt;s:decorate&gt;
+                    </code> element in seam has different parameters in versions 1.2 and 2.0 as well
+                    as <code>&lt;h:outputLink&gt;</code> JSF element has different preview in
+                    versions 1.1 and 1.2.</para>
             </section>
         </section>
-    	
         <section id="pages_styling">
             <title>Pages Styling</title>
-
             <para>Most web pages use the cascading style sheets (CSS) to control the way they look.
-                With <property>Visual Page Editor</property> you can easily stylise your pages. In
-                this section we are going to introduce you to a powerful mechanism that
-                <property>VPE</property> provides for a complete control over pages styling. More helpful information on wok with CSS files can be found in  <link linkend="css_perspective">CSS Perspective chapter</link> </para>
-
+                With <property>Visual Page Editor</property> you can easily stylize your pages. In
+                this section we are going to introduce you to a powerful mechanism that <property
+                    >VPE</property> provides for a complete control over pages styling. More helpful
+                information on work with CSS files can be found in <link linkend="css_perspective"
+                    >CSS Perspective chapter</link>
+            </para>
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
-
                 <para>In the Visual part of the <property>VPE</property> there is a graphical
                     toolbar, use it to add inline styling to JSF and Struts tags on your page. The
-                    toolbar can be hidden with the help of the special button ( 
-                	<inlinemediaobject>
-                		<imageobject>
-                			<imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
-                		</imageobject>
-                	</inlinemediaobject>) on the VPE toolbar.</para>
-
+                    toolbar can be hidden with the help of the special button ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) on the VPE toolbar.</para>
                 <figure>
                     <title>Text Formatting</title>
                     <mediaobject>
@@ -1376,13 +1284,11 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
-                <para>For editing inline styles for DOM elements <property>VPE</property> 
-                    provides the <property>CSS Dialog</property>. It can be called from <emphasis>
+                <para>For editing inline styles for DOM elements <property>VPE</property> provides
+                    the <property>CSS Dialog</property>. It can be called from <emphasis>
                         <property>style</property>
                     </emphasis> line in the <property>Properties view</property> for a currently
                     selected element.</para>
-
                 <figure>
                     <title>Call the CSS Dialog</title>
                     <mediaobject>
@@ -1391,12 +1297,11 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
-                <para id="css_dialog"><property>CSS Style Dialog</property> has several tabs where css
-                    properties for text, background, borders and others can be specified. A simple
-                    preview which is generated at the top of the <property>CSS Style Dialog</property>
-                    allows you to see the changes before you apply them.</para>
-
+                <para id="css_dialog"><property>CSS Style Dialog</property> has several tabs where
+                    css properties for text, background, borders and others can be specified. A
+                    simple preview which is generated at the top of the <property>CSS Style
+                        Dialog</property> allows you to see the changes before you apply
+                    them.</para>
                 <figure>
                     <title>CSS Style Dialog</title>
                     <mediaobject>
@@ -1406,7 +1311,6 @@ two elements with equal id has been used, but should be used only one -->
                     </mediaobject>
                 </figure>
             </section>
-
             <section id="external_stylesheets">
                 <title>External Stylesheets</title>
                 <para>The pages you are working with in <property>VPE</property> can use external
@@ -1417,7 +1321,6 @@ two elements with equal id has been used, but should be used only one -->
                     button next to <emphasis>
                         <property>styleClass</property>
                     </emphasis> field in <property>Properties view</property>.</para>
-
                 <figure>
                     <title>Calling the Edit Style Class Dialog</title>
                     <mediaobject>
@@ -1426,7 +1329,6 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>It&apos;ll pick up the <property>Edit Style Class Dialog</property> which
                     looks like on the figure below:</para>
                 <figure>
@@ -1437,38 +1339,40 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
-                <para>Choose a style class from the variants provided and click on the <property>Ok</property> button to apply the changes.</para>
-                
+                <para>Choose a style class from the variants provided and click on the <property
+                        >Ok</property> button to apply the changes.</para>
                 <para>To open a CSS dialog based on the active CSS file click on <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/visual_page/visual_page_19.png"/>
-                    </imageobject>
-                </inlinemediaobject> in the top panel or use hot-keys (<property>Shift+Ctrl+C</property>).   </para>
-                    
-                <para>To create a new CSS class for the file click on the <property>Add CSS Class</property> button, write its name in the field appeared and click on the <property>Ok</property> button:</para>
-                   
-                    <figure>
-                        <title>Add CSS Class</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/visual_page/visual_page_20_b.png"/>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                   
-                   <para>Then you can configure style settings switching between the tabs: <emphasis>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_19.png"/>
+                        </imageobject>
+                    </inlinemediaobject> in the top panel or use hot-keys (<property
+                        >Shift+Ctrl+C</property>). </para>
+                <para>To create a new CSS class for the file click on the <property>Add CSS
+                        Class</property> button, write its name in the field appeared and click on
+                    the <property>Ok</property> button:</para>
+                <figure>
+                    <title>Add CSS Class</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_20_b.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Then you can configure style settings switching between the tabs: <emphasis>
                         <property>Text/Font</property>, </emphasis>
                     <emphasis>
                         <property>Background</property>, </emphasis>
                     <emphasis>
                         <property>Boxes</property>, </emphasis>
                     <emphasis>
-                        <property>Property Sheet</property>. </emphasis>The list of already existing classes with names beginning with the symbols printed will be displayed on standard "Ctrl+Space" key combination. To add existing styling to
-                    the chosen element just point to the
-                    necessary one. Each time you select any class it is displayed in the Preview tab. Click on the <emphasis><property>Apply</property></emphasis> button will apply the changes without closing the window.</para>
-
-                               <figure>
+                        <property>Property Sheet</property>. </emphasis>The list of already existing
+                    classes with names beginning with the symbols printed will be displayed on
+                    standard "Ctrl+Space" key combination. To add existing styling to the chosen
+                    element just point to the necessary one. Each time you select any class it is
+                    displayed in the Preview tab. Click on the <emphasis><property
+                        >Apply</property></emphasis> button will apply the changes without closing
+                    the window.</para>
+                <figure>
                     <title>Style Class Selection</title>
                     <mediaobject>
                         <imageobject>
@@ -1476,15 +1380,10 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
-
-                
-
                 <para>The <emphasis>
                         <property>Edited properties</property>
                     </emphasis> tab gives a preview of the properties which are set for the existing
                     style class. You can easily modify them with the help of this wizard.</para>
-
                 <figure>
                     <title>Edited Properties</title>
                     <mediaobject>
@@ -1493,9 +1392,8 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
-                <para>If the style class isn&apos;t chosen, the tab doesn&apos;t show any properties.</para>
-                
+                <para>If the style class isn&apos;t chosen, the tab doesn&apos;t show any
+                    properties.</para>
                 <figure>
                     <title>Edited Properties when the style class isn't chosen</title>
                     <mediaobject>
@@ -1504,11 +1402,10 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
                 <para>The <emphasis>
                         <property>Preview tab</property>
-                    </emphasis> is for observing the content of the chosen CSS file. This tab is hidden if no CSS file is chosen.</para>
-
+                    </emphasis> is for observing the content of the chosen CSS file. This tab is
+                    hidden if no CSS file is chosen.</para>
                 <figure>
                     <title>Preview Tab</title>
                     <mediaobject>
@@ -1517,11 +1414,10 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
-                <para>At the top of the <property>CSS Class Dialog</property>
-                    you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <emphasis>
+                <para>At the top of the <property>CSS Class Dialog</property> you can see a preview
+                    box which visualizes the result. To edit the preview you should double click in
+                    the box. To leave the focus, use <emphasis>
                         <property>Ctrl + Tab</property>.</emphasis></para>
-                
                 <figure>
                     <title>Editing the Preview</title>
                     <mediaobject>
@@ -1530,11 +1426,9 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>The dialog for creating a new CSS class, which is called from <emphasis>
                         <property>New > Other... > JBoss Tools Web > CSS Class</property>,
                     </emphasis> looks this way:</para>
-
                 <figure>
                     <title>New CSS Class Dialog</title>
                     <mediaobject>
@@ -1543,7 +1437,8 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-            <para>Click on the <property>Browse</property> button to open a dialog to select the CSS file to create a CSS class for:</para>
+                <para>Click on the <property>Browse</property> button to open a dialog to select the
+                    CSS file to create a CSS class for:</para>
                 <figure>
                     <title>CSS File Selection</title>
                     <mediaobject>
@@ -1552,22 +1447,17 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-                <para>Choose the necessary CSS file and click on the <property>Ok</property> button.</para>
-            
-            
+                <para>Choose the necessary CSS file and click on the <property>Ok</property>
+                    button.</para>
             </section>
         </section>
-
         <section id="vpe_templating">
             <title>Templating</title>
-
             <para>The VPE also makes it possible to create templates for unknown tags.</para>
-
             <para>To call the <property>Template dialog</property> for a tag, right-click on it in
                 Visual mode and select <emphasis>
                     <property>Setup Template for &lt;tag name&gt;</property>
                 </emphasis> option.</para>
-
             <figure>
                 <title>Calling Template Dialog</title>
                 <mediaobject>
@@ -1576,10 +1466,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para id="template_dialog">Here is what the <property>Template dialog</property> looks
                 like.</para>
-
             <figure>
                 <title>Template Dialog</title>
                 <mediaobject>
@@ -1588,14 +1476,12 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para><emphasis>
                     <property>Tag for Display</property>
                 </emphasis> field in the <property>Template dialog</property> requires specifying a
                 type of tag. It can be SPAN, DIV, TABLE or any other html element. Check <emphasis>
                     <property>Children</property>
                 </emphasis>, if you want to mark a tag as a child element.</para>
-
             <para>The <emphasis>
                     <property>Value</property>
                 </emphasis> field is for setting a tag value.</para>
@@ -1604,11 +1490,9 @@ two elements with equal id has been used, but should be used only one -->
                 </emphasis> field, you can fill it out manually or make use of the button next to
                 the field to bring the <link linkend="css_dialog">CSS Dialog</link> for editing
                 styles.</para>
-
             <para>You can observe all defined templates in the <link linkend="VisualPageEditor2">VPE
                     Preferences</link> on the Templates tab which you can quickly access by pressing
                     <link linkend="AdvancedSettings954">Preferences button</link>.</para>
-
             <figure>
                 <title>Templates Tab of the VPE Preferences Page</title>
                 <mediaobject>
@@ -1617,110 +1501,83 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
-            <para>Here it&apos;s possible to edit or remove any listed in the table
-                template.</para>
-
+            <para>Here it&apos;s possible to edit or remove any listed in the table template.</para>
         </section>
-
         <section id="AdvancedSettings954">
-
             <title>VPE Toolbar</title>
-            
             <para>The Visual Page Editor toolbar includes the next buttons: </para>
-                
-            	<itemizedlist>
-            		<listitem><para><link linkend="vpe_preferences">Preferences</link>
-            			(
-            			<inlinemediaobject>
-            				<imageobject>
-            					<imagedata fileref="images/visual_page/icon_1.png"/>
-            				</imageobject>
-            			</inlinemediaobject>
-            			)</para>
-            		</listitem>
-            		
-            		<listitem><para><link linkend="vpe_refresh">Refresh</link>
-            			(
-            			<inlinemediaobject>
-            				<imageobject>
-            					<imagedata fileref="images/visual_page/icon_2.png"/>
-            				</imageobject>
-            			</inlinemediaobject>
-            			)</para>
-            		</listitem>
-            		
-            		<listitem><para><link linkend="vpe_page_design_options">Page Design Options</link>
-            			( 
-            			<inlinemediaobject>
-            				<imageobject>
-            					<imagedata fileref="images/visual_page/icon_3.png"/>
-            				</imageobject>
-            			</inlinemediaobject>
-            			)
-            			</para>
-            		</listitem>
-            		
-            		<listitem>
-            			<para><link linkend="splitting_buttons">the button to switch the current Visual/Source layout</link>
-            				( 
-            				<inlinemediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/visual_page/source_top.png"/>
-            					</imageobject>
-            				</inlinemediaobject>)</para>
-            		</listitem>
-            		
-            		<listitem>
-            			<para><link linkend="vpe_show_border">Show border for unknown tags</link>
-            				( 
-            				<inlinemediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/visual_page/show_border_button.png"/>
-            					</imageobject>
-            				</inlinemediaobject>)</para>
-            		</listitem>
-            		
-            		<listitem>
-            			<para><link linkend="vpe_show_nonvisual_tags">Show non-visual tags</link>
-            				( 
-            				<inlinemediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/visual_page/show_nonvisual.png"/>
-            					</imageobject>
-            				</inlinemediaobject>)</para>
-            		</listitem>
-            		
-            		<listitem>
-            			<para><link linkend="vpe_show_selection_bar">Show selection bar</link>
-            				( 
-            				<inlinemediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/visual_page/show_selection_bar.png"/>
-            					</imageobject>
-            				</inlinemediaobject>)</para>
-            		</listitem>
-            		
-            		<listitem>
-            			<para><link linkend="inline_styling">Show text formatting bar</link>
-            				( 
-            				<inlinemediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
-            					</imageobject>
-            				</inlinemediaobject>)</para>
-            		</listitem>
-            		
-            		<listitem>
-            			<para>Show bundle's messages as EL expressions ( 
-            				<inlinemediaobject>
-            					<imageobject>
-            						<imagedata fileref="images/visual_page/show_bundles_mess_button.png"/>
-            					</imageobject>
-            				</inlinemediaobject>)</para>
-            		</listitem>
-            	</itemizedlist>
-            	     
+            <itemizedlist>
+                <listitem>
+                    <para><link linkend="vpe_preferences">Preferences</link> ( <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_1.png"/>
+                            </imageobject>
+                        </inlinemediaobject> )</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="vpe_refresh">Refresh</link> ( <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_2.png"/>
+                            </imageobject>
+                        </inlinemediaobject> )</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="vpe_page_design_options">Page Design Options</link> (
+                            <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/icon_3.png"/>
+                            </imageobject>
+                        </inlinemediaobject> ) </para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="splitting_buttons">the button to switch the current
+                            Visual/Source layout</link> ( <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/source_top.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="vpe_show_border">Show border for unknown tags</link> (
+                            <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/show_border_button.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="vpe_show_nonvisual_tags">Show non-visual tags</link> (
+                            <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/show_nonvisual.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="vpe_show_selection_bar">Show selection bar</link> (
+                            <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/show_selection_bar.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="inline_styling">Show text formatting bar</link> (
+                            <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
+                            </imageobject>
+                        </inlinemediaobject>)</para>
+                </listitem>
+                <listitem>
+                    <para>Show bundle's messages as EL expressions ( <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/show_bundles_mess_button.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>)</para>
+                </listitem>
+            </itemizedlist>
             <figure>
                 <title>Buttons on the VPE Toolbar</title>
                 <mediaobject>
@@ -1729,517 +1586,456 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
-	<section id="vpe_preferences">
-		<title>Preferences</title>
-		
-		<para>The <emphasis>
-			<property>Preferences</property>
-		</emphasis> button
-			(
-			<inlinemediaobject>
-				<imageobject>
-					<imagedata fileref="images/visual_page/icon_1.png"/>
-				</imageobject>
-			</inlinemediaobject>
-			)
-			provides a quick access to the <property>Visual Page
-				Editor</property> preferences.</para>
-		
-		<figure>
-			<title>Visual Page Editor Preferences Window</title>
-			<mediaobject>
-				<imageobject>
-					<imagedata fileref="images/visual_page/visual_page_9.png"/>
-				</imageobject>
-			</mediaobject>
-		</figure>
-		
-		<para>This page provides a number of options associated with the editor representation.  
-			The more detailed description on each one you can find in the <property>&quot;JBoss Tools Preferences&quot;</property> chapter 
-			under <link linkend="VisualPageEditor2">Visual Page Editor</link>.</para>
-	</section>
-	
-	<section id="vpe_refresh">
-		<title>Refresh</title>
-		
-		<para>Clicking on the <emphasis>
-			<property>Refresh</property>
-		</emphasis> button     
-			(
-			<inlinemediaobject>
-				<imageobject>
-					<imagedata fileref="images/visual_page/icon_2.png"/>
-				</imageobject>
-			</inlinemediaobject>
-			)  
-			refreshes the displayed information.</para>
-	</section>
-        	
-    <section id="vpe_page_design_options">
-    	<title>Page Design Options</title>
-    	
-    	<para>The <emphasis>
-    		<property>Page Design Options</property>
-    	</emphasis> button 
-    		( 
-    		<inlinemediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/icon_3.png"/>
-    			</imageobject>
-    		</inlinemediaobject>
-    		) 
-    		leads to a window which helps you  specify necessary
-    		references of the resources. It is represented by a window with 4 tabs. The
-    		first one, <emphasis>
-    			<property>Actual Run-Time folders</property>,
-    		</emphasis> is used to replace absolute and relative path values when
-    		generating a preview: </para>
-    	<figure>
-    		<title>Page Design Options: Actual Run-Time folders</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_10.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	
-    	<para>The second tab, <emphasis>
-    		<property>Included CSS files</property>
-    	</emphasis>, is used to add CSS files to be linked by Visual Page Editor
-    		when generating a preview:</para>
-    	
-    	<figure>
-    		<title>Page Design Options: Included CSS files</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_10_2.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	<para>The third one, <emphasis>
-    		<property>Included tag libs</property></emphasis>, can be used to add Taglibs that can be used by the editor for
-    		getting appropriate templates to generate a preview:</para>
-    	
-    	<figure>
-    		<title>Page Design Options: Included tag libs</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_10_3.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	<para id="el_exp_para">And finally, the <emphasis>
-    		<property>Substituted El expressions</property>
-    	</emphasis> tab is used to add El expressions that will be substituted by
-    		the editor when generating a preview:</para>
-    	
-    	<figure>
-    		<title>Page Design Options: Substituted El expressions</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_10_4.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	
-    	<para>The first two tabs of the window let you define actual runtime folders.
-    		The example below will help you understand how this can be done.</para>
-    	
-    	<para>Suppose you have the following project structure:</para>
-    	
-    	<programlisting role="XML"><![CDATA[WebContent/
+            <section id="vpe_preferences">
+                <title>Preferences</title>
+                <para>The <emphasis>
+                        <property>Preferences</property>
+                    </emphasis> button ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/icon_1.png"/>
+                        </imageobject>
+                    </inlinemediaobject> ) provides a quick access to the <property>Visual Page
+                        Editor</property> preferences.</para>
+                <figure>
+                    <title>Visual Page Editor Preferences Window</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_9.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>This page provides a number of options associated with the editor
+                    representation. The more detailed description on each one you can find in the
+                        <property>&quot;JBoss Tools Preferences&quot;</property> chapter under <link
+                        linkend="VisualPageEditor2">Visual Page Editor</link>.</para>
+            </section>
+            <section id="vpe_refresh">
+                <title>Refresh</title>
+                <para>Clicking on the <emphasis>
+                        <property>Refresh</property>
+                    </emphasis> button ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/icon_2.png"/>
+                        </imageobject>
+                    </inlinemediaobject> ) refreshes the displayed information.</para>
+            </section>
+            <section id="vpe_page_design_options">
+                <title>Page Design Options</title>
+                <para>The <emphasis>
+                        <property>Page Design Options</property>
+                    </emphasis> button ( <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/icon_3.png"/>
+                        </imageobject>
+                    </inlinemediaobject> ) leads to a window which helps you specify necessary
+                    references of the resources. It is represented by a window with 4 tabs. The
+                    first one, <emphasis>
+                        <property>Actual Run-Time folders</property>, </emphasis> is used to replace
+                    absolute and relative path values when generating a preview: </para>
+                <figure>
+                    <title>Page Design Options: Actual Run-Time folders</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_10.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The second tab, <emphasis>
+                        <property>Included CSS files</property>
+                    </emphasis>, is used to add CSS files to be linked by Visual Page Editor when
+                    generating a preview:</para>
+                <figure>
+                    <title>Page Design Options: Included CSS files</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_10_2.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The third one, <emphasis>
+                        <property>Included tag libs</property></emphasis>, can be used to add
+                    Taglibs that can be used by the editor for getting appropriate templates to
+                    generate a preview:</para>
+                <figure>
+                    <title>Page Design Options: Included tag libs</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_10_3.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para id="el_exp_para">And finally, the <emphasis>
+                        <property>Substituted El expressions</property>
+                    </emphasis> tab is used to add El expressions that will be substituted by the
+                    editor when generating a preview:</para>
+                <figure>
+                    <title>Page Design Options: Substituted El expressions</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_10_4.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>The first two tabs of the window let you define actual runtime folders. The
+                    example below will help you understand how this can be done.</para>
+                <para>Suppose you have the following project structure:</para>
+                <programlisting role="XML"><![CDATA[WebContent/
   pages/
     img/
        a.gif
     header.jsp
   main.jsp
   ]]></programlisting>
-    	
-    	<para>The content of the <emphasis>
-    		<property>header.jsp</property>
-    	</emphasis> is:</para>
-    	<programlisting role="XML"><![CDATA[My Header
+                <para>The content of the <emphasis>
+                        <property>header.jsp</property>
+                    </emphasis> is:</para>
+                <programlisting role="XML"><![CDATA[My Header
 <img src="img/a.gif"/>
 ]]></programlisting>
-    	<para>and <emphasis>
-    		<property>main.jsp</property>
-    	</emphasis> content is:</para>
-    	<programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
+                <para>and <emphasis>
+                        <property>main.jsp</property>
+                    </emphasis> content is:</para>
+                <programlisting role="XML"><![CDATA[<jsp:include page="pages/header.jsp" />
 ]]></programlisting>
-    	<para> When you open <emphasis>
-    		<property>main.jsp</property>
-    	</emphasis> in <property>Visual Page Editor</property>, it will not be able
-    		to resolve the image from the header, however, it will work fine in runtime.
-    		To fix this in design time, click the <emphasis>
-    			<property>Page Design Options</property>
-    		</emphasis> button and set <emphasis>
-    			<property>Actual Run-Time Relative Folder</property>
-    		</emphasis> to <emphasis>&apos;projectName &gt; WebContent &gt;
-    			pages&apos;</emphasis> and you will see the image appeared.</para>
-    	<para/>
-    	
-    	<para>Let&apos; consider an example for other tabs. For instance, the
-    		definition of your CSS on the page is the next:</para>
-    	
-    	<programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
+                <para> When you open <emphasis>
+                        <property>main.jsp</property>
+                    </emphasis> in <property>Visual Page Editor</property>, it will not be able to
+                    resolve the image from the header, however, it will work fine in runtime. To fix
+                    this in design time, click the <emphasis>
+                        <property>Page Design Options</property>
+                    </emphasis> button and set <emphasis>
+                        <property>Actual Run-Time Relative Folder</property>
+                    </emphasis> to <emphasis>&apos;projectName &gt; WebContent &gt;
+                        pages&apos;</emphasis> and you will see the image appeared.</para>
+                <para/>
+                <para>Let&apos; consider an example for other tabs. For instance, the definition of
+                    your CSS on the page is the next:</para>
+                <programlisting role="XML"><![CDATA[<link rel="stylesheet" type="text/css"  
     href="#{facesContext.externalContext.requestContextPath}/style.css"/>
 ]]></programlisting>
-    	
-    	<para>This will work fine in runtime, but the <property>Visual Page
-    		Editor</property> doesn&apos;t know what
-    		<emphasis>requestContextPath</emphasis> in design time is. In order to
-    		see the necessary styles applied in design time your should add a path to
-    		your stylesheet in the <property>CSS File Path</property> section.</para>
-    	
-    	<para>The next <property>URI</property> section lets you add URI taglibs so that
-    		the editor knows where to find the tag libraries.</para>
-    	
-    	<para>And the last <property>Substituted EL expressions</property> section is
-    		provided to specify the values for specific EL variables. It can be useful
-    		for a preview generation.</para>
-    	<para>As an example look at the figure below:</para>
-    	<figure>
-    		<title>EL Expression</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_12.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	<para>Here bath in Source and Visual modes you see the EL expression
-    		<emphasis>#{user.name}</emphasis>. When you switch to <property>Preview
-    			view</property>, you&apos;ll also see this expression. Now press <emphasis>
-    				<property>Page Design Options</property>
-    			</emphasis> button and set the value for the
-    		<emphasis>&quot;user.name&quot;</emphasis> as
-    		<emphasis><property>World</property>.</emphasis></para>
-    	
-    	<figure>
-    		<title>Setting the Value for the EL Expression</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_13.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	<para>As a result in Visual mode and Preview view the word <emphasis>
-    		<property>World</property>
-    	</emphasis> is displayed.</para>
-    	<figure>
-    		<title>The EL Expression Value</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_14.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    </section>
-
-    <section id="splitting_buttons">
-    	<title>Visual/Source Editors splitting buttons</title>
-		
-    	<para>The <emphasis>
-    		<property>Visual/Source Editors splitting buttons</property></emphasis>
-    		provide the possibility to choose one of the four possible  layouts for the Visual/Source Editor.
-    	</para>
-    	
-    	
-    	<para>The available layouts and corresponding buttons are as follows:
-    		<itemizedlist>
-    			<listitem><para>Vertical Source on top(<inlinemediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/source_top.png"/>
-    				</imageobject>
-    			</inlinemediaobject>)</para></listitem>
-    			<listitem><para>Vertical Visual on top ( <inlinemediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/source_bottom.png"/>
-    				</imageobject>
-    			</inlinemediaobject>)</para></listitem>
-    			<listitem><para>Horizontal Source to the left (  <inlinemediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/source_left.png"/>
-    				</imageobject>
-    			</inlinemediaobject>)</para></listitem>
-    			<listitem><para>Horizontal Visual to the left ( <inlinemediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/source_right.png"/>
-    				</imageobject>
-    			</inlinemediaobject>)</para></listitem>
-    			
-    		</itemizedlist>
-    		<figure>
-    			<title>Visual Page Editor Before Layout Changing </title>
-    			<mediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/visual_page_24.png"/>
-    				</imageobject>
-    			</mediaobject>
-    		</figure>
-    		Note, at the current view there is only <emphasis>
-    			<property> one</property></emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>
-    				<property>in a clockwise direction</property></emphasis>. 
-    		<figure>
-    			<title>Visual Page Editor After Layout Changing </title>
-    			<mediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/visual_page_25.png"/>
-    				</imageobject>
-    			</mediaobject>
-    		</figure>
-    	</para>
-	</section>
-        	
-    <section id="vpe_show_border">
-    	<title>Show Border for Unknown Tags</title>
-    	
-    	<para>The option is a self explanatory, i. e. if you want unknown tags to be wrapped in a border in the VPE visual part, just press the 
-    		<emphasis>
-    			<property>Show border for unknown tags</property></emphasis> button
-    		( 
-    		<inlinemediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/show_border_button.png"/>
-    			</imageobject>
-    		</inlinemediaobject>) on the toolbar.</para>
-    </section>
-        	
-    <section id="vpe_show_nonvisual_tags">
-    	<title>Show Non-visual Tags</title>
-    	
-    	<para><property>Visual Page Editor</property> provides the option for displaying
-    		non-visual tags in Visual mode of the editor. To enable it select the <emphasis>
-    			<property>Show non-visual tags</property></emphasis> button ( 
-    		<inlinemediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/show_nonvisual.png"/>
-    			</imageobject>
-    		</inlinemediaobject>) on the VPE toolbar.</para>
-    	
-    	<para>On the figure you can see non-visual elements with gray dashed borders.</para>
-    	
-    	<figure>
-    		<title>Non-visual Tag in the VPE</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/visual_page_4b.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	<para>You can also switch on this option in the VPE preferences,  having clicked on the  <emphasis><property>Preferences</property>
-    	</emphasis> button
-    		(<inlinemediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/visual_page/icon_1.png"/>
-    			</imageobject>
-    		</inlinemediaobject>).</para>
-    </section>
-        	
-      <section id="vpe_show_selection_bar">
-        	<title>Show Selection Bar</title>
-        		
-        		<para>You can find useful one more functionality provided by VPE. At the bottom of the
-        			<property>Visual/Source view</property> there is a <property>Selection Tag
-        				Bar</property>. It's updated automatically allowing to see tags tree for a current component selected in
-        			Visual or Source mode, also it allows to select tags back and forward.</para>
-        		
-        		<figure>
-        			<title>Selection Tag Bar</title>
-        			<mediaobject>
-        				<imageobject>
-        					<imagedata fileref="images/visual_page/visual_page_15.png"/>
-        				</imageobject>
-        			</mediaobject>
-        		</figure>
-        		
-        		<para>If you want to hide the <property>Selection Tag Bar</property>, use
-        			the <emphasis>
-        				<property>Show Selection Bar</property></emphasis> button 	( 
-        			<inlinemediaobject>
-        				<imageobject>
-        					<imagedata fileref="images/visual_page/show_selection_bar.png"/>
-        				</imageobject>
-        			</inlinemediaobject>) on the VPE toolbar.</para>
-        	</section>
+                <para>This will work fine in runtime, but the <property>Visual Page
+                        Editor</property> doesn&apos;t know what
+                        <emphasis>requestContextPath</emphasis> in design time is. In order to see
+                    the necessary styles applied in design time your should add a path to your
+                    stylesheet in the <property>CSS File Path</property> section.</para>
+                <para>The next <property>URI</property> section lets you add URI taglibs so that the
+                    editor knows where to find the tag libraries.</para>
+                <para>And the last <property>Substituted EL expressions</property> section is
+                    provided to specify the values for specific EL variables. It can be useful for a
+                    preview generation.</para>
+                <para>As an example look at the figure below:</para>
+                <figure>
+                    <title>EL Expression</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_12.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>Here bath in Source and Visual modes you see the EL expression
+                        <emphasis>#{user.name}</emphasis>. When you switch to <property>Preview
+                        view</property>, you&apos;ll also see this expression. Now press <emphasis>
+                        <property>Page Design Options</property>
+                    </emphasis> button and set the value for the
+                        <emphasis>&quot;user.name&quot;</emphasis> as <emphasis><property
+                            >World</property>.</emphasis></para>
+                <figure>
+                    <title>Setting the Value for the EL Expression</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_13.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>As a result in Visual mode and Preview view the word <emphasis>
+                        <property>World</property>
+                    </emphasis> is displayed.</para>
+                <figure>
+                    <title>The EL Expression Value</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_14.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section id="splitting_buttons">
+                <title>Visual/Source Editors splitting buttons</title>
+                <para>The <emphasis>
+                        <property>Visual/Source Editors splitting buttons</property></emphasis>
+                    provide the possibility to choose one of the four possible layouts for the
+                    Visual/Source Editor. </para>
+                <para>The available layouts and corresponding buttons are as follows: <itemizedlist>
+                        <listitem>
+                            <para>Vertical Source on top(<inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/source_top.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Vertical Visual on top ( <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/source_bottom.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Horizontal Source to the left ( <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/source_left.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Horizontal Visual to the left ( <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/source_right.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>)</para>
+                        </listitem>
+                    </itemizedlist><figure>
+                        <title>Visual Page Editor Before Layout Changing </title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_24.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure> Note, at the current view there is only <emphasis>
+                        <property> one</property></emphasis> button, that proposes the possibility
+                    to change it in order the Source and the View are moved <emphasis>
+                        <property>in a clockwise direction</property></emphasis>. <figure>
+                        <title>Visual Page Editor After Layout Changing </title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/visual_page_25.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure></para>
+            </section>
+            <section id="vpe_show_border">
+                <title>Show Border for Unknown Tags</title>
+                <para>The option is a self explanatory, i. e. if you want unknown tags to be wrapped
+                    in a border in the VPE visual part, just press the <emphasis>
+                        <property>Show border for unknown tags</property></emphasis> button (
+                        <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/show_border_button.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) on the toolbar.</para>
+            </section>
+            <section id="vpe_show_nonvisual_tags">
+                <title>Show Non-visual Tags</title>
+                <para><property>Visual Page Editor</property> provides the option for displaying
+                    non-visual tags in Visual mode of the editor. To enable it select the <emphasis>
+                        <property>Show non-visual tags</property></emphasis> button (
+                        <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/show_nonvisual.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) on the VPE toolbar.</para>
+                <para>On the figure you can see non-visual elements with gray dashed borders.</para>
+                <figure>
+                    <title>Non-visual Tag in the VPE</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_4b.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>You can also switch on this option in the VPE preferences, having clicked on
+                    the <emphasis><property>Preferences</property>
+                    </emphasis> button (<inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/icon_1.png"/>
+                        </imageobject>
+                    </inlinemediaobject>).</para>
+            </section>
+            <section id="vpe_show_selection_bar">
+                <title>Show Selection Bar</title>
+                <para>You can find useful one more functionality provided by VPE. At the bottom of
+                    the <property>Visual/Source view</property> there is a <property>Selection Tag
+                        Bar</property>. It's updated automatically allowing to see tags tree for a
+                    current component selected in Visual or Source mode, also it allows to select
+                    tags back and forward.</para>
+                <figure>
+                    <title>Selection Tag Bar</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/visual_page_15.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <para>If you want to hide the <property>Selection Tag Bar</property>, use the
+                        <emphasis>
+                        <property>Show Selection Bar</property></emphasis> button (
+                        <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/show_selection_bar.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) on the VPE toolbar.</para>
+            </section>
         </section>
-		
-    	<section id="page_preview">
-    		<title>Page Preview</title>
-    		
-    		<para><property>VPE</property> comes with design-time preview feature which is available
-    			for:</para>
-    		
-    		<itemizedlist>
-    			<listitem>
-    				<para>Struts Pages</para>
-    			</listitem>
-    			<listitem>
-    				<para>JSF Pages</para>
-    			</listitem>
-    		<listitem>
+        <section id="page_preview">
+            <title>Page Preview</title>
+            <para><property>VPE</property> comes with design-time preview feature which is available
+                for:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Struts Pages</para>
+                </listitem>
+                <listitem>
+                    <para>JSF Pages</para>
+                </listitem>
+                <listitem>
                     <para>Seam Pages</para>
                 </listitem>
             </itemizedlist>
-    		
-    		<para><property>Preview view</property> is read-only, it shows how the page will look
-    			like in a browser.</para>
-    		<figure>
-    			<title>Preview View</title>
-    			<mediaobject>
-    				<imageobject>
-    					<imagedata fileref="images/visual_page/visual_page_16.png"/>
-    				</imageobject>
-    			</mediaobject>
-    		</figure>
-    		
-    		<!--para>You can even
+            <para><property>Preview view</property> is read-only, it shows how the page will look
+                like in a browser.</para>
+            <figure>
+                <title>Preview View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_16.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <!--para>You can even
     			attach your stylesheet to the preview.</para-->
-    	</section>
-    	
-		<section id="custom_facelets_support">
-			<title>Support for Custom Facelets Components</title>
-			
-			<para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of <property>JBoss Tools</property>) supports
-				custom Facelets tag libraries both declared in the <literal>web.xml</literal> file 
-				(for details, see 
-				<ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the JAR file.</para>
-			
-				<tip>
-					<title>Tip:</title>
-					<para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to put <literal>*.taglib.xml</literal> in right place:
-						<literal>[filename].jar/META-INF/*.taglib.xml</literal></para>
-				</tip>
-			
-			<para><property>Visual Page Editor</property> recognizes the tags from the custom Facelets tag library and correctly
-			renders them both in source and visual view of the editor.</para>
-			
-			<figure>
-				<title>Custom Facelets Tags in the VPE</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/visual_page/customFacelets1.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-			
-			<para>While editing an XHTML file that uses a custom Facelets components
-				you can always make use of the following editor&apos;s features:</para>
-			
-			<itemizedlist>
-				<listitem>
-					<para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom Facelets Components</link></para>
-				</listitem>
-				<listitem>
-					<para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets Components</link></para>
-				</listitem>
-			</itemizedlist>
-		
-			<section id="contentAssistForCustomFacelets">
-				<title>Content Assist for Custom Facelets Components</title>
-				<para>Call the content assist as usual by using <emphasis><property>Ctrl+Space</property></emphasis>
-					when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.</para>
-				
-				<figure>
-					<title>Content Assist for Custom Facelets Tags</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/visual_page/customFacelets2.png"/>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</section>
-			
-			<section id="openOnForCustomFacelets">
-				<title>OpenOn for Custom Facelets Components</title>
-				
-				<para>While developing using Facelets you can make use of:</para>
-				<itemizedlist>
-					<listitem><para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom Facelets Components</link></para></listitem>
-					<listitem><para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para></listitem>
-				</itemizedlist>
-				
-				<section id="openOnInXHTML">
-					<title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
-					<para>OpenOn functionality in XHTML files is available in two views of the <property>Visual Page Editor</property>:</para>
-					
-					<orderedlist>
-						<listitem>
-							<para>Source view</para>
-							
-							<para><emphasis><property>Ctrl+Click</property></emphasis> on the namespace will open the Facelets tag file
-								in a separate window.</para>
-							
-							<figure>
-								<title>Opening a Custom Facelets Tag File</title>
-								<mediaobject>
-									<imageobject>
-										<imagedata fileref="images/visual_page/customFacelets3.png"/>
-									</imageobject>
-								</mediaobject>
-							</figure>
-							
-							<para><emphasis><property>Ctrl+Click</property></emphasis> on any custom Facelets tag declared on the page will do the same.
-								The selected tag will be highlighted in the opened file.</para>
-							
-							<figure>
-								<title>Opening a Custom Facelets Tag File</title>
-								<mediaobject>
-									<imageobject>
-										<imagedata fileref="images/visual_page/customFacelets4.png"/>
-									</imageobject>
-								</mediaobject>
-							</figure>
-						</listitem>
-						
-						<listitem>
-							<para>Visual view</para>
-							
-							<para>In the visual view of the <property>VPE</property>, double-click a custom component and the Facelets tag file 
-								(<literal>*.taglib.xml</literal>) where it is declared will be opened.</para>
-						</listitem>
-					</orderedlist>
-				</section>
-				
-				<section id="openOnInCustomFaceletsTaglibs">
-					<title>OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</title>
-					
-					<para><emphasis><property>Ctrl+Click</property></emphasis> on the path to source of the Facelets tag will
-					open the component in its own editor.</para>
-					<figure>
-						<title>Opening a Custom Facelets Component</title>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="images/visual_page/customFacelets5.png"/>
-							</imageobject>
-						</mediaobject>
-					</figure>
-				</section>
-
-			</section>
-		</section>
-    	
-    	<section id="SetupnotesforLinu895x">
-
+        </section>
+        <section id="custom_facelets_support">
+            <title>Support for Custom Facelets Components</title>
+            <para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of
+                    <property>JBoss Tools</property>) supports custom Facelets tag libraries both
+                declared in the <literal>web.xml</literal> file (for details, see <ulink
+                    url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating
+                    a component</ulink>) and packed into the JAR file.</para>
+            <tip>
+                <title>Tip:</title>
+                <para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to
+                    put <literal>*.taglib.xml</literal> in right place: <literal
+                        >[filename].jar/META-INF/*.taglib.xml</literal></para>
+            </tip>
+            <para><property>Visual Page Editor</property> recognizes the tags from the custom
+                Facelets tag library and correctly renders them both in source and visual view of
+                the editor.</para>
+            <figure>
+                <title>Custom Facelets Tags in the VPE</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/customFacelets1.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>While editing an XHTML file that uses a custom Facelets components you can always
+                make use of the following editor&apos;s features:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom
+                            Facelets Components</link></para>
+                </listitem>
+                <listitem>
+                    <para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets
+                            Components</link></para>
+                </listitem>
+            </itemizedlist>
+            <section id="contentAssistForCustomFacelets">
+                <title>Content Assist for Custom Facelets Components</title>
+                <para>Call the content assist as usual by using <emphasis><property
+                            >Ctrl+Space</property></emphasis> when typing a tag. As proposals you
+                    should see custom Facelets tags defined in your Facelets tag library.</para>
+                <figure>
+                    <title>Content Assist for Custom Facelets Tags</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/visual_page/customFacelets2.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section id="openOnForCustomFacelets">
+                <title>OpenOn for Custom Facelets Components</title>
+                <para>While developing using Facelets you can make use of:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom
+                                Facelets Components</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom
+                                Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para>
+                    </listitem>
+                </itemizedlist>
+                <section id="openOnInXHTML">
+                    <title>OpenOn in XHTML Files That Use Custom Facelets Components</title>
+                    <para>OpenOn functionality in XHTML files is available in two views of the
+                            <property>Visual Page Editor</property>:</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Source view</para>
+                            <para><emphasis><property>Ctrl+Click</property></emphasis> on the
+                                namespace will open the Facelets tag file in a separate
+                                window.</para>
+                            <figure>
+                                <title>Opening a Custom Facelets Tag File</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/customFacelets3.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>
+                            <para><emphasis><property>Ctrl+Click</property></emphasis> on any custom
+                                Facelets tag declared on the page will do the same. The selected tag
+                                will be highlighted in the opened file.</para>
+                            <figure>
+                                <title>Opening a Custom Facelets Tag File</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/visual_page/customFacelets4.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </figure>
+                        </listitem>
+                        <listitem>
+                            <para>Visual view</para>
+                            <para>In the visual view of the <property>VPE</property>, double-click a
+                                custom component and the Facelets tag file (<literal
+                                    >*.taglib.xml</literal>) where it is declared will be
+                                opened.</para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section id="openOnInCustomFaceletsTaglibs">
+                    <title>OpenOn in Custom Facelets Tag File (<literal
+                        >*.taglib.xml</literal>)</title>
+                    <para><emphasis><property>Ctrl+Click</property></emphasis> on the path to source
+                        of the Facelets tag will open the component in its own editor.</para>
+                    <figure>
+                        <title>Opening a Custom Facelets Component</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/visual_page/customFacelets5.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
+            </section>
+        </section>
+        <section id="SetupnotesforLinu895x">
             <title>Setup notes for Linux</title>
-
-            <para>Linux users who are going to use earlier then JBoss Tools 3.1.0.M4 versions may need to do the following to get the <property>Visual Page
-            Editor</property> to work correctly on their machines.</para>
-          
-
+            <para>Linux users who are going to use earlier then JBoss Tools 3.1.0.M4 versions may
+                need to do the following to get the <property>Visual Page Editor</property> to work
+                correctly on their machines.</para>
             <para> The Visual Page Editor requires the library libstdc++.so.5. This library is
-            contained in the compat-libstdc++-33.i386 package.</para> 
-            
-            <note><title>Note</title>
-               <para> Starting from  JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required.</para> </note>
-
+                contained in the compat-libstdc++-33.i386 package.</para>
+            <note>
+                <title>Note</title>
+                <para> Starting from JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't
+                    required.</para>
+            </note>
             <itemizedlist>
                 <listitem>
                     <para>To install this package on Fedora Core or Red Hat Enterprise Linux run the
@@ -2247,47 +2043,45 @@ two elements with equal id has been used, but should be used only one -->
                     <programlisting role="JAVA"><![CDATA[yum install compat-libstdc++-33.i386
 ]]></programlisting>
                 </listitem>
-
-
                 <listitem>
                     <para>On any other rpm based distributions download libstdc++.so.5 and run the
                         following command:</para>
                     <programlisting role="JAVA"><![CDATA[rpm -Uvh compat-libstdc++-33.i386
 ]]></programlisting>
                 </listitem>
-
-
                 <listitem>
                     <para>On Debian based distributives run the following command: </para>
                     <programlisting role="JAVA"><![CDATA[apt-get install compat-libstdc++-33.i386
 ]]></programlisting>
                 </listitem>
-
             </itemizedlist>
-
             <para> In case you have the library installed and you still have issue with starting the
                 visual page editor then close all browser views/editors and leave one visual page
                 editor open and restart eclipse. This should force a load of the right XULRunner
                 viewer.</para>
-            <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
-                in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should: 
-            </para>
+            <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the
+                issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present in
+                eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To
+                add this file to eclipse you should: </para>
             <itemizedlist>
                 <listitem>
-                    <para>Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</para>
-                </listitem>  
+                    <para>Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar
+                        form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</para>
+                </listitem>
                 <listitem>
-                    <para>Copy <property>libswt-xulrunner-gtk-3449.so</property> file to your Fedora Eclipse location.</para>
-                </listitem>  
-                
+                    <para>Copy <property>libswt-xulrunner-gtk-3449.so</property> file to your Fedora
+                        Eclipse location.</para>
+                </listitem>
                 <listitem>
-                    <para>Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line: </para>
+                    <para>Open the file eclipse.ini,which can be found in your Fedora Eclipse
+                        location and add the following line: </para>
                     <programlisting role="JAVA"><![CDATA[-Dswt.library.path=/usr/lib/eclipse 
-]]></programlisting><para>,where <code>/usr/lib/eclipse</code> is the path to your eclipse folder.</para>
-                </listitem>     
+]]></programlisting>
+                    <para>,where <code>/usr/lib/eclipse</code> is the path to your eclipse
+                        folder.</para>
+                </listitem>
             </itemizedlist>
         </section>
-
         <!-- <section id="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents41">
 <?dbhtml filename="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents.html"?>
 <title>JSP Visual Page Editor - Design Time Look and Feel for Custom Components</title>
@@ -2327,22 +2121,15 @@ two elements with equal id has been used, but should be used only one -->
 <title>JSP 2.0, JSTL 1.0/1.1 support</title>
 </section>
 -->
-
     </section>
-
     <section id="more_editors">
-
         <title>More Editors</title>
-
         <para>Besides Visual Page Editor JBDS is supplied with a huge range of various editors for
             different file types: properties, TLD, web.xml, tiles, and so on.</para>
         <section id="GraphicalPropertiesEditor">
-
             <title>Graphical Properties Editor</title>
-
             <para><property>The Properties editor</property> allows you to work in two different
                 modes and also supports unicode characters.</para>
-
             <para>To create a new properties file, in the Package Explorer view, select <emphasis>
                     <property>New > Properties File</property>
                 </emphasis> from the right-click context menu on the folder where you want to create
@@ -2355,10 +2142,7 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
-            <para>You can edit the file using a table-oriented &quot;Properties&quot;
-                viewer:</para>
-
+            <para>You can edit the file using a table-oriented &quot;Properties&quot; viewer:</para>
             <figure>
                 <title>&quot;Properties&quot; Viewer</title>
                 <mediaobject>
@@ -2367,7 +2151,6 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>You can also use a Source viewer for editing the file:</para>
             <figure>
                 <title>Source Viewer</title>
@@ -2378,14 +2161,10 @@ two elements with equal id has been used, but should be used only one -->
                 </mediaobject>
             </figure>
         </section>
-
         <section id="GraphicalTLDEditor">
-
             <title>Graphical TLD Editor</title>
-
             <para><property>The TLD editor</property> comes with same features you will find in all
                 other JBoss Developer Studio editors:</para>
-
             <itemizedlist>
                 <listitem>
                     <para>Graphical and source edit modes</para>
@@ -2395,9 +2174,7 @@ two elements with equal id has been used, but should be used only one -->
                 </listitem>
             </itemizedlist>
             <section id="TreeView2">
-
                 <title>Tree view</title>
-
                 <figure>
                     <title>Tree View</title>
                     <mediaobject>
@@ -2408,12 +2185,9 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
             </section>
             <section id="SourceView1">
-
                 <title>Source view</title>
-
                 <para>You can easily switch from Tree to Source by selecting the Source tab at the
                     bottom of the editor.</para>
-
                 <figure>
                     <title>Source View</title>
                     <mediaobject>
@@ -2422,9 +2196,7 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>You can easily add a <property>new tag</property>:</para>
-
                 <figure>
                     <title>Adding a New TLD Tag</title>
                     <mediaobject>
@@ -2433,7 +2205,6 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>You can also easily add a <property>new attribute</property> to an existing
                     tag:</para>
                 <figure>
@@ -2446,7 +2217,6 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
                 <para>Content assist is available when editing the file using the Source
                     viewer:</para>
-
                 <figure>
                     <title>TLD Content Assist</title>
                     <mediaobject>
@@ -2455,11 +2225,9 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>In the Source viewer, if at any point a tag is incorrect or incomplete, an
                     error will be indicated next to the line and also in the Problems view
                     below.</para>
-
                 <figure>
                     <title>Error Reporting</title>
                     <mediaobject>
@@ -2470,19 +2238,15 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
             </section>
         </section>
-
-
         <section id="GraphicalWebApplicationFileEditor">
-
             <title>Graphical Web Application File (web.xml) Editor</title>
-
-        	<para>The deployment descriptor <emphasis>
-        		<property>web.xml</property></emphasis> file is intended for describing the servlets,  container-managed 
-        		security constraints and various deployment properties specific for your Web Application.</para>
-        	
-        	<para>To edit the deployment descriptor <property>JBoss Developer Studio</property> provides its own 
-        		<property>web.xml editor</property> that comes with the same features you will find in all other <property>JBDS</property> editors:</para>
-
+            <para>The deployment descriptor <emphasis>
+                    <property>web.xml</property></emphasis> file is intended for describing the
+                servlets, container-managed security constraints and various deployment properties
+                specific for your Web Application.</para>
+            <para>To edit the deployment descriptor <property>JBoss Developer Studio</property>
+                provides its own <property>web.xml editor</property> that comes with the same
+                features you will find in all other <property>JBDS</property> editors:</para>
             <itemizedlist>
                 <listitem>
                     <para>Graphical and source edit modes</para>
@@ -2493,12 +2257,12 @@ two elements with equal id has been used, but should be used only one -->
             </itemizedlist>
             <section id="TreeView1">
                 <title>Tree View</title>
-
-            	<para>Switch to the <property>Tree view</property> if you want to edit <emphasis>
-            		<property>web.xml</property></emphasis> in a graphical mode. 
-            		All elements that <emphasis>
-            			<property>web.xml</property></emphasis> could include are located in the left area of the editor in a tree format.  
-            		Click a node on the left to display and edit its properties that will appear in the right-hand area.</para>
+                <para>Switch to the <property>Tree view</property> if you want to edit <emphasis>
+                        <property>web.xml</property></emphasis> in a graphical mode. All elements
+                    that <emphasis>
+                        <property>web.xml</property></emphasis> could include are located in the
+                    left area of the editor in a tree format. Click a node on the left to display
+                    and edit its properties that will appear in the right-hand area.</para>
                 <figure>
                     <title>Tree View for editing web.xml in a graphical mode</title>
                     <mediaobject>
@@ -2507,10 +2271,8 @@ two elements with equal id has been used, but should be used only one -->
                         </imageobject>
                     </mediaobject>
                 </figure>
-
                 <para>You can add any new elements right in the <property>Tree
                     viewer</property>:</para>
-
                 <figure>
                     <title>Adding New Elements in Web XML Editor</title>
                     <mediaobject>
@@ -2521,12 +2283,9 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
             </section>
             <section id="SourceView2">
-
                 <title>Source View</title>
-
                 <para>Switch to the <property>Source viewer </property>to edit the web.xml file by
                     hand at any time:</para>
-
                 <figure>
                     <title>Web XML Source View</title>
                     <mediaobject>
@@ -2537,13 +2296,10 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
             </section>
             <section id="ContentAssist">
-
                 <title>Content Assist</title>
-
                 <para>Content assist is available in the Source viewer. Simply click <emphasis>
                         <property>CTRL-Space</property>
                     </emphasis> anywhere in the file.</para>
-
                 <figure>
                     <title>Web XML Content Assist</title>
                     <mediaobject>
@@ -2555,13 +2311,10 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
             </section>
             <section id="ErrorCheckingAndValidation">
-
                 <title>Errors Checking and Validation</title>
-
                 <para>If errors occur anywhere in the file, small red dots will appear next to the
                     lines where the errors occurred. Also, note that the file is marked by a small x
                     in the Package Explorer view.</para>
-
                 <figure>
                     <title>Errors Reporting</title>
                     <mediaobject>
@@ -2572,14 +2325,10 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
             </section>
         </section>
-
         <section id="CSSEditor">
-
             <title>CSS Editor</title>
-
             <para>The <property>CSS editor</property> comes with the same features you will find in
                 all other JBoss Developer Studio editors.</para>
-
             <itemizedlist>
                 <listitem>
                     <para>Content assist</para>
@@ -2588,10 +2337,8 @@ two elements with equal id has been used, but should be used only one -->
                     <para>Validation and error checking</para>
                 </listitem>
             </itemizedlist>
-
             <para>With the CSS (Cascading Style Sheet) editor, you can take advantage of code
                 prompting:</para>
-
             <figure>
                 <title>CSS Editor</title>
                 <mediaobject>
@@ -2600,7 +2347,6 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <!--    <para>You can also use the Outline view next to the editor to navigate through the CSS
                 file:</para>
 
@@ -2613,10 +2359,8 @@ two elements with equal id has been used, but should be used only one -->
                 </mediaobject>
             </figure>            
           -->
-
             <para>And you can also use the Properties view next to the editor to edit existing
                 stylesheet declaration properties:</para>
-
             <figure>
                 <title>Properties View in CSS Editor</title>
                 <mediaobject>
@@ -2625,17 +2369,14 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
-            <para>To make you work on CSS files more comfortable, CSS perspective is available, read more about it in   <link linkend ="css_perspective">CSS Editing Perspective chapter</link></para> 
+            <para>To make you work on CSS files more comfortable, CSS perspective is available, read
+                more about it in <link linkend="css_perspective">CSS Editing Perspective
+                    chapter</link></para>
         </section>
         <section id="JavaScriptEditor">
-                            
-
             <title>JavaScript Editor</title>
-
             <para>The <property>JavaScript editor</property> includes a Preview viewer and a Source
                 viewer. In the Source viewer, you can use code assist:</para>
-
             <figure>
                 <title>JavaScript Editor</title>
                 <mediaobject>
@@ -2644,10 +2385,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>You can also use the Source viewer with the Outline view to navigate around the
                 file:</para>
-
             <figure>
                 <title>Source Viewer in JavaScript Editor </title>
                 <mediaobject>
@@ -2656,7 +2395,6 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
         </section>
         <!-- <section id="ImageViewer">
           
@@ -2675,21 +2413,17 @@ two elements with equal id has been used, but should be used only one -->
 
         </section> -->
         <section id="XSDEditor">
-
             <title>XSD Editor</title>
-
             <para>JBoss Developer Studio comes with an <property>XSD Editor</property> for XML
                 Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink
                     url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html"
                     >WTP Getting Started</ulink>).</para>
-
             <para>To create a new XSD file, right-click a folder in the Package Explorer view,
                 select <emphasis>
                     <property>New &gt; Other...</property>
                 </emphasis> from the context menu and then select <emphasis>
                     <property>XML &gt; XML Schema</property>
                 </emphasis> in the dialog box.</para>
-
             <figure>
                 <title>Creating New XSD file</title>
                 <mediaobject>
@@ -2698,10 +2432,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>The XSD Editor includes two viewers for working on the file, a Design viewer and a
                 Source viewer:</para>
-
             <figure>
                 <title>Source Viewer in XSD Editor</title>
                 <mediaobject>
@@ -2710,10 +2442,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>In the Design viewer, you can drill down on an element by double-clicking on
                 it:</para>
-
             <figure>
                 <title>Design Viewer in XSD Editor</title>
                 <mediaobject>
@@ -2722,10 +2452,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>Various edit options are available when you right-click an element in the
                 diagram:</para>
-
             <figure>
                 <title>Edit Options in XSD Editor Context Menu.</title>
                 <mediaobject>
@@ -2734,9 +2462,7 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>You can also use the Properties view to edit a selected element:</para>
-
             <figure>
                 <title>Properties View in XSD Editor</title>
                 <mediaobject>
@@ -2745,25 +2471,21 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
             <para>You can also use a Source viewer for the file. In this viewer, along with direct
                 editing of the source code, you can also edit the file by using the Properties view
                 on the right:</para>
-
             <figure>
-                <title>Using Source Viewer and Properties View together for source code editing</title>
+                <title>Using Source Viewer and Properties View together for source code
+                    editing</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_52.png" scale="85"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-
         </section>
         <section id="SupportforXMLSchema">
-
             <title>Support for XML Schema</title>
-
             <para>JBoss Developer Studio fully supports XML files based on schemas as well as
                 DTDs:</para>
             <figure>
@@ -2774,8 +2496,6 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-
         </section>
     </section>
-
 </chapter>
