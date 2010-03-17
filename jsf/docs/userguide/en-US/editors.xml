@@ -2375,8 +2375,8 @@ two elements with equal id has been used, but should be used only one -->
         </section>
         <section id="JavaScriptEditor">
             <title>JavaScript Editor</title>
-            <para>The <property>JavaScript editor</property> includes a Preview viewer and a Source
-                viewer. In the Source viewer, you can use code assist:</para>
+            <para>The <property>JavaScript editor</property> is a Source
+                viewer in which you can use code assist:</para>
             <figure>
                 <title>JavaScript Editor</title>
                 <mediaobject>
@@ -2385,10 +2385,10 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>You can also use the Source viewer with the Outline view to navigate around the
-                file:</para>
+            <para>You can also use the <property>JavaScript editor</property> 
+                with the Outline view to navigate around the file:</para>
             <figure>
-                <title>Source Viewer in JavaScript Editor </title>
+                <title>JavaScript Editor with the Outline view</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/more_editors/more_editors_45.png" scale="85"/>
