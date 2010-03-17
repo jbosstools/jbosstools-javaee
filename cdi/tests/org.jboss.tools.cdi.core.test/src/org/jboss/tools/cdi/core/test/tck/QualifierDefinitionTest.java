@@ -90,7 +90,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		// TODO use correct start position instead of 0. 
-		assertLocationEquals(declarations, 0, 12);
+		assertLocationEquals(declarations, 856, 12);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers.", 4, qualifiers.size());
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
-		assertEquals("Wrong number of qualifier declarations.", 2, declarations.size());
+		assertEquals("Wrong number of qualifier declarations.", 3, declarations.size());
 		// TODO use correct start position instead of 0.
 		assertLocationEquals(declarations, 0, 6);
 		assertLocationEquals(declarations, 0, 9);
@@ -126,7 +126,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		Set<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		// TODO use correct start position instead of 0.
-		assertLocationEquals(declarations, 0, 5);
+		assertLocationEquals(declarations, 914, 5);
 
 		Set<IBean> injectedBeans = cdiProject.getBeans(point);
 		assertEquals("Wrong number of beans.", 1, injectedBeans.size());
@@ -149,7 +149,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
 		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
-		assertEquals("Wrong number of beans.", 1, beans.size());
+		assertFalse("Wrong number of beans.", beans.isEmpty());
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie type.", 2, qualifiers.size());
@@ -163,7 +163,7 @@ public class QualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierNotDeclaredInheritedIsNotInherited() throws JavaModelException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.qualifier.ShetlandPony");
-		assertEquals("Wrong number of beans.", 1, beans.size());
+		assertFalse("Wrong number of beans.", beans.isEmpty());
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals(
