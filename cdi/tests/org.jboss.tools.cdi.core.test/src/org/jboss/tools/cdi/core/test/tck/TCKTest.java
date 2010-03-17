@@ -73,8 +73,9 @@ public class TCKTest extends TestCase {
 		return tckProject;
 	}
 
-	protected IType getType(String name) throws JavaModelException {
-		return EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), name);
+	protected IParametedType getType(String name) throws JavaModelException {
+		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), name);
+		return type == null ? null : cdiProject.getNature().getTypeFactory().newParametedType(type);
 	}
 
 	public static IProject findTestProject() {
@@ -107,7 +108,7 @@ public class TCKTest extends TestCase {
 	}
 
 	protected Set<IBean> getBeans(String typeName) throws JavaModelException {
-		IType type = getType(typeName);
+		IParametedType type = getType(typeName);
 		assertNotNull("Can't find " + typeName + " type.", type);
 		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
 		assertNotNull("There is no eny beans with " + typeName + " type", beans);
@@ -119,10 +120,10 @@ public class TCKTest extends TestCase {
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		IBean bean = beans.iterator().next();
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
-		IType type = getType(annotationTypeName);
+		IParametedType type = getType(annotationTypeName);
 		for (IQualifierDeclaration declaration : declarations) {
 			IAnnotation annotation = declaration.getDeclaration();
-			if(type.getElementName().equals(annotation.getElementName())) {
+			if(type.getType().getElementName().equals(annotation.getElementName())) {
 				return declaration;
 			}
 		}
@@ -135,8 +136,8 @@ public class TCKTest extends TestCase {
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		IBean bean = beans.iterator().next();
 		final IType beanClass = bean.getBeanClass();
-		final IType type = getType(annotationTypeName);
-		final IAnnotation annotation = beanClass.getAnnotation(type.getElementName());
+		final IParametedType type = getType(annotationTypeName);
+		final IAnnotation annotation = beanClass.getAnnotation(type.getType().getElementName());
 		IAnnotationDeclaration annotationDeclaration = new IAnnotationDeclaration() {
 			public IAnnotation getDeclaration() {
 				return annotation;
@@ -147,7 +148,7 @@ public class TCKTest extends TestCase {
 			}
 
 			public IType getType() {
-				return type;
+				return type.getType();
 			}
 
 			public int getLength() {

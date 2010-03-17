@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -99,7 +100,7 @@ public class QualifierDefinitionTest extends TCKTest {
 	public void testMultipleQualifiers() throws JavaModelException {
 		IQualifierDeclaration chunky = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Chunky");
 		IQualifierDeclaration whitefish = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Whitefish");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.Cod");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.Cod");
 		Set<IBean> beans = cdiProject.getBeans(true, type, chunky, whitefish);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -146,7 +147,7 @@ public class QualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierDeclaredInheritedIsInherited() throws CoreException {
 		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -178,7 +179,7 @@ public class QualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierDeclaredInheritedIsBlockedByIntermediateClass() throws CoreException {
 		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/ClippedBorderCollie.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.ClippedBorderCollie");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.ClippedBorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -194,7 +195,7 @@ public class QualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierDeclaredInheritedIsIndirectlyInherited() throws CoreException {
 		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.EnglishBorderCollie");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.EnglishBorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
