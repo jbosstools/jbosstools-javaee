@@ -1,7 +1,0 @@
-<tests>
-	<test id="sub1">
-	<SELECT CLASS="myStyle0" STYLE="color: red; font-size: large;" MULTIPLE="multiple" SIZE="3">
-<!--    <f:selectItem id="it1_2" itemLabel="Sports" itemValue="2" />-->
-</SELECT>
-	</test>
-</tests>
