@@ -44,6 +44,7 @@ import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -178,7 +179,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
-			IType beanType, IAnnotationDeclaration... qualifiers) {
+			IParametedType beanType, IAnnotationDeclaration... qualifiers) {
 		// TODO
 		return Collections.emptySet();
 	}
@@ -692,7 +693,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.eclipse.jdt.core.IType, org.eclipse.jdt.core.IType[])
 	 */
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
-			IType beanType, IType... qualifiers) {
+			IParametedType beanType, IType... qualifiers) {
 		// TODO
 		return Collections.emptySet();
 	}
@@ -704,7 +705,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			String fullyQualifiedBeanType,
 			String... fullyQualifiedQualifiersTypes) {
-		// TODO
+		
 		return Collections.emptySet();
 	}
 }

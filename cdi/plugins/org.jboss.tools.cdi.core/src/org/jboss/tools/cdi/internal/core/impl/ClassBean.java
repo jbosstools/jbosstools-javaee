@@ -12,8 +12,10 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +34,7 @@ import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
@@ -402,4 +405,17 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			scope = getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 		}
 	}
+
+	protected Set<IQualifierDeclaration> getInheritedQualifierDeclarations() {
+		if(superClassBean == null) return Collections.emptySet();
+		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
+		Set<IQualifierDeclaration> ds = superClassBean.getQualifierDeclarations();
+		for (IQualifierDeclaration d: ds) {
+			if(d.getQualifier() != null && d.getQualifier().getInheritedDeclaration() != null) {
+				result.add(d);
+			}
+		}
+		return result;
+	}
+
 }

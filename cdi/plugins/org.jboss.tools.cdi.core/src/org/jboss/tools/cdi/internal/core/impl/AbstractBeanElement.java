@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,15 +95,29 @@ public class AbstractBeanElement extends CDIElement {
 	}
 
 	public Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
-		// TODO take into account includeInherited parameter. 
 		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
+		Set<IQualifier> qs = new HashSet<IQualifier>();
 		for(AnnotationDeclaration a: definition.getAnnotations()) {
 			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
 			if(k == AnnotationDefinition.QUALIFIER) {
-				result.add((IQualifierDeclaration)a);
+				IQualifierDeclaration q = (IQualifierDeclaration)a;
+				result.add(q);
+				if(q.getQualifier() != null) qs.add(q.getQualifier());				
+			}
+		}
+		if(includeInherited) {
+			Set<IQualifierDeclaration> ds = getInheritedQualifierDeclarations();
+			for (IQualifierDeclaration d : ds) {
+				if (d.getQualifier() != null && !qs.contains(d.getQualifier())) {
+					result.add(d);
+				}
 			}
 		}
 		return result;
+	}
+
+	protected Set<IQualifierDeclaration> getInheritedQualifierDeclarations() {
+		return Collections.emptySet();
 	}
 
 	public Set<IQualifier> getQualifiers() {

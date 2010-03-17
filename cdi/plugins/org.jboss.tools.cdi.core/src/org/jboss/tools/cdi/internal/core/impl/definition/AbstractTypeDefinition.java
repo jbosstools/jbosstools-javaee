@@ -61,16 +61,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		this.type = contextType;
 		super.init(contextType, context);
 		qualifiedName = getType().getFullyQualifiedName();
-		parametedType = new ParametedType();
-		if(type != null && !type.isBinary()) {
-			ISourceRange r = type.getNameRange();
-			if(r != null) {
-				parametedType = new TypeDeclaration(parametedType, r.getOffset(), r.getLength());
-			}
-		}
-		parametedType.setFactory(context.getProject().getDelegate().getNature().getTypeFactory());
-		parametedType.setType(this.type);
-		parametedType.setSignature("Q" + qualifiedName + ";");
+		parametedType = context.getProject().getDelegate().getNature().getTypeFactory().newParametedType(type);
 		if(type != null && !type.isBinary()) {
 			parametedType.setPositionProvider(new PositionProviderImpl());
 			parametedType.getInheritedTypes();

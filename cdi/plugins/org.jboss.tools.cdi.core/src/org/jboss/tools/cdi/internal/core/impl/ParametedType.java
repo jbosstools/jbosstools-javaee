@@ -96,8 +96,19 @@ public class ParametedType implements IParametedType {
 		if(signature != null && signature.equals(other.signature)) {
 			return true;
 		}
-		//TODO
-		return false;
+		if(type == null || !type.equals(other.type)) {
+			return false;
+		}
+		if(parameterTypes.size() != other.parameterTypes.size()) {
+			return false;
+		}
+		for (int i = 0; i < parameterTypes.size(); i++) {
+			if(!parameterTypes.get(i).equals(other.parameterTypes.get(i))) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	void buildInheritance() {
