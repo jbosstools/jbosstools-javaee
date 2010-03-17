@@ -203,4 +203,20 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertContainsQualifier(bean, hairy);
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
 	}
+
+	/**
+	 * section 4.1 aga)
+	 * @throws JavaModelException 
+	 */
+	public void testQualifierNotDeclaredInheritedIsNotIndirectlyInherited() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.qualifier.MiniatureShetlandPony");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		assertEquals(
+				"Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie type.",
+				2, qualifiers.size());
+		assertContainsQualifierType(bean, "javax.enterprise.inject.Default");
+		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
+	}
 }
