@@ -13,9 +13,9 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 
@@ -30,7 +30,7 @@ public class EnterpriseQualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierDeclaredInheritedIsInherited() throws CoreException {
 		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/enterprise/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.Hairy");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.BorderCollieLocal");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.BorderCollieLocal");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -46,7 +46,7 @@ public class EnterpriseQualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierNotDeclaredInheritedIsNotInherited() throws JavaModelException {
 		IQualifierDeclaration skinny = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/enterprise/SkinnyHairlessCat.java", "org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.Skinny");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.TameSkinnyHairlessCatLocal");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.TameSkinnyHairlessCatLocal");
 		Set<IBean> beans = cdiProject.getBeans(true, type, skinny);
 		assertTrue("Wrong number of beans.", beans.isEmpty());
 	}
@@ -57,7 +57,7 @@ public class EnterpriseQualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierDeclaredInheritedIsIndirectlyInherited() throws CoreException {
 		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/enterprise/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.Hairy");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.EnglishBorderCollieLocal");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.EnglishBorderCollieLocal");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -73,7 +73,7 @@ public class EnterpriseQualifierDefinitionTest extends TCKTest {
 	 */
 	public void testQualifierNotDeclaredInheritedIsNotIndirectlyInherited() throws JavaModelException {
 		IQualifierDeclaration skinny = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/enterprise/SkinnyHairlessCat.java", "org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.Skinny");
-		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.FamousCatLocal");
+		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.enterprise.FamousCatLocal");
 		Set<IBean> beans = cdiProject.getBeans(true, type, skinny);
 		assertTrue("Wrong number of beans.", beans.isEmpty());
 	}
