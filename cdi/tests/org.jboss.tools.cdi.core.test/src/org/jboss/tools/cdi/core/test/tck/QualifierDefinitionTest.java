@@ -12,9 +12,9 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IProducerMethod;
@@ -76,14 +76,16 @@ public class QualifierDefinitionTest extends TCKTest {
 	/**
 	 * section 2.3.3 a)
 	 * section 3.1.3 be)
+	 * @throws CoreException 
 	 */
-	public void testQualifiersDeclaredInJava() {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.qualifier.Cat", "org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier");
-		assertEquals("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.Cat type and org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier qualifier.", 1, beans.size());
+	public void testQualifiersDeclaredInJava() throws CoreException {
+		IQualifierDeclaration synchronous = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cat.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Synchronous");
+		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.qualifier.Cat", "org.jboss.jsr299.tck.tests.definition.qualifier.Synchronous");
+		assertEquals("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.Cat type and org.jboss.jsr299.tck.tests.definition.qualifier.Synchronous qualifier.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers.", 2, qualifiers.size());
-		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.SynchronousQualifier");
+		assertContainsQualifier(bean, synchronous);
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		// TODO use correct start position instead of 0. 
@@ -95,8 +97,8 @@ public class QualifierDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testMultipleQualifiers() throws JavaModelException {
-		IAnnotationDeclaration chunky = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Chunky");
-		IAnnotationDeclaration whitefish = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Whitefish");
+		IQualifierDeclaration chunky = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Chunky");
+		IQualifierDeclaration whitefish = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Whitefish");
 		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.Cod");
 		Set<IBean> beans = cdiProject.getBeans(true, type, chunky, whitefish);
 		assertEquals("Wrong number of beans.", 1, beans.size());
@@ -140,17 +142,17 @@ public class QualifierDefinitionTest extends TCKTest {
 
 	/**
 	 * section 4.1 aa)
-	 * @throws JavaModelException 
+	 * @throws CoreException 
 	 */
-	public void testQualifierDeclaredInheritedIsInherited() throws JavaModelException {
-		IAnnotationDeclaration hairy = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+	public void testQualifierDeclaredInheritedIsInherited() throws CoreException {
+		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
 		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.BorderCollie type.", 2, qualifiers.size());
-		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		assertContainsQualifier(bean, hairy);
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
 	}
 
@@ -172,39 +174,33 @@ public class QualifierDefinitionTest extends TCKTest {
 
 	/**
 	 * section 4.1 aa)
-	 * @throws JavaModelException 
+	 * @throws CoreException 
 	 */
-	public void testQualifierDeclaredInheritedIsBlockedByIntermediateClass() throws JavaModelException {
-		IAnnotationDeclaration hairy = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/ClippedBorderCollie.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+	public void testQualifierDeclaredInheritedIsBlockedByIntermediateClass() throws CoreException {
+		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/ClippedBorderCollie.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
 		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.ClippedBorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.ClippedBorderCollie type.", 2, qualifiers.size());
-		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		assertContainsQualifier(bean, hairy);
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
 	}
 
 	/**
 	 * section 4.1 ag)
-	 * @throws JavaModelException 
+	 * @throws CoreException 
 	 */
-	public void testQualifierDeclaredInheritedIsIndirectlyInherited() throws JavaModelException {
-		IAnnotationDeclaration hairy = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+	public void testQualifierDeclaredInheritedIsIndirectlyInherited() throws CoreException {
+		IQualifierDeclaration hairy = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
 		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.EnglishBorderCollie");
 		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.EnglishBorderCollie type.", 2, qualifiers.size());
-		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		assertContainsQualifier(bean, hairy);
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
-
-//		Set<? extends Annotation> bindings = getBeans(
-//				EnglishBorderCollie.class, new HairyQualifier(false))
-//				.iterator().next().getQualifiers();
-//		assert bindings.size() == 2;
-//		assert bindings.contains(new HairyQualifier(false));
 	}
 }

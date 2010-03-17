@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -23,6 +24,8 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -111,7 +114,23 @@ public class TCKTest extends TestCase {
 		return beans;
 	}
 
-	protected IAnnotationDeclaration getAnnotationDeclarationFromBean(String beanClassFilePath, String annotationTypeName) throws JavaModelException {
+	protected IQualifierDeclaration getQualifierDeclarationFromBeanClass(String beanClassFilePath, String annotationTypeName) throws JavaModelException {
+		IFile file = tckProject.getFile(beanClassFilePath);
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		IBean bean = beans.iterator().next();
+		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+		IType type = getType(annotationTypeName);
+		for (IQualifierDeclaration declaration : declarations) {
+			IAnnotation annotation = declaration.getDeclaration();
+			if(type.getElementName().equals(annotation.getElementName())) {
+				return declaration;
+			}
+		}
+		fail("Can't find " + annotationTypeName + " qualifier in " + beanClassFilePath + " bean.");
+		return null;
+	}
+
+	protected IAnnotationDeclaration createAnnotationDeclarationForAnnotation(String beanClassFilePath, String annotationTypeName) throws JavaModelException {
 		IFile file = tckProject.getFile(beanClassFilePath);
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		IBean bean = beans.iterator().next();
@@ -193,6 +212,29 @@ public class TCKTest extends TestCase {
 		}
 		allTypes.append("]");
 		fail(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.");
+	}
+
+	public static void assertContainsQualifier(IBean bean, IQualifierDeclaration declaration) throws CoreException {
+		String typeName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		StringBuffer allTypes = new StringBuffer("[");
+		boolean found = false;
+		for (IQualifier qualifier : qualifiers) {
+			allTypes.append(" ").append(qualifier.getSourceType().getFullyQualifiedName()).append(";");
+			if (typeName.equals(qualifier.getSourceType().getFullyQualifiedName())) {
+				found = true;
+				break;
+			}
+		}
+		allTypes.append("]");
+		assertTrue(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier with " + typeName + " type.", found);
+		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations(true);
+		for (IQualifierDeclaration d : declarations) {
+			if(CDIProject.getQualifierDeclarationKey(d).equals(CDIProject.getQualifierDeclarationKey(declaration)) ) {
+				return;
+			}
+		}
+		fail(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier declaration with " + typeName + " type.");
 	}
 
 	public static void assertContainsQualifierType(IBean bean, String typeName) {

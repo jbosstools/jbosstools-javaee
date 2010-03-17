@@ -255,7 +255,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return true;
 	}
 
-	static String getQualifierDeclarationKey(IAnnotationDeclaration d) throws CoreException {
+	public static String getQualifierDeclarationKey(IAnnotationDeclaration d) throws CoreException {
 		IType type = d.getType();
 		IMethod[] ms = type.getMethods();
 		StringBuffer result = new StringBuffer();
