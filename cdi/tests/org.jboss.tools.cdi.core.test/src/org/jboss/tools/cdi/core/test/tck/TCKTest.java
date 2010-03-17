@@ -195,7 +195,7 @@ public class TCKTest extends TestCase {
 		fail(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.");
 	}
 
-	protected void assertContainsQualifierType(IBean bean, String typeName) {
+	public static void assertContainsQualifierType(IBean bean, String typeName) {
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		StringBuffer allTypes = new StringBuffer("[");
 		for (IQualifier qualifier : qualifiers) {

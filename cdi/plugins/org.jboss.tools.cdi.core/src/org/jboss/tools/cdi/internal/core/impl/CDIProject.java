@@ -200,7 +200,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			Set<IParametedType> types = b.getLegalTypes();
 			if(containsType(types, type)) {
 				try {
-					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations();
+					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
 					if(areMatchingQualifiers(qsb, qs)) {
 						result.add(b);
 					}

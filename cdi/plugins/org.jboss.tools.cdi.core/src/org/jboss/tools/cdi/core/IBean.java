@@ -82,10 +82,20 @@ public interface IBean extends IScoped, ICDIElement, IVariable {
 
 	/**
 	 * Obtains the qualifier declarations of the bean class or producer method or field.
+	 * This method doesn't return inherited qualifiers and equals getQualifierDeclarations(false);
 	 * 
 	 * @return the qualifiers
 	 */
 	Set<IQualifierDeclaration> getQualifierDeclarations();
+
+	/**
+	 * Obtains the qualifier declarations of the bean class or producer method
+	 * or field.
+	 * 
+	 * @param includeInherited if "true" then the result includes declarations of inherited qualifiers.
+	 * @return the qualifiers
+	 */
+	Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited);
 
 	/**
 	 * Obtains the qualifiers of the bean class or producer method or field.

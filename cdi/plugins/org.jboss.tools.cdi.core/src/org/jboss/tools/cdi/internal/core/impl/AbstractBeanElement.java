@@ -90,6 +90,11 @@ public class AbstractBeanElement extends CDIElement {
 	}
 
 	public Set<IQualifierDeclaration> getQualifierDeclarations() {
+		return getQualifierDeclarations(false);
+	}
+
+	public Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
+		// TODO take into account includeInherited parameter. 
 		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
 		for(AnnotationDeclaration a: definition.getAnnotations()) {
 			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());

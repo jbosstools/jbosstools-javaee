@@ -169,4 +169,42 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Default");
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
 	}
+
+	/**
+	 * section 4.1 aa)
+	 * @throws JavaModelException 
+	 */
+	public void testQualifierDeclaredInheritedIsBlockedByIntermediateClass() throws JavaModelException {
+		IAnnotationDeclaration hairy = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/ClippedBorderCollie.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.ClippedBorderCollie");
+		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.ClippedBorderCollie type.", 2, qualifiers.size());
+		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
+	}
+
+	/**
+	 * section 4.1 ag)
+	 * @throws JavaModelException 
+	 */
+	public void testQualifierDeclaredInheritedIsIndirectlyInherited() throws JavaModelException {
+		IAnnotationDeclaration hairy = getAnnotationDeclarationFromBean("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/LongHairedDog.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		IType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.EnglishBorderCollie");
+		Set<IBean> beans = cdiProject.getBeans(true, type, hairy);
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.EnglishBorderCollie type.", 2, qualifiers.size());
+		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.Hairy");
+		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
+
+//		Set<? extends Annotation> bindings = getBeans(
+//				EnglishBorderCollie.class, new HairyQualifier(false))
+//				.iterator().next().getQualifiers();
+//		assert bindings.size() == 2;
+//		assert bindings.contains(new HairyQualifier(false));
+	}
 }
