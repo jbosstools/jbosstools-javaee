@@ -11,9 +11,9 @@
     
         <title>Running the Application</title>
         <para>Everything is now ready for running our application by using the JBoss engine. For
-            controlling JBoss server there is JBoss Server view:</para>
+            controlling JBoss server there is Servers view:</para>
         <figure>
-            <title>JBoss Server View</title>
+            <title>Servers view</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_application/jsf_application_9.png"/>
@@ -22,7 +22,7 @@
         </figure>
         <itemizedlist>
             <listitem>
-                <para>Start up JBoss by clicking on the icon in JBoss Server view. (If JBoss is
+                <para>Start up JBoss by clicking on the icon in Servers view. (If JBoss is
                     already running, stop it by clicking on the red icon and then start it again.
                     Remember, the JSF run-time requires restarting the servlet engine when any
                     changes have been made.) After the messages in the Console tabbed view stop
