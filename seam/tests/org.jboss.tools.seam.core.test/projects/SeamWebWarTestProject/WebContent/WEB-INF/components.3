@@ -10,42 +10,10 @@
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-1.1.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-1.1.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-1.2.xsd
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
                  
 	<component class="org.domain.SeamWebWarTestProject.session.StatefulComponent" scope="application">
   		<property name="abc">value1</property>
  	</component>
  	
-   <core:init debug="true" jndi-pattern="@jndiPattern@"/>
-     
-   <core:manager concurrent-request-timeout="500" 
-                 conversation-timeout="120000" 
-                 conversation-id-parameter="cid" 
-                 conversation-is-long-running-parameter="clr"/>
-    
-
-   <core:entity-manager-factory name="SeamWebWarTestProjectEntityManagerFactory" 
-               persistence-unit-name="SeamWebWarTestProject"/>
-   
-   <core:ejb installed="@embeddedEjb@"/>
-    
-
-                              
-   <event type="org.jboss.seam.notLoggedIn">
-       <action expression="#{redirect.captureCurrentView}"/>
-   </event>
-   <event type="org.jboss.seam.postAuthenticate">
-       <action expression="#{redirect.returnToCapturedView}"/>
-   </event>
-   
-   <mail:mail-session host="localhost" port="2525" username="test" password="test" />
-        
-   <!-- For use with jBPM pageflow or process management -->
-   <!--  
-   <core:jbpm>
-      <core:process-definitions></core:process-definitions>
-      <core:pageflow-definitions></core:pageflow-definitions>
-   </core:jbpm>
-   -->
-      
 </components>
