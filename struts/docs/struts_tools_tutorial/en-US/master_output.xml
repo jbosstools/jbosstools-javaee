@@ -1089,10 +1089,10 @@ public class GreetingAction extends org.apache.struts.action.Action
 
         <para>Thus at this point everything is ready for running our application without having to leave JBoss
             Developer Studio by using the JBoss Application Server engine that comes with the JBoss
-            Developer Studio. For controlling JBoss AS within JBoss Developer Studio, there is JBoss
-            Server view.</para>
+            Developer Studio. For controlling JBoss AS within JBoss Developer Studio, there is 
+            Servers view.</para>
         <figure float="0">
-            <title>JBoss Server Panel</title>
+            <title>Servers Panel</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts_application/struts_application_6.png"></imagedata>
@@ -1101,7 +1101,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         </figure>
         <itemizedlist>
             <listitem>
-                <para>Start up JBoss AS by clicking on the icon in JBoss Server view. (If JBoss AS
+                <para>Start up JBoss AS by clicking on the icon in Servers view. (If JBoss AS
                     is already running, stop it by clicking on the red icon and then start it again.
                     Remember, the Struts run-time requires restarting the servlet engine when any
                     changes have been made.)</para>
