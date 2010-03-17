@@ -100,6 +100,8 @@ public class SeamELAttributeContentProposalProvider implements
 			if(is == null) {
 				return EMPTY;
 			}
+
+			boolean addClosingToken = is.getOpenInstanceToken() != null && is.getCloseInstanceToken() == null;
 			
 			String prefix = getPrefix(contents, position, 0, contents.length());
 			if(prefix == null || prefix.length() == 0) {
@@ -122,7 +124,7 @@ public class SeamELAttributeContentProposalProvider implements
 			List<IContentProposal> list = new ArrayList<IContentProposal>();
 			for (TextProposal p: uniqueSuggestions) {
 				String label = prefix + p.getReplacementString();
-				IContentProposal cp = AttributeContentProposalProviderFactory.makeContentProposal(p.getReplacementString(), label, null);
+				IContentProposal cp = AttributeContentProposalProviderFactory.makeContentProposal(p.getReplacementString() + (addClosingToken ? "}" : ""), label, null);
 				list.add(cp);
 			}
 			return list.toArray(new IContentProposal[0]);
