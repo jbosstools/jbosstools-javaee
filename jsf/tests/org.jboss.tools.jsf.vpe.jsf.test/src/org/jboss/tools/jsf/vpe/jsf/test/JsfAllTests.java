@@ -97,6 +97,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestForUsingComponentsLibrariesWithDefaultNamespace;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestOpenOnForXhtmlFiles_JBIDE5577;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VPERefreshTest;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.VisualRefreshComment_JBIDE6067;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
@@ -213,6 +214,7 @@ public class JsfAllTests {
 		suite.addTestSuite(FacetProcessingTest.class);
 		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
 		suite.addTestSuite(ExceptionInVPEComments_JBIDE5143.class);
+		suite.addTestSuite(VisualRefreshComment_JBIDE6067.class);
 
 		// $JUnit-END$
 		return new VpeTestSetup(suite);
