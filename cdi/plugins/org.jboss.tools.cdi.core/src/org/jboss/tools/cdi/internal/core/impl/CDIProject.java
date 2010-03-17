@@ -34,6 +34,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -44,8 +45,9 @@ import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.INodeReference;
 
 /**
@@ -167,21 +169,71 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized (beans) {
 			result.addAll(beans);
 		}
-		if(result.size() == 1 || !attemptToResolveAmbiguousNames) {
+		return getResolvedBeans(result, attemptToResolveAmbiguousNames);
+	}
+
+	public Set<IBean> getResolvedBeans(Set<IBean> result, boolean attemptToResolveAmbiguousness) {
+		if(result.size() < 2 || !attemptToResolveAmbiguousness) {
 			return result;
 		}
+		
+		boolean containsAlternatives = false;
 		Iterator<IBean> it = result.iterator();
 		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b.isAlternative()) {
+				//TODO check that alternative is enabled in beans.xml
+				// otherwise it should be excluded from result
+				containsAlternatives = true;
+				break;
+			}
+		}
+		
+		if(!containsAlternatives) return result;
+
+		it = result.iterator();
+		while(it.hasNext()) {
 			IBean bean = it.next();
-			if(!bean.isAlternative()) it.remove();
+			if(bean.isAlternative()) continue;
+			if(bean instanceof IProducer && bean instanceof IBeanMember) {
+				IBeanMember p = (IBeanMember)bean;
+				if(p.getClassBean() != null && p.getClassBean().isAlternative()) continue;
+			}
+			it.remove();
 		}
 		return result;
 	}
 
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
-			IParametedType beanType, IAnnotationDeclaration... qualifiers) {
-		// TODO
-		return Collections.emptySet();
+			IParametedType beanType, IQualifierDeclaration... qualifiers) {
+		Set<IBean> result = new HashSet<IBean>();
+		IParametedType type = beanType;
+		if(type == null) {
+			return result;
+		}
+
+		Set<IQualifierDeclaration> qs = new HashSet<IQualifierDeclaration>();
+		if(qualifiers != null) for (IQualifierDeclaration d: qualifiers) qs.add(d);
+		
+		Set<IBean> beans = new HashSet<IBean>();
+		synchronized(allBeans) {
+			beans.addAll(allBeans);
+		}
+		for (IBean b: beans) {
+			Set<IParametedType> types = b.getLegalTypes();
+			if(containsType(types, type)) {
+				try {
+					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
+					if(areMatchingQualifiers(qsb, qs)) {
+						result.add(b);
+					}
+				} catch (CoreException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+			}
+		}
+
+		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
 	}
 
 	public Set<IBean> getBeans(IInjectionPoint injectionPoints) {
@@ -245,6 +297,48 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		} else for (IAnnotationDeclaration d: beanQualifiers) {
 			beanKeys.add(getQualifierDeclarationKey(d));
+		}
+		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
+			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		}
+
+		for(String k: injectionKeys) {
+			if(!beanKeys.contains(k)) return false;
+		}		
+		return true;
+	}
+
+	/**
+	 * Simplified implementation that does not compare members.
+	 * @param beanQualifiers
+	 * @param injectionQualifiers
+	 * @return
+	 * @throws CoreException
+	 */
+	public static boolean areMatchingQualifiers(Set<? extends IAnnotationDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
+		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
+			if(injectionQualifiers == null || injectionQualifiers.length == 0) {
+				return true;
+			}
+		}
+
+		TreeSet<String> injectionKeys = new TreeSet<String>();
+		if(injectionQualifiers != null) for (IType d: injectionQualifiers) {
+			injectionKeys.add(d.getFullyQualifiedName());
+		}
+
+		if(injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+			return true;
+		}
+		if(injectionKeys.isEmpty()) {
+			injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		}
+
+		TreeSet<String> beanKeys = new TreeSet<String>();
+		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
+			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		} else for (IAnnotationDeclaration d: beanQualifiers) {
+			beanKeys.add(d.getType().getFullyQualifiedName());
 		}
 		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
@@ -694,8 +788,31 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 */
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IParametedType beanType, IType... qualifiers) {
-		// TODO
-		return Collections.emptySet();
+		Set<IBean> result = new HashSet<IBean>();
+		IParametedType type = beanType;
+		if(type == null) {
+			return result;
+		}
+
+		Set<IBean> beans = new HashSet<IBean>();
+		synchronized(allBeans) {
+			beans.addAll(allBeans);
+		}
+		for (IBean b: beans) {
+			Set<IParametedType> types = b.getLegalTypes();
+			if(containsType(types, type)) {
+				try {
+					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
+					if(areMatchingQualifiers(qsb, qualifiers)) {
+						result.add(b);
+					}
+				} catch (CoreException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+			}
+		}
+		
+		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
 	}
 
 	/*
@@ -705,7 +822,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			String fullyQualifiedBeanType,
 			String... fullyQualifiedQualifiersTypes) {
+		IType type = null;
+		try {
+			type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), fullyQualifiedBeanType);
+		} catch (JavaModelException e) {
+			//ignore
+		}
+		if(type == null) {
+			return Collections.emptySet();
+		}
+		IParametedType beanType = getNature().getTypeFactory().newParametedType(type);
+		List<IType> qualifiers = new ArrayList<IType>();
+		if(fullyQualifiedQualifiersTypes != null) for (String s : fullyQualifiedQualifiersTypes) {
+			try {
+				type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), s);
+			} catch (JavaModelException e) {
+				//ignore
+			}
+			if(type != null) qualifiers.add(type);
+		}
 		
-		return Collections.emptySet();
+		return getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers.toArray(new IType[0]));
 	}
 }

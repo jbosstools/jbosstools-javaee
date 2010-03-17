@@ -80,7 +80,7 @@ public interface IBeanManager {
 	 * 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IParametedType beanType, IAnnotationDeclaration... qualifiers);
+	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IParametedType beanType, IQualifierDeclaration... qualifiers);
 
 	/**
 	 * Returns the set of beans which have the given required type and qualifier

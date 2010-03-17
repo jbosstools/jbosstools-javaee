@@ -409,7 +409,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	protected Set<IQualifierDeclaration> getInheritedQualifierDeclarations() {
 		if(superClassBean == null) return Collections.emptySet();
 		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
-		Set<IQualifierDeclaration> ds = superClassBean.getQualifierDeclarations();
+		Set<IQualifierDeclaration> ds = superClassBean.getQualifierDeclarations(true);
 		for (IQualifierDeclaration d: ds) {
 			if(d.getQualifier() != null && d.getQualifier().getInheritedDeclaration() != null) {
 				result.add(d);

@@ -126,7 +126,7 @@ public class AbstractBeanElement extends CDIElement {
 		IQualifier name = getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 
 		Set<IQualifier> result = new HashSet<IQualifier>();
-		Set<IQualifierDeclaration> ds = getQualifierDeclarations();
+		Set<IQualifierDeclaration> ds = getQualifierDeclarations(true);
 		for (IQualifierDeclaration d: ds) {
 			IQualifier q = d.getQualifier();
 			if(q != null) result.add(q);
