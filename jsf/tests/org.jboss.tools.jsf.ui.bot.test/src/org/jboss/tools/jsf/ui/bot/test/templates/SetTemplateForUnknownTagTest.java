@@ -5,6 +5,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.jsf.ui.bot.test.CSSStyleDialogVariables;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.jsf.ui.bot.test.UnknownTagDialogVariables;
+import org.jboss.tools.ui.bot.ext.CompareUtils;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
@@ -40,10 +41,13 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.textWithLabel(UnknownTagDialogVariables.TAG_STYLE_FIELD).setText("color:red");//$NON-NLS-1$
 		bot.buttonWithTooltip(UnknownTagDialogVariables.EDIT_TAG_STYLE_TIP).click();
 		String returnValue = setStyles();
-		assertEquals("font-family:Arial;color:black;", returnValue);//$NON-NLS-1$
-		bot.button(WidgetVariables.OK_BUTTON).click();
-		bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
-		bot.button(WidgetVariables.OK_BUTTON).click();
+    bot.button(WidgetVariables.OK_BUTTON).click();
+    bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
+    bot.button(WidgetVariables.OK_BUTTON).click();
+		assertTrue("Atttributes are not as expexted:\n" 
+		  + "Expected: " + "font-family:Arial;color:black;"
+		  + "Value: " + returnValue
+		  ,CompareUtils.compareStyleAttributes("font-family:Arial;color:black;", returnValue));//$NON-NLS-1$
 		checkVPE("templates/SetTemplateForUnknownTag.xml");//$NON-NLS-1$
 	}
 	
@@ -52,16 +56,22 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
 		bot.tabItem(WidgetVariables.VPE_TEMPLATES_TAB).activate();
 		bot.table().select(0);
-		checkTable(bot.table());
-		bot.button(WidgetVariables.EDIT_BUTTON).click();
-		bot.shell(UnknownTagDialogVariables.DIALOG_TITLE).activate();
-		bot.textWithLabel(UnknownTagDialogVariables.TAG_URI_FIELD).setText(""); //$NON-NLS-1$
-		bot.checkBoxWithLabel(UnknownTagDialogVariables.ALLOW_CHILDREN_CHECKBOX).click();
-		bot.textWithLabel(UnknownTagDialogVariables.VALUE_FIELD).setText(""); //$NON-NLS-1$
-		bot.textWithLabel(UnknownTagDialogVariables.TAG_STYLE_FIELD).setText(""); //$NON-NLS-1$
-		bot.button(WidgetVariables.OK_BUTTON).click();
-		bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
-		bot.button(WidgetVariables.OK_BUTTON).click();
+    try {
+      checkTable(bot.table());
+      bot.button(WidgetVariables.EDIT_BUTTON).click();
+      bot.shell(UnknownTagDialogVariables.DIALOG_TITLE).activate();
+      bot.textWithLabel(UnknownTagDialogVariables.TAG_URI_FIELD).setText(""); //$NON-NLS-1$
+      bot.checkBoxWithLabel(UnknownTagDialogVariables.ALLOW_CHILDREN_CHECKBOX)
+          .click();
+      bot.textWithLabel(UnknownTagDialogVariables.VALUE_FIELD).setText(""); //$NON-NLS-1$
+      bot.textWithLabel(UnknownTagDialogVariables.TAG_STYLE_FIELD).setText(""); //$NON-NLS-1$
+      bot.button(WidgetVariables.OK_BUTTON).click();
+    } catch (Throwable t) {
+      throw t;
+    } finally {
+      bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
+      bot.button(WidgetVariables.OK_BUTTON).click();
+    }
 		checkVPE("templates/EditedTemplateForUnknownTag.xml"); //$NON-NLS-1$
 	}
 	
