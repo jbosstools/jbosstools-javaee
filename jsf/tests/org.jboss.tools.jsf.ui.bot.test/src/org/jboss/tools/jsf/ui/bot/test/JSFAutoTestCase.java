@@ -1,5 +1,6 @@
 package org.jboss.tools.jsf.ui.bot.test;
 
+import java.io.File;
 import java.io.IOException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -32,9 +33,19 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 
 	@Override
 	protected String getPathToResources(String testPage) throws IOException {
-		return FileLocator
+		String filePath = FileLocator
 				.toFileURL(
 						Platform.getBundle(Activator.PLUGIN_ID).getEntry("/")).getFile() + "resources/" + testPage; //$NON-NLS-1$ //$NON-NLS-2$
+		
+    File file = new File(filePath);
+    if (!file.exists() || !file.isFile()) {
+      filePath = FileLocator
+      .toFileURL(
+          Platform.getBundle(Activator.PLUGIN_ID).getEntry("/")).getFile() + testPage; //$NON-NLS-1$ //$NON-NLS-2$
+    }
+		
+		return filePath;
+		
 	}
 
 	protected void openTestPage() {
