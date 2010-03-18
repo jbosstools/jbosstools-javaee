@@ -5,6 +5,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
@@ -92,8 +93,9 @@ public class CSSSelectorJBIDE3288 extends JSFAutoTestCase{
 		delay();
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PROPERTIES).bot();
 		SWTBotTree tree = innerBot.tree();
-		tree.getAllItems()[0].getNode("styleClass").select(); //$NON-NLS-1$
-		tree.getAllItems()[0].getNode("styleClass").click(); //$NON-NLS-1$
+		SWTBotTreeItem tiStyleClass = tree.getAllItems()[0].expand().getNode("styleClass");
+		tiStyleClass.select(); //$NON-NLS-1$
+		tiStyleClass.click(); //$NON-NLS-1$
 		bot.button("...").click(); //$NON-NLS-1$
 	}
 	
