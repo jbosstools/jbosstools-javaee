@@ -95,7 +95,7 @@
 
         <para>It is also possible to create a new page with context menu by right-clicking anywhere
             on the diagram and selecting <emphasis>
-                <property>New View</property>. </emphasis></para>
+                <property>Rule...</property></emphasis></para>
         <figure>
             <title>Creating a New View</title>
             <mediaobject>

@@ -22,13 +22,13 @@
             <itemizedlist>
                 <listitem>
                     <para>Right-click anywhere on the diagram and select <emphasis>
-                        <property>New View...</property>
+                        <property>Rule...</property>
                     </emphasis> from the pop-up menu</para>
                 </listitem>
                 <listitem>
                     <para>In the dialog box, type <emphasis>
                         <property>pages/inputname</property>
-                    </emphasis> as the value for From-view-id</para>
+                    </emphasis> as the value for From View ID</para>
                 </listitem>
                 <listitem>
                     <para>Leave everything else as is</para>
@@ -44,13 +44,13 @@
                 </listitem>
                 <listitem>
                     <para>Back on the diagram, right-click anywhere and select <emphasis>
-                        <property>New View...</property>
+                        <property>Rule...</property>
                     </emphasis> from the pop-up menu</para>
                 </listitem>
                 <listitem>
                     <para>In the dialog box, type <emphasis>
                         <property>pages/greeting</property>
-                    </emphasis> as the value for From-view-id</para>
+                    </emphasis> as the value for From View ID</para>
                 </listitem>
                 <listitem>
                     <para>Leave everything else as is</para>
