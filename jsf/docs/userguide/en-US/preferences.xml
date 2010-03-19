@@ -22,7 +22,7 @@
     <itemizedlist>
         <listitem>
             <para>
-                <link linkend="PackagingArchives">Packaging Archives</link>
+                <link linkend="ProjectArchives">Project Archives</link>
             </para>
         </listitem>
 
@@ -150,17 +150,18 @@
             linkend="JBossServerPreferences">JBoss Server</link> and <link linkend="XDoclet"
             >XDoclet</link> module.</para>
 
-    <section id="PackagingArchives">
-        <?dbhtml filename="PackagingArchives.html"?>
-        <title>Packaging Archives</title>
+    <section id="ProjectArchives">
+        <?dbhtml filename="ProjectArchives.html"?>
+        <title>Project Archives</title>
 
-        <para>Fallow to <emphasis>
-                <property>JBoss Tools > Packaging Archives</property>
-            </emphasis> to open the page for changing Packaging Archives preferences.</para>
-        <para>Here you can determine settings for Project Packages view and core preferences.</para>
+        <para>Click on the <emphasis>
+                <property>Project Archives</property>
+            </emphasis> to open the page for changing Project Archives preferences.</para>
+        <para>Here you can determine settings for Core Preferences, Project Archives View,
+              Project Explorer Preferences and Fileset Preferences.</para>
 
         <figure>
-            <title>Packaging Archives</title>
+            <title>Project Archives</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_2.png"/>
@@ -168,11 +169,11 @@
             </mediaobject>
         </figure>
 
-        <para>The next table lists all available preferences for Packaging Archives and their
+        <para>The next table lists all available preferences for Project Archives and their
             description.</para>
 
         <table>
-            <title>Packaging Archives Preferences</title>
+            <title>Project Archives Preferences</title>
 
             <tgroup cols="3">
 
@@ -197,7 +198,14 @@
                     </row>
 
                     <row>
-                        <entry>Show full output path next to packages</entry>
+                        <entry>Show build error dialog</entry>
+                        <entry>If on, the Project Archives will show an error dialog 
+                               in case of a build or incremental update fails.</entry>
+                        <entry>On</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Show output path next to packages</entry>
                         <entry>This option allows you to show or hide an output path next to
                             packages
                             <!--(<link linkend="full_outputpath_for_packages">See the
@@ -206,8 +214,8 @@
                     </row>
 
                     <row>
-                        <entry>Show the full root directory of filesets</entry>
-                        <entry>If on, the full root directory is displayed next to filesets.
+                        <entry>Show the root directory of filesets</entry>
+                        <entry>If on, the root directory is displayed next to filesets.
                             Otherwise, it&apos;s hidden
                             <!--(<link
                                 linkend="full_rootdir_for_filesets">See the figure</link>)-->.</entry>
@@ -231,6 +239,21 @@
                             the previous one is checked.</entry>
                         <entry>Off</entry>
                     </row>
+                    
+                    <row>
+                        <entry>Show node in all proejcts</entry>
+                        <entry>Selecting this setting enables the Projects Archiving view to show 
+                               node in all projects.</entry>
+                        <entry>Off</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Enable Default Excludes</entry>
+                        <entry>You can set the list of  files which will be excluded by default. 
+                               Other files will be omitted.</entry>
+                        <entry>On</entry>
+                    </row>
+                   
                 </tbody>
             </tgroup>
         </table>
