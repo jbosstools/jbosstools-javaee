@@ -7,6 +7,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class CSSSelectorJBIDE3288 extends JSFAutoTestCase{
@@ -32,20 +33,19 @@ public class CSSSelectorJBIDE3288 extends JSFAutoTestCase{
 	
 	@Override
 	protected void closeUnuseDialogs() {
-		try {
-			bot.shell(WidgetVariables.CSS_SELECTOR_DIALOG_TITLE).close();
-		} catch (WidgetNotFoundException e) {
-		}
+	  SWTUtilExt.closeShellWhenActive(WidgetVariables.CSS_SELECTOR_DIALOG_TITLE,bot);
+	  SWTUtilExt.closeShellWhenActive(WidgetVariables.EDIT_STYLE_CLASS,bot);
 	}
 
 	@Override
 	protected boolean isUnuseDialogOpened() {
 		boolean isOpened = false;
-		try {
-			bot.shell(WidgetVariables.CSS_SELECTOR_DIALOG_TITLE).activate();
-			isOpened = true;
-		} catch (WidgetNotFoundException e) {
+		isOpened = SWTUtilExt.isShellActive(WidgetVariables.CSS_SELECTOR_DIALOG_TITLE, bot);
+		
+		if (!isOpened){
+		  isOpened = SWTUtilExt.isShellActive(WidgetVariables.EDIT_STYLE_CLASS, bot);
 		}
+		
 		return isOpened;
 	}
 
@@ -85,6 +85,7 @@ public class CSSSelectorJBIDE3288 extends JSFAutoTestCase{
 	private void selectTestElement(){
 		getEditor().navigateTo(12, 21);
 		getEditor().insertText(""); //$NON-NLS-1$
+		getEditor().save();
 	}
 	
 	private void openCSSSelectorDialog(){
