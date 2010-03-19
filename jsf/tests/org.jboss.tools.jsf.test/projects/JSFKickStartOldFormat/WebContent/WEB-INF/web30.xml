@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+ metadata-complete="false">
+
+ <description>Web Descriptor</description>
+ <display-name>MyWeb</display-name>
+
+ <icon>
+  <small-icon>/small.gif</small-icon>
+  <large-icon>/large.gif</large-icon>
+ </icon>
+
+ <distributable/>
+
+ <module-name>myModule</module-name>
+
+ <absolute-ordering>
+  <name>name1</name>
+  <name>name2</name>
+  <others/>
+ </absolute-ordering>
+
+ <context-param>
+  <description>param 1 description</description>
+  <param-name>param_1</param-name>
+  <param-value>value_1</param-value>
+ </context-param>
+ <context-param>
+  <description>param 2 description</description>
+  <param-name>param_2</param-name>
+  <param-value>value_2</param-value>
+ </context-param>
+
+ <data-source>
+  <description>data source description</description>
+  <name>dataSourceName</name>
+  <class-name>data.source.ClassName</class-name>
+  <server-name>serverName</server-name>
+  <port-number>1</port-number>
+  <database-name>dbName</database-name>
+  <url>jdbc:a:b</url>
+  <user>user</user>
+  <password>password</password>
+  <property>
+   <name>property_1</name>
+   <value>property 1 value</value>
+  </property>
+  <property>
+   <name>property_2</name>
+   <value>property 2 value</value>
+  </property>
+  <login-timeout>2</login-timeout>
+  <transactional>false</transactional>
+  <isolation-level>TRANSACTION_READ_UNCOMMITTED</isolation-level>
+  <initial-pool-size>1</initial-pool-size>
+  <max-pool-size>30</max-pool-size>
+  <min-pool-size>10</min-pool-size>
+  <max-idle-time>100</max-idle-time>
+  <max-statements>10</max-statements>
+ </data-source>
+
+ <filter>
+  <description>filter description</description>
+  <display-name>My Filter</display-name>
+  <icon>
+   <small-icon>/small.gif</small-icon>
+   <large-icon>/large.gif</large-icon>
+  </icon>
+  <filter-name>myFilter</filter-name>
+  <filter-class>x.MyFilter</filter-class>
+  <async-supported>true</async-supported>
+  <init-param>
+   <description>param 1 description</description>
+   <param-name>initParam1</param-name>
+   <param-value>int param 1 value</param-value>
+  </init-param>
+  <init-param>
+   <description>param 2 description</description>
+   <param-name>initParam2</param-name>
+   <param-value>int param 2 value</param-value>
+  </init-param>
+ </filter>
+
+ <filter-mapping>
+  <filter-name>myFilter</filter-name>
+  <servlet-name>myServlet</servlet-name>
+  <url-pattern>*.jsp</url-pattern>
+  <dispatcher>ASYNC</dispatcher>
+  <dispatcher>ERROR</dispatcher>
+ </filter-mapping>
+
+ <listener>
+  <description>listener description</description>
+  <display-name>My Listener</display-name>
+  <icon>
+   <small-icon>/small.gif</small-icon>
+   <large-icon>/large.gif</large-icon>
+  </icon>
+  <listener-class>x.MyListener</listener-class>
+ </listener>
+
+ <mime-mapping>
+  <extension>xml</extension>
+  <mime-type>mmm/hhh</mime-type>
+ </mime-mapping>
+
+ <error-page>
+  <error-code>400</error-code>
+  <location>/error1.jsp</location>
+ </error-page>
+ <error-page>
+  <exception-type>java.lang.Exception</exception-type>
+  <location>/error2.jsp</location>
+ </error-page>
+
+ <jsp-config>
+  <taglib>
+   <taglib-uri>http://mytaglib</taglib-uri>
+   <taglib-location>mytaglip.tld</taglib-location>
+  </taglib>
+  <jsp-property-group>
+   <description>JSP property group description</description>
+   <display-name>JSP Property Group</display-name>
+   <icon>
+    <small-icon>/small.gif</small-icon>
+    <large-icon>/large.gif</large-icon>
+   </icon>
+   <url-pattern>*.jsp</url-pattern>
+   <el-ignored>true</el-ignored>
+   <page-encoding>UTF-8</page-encoding>
+   <scripting-invalid>true</scripting-invalid>
+   <is-xml>true</is-xml>
+   <include-prelude>prelude</include-prelude>
+   <include-coda>coda</include-coda>
+   <deferred-syntax-allowed-as-literal>true</deferred-syntax-allowed-as-literal>
+   <trim-directive-whitespaces>true</trim-directive-whitespaces>
+   <default-content-type>html</default-content-type>
+   <buffer>buffer</buffer>
+   <error-on-undeclared-namespace>true</error-on-undeclared-namespace>
+  </jsp-property-group>
+ </jsp-config>
+
+ <security-constraint>
+  <display-name>MySecurityConstraint</display-name>
+  <web-resource-collection>
+   <web-resource-name>webResource1</web-resource-name>
+   <description>web resource collection 1 description</description>
+   <url-pattern>*.jsp</url-pattern>
+   <url-pattern>*.html</url-pattern>
+   <http-method>m1</http-method>
+   <http-method>m2</http-method>
+  </web-resource-collection>
+  <web-resource-collection>
+   <web-resource-name>webResource2</web-resource-name>
+   <description>web resource collection 2 description</description>
+   <url-pattern>*.jsp</url-pattern>
+   <url-pattern>*.html</url-pattern>
+   <http-method-omission>m3</http-method-omission>
+   <http-method-omission>m4</http-method-omission>
+  </web-resource-collection>
+  <auth-constraint>
+   <description>auth constraint description</description>
+   <role-name>role1</role-name>
+   <role-name>role2</role-name>
+  </auth-constraint>
+  <user-data-constraint>
+   <description>user data constraint description</description>
+   <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+  </user-data-constraint>
+ </security-constraint>
+
+ <login-config>
+  <auth-method>xxx</auth-method>
+  <realm-name>realm</realm-name>
+  <form-login-config>
+   <form-login-page>/page.jsp</form-login-page>
+   <form-error-page>/error.jsp</form-error-page>
+  </form-login-config>
+ </login-config>
+
+ <security-role>
+  <description>role 1 description</description>
+  <role-name>role1</role-name>
+ </security-role>
+ <security-role>
+  <description>role 2 description</description>
+  <role-name>role2</role-name>
+ </security-role>
+
+ <env-entry>
+  <description>ENV entry description</description>
+  <env-entry-name>ENVEntry</env-entry-name>
+  <env-entry-type>envEntryType</env-entry-type>
+  <env-entry-value>envEntryValue</env-entry-value>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+  <lookup-name>lookupName</lookup-name>
+ </env-entry>
+
+ <ejb-local-ref>
+  <description>EJB local ref description</description>
+  <ejb-ref-name>EJBLocalRef</ejb-ref-name>
+  <ejb-ref-type>Entity</ejb-ref-type>
+  <local-home>localHome</local-home>
+  <local>x.Local</local>
+  <ejb-link>link2</ejb-link>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+  <lookup-name>lookupName</lookup-name>
+ </ejb-local-ref>
+
+ <ejb-ref>
+  <description>EJB ref description</description>
+  <ejb-ref-name>EJBRef</ejb-ref-name>
+  <ejb-ref-type>Session</ejb-ref-type>
+  <home>home</home>
+  <remote>x.Remote</remote>
+  <ejb-link>link3</ejb-link>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+  <lookup-name>lookupName</lookup-name>
+ </ejb-ref>
+
+ <service-ref>
+  <description>service ref description</description>
+  <display-name>My Service Ref</display-name>
+  <icon>
+   <small-icon>/small.gif</small-icon>
+   <large-icon>/large.gif</large-icon>
+  </icon>
+  <service-ref-name>myServiceRef</service-ref-name>
+  <service-interface>x.Service</service-interface>
+  <jaxrpc-mapping-file>/a.txt</jaxrpc-mapping-file>
+  <port-component-ref>
+   <service-endpoint-interface>x.ServiceEndpoint</service-endpoint-interface>
+   <enable-mtom>true</enable-mtom>
+   <mtom-threshold>7</mtom-threshold>
+   <addressing>
+    <enabled>true</enabled>
+    <required>true</required>
+    <responses>ALL</responses>
+   </addressing>
+   <respect-binding>
+    <enabled>true</enabled>
+   </respect-binding>
+   <port-component-link>link4</port-component-link>
+  </port-component-ref>
+  <handler>
+   <description>handler descrription</description>
+   <display-name>My Handler</display-name>
+   <icon>
+    <small-icon>/small.gif</small-icon>
+    <large-icon>/large.gif</large-icon>
+   </icon>
+   <handler-name>myHandler</handler-name>
+   <handler-class>x.MyHandler</handler-class>
+   <init-param>
+    <description>param description</description>
+    <param-name>param</param-name>
+    <param-value>value</param-value>
+   </init-param>
+   <soap-header>header1</soap-header>
+   <soap-header>header2</soap-header>
+   <soap-role>role1</soap-role>
+   <soap-role>role2</soap-role>
+   <port-name>port1</port-name>
+   <port-name>port2</port-name>
+  </handler>
+ </service-ref>
+
+ <resource-env-ref>
+  <description>resource env ref description</description>
+  <resource-env-ref-name>myResourceEnvRef</resource-env-ref-name>
+  <resource-env-ref-type>type</resource-env-ref-type>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+  <lookup-name>lookupName</lookup-name>
+ </resource-env-ref>
+
+ <resource-ref>
+  <description>resource ref description</description>
+  <res-ref-name>myResourceRef</res-ref-name>
+  <res-type>type</res-type>
+  <res-auth>Application</res-auth>
+  <res-sharing-scope>Shareable</res-sharing-scope>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+  <lookup-name>lookupName</lookup-name>
+ </resource-ref>
+
+ <message-destination-ref>
+  <description>message destination ref description</description>
+  <message-destination-ref-name>myMessageDestinationRef</message-destination-ref-name>
+  <message-destination-type>type</message-destination-type>
+  <message-destination-usage>Consumes</message-destination-usage>
+  <message-destination-link>link5</message-destination-link>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+  <lookup-name>lookupName</lookup-name>
+ </message-destination-ref>
+
+ <message-destination>
+  <description>message destination description</description>
+  <display-name>MyMessageDestination</display-name>
+  <icon>
+   <small-icon>/small.gif</small-icon>
+   <large-icon>/large.gif</large-icon>
+  </icon>
+  <message-destination-name>myMessageDestination</message-destination-name>
+  <mapped-name>mappedName</mapped-name>
+  <lookup-name>lookupName</lookup-name>
+ </message-destination>
+ <locale-encoding-mapping-list>
+  <locale-encoding-mapping>
+   <locale>en</locale>
+   <encoding>UTF-8</encoding>
+  </locale-encoding-mapping>
+  <locale-encoding-mapping>
+   <locale>de</locale>
+   <encoding>UTF-8</encoding>
+  </locale-encoding-mapping>
+ </locale-encoding-mapping-list>
+
+ <persistence-context-ref>
+  <description>persistence context ref description</description>
+  <persistence-context-ref-name>myPersistenceContextRef</persistence-context-ref-name>
+  <persistence-unit-name>unit</persistence-unit-name>
+  <persistence-context-type>Extended</persistence-context-type>
+  <persistence-property>
+   <name>property_1</name>
+   <value>property 1 value</value>
+  </persistence-property>
+  <persistence-property>
+   <name>property_2</name>
+   <value>property 2 value</value>
+  </persistence-property>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+ </persistence-context-ref>
+
+ <persistence-unit-ref>
+  <description>persistence unit ref description</description>
+  <persistence-unit-ref-name>myPersistenceUnitRef</persistence-unit-ref-name>
+  <persistence-unit-name>unit</persistence-unit-name>
+  <mapped-name>mappedName</mapped-name>
+  <injection-target>
+   <injection-target-class>x.InjectionTarget</injection-target-class>
+   <injection-target-name>myInjectionJarget</injection-target-name>
+  </injection-target>
+ </persistence-unit-ref>
+
+ <post-construct>
+  <lifecycle-callback-class>x.LifecycleCallbackClass</lifecycle-callback-class>
+  <lifecycle-callback-method>construct</lifecycle-callback-method>
+ </post-construct>
+
+ <pre-destroy>
+  <lifecycle-callback-class>x.LifecycleCallbackClass</lifecycle-callback-class>
+  <lifecycle-callback-method>destroy</lifecycle-callback-method>
+ </pre-destroy>
+
+ <servlet>
+  <description>sevlet description</description>
+  <display-name>My Servlet</display-name>
+  <icon>
+   <small-icon>/small.gif</small-icon>
+   <large-icon>/large.gif</large-icon>
+  </icon>
+  <servlet-name>myServlet</servlet-name>
+  <servlet-class>x.MyServlet</servlet-class>
+  <init-param>
+   <description>param description</description>
+   <param-name>param</param-name>
+   <param-value>value</param-value>
+  </init-param>
+  <load-on-startup>2</load-on-startup>
+  <enabled>true</enabled>
+  <async-supported>true</async-supported>
+  <run-as>
+   <description>run as description</description>
+   <role-name>role1</role-name>
+  </run-as>
+  <security-role-ref>
+   <description>security role ref description</description>
+   <role-name>role2</role-name>
+   <role-link>role2</role-link>
+  </security-role-ref>
+  <multipart-config>
+   <location>/a.xml</location>
+   <max-file-size>1000</max-file-size>
+   <max-request-size>100</max-request-size>
+   <file-size-threshold>1</file-size-threshold>
+  </multipart-config>
+ </servlet>
+
+ <servlet>
+  <description>sevlet description</description>
+  <display-name>My Servlet 2</display-name>
+  <icon>
+   <small-icon>/small.gif</small-icon>
+   <large-icon>/large.gif</large-icon>
+  </icon>
+  <servlet-name>myServlet2</servlet-name>
+  <jsp-file>/x.jsp</jsp-file>
+  <init-param>
+   <description>param description</description>
+   <param-name>param</param-name>
+   <param-value>value</param-value>
+  </init-param>
+  <load-on-startup>3</load-on-startup>
+  <enabled>false</enabled>
+  <async-supported>true</async-supported>
+  <run-as>
+   <description>run as description</description>
+   <role-name>role1</role-name>
+  </run-as>
+  <security-role-ref>
+   <description>security role ref description</description>
+   <role-name>role2</role-name>
+   <role-link>role2</role-link>
+  </security-role-ref>
+  <multipart-config>
+   <location>/a.xml</location>
+   <max-file-size>1000</max-file-size>
+   <max-request-size>100</max-request-size>
+   <file-size-threshold>1</file-size-threshold>
+  </multipart-config>
+ </servlet>
+
+ <servlet-mapping>
+  <servlet-name>myServlet</servlet-name>
+  <url-pattern>*.jsp</url-pattern>
+ </servlet-mapping>
+
+ <session-config>
+  <session-timeout>1</session-timeout>
+  <cookie-config>
+   <name>cookieConfig</name>
+   <domain>domain</domain>
+   <path>path</path>
+   <comment>comment</comment>
+   <http-only>true</http-only>
+   <secure>false</secure>
+   <max-age>3</max-age>
+  </cookie-config>
+  <tracking-mode>COOKIE</tracking-mode>
+  <tracking-mode>SSL</tracking-mode>
+ </session-config>
+
+ <welcome-file-list>
+  <welcome-file>/index.jsp</welcome-file>
+  <welcome-file>/hello.jsp</welcome-file>
+ </welcome-file-list>
+</web-app>

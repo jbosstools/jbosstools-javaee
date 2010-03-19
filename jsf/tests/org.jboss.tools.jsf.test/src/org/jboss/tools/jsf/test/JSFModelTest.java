@@ -18,7 +18,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.test.util.TestDescription;
 import org.jboss.tools.common.test.util.TestProjectProvider;
 
+import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.AbstractXMLFileImpl;
 import org.jboss.tools.common.model.loaders.EntityRecognizer;
 import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
 import org.jboss.tools.common.model.project.IModelNature;
@@ -66,14 +68,33 @@ public class JSFModelTest extends TestCase {
 		assertTrue("Cannot find objects at " + errorCount + " paths\n" + sb.toString(), errorCount == 0);
 		
 		testName = "JSFModelTest:testPaths:attribute";
-		tests = provider.getTestDescriptions(testName);
+		doAttributeTest(n.getModel(), testName);
+	}
+
+	public void testWebApp() {
+		String testName = "WebAppModelTest:testPaths:attribute";
+		IModelNature n = EclipseResourceUtil.getModelNature(project);
+		doAttributeTest(n.getModel(), testName);
+		XModelObject o = n.getModel().getByPath("/web30.xml");
+		printPaths(o);
+	}
+
+	public void testWebAppLoader() {
+		IModelNature n = EclipseResourceUtil.getModelNature(project);
+		XModelObject o = n.getModel().getByPath("/web30.xml");
+		String error = ((AbstractXMLFileImpl)o).getLoaderError();
+		assertNull("Loader reported an error.", error);
+	}
+
+	void doAttributeTest(XModel model, String testName) {
+		ArrayList<TestDescription> tests = provider.getTestDescriptions(testName);
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
-		sb = new StringBuffer();
-		errorCount = 0;
+		StringBuffer sb = new StringBuffer();
+		int errorCount = 0;
 		if(tests != null) for (int i = 0; i < tests.size(); i++) {
 			TestDescription t = tests.get(i);
 			String path = t.getProperty("path");
-			XModelObject o = n.getModel().getByPath(path);
+			XModelObject o = model.getByPath(path);
 			if(o == null) {
 				sb.append("Cannot find object at " + path).append("\n");
 				errorCount++;
@@ -99,10 +120,6 @@ public class JSFModelTest extends TestCase {
 			}
 		}
 		assertTrue(sb.toString(), errorCount == 0);
-		
-		XModelObject o = n.getModel().getByPath("/faces-config-2.xml");
-//		printPaths(o);
-		
 	}
 
 	void printPaths(XModelObject o) {

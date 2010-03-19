@@ -678,5 +678,296 @@
 	<test name="JSFModelTest:testPaths">
 		<property name="path" value="/faces-config-2.xml/Orderings/ordering/Before/n2"/>
 	</test>
+
+    <!-- Test Web Descriptor 3.0 -->
+    <!-- <web-app> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="Web Descriptor"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="MyWeb"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="small-icon"/>
+		<property name="attributeValue" value="/small.gif"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="large-icon"/>
+		<property name="attributeValue" value="/large.gif"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="distributable"/>
+		<property name="attributeValue" value="yes"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="module-name"/>
+		<property name="attributeValue" value="myModule"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml"/>
+		<property name="attributeName" value="metadata-complete"/>
+		<property name="attributeValue" value="false"/>
+	</test>
 	
+	<!-- <absolute-ordering> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Absolute Orderings/name1,name2"/>
+		<property name="attributeName" value="names"/>
+		<property name="attributeValue" value="name1,name2"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Absolute Orderings/name1,name2"/>
+		<property name="attributeName" value="others"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	
+	<!-- <context-param> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Context Params/param_1"/>
+		<property name="attributeName" value="param-name"/>
+		<property name="attributeValue" value="param_1"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Context Params/param_1"/>
+		<property name="attributeName" value="param-value"/>
+		<property name="attributeValue" value="value_1"/>
+	</test>
+
+	<!-- <data-source> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="name"/>
+		<property name="attributeValue" value="dataSourceName"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="data source description"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="class-name"/>
+		<property name="attributeValue" value="data.source.ClassName"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="server-name"/>
+		<property name="attributeValue" value="serverName"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="port-number"/>
+		<property name="attributeValue" value="1"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="database-name"/>
+		<property name="attributeValue" value="dbName"/>
+	</test>	
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="url"/>
+		<property name="attributeValue" value="jdbc:a:b"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="user"/>
+		<property name="attributeValue" value="user"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="password"/>
+		<property name="attributeValue" value="password"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="login-timeout"/>
+		<property name="attributeValue" value="2"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="transactional"/>
+		<property name="attributeValue" value="false"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="isolation-level"/>
+		<property name="attributeValue" value="TRANSACTION_READ_UNCOMMITTED"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="initial-pool-size"/>
+		<property name="attributeValue" value="1"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="max-pool-size"/>
+		<property name="attributeValue" value="30"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="min-pool-size"/>
+		<property name="attributeValue" value="10"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="max-idle-time"/>
+		<property name="attributeValue" value="100"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName"/>
+		<property name="attributeName" value="max-statements"/>
+		<property name="attributeValue" value="10"/>
+	</test>
+
+	<!-- <data-source/property> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Data Sources/dataSourceName/property_1"/>
+		<property name="attributeName" value="value"/>
+		<property name="attributeValue" value="property 1 value"/>
+	</test>
+
+	<!-- <filter> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/filter:myFilter"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="filter description"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/filter:myFilter"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="My Filter"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/filter:myFilter"/>
+		<property name="attributeName" value="filter-name"/>
+		<property name="attributeValue" value="myFilter"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/filter:myFilter"/>
+		<property name="attributeName" value="filter-class"/>
+		<property name="attributeValue" value="x.MyFilter"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/filter:myFilter"/>
+		<property name="attributeName" value="async-supported"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<!-- <filter/init-param> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/filter:myFilter/initParam1"/>
+		<property name="attributeName" value="param-value"/>
+		<property name="attributeValue" value="int param 1 value"/>
+	</test>
+
+	<!-- <filter-mapping> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/myFilter:*.jsp"/>
+		<property name="attributeName" value="filter-name"/>
+		<property name="attributeValue" value="myFilter"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/myFilter:*.jsp"/>
+		<property name="attributeName" value="servlet-name"/>
+		<property name="attributeValue" value="myServlet"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/myFilter:*.jsp"/>
+		<property name="attributeName" value="url-pattern"/>
+		<property name="attributeValue" value="*.jsp"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Filters/myFilter:*.jsp"/>
+		<property name="attributeName" value="dispatchers"/>
+		<property name="attributeValue" value="ASYNC,ERROR"/>
+	</test>
+
+	<!-- <listener> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Listeners/x.MyListener"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="My Listener"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Listeners/x.MyListener"/>
+		<property name="attributeName" value="listener-class"/>
+		<property name="attributeValue" value="x.MyListener"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Listeners/x.MyListener"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="listener description"/>
+	</test>
+
+	<!-- <servlet> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet"/>
+		<property name="attributeName" value="display-name"/>
+		<property name="attributeValue" value="My Servlet"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet"/>
+		<property name="attributeName" value="servlet-name"/>
+		<property name="attributeValue" value="myServlet"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet"/>
+		<property name="attributeName" value="servlet-class"/>
+		<property name="attributeValue" value="x.MyServlet"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet"/>
+		<property name="attributeName" value="load-on-startup"/>
+		<property name="attributeValue" value="2"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet"/>
+		<property name="attributeName" value="enabled"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet"/>
+		<property name="attributeName" value="async-supported"/>
+		<property name="attributeValue" value="true"/>
+	</test>
+	
+	<!-- <servlet/init-param> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet/param"/>
+		<property name="attributeName" value="param-value"/>
+		<property name="attributeValue" value="value"/>
+	</test>
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet/param"/>
+		<property name="attributeName" value="description"/>
+		<property name="attributeValue" value="param description"/>
+	</test>
+
+	<!-- <servlet/init-param> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet/param"/>
+		<property name="attributeName" value="param-value"/>
+		<property name="attributeValue" value="value"/>
+	</test>
+	<!-- <servlet/security-role-ref> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet/role2"/>
+		<property name="attributeName" value="role-name"/>
+		<property name="attributeValue" value="role2"/>
+	</test>
+
+	<!-- <servlet/multipart-config> -->
+	<test name="WebAppModelTest:testPaths:attribute">
+		<property name="path" value="/web30.xml/Servlets/myServlet/#a.xml"/>
+		<property name="attributeName" value="location"/>
+		<property name="attributeValue" value="/a.xml"/>
+	</test>
 </tests>
