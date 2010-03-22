@@ -37,7 +37,7 @@ server side validation. You need to enable validation as a part of the project, 
 <listitem><para>In the dialog box, click on the <emphasis><property>Browse...</property></emphasis>button next to the Folder field, expand the
     JavaSource folder in this next dialog box, select the sample subfolder, and click on the <emphasis><property>OK</property></emphasis> button</para></listitem>
     <listitem><para>Back in the first dialog box, type in &quot;applResources&quot; for the Name field and click on the <emphasis><property>Finish</property></emphasis> button</para></listitem>
-<listitem><para>Right-click on a newly created file and select <emphasis><property>Add &gt; Default Error Messages</property></emphasis>
+<listitem><para>Right-click on a newly created file and select <emphasis><property>New &gt; Default Error Messages</property></emphasis>
  from the context menu</para></listitem>
 
 <listitem><para>Drag up the sample.applResources icon until you can drop it on the resources folder under struts-config.xml</para></listitem>
