@@ -1,7 +1,5 @@
 package org.jboss.tools.seam.ui.bot.test.create;
 
-import java.io.IOException;
-
 import org.jboss.tools.seam.ui.bot.test.TestControl;
 
 public class CreateEntities extends TestControl{
