@@ -1,14 +1,20 @@
 package org.jboss.tools.seam.ui.bot.test;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.test.TestProperties;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
+import org.jboss.tools.ui.bot.ext.helper.DatabaseHelper;
+import org.jboss.tools.ui.bot.ext.types.DriverEntity;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
@@ -98,6 +104,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 		SEAM_12_SETTINGS_HOME = seam12Settings.getProperty("seamRuntimePath");
 		SEAM_22_SETTINGS_HOME = seam22Settings.getProperty("seamRuntimePath");
 		SEAM_2FP_SETTINGS_HOME = seam2fpSettings.getProperty("seamRuntimePath");
+		createConnectionProfile(seam22Settings.getProperty("seamRuntimePath"),"DefaultDS");
 	}
 /*Pre-launch operations here:*/
 
@@ -129,9 +136,11 @@ public static String TYPE_EAR = "EAR";
 /**Creates any Server Runtime + Server. */
 	protected void createServerRuntime(Properties serverType){
 	  
-	  if (SWTJBTExt.isServerRuntimeDefined(bot,serverType.getProperty("runtimeName"))){
+	  if (!SWTJBTExt.isServerRuntimeDefined(bot,serverType.getProperty("runtimeName"))){
 	    bot.menu("File").menu("New").menu("Other...").click();
+	    bot.shell(IDELabel.Shell.NEW).activate();
 	    SWTBotTree tree = bot.tree();
+	    delay();
 	    tree.expandNode("Server").select("Server");
 	    bot.button("Next >").click();
 	    SWTBotTree tree2 = bot.tree();
@@ -148,6 +157,7 @@ public static String TYPE_EAR = "EAR";
 /** Creates any Seam runtime.	*/
 	protected void createSeamRuntime(Properties runtimeSet, String homeFolder){
 		bot.menu("Window").menu("Preferences").click();
+		bot.shell(IDELabel.Shell.PREFERENCES).activate();
 		SWTBotTree tree = bot.tree();
 		delay();
 		tree.expandNode("JBoss Tools")
@@ -258,6 +268,30 @@ public static String TYPE_EAR = "EAR";
 	  }
     
     return vmArgsProps;
+    
+	}
+	/**
+	 * Creates connection profile in case it's not defined yet
+	 * @param pathToSeamRuntime
+	 * @param profileName
+	 */
+	private static void createConnectionProfile(String pathToSeamRuntime, String profileName){
+	  
+	  StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(pathToSeamRuntime);
+    stringBuilder.append(File.separator);
+    stringBuilder.append("lib");
+    stringBuilder.append(File.separator);
+    stringBuilder.append("hsqldb.jar");
+    
+    try {
+      DriverEntity entity = new DriverEntity();
+      entity.setDrvPath(stringBuilder.toString());
+      entity.setJdbcString("jdbc:hsqldb:hsql://localhost/xdb");
+      DatabaseHelper.createDriver(entity);
+    } catch (ConnectionProfileException e) {
+      fail("Unable to create HSQL Driver" + e);     
+    }
     
 	}
 }
