@@ -30,13 +30,6 @@ public class CreateEntities extends TestControl{
 
 	public void testCreateEntityFor22ear(){
 		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);
-		// TODO: Remove it
-	  try {
-      System.in.read();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
 	}
 	
 }
