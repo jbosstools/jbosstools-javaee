@@ -20,21 +20,31 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.IStringButtonAdapter;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.SelectionButtonDialogField;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.KnownConfigurations;
+import org.hibernate.eclipse.console.HibernateConsoleMessages;
+import org.hibernate.eclipse.console.utils.DialogSelectionHelper;
 import org.hibernate.eclipse.console.utils.ProjectUtils;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
+import org.hibernate.eclipse.launch.PathHelper;
 import org.jboss.tools.common.ui.CommonUIMessages;
 import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -50,10 +60,13 @@ import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 /**
  * @author Alexey Kazakov
  */
+@SuppressWarnings("restriction")
 public class SeamGenerateEntitiesWizardPage extends WizardPage implements PropertyChangeListener, IAdaptable {
 
 	private IFieldEditor projectEditor;
 	private IFieldEditor configEditor;
+	private SelectionButtonDialogField existingReveng;
+	private StringButtonDialogField reverseEngineeringSettings;
 	private RadioField radios;
 	IProject rootSeamProject;
 
@@ -113,16 +126,49 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 
 		Composite radioComposite = new GridLayoutComposite(group, SWT.NONE, 2);
 		ArrayList<Object> values = new ArrayList<Object>();
-		values.add("reverse"); //$NON-NLS-1$
 		values.add("existing"); //$NON-NLS-1$
+		values.add("reverse"); //$NON-NLS-1$		
 		ArrayList<String> labels = new ArrayList<String>();
-		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_REVERSE_ENGINEER_LABEL);
 		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_EXISTING_ENTITIES_LABEL);
+		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_REVERSE_ENGINEER_LABEL);		
 		radios = new RadioField(radioComposite, labels, values, null, true);
 		radios.addPropertyChangeListener(this);
+		
+		IDialogFieldListener fieldlistener = new IDialogFieldListener() {			
+			public void dialogFieldChanged(DialogField field) {
+				wizardChanged();
+			}
+		};
+		
+		Composite revengComposite = new GridLayoutComposite(group, SWT.NONE, 3);
+		existingReveng = new SelectionButtonDialogField(SWT.CHECK);
+		existingReveng.setLabelText("Use existing reveng");
+		existingReveng.setDialogFieldListener(fieldlistener);
+		existingReveng.doFillIntoGrid(revengComposite, 3);
+		existingReveng.setEnabled(false);
+		
+		reverseEngineeringSettings= new StringButtonDialogField(new IStringButtonAdapter() {
+            public void changeControlPressed(DialogField field) {
+            	IPath reverseEngineeringSettingsFile = getReverseEngineeringSettingsFile();
+				IPath[] paths = DialogSelectionHelper.chooseFileEntries(getShell(),  reverseEngineeringSettingsFile, new IPath[0], HibernateConsoleMessages.CodeGenerationSettingsTab_select_reverse_engineering_settings_file, HibernateConsoleMessages.CodeGenerationSettingsTab_choose_file_read_reverse_settings, new String[] {HibernateConsoleMessages.CodeGenerationSettingsTab_reveng_xml_1}, false, false, true);
+				if(paths!=null && paths.length==1) {
+					reverseEngineeringSettings.setText( ( (paths[0]).toOSString() ) );
+				}
+            }
+        });
+		reverseEngineeringSettings.setDialogFieldListener(fieldlistener);
+        reverseEngineeringSettings.setLabelText(HibernateConsoleMessages.CodeGenerationSettingsTab_reveng_xml_2);
+        reverseEngineeringSettings.setButtonLabel("Browse...");
+        Control[] controls = reverseEngineeringSettings.doFillIntoGrid(revengComposite, 3);
+        reverseEngineeringSettings.setEnabled(false);
+        ( (GridData)controls[1].getLayoutData() ).grabExcessHorizontalSpace=true;      
 
 		setControl(top);
 		validate();
+	}
+
+	protected IPath getReverseEngineeringSettingsFile() {
+		return PathHelper.pathOrNull(reverseEngineeringSettings.getText() );
 	}
 
 	private static String getConsoleConfigurationName(String seamWebProjectName) {
@@ -178,6 +224,12 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 				configEditor.setValue(consoleConfigName);
 			}
 		}
+		wizardChanged();
+	}
+	
+	public void wizardChanged(){
+		existingReveng.setEnabled("reverse".equals(radios.getValue()));
+		reverseEngineeringSettings.setEnabled(existingReveng.isEnabled() && existingReveng.isSelected());
 		validate();
 	}
 
@@ -247,6 +299,20 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 				return;
 			}
 		}
+		
+		if ("reverse".equals(radios.getValue()) && existingReveng.isSelected() && reverseEngineeringSettings.getText().trim().length() == 0){
+			setErrorMessage("Select reveng.xml file");//$NON-NLS-1$
+			setPageComplete(false);
+			return;
+		}
+		if("reverse".equals(radios.getValue()) && existingReveng.isSelected()) {
+            String msg = PathHelper.checkFile(reverseEngineeringSettings.getText(), HibernateConsoleMessages.CodeGenerationSettingsTab_reveng_xml_3, true);
+        	if(msg!=null) {
+        		setErrorMessage(msg);//$NON-NLS-1$
+    			setPageComplete(false);
+    			return;
+        	}
+        }
 
 		setErrorMessage(null);
 		setMessage(null);
@@ -262,12 +328,17 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 			String mode = radios.getValue().toString();
 			String value = "reverse".equals(mode) ? "true" : "false"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER, new NamedElementImpl("reverse", value)); //$NON-NLS-1$
-			IWizardPage page2 = getWizard().getPage(SeamGenerateEntitiesTablesWizardPage.pageName);
-			if (page2 instanceof SeamGenerateEntitiesTablesWizardPage){
-				SeamGenerateEntitiesTablesWizardPage page = (SeamGenerateEntitiesTablesWizardPage)page2;
-				String filters = page.getFilters();
-				if (filters.length() > 0) values.put(HibernateLaunchConstants.ATTR_REVENG_TABLES, new NamedElementImpl("filters", filters)); //$NON-NLS-1$
-			}
+			if(reverseEngineeringSettings.isEnabled()){
+				values.put(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS,
+						new NamedElementImpl("reveng_file", reverseEngineeringSettings.getText()));
+			} else {
+				IWizardPage page2 = getWizard().getPage(SeamGenerateEntitiesTablesWizardPage.pageName);
+				if (page2 instanceof SeamGenerateEntitiesTablesWizardPage){
+					SeamGenerateEntitiesTablesWizardPage page = (SeamGenerateEntitiesTablesWizardPage)page2;
+					String filters = page.getFilters();
+					if (filters.length() > 0) values.put(HibernateLaunchConstants.ATTR_REVENG_TABLES, new NamedElementImpl("filters", filters)); //$NON-NLS-1$
+				}
+			}			
 			return values;
 		}
 		return null;
@@ -311,7 +382,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 
 	@Override
 	public boolean canFlipToNextPage() {		
-		return "reverse".equals(radios.getValue()) && (getErrorMessage() == null);		//$NON-NLS-1$ 
+		return "reverse".equals(radios.getValue()) && (getErrorMessage() == null && !existingReveng.isSelected());		//$NON-NLS-1$ 
 	}
 
 	public String getConsoleCongigurationName(){

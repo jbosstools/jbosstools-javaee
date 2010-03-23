@@ -335,6 +335,9 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 					File location = revengPath.toFile();
 					org.jboss.tools.common.util.FileUtil.writeFile(location, params.get(HibernateLaunchConstants.ATTR_REVENG_TABLES).getValueAsString());
 					wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS, revengPath.toString());
+				} else if (params.containsKey(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS)){
+					wc.setAttribute(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS,
+							params.get(HibernateLaunchConstants.ATTR_REVERSE_ENGINEER_SETTINGS).getValueAsString());
 				}
 				
 				launchManager.addLaunch(wc.launch(ILaunchManager.RUN_MODE, monitor));
