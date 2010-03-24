@@ -432,8 +432,19 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Also, as you can see, the ranking and sorting are available in EL code
-                completions.</para>
+            <para>Also the ranking and sorting are available in EL code
+            completions.</para>
+            <para>As you can see, together with proposals content assist also provides descriptions
+                of selected tags or attributes.</para>
+            <figure>
+                <title>Tag description</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/editors_features/editors_features_11a.png"
+                        />
+                    </imageobject>
+                </mediaobject>
+            </figure>
             <section id="JSFProjectFiles3087">
                 <title>JSF Project Files</title>
                 <para>When working with JSF project in JBoss Developer Studio, you can use various
@@ -488,6 +499,7 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
+
                 </section>
                 <section id="ContentAssistforCompositeComponents">
                     <title>Content Assist for Composite Components</title>
