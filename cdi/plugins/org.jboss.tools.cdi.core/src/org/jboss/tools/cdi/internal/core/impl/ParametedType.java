@@ -255,4 +255,8 @@ public class ParametedType implements IParametedType {
 		}
 	}
 
+	public String toString() {
+		return signature + ":" + super.toString();
+	}
+
 }

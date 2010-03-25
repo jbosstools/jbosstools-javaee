@@ -1,5 +1,6 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -12,7 +13,18 @@ import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
-public class ParametedTypeFactory {
+public class ParametedTypeFactory { 
+	// I S J C F D Z
+	static HashMap<String,String> primitives = new HashMap<String, String>();
+	static {
+		primitives.put("I", "Qjava.lang.Integer;");
+		primitives.put("S", "Qjava.lang.Short;");
+		primitives.put("J", "Qjava.lang.Long;");
+		primitives.put("C", "Qjava.lang.Character;");
+		primitives.put("F", "Qjava.lang.Float;");
+		primitives.put("D", "Qjava.lang.Double;");
+		primitives.put("Z", "Qjava.lang.Boolean;");
+	}
 	Map<String, ParametedType> cache = new HashMap<String, ParametedType>();
 
 	public ParametedType newParametedType(IType type) {
@@ -36,6 +48,7 @@ public class ParametedTypeFactory {
 
 	public ParametedType getParametedType(IType context, String typeSignature) throws JavaModelException {
 		if(typeSignature == null) return null;
+
 		String key = context == null || context.isBinary() || "QObject;".equals(typeSignature) ? typeSignature : context.getFullyQualifiedName() + "+" + typeSignature;
 		if(cache.containsKey(key)) return cache.get(key);
 		ParametedType result = new ParametedType();
@@ -43,6 +56,11 @@ public class ParametedTypeFactory {
 		result.setSignature(typeSignature);
 
 		typeSignature = typeSignature.substring(result.getArrayPrefix().length());
+		
+		if(primitives.containsKey(typeSignature)) {
+			typeSignature = primitives.get(typeSignature);
+			result.setSignature(result.getArrayPrefix() + typeSignature);
+		}
 
 		int startToken = typeSignature.indexOf('<');
 		if(startToken < 0) {
