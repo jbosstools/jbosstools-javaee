@@ -106,8 +106,10 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testPrivitiveTypes() throws JavaModelException {
-		assertTheOnlyBean("java.lang.Integer");
-		assertTheOnlyBean("org.jboss.jsr299.tck.tests.definition.bean.Animal");
+		Set<IBean> beans = getBeans("java.lang.Integer");
+		assertFalse("Cannot find bean java.lang.Integer", beans.isEmpty());
+		beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Animal");
+		assertFalse("Cannot find bean org.jboss.jsr299.tck.tests.definition.bean.Animal", beans.isEmpty());
 	}
 
 	/**
