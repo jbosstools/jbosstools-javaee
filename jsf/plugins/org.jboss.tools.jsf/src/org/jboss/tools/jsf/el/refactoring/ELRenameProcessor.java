@@ -16,7 +16,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -27,11 +26,11 @@ import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
-import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ElCoreMessages;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.common.util.FileUtil;
 
 /**
  * @author Daniel Azarov
@@ -117,90 +116,9 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		return flag;
 	}
 	
-	private void changeXMLNode(ITextSourceReference location, IFile file){
-		if(isBadLocation(location, file))
-			return;
-		
-		if(!isFileCorrect(file))
-			return;
-
-		String content = null;
-		try {
-			content = FileUtil.readStream(file);
-		} catch (CoreException e) {
-			ELCorePlugin.getDefault().logError(e);
-		}
-
-		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
-		if(text.startsWith("<")){ //$NON-NLS-1$
-			int position = text.lastIndexOf("/>"); //$NON-NLS-1$
-			if(position < 0){
-				position = text.lastIndexOf(">"); //$NON-NLS-1$
-			}
-			change(file, location.getStartPosition()+position, 0, " name=\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
-		}else{
-			change(file, location.getStartPosition(), location.getLength(), getNewName());
-		}
-	}
 	
-	private void changeAnnotation(ITextSourceReference location, IFile file){
-		if(isBadLocation(location, file))
-			return;
-		
-		if(!isFileCorrect(file))
-			return;
-
-		String content = null;
-		try {
-			content = FileUtil.readStream(file);
-		} catch (CoreException e) {
-			ELCorePlugin.getDefault().logError(e);
-		}
-
-		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
-		int openBracket = text.indexOf("("); //$NON-NLS-1$
-		int openQuote = text.indexOf("\""); //$NON-NLS-1$
-		if(openBracket >= 0){
-			int closeBracket = text.indexOf(")", openBracket); //$NON-NLS-1$
-			
-			int equals = text.indexOf("=", openBracket); //$NON-NLS-1$
-			int value = text.indexOf("value", openBracket); //$NON-NLS-1$
-			
-			if(closeBracket == openBracket+1){ // empty brackets
-				String newText = "\""+getNewName()+"\""; //$NON-NLS-1$ //$NON-NLS-2$
-				change(file, location.getStartPosition()+openBracket+1, 0, newText);
-			}else if(value > 0){ // construction value="name" found so change name
-				String newText = text.replace(getOldName(), getNewName());
-				change(file, location.getStartPosition(), location.getLength(), newText);
-			}else if(equals > 0){ // other parameters are found
-				String newText = "value=\""+getNewName()+"\","; //$NON-NLS-1$ //$NON-NLS-2$
-				change(file, location.getStartPosition()+openBracket+1, 0, newText);
-			}else{ // other cases
-				String newText = text.replace(getOldName(), getNewName());
-				change(file, location.getStartPosition(), location.getLength(), newText);
-			}
-		}else if(openQuote >= 0){
-			int closeQuota = text.indexOf("\"", openQuote); //$NON-NLS-1$
-			
-			if(closeQuota == openQuote+1){ // empty quotas
-				String newText = "\""+getNewName()+"\""; //$NON-NLS-1$ //$NON-NLS-2$
-				change(file, location.getStartPosition()+openQuote+1, 0, newText);
-			}else{ // the other cases
-				String newText = text.replace(getOldName(), getNewName());
-				change(file, location.getStartPosition(), location.getLength(), newText);
-			}
-		}else{
-			String newText = "(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
-			change(file, location.getStartPosition()+location.getLength(), 0, newText);
-		}
-	}
-	
-	private void clearChanges(){
-		keys.clear();
-	}
 	
 	private void change(IFile file, int offset, int length, String text){
-		//System.out.println("change file - "+file.getFullPath()+" offset - "+offset+" len - "+length+" text"+text);
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
 			TextFileChange change = getChange(file);
@@ -232,18 +150,6 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		}
 		
 		
-		private boolean checkFolder(IResource resource, IResource[] sources, IPath output){
-			for(IResource folder : sources){
-				if(resource.equals(folder))
-					return false;
-			}
-			
-			if(resource.getFullPath().equals(output))
-				return false;
-			
-			return true;
-		}
-		
 		ArrayList<String> keys = new ArrayList<String>();
 		
 		@Override
@@ -266,11 +172,27 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 			change(file, offset, length, newName);
 		}
 
-
 		@Override
 		protected boolean isFileCorrect(IFile file) {
 			return ELRenameProcessor.this.isFileCorrect(file);
 		}
+		
+		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
+			ELInvocationExpression invExp = invocationExpression;
+			while(invExp != null){
+				if(invExp instanceof ELPropertyInvocation){
+					if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(propertyName))
+						return invExp;
+					else
+						invExp = invExp.getLeft();
+					
+				}else{
+					invExp = invExp.getLeft();
+				}
+			}
+			return null;
+		}
+
 	
 	}
 }

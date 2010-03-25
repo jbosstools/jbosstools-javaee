@@ -102,7 +102,7 @@ public class RenameELVariableWizard extends RefactoringWizard {
 		}
 		
 		private void initializeRefactoring() {
-			//processor.setNewName(editor.getValueAsString());
+			processor.setNewName(editor.getValueAsString());
 		}
 		
 	}

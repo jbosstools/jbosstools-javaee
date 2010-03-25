@@ -444,12 +444,12 @@
     </extension>
     
     <!-- Refactorng -->
-	<!--extension
+	<extension
 		point="org.eclipse.ui.menus">
     <menuContribution
           class="org.jboss.tools.jsf.ui.el.refactoring.ELRefactorContributionFactory"
           locationURI="popup:org.eclipse.ui.popup.any?after=save">
     </menuContribution>
-	</extension--> 
+	</extension> 
 
 </plugin>

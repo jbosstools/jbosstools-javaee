@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.el.refactoring;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -23,6 +22,12 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.jboss.tools.common.el.core.ElCoreMessages;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.IModelNature;
+import org.jboss.tools.common.model.refactoring.RenameModelObjectChange;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.model.pv.JSFBeanSearcher;
 
 /**
  * @author Daniel Azarov
@@ -64,11 +69,8 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
-		boolean status = false;
 		
-		status = checkELContextVariable();
-		
-		if(!status)
+		if(findManagedBean() == null)
 			result.addFatalError(Messages.format(ElCoreMessages.RENAME_EL_VARIABLE_PROCESSOR_CAN_NOT_FIND_EL_VARIABLE, getOldName()));
 		return result;
 	}
@@ -82,17 +84,6 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 			OperationCanceledException {
 		
 		return rootChange;
-	}
-	
-	
-	private boolean checkELContextVariable(){
-		boolean status = true;
-		
-		IProject[] projects = getSearcher().getProjects();
-		for (IProject project : projects) {
-			// TODO:
-		}
-		return status;
 	}
 	
 	/*
@@ -142,6 +133,25 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 	}
 	
 	private void renameELVariable(IProgressMonitor pm, IFile file){
-		getSearcher().findELReferences();
+		XModelObject managedBean = findManagedBean();
+		if(managedBean != null){
+			Change managedBeanChange = RenameModelObjectChange.createChange(new XModelObject[]{managedBean}, getNewName(), "managed-bean-name");
+			rootChange.add(managedBeanChange);
+			getSearcher().findELReferences();
+		}
+	}
+	
+	private XModelObject findManagedBean(){
+		IModelNature nature = EclipseResourceUtil.getModelNature(file.getProject());
+		if(nature == null)
+			return null;
+		XModel model = nature.getModel();
+		if(model == null)
+			return null;
+		JSFBeanSearcher beanSearcher = new JSFBeanSearcher(model);
+		beanSearcher.parse(getOldName());
+		XModelObject managedBean = beanSearcher.getBean();
+		
+		return managedBean;
 	}
 }
