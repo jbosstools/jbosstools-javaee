@@ -4,13 +4,21 @@ Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.struts.text.ext.test;singleton:=true
 Bundle-Version: 1.0.0
 Require-Bundle: org.junit,
+ org.jboss.tools.common.test,
  org.jboss.tools.common.model.ui,
  org.jboss.tools.tests,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.jface.text,
+ org.eclipse.wst.sse.ui,
  org.eclipse.ui.ide,
+ org.eclipse.wst.sse.core,
+ org.jboss.tools.common.text.ext,
+ org.jboss.tools.jst.jsp,
  org.jboss.tools.jst.jsp.test,
- org.jboss.tools.jst.web
+ org.jboss.tools.jst.web,
+ org.jboss.tools.common.ui
 Export-Package: org.jboss.tools.struts.text.tests
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin

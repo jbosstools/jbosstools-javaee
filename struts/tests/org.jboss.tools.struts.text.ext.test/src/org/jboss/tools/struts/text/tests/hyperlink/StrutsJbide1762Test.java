@@ -24,9 +24,9 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
+import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.TestProjectProvider;
 
 public class StrutsJbide1762Test extends TestCase {
 	TestProjectProvider provider = null;
