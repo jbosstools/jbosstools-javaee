@@ -1513,7 +1513,7 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Here it&apos;s possible to edit or remove any listed in the table template.</para>
+            <para>Here it&apos;s possible to add a new and edit or remove any listed in the table template.</para>
         </section>
         <section id="AdvancedSettings954">
             <title>VPE Toolbar</title>
