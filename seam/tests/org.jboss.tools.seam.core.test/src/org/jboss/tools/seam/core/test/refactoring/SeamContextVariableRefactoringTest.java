@@ -19,62 +19,6 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		super("Seam Context Variable Refactoring Test");
 	}
 	
-	private void renameContextVariable(ISeamProject seamProject, String fileName, String variableName, String newName, List<TestChangeStructure> changeList) throws CoreException{
-		JobUtils.waitForIdle(2000);
-
-		// Test before renaming
-		for(TestChangeStructure changeStructure : changeList){
-			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
-			String content = null;
-			try {
-				content = FileUtil.readStream(file);
-			} catch (CoreException e) {
-				e.printStackTrace();
-				fail(e.getMessage());
-			}
-
-			for(TestTextChange change : changeStructure.getTextChanges()){
-				assertNotSame(change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
-			}
-		}
-
-		IFile sourceFile = seamProject.getProject().getFile(fileName);
-
-		// Rename Seam Context Variable
-		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, variableName);
-		processor.setNewName(newName);
-		processor.checkInitialConditions(new NullProgressMonitor());
-		processor.checkFinalConditions(new NullProgressMonitor(), null);
-		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-		
-		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
-
-		for(int i = 0; i < rootChange.getChildren().length;i++){
-			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
-
-			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
-			
-			TestChangeStructure change = findChange(changeList, fileChange.getFile());
-			if(change != null){
-				assertEquals(change.size(), edit.getChildrenSize());
-			}
-		}
-
-		rootChange.perform(new NullProgressMonitor());
-		JobUtils.waitForIdle(2000);
-		
-
-		// Test results
-		for(TestChangeStructure changeStructure : changeList){
-			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
-			String content = null;
-			content = FileUtil.readStream(file);
-			for(TestTextChange change : changeStructure.getTextChanges()){
-				assertEquals("There is unexpected change in resource - "+file.getName(),change.getText(), content.substring(change.getOffset(), change.getOffset()+change.getLength()));
-			}
-		}
-	}
-	
 	public void testSeamContextVariable_Component_Rename() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
@@ -128,8 +72,13 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		change = new TestTextChange(29, 4, "best");
 		structure.addTextChange(change);
 		list.add(structure);
+		
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/test.jsp");
+		
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "test");
+		processor.setNewName("best");
 
-		renameContextVariable(seamEjbProject, "/WebContent/test.jsp", "test", "best", list);
+		checkRename(processor, list);
 	}
 	
 	public void testSeamContextVariable_Factory1_Rename() throws CoreException {
@@ -145,7 +94,12 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		renameContextVariable(seamEjbProject, "/WebContent/factory.jsp", "abc", "bbc", list);
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/factory.jsp");
+		
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "abc");
+		processor.setNewName("bbc");
+		
+		checkRename(processor, list);
 	}
 	
 	public void testSeamContextVariable_Factory2_Rename() throws CoreException {
@@ -161,7 +115,12 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		renameContextVariable(seamEjbProject, "/WebContent/factory.jsp", "cba", "ccc", list);
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/factory.jsp");
+		
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "cba");
+		processor.setNewName("ccc");
+		
+		checkRename(processor, list);
 	}
 
 	public void testSeamContextVariable_Out1_Rename() throws CoreException {
@@ -176,8 +135,13 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		change = new TestTextChange(227, 3, "bbb");
 		structure.addTextChange(change);
 		list.add(structure);
+
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/out.jsp");
 		
-		renameContextVariable(seamEjbProject, "/WebContent/out.jsp", "aaa", "bbb", list);
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "aaa");
+		processor.setNewName("bbb");
+		
+		checkRename(processor, list);
 	}
 	
 	public void testSeamContextVariable_Out2_Rename() throws CoreException {
@@ -192,8 +156,13 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		change = new TestTextChange(283, 3, "eee");
 		structure.addTextChange(change);
 		list.add(structure);
+
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/out.jsp");
 		
-		renameContextVariable(seamEjbProject, "/WebContent/out.jsp", "ddd", "eee", list);
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "ddd");
+		processor.setNewName("eee");
+		
+		checkRename(processor, list);
 	}
 
 	public void testSeamContextVariable_DataModel1_Rename() throws CoreException {
@@ -209,7 +178,12 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		renameContextVariable(seamEjbProject, "/WebContent/datamodel.jsp", "data", "dada", list);
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/datamodel.jsp");
+		
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "data");
+		processor.setNewName("dada");
+		
+		checkRename(processor, list);
 	}
 	
 	public void testSeamContextVariable_DataModel2_Rename() throws CoreException {
@@ -225,6 +199,11 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		renameContextVariable(seamEjbProject, "/WebContent/datamodel.jsp", "model", "modal", list);
+		IFile sourceFile = seamEjbProject.getProject().getFile("/WebContent/datamodel.jsp");
+		
+		RenameSeamContextVariableProcessor processor = new RenameSeamContextVariableProcessor(sourceFile, "model");
+		processor.setNewName("modal");
+		
+		checkRename(processor, list);
 	}
 }
