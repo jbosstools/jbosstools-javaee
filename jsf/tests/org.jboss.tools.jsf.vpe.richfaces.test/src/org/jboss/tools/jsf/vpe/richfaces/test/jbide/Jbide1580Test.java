@@ -21,6 +21,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -38,6 +39,7 @@ public class Jbide1580Test extends VpeTest {
 
 	public static final String FILE_NAME1 = "JBIDE/1580/JBIDE-1580-8button.xhtml";
 	public static final String FILE_NAME2 = "JBIDE/1580/JBIDE-1580-4button.xhtml";
+	private static final String TEST_ELEMENT_ID = "testElement";
 
 	public Jbide1580Test(String name) {
 		super(name);
@@ -63,8 +65,9 @@ public class Jbide1580Test extends VpeTest {
 		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
-		// get dom element
-		nsIDOMElement element = document.getDocumentElement();
+		VpeController controller = TestUtil.getVpeController(part);
+
+		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
 		assertNotNull(element);
 
 		// get root node
@@ -105,8 +108,9 @@ public class Jbide1580Test extends VpeTest {
 		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
-		// get dom element
-		nsIDOMElement element = document.getDocumentElement();
+		VpeController controller = TestUtil.getVpeController(part);
+
+		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
 		assertNotNull(element);
 
 		// get root node

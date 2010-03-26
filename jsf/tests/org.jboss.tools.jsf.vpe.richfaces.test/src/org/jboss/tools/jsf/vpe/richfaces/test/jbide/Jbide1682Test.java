@@ -11,6 +11,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -26,6 +27,7 @@ public class Jbide1682Test extends VpeTest {
 
 	public static final String TEST_PAGE_WITH_POPUP = "JBIDE/1682/JBIDE-1682-with-popup.xhtml";
 	public static final String TEST_PAGE_WITHOUT_POPUP = "JBIDE/1682/JBIDE-1682-without-popup.xhtml";
+	private static final String TEST_ELEMENT_ID = "testElement";
 
 	public Jbide1682Test(String name) {
 		super(name);
@@ -50,9 +52,9 @@ public class Jbide1682Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		// get dom document
-		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
-		nsIDOMElement element = document.getDocumentElement();
+		VpeController controller = TestUtil.getVpeController(part);
+
+		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
 		
 		//check that element is not null
 		assertNotNull(element);

@@ -21,6 +21,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -37,6 +38,7 @@ import org.mozilla.interfaces.nsIDOMNode;
 public class Jbide1639Test extends VpeTest {
 
 	public static final String FILE_NAME = "JBIDE/1639/JBIDE-1639.xhtml";
+	private static final String TEST_ELEMENT_ID = "testElement";
 
 	public Jbide1639Test(String name) {
 		super(name);
@@ -62,22 +64,10 @@ public class Jbide1639Test extends VpeTest {
 		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
 		assertNotNull(document);
 
-		// get dom element
-		nsIDOMElement element = document.getDocumentElement();
-		assertNotNull(element);
+		VpeController controller = TestUtil.getVpeController(part);
 
-		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
-
-		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-
-		// find "img" elements
-		TestUtil.findElementsByName(node, elements, HTML.TAG_IMG);
-
-		Assert.assertEquals(1, elements.size());
-
-		nsIDOMNode img = elements.get(0);
+		nsIDOMElement img = findElementById(controller, TEST_ELEMENT_ID);
+		Assert.assertTrue(HTML.TAG_IMG.equalsIgnoreCase(img.getNodeName()));
 
 		nsIDOMNamedNodeMap attributes = img.getAttributes();
 

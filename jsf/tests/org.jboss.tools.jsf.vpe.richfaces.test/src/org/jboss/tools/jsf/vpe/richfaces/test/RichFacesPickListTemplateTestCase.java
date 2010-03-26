@@ -18,9 +18,14 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
@@ -31,6 +36,8 @@ import org.mozilla.interfaces.nsIDOMNode;
  * @author Eugene Stherbin
  */
 public class RichFacesPickListTemplateTestCase extends VpeTest {
+	private static final String FILE_NAME = "components/pickList/pickList.xhtml";
+	private static final String TEST_ELEMENT_ID = "testElement";
 
     /**
      * The Constructor.
@@ -44,33 +51,45 @@ public class RichFacesPickListTemplateTestCase extends VpeTest {
     /**
      * Test simple pick list.
      */
-    public void testSimplePickList() {
-        nsIDOMElement rst;
-        try {
-            rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath("components/pickList/pickList.xhtml", //$NON-NLS-1$
-            		RichFacesAllTests.IMPORT_PROJECT_NAME));
+    public void testSimplePickList() throws Throwable {
+            // wait
+    		TestUtil.waitForJobs();
+    		// set exception
+    		setException(null);
+
+    		// get test page path
+    		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME,
+    				RichFacesAllTests.IMPORT_PROJECT_NAME);
+
+    		IEditorInput input = new FileEditorInput(file);
+
+    		// open and get editor
+    		JSPMultiPageEditor part = openEditor(input);
+
+    		// get dom document
+    		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
+    		assertNotNull(document);
+
+    		VpeController controller = TestUtil.getVpeController(part);
+
+    		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
+    		assertNotNull(element);
+            
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
-            TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TABLE);
+            TestUtil.findAllElementsByName(element, elements, HTML.TAG_TABLE);
             assertEquals("Count of tables should be 3", 3, elements.size()); //$NON-NLS-1$
             nsIDOMElement tableOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
 
             assertEquals("Style class should be equals", "rich-list-picklist", tableOne.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$ //$NON-NLS-2$
             assertEquals("Style should be empty", "", tableOne.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$ //$NON-NLS-2$
             elements.clear();
-            TestUtil.findAllElementsByName(rst, elements, HTML.TAG_DIV);
-            assertEquals("Count of divs should be 18", 18, elements.size()); //$NON-NLS-1$
+            TestUtil.findAllElementsByName(element, elements, HTML.TAG_DIV);
+            assertEquals("Count of divs should be 15", 15, elements.size()); //$NON-NLS-1$
 
             elements.clear();
-            TestUtil.findAllElementsByName(rst, elements, HTML.TAG_IMG);
-            assertEquals("Count of divs should be 18", 4, elements.size()); //$NON-NLS-1$
-
-        } catch (CoreException e) {
-            TestUtil.fail(e);
-        } catch (Throwable e) {
-            TestUtil.fail(e);
-        }
-
+            TestUtil.findAllElementsByName(element, elements, HTML.TAG_IMG);
+            assertEquals("Count of img should be 4", 4, elements.size()); //$NON-NLS-1$
     }
 
 }

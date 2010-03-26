@@ -8,6 +8,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
@@ -19,6 +20,7 @@ public class JBIDE1579Test extends VpeTest {
 
 	private static final String TEST_PAGE_NAME_2BUTTONS = "JBIDE/1579/JBIDE-1579-2buttons.xhtml";
 	private static final String TEST_PAGE_NAME_4BUTTONS = "JBIDE/1579/JBIDE-1579-4buttons.xhtml";
+	private static final String TEST_ELEMENT_ID = "testElement";
 
 	public JBIDE1579Test(String name) {
 		super(name);
@@ -42,10 +44,9 @@ public class JBIDE1579Test extends VpeTest {
 		assertNotNull("Editor input is null", input);
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
+		VpeController controller = TestUtil.getVpeController(part);
 
-		// get dom document
-		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
-		nsIDOMElement element = document.getDocumentElement();
+		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
 		
 		//check that element is not null
 		assertNotNull(element);
@@ -80,10 +81,9 @@ public class JBIDE1579Test extends VpeTest {
 		assertNotNull("Editor input is null", input);
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
+		VpeController controller = TestUtil.getVpeController(part);
 
-		// get dom document
-		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
-		nsIDOMElement element = document.getDocumentElement();
+		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
 		
 		//check that element is not null
 		assertNotNull(element);
