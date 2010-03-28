@@ -10,10 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.test;
 
-import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
+import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfAllTests {
 //	public static final String PLUGIN_ID = "org.jboss.tools.jsf";
@@ -27,6 +29,11 @@ public class JsfAllTests {
 		suite.addTestSuite(JSFImportTest.class);
 		suite.addTestSuite(JSFBeansTest.class);
 		suite.addTestSuite(JSFPromptingProviderTest.class);
+		
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELVariableRefactoringTest.class),
+				"org.jboss.tools.jsf.test",
+				new String[]{"projects/JSFKickStartProject"},
+				new String[]{"JSFKickStartProject"}));
 		return suite;
 	}
 
