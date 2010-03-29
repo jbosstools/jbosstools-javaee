@@ -12,7 +12,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractRefactorTest;
 
 public class ELVariableRefactoringTest extends AbstractRefactorTest {
-	static String projectName = "JSFKickStartProject";
+	static String projectName = "JSFKickStartOldFormat";
 	static IProject project;
 	
 	public ELVariableRefactoringTest(){
@@ -33,7 +33,7 @@ public class ELVariableRefactoringTest extends AbstractRefactorTest {
 		list.add(structure);
 
 		structure = new TestChangeStructure(project, "/WebContent/WEB-INF/faces-config.xml");
-		change = new TestTextChange(409, 8, "customer");
+		change = new TestTextChange(1815, 8, "customer");
 		structure.addTextChange(change);
 		list.add(structure);
 

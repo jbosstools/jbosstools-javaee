@@ -32,8 +32,8 @@ public class JsfAllTests {
 		
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELVariableRefactoringTest.class),
 				"org.jboss.tools.jsf.test",
-				new String[]{"projects/JSFKickStartProject"},
-				new String[]{"JSFKickStartProject"}));
+				new String[]{"projects/JSFKickStartOldFormat"},
+				new String[]{"JSFKickStartOldFormat"}));
 		return suite;
 	}
 
