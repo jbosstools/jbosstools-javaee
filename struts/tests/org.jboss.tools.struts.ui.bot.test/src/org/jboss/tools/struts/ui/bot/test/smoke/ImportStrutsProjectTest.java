@@ -14,6 +14,7 @@ package org.jboss.tools.struts.ui.bot.test.smoke;
 import java.io.File;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
@@ -52,9 +53,12 @@ public class ImportStrutsProjectTest extends SWTTestExt{
 
     bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.IMPORT).click();
     bot.shell(IDELabel.Shell.IMPORT).activate();
+    swtJbtExt.delay();
     SWTBotTree tree = bot.tree();
     swtJbtExt.delay();
-    tree.expandNode("Other").select(IDELabel.Menu.STRUTS_PROJECT);
+    SWTBotTreeItem tiOther = tree.expandNode("Other");
+    swtJbtExt.delay();
+    tiOther.select(IDELabel.Menu.STRUTS_PROJECT);
     bot.button("Next >").click();
     bot.shell(IDELabel.Shell.IMPORT_STRUTS_PROJECT).activate();
 
