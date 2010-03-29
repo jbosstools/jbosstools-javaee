@@ -13,17 +13,10 @@ package org.jboss.tools.jsf.ui.el.refactoring;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.action.Action;
@@ -61,13 +54,12 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.propertieseditor.PropertiesCompoundEditor;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.el.refactoring.RenameELVariableProcessor;
 import org.jboss.tools.jsf.el.refactoring.RenameELVariableRefactoring;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -212,8 +204,13 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
 					ELPropertyInvocation pi = findELVariable(ie);
 					if(pi != null){
-						if(offset+pi.getStartPosition() == selection.getOffset() && pi.getLength() == selection.getLength())
-							return true;
+						if(offset+pi.getStartPosition() == selection.getOffset() && pi.getLength() == selection.getLength()){
+							String beanName = RenameELVariableProcessor.getManagedBeanName(file, pi.getText());
+							if(beanName != null){
+								selectedText = beanName;
+								return true;
+							}
+						}
 					}
 				}
 			}

@@ -33,6 +33,7 @@ import org.jboss.tools.jsf.model.pv.JSFBeanSearcher;
  * @author Daniel Azarov
  */
 public class RenameELVariableProcessor extends ELRenameProcessor {
+	private final static String MANAGED_BEAN_NAME_ATTRIBUTE = "managed-bean-name"; 
 	IFile file;
 	
 	/**
@@ -70,7 +71,7 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
 		
-		if(findManagedBean() == null)
+		if(findManagedBean(file, getOldName()) == null)
 			result.addFatalError(Messages.format(ElCoreMessages.RENAME_EL_VARIABLE_PROCESSOR_CAN_NOT_FIND_EL_VARIABLE, getOldName()));
 		return result;
 	}
@@ -133,15 +134,15 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 	}
 	
 	private void renameELVariable(IProgressMonitor pm, IFile file){
-		XModelObject managedBean = findManagedBean();
+		XModelObject managedBean = findManagedBean(file, getOldName());
 		if(managedBean != null){
-			Change managedBeanChange = RenameModelObjectChange.createChange(new XModelObject[]{managedBean}, getNewName(), "managed-bean-name");
+			Change managedBeanChange = RenameModelObjectChange.createChange(new XModelObject[]{managedBean}, getNewName(), MANAGED_BEAN_NAME_ATTRIBUTE);
 			rootChange.add(managedBeanChange);
 			getSearcher().findELReferences();
 		}
 	}
 	
-	private XModelObject findManagedBean(){
+	public static XModelObject findManagedBean(IFile file, String name){
 		IModelNature nature = EclipseResourceUtil.getModelNature(file.getProject());
 		if(nature == null)
 			return null;
@@ -149,9 +150,17 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 		if(model == null)
 			return null;
 		JSFBeanSearcher beanSearcher = new JSFBeanSearcher(model);
-		beanSearcher.parse(getOldName());
+		beanSearcher.parse(name);
 		XModelObject managedBean = beanSearcher.getBean();
 		
 		return managedBean;
+	}
+	
+	public static String getManagedBeanName(IFile file, String text){
+		XModelObject managedBean = findManagedBean(file, text);
+		if(managedBean != null){
+			return managedBean.getAttributeValue(MANAGED_BEAN_NAME_ATTRIBUTE);
+		}
+		return null;
 	}
 }
