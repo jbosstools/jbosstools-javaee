@@ -94,11 +94,11 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       swtJbtExt.runProjectOnServer(JBT_TEST_PROJECT_NAME);
       // Check Browser Content
       String browserText = WidgetFinderHelper.browserInEditorText(bot, "Input User Name Page",true);
-      assertTrue("Displayed HTML page has wrong content", 
-        browserText.indexOf("<TITLE>Input User Name Page</TITLE>") > - 1);
       // Stop Application Server and remove Application Server from Server View
       SWTJBTExt.stopApplicationServer(bot, 0);
       SWTJBTExt.deleteApplicationServer(bot, 0);
+      assertTrue("Displayed HTML page has wrong content", 
+          (browserText!= null) && (browserText.indexOf("<TITLE>Input User Name Page</TITLE>") > - 1));
       setException(null);      
     }
     else{
