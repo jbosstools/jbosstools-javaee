@@ -1916,6 +1916,24 @@ two elements with equal id has been used, but should be used only one -->
             <!--para>You can even
     			attach your stylesheet to the preview.</para-->
         </section>
+        <section id="vpe_errors">
+            <title>Error Messages</title>
+            <para><property>Visual Page Editor</property> provide a user friendly and effective <property>error</property> messages, which should make solving problems easier. <property>Error</property> message contains a  reference to the problem and its description. Also in <property>Error</property> area you can find a link to <property>Visual Page Editor</property> forum and <property>Details</property> button whick is used to see a error trace.  </para>
+            <para>If the error occurs while editor loading, error message will contain information about of what might have caused the error ( a missing library or errors in source code).</para>
+            <figure>
+                <title>Visual Page Error Message</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/visual_page_16a.png"/>
+                    </imageobject>
+                    
+                </mediaobject>
+            </figure>
+            
+        </section>
+        
+        
+        
         <section id="custom_facelets_support">
             <title>Support for Custom Facelets Components</title>
             <para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of
