@@ -7,7 +7,7 @@ import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 
 public class CreateSeamProjects extends TestControl{
   
-  private SWTJBTExt swtJbtExt = new SWTJBTExt(new SWTBotExt());
+  private SWTJBTExt swtJbtExt = new SWTJBTExt(bot);
 	
 	public void testCreateSeamProject12war(){
 		createSeamProject(seam12Settings, jbossEAPRuntime, TYPE_WAR);
