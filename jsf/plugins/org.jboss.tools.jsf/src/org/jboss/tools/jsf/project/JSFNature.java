@@ -42,7 +42,8 @@ public class JSFNature extends ModelNature {
 
 	public void configure() throws CoreException {
 		super.configure();
-		addToBuildSpec(BUILDER_ID);
+//Verify builder is deprecated. WTP's validation framework is used for the functionality.
+//		addToBuildSpec(BUILDER_ID);
 	}
 	
 	public void deconfigure() throws CoreException {
