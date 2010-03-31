@@ -30,28 +30,51 @@ public class CreateNewStrutsProjectTest extends SWTTestExt{
    * Test create new Struts Project
    */
   @Test
-	public void testCreateNewStrutsProject() {
-    if (!SWTJBTExt.isServerRuntimeDefined(bot)){
+  public void testCreateNewStrutsProject() {
+    // Default server  version is 4.3
+    String serverGroup = IDELabel.ServerGroup.JBOSS_EAP_4_3; 
+    String serverType = IDELabel.ServerType.JBOSS_EAP_4_3;
+    
+    if (!SWTJBTExt.isServerRuntimeDefined(bot)) {
       eclipse.addServerRuntime(IDELabel.ServerRuntimeName.JBOSS_EAP_4_3,
           IDELabel.ServerGroup.JBOSS_EAP_4_3,
-          IDELabel.ServerRuntimeType.JBOSS_EAP_4_3,
-          StrutsAllBotTests.getProperty("JBossEap4.3Home"));
+          IDELabel.ServerRuntimeType.JBOSS_EAP_4_3, StrutsAllBotTests
+              .getProperty("JBossEap4.3Home"));
     }
-	  eclipse.showView(ViewType.WEB_PROJECTS);
-	  eclipse.createNew(EntityType.STRUTS_PROJECT);
-	  bot.shell(IDELabel.Shell.NEW_STRUTS_PROJECT).activate();
-	  bot.textWithLabel(IDELabel.NewStrutsProjectDialog.NAME).setText(StrutsAllBotTests.STRUTS_PROJECT_NAME);
-	  bot.comboBoxWithLabel(IDELabel.NewStrutsProjectDialog.TEMPLATE).setSelection(IDELabel.NewStrutsProjectDialog.TEMPLATE_KICK_START);
-	  bot.button(IDELabel.Button.NEXT).click();
-	  SWTJBTExt.addServerToServerViewOnWizardPage(bot, IDELabel.ServerGroup.JBOSS_EAP_4_3, IDELabel.ServerType.JBOSS_EAP_4_3);
-	  bot.sleep(1000L);
-	  bot.button(IDELabel.Button.NEXT).click();
-	  bot.button(IDELabel.Button.FINISH).click();
+    else{
+      // Check version of already defined server runtime
+      String serverRuntimeVersion = SWTJBTExt.getDefinedServerRuntimeVersion(bot, 0);
+      if (serverRuntimeVersion != null){
+        if (serverRuntimeVersion.equals("5.0")){
+          serverGroup = IDELabel.ServerGroup.JBOSS_EAP_5_0; 
+          serverType = IDELabel.ServerType.JBOSS_EAP_5_0;
+        }else if(!serverRuntimeVersion.equals("4.3")){
+          throw new RuntimeException("Unsupported server runtime: " + serverRuntimeVersion);
+        }
+      }
+      else{
+        throw new RuntimeException("Unsupported server runtime: " + serverRuntimeVersion);
+      }
+    }
+    eclipse.showView(ViewType.WEB_PROJECTS);
+    eclipse.createNew(EntityType.STRUTS_PROJECT);
+    bot.shell(IDELabel.Shell.NEW_STRUTS_PROJECT).activate();
+    bot.textWithLabel(IDELabel.NewStrutsProjectDialog.NAME).setText(
+        StrutsAllBotTests.STRUTS_PROJECT_NAME);
+    bot.comboBoxWithLabel(IDELabel.NewStrutsProjectDialog.TEMPLATE)
+        .setSelection(IDELabel.NewStrutsProjectDialog.TEMPLATE_KICK_START);
+    bot.button(IDELabel.Button.NEXT).click();
+    SWTJBTExt.addServerToServerViewOnWizardPage(bot,
+        serverGroup, serverType);
+    bot.sleep(1000L);
+    bot.button(IDELabel.Button.NEXT).click();
+    bot.button(IDELabel.Button.FINISH).click();
     eclipse.closeOpenAssociatedPerspectiveShellIfOpened(false);
-	  
-		assertTrue("Project "+ StrutsAllBotTests.STRUTS_PROJECT_NAME + " was not created properly.",
-		  SWTEclipseExt.treeContainsItemWithLabel(bot.viewByTitle(IDELabel.View.WEB_PROJECTS).bot().tree(),
-	      StrutsAllBotTests.STRUTS_PROJECT_NAME));
-	}
-	
+
+    assertTrue("Project " + StrutsAllBotTests.STRUTS_PROJECT_NAME
+        + " was not created properly.", SWTEclipseExt
+        .treeContainsItemWithLabel(bot.viewByTitle(IDELabel.View.WEB_PROJECTS)
+            .bot().tree(), StrutsAllBotTests.STRUTS_PROJECT_NAME));
+  }
+
 }
