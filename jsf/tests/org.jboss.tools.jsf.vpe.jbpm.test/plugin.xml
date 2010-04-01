@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.jboss.tools.vpe.ui.tests">
+      <tests
+            name="JBPMAllTests"
+            testSuite="org.jboss.tools.jsf.vpe.jbpm.test.JBPMAllTests">
+      </tests>
+      <testProject
+            name="jBPMTestProject"
+            path="resources/jBPMTestProject">
+      </testProject>
+   </extension>
+
+</plugin>

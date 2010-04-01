@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+<!-- the DOCTYPE means we are required to use html for a root element -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:tf="http://jbpm.org/jsf/tf" xmlns:jbpm="http://jbpm.org/jsf">
+
+<ui:component>
+
+	<jbpm:dataform id="id1">
+
+		<f:facet name="header">
+			<h:outputText value="#{taskName}" />
+		</f:facet>
+
+		<!-- TASKFORM ROWS -->
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="field1" />
+			</f:facet>
+			<h:inputText value="#{var['field1']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="field2" />
+			</f:facet>
+			<h:inputText value="#{var['field2']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="field3" />
+			</f:facet>
+			<h:inputText value="#{var['field3']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="field4" />
+			</f:facet>
+			<h:inputText value="#{var['field4']}" />
+		</jbpm:datacell>
+Value should not display
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Action" />
+			</f:facet>
+			<!-- TASKFORM BUTTONS -->
+			<tf:saveButton value="Save" style=" width : 74px; height : 29px;" />
+			<tf:cancelButton value="Cancel" />
+			<tf:transitionButton transition="button1" value="button1" />
+			<tf:transitionButton transition="button2" value="button2" />
+			<tf:transitionButton transition="button3" value="button3" />
+		</jbpm:datacell>
+
+	</jbpm:dataform>
+
+</ui:component>
+
+</html>

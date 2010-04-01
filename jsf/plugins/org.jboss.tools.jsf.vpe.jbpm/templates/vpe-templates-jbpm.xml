@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vpe:templates xmlns:vpe="http://org.jboss.org/tools/vpe/template"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<vpe:template-taglib uri="http://jbpm.org/jsf/tf"
+		prefix="tf" />
+	<vpe:template-taglib uri="http://jbpm.org/jsf"
+		prefix="jbpm" />
+
+	<vpe:tag name="tf:saveButton" case-sensitive="yes">
+		<vpe:if test="(@disabled='true')">
+			<vpe:if test="not(attrpresent('image'))">
+				<vpe:if test="(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+							disabled='disabled' />
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+				<vpe:if test="not(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+							disabled='disabled' />
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+			</vpe:if>
+			<vpe:if test="attrpresent('image')">
+				<vpe:template children="no" modify="no">
+					<input type="image" src="{src(@image)}" class="{@styleClass}"
+						style="{@style}" title="{tagstring()}" disabled='disabled' />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<!--else-->
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+			<vpe:if test="not(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}" class="{@styleClass}"
+					style="{@style}" title="{tagstring()}" />
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
+
+	<vpe:tag name="tf:cancelButton" case-sensitive="yes">
+		<vpe:if test="(@disabled='true')">
+			<vpe:if test="not(attrpresent('image'))">
+				<vpe:if test="(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+							disabled='disabled' />
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+				<vpe:if test="not(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+							disabled='disabled' />
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+			</vpe:if>
+			<vpe:if test="attrpresent('image')">
+				<vpe:template children="no" modify="no">
+					<input type="image" src="{src(@image)}" class="{@styleClass}"
+						style="{@style}" title="{tagstring()}" disabled='disabled' />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<!--else-->
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+			<vpe:if test="not(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}" class="{@styleClass}"
+					style="{@style}" title="{tagstring()}" />
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
+
+	<vpe:tag name="tf:transitionButton" case-sensitive="yes">
+		<vpe:if test="(@disabled='true')">
+			<vpe:if test="not(attrpresent('image'))">
+				<vpe:if test="(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+							disabled='disabled' />
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+				<vpe:if test="not(@type='')">
+					<vpe:template children="no" modify="no">
+						<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+							class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}"
+							disabled='disabled' />
+						<vpe:resize>
+							<vpe:width width-attr="style.width" />
+							<vpe:height height-attr="style.height" />
+						</vpe:resize>
+						<vpe:dnd>
+							<vpe:drag start-enable="yes" />
+						</vpe:dnd>
+						<vpe:textFormatting use-default-formats="yes">
+						</vpe:textFormatting>
+					</vpe:template>
+				</vpe:if>
+			</vpe:if>
+			<vpe:if test="attrpresent('image')">
+				<vpe:template children="no" modify="no">
+					<input type="image" src="{src(@image)}" class="{@styleClass}"
+						style="{@style}" title="{tagstring()}" disabled='disabled' />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<!--else-->
+		<vpe:if test="not(attrpresent('image'))">
+			<vpe:if test="(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="button" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+			<vpe:if test="not(@type='')">
+				<vpe:template children="no" modify="no">
+					<input type="{@type}" value="{iif(@value='',' ',jsfvalue(@value))}"
+						class="{@styleClass}" style="{@style}" title="{tagstring()}" dir="{@dir}" />
+					<vpe:resize>
+						<vpe:width width-attr="style.width" />
+						<vpe:height height-attr="style.height" />
+					</vpe:resize>
+					<vpe:dnd>
+						<vpe:drag start-enable="yes" />
+					</vpe:dnd>
+					<vpe:textFormatting use-default-formats="yes">
+					</vpe:textFormatting>
+				</vpe:template>
+			</vpe:if>
+		</vpe:if>
+		<vpe:if test="attrpresent('image')">
+			<vpe:template children="no" modify="no">
+				<input type="image" src="{src(@image)}" class="{@styleClass}"
+					style="{@style}" title="{tagstring()}" />
+				<vpe:resize>
+					<vpe:width width-attr="style.width" />
+					<vpe:height height-attr="style.height" />
+				</vpe:resize>
+				<vpe:textFormatting use-default-formats="yes">
+				</vpe:textFormatting>
+			</vpe:template>
+		</vpe:if>
+	</vpe:tag>
+
+	<vpe:tag name="jbpm:datacell" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.jbpm.template.JBPMDataCell">
+			<vpe:dnd>
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="jbpm:dataform" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.jbpm.template.JBPMDataForm" />
+		<vpe:dnd>
+			<vpe:drop container="yes" />
+		</vpe:dnd>
+	</vpe:tag>
+
+</vpe:templates>

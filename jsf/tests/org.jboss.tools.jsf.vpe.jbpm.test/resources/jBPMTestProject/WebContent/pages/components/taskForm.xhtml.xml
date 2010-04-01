@@ -1,0 +1,83 @@
+<tests>
+<test id="id1">
+<TABLE STYLE="border: 1px solid rgb(0, 0, 0); font-family: verdana,sans-serif; font-size: 10pt; font-weight: normal; margin-right: auto; margin-left: auto; border-collapse: collapse;">
+<COLGROUP SPAN="2">
+</COLGROUP>
+<THEAD>
+<TR>
+<TH COLSPAN="2" STYLE="border-bottom: 1px solid rgb(0, 0, 0); background-color: rgb(153, 0, 0); color: rgb(255, 255, 153); font-weight: bold; text-align: left; -moz-user-modify: read-only;" VPE-PSEUDO-TYPE="vpe-jbpm-form-header">
+<SPAN CLASS="vpe-text">
+#{taskName}
+</SPAN>
+</TH>
+</TR>
+</THEAD>
+<TBODY>
+<TR>
+<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+field1
+</SPAN>
+</TH>
+<TD STYLE="border-bottom: 1px solid rgb(0, 0, 0); margin: 0pt; padding: 3px 5px; background: rgb(221, 221, 221) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(0, 0, 0); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 260px;">
+<INPUT VALUE="#{var['field1']}"/>
+
+</TD>
+</TR>
+<TR>
+<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+field2
+</SPAN>
+</TH>
+<TD STYLE="border-bottom: 1px solid rgb(0, 0, 0); margin: 0pt; padding: 3px 5px; background: rgb(221, 221, 221) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(0, 0, 0); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 260px;">
+<INPUT VALUE="#{var['field2']}"/>
+
+</TD>
+</TR>
+<TR>
+<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+field3
+</SPAN>
+</TH>
+<TD STYLE="border-bottom: 1px solid rgb(0, 0, 0); margin: 0pt; padding: 3px 5px; background: rgb(221, 221, 221) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(0, 0, 0); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 260px;">
+<INPUT VALUE="#{var['field3']}"/>
+
+</TD>
+</TR>
+<TR>
+<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+field4
+</SPAN>
+</TH>
+<TD STYLE="border-bottom: 1px solid rgb(0, 0, 0); margin: 0pt; padding: 3px 5px; background: rgb(221, 221, 221) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(0, 0, 0); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 260px;">
+<INPUT VALUE="#{var['field4']}"/>
+
+</TD>
+</TR>
+<TR>
+<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<SPAN CLASS="vpe-text">
+Action
+</SPAN>
+</TH>
+<TD STYLE="border-bottom: 1px solid rgb(0, 0, 0); margin: 0pt; padding: 3px 5px; background: rgb(221, 221, 221) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(0, 0, 0); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 260px;">
+<!-- TASKFORM BUTTONS -->
+<INPUT TYPE="button" STYLE="width: 74px; height: 29px; -moz-user-modify: read-only;" VALUE="Save"/>
+
+<INPUT TYPE="button" VALUE="Cancel" STYLE="-moz-user-modify: read-only;"/>
+
+<INPUT TYPE="button" VALUE="button1" STYLE="-moz-user-modify: read-only;"/>
+
+<INPUT TYPE="button" VALUE="button2" STYLE="-moz-user-modify: read-only;"/>
+
+<INPUT TYPE="button" VALUE="button3" STYLE="-moz-user-modify: read-only;"/>
+
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</test>
+</tests>
