@@ -477,7 +477,7 @@
             </tgroup>
         </table>
 
-        <para>On the <property>Templates tab</property> you can edit or remove <link
+        <para>On the <property>Templates tab</property> you can add, edit or remove <link
                 linkend="vpe_templating">VPE templates</link>.</para>
         <figure>
             <title>Visual Page Editor Templates</title>
