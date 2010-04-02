@@ -12,12 +12,18 @@ package org.jboss.tools.jsf.ui;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
+import org.jboss.tools.jsf.ui.editor.check.ProjectNaturesChecker;
+import org.jboss.tools.jsf.ui.editor.check.ProjectNaturesPartListener;
 import org.osgi.framework.BundleContext;
 
 public class JsfUiPlugin extends BaseUIPlugin {
 
+	private ProjectNaturesPartListener partListener = new ProjectNaturesPartListener();
+	
 	public static String PLUGIN_ID = "org.jboss.tools.jsf.ui"; //$NON-NLS-1$
 
 	public JsfUiPlugin() {
@@ -25,6 +31,8 @@ public class JsfUiPlugin extends BaseUIPlugin {
 
 	public void start(BundleContext context) throws Exception {
 	    super.start(context);
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		window.getPartService().addPartListener(partListener);
 	}
 
 	public static JsfUiPlugin getDefault() {
@@ -49,4 +57,18 @@ public class JsfUiPlugin extends BaseUIPlugin {
 	public static IPluginLog getPluginLog() {
 		return getDefault();
 	}
+	
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		if (partListener != null) {
+			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			window.getPartService().removePartListener(partListener);
+			partListener = null;
+		}
+		ProjectNaturesChecker naturesChecker = ProjectNaturesChecker.getInstance();
+		naturesChecker.dispose();
+		naturesChecker = null;
+		super.stop(context);
+	}
+	
 }
