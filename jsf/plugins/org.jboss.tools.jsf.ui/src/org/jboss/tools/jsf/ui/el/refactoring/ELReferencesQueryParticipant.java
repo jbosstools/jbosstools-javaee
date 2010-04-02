@@ -30,7 +30,7 @@ import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.jsf.el.refactoring.ELProjectSetExtension;
 import org.jboss.tools.jsf.el.refactoring.ProjectsSet;
-import org.jboss.tools.jsf.el.refactoring.RefactorSearcher;
+import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 public class ELReferencesQueryParticipant implements IQueryParticipant{
 	private ELSearcher searcher;

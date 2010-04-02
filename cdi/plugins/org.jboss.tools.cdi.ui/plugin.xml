@@ -106,4 +106,13 @@
            nature="org.jboss.tools.cdi.core.cdinature">
      </queryParticipant>
   </extension>
+  <!-- Refactorng -->
+	<extension
+		point="org.eclipse.ui.menus">
+	<menuContribution
+	      class="org.jboss.tools.cdi.ui.refactoring.CDIRefactorContributionFactory"
+	      locationURI="popup:org.eclipse.ui.popup.any?after=save">
+	</menuContribution>
+	</extension> 
+  
 </plugin>

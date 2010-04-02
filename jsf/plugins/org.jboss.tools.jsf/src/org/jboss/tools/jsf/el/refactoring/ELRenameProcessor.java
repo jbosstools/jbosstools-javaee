@@ -31,6 +31,7 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 /**
  * @author Daniel Azarov

@@ -35,8 +35,8 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.jsf.el.refactoring.ELProjectSetExtension;
 import org.jboss.tools.jsf.el.refactoring.ProjectsSet;
-import org.jboss.tools.jsf.el.refactoring.RefactorSearcher;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
+import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 public class RenameMethodParticipant extends RenameParticipant{
 	private IJavaElement element;
