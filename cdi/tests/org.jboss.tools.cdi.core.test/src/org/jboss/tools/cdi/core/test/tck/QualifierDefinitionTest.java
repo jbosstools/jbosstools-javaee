@@ -108,9 +108,8 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of qualifiers.", 4, qualifiers.size());
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 3, declarations.size());
-		// TODO use correct start position instead of 0.
-		assertLocationEquals(declarations, 0, 6);
-		assertLocationEquals(declarations, 0, 9);
+		assertLocationEquals(declarations, 882, 10);
+		assertLocationEquals(declarations, 894, 24);
 	}
 
 	/**
@@ -125,7 +124,6 @@ public class QualifierDefinitionTest extends TCKTest {
 		IInjectionPoint point = points.iterator().next();
 		Set<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		// TODO use correct start position instead of 0.
 		assertLocationEquals(declarations, 914, 5);
 
 		Set<IBean> injectedBeans = cdiProject.getBeans(point);
@@ -138,7 +136,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		declarations = producer.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		// TODO use correct start position instead of 0.
-		assertLocationEquals(declarations, 0, 5);
+		assertLocationEquals(declarations, 939, 5);
 	}
 
 	/**
