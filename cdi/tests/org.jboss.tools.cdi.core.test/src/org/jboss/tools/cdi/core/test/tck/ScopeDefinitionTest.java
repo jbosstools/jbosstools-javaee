@@ -23,15 +23,50 @@ public class ScopeDefinitionTest extends TCKTest {
 
 	/**
 	 * section 2.4 c)
-	 * @throws JavaModelException 
+	 * 
+	 * @throws JavaModelException
 	 */
 	public void testScopeTypesAreExtensible() throws JavaModelException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Mullet");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		assertEquals("Wrong scope type", "org.jboss.jsr299.tck.tests.definition.scope.AnotherScopeType", bean.getScope().getSourceType().getFullyQualifiedName());
+		assertEquals("Wrong scope type",
+				"org.jboss.jsr299.tck.tests.definition.scope.AnotherScopeType",
+				bean.getScope().getSourceType().getFullyQualifiedName());
 		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
-		assertEquals("Wrong number of scope declarations", 1, declarations.size());
+		assertEquals("Wrong number of scope declarations", 1, declarations
+				.size());
 		assertLocationEquals(declarations, 848, 17);
+	}
+
+	/**
+	 * section 2.4.3 a)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testScopeDeclaredInJava() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.SeaBass");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong scope type",
+				"javax.enterprise.context.RequestScoped", bean.getScope()
+						.getSourceType().getFullyQualifiedName());
+		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
+		assertEquals("Wrong number of scope declarations", 1, declarations
+				.size());
+		assertLocationEquals(declarations, 898, 14);
+	}
+
+	/**
+	 * section 2.4.4 aa)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testDefaultScope() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Order");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
+				bean.getScope().getSourceType().getFullyQualifiedName());
 	}
 }
