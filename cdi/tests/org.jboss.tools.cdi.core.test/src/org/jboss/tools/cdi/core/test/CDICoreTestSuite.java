@@ -17,6 +17,7 @@ import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.ValidationTest;
 
 /**
@@ -30,6 +31,7 @@ public class CDICoreTestSuite extends TestSuite {
 		suite.addTestSuite(NameDefinitionTest.class);
 		suite.addTestSuite(QualifierDefinitionTest.class);
 		suite.addTestSuite(EnterpriseQualifierDefinitionTest.class);
+		suite.addTestSuite(ScopeDefinitionTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}

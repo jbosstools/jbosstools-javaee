@@ -25,7 +25,7 @@ import org.jboss.tools.cdi.core.IQualifierDeclaration;
 public class EnterpriseQualifierDefinitionTest extends TCKTest {
 
 	/**
-	 * section 4.1 id)
+	 * section 4.1 al)
 	 * @throws CoreException 
 	 */
 	public void testQualifierDeclaredInheritedIsInherited() throws CoreException {
