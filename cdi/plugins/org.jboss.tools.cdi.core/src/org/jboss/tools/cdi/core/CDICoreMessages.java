@@ -29,4 +29,8 @@ public class CDICoreMessages {
 	public static String CDI_RENAME_PROCESSOR_OUT_OF_SYNC_FILE;
 	public static String CDI_RENAME_PROCESSOR_ERROR_PHANTOM_FILE;
 	public static String CDI_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE;
+	public static String RENAME_NAMED_BEAN_PROCESSOR_TITLE;
+	public static String RENAME_NAMED_BEAN_PROCESSOR_ERROR;
+	public static String CDI_RENAME_PROCESSOR_BEAN_HAS_NO_FILE;
+	public static String CDI_RENAME_PROCESSOR_BEAN_HAS_NO_NAME_LOCATION;
 }

@@ -18,8 +18,8 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
-import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
+import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 
 /**
@@ -56,12 +56,7 @@ public class RenameNamedBeanProcessor extends CDIRenameProcessor {
 			OperationCanceledException {
 		status = new RefactoringStatus();
 		if(bean != null){
-			checkDeclarations(bean);
-			
-			if(status.hasFatalError())
-				return status;
-			
-			rootChange = new CompositeChange("Rename @Named Bean");
+			rootChange = new CompositeChange(CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_TITLE);
 			
 			renameBean(pm, bean);
 		}
@@ -77,7 +72,7 @@ public class RenameNamedBeanProcessor extends CDIRenameProcessor {
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
 		if(bean==null) {
-			result.addFatalError("This is not a @Named Bean");
+			result.addFatalError(CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_ERROR);
 		}
 		return result;
 	}
@@ -118,7 +113,7 @@ public class RenameNamedBeanProcessor extends CDIRenameProcessor {
 	 */
 	@Override
 	public String getProcessorName() {
-		return "Rename @Named Bean";
+		return CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_TITLE;
 	}
 
 	/*

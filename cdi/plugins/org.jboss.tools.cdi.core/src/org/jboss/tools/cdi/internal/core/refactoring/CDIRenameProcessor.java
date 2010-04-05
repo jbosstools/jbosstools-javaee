@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -30,24 +29,17 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 /**
  * @author Daniel Azarov
  */
 public abstract class CDIRenameProcessor extends RenameProcessor {
-	protected static final String JAVA_EXT = "java"; //$NON-NLS-1$
-	protected static final String XML_EXT = "xml"; //$NON-NLS-1$
-	protected static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
-	protected static final String JSP_EXT = "jsp"; //$NON-NLS-1$
-	protected static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
-	
 	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
 	
 	protected RefactoringStatus status;
@@ -110,95 +102,25 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 	}
 	
 	
-	private boolean isBadLocation(ITextSourceReference location, IFile file){
-		boolean flag=false;
-		return flag;
-	}
-	
-	private void changeXMLNode(ITextSourceReference location, IFile file){
-		if(isBadLocation(location, file))
-			return;
-		
-		if(!isFileCorrect(file))
-			return;
-
-		String content = null;
-		try {
-			content = FileUtil.readStream(file);
-		} catch (CoreException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-
-		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
-		if(text.startsWith("<")){ //$NON-NLS-1$
-			int position = text.lastIndexOf("/>"); //$NON-NLS-1$
-			if(position < 0){
-				position = text.lastIndexOf(">"); //$NON-NLS-1$
-			}
-			change(file, location.getStartPosition()+position, 0, " name=\""+getNewName()+"\""); //$NON-NLS-1$ //$NON-NLS-2$
-		}else{
-			change(file, location.getStartPosition(), location.getLength(), getNewName());
-		}
-	}
-	
-	private void changeAnnotation(ITextSourceReference location, IFile file){
-		if(isBadLocation(location, file))
-			return;
-		
-		if(!isFileCorrect(file))
-			return;
-
-		String content = null;
-		try {
-			content = FileUtil.readStream(file);
-		} catch (CoreException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-
-		String text = content.substring(location.getStartPosition(), location.getStartPosition()+location.getLength());
-		int openBracket = text.indexOf("("); //$NON-NLS-1$
-		int openQuote = text.indexOf("\""); //$NON-NLS-1$
-		if(openBracket >= 0){
-			int closeBracket = text.indexOf(")", openBracket); //$NON-NLS-1$
-			
-			int equals = text.indexOf("=", openBracket); //$NON-NLS-1$
-			int value = text.indexOf("value", openBracket); //$NON-NLS-1$
-			
-			if(closeBracket == openBracket+1){ // empty brackets
-				String newText = "\""+getNewName()+"\""; //$NON-NLS-1$ //$NON-NLS-2$
-				change(file, location.getStartPosition()+openBracket+1, 0, newText);
-			}else if(value > 0){ // construction value="name" found so change name
-				String newText = text.replace(getOldName(), getNewName());
-				change(file, location.getStartPosition(), location.getLength(), newText);
-			}else if(equals > 0){ // other parameters are found
-				String newText = "value=\""+getNewName()+"\","; //$NON-NLS-1$ //$NON-NLS-2$
-				change(file, location.getStartPosition()+openBracket+1, 0, newText);
-			}else{ // other cases
-				String newText = text.replace(getOldName(), getNewName());
-				change(file, location.getStartPosition(), location.getLength(), newText);
-			}
-		}else if(openQuote >= 0){
-			int closeQuota = text.indexOf("\"", openQuote); //$NON-NLS-1$
-			
-			if(closeQuota == openQuote+1){ // empty quotas
-				String newText = "\""+getNewName()+"\""; //$NON-NLS-1$ //$NON-NLS-2$
-				change(file, location.getStartPosition()+openQuote+1, 0, newText);
-			}else{ // the other cases
-				String newText = text.replace(getOldName(), getNewName());
-				change(file, location.getStartPosition(), location.getLength(), newText);
-			}
-		}else{
-			String newText = "(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
-			change(file, location.getStartPosition()+location.getLength(), 0, newText);
-		}
-	}
-
-	
 	private void changeDeclarations(IBean bean) throws CoreException{
+		declarationFile = (IFile)bean.getResource();
+		
+		if(declarationFile == null){
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_FILE);
+			return;
+		}
+		
+		ITextSourceReference nameLocation = bean.getNameLocation();
+		
+		if(nameLocation == null){
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_NAME_LOCATION);
+			return;
+		}
+		
+		String newText = "@Named(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		change(declarationFile, nameLocation.getStartPosition(), nameLocation.getLength(), newText);
 	}
 	
-	protected void checkDeclarations(IBean bean) throws CoreException{
-	}
 	
 	protected boolean isFileCorrect(IFile file){
 			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
@@ -219,6 +141,8 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 		pm.beginTask("", 3);
 		
 		clearChanges();
+		
+		this.bean = bean;
 		
 		findDeclarations(bean);
 		
@@ -251,7 +175,7 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 	
 	class CDISearcher extends RefactorSearcher{
 		public CDISearcher(IFile declarationFile, String oldName){
-			super(declarationFile, oldName);
+			super(declarationFile, oldName, bean.getBeanClass());
 		}
 
 		@Override
@@ -285,11 +209,16 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 
 		@Override
 		protected IProject[] getProjects() {
-			return null;
+			return new IProject[]{baseFile.getProject()};
 		}
-
+		
 		@Override
 		protected IContainer getViewFolder(IProject project) {
+			IPath path = ProjectHome.getFirstWebContentPath(baseFile.getProject());
+			
+			if(path != null)
+				return project.getFolder(path.removeFirstSegments(1));
+			
 			return null;
 		}
 	}
