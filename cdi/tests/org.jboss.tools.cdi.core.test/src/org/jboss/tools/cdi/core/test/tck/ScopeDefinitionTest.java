@@ -153,4 +153,71 @@ public class ScopeDefinitionTest extends TCKTest {
 				"javax.enterprise.context.RequestScoped", bean.getScope()
 						.getSourceType().getFullyQualifiedName());
 	}
+
+	/**
+	 * section 4.1 baa)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testScopeTypeNotDeclaredInheritedIsNotInherited()
+			throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.ShetlandPony");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
+				bean.getScope().getSourceType().getFullyQualifiedName());
+	}
+
+	/**
+	 * section 4.1 ba)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testScopeTypeDeclaredInheritedIsBlockedByIntermediateScopeTypeMarkedInherited()
+			throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.GoldenRetriever");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+	}
+
+	/**
+	 * section 4.1 ba)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testScopeTypeDeclaredInheritedIsBlockedByIntermediateScopeTypeNotMarkedInherited()
+			throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.GoldenLabrador");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
+				bean.getScope().getSourceType().getFullyQualifiedName());
+	}
+
+	/**
+	 * section 4.1 bc)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testScopeTypeDeclaredInheritedIsIndirectlyInherited()
+			throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.EnglishBorderCollie");
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong scope type",
+				"javax.enterprise.context.RequestScoped", bean.getScope()
+						.getSourceType().getFullyQualifiedName());
+	}
+
+	/**
+	 * section 4.1 bca)
+	 * 
+	 * @throws JavaModelException
+	 */
+	public void testScopeTypeNotDeclaredInheritedIsNotIndirectlyInherited()
+			throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.MiniatureClydesdale");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
+				bean.getScope().getSourceType().getFullyQualifiedName());
+	}
 }
