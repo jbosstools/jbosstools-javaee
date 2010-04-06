@@ -12,6 +12,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.test.TestProperties;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
+import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.helper.DatabaseHelper;
 import org.jboss.tools.ui.bot.ext.types.DriverEntity;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -44,7 +45,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 
 	static {
 	  
-	  Properties vmArgsProps = TestControl.parseEclipseVMArgs();
+	  Properties vmArgsProps = SWTUtilExt.parseEclipseVMArgs();
 	  
 		try {
 			InputStream is = TestControl.class.getResourceAsStream("/" + PROJECT_PROPERTIES);
@@ -60,7 +61,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + EAP_RUNTIME);
 			jbossEAPRuntime = new TestProperties();
 			jbossEAPRuntime.load(is);
-			TestControl.overrideValueFromSystemProperty(jbossEAPRuntime,"runtimePath","-Djboss.tools.test.jboss.home",vmArgsProps);
+			SWTUtilExt.overrideValueFromSystemProperty(jbossEAPRuntime,"runtimePath","-Djboss.tools.test.jboss.home",vmArgsProps);
 	  } catch (IOException e) {
 			fail("Can't load properties from " + EAP_RUNTIME + " file");		
 		}
@@ -71,7 +72,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_12);
 			seam12Settings = new TestProperties();
 			seam12Settings.load(is);
-			TestControl.overrideValueFromSystemProperty(seam12Settings,"seamRuntimePath","-Djboss.tools.test.seam.1.2.1.eap.home",vmArgsProps);
+			SWTUtilExt.overrideValueFromSystemProperty(seam12Settings,"seamRuntimePath","-Djboss.tools.test.seam.1.2.1.eap.home",vmArgsProps);
 		} catch (IOException e) {
 			fail("Can't load properties from " + SEAM_SET_12 + " file");		
 		}
@@ -82,7 +83,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_2FP);
 			seam2fpSettings = new TestProperties();
 			seam2fpSettings.load(is);
-			TestControl.overrideValueFromSystemProperty(seam2fpSettings,"seamRuntimePath","-Djboss.tools.test.seam.2fp.eap.home",vmArgsProps);
+			SWTUtilExt.overrideValueFromSystemProperty(seam2fpSettings,"seamRuntimePath","-Djboss.tools.test.seam.2fp.eap.home",vmArgsProps);
 		} catch (IOException e) {
 			fail("Can't load properties from " + SEAM_SET_2FP + " file");		
 		}
@@ -93,7 +94,7 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 			InputStream is = TestControl.class.getResourceAsStream("/" + SEAM_SET_22);
 			seam22Settings = new TestProperties();
 			seam22Settings.load(is);
-			TestControl.overrideValueFromSystemProperty(seam22Settings,"seamRuntimePath","-Djboss.tools.test.seam.2.2.0.eap.home",vmArgsProps);
+			SWTUtilExt.overrideValueFromSystemProperty(seam22Settings,"seamRuntimePath","-Djboss.tools.test.seam.2.2.0.eap.home",vmArgsProps);
 		} catch (IOException e) {
 			fail("Can't load properties from " + SEAM_SET_22 + " file");		
 		}
@@ -231,45 +232,7 @@ public static String TYPE_EAR = "EAR";
 			bot.sleep(1000);
 		}
 	}
-	/**
-	 * Overrides propertyName property value within properties with value stored within vmargProperties with name vmargPropertyName
-	 * @param properties
-	 * @param propertyName
-	 * @param vmargPropertyName
-	 * @param vmargProperties
-	 */
-	private static void overrideValueFromSystemProperty (Properties properties, String propertyName , 
-    String vmargPropertyName, Properties vmargProperties){
-	  
-	  String vmargProperty = vmargProperties.getProperty(vmargPropertyName);
-	  if (vmargProperty != null){
-	    properties.setProperty(propertyName, vmargProperty);
-	  }
-	  
-	}
-	/**
-	 * Returns Properties which contains Virtual Machine arguments
-	 * with name starting with "-D"
-	 * @return
-	 */
-	private static Properties parseEclipseVMArgs (){
-    
-	  Properties vmArgsProps = new Properties();
-    
-	  String vmArgs = System.getProperty("eclipse.vmargs");
-	  
-	  if (vmArgs != null){
-	    for (String line : vmArgs.split("\n")){
-	      if (line.startsWith("-D")){
-	        String[] splitLine = line.split("=");
-	        vmArgsProps.setProperty(splitLine[0], splitLine[1]);
-	      }
-	    }
-	  }
-    
-    return vmArgsProps;
-    
-	}
+
 	/**
 	 * Creates connection profile in case it's not defined yet
 	 * @param pathToSeamRuntime
