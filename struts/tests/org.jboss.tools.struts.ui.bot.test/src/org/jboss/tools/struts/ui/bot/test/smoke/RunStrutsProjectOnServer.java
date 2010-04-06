@@ -33,11 +33,11 @@ public class RunStrutsProjectOnServer extends SWTTestExt{
   @Test
 	public void testRunStrutsProjectOnServer() {
     // Start Application Server
-    swtJbtExt.startApplicationServer(0);
+    swtJbtExt.startApplicationServer(0,150*1000L);
     swtJbtExt.runProjectOnServer(StrutsAllBotTests.STRUTS_PROJECT_NAME);
     // Check Browser Content
     String browserText = WidgetFinderHelper.browserInEditorText(bot, "KickStart: Input name",true);
-    swtJbtExt.stopApplicationServer( 0);
+    swtJbtExt.stopApplicationServer(0);
     swtJbtExt.removeProjectFromServers(StrutsAllBotTests.STRUTS_PROJECT_NAME);
     SWTJBTExt.deleteApplicationServer(bot, 0);
     assertTrue("Displayed HTML page has wrong content", 
