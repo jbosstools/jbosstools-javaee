@@ -37,7 +37,7 @@ public interface CDIConstants {
 	public String CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ConversationScoped";
 	public String REQUEST_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.RequestScoped";
 	public String SESSION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
-	public String DEPENDENT_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
+	public String DEPENDENT_ANNOTATION_TYPE_NAME = "javax.enterprise.context.Dependent";
 
 	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
