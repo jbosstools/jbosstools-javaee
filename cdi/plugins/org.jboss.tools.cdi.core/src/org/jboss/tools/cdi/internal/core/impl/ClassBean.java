@@ -360,7 +360,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		//2. Declaration of inheritable scope in a superclass.
 		ClassBean scb = getSuperClassBean();
 		while(scb != null) {
-			scopes = getScopeDeclarations();
+			scopes = scb.getScopeDeclarations();
 			if(!scopes.isEmpty()) {
 				scope = scopes.iterator().next().getScope();
 				if(scope.getInheritedDeclaration() == null) {
@@ -383,7 +383,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}
 		scb = getSuperClassBean();
 		while(scb != null) {
-			ss = getStereotypeDeclarations();
+			ss = scb.getStereotypeDeclarations();
 			for (IStereotypeDeclaration d: ss) {
 				IStereotype s = d.getStereotype();
 				if(s.getInheritedDeclaration() == null) {
