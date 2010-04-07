@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.text.TextSelection;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
@@ -46,6 +47,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Daniel Azarov
@@ -55,6 +57,7 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 	private static final String JAVA_EXT = "java"; //$NON-NLS-1$
 	
 	static private IFile editorFile;
+	static private TextSelection selection;
 	private IEditorPart editor;
 	private Shell shell;
 	
@@ -95,7 +98,8 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 			boolean separatorIsAdded = false;
 			
 			if(JAVA_EXT.equalsIgnoreCase(ext)){
-				IBean bean = getBean(editorFile);
+				selection = (TextSelection)editor.getEditorSite().getSelectionProvider().getSelection();
+				IBean bean = getBean(editorFile, selection);
 				if(bean != null){
 					mm.add(new RenameNamedBeanAction());
 					
@@ -108,7 +112,7 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 		}
 	}
 	
-	private IBean getBean(IFile file){
+	private IBean getBean(IFile file, TextSelection selection){
 		IProject project = file.getProject();
 		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 		if(cdiNature == null)
@@ -122,8 +126,11 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
 		for(IBean bean : beans){
-			if(bean.getName() != null)
-				return bean;
+			if(bean.getName() != null){
+				ITextSourceReference location = bean.getNameLocation();
+				if(selection.getOffset() >= location.getStartPosition() && (selection.getOffset()+selection.getLength()) <= (location.getStartPosition()+location.getLength()))
+					return bean;
+			}
 		}
 		
 		return null;
@@ -193,7 +200,7 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 		public void run(){
 			saveAndBuild();
 
-			IBean bean = getBean(editorFile);
+			IBean bean = getBean(editorFile, selection);
 			invokeRenameNamedBeanWizard(bean, shell);
 		}
 	}
