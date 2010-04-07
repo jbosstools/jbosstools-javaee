@@ -59,7 +59,7 @@ public class AbstractBeanElement extends CDIElement {
 	protected AnnotationDeclaration findNamedAnnotation() {
 		AnnotationDeclaration named = getDefinition().getNamedAnnotation();
 		if(named != null) return named;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations(true);
 		for (IStereotypeDeclaration d: ds) {
 			StereotypeElement s = (StereotypeElement)d.getStereotype();
 			if(s == null) continue;
@@ -79,12 +79,37 @@ public class AbstractBeanElement extends CDIElement {
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
+		return getStereotypeDeclarations(false);
+	}
+
+	public Set<IStereotypeDeclaration> getStereotypeDeclarations(boolean includeInherited) {
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
 		for (AnnotationDeclaration d: definition.getAnnotations()) {
 			if(d instanceof IStereotypeDeclaration) {
 				if(d instanceof IStereotypeDeclaration) {
 					result.add((IStereotypeDeclaration)d);
 				}
+			}
+		}
+		if(includeInherited) {
+			Set<IStereotypeDeclaration> delta1 = result;
+			Set<IStereotypeDeclaration> delta2 = new HashSet<IStereotypeDeclaration>();
+			while(!delta1.isEmpty()) {
+				for (IStereotypeDeclaration d: delta1) {
+					IStereotype s = d.getStereotype();
+					if(s == null) continue;
+					Set<IStereotypeDeclaration> ds = s.getStereotypeDeclarations();
+					for (IStereotypeDeclaration d1: ds) {
+						IStereotype s1 = d1.getStereotype();
+						if(s1 != null && s1.getInheritedDeclaration() != null) {
+							if(!result.contains(d1) && !delta2.contains(d1)) delta2.add(d1);
+						}
+					}
+				}
+				if(delta2.isEmpty()) break;
+				result.addAll(delta2);
+				delta1 = delta2;
+				delta2 = new HashSet<IStereotypeDeclaration>();
 			}
 		}
 		return result;
