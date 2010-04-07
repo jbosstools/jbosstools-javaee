@@ -14,6 +14,7 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -31,6 +32,7 @@ public class CDICoreTestSetup extends TestSetup {
 
 	@Override
 	protected void setUp() throws Exception {
+		JavaModelManager.getIndexManager().disable();
 		tckProject = TCKTest.importPreparedProject("/");
 	}
 
@@ -41,5 +43,6 @@ public class CDICoreTestSetup extends TestSetup {
 		tckProject.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		JavaModelManager.getIndexManager().enable();
 	}
 }
