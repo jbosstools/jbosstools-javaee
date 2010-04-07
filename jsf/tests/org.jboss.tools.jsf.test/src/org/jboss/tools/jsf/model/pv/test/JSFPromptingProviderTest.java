@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -15,25 +18,21 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
-import org.jboss.tools.jsf.plugin.JsfTestPlugin;
-import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
-
-import junit.framework.TestCase;
 
 
 public class JSFPromptingProviderTest extends TestCase {
 	
-	private static final String TEST_PROJECT_NAME = "JSFPromptingProviderTestProject";
+	public static final String TEST_PROJECT_NAME = "JSFPromptingProviderTestProject";
 	
-	private static final String TEST_PROJECT_PATH = "/projects/" + TEST_PROJECT_NAME;
+	public static final String TEST_PROJECT_PATH = "/projects/" + TEST_PROJECT_NAME;
 
-	
+	TestProjectProvider prjProvider = null;
 	IProject project = null;
 	IModelNature nature = null;
 	XModel model = null;
@@ -43,12 +42,12 @@ public class JSFPromptingProviderTest extends TestCase {
 	
 	@Override
 	protected void setUp() throws IOException, CoreException, InvocationTargetException, InterruptedException {
-//		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember(TEST_PROJECT_NAME);
-//		if(project==null) {
-		project = ResourcesUtils.importProject(
-			JsfTestPlugin.getDefault().getBundle(), TEST_PROJECT_PATH);
-			assertNotNull(project);
-//		}
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);		
+		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember(TEST_PROJECT_NAME);
+		if(project==null) {
+			prjProvider = new TestProjectProvider("org.jboss.tools.jsf.test", TEST_PROJECT_PATH, TEST_PROJECT_NAME, true);
+			project = prjProvider.getProject();
+		}
 		
 		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		nature = EclipseResourceUtil.getModelNature(project);
@@ -167,11 +166,8 @@ public class JSFPromptingProviderTest extends TestCase {
 	
 	@Override
 	protected void tearDown() throws Exception {
-		if(project!=null) {
-			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-			JobUtils.waitForIdle();
-			ResourcesUtils.deleteProject(TEST_PROJECT_NAME);
-			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		if(prjProvider!=null) {
+			prjProvider.dispose();
 		}
 	}
 }

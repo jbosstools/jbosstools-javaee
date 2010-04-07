@@ -3,21 +3,16 @@ package org.jboss.tools.jsf.test;
 import java.util.List;
 import java.util.Properties;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.test.util.TestProjectProvider;
-import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
-import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
-import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
-
-import junit.framework.TestCase;
 
 public class JSFBeansTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -27,8 +22,11 @@ public class JSFBeansTest extends TestCase {
 	public JSFBeansTest() {}
 
 	public void setUp() throws CoreException {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStartOldFormat", false);
-		project = provider.getProject();
+		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("JSFKickStartOldFormat");
+		if(project==null) {
+			provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStartOldFormat", false);
+			project = provider.getProject();
+		}
 	}
 	
 	public void testBeanWithSuper() {
@@ -51,7 +49,10 @@ public class JSFBeansTest extends TestCase {
 	}
 
 	protected void tearDown() throws CoreException{
-		provider.dispose();
+		if(provider!=null) {
+			provider.dispose();
+			provider = null;
+		}
 	}
 
 }

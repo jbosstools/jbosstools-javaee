@@ -12,12 +12,13 @@ package org.jboss.tools.jsf.test;
 
 import java.util.ArrayList;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.jboss.tools.common.test.util.TestDescription;
-import org.jboss.tools.common.test.util.TestProjectProvider;
+import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.AbstractXMLFileImpl;
@@ -25,10 +26,11 @@ import org.jboss.tools.common.model.loaders.EntityRecognizer;
 import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.test.util.TestDescription;
+import org.jboss.tools.common.test.util.TestDescriptionFactory;
+import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
-
-import junit.framework.TestCase;
 
 public class JSFModelTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -38,8 +40,12 @@ public class JSFModelTest extends TestCase {
 	public JSFModelTest() {}
 	
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStartOldFormat", false); 
-		project = provider.getProject();
+		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("JSFKickStartOldFormat");
+		if(project==null) {
+			provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, "JSFKickStartOldFormat", false);
+			project = provider.getProject();
+		}
+		
 	}
 	
 	public void testModelExists() {
@@ -51,7 +57,8 @@ public class JSFModelTest extends TestCase {
 	public void testPaths() {
 		IModelNature n = EclipseResourceUtil.getModelNature(project);
 		String testName = "JSFModelTest:testPaths";
-		ArrayList<TestDescription> tests = provider.getTestDescriptions(testName);
+		IFile f = project.getFile(new Path("/testCases.xml"));
+		ArrayList<TestDescription> tests = new TestDescriptionFactory(f).getTestDescriptions(testName);
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
 		StringBuffer sb = new StringBuffer();
 		int errorCount = 0;
@@ -87,7 +94,8 @@ public class JSFModelTest extends TestCase {
 	}
 
 	void doAttributeTest(XModel model, String testName) {
-		ArrayList<TestDescription> tests = provider.getTestDescriptions(testName);
+		IFile f = project.getFile(new Path("/testCases.xml"));
+		ArrayList<TestDescription> tests = new TestDescriptionFactory(f).getTestDescriptions(testName);
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
 		StringBuffer sb = new StringBuffer();
 		int errorCount = 0;
@@ -159,6 +167,7 @@ public class JSFModelTest extends TestCase {
 	protected void tearDown() throws Exception {
 		if(provider != null) {
 			provider.dispose();
+			provider=null;
 		}
 	}
 
