@@ -364,7 +364,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			if(!scopes.isEmpty()) {
 				scope = scopes.iterator().next().getScope();
 				if(scope.getInheritedDeclaration() == null) {
-					scope = null;
+					scope = getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+					return;
 				} else {
 					return;
 				}
