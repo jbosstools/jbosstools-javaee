@@ -298,6 +298,7 @@
 		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.jbpm.template.JBPMDataCell">
 			<vpe:dnd>
+				<vpe:drag start-enable="no" />
 				<vpe:drop container="yes" />
 			</vpe:dnd>
 		</vpe:template>
@@ -305,10 +306,12 @@
 
 	<vpe:tag name="jbpm:dataform" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"
-			class="org.jboss.tools.jsf.vpe.jbpm.template.JBPMDataForm" />
-		<vpe:dnd>
-			<vpe:drop container="yes" />
-		</vpe:dnd>
+			class="org.jboss.tools.jsf.vpe.jbpm.template.JBPMDataForm">
+			<vpe:dnd>
+				<vpe:drag start-enable="no" />
+				<vpe:drop container="yes" />
+			</vpe:dnd>
+		</vpe:template>
 	</vpe:tag>
 
 </vpe:templates>

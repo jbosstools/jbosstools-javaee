@@ -5,7 +5,7 @@
 </COLGROUP>
 <THEAD>
 <TR>
-<TH COLSPAN="2" STYLE="border-bottom: 1px solid rgb(0, 0, 0); background-color: rgb(153, 0, 0); color: rgb(255, 255, 153); font-weight: bold; text-align: left; -moz-user-modify: read-only;" VPE-PSEUDO-TYPE="vpe-jbpm-form-header">
+<TH STYLE="border-bottom: 1px solid rgb(0, 0, 0); background-color: rgb(153, 0, 0); color: rgb(255, 255, 153); font-weight: bold; text-align: left;" COLSPAN="2" VPE-PSEUDO-TYPE="vpe-jbpm-form-header">
 <SPAN CLASS="vpe-text">
 #{taskName}
 </SPAN>
@@ -14,7 +14,7 @@
 </THEAD>
 <TBODY>
 <TR>
-<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<TH STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px;" SCOPE="colgroup" VPE-PSEUDO-TYPE="vpe-jbpm-cell-header">
 <SPAN CLASS="vpe-text">
 field1
 </SPAN>
@@ -25,7 +25,7 @@ field1
 </TD>
 </TR>
 <TR>
-<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<TH STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px;" SCOPE="colgroup" VPE-PSEUDO-TYPE="vpe-jbpm-cell-header">
 <SPAN CLASS="vpe-text">
 field2
 </SPAN>
@@ -36,7 +36,7 @@ field2
 </TD>
 </TR>
 <TR>
-<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<TH STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px;" SCOPE="colgroup" VPE-PSEUDO-TYPE="vpe-jbpm-cell-header">
 <SPAN CLASS="vpe-text">
 field3
 </SPAN>
@@ -47,7 +47,7 @@ field3
 </TD>
 </TR>
 <TR>
-<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<TH STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px;" SCOPE="colgroup" VPE-PSEUDO-TYPE="vpe-jbpm-cell-header">
 <SPAN CLASS="vpe-text">
 field4
 </SPAN>
@@ -58,7 +58,7 @@ field4
 </TD>
 </TR>
 <TR>
-<TH SCOPE="colgroup" STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px; -moz-user-modify: read-only;">
+<TH STYLE="border-bottom: 1px solid rgb(0, 0, 0); padding: 3px 5px; background: rgb(68, 68, 68) none repeat scroll 0pt 0pt; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; border-collapse: collapse; color: rgb(255, 255, 255); font-size: 11px; text-align: left; text-decoration: none; white-space: nowrap; width: 130px;" SCOPE="colgroup" VPE-PSEUDO-TYPE="vpe-jbpm-cell-header">
 <SPAN CLASS="vpe-text">
 Action
 </SPAN>
