@@ -30,6 +30,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
+import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
@@ -56,9 +57,6 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 	private static final String ANNOTATION_NAMED = "javax.inject.Named"; //$NON-NLS-1$
 	private static final String JAVA_EXT = "java"; //$NON-NLS-1$
 	
-	static private IFile editorFile;
-	static private TextSelection selection;
-	private IEditorPart editor;
 	private Shell shell;
 	
 	public CDIRefactorContributionFactory(){
@@ -75,7 +73,7 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 		
 		if(serviceLocator.hasService(IWorkbenchLocationService.class)){
 			IWorkbenchLocationService service = (IWorkbenchLocationService)serviceLocator.getService(IWorkbenchLocationService.class);
-			editor = service.getWorkbenchWindow().getActivePage().getActiveEditor();
+			IEditorPart editor = service.getWorkbenchWindow().getActivePage().getActiveEditor();
 			shell = service.getWorkbench().getActiveWorkbenchWindow().getShell();
 			
 			if(!(editor.getEditorInput() instanceof FileEditorInput))
@@ -83,7 +81,7 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 			
 			FileEditorInput input = (FileEditorInput)editor.getEditorInput();
 			
-			editorFile = input.getFile();
+			IFile editorFile = input.getFile();
 			String ext = editorFile.getFileExtension();
 			
 			if (!JAVA_EXT.equalsIgnoreCase(ext)	)
@@ -91,24 +89,20 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 			
 			if(CDICorePlugin.getCDI(editorFile.getProject(), true) == null)
 				return;
-			
+
 			MenuManager mm = new MenuManager(CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_MENU_NAME);
 			mm.setVisible(true);
 			
-			boolean separatorIsAdded = false;
-			
 			if(JAVA_EXT.equalsIgnoreCase(ext)){
-				selection = (TextSelection)editor.getEditorSite().getSelectionProvider().getSelection();
+				TextSelection selection = (TextSelection)editor.getEditorSite().getSelectionProvider().getSelection();
 				IBean bean = getBean(editorFile, selection);
 				if(bean != null){
-					mm.add(new RenameNamedBeanAction());
+					mm.add(new RenameNamedBeanAction(bean));
 					
 					additions.addContributionItem(new Separator(), null);
 					additions.addContributionItem(mm, null);
-					separatorIsAdded = true;
 				}
 			}
-			
 		}
 	}
 	
@@ -193,14 +187,15 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 	}
 	
 	class RenameNamedBeanAction extends Action{
-		public RenameNamedBeanAction(){
-			super(CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_RENAME_NAMED_BEAN_ACTION_NAME);
+		IBean bean;
+		public RenameNamedBeanAction(IBean bean){
+			super(Messages.format(CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_RENAME_NAMED_BEAN_ACTION_NAME, bean.getName()));
+			this.bean = bean;
 		}
 
 		public void run(){
 			saveAndBuild();
 
-			IBean bean = getBean(editorFile, selection);
 			invokeRenameNamedBeanWizard(bean, shell);
 		}
 	}
