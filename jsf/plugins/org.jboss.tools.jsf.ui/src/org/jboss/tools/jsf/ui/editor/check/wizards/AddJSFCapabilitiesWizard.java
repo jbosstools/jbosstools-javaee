@@ -9,7 +9,7 @@
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.ui.editor.check;
+package org.jboss.tools.jsf.ui.editor.check.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate;
@@ -20,14 +20,14 @@ import org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate;
  *
  */
 
-public class AddJSFCapabilitiesDelegate extends AddJSFNatureActionDelegate {
+public class AddJSFCapabilitiesWizard extends AddJSFNatureActionDelegate {
 
-	private static AddJSFCapabilitiesDelegate instance = new AddJSFCapabilitiesDelegate();
+	private static AddJSFCapabilitiesWizard instance = new AddJSFCapabilitiesWizard();
 
-	private AddJSFCapabilitiesDelegate() {
+	private AddJSFCapabilitiesWizard() {
 	}
 
-	public static AddJSFCapabilitiesDelegate getInstance(IProject project) {
+	public static AddJSFCapabilitiesWizard getInstance(IProject project) {
 		instance.setProject(project);
 		return instance;
 	}

@@ -9,20 +9,22 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.vpe.jsf.test.jbide;
+package org.jboss.tools.jsf.ui.test;
 
+import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
-import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.jst.jsp.preferences.IVpePreferencesPage;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * 
@@ -30,47 +32,18 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  *
  */
 
-public class NaturesChecker_JBIDE5701 extends VpeTest {
-
-	private static final String FIRST_TEST_PAGE_NAME = "inputUserName.jsp"; //$NON-NLS-1$
-	private static final String TEST_SHELL_NAME = "Missing Natures"; //$NON-NLS-1$
-	private static final String TEST_STRING = "JBoss Tools Visual Editor might not fully work in project \""  //$NON-NLS-1$
-		+ JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT + 
-		"\" because it does not have JSF and code completion enabled completely.\n\n" + //$NON-NLS-1$
-		"Please use the Configure menu on the project to enable JSF if " + //$NON-NLS-1$
-		"you want all features of the editor working."; //$NON-NLS-1$
-	private static final String SECOND_TEST_PAGE_NAME = "components/commandButton.jsp"; //$NON-NLS-1$
+public abstract class NaturesInfoDialogTest extends TestCase{
+	
+	protected static final String TEST_PAGE_NAME = "inputUserName.jsp"; //$NON-NLS-1$
+	protected static final String TEST_SHELL_NAME = "Missing Natures"; //$NON-NLS-1$
 	private volatile boolean isCheckNeed = true;
+	private static IProject testProject;
 	
-	
-	public NaturesChecker_JBIDE5701(String name) {
+	protected NaturesInfoDialogTest(String name) {
 		super(name);
 	}
 
-	public void testNaturesChecker() throws Throwable {
-		
-		ResultObject resultObject = startCheckerThread();
-		
-		openPage(JsfAllTests.IMPORT_NATURES_CHECKER_PROJECT, FIRST_TEST_PAGE_NAME);
-		
-		if ("".equals(resultObject.getShellName()) && "".equals(resultObject.getTextLabel())) { //$NON-NLS-1$ //$NON-NLS-2$
-			throw new Exception("Project natures checker dialog hasn't appeared :(("); //$NON-NLS-1$
-		}
-		
-		assertEquals(TEST_SHELL_NAME, resultObject.getShellName());
-		assertEquals(TEST_STRING, resultObject.getTextLabel());
-
-		resultObject = startCheckerThread();
-		
-		openPage(JsfAllTests.IMPORT_PROJECT_NAME, SECOND_TEST_PAGE_NAME);
-		
-		if (!"".equals(resultObject.getShellName()) || !"".equals(resultObject.getTextLabel())) { //$NON-NLS-1$ //$NON-NLS-2$
-			throw new Exception("Unexpected shell has appeared " + "\"" + resultObject.getShellName() + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-
-	}
-
-	private class ResultObject {
+	protected final class ResultObject {
 		private String shellName = ""; //$NON-NLS-1$
 		private String textLabel = ""; //$NON-NLS-1$
 
@@ -92,7 +65,7 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 
 	}
 
-	private ResultObject startCheckerThread() {
+	protected final ResultObject startCheckerThread() {
         final Shell[] shell = new Shell[1];
         final ResultObject resultObject = new ResultObject();
         Thread thread = new Thread(new Runnable() {
@@ -127,8 +100,8 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		return null;
 	}
 	
-	private void openPage(String projectName, String pagePath) throws Throwable{
-		IFile file = (IFile) TestUtil.getComponentPath(pagePath, projectName);
+	protected final void openPage(String projectName, String pagePath) throws Throwable{
+		IFile file = (IFile) testProject.getFolder("WebContent/pages").findMember(pagePath); //$NON-NLS-1$
 
 		assertNotNull("Could not open specified file. componentPage = " //$NON-NLS-1$
 						+ pagePath
@@ -139,7 +112,7 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 		// open and get editor
 
-		JSPMultiPageEditor part = openEditor(input);
+		JSPMultiPageEditorPart part = TestUtil.openEditor(input);
 
 		isCheckNeed = false;
 		
@@ -154,6 +127,8 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		super.setUp();
 		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "true");  //$NON-NLS-1$ //$NON-NLS-2$
 	    JspEditorPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
+		testProject = ProjectImportTestSetup.loadProject(getTestProjectName());
+		testProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 	
 	@Override
@@ -162,5 +137,9 @@ public class NaturesChecker_JBIDE5701 extends VpeTest {
 		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		super.tearDown();
 	}
+	
+	protected abstract String getTestProjectName();
+	
+	protected abstract String getDialogMessage();
 	
 }

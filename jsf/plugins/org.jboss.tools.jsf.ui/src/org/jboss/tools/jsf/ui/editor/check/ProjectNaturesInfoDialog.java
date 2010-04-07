@@ -13,8 +13,6 @@ package org.jboss.tools.jsf.ui.editor.check;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -39,21 +37,21 @@ import org.jboss.tools.jst.jsp.messages.JstUIMessages;
  * 
  */
 
-public class ProjectNaturesInfoDialog extends MessageDialog {
+public abstract class ProjectNaturesInfoDialog extends MessageDialog {
 
 	private Button button;
 	private Link link;
-	private boolean isRemember = false;
+	protected boolean isRemember = false;
 	private static final String QUESTION = "Do not show this dialog again!"; //$NON-NLS-1$
 	private static final String TITLE = "Missing Natures"; //$NON-NLS-1$
-	private IProject project;
+	protected IProject project;
 
-	public ProjectNaturesInfoDialog(String[] missingNatures, IProject project) {
+	protected ProjectNaturesInfoDialog(IProject project, String fixButtonLabel) {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				TITLE, null, "", INFORMATION, //$NON-NLS-1$
-				new String[] {"Add JSF Capabilities...", IDialogConstants.OK_LABEL }, 0); //$NON-NLS-1$
+				new String[] { fixButtonLabel, "Skip" }, 0); //$NON-NLS-1$
 		this.project = project;
-		message = getMessageInfo(missingNatures, project);
+		message = getMessageInfo();
 	}
 
 	@Override
@@ -99,22 +97,13 @@ public class ProjectNaturesInfoDialog extends MessageDialog {
 
 	@Override
 	protected void buttonPressed(int buttonId) {
+		super.buttonPressed(buttonId);
 		if (buttonId == 0) {
-			BusyIndicator.showWhile(getShell().getDisplay(), new Runnable() {
-				public void run() {
-					AddJSFCapabilitiesDelegate.getInstance(project).run(null);
-				}
-			});
+			fixButtonPressed();
 		}
 		if (buttonId == 1) {
-			try {
-				project.setPersistentProperty(
-						ProjectNaturesChecker.IS_NATURES_CHECK_NEED, Boolean
-								.toString(!isRemember));
-			} catch (CoreException e) {
-			}
+			skipButtonPressed();
 		}
-		super.buttonPressed(buttonId);
 	}
 
 	private void processLink(Link link) {
@@ -138,22 +127,11 @@ public class ProjectNaturesInfoDialog extends MessageDialog {
 			}
 		});
 	}
-	
-	@SuppressWarnings("unused")
-	private String arrayToString(String[] strings) {
-		StringBuilder builder = new StringBuilder(""); //$NON-NLS-1$
-		for (int i = 0; i < strings.length; i++) {
-			builder.append(strings[i] + "\n"); //$NON-NLS-1$
-		}
-		return builder.toString();
-	}
 
-	private String getMessageInfo(String[] missingNatures, IProject project) {
-		String dialogMessage = "JBoss Tools Visual Editor might not fully work in project \"" + project.getName() + //$NON-NLS-1$
-				"\" because it does not have JSF and code completion enabled completely.\n\n" //$NON-NLS-1$
-				+ "Please use the Configure menu on the project to enable JSF if " //$NON-NLS-1$
-				+ "you want all features of the editor working."; //$NON-NLS-1$
-		return dialogMessage;
-	}
+	protected abstract String getMessageInfo();
+	
+	protected abstract void fixButtonPressed();
+	
+	protected abstract void skipButtonPressed();
 
 }

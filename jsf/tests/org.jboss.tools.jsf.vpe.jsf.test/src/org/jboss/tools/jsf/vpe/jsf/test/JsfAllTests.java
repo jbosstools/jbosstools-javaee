@@ -79,7 +79,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2170Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2362Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.NaturesChecker_JBIDE5701;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnCssClassTest_JBIDE4775;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
@@ -210,7 +209,6 @@ public class JsfAllTests {
 		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
 		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);
 		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
-		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 		suite.addTestSuite(FacetProcessingTest.class);
 		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
 		suite.addTestSuite(ExceptionInVPEComments_JBIDE5143.class);

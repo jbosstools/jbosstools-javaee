@@ -10,9 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.ui.editor.check;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -23,7 +21,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
 import org.jboss.tools.jst.jsp.util.FileUtil;
@@ -39,29 +41,40 @@ import org.jboss.tools.jst.web.project.WebProject;
 
 public class ProjectNaturesChecker implements IResourceChangeListener {
 
+	private ProjectNaturesPartListener partListener = new ProjectNaturesPartListener();
 	private static final String SEARCH_CLASS = "javax.faces.webapp.FacesServlet"; //$NON-NLS-1$
-	public static final QualifiedName IS_NATURES_CHECK_NEED = new QualifiedName(
-			"", "Is natures check"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final QualifiedName IS_JSF_NATURES_CHECK_NEED = new QualifiedName(
+			"", "Is JSF natures check"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final QualifiedName IS_KB_NATURES_CHECK_NEED = new QualifiedName(
+			"", "Is KB natures check"); //$NON-NLS-1$ //$NON-NLS-2$
 	public static final QualifiedName IS_JSF_CHECK_NEED = new QualifiedName(
 			"", "Is JSF check"); //$NON-NLS-1$ //$NON-NLS-2$
 	private Set<IProject> projectsCollection;
-	private static final String JSF_NATURE = "JavaServer Faces Nature"; //$NON-NLS-1$
-	private static final String KB_NATURE = "Knowledge Base Nature"; //$NON-NLS-1$
 	private static final String STRUTS_NATURE_ID = "org.jboss.tools.struts.strutsnature"; //$NON-NLS-1$
-	
+
 	private static ProjectNaturesChecker checker;
-	
-	public static ProjectNaturesChecker getInstance(){
+
+	public static ProjectNaturesChecker getInstance() {
 		if (checker == null) {
 			checker = new ProjectNaturesChecker();
 		}
 		return checker;
 	}
-	
+
 	private ProjectNaturesChecker() {
 		projectsCollection = new HashSet<IProject>(0);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
 				IResourceChangeEvent.POST_CHANGE);
+		IWorkbenchWindow window = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow();
+		window.getPartService().addPartListener(partListener);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+				.addDisposeListener(new DisposeListener() {
+
+					public void widgetDisposed(DisposeEvent e) {
+						dispose();
+					}
+				});
 	}
 
 	public void resourceChanged(final IResourceChangeEvent event) {
@@ -81,40 +94,45 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 		}
 		addProject(project);
 		boolean isJSFCheck = true;
-		boolean isNaturesCheck = true;
+		boolean isJSFNaturesCheck = true;
+		boolean isKBNaturesCheck = true;
 		updateProjectPersistentProperties(project);
 		isJSFCheck = Boolean.parseBoolean(project
 				.getPersistentProperty(IS_JSF_CHECK_NEED));
-		isNaturesCheck = Boolean.parseBoolean(project
-				.getPersistentProperty(IS_NATURES_CHECK_NEED));
+		isJSFNaturesCheck = Boolean.parseBoolean(project
+				.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED));
+		isKBNaturesCheck = Boolean.parseBoolean(project
+				.getPersistentProperty(IS_KB_NATURES_CHECK_NEED));
 		if (isJSFCheck) {
-			if (isNaturesCheck) {
-				String[] missingNatures = getMissingNatures(project);
-				if (missingNatures != null) {
-					KbProject.checkKBBuilderInstalled(project);
-					ProjectNaturesInfoDialog dialog = new ProjectNaturesInfoDialog(
-							missingNatures, project);
+			String missingNature = checkMissingNatures(project);
+			if (missingNature != null) {
+				KbProject.checkKBBuilderInstalled(project);
+				ProjectNaturesInfoDialog dialog = null;
+				if (KbProject.NATURE_ID.equals(missingNature)
+						&& isKBNaturesCheck) {
+					dialog = new KBNaturesInfoDialog(project);
+				} else if (WebProject.JSF_NATURE_ID.equals(missingNature)
+						&& isJSFNaturesCheck) {
+					dialog = new JSFNaturesInfoDialog(project);
+				}
+				if (dialog != null) {
 					dialog.open();
 				}
 			}
 		}
 	}
 
-	private String[] getMissingNatures(IProject project) throws CoreException {
-		List<String> missingNatures = new ArrayList<String>(0);
+	private String checkMissingNatures(IProject project) throws CoreException {
 		if (project.getNature(STRUTS_NATURE_ID) != null) {
 			return null;
 		}
-		if (project.getNature(IKbProject.NATURE_ID) == null) {
-			missingNatures.add(JSF_NATURE);
-		}
 		if (project.getNature(WebProject.JSF_NATURE_ID) == null) {
-			missingNatures.add(KB_NATURE);
+			return WebProject.JSF_NATURE_ID;
 		}
-		if (missingNatures.size() == 0) {
-			return null;
+		if (project.getNature(IKbProject.NATURE_ID) == null) {
+			return IKbProject.NATURE_ID;
 		}
-		return missingNatures.toArray(new String[0]);
+		return null;
 	}
 
 	private void handleResourceChangeEvent(IResourceChangeEvent changeEvent) {
@@ -138,7 +156,8 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 				try {
 					updateProjectJSFPersistents(project);
 				} catch (CoreException e) {
-					ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
+					ProblemReportingHelper.reportProblem(
+							JspEditorPlugin.PLUGIN_ID, e);
 				}
 			}
 		}
@@ -152,8 +171,13 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 			if (jsfCheckString == null) {
 				updateProjectJSFPersistents(project);
 			}
-			if (project.getPersistentProperty(IS_NATURES_CHECK_NEED) == null) {
-				project.setPersistentProperty(IS_NATURES_CHECK_NEED, "true"); //$NON-NLS-1$
+			if (project.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED) == null) {
+				project
+						.setPersistentProperty(IS_JSF_NATURES_CHECK_NEED,
+								"true"); //$NON-NLS-1$
+			}
+			if (project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED) == null) {
+				project.setPersistentProperty(IS_KB_NATURES_CHECK_NEED, "true"); //$NON-NLS-1$
 			}
 		}
 	}
@@ -169,6 +193,12 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 	}
 
 	public void dispose() {
+		if (partListener != null) {
+			IWorkbenchWindow window = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow();
+			window.getPartService().removePartListener(partListener);
+			partListener = null;
+		}
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		projectsCollection.clear();
 	}
@@ -179,7 +209,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 			updateProjectJSFPersistents(project);
 		} catch (CoreException e) {
 			ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
-				}
+		}
 	}
 
 	private void processRemoveProject(IProject project) {
@@ -202,5 +232,5 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 			}
 		}
 	}
-	
+
 }

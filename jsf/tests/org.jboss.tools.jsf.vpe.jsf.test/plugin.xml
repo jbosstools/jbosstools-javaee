@@ -22,9 +22,6 @@
             name="i18nTest"
             path="resources/i18nTest"/>
       <testProject
-            name="naturesCheckTest"
-            path="resources/naturesCheckTest"/>
-      <testProject
             name="jsfLocales"
             path="resources/jsfLocales"/>
       <testProject
