@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.ValidationTest;
 
 /**
@@ -40,6 +41,7 @@ public class CDICoreTestSuite extends TestSuite {
 		suite.addTestSuite(StereotypeDefinitionTest.class);
 		suite.addTestSuite(DefaultNamedTest.class);
 		suite.addTestSuite(EnterpriseStereotypeDefinitionTest.class);
+		suite.addTestSuite(StereotypeInheritenceTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}
