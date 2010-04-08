@@ -4,8 +4,8 @@
    <extension
          point="org.jboss.tools.vpe.ui.tests">
       <tests
-            name="JBPMAllTests"
-            testSuite="org.jboss.tools.jsf.vpe.jbpm.test.JBPMAllTests">
+            name="JbpmVisualAllTests"
+            testSuite="org.jboss.tools.jsf.vpe.jbpm.test.JbpmVisualAllTests">
       </tests>
       <testProject
             name="jBPMTestProject"
