@@ -8,6 +8,13 @@
             id="org.jboss.tools.jsf.ui" 
             name="%PreferencePage_JSF">
       </page>
+      	<page
+			name="%VPE_Templates"
+			category="org.jboss.tools.vpe.editor"
+			class="org.jboss.tools.jsf.ui.editor.pref.template.VPETemplatePreferencePage"
+			id="org.jboss.tools.jsf.ui.editor.pref.template">
+			<keywordReference id="org.eclipse.wst.html.ui.templates"/>
+		</page>
       <page category="org.jboss.tools.jsf.ui" 
             class="org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage" 
             id="org.jboss.tools.jsf.ui.project" 
@@ -123,6 +130,20 @@
             project="false">
          <description>
             	%NewWizardDescription_FacesConfig
+         </description>
+         <selection class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
+            class="org.jboss.tools.jsf.ui.wizard.newfile.NewXHTMLWizard"
+            finalPerspective="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
+            icon="$nl$/images/xstudio/wizards/new_html_file.gif"
+            id="org.jboss.tools.jsf.ui.wizard.newfile.NewXHTMLWizard"
+            name="%NewXHTMLPage"
+            project="false">
+         <description>
+            	%NewXHTMLPageDescription
          </description>
          <selection class="org.eclipse.core.resources.IResource">
          </selection>
@@ -450,6 +471,44 @@
           class="org.jboss.tools.jsf.ui.el.refactoring.ELRefactorContributionFactory"
           locationURI="popup:org.eclipse.ui.popup.any?after=save">
     </menuContribution>
-	</extension> 
-
+        <menuContribution
+          locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?after=paste">
+   			  <dynamic
+                    class="org.jboss.tools.jsf.ui.editor.menu.JSF2CompositionComponentContrubutionItem"
+                    id="org.jboss.tools.jsf.ui.editor.menu.JSF2CompositionComponentContrubutionItem">
+              </dynamic>              
+    </menuContribution>
+	</extension>
+		<!-- Templates -->
+	<extension point="org.eclipse.ui.editors.templates">
+		<contextType
+			name="%All_XHTML_context_type_Extension_Element.name"
+			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
+			id="xhtml_all">
+		</contextType>
+		<contextType
+			name="%XHTML_New_context_type_Extension_Element.name"
+			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
+			id="xhtml_new">
+		</contextType>
+		<contextType
+			name="%XHTML_Tag_context_type_Extension_Element.name"
+			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
+			id="xhtml_tag">
+		</contextType>
+		<contextType
+			name="%XHTML_Attribute_context_type_Extension_Element.name"
+			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
+			id="xhtml_attribute">
+		</contextType>
+		<contextType
+			name="%XHTML_Attribute_value_context_type_Extension_Element.name"
+			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
+			id="xhtml_attribute_value">
+		</contextType>
+		<include
+			file="src/templates/xhtmldefault-templates.xml"
+			translations="src/templates/xhtmldefault-templates.properties">
+		</include>
+	</extension>
 </plugin>

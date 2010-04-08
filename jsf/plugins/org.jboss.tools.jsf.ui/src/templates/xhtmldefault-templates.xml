@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+<template name="%Templates.xhtml.blank" description="%Templates.xhtml.blank.desc" id="org.jboss.tools.jsf.ui.xhtml.blank" context="xhtml_new" enabled="true">%Templates.xhtml.blank.content</template>
+
+<template name="%Templates.xhtml.blank.facelet" description="%Templates.xhtml.blank.facelet.desc" id="org.jboss.tools.jsf.ui.xhtml.facelet.blank" context="xhtml_new" enabled="true">%Templates.xhtml.facelet.blank.content</template>
+
+<template name="%Templates.xhtml.facelet.common" description="%Templates.xhtml.facelet.common.desc" id="org.jboss.tools.jsf.ui.xhtml.facelet.common" context="xhtml_new" enabled="true">%Templates.xhtml.facelet.commont.content</template>
+
+<template name="%Templates.xhtml.facelet.form" description="%Templates.xhtml.facelet.form.desc" id="org.jboss.tools.jsf.ui.xhtml.facelet.form" context="xhtml_new" enabled="true">%Templates.xhtml.facelet.form.content</template>
+
+<template name="%Templates.xhtml.jsf2.composite.component" description="%Templates.xhtml.jsf2.composite.component.desc" id="org.jboss.tools.jsf.ui.xhtml.jsf2.composite.component" context="xhtml_new" enabled="true">%Templates.xhtml.jsf2.composite.component.content</template>
+
+</templates>
