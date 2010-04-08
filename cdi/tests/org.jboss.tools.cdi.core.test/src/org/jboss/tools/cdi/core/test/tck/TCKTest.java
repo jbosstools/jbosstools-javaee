@@ -184,7 +184,7 @@ public class TCKTest extends TestCase {
 	static class PageFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
-			return (pathname.isDirectory() && !name.endsWith(".svn")) && !name.endsWith(".xml");
+			return (pathname.isDirectory() && !name.endsWith(".svn")) || name.endsWith(".jsp") || name.endsWith(".xhtml");
 		}		
 	}
 
