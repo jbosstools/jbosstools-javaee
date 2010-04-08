@@ -12,8 +12,6 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.IType;
-
 /**
  * Represents a parameter of a method which is a member of bean class.
  * 

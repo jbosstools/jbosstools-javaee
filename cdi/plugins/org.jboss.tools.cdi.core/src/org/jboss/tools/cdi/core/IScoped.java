@@ -12,8 +12,6 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.IType;
-
 /**
  * This interface if common protocol to have access to scoped of bean class or
  * producer method or field or stereotype.

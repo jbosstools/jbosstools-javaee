@@ -10,9 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test;
 
+import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.tck.NamedBeanRefactoringTest;
 import org.jboss.tools.tests.AbstractPluginsLoadTest;
 
@@ -24,13 +26,31 @@ public class CDICoreAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI Core Tests");
 		suite.addTest(new CDICoreTestSetup(CDICoreTestSuite.suite()));
-		suite.addTest(new NamedBeanRefactoringTest().suite());
-		return suite;
+		suite.addTest(NamedBeanRefactoringTest.suite());
+
+		return new DisableJavaIndexingSetup(suite);
 	}
 
 	public class CDIPluginsLoadTest extends AbstractPluginsLoadTest {
 		public void testBundlesAreLoadedForSeamFeature(){
 			testBundlesAreLoadedFor("org.jboss.tools.cdi.feature");
+		}
+	}
+
+	public static class DisableJavaIndexingSetup extends TestSetup {
+
+		public DisableJavaIndexingSetup(Test test) {
+			super(test);
+		}
+		
+		@Override
+		protected void setUp() throws Exception {
+			JavaModelManager.getIndexManager().disable();
+		}
+
+		@Override
+		protected void tearDown() throws Exception {
+			JavaModelManager.getIndexManager().enable();
 		}
 	}
 }

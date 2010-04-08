@@ -23,26 +23,27 @@ public class NamedBeanRefactoringTest extends AbstractRefactorTest {
 	private static final String FILE_NAME3 = "WebContent/HomePage.xhtml";
 	private static final String FILE_NAME4 = "WebContent/index.jsp";
 	static IProject project;
-	
-	public NamedBeanRefactoringTest(){
+
+	public NamedBeanRefactoringTest() {
 		super("Named Bean Refactoring Test");
 	}
-	
+
 	public static Test suite() {
 		return new TestSuite(NamedBeanRefactoringTest.class);
 	}
 
-	public void testNamedBeanRename()  throws Exception {
+	public void testNamedBeanRename() throws Exception {
 		IProject project = TCKTest.importPreparedProject(PROJECT_NAME);
 		doTest(project);
 		TCKTest.cleanProject(PROJECT_NAME);
 	}
-	
+
 	public void doTest(IProject project) throws CoreException {
 		final String newName = "abcd";
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
-		TestChangeStructure structure = new TestChangeStructure(project.getProject(), FILE_NAME1);
+		TestChangeStructure structure = new TestChangeStructure(project
+				.getProject(), FILE_NAME1);
 		TestTextChange change = new TestTextChange(324, 4, newName);
 		structure.addTextChange(change);
 		list.add(structure);
@@ -63,36 +64,33 @@ public class NamedBeanRefactoringTest extends AbstractRefactorTest {
 		change = new TestTextChange(293, 4, newName);
 		structure.addTextChange(change);
 		list.add(structure);
-		
+
 		IFile sourceFile = project.getProject().getFile(FILE_NAME1);
-		
+
 		IBean bean = getBean(sourceFile, "game");
-		
+		assertNotNull("Can't get the bean.", bean);
+
 		RenameNamedBeanProcessor processor = new RenameNamedBeanProcessor(bean);
 		processor.setNewName(newName);
 
 		checkRename(processor, list);
 	}
-	
-	private IBean getBean(IFile file, String name){
+
+	private IBean getBean(IFile file, String name) {
 		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
-		if(cdiNature == null)
-			return null;
-		
+		assertNotNull("Can't get CDI nature.", cdiNature);
+
 		ICDIProject cdiProject = cdiNature.getDelegate();
-		
-		if(cdiProject == null)
-			return null;
-		
+
+		assertNotNull("Can't get CDI project.", cdiProject);
+
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		
-		for(IBean bean : beans){
-			if(bean.getName() != null && name.equals(bean.getName()))
+
+		for (IBean bean : beans) {
+			if (bean.getName() != null && name.equals(bean.getName())) {
 				return bean;
-			
+			}
 		}
 		return null;
 	}
-
-
 }
