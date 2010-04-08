@@ -12,6 +12,8 @@ package org.jboss.tools.jsf.ui.editor.check;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -103,21 +105,18 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 				.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED));
 		isKBNaturesCheck = Boolean.parseBoolean(project
 				.getPersistentProperty(IS_KB_NATURES_CHECK_NEED));
-		if (isJSFCheck) {
-			String missingNature = checkMissingNatures(project);
-			if (missingNature != null) {
-				KbProject.checkKBBuilderInstalled(project);
-				ProjectNaturesInfoDialog dialog = null;
-				if (KbProject.NATURE_ID.equals(missingNature)
-						&& isKBNaturesCheck) {
-					dialog = new KBNaturesInfoDialog(project);
-				} else if (WebProject.JSF_NATURE_ID.equals(missingNature)
-						&& isJSFNaturesCheck) {
-					dialog = new JSFNaturesInfoDialog(project);
-				}
-				if (dialog != null) {
-					dialog.open();
-				}
+		KbProject.checkKBBuilderInstalled(project);
+		String missingNature = checkMissingNatures(project);
+		if (missingNature != null) {
+			ProjectNaturesInfoDialog dialog = null;
+			if (KbProject.NATURE_ID.equals(missingNature) && isKBNaturesCheck) {
+				dialog = new KBNaturesInfoDialog(project);
+			} else if (WebProject.JSF_NATURE_ID.equals(missingNature)
+					&& isJSFNaturesCheck && isJSFCheck) {
+				dialog = new JSFNaturesInfoDialog(project);
+			}
+			if (dialog != null) {
+				dialog.open();
 			}
 		}
 	}
@@ -129,7 +128,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 		if (project.getNature(WebProject.JSF_NATURE_ID) == null) {
 			return WebProject.JSF_NATURE_ID;
 		}
-		if (project.getNature(IKbProject.NATURE_ID) == null) {
+		if (getKBProblemMarker(project) != null) {
 			return IKbProject.NATURE_ID;
 		}
 		return null;
@@ -231,6 +230,24 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 				project.setPersistentProperty(IS_JSF_CHECK_NEED, "false"); //$NON-NLS-1$
 			}
 		}
+	}
+
+	private IMarker getKBProblemMarker(IProject project) {
+		IMarker kbProblemMarker = null;
+		try {
+			IMarker[] markers = project.findMarkers(null, false, 1);
+			for (int i = 0; i < markers.length; i++) {
+				IMarker marker = markers[i];
+				String _type = marker.getType();
+				if (_type != null
+						&& _type.equals(KbProject.KB_PROBLEM_MARKER_TYPE)) {
+					kbProblemMarker = marker;
+					break;
+				}
+			}
+		} catch (CoreException e) {
+		}
+		return kbProblemMarker;
 	}
 
 }
