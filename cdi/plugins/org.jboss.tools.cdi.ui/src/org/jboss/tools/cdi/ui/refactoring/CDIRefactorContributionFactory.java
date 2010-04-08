@@ -13,18 +13,8 @@ package org.jboss.tools.cdi.ui.refactoring;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -46,15 +36,12 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Daniel Azarov
  */
 public class CDIRefactorContributionFactory extends AbstractContributionFactory {
-	private static final String ANNOTATION_NAMED = "javax.inject.Named"; //$NON-NLS-1$
 	private static final String JAVA_EXT = "java"; //$NON-NLS-1$
 	
 	private Shell shell;
@@ -107,7 +94,6 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 	}
 	
 	private IBean getBean(IFile file, TextSelection selection){
-		IProject project = file.getProject();
 		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 		if(cdiNature == null)
 			return null;
@@ -127,36 +113,6 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 			}
 		}
 		
-		return null;
-	}
-	
-	private IAnnotation getNamedAnnotation(IFile file){
-		try{
-			ICompilationUnit unit = getCompilationUnit(file);
-			for(IType type : unit.getAllTypes()){
-				for(IAnnotation annotation : type.getAnnotations()){
-					if(EclipseJavaUtil.resolveType(type, annotation.getElementName()).equals(ANNOTATION_NAMED))
-						return annotation;
-					}
-			}
-		}catch(CoreException ex){
-			CDIUIPlugin.getDefault().logError(ex);
-		}
-		return null;
-	}
-	
-	private ICompilationUnit getCompilationUnit(IFile file) throws CoreException {
-		IProject project = file.getProject();
-		IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
-		for (IResource resource : EclipseResourceUtil.getJavaSourceRoots(project)) {
-			if(resource.getFullPath().isPrefixOf(file.getFullPath())) {
-				IPath path = file.getFullPath().removeFirstSegments(resource.getFullPath().segmentCount());
-				IJavaElement element = javaProject.findElement(path);
-				if(element instanceof ICompilationUnit) {
-					return (ICompilationUnit)element;
-				}
-			}
-		}
 		return null;
 	}
 	
