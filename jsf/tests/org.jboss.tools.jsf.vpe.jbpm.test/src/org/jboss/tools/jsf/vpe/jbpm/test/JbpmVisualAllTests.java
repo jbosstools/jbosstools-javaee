@@ -21,7 +21,7 @@ import org.jboss.tools.vpe.ui.test.VpeTestSetup;
  *
  */
 
-public class JBPMAllTests {
+public class JbpmVisualAllTests {
 
 	public static final String JBPM_TEST_PROJECT = "jBPMTestProject"; //$NON-NLS-1$
 	

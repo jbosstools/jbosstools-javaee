@@ -43,7 +43,7 @@ public class JBPMComponentsTest extends ComponentContentTest {
 
 	@Override
 	protected String getTestProjectName() {
-		return JBPMAllTests.JBPM_TEST_PROJECT;
+		return JbpmVisualAllTests.JBPM_TEST_PROJECT;
 	}
 
 }
