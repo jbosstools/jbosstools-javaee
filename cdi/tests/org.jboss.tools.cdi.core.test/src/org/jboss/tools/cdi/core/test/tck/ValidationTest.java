@@ -19,14 +19,7 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
  */
 public class ValidationTest extends TCKTest {
 
-	public void testLegalTypesInTyped() throws Exception {
-		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, "Bean class or producer method or field specifies a @Typed annotation, and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean", 25);
-		int markerNumbers = getMarkersNumber(petShopFile);
-		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
-	}
-
-	/*
+	/**
 	 * 	 2.7.1.3. Stereotype declares a non-empty @Named annotation (Non-Portable behavior)
 	 */
 	public void testNonEmptyNamedForStereotype() throws Exception {
@@ -36,7 +29,29 @@ public class ValidationTest extends TCKTest {
 		assertEquals("StereotypeWithNonEmptyNamed_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
 
-	/*
+	/**
+	 * 3.5.1. Declaring a resource
+	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+	 * 
+	 * @throws Exception
+	 */
+	public void testResourceWithELName() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 15);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 23);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 27);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 31);
+	}
+
+	public void testLegalTypesInTyped() throws Exception {
+		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, "Bean class or producer method or field specifies a @Typed annotation, and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean", 25);
+		int markerNumbers = getMarkersNumber(petShopFile);
+		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
+	}
+
+	/**
 	 * 	 2.7.1.3. Stereotype declares any other qualifier annotation
 	 */
 	public void testAnnotatedStereotype() throws Exception {
@@ -46,7 +61,7 @@ public class ValidationTest extends TCKTest {
 		assertEquals("StereotypeWithBindingTypes_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
 
-	/*
+	/**
 	 * 	 2.7.1.3. Stereotype is annotated @Typed
 	 */
 	public void testTypedStereotype() throws Exception {
@@ -56,7 +71,7 @@ public class ValidationTest extends TCKTest {
 		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
 
-	/*
+	/**
 	 *  2.7.1.1. Declaring the default scope for a stereotype
 	 *           - stereotype declares more than one scope
 	 */
@@ -67,7 +82,7 @@ public class ValidationTest extends TCKTest {
 		assertEquals("StereotypeWithTooManyScopeTypes_Broken.java should has two error markers.", markerNumbers, 2);
 	}
 
-	/*
+	/**
 	 *  2.4.3. Declaring the bean scope
 	 *         - bean class or producer method or field specifies multiple scope type annotations
 	 */
@@ -78,7 +93,7 @@ public class ValidationTest extends TCKTest {
 		assertEquals("StereotypeWithTyped_Broken.java should has two error markers.", markerNumbers, 2);
 	}
 
-	/*
+	/**
 	 *  2.4.4. Default scope
 	 *         - bean does not explicitly declare a scope when there is no default scope 
 	 *         (there are two different stereotypes declared by the bean that declare different default scopes)
