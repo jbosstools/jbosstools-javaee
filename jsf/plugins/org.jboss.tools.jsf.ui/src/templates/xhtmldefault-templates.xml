@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates>
-<template name="%Templates.xhtml.blank" description="%Templates.xhtml.blank.desc" id="org.jboss.tools.jsf.ui.xhtml.blank" context="xhtml_new" enabled="true">%Templates.xhtml.blank.content</template>
 
 <template name="%Templates.xhtml.blank.facelet" description="%Templates.xhtml.blank.facelet.desc" id="org.jboss.tools.jsf.ui.xhtml.facelet.blank" context="xhtml_new" enabled="true">%Templates.xhtml.facelet.blank.content</template>
 
