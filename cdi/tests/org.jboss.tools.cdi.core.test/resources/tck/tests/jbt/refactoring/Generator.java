@@ -1,4 +1,4 @@
-package org.jboss.jsr299.tck.tests.refactoring;
+package org.jboss.jsr299.tck.tests.jbt.refactoring;
 
 import java.io.Serializable;
 

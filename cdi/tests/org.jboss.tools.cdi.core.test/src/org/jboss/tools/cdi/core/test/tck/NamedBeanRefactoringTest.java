@@ -17,9 +17,9 @@ import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.tests.AbstractRefactorTest;
 
 public class NamedBeanRefactoringTest extends AbstractRefactorTest {
-	private static final String PROJECT_NAME = "/tests/refactoring";
-	private static final String FILE_NAME1 = "JavaSource/org/jboss/jsr299/tck/tests/refactoring/Game.java";
-	private static final String FILE_NAME2 = "JavaSource/org/jboss/jsr299/tck/tests/refactoring/Generator.java";
+	private static final String PROJECT_NAME = "/tests/jbt/refactoring";
+	private static final String FILE_NAME1 = "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/Game.java";
+	private static final String FILE_NAME2 = "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/Generator.java";
 	private static final String FILE_NAME3 = "WebContent/HomePage.xhtml";
 	private static final String FILE_NAME4 = "WebContent/index.jsp";
 	static IProject project;
@@ -44,12 +44,12 @@ public class NamedBeanRefactoringTest extends AbstractRefactorTest {
 
 		TestChangeStructure structure = new TestChangeStructure(project
 				.getProject(), FILE_NAME1);
-		TestTextChange change = new TestTextChange(324, 4, newName);
+		TestTextChange change = new TestTextChange(328, 4, newName);
 		structure.addTextChange(change);
 		list.add(structure);
 
 		structure = new TestChangeStructure(project, FILE_NAME2);
-		change = new TestTextChange(522, 4, newName);
+		change = new TestTextChange(526, 4, newName);
 		structure.addTextChange(change);
 		list.add(structure);
 
