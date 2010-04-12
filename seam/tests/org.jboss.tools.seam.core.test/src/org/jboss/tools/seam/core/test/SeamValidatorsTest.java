@@ -155,6 +155,21 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	/**
+	 * Test for https://jira.jboss.org/jira/browse/JBIDE-6176
+	 * @throws CoreException 
+	 */
+	public void testFactory() throws CoreException {
+		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/FactoryTest.java");
+		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/session/FactoryTest.new");
+		refreshProject(project);
+
+		assertMarkerIsNotCreated(componentFile, MARKER_TYPE, "Factory method \"somethings\" with a void return type must have an associated @Out/Databinder", 22);
+
+		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/session/FactoryTest.original");
+		refreshProject(project);
+	}
+
+	/**
 	 * Test for https://jira.jboss.org/jira/browse/JBIDE-784
 	 * @throws CoreException 
 	 */
