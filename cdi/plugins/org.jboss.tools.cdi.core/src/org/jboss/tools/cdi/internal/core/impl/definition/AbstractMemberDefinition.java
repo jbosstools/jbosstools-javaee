@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.QualifierDeclaration;
@@ -33,7 +34,7 @@ import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
  * @author Viacheslav Kabanovich
  *
  */
-public abstract class AbstractMemberDefinition {
+public abstract class AbstractMemberDefinition implements IAnnotated {
 	protected List<AnnotationDeclaration> annotations = new ArrayList<AnnotationDeclaration>();
 	protected IAnnotatable member;
 	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
@@ -82,12 +83,28 @@ public abstract class AbstractMemberDefinition {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotations()
+	 */
 	public List<AnnotationDeclaration> getAnnotations() {
 		return annotations;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotation(java.lang.String)
+	 */
 	public AnnotationDeclaration getAnnotation(String typeName) {
 		return annotationsByType.get(typeName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#isAnnotationPresent(java.lang.String)
+	 */
+	public boolean isAnnotationPresent(String annotationTypeName) {
+		return getAnnotation(annotationTypeName)!=null;
 	}
 
 	public AnnotationDeclaration getNamedAnnotation() {

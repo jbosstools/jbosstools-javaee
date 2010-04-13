@@ -21,7 +21,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * 
  * @author Alexey Kazakov
  */
-public interface IBean extends IScoped, ICDIElement, IVariable {
+public interface IBean extends IScoped, ICDIElement, IVariable, IAnnotated {
 
 	/**
 	 * Returns the corresponding IType of the managed bean or session bean or of

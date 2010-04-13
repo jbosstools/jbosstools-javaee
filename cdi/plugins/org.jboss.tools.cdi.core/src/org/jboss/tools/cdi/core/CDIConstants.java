@@ -44,4 +44,9 @@ public interface CDIConstants {
 	public String STATEFUL_ANNOTATION_TYPE_NAME = "javax.ejb.Stateful";
 	public String STATELESS_ANNOTATION_TYPE_NAME = "javax.ejb.Stateless";
 
+	public String RESOURCE_ANNOTATION_TYPE_NAME = "javax.annotation.Resource";
+	public String WEB_SERVICE_REF_ANNOTATION_TYPE_NAME = "javax.xml.ws.WebServiceRef";
+	public String EJB_ANNOTATION_TYPE_NAME = "javax.ejb.EJB";
+	public String PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceContext";
+	public String PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceUnit";
 }

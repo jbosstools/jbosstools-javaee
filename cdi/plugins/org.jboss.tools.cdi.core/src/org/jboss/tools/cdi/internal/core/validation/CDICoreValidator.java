@@ -38,6 +38,8 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -264,7 +266,32 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		validateTyped(bean);
 		validateBeanScope(bean);
 
+		if(bean instanceof IProducer) {
+			validateProducer((IProducer)bean);
+		}
+
 		// TODO
+	}
+
+	private static final String[] RESOURCE_ANNOTATIONS = {CDIConstants.RESOURCE_ANNOTATION_TYPE_NAME, CDIConstants.WEB_SERVICE_REF_ANNOTATION_TYPE_NAME, CDIConstants.EJB_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME};
+
+	private void validateProducer(IProducer producer) {
+		if(producer instanceof IProducerField) {
+			IProducerField producerField = (IProducerField)producer;
+			if(producerField.getName()!=null) {
+				IAnnotationDeclaration declaration;
+				for (String annotationType : RESOURCE_ANNOTATIONS) {
+					declaration = producerField.getAnnotation(annotationType);
+					if(declaration!=null) {
+						IAnnotationDeclaration nameDeclaration = producerField.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+						if(nameDeclaration!=null) {
+							declaration = nameDeclaration;
+						}
+						addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
+					}
+				}
+			}
+		}
 	}
 
 	/*

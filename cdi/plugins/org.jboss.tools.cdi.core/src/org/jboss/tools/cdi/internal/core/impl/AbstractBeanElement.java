@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -43,7 +44,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
  * @author Viacheslav Kabanovich
  *
  */
-public class AbstractBeanElement extends CDIElement {
+public class AbstractBeanElement extends CDIElement implements IAnnotated {
 	protected AbstractMemberDefinition definition;
 
 	public AbstractBeanElement() {}
@@ -54,6 +55,24 @@ public class AbstractBeanElement extends CDIElement {
 
 	public AbstractMemberDefinition getDefinition() {
 		return definition;
+	}
+
+	public List<AnnotationDeclaration> getAnnotations() {
+		if(definition!=null) {
+			return definition.getAnnotations();
+		}
+		return Collections.emptyList();
+	}
+
+	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
+		if(definition!=null) {
+			return definition.getAnnotation(annotationTypeName);
+		}
+		return null;
+	}
+
+	public boolean isAnnotationPresent(String annotationTypeName) {
+		return definition!=null && definition.isAnnotationPresent(annotationTypeName);
 	}
 
 	protected AnnotationDeclaration findNamedAnnotation() {
