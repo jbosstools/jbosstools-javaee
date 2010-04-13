@@ -37,7 +37,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testResourceWithELName() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 15, 19, 23, 27, 31);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 15, 19, 24, 27, 31);
 	}
 
 	public void testLegalTypesInTyped() throws Exception {

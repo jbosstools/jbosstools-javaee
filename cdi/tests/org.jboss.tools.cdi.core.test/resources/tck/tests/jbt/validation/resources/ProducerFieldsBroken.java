@@ -20,7 +20,7 @@ public class ProducerFieldsBroken {
 	@Produces @WebServiceRef(lookup="java:app/service/PaymentService")
 	PaymentService paymentServiceResourceBroken;
 
-	@Named
+	@NamedStereotype
 	@Produces @EJB //(ejbLink="../their.jar#PaymentService")
 	PaymentService paymentServiceEjbResourceBroken;
 
