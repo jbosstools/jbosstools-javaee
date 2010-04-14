@@ -40,6 +40,17 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Producer field declaration of Java EE resource specifies an EL name", 15, 19, 24, 27, 31);
 	}
 
+	/**
+	 * 3.11. The qualifier @Named at injection points
+	 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
+	 * 
+	 * @throws Exception
+	 */
+	public void testNamedInjectPoint() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, "Injection point other than injected field declares a @Named annotation that does not specify the value member", 10, 16);
+	}
+
 	public void testLegalTypesInTyped() throws Exception {
 		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, "Bean class or producer method or field specifies a @Typed annotation, and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean", 25);

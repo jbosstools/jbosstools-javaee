@@ -37,6 +37,8 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
@@ -270,6 +272,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateProducer((IProducer)bean);
 		}
 
+		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		for (IInjectionPoint point : points) {
+			validateInjectionPoint(point);
+		}
+
 		// TODO
 	}
 
@@ -289,6 +296,29 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 						addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
 					}
+				}
+			}
+		}
+	}
+
+	private void validateInjectionPoint(IInjectionPoint injection) {
+		if(!(injection instanceof IInjectionPointField)) {
+			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if(named!=null) {
+				try {
+					IMemberValuePair[] values = named.getDeclaration().getMemberValuePairs();
+					boolean valueExists = false;
+					for (IMemberValuePair pair : values) {
+						if("value".equals(pair.getMemberName())) {
+							valueExists = true;
+							break;
+						}
+					}
+					if(!valueExists) {
+						addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, injection.getResource());
+					}
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
 				}
 			}
 		}
