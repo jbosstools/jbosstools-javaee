@@ -82,7 +82,7 @@ public class NewXHTMLWizard extends NewHTMLWizard{
 		// no file extension specified so add default extension
 		String fileName = fNewFilePage.getFileName();
 		if (fileName.lastIndexOf('.') == -1) {
-			String newFileName = fileName+".xthml"; //$NON-NLS-1$
+			String newFileName = fileName+".xhtml"; //$NON-NLS-1$
 			fNewFilePage.setFileName(newFileName);
 		}
 
