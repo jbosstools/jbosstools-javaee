@@ -21,15 +21,15 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
  * @author daniel
  *
  */
-public class SeamCreateTestProjectTest extends AbstractSeamFacetTest {
+public class SeamProjectNamesTest extends AbstractSeamFacetTest {
 	public static final String WAR = "war";
 	public static final String EAR = "ear";
 	
-	public SeamCreateTestProjectTest(String name) {
+	public SeamProjectNamesTest(String name) {
 		super(name);
 	}
 
-	protected void checkTestProjectCreation(String name, String seamVersion, String deployType, boolean createTestProject) throws CoreException{
+	protected void checkProjectNamesCreation(String warProjectName, String earProjectName, String ejbProjectName, String testProjectName, String seamVersion, String deployType, boolean createTestProject) throws CoreException{
 		IDataModel model = createSeamDataModel(deployType);
 		
 		// set property to create test project
@@ -37,34 +37,45 @@ public class SeamCreateTestProjectTest extends AbstractSeamFacetTest {
 		
 		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, seamVersion);
 		
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, earProjectName);
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ejbProjectName);
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, testProjectName);
 
-		final IFacetedProject fproj = createSeamProject(name, model);
+		final IFacetedProject fproj = createSeamProject(warProjectName, model);
 		
 		final IProject proj = fproj.getProject();
 
 		assertNotNull(proj);
 		assertTrue(proj.exists());
 		if(createTestProject){
-			assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
-			IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+			assertTrue(proj.getWorkspace().getRoot().getProject(testProjectName).exists());
+			//IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
 		}else{
-			assertFalse(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
+			assertFalse(proj.getWorkspace().getRoot().getProject(testProjectName).exists());
+		}
+		
+		if(WAR.equals(deployType)){
+			assertFalse(proj.getWorkspace().getRoot().getProject(earProjectName).exists());
+			assertFalse(proj.getWorkspace().getRoot().getProject(ejbProjectName).exists());
+		}else if(EAR.equals(deployType)){
+			assertTrue(proj.getWorkspace().getRoot().getProject(earProjectName).exists());
+			assertTrue(proj.getWorkspace().getRoot().getProject(ejbProjectName).exists());
 		}
 	}
 	
 	public void testSeamWarProjectWithTestProject() throws CoreException{
-		checkTestProjectCreation("test_seam12_war_t", SEAM_1_2_0, WAR, true);
+		checkProjectNamesCreation("seam12_war_t", "ear_seam12_war_t", "ejb_seam12_war_t", "test_seam12_war_t", SEAM_1_2_0, WAR, true);
 	}
 
 	public void testSeamWarProjectWithoutTestProject() throws CoreException{
-		checkTestProjectCreation("test_seam12_war", SEAM_1_2_0, WAR, false);
+		checkProjectNamesCreation("seam12_war", "ear_seam12_war", "ejb_seam12_war", "test_seam12_war", SEAM_1_2_0, WAR, false);
 	}
 
 	public void testSeamEarProjectWithTestProject() throws CoreException{
-		checkTestProjectCreation("test_seam12_ear_t", SEAM_1_2_0, EAR, true);
+		checkProjectNamesCreation("seam12_ear_t", "ear_seam12_ear_t", "ejb_seam12_ear_t", "test_seam12_ear_t", SEAM_1_2_0, EAR, true);
 	}
 
 	public void testSeamEarProjectWithoutTestProject() throws CoreException{
-		checkTestProjectCreation("test_seam12_ear", SEAM_1_2_0, EAR, false);
+		checkProjectNamesCreation("seam12_ear", "ear_seam12_ear", "ejb_seam12_ear", "test_seam12_ear", SEAM_1_2_0, EAR, false);
 	}
 }
