@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
 	version="5">
 
-	<display-name>@projectName@-ear</display-name>
+	<display-name>@earProjectName@</display-name>
 
 	<!-- JBIDE-4166 Workaround - Make sure we deploy this first, since this is referenced in xxx-ejb.jar--> 
 	<module>
@@ -19,7 +19,7 @@
 	</module>
 
 	<module>
-		<ejb>@projectName@-ejb.jar</ejb>
+		<ejb>@ejbProjectName@.jar</ejb>
 	</module>
 
 </application>

@@ -108,6 +108,12 @@ public class SeamUIMessages extends NLS {
 	public static String SEAM_INSTALL_WIZARD_PAGE_DB_TABLES_ALREADY_EXISTS;
 
 	public static String SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS;
+	
+	public static String SEAM_INSTALL_WIZARD_PAGE_EJB_PROJECT_NAME;
+	
+	public static String SEAM_INSTALL_WIZARD_PAGE_EAR_PROJECT_NAME;
+	
+	public static String SEAM_INSTALL_WIZARD_PAGE_TEST_PROJECT_NAME;
 
 	public static String SEAM_INSTALL_WIZARD_PAGE_EDIT;
 

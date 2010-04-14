@@ -97,7 +97,19 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private DataModelValidatorDelegate validatorDelegate;
 
 	private IFieldEditor jBossSeamHomeEditor;
+	
+	private IFieldEditor ejbProjectNameditor = IFieldEditorFactory.INSTANCE
+	.createTextEditor(
+			ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,
+			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EJB_PROJECT_NAME,
+			""); //$NON-NLS-1$
 
+	private IFieldEditor earProjectNameditor = IFieldEditorFactory.INSTANCE
+	.createTextEditor(
+			ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
+			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR_PROJECT_NAME,
+			""); //$NON-NLS-1$
+	
 	private IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE
 			.createRadioEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
@@ -142,6 +154,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			ISeamFacetDataModelProperties.TEST_PROJECT_CREATING,
 			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CREATE_TEST_PROJECT,
 			true);
+	
+	private IFieldEditor testProjectNameditor = IFieldEditorFactory.INSTANCE
+	.createTextEditor(
+			ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,
+			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PROJECT_NAME,
+			""); //$NON-NLS-1$
 
 	private IFieldEditor testsPkgNameditor = IFieldEditorFactory.INSTANCE
 			.createTextEditor(
@@ -292,7 +310,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
-				this.jBossAsDeployAsEditor.getValueAsString());		
+				this.jBossAsDeployAsEditor.getValueAsString());
 	}
 	
 	/*
@@ -387,6 +405,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		generalGroup.setLayout(gridLayout);
 		registerEditor(jBossSeamHomeEditor, generalGroup, 3);
 		registerEditor(jBossAsDeployAsEditor, generalGroup, 3);
+		registerEditor(ejbProjectNameditor, generalGroup, 3);
+		ejbProjectNameditor.setEnabled(getDeployAsDefaultValue().equals(ISeamFacetDataModelProperties.DEPLOY_AS_EAR));
+		registerEditor(earProjectNameditor, generalGroup, 3);
+		earProjectNameditor.setEnabled(getDeployAsDefaultValue().equals(ISeamFacetDataModelProperties.DEPLOY_AS_EAR));
+		
+		jBossAsDeployAsEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent arg0) {
+				Boolean value = jBossAsDeployAsEditor.getValue() == ISeamFacetDataModelProperties.DEPLOY_AS_EAR;
+				ejbProjectNameditor.setEnabled(value.booleanValue());
+				earProjectNameditor.setEnabled(value.booleanValue());
+			}
+		});
 
 		gd = new GridData();
 		gd.horizontalSpan = 1;
@@ -429,11 +459,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			public void propertyChange(PropertyChangeEvent arg0) {
 				Boolean value = (Boolean)createTestProjectCheckboxeditor.getValue();
 				testsPkgNameditor.setEnabled(value.booleanValue());
+				testProjectNameditor.setEnabled(value.booleanValue());
 			}
 		});
 		
 		createTestProjectCheckboxeditor.setEnabled(isNewProjectWizard());
 		
+		registerEditor(testProjectNameditor, generationGroup, 3);
 		registerEditor(testsPkgNameditor, generationGroup, 3);
 
 		setControl(root);
@@ -462,6 +494,19 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			validatorDelegate.addValidatorForProperty(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
 					getDeploymentTypeValidator(getWizard()));
+			
+			validatorDelegate.addValidatorForProperty(
+					ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
+					new ProjectNamesDuplicationValidator(
+							ISeamFacetDataModelProperties.SEAM_EAR_PROJECT));
+			validatorDelegate.addValidatorForProperty(
+					ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,
+					new ProjectNamesDuplicationValidator(
+							ISeamFacetDataModelProperties.SEAM_EJB_PROJECT));
+			validatorDelegate.addValidatorForProperty(
+					ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,
+					new ProjectNamesDuplicationValidator(
+							ISeamFacetDataModelProperties.SEAM_TEST_PROJECT));
 		}
 
 		
@@ -591,6 +636,16 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
 					getTestPkgName(p));
+			model.setStringProperty(
+					ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
+					earProjectNameditor.getValueAsString());
+			model.setStringProperty(
+					ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,
+					ejbProjectNameditor.getValueAsString());
+			model.setStringProperty(
+					ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,
+					testProjectNameditor.getValueAsString());
+			
 		}
 	}
 	
@@ -636,6 +691,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		sessionBeanPkgNameditor.setValue(getSessionPkgName(p));
 		entityBeanPkgNameditor.setValue(getEntityPkgName(p));
 		testsPkgNameditor.setValue(getTestPkgName(p));
+		ejbProjectNameditor.setValue(getEJBProjectName(p));
+		earProjectNameditor.setValue(getEARProjectName(p));
+		testProjectNameditor.setValue(getTestProjectName(p));
 	}
 
 	private String getSessionPkgName(String projectName) {
@@ -651,6 +709,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private String getTestPkgName(String projectName) {
 		return "org.domain." //$NON-NLS-1$
 				+ SeamUtil.getSeamPackageName(projectName) + ".test"; //$NON-NLS-1$
+	}
+	
+	private String getEJBProjectName(String projectName) {
+		return projectName + "-ejb"; //$NON-NLS-1$
+	}
+	
+	private String getEARProjectName(String projectName) {
+		return projectName + "-ear"; //$NON-NLS-1$
+	}
+	
+	private String getTestProjectName(String projectName) {
+		return projectName + "-test"; //$NON-NLS-1$
 	}
 
 	/*
@@ -747,23 +817,28 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		 * @see IValidator#validate(Object, Object)
 		 */
 		public Map<String, IStatus> validate(Object value, Object context) {
-			final String projectName = (String) value;
 			final String deployAs = model
 					.getStringProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS);
-
-			final String testProjectName = projectName + "-test"; //$NON-NLS-1$
-			IStatus status = ProjectCreationDataModelProviderNew
-					.validateName(testProjectName);
 			
-			if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
-				return doPackStatus(status,
-						propertyName,
-						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
-								testProjectName));
+			final boolean testCreating = (Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING);
+
+			IStatus status;
+			
+			if (testCreating) {
+				final String testProjectName = testProjectNameditor.getValueAsString();
+				status = ProjectCreationDataModelProviderNew
+						.validateName(testProjectName);
+			
+				if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
+					return doPackStatus(status,
+							propertyName,
+							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
+									testProjectName));
+				}
 			}
 
 			if (ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(deployAs)) {
-				final String earProjectName = projectName + "-ear"; //$NON-NLS-1$
+				final String earProjectName = earProjectNameditor.getValueAsString();
 				status = ProjectCreationDataModelProviderNew
 						.validateName(earProjectName);
 				
@@ -774,7 +849,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 									earProjectName));
 				}
 
-				final String ejbProjectName = projectName + "-ejb"; //$NON-NLS-1$
+				final String ejbProjectName = ejbProjectNameditor.getValueAsString();
 				status = ProjectCreationDataModelProviderNew
 						.validateName(ejbProjectName);
 				

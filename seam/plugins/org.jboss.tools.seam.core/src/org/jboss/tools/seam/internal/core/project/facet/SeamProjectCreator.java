@@ -30,7 +30,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jst.common.project.facet.JavaFacetUtils;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
@@ -120,11 +119,10 @@ public class SeamProjectCreator {
 		this.model = model;
 		this.seamWebProject = seamWebProject;
 
-		// Set default project names
-		earProjectName = seamWebProject.getName() + "-ear";
-		ejbProjectName = seamWebProject.getName() + "-ejb";
-		testProjectName = seamWebProject.getName() + "-test";
-
+		earProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT);
+		ejbProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
+		testProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
+		
 		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 		if(seamRuntime==null) {
 			throw new RuntimeException("Can't get seam runtime " + model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
@@ -180,6 +178,10 @@ public class SeamProjectCreator {
 
 		ejbFilterSet = new FilterSet();
 		ejbFilterSet.addFilter("projectName", seamWebProject.getName()); //$NON-NLS-1$
+		ejbFilterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
+		ejbFilterSet.addFilter("ejbProjectName", ejbProjectName); //$NON-NLS-1$
+		ejbFilterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
+
 		ejbFilterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
 		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
 			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
@@ -310,8 +312,6 @@ public class SeamProjectCreator {
 	 * Creates test project for given seam web project.
 	 */
 	protected boolean createTestProject() {
-		model.setProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, testProjectName);
-		
 		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING))
 			return false;
 
@@ -326,6 +326,10 @@ public class SeamProjectCreator {
 		File testSrcDir = new File(testProjectDir, "test-src"); //$NON-NLS-1$
 		FilterSet filterSet = new FilterSet();
 		filterSet.addFilter("projectName", seamWebProject.getName()); //$NON-NLS-1$
+		filterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
+		filterSet.addFilter("ejbProjectName", ejbProjectName); //$NON-NLS-1$
+		filterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
+
 		filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
 		filterSet.addFilter("webRootFolder", webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
 
@@ -400,8 +404,6 @@ public class SeamProjectCreator {
 	}
 
 	protected void createEjbProject() {
-		model.setProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ejbProjectName);
-
 		ejbProjectFolder.mkdir();
 
 		AntCopyUtils.copyFilesAndFolders(
@@ -439,6 +441,10 @@ public class SeamProjectCreator {
 
 		FilterSet ejbFilterSet =  new FilterSet();
 		ejbFilterSet.addFilter("projectName", ejbProjectFolder.getName()); //$NON-NLS-1$
+		ejbFilterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
+		ejbFilterSet.addFilter("ejbProjectName", ejbProjectName); //$NON-NLS-1$
+		ejbFilterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
+
 		ejbFilterSet.addFilter("connectionProfile", model.getStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE));//$NON-NLS-1$
 
 		
@@ -459,14 +465,15 @@ public class SeamProjectCreator {
 	}
 
 	protected void createEarProject() {
-		model.setProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, earProjectName);
-
 		earProjectFolder.mkdir();
 
 		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
 
 		FilterSet earFilterSet =  new FilterSet();
 		earFilterSet.addFilter("projectName", earProjectFolder.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
+		earFilterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
+		earFilterSet.addFilter("ejbProjectName", ejbProjectName); //$NON-NLS-1$
+		earFilterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
 
 		AntCopyUtils.copyFileToFolder(
 			new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$

@@ -114,6 +114,10 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		//File jbossBeansFile = new File(seamGenResFolder ,"META-INF/jboss-beans.xml"); //$NON-NLS-1$
 		FilterSet filterSet = new FilterSet();
 		filterSet.addFilter("projectName", seamWebProject.getName()); //$NON-NLS-1$
+		filterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
+		filterSet.addFilter("ejbProjectName", ejbProjectName); //$NON-NLS-1$
+		filterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
+
 		filterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
 		filterSet.addFilter("webRootFolder",webRootVirtFolder.getUnderlyingFolder().getFullPath().removeFirstSegments(1).toString()); //$NON-NLS-1$
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>@projectName@-ear</name>
+	<name>@earProjectName@</name>
 	<comment></comment>
 	<projects>
-		<project>@projectName@-ejb</project>
+		<project>@ejbProjectName@</project>
 		<project>@projectName@</project>
 	</projects>
 	<buildSpec>
