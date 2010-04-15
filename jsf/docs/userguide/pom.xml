@@ -5,21 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jboss.tools</groupId>
-    <artifactId>visua-web-tools-guide-${translation}</artifactId>
+    <artifactId>visua-web-tools-guide-en-US</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jdocbook</packaging>
     <name>Visual_Web_Tools_Reference_Guide</name>
 
     <profiles>
-		<profile>
-			<id>release</id>
-			<properties>
-				<master>master_output.xml</master>
-				<xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-release.xsl</xsl-single>
-				<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-release.xsl</xsl-chunked>
-				<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
-			</properties>
-		</profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <master>master_output.xml</master>
+                <xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-release.xsl</xsl-single>
+                <xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-release.xsl</xsl-chunked>
+                <xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
+            </properties>
+        </profile>
+        <profile>
+            <id>releaseTest</id>
+            <properties>
+                <master>master_output.xml</master>
+                <xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-release-nomarker.xsl</xsl-single>
+                <xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-release-nomarker.xsl</xsl-chunked>
+                <xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
+            </properties>
+        </profile>
         <profile>
             <id>releaseJBDS</id>
             <properties>
@@ -27,66 +36,46 @@
                 <xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-release.xsl</xsl-single>
                 <xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-release.xsl</xsl-chunked>
                 <xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
-                <cssdir>../../../documentation/jbosstools-jdocbook-style/src/main/com/css/</cssdir>
+                <cssdir>${pom.basedir}/target/docbook/staging/css/com/css</cssdir>
             </properties>
         </profile>
-		<profile>
-			<id>diffmk</id>
-			<properties>
-				<master>master_output.xml</master>
-				<xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-diff.xsl</xsl-single>
-				<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-diff.xsl</xsl-chunked>
-				<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf-diff.xsl</xsl-pdf>
-			</properties>
-		</profile>
-	</profiles>
-	
+        <profile>
+            <id>diffmk</id>
+            <properties>
+                <master>master_output.xml</master>
+                <xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single-diff.xsl</xsl-single>
+                <xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml-diff.xsl</xsl-chunked>
+                <xsl-pdf>classpath:/xslt/com/jboss/tools/pdf-diff.xsl</xsl-pdf>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.jboss.maven.plugins</groupId>
                 <artifactId>maven-jdocbook-plugin</artifactId>
-	<version>2.1.0-200803311251UTC-MPJDOCBOOK-8</version>                
+                <version>2.2.1</version>
                 <extensions>true</extensions>
                 
                 <dependencies>
                     <dependency>
-                        <groupId>com.jboss</groupId>
-                        <artifactId>jbossent-docbook-xslt</artifactId>
-                        <version>1.0.0</version>
+                        <groupId>org.jboss.tools</groupId>
+                        <artifactId>jbosstools-jdocbook-style</artifactId>
+                        <type>jdocbook-style</type>
+                        <version>1.0.0-SNAPSHOT</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.jboss</groupId>
-                        <artifactId>jbossent-jdocbook-style</artifactId>
-                        <version>1.0.0</version>
-                        <type>jdocbook-style</type>
+                        <groupId>org.jboss.tools</groupId>
+                        <artifactId>jbosstools-docbook-xslt</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
                     </dependency>
-		<dependency>
-                        <groupId>org.jboss</groupId>
-                        <artifactId>jbossorg-docbook-xslt</artifactId>
-                        <version>1.1.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jboss</groupId>
-                        <artifactId>jbossorg-jdocbook-style</artifactId>
-                        <version>1.1.0</version>
-                        <type>jdocbook-style</type>
-                    </dependency>
-		    <dependency>					
-			<groupId>org.jboss.tools</groupId>
-			<artifactId>jbosstools-docbook-xslt</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		    </dependency>
-                    <dependency> 
-                        <groupId>org.apache.xmlgraphics</groupId> 
-                        <artifactId>fop</artifactId> 
-                        <version>0.95</version> 
-                    </dependency> 
+		
                 </dependencies>
                 
                 <configuration>
                     <sourceDocumentName>${master}</sourceDocumentName>
-                    <sourceDirectory>${pom.basedir}/en-US</sourceDirectory>
+                    <sourceDirectory>${pom.basedir}</sourceDirectory>
                     <imageResource>
                         <directory>${pom.basedir}/en-US</directory>
                         <includes>
@@ -94,14 +83,14 @@
                         </includes>
                     </imageResource>
                     <cssResource>
-                        <directory>${pom.basedir}/${cssdir}</directory>
+                        <directory>${cssdir}</directory>
                     </cssResource>
                     
                     <formats>
-                         <format>
-                            <formatName>pdf</formatName>              
+                        <format>
+                            <formatName>pdf</formatName>
                             <stylesheetResource>${xsl-pdf}</stylesheetResource>
-                            <finalName>${pom.name}.pdf</finalName>
+                            <finalName>${project.name}.pdf</finalName>
                         </format>
                         <format>
                             <formatName>html</formatName>
@@ -115,7 +104,7 @@
                         </format>
                         <format>
                             <formatName>eclipse</formatName>
-                            <stylesheetResource>file:${pom.basedir}/${stylesdir}/xslt/com/jboss/tools/eclipse.xsl</stylesheetResource>
+                            <stylesheetResource>classpath:/xslt/com/jboss/tools/eclipse.xsl</stylesheetResource>
                             <finalName>index.html</finalName>
                         </format>
                     </formats>
@@ -129,16 +118,60 @@
                     </options>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>clean</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                    <filesets>
+                        <fileset>
+                            <directory>${pom.basedir}/target/docbook/publish/en-US/</directory>
+                            <includes>
+                                <include>html/com/</include>
+                                <include>html/org/</include>
+                                <include>html_single/com/</include>
+                                <include>html_single/org/</include>
+                                <include>eclipse/com/</include>
+                                <include>eclipse/org/</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <!-- Copy the dist to the local checkout of the JBoss maven2 repo ${maven.repository.root} -->
+            <!-- It is anticipated that ${maven.repository.root} be set in user's settings.xml -->
+            <!-- todo : replace this with direct svn access once the svnkit providers are available -->
+            <id>repository.jboss.org</id>
+            <url>file://${maven.repository.root}</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots.jboss.org</id>
+            <name>JBoss Snapshot Repository</name>
+            <url>dav:https://snapshots.jboss.org/maven2</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
-        <stylesdir>../../../documentation/jbosstools-docbook-xslt/src/main/resources/</stylesdir>
         <xsl-single>classpath:/xslt/com/jboss/tools/xhtml-single.xsl</xsl-single>
-	<xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml.xsl</xsl-chunked>
-	<xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
-        <cssdir>../../../documentation/jbosstools-jdocbook-style/src/main/com/css/</cssdir>
-	<master>master.xml</master>
-        <translation>en-US</translation>
-    </properties> 
+        <xsl-chunked>classpath:/xslt/com/jboss/tools/xhtml.xsl</xsl-chunked>
+        <xsl-pdf>classpath:/xslt/com/jboss/tools/pdf.xsl</xsl-pdf>
+        <stylesdir>classpath:/xslt</stylesdir>
+        <cssdir>${pom.basedir}/target/docbook/staging/css/com/css</cssdir>
+        <master>master.xml</master>
+    </properties>
 </project>
