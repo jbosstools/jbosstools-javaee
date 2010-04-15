@@ -31,5 +31,7 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		for (String name : CDIPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.ERROR);
 		}
+		defaultPreferences.put(CDIPreferences.INTERCEPTOR_HAS_NAME, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.DECORATOR_HAS_NAME, CDIPreferences.WARNING);
 	}
 }

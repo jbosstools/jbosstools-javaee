@@ -21,7 +21,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * 
  * @author Alexey Kazakov
  */
-public interface IBean extends IScoped, ICDIElement, IVariable, IAnnotated {
+public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IAnnotated {
 
 	/**
 	 * Returns the corresponding IType of the managed bean or session bean or of
@@ -105,14 +105,6 @@ public interface IBean extends IScoped, ICDIElement, IVariable, IAnnotated {
 	 * @return the qualifiers
 	 */
 	Set<IQualifier> getQualifiers();
-
-	/**
-	 * Obtains the stereotype declarations of the bean class or producer method
-	 * or field.
-	 * 
-	 * @return the set of stereotype declarations
-	 */
-	Set<IStereotypeDeclaration> getStereotypeDeclarations();
 
 	/**
 	 * Determines if the bean is an alternative.

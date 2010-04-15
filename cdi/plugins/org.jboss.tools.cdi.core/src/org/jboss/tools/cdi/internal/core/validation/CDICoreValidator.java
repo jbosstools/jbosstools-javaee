@@ -37,8 +37,10 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
@@ -47,6 +49,7 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
+import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -277,12 +280,24 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateInjectionPoint(point);
 		}
 
+		if(bean instanceof IInterceptor) {
+			validateInterceptor((IInterceptor)bean);
+		}
+
+		if(bean instanceof IDecorator) {
+			validateDecorator((IDecorator)bean);
+		}
+
 		// TODO
 	}
 
 	private static final String[] RESOURCE_ANNOTATIONS = {CDIConstants.RESOURCE_ANNOTATION_TYPE_NAME, CDIConstants.WEB_SERVICE_REF_ANNOTATION_TYPE_NAME, CDIConstants.EJB_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME};
 
 	private void validateProducer(IProducer producer) {
+		/*
+		 * 3.5.1. Declaring a resource
+		 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+		 */
 		if(producer instanceof IProducerField) {
 			IProducerField producerField = (IProducerField)producer;
 			if(producerField.getName()!=null) {
@@ -302,6 +317,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void validateInjectionPoint(IInjectionPoint injection) {
+		/*
+		 * 3.11. The qualifier @Named at injection points
+		 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
+		 */
 		if(!(injection instanceof IInjectionPointField)) {
 			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if(named!=null) {
@@ -322,6 +341,51 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 		}
+	}
+
+	private void validateInterceptor(IInterceptor interceptor) {
+		/*
+		 * 2.5.3. Beans with no EL name - interceptor has a name (Non-Portable
+		 * behavior)
+		 */
+		if(interceptor.getName()!=null) {
+			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if (declaration == null) {
+				declaration = interceptor.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+			}
+			if(declaration==null) {
+				declaration = getNamedStereotypeDeclaration(interceptor);
+			}
+			addError(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_HAS_NAME, declaration, interceptor.getResource());
+		}
+	}
+
+	private void validateDecorator(IDecorator decorator) {
+		/*
+		 * 2.5.3. Beans with no EL name
+		 *	- decorator has a name (Non-Portable behavior)
+		 */
+		if(decorator.getName()!=null) {
+			ITextSourceReference declaration = decorator.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if (declaration == null) {
+				declaration = decorator.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+			}
+			if(declaration==null) {
+				declaration = getNamedStereotypeDeclaration(decorator);
+			}
+			addError(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.DECORATOR_HAS_NAME, declaration, decorator.getResource());
+		}
+	}
+
+	private IAnnotationDeclaration getNamedStereotypeDeclaration(IStereotyped stereotyped) {
+		Set<IStereotypeDeclaration> declarations = stereotyped.getStereotypeDeclarations();
+		for (IStereotypeDeclaration declaration : declarations) {
+			if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(declaration.getType().getFullyQualifiedName()) ||
+				getNamedStereotypeDeclaration(declaration.getStereotype())!=null) {
+				return declaration;
+			}
+		}
+		return null;
 	}
 
 	/*

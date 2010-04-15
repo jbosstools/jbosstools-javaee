@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.IAnnotation;
  * 
  * @author Alexey Kazakov
  */
-public interface IStereotype extends IScoped, ICDINamedAnnotation {
+public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation {
 
 	/**
 	 * Returns the location of @Name declaration of this stereotype. If the bean
@@ -50,11 +50,4 @@ public interface IStereotype extends IScoped, ICDINamedAnnotation {
 	 * @return the location of @Alternative declaration.
 	 */
 	IAnnotationDeclaration getAlternativeDeclaration();
-
-	/**
-	 * Obtains the stereotype declarations of the stereotype.
-	 * 
-	 * @return the set of stereotype declarations
-	 */
-	Set<IStereotypeDeclaration> getStereotypeDeclarations();
 }
