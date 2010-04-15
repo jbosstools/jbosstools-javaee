@@ -36,18 +36,18 @@ public class Seam20XProjectNamesTest extends SeamProjectNamesTest {
 	}
 	
 	public void testSeamWarProjectWithTestProject() throws CoreException{
-		checkProjectNamesCreation("seam12_war_t", "ear_seam12_war_t", "ejb_seam12_war_t", "test_seam12_war_t", SEAM_2_0_0, WAR, true);
+		checkProjectNamesCreation("seam20_war_t", "ear_seam20_war_t", "ejb_seam20_war_t", "test_seam20_war_t", SEAM_2_0_0, WAR, true);
 	}
 
 	public void testSeamWarProjectWithoutTestProject() throws CoreException{
-		checkProjectNamesCreation("seam12_war", "ear_seam12_war", "ejb_seam12_war", "test_seam12_war", SEAM_2_0_0, WAR, false);
+		checkProjectNamesCreation("seam20_war", "ear_seam20_war", "ejb_seam20_war", "test_seam20_war", SEAM_2_0_0, WAR, false);
 	}
 
 	public void testSeamEarProjectWithTestProject() throws CoreException{
-		checkProjectNamesCreation("seam12_ear_t", "ear_seam12_ear_t", "ejb_seam12_ear_t", "test_seam12_ear_t", SEAM_2_0_0, EAR, true);
+		checkProjectNamesCreation("seam20_ear_t", "ear_seam20_ear_t", "ejb_seam20_ear_t", "test_seam20_ear_t", SEAM_2_0_0, EAR, true);
 	}
 
 	public void testSeamEarProjectWithoutTestProject() throws CoreException{
-		checkProjectNamesCreation("seam12_ear", "ear_seam12_ear", "ejb_seam12_ear", "test_seam12_ear", SEAM_2_0_0, EAR, false);
+		checkProjectNamesCreation("seam20_ear", "ear_seam20_ear", "ejb_seam20_ear", "test_seam20_ear", SEAM_2_0_0, EAR, false);
 	}
 }
