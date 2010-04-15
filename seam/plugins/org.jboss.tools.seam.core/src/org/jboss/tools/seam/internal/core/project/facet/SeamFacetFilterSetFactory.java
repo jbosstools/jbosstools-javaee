@@ -38,6 +38,7 @@ public class SeamFacetFilterSetFactory {
 		
 		PROJECT_TEMPLATE = new FilterSet();
 		PROJECT_TEMPLATE.addFilter("projectName","${project.name}"); //$NON-NLS-1$ //$NON-NLS-2$
+		PROJECT_TEMPLATE.addFilter("ejbProjectName","${seam.ejb.project}"); //$NON-NLS-1$ //$NON-NLS-2$
 		PROJECT_TEMPLATE.addFilter("jbossHome","${jboss.home}"); //$NON-NLS-1$ //$NON-NLS-2$
 		PROJECT_TEMPLATE.addFilter("hbm2ddl","${hibernate.hbm2ddl.auto}"); //$NON-NLS-1$ //$NON-NLS-2$
 		PROJECT_TEMPLATE.addFilter("driverJar","${driver.file}"); //$NON-NLS-1$ //$NON-NLS-2$
