@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import org.eclipse.jdt.core.IAnnotation;
 
 /**
  * Represents a session bean.
@@ -31,5 +30,12 @@ public interface ISessionBean extends IClassBean {
 	 * 
 	 * @return @Statefull annotaion declaration.
 	 */
-	IAnnotation getStatefulDeclaration();
+	IAnnotationDeclaration getStatefulDeclaration();
+
+	/**
+	 * Returns @Stateless annotaion declaration.
+	 * 
+	 * @return @Stateless annotaion declaration.
+	 */
+	IAnnotationDeclaration getStatelessDeclaration();
 }

@@ -26,7 +26,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -51,11 +54,13 @@ import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
+import org.jboss.tools.cdi.core.ISessionBean;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
@@ -357,6 +362,58 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, CDIPreferences.DISPOSER_ANNOTATED_INJECT, injectDeclaration, bean.getResource());
 				for (IAnnotationDeclaration declaration : disposerDeclarations) {
 					addError(CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, CDIPreferences.DISPOSER_ANNOTATED_INJECT, declaration, bean.getResource());
+				}
+			}
+
+			/*
+			 * 3.3.6. Declaring a disposer method
+			 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
+			 */
+			validateSessionBeanMethod(bean, disposer, disposerDeclarations, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_DISPOSER_IN_SESSION_BEAN);
+		}
+	}
+
+	/**
+	 * If the method is not a static method and is not a business method of the session bean and is observer or disposer then mark it as incorrect.
+	 * 
+	 * @param bean
+	 * @param method
+	 * @param annotatedParams
+	 * @param errorKey
+	 */
+	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<IAnnotationDeclaration> annotatedParams, String errorMessageKey, String preferencesKey) {
+		if(bean instanceof ISessionBean) {
+			if(annotatedParams!=null) {
+				try {
+					if(!Flags.isStatic(method.getMethod().getFlags())) {
+						ISessionBean sessionBean = (ISessionBean)bean;
+						Set<IParametedType> types = sessionBean.getLegalTypes();
+						boolean businessMethod = false;
+						for (IParametedType type : types) {
+							IType sourceType = type.getType();
+							IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
+							if(annotation==null) {
+								annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
+								if(annotation!=null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
+									IMethod[] methods = sourceType.getMethods();
+									for (IMethod iMethod : methods) {
+										if(method.getMethod().isSimilar(iMethod)) {
+											businessMethod = true;
+											break;
+										}
+									}
+									break;
+								}
+							}
+						}
+						if(!businessMethod) {
+							for (IAnnotationDeclaration declaration : annotatedParams) {
+								addError(errorMessageKey, preferencesKey, declaration, bean.getResource());
+							}
+						}
+					}
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
 				}
 			}
 		}

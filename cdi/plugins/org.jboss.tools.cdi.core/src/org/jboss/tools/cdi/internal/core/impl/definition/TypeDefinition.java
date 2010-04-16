@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -94,5 +94,4 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	public AnnotationDeclaration getStatelessAnnotation() {
 		return annotationsByType.get(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME);
 	}
-
 }

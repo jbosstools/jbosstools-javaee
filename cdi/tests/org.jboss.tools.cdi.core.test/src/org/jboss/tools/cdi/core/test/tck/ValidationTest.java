@@ -204,6 +204,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
+	 *  
+	 * @throws Exception
+	 */
+	public void testDisposalMethodNotBusinessOrStatic() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/methodOnSessionBean/AppleTree.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 31);
+	}
+	
+	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
 	 *  
