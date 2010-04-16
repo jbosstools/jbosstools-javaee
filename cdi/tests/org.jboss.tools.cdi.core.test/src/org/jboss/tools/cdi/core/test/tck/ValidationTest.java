@@ -193,6 +193,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a disposer method is annotated @Inject.
+	 *  
+	 * @throws Exception
+	 */
+	public void testInitializerUnallowed() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/initializerUnallowed/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 32, 33);
+	}
+
+	/**
+	 * 3.9.1. Declaring an initializer method
+	 *  - an initializer method has a parameter annotated @Disposes
+	 *  
+	 * @throws Exception
+	 */
+	public void testInitializerMethodHasParameterAnnotatedDisposes() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 26);
+	}
+
+	/**
 	 * 3.3.2. Declaring a producer method
 	 *  - a producer method has a parameter annotated @Disposes
 	 *  
