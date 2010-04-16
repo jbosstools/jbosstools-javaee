@@ -29,7 +29,6 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsFileNewWizardTest.class);
 		suite.addTestSuite(JspFileNewWizardTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
-		suite.addTestSuite(XhtmlFileNewWizardTest.class);
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
