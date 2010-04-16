@@ -40,9 +40,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
-import com.uwyn.jhighlight.renderer.Renderer;
-import com.uwyn.jhighlight.renderer.XhtmlRendererFactory;
-
 /**
  * 
  * @author ezheleznyakov@exadel.com
@@ -141,26 +138,16 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		}
 	}
 
-	if ((highlightValue == null) || (!searchInSupportedTypes(highlightValue))){
+	if (highlightValue == null) {
 	   // finalStr = finalStr.replace('\n', ' ');
 	    nsIDOMText text = visualDocument.createTextNode(finalStr);
 	    div.appendChild(text);
 	    return vpeCreationData;
 	}
 
-	Renderer renderer = XhtmlRendererFactory.getRenderer(highlightValue);
-	String transformStr = null;
-	try {
-	    transformStr = renderer.highlight("", finalStr, UTF8, false); //$NON-NLS-1$
-	    transformStr = convertString(transformStr, highlightValue);
-	    Node node = parseTransformString(transformStr);
-	    buildVisualNode(node, div);
-	} catch (IOException e1) {
-		div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
-	    nsIDOMText text = visualDocument.createTextNode(HIGHLIGHT_ERROR_MESSAGE);
-	    div.appendChild(text);
-	    return vpeCreationData;
-	}
+	div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
+	nsIDOMText text = visualDocument.createTextNode(HIGHLIGHT_ERROR_MESSAGE);
+	div.appendChild(text);
 	return vpeCreationData;
     }
 
@@ -237,30 +224,6 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		return node;
 	}
 	return node;
-    }
-
-    /**
-     * 
-     * @param highlightValue
-     *                value of highlight attribute
-     * @return true of highlight value correct
-     */
-
-    private boolean searchInSupportedTypes(String highlightValue) {
-
-	if (highlightValue == null)
-	    return true;
-
-	if (highlightValue.trim().equals(EMPTY_STRING))
-	    return false;
-
-	Set<?> set = XhtmlRendererFactory.getSupportedTypes();
-
-	for (Object object : set)
-	    if (highlightValue.equalsIgnoreCase((String) object))
-		return true;
-
-	return false;
     }
 
     /**
