@@ -36,12 +36,15 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -288,7 +291,37 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateDecorator((IDecorator)bean);
 		}
 
+		if(bean instanceof IClassBean) {
+			validateClassBean((IClassBean)bean);
+		}
+
 		// TODO
+	}
+
+	private void validateClassBean(IClassBean bean) {
+		Set<IBeanMethod> disposers = bean.getDisposers();
+		/*
+		 * 3.3.6. Declaring a disposer method
+		 *  - method has more than one parameter annotated @Disposes
+		 */
+		for (IBeanMethod dssposer : disposers) {
+			List<IParameter> params = dssposer.getParameters();
+			if(params.size()<2) {
+				continue;
+			}
+			Set<IAnnotationDeclaration> declarations = new HashSet<IAnnotationDeclaration>();
+			for (IParameter param : params) {
+				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				if(declaration!=null) {
+					declarations.add(declaration);
+				}
+			}
+			if(declarations.size()>1) {
+				for (IAnnotationDeclaration declaration : declarations) {
+					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource());
+				}
+			}
+		}
 	}
 
 	private static final String[] RESOURCE_ANNOTATIONS = {CDIConstants.RESOURCE_ANNOTATION_TYPE_NAME, CDIConstants.WEB_SERVICE_REF_ANNOTATION_TYPE_NAME, CDIConstants.EJB_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME};

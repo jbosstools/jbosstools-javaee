@@ -49,4 +49,6 @@ public interface CDIConstants {
 	public String EJB_ANNOTATION_TYPE_NAME = "javax.ejb.EJB";
 	public String PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceContext";
 	public String PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceUnit";
+
+	public String DISPOSES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Disposes";
 }

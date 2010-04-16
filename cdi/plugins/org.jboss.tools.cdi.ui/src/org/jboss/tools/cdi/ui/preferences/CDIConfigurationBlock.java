@@ -73,15 +73,15 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDICorePlugin.PLUGIN_ID
 	);
 
-//	private static SectionDescription SECTION_MEMBER = new SectionDescription(
-//		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_member,
-//		new String[][]{
+	private static SectionDescription SECTION_MEMBER = new SectionDescription(
+		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_member,
+		new String[][]{
 //			{CDIPreferences.PRODUCER_ANNOTATED_INJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerAnnotatedInject_label},
 //			{CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerParameterIllegallyAnnotated_label},
 //			{CDIPreferences.OBSERVER_ANNOTATED_INJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerAnnotatedInject_label},
 //			{CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerParameterIllegallyAnnotated_label},
 //			{CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalProducerMethodInSessionBean_label},
-//			{CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleDisposingParameters_label},
+			{CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleDisposingParameters_label},
 //			{CDIPreferences.DISPOSER_ANNOTATED_INJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_disposerAnnotatedInject_label},
 //			{CDIPreferences.ILLEGAL_DISPOSER_IN_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalDisposerInSessionBean_label},
 //			{CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_noProducerMatchingDisposer_label},
@@ -93,9 +93,9 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 //			{CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleObservingParameters_label},
 //			{CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalObserverInSessionBean_label},
 //			{CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalConditionalObserver_label},
-//		},
-//		CDICorePlugin.PLUGIN_ID
-//	);
+		},
+		CDICorePlugin.PLUGIN_ID
+	);
 
 //	private static SectionDescription SECTION_INTERCEPTOR = new SectionDescription(
 //		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_interceptor_and_decorator,
@@ -147,7 +147,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		SECTION_NAME,
 		SECTION_TYPE,
 		SECTION_SCOPE,
-//		SECTION_MEMBER,
+		SECTION_MEMBER,
 //		SECTION_INTERCEPTOR,
 //		SECTION_SPECIALIZATION,
 		SECTION_MISCELLANEOUS

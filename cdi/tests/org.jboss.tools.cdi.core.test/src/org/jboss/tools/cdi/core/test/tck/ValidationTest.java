@@ -22,6 +22,8 @@ public class ValidationTest extends TCKTest {
 
 	/**
 	 * 	 2.7.1.3. Stereotype declares a non-empty @Named annotation (Non-Portable behavior)
+	 * 
+	 * @throws Exception
 	 */
 	public void testNonEmptyNamedForStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/nonEmptyNamed/StereotypeWithNonEmptyNamed_Broken.java");
@@ -83,6 +85,8 @@ public class ValidationTest extends TCKTest {
 	 *	      - bean class or producer method or field specifies a @Typed annotation, 
 	 *		  and the value member specifies a class which does not correspond to a type 
 	 *		  in the unrestricted set of bean types of a bean
+	 * 
+	 * @throws Exception
 	 */
 	public void testLegalTypesInTyped() throws Exception {
 		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
@@ -93,6 +97,8 @@ public class ValidationTest extends TCKTest {
 
 	/**
 	 * 	 2.7.1.3. Stereotype declares any other qualifier annotation
+	 * 
+	 * @throws Exception
 	 */
 	public void testAnnotatedStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithBindingTypes_Broken.java");
@@ -103,6 +109,8 @@ public class ValidationTest extends TCKTest {
 
 	/**
 	 * 	 2.7.1.3. Stereotype is annotated @Typed
+	 * 
+	 * @throws Exception
 	 */
 	public void testTypedStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithTyped_Broken.java");
@@ -114,6 +122,8 @@ public class ValidationTest extends TCKTest {
 	/**
 	 *  2.7.1.1. Declaring the default scope for a stereotype
 	 *           - stereotype declares more than one scope
+	 * 
+	 * @throws Exception
 	 */
 	public void testStereotypeScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/tooManyScopes/StereotypeWithTooManyScopeTypes_Broken.java");
@@ -125,6 +135,8 @@ public class ValidationTest extends TCKTest {
 	/**
 	 *  2.4.3. Declaring the bean scope
 	 *         - bean class or producer method or field specifies multiple scope type annotations
+	 * 
+	 * @throws Exception
 	 */
 	public void testMultipleBeanScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/scope/broken/tooManyScopes/BeanWithTooManyScopeTypes_Broken.java");
@@ -137,12 +149,25 @@ public class ValidationTest extends TCKTest {
 	 *  2.4.4. Default scope
 	 *         - bean does not explicitly declare a scope when there is no default scope 
 	 *         (there are two different stereotypes declared by the bean that declare different default scopes)
+	 * 
+	 * @throws Exception
 	 */
 	public void testBeanWithMultipleScopedStereotypes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/scopeConflict/Scallop_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, 24, 25);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("Scallop_Broken.java should has two error markers.", markerNumbers, 2);
+	}
+
+	/**
+	 * 3.3.6. Declaring a disposer method
+	 * 	- method has more than one parameter annotated @Disposes
+	 * 
+	 * @throws Exception
+	 */
+	public void testMultipleDisposeParameters() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/multiParams/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, 30, 30);
 	}
 
 	public static int getMarkersNumber(IResource resource) {
