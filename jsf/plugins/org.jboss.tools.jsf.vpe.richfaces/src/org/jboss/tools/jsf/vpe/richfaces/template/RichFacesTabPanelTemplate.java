@@ -77,7 +77,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	private static Map toggleMap = new HashMap();
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-
 		Element sourceElement = (Element)sourceNode;
 
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
@@ -184,7 +183,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 			if(child.getNodeName().endsWith(TAB)) {
 				i++;
 				if (active) {
-					RichFacesTabTemplate.encodeBody(creationData,
+					RichFacesTabTemplate.encodeBody(pageContext, creationData,
 							(Element) child, visualDocument, inerTr, true,
 							ComponentUtil.getAttribute(sourceElement,
 									CONTENT_CLASS)

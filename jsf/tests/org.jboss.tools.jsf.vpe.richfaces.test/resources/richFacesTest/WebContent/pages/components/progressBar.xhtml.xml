@@ -1,39 +1,49 @@
 <tests>
 	<test id="progressBar">
 		<DIV
-			CLASS="rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell"
-			STYLE="height: 13px; text-align: left;">
-			<DIV CLASS="rich-progress-bar-height rich-progress-bar-uploaded null"
-				STYLE="height: 13px; width: 60%;">
+			CLASS="rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell-dig ">
+			<DIV
+				CLASS="rich-progress-bar-width rich-progress-bar-remained rich-progress-bar-padding"
+				STYLE="height: 13px;">
+&#160;
+			</DIV>
+			<DIV CLASS="rich-progress-bar-uploaded-dig" STYLE="width: 60%; height: 13px;">
 				<DIV
-					STYLE="height: 13px; font-weight: bold; position: relative; text-align: center;">
-					#{progressBarBean.currentValue} % </DIV>
+					CLASS="rich-progress-bar-height-dig rich-progress-bar-width rich-progress-bar-completed rich-progress-bar-padding"
+					STYLE="height: 13px;">
+&#160;
+				</DIV>
+			</DIV>
+			<DIV
+				CLASS="rich-progress-bar-height-dig rich-progress-bar-uploaded-dig rich-progress-bar-vpe-text"
+				STYLE="height: 13px;">
+				#{progressBarBean.currentValue} %
+				<BR STYLE="-moz-user-modify: read-write;" />
+				<BR STYLE="-moz-user-modify: read-write;" />
+
 			</DIV>
 		</DIV>
 	</test>
 	<test id="progressBar1">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Progress Bar
+		<DIV
+			CLASS="rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell btn">
+			<DIV CLASS="rich-progress-bar-height rich-progress-bar-uploaded"
+				STYLE="width: 60%; color: red;">
+			</DIV>
+			<SPAN>
+				<SPAN STYLE="display: none; -moz-user-modify: read-only;">
+					<BR VPE:PSEUDO-ELEMENT="yes"
+						STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+
 				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<DIV
-					CLASS="rich-progress-bar-block rich-progress-bar-width rich-progress-bar-shell btn"
-					STYLE="color: red; text-align: left;">
-					<DIV CLASS="rich-progress-bar-height rich-progress-bar-uploaded null"
-						STYLE="color: red; width: 60%;">
-					</DIV>
-				</DIV>
-				<BUTTON STYLE="margin: 9px 0px 5px; -moz-user-modify: read-only;"
-					ID="button">
-					<SPAN CLASS="vpe-text">
-						Start Progress
-					</SPAN>
-				</BUTTON>
-			</DIV>
+			</SPAN>
+			<SPAN>
+				<SPAN STYLE="display: none; -moz-user-modify: read-only;">
+					<BR VPE:PSEUDO-ELEMENT="yes"
+						STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+
+				</SPAN>
+			</SPAN>
 		</DIV>
 	</test>
 </tests>

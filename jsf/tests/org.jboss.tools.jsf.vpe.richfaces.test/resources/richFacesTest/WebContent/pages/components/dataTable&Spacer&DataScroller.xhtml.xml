@@ -16,8 +16,7 @@
 						<TBODY>
 							<TR>
 								<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
-									&#171;
-</TD>
+									&#171; </TD>
 								<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
 								</TD>
 								<TD ALIGN="center" CLASS="rich-datascr-act"
@@ -35,14 +34,12 @@
 								<TD ALIGN="center" CLASS="rich-datascr-button">
 								</TD>
 								<TD ALIGN="center" CLASS="rich-datascr-button">
-									&#187;
-</TD>
+									&#187; </TD>
 							</TR>
 						</TBODY>
 					</TABLE>
 				</DIV>
-				<IMG WIDTH="700" HEIGHT="30"
-					SRC="/.*resources/spacer/spacer.gif/"
+				<IMG WIDTH="700" HEIGHT="30" SRC="/.*resources/spacer/spacer.gif/"
 					STYLE="background-color: red; width: 748px;" CLASS="rich-spacer btn" />
 
 				<TABLE WIDTH="100%" BORDER="10" BGCOLOR="green" ID="auction"
@@ -67,14 +64,12 @@
 						<TR CLASS="dr-table-subheader rich-table-subheader btn">
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell btn"
 								SCOPE="col">
+								<IMG SRC="/.*ve/unresolved_image.gif/" STYLE="vertical-align: middle;" />
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										Description
 </SPAN>
 								</SPAN>
-								<IMG
-									SRC="/.*ve/unresolved_image.gif/"
-									STYLE="vertical-align: middle;" />
 
 							</TD>
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell btn"

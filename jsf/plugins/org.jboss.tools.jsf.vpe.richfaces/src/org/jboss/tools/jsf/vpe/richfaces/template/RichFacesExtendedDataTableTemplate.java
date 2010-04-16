@@ -147,8 +147,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			filterTR.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
-		encodeHeaderFacets(vpeCreationData, tr, filterTR, visualDocument,
-				columns,
+		encodeHeaderFacets(pageContext, vpeCreationData, tr, filterTR,
+				visualDocument, columns,
 				DR_TABLE_SUBHEADERCELL_RICH_TABLE_SUBHEADERCELL, headerClass);
 
 		// Add footer
@@ -163,8 +163,8 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		if (styleFooterClass != null) {
 			tfootTR.setAttribute(HTML.ATTR_CLASS, styleFooterClass);
 		}
-		encodeFooterFacets(vpeCreationData, tfootTR, visualDocument,
-				columns,
+		encodeFooterFacets(pageContext, vpeCreationData, tfootTR,
+				visualDocument, columns,
 				DR_TABLE_SUBFOOTERCELL_RICH_TABLE_SUBFOOTERCELL,
 				styleFooterClass);
 
@@ -284,9 +284,10 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	 * @param skinCellClass
 	 * @param footerClass
 	 */
-	public static void encodeFooterFacets(VpeCreationData creationData,
-			nsIDOMElement parentTr, nsIDOMDocument visualDocument,
-			ArrayList<Element> footers, String skinCellClass, String footerClass) {
+	public void encodeFooterFacets(VpePageContext pageContext,
+			VpeCreationData creationData, nsIDOMElement parentTr,
+			nsIDOMDocument visualDocument, ArrayList<Element> footers,
+			String skinCellClass, String footerClass) {
 		String classAttribute = "footerClass"; //$NON-NLS-1$
 		String styleClass = EMPTY;
 		for (Element column : footers) {
@@ -302,11 +303,19 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			if (colspan != null && colspan.length() > 0) {
 				td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 			}
-			Element facetBody = ComponentUtil.getFacet(column, FOOTER);
-
-			VpeChildrenInfo child = new VpeChildrenInfo(td);
-			child.addSourceChild(facetBody);
-			creationData.addChildrenInfo(child);
+			/*
+			 * Get all facet's children. And display only the first one JSF tag.
+			 */
+			Node facetBody = ComponentUtil.getFacetBody(pageContext, column,
+					RichFaces.NAME_FACET_FOOTER);
+			/*
+			 * Add suitable facet child if there is any. 
+			 */
+			if (null != facetBody) {
+				VpeChildrenInfo child = new VpeChildrenInfo(td);
+				child.addSourceChild(facetBody);
+				creationData.addChildrenInfo(child);
+			}
 		}
 
 		nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
@@ -325,10 +334,10 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 	 * @param skinCellClass
 	 * @param headerClass
 	 */
-	public static void encodeHeaderFacets(VpeCreationData creationData,
-			nsIDOMElement parentTr, nsIDOMElement filterTR,
-			nsIDOMDocument visualDocument, ArrayList<Element> headers,
-			String skinCellClass, String headerClass) {
+	public void encodeHeaderFacets(VpePageContext pageContext,
+			VpeCreationData creationData, nsIDOMElement parentTr,
+			nsIDOMElement filterTR, nsIDOMDocument visualDocument,
+			ArrayList<Element> headers, String skinCellClass, String headerClass) {
 		String classAttribute = "headerClass"; //$NON-NLS-1$
 		String styleClass = EMPTY;
 		// Check filter
@@ -361,11 +370,19 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 			if (colspan != null && colspan.length() > 0) {
 				td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 			}
-			Element facetBody = ComponentUtil.getFacet(column, HEADER);
-
-			VpeChildrenInfo child = new VpeChildrenInfo(span);
-			child.addSourceChild(facetBody);
-			creationData.addChildrenInfo(child);
+			/*
+			 * Get all facet's children. And display only the first one JSF tag.
+			 */
+			Node facetBody = ComponentUtil.getFacetBody(pageContext, column,
+					RichFaces.NAME_FACET_HEADER);
+			/*
+			 * Add suitable facet child if there is any. 
+			 */
+			if (null != facetBody) {
+				VpeChildrenInfo child = new VpeChildrenInfo(span);
+				child.addSourceChild(facetBody);
+				creationData.addChildrenInfo(child);
+			}
 			// Add filter
 			if (existFilters) {
 				nsIDOMElement filterTD = visualDocument
@@ -413,28 +430,7 @@ public class RichFacesExtendedDataTableTemplate extends VpeAbstractTemplate {
 		td.appendChild(visualDocument.createTextNode(SPACE));
 		filterTR.appendChild(td);
 	}
-
-	/**
-	 * Checks, whether it is necessary to re-create an element at change of
-	 * attribute
-	 * 
-	 * @param pageContext
-	 *            Contains the information on edited page.
-	 * @param sourceElement
-	 *            The current element of the source tree.
-	 * @param visualDocument
-	 *            The document of the visual tree.
-	 * @param visualNode
-	 *            The current node of the visual tree.
-	 * @param data
-	 *            The arbitrary data, built by a method <code>create</code>
-	 * @param name
-	 *            Attribute name
-	 * @param value
-	 *            Attribute value
-	 * @return <code>true</code> if it is required to re-create an element at a
-	 *         modification of attribute, <code>false</code> otherwise.
-	 */
+	
 	@Override
 	public boolean recreateAtAttrChange(VpePageContext pageContext,
 			Element sourceElement, nsIDOMDocument visualDocument,

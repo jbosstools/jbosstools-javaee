@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
@@ -21,6 +22,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -55,35 +57,50 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		String tableClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 		table.setAttribute(HTML.ATTR_CLASS, "dr-table rich-table " + (tableClass==null?Constants.EMPTY:tableClass)); //$NON-NLS-1$
 
-		// Encode colgroup definition.
+		/*
+		 * Encode colgroup definition.
+		 */
 		int columnsLength = getColumnsCount(sourceElement);
 		nsIDOMElement colgroup = visualDocument.createElement(HTML.TAG_COLGROUP);
 		colgroup.setAttribute(HTML.ATTR_SPAN, String.valueOf(columnsLength));
 		table.appendChild(colgroup);
+		
+		/*
+		 * Encode Caption
+		 */
+		Element caption = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_CAPTION);
+		Map<String, List<Node>> captionFacetChildren = VisualDomUtil.findFacetElements(caption, pageContext);
+		Node captionBody = ComponentUtil.getFacetBody(captionFacetChildren);
+		encodeCaption(pageContext, creationData, sourceElement, visualDocument, table, captionBody);
 
-		//Encode Caption
-		encodeCaption(creationData, sourceElement, visualDocument, table);
-
-		// Encode Header
-		Element header = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_HEADER);
-		if(header!=null) {
+		/*
+		 * Encode Header
+		 */
+		Element header = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_HEADER);
+		Map<String, List<Node>> headerFacetChildren = VisualDomUtil.findFacetElements(header, pageContext);
+		Node headerBody = ComponentUtil.getFacetBody(headerFacetChildren);
+		if (headerBody != null) {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
 			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
-			encodeTableHeaderOrFooterFacet(pageContext, creationData, thead, columnsLength, visualDocument, header,
+			encodeTableHeaderOrFooterFacet(pageContext, creationData, thead, columnsLength, visualDocument, headerBody,
 					"dr-table-header rich-table-header", //$NON-NLS-1$
 					"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
 					"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
 					headerClass, HTML.TAG_TD);
 		}
 
-		// Encode Footer
-		Element footer = ComponentUtil.getFacet(sourceElement, RichFaces.NAME_FACET_FOOTER);
-		if (footer != null) {
+		/*
+		 * Encode Footer
+		 */
+		Element footer = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_FOOTER);
+		Map<String, List<Node>> footerFacetChildren = VisualDomUtil.findFacetElements(footer, pageContext);
+		Node footerBody = ComponentUtil.getFacetBody(footerFacetChildren);
+		if (footerBody != null) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
 			String footerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
-			encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot, columnsLength, visualDocument, footer,
+			encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot, columnsLength, visualDocument, footerBody,
 					"dr-table-footer rich-table-footer", //$NON-NLS-1$
 					"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$
 					"dr-table-footercell rich-table-footercell", //$NON-NLS-1$
@@ -95,9 +112,9 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 
 		/*
 		 * https://jira.jboss.org/jira/browse/JBIDE-3491
+		 * Encode body.
 		 * Add text nodes to children list too.
 		 */
-		//Create mapping to Encode body
 		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		sourceElement.getAttribute(RichFaces.ATTR_ELEMENTS);
 
@@ -113,8 +130,33 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 					nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 					tr.appendChild(td);
 					td.setAttribute(HTML.ATTR_CLASS, "dr-table-cell rich-table-cell " + getColumnClass(columnIndex)); //$NON-NLS-1$
+					/*
+					 * Add HTML elements from caption, header and footer. 
+					 */
+					VpeChildrenInfo childInfo = null;
+					if (captionFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0) {
+						childInfo = new VpeChildrenInfo(td);
+						for (Node child : captionFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+						    childInfo.addSourceChild(child);
+						}
+						creationData.addChildrenInfo(childInfo);
+					}
+					if (headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0) {
+						childInfo = new VpeChildrenInfo(td);
+						for (Node child : headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+							childInfo.addSourceChild(child);
+						}
+						creationData.addChildrenInfo(childInfo);
+					}
+					if (footerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0) {
+						childInfo = new VpeChildrenInfo(td);
+						for (Node child : footerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+							childInfo.addSourceChild(child);
+						}
+						creationData.addChildrenInfo(childInfo);
+					}
 					if(!children.isEmpty()) {
-						VpeChildrenInfo childInfo = new VpeChildrenInfo(td);
+						childInfo = new VpeChildrenInfo(td);
 						for (Node child : children) {
 						    childInfo.addSourceChild(child);
 						}

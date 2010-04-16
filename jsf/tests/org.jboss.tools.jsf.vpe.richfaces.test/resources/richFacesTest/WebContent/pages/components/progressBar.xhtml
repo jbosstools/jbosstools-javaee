@@ -7,7 +7,8 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
-	<link href="/WebContent/pages/components/main.css" rel="stylesheet" type="text/css"/>
+<link href="/WebContent/pages/components/main.css" rel="stylesheet"
+	type="text/css" />
 </head>
 
 <body>
@@ -28,22 +29,18 @@
 			<h:commandButton action="restartPtogress" value="restartPtogress" />
 		</f:facet>
 	</rich:progressBar>
-	<rich:panel id="progressBar1">
-		<f:facet name="header">
-			<h:outputText value="Progress Bar" />
+
+	<br />
+
+	<rich:progressBar style="color:red" styleClass="btn" mode="client"
+		id="progressBar1">
+		<f:facet name="initial">
+			<h:outputText value="Process doesn't started yet" />
 		</f:facet>
-		<rich:progressBar style="color:red" styleClass="btn" mode="client"
-			id="progressBar">
-			<f:facet name="initial">
-				<h:outputText value="Process doesn't started yet" />
-			</f:facet>
-			<f:facet name="complete">
-				<h:outputText value="Process Done" />
-			</f:facet>
-		</rich:progressBar>
-		<button type="button" onclick="startProgress();"
-			style="margin: 9px 0px 5px;" id="button">Start Progress</button>
-	</rich:panel>
+		<f:facet name="complete">
+			<h:outputText value="Process Done" />
+		</f:facet>
+	</rich:progressBar>
 </f:view>
 </body>
 </html>

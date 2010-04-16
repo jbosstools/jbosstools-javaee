@@ -7,9 +7,29 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
+<link href="/css/main.css" rel="stylesheet" type="text/css"/>
+<style type="text/html">
+.panel {
+background-color: SteelBlue;
+border: 1px solid black;
+vertical-align: top;
+}
+.goldPanel {
+background-color: gold;
+border: 1px solid black;
+}
+</style>
 </head>
 <body>
 <f:view>
+<h1> header </h1>
+<h:panelGrid columns="2" styleClass="">
+<h:outputText> some text</h:outputText>
+<h:outputText> some text2</h:outputText>
+<h:outputText> some text2</h:outputText>
+<h:outputText> some text2</h:outputText>
+</h:panelGrid>
+
 	<rich:messages id="messages" layout="table" tooltip="true"
 		showDetail="false" showSummary="true" passedLabel="No Error"
 		errorLabelClass="errorLabel" fatalLabelClass="fatalLabel"

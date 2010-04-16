@@ -51,9 +51,7 @@ public class RichFacesAllTests {
 		suite.addTestSuite(JBIDE1713Test.class);
 		suite.addTestSuite(RichFacesJBIDE1169Test.class);
 		suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
-		suite.addTestSuite(RichFacesInplaceInputTemplateTestCase.class);
 		suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
-		suite.addTestSuite(RichFacesProgressBarTemplateTestCase.class);
 		suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
 		suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
 		suite.addTestSuite(RichFacesPickListTemplateTestCase.class);

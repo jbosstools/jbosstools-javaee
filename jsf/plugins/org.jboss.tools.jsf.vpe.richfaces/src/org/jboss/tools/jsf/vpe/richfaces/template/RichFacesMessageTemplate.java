@@ -15,11 +15,11 @@ import java.util.HashMap;
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeSourceDomBuilder;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -40,13 +40,10 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
     protected static String FATAL_MESSAGE = "Fatal message"; //$NON-NLS-1$
     protected static String INFO_MESSAGE = "Info message"; //$NON-NLS-1$
     protected static String WARNING_MESSAGE = "Warning message"; //$NON-NLS-1$
+    protected static String FACET_TAG_NAME = ":facet"; //$NON-NLS-1$
 
     protected static String[] markers = { "passedMarker", "errorMarker", //$NON-NLS-1$ //$NON-NLS-2$
 	    "fatalMarker", "infoMarker", "warnMarker" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-    protected static String FACET_TAG_NAME = "facet"; //$NON-NLS-1$
-
-    protected static String NAME_ATTRIBUTE_NAME = "name"; //$NON-NLS-1$
 
     private final static String MESSAGE_STYLE = "padding-left: 1px;padding-right: 1px;padding-top: 1px;padding-bottom: 1px"; //$NON-NLS-1$
 
@@ -235,6 +232,7 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 		if (!(facets.get(markers[i]) instanceof Element))
 		    continue;
 		else {
+			td.setAttribute(VpeVisualDomBuilder.VPE_FACET, markers[i]);
 		    childrenInfo.addSourceChild(facets.get(markers[i]));
 		}
 		tr.appendChild(td);
@@ -271,20 +269,15 @@ public class RichFacesMessageTemplate extends VpeAbstractTemplate {
 
 	NodeList nodeList = sourceElement.getChildNodes();
 	HashMap<String, Node> facets = new HashMap<String, Node>();
-
 	for (int i = 0; i < nodeList.getLength(); i++) {
-
-	    if (!(nodeList.item(i) instanceof Element))
-		continue;
-
-	    String facetName = nodeList.item(i).getPrefix() + Constants.COLON
-		    + FACET_TAG_NAME;
-
-	    if (nodeList.item(i).getNodeName().equalsIgnoreCase(facetName)
+	    if (!(nodeList.item(i) instanceof Element)){
+	    	continue;
+	    }
+	    if (nodeList.item(i).getNodeName().endsWith(FACET_TAG_NAME)
 		    && searchInMarker(((Element) nodeList.item(i))
-			    .getAttribute(NAME_ATTRIBUTE_NAME))) {
+			    .getAttribute(RichFaces.ATTR_NAME))) {
 		facets.put(((Element) nodeList.item(i))
-			.getAttribute(NAME_ATTRIBUTE_NAME), nodeList.item(i));
+			.getAttribute(RichFaces.ATTR_NAME), nodeList.item(i));
 	    }
 	}
 

@@ -13,6 +13,8 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.HashMap;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -26,14 +28,11 @@ import org.w3c.dom.Node;
 
 public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 
-    private static final String LAYOUT = "layout";			//$NON-NLS-1$
-    private static final String TABLE = "table";			//$NON-NLS-1$
-    private static final String CSS_RICH_MESSAGES 
-    		= "rich-messages";								//$NON-NLS-1$
-    private static final String CSS_RICH_MESSAGES_MARKER 
-    		= "rich-messages-marker"; 						//$NON-NLS-1$
-    private static final String CSS_RICH_MESSAGES_LABEL 
-    		= "rich-messages-label"; 						//$NON-NLS-1$
+    private static final String LAYOUT = "layout"; //$NON-NLS-1$
+    private static final String TABLE = "table"; //$NON-NLS-1$
+    private static final String CSS_RICH_MESSAGES = "rich-messages"; //$NON-NLS-1$
+    private static final String CSS_RICH_MESSAGES_MARKER = "rich-messages-marker"; //$NON-NLS-1$
+    private static final String CSS_RICH_MESSAGES_LABEL = "rich-messages-label"; //$NON-NLS-1$
 
     @Override
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
@@ -127,6 +126,8 @@ public class RichFacesMessagesTemplate extends RichFacesMessageTemplate {
 	
 		if (facet != null) {
 		    final VpeChildrenInfo childrenInfo = new VpeChildrenInfo(marker);
+			marker.setAttribute(VpeVisualDomBuilder.VPE_FACET, facet
+					.getAttribute(RichFaces.ATTR_NAME));
 		    creationData.addChildrenInfo(childrenInfo);
 		    childrenInfo.addSourceChild(facet);
 		}

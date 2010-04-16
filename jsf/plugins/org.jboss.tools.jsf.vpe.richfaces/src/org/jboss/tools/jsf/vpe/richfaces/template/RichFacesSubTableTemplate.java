@@ -47,9 +47,10 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData encode(final VpePageContext pageContext, VpeCreationData creationData, final Element sourceElement,
 			final nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {		
-
 		if(creationData!=null) {
-			// Encode header
+			/*
+			 * Encode header
+			 */
 			encodeHeader(pageContext, creationData, sourceElement, visualDocument, parentVisualNode);
 		}
 
@@ -132,7 +133,8 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 
 		if(parentVisualNode!=null) {
 			// Encode footer
-			encodeFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode);
+			encodeFooter(pageContext, creationData, sourceElement,
+					visualDocument, parentVisualNode);
 		}
 		return creationData;
 	}
@@ -190,36 +192,58 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		final Element sourceElement = (Element)sourceNode;
 		final nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
 		VpeCreationData creationData = new VpeCreationData(tbody);
-		creationData = encode(pageContext, creationData, sourceElement, visualDocument, tbody);
+		creationData = encode(pageContext, creationData, sourceElement,
+				visualDocument, tbody);
 		return creationData;
 	}
 
 	protected void encodeHeader(final VpePageContext pageContext, final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
-		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, RichFaces.NAME_FACET_HEADER, "dr-subtable-header rich-subtable-header", "dr-subtable-headercell rich-subtable-headercell"); //$NON-NLS-1$ //$NON-NLS-2$
+		encodeHeaderOrFooter(
+				pageContext,
+				creationData,
+				sourceElement,
+				visualDocument,
+				parentVisualNode,
+				RichFaces.NAME_FACET_HEADER,
+				"dr-subtable-header rich-subtable-header", //$NON-NLS-1$ 
+				"dr-subtable-headercell rich-subtable-headercell"); //$NON-NLS-1$
 	}
 
 	protected void encodeFooter(final VpePageContext pageContext, final VpeCreationData creationData, final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode) {
-		encodeHeaderOrFooter(pageContext, creationData, sourceElement, visualDocument, parentVisualNode, RichFaces.NAME_FACET_FOOTER, "dr-subtable-footer rich-subtable-footer", "dr-subtable-footercell rich-subtable-footercell"); //$NON-NLS-1$ //$NON-NLS-2$
+		encodeHeaderOrFooter(
+				pageContext,
+				creationData,
+				sourceElement,
+				visualDocument,
+				parentVisualNode,
+				RichFaces.NAME_FACET_FOOTER,
+				"dr-subtable-footer rich-subtable-footer", //$NON-NLS-1$  
+				"dr-subtable-footercell rich-subtable-footercell"); //$NON-NLS-1$
 	}
 
-	protected void encodeHeaderOrFooter(final VpePageContext pageContext, final VpeCreationData creationData,
-			final Element sourceElement, final nsIDOMDocument visualDocument, final nsIDOMElement parentVisualNode, 
-			final String facetName, final String trClass, final String tdClass) {
-		final ArrayList<Element> columns = RichFacesDataTableTemplate.getColumns(sourceElement);
-		//final ArrayList<Element> columnsHeaders = ComponentUtil.getColumnsWithFacet(columns, facetName);
-		final boolean hasColumnWithFacet = RichFacesDataTableTemplate.hasColumnWithFacet(columns, facetName);
-		if(hasColumnWithFacet) {
+	protected void encodeHeaderOrFooter(final VpePageContext pageContext,
+			final VpeCreationData creationData, final Element sourceElement,
+			final nsIDOMDocument visualDocument,
+			final nsIDOMElement parentVisualNode, final String facetName,
+			final String trClass, final String tdClass) {
+
+		final ArrayList<Element> columns = RichFacesDataTableTemplate
+				.getColumns(sourceElement);
+		// final ArrayList<Element> columnsHeaders =
+		// ComponentUtil.getColumnsWithFacet(columns, facetName);
+		final boolean hasColumnWithFacet = RichFacesDataTableTemplate
+				.hasColumnWithFacet(columns, facetName);
+		if (hasColumnWithFacet) {
 			final nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			parentVisualNode.appendChild(tr);
 			final String styleClass = trClass;
-			if(styleClass!=null) {
+			if (styleClass != null) {
 				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 			}
-			RichFacesDataTableTemplate.encodeHeaderOrFooterFacets(pageContext, creationData, tr, visualDocument, columns,
-					tdClass,
-					null, facetName, HTML.TAG_TD);
+			RichFacesDataTableTemplate.encodeHeaderOrFooterFacets(pageContext,
+					creationData, tr, visualDocument, columns, tdClass, null,
+					facetName, HTML.TAG_TD);
 		}
-
 	}
 
 	private boolean isHeader(final Element sourceElement) {

@@ -20,15 +20,18 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-// This template defines the toggling methods but doesn't implements VpeToggableTemplate 
-// because of external toggle control. 
-
+/**
+ * This template defines the toggling methods 
+ * but doesn't implements VpeToggableTemplate
+ * because of external toggle control.
+ */
 public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 
 	private static Map toggleMap = new HashMap();
@@ -39,7 +42,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 
 		Element sourceElement = (Element)sourceNode;
 
-		nsIDOMElement div = visualDocument.createElement("div"); //$NON-NLS-1$
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 
 		VpeCreationData creationData = new VpeCreationData(div);
 

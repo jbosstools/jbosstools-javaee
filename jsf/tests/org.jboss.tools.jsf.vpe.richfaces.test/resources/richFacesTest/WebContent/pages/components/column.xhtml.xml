@@ -47,50 +47,42 @@
 						<TR CLASS="dr-table-subheader rich-table-subheader">
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 								SCOPE="col">
+								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										#{msg.priceColumnName}
 									</SPAN>
 								</SPAN>
-								<IMG
-									SRC="/.*resources/column/sortable.gif/"
-									STYLE="vertical-align: middle;" />
 
 							</TD>
 							<TD STYLE="display: none;" CLASS="dr-table-subheadercell rich-table-subheadercell"
 								SCOPE="col">
+								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										#{msg.titleColumnName}
 									</SPAN>
 								</SPAN>
-								<IMG
-									SRC="/.*resources/column/sortable.gif/"
-									STYLE="vertical-align: middle;" />
 
 							</TD>
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 								SCOPE="col">
+								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										#{msg.priceColumnName}
 									</SPAN>
 								</SPAN>
-								<IMG
-									SRC="/.*resources/column/sortable.gif/"
-									STYLE="vertical-align: middle;" />
 
 							</TD>
 							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
 								SCOPE="col">
+								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
 								<SPAN>
 									<SPAN CLASS="vpe-text">
 										#{msg.titleColumnName}
 									</SPAN>
 								</SPAN>
-								<IMG
-									SRC="/.*resources/column/sortable.gif/"
-									STYLE="vertical-align: middle;" />
 
 							</TD>
 						</TR>

@@ -240,7 +240,7 @@ public class RichFacesComboBoxTemplateHelper {
 
         buttonBackground.setAttribute(HTML.ATTR_CLASS, styleClasess.get(BUTTON_BACKGROUND));
         buttonBackground.setAttribute(HTML.ATTR_READONLY, Constants.TRUE);
-        buttonBackground.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        buttonBackground.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
         if (sourceButtonStyle != null) {
             buttonBackground.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
         }
@@ -250,7 +250,7 @@ public class RichFacesComboBoxTemplateHelper {
         ;
         buttonIcon.setAttribute(HTML.ATTR_CLASS, styleClasess.get(BUTTON_ICON));
         buttonIcon.setAttribute(HTML.ATTR_READONLY, Constants.TRUE);
-        buttonIcon.setAttribute(RichFacesAbstractInplaceTemplate.VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        buttonIcon.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
         if (sourceButtonStyle != null) {
             buttonIcon.setAttribute(HTML.ATTR_STYLE, sourceButtonStyle);
         }

@@ -11,12 +11,18 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -43,28 +49,57 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 			div.setAttribute("style", style); //$NON-NLS-1$
 		}
 
-		// Encode Header
-		Node header = ComponentUtil.getFacet(sourceElement, "header", true); //$NON-NLS-1$
-		if(header!=null) {
-		    	nsIDOMElement headerDiv = visualDocument.createElement("div"); //$NON-NLS-1$
+		/*
+		 * Encode the Header Facet
+		 * Find elements from the f:facet 
+		 */
+		Map<String, List<Node>> headerFacetChildren = null;
+		Element headerFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_HEADER);
+		if (headerFacet != null) {
+			headerFacetChildren = VisualDomUtil.findFacetElements(headerFacet, pageContext);
+			nsIDOMElement headerDiv = visualDocument.createElement(HTML.TAG_DIV);
+			/*
+			 * By adding attribute VPE-FACET to this visual node 
+			 * we force JsfFacet to be rendered inside it.
+			 */
+			headerDiv.setAttribute(VpeVisualDomBuilder.VPE_FACET, RichFaces.NAME_FACET_HEADER);
 			div.appendChild(headerDiv);
-			String headerClass = sourceElement.getAttribute("headerClass"); //$NON-NLS-1$
-			headerDiv.setAttribute("class", "dr-pnl-h rich-panel-header " + (headerClass==null?"":headerClass)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			headerDiv.setAttribute("style", ComponentUtil.getHeaderBackgoundImgStyle()); //$NON-NLS-1$
+			String headerClass = sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
+			headerDiv.setAttribute(HTML.ATTR_CLASS,
+							"dr-pnl-h rich-panel-header " + (headerClass == null ? "" : headerClass)); //$NON-NLS-1$ //$NON-NLS-2$
+			headerDiv.setAttribute(HTML.ATTR_STYLE, 
+					ComponentUtil.getHeaderBackgoundImgStyle());
 
 			VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
-			headerInfo.addSourceChild(header);
+			headerInfo.addSourceChild(headerFacet);
 			creationData.addChildrenInfo(headerInfo);
 		}
 
-		// Encode Body
-		nsIDOMElement bodyDiv = visualDocument.createElement("div"); //$NON-NLS-1$
+		/*
+		 * Encode rich:panel content
+		 */
+		nsIDOMElement bodyDiv = visualDocument.createElement(HTML.TAG_DIV);
 		div.appendChild(bodyDiv);
-		String bodyClass = sourceElement.getAttribute("bodyClass"); //$NON-NLS-1$
-		bodyDiv.setAttribute("class", "dr-pnl-b rich-panel-body " + (bodyClass==null?"":bodyClass)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
+		String bodyClass = sourceElement.getAttribute(RichFaces.ATTR_BODY_CLASS);
+		bodyDiv.setAttribute(HTML.ATTR_CLASS,
+						"dr-pnl-b rich-panel-body " + (bodyClass == null ? "" : bodyClass)); //$NON-NLS-1$ //$NON-NLS-2$
+		/*
+		 * If there are some odd HTML elements from facet
+		 * add them to the panel body first.
+		 */
+		boolean headerHtmlElementsPresents = ((headerFacetChildren != null) && (headerFacetChildren
+				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0));
 		VpeChildrenInfo bodyInfo = new VpeChildrenInfo(bodyDiv);
+		if (headerHtmlElementsPresents) {
+				for (Node node : headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+					bodyInfo.addSourceChild(node);
+				}
+		}
+		
+		/*
+		 * Add the rest panel's content
+		 */
+		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		for (Node child : children) {
 			bodyInfo.addSourceChild(child);
 		}

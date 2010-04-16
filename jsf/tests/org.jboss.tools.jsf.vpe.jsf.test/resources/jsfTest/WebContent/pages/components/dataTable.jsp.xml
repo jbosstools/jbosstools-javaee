@@ -1,12 +1,11 @@
 <tests>
 	<test id="dataTable">
+
 		<TABLE STYLE="-moz-user-modify: read-only;">
 			<TR>
 				<TD>
 					<DIV>
 						<TABLE>
-							<CAPTION>
-							</CAPTION>
 							<TBODY>
 								<TR>
 									<TD STYLE="border: 0px hidden ; padding: 0px;">
@@ -14,44 +13,58 @@
 											<THEAD>
 												<TR>
 													<TH>
-														<DIV>
-															<SPAN>Last Name</SPAN>
-														</DIV>
+														<SPAN>
+															<SPAN CLASS="vpe-text">
+																Last Name
+														</SPAN>
+														</SPAN>
 													</TH>
 													<TH>
-														<DIV>
-															<SPAN>First Name</SPAN>
-														</DIV>
+														<SPAN>
+															<SPAN CLASS="vpe-text">
+																First Name
+														</SPAN>
+														</SPAN>
 													</TH>
 												</TR>
 											</THEAD>
 											<TFOOT>
 												<TR>
 													<TD>
-														<DIV>
-															<SPAN>footer</SPAN>
-														</DIV>
+														<SPAN>
+															<SPAN CLASS="vpe-text">
+																footer
+														</SPAN>
+														</SPAN>
 													</TD>
 													<TD>
-														<DIV>
-															<SPAN>footer</SPAN>
-														</DIV>
+														<SPAN>
+															<SPAN CLASS="vpe-text">
+																footer
+														</SPAN>
+														</SPAN>
 													</TD>
 												</TR>
 											</TFOOT>
 											<TBODY>
 												<TR>
 													<TD>
-														<SPAN>Dupont</SPAN>
+														<SPAN CLASS="vpe-text">
+															Dupont
+														</SPAN>
 													</TD>
 													<TD>
-														<SPAN>William</SPAN>
+														<SPAN CLASS="vpe-text">
+															William
+														</SPAN>
 													</TD>
 												</TR>
 											</TBODY>
 											<COLGROUP>
-												<COL STYLE="-moz-user-modify: read-write;"/>
-												<COL STYLE="-moz-user-modify: read-write;"/>
+												<COL STYLE="-moz-user-modify: read-write;" />
+
+												<COL STYLE="-moz-user-modify: read-write;" />
+
 											</COLGROUP>
 										</TABLE>
 									</TD>

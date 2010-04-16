@@ -7,36 +7,22 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
-	<link rel="stylesheet" href="main.css" type="text/css"/>
+<link rel="stylesheet" href="main.css" type="text/css" />
 </head>
 
 <body>
 <f:view>
 	<rich:inplaceInput id="inplaceInput"
 		defaultLabel="click to enter your name" />
-	<!-- rich:inplaceInput id="inplaceInputWithoutFacet" value="Mama mila ram" showControls="true"/>
-    <rich:inplaceInput id="inplaceInputWithFacet" showControls="true" value="Mama mila ramu"
-        controlsHorizontalPosition="left" controlsVerticalPosition="bottom">
-        <f:facet name="controls">
-            <h:panelGroup>
-                <h:commandButton value="Save" type="button"/>
-                <h:commandButton value="Cancel" type="button"/>
-            </h:panelGroup>
-        </f:facet>
-    </rich:inplaceInput-->
-	<rich:panel style="width:240px;" styleClass="oddRow" id="inplaceInput1">
-		<f:facet name="header">
-			<h:outputText value="Person Info"></h:outputText>
-		</f:facet>
-		<h:panelGrid columns="2">
-			<h:outputText value="Name: " />
-			<rich:inplaceInput styleClass="btn"
-				defaultLabel="click to enter your NamE" />
-			<h:outputText value="Email:" />
-			<rich:inplaceInput styleClass="evenRow"
-				defaultLabel="click to enter your email" />
-		</h:panelGrid>
-	</rich:panel>
+
+	<h:panelGrid columns="2" id="inplaceInput1">
+		<h:outputText value="Name: " />
+		<rich:inplaceInput styleClass="btn"
+			defaultLabel="click to enter your NamE" />
+		<h:outputText value="Email:" />
+		<rich:inplaceInput styleClass="evenRow"
+			defaultLabel="click to enter your email" />
+	</h:panelGrid>
 </f:view>
 </body>
 </html>

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
@@ -51,8 +52,33 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 		td.setAttribute(HTML.ATTR_CLASS, columnClass);
 		final VpeCreationData creationData = new VpeCreationData(td);
 
-		// Create mapping to Encode body
+		Element headerFacet = SourceDomUtil.getFacetByName(sourceElement,
+				RichFaces.NAME_FACET_HEADER);
+		Element footerFacet = SourceDomUtil.getFacetByName(sourceElement,
+				RichFaces.NAME_FACET_FOOTER);
+		Map<String, List<Node>> headerFacetChildren = VisualDomUtil
+				.findFacetElements(headerFacet, pageContext);
+		Map<String, List<Node>> footerFacetChildren = VisualDomUtil
+				.findFacetElements(footerFacet, pageContext);
+		boolean headerHtmlElementPresents = headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0;
+		boolean footerHtmlElementPresents = footerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0;
+		/*
+		 * Encode html elements from facets to the column body
+		 */
 		VpeChildrenInfo tdInfo = new VpeChildrenInfo(td);
+		if (headerHtmlElementPresents) {
+			for (Node child : headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+				tdInfo.addSourceChild(child);
+			}
+		}
+		if (footerHtmlElementPresents) {
+			for (Node child : footerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+				tdInfo.addSourceChild(child);
+			}
+		}
+		/*
+		 * Encode body
+		 */
 		List<Node> children = ComponentUtil.getChildren(sourceElement,true);
 		for (Node child : children) {
 			if (!isFacet(child)) {

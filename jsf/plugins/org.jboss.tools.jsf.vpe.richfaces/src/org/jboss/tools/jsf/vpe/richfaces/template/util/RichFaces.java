@@ -42,12 +42,14 @@ public class RichFaces {
 	public static final String ATTR_LOCALE = "locale"; //$NON-NLS-1$
 	public static final String ATTR_CONTROLS_TYPE = "controlsType"; //$NON-NLS-1$
 	public static final String ATTR_DEFAULT_LABEL = "defaultLabel"; //$NON-NLS-1$
+	public static final String ATTR_LABEL = "label"; //$NON-NLS-1$
 	public static final String ATTR_DIRECTION = "direction"; //$NON-NLS-1$
 	public static final String ATTR_JOINT_POINT = "jointPoint"; //$NON-NLS-1$
 	public static final String ATTR_DISABLED = "disabled";//$NON-NLS-1$
 	public static final String ATTR_ELEMENTS = "elements"; //$NON-NLS-1$
-	public static final String ATTR_FOOTER_CLASS = "footerClass"; //$NON-NLS-1$
 	public static final String ATTR_HEADER_CLASS = "headerClass"; //$NON-NLS-1$
+	public static final String ATTR_BODY_CLASS = "bodyClass"; //$NON-NLS-1$
+	public static final String ATTR_FOOTER_CLASS = "footerClass"; //$NON-NLS-1$
 	public static final String ATTR_INPUT_CLASS = "inputClass"; //$NON-NLS-1$
 	public static final String ATTR_INPUT_SIZE = "inputSize"; //$NON-NLS-1$
 	public static final String ATTR_INPUT_STYLE = "inputStyle"; //$NON-NLS-1$
@@ -75,9 +77,12 @@ public class RichFaces {
 	public static final String ATTR_POSITION = "position"; //$NON-NLS-1$
 	
 	/** FACETS NAMES **/
+	public static final String NAME_FACET_LABEL = "label"; //$NON-NLS-1$
 	public static final String NAME_FACET_CAPTION = "caption"; //$NON-NLS-1$
 	public static final String NAME_FACET_FOOTER = "footer"; //$NON-NLS-1$
 	public static final String NAME_FACET_HEADER = "header"; //$NON-NLS-1$
+	public static final String NAME_FACET_TERM = "term"; //$NON-NLS-1$
+	public static final String NAME_FACET_CONTROLS = "controls"; //$NON-NLS-1$
 	
 	/** jsf tags which are used with richFaces. */
 	public static final String TAG_COLUMN = "column"; //$NON-NLS-1$

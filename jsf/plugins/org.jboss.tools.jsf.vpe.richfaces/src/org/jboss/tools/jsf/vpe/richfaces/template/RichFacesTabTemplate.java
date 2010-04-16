@@ -11,17 +11,21 @@
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.ResourceUtil;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,7 +43,6 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	private final static String VPE_USER_TOGGLE_ID = "vpe-user-toggle-id"; //$NON-NLS-1$
 
 	private static final String DISABLED = "disabled"; //$NON-NLS-1$
-	private static final String LABEL = "label"; //$NON-NLS-1$
 	private static final String LABEL_WIDTH = "labelWidth"; //$NON-NLS-1$
 	
 	private static final String CSS_HEADER = "rich-tab-header"; //$NON-NLS-1$
@@ -76,15 +79,16 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	 * @param contentStyle
 	 * @return the tab body
 	 */
-	public static VpeCreationData encodeBody(VpeCreationData creationData, 
+	public static VpeCreationData encodeBody(
+			VpePageContext pageContext,
+			VpeCreationData creationData, 
 			Element sourceElement, 
 			nsIDOMDocument visualDocument, 
 			nsIDOMElement parentTr, 
 			boolean active,
 			String contentClass,
 			String contentStyle) {
-
-	    	nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+	    	nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 
 		if(creationData==null) {
 			creationData = new VpeCreationData(td);
@@ -94,61 +98,80 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		if(!active) {
 			return creationData;
 		}
-//		td.setAttribute("style", "position: relative;");
-		td.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, HUNDRED_PERCENTS);
+		td.setAttribute(HTML.ATTR_HEIGHT, HUNDRED_PERCENTS);
 
-		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		td.appendChild(table);
-		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, TEN);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, HUNDRED_PERCENTS);
-		table.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,RichFacesTabPanelTemplate.CSS_CONTENT_POSITION);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, BODY_TABLE_STYLE);
+		table.setAttribute(HTML.ATTR_BORDER, ZERO);
+		table.setAttribute(HTML.ATTR_CELLPADDING, TEN);
+		table.setAttribute(HTML.ATTR_CELLSPACING, ZERO);
+		table.setAttribute(HTML.ATTR_WIDTH, HUNDRED_PERCENTS);
+		table.setAttribute(HTML.ATTR_CLASS,RichFacesTabPanelTemplate.CSS_CONTENT_POSITION);
+		table.setAttribute(HTML.ATTR_STYLE, BODY_TABLE_STYLE);
 
-		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		table.appendChild(tr);
-		td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		td = visualDocument.createElement(HTML.TAG_TD);
 		tr.appendChild(td);
-		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, 
-				ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR)
+		td.setAttribute(HTML.ATTR_CLASS, 
+				ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS)
 				+ SPACE + contentClass);
-		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, 
-				ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLE_ATTR)
+		td.setAttribute(HTML.ATTR_STYLE, 
+				ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE)
 				+ STYLE_SEMICOLUMN +  contentStyle);
 		
-		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
+		Map<String, List<Node>> labelFacetChildren = null;
+		Element labelFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_LABEL);
+		if (null != labelFacet) {
+			labelFacetChildren = VisualDomUtil.findFacetElements(labelFacet, pageContext);
+		}
+		/*
+		 * https://jira.jboss.org/jira/browse/JBIDE-3373
+		 * If there are some odd HTML elements from facet
+		 * add them to the panel body first.
+		 */
+		boolean labelHtmlElementsPresents = ((labelFacetChildren != null) && (labelFacetChildren
+				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0));
 		VpeChildrenInfo bodyInfo = new VpeChildrenInfo(td);
+		if (labelHtmlElementsPresents) {
+				for (Node node : labelFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+					bodyInfo.addSourceChild(node);
+				}
+		}
+		
+		/*
+		 * Add the rest tab's content
+		 */
+		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 		for (Node child : children) {
 			bodyInfo.addSourceChild(child);
 		}
 		creationData.addChildrenInfo(bodyInfo);
-
 		return creationData;
 	}
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_DIV); 
-		//table.setAttribute("include-tab", "");
+		nsIDOMElement table = visualDocument.createElement(HTML.TAG_DIV); 
 		VpeCreationData creationData = new VpeCreationData(table);
-		nsIDOMElement headerTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		headerTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-		headerTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
-		headerTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		nsIDOMElement headerTable = visualDocument.createElement(HTML.TAG_TABLE);
+		headerTable.setAttribute(HTML.ATTR_BORDER, ZERO);
+		headerTable.setAttribute(HTML.ATTR_CELLPADDING, ZERO);
+		headerTable.setAttribute(HTML.ATTR_CELLSPACING, ZERO);
 		headerTable.setAttribute(TAB_HEADER_ATTR, YES);
-		headerTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR,
-				HtmlComponentUtil.CSS_DISPLAY
+		headerTable.setAttribute(HTML.ATTR_STYLE,
+				HTML.STYLE_PARAMETER_DISPLAY
 						+ ":" + DISABLED_ELEMENT_STYLE + STYLE_SEMICOLUMN); //$NON-NLS-1$
-		headerTable.appendChild(encodeHeader(pageContext, creationData, (Element)sourceNode, visualDocument, table, false, EMPTY, EMPTY, EMPTY, EMPTY,EMPTY));
-		nsIDOMElement bodyTable = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
-		bodyTable.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-		bodyTable.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
-		bodyTable.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		headerTable.appendChild(encodeHeader(pageContext, creationData,
+				(Element) sourceNode, visualDocument, table, false, EMPTY,
+				EMPTY, EMPTY, EMPTY, EMPTY));
+		nsIDOMElement bodyTable = visualDocument.createElement(HTML.TAG_TABLE);
+		bodyTable.setAttribute(HTML.ATTR_BORDER, ZERO);
+		bodyTable.setAttribute(HTML.ATTR_CELLPADDING, ZERO);
+		bodyTable.setAttribute(HTML.ATTR_CELLSPACING, ZERO);
 		bodyTable.setAttribute(TAB_BODY_ATTR, YES); 
-		//bodyTable.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, HtmlComponentUtil.CSS_DISPLAY+" : "+DISABLED_ELEMENT_STYLE+";"); //$NON-NLS-1$ //$NON-NLS-2$
 		table.appendChild(headerTable);
 		table.appendChild(bodyTable);
-		encodeBody(creationData, (Element)sourceNode, visualDocument, bodyTable, true, EMPTY, EMPTY);
+		encodeBody(pageContext, creationData, (Element)sourceNode, visualDocument, bodyTable, true, EMPTY, EMPTY);
 		return creationData;
 
 	}
@@ -175,10 +198,9 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			String inactiveTabClass,
 			String disabledTabClass, 
 			String toggleId) {
-	    
-		nsIDOMElement headerTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement headerTd = visualDocument.createElement(HTML.TAG_TD);
 		parentTr.appendChild(headerTd);
-		headerTd.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, HEADER_TD_STYLE);
+		headerTd.setAttribute(HTML.ATTR_STYLE, HEADER_TD_STYLE);
 		String styleClass = RichFacesTabPanelTemplate.CSS_CELL_DISABLED
 			+	SPACE + CSS_DISABLED;
 		if(!TRUE.equalsIgnoreCase(sourceElement.getAttribute(DISABLED))) {
@@ -188,26 +210,26 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 				styleClass = RichFacesTabPanelTemplate.CSS_CELL_INACTIVE;
 			}
 		}
-		headerTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+		headerTd.setAttribute(HTML.ATTR_CLASS, styleClass);
 		headerTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
-		nsIDOMElement table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
 		headerTd.appendChild(table);
-		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, HEADER_TABLE_STYLE);
+		table.setAttribute(HTML.ATTR_BORDER, ZERO);
+		table.setAttribute(HTML.ATTR_CELLPADDING, ZERO);
+		table.setAttribute(HTML.ATTR_CELLSPACING, ZERO);
+		table.setAttribute(HTML.ATTR_STYLE, HEADER_TABLE_STYLE);
 		table.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
-		nsIDOMElement mainTr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement mainTr = visualDocument.createElement(HTML.TAG_TR);
 		table.appendChild(mainTr);
 		encodeSpacer(mainTr, visualDocument);
 
-		nsIDOMElement mainTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		nsIDOMElement mainTd = visualDocument.createElement(HTML.TAG_TD);
 		mainTr.appendChild(mainTd);
 		mainTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
-		table = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TABLE);
+		table = visualDocument.createElement(HTML.TAG_TABLE);
 		mainTd.appendChild(table);
 		
 		String labelWidth = ComponentUtil.getAttribute(sourceElement, LABEL_WIDTH);
@@ -228,15 +250,15 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 			labelWidth = HUNDRED_PERCENTS;
 		}
 		tableStyle += WIDTH_STYLE_NAME + labelWidth + STYLE_SEMICOLUMN;
-		table.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, tableStyle);
-		table.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLPADDING_ATTR, ZERO);
-		table.setAttribute(HtmlComponentUtil.HTML_CELLSPACING_ATTR, ZERO);
+		table.setAttribute(HTML.ATTR_STYLE, tableStyle);
+		table.setAttribute(HTML.ATTR_BORDER, ZERO);
+		table.setAttribute(HTML.ATTR_CELLPADDING, ZERO);
+		table.setAttribute(HTML.ATTR_CELLSPACING, ZERO);
 		table.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
 
-		nsIDOMElement tr = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TR);
+		nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 		table.appendChild(tr);
-		mainTd = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+		mainTd = visualDocument.createElement(HTML.TAG_TD);
 		tr.appendChild(mainTd);
 
 		styleClass = CSS_HEADER
@@ -257,18 +279,30 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 					+ SPACE + inactiveTabClass;
 			}
 		}
-		String tabStyleClass = ComponentUtil.getAttribute(sourceElement, HtmlComponentUtil.HTML_STYLECLASS_ATTR);
+		String tabStyleClass = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
 		styleClass += SPACE + headerClass + SPACE + tabStyleClass;
-		mainTd.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, styleClass);
+		mainTd.setAttribute(HTML.ATTR_CLASS, styleClass);
 		
 		mainTd.setAttribute(VPE_USER_TOGGLE_ID, toggleId);
-		Node labelFacet = ComponentUtil.getFacet(sourceElement, LABEL, true);
+		
+		/*
+		 * https://jira.jboss.org/jira/browse/JBIDE-3373
+		 * Encode the Label Facet
+		 * Find elements from the f:facet 
+		 */
+		Element labelFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_LABEL);
 		if (null != labelFacet) {
-			VpeChildrenInfo child = new VpeChildrenInfo(mainTd);
-			child.addSourceChild(labelFacet);
-			creationData.addChildrenInfo(child);
-		} else if (sourceElement.hasAttribute(LABEL)) {
-			Attr labelAttr = sourceElement.getAttributeNode(LABEL);
+			/*
+			 * By adding attribute VPE-FACET to this visual node 
+			 * we force JsfFacet to be rendered inside it
+			 * without creating an additional and superfluous visual tag.
+			 */
+			mainTd.setAttribute(VpeVisualDomBuilder.VPE_FACET, RichFaces.NAME_FACET_LABEL);
+			VpeChildrenInfo labelInfo = new VpeChildrenInfo(mainTd);
+			labelInfo.addSourceChild(labelFacet);
+			creationData.addChildrenInfo(labelInfo);
+		} else if (sourceElement.hasAttribute(RichFaces.ATTR_LABEL)) {
+			Attr labelAttr = sourceElement.getAttributeNode(RichFaces.ATTR_LABEL);
 			if (null != labelAttr) {
 				String bundleValue = ResourceUtil.getBundleValue(pageContext, labelAttr.getValue());
 				mainTd.appendChild(visualDocument.createTextNode(bundleValue));
@@ -285,20 +319,20 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 	 * Add <td class="dr-tbpnl-tbbrdr rich-tabhdr-side-border"><img src="#{spacer}" width="1" height="1" alt="" border="0" /></td>
 	 */
 	private static void encodeSpacer(nsIDOMElement parentTr, nsIDOMDocument visualDocument) {
-	    	nsIDOMElement td = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
+	    	nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 		parentTr.appendChild(td);
-		td.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, 
+		td.setAttribute(HTML.ATTR_CLASS, 
 				 RichFacesTabPanelTemplate.CSS_SIDE_CELL
 				 + SPACE + 
 				 RichFacesTabPanelTemplate.CSS_SIDE_BORDER);
 		String style = ComponentUtil.getBackgoundImgStyle(BORDER_FILE_PATH); 
-		td.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, style);
-		nsIDOMElement img = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_IMG);
+		td.setAttribute(HTML.ATTR_STYLE, style);
+		nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
 		td.appendChild(img);
 		ComponentUtil.setImg(img, SPACER_FILE_PATH);
-		img.setAttribute(HtmlComponentUtil.HTML_WIDTH_ATTR, ONE);
-		img.setAttribute(HtmlComponentUtil.HTML_HEIGHT_ATTR, ONE);
-		img.setAttribute(HtmlComponentUtil.HTML_BORDER_ATTR, ZERO);
+		img.setAttribute(HTML.ATTR_WIDTH, ONE);
+		img.setAttribute(HTML.ATTR_HEIGHT, ONE);
+		img.setAttribute(HTML.ATTR_BORDER, ZERO);
 
 	}
 

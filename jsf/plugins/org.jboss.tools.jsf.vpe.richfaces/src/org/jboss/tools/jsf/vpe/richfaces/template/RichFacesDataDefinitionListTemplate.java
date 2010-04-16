@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
@@ -22,12 +22,13 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionException;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.editor.util.VpeClassUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Creates rich:dataDefinitionList template.
@@ -38,12 +39,9 @@ import org.w3c.dom.NodeList;
 public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 
 	/**
-	 * 
+	 * CSS settings
 	 */
 	private static final String DEFAULT_DD_CLASS = "columnClass"; //$NON-NLS-1$
-	private static final String FACET_URI = "http://java.sun.com/jsf/core"; //$NON-NLS-1$
-	private static final String FACET_NAME_ATTR = "name"; //$NON-NLS-1$
-	private static final String FACET_NAME_ATTR_VALUE = "term"; //$NON-NLS-1$
 	private static final String STYLE_RESOURCES_PATH = "/dataDefinitionList/dataDefinitionList.css"; //$NON-NLS-1$
 
 	/**
@@ -59,7 +57,10 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 	 *            The document of the visual tree.
 	 * @return The information on the created node of the visual tree.
 	 */
-	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
+			nsIDOMDocument visualDocument) {
+		
+		Element sourceElement = (Element) sourceNode;
 		nsIDOMElement listElement = visualDocument.createElement(HTML.TAG_DL);
 		ComponentUtil.setCSSLink(
 				pageContext, 
@@ -68,36 +69,23 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 		
 		VpeCreationData creationData = new VpeCreationData(listElement);		
 		creationData.addChildrenInfo(new VpeChildrenInfo(null));
-		
-		Element child = null;
-		NodeList list = sourceNode.getChildNodes();
-		
 		// sets attributes for list
 		ComponentUtil.correctAttribute((Element)sourceNode, listElement,
 				RichFaces.ATTR_STYLE, HTML.ATTR_STYLE, null, null);
 		
 		ComponentUtil.correctAttribute((Element)sourceNode, listElement, 
 				RichFaces.ATTR_STYLE_CLASS, HTML.ATTR_CLASS, null, "listClass"); //$NON-NLS-1$
-
-		Element facetElement = null;
-		List<Element> dataDefinitionElements = new ArrayList<Element>();		
-		for (int i = 0; i < list.getLength(); i++) {
-			Node nodeChild = list.item(i);
-			if (!(nodeChild instanceof Element)) {
-				continue;
-			}
-			child = (Element) nodeChild;
-			
-			if (!child.getLocalName().equals(RichFaces.TAG_FACET)) {
-				dataDefinitionElements.add(child);				
-			} else if (facetElement == null 
-					&& (FACET_URI.equals(pageContext.getSourceTaglibUri(child)))
-					&& child.getAttribute(FACET_NAME_ATTR) != null
-					&& child.getAttribute(FACET_NAME_ATTR).equals(
-							FACET_NAME_ATTR_VALUE)) {
-				facetElement = child;
-			}
-		}
+		Element termFacet = SourceDomUtil.getFacetByName(sourceElement,
+				RichFaces.NAME_FACET_TERM);
+		Map<String, List<Node>> termFacetChildren = VisualDomUtil
+				.findFacetElements(termFacet, pageContext);
+		Node termNode= ComponentUtil.getFacetBody(termFacetChildren);
+		
+		/*
+		 * Encode body of the tag.
+		 * Add text nodes to children list also.
+		 */
+		List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 
 		final List<String> rowClasses;
 		try {
@@ -116,52 +104,34 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 			// this is OK, rows still equals 1
 		}
 		
+		VpeChildrenInfo childInfo = null;
 		for (int row = 0; row < rows; row++) {		
-			if (facetElement != null) {
+			if (termNode != null) {
 				insertDtElement(sourceNode, visualDocument,
-						creationData, listElement, facetElement);
-				
+						creationData, listElement, termNode);
 			}
 			
-			if (!dataDefinitionElements.isEmpty()) {
+			if ((termFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0) 
+					|| !children.isEmpty()) {
 				String ddClass = DEFAULT_DD_CLASS; 
 				if (rowClassesSize > 0) {
 					ddClass+= " " + rowClasses.get(row % rowClassesSize); //$NON-NLS-1$
 				}
-				insertDdElement(sourceNode, visualDocument,
-						creationData, listElement, dataDefinitionElements,
-						ddClass);
+				nsIDOMElement dd = visualDocument.createElement(HTML.TAG_DD);
+				dd.setAttribute(HTML.ATTR_CLASS, ddClass);
+				listElement.appendChild(dd);
+				
+				childInfo = new VpeChildrenInfo(dd);
+				for (Node child : termFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+				    childInfo.addSourceChild(child);
+				}
+				for (Node child : children) {
+				    childInfo.addSourceChild(child);
+				}
+				creationData.addChildrenInfo(childInfo);
 			}
 		}
 		return creationData;
-	}
-
-	/**
-	 * Insert elements in list
-	 * 
-	 * @param sourceNode
-	 *            The current node of the source tree.
-	 * @param visualDocument
-	 *            The document of the visual tree.
-	 * @param creationData
-	 * @param parentList
-	 * @param childElement
-	 * @param styleClass class of this DD element
-	 */
-	private void insertDdElement(Node sourceNode,
-			nsIDOMDocument visualDocument, VpeCreationData creationData, 
-			nsIDOMElement parentList, List<Element> childElements, String styleClass) {
-		nsIDOMElement dd = visualDocument.createElement(HTML.TAG_DD);
-		
-		dd.setAttribute(HTML.ATTR_CLASS, styleClass);
-		
-		parentList.appendChild(dd);
-
-		VpeChildrenInfo vpeChildrenInfo = new VpeChildrenInfo(dd);
-		for (Element childElement : childElements) {
-			vpeChildrenInfo.addSourceChild(childElement);
-		}
-		creationData.addChildrenInfo(vpeChildrenInfo);
 	}
 
 	/**
@@ -177,7 +147,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 	 */
 	private void insertDtElement(Node sourceNode, nsIDOMDocument visualDocument,
 			VpeCreationData creationData, nsIDOMElement parentList,
-			Element facetElement) {
+			Node facetElement) {
 		nsIDOMElement dt = visualDocument.createElement(HTML.TAG_DT);
 		ComponentUtil.correctAttribute(
 				(Element) sourceNode, 

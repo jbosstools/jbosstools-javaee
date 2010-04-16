@@ -11,8 +11,8 @@
 <head>
 <style type="text/css">
 	.redText {
-		color:red;
-		background: yellow
+		color:violet;
+		background: green
 	}
 	.blueText {
 		color:blue;
@@ -57,9 +57,11 @@
 						<h:outputText value="#{book.numOfCopies}" />
 					</rich:column>	
 				</rich:subTable>
+				
 				<rich:column colspan="3">
 					<h:outputText value="#{book.price}" />
 				</rich:column>
+				
 				<rich:subTable value="#{bookList.bookList}" var="book" rowClasses="redText, blueText" columnClasses="redText, blueText">
 					<rich:column rowspan="2">
 						<h:outputText value="#{book.price}" />

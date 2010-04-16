@@ -1,29 +1,45 @@
 <tests>
 	<test id="jbide3416Test">
+
 		<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 			<DIV STYLE="-moz-user-modify: read-only;">
 				<DIV STYLE="display: none; -moz-user-modify: read-only;">
+					<H1 STYLE="-moz-user-modify: read-only;">
+						JBoss Tools VPE Preview Bug
+					</H1>
 				</DIV>
 				<DIV STYLE="-moz-user-modify: read-only;">
-					<TABLE STYLE="-moz-user-modify: read-only;">
-					<THEAD>
-						<TR>
-							<TH>
-								<DIV>
-									<FORM>
-										<SPAN CLASS="vpe-text">
-											&#187;
-                                                       </SPAN>
-										<A STYLE="text-decoration: none;">Home</A>
-										<SPAN CLASS="vpe-text">
-											&#187;
-                                                       </SPAN>
-										<A STYLE="text-decoration: none;">CRM</A>	
-									</FORM>
-								</DIV>
-							</TH>
-						</TR>
+					<TABLE BORDER="5" STYLE="-moz-user-modify: read-only;">
+						<THEAD>
+							<TR>
+								<TH COLSPAN="1" CLASS="" VPE-FACET="header">
+									<SPAN STYLE="-moz-user-modify: read-only;">
+										<FORM
+											STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; background-color: yellow; text-align: left;">
+											<SPAN CLASS="vpe-text">
+												&#187;
+											</SPAN>
+											<A STYLE="text-decoration: none;">Home</A>
+											<SPAN CLASS="vpe-text">
+												&#187;
+											</SPAN>
+											<A STYLE="text-decoration: none;">CRM</A>
+										</FORM>
+									</SPAN>
+								</TH>
+							</TR>
 						</THEAD>
+						<TBODY>
+							<TR>
+								<TD>
+									<DIV CLASS="pageBody" STYLE="-moz-user-modify: read-only;">
+										<BR VPE:PSEUDO-ELEMENT="yes"
+											STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+
+									</DIV>
+								</TD>
+							</TR>
+						</TBODY>
 					</TABLE>
 					<UL STYLE="color: red; font-weight: bold; -moz-user-modify: read-only;">
 						<LI>

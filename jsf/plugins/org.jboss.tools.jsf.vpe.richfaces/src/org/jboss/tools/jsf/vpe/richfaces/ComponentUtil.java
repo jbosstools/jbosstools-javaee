@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -31,6 +32,8 @@ import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.ElService;
 import org.jboss.tools.vpe.editor.util.FileUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
@@ -185,30 +188,21 @@ public class ComponentUtil {
 			String facetName, boolean last) {
 
 		NodeList children = parentElement.getChildNodes();
-
 		if (children != null) {
-			
 			int index = last ? children.getLength()-1 : 0;
 			int step = last ? -1 : 1;
 			int stopIndex = last ? -1 : children.getLength();
-
 			while (index != stopIndex) {
-
 				Node child = children.item(index);
-
 				if ((child.getNodeType() == Node.ELEMENT_NODE)
 						&& RichFaces.TAG_FACET.equals(child.getLocalName())
 						&& facetName.equals(((Element) child)
 								.getAttribute(RichFaces.ATTR_NAME))) {
 					return (Element) child;
 				}
-
 				index += step;
-
 			}
-
 		}
-    	
     	return null;
     }
 
@@ -375,7 +369,8 @@ public class ComponentUtil {
         NodeList nodeList = sourceElement.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node child = nodeList.item(i);
-            if ((child instanceof Element || returnTextNodes) && (!child.getNodeName().equals("f:facet"))) { //$NON-NLS-1$
+            if ((child instanceof Element && !child.getNodeName().equals("f:facet")) //$NON-NLS-1$ 
+            		|| (returnTextNodes && (null != child.getNodeValue()) && (child.getNodeValue().trim().length() > 0))) {
                 children.add(child);
             }
         }
@@ -971,4 +966,47 @@ public class ComponentUtil {
 		}
 		return widthDouble;
 	}
+	
+	/**
+	 * If there are several JSF tags inside RichFaces tag
+	 * only the first one will be returned.
+	 * 
+	 * @param pageContext the page context
+	 * @param sourceElement the source element
+	 * @param facetName the name of the facet
+	 * @return the first JSF tag
+	 */
+	public static Node getFacetBody(VpePageContext pageContext,
+			Element sourceElement, String facetName) {
+		Element facet = SourceDomUtil.getFacetByName(sourceElement, facetName);
+		Map<String, List<Node>> facetChildren = VisualDomUtil
+			.findFacetElements(facet, pageContext);
+		return getFacetBody(facetChildren);
+	}
+	
+	/**
+	 * Select the first JSF component among facet's children
+	 * 
+	 * @param facetChildren the map returned from 
+	 * {@link VisualDomUtil#findFacetElements(Element, VpePageContext)}
+	 * @return the first JSF tag
+	 */
+	public static Node getFacetBody(Map<String, List<Node>> facetChildren) {
+		Node facetBody = null;
+		/*
+		 * Display the first JSF Tag
+		 */
+		if (facetChildren.get(VisualDomUtil.FACET_ODD_TAGS).size() > 0) {
+			List<Node> oddTags = new ArrayList<Node>(0);
+			oddTags.addAll(facetChildren.get(VisualDomUtil.FACET_ODD_TAGS));
+			facetBody = oddTags.get(0);
+		} else if (facetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0) {
+			/*
+			 * Display the last JSF Tag
+			 */
+			facetBody = facetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+		} 
+		return facetBody;
+	}
+	
 }

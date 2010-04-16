@@ -1,9 +1,14 @@
 <tests>
 	<test id="listShuttle">
+
 		<TABLE CLASS="rich-list-shuttle" STYLE="">
 			<TR>
-				<TD COLSPAN="2" CLASS="rich-shuttle-source-caption"> source label</TD>
-				<TD COLSPAN="2" CLASS="rich-shuttle-target-caption"> target label</TD>
+				<TD COLSPAN="2" CLASS="rich-shuttle-source-caption">
+					source label
+</TD>
+				<TD COLSPAN="2" CLASS="rich-shuttle-target-caption">
+					target label
+</TD>
 			</TR>
 			<TR>
 				<TD>
@@ -13,16 +18,20 @@
 								<TH
 									BACKGROUND="/.*resources/shuttle/header.gif/"
 									CLASS="rich-shuttle-header-tab-cell">
-									<DIV>
-										<SPAN> Song Name</SPAN>
-									</DIV>
+									<SPAN>
+										<SPAN CLASS="vpe-text">
+											Song Name
+</SPAN>
+									</SPAN>
 								</TH>
 								<TH
 									BACKGROUND="/.*resources/shuttle/header.gif/"
 									CLASS="rich-shuttle-header-tab-cell">
-									<DIV>
-										<SPAN> Artist Name</SPAN>
-									</DIV>
+									<SPAN>
+										<SPAN CLASS="vpe-text">
+											Artist Name
+</SPAN>
+									</SPAN>
 								</TH>
 							</TR>
 							<TR STYLE="vertical-align: top;" CLASS="rich-shuttle-source-row null">
@@ -30,7 +39,9 @@
 									<TABLE>
 										<TR>
 											<TD CLASS="dr-table-cell rich-table-cell">
-												<SPAN> You must be evil</SPAN>
+												<SPAN CLASS="vpe-text">
+													You must be evil
+</SPAN>
 											</TD>
 										</TR>
 									</TABLE>
@@ -39,7 +50,9 @@
 									<TABLE>
 										<TR>
 											<TD CLASS="dr-table-cell rich-table-cell">
-												<SPAN> Chris Rea</SPAN>
+												<SPAN CLASS="vpe-text">
+													Chris Rea
+</SPAN>
 											</TD>
 										</TR>
 									</TABLE>
@@ -51,49 +64,49 @@
 				<TD STYLE="vertical-align: middle;">
 					<DIV CLASS="rich-shuttle-controls">
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-copyAll">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_copy_all.gif/"/> Copy all
+											SRC="/.*resources/shuttle/arrow_copy_all.gif/" />
+										Copy all
 									</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-copy">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_copy.gif/"/> Copy
+											SRC="/.*resources/shuttle/arrow_copy.gif/" />
+										Copy
 									</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-remove">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_remove.gif/"/> Remove
+											SRC="/.*resources/shuttle/arrow_remove.gif/" />
+										Remove
 									</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-removeAll">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_remove_all.gif/"/> Remove All
+											SRC="/.*resources/shuttle/arrow_remove_all.gif/" />
+										Remove All
 									</DIV>
 								</DIV>
 							</DIV>
@@ -107,16 +120,20 @@
 								<TH
 									BACKGROUND="/.*resources/shuttle/header.gif/"
 									CLASS="rich-shuttle-header-tab-cell">
-									<DIV>
-										<SPAN> Song Name</SPAN>
-									</DIV>
+									<SPAN>
+										<SPAN CLASS="vpe-text">
+											Song Name
+</SPAN>
+									</SPAN>
 								</TH>
 								<TH
 									BACKGROUND="/.*resources/shuttle/header.gif/"
 									CLASS="rich-shuttle-header-tab-cell">
-									<DIV>
-										<SPAN> Artist Name</SPAN>
-									</DIV>
+									<SPAN>
+										<SPAN CLASS="vpe-text">
+											Artist Name
+</SPAN>
+									</SPAN>
 								</TH>
 							</TR>
 							<TR STYLE="vertical-align: top;" CLASS="rich-shuttle-target-row null">
@@ -124,7 +141,9 @@
 									<TABLE>
 										<TR>
 											<TD CLASS="dr-table-cell rich-table-cell">
-												<SPAN> You must be evil</SPAN>
+												<SPAN CLASS="vpe-text">
+													You must be evil
+</SPAN>
 											</TD>
 										</TR>
 									</TABLE>
@@ -133,7 +152,9 @@
 									<TABLE>
 										<TR>
 											<TD CLASS="dr-table-cell rich-table-cell">
-												<SPAN> Chris Rea</SPAN>
+												<SPAN CLASS="vpe-text">
+													Chris Rea
+</SPAN>
 											</TD>
 										</TR>
 									</TABLE>
@@ -145,49 +166,52 @@
 				<TD STYLE="vertical-align: middle;">
 					<DIV CLASS="rich-shuttle-controls">
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-top">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_first.gif/"/> First
+											SRC="/.*resources/shuttle/arrow_first.gif/" />
+
+										First
 									</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-up">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_up.gif/"/> Up
+											SRC="/.*resources/shuttle/arrow_up.gif/" />
+
+										Up
 									</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-down">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_down.gif/"/> Down
+											SRC="/.*resources/shuttle/arrow_down.gif/" />
+
+										Down
 									</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
 						<DIV CLASS="rich-shuttle-control">
-							<DIV
-								STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
+							<DIV STYLE="/background-image: url\(.*resources/shuttle/button.gif\);/"
 								CLASS="rich-shuttle-meta-button">
 								<DIV CLASS="rich-shuttle-button rich-shuttle-bottom">
 									<DIV CLASS="rich-shuttle-button-content">
 										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*resources/shuttle/arrow_last.gif/"/> Last
+											SRC="/.*resources/shuttle/arrow_last.gif/" />
+										Last
 									</DIV>
 								</DIV>
 							</DIV>

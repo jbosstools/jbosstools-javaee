@@ -24,6 +24,8 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -87,19 +89,36 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate
 	headerDiv.setAttribute(HTML.ATTR_STYLE, "position : relative; " //$NON-NLS-1$
 		+ ComponentUtil.getHeaderBackgoundImgStyle());
 
-	// http://jira.jboss.com/jira/browse/JBIDE-791
-	Element firstElementOfHeaderFacet = ComponentUtil.getFacet(
-		sourceElement, RichFaces.NAME_FACET_HEADER);
-	if (firstElementOfHeaderFacet != null) {
-	    VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
-	    headerInfo.addSourceChild(firstElementOfHeaderFacet);
+	/*
+	 * http://jira.jboss.com/jira/browse/JBIDE-791
+	 * https://jira.jboss.org/jira/browse/JBIDE-3373
+	 * 
+	 * Encode the Header Facet
+	 * Find elements from the f:facet 
+	 */
+	Map<String, List<Node>> headerFacetChildren = null;
+	Element headerFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_HEADER);
+	if (headerFacet != null) {
+		headerFacetChildren = VisualDomUtil.findFacetElements(headerFacet, pageContext);
+		/*
+		 * By adding attribute VPE-FACET to this visual node 
+		 * we force JsfFacet to be rendered inside it
+		 * without creating an additional and superfluous visual tag.
+		 */
+		headerDiv.setAttribute(VpeVisualDomBuilder.VPE_FACET, RichFaces.NAME_FACET_HEADER);
+		/*
+		 * Add header facet to the ChildrenInfo
+		 */
+		VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
+	    headerInfo.addSourceChild(headerFacet);
 	    creationData.addChildrenInfo(headerInfo);
 	} else {
-	    String label = ComponentUtil
-		    .getAttribute(sourceElement, ATTR_LABEL);
-	    headerDiv.appendChild(visualDocument.createTextNode(label));
+		/*
+		 * Otherwise show label attribute value as panel header 
+		 */
+		headerDiv.appendChild(visualDocument.createTextNode(ComponentUtil
+			    .getAttribute(sourceElement, ATTR_LABEL)));
 	}
-	// ///
 
 	nsIDOMElement switchDiv = visualDocument.createElement(HTML.TAG_DIV);
 	headerDiv.appendChild(switchDiv);
@@ -147,9 +166,24 @@ public class RichFacesSimpleTogglePanelTemplate extends VpeAbstractTemplate
 		+ Constants.WHITE_SPACE + CSS_RICH_STGLPANEL_BODY
 		+ Constants.WHITE_SPACE
 		+ ComponentUtil.getAttribute(sourceElement, ATTR_BODY_CLASS));
-
-	List<Node> children = ComponentUtil.getChildren(sourceElement, true);
+	
+	/*
+	 * If there are some odd HTML elements from facet
+	 * add them to the panel body first.
+	 */
+	boolean headerHtmlElementsPresents = ((headerFacetChildren != null) && (headerFacetChildren
+			.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0));
 	VpeChildrenInfo bodyInfo = new VpeChildrenInfo(td);
+	if (headerHtmlElementsPresents) {
+			for (Node node : headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+				bodyInfo.addSourceChild(node);
+			}
+	}
+	
+	/*
+	 * Add the rest panel's content
+	 */
+	List<Node> children = ComponentUtil.getChildren(sourceElement, true);
 	for (Node child : children) {
 	    bodyInfo.addSourceChild(child);
 	}

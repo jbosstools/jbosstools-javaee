@@ -1,85 +1,61 @@
 <tests>
 	<test id="inplaceInput">
-		<SPAN VPE-USER-TOGGLE-ID="false" CLASS="rich-inplace rich-inplace-view"
-			STYLE="display: inline;"> click to enter your name</SPAN>
+
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+			</SPAN>
+			<SPAN VPE-USER-TOGGLE-ID="false" CLASS="rich-inplace rich-inplace-view"
+				STYLE="display: inline;">
+				click to enter your name
+</SPAN>
+			<BR VPE:PSEUDO-ELEMENT="yes"
+				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+
+		</SPAN>
 	</test>
-	<!--
-		test id="inplaceInputWithoutFacet"> <SPAN VPE-USER-TOGGLE-ID="true"
-		CLASS="rich-inplace rich-inplace-edit" STYLE="position: relative;
-		display: inline;"> <INPUT TYPE="text" VPE-USER-TOGGLE-ID="0"
-		CLASS="rich-inplace-field" STYLE="top: 0px; width: 66px;"
-		AUTOCOMPLETE="off" VALUE="Mama mila ram"/> <DIV
-		CLASS="rich-inplace-input-controls-set" STYLE="position: absolute;
-		top: 0px; left: 66px;"> <DIV CLASS="rich-inplace-shadow"> <TABLE
-		CELLSPACING="0" CELLPADDING="0" BORDER="0"> <TBODY> <TR> <TD
-		CLASS="rich-inplace-shadow-tl"> <IMG WIDTH="10" HEIGHT="1" BORDER="0"
-		SRC="/.*resources/inplaceInput/spacer.gif/"/> </TD> <TD
-		CLASS="rich-inplace-shadow-tr"> <IMG WIDTH="1" HEIGHT="10" BORDER="0"
-		SRC="/.*resources/resources/inplaceInput/spacer.gif/"/> </TD> </TR>
-		<TR> <TD CLASS="rich-inplace-shadow-bl"> <IMG WIDTH="1" HEIGHT="10"
-		BORDER="0" SRC="/.*resources/inplaceInput/spacer.gif/"/> </TD> <TD
-		CLASS="rich-inplace-shadow-br"> <IMG WIDTH="10" HEIGHT="1" BORDER="0"
-		SRC="/.*resources/inplaceInput/spacer.gif/"/> </TD> </TR> </TBODY>
-		</TABLE> </DIV> <DIV STYLE="position: relative; height: 18px;"> <INPUT
-		TYPE="image" CLASS="rich-inplace-control"
-		SRC="/.*resources/inplaceInput/applyButton.gif/"
-		VPE-USER-TOGGLE-ID="0"/> <INPUT TYPE="image"
-		CLASS="rich-inplace-control"
-		SRC="/.*resources/inplaceInput/cancelButton.gif/"
-		VPE-USER-TOGGLE-ID="0"/> </DIV> </DIV> </SPAN> </test> <test
-		id="inplaceInputWithFacet"> <SPAN VPE-USER-TOGGLE-ID="true"
-		CLASS="rich-inplace rich-inplace-edit" STYLE="position: relative;
-		display: inline;"> <INPUT TYPE="text" VPE-USER-TOGGLE-ID="0"
-		CLASS="rich-inplace-field" STYLE="top: 0px; width: 66px;"
-		AUTOCOMPLETE="off" VALUE="Mama mila ramu"/> <DIV
-		CLASS="rich-inplace-input-controls-set" STYLE="position: absolute;
-		top: 18px; left: 0px;"> <DIV STYLE="position: relative; height:
-		18px;"> <DIV> <SPAN TITLE="h:panelGroup" STYLE="-moz-user-modify:
-		read-write;" CLASS=""> <INPUT TYPE="button" VALUE="Save"
-		STYLE="-moz-user-modify: read-only;"/> <INPUT TYPE="button"
-		VALUE="Cancel" STYLE="-moz-user-modify: read-only;"/> </SPAN> </DIV>
-		</DIV> </DIV> </SPAN> </test
-	-->
 	<test id="inplaceInput1">
-		<DIV CLASS="dr-pnl rich-panel oddRow" STYLE="width: 240px;">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Person Info
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-					<TBODY>
-						<TR>
-							<TD>
-								<SPAN CLASS="vpe-text">
-									Name:
-								</SPAN>
-							</TD>
-							<TD>
-								<SPAN VPE-USER-TOGGLE-ID="false"
-									CLASS="rich-inplace rich-inplace-view btn" STYLE="display: inline;">
-									click to enter your NamE
-								</SPAN>
-							</TD>
-						</TR>
-						<TR>
-							<TD>
-								<SPAN CLASS="vpe-text">
-									Email:
-								</SPAN>
-							</TD>
-							<TD>
-								<SPAN VPE-USER-TOGGLE-ID="false"
-									CLASS="rich-inplace rich-inplace-view evenRow" STYLE="display: inline;">
-									click to enter your email
-								</SPAN>
-							</TD>
-						</TR>
-					</TBODY>
-				</TABLE>
-			</DIV>
-		</DIV>
+
+		<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+			<TBODY>
+				<TR>
+					<TD>
+						<SPAN CLASS="vpe-text">
+							Name:
+						</SPAN>
+					</TD>
+					<TD>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN VPE-USER-TOGGLE-ID="false"
+								CLASS="rich-inplace rich-inplace-view btn" STYLE="display: inline;">
+								click to enter your NamE
+						</SPAN>
+							<BR VPE:PSEUDO-ELEMENT="yes"
+								STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+						</SPAN>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<SPAN CLASS="vpe-text">
+							Email:
+						</SPAN>
+					</TD>
+					<TD>
+						<SPAN CLASS="vpe-text">
+							<SPAN CLASS="vpe-text">
+							</SPAN>
+							<SPAN VPE-USER-TOGGLE-ID="false"
+								CLASS="rich-inplace rich-inplace-view evenRow" STYLE="display: inline;">
+								click to enter your email
+						</SPAN>
+							<BR VPE:PSEUDO-ELEMENT="yes"
+								STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+						</SPAN>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
 	</test>
 </tests>

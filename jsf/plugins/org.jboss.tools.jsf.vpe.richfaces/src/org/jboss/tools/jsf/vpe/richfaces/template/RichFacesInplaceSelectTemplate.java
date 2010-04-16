@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.vpe.richfaces.template;
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
@@ -77,7 +78,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
             final nsIDOMElement innerInput2 = visualDocument.createElement(HTML.TAG_INPUT);
             preapareInputBase(innerInput1);
             preapareInputBase(innerInput2);
-            innerInput1.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+            innerInput1.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
             innerInput1.setAttribute("autocomplete", "off"); //$NON-NLS-1$ //$NON-NLS-2$
             innerInput1.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-field"); //$NON-NLS-1$
             innerInput1.setAttribute(HTML.ATTR_VALUE,
@@ -118,7 +119,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         final nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 
         div.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-width-list"); //$NON-NLS-1$
-        div.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        div.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
         div.setAttribute(HTML.ATTR_STYLE, "position: absolute; height: 100px; left: 0px; top: 22px; visibility: visible;"); //$NON-NLS-1$
 
         final nsIDOMElement shadowDiv = visualDocument.createElement(HTML.TAG_DIV);
@@ -152,7 +153,7 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 
         final nsIDOMElement listPositionDiv = visualDocument.createElement(HTML.TAG_DIV);
         listPositionDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-position"); //$NON-NLS-1$
-        listPositionDiv.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+        listPositionDiv.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
 
         final nsIDOMElement listDecarationDiv = visualDocument.createElement(HTML.TAG_DIV);
         listDecarationDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-decoration"); //$NON-NLS-1$
@@ -219,44 +220,21 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         return div;
     }
 
-    /**
-     * Gets the css extension.
-     *
-     * @return the css extension
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssExtension()
-     */
     @Override
     protected String getCssExtension() {
         return INPLACE_SELECT_EXT;
     }
 
-    /**
-     * Gets the css style.
-     *
-     * @return the css style
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssStyle()
-     */
     @Override
     protected String getCssStyle() {
         return INPLACE_SELECT_CSS;
     }
 
-    /**
-     * Gets the css styles suffix.
-     *
-     * @return the css styles suffix
-     */
     @Override
     protected String getCssStylesSuffix() {
         return "-select"; //$NON-NLS-1$
     }
 
-    /**
-     * Gets the root span classes.
-     *
-     * @return the root span classes
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getRootSpanClasses()
-     */
     @Override
     protected String[] getRootSpanClasses(Attributes attrs) {
         String[] result = new String[3];
@@ -315,26 +293,17 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
         this.controlsVerticalPositions.put(HTML.VALUE_ALIGN_CENTER, "100px"); //$NON-NLS-1$
     }
 
-    /**
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getCssStylesControlSuffix()
-     */
     @Override
     protected String getCssStylesControlSuffix() {
         return this.getCssStylesSuffix();
     }
 
-    /**
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getControlPositionsSubStyles()
-     */
     @Override
     protected String getControlPositionsSubStyles(Attributes attrs) {
         return  "top:0px ; left: " + controlsVerticalPositions.get(attrs.getControlsVerticalPosition()) //$NON-NLS-1$
             + ";left: " + controlsHorizontalPositions.get(attrs.getControlsHorizontalPosition()) + Constants.SEMICOLON; //$NON-NLS-1$
     }
 
-    /**
-     * @see org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAbstractInplaceTemplate#getMainControlsDivCssClass()
-     */
     @Override
     protected String getMainControlsDivCssClass() {
         return "rich-inplace" + getCssStylesControlSuffix() + "-control-set"; //$NON-NLS-1$ //$NON-NLS-2$

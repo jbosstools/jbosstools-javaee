@@ -64,9 +64,6 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
     /** The Constant RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS. */
     protected static final String RICH_INPLACE_VIEW_DEFAULT_STYLE_CLASS = "rich-inplace-view"; //$NON-NLS-1$
 
-    /** The Constant VPE_USER_TOGGLE_ID_ATTR. */
-    public static final String VPE_USER_TOGGLE_ID_ATTR = "vpe-user-toggle-id"; //$NON-NLS-1$
-
     /** The button images. */
     protected final Map<String, String> buttonImages = new HashMap<String, String>();
 
@@ -105,7 +102,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
      */
     protected nsIDOMElement createRootSpanTemplateMethod(Element source, nsIDOMDocument visualDocument, Attributes attrs) {
         final nsIDOMElement rootSpan = visualDocument.createElement(HTML.TAG_SPAN);
-        rootSpan.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(this.isToggle));
+        rootSpan.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(this.isToggle));
         String rootStyleClass = "rich-inplace" + getCssStylesSuffix(); //$NON-NLS-1$
         for (String sc : getRootSpanClasses(attrs)) {
             if (ComponentUtil.isNotBlank(sc)) {
@@ -346,10 +343,12 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
         /*
          * Encoding controls facet
          */
-        Element facetElement = ComponentUtil.getFacetElement((Element) sourceNode, "controls", true); //$NON-NLS-1$
-        if (facetElement != null) {
+		Element controlFacet = ComponentUtil.getFacetElement(
+				(Element) sourceNode, RichFaces.NAME_FACET_CONTROLS, false);
+		
+        if (controlFacet != null) {
         	VpeChildrenInfo childrenInfo = new VpeChildrenInfo(divButtons);
-        	childrenInfo.addSourceChild(facetElement);
+        	childrenInfo.addSourceChild(controlFacet);
         	creationData.addChildrenInfo(childrenInfo);
         } else {
 		    // Create "Apply" button
@@ -371,7 +370,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(saveControlIconImg, pageContext, true);
 				applyButtonImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 		    }
-		    applyButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+		    applyButtonImg.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
 	
 		    // Create "Cancel" button
 		    final nsIDOMElement cancelButtonImg = visualDocument.createElement(HTML.TAG_INPUT);
@@ -392,7 +391,7 @@ public abstract class RichFacesAbstractInplaceTemplate extends AbstractRichFaces
 				String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(cancelControlIconImg, pageContext, true);
 				cancelButtonImg.setAttribute(HTML.ATTR_SRC, imgFullPath);
 		    }
-		    cancelButtonImg.setAttribute(VPE_USER_TOGGLE_ID_ATTR, String.valueOf(0));
+		    cancelButtonImg.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, String.valueOf(0));
 	
 		    divButtons.appendChild(applyButtonImg);
 		    divButtons.appendChild(cancelButtonImg);

@@ -3,169 +3,154 @@
 
 		<DL CLASS="yellow-background">
 			<DT CLASS="headerClass">
-				<DIV>
-					<SPAN CLASS="vpe-text">
-						TERM-VISIBLE
-					</SPAN>
-				</DIV>
+				<SPAN CLASS="vpe-text">
+					TERM-INVISIBLE
+</SPAN>
 			</DT>
 			<DD CLASS="columnClass red-text">
 				<SPAN CLASS="vpe-text">
 					col1
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col2
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col3
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col4
-				</SPAN>
+</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
-				<DIV>
-					<SPAN CLASS="vpe-text">
-						TERM-VISIBLE	
-					</SPAN>
-				</DIV>
+				<SPAN CLASS="vpe-text">
+					TERM-INVISIBLE
+</SPAN>
 			</DT>
 			<DD CLASS="columnClass blue-text">
 				<SPAN CLASS="vpe-text">
 					col1
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col2
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col3
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col4
-				</SPAN>
+</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
-				<DIV>
-					<SPAN CLASS="vpe-text">
-						TERM-VISIBLE
-					</SPAN>
-				</DIV>
+				<SPAN CLASS="vpe-text">
+					TERM-INVISIBLE
+</SPAN>
 			</DT>
 			<DD CLASS="columnClass red-text">
 				<SPAN CLASS="vpe-text">
 					col1
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col2
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col3
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col4
-				</SPAN>
+</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
-				<DIV>
-					<SPAN CLASS="vpe-text">
-						TERM-VISIBLE
-					</SPAN>
-				</DIV>
+				<SPAN CLASS="vpe-text">
+					TERM-INVISIBLE
+</SPAN>
 			</DT>
 			<DD CLASS="columnClass blue-text">
 				<SPAN CLASS="vpe-text">
 					col1
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col2
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col3
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col4
-				</SPAN>
+</SPAN>
 			</DD>
 			<DT CLASS="headerClass">
-				<DIV>
-					<SPAN CLASS="vpe-text">
-						TERM-VISIBLE
-					</SPAN>
-				</DIV>
+				<SPAN CLASS="vpe-text">
+					TERM-INVISIBLE
+</SPAN>
 			</DT>
 			<DD CLASS="columnClass red-text">
 				<SPAN CLASS="vpe-text">
 					col1
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col2
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col3
-				</SPAN>
+</SPAN>
 				<SPAN CLASS="vpe-text">
 					col4
-				</SPAN>
+</SPAN>
 			</DD>
 		</DL>
 	</test>
+
 	<test id="dataDefinitionList1">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+		<DIV CLASS="dr-pnl rich-panel ">
+			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header "
+				STYLE="background-image: url(file:///D:/Projects/jboss_trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif);">
 				<SPAN CLASS="vpe-text">
 					Data Defenition list
-				</SPAN>
+</SPAN>
 			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
+			<DIV CLASS="dr-pnl-b rich-panel-body ">
 				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
 					<DL
 						STYLE="border: thick dotted Cornsilk; text-align: center; color: PaleVioletRed; font-style: oblique; font-size: x-large; background-color: Grey; text-decoration: overline; font-family: Arial TUR; font-weight: bolder;"
 						CLASS="listClass">
 						<DT CLASS="headerClass">
-							<DIV>
-								<SPAN CLASS="vpe-text">
-									Facet Term
-								</SPAN>
-							</DIV>
+							<SPAN CLASS="vpe-text">
+								Facet Term
+</SPAN>
 						</DT>
 						<DD CLASS="columnClass">
 							<SPAN CLASS="vpe-text">
 								Price:
-							</SPAN>
+</SPAN>
 							<SPAN CLASS="vpe-text">
 								Number of copies:
-							</SPAN>
+</SPAN>
 						</DD>
 						<DT CLASS="headerClass">
-							<DIV>
-								<SPAN CLASS="vpe-text">
-									Facet Term
-								</SPAN>
-							</DIV>
+							<SPAN CLASS="vpe-text">
+								Facet Term
+</SPAN>
 						</DT>
 						<DD CLASS="columnClass">
 							<SPAN CLASS="vpe-text">
 								Price:
-							</SPAN>
+</SPAN>
 							<SPAN CLASS="vpe-text">
 								Number of copies:
-							</SPAN>
+</SPAN>
 						</DD>
 						<DT CLASS="headerClass">
-							<DIV>
-								<SPAN CLASS="vpe-text">
-									Facet Term
-								</SPAN>
-							</DIV>
+							<SPAN CLASS="vpe-text">
+								Facet Term
+</SPAN>
 						</DT>
 						<DD CLASS="columnClass">
 							<SPAN CLASS="vpe-text">
 								Price:
-							</SPAN>
+</SPAN>
 							<SPAN CLASS="vpe-text">
 								Number of copies:
-							</SPAN>
+</SPAN>
 						</DD>
 					</DL>
 				</FORM>

@@ -43,23 +43,24 @@
 		</DIV>
 	</test>
 	<test id="dataFilterSliderWithDataTable">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
+
+		<DIV CLASS="dr-pnl rich-panel ">
+			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header "
 				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<SPAN CLASS="vpe-text">
 					Data Filter Slider
-				</SPAN>
+</SPAN>
 			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
+			<DIV CLASS="dr-pnl-b rich-panel-body ">
 				<DIV ID="form1" STYLE="-moz-user-modify: read-write;">
 					<DIV ID="stat1" STYLE="-moz-user-modify: read-write;">
 						<DIV ID="slider-body" STYLE="-moz-user-modify: read-write;">
 							<DIV CLASS="slider-container rich-dataFilterSlider-container evenRow">
-								<DIV CLASS="range rich-dataFilterSlider-range" STYLE="width: 459px;">
+								<DIV CLASS="range rich-dataFilterSlider-range " STYLE="width: 459px;">
 									<DIV CLASS="range-decor rich-dataFilterSlider-range-decor">
-										<DIV CLASS="trailer rich-dataFilterSlider-trailer" STYLE="left: -38px;">
-											<DIV CLASS="track rich-dataFilterSlider-track" STYLE="width: 200px;">
-												<DIV CLASS="handle rich-dataFilterSlider-handle" STYLE="left: 0px;">
+										<DIV CLASS="trailer rich-dataFilterSlider-trailer " STYLE="left: -38px;">
+											<DIV CLASS="track rich-dataFilterSlider-track " STYLE="width: 200px;">
+												<DIV CLASS="handle rich-dataFilterSlider-handle " STYLE="left: 0px;">
 													<IMG WIDTH="7px" HEIGHT="8px" BORDER="0px"
 														SRC="/.*resources/dataFilterSlider/pos.gif/" />
 
@@ -69,7 +70,7 @@
 									</DIV>
 								</DIV>
 								<INPUT TYPE="text"
-									CLASS="slider-input-field rich-dataFilterSlider-input-field"
+									CLASS="slider-input-field rich-dataFilterSlider-input-field "
 									VALUE="10000" />
 								<BR STYLE="clear: both;" />
 
@@ -81,8 +82,6 @@
 									<TD>
 										<DIV>
 											<TABLE CLASS="list-table1" ROWCLASSES="list-row3">
-												<CAPTION>
-												</CAPTION>
 												<TBODY>
 													<TR>
 														<TD STYLE="border: 0px hidden ; padding: 0px;">
@@ -114,8 +113,6 @@
 									<TD>
 										<DIV>
 											<TABLE CLASS="list-table1" ROWCLASSES="list-row1, list-row2">
-												<CAPTION>
-												</CAPTION>
 												<TBODY>
 													<TR>
 														<TD STYLE="border: 0px hidden ; padding: 0px;">
@@ -123,32 +120,32 @@
 																<THEAD>
 																	<TR>
 																		<TH CLASS="list-header">
-																			<DIV>
+																			<SPAN>
 																				<SPAN CLASS="headerText">
 																					Make
-																				</SPAN>
-																			</DIV>
+</SPAN>
+																			</SPAN>
 																		</TH>
 																		<TH CLASS="list-header">
-																			<DIV>
+																			<SPAN>
 																				<SPAN CLASS="headerText">
 																					Model
-																				</SPAN>
-																			</DIV>
+</SPAN>
+																			</SPAN>
 																		</TH>
 																		<TH CLASS="list-header">
-																			<DIV>
+																			<SPAN>
 																				<SPAN CLASS="headerText">
 																					#{inventoryList.priceColumnName}
-																				</SPAN>
-																			</DIV>
+</SPAN>
+																			</SPAN>
 																		</TH>
 																		<TH CLASS="list-header">
-																			<DIV>
+																			<SPAN>
 																				<SPAN CLASS="headerText">
 																					#{inventoryList.mileageColumnName}
-																				</SPAN>
-																			</DIV>
+</SPAN>
+																			</SPAN>
 																		</TH>
 																	</TR>
 																</THEAD>
@@ -157,22 +154,22 @@
 																		<TD CLASS="column">
 																			<SPAN CLASS="vpe-text">
 																				#{category.make}
-																			</SPAN>
+</SPAN>
 																		</TD>
 																		<TD CLASS="column">
 																			<SPAN CLASS="vpe-text">
 																				#{category.model}
-																			</SPAN>
+</SPAN>
 																		</TD>
 																		<TD CLASS="column">
 																			<SPAN CLASS="vpe-text">
 																				#{category.price}
-																			</SPAN>
+</SPAN>
 																		</TD>
 																		<TD CLASS="column">
 																			<SPAN CLASS="vpe-text">
 																				#{category.mileage}
-																			</SPAN>
+</SPAN>
 																		</TD>
 																	</TR>
 																</TBODY>
@@ -200,5 +197,6 @@
 				</DIV>
 			</DIV>
 		</DIV>
+
 	</test>
 </tests>

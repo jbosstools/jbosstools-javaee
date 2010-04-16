@@ -1,56 +1,67 @@
 <tests>
 	<test id="messages">
+
 		<TABLE CELLSPACING="0" CELLPADDING="0"
 			STYLE="border-style: dotted; color: Turquoise; text-align: center; font-size: small; font-style: italic; background-color: Orchid; font-family: Arial CE,Arial Narrow; text-decoration: line-through; font-weight: bolder;"
 			CLASS="rich-messages infoClass">
 			<TR>
 				<TD>
-					<SPAN CLASS="rich-messages-marker">
-						<DIV>
-							<SPAN> Passed </SPAN>
-						</DIV>
+					<SPAN VPE-FACET="passedMarker" CLASS="rich-messages-marker">
+						<SPAN CLASS="vpe-text">
+							Passed
+</SPAN>
 					</SPAN>
-					<SPAN CLASS="rich-messages-label"> No Error </SPAN>
+					<SPAN CLASS="rich-messages-label">
+						No Error
+</SPAN>
 				</TD>
 			</TR>
 			<TR>
-				<TD CLASS="errorClass">
-					<SPAN CLASS="rich-messages-marker markerError">
-						<DIV>
-							<SPAN> Error </SPAN>
-						</DIV>
+				<TD CLASS=" errorClass">
+					<SPAN VPE-FACET="errorMarker" CLASS="rich-messages-marker markerError">
+						<SPAN CLASS="vpe-text">
+							Error
+</SPAN>
 					</SPAN>
-					<SPAN CLASS="rich-messages-label errorLabel"> Error message </SPAN>
+					<SPAN CLASS="rich-messages-label errorLabel">
+						Error message
+</SPAN>
 				</TD>
 			</TR>
 			<TR>
-				<TD CLASS="fatalClass">
-					<SPAN CLASS="rich-messages-marker markerFatal">
-						<DIV>
-							<SPAN> Fatal </SPAN>
-						</DIV>
+				<TD CLASS=" fatalClass">
+					<SPAN VPE-FACET="fatalMarker" CLASS="rich-messages-marker markerFatal">
+						<SPAN CLASS="vpe-text">
+							Fatal
+</SPAN>
 					</SPAN>
-					<SPAN CLASS="rich-messages-label fatalLabel"> Fatal message </SPAN>
+					<SPAN CLASS="rich-messages-label fatalLabel">
+						Fatal message
+</SPAN>
 				</TD>
 			</TR>
 			<TR>
-				<TD CLASS="infoClass">
-					<SPAN CLASS="rich-messages-marker markerInfo">
-						<DIV>
-							<SPAN> Info </SPAN>
-						</DIV>
+				<TD CLASS=" infoClass">
+					<SPAN VPE-FACET="infoMarker" CLASS="rich-messages-marker markerInfo">
+						<SPAN CLASS="vpe-text">
+							Info
+</SPAN>
 					</SPAN>
-					<SPAN CLASS="rich-messages-label infoLabel"> Info message </SPAN>
+					<SPAN CLASS="rich-messages-label infoLabel">
+						Info message
+</SPAN>
 				</TD>
 			</TR>
 			<TR>
-				<TD CLASS="warnClass">
-					<SPAN CLASS="rich-messages-marker markerWarn">
-						<DIV>
-							<SPAN> Warning </SPAN>
-						</DIV>
+				<TD CLASS=" warnClass">
+					<SPAN VPE-FACET="warnMarker" CLASS="rich-messages-marker markerWarn">
+						<SPAN CLASS="vpe-text">
+							Warning
+</SPAN>
 					</SPAN>
-					<SPAN CLASS="rich-messages-label warnLabel"> Warning message </SPAN>
+					<SPAN CLASS="rich-messages-label warnLabel">
+						Warning message
+</SPAN>
 				</TD>
 			</TR>
 		</TABLE>

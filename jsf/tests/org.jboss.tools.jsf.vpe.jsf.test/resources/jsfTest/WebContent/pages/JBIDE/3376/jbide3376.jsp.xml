@@ -1,82 +1,84 @@
 <tests>
 	<test id="jbide3376">
-	<DIV ID="jbide3376">
-<TABLE STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
-<TR>
-<TD>
-<DIV>
-<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-<TABLE STYLE="-moz-user-modify: read-only;">
-<TR>
-<TD>
-<DIV>
-<TABLE>
-<CAPTION>
-</CAPTION>
-<THEAD>
-<TR>
-<TH>
-<DIV>
-<SPAN>
-Header
-</SPAN>
-</DIV>
-</TH>
-</TR>
-</THEAD>
-<TFOOT>
-<TR>
-<TD>
-<DIV>
-<SPAN>
-Header
-</SPAN>
-</DIV>
-</TD>
-</TR>
-</TFOOT>
-<TBODY>
-<TR>
-<TD STYLE="border: 0px hidden ; padding: 0px;">
-<TABLE WIDTH="100%" BORDER="0">
-<TBODY>
-<TR>
-<TD>
-<SPAN>
-#{book.name}
-</SPAN>
-</TD>
-<TD>
-<SPAN>
-#{book.name}
-</SPAN>
-</TD>
-</TR>
-</TBODY>
-<COLGROUP>
-<COL STYLE="-moz-user-modify: read-write;"/>
 
-<COL STYLE="-moz-user-modify: read-write;"/>
-
-</COLGROUP>
-</TABLE>
-</TD>
-</TR>
-</TBODY>
-</TABLE>
-</DIV>
-</TD>
-</TR>
-</TABLE><A>Go next page:</A><BR STYLE="-moz-user-modify: read-write;"/>
-
-<SPAN>
-Begin
+		<DIV ID="jbide3376">
+			<TABLE
+				STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
+				<TR>
+					<TD>
+						<DIV>
+							<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
+								<TABLE STYLE="-moz-user-modify: read-only;">
+									<TR>
+										<TD>
+											<DIV>
+												<TABLE>
+													<THEAD>
+														<TR>
+															<TH CLASS="">
+																<SPAN>
+																	<SPAN CLASS="vpe-text">
+																		Header
 </SPAN>
-</FORM>
-</DIV>
-</TD>
-</TR>
-</TABLE>
-</DIV>
-</test>
+																</SPAN>
+															</TH>
+														</TR>
+													</THEAD>
+													<TFOOT>
+														<TR>
+															<TD CLASS="">
+																<SPAN>
+																	<SPAN CLASS="vpe-text">
+																		Header
+</SPAN>
+																</SPAN>
+															</TD>
+														</TR>
+													</TFOOT>
+													<TBODY>
+														<TR>
+															<TD STYLE="border: 0px hidden ; padding: 0px;">
+																<TABLE WIDTH="100%" BORDER="0">
+																	<TBODY>
+																		<TR>
+																			<TD>
+																				<SPAN CLASS="vpe-text">
+																					#{book.name}
+</SPAN>
+																			</TD>
+																			<TD>
+																				<SPAN CLASS="vpe-text">
+																					#{book.name}
+</SPAN>
+																			</TD>
+																		</TR>
+																	</TBODY>
+																	<COLGROUP>
+																		<COL STYLE="-moz-user-modify: read-write;" />
+
+																		<COL STYLE="-moz-user-modify: read-write;" />
+
+																	</COLGROUP>
+																</TABLE>
+															</TD>
+														</TR>
+													</TBODY>
+												</TABLE>
+											</DIV>
+										</TD>
+									</TR>
+								</TABLE>
+								<A>Go next page:</A>
+								<BR STYLE="-moz-user-modify: read-write;" />
+
+								<SPAN CLASS="vpe-text">
+									Begin
+</SPAN>
+							</FORM>
+						</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+		</DIV>
+	</test>
 </tests>
