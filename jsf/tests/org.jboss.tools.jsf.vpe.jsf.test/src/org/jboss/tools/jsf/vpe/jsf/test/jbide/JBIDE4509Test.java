@@ -31,13 +31,13 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.ui.test.OpenOnUtil;
 import org.jboss.tools.vpe.ui.test.ProjectsLoader;
-import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * @author mareshkau
  *
  */
+@SuppressWarnings("restriction")
 public class JBIDE4509Test extends VpeTest{
 
 	public JBIDE4509Test(String name) {
@@ -141,18 +141,16 @@ public class JBIDE4509Test extends VpeTest{
 	 * 
 	 * @author mareshkau
 	 */
-	@SuppressWarnings("restriction")
 	private static final void checkOpenOnFromJarFile(final String jarFilePath,final String jarEntryPath,
 			final int line, final int position,final String expectedResult) throws Throwable {
+	
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
 		IJavaProject javaProject = JavaCore.create(project);
-		
-		IFile jarArchive = (IFile) project.findMember(jarFilePath);
-
-		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(jarArchive);
-		
-		JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root; 
+	
+		IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(project.getLocation().toString()+ "/" +jarFilePath); //$NON-NLS-1$
+	
+		JarPackageFragmentRoot jarRoot = (JarPackageFragmentRoot) root;
 		JarEntryFile fileInJar = new JarEntryFile(jarEntryPath);
 		fileInJar.setParent(jarRoot);
 		JarEntryEditorInput jarEditorInput = new JarEntryEditorInput(fileInJar);
