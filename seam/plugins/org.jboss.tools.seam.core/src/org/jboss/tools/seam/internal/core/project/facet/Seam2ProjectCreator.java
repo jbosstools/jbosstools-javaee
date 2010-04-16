@@ -131,12 +131,14 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		File[] firstlibs = includeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(includeLibs));
 		File[] secondLibs = secondSetincludeLibs.getDir().listFiles(new AntCopyUtils.FileSetFileFilter(secondSetincludeLibs));
 		Set<String> allLibs = new HashSet<String>(); // HACK: needed to be unique because some jboss-*.jars are duplicated
-		for(File f : firstlibs) {
-			allLibs.add(f.getName());
-		}
-		for(File f : secondLibs) {
-			allLibs.add(f.getName());
-		}
+		if(firstlibs != null)
+			for(File f : firstlibs) {
+				allLibs.add(f.getName());
+			}
+		if(secondLibs != null)
+			for(File f : secondLibs) {
+				allLibs.add(f.getName());
+			}
 
 		StringBuffer testLibraries = new StringBuffer();
 

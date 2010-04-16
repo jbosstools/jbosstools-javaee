@@ -34,6 +34,9 @@ public class SeamCreateTestProjectTest extends AbstractSeamFacetTest {
 		
 		// set property to create test project
 		model.setProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING, new Boolean(createTestProject));
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, name+"-test");
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, name+"-ear");
+		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, name+"-ejb");
 		
 		model.setStringProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, seamVersion);
 		
