@@ -198,6 +198,13 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		fproj.installProjectFacet(dynamicWebVersion, null, null);
 		fproj.installProjectFacet(javaFacesVersion, null, null);
 	}
+	
+	protected void setIfEmpty(IDataModel model, String propertyName, String value){
+		String oldValue = model.getStringProperty(propertyName);
+		if(oldValue == null || "".equals(oldValue)){
+			model.setStringProperty(propertyName, value);
+		}
+	}
 
 	protected IFacetedProject createSeamProject(String baseProjectName, final IDataModel config) throws CoreException {
 		final IFacetedProject fproj = ProjectFacetsManager.create(baseProjectName, null,
@@ -213,6 +220,9 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		
 		final IProject proj = fproj.getProject();
 		
+		setIfEmpty(config, ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, baseProjectName+"-test");
+		setIfEmpty(config, ISeamFacetDataModelProperties.SEAM_EAR_PROJECT, baseProjectName+"-ear");
+		setIfEmpty(config, ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, baseProjectName+"-ejb");
 		
 		ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
 
