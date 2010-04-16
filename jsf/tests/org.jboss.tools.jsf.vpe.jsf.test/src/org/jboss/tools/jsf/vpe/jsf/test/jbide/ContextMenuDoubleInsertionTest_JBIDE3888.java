@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.vpe.editor.menu.InsertType;
 import org.jboss.tools.vpe.editor.menu.action.InsertAction2;
+import org.jboss.tools.vpe.ui.test.TestUtil;
 
 
 /**
@@ -61,11 +62,13 @@ public class ContextMenuDoubleInsertionTest_JBIDE3888
 				"Insert Action", insertionItem,				//$NON-NLS-1$
 				sourceEditor, InsertType.INSERT_INTO);
 		firstInsertAction.run();
+		TestUtil.delay(2000);
 		textWidget.setText("");
 		final InsertAction2 secondInsertAction = new InsertAction2(
 				"Insert Action", insertionItem,				//$NON-NLS-1$
 				sourceEditor, InsertType.INSERT_INTO);
 		secondInsertAction.run();
+		TestUtil.delay(2000);
 		assertTrue(textWidget.getText()
 				.contains(REQUIRED_STRING));
 	}
