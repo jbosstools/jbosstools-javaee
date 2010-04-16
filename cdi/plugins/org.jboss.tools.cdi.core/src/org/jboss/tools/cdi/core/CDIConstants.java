@@ -51,4 +51,5 @@ public interface CDIConstants {
 	public String PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceUnit";
 
 	public String DISPOSES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Disposes";
+	public String OBSERVERS_ANNOTATION_TYPE_NAME = "javax.enterprise.event.Observes";
 }

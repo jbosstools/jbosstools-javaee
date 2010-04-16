@@ -77,7 +77,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_member,
 		new String[][]{
 //			{CDIPreferences.PRODUCER_ANNOTATED_INJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerAnnotatedInject_label},
-//			{CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerParameterIllegallyAnnotated_label},
+			{CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerParameterIllegallyAnnotated_label},
 //			{CDIPreferences.OBSERVER_ANNOTATED_INJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerAnnotatedInject_label},
 //			{CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerParameterIllegallyAnnotated_label},
 //			{CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalProducerMethodInSessionBean_label},

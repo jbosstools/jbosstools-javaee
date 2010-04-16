@@ -47,6 +47,7 @@ import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
+import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -327,11 +328,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	private static final String[] RESOURCE_ANNOTATIONS = {CDIConstants.RESOURCE_ANNOTATION_TYPE_NAME, CDIConstants.WEB_SERVICE_REF_ANNOTATION_TYPE_NAME, CDIConstants.EJB_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME};
 
 	private void validateProducer(IProducer producer) {
-		/*
-		 * 3.5.1. Declaring a resource
-		 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
-		 */
 		if(producer instanceof IProducerField) {
+			/*
+			 * 3.5.1. Declaring a resource
+			 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+			 */
 			IProducerField producerField = (IProducerField)producer;
 			if(producerField.getName()!=null) {
 				IAnnotationDeclaration declaration;
@@ -344,6 +345,37 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 						addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
 					}
+				}
+			}
+		} else {
+			IProducerMethod producerMethod = (IProducerMethod)producer;
+			List<IParameter> params = producerMethod.getParameters();
+			Set<IAnnotationDeclaration> declarations = new HashSet<IAnnotationDeclaration>();
+			declarations.add(producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+			for (IParameter param : params) {
+				/*
+				 * 3.3.6. Declaring a disposer method
+				 *  - a disposer method is annotated @Produces.
+				 *  
+				 * 3.3.2. Declaring a producer method
+				 *  - a has a parameter annotated @Disposes
+				 */
+				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				if(declaration!=null) {
+					declarations.add(declaration);
+				}
+				/*
+				 * 3.3.2. Declaring a producer method
+				 *  - a has a parameter annotated @Observers
+				 */
+				declaration = param.getAnnotation(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(declaration!=null) {
+					declarations.add(declaration);
+				}
+			}
+			if(declarations.size()>1) {
+				for (IAnnotationDeclaration declaration : declarations) {
+					addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, producer.getResource());
 				}
 			}
 		}

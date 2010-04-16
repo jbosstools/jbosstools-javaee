@@ -170,6 +170,39 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, 30, 30);
 	}
 
+	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a disposer method is annotated @Produces.
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducesUnallowed() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/producesUnallowed/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 30, 31);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - a producer method has a parameter annotated @Disposes
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodWithParameterAnnotatedDisposes() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedDisposes/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - a producer method has a parameter annotated @Observers
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodWithParameterAnnotatedObserves() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedObserves/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}
