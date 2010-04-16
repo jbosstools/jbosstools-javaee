@@ -182,6 +182,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a disposer method is annotated @Observes.
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverParameterUnallowed() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/observesUnallowed/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 32, 32);
+	}
+
+	/**
 	 * 3.3.2. Declaring a producer method
 	 *  - a producer method has a parameter annotated @Disposes
 	 *  
@@ -201,6 +212,28 @@ public class ValidationTest extends TCKTest {
 	public void testProducerMethodWithParameterAnnotatedObserves() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedObserves/SpiderProducer_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+	}
+
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - an observer method is annotated @Produces
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodAnnotatedProducesFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isProducer/BorderTerrier_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 25);
+	}
+
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - a observer method is annotated @Disposes.
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodWithDisposesParamFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isDisposer/FoxTerrier_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 32, 32);
 	}
 
 	public static int getMarkersNumber(IResource resource) {

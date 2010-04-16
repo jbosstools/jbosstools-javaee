@@ -300,16 +300,17 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void validateClassBean(IClassBean bean) {
+		validateDisposers(bean);
+	}
+
+	private void validateDisposers(IClassBean bean) {
 		Set<IBeanMethod> disposers = bean.getDisposers();
-		/*
-		 * 3.3.6. Declaring a disposer method
-		 *  - method has more than one parameter annotated @Disposes
-		 */
 		for (IBeanMethod dssposer : disposers) {
 			List<IParameter> params = dssposer.getParameters();
-			if(params.size()<2) {
-				continue;
-			}
+			/*
+			 * 3.3.6. Declaring a disposer method
+			 *  - method has more than one parameter annotated @Disposes
+			 */
 			Set<IAnnotationDeclaration> declarations = new HashSet<IAnnotationDeclaration>();
 			for (IParameter param : params) {
 				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
@@ -320,6 +321,31 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			if(declarations.size()>1) {
 				for (IAnnotationDeclaration declaration : declarations) {
 					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource());
+				}
+			}
+			/*
+			 * 3.3.6. Declaring a disposer method
+			 *  - a disposer method is annotated @Observes.
+			 *  
+			 * 10.4.2. Declaring an observer method
+			 *  - a observer method is annotated @Disposes.
+			 */
+			declarations = new HashSet<IAnnotationDeclaration>();
+			boolean observesExists = false;
+			for (IParameter param : params) {
+				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				if(declaration!=null) {
+					declarations.add(declaration);
+				}
+				declaration = param.getAnnotation(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(declaration!=null) {
+					declarations.add(declaration);
+					observesExists = true;
+				}
+			}
+			if(observesExists) {
+				for (IAnnotationDeclaration declaration : declarations) {
+					addError(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource());
 				}
 			}
 		}
@@ -367,6 +393,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				/*
 				 * 3.3.2. Declaring a producer method
 				 *  - a has a parameter annotated @Observers
+				 *  
+				 * 10.4.2. Declaring an observer method
+				 *  - an observer method is annotated @Produces
 				 */
 				declaration = param.getAnnotation(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
 				if(declaration!=null) {
