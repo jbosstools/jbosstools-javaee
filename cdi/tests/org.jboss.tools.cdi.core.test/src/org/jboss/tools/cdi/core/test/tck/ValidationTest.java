@@ -213,6 +213,16 @@ public class ValidationTest extends TCKTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/methodOnSessionBean/AppleTree.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 31);
 	}
+
+	/**
+	 * 3.3.7. Disposer method resolution
+	 *  TODO
+	 *  
+	 * @throws Exception
+	 */
+	public void testUnresolvedDisposalMethod() throws Exception {
+		//TODO
+	}
 	
 	/**
 	 * 3.9.1. Declaring an initializer method
