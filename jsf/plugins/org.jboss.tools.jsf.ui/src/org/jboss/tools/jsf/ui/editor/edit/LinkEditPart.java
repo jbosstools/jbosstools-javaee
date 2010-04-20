@@ -131,7 +131,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 			conn.add(pathLabel, pathLocator);
 
 		String text = ""; //$NON-NLS-1$
-		if (getLink().getJSFModel().getOptions().showShortcutPath())
+		if (getLink().getJSFModel().getOptions().showShortcutPath() && getLink().getToGroup() != null)
 			text = getLink().getToGroup().getVisiblePath();
 		shortcutLabel = new GEFLabel(text, FigureFactory.normalColor);
 		if (getLink().getJSFModel().getOptions().showShortcutIcon())
@@ -220,7 +220,7 @@ public class LinkEditPart extends AbstractConnectionEditPart implements
 
 	public void linkChange(ILink source) {
 		pathLabel.setText(getLink().getLinkName());
-		if (getLinkModel().getJSFModel().getOptions().showShortcutPath())
+		if (getLinkModel().getJSFModel().getOptions().showShortcutPath() && getLink().getToGroup() != null)
 			shortcutLabel.setText(getLink().getToGroup().getVisiblePath());
 		else
 			shortcutLabel.setText(""); //$NON-NLS-1$
