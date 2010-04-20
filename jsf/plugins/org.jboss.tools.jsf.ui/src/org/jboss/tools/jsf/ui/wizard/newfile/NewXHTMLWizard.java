@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.ui.wizard.newfile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import org.eclipse.core.resources.IFile;
@@ -22,6 +23,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -31,8 +33,15 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.html.ui.internal.wizard.NewHTMLWizard;
 import org.eclipse.wst.sse.core.internal.encoding.CommonEncodingPreferenceNames;
 import org.eclipse.wst.sse.core.utils.StringUtils;
+import org.jboss.tools.common.meta.action.XEntityData;
+import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.model.XModelException;
+import org.jboss.tools.common.model.ui.ModelUIPlugin;
+import org.jboss.tools.common.model.ui.wizard.newfile.NewXHTMLFileWizard;
+import org.jboss.tools.common.model.ui.wizards.standard.DefaultStandardStep;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jst.web.model.handlers.CreateJSPFileSupport;
 
 /**
  * @author mareshkau
@@ -45,6 +54,8 @@ public class NewXHTMLWizard extends NewHTMLWizard{
 	
 	private WizardNewFileCreationPage fNewFilePage;
 	private NewXHTMLTemplatesWizardPage fNewFileTemplatesPage;
+	private NewXHTMLFileWizard newXHTMLFileWizard;
+	private NewXHTMLWizardSelectTagLibrariesPage newXHTMLWizardSelectTagLibrariesPage;  
 	
 	
 	
@@ -58,11 +69,15 @@ public class NewXHTMLWizard extends NewHTMLWizard{
 		
 		this.fNewFileTemplatesPage = new NewXHTMLTemplatesWizardPage();
 		addPage(this.fNewFileTemplatesPage);
+		this.newXHTMLWizardSelectTagLibrariesPage = getURISelectionPage();
+		addPage(this.newXHTMLWizardSelectTagLibrariesPage);
 	}
 	@Override
 	public void init(IWorkbench aWorkbench, IStructuredSelection aSelection) {
 		super.init(aWorkbench, aSelection);
 		setWindowTitle(JsfUIMessages.UI_WIZARD_XHTML_NEW_TITLE);
+		setNewXHTMLFileWizard(new NewXHTMLFileWizard());
+		getNewXHTMLFileWizard().init(aWorkbench, aSelection);
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.wizard.Wizard#addPage(org.eclipse.jface.wizard.IWizardPage)
@@ -72,6 +87,17 @@ public class NewXHTMLWizard extends NewHTMLWizard{
 		if(!NewXHTMLWizard.NewHTMLTemplatesWizardPage.equalsIgnoreCase(page.getName())){
 			super.addPage(page);
 		}
+	}
+	private NewXHTMLWizardSelectTagLibrariesPage getURISelectionPage() {
+		SpecialWizardSupport support = getNewXHTMLFileWizard().getFileContext().getSupport();
+		NewXHTMLWizardSelectTagLibrariesPage step = new NewXHTMLWizardSelectTagLibrariesPage(support, 1);
+		try {
+			support.action(SpecialWizardSupport.NEXT);
+		} catch (XModelException e) {
+			ModelUIPlugin.getPluginLog().logError(e);
+		}
+		step.setWizard(this);
+		return step;
 	}
 	@Override
 	public boolean performFinish() {
@@ -94,6 +120,11 @@ public class NewXHTMLWizard extends NewHTMLWizard{
 		if (file != null) {
 			// put template contents into file
 			String templateString = fNewFileTemplatesPage.getTemplateString();
+			try {
+				templateString=((CreateJSPFileSupport)getNewXHTMLFileWizard().getFileContext().getSupport()).addTaglibs(templateString);
+			} catch (IOException ex) {
+				JsfUiPlugin.getDefault().logWarning("Problems with adding taglibs",ex); //$NON-NLS-1$
+			}
 			if (templateString != null) {
 				templateString = applyLineDelimiter(file, templateString);
 				// determine the encoding for the new file
@@ -152,4 +183,18 @@ public class NewXHTMLWizard extends NewHTMLWizard{
 			});
 		}
 	}
+	/**
+	 * @return the newXHTMLFileWizard
+	 */
+	private NewXHTMLFileWizard getNewXHTMLFileWizard() {
+		return newXHTMLFileWizard;
+	}
+	/**
+	 * @param newXHTMLFileWizard the newXHTMLFileWizard to set
+	 */
+	private void setNewXHTMLFileWizard(NewXHTMLFileWizard newXHTMLFileWizard) {
+		this.newXHTMLFileWizard = newXHTMLFileWizard;
+	}
+
+
 }
