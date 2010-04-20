@@ -107,6 +107,63 @@
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
+		
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsCSSClassHyperlinkPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsCSSClassHyperlinkPartitioner">
+         	
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/columnClasses/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/footerClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/headerClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/rowClasses/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/captionClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/styleClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/errorClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/fatalClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/infoClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/warnClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/disabledClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/enabledClass/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/columnClasses/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/footerClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/headerClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/rowClasses/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/captionClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/styleClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/errorClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/fatalClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/infoClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/warnClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/disabledClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/enabledClass/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+		
+	</extension>
+	
+	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlink"
+		id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink"
+		name="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink">
+		
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsCSSClassHyperlink" 
+			id="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsCSSClassHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.FACELETS_CSS_CLASS" />
+			</contenttypeidentifier>
+   			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.FACELETS_CSS_CLASS" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
 	</extension>	
 	
 	<extension point="org.jboss.tools.jst.web.kb.KbIncludeContext">
