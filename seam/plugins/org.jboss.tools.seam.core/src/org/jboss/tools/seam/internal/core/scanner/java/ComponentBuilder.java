@@ -170,7 +170,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		List<BijectedAttributeType> types = new ArrayList<BijectedAttributeType>();
 
 		for (AnnotatedASTNode<MethodDeclaration> n: annotatedMethods) {
-			Annotation main = getBijectedType(n, as, types);
+			getBijectedType(n, as, types);
 
 			if(as.isEmpty()) continue;
 			boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
@@ -186,7 +186,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			addLocation(att, out, OUT_ANNOTATION_TYPE);
 			addLocation(att, data, DATA_MODEL_ANNOTATION_TYPE);
 			
-			ValueInfo name = ValueInfo.getValueInfo(main, null);
+			ValueInfo name = findValueInfo(as, null);
 			att.setValue(name);
 			if(name == null || isDataModelSelectionType
 				|| name.getValue() == null || name.getValue().length() == 0) {
@@ -203,7 +203,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			
 			att.setName(name);
 
-			ValueInfo scope = ValueInfo.getValueInfo(main, "scope"); //$NON-NLS-1$
+			ValueInfo scope = findValueInfo(as, "scope"); //$NON-NLS-1$
 			if(scope != null) att.setScope(scope);
 			
 			IMethod im = findMethod(m);
@@ -212,7 +212,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		}
 
 		for (AnnotatedASTNode<FieldDeclaration> n: annotatedFields) {
-			Annotation main = getBijectedType(n, as, types);
+			getBijectedType(n, as, types);
 
 			if(as.isEmpty()) continue;
 			boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
@@ -225,7 +225,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			addLocation(att, as.get(BijectedAttributeType.OUT), OUT_ANNOTATION_TYPE);
 			addLocation(att, as.get(BijectedAttributeType.DATA_BINDER), DATA_MODEL_ANNOTATION_TYPE);
 
-			ValueInfo name = ValueInfo.getValueInfo(main, null);
+			ValueInfo name = findValueInfo(as, null);
 			att.setValue(name);
 			if(name == null || isDataModelSelectionType
 					|| name.getValue() == null || name.getValue().length() == 0) {
@@ -237,7 +237,7 @@ public class ComponentBuilder implements SeamAnnotations {
 			
 			att.setName(name);
 
-			ValueInfo scope = ValueInfo.getValueInfo(main, "scope"); //$NON-NLS-1$
+			ValueInfo scope = findValueInfo(as, "scope"); //$NON-NLS-1$
 			if(scope != null) att.setScope(scope);
 			
 			IField f = findField(m);
@@ -245,20 +245,26 @@ public class ComponentBuilder implements SeamAnnotations {
 			att.setId(f);
 		}
 	}
-	private Annotation getBijectedType(AnnotatedASTNode<?> n,
+	private void getBijectedType(AnnotatedASTNode<?> n,
 				Map<BijectedAttributeType, Annotation> as, List<BijectedAttributeType> types) {
 		as.clear();
 		types.clear();
-		Annotation main = null;
 		for (int i = 0; i < BijectedAttributeType.values().length; i++) {
 			Annotation a = findAnnotation(n, BijectedAttributeType.values()[i].getAnnotationType());
 			if(a != null) {
 				as.put(BijectedAttributeType.values()[i], a);
-				if(main == null) main = a;
 				types.add(BijectedAttributeType.values()[i]);
 			}
 		}
-		return main;
+	}
+	private ValueInfo findValueInfo(Map<BijectedAttributeType, Annotation> as, String name) {
+		for (BijectedAttributeType t: BijectedAttributeType.values()) {
+			Annotation a = as.get(t);
+			if(a == null) continue;
+			ValueInfo result = ValueInfo.getValueInfo(a, name);
+			if(result != null && result.getValue() != null && result.getValue().length() > 0) return result;
+		}
+		return null;
 	}
 	private BijectedAttribute createBijectedAttribute(List<BijectedAttributeType> types) {
 		boolean isDataModelSelectionType = !types.get(0).isUsingMemberName();
