@@ -123,6 +123,7 @@ public class JSFUIMessages extends NLS {
 	public static String DeleteManagedBeanHandler_Failure;
 	public static String DeleteManagedPropertyHandler_Delete;
 	public static String DeleteManagedPropertyHandler_DeleteJavaProperty;
+	public static String Create_JSF_2_Composition_Component;
 
 	static {
 		// load message values from bundle file
