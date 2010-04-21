@@ -1,0 +1,17 @@
+<tests>
+<test id="jbide6064Test">
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="border: 1px dashed rgb(42, 127, 0);">
+<DIV>
+<SPAN CLASS="__any__tag__caption">
+ui:composition
+</SPAN>
+<SPAN CLASS="__any__tag__caption" STYLE="color: red; font-style: italic;">
+Template file is not found: ""
+</SPAN>
+</DIV>
+<SPAN CLASS="vpe-text">
+#{{
+</SPAN>
+</DIV>
+</test>
+</tests>
