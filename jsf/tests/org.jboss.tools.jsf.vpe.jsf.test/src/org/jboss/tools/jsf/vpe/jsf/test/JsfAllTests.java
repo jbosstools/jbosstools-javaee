@@ -19,6 +19,7 @@ import junit.framework.TestSuite;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditFontFamilyTest_JBIDE5872;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.ExceptionInVPEComments_JBIDE5143;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.FacetProcessingTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1105Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE1460Test;
@@ -216,6 +217,7 @@ public class JsfAllTests {
 		suite.addTestSuite(NaturesChecker_JBIDE5701.class);
 		suite.addTestSuite(FacetProcessingTest.class);
 		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
+		suite.addTestSuite(ExceptionInVPEComments_JBIDE5143.class);
 			
 		// $JUnit-END$
 		// added by Max Areshkau
