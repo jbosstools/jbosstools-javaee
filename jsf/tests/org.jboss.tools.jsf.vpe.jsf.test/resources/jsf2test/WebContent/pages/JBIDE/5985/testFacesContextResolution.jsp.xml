@@ -1,0 +1,14 @@
+<tests>
+<test id="jbide-5985">
+<TABLE STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
+<TR>
+<TD>
+<DIV>
+<IMG SRC="/.*jsf2test/WebContent/resources/img/img.gif/" STYLE="-moz-user-modify: read-write;"/>
+<IMG SRC="/.*jsf2test/WebContent/resources/img/img.gif/"/>
+</DIV>
+</TD>
+</TR>
+</TABLE>
+</test>
+</tests>
