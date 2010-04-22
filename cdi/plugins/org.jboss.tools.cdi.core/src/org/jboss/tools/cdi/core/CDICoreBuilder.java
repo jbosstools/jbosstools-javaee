@@ -37,11 +37,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeParameter;
-import org.jboss.tools.cdi.internal.core.impl.CDIAnnotationElement;
-import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.EclipseUtil;
@@ -144,10 +140,13 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
 
 			if(n.getClassPath().update()) {
+				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				Map<String, XModelObject> newJars = n.getClassPath().process();
 				buildJars(newJars);
 				
 				n.getClassPath().validateProjectDependencies();
+				
+				kind = FULL_BUILD;
 			} else if(n.getClassPath().hasToUpdateProjectDependencies()) {
 				n.getClassPath().validateProjectDependencies();
 			}

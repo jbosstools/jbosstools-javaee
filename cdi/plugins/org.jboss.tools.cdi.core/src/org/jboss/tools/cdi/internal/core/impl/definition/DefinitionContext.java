@@ -33,6 +33,7 @@ public class DefinitionContext {
 	protected IJavaProject javaProject;
 
 	private Set<String> types = new HashSet<String>();
+	private Map<IPath, Set<IPath>> childPaths = new HashMap<IPath, Set<IPath>>();
 	private Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
 	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
 	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
@@ -58,6 +59,14 @@ public class DefinitionContext {
 					Set<String> s1 = new HashSet<String>();
 					s1.addAll(set);
 					copy.resources.put(p, s1);
+				}
+			}
+			for (IPath p: childPaths.keySet()) {
+				Set<IPath> set = childPaths.get(p);
+				if(set != null) {
+					Set<IPath> s1 = new HashSet<IPath>();
+					s1.addAll(set);
+					copy.childPaths.put(p, s1);
 				}
 			}
 			copy.beanXMLs.putAll(beanXMLs);
@@ -88,6 +97,7 @@ public class DefinitionContext {
 			}
 			ts.add(typeName);
 			types.add(typeName);
+			addToParents(file);
 		}
 		if(def != null) {
 			if(def instanceof AnnotationDefinition) {
@@ -106,9 +116,25 @@ public class DefinitionContext {
 		synchronized (beanXMLs) {
 			beanXMLs.put(path, def);
 		}
+		addToParents(path);
+	}
+
+	private void addToParents(IPath file) {
+		if(file == null) return;
+		if(file.segmentCount() < 2) return;
+		IPath q = file;
+		while(q.segmentCount() >= 2) {
+			q = q.removeLastSegments(1);
+			Set<IPath> cs = childPaths.get(q);
+			if(cs == null) {
+				childPaths.put(q, cs = new HashSet<IPath>());
+			}
+			cs.add(file);
+		}
 	}
 
 	public void clean() {
+		childPaths.clear();
 		resources.clear();
 		types.clear();
 		synchronized (typeDefinitions) {
@@ -135,6 +161,31 @@ public class DefinitionContext {
 		}
 		synchronized (beanXMLs) {
 			beanXMLs.remove(path);
+		}
+
+		Set<IPath> cs = childPaths.get(path);
+		if(cs != null) {
+			IPath[] ps = cs.toArray(new IPath[0]);
+			for (IPath p: ps) {
+				clean(p);
+			}
+		} else {
+			removeFromParents(path);
+		}
+	}
+
+	void removeFromParents(IPath file) {
+		if(file == null) return;
+		IPath q = file;
+		while(q.segmentCount() >= 2) {
+			q = q.removeLastSegments(1);
+			Set<IPath> cs = childPaths.get(q);
+			if(cs != null) {
+				cs.remove(file);
+				if(cs.isEmpty()) {
+					childPaths.remove(q);
+				}
+			}
 		}
 	}
 
@@ -217,6 +268,7 @@ public class DefinitionContext {
 
 		types = workingCopy.types;
 		resources = workingCopy.resources;
+		childPaths = workingCopy.childPaths;
 		typeDefinitions = workingCopy.typeDefinitions;
 		annotations = workingCopy.annotations;
 	

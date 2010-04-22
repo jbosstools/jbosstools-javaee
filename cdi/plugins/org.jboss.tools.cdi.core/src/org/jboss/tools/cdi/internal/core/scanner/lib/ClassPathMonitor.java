@@ -13,11 +13,14 @@ package org.jboss.tools.cdi.internal.core.scanner.lib;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.common.model.XModelObject;
@@ -28,6 +31,7 @@ import org.jboss.tools.jst.web.kb.internal.scanner.LoadedDeclarations;
 import org.jboss.tools.jst.web.kb.internal.scanner.ScannerException;
 
 public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
+	IPath[] srcs = new IPath[0];
 
 	public ClassPathMonitor(CDICoreNature project) {
 		this.project = project;
@@ -76,6 +80,19 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 
 	public IProject getProjectResource() {
 		return project.getProject();
+	}
+
+	public void setSrcs(IPath[] newSrcs) {
+		Set<IPath> ss = new HashSet<IPath>();
+		for (IPath s: newSrcs) {
+			ss.add(s);
+		}
+		for (IPath s: srcs) {
+			if(!ss.contains(s)) {
+				project.pathRemoved(s);
+			}
+		}
+		srcs = newSrcs;
 	}
 
 }

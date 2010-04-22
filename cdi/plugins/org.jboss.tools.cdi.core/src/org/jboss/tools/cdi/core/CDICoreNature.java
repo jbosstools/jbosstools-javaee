@@ -12,9 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
@@ -268,7 +266,7 @@ public class CDICoreNature implements IProjectNature {
 
 	public void pathRemoved(IPath source) {
 //		sourcePaths2.remove(source);
-		definitions.clean(source);
+		definitions.getWorkingCopy().clean(source);
 		//TODO
 	}
 
