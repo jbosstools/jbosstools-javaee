@@ -13,3 +13,4 @@ Require-Bundle: org.jboss.tools.tests,
  org.jboss.tools.common
 Export-Package: org.jboss.tools.cdi.core.test,
  org.jboss.tools.cdi.core.test.tck
+Bundle-ClassPath: cdi-core-test.jar

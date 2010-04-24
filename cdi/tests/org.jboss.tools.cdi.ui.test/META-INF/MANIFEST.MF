@@ -18,3 +18,5 @@ Require-Bundle: org.junit,
  org.jboss.tools.common,
  org.eclipse.osgi,
  org.eclipse.core.runtime
+Bundle-ClassPath: cdi-ui-test.jar
+Export-Package: org.jboss.tools.cdi.ui.test
