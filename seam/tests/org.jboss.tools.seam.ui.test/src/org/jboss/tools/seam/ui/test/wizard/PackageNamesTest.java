@@ -17,11 +17,11 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
-import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * @author dazarov

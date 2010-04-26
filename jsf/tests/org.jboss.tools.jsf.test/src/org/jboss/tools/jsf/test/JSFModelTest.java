@@ -19,6 +19,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.AbstractXMLFileImpl;
@@ -26,11 +28,13 @@ import org.jboss.tools.common.model.loaders.EntityRecognizer;
 import org.jboss.tools.common.model.loaders.EntityRecognizerContext;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.test.util.TestDescription;
-import org.jboss.tools.common.test.util.TestDescriptionFactory;
-import org.jboss.tools.common.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.TestDescription;
+import org.jboss.tools.test.util.TestDescriptionFactory;
+import org.jboss.tools.test.util.TestProjectProvider;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
+import org.jboss.tools.test.util.TestDescription;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class JSFModelTest extends TestCase {
 	TestProjectProvider provider = null;

@@ -32,11 +32,11 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.internal.editor.EditorModelUtil;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class ELExprPartitionerTest extends TestCase {
 	TestProjectProvider provider = null;

@@ -35,8 +35,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.common.frameworks,
  org.jboss.tools.jst.web.kb;visibility:=reexport,
  org.jboss.tools.jsf,
+ org.eclipse.jem.util,
  org.eclipse.debug.core;bundle-version="3.4.0"
-Bundle-Version: 2.0.0
+Bundle-Version: 3.1.0.qualifier
 Export-Package: 
  org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,

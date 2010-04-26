@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.jboss.tools.struts_feature"
+      id="org.jboss.tools.struts.feature"
       label="%featureName"
-      version="2.0.0"
+      version="3.1.0.qualifier"
       provider-name="%providerName"
       plugin="org.jboss.tools.struts.ui">
 

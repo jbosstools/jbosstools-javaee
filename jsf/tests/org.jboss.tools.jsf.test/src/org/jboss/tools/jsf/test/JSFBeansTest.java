@@ -10,9 +10,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class JSFBeansTest extends TestCase {
 	TestProjectProvider provider = null;

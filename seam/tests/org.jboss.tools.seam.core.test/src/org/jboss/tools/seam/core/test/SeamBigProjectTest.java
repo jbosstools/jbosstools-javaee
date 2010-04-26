@@ -27,13 +27,13 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 import org.osgi.framework.Bundle;
 
 /**

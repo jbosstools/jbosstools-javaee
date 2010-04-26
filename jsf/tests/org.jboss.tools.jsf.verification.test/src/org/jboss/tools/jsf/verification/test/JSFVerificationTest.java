@@ -19,10 +19,10 @@ import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.test.util.TestDescription;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.verification.test.VerificationUtil;
 import org.jboss.tools.common.verification.vrules.VResult;
+import org.jboss.tools.test.util.TestDescription;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class JSFVerificationTest extends TestCase {
 	TestProjectProvider provider = null;

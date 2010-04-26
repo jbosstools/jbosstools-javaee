@@ -17,14 +17,17 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.TestProjectProvider;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class ModelFormat_2_0_0_Test extends TestCase {
 	TestProjectProvider provider = null;

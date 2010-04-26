@@ -18,7 +18,7 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.TestProjectProvider;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;

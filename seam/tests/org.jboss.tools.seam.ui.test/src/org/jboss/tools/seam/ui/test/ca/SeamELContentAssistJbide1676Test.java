@@ -24,9 +24,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class SeamELContentAssistJbide1676Test extends TestCase {
 	TestProjectProvider provider = null;

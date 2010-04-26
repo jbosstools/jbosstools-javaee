@@ -10,7 +10,7 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.wst.common.modulecore,
  org.eclipse.ltk.core.refactoring
-Bundle-Version: 2.0.0
+Bundle-Version: 3.1.0.qualifier
 Export-Package: org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.pages.xml.model,
  org.jboss.tools.seam.pages.xml.model.handlers,

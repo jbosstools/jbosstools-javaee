@@ -46,6 +46,6 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.jdt.core.manipulation,
  org.eclipse.jst.j2ee,
  org.eclipse.ui.ide
-Bundle-Version: 2.0.0
+Bundle-Version: 3.1.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

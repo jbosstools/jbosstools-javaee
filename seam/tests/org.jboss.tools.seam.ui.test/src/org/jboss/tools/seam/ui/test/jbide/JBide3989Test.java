@@ -23,12 +23,12 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.marker.SeamRuntimeMarkerResolution;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 /**
  * @author snjeza

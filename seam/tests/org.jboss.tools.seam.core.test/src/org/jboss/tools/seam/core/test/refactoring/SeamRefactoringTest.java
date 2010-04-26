@@ -12,7 +12,6 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.tests.AbstractRefactorTest;
 
 public class SeamRefactoringTest  extends AbstractRefactorTest {
 	static String warProjectName = "Test1";

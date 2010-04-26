@@ -2,26 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.vpe.richfaces.test;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 3.1.0.qualifier
 Bundle-Activator: org.jboss.tools.jsf.vpe.richfaces.test.RichFacesTestPlugin
-Require-Bundle: org.jboss.tools.jsf.vpe.richfaces,
- org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe,
  org.junit,
- org.eclipse.core.resources,
  org.eclipse.ui.ide,
- org.jboss.tools.common,
- org.jboss.tools.jst.web,
  org.jboss.tools.jst.jsp,
- org.jboss.tools.common.text.ext,
- org.jboss.tools.common.model,
- org.jboss.tools.vpe.xulrunner,
- org.jboss.tools.jsf.vpe.richfaces,
  org.mozilla.xpcom;bundle-version="1.9.1",
  org.jboss.tools.vpe.ui.test,
- org.jboss.tools.vpe.resref;bundle-version="2.0.0",
- org.jboss.tools.common.el.ui;bundle-version="1.0.0",
  org.jboss.tools.common.el.core;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: vpe-rf-test.jar

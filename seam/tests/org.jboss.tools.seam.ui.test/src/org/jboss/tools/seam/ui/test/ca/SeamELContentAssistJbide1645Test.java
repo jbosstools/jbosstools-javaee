@@ -7,10 +7,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 	TestProjectProvider provider = null;

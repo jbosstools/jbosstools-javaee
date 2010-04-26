@@ -28,12 +28,12 @@ import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModel
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.server.core.IServerWorkingCopy;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
-import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.jst.firstrun.JBossASAdapterInitializer;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * @author eskimo, akazakov

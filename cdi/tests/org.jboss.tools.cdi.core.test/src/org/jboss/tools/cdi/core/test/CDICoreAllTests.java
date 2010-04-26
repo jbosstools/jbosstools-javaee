@@ -15,7 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
-import org.jboss.tools.cdi.core.test.tck.NamedBeanRefactoringTest;
+//import org.jboss.tools.cdi.core.test.tck.NamedBeanRefactoringTest;
 import org.jboss.tools.tests.AbstractPluginsLoadTest;
 
 /**
@@ -26,7 +26,7 @@ public class CDICoreAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI Core Tests");
 		suite.addTest(new CDICoreTestSetup(CDICoreTestSuite.suite()));
-		suite.addTest(NamedBeanRefactoringTest.suite());
+		//suite.addTest(NamedBeanRefactoringTest.suite());
 
 		return new DisableJavaIndexingSetup(suite);
 	}

@@ -14,8 +14,8 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ui.wizard.newfile.NewFileContextEx;
 import org.jboss.tools.common.model.ui.wizard.newfile.NewFileWizardEx;
-import org.jboss.tools.common.util.WorkbenchUtils;
 import org.jboss.tools.jst.jsp.outline.cssdialog.CSSClassDialog;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 public abstract class WizardTest extends TestCase {
 	protected String id;
