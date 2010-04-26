@@ -158,8 +158,10 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 
 		SeamProjectsSet set = new SeamProjectsSet(project);
 		IProject warProject = set.getWarProject();
-		seamProject = SeamCorePlugin.getSeamProject(warProject, false);
-		projectName = seamProject.getProject().getName();
+		if(warProject.isAccessible()) {
+			seamProject = SeamCorePlugin.getSeamProject(warProject, false);
+			projectName = seamProject.getProject().getName();
+		}
 	}
 
 	private boolean isPreferencesEnabled(IProject project) {
@@ -172,6 +174,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 */
 	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
 		init(project, validationHelper, manager, reporter);
+		if(seamProject==null) {
+			return OK_STATUS;
+		}
 		displaySubtask(SeamValidationMessages.SEARCHING_RESOURCES, new String[]{projectName});
 
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -269,6 +274,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 */
 	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
 		init(project, validationHelper, manager, reporter);
+		if(seamProject==null) {
+			return OK_STATUS;
+		}
 		removeAllMessagesFromResource(seamProject.getProject());
 		ISeamComponent[] components = seamProject.getComponents();
 		for (ISeamComponent component : components) {
