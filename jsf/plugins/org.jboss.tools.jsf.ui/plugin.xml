@@ -511,4 +511,12 @@
 			translations="src/templates/xhtmldefault-templates.properties">
 		</include>
 	</extension>
+
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective">
+         <newWizardShortcut id="org.jboss.tools.jsf.ui.wizard.newfile.NewXHTMLWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+	</extension>
+
 </plugin>
