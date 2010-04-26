@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -28,6 +29,7 @@ import org.jboss.tools.jst.web.kb.IKbProject;
  * @author Alexey Kazakov
  */
 public class CDIUtil {
+
 	/**
 	 * Adds CDI and KB builders to the project.
 	 * 
@@ -40,6 +42,7 @@ public class CDIUtil {
 				EclipseResourceUtil.addNatureToProject(project,
 						IKbProject.NATURE_ID);
 			}
+			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}

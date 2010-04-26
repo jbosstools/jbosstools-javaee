@@ -53,6 +53,7 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.preferences.SettingsPage;
@@ -965,6 +966,7 @@ public class SeamSettingsPreferencePage extends SettingsPage {
 			if(!project.hasNature(IKbProject.NATURE_ID)) {
 				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
 			}
+			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
