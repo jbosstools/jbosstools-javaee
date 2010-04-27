@@ -251,9 +251,9 @@
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
             <title>Content Assist</title>
             <para><property>Content assist</property> is available when working with</para>
-            <itemizedlist>
+            <itemizedlist>                
                 <listitem>
-                    <para> Seam project files </para>
+                    <para> <ulink url="../../seam/html_single/index.html#ContentAssist">Seam project files</ulink> </para>
                 </listitem>
                 <listitem>
                     <para>
@@ -281,11 +281,16 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para> ESB XML files </para>
+                    <para> <ulink url="../../esb_ref_guide/html_single/index.html#ESBContentAssist">ESB XML files</ulink> </para>
                 </listitem>
                 <listitem>
                     <para>
                         <link linkend="ContentAssistForInsertTag">Insert Tag Wizard</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <link linkend="ContentAssistForExpressionLanguageShowsJavaDoc">JavaDoc for EL</link>
                     </para>
                 </listitem>
             </itemizedlist>
@@ -308,11 +313,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/icons_enumaration.png"
-                                            />
-                                        </imageobject>
-                                    </inlinemediaobject>
+                                    <imagedata
+                                        fileref="images/editors_features/icons_enumaration.png"
+                                    />
+                                </imageobject>
+                                </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -326,11 +331,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/icons_seam_el.png"
-                                            />
-                                        </imageobject>
-                                    </inlinemediaobject>
+                                    <imagedata
+                                        fileref="images/editors_features/icons_seam_el.png"
+                                    />
+                                </imageobject>
+                                </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -344,10 +349,10 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/icons_jsf_el.png"/>
-                                        </imageobject>
-                                    </inlinemediaobject>
+                                    <imagedata
+                                        fileref="images/editors_features/icons_jsf_el.png"/>
+                                </imageobject>
+                                </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -362,11 +367,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/icons_jsf_actions.png"
-                                            />
-                                        </imageobject>
-                                    </inlinemediaobject>
+                                    <imagedata
+                                        fileref="images/editors_features/icons_jsf_actions.png"
+                                    />
+                                </imageobject>
+                                </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -374,17 +379,17 @@
                             </entry>
                             <entry>
                                 <para>Used to show navigation rules defined in the <property
-                                        >faces-config.xml</property> . </para>
+                                    >faces-config.xml</property> . </para>
                             </entry>
                         </row>
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/icons_message_bundles.png"
-                                            />
-                                        </imageobject>
-                                    </inlinemediaobject>
+                                    <imagedata
+                                        fileref="images/editors_features/icons_message_bundles.png"
+                                    />
+                                </imageobject>
+                                </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -398,11 +403,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                            <imagedata
-                                                fileref="images/editors_features/icons_resource_paths.png"
-                                            />
-                                        </imageobject>
-                                    </inlinemediaobject>
+                                    <imagedata
+                                        fileref="images/editors_features/icons_resource_paths.png"
+                                    />
+                                </imageobject>
+                                </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -432,7 +437,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Also the ranking and sorting are available in EL code
+            <para>The ranking and sorting are available in EL code
             completions.</para>
             <para>As you can see, together with proposals content assist also provides descriptions
                 of selected tags or attributes.</para>
@@ -445,7 +450,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <section id="JSFProjectFiles3087">
+           <section id="JSFProjectFiles3087">
                 <title>JSF Project Files</title>
                 <para>When working with JSF project in JBoss Developer Studio, you can use various
                         <property>Content Assist features</property> while developing:</para>
@@ -844,7 +849,7 @@
                     </mediaobject>
                 </figure>
             </section>
-            <section id="AddingDynamicCodeAssistToCustomComponents8745">
+            <section id="AddingDynamicCodeAssistToCustomComponents8745">                
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
@@ -963,7 +968,20 @@
                     </listitem>
                 </itemizedlist>
             </section>
-        </section>
+            <section id="ContentAssistForExpressionLanguageShowsJavaDoc">
+                <title>JavaDoc for Expression Language</title>
+                <para>Content assist for expression language shows Java doc if available for referenced methods.</para>
+                <figure>
+                    <title>Expression Language Content assist shows Java doc</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_33.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+               
+            </section>
+         </section>        
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
             <title>Synchronized Source and Visual Editing</title>
             <para><property>JBoss Developer Studio</property> offers the flexibility to edit any
