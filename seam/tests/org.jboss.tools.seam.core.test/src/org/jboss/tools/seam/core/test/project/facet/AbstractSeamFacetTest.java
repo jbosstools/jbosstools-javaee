@@ -93,7 +93,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 
 	public static final String SYS_PROP_IS_NOT_DEFINED = "System property {0} is not defined";
 	protected File getSeamHomeFolder() {
-		String seamHomeFolder = System.getProperty(getSystemPropertyName());
+		String seamHomeFolder = "C:\\JBoss\\jboss-seam-1.2.1.GA";//System.getProperty(getSystemPropertyName());
 		if(seamHomeFolder==null) {
 			throw new IllegalStateException(
 					MessageFormat.format(SYS_PROP_IS_NOT_DEFINED, getSystemPropertyName())
