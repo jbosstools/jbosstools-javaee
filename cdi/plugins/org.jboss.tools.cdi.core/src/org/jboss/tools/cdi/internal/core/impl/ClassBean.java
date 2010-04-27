@@ -157,8 +157,13 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public Set<IBeanMethod> getDisposers() {
-		// TODO 
-		return new HashSet<IBeanMethod>();
+		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+		for (BeanMethod m: methods) {
+			if(m.isDisposer()) {
+				result.add(m);
+			}
+		}
+		return result;
 	}
 
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindings() {
@@ -172,11 +177,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IObserverMethod> getObserverMethods() {
-		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
+	public Set<IBeanMethod> getObserverMethods() {
+		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
 		for (BeanMethod m: methods) {
-			if(m instanceof IObserverMethod) {
-				result.add((IObserverMethod)m);
+			if(m.isDisposer()) {
+				result.add(m);
 			}
 		}
 		return result;

@@ -316,15 +316,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 3.3.6. Declaring a disposer method
 			 *  - method has more than one parameter annotated @Disposes
 			 */
-			Set<IAnnotationDeclaration> disposerDeclarations = new HashSet<IAnnotationDeclaration>();
+			Set<ITextSourceReference> disposerDeclarations = new HashSet<ITextSourceReference>();
 			for (IParameter param : params) {
-				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 				if(declaration!=null) {
 					disposerDeclarations.add(declaration);
 				}
 			}
 			if(disposerDeclarations.size()>1) {
-				for (IAnnotationDeclaration declaration : disposerDeclarations) {
+				for (ITextSourceReference declaration : disposerDeclarations) {
 					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource());
 				}
 			}
@@ -335,18 +335,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 10.4.2. Declaring an observer method
 			 *  - a observer method has a parameter annotated @Disposes.
 			 */
-			Set<IAnnotationDeclaration> declarations = new HashSet<IAnnotationDeclaration>();
+			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
 			boolean observesExists = false;
 			declarations.addAll(disposerDeclarations);
 			for (IParameter param : params) {
-				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
 				if(declaration!=null) {
 					declarations.add(declaration);
 					observesExists = true;
 				}
 			}
 			if(observesExists) {
-				for (IAnnotationDeclaration declaration : declarations) {
+				for (ITextSourceReference declaration : declarations) {
 					addError(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource());
 				}
 			}
@@ -360,7 +360,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			IAnnotationDeclaration injectDeclaration = disposer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 			if(injectDeclaration!=null) {
 				addError(CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, CDIPreferences.DISPOSER_ANNOTATED_INJECT, injectDeclaration, bean.getResource());
-				for (IAnnotationDeclaration declaration : disposerDeclarations) {
+				for (ITextSourceReference declaration : disposerDeclarations) {
 					addError(CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, CDIPreferences.DISPOSER_ANNOTATED_INJECT, declaration, bean.getResource());
 				}
 			}
@@ -381,7 +381,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 * @param annotatedParams
 	 * @param errorKey
 	 */
-	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<IAnnotationDeclaration> annotatedParams, String errorMessageKey, String preferencesKey) {
+	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<ITextSourceReference> annotatedParams, String errorMessageKey, String preferencesKey) {
 		if(bean instanceof ISessionBean) {
 			if(annotatedParams!=null) {
 				try {
@@ -407,7 +407,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							}
 						}
 						if(!businessMethod) {
-							for (IAnnotationDeclaration declaration : annotatedParams) {
+							for (ITextSourceReference declaration : annotatedParams) {
 								addError(errorMessageKey, preferencesKey, declaration, bean.getResource());
 							}
 						}
@@ -444,7 +444,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		} else {
 			IProducerMethod producerMethod = (IProducerMethod)producer;
 			List<IParameter> params = producerMethod.getParameters();
-			Set<IAnnotationDeclaration> declarations = new HashSet<IAnnotationDeclaration>();
+			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
 			declarations.add(producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
 			for (IParameter param : params) {
 				/*
@@ -454,7 +454,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 * 3.3.2. Declaring a producer method
 				 *  - a has a parameter annotated @Disposes
 				 */
-				IAnnotationDeclaration declaration = param.getAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 				if(declaration!=null) {
 					declarations.add(declaration);
 				}
@@ -465,13 +465,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 * 10.4.2. Declaring an observer method
 				 *  - an observer method is annotated @Produces
 				 */
-				declaration = param.getAnnotation(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
 				if(declaration!=null) {
 					declarations.add(declaration);
 				}
 			}
 			if(declarations.size()>1) {
-				for (IAnnotationDeclaration declaration : declarations) {
+				for (ITextSourceReference declaration : declarations) {
 					addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, producer.getResource());
 				}
 			}

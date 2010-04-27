@@ -52,7 +52,7 @@ public interface IClassBean extends IBean {
 	 * 
 	 * @return a set of observer methods of the bean
 	 */
-	Set<IObserverMethod> getObserverMethods();
+	Set<IBeanMethod> getObserverMethods();
 
 
 	/**

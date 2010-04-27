@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
+import org.jboss.tools.common.text.ITextSourceReference;
+
 /**
  * Represents a parameter of a method which is a member of bean class.
  * 
@@ -39,4 +41,16 @@ public interface IParameter extends IBeanMember {
 	 * @return the name of this parameter.
 	 */
 	String getName();
+
+	/**
+	 * Get position of element annotation of a certain annotation type.
+	 * This method currently replaces IAnnotated.getAnnotation method 
+	 * which cannot be implemented until JDT extend model for parameters.
+	 * 
+	 * @param annotationTypeName
+	 *            the name of the annotation type
+	 * @return the element annotation of the given annotation type, or a null
+	 *         value
+	 */
+	public ITextSourceReference getAnnotationPosition(String annotationTypeName);
 }
