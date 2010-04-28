@@ -394,16 +394,16 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
 							if(annotation==null) {
 								annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
-								if(annotation!=null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
-									IMethod[] methods = sourceType.getMethods();
-									for (IMethod iMethod : methods) {
-										if(method.getMethod().isSimilar(iMethod)) {
-											businessMethod = true;
-											break;
-										}
+							}
+							if(annotation!=null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
+								IMethod[] methods = sourceType.getMethods();
+								for (IMethod iMethod : methods) {
+									if(method.getMethod().isSimilar(iMethod)) {
+										businessMethod = true;
+										break;
 									}
-									break;
 								}
+								break;
 							}
 						}
 						if(!businessMethod) {
