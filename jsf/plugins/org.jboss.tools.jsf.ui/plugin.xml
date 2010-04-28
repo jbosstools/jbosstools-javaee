@@ -518,5 +518,9 @@
          </newWizardShortcut>
       </perspectiveExtension>
 	</extension>
+   <extension
+         point="org.jboss.tools.jst.jsp.editorContentAssistent">
+         <contentassisten class="org.jboss.tools.jsf.ui.editor.pref.template.contentassist.XHTMLContentAssistProcessor"/>
+   </extension>
 
 </plugin>
