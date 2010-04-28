@@ -277,6 +277,11 @@
                 </listitem>
                 <listitem>
                     <para>
+                        <link linkend="ContentAssistForJavaFiles">Java files</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
                         <link linkend="ContentAssistForRF">RichFaces components</link>
                     </para>
                 </listitem>
@@ -288,11 +293,7 @@
                         <link linkend="ContentAssistForInsertTag">Insert Tag Wizard</link>
                     </para>
                 </listitem>
-                <listitem>
-                    <para>
-                        <link linkend="ContentAssistForExpressionLanguageShowsJavaDoc">JavaDoc for EL</link>
-                    </para>
-                </listitem>
+                
             </itemizedlist>
             <para>Notice, that code completion for EL variables has icons illustrating what they are
                 from. The most of this icons are described in the table below.</para>
@@ -819,6 +820,8 @@
                     </figure>
                 </section>
             </section>
+            
+            
             <section id="ContentAssistForXHTMLPages">
                 <title>Content Assist for XHTML Pages</title>
                 <para>The code completion for the Seam components in a Seam project shows the
@@ -835,6 +838,20 @@
                     be available for them. For details, see <link
                         linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom
                         Facelets Components&quot;</link> later in this guide.</para>
+            </section>
+            
+            <section id="ContentAssistForJavaFiles">
+                <title>Content Assist for Java Files</title>
+                <para>Various tools tips provide you additional information about java elements (JavaDocs, source classes, return types, method names, params, and etc.) when working with java files</para>
+                <figure>
+                    <title>Content assist for JavaDoc</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/editors_features/editors_features_33.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                
             </section>
             <section id="ContentAssistForInsertTag">
                 <title>Content Assist for Insert Tag Wizard</title>
@@ -968,19 +985,7 @@
                     </listitem>
                 </itemizedlist>
             </section>
-            <section id="ContentAssistForExpressionLanguageShowsJavaDoc">
-                <title>JavaDoc for Expression Language</title>
-                <para>Content assist for expression language shows Java doc if available for referenced methods.</para>
-                <figure>
-                    <title>Expression Language Content assist shows Java doc</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/editors_features/editors_features_33.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-               
-            </section>
+           
          </section>        
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
             <title>Synchronized Source and Visual Editing</title>
