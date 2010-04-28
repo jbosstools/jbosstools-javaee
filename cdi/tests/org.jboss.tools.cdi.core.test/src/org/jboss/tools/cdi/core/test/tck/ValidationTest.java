@@ -234,7 +234,8 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInitializerMethodHasParameterAnnotatedDisposes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 26);
+		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
+		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
 	}
 
 	/**
