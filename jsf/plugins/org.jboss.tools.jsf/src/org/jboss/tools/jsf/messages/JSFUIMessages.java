@@ -118,13 +118,17 @@ public class JSFUIMessages extends NLS {
 	public static String DeleteFacesConfigHandler_DeleteReferenceFromWebXML;
 	public static String DeleteGroupHandler_Delete;
 	public static String DeleteGroupHandler_DeleteFileFromDisk;
-	
 	public static String DeleteManagedBeanHandler_CannotDeleteFile;
 	public static String DeleteManagedBeanHandler_Failure;
 	public static String DeleteManagedPropertyHandler_Delete;
 	public static String DeleteManagedPropertyHandler_DeleteJavaProperty;
-	public static String Create_JSF_2_Composition_Component;
-
+	public static String Create_JSF_2_Composite_Component;
+	public static String Missing_JSF_2_Composite_Component;
+	public static String Missing_JSF_2_Component_Attr;
+	public static String Create_JSF_2_Interface_Attr;
+	public static String Missing_JSF_2_Resources_Folder;
+	public static String Create_JSF_2_Resources_Folder;
+	
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, JSFUIMessages.class);		

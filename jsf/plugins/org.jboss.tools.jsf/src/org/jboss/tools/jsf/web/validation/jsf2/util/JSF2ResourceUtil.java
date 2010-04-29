@@ -1,18 +1,17 @@
- /*******************************************************************************
-  * Copyright (c) 2007-2010 Red Hat, Inc.
-  * Distributed under license by Red Hat, Inc. All rights reserved.
-  * This program is made available under the terms of the
-  * Eclipse Public License v1.0 which accompanies this distribution,
-  * and is available at http://www.eclipse.org/legal/epl-v10.html
-  *
-  * Contributors:
-  *     Red Hat, Inc. - initial API and implementation
-  ******************************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2007-2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 
 package org.jboss.tools.jsf.web.validation.jsf2.util;
 
 import java.util.zip.ZipEntry;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -37,7 +36,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 /**
  * 
  * @author yzhishko
- *
+ * 
  */
 
 @SuppressWarnings("restriction")
@@ -47,12 +46,12 @@ public class JSF2ResourceUtil {
 
 	public static final String COMPONENT_RESOURCE_PATH_KEY = "component_resource_path_key"; //$NON-NLS-1$
 
-	public static boolean isJSF2CompositeComponentExists(IProject project,
+	public static Object findCompositeComponentContainer(IProject project,
 			IDOMElement jsf2Element) {
 		ElementImpl elementImpl = (ElementImpl) jsf2Element;
 		String nameSpaceURI = elementImpl.getNamespaceURI();
 		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
-			return false;
+			return null;
 		}
 		String nodeName = jsf2Element.getNodeName();
 		if (nodeName.lastIndexOf(':') != -1) {
@@ -69,15 +68,69 @@ public class JSF2ResourceUtil {
 					"/" + nodeName + ".xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if (file.exists()) {
-				return true;
+				return file;
 			}
 		}
 		return searchInClassPath(project, "META-INF" + relativeLocation //$NON-NLS-1$
 				+ "/" + nodeName + ".xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	public static IFile createJSF2CompositeComponent(IProject project,
-			IPath resourceRelativePath) throws CoreException {
+	private static ZipEntry searchInClassPath(IProject project,
+			String classPathResource) {
+		IJavaProject javaProject = JavaCore.create(project);
+		try {
+			for (IPackageFragmentRoot fragmentRoot : javaProject
+					.getAllPackageFragmentRoots()) {
+				if (fragmentRoot instanceof JarPackageFragmentRoot) {
+					JarPackageFragmentRoot jarPackageFragmentRoot = (JarPackageFragmentRoot) fragmentRoot;
+					ZipEntry zipEntry = jarPackageFragmentRoot.getJar()
+							.getEntry(classPathResource);
+					if (zipEntry != null) {
+						return zipEntry;
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
+		return null;
+	}
+
+	public static IPath findResourcesFolderByNameSpace(IProject project,
+			String nameSpaceURI) {
+		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
+			return null;
+		}
+		String relativeLocation = "/resources" + nameSpaceURI.replaceFirst( //$NON-NLS-1$
+				JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		if (component != null) {
+			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
+					new Path("/")); //$NON-NLS-1$
+			IContainer folder = webRootFolder.getUnderlyingFolder();
+			IPath path = folder.getFullPath().append(relativeLocation);
+			IFolder resFolder = ResourcesPlugin.getWorkspace().getRoot()
+					.getFolder(path);
+			if (resFolder.exists()) {
+				return resFolder.getFullPath();
+			}
+		}
+		return null;
+	}
+
+	public static boolean isResourcesFolderExists(IProject project,
+			String nameSpaceURI) {
+		return findResourcesFolderByNameSpace(project, nameSpaceURI) == null ? false
+				: true;
+	}
+
+	public static IFolder createResourcesFolderByNameSpace(IProject project,
+			String nameSpaceURI) throws CoreException {
+		IFolder compositeCompResFolder = null;
+		String relativeLocation = nameSpaceURI.replaceFirst(
+				JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
 		if (!project.exists()) {
 			return null;
 		}
@@ -86,6 +139,47 @@ public class JSF2ResourceUtil {
 				project.open(new NullProgressMonitor());
 			} catch (CoreException e) {
 				JSFModelPlugin.getPluginLog().logError(e);
+				return compositeCompResFolder;
+			}
+		}
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		if (component != null) {
+			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
+					new Path("/")); //$NON-NLS-1$
+			IContainer folder = webRootFolder.getUnderlyingFolder();
+			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
+					.getFolder(folder.getFullPath());
+			IFolder resourcesFolder = webFolder.getFolder("resources"); //$NON-NLS-1$
+			NullProgressMonitor monitor = new NullProgressMonitor();
+			if (!resourcesFolder.exists()) {
+				resourcesFolder.create(true, true, monitor);
+			}
+			String[] segments = new Path(relativeLocation).segments();
+			compositeCompResFolder = resourcesFolder;
+			for (int i = 0; i < segments.length; i++) {
+				compositeCompResFolder = compositeCompResFolder
+						.getFolder(segments[i]);
+				if (!compositeCompResFolder.exists()) {
+					compositeCompResFolder.create(true, true, monitor);
+				}
+			}
+
+		}
+		return compositeCompResFolder;
+	}
+
+	public static IFile createCompositeComponentFile(IProject project,
+			IPath resourceRelativePath) throws CoreException {
+		IFile compositeCompResFile = null;
+		if (!project.exists()) {
+			return null;
+		}
+		if (!project.isAccessible()) {
+			try {
+				project.open(new NullProgressMonitor());
+			} catch (CoreException e) {
+				JSFModelPlugin.getPluginLog().logError(e);
+				return compositeCompResFile;
 			}
 		}
 		IVirtualComponent component = ComponentCore.createComponent(project);
@@ -109,39 +203,33 @@ public class JSF2ResourceUtil {
 					componentPathFolder.create(true, true, monitor);
 				}
 			}
-			IFile file = componentPathFolder
+			compositeCompResFile = componentPathFolder
 					.getFile(segments[segments.length - 1]);
-			if (!file.exists()) {
-				file.create(JSF2TemplateManager.getManager()
+			if (!compositeCompResFile.exists()) {
+				compositeCompResFile.create(JSF2TemplateManager.getManager()
 						.createStreamFromTemplate("composite.xhtml"), true, //$NON-NLS-1$
 						monitor);
+			} else {
+				compositeCompResFile = JSF2ComponentModelManager.getManager()
+						.revalidateCompositeComponentFile(compositeCompResFile);
 			}
-			return file;
 		}
-		return null;
+		return compositeCompResFile;
 	}
 
-	private static boolean searchInClassPath(IProject project,
-			String classPathResource) {
-		IJavaProject javaProject = JavaCore.create(project);
-		try {
-			for (IPackageFragmentRoot fragmentRoot : javaProject
-					.getAllPackageFragmentRoots()) {
-				if (fragmentRoot instanceof JarPackageFragmentRoot) {
-					JarPackageFragmentRoot jarPackageFragmentRoot = (JarPackageFragmentRoot) fragmentRoot;
-					ZipEntry zipEntry = jarPackageFragmentRoot.getJar()
-							.getEntry(classPathResource);
-					if (zipEntry != null) {
-						return true;
-					}
-				}
-			}
-		} catch (JavaModelException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		} catch (CoreException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
+	public static IFile createCompositeComponentFile(IProject project,
+			IPath resourceRelativePath, String[] attrNames)
+			throws CoreException {
+		IFile jsf2ResFile = createCompositeComponentFile(project,
+				resourceRelativePath);
+		if (jsf2ResFile == null) {
+			return null;
 		}
-		return false;
+		if (attrNames == null || attrNames.length == 0) {
+			return jsf2ResFile;
+		}
+		return JSF2ComponentModelManager.getManager()
+				.updateJSF2CompositeComponentFile(jsf2ResFile, attrNames);
 	}
 
 }
