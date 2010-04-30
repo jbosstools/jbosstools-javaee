@@ -82,6 +82,7 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 			if (model instanceof IDOMModel) {
 				this.document = ((IDOMModel) model).getDocument();
 			}
+			model.releaseFromRead();
 		}
 	}
 
