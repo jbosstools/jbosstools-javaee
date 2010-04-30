@@ -91,18 +91,20 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 		Set<IBean> resolvedBeans = null;
 		if (varName != null) {
 			IBeanManager manager = CDICorePlugin.getCDI(project, false).getDelegate();
-			if(onlyEqualNames) {
-				resolvedBeans = manager.getBeans(varName, true);
-				beans.addAll(resolvedBeans);
-			} else {
-				resolvedBeans = manager.getNamedBeans(true);
-				for (IBean bean : resolvedBeans) {
-					if(bean.getName().startsWith(varName)) {
-						beans.add(bean);
+			if (manager != null) {
+				if(onlyEqualNames) {
+					resolvedBeans = manager.getBeans(varName, true);
+					beans.addAll(resolvedBeans);
+				} else {
+					resolvedBeans = manager.getNamedBeans(true);
+					for (IBean bean : resolvedBeans) {
+						if(bean.getName().startsWith(varName)) {
+							beans.add(bean);
+						}
 					}
+					resolvedBeans.clear();
+					resolvedBeans.addAll(beans);
 				}
-				resolvedBeans.clear();
-				resolvedBeans.addAll(beans);
 			}
 		}
 		if (resolvedBeans != null && !resolvedBeans.isEmpty()) {
