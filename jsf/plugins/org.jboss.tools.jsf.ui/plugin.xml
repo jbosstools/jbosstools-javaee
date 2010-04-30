@@ -136,10 +136,10 @@
       </wizard>
       <wizard
             category="org.jboss.tools.jst.web"
-            class="org.jboss.tools.jsf.ui.wizard.newfile.NewXHTMLWizard"
+            class="org.jboss.tools.jst.web.ui.wizards.newfile.NewXHTMLWizard"
             finalPerspective="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
             icon="$nl$/images/xstudio/wizards/new_html_file.gif"
-            id="org.jboss.tools.jsf.ui.wizard.newfile.NewXHTMLWizard"
+            id="org.jboss.tools.jst.web.ui.wizards.newfile.NewXHTMLWizard"
             name="%NewXHTMLPage"
             project="false">
          <description>
@@ -479,48 +479,5 @@
               </dynamic>              
     </menuContribution>
 	</extension>
-		<!-- Templates -->
-	<extension point="org.eclipse.ui.editors.templates">
-		<contextType
-			name="%All_XHTML_context_type_Extension_Element.name"
-			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
-			id="xhtml_all">
-		</contextType>
-		<contextType
-			name="%XHTML_New_context_type_Extension_Element.name"
-			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
-			id="xhtml_new">
-		</contextType>
-		<contextType
-			name="%XHTML_Tag_context_type_Extension_Element.name"
-			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
-			id="xhtml_tag">
-		</contextType>
-		<contextType
-			name="%XHTML_Attribute_context_type_Extension_Element.name"
-			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
-			id="xhtml_attribute">
-		</contextType>
-		<contextType
-			name="%XHTML_Attribute_value_context_type_Extension_Element.name"
-			class="org.jboss.tools.jsf.ui.editor.pref.template.TemplateContextTypeXHTML"
-			id="xhtml_attribute_value">
-		</contextType>
-		<include
-			file="src/templates/xhtmldefault-templates.xml"
-			translations="src/templates/xhtmldefault-templates.properties">
-		</include>
-	</extension>
-
-   <extension point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective">
-         <newWizardShortcut id="org.jboss.tools.jsf.ui.wizard.newfile.NewXHTMLWizard">
-         </newWizardShortcut>
-      </perspectiveExtension>
-	</extension>
-   <extension
-         point="org.jboss.tools.jst.jsp.editorContentAssistent">
-         <contentassisten class="org.jboss.tools.jsf.ui.editor.pref.template.contentassist.XHTMLContentAssistProcessor"/>
-   </extension>
 
 </plugin>

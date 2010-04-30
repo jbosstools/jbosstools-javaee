@@ -29,18 +29,7 @@ public class JsfUIMessages extends NLS {
 	public static String REFACTOR_CONTRIBUTOR_RENAME_EL_VARIABLE;
 	public static String EL_REFACTOR_RENAME_HANDLER_ERROR;
 	public static String RENAME_EL_VARIABLE_WIZARD_EL_VARIABLE_NAME;
-	public static String UI_WIZARD_XHTML_NEW_TITLE;
-	public static String UI_WIZARD_XHTML_NEW_Description;
 	
-	public static String NewXHTMLTemplatesWizardPage_0;
-	public static String NewXHTMLTemplatesWizardPage_1;
-	public static String NewXHTMLTemplatesWizardPage_2;
-	public static String NewXHTMLTemplatesWizardPage_3;
-	public static String NewXHTMLTemplatesWizardPage_4;
-	public static String NewXHTMLTemplatesWizardPage_5;
-	public static String NewXHTMLTemplatesWizardPage_6;
-	public static String NewXHTMLTemplatesWizardPage_7;
-
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, JsfUIMessages.class);
