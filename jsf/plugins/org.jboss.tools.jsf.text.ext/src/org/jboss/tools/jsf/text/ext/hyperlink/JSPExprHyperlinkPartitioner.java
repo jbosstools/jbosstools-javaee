@@ -82,6 +82,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	
 	private IHyperlinkRegion getRegion(IDocument document, final int offset) {
 		jspExpression = false;
+		dotExpression = false;
 		ELContext context = getELContext(document);
 		if(context != null){
 			ExpressionStructure eStructure = getExpression(context, offset);
@@ -94,7 +95,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 						return region;
 					}
 				}
-				dotExpression = checkDot(document, offset, context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition(), offset);
+				dotExpression = checkDot(document, offset, context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition());
 				
 				IHyperlinkRegion region = new HyperlinkRegion(eStructure.expression.getStartPosition(), eStructure.expression.getLength(), null, null, null);
 				return region;
@@ -158,13 +159,13 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 		return false;
 	}
 
-	public boolean checkDot(IDocument document, int superOffset, ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset, int globalOffset){
+	public boolean checkDot(IDocument document, int superOffset, ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset){
 		try{
 			String text = document.get(superOffset, 1);
 			if(DOT.equals(text)){
-				if(decide(context, expression, invocationExpression, offset+1, globalOffset))
+				if(decide(context, expression, invocationExpression, offset+1, superOffset+1))
 					return true;
-				else if(decide(context, expression, invocationExpression, offset-1, globalOffset))
+				else if(decide(context, expression, invocationExpression, offset-1, superOffset-1))
 					return true;
 			}
 		}catch(BadLocationException ex){
