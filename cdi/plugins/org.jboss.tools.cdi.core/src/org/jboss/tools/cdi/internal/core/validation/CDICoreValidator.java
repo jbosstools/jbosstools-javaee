@@ -312,6 +312,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		Set<IBeanMethod> disposers = bean.getDisposers();
 		for (IBeanMethod disposer : disposers) {
 			List<IParameter> params = disposer.getParameters();
+
 			/*
 			 * 3.3.6. Declaring a disposer method
 			 *  - method has more than one parameter annotated @Disposes
@@ -328,6 +329,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource());
 				}
 			}
+
 			/*
 			 * 3.3.6. Declaring a disposer method
 			 *  - a disposer method has a parameter annotated @Observes.
@@ -350,6 +352,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					addError(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource());
 				}
 			}
+
 			/*
 			 * 3.3.6. Declaring a disposer method
 			 *  - a disposer method is annotated @Inject.
@@ -370,6 +373,32 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
 			 */
 			validateSessionBeanMethod(bean, disposer, disposerDeclarations, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_DISPOSER_IN_SESSION_BEAN);
+
+			/*
+			 * 3.3.6. Declaring a disposer method
+			 *  - decorators may not declare disposer methods
+			 */
+			if(bean instanceof IDecorator) {
+				IDecorator decorator = (IDecorator)bean;
+				IAnnotationDeclaration decoratorDeclaration = decorator.getDecoratorAnnotation();
+				addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean.getResource());
+				for (ITextSourceReference declaration : disposerDeclarations) {
+					addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+				}
+			}
+
+			/*
+			 * 3.3.6. Declaring a disposer method
+			 *  - interceptors may not declare disposer methods
+			 */
+			if(bean instanceof IInterceptor) {
+				IInterceptor interceptor = (IInterceptor)bean;
+				IAnnotationDeclaration interceptorDeclaration = interceptor.getInterceptorAnnotation();
+				addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean.getResource());
+				for (ITextSourceReference declaration : disposerDeclarations) {
+					addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+				}
+			}
 		}
 	}
 

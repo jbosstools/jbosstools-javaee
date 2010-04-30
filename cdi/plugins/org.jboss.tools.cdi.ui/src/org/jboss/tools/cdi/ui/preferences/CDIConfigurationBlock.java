@@ -97,13 +97,13 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDICorePlugin.PLUGIN_ID
 	);
 
-//	private static SectionDescription SECTION_INTERCEPTOR = new SectionDescription(
-//		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_interceptor_and_decorator,
-//		new String[][]{
+	private static SectionDescription SECTION_INTERCEPTOR = new SectionDescription(
+		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_interceptor_and_decorator,
+		new String[][]{
 //				{CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_bothInterceptorAndDecorator_label},
 //				{CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_sessionBeanAnnotatedInterceptorOrDecorator_label},
 //				{CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerInInterceptorOrDecorator_label},
-//				{CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_disposerInInterceptorOrDecorator_label},
+				{CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_disposerInInterceptorOrDecorator_label},
 //				{CDIPreferences.MULTIPLE_DELEGATE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleDelegate_label},
 //				{CDIPreferences.MISSING_DELEGATE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingDelegate_label},
 //				{CDIPreferences.ILLEGAL_INJECTION_POINT_DELEGATE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalInjectionPointDelegate_label},
@@ -115,9 +115,9 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 //				{CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerInInterceptorOrDecorator_label},
 //				{CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorOrDecoratorIsAlternative_label},
 //				{CDIPreferences.MISSING_INTERCEPTOR_BINDING, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingInterceptorBinding_label},
-//		},
-//		CDICorePlugin.PLUGIN_ID
-//	);
+		},
+		CDICorePlugin.PLUGIN_ID
+	);
 
 //	private static SectionDescription SECTION_SPECIALIZATION = new SectionDescription(
 //			CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_specializing,
@@ -148,7 +148,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		SECTION_TYPE,
 		SECTION_SCOPE,
 		SECTION_MEMBER,
-//		SECTION_INTERCEPTOR,
+		SECTION_INTERCEPTOR,
 //		SECTION_SPECIALIZATION,
 		SECTION_MISCELLANEOUS
 	};

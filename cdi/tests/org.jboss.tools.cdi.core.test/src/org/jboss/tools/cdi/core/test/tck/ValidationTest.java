@@ -217,6 +217,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - decorators may not declare disposer methods
+	 *  
+	 * @throws Exception
+	 */
+	public void testDecoratorDeclaresDisposer() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/TimestampLogger.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_IN_DECORATOR, 6, 9);
+	}
+
+	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - interceptors may not declare disposer methods
+	 *  
+	 * @throws Exception
+	 */
+	public void testInterceptorDeclaresDisposer() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/FordInterceptor.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, 8, 16);
+	}
+
+	/**
 	 * 3.3.7. Disposer method resolution
 	 *  TODO
 	 *  

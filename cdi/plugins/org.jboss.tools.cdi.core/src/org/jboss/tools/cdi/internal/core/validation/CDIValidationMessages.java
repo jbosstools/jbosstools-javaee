@@ -68,8 +68,10 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_CONDITIONAL_OBSERVER;
 
 	public static String BOTH_INTERCEPTOR_AND_DECORATOR;
-	public static String PRODUCER_IN_INTERCEPTOR_OR_DECORATOR;
-	public static String DISPOSER_IN_INTERCEPTOR_OR_DECORATOR;
+	public static String PRODUCER_IN_INTERCEPTOR;
+	public static String PRODUCER_IN_DECORATOR;
+	public static String DISPOSER_IN_INTERCEPTOR;
+	public static String DISPOSER_IN_DECORATOR;
 	public static String MULTIPLE_DELEGATE;
 	public static String MISSING_DELEGATE;
 	public static String ILLEGAL_INJECTION_POINT_DELEGATE;

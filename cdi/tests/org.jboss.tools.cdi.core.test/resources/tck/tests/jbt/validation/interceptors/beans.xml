@@ -1,0 +1,6 @@
+<beans> 
+   <interceptors>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.NamedInterceptorBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.FordInterceptor</class>
+   </interceptors>
+</beans>
