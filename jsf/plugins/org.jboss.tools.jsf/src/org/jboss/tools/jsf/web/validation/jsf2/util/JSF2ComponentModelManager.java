@@ -14,7 +14,10 @@ package org.jboss.tools.jsf.web.validation.jsf2.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -127,20 +130,25 @@ public class JSF2ComponentModelManager {
 			String[] attrNames) {
 		Document document = (Document) element.getOwnerDocument();
 		String prefix = element.getPrefix();
+		Set<String> existInerfaceAttrs = getInterfaceAttrs(element);
 		if (prefix != null && !"".equals(prefix)) { //$NON-NLS-1$
 			for (int i = 0; i < attrNames.length; i++) {
-				Element attrEl = document
-						.createElementNS(JSF2ResourceUtil.JSF2_URI_PREFIX,
-								prefix + ":attribute"); //$NON-NLS-1$
-				attrEl.setAttribute("name", attrNames[i]); //$NON-NLS-1$
-				element.appendChild(attrEl);
+				if (!existInerfaceAttrs.contains(attrNames[i])) {
+					Element attrEl = document.createElementNS(
+							JSF2ResourceUtil.JSF2_URI_PREFIX, prefix
+									+ ":attribute"); //$NON-NLS-1$
+					attrEl.setAttribute("name", attrNames[i]); //$NON-NLS-1$
+					element.appendChild(attrEl);
+				}
 			}
 		} else {
 			for (int i = 0; i < attrNames.length; i++) {
-				Element attrEl = document.createElementNS(
-						JSF2ResourceUtil.JSF2_URI_PREFIX, "attribute"); //$NON-NLS-1$
-				attrEl.setAttribute("name", attrNames[i]); //$NON-NLS-1$
-				element.appendChild(attrEl);
+				if (!existInerfaceAttrs.contains(attrNames[i])) {
+					Element attrEl = document.createElementNS(
+							JSF2ResourceUtil.JSF2_URI_PREFIX, "attribute"); //$NON-NLS-1$
+					attrEl.setAttribute("name", attrNames[i]); //$NON-NLS-1$
+					element.appendChild(attrEl);
+				}
 			}
 		}
 		DocumentNodeFormatter formatter = new DocumentNodeFormatter();
@@ -254,6 +262,32 @@ public class JSF2ComponentModelManager {
 			}
 		}
 		return document;
+	}
+
+	public Set<String> getInterfaceAttrs(IDOMElement interfaceElement) {
+		Set<String> interfaceAttrs = new HashSet<String>(0);
+		if (interfaceElement != null) {
+			String prefix = interfaceElement.getPrefix();
+			String nodeName = "attribute"; //$NON-NLS-1$
+			if (prefix != null && !"".equals(prefix)) { //$NON-NLS-1$
+				nodeName = prefix + ":" + nodeName; //$NON-NLS-1$
+			}
+			NodeList attrsElements = interfaceElement
+					.getElementsByTagName(nodeName);
+			if (attrsElements != null) {
+				for (int i = 0; i < attrsElements.getLength(); i++) {
+					Node el = attrsElements.item(i);
+					if (el instanceof IDOMElement) {
+						IDOMElement element = (IDOMElement) el;
+						String attrvalue = element.getAttribute("name"); //$NON-NLS-1$
+						if (attrvalue != null && !"".equals(attrvalue)) { //$NON-NLS-1$
+							interfaceAttrs.add(attrvalue);
+						}
+					}
+				}
+			}
+		}
+		return interfaceAttrs;
 	}
 
 }

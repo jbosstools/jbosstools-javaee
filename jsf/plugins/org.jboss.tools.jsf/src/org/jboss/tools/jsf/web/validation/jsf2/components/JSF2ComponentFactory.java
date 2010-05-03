@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
@@ -25,7 +24,6 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -64,7 +62,8 @@ public class JSF2ComponentFactory {
 				.getReadableDOMDocument(container);
 		IDOMElement interfaceElement = JSF2ComponentModelManager.getManager()
 				.checkCompositeInterface(containerDocument);
-		Set<String> interfaceAttrs = getInterfaceAttrs(interfaceElement);
+		Set<String> interfaceAttrs = JSF2ComponentModelManager.getManager()
+				.getInterfaceAttrs(interfaceElement);
 		interfaceAttrs.addAll(uncheckedAttrs);
 		IDOMAttr[] existingAttrs = getExistingAttrs(elementWithAttrs);
 		for (int i = 0; i < existingAttrs.length; i++) {
@@ -94,7 +93,8 @@ public class JSF2ComponentFactory {
 				.getReadableDOMDocument(compContainerFile);
 		IDOMElement interfaceElement = JSF2ComponentModelManager.getManager()
 				.checkCompositeInterface(document);
-		Set<String> interfaceAttrs = getInterfaceAttrs(interfaceElement);
+		Set<String> interfaceAttrs = JSF2ComponentModelManager.getManager()
+				.getInterfaceAttrs(interfaceElement);
 		interfaceAttrs.addAll(uncheckedAttrs);
 		IDOMAttr[] existingAttrs = getExistingAttrs(elementWithAttrs);
 		for (int i = 0; i < existingAttrs.length; i++) {
@@ -129,32 +129,6 @@ public class JSF2ComponentFactory {
 		component.createMessageParams();
 		component.createValidationMessage();
 		return component;
-	}
-
-	private static Set<String> getInterfaceAttrs(IDOMElement interfaceElement) {
-		Set<String> interfaceAttrs = new HashSet<String>(0);
-		if (interfaceElement != null) {
-			String prefix = interfaceElement.getPrefix();
-			String nodeName = "attribute"; //$NON-NLS-1$
-			if (prefix != null && !"".equals(prefix)) { //$NON-NLS-1$
-				nodeName = prefix + ":" + nodeName; //$NON-NLS-1$
-			}
-			NodeList attrsElements = interfaceElement
-					.getElementsByTagName(nodeName);
-			if (attrsElements != null) {
-				for (int i = 0; i < attrsElements.getLength(); i++) {
-					Node el = attrsElements.item(i);
-					if (el instanceof IDOMElement) {
-						IDOMElement element = (IDOMElement) el;
-						String attrvalue = element.getAttribute("name"); //$NON-NLS-1$
-						if (attrvalue != null && !"".equals(attrvalue)) { //$NON-NLS-1$
-							interfaceAttrs.add(attrvalue);
-						}
-					}
-				}
-			}
-		}
-		return interfaceAttrs;
 	}
 
 	private static IDOMAttr[] getExistingAttrs(IDOMElement validateElement) {

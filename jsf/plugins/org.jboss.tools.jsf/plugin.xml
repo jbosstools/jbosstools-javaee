@@ -553,12 +553,12 @@
     <attribute
           name="problemType">
     </attribute>
-    <super
-          type="org.eclipse.core.resources.textmarker">
-    </super>
     <attribute
           name="baseElement">
     </attribute>
+    <super
+          type="org.eclipse.core.resources.textmarker">
+    </super>
  </extension>
  <extension
        point="org.eclipse.wst.sse.ui.sourcevalidation">
@@ -575,5 +575,21 @@
             <partitionType id="org.eclipse.jst.jsp.DEFAULT_JSP"/>
          </contentTypeIdentifier>
     </validator>
+ </extension>
+ <extension
+       point="org.eclipse.wst.sse.ui.quickFixProcessor">
+    <quickFixProcessor
+          class="org.jboss.tools.jsf.web.validation.jsf2.action.JSF2QuickFixProcessor"
+          problemType="org.jboss.tools.jsf.jsf2problemmarker">
+    </quickFixProcessor>
+ </extension>
+ <extension
+       point="org.eclipse.ui.editors.annotationTypes">
+    <type
+          markerSeverity="1"
+          markerType="org.jboss.tools.jsf.jsf2problemmarker"
+          name="org.jboss.tools.jsf.jsf2AnnotationSpec"
+          super="org.eclipse.wst.sse.ui.temp.warning">
+    </type>
  </extension>
 </plugin>
