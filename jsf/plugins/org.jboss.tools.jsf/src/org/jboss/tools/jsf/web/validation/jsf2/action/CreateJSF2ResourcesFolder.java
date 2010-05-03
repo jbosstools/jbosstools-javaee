@@ -31,7 +31,7 @@ import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 /**
  * 
  * @author yzhishko
- *
+ * 
  */
 
 public class CreateJSF2ResourcesFolder implements IMarkerResolution {

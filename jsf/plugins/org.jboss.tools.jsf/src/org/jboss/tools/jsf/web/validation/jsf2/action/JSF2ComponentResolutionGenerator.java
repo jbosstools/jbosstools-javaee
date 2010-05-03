@@ -53,7 +53,7 @@ public class JSF2ComponentResolutionGenerator implements
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		}
-		return new CreateJSF2CompositeComponent[] { new CreateJSF2CompositeComponent() };
+		return new IMarkerResolution[0];
 	}
 
 }

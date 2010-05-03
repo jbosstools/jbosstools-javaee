@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.jsf.web.validation.jsf2.components;
 
 import java.text.MessageFormat;
@@ -9,6 +20,12 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 import org.w3c.dom.NamedNodeMap;
+
+/**
+ * 
+ * @author yzhishko
+ *
+ */
 
 @SuppressWarnings("restriction")
 public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
@@ -50,10 +67,7 @@ public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
 	}
 
 	void createValidationMessage() {
-		String nodeName = element.getNodeName();
-		if (nodeName.indexOf(':') > -1) {
-			nodeName = nodeName.substring(nodeName.lastIndexOf(':') + 1);
-		}
+		String nodeName = element.getLocalName();
 		this.validationMessage = MessageFormat.format(
 				JSFUIMessages.Missing_JSF_2_Composite_Component, nodeName);
 	}
@@ -90,10 +104,7 @@ public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
 			String uriString = element.getNamespaceURI();
 			String relativeLocation = uriString.replaceFirst(
 					JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
-			String nodeName = element.getNodeName();
-			if (nodeName.indexOf(':') > -1) {
-				nodeName = nodeName.substring(nodeName.lastIndexOf(':') + 1);
-			}
+			String nodeName = element.getLocalName();
 			componentResLoc = relativeLocation + "/" + nodeName + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return componentResLoc;

@@ -17,9 +17,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.internal.reconcile.validator.ISourceValidator;
 import org.eclipse.wst.sse.ui.internal.reconcile.validator.IncrementalHelper;
 import org.eclipse.wst.validation.internal.core.Message;
@@ -30,8 +27,8 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -76,19 +73,8 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 	}
 
 	public void connect(IDocument document) {
-		if (document instanceof IStructuredDocument) {
-			IStructuredModel model = StructuredModelManager.getModelManager()
-					.getExistingModelForRead(document);
-			try {
-				if (model instanceof IDOMModel) {
-					this.document = ((IDOMModel) model).getDocument();
-				}
-			} finally {
-				if(model!=null) {
-					model.releaseFromRead();
-				}
-			}
-		}
+		this.document = JSF2ComponentModelManager
+				.getReadableDOMDocument(document);
 	}
 
 	public void disconnect(IDocument document) {

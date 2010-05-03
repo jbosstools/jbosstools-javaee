@@ -68,10 +68,7 @@ public class JSF2AttrTempComponent implements IJSF2ValidationComponent {
 	}
 
 	void createValidationMessage() {
-		String nodeName = parentEl.getNodeName();
-		if (nodeName.indexOf(':') > -1) {
-			nodeName = nodeName.substring(nodeName.lastIndexOf(':') + 1);
-		}
+		String nodeName = parentEl.getLocalName();
 		this.validationMessage = MessageFormat.format(
 				JSFUIMessages.Missing_JSF_2_Component_Attr, attr.getName(),
 				nodeName);
@@ -106,10 +103,7 @@ public class JSF2AttrTempComponent implements IJSF2ValidationComponent {
 			String uriString = parentEl.getNamespaceURI();
 			String relativeLocation = uriString.replaceFirst(
 					JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
-			String nodeName = parentEl.getNodeName();
-			if (nodeName.indexOf(':') > -1) {
-				nodeName = nodeName.substring(nodeName.lastIndexOf(':') + 1);
-			}
+			String nodeName = parentEl.getLocalName();
 			componentResLocation = relativeLocation + "/" + nodeName + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return componentResLocation;

@@ -13,14 +13,21 @@ package org.jboss.tools.jsf.web.validation.jsf2.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
+import java.io.InputStream;
+import java.util.Scanner;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.internal.core.JarEntryFile;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
+import org.eclipse.wst.sse.core.internal.text.JobSafeStructuredDocument;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
+import org.eclipse.wst.xml.core.internal.parser.XMLSourceParser;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -65,15 +72,9 @@ public class JSF2ComponentModelManager {
 				model.reload(componentFileContatiner.getContents());
 				document = domModel.getDocument();
 				updateJSF2CompositeComponent(document, attrNames);
-				try {
-					componentFileContatiner.setContents(
-							new ByteArrayInputStream(document
-									.getStructuredDocument().getText()
-									.getBytes()), true, false,
-							new NullProgressMonitor());
-				} catch (CoreException e) {
-					JSFModelPlugin.getPluginLog().logError(e);
-				}
+				componentFileContatiner.setContents(new ByteArrayInputStream(
+						document.getStructuredDocument().getText().getBytes()),
+						true, false, new NullProgressMonitor());
 			}
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
@@ -105,10 +106,8 @@ public class JSF2ComponentModelManager {
 			ElementImpl impl = (ElementImpl) node;
 			String nameSpace = impl.getNamespaceURI();
 			if (JSF2ResourceUtil.JSF2_URI_PREFIX.equals(nameSpace)) {
-				String nodeName = impl.getNodeName();
-				String compName = nodeName.substring(
-						nodeName.lastIndexOf(':') + 1).trim();
-				if ("interface".equals(compName)) { //$NON-NLS-1$
+				String nodeName = impl.getLocalName();
+				if ("interface".equals(nodeName)) { //$NON-NLS-1$
 					interfaceElement[0] = impl;
 					return;
 				}
@@ -149,8 +148,7 @@ public class JSF2ComponentModelManager {
 	}
 
 	public IFile revalidateCompositeComponentFile(IFile file) {
-		IDOMDocument document = JSF2ComponentUtil
-				.getReadableDocumentForFile(file);
+		IDOMDocument document = getReadableDOMDocument(file);
 		if (document == null) {
 			return null;
 		}
@@ -176,27 +174,86 @@ public class JSF2ComponentModelManager {
 		if (!"http://www.w3.org/1999/xhtml".equals(elementImpl.getNamespaceURI())) { //$NON-NLS-1$
 			return null;
 		}
-		NodeList children = element.getChildNodes();
-		if (children == null) {
-			return null;
+		IDOMElement[] interfaceElement = new IDOMElement[1];
+		findInterfaceComponent(document, interfaceElement);
+		return interfaceElement[0];
+	}
+
+	public static IDOMDocument getReadableDOMDocument(IFile file) {
+		IDOMDocument document = null;
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if (manager == null) {
+			return document;
 		}
-		for (int i = 0; i < children.getLength(); i++) {
-			if (children.item(i) instanceof Element) {
-				Element el = (Element) children.item(i);
-				String nodeName = el.getNodeName();
-				if (nodeName.indexOf(':') > -1) {
-					nodeName = nodeName
-							.substring(nodeName.lastIndexOf(":") + 1); //$NON-NLS-1$
-				}
-				if ("interface".equals(nodeName)) { //$NON-NLS-1$
-					if (JSF2ResourceUtil.JSF2_URI_PREFIX
-							.equals(((ElementImpl) el).getNamespaceURI())) {
-						return (IDOMElement) el;
-					}
-				}
+		IStructuredModel model = null;
+		try {
+			model = manager.getModelForRead(file);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				document = domModel.getDocument();
+			}
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		} catch (IOException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		} finally {
+			if (model != null) {
+				model.releaseFromRead();
 			}
 		}
-		return null;
+		return document;
+	}
+
+	public static IDOMDocument getReadableDOMDocument(JarEntryFile file) {
+		IDOMDocument document = null;
+		IStructuredModel model = null;
+		InputStream inputStream;
+		try {
+			inputStream = file.getContents();
+			if (inputStream != null) {
+				StringBuffer buffer = new StringBuffer(""); //$NON-NLS-1$
+				Scanner in = new Scanner(inputStream);
+				while (in.hasNextLine()) {
+					buffer.append(in.nextLine());
+				}
+				model = new HTMLModelLoader().newModel();
+				model.setStructuredDocument(new JobSafeStructuredDocument(
+						new XMLSourceParser()));
+				model.getStructuredDocument().set(buffer.toString());
+				if (model instanceof IDOMModel) {
+					document = ((IDOMModel) model).getDocument();
+				}
+			}
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		} finally {
+			model = null;
+		}
+		return document;
+	}
+
+	public static IDOMDocument getReadableDOMDocument(IDocument textDocument) {
+		IDOMDocument document = null;
+		if (!(textDocument instanceof IStructuredDocument)) {
+			return document;
+		}
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if (manager == null) {
+			return document;
+		}
+		IStructuredModel model = null;
+		try {
+			model = manager.getModelForRead((IStructuredDocument) textDocument);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				document = domModel.getDocument();
+			}
+		} finally {
+			if (model != null) {
+				model.releaseFromRead();
+			}
+		}
+		return document;
 	}
 
 }

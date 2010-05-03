@@ -12,15 +12,17 @@
 package org.jboss.tools.jsf.web.validation.jsf2.components;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.zip.ZipEntry;
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentUtil;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,6 +35,12 @@ import org.w3c.dom.NodeList;
 
 @SuppressWarnings("restriction")
 public class JSF2ComponentFactory {
+
+	private static Set<String> uncheckedAttrs = new HashSet<String>(0);
+
+	static {
+		uncheckedAttrs.add("id"); //$NON-NLS-1$
+	}
 
 	public static IJSF2ValidationComponent createCompositeTempComponent(
 			IDOMElement element) {
@@ -49,19 +57,45 @@ public class JSF2ComponentFactory {
 	}
 
 	public static IJSF2ValidationComponent[] createUnfixableAttrTempComponents(
-			ZipEntry zipContainer, IDOMElement elementWithAttrs) {
-		return null;
+			JarEntryFile container, IDOMElement elementWithAttrs) {
+		List<IJSF2ValidationComponent> validationComponents = new ArrayList<IJSF2ValidationComponent>(
+				0);
+		IDOMDocument containerDocument = JSF2ComponentModelManager
+				.getReadableDOMDocument(container);
+		IDOMElement interfaceElement = JSF2ComponentModelManager.getManager()
+				.checkCompositeInterface(containerDocument);
+		Set<String> interfaceAttrs = getInterfaceAttrs(interfaceElement);
+		interfaceAttrs.addAll(uncheckedAttrs);
+		IDOMAttr[] existingAttrs = getExistingAttrs(elementWithAttrs);
+		for (int i = 0; i < existingAttrs.length; i++) {
+			if (!interfaceAttrs.contains(existingAttrs[i].getName())) {
+				IDOMAttr attr = existingAttrs[i];
+				JSF2AttrTempComponent component = new JSF2AttrTempComponent(
+						attr, (ElementImpl) elementWithAttrs);
+				component
+						.setType(IJSF2ValidationComponent.JSF2_UNFIXABLE_ATTR_TYPE);
+				component.setStartOffSet(attr.getStartOffset());
+				component.setLine(attr.getStructuredDocument().getLineOfOffset(
+						component.getStartOffSet()) + 1);
+				component.setLength(attr.getName().length());
+				component.createValidationMessage();
+				component.createMessageParams();
+				validationComponents.add(component);
+			}
+		}
+		return validationComponents.toArray(new IJSF2ValidationComponent[0]);
 	}
 
 	public static IJSF2ValidationComponent[] createFixableAttrTempComponents(
 			IFile compContainerFile, IDOMElement elementWithAttrs) {
 		List<IJSF2ValidationComponent> components = new ArrayList<IJSF2ValidationComponent>(
 				0);
-		IDOMDocument document = JSF2ComponentUtil
-				.getReadableDocumentForFile(compContainerFile);
+		IDOMDocument document = JSF2ComponentModelManager
+				.getReadableDOMDocument(compContainerFile);
 		IDOMElement interfaceElement = JSF2ComponentModelManager.getManager()
 				.checkCompositeInterface(document);
-		List<String> interfaceAttrs = getInterfaceAttrs(interfaceElement);
+		Set<String> interfaceAttrs = getInterfaceAttrs(interfaceElement);
+		interfaceAttrs.addAll(uncheckedAttrs);
 		IDOMAttr[] existingAttrs = getExistingAttrs(elementWithAttrs);
 		for (int i = 0; i < existingAttrs.length; i++) {
 			if (!interfaceAttrs.contains(existingAttrs[i].getName())) {
@@ -97,8 +131,8 @@ public class JSF2ComponentFactory {
 		return component;
 	}
 
-	private static List<String> getInterfaceAttrs(IDOMElement interfaceElement) {
-		List<String> interfaceAttrs = new ArrayList<String>(0);
+	private static Set<String> getInterfaceAttrs(IDOMElement interfaceElement) {
+		Set<String> interfaceAttrs = new HashSet<String>(0);
 		if (interfaceElement != null) {
 			String prefix = interfaceElement.getPrefix();
 			String nodeName = "attribute"; //$NON-NLS-1$

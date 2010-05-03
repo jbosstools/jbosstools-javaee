@@ -25,6 +25,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.JarEntryDirectory;
+import org.eclipse.jdt.internal.core.JarEntryFile;
+import org.eclipse.jdt.internal.core.JarEntryResource;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -46,6 +49,10 @@ public class JSF2ResourceUtil {
 
 	public static final String COMPONENT_RESOURCE_PATH_KEY = "component_resource_path_key"; //$NON-NLS-1$
 
+	public static final int JAR_FILE_RESOURCE_TYPE = 1;
+
+	public static final int JAR_DIRECTORY_RESOURCE_TYPE = JAR_FILE_RESOURCE_TYPE << 1;
+
 	public static Object findCompositeComponentContainer(IProject project,
 			IDOMElement jsf2Element) {
 		ElementImpl elementImpl = (ElementImpl) jsf2Element;
@@ -53,10 +60,7 @@ public class JSF2ResourceUtil {
 		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
 			return null;
 		}
-		String nodeName = jsf2Element.getNodeName();
-		if (nodeName.lastIndexOf(':') != -1) {
-			nodeName = nodeName.substring(nodeName.lastIndexOf(':') + 1);
-		}
+		String nodeName = jsf2Element.getLocalName();
 		String relativeLocation = "/resources" + nameSpaceURI.replaceFirst( //$NON-NLS-1$
 				JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
 		IVirtualComponent component = ComponentCore.createComponent(project);
@@ -67,16 +71,16 @@ public class JSF2ResourceUtil {
 			IPath path = folder.getFullPath().append(relativeLocation).append(
 					"/" + nodeName + ".xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if (file.exists()) {
+			if (file.isAccessible()) {
 				return file;
 			}
 		}
 		return searchInClassPath(project, "META-INF" + relativeLocation //$NON-NLS-1$
-				+ "/" + nodeName + ".xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
+				+ "/" + nodeName + ".xhtml", JAR_FILE_RESOURCE_TYPE); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private static ZipEntry searchInClassPath(IProject project,
-			String classPathResource) {
+	private static JarEntryResource searchInClassPath(IProject project,
+			String classPathResource, int jarResourceType) {
 		IJavaProject javaProject = JavaCore.create(project);
 		try {
 			for (IPackageFragmentRoot fragmentRoot : javaProject
@@ -86,7 +90,18 @@ public class JSF2ResourceUtil {
 					ZipEntry zipEntry = jarPackageFragmentRoot.getJar()
 							.getEntry(classPathResource);
 					if (zipEntry != null) {
-						return zipEntry;
+						if (jarResourceType == JAR_FILE_RESOURCE_TYPE) {
+							JarEntryFile fileInJar = new JarEntryFile(
+									classPathResource);
+							fileInJar.setParent(jarPackageFragmentRoot);
+							return fileInJar;
+						}
+						if (jarResourceType == JAR_DIRECTORY_RESOURCE_TYPE) {
+							JarEntryDirectory directoryInJar = new JarEntryDirectory(
+									classPathResource);
+							directoryInJar.setParent(jarPackageFragmentRoot);
+							return directoryInJar;
+						}
 					}
 				}
 			}
@@ -98,8 +113,8 @@ public class JSF2ResourceUtil {
 		return null;
 	}
 
-	public static IPath findResourcesFolderByNameSpace(IProject project,
-			String nameSpaceURI) {
+	public static Object findResourcesFolderContainerByNameSpace(
+			IProject project, String nameSpaceURI) {
 		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
 			return null;
 		}
@@ -113,16 +128,17 @@ public class JSF2ResourceUtil {
 			IPath path = folder.getFullPath().append(relativeLocation);
 			IFolder resFolder = ResourcesPlugin.getWorkspace().getRoot()
 					.getFolder(path);
-			if (resFolder.exists()) {
-				return resFolder.getFullPath();
+			if (resFolder.isAccessible()) {
+				return resFolder;
 			}
 		}
-		return null;
+		return searchInClassPath(project,
+				"META-INF" + relativeLocation, JAR_DIRECTORY_RESOURCE_TYPE); //$NON-NLS-1$
 	}
 
 	public static boolean isResourcesFolderExists(IProject project,
 			String nameSpaceURI) {
-		return findResourcesFolderByNameSpace(project, nameSpaceURI) == null ? false
+		return findResourcesFolderContainerByNameSpace(project, nameSpaceURI) == null ? false
 				: true;
 	}
 

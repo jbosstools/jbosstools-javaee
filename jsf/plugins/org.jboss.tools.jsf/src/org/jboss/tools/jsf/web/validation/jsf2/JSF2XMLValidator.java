@@ -25,6 +25,7 @@ import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentRecognizer;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentUtil;
 import org.jboss.tools.jst.web.kb.IPageContext;
@@ -75,8 +76,8 @@ public class JSF2XMLValidator {
 	}
 
 	private void validateAsDOM(IFile file) {
-		IDOMDocument document = JSF2ComponentUtil
-				.getReadableDocumentForFile(file);
+		IDOMDocument document = JSF2ComponentModelManager
+				.getReadableDOMDocument(file);
 		IJSF2ValidationComponent[] components = getValidationComponents(
 				document, file);
 		if (components != null) {
@@ -98,7 +99,6 @@ public class JSF2XMLValidator {
 			IFile file) {
 		List<IJSF2ValidationComponent> components = new ArrayList<IJSF2ValidationComponent>(
 				0);
-		Set<String> tagNameSet = new HashSet<String>(0);
 		Map<String, List<Element>> compositeComponentsMap = JSF2ComponentUtil
 				.findCompositeComponents(node);
 		Set<Entry<String, List<Element>>> entries = compositeComponentsMap
@@ -106,14 +106,11 @@ public class JSF2XMLValidator {
 		for (Entry<String, List<Element>> entry : entries) {
 			List<Element> elements = entry.getValue();
 			for (Element element : elements) {
-				if (!(tagNameSet.contains(element.getNodeName()))) {
-					tagNameSet.add(element.getNodeName());
-					IJSF2ValidationComponent[] validationComponents = JSF2ComponentRecognizer
-							.recognizeCompositeValidationComponents(file,
-									(IDOMElement) element);
-					for (int i = 0; i < validationComponents.length; i++) {
-						components.add(validationComponents[i]);
-					}
+				IJSF2ValidationComponent[] validationComponents = JSF2ComponentRecognizer
+						.recognizeCompositeValidationComponents(file,
+								(IDOMElement) element);
+				for (int i = 0; i < validationComponents.length; i++) {
+					components.add(validationComponents[i]);
 				}
 			}
 		}

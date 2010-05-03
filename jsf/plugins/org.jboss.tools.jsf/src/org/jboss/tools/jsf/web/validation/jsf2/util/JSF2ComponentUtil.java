@@ -11,23 +11,14 @@
 
 package org.jboss.tools.jsf.web.validation.jsf2.util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.jboss.tools.jsf.JSFModelPlugin;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -75,31 +66,6 @@ public class JSF2ComponentUtil {
 				}
 			}
 		}
-	}
-
-	public static IDOMDocument getReadableDocumentForFile(IFile file) {
-		IDOMDocument document = null;
-		IModelManager manager = StructuredModelManager.getModelManager();
-		if (manager == null) {
-			return document;
-		}
-		IStructuredModel model = null;
-		try {
-			model = manager.getModelForRead(file);
-			if (model instanceof IDOMModel) {
-				IDOMModel domModel = (IDOMModel) model;
-				document = domModel.getDocument();
-			}
-		} catch (CoreException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		} catch (IOException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		} finally {
-			if (model != null) {
-				model.releaseFromRead();
-			}
-		}
-		return document;
 	}
 
 	public static IDOMAttr[] findURIContainers(Node scanNode) {

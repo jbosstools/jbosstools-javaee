@@ -12,9 +12,9 @@ package org.jboss.tools.jsf.web.validation.jsf2.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
@@ -45,10 +45,10 @@ public class JSF2ComponentRecognizer {
 			for (int i = 0; i < components.length; i++) {
 				validationComponents.add(components[i]);
 			}
-		} else if (container instanceof ZipEntry) {
+		} else if (container instanceof JarEntryFile) {
 			IJSF2ValidationComponent[] components = JSF2ComponentFactory
-					.createUnfixableAttrTempComponents((ZipEntry) container,
-							element);
+					.createUnfixableAttrTempComponents(
+							(JarEntryFile) container, element);
 			for (int i = 0; i < components.length; i++) {
 				validationComponents.add(components[i]);
 			}
