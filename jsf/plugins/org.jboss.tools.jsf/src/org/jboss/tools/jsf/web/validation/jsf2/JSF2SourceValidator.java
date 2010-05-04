@@ -61,7 +61,11 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 				if (project == null) {
 					return;
 				}
-				String filePath = helper.getURIs()[0];
+				String[] uris = helper.getURIs();
+				if (uris == null || uris.length < 1) {
+					return;
+				}
+				String filePath = uris[0];
 				if (filePath == null) {
 					return;
 				}
@@ -101,7 +105,11 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 				if (project == null) {
 					return;
 				}
-				String filePath = helper.getURIs()[0];
+				String[] uris = helper.getURIs();
+				if (uris == null || uris.length < 1) {
+					return;
+				}
+				String filePath = uris[0];
 				if (filePath == null) {
 					return;
 				}
