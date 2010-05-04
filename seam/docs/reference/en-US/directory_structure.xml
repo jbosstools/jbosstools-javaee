@@ -182,9 +182,9 @@
 
         <para>If you need to rename one of the Seam Project artifacts
                 (<emphasis>&lt;project_name&gt;</emphasis>,
-                <emphasis>&lt;project_name&gt;-test</emphasis>,
-                <emphasis>&lt;project_name&gt;-test</emphasis> or
-                <emphasis>&lt;project_name&gt;-ejb</emphasis>) or any entire folder like
+                <emphasis>&lt;project_name&gt;-ear</emphasis>,
+                <emphasis>&lt;project_name&gt;-ejb</emphasis> or
+                <emphasis>&lt;project_name&gt;-test</emphasis>) or any entire folder like
                 <emphasis>&lt;project_name&gt;/WebContent</emphasis>,
                 <emphasis>&lt;project_name&gt;/ejbModule</emphasis>,
                 <emphasis>&lt;project_name&gt;-test/test-src</emphasis>, or project name in
@@ -195,6 +195,16 @@
             </emphasis> or just pressing <emphasis>
                 <property>Shift + Alt + R</property>
             </emphasis> under the chosen resource.</para>
+        
+        <figure>
+            <title>Renaming the folder</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/directory_structure/directory_structure_7.png"
+                        scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
 
         <para>Use <emphasis>
                 <property>Refactor &gt; Move...</property>
@@ -204,6 +214,17 @@
                 <emphasis>&lt;project_name&gt;/WebContent</emphasis> folder,
                 <emphasis>&lt;project_name&gt;/ejbModule</emphasis> folder or
                 <emphasis>&lt;project_name&gt;/test-src</emphasis> folder in the other place
-            within the Project structure.</para>
+                within the Project structure.</para>
+        
+        <figure>
+            <title>Moving the folder</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/directory_structure/directory_structure_8.png"
+                        scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
     </section>
 </chapter>
