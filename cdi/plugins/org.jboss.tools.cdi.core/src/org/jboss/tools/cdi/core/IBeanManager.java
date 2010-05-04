@@ -232,6 +232,16 @@ public interface IBeanManager {
 	Set<IBean> resolve(Set<IBean> beans);
 
 	/**
+	 * Return the disposer methods which are bound to the producer method.
+	 * 
+	 * @param producer
+	 * 			  a producer method
+	 * 
+	 * @return bound disposer methods
+	 */
+	Set<IBeanMethod> resolveDisposers(IProducerMethod producer);
+
+	/**
 	 * Tests the given annotation type to determine if it is a scope type.
 	 * 
 	 * @param annotationType

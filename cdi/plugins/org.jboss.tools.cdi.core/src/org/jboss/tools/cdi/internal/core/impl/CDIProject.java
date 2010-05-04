@@ -35,12 +35,14 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
+import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -556,6 +558,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			IInjectionPoint injectionPoint) {
 		// TODO 
 		return new HashSet<IObserverMethod>();
+	}
+
+	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
+		// TODO 
+		return new HashSet<IBeanMethod>();
 	}
 
 	public CDIProject getCDIProject() {

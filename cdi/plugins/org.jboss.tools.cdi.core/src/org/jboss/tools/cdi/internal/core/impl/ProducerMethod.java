@@ -211,4 +211,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
 
+	public IAnnotationDeclaration getProducesAnnotation() {
+		return produces;
+	}
 }

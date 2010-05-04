@@ -310,6 +310,32 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateDisposers(IClassBean bean) {
 		Set<IBeanMethod> disposers = bean.getDisposers();
+		if(disposers.isEmpty()) {
+			return;
+		}
+
+		Set<IBeanMethod> boundDisposers = new HashSet<IBeanMethod>();
+		Set<IProducer> producers = bean.getProducers();
+		for (IProducer producer : producers) {
+			if(producer instanceof IProducerMethod) {
+				IProducerMethod producerMethod = (IProducerMethod)producer;
+				Set<IBeanMethod> disposerMethods =  producer.getCDIProject().resolveDisposers(producerMethod);
+				boundDisposers.addAll(disposerMethods);
+				if(disposerMethods.size()>1) {
+					/*
+					 * 3.3.7. Disposer method resolution
+					 *  - there are multiple disposer methods for a single producer method
+					 */
+					for (IBeanMethod disposerMethod : disposerMethods) {
+						Set<ITextSourceReference> disposerDeclarations = getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+						for (ITextSourceReference declaration : disposerDeclarations) {
+							addError(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource());
+						}
+					}
+				}
+			}
+		}
+
 		for (IBeanMethod disposer : disposers) {
 			List<IParameter> params = disposer.getParameters();
 
@@ -399,7 +425,32 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
 				}
 			}
+
+			/*
+			 * 3.3.7. Disposer method resolution
+			 *  - there is no producer method declared by the (same) bean class that is assignable to the disposed parameter of a disposer method
+			 */
+			for (IBeanMethod disposerMethod : disposers) {
+				if(!boundDisposers.contains(disposerMethod)) {
+					for (ITextSourceReference declaration : disposerDeclarations) {
+						// TODO uncomment it when https://jira.jboss.org/jira/browse/JBIDE-6252 is resolved 
+//						addError(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
+					}
+				}
+			}
 		}
+	}
+
+	private Set<ITextSourceReference> getAnnotationPossitions(IBeanMethod method, String annotationTypeName) {
+		List<IParameter> params = method.getParameters();
+		Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
+		for (IParameter param : params) {
+			ITextSourceReference declaration = param.getAnnotationPosition(annotationTypeName);
+			if(declaration!=null) {
+				declarations.add(declaration);
+			}
+		}
+		return declarations;
 	}
 
 	/**

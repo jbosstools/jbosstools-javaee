@@ -17,4 +17,11 @@ package org.jboss.tools.cdi.core;
  */
 public interface IProducer extends IBean, IBeanMember {
 
+	/**
+	 * Returns the @Produces annotation of this producer.
+	 * 
+	 * @return the @Produces annotation of this producer
+	 */
+	IAnnotationDeclaration getProducesAnnotation();
+
 }

@@ -240,14 +240,26 @@ public class ValidationTest extends TCKTest {
 
 	/**
 	 * 3.3.7. Disposer method resolution
-	 *  TODO
+	 *  - there is no producer method declared by the (same) bean class that is assignable to the disposed parameter of a disposer method
 	 *  
 	 * @throws Exception
 	 */
 	public void testUnresolvedDisposalMethod() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/unresolvedMethod/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 35);
 	}
-	
+
+	/**
+	 * 3.3.7. Disposer method resolution
+	 *  - there are multiple disposer methods for a single producer method
+	 *  
+	 * @throws Exception
+	 */
+	public void testMultipleDisposersForProducer() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/TimestampLogger_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, 13, 16);
+	}
+
 	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes

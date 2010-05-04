@@ -171,4 +171,8 @@ public class ProducerField extends BeanField implements IProducerField {
 		}
 		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
+
+	public IAnnotationDeclaration getProducesAnnotation() {
+		return getDefinition().getProducesAnnotation();
+	}
 }
