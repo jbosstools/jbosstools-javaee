@@ -208,11 +208,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			ContextValidationHelper validationHelper, ValidatorManager manager,
 			IReporter reporter) throws ValidationException {
 		init(project, validationHelper, manager, reporter);
-		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[]{projectName});
-		removeAllMessagesFromResource(cdiProject.getNature().getProject());
 		if(cdiProject == null) {
 			return OK_STATUS;
 		}
+		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[]{projectName});
+		removeAllMessagesFromResource(cdiProject.getNature().getProject());
 		IBean[] beans = cdiProject.getBeans();
 		for (IBean bean : beans) {
 			validateBean(bean);
