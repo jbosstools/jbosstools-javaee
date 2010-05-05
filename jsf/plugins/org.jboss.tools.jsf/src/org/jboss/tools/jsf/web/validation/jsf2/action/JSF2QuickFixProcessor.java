@@ -61,7 +61,7 @@ public class JSF2QuickFixProcessor implements IQuickAssistProcessor {
 				return new ICompletionProposal[] { proposal };
 			} else if (type
 					.equals(IJSF2ValidationComponent.JSF2_COMPOSITE_COMPONENT_TYPE)) {
-				ICompletionProposal proposal = new JSF2CompositeAttrsProposal(
+				ICompletionProposal proposal = new JSF2CompositeComponentProposal(
 						resource, compPath, retriveAttrsFromContext(context));
 				return new ICompletionProposal[] { proposal };
 			} else if (type.equals(IJSF2ValidationComponent.JSF2_URI_TYPE)) {
