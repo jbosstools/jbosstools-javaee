@@ -26,16 +26,12 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2URITempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -94,34 +90,6 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 
 	public void validate(IRegion dirtyRegion, IValidationContext helper,
 			IReporter reporter) {
-		if (document != null) {
-			Element element = findNodeFromRegion(dirtyRegion);
-			if (element == null) {
-				return;
-			}
-			if (helper instanceof IncrementalHelper) {
-				IncrementalHelper incrementalHelper = (IncrementalHelper) helper;
-				IProject project = incrementalHelper.getProject();
-				if (project == null) {
-					return;
-				}
-				String[] uris = helper.getURIs();
-				if (uris == null || uris.length < 1) {
-					return;
-				}
-				String filePath = uris[0];
-				if (filePath == null) {
-					return;
-				}
-				filePath = filePath.substring(filePath.indexOf('/') + 1);
-				IResource resource = project.findMember(filePath
-						.substring(filePath.indexOf('/') + 1));
-				if (resource instanceof IFile) {
-					reportProblems(reporter, JSF2XMLValidator
-							.getValidationComponents(element, (IFile) resource));
-				}
-			}
-		}
 	}
 
 	private void reportProblems(IReporter reporter,
@@ -205,33 +173,6 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 			return IMessage.NORMAL_SEVERITY;
 		}
 
-	}
-
-	private Element findNodeFromRegion(IRegion region) {
-		int offset = region.getOffset();
-		Element[] elements = new Element[1];
-		findElementAttOffSet(offset, document.getDocumentElement(), elements);
-		return elements[0];
-	}
-
-	private void findElementAttOffSet(int offSet, Node scanEl,
-			Element[] returnEl) {
-		if (scanEl instanceof IDOMElement) {
-			if (isElementAttOffset(offSet, (IDOMElement) scanEl)) {
-				returnEl[0] = (IDOMElement) scanEl;
-				return;
-			}
-			NodeList childNodes = scanEl.getChildNodes();
-			if (childNodes != null) {
-				for (int i = 0; i < childNodes.getLength(); i++) {
-					findElementAttOffSet(offSet, childNodes.item(i), returnEl);
-				}
-			}
-		}
-	}
-
-	private boolean isElementAttOffset(int offSet, IDOMElement element) {
-		return element.getStartOffset() == offSet;
 	}
 
 }

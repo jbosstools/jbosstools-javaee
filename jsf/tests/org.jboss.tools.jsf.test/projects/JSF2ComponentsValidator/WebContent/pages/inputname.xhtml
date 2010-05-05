@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<f:loadBundle basename="resources" var="msg" />
+
+<ui:composition template="/templates/common.xhtml"
+	xmlns:jar="http://java.sun.com/jsf/composite/jarPage"
+	xmlns:jar1="http://java.sun.com/jsf/composite/jarPage1">
+
+	<ui:define name="pageTitle">Input User Name</ui:define>
+
+	<ui:define name="pageHeader">Facelets Hello Application</ui:define>
+
+	<ui:define name="body">
+
+		<form>
+		<jar:echo1 echo="Hello" />
+		<jar:echo echo="Hello" />
+		<jar:echo anknownAttr="1" echo="Hello" />
+		<jar1:echo echo="Hello" />
+		</form>
+
+	</ui:define>
+</ui:composition>
+</html>

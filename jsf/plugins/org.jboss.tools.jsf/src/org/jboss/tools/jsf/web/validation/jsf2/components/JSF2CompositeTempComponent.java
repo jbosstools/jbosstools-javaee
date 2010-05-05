@@ -14,7 +14,6 @@ package org.jboss.tools.jsf.web.validation.jsf2.components;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -24,16 +23,13 @@ import org.w3c.dom.NamedNodeMap;
 /**
  * 
  * @author yzhishko
- *
+ * 
  */
 
 @SuppressWarnings("restriction")
-public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
-	private int length;
-	private int startOffSet;
-	private int line;
+public class JSF2CompositeTempComponent extends JSF2AbstractValidationComponent {
+
 	private String validationMessage = ""; //$NON-NLS-1$
-	private Object[] messageParams;
 	private List<String> attrNames = new ArrayList<String>(0);
 	private ElementImpl element;
 	private String componentResLoc;
@@ -42,31 +38,7 @@ public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
 		this.element = element;
 	}
 
-	public int getLength() {
-		return length;
-	}
-
-	void setLength(int length) {
-		this.length = length;
-	}
-
-	public int getLine() {
-		return line;
-	}
-
-	void setLine(int lineNumber) {
-		this.line = lineNumber;
-	}
-
-	public int getStartOffSet() {
-		return startOffSet;
-	}
-
-	void setStartOffSet(int startOffSet) {
-		this.startOffSet = startOffSet;
-	}
-
-	void createValidationMessage() {
+	public void createValidationMessage() {
 		String nodeName = element.getLocalName();
 		this.validationMessage = MessageFormat.format(
 				JSFUIMessages.Missing_JSF_2_Composite_Component, nodeName);
@@ -76,7 +48,8 @@ public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
 		return validationMessage;
 	}
 
-	void createMessageParams() {
+	@Override
+	public void createMessageParams() {
 		NamedNodeMap attrsMap = element.getAttributes();
 		if (attrsMap != null && attrsMap.getLength() != 0) {
 			for (int i = 0; i < attrsMap.getLength(); i++) {
@@ -84,11 +57,7 @@ public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
 				attrNames.add(attr.getName());
 			}
 		}
-		this.messageParams = new Object[] { this };
-	}
-
-	public Object[] getMessageParams() {
-		return messageParams;
+		super.createMessageParams();
 	}
 
 	public String[] getAttrNames() {
@@ -108,10 +77,6 @@ public class JSF2CompositeTempComponent implements IJSF2ValidationComponent {
 			componentResLoc = relativeLocation + "/" + nodeName + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return componentResLoc;
-	}
-
-	public int getSeverity() {
-		return IMessage.NORMAL_SEVERITY;
 	}
 
 }

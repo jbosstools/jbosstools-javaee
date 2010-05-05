@@ -40,14 +40,14 @@ public class JSF2ComponentResolutionGenerator implements
 			if (fixType != null) {
 				if (fixType
 						.equals(IJSF2ValidationComponent.JSF2_COMPOSITE_COMPONENT_TYPE)) {
-					return new IMarkerResolution[] { new CreateJSF2CompositeComponent() };
+					return new IMarkerResolution[] { new JSF2CompositeComponentProposal() };
 				}
 				if (fixType
 						.equals(IJSF2ValidationComponent.JSF2_FIXABLE_ATTR_TYPE)) {
-					return new IMarkerResolution[] { new CreateJSF2CompositeAttrs() };
+					return new IMarkerResolution[] { new JSF2CompositeAttrsProposal() };
 				}
 				if (fixType.equals(IJSF2ValidationComponent.JSF2_URI_TYPE)) {
-					return new IMarkerResolution[] { new CreateJSF2ResourcesFolder() };
+					return new IMarkerResolution[] { new JSF2ResourcesFolderProposal() };
 				}
 			}
 		} catch (CoreException e) {
