@@ -261,6 +261,18 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.4. Producer fields
+	 *  - producer field type contains a wildcard type parameter
+	 *  
+	 * @throws Exception
+	 */
+	public void testParameterizedReturnTypeWithWildcard() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/field/definition/broken/parameterizedReturnTypeWithWildcard/SpiderProducerWildCardType_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, 23, 1008, 1033);
+		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, 24, 10011, 1036);
+	}
+
+	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
 	 *  

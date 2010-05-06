@@ -43,7 +43,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_type,
 		new String[][]{
 			{CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalTypeInTypedDeclaration_label},
-//			{CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeHasWildcard_label},
+			{CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeHasWildcard_label},
 //			{CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeIsVariable_label},
 //			{CDIPreferences.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerFieldTypeHasWildcard_label},
 //			{CDIPreferences.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerFieldTypeIsVariable_label},

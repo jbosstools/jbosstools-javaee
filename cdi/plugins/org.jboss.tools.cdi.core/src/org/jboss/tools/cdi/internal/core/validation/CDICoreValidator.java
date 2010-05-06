@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -518,6 +519,20 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							declaration = nameDeclaration;
 						}
 						addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
+					}
+				}
+			}
+			/*
+			 * 3.4. Producer fields
+			 *  - producer field type contains a wildcard type parameter
+			 */
+			Set<ITypeDeclaration> typeDeclarations = producerField.getAllTypeDeclarations();
+			if(!typeDeclarations.isEmpty()) {
+				ITypeDeclaration typeDeclaration = typeDeclarations.iterator().next();
+				String[] paramTypes = Signature.getTypeArguments(typeDeclaration.getSignature());
+				for (String paramType : paramTypes) {
+					if((paramType.length()==1 && paramType.charAt(0) == Signature.C_STAR) || paramType.charAt(0) == Signature.C_EXTENDS) {
+						addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_FIELD_TYPE_HAS_WILDCARD, typeDeclaration, producer.getResource());
 					}
 				}
 			}
