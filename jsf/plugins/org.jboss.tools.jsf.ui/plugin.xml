@@ -128,20 +128,6 @@
          </selection>
       </wizard>
       <wizard
-            category="org.jboss.tools.jst.web"
-            class="org.jboss.tools.jst.web.ui.wizards.newfile.NewXHTMLWizard"
-            finalPerspective="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
-            icon="$nl$/images/xstudio/wizards/new_html_file.gif"
-            id="org.jboss.tools.jst.web.ui.wizards.newfile.NewXHTMLWizard"
-            name="%NewXHTMLPage"
-            project="false">
-         <description>
-            	%NewXHTMLPageDescription
-         </description>
-         <selection class="org.eclipse.core.resources.IResource">
-         </selection>
-      </wizard>
-      <wizard
             category="org.jboss.tools.jst.web/org.jboss.tools.jsf"
             class="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
             finalPerspective="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
