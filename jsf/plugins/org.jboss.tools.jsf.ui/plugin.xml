@@ -8,13 +8,6 @@
             id="org.jboss.tools.jsf.ui" 
             name="%PreferencePage_JSF">
       </page>
-      	<page
-			name="%VPE_Templates"
-			category="org.jboss.tools.vpe.editor"
-			class="org.jboss.tools.jsf.ui.editor.pref.template.VPETemplatePreferencePage"
-			id="org.jboss.tools.jsf.ui.editor.pref.template">
-			<keywordReference id="org.eclipse.wst.html.ui.templates"/>
-		</page>
       <page category="org.jboss.tools.jsf.ui" 
             class="org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage" 
             id="org.jboss.tools.jsf.ui.project" 
