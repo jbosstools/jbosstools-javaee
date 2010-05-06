@@ -64,7 +64,30 @@ public class JBIDE788Test extends VpeTest {
 			throw getException();
 		}
 	}
+	//added by Maksim Areshkau, as test case for JBIE-6131.
+	//source code templates should be in ca proposals.
+	public void testCAforSourceCodeTemplatesProposals() throws Throwable {
+		// wait
+		TestUtil.waitForJobs();
+		// set exception
+		setException(null);
+		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/6131/6131test.xhtml","Common",1,1,false); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean proposalExists=false;
+		for (ICompletionProposal completionProposal : results) {
+			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();		
+			if(displayString.contains("Common Facelet Page")) { //$NON-NLS-1$
+				proposalExists = true;
+				break;
+			} 
+		}
+		assertTrue("Common " + " should be in proposals", proposalExists);
 
+		// check exception
+		if (getException() != null) {
+
+			throw getException();
+		}
+	}
 	/**
 	 * Tests Path proposals of CA
 	 */
