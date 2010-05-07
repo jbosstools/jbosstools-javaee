@@ -21,7 +21,7 @@ import org.eclipse.jdt.core.IType;
 public interface IParametedType {
 
 	/**
-	 * Returns the corresponding IType of the declaration.
+	 * Returns the corresponding IType of the declaration. May be null.
 	 * 
 	 * @return the corresponding IType of the declaration.
 	 */

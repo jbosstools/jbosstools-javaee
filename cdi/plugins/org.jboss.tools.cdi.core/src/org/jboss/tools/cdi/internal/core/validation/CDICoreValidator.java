@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -74,6 +75,9 @@ import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 
+/**
+ * @author Alexey Kazakov
+ */
 public class CDICoreValidator extends CDIValidationErrorManager implements IValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator";
 
@@ -472,6 +476,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						boolean businessMethod = false;
 						for (IParametedType type : types) {
 							IType sourceType = type.getType();
+							if(sourceType==null) {
+								continue;
+							}
 							IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
 							if(annotation==null) {
 								annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
@@ -503,73 +510,162 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	private static final String[] RESOURCE_ANNOTATIONS = {CDIConstants.RESOURCE_ANNOTATION_TYPE_NAME, CDIConstants.WEB_SERVICE_REF_ANNOTATION_TYPE_NAME, CDIConstants.EJB_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME};
 
 	private void validateProducer(IProducer producer) {
-		if(producer instanceof IProducerField) {
-			/*
-			 * 3.5.1. Declaring a resource
-			 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
-			 */
-			IProducerField producerField = (IProducerField)producer;
-			if(producerField.getName()!=null) {
-				IAnnotationDeclaration declaration;
-				for (String annotationType : RESOURCE_ANNOTATIONS) {
-					declaration = producerField.getAnnotation(annotationType);
-					if(declaration!=null) {
-						IAnnotationDeclaration nameDeclaration = producerField.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-						if(nameDeclaration!=null) {
-							declaration = nameDeclaration;
-						}
-						addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
-					}
-				}
-			}
-			/*
-			 * 3.4. Producer fields
-			 *  - producer field type contains a wildcard type parameter
-			 */
-			Set<ITypeDeclaration> typeDeclarations = producerField.getAllTypeDeclarations();
-			if(!typeDeclarations.isEmpty()) {
-				ITypeDeclaration typeDeclaration = typeDeclarations.iterator().next();
-				String[] paramTypes = Signature.getTypeArguments(typeDeclaration.getSignature());
+		try {
+			Set<ITypeDeclaration> typeDeclarations = producer
+					.getAllTypeDeclarations();
+			ITypeDeclaration typeDeclaration = null;
+			if (!typeDeclarations.isEmpty()) {
+				/*
+				 * 3.3. Producer methods
+				 *  - producer method return type contains a wildcard type parameter
+				 * 
+				 * 2.2.1 Legal bean types
+				 *  - a parameterized type that contains a wildcard type parameter is not a legal bean type.
+				 * 
+				 * 3.4. Producer fields
+				 *  - producer field type contains a wildcard type parameter
+				 */
+				typeDeclaration = typeDeclarations.iterator()
+						.next();
+				String[] paramTypes = Signature
+						.getTypeArguments(typeDeclaration.getSignature());
 				for (String paramType : paramTypes) {
-					if((paramType.length()==1 && paramType.charAt(0) == Signature.C_STAR) || paramType.charAt(0) == Signature.C_EXTENDS) {
-						addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_FIELD_TYPE_HAS_WILDCARD, typeDeclaration, producer.getResource());
+					if (Signature.getTypeSignatureKind(paramType) == Signature.WILDCARD_TYPE_SIGNATURE) {
+						if (producer instanceof IProducerField) {
+							addError(
+									CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD,
+									CDIPreferences.PRODUCER_FIELD_TYPE_HAS_WILDCARD,
+									typeDeclaration, producer.getResource());
+						} else {
+							addError(
+									CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD,
+									CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD,
+									typeDeclaration, producer.getResource());
+						}
 					}
 				}
 			}
-		} else {
-			IProducerMethod producerMethod = (IProducerMethod)producer;
-			List<IParameter> params = producerMethod.getParameters();
-			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
-			declarations.add(producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
-			for (IParameter param : params) {
+
+			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
+
+			if (producer instanceof IProducerField) {
 				/*
-				 * 3.3.6. Declaring a disposer method
-				 *  - a disposer method is annotated @Produces.
-				 *  
-				 * 3.3.2. Declaring a producer method
-				 *  - a has a parameter annotated @Disposes
+				 * 3.5.1. Declaring a resource
+				 *  - producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 				 */
-				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-				if(declaration!=null) {
-					declarations.add(declaration);
+				IProducerField producerField = (IProducerField) producer;
+				if (producerField.getName() != null) {
+					IAnnotationDeclaration declaration;
+					for (String annotationType : RESOURCE_ANNOTATIONS) {
+						declaration = producerField
+								.getAnnotation(annotationType);
+						if (declaration != null) {
+							IAnnotationDeclaration nameDeclaration = producerField
+									.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+							if (nameDeclaration != null) {
+								declaration = nameDeclaration;
+							}
+							addError(
+									CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME,
+									CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME,
+									declaration, producer.getResource());
+						}
+					}
 				}
 				/*
-				 * 3.3.2. Declaring a producer method
-				 *  - a has a parameter annotated @Observers
-				 *  
-				 * 10.4.2. Declaring an observer method
-				 *  - an observer method is annotated @Produces
+				 * 3.4. Producer fields
+				 *  - producer field type is a type variable
 				 */
-				declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-				if(declaration!=null) {
-					declarations.add(declaration);
+				if(typeVariables.length>0) {
+					String typeSign = producerField.getField().getTypeSignature();
+					String typeString = Signature.toString(typeSign);
+					for (String variableSig : typeVariables) {
+						String variableName = Signature.getTypeVariable(variableSig);
+						if(typeString.equals(variableName)) {
+							addError(
+									CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE,
+									CDIPreferences.PRODUCER_FIELD_TYPE_IS_VARIABLE,
+									typeDeclaration!=null?typeDeclaration:producer, producer.getResource());
+						}
+					}
+				}
+			} else {
+				IProducerMethod producerMethod = (IProducerMethod) producer;
+				List<IParameter> params = producerMethod.getParameters();
+				Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
+				declarations
+						.add(producerMethod
+								.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+				for (IParameter param : params) {
+					/*
+					 * 3.3.6. Declaring a disposer method
+					 *  - a disposer method is annotated @Produces.
+					 * 
+					 * 3.3.2. Declaring a producer method
+					 *  - a has a parameter annotated @Disposes
+					 */
+					ITextSourceReference declaration = param
+							.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+					if (declaration != null) {
+						declarations.add(declaration);
+					}
+					/*
+					 * 3.3.2. Declaring a producer method
+					 *  - a has a parameter annotated @Observers
+					 * 
+					 * 10.4.2. Declaring an observer method
+					 *  - an observer method is annotated @Produces
+					 */
+					declaration = param
+							.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+					if (declaration != null) {
+						declarations.add(declaration);
+					}
+				}
+				if (declarations.size() > 1) {
+					for (ITextSourceReference declaration : declarations) {
+						addError(
+								CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
+								CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
+								declaration, producer.getResource());
+					}
+				}
+
+				/*
+				 * 3.3. Producer methods
+				 *  - producer method return type is a type variable
+				 * 
+				 * 2.2.1 - Legal bean types
+				 *  - a type variable is not a legal bean type
+				 */
+				String typeSign = producerMethod.getMethod().getReturnType();
+				String typeString = Signature.toString(typeSign);
+				ITypeParameter[] paramTypes = producerMethod.getMethod().getTypeParameters();
+				boolean marked = false;
+				for (ITypeParameter param : paramTypes) {
+					String variableName = param.getElementName();
+					if(variableName.equals(typeString)) {
+						addError(
+								CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
+								CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
+								typeDeclaration!=null?typeDeclaration:producer, producer.getResource());
+						marked = true;
+					}
+				}
+				if(!marked && typeVariables.length>0) {
+					for (String variableSig : typeVariables) {
+						String variableName = Signature.getTypeVariable(variableSig);
+						if(typeString.equals(variableName)) {
+							addError(
+									CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
+									CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
+									typeDeclaration!=null?typeDeclaration:producer, producer.getResource());
+						}
+					}
 				}
 			}
-			if(declarations.size()>1) {
-				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, producer.getResource());
-				}
-			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
 		}
 	}
 
