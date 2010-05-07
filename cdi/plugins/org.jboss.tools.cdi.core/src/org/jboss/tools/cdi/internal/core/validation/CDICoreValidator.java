@@ -544,6 +544,32 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 					}
 				}
+
+				/**
+				 * 3.3. Producer methods
+				 *  - producer method with a parameterized return type with a type variable declares any scope other than @Dependent
+				 *  
+				 * 3.4. Producer fields
+				 *  - producer field with a parameterized type with a type variable declares any scope other than @Dependent
+				 */
+				if(paramTypes.length>0) {
+					IScope scope = producer.getScope();
+					if(!CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName())) {
+						ITextSourceReference declaration = typeDeclaration;
+						Set<IScopeDeclaration> decls = producer.getScopeDeclarations();
+						for (IScopeDeclaration decl : decls) {
+							if(decl.getParentMember().getResource().equals(producer.getResource())) {
+								declaration = decl;
+								break;
+							}
+						}
+						boolean field = producer instanceof IProducerField;
+						addError(
+								field?CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD:CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
+								field?CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD:CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
+								declaration, producer.getResource());
+					}
+				}
 			}
 
 			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
