@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
@@ -26,6 +27,7 @@ import org.jboss.tools.common.text.ext.hyperlink.IExclusiblePartitionerRecogniti
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 
@@ -36,10 +38,18 @@ import org.jboss.tools.jst.web.kb.PageContextFactory;
 public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IExclusiblePartitionerRecognition {
 	public static final String JSP_EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"; //$NON-NLS-1$
 	public static final String EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.EXPRESSION"; //$NON-NLS-1$
+	public static final String DOT_EXPRESSION_PARTITION = "org.jboss.tools.common.text.ext.jsp.DOT_EXPRESSION"; //$NON-NLS-1$
+	
+	private static final String DOT = ".";
 	
 	private boolean jspExpression = false;
+	
+	private boolean dotExpression = false;
 
 	protected String getPartitionType() {
+		if(dotExpression)
+			return DOT_EXPRESSION_PARTITION;
+		
 		if(jspExpression)
 			return EXPRESSION_PARTITION;
 		else
@@ -72,18 +82,21 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 	
 	private IHyperlinkRegion getRegion(IDocument document, final int offset) {
 		jspExpression = false;
+		dotExpression = false;
 		ELContext context = getELContext(document);
 		if(context != null){
 			ExpressionStructure eStructure = getExpression(context, offset);
 			if(eStructure != null){
 				ELInvocationExpression invocationExpression = getInvocationExpression(eStructure.reference, eStructure.expression, offset);
 				if(invocationExpression != null){
-					jspExpression = decide(context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition());
+					jspExpression = decide(context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition(), offset);
 					if(jspExpression){
 						IHyperlinkRegion region = new HyperlinkRegion(invocationExpression.getStartPosition(), invocationExpression.getLength(), null, null, null);
 						return region;
 					}
 				}
+				dotExpression = checkDot(document, offset, context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition());
+				
 				IHyperlinkRegion region = new HyperlinkRegion(eStructure.expression.getStartPosition(), eStructure.expression.getLength(), null, null, null);
 				return region;
 			}
@@ -127,11 +140,14 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 		return null;
 	}
 	
-	public boolean decide(ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset){
+	public boolean decide(ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset, int globalOffset){
 		for(ELResolver resolver : context.getElResolvers()){
-			ELResolution resolution = resolver.resolve(context, invocationExpression, invocationExpression.getStartPosition());
+			ELResolution resolution = resolver.resolve(context, invocationExpression, globalOffset);
+			if(resolution==null) {
+				return false;
+			}
 			ELSegment segment = resolution.findSegmentByOffset(offset);
-			if(segment != null){
+			if(segment != null && segment.isResolved()){
 				if(segment instanceof JavaMemberELSegment){
 					JavaMemberELSegment javaSegment = (JavaMemberELSegment)segment;
 					if(javaSegment.getJavaElement() != null){
@@ -139,6 +155,21 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 					}
 				}
 			}
+		}
+		return false;
+	}
+
+	public boolean checkDot(IDocument document, int superOffset, ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset){
+		try{
+			String text = document.get(superOffset, 1);
+			if(DOT.equals(text)){
+				if(decide(context, expression, invocationExpression, offset+1, superOffset+1))
+					return true;
+				else if(decide(context, expression, invocationExpression, offset-1, superOffset-1))
+					return true;
+			}
+		}catch(BadLocationException ex){
+			JSFExtensionsPlugin.log(ex);
 		}
 		return false;
 	}

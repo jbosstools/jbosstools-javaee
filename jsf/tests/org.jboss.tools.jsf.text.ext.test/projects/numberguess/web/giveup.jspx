@@ -2,6 +2,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
           xmlns:h="http://java.sun.com/jsf/html"
           xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:rich="http://richfaces.org/rich"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
   <jsp:output doctype-root-element="html"
@@ -20,6 +21,9 @@
       <h:outputText value="#{Message.info_start}" /><h:outputText value="#{numberGuess.remainingGuesses}"/><h:outputText value="#{Message.info_finish}" />
       <h:commandButton value="#{Message.button_yes}" action="yes"/>
       <h:commandButton value="#{Message.button_no}" action="no"/>
+      <rich:dataTable value="#{numberGuess.possibilities}" var="_localVariable">
+   			<h:outputText value="#{_localVariable.intValue}" />
+		</rich:dataTable> 
     </h:form>
     </f:view>
   </body>

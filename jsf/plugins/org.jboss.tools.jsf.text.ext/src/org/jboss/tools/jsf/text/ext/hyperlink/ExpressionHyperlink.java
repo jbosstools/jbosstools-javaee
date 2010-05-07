@@ -40,7 +40,10 @@ public class ExpressionHyperlink extends AbstractHyperlink{
 		ELInvocationExpression invocationExpression = JSPExprHyperlinkPartitioner.getInvocationExpression(eStructure.reference, eStructure.expression, offset);
 		if(invocationExpression != null){
 			for(ELResolver resolver : context.getElResolvers()){
-				ELResolution resolution = resolver.resolve(context, invocationExpression, invocationExpression.getStartPosition());
+				ELResolution resolution = resolver.resolve(context, invocationExpression, offset);
+				if(resolution==null) {
+					return null;
+				}
 				ELSegment segment = resolution.findSegmentByOffset(offset-eStructure.reference.getStartPosition());
 				if(segment != null){
 					if(segment instanceof JavaMemberELSegment){

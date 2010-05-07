@@ -32,11 +32,11 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.internal.editor.EditorModelUtil;
-import org.jboss.tools.common.test.util.TestProjectProvider;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class ELExprPartitionerTest extends TestCase {
 	TestProjectProvider provider = null;
@@ -118,38 +118,30 @@ public class ELExprPartitionerTest extends TestCase {
 		HashMap<Object, ArrayList<Region>> recognitionTest = new HashMap<Object, ArrayList<Region>>();
 		
 		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(623, 16));
-		regionList.add(new Region(706, 16));
-		regionList.add(new Region(813, 18));
-		regionList.add(new Region(914, 19));
-		regionList.add(new Region(972, 18));
-		regionList.add(new Region(1041, 17));
+		regionList.add(new Region(673, 7));
+		regionList.add(new Region(680, 9));
+		regionList.add(new Region(756, 7));
+		regionList.add(new Region(763, 9));
+		regionList.add(new Region(863, 7));
+		regionList.add(new Region(870, 11));
+		regionList.add(new Region(964, 19));
+		regionList.add(new Region(1022, 18));
+		regionList.add(new Region(1091, 17));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE", regionList);
 		
 		regionList = new ArrayList<Region>();
-		regionList.add(new Region(859, 11));
-		regionList.add(new Region(871, 16));
-		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_BEAN", regionList);
+		regionList.add(new Region(920, 1));
+		regionList.add(new Region(1168, 1));
+		regionList.add(new Region(1251, 1));
+		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.DOT_EXPRESSION", regionList);
 		
 		regionList = new ArrayList<Region>();
-		regionList.add(new Region(859, 11));
-		regionList.add(new Region(871, 16));
-		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_BEAN", regionList);
-		
-		regionList = new ArrayList<Region>();
-		regionList.add(new Region(859, 11));
-		regionList.add(new Region(870, 16));
-		regionList.add(new Region(886, 1));
-		
-		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
-		
-//		regionList = new ArrayList<Region>();
-//		regionList.add(new Region(870, 16));
-//		recognitionTest.put("org.eclipse.jst.jsp.SCRIPT.JSP_EL2", regionList);
-		
-		regionList = new ArrayList<Region>();
-		regionList.add(new Region(859, 11));
-		regionList.add(new Region(871, 16));
+		regionList.add(new Region(909, 11));
+		regionList.add(new Region(921, 16));
+		regionList.add(new Region(1157, 11));
+		regionList.add(new Region(1169, 13));
+		regionList.add(new Region(1237, 14));
+		regionList.add(new Region(1252, 8));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.EXPRESSION", regionList);
 		
 		int counter = 0;
@@ -216,7 +208,7 @@ public class ELExprPartitionerTest extends TestCase {
 			}
 		}
 
-		assertEquals("Wrong recognized region count: ", 132,  counter);
+		assertEquals("Wrong recognized region count: ", 180,  counter);
 		
 		model.releaseFromEdit();
 
