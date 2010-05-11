@@ -58,103 +58,6 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
-	 * 2.5.3. Beans with no EL name
-	 *	- interceptor or decorator has a name (Non-Portable behavior)
-	 *
-	 * @throws Exception
-	 */
-	public void testNamedInterceptor() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 9);
-		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedStereotypedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 7);
-	}
-
-	/**
-	 * 	 2.7.1.3. Stereotype declares a non-empty @Named annotation (Non-Portable behavior)
-	 * 
-	 * @throws Exception
-	 */
-	public void testNonEmptyNamedForStereotype() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/nonEmptyNamed/StereotypeWithNonEmptyNamed_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, 31);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithNonEmptyNamed_Broken.java should has the only error marker.", markerNumbers, 1);
-	}
-
-	/**
-	 * 3.5.1. Declaring a resource
-	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
-	 * 
-	 * @throws Exception
-	 */
-	public void testResourceWithELName() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
-	}
-
-	/**
-	 * 3.11. The qualifier @Named at injection points
-	 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
-	 * 
-	 * @throws Exception
-	 */
-	public void testNamedInjectPoint() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
-	}
-
-	/**
-	 * 2.5.3. Beans with no EL name
-	 *	- interceptor or decorator has a name (Non-Portable behavior)
-	 *
-	 * @throws Exception
-	 */
-	public void testNamedDecorator() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 10);
-		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedStereotypedDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 8);
-	}
-
-	/**
-	 * 	 2.7.1.3. Stereotype declares any other qualifier annotation
-	 * 
-	 * @throws Exception
-	 */
-	public void testAnnotatedStereotype() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithBindingTypes_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, 30);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithBindingTypes_Broken.java should has the only error marker.", markerNumbers, 1);
-	}
-
-	/**
-	 * 	 2.7.1.3. Stereotype is annotated @Typed
-	 * 
-	 * @throws Exception
-	 */
-	public void testTypedStereotype() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithTyped_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, 15);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
-	}
-
-	/**
-	 *  2.7.1.1. Declaring the default scope for a stereotype
-	 *           - stereotype declares more than one scope
-	 * 
-	 * @throws Exception
-	 */
-	public void testStereotypeScope() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/tooManyScopes/StereotypeWithTooManyScopeTypes_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, 32, 33);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithTooManyScopeTypes_Broken.java should has two error markers.", markerNumbers, 2);
-	}
-
-	/**
 	 *  2.4.3. Declaring the bean scope
 	 *         - bean class or producer method or field specifies multiple scope type annotations
 	 * 
@@ -179,6 +82,128 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, 24, 25);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("Scallop_Broken.java should has two error markers.", markerNumbers, 2);
+	}
+
+	/**
+	 * 2.5.3. Beans with no EL name
+	 *	- interceptor has a name (Non-Portable behavior)
+	 *
+	 * @throws Exception
+	 */
+	public void testNamedInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 9);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedStereotypedInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 7);
+	}
+
+	/**
+	 * 2.5.3. Beans with no EL name
+	 *	- decorator has a name (Non-Portable behavior)
+	 *
+	 * @throws Exception
+	 */
+	public void testNamedDecorator() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedDecoratorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 10);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedStereotypedDecoratorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 8);
+	}
+
+	/**
+	 * 2.6.1. Declaring an alternative
+	 *	- interceptor is an alternative (Non-Portable behavior)
+	 *
+	 * @throws Exception
+	 */
+	public void testAlternativeInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/AlternativeInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, 9);
+	}
+
+	/**
+	 * 2.6.1. Declaring an alternative
+	 *	- decorator is an alternative (Non-Portable behavior)
+	 *
+	 * @throws Exception
+	 */
+	public void testAlternativeDecorator() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/AlternativeDecoratorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, 7);
+	}
+
+	/**
+	 *  2.7.1.1. Declaring the default scope for a stereotype
+	 *   - stereotype declares more than one scope
+	 * 
+	 * @throws Exception
+	 */
+	public void testStereotypeScope() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/tooManyScopes/StereotypeWithTooManyScopeTypes_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, 32, 33);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithTooManyScopeTypes_Broken.java should has two error markers.", markerNumbers, 2);
+	}
+
+	/**
+	 * 2.7.1.3. Declaring a @Named stereotype
+	 *  - stereotype declares a non-empty @Named annotation (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testNonEmptyNamedForStereotype() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/nonEmptyNamed/StereotypeWithNonEmptyNamed_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, 31);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithNonEmptyNamed_Broken.java should has the only error marker.", markerNumbers, 1);
+	}
+
+	/**
+	 * 2.7.1.3. Declaring a @Named stereotype
+	 *  - stereotype declares any other qualifier annotation
+	 * 
+	 * @throws Exception
+	 */
+	public void testAnnotatedStereotype() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithBindingTypes_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, 30);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithBindingTypes_Broken.java should has the only error marker.", markerNumbers, 1);
+	}
+
+	/**
+	 * 2.7.1.3. Declaring a @Named stereotype
+	 * 	- stereotype is annotated @Typed 
+	 * 
+	 * @throws Exception
+	 */
+	public void testTypedStereotype() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithTyped_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, 15);
+		int markerNumbers = getMarkersNumber(file);
+		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
+	}
+
+	/**
+	 * 3.5.1. Declaring a resource
+	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+	 * 
+	 * @throws Exception
+	 */
+	public void testResourceWithELName() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
+	}
+
+	/**
+	 * 3.11. The qualifier @Named at injection points
+	 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
+	 * 
+	 * @throws Exception
+	 */
+	public void testNamedInjectPoint() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
 	}
 
 	/**

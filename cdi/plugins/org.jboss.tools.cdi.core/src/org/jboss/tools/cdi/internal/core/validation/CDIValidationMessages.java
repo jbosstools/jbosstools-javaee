@@ -81,7 +81,8 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_INTERCEPTOR_BINDING_METHOD;
 	public static String CONFLICTING_INTERCEPTOR_BINDINGS;
 	public static String OBSERVER_IN_INTERCEPTOR_OR_DECORATOR;
-	public static String INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE;
+	public static String INTERCEPTOR_IS_ALTERNATIVE;
+	public static String DECORATOR_IS_ALTERNATIVE;
 	public static String MISSING_INTERCEPTOR_BINDING;
 
 	public static String ILLEGAL_SPECIALIZING_MANAGED_BEAN;

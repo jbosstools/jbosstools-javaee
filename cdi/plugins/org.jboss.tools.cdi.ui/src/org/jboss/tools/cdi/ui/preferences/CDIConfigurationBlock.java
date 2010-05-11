@@ -113,7 +113,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 //				{CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalInterceptorBindingMethod_label},
 //				{CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_conflictingInterceptorBindings_label},
 //				{CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerInInterceptorOrDecorator_label},
-//				{CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorOrDecoratorIsAlternative_label},
+				{CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorOrDecoratorIsAlternative_label},
 //				{CDIPreferences.MISSING_INTERCEPTOR_BINDING, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingInterceptorBinding_label},
 		},
 		CDICorePlugin.PLUGIN_ID

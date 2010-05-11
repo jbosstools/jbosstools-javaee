@@ -3,5 +3,6 @@
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.NamedInterceptorBroken</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.FordInterceptor</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithWrongScopeBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.AltrenativeInterceptorBroken</class>
    </interceptors>
 </beans>

@@ -1,4 +1,5 @@
 Definition Errors
+
 2.2.2. Restricting the bean types of a bean
 - bean class or producer method or field specifies a @Typed annotation, 
   and the value member specifies a class which does not correspond to a type 
@@ -6,10 +7,6 @@ Definition Errors
 
 2.4.1. Built-in scope types
 - interceptor or decorator has any scope other than @Dependent (Non-Portable behavior)
-
-
-
-
 
 2.4.3. Declaring the bean scope
 - bean class or producer method or field specifies multiple scope type annotations
@@ -31,6 +28,10 @@ Definition Errors
 - stereotype declares a non-empty @Named annotation (Non-Portable behavior)
 - stereotype declares any other qualifier annotation
 - stereotype is annotated @Typed
+
+
+
+
 
 3.1. Managed beans
 - the bean class of a managed bean is annotated with both 

@@ -724,8 +724,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateInterceptor(IInterceptor interceptor) {
 		/*
-		 * 2.5.3. Beans with no EL name - interceptor has a name (Non-Portable
-		 * behavior)
+		 * 2.5.3. Beans with no EL name 
+		 *  - interceptor has a name (Non-Portable behavior)
 		 */
 		if(interceptor.getName()!=null) {
 			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
@@ -736,6 +736,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				declaration = getNamedStereotypeDeclaration(interceptor);
 			}
 			addError(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_HAS_NAME, declaration, interceptor.getResource());
+		}
+
+		/*
+		 * 2.6.1. Declaring an alternative
+		 *	- interceptor is an alternative (Non-Portable behavior)
+		 */
+		ITextSourceReference declaration = interceptor.getAlternativeDeclaration();
+		if(declaration!=null) {
+			addError(CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, interceptor.getResource());
 		}
 	}
 
@@ -753,6 +762,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				declaration = getNamedStereotypeDeclaration(decorator);
 			}
 			addError(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.DECORATOR_HAS_NAME, declaration, decorator.getResource());
+		}
+
+		/*
+		 * 2.6.1. Declaring an alternative
+		 *	- decorator is an alternative (Non-Portable behavior)
+		 */
+		ITextSourceReference declaration = decorator.getAlternativeDeclaration();
+		if(declaration!=null) {
+			addError(CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, decorator.getResource());
 		}
 	}
 
