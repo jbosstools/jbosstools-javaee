@@ -1,5 +1,6 @@
 <beans> 
    <decorators>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.decorators.NamedDecoratorBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.decorators.DecoratorWithWrongScopeBroken</class>
    </decorators>
 </beans>

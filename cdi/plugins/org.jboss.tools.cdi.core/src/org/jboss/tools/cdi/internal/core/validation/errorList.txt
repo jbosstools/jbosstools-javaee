@@ -7,6 +7,10 @@ Definition Errors
 2.4.1. Built-in scope types
 - interceptor or decorator has any scope other than @Dependent (Non-Portable behavior)
 
+
+
+
+
 2.4.3. Declaring the bean scope
 - bean class or producer method or field specifies multiple scope type annotations
 

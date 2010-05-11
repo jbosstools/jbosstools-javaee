@@ -21,6 +21,56 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
 public class ValidationTest extends TCKTest {
 
 	/**
+	 * 2.2.2. Restricting the bean types of a bean
+	 *	      - bean class or producer method or field specifies a @Typed annotation, 
+	 *		  and the value member specifies a class which does not correspond to a type 
+	 *		  in the unrestricted set of bean types of a bean
+	 * 
+	 * @throws Exception
+	 */
+	public void testLegalTypesInTyped() throws Exception {
+		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 25);
+		int markerNumbers = getMarkersNumber(petShopFile);
+		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
+	}
+
+	/**
+	 * 2.4.1. Built-in scope types
+	 *	      - interceptor has any scope other than @Dependent (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorWithWrongScope() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InterceptorWithWrongScopeBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR, 7);
+	}
+
+	/**
+	 * 2.4.1. Built-in scope types
+	 *	      - decorator has any scope other than @Dependent (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testDecoratorWithWrongScope() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/DecoratorWithWrongScopeBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR, 7);
+	}
+
+	/**
+	 * 2.5.3. Beans with no EL name
+	 *	- interceptor or decorator has a name (Non-Portable behavior)
+	 *
+	 * @throws Exception
+	 */
+	public void testNamedInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 9);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedStereotypedInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 7);
+	}
+
+	/**
 	 * 	 2.7.1.3. Stereotype declares a non-empty @Named annotation (Non-Portable behavior)
 	 * 
 	 * @throws Exception
@@ -60,39 +110,11 @@ public class ValidationTest extends TCKTest {
 	 *
 	 * @throws Exception
 	 */
-	public void testNamedInterceptor() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 9);
-		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedStereotypedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 7);
-	}
-
-	/**
-	 * 2.5.3. Beans with no EL name
-	 *	- interceptor or decorator has a name (Non-Portable behavior)
-	 *
-	 * @throws Exception
-	 */
 	public void testNamedDecorator() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedDecoratorBroken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 10);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedStereotypedDecoratorBroken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 8);
-	}
-
-	/**
-	 * 2.2.2. Restricting the bean types of a bean
-	 *	      - bean class or producer method or field specifies a @Typed annotation, 
-	 *		  and the value member specifies a class which does not correspond to a type 
-	 *		  in the unrestricted set of bean types of a bean
-	 * 
-	 * @throws Exception
-	 */
-	public void testLegalTypesInTyped() throws Exception {
-		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 25);
-		int markerNumbers = getMarkersNumber(petShopFile);
-		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
 	}
 
 	/**
@@ -303,7 +325,7 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
-	 * 3.4. Producer methods
+	 * 3.4. Producer fields.
 	 *  - producer field type is a type variable
 	 *  
 	 * @throws Exception

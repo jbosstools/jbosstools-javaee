@@ -67,8 +67,8 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			{CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForProducerMethod_label},
 			{CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForProducerField_label},
 //			{CDIPreferences.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeWhenTypeInjectionPointIsInjected_label},
-//			{CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForInterceptor_label},
-//			{CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForDecorator_label},
+			{CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForInterceptor_label},
+			{CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalScopeForDecorator_label},
 		},
 		CDICorePlugin.PLUGIN_ID
 	);

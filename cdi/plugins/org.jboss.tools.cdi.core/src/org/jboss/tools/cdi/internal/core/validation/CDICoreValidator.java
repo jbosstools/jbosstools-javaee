@@ -827,6 +827,38 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 		}
+
+		/*
+		 * 2.4.1. Built-in scope types
+		 *	      - interceptor or decorator has any scope other than @Dependent (Non-Portable behavior)
+		 */
+		boolean interceptor = bean instanceof IInterceptor;
+		boolean decorator = bean instanceof IDecorator;
+		if(interceptor || decorator) {
+			IScope scope = bean.getScope();
+			if(!CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName())) {
+				String key;
+				String message;
+				ITextSourceReference declaration = null;
+				if(!scopes.isEmpty()) {
+					declaration = scopes.iterator().next();
+				}
+				if(interceptor) {
+					key = CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR;
+					message = CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR;
+					if(declaration==null) {
+						declaration = ((IInterceptor)bean).getInterceptorAnnotation();
+					}
+				} else {
+					key = CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR;
+					message = CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR;
+					if(declaration==null) {
+						declaration = ((IDecorator)bean).getDecoratorAnnotation();
+					}
+				}
+				addError(message, key, declaration, bean.getResource());
+			}
+		}
 	}
 
 	/**
