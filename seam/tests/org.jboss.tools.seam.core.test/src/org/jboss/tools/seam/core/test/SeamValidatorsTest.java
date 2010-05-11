@@ -746,7 +746,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	// See https://jira.jboss.org/jira/browse/JBIDE-4515
-	public void testRevalidationUnresolvedELs() {
+	public void testRevalidationUnresolvedELs() throws CoreException{
 		refreshProject(project);
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
@@ -758,8 +758,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		refreshProject(project);
 
-		int n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
-		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
+		IMarker[] markers = findMarkers(xhtmlFile, IMarker.PROBLEM, "\"testElRevalidation\" cannot be resolved");
+		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, markers.length);
+		
 
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
 		// Check if the validator was not invoked.
@@ -767,8 +768,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		refreshProject(project);
 
-		n = getMarkersNumber(xhtmlFile, SEAM_MARKER_FILTER);
-		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, n);
+		markers = findMarkers(xhtmlFile, IMarker.PROBLEM, "\"testElRevalidation\" cannot be resolved");
+		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, markers.length);
 
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
