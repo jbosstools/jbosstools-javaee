@@ -103,7 +103,7 @@
 	<test id="dataDefinitionList1">
 		<DIV CLASS="dr-pnl rich-panel ">
 			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header "
-				STYLE="background-image: url(file:///D:/Projects/jboss_trunk/jsf/plugins/org.jboss.tools.jsf.vpe.richfaces/resources/common/background.gif);">
+				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<SPAN CLASS="vpe-text">
 					Data Defenition list
 </SPAN>
