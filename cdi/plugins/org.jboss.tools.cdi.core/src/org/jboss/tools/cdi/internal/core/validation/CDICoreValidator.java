@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -39,6 +40,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
@@ -59,7 +61,6 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.ISessionBean;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
-import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -311,6 +312,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateClassBean(IClassBean bean) {
 		validateDisposers(bean);
+		if(!(bean instanceof ISessionBean)) {
+			validateManagedBean(bean);
+		}
 	}
 
 	private void validateDisposers(IClassBean bean) {
@@ -332,7 +336,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					 *  - there are multiple disposer methods for a single producer method
 					 */
 					for (IBeanMethod disposerMethod : disposerMethods) {
-						Set<ITextSourceReference> disposerDeclarations = getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 						for (ITextSourceReference declaration : disposerDeclarations) {
 							addError(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource());
 						}
@@ -446,18 +450,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
-	private Set<ITextSourceReference> getAnnotationPossitions(IBeanMethod method, String annotationTypeName) {
-		List<IParameter> params = method.getParameters();
-		Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
-		for (IParameter param : params) {
-			ITextSourceReference declaration = param.getAnnotationPosition(annotationTypeName);
-			if(declaration!=null) {
-				declarations.add(declaration);
-			}
-		}
-		return declarations;
-	}
-
 	/**
 	 * If the method is not a static method and is not a business method of the session bean and is observer or disposer then mark it as incorrect.
 	 * 
@@ -553,21 +545,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 *  - producer field with a parameterized type with a type variable declares any scope other than @Dependent
 				 */
 				if(paramTypes.length>0) {
-					IScope scope = producer.getScope();
-					if(!CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName())) {
-						ITextSourceReference declaration = typeDeclaration;
-						Set<IScopeDeclaration> decls = producer.getScopeDeclarations();
-						for (IScopeDeclaration decl : decls) {
-							if(decl.getParentMember().getResource().equals(producer.getResource())) {
-								declaration = decl;
-								break;
-							}
-						}
+					IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(producer);
+					if(scopeOrStereotypeDeclaration!=null) {
 						boolean field = producer instanceof IProducerField;
 						addError(
 								field?CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD:CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
 								field?CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD:CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
-								declaration, producer.getResource());
+								scopeOrStereotypeDeclaration, producer.getResource());
 					}
 				}
 			}
@@ -722,6 +706,47 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
+	private void validateManagedBean(IClassBean bean) {
+		/*
+		 * 3.1. Managed beans
+		 * 	- the bean class of a managed bean is annotated with both the @Interceptor and @Decorator stereotypes 
+		 */
+		IAnnotationDeclaration decorator = bean.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+		IAnnotationDeclaration interceptor = bean.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+		if(decorator!=null && interceptor!=null) {
+			addError(CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, decorator, bean.getResource());
+			addError(CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, interceptor, bean.getResource());
+		}
+
+		IAnnotationDeclaration declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
+		if(declaration!=null) {
+			IType type = bean.getBeanClass();
+			try {
+				/*
+				 * 3.1. Managed beans
+				 * 	- managed bean with a public field declares any scope other than @Dependent 
+				 */
+				IField[] fields = type.getFields();
+				for (IField field : fields) {
+					if(Flags.isPublic(field.getFlags())) {
+						addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_MANAGED_BEAN, declaration, bean.getResource());
+						break;
+					}
+				}
+				/*
+				 * 3.1. Managed beans
+				 * 	- managed bean with a parameterized bean class declares any scope other than @Dependent 
+				 */
+				String[] typeVariables = type.getTypeParameterSignatures();
+				if(typeVariables.length>0) {
+					addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE, CDIPreferences.ILLEGAL_SCOPE_FOR_MANAGED_BEAN, declaration, bean.getResource());
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+		}
+	}
+
 	private void validateInterceptor(IInterceptor interceptor) {
 		/*
 		 * 2.5.3. Beans with no EL name 
@@ -733,7 +758,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				declaration = interceptor.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 			}
 			if(declaration==null) {
-				declaration = getNamedStereotypeDeclaration(interceptor);
+				declaration = CDIUtil.getNamedStereotypeDeclaration(interceptor);
 			}
 			addError(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_HAS_NAME, declaration, interceptor.getResource());
 		}
@@ -742,8 +767,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * 2.6.1. Declaring an alternative
 		 *	- interceptor is an alternative (Non-Portable behavior)
 		 */
-		ITextSourceReference declaration = interceptor.getAlternativeDeclaration();
-		if(declaration!=null) {
+		if(interceptor.isAlternative()) {
+			ITextSourceReference declaration = interceptor.getAlternativeDeclaration();
+			if(declaration==null) {
+				declaration = interceptor.getInterceptorAnnotation();
+			}
 			addError(CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, interceptor.getResource());
 		}
 	}
@@ -759,7 +787,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				declaration = decorator.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
 			}
 			if(declaration==null) {
-				declaration = getNamedStereotypeDeclaration(decorator);
+				declaration = CDIUtil.getNamedStereotypeDeclaration(decorator);
 			}
 			addError(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.DECORATOR_HAS_NAME, declaration, decorator.getResource());
 		}
@@ -768,21 +796,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * 2.6.1. Declaring an alternative
 		 *	- decorator is an alternative (Non-Portable behavior)
 		 */
-		ITextSourceReference declaration = decorator.getAlternativeDeclaration();
-		if(declaration!=null) {
+		if(decorator.isAlternative()) {
+			ITextSourceReference declaration = decorator.getAlternativeDeclaration();
+			if(declaration==null) {
+				declaration = decorator.getDecoratorAnnotation();
+			}
 			addError(CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, decorator.getResource());
 		}
-	}
-
-	private IAnnotationDeclaration getNamedStereotypeDeclaration(IStereotyped stereotyped) {
-		Set<IStereotypeDeclaration> declarations = stereotyped.getStereotypeDeclarations();
-		for (IStereotypeDeclaration declaration : declarations) {
-			if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(declaration.getType().getFullyQualifiedName()) ||
-				getNamedStereotypeDeclaration(declaration.getStereotype())!=null) {
-				return declaration;
-			}
-		}
-		return null;
 	}
 
 	/*
@@ -853,28 +873,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		boolean interceptor = bean instanceof IInterceptor;
 		boolean decorator = bean instanceof IDecorator;
 		if(interceptor || decorator) {
-			IScope scope = bean.getScope();
-			if(!CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName())) {
-				String key;
-				String message;
-				ITextSourceReference declaration = null;
-				if(!scopes.isEmpty()) {
-					declaration = scopes.iterator().next();
-				}
+			IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
+			if(scopeOrStereotypeDeclaration!=null) {
+				String key = CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR;
+				String message = CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR;
 				if(interceptor) {
 					key = CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR;
 					message = CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR;
-					if(declaration==null) {
-						declaration = ((IInterceptor)bean).getInterceptorAnnotation();
-					}
-				} else {
-					key = CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR;
-					message = CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR;
-					if(declaration==null) {
-						declaration = ((IDecorator)bean).getDecoratorAnnotation();
-					}
 				}
-				addError(message, key, declaration, bean.getResource());
+				addError(message, key, scopeOrStereotypeDeclaration, bean.getResource());
 			}
 		}
 	}

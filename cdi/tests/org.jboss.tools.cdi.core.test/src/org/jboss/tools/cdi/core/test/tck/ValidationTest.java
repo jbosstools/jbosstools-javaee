@@ -43,7 +43,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InterceptorWithWrongScopeBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR, 7);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR, 8);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testAlternativeInterceptor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/AlternativeInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, 9);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, 7);
 	}
 
 	/**
@@ -182,6 +182,39 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, 15);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
+	}
+
+	/**
+	 * 3.1. Managed beans
+	 * 	- the bean class of a managed bean is annotated with both the @Interceptor and @Decorator stereotypes 
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorCanNotAlsoBeDecorator() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/interceptors/definition/broken/interceptorCanNotBeDecorator/InterceptingDecorator.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, 24, 25);
+	}
+
+	/**
+	 * 3.1. Managed beans
+	 * 	- managed bean with a public field declares any scope other than @Dependent 
+	 * 
+	 * @throws Exception
+	 */
+	public void testNonDependentScopedBeanCanNotHavePublicField() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/dependentWithPublicField/Leopard_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, 21);
+	}
+
+	/**
+	 * 3.1. Managed beans
+	 * 	- managed bean with a parameterized bean class declares any scope other than @Dependent 
+	 * 
+	 * @throws Exception
+	 */
+	public void testNonDependentGenericManagedBeanNotOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/genericbroken/FooBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE, 21);
 	}
 
 	/**
@@ -368,10 +401,10 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedReturnTypeWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 41);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 39);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 21);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 35);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 32);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 31);
 	}
 
 	/**
@@ -382,7 +415,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedTypeWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 11, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 11, 18);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 9);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 14);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 16);

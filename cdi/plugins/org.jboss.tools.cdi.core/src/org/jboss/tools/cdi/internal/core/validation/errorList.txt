@@ -29,15 +29,16 @@ Definition Errors
 - stereotype declares any other qualifier annotation
 - stereotype is annotated @Typed
 
-
-
-
-
 3.1. Managed beans
 - the bean class of a managed bean is annotated with both 
   the @Interceptor and @Decorator stereotypes
 - managed bean with a public field declares any scope other than @Dependent
 - managed bean with a parameterized bean class declares any scope other than @Dependent
+
+
+
+
+
 
 3.1.4. Specializing a managed bean
 - managed bean class annotated @Specializes does not directly extend 

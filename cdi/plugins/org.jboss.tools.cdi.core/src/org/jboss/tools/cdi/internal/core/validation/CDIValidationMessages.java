@@ -41,7 +41,8 @@ public class CDIValidationMessages {
 	public static String MULTIPLE_SCOPE_TYPE_ANNOTATIONS;
 	public static String MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE;
 	public static String STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE;
-	public static String ILLEGAL_SCOPE_FOR_MANAGED_BEAN;
+	public static String ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD;
+	public static String ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE;
 	public static String ILLEGAL_SCOPE_FOR_SESSION_BEAN;
 	public static String ILLEGAL_SCOPE_FOR_PRODUCER_METHOD;
 	public static String ILLEGAL_SCOPE_FOR_PRODUCER_FIELD;
@@ -68,6 +69,7 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_CONDITIONAL_OBSERVER;
 
 	public static String BOTH_INTERCEPTOR_AND_DECORATOR;
+	public static String SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR;
 	public static String PRODUCER_IN_INTERCEPTOR;
 	public static String PRODUCER_IN_DECORATOR;
 	public static String DISPOSER_IN_INTERCEPTOR;

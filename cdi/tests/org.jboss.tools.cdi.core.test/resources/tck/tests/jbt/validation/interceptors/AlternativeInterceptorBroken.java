@@ -1,12 +1,11 @@
 package org.jboss.jsr299.tck.tests.jbt.validation.interceptors;
 
-import javax.enterprise.inject.Alternative;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 @Interceptor
-@Alternative
+@AlternativeStereotype
 public class AlternativeInterceptorBroken {
 
 	@AroundInvoke
