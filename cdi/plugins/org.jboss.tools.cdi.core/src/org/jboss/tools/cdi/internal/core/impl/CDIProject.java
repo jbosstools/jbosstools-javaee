@@ -41,6 +41,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -561,8 +562,44 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
-		// TODO 
-		return new HashSet<IBeanMethod>();
+		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+		IClassBean cb = producer.getClassBean();
+		if(cb == null) return result;
+
+		Set<IParametedType> types = producer.getLegalTypes();
+		Set<IQualifierDeclaration> qs = producer.getQualifierDeclarations(true);
+
+		Set<IBeanMethod> ds = cb.getDisposers();
+		for (IBeanMethod m: ds) {
+			List<IParameter> ps = m.getParameters();
+			IParameter match = null;
+			for (IParameter p: ps) {
+				if(!p.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) continue;
+				IParametedType type = p.getType();
+				if(!containsType(types, type)) continue;
+				Set<IType> qts = new HashSet<IType>();
+				Set<String> ts = ((Parameter)p).getAnnotationTypes();
+				for (String t: ts) {
+					QualifierElement q = getQualifier(t);
+					if(q != null && q.getSourceType() != null) {
+						qts.add(q.getSourceType());
+					}
+				}
+				IType[] qtsa = qts.toArray(new IType[0]);
+				try {
+					if(areMatchingQualifiers(qs, qtsa)) {
+						match = p;
+						break;
+					}
+				} catch (CoreException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+			}
+			if(match != null) {
+				result.add(m);
+			}
+		}
+		return result;
 	}
 
 	public CDIProject getCDIProject() {
