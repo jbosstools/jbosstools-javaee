@@ -119,20 +119,20 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDICorePlugin.PLUGIN_ID
 	);
 
-//	private static SectionDescription SECTION_SPECIALIZATION = new SectionDescription(
-//			CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_specializing,
-//			new String[][]{
-//				{CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingManagedBean_label},
+	private static SectionDescription SECTION_SPECIALIZATION = new SectionDescription(
+			CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_specializing,
+			new String[][]{
+				{CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingManagedBean_label},
 //				{CDIPreferences.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingSessionBean_label},
 //				{CDIPreferences.ILLEGAL_SPECIALIZING_PRODUCER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingProducer_label},
 //				{CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingTypeInSpecializingBean_label},
 //				{CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_conflictingNameInSpecializingBean_label},
 //				{CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorAnnotatedSpecializes_label},
 //				{CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_decoratorAnnotatedSpecializes_label},
-//			},
-//			CDICorePlugin.PLUGIN_ID
-//		);
-//
+			},
+			CDICorePlugin.PLUGIN_ID
+		);
+
 	private static SectionDescription SECTION_MISCELLANEOUS = new SectionDescription(
 		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_miscellaneous,
 		new String[][]{
@@ -149,7 +149,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		SECTION_SCOPE,
 		SECTION_MEMBER,
 		SECTION_INTERCEPTOR,
-//		SECTION_SPECIALIZATION,
+		SECTION_SPECIALIZATION,
 		SECTION_MISCELLANEOUS
 	};
 

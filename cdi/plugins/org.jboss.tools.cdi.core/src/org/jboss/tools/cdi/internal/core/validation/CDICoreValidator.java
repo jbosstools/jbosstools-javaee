@@ -745,6 +745,43 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				CDICorePlugin.getDefault().logError(e);
 			}
 		}
+		/*
+		 * 3.1.4. Specializing a managed bean
+		 * 	- managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
+		 */
+		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
+		if(specializesDeclaration!=null) {
+			try {
+				IBean sBean = bean.getSpecializedBean();
+				if(sBean!=null) {
+					if(sBean instanceof ISessionBean || sBean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME)!=null) {
+						// The specializing bean directly extends an enterprise bean class
+						addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, specializesDeclaration, bean.getResource());
+					} else {
+						// Validate the specializing bean extends a non simple bean
+						boolean hasDefaultConstructor = true;
+						IMethod[] methods = sBean.getBeanClass().getMethods();
+						for (IMethod method : methods) {
+							if(method.isConstructor()) {
+								if(Flags.isPublic(method.getFlags()) && method.getParameterNames().length==0) {
+									hasDefaultConstructor = true;
+									break;
+								}
+								hasDefaultConstructor = false;
+							}
+						}
+						if(!hasDefaultConstructor) {
+							addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, specializesDeclaration, bean.getResource());
+						}
+					}
+				} else {
+					// The specializing bean extends nothing
+					addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, specializesDeclaration, bean.getResource());
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+		}
 	}
 
 	private void validateInterceptor(IInterceptor interceptor) {

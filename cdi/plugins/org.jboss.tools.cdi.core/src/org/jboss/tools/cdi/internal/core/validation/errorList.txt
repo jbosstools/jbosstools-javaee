@@ -35,14 +35,14 @@ Definition Errors
 - managed bean with a public field declares any scope other than @Dependent
 - managed bean with a parameterized bean class declares any scope other than @Dependent
 
-
-
-
-
-
 3.1.4. Specializing a managed bean
 - managed bean class annotated @Specializes does not directly extend 
   the bean class of another managed bean
+
+
+
+
+
 
 3.2. Session beans
 - session bean specifies an illegal scope (a stateless session bean must belong 

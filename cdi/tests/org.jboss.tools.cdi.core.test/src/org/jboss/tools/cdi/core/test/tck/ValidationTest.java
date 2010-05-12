@@ -218,6 +218,54 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.1.4. Specializing a managed bean
+	 * 	- managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
+	 *    (Test a specializing bean extending a non simple bean) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingClassExtendsNonSimpleBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend3/Cow_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+	}
+
+	/**
+	 * 3.1.4. Specializing a managed bean
+	 * 	- managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
+	 *    (Test a specializing bean extending nothing) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingClassDirectlyExtendsNothing() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend2/Cow_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+	}
+
+	/**
+	 * 3.1.4. Specializing a managed bean
+	 * 	- managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
+	 *    (Test a specializing bean directly extending an enterprise bean class) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingClassDirectlyExtendsEnterpriseBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/extendejb/Tractor_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+	}
+
+	/**
+	 * 3.1.4. Specializing a managed bean
+	 * 	- managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
+	 *    (Test a specializing bean implementing an interface and extending nothing) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingClassImplementsInterfaceAndExtendsNothing() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend1/Donkey_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+	}
+
+	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 	 * 
