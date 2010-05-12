@@ -128,6 +128,8 @@ public class JSFUIMessages extends NLS {
 	public static String Create_JSF_2_Interface_Attr;
 	public static String Missing_JSF_2_Resources_Folder;
 	public static String Create_JSF_2_Resources_Folder;
+	public static String Rename_JSF_2_Composite_Components;
+	public static String Refactoring_JSF_2_resources;
 	
 	static {
 		// load message values from bundle file

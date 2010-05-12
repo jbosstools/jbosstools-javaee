@@ -529,6 +529,9 @@
                    caseSensitive="false"
                    ext="jsp">
              </fileext>
+             <contentType
+                   id="org.eclipse.jst.jsp.core.jspsource">
+             </contentType>
           </rules>
        </include>
     </validator>
@@ -591,5 +594,55 @@
           name="org.jboss.tools.jsf.jsf2AnnotationSpec"
           super="org.eclipse.wst.sse.ui.temp.warning">
     </type>
+ </extension>
+ <extension
+       point="org.eclipse.ltk.core.refactoring.renameParticipants">
+    <renameParticipant
+          class="org.jboss.tools.jsf.jsf2.refactoring.JSF2RenameParticipant"
+          id="org.jboss.tools.jsf.jsf2renameParticipant"
+          name="JSF 2 Rename Participant">
+       <enablement>
+          <with
+                variable="affectedNatures">
+             <iterate
+                   operator="or">
+                <equals
+                      value="org.jboss.tools.jsf.jsfnature">
+                </equals>
+             </iterate>
+          </with>
+          <with
+                variable="element">
+             <instanceof
+                   value="org.eclipse.core.resources.IFile">
+             </instanceof>
+          </with>
+       </enablement>
+    </renameParticipant>
+ </extension>
+ <extension
+       point="org.eclipse.ltk.core.refactoring.moveParticipants">
+    <moveParticipant
+          class="org.jboss.tools.jsf.jsf2.refactoring.JSf2MoveParticipant"
+          id="org.jboss.tools.jsf.jsf2moveParticipant"
+          name="JSF 2 Move Participant">
+       <enablement>
+          <with
+                variable="affectedNatures">
+             <iterate
+                   operator="or">
+                <equals
+                      value="org.jboss.tools.jsf.jsfnature">
+                </equals>
+             </iterate>
+          </with>
+          <with
+                variable="element">
+             <instanceof
+                   value="org.eclipse.core.resources.IFolder">
+             </instanceof>
+          </with>
+       </enablement>
+    </moveParticipant>
  </extension>
 </plugin>

@@ -21,7 +21,7 @@ import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
+import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

@@ -26,11 +26,11 @@ import org.eclipse.wst.xml.core.internal.validation.core.ValidationMessage;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2URITempComponent;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 

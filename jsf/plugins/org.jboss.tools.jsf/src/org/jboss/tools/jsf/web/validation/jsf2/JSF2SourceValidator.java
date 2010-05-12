@@ -26,12 +26,12 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2URITempComponent;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentModelManager;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 
 /**
  * 

@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 import org.w3c.dom.NamedNodeMap;
 
 /**

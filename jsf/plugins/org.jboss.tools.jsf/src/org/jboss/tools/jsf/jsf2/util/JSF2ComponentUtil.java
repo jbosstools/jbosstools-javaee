@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.web.validation.jsf2.util;
+package org.jboss.tools.jsf.jsf2.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

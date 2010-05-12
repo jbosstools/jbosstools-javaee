@@ -12,8 +12,9 @@
 package org.jboss.tools.jsf.web.validation.jsf2.components;
 
 import java.text.MessageFormat;
+
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 
 /**
  * 

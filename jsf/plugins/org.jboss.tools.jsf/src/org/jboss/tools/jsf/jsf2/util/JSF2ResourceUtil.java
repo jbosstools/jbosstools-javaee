@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.web.validation.jsf2.util;
+package org.jboss.tools.jsf.jsf2.util;
 
 import java.util.zip.ZipEntry;
 import org.eclipse.core.resources.IContainer;
@@ -35,6 +35,8 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2TemplateManager;
 
 /**
  * 

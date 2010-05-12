@@ -22,10 +22,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 
 /**
  * 

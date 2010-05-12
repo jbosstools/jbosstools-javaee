@@ -21,8 +21,8 @@ import org.eclipse.jface.text.quickassist.IQuickAssistInvocationContext;
 import org.eclipse.jface.text.quickassist.IQuickAssistProcessor;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.wst.sse.ui.StructuredTextInvocationContext;
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ResourceUtil;
 
 /**
  * 
