@@ -727,7 +727,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 */
 				IField[] fields = type.getFields();
 				for (IField field : fields) {
-					if(Flags.isPublic(field.getFlags())) {
+					if(Flags.isPublic(field.getFlags()) && !Flags.isStatic(field.getFlags())) {
 						addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_MANAGED_BEAN, declaration, bean.getResource());
 						break;
 					}
