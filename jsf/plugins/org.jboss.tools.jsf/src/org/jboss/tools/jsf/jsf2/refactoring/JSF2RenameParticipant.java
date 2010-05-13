@@ -92,11 +92,11 @@ public class JSF2RenameParticipant extends RenameParticipant {
 		if (!"org.eclipse.wst.html.core.htmlsource".equals(contentType.getId())) { //$NON-NLS-1$
 			return false;
 		}
-		if ((JSF2ComponentModelManager.getManager()
-				.checkCompositeInterface(JSF2ComponentModelManager
-						.getReadableDOMDocument(file))) == null) {
-			return false;
-		}
+//		if ((JSF2ComponentModelManager.getManager()
+//				.checkCompositeInterface(JSF2ComponentModelManager
+//						.getReadableDOMDocument(file))) == null) {
+//			return false;
+//		}
 		return true;
 	}
 

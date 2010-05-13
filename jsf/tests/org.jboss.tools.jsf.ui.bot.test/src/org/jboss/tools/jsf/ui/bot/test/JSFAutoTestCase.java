@@ -2,6 +2,7 @@ package org.jboss.tools.jsf.ui.bot.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
@@ -36,23 +37,23 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 		String filePath = FileLocator
 				.toFileURL(
 						Platform.getBundle(Activator.PLUGIN_ID).getEntry("/")).getFile() + "resources/" + testPage; //$NON-NLS-1$ //$NON-NLS-2$
-		
-    File file = new File(filePath);
-    if (!file.exists() || !file.isFile()) {
-      filePath = FileLocator
-      .toFileURL(
-          Platform.getBundle(Activator.PLUGIN_ID).getEntry("/")).getFile() + testPage; //$NON-NLS-1$ //$NON-NLS-2$
-    }
-		
+
+		File file = new File(filePath);
+		if (!file.exists() || !file.isFile()) {
+			filePath = FileLocator
+					.toFileURL(
+							Platform.getBundle(Activator.PLUGIN_ID).getEntry(
+									"/")).getFile() + testPage; //$NON-NLS-1$ 
+		}
 		return filePath;
-		
 	}
 
 	protected void openTestPage() {
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
 				.bot();
 		SWTBotTree tree = innerBot.tree();
-		tree.expandNode(JBT_TEST_PROJECT_NAME)
+		tree
+				.expandNode(JBT_TEST_PROJECT_NAME)
 				.expandNode("WebContent").expandNode("pages").getNode(TEST_PAGE).doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
@@ -61,6 +62,7 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 		performContentTestByDocument(testPage, bot
 				.multiPageEditorByTitle(TEST_PAGE));
 	}
+
 	@Override
 	protected void closeUnuseDialogs() {
 	}
@@ -82,6 +84,16 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 			editor.save();
 		}
 		super.tearDown();
+	}
+
+	protected String loadFileContent(String resourceRelativePath) throws IOException {
+		File file = new File(getPathToResources(resourceRelativePath));
+		StringBuilder builder = new StringBuilder(""); //$NON-NLS-1$
+		Scanner scanner = new Scanner(file);
+		while (scanner.hasNextLine()) {
+			builder.append(scanner.nextLine());
+		}
+		return builder.toString();
 	}
 
 }

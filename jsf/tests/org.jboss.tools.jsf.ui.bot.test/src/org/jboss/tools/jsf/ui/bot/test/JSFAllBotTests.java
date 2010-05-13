@@ -9,6 +9,8 @@ import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3577Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3579Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3920Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE4391Test;
+import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2MoveParticipantTest;
+import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2RenameParticipantTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.AddRemoveJSFCapabilitiesTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
@@ -32,6 +34,8 @@ public class JSFAllBotTests{
 		suite.addTestSuite(UnknownTemplateTest.class);
 		suite.addTestSuite(SetTemplateForUnknownTagTest.class);
 		suite.addTestSuite(CSSSelectorJBIDE3288.class);
+		suite.addTestSuite(JSF2MoveParticipantTest.class);
+		suite.addTestSuite(JSF2RenameParticipantTest.class);
 		return suite;
 	}
 }
