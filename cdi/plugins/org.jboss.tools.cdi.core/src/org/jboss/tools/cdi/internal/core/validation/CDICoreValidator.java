@@ -439,11 +439,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 3.3.7. Disposer method resolution
 			 *  - there is no producer method declared by the (same) bean class that is assignable to the disposed parameter of a disposer method
 			 */
-			for (IBeanMethod disposerMethod : disposers) {
-				if(!boundDisposers.contains(disposerMethod)) {
-					for (ITextSourceReference declaration : disposerDeclarations) {
-						addError(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
-					}
+			if(!boundDisposers.contains(disposer)) {
+				for (ITextSourceReference declaration : disposerDeclarations) {
+					addError(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
 				}
 			}
 		}
