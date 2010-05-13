@@ -36,7 +36,7 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.common.test.util.TestProjectProvider;
 
 public class ELExprPartitionerTest extends TestCase {
 	TestProjectProvider provider = null;
