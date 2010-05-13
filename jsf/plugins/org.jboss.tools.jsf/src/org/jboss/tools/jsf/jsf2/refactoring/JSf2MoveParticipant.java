@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.jsf.jsf2.refactoring;
 
 import java.util.HashMap;
@@ -19,6 +30,12 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
+
+/**
+ * 
+ * @author yzhishko
+ *
+ */
 
 public class JSf2MoveParticipant extends MoveParticipant {
 
