@@ -34,4 +34,16 @@ public interface IBeanMethod extends IBeanMember {
 	 * @return
 	 */
 	List<IParameter> getParameters();
+
+	/**
+	 * Returns true if method has a parameter annotated with @Disposes
+	 * @return
+	 */
+	boolean isDisposer();
+
+	/**
+	 * Returns true if method has a parameter annotated with @Observes
+	 * @return
+	 */
+	public boolean isObserver();
 }
