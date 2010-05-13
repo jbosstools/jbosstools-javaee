@@ -375,6 +375,7 @@ public class ValidationTest extends TCKTest {
 	public void testUnresolvedDisposalMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/unresolvedMethod/SpiderProducer_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 35);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 31);
 	}
 
 	/**
