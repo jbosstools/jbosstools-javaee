@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-
 /**
  * Represents a session bean.
  * 
@@ -26,6 +25,20 @@ public interface ISessionBean extends IClassBean {
 	boolean isStateful();
 
 	/**
+	 * Returns "true" if this bean is a stateless session bean.
+	 * 
+	 * @return "true" if this bean is a stateless session bean.
+	 */
+	boolean isStateless();
+
+	/**
+	 * Returns "true" if this bean is a singleton session bean.
+	 * 
+	 * @return "true" if this bean is a singleton session bean.
+	 */
+	boolean isSingleton();
+
+	/**
 	 * Returns @Statefull annotaion declaration.
 	 * 
 	 * @return @Statefull annotaion declaration.
@@ -38,4 +51,11 @@ public interface ISessionBean extends IClassBean {
 	 * @return @Stateless annotaion declaration.
 	 */
 	IAnnotationDeclaration getStatelessDeclaration();
+
+	/**
+	 * Returns @Singleton annotaion declaration.
+	 * 
+	 * @return @Singleton annotaion declaration.
+	 */
+	IAnnotationDeclaration getSingletonDeclaration();
 }

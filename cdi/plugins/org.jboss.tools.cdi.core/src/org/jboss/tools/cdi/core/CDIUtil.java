@@ -131,6 +131,19 @@ public class CDIUtil {
 	}
 
 	/**
+	 * Checks if the bean has @ApplicationScoped scope. If it has different scope then @ApplicationScoped
+	 * then returns this scope declaration or a stereotype which declares the
+	 * scope. Otherwise returns null.
+	 * 
+	 * @param bean
+	 * @param scopeTypeName
+	 * @return
+	 */
+	public static IAnnotationDeclaration getDifferentScopeDeclarationThanApplicationScoped(IScoped scoped) {
+		return getAnotherScopeDeclaration(scoped, CDIConstants.APPLICATION_SCOPED_ANNOTATION_TYPE_NAME);
+	}
+
+	/**
 	 * Checks if the bean has given scope. If it has different scope then given
 	 * then returns this scope declaration or a stereotype which declares the
 	 * scope. Otherwise returns null.

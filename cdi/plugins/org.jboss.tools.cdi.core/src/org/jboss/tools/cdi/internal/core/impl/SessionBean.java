@@ -33,9 +33,33 @@ public class SessionBean extends ClassBean implements ISessionBean {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ISessionBean#getSingletonDeclaration()
+	 */
+	public IAnnotationDeclaration getSingletonDeclaration() {
+		return getDefinition().getSingletonAnnotation();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.ISessionBean#isStateful()
 	 */
 	public boolean isStateful() {
 		return getDefinition().getStatefulAnnotation() != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ISessionBean#isSingleton()
+	 */
+	public boolean isSingleton() {
+		return getDefinition().getSingletonAnnotation() != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ISessionBean#isStateless()
+	 */
+	public boolean isStateless() {
+		return getDefinition().getStatelessAnnotation() != null;
 	}
 }

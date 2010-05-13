@@ -314,6 +314,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		validateDisposers(bean);
 		if(!(bean instanceof ISessionBean)) {
 			validateManagedBean(bean);
+		} else {
+			validateSessionBean((ISessionBean)bean);
 		}
 	}
 
@@ -703,6 +705,33 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
+	private void validateSessionBean(ISessionBean bean) {
+		if(bean.isStateless()) {
+			/*
+			 * 3.2. Session beans
+			 *  - session bean specifies an illegal scope
+			 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
+			 */
+			ITextSourceReference declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
+			if(declaration!=null) {
+				addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
+			}
+		} else if(bean.isSingleton()) {
+			/*
+			 * 3.2. Session beans
+			 *  - session bean specifies an illegal scope
+			 *   (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope) 
+			 */
+			ITextSourceReference declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
+			if(declaration!=null) {
+				declaration = CDIUtil.getDifferentScopeDeclarationThanApplicationScoped(bean);
+			}
+			if(declaration!=null) {
+				addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
+			}
+		}
+	}
+
 	private void validateManagedBean(IClassBean bean) {
 		/*
 		 * 3.1. Managed beans
@@ -751,7 +780,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			try {
 				IBean sBean = bean.getSpecializedBean();
 				if(sBean!=null) {
-					if(sBean instanceof ISessionBean || sBean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME)!=null) {
+					if(sBean instanceof ISessionBean || sBean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME)!=null || sBean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME)!=null) {
 						// The specializing bean directly extends an enterprise bean class
 						addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, specializesDeclaration, bean.getResource());
 					} else {

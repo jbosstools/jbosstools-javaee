@@ -43,6 +43,7 @@ public interface CDIConstants {
 
 	public String STATEFUL_ANNOTATION_TYPE_NAME = "javax.ejb.Stateful";
 	public String STATELESS_ANNOTATION_TYPE_NAME = "javax.ejb.Stateless";
+	public String SINGLETON_ANNOTATION_TYPE_NAME = "javax.ejb.Singleton";
 	public String LOCAL_ANNOTATION_TYPE_NAME = "javax.ejb.Local";
 
 	public String RESOURCE_ANNOTATION_TYPE_NAME = "javax.annotation.Resource";

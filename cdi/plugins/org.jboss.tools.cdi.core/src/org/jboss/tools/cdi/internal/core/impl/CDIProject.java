@@ -691,7 +691,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				bean = new InterceptorBean();
 			} else if(typeDefinition.getDecoratorAnnotation() != null) {
 				bean = new DecoratorBean();
-			} else if(typeDefinition.getStatefulAnnotation() != null || typeDefinition.getStatelessAnnotation() != null) {
+			} else if(typeDefinition.getStatefulAnnotation() != null || typeDefinition.getStatelessAnnotation() != null || typeDefinition.getSingletonAnnotation() != null) {
 				bean = new SessionBean();
 			} else {
 				bean = new ClassBean();

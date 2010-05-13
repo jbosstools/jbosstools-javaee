@@ -266,6 +266,91 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testStatelessWithRequestScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithRequestScope/Beagle_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+	}
+
+	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testStatelessWithApplicationScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithApplicationScope/DachshundLocal_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+	}
+
+	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testStatelessWithConversationScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithConversationScope/Boxer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+	}
+
+	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testStatelessWithSessionScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithSessionScope/Bullmastiff_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+	}
+
+
+	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSingletonWithConversationScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/singletonWithConversationScope/Husky_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 24);
+	}
+
+	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSingletonWithSessionScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/singletonWithSessionScope/IrishTerrier_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 25);
+	}
+
+	/**
+	 * 3.2. Session beans
+	 *  - session bean specifies an illegal scope
+	 *   (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope) 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSingletonWithRequestScopeFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/singletonWithRequestScope/Greyhound_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 23);
+	}
+
+	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 	 * 

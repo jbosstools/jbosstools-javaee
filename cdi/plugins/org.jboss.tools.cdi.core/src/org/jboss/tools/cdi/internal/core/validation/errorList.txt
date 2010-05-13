@@ -52,6 +52,11 @@ Definition Errors
 - bean class of a session bean is annotated @Interceptor or @Decorator
 - session bean with a parameterized bean class declares any scope other than @Dependent
 
+
+
+
+
+
 3.2.4. Specializing a session bean
 - session bean class annotated @Specializes does not directly extend 
   the bean class of another session bean

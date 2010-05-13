@@ -94,4 +94,8 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	public AnnotationDeclaration getStatelessAnnotation() {
 		return annotationsByType.get(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME);
 	}
+
+	public AnnotationDeclaration getSingletonAnnotation() {
+		return annotationsByType.get(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME);
+	}
 }
