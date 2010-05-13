@@ -3,6 +3,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -48,6 +49,10 @@ public class ParameterDefinition implements IAnnotated {
 
 	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
 		return annotationsByTypeName.get(annotationTypeName);
+	}
+
+	public Set<String> getAnnotationTypes() {
+		return annotationsByTypeName.keySet();
 	}
 
 	public void setPosition(ITextSourceReference position) {

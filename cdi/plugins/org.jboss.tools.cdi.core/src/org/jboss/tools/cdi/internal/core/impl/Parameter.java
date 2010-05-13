@@ -72,4 +72,8 @@ public class Parameter extends CDIElement implements IParameter {
 		return definition.getAnnotationPosition(annotationTypeName);
 	}
 
+	public Set<String> getAnnotationTypes() {
+		return definition.getAnnotationTypes();
+	}
+
 }
