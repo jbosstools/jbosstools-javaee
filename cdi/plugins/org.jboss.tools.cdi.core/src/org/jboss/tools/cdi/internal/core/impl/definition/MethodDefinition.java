@@ -78,7 +78,10 @@ public class MethodDefinition extends BeanMemberDefinition {
 		int start = paramStart + 1;
 
 		for (int i = 0; i < params.length; i++) {
-			if(params[i].indexOf('@') < 0) continue; //do not need parameters without annotation
+			if(params[i].indexOf('@') < 0) {
+				start += params[i].length() + 1;
+				continue; //do not need parameters without annotation
+			}
 
 			ParameterDefinition pd = new ParameterDefinition();
 

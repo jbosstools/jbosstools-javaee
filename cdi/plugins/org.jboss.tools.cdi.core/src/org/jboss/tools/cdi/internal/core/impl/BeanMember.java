@@ -54,10 +54,12 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 							String start = content.substring(sr.getOffset(), nr.getOffset());
 							int off = -1;
 							int off0 = -1;
+							int bc = 0;
 							for (int i = start.length() - 1; i >= 0; i--) {
 								char ch = start.charAt(i);
+								if(ch == '>') bc++; else if(ch == '<') bc--;
 								if(Character.isWhitespace(ch)) {
-									if(off >= 0) break;
+									if(off >= 0 && bc <= 0) break;
 								} else if(Character.isJavaIdentifierPart(ch) || ch == '.' || ch == '$' || ch == '<' || ch == '>') {
 									off = i;
 									if(off0 < 0) off0 = i + 1;
