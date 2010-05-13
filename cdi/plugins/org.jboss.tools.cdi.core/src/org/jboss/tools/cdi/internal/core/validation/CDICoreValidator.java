@@ -442,8 +442,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			for (IBeanMethod disposerMethod : disposers) {
 				if(!boundDisposers.contains(disposerMethod)) {
 					for (ITextSourceReference declaration : disposerDeclarations) {
-						// TODO uncomment it when https://jira.jboss.org/jira/browse/JBIDE-6252 is resolved 
-//						addError(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
+						addError(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
 					}
 				}
 			}
