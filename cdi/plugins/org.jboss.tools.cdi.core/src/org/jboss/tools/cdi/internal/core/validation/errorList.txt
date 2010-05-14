@@ -39,11 +39,6 @@ Definition Errors
 - managed bean class annotated @Specializes does not directly extend 
   the bean class of another managed bean
 
-
-
-
-
-
 3.2. Session beans
 - session bean specifies an illegal scope (a stateless session bean must belong 
   to the @Dependent pseudo-scope; a singleton bean must belong to either the
@@ -52,14 +47,14 @@ Definition Errors
 - bean class of a session bean is annotated @Interceptor or @Decorator
 - session bean with a parameterized bean class declares any scope other than @Dependent
 
-
-
-
-
-
 3.2.4. Specializing a session bean
 - session bean class annotated @Specializes does not directly extend 
   the bean class of another session bean
+
+
+
+
+
 
 3.3. Producer methods 
 - producer method return type contains a wildcard type parameter

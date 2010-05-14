@@ -384,6 +384,39 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.2.4. Specializing a session bean
+	 * 	- session bean class annotated @Specializes does not directly extend the bean class of another session bean 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingClassDirectlyExtendsSimpleBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/directlyExtendsSimpleBean/Tractor_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
+	}
+	
+	/**
+	 * 3.2.4. Specializing a session bean
+	 * 	- session bean class annotated @Specializes does not directly extend the bean class of another session bean 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingEnterpriseClassImplementsInterfaceAndExtendsNothing() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/implementInterfaceAndExtendsNothing/Donkey_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
+	}
+
+	/**
+	 * 3.2.4. Specializing a session bean
+	 * 	- session bean class annotated @Specializes does not directly extend the bean class of another session bean 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingEnterpriseClassDirectlyExtendsNothing() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/directlyExtendsNothing/Cow_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
+	}
+	
+	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 	 * 

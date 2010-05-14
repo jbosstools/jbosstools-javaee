@@ -771,6 +771,21 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				CDICorePlugin.getDefault().logError(e);
 			}
 		}
+		/*
+		 * 3.2.4. Specializing a session bean
+		 * 	- session bean class annotated @Specializes does not directly extend the bean class of another session bean 
+		 */
+		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
+		if(specializesDeclaration!=null) {
+			IBean sBean = bean.getSpecializedBean();
+			if(sBean==null) {
+				// The specializing bean extends nothing
+				addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_SESSION_BEAN, specializesDeclaration, bean.getResource());
+			} else if(!CDIUtil.isSessionBean(sBean)) {
+				// The specializing bean directly extends a non-session bean class
+				addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_SESSION_BEAN, specializesDeclaration, bean.getResource());
+			}
+		}
 	}
 
 	private void validateManagedBean(IClassBean bean) {
