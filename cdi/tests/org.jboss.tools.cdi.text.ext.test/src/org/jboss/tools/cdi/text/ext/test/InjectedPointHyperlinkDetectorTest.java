@@ -33,7 +33,7 @@ import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
-public class InjectedPointHyperlinkDetectorTest extends TestCase {
+public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 	private static final String PROJECT_NAME = "/tests/lookup/injectionpoint";
 	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java";
 
@@ -111,7 +111,7 @@ public class InjectedPointHyperlinkDetectorTest extends TestCase {
 			} else {
 				for(Region region : regionList){
 					if(i >= region.getOffset() && i <= region.getOffset()+region.getLength())
-						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength()+region.getLength()+" region - "+i);
+						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength()+" region - "+i);
 				}
 			}
 		}
@@ -121,118 +121,5 @@ public class InjectedPointHyperlinkDetectorTest extends TestCase {
 		documentProvider.disconnect(editorInput);
 	}
 
-	private boolean findOffsetInRegions(int offset, ArrayList<Region> regionList){
-		for(Region region : regionList){
-			if(offset >= region.getOffset() && offset <= region.getOffset()+region.getLength())
-				return true;
-		}
-		return false;
-	}
 
-	private IEditorPart openFileInEditor(IFile input) {
-		if (input != null && input.exists()) {
-			try {
-				IWorkbenchPage page = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage();
-				return IDE.openEditor(page, input, true);
-			} catch (PartInitException pie) {
-				
-			}
-		}
-		return null;
-	}
-
-	class TestData {
-		IDocument document;
-		int offset;
-		IRegion region;
-		String contentType;
-		private IHyperlinkRegion hyperlinkRegion = null;
-
-		TestData (IDocument document, int offset) {
-			this.document = document;
-			this.offset = offset;
-			init();
-		}
-
-		private void init() {
-			this.region = getDocumentRegion();
-			this.contentType = getContentType();
-			this.hyperlinkRegion = getHyperlinkRegion();
-		}
-
-		private IRegion getDocumentRegion() {
-			IRegion region = null;
-			try {
-				region = JavaWordFinder.findWord(document, offset);
-			} catch (Exception x) {}
-			
-			return region;
-		}
-
-		public IHyperlinkRegion getHyperlinkRegion() {
-			if (hyperlinkRegion != null)
-				return hyperlinkRegion;
-
-			return new IHyperlinkRegion() {
-		        public String getAxis() {
-                    return AxisUtil.getAxis(document, region.getOffset());
-                }
-                public String getContentType() {
-                    return contentType;
-                }
-                public String getType() {
-                    return region.toString();
-                }
-                public int getLength() {
-                    return region.getLength();
-                }
-                public int getOffset() {
-                    return region.getOffset();
-                }
-                public String toString() {
-                	return "[" + getOffset() + "-" + (getOffset() + getLength() - 1) + ":" + getType() + ":" + getContentType() +  "]";
-                }
-            };
-		}
-
-		/**
-		 * Returns the content type of document
-		 * 
-		 * @param document -
-		 *            assumes document is not null
-		 * @return String content type of given document
-		 */
-		private String getContentType() {
-			String type = null;
-	
-			IModelManager mgr = StructuredModelManager.getModelManager();
-			IStructuredModel model = null;
-			try {
-				model = mgr.getExistingModelForRead(document);
-				if (model != null) {
-					type = model.getContentTypeIdentifier();
-				}
-			} finally {
-				if (model != null) {
-					model.releaseFromRead();
-				}
-			}
-			return type;
-		}
-	}
-
-	class TestContext implements IAdaptable{
-		ITextEditor editor;
-
-		public TestContext(ITextEditor editor){
-			this.editor = editor;
-		}
-
-		public Object getAdapter(Class adapter) {
-			if(adapter.equals(ITextEditor.class))
-				return editor;
-			return null;
-		}
-	}
 }

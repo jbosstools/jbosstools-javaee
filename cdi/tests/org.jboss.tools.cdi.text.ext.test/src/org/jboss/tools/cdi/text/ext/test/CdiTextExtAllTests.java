@@ -8,6 +8,7 @@ public class CdiTextExtAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(CdiTextExtAllTests.class.getName());
 		suite.addTest(InjectedPointHyperlinkDetectorTest.suite());
+		suite.addTest(ProducerDisposerHyperlinkDetectorTest.suite());
 		return suite;
 	}
 }
