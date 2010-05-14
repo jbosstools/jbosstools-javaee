@@ -11,5 +11,15 @@
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
    </extension>
+
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.text.ext.hyperlink.ProducerDisposerHyperlinkDetector"
+            id="org.jboss.tools.cdi.text.ext.hyperlink.ProducerDisposerHyperlinkDetector"
+            name="%ProducerDisposerHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
    
 </plugin>
