@@ -732,28 +732,43 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void validateSessionBean(ISessionBean bean) {
-		if(bean.isStateless()) {
-			/*
-			 * 3.2. Session beans
-			 *  - session bean specifies an illegal scope
-			 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
-			 */
-			ITextSourceReference declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
-			if(declaration!=null) {
-				addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
-			}
-		} else if(bean.isSingleton()) {
-			/*
-			 * 3.2. Session beans
-			 *  - session bean specifies an illegal scope
-			 *   (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope) 
-			 */
-			ITextSourceReference declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
-			if(declaration!=null) {
-				declaration = CDIUtil.getDifferentScopeDeclarationThanApplicationScoped(bean);
-			}
-			if(declaration!=null) {
-				addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
+		IAnnotationDeclaration declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
+		if(declaration!=null) {
+			IType type = bean.getBeanClass();
+			try {
+				/*
+				 * 3.2. Session beans
+				 * 	- session bean with a parameterized bean class declares any scope other than @Dependent 
+				 */
+				String[] typeVariables = type.getTypeParameterSignatures();
+				if(typeVariables.length>0) {
+					addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SESSION_BEAN_WITH_GENERIC_TYPE, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
+				} else {
+					if(bean.isStateless()) {
+						/*
+						 * 3.2. Session beans
+						 *  - session bean specifies an illegal scope
+						 *   (a stateless session bean must belong to the @Dependent pseudo-scope) 
+						 */
+						if(declaration!=null) {
+							addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
+						}
+					} else if(bean.isSingleton()) {
+						/*
+						 * 3.2. Session beans
+						 *  - session bean specifies an illegal scope
+						 *   (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope) 
+						 */
+						if(declaration!=null) {
+							declaration = CDIUtil.getDifferentScopeDeclarationThanApplicationScoped(bean);
+						}
+						if(declaration!=null) {
+							addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN, declaration, bean.getResource());
+						}
+					}
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
 			}
 		}
 	}

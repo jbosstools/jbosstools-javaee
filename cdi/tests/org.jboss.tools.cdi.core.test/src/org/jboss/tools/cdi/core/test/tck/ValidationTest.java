@@ -373,6 +373,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.2. Session beans
+	 * 	- session bean with a parameterized bean class declares any scope other than @Dependent 
+	 * 
+	 * @throws Exception
+	 */
+	public void testNonDependentGenericSessionBeanNotOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/sessionbeans/FooBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SESSION_BEAN_WITH_GENERIC_TYPE, 6);
+	}
+
+	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 	 * 
