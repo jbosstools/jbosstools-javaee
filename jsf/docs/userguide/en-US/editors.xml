@@ -819,6 +819,21 @@
                         </mediaobject>
                     </figure>
                 </section>
+                <section id="ContentAssistForEL">
+                    <title>Content Assist for EL expressions</title>
+                    <para><property>Content Assist</property> also provides an expression language (JSF EL) support.
+                        It is used in web application pages to access the <property>JavaBeans</property> components 
+                        in the page bean and in other beans associated with the web application, 
+                        such as the session bean and the application bean.</para>
+                    <figure>
+                        <title>EL Content Assist</title>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="images/editors_features/editors_features_27b.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </section>
             </section>
             
             
@@ -834,6 +849,7 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
+                
                 <para>If XHTML file uses custom Facelets components, the Content Assist should also
                     be available for them. For details, see <link
                         linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom
