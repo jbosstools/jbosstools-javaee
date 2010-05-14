@@ -254,4 +254,53 @@ public class CDIUtil {
 		}
 		return declarations;
 	}
+
+	/**
+	 * Returns true if the class bean is a session bean.
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	public static IAnnotationDeclaration getSessionDeclaration(IClassBean bean) {
+		IAnnotationDeclaration declaration = bean.getAnnotation(CDIConstants.STATEFUL_ANNOTATION_TYPE_NAME);
+		if(declaration!=null) {
+			return declaration;
+		}
+		declaration = bean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME);
+		if(declaration!=null) {
+			return declaration;
+		}
+		declaration = bean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME);
+		return declaration;
+	}
+
+	/**
+	 * Returns true if the class bean is a session bean.
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	public static boolean isSessionBean(IBean bean) {
+		return bean instanceof ISessionBean || (bean instanceof IClassBean && (bean.getAnnotation(CDIConstants.STATEFUL_ANNOTATION_TYPE_NAME)!=null || bean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME)!=null || bean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME)!=null));
+	}
+
+	/**
+	 * Returns true if the class bean is a decorator.
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	public static boolean isDecorator(IBean bean) {
+		return bean instanceof IDecorator || (bean instanceof IClassBean && bean.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)!=null);
+	}
+
+	/**
+	 * Returns true if the class bean is an interceptor.
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	public static boolean isInterceptor(IBean bean) {
+		return bean instanceof IInterceptor || (bean instanceof IClassBean && bean.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)!=null);
+	}
 }

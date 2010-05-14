@@ -229,7 +229,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateStereotype(type);
 		}
 
-		// TODO
 		return OK_STATUS;
 	}
 
@@ -248,8 +247,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
 		validateStereotype(stereotype);
-
-		// TODO
 	}
 
 	/**
@@ -306,8 +303,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(bean instanceof IClassBean) {
 			validateClassBean((IClassBean)bean);
 		}
-
-		// TODO
 	}
 
 	private void validateClassBean(IClassBean bean) {
@@ -317,6 +312,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		} else {
 			validateSessionBean((ISessionBean)bean);
 		}
+		validateMixedClassBean(bean);
 	}
 
 	private void validateDisposers(IClassBean bean) {
@@ -701,6 +697,36 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				} catch (JavaModelException e) {
 					CDICorePlugin.getDefault().logError(e);
 				}
+			}
+		}
+	}
+
+	/**
+	 * Validates class bean which may be both a session and decorator (or interceptor).
+	 *  
+	 * @param bean
+	 */
+	private void validateMixedClassBean(IClassBean bean) {
+		ITextSourceReference sessionDeclaration = CDIUtil.getSessionDeclaration(bean);
+		ITextSourceReference decoratorDeclaration = bean.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+		ITextSourceReference interceptorDeclaration = bean.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+
+		if(sessionDeclaration!=null) {
+			/*
+			 * 3.2. Session beans
+			 *  - bean class of a session bean is annotated @Decorator 
+			 */
+			if(decoratorDeclaration!=null) {
+				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, sessionDeclaration, bean.getResource());
+				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean.getResource());
+			}
+			/*
+			 * 3.2. Session beans
+			 *  - bean class of a session bean is annotated @Interceptor 
+			 */
+			if(interceptorDeclaration!=null) {
+				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, sessionDeclaration, bean.getResource());
+				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean.getResource());
 			}
 		}
 	}

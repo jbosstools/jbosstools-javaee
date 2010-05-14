@@ -70,7 +70,8 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_CONDITIONAL_OBSERVER;
 
 	public static String BOTH_INTERCEPTOR_AND_DECORATOR;
-	public static String SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR;
+	public static String SESSION_BEAN_ANNOTATED_INTERCEPTOR;
+	public static String SESSION_BEAN_ANNOTATED_DECORATOR;
 	public static String PRODUCER_IN_INTERCEPTOR;
 	public static String PRODUCER_IN_DECORATOR;
 	public static String DISPOSER_IN_INTERCEPTOR;

@@ -101,7 +101,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_interceptor_and_decorator,
 		new String[][]{
 				{CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_bothInterceptorAndDecorator_label},
-//				{CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_sessionBeanAnnotatedInterceptorOrDecorator_label},
+				{CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_sessionBeanAnnotatedInterceptorOrDecorator_label},
 //				{CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerInInterceptorOrDecorator_label},
 				{CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_disposerInInterceptorOrDecorator_label},
 //				{CDIPreferences.MULTIPLE_DELEGATE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleDelegate_label},

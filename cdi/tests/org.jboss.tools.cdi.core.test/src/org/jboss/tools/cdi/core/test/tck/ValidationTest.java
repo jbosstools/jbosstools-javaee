@@ -351,6 +351,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.2. Session beans
+	 *  - bean class of a session bean is annotated @Interceptor 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSessionBeanAnnotatedInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/sessionbeans/SessionBeanAnnotatedInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, 8, 9);
+	}
+
+	/**
+	 * 3.2. Session beans
+	 *  - bean class of a session bean is annotated @Decorator 
+	 * 
+	 * @throws Exception
+	 */
+	public void testSessionBeanAnnotatedDecorator() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/sessionbeans/SessionBeanAnnotatedDecoratorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, 6, 7);
+	}
+
+	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 	 * 
