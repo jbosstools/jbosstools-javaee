@@ -1,0 +1,30 @@
+<project
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	  <relativePath>../../parent-pom.xml</relativePath>
+	  <groupId>org.jboss.tools</groupId>
+	  <artifactId>org.jboss.tools.parent.pom</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.tools</groupId>
+	<artifactId>jsf.tests</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>org.jboss.tools.jsf.test</module>
+		<module>org.jboss.tools.jsf.text.ext.test</module>
+		<module>org.jboss.tools.jsf.ui.bot.test</module>
+		<module>org.jboss.tools.jsf.ui.test</module>
+		<module>org.jboss.tools.jsf.verification.test</module>
+		<module>org.jboss.tools.jsf.vpe.ajax4jsf.test</module>
+		<module>org.jboss.tools.jsf.vpe.facelets.test</module>
+		<module>org.jboss.tools.jsf.vpe.jbpm.test</module>
+		<module>org.jboss.tools.jsf.vpe.jsf.test</module>
+		<module>org.jboss.tools.jsf.vpe.jstl.test</module>
+		<module>org.jboss.tools.jsf.vpe.myfaces.test</module>
+		<module>org.jboss.tools.jsf.vpe.richfaces.test</module>
+		<module>org.jboss.tools.jsf.vpe.seam.test</module>
+	</modules>
+</project>
+	
