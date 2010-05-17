@@ -78,22 +78,22 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 
-		renameComponent(seamEjbProject, "test", "best", list, false);
+		renameComponent(seamEjbProject, "test", "best", list, 0);
 	}
 	
-//	public void testRemaningMailSessionDeclarationInComponentsXml_JBIDE4447() throws CoreException {
-//		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
-//
-//		TestChangeStructure structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml");
-//		TestTextChange change = new TestTextChange(2345, 41, "name=\"org.jboss.seam.mail.newMailSession\"");
-//		structure.addTextChange(change);
-//		
-//		list.add(structure);
-//
-//		renameComponent(seamWarProject, "org.jboss.seam.mail.mailSession", "org.jboss.seam.mail.newMailSession", list, true);
-//	}
+	public void testRemaningMailSessionDeclarationInComponentsXml_JBIDE4447() throws CoreException {
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
-	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList, boolean fromJar) throws CoreException{
+		TestChangeStructure structure = new TestChangeStructure(warProject, "/WebContent/WEB-INF/components.xml");
+		TestTextChange change = new TestTextChange(2345, 41, "name=\"org.jboss.seam.mail.newMailSession\"");
+		structure.addTextChange(change);
+		
+		list.add(structure);
+
+		renameComponent(seamWarProject, "org.jboss.seam.mail.mailSession", "org.jboss.seam.mail.newMailSession", list, 8000);
+	}
+
+	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList, long delay) throws CoreException{
 		JobUtils.waitForIdle();
 
 		// Test before renaming
@@ -123,10 +123,13 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		}
 
 		rootChange.perform(new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		
+		if(delay > 0)
+			JobUtils.waitForIdle(delay);
+		else
+			JobUtils.waitForIdle();
+		
 		// Test results
-		//if(!fromJar)
-			//assertNull("There is unexpected component in seam project: " + componentName, seamProject.getComponent(componentName));
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
