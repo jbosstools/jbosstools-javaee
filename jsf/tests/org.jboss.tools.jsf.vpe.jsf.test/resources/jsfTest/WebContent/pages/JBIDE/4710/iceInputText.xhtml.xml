@@ -1,0 +1,5 @@
+<tests>
+<test id="iceInputText">
+<INPUT TYPE="text" ID="j_id0" NAME="j_id0" ONBLUR="setFocus('');" VALUE="Test"/>
+</test>
+</tests>
