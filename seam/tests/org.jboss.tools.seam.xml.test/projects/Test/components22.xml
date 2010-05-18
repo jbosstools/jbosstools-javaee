@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<components xmlns="http://jboss.com/products/seam/components"
+ xmlns:core="http://jboss.com/products/seam/core"
+ xmlns:framework="http://jboss.com/products/seam/framework"
+ xmlns:navigation="http://jboss.com/products/seam/navigation"
+ xmlns:pdf="http://jboss.com/products/seam/pdf"
+ xmlns:remoting="http://jboss.com/products/seam/remoting"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.2.xsd http://jboss.com/products/seam/remoting http://jboss.com/products/seam/remoting-2.2.xsd http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.2.xsd http://jboss.com/products/seam/navigation http://jboss.com/products/seam/navigation-2.2.xsd http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.2.xsd">
+ <component class="MyCls" name="component1"/>
+ <framework:entity-query name="entityQuery"/>
+ <remoting:remoting poll-interval="1" poll-timeout="2"/>
+ <core:manager/>
+ <navigation:pages http-port="1111" https-port="1112"
+  login-view-id="b.xhtml" no-conversation-view-id="a.xhtml">
+  <navigation:resources>
+   <value>v2</value>
+  </navigation:resources>
+ </navigation:pages>
+ <pdf:document-store name="mypdfStore"/>
+</components>

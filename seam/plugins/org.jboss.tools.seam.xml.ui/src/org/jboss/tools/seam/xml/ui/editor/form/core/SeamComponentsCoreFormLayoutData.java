@@ -43,6 +43,9 @@ public class SeamComponentsCoreFormLayoutData implements IFormLayoutData {
 		PropertyListFormLayoutData.HINTS_FORM_DEFINITION,
 		PropertyListFormLayoutData.RESTRICTIONS_FORM_DEFINITION,
 		
+		PropertyListFormLayoutData.NAVIGATION_PAGES_FORM_DEFINITION,
+		PropertyListFormLayoutData.NAVIGATION_RESOURCES_FORM_DEFINITION,
+		
 		PropertyListFormLayoutData.THEME_SELECTOR_FORM_DEFINITION,
 		PropertyListFormLayoutData.AVAILABLE_THEMES_FORM_DEFINITION,
 		

@@ -33,6 +33,9 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 	static String ENT_RESTRICTIONS = "SeamFrameworkRestrictions"; //$NON-NLS-1$
 	static String ENT_HINTS = "SeamFrameworkHints"; //$NON-NLS-1$
 
+	static String ENT_NAVIGATION_PAGES = "SeamNavigationPages"; //$NON-NLS-1$
+	static String ENT_NAVIGATION_RESOURCES = "SeamNavigationResources"; //$NON-NLS-1$
+
 	static String ENT_THEME_SELECTOR = "SeamThemeSelector"; //$NON-NLS-1$
 	static String ENT_AVAILABLE_THEMES = "SeamThemeAvailableThemes"; //$NON-NLS-1$
 
@@ -223,6 +226,23 @@ public class PropertyListFormLayoutData implements SeamComponentConstants {
 
 	final static IFormData FILTER_FORM_DEFINITION = new FormData(
 		ENT_FILTER, new String[]{null}, FILTER_DEFINITIONS);
+
+	/**
+	 * Navigation
+	 */
+	private final static IFormData[] NAVIGATION_RESOURCES_DEFINITIONS = new IFormData[] {
+		createListDefinition("Resources") //$NON-NLS-1$
+	};
+	
+	final static IFormData NAVIGATION_RESOURCES_FORM_DEFINITION = new FormData(
+		ENT_NAVIGATION_RESOURCES, new String[]{null}, NAVIGATION_RESOURCES_DEFINITIONS);
+
+	private final static IFormData[] NAVIGATION_PAGES_DEFINITIONS = 
+		createDefinitionsForListHolder("Navigation Pages", ENT_NAVIGATION_PAGES, "Resources", "resources"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+	final static IFormData NAVIGATION_PAGES_FORM_DEFINITION = new FormData(
+		ENT_NAVIGATION_PAGES, new String[]{null}, NAVIGATION_PAGES_DEFINITIONS);
+
 
 	/**
 	 * Theme
