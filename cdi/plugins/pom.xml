@@ -1,0 +1,22 @@
+<project
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	  <relativePath>../../parent-pom.xml</relativePath>
+	  <groupId>org.jboss.tools</groupId>
+	  <artifactId>org.jboss.tools.parent.pom</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.tools</groupId>
+	<artifactId>cdi.plugins</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>org.jboss.tools.cdi.core</module>
+		<module>org.jboss.tools.cdi.text.ext</module>
+		<module>org.jboss.tools.cdi.ui</module>
+		<module>org.jboss.tools.cdi.xml</module>
+		<module>org.jboss.tools.cdi.xml.ui</module>
+	</modules>
+</project>
+	
