@@ -29,6 +29,7 @@ Export-Package: org.jboss.tools.cdi.core,
  org.jboss.tools.cdi.internal.core.impl,
  org.jboss.tools.cdi.internal.core.impl.definition,
  org.jboss.tools.cdi.internal.core.project.facet,
+ org.jboss.tools.cdi.internal.core.refactoring,
  org.jboss.tools.cdi.internal.core.scanner,
  org.jboss.tools.cdi.internal.core.scanner.lib,
  org.jboss.tools.cdi.internal.core.validation
