@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseStereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
@@ -42,6 +43,7 @@ public class CDICoreTestSuite extends TestSuite {
 		suite.addTestSuite(DefaultNamedTest.class);
 		suite.addTestSuite(EnterpriseStereotypeDefinitionTest.class);
 		suite.addTestSuite(StereotypeInheritenceTest.class);
+		suite.addTestSuite(ProducerMethodDefinitionTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}
