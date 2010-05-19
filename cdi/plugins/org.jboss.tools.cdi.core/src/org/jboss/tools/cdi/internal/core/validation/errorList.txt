@@ -57,9 +57,6 @@ Definition Errors
   any scope other than @Dependent
 - producer method return type is a type variable
 
-
-
-
 3.3.2. Declaring a producer method
 - producer method is annotated @Inject
 - producer method has a parameter annotated @Disposes

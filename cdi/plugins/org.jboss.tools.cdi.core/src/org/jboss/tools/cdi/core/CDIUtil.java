@@ -17,11 +17,16 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -302,5 +307,56 @@ public class CDIUtil {
 	 */
 	public static boolean isInterceptor(IBean bean) {
 		return bean instanceof IInterceptor || (bean instanceof IClassBean && bean.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)!=null);
+	}
+
+	/**
+	 * Returns false if the method is a non-static method of the session bean class, and the method is not a business method of the session bean.
+	 * 
+	 * @param bean
+	 * @param method
+	 * @return
+	 */
+	public static boolean isBusinessMethod(ISessionBean bean, IBeanMethod method) {
+		return getBusinessMethodDeclaration(bean, method)!=null;
+	}
+
+	/**
+	 * Returns IMethod of @Local interface which is implemented by given business method.
+	 * Returns null if the method is a non-static method of the session bean class, and the method is not a business method of the session bean.
+	 * If the method is a static one then returns this method.
+	 * 
+	 * @param bean
+	 * @param method
+	 * @return
+	 */
+	public static IMethod getBusinessMethodDeclaration(ISessionBean bean, IBeanMethod method) {
+		try {
+			if (!Flags.isStatic(method.getMethod().getFlags())) {
+				Set<IParametedType> types = bean.getLegalTypes();
+				for (IParametedType type : types) {
+					IType sourceType = type.getType();
+					if (sourceType == null) {
+						continue;
+					}
+					IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
+					if (annotation == null) {
+						annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
+					}
+					if (annotation != null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
+						IMethod[] methods = sourceType.getMethods();
+						for (IMethod iMethod : methods) {
+							if (method.getMethod().isSimilar(iMethod)) {
+								return iMethod;
+							}
+						}
+						break;
+					}
+				}
+				return null;
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return method.getMethod();
 	}
 }

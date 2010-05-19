@@ -479,7 +479,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducerMethodWithParameterAnnotatedDisposes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedDisposes/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, 25, 26);
 	}
 
 	/**
@@ -490,7 +490,40 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducerMethodWithParameterAnnotatedObserves() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedObserves/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 26);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - non-static method of a session bean class is annotated @Produces, and the method is not a business method of the session bean
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodOnSessionBeanMustBeBusinessMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/enterprise/nonbusiness/FooProducer.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, 25);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - decorator has a method annotated @Produces
+	 *  
+	 * @throws Exception
+	 */
+	public void testDecoratorMustNotHaveProducerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/DecoratorHasProducerMethodBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_DECORATOR, 10);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - interceptor has a method annotated @Produces
+	 *  
+	 * @throws Exception
+	 */
+	public void testInterceptorMustNotHaveProducerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/InterceptorHasProducerMethodBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, 17);
 	}
 
 	/**
@@ -534,7 +567,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducesUnallowed() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/producesUnallowed/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 30, 31);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, 30, 31);
 	}
 
 	/**
@@ -655,6 +688,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.4.2. Declaring a producer field
+	 *  - decorator has a field annotated @Produces
+	 *  
+	 * @throws Exception
+	 */
+	public void testDecoratorMustNotHaveProducerField() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/DecoratorHasProducerFieldBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_DECORATOR, 9);
+	}
+
+	/**
+	 * 3.4.2. Declaring a producer field
+	 *  - interceptor has a field annotated @Produces
+	 *  
+	 * @throws Exception
+	 */
+	public void testInterceptorMustNotHaveProducerField() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/InterceptorHasProducerFieldBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, 16);
+	}
+
+	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
 	 *  
@@ -674,7 +729,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverMethodAnnotatedProducesFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isProducer/BorderTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 25);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 25);
 	}
 
 	/**
