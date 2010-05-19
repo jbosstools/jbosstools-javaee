@@ -51,16 +51,14 @@ Definition Errors
 - session bean class annotated @Specializes does not directly extend 
   the bean class of another session bean
 
-
-
-
-
-
 3.3. Producer methods 
 - producer method return type contains a wildcard type parameter
 - producer method with a parameterized return type with a type variable declares 
   any scope other than @Dependent
 - producer method return type is a type variable
+
+
+
 
 3.3.2. Declaring a producer method
 - producer method is annotated @Inject
@@ -69,6 +67,9 @@ Definition Errors
 - non-static method of a session bean class is annotated @Produces, and the method 
   is not a business method of the session bean
 - interceptor or decorator has a method annotated @Produces
+
+
+
 
 3.3.3. Specializing a producer method
 - method annotated @Specializes is static or does not directly override another producer method

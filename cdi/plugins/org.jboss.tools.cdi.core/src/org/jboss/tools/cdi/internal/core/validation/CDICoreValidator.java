@@ -551,6 +551,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 
+			/*
+			 * 3.3.2. Declaring a producer method
+			 *  - producer method is annotated @Inject
+			 */
+			IAnnotationDeclaration inject = producer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+			if(inject!=null) {
+				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, producer.getResource());
+			}
+
 			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
 
 			if (producer instanceof IProducerField) {

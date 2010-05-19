@@ -415,7 +415,84 @@ public class ValidationTest extends TCKTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/directlyExtendsNothing/Cow_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
 	}
-	
+
+	/**
+	 * 3.3. Producer methods
+	 *  - producer method return type contains a wildcard type parameter
+	 *  
+	 * 2.2.1 - Legal bean types
+	 *  - a parameterized type that contains a wildcard type parameter is not a legal bean type.
+	 *  
+	 * @throws Exception
+	 */
+	public void testParameterizedReturnTypeWithWildcard() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterizedTypeWithWildcard/SpiderProducer.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, 24);
+	}
+
+	/**
+	 * 3.3. Producer methods
+	 *  - producer method return type is a type variable
+	 * 
+	 * 2.2.1 - Legal bean types
+	 *  - a type variable is not a legal bean type
+	 *  
+	 * @throws Exception
+	 */
+	public void testParameterizedType() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterizedTypeWithTypeParameter2/TProducer.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 25);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/SpiderProducerVariableType_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 13);
+	}
+
+	/**
+	 * 3.3. Producer methods
+	 *  - producer method with a parameterized return type with a type variable declares any scope other than @Dependent
+	 *  
+	 * @throws Exception
+	 */
+	public void testParameterizedReturnTypeWithWrongScope() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 39);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 21);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 35);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 31);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - producer method is annotated @Inject
+	 *  
+	 * @throws Exception
+	 */
+	public void testInitializerMethodAnnotatedProduces() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/methodAnnotatedProduces/Pheasant_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 25);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - a producer method has a parameter annotated @Disposes
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodWithParameterAnnotatedDisposes() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedDisposes/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - a producer method has a parameter annotated @Observers
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodWithParameterAnnotatedObserves() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedObserves/SpiderProducer_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
+	}
+
 	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
@@ -541,20 +618,6 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
-	 * 3.3. Producer methods
-	 *  - producer method return type contains a wildcard type parameter
-	 *  
-	 * 2.2.1 - Legal bean types
-	 *  - a parameterized type that contains a wildcard type parameter is not a legal bean type.
-	 *  
-	 * @throws Exception
-	 */
-	public void testParameterizedReturnTypeWithWildcard() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterizedTypeWithWildcard/SpiderProducer.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, 24);
-	}
-
-	/**
 	 * 3.4. Producer fields
 	 *  - producer field type contains a wildcard type parameter
 	 *  
@@ -567,22 +630,6 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
-	 * 3.3. Producer methods
-	 *  - producer method return type is a type variable
-	 * 
-	 * 2.2.1 - Legal bean types
-	 *  - a type variable is not a legal bean type
-	 *  
-	 * @throws Exception
-	 */
-	public void testParameterizedType() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterizedTypeWithTypeParameter2/TProducer.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 25);
-		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/SpiderProducerVariableType_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 13);
-	}
-
-	/**
 	 * 3.4. Producer fields.
 	 *  - producer field type is a type variable
 	 *  
@@ -591,20 +638,6 @@ public class ValidationTest extends TCKTest {
 	public void testTypeVariable() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/SpiderProducerVariableType_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, 10);
-	}
-
-	/**
-	 * 3.3. Producer methods
-	 *  - producer method with a parameterized return type with a type variable declares any scope other than @Dependent
-	 *  
-	 * @throws Exception
-	 */
-	public void testParameterizedReturnTypeWithWrongScope() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 39);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 21);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 35);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 31);
 	}
 
 	/**
@@ -631,28 +664,6 @@ public class ValidationTest extends TCKTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
-	}
-
-	/**
-	 * 3.3.2. Declaring a producer method
-	 *  - a producer method has a parameter annotated @Disposes
-	 *  
-	 * @throws Exception
-	 */
-	public void testProducerMethodWithParameterAnnotatedDisposes() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedDisposes/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
-	}
-
-	/**
-	 * 3.3.2. Declaring a producer method
-	 *  - a producer method has a parameter annotated @Observers
-	 *  
-	 * @throws Exception
-	 */
-	public void testProducerMethodWithParameterAnnotatedObserves() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedObserves/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED, 25, 26);
 	}
 
 	/**
