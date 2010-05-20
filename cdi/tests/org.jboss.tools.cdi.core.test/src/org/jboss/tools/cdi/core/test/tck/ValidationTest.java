@@ -527,6 +527,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.3.3. Specializing a producer method
+	 *  - method annotated @Specializes is static
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializedStaticMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/producer/method/broken/specializesStaticMethod/FurnitureShop_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_STATIC, 24);
+	}
+
+	/**
+	 * 3.3.3. Specializing a producer method
+	 *  - method annotated @Specializes does not directly override another producer method
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializedMethodIndirectlyOverridesAnotherProducerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/producer/method/broken/indirectOverride/ShoeShop_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_OVERRIDE, 24);
+	}
+
+	/**
 	 * 3.5.1. Declaring a resource
 	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 	 * 

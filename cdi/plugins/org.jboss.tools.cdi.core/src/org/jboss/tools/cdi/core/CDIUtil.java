@@ -11,8 +11,10 @@
 package org.jboss.tools.cdi.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -338,6 +340,9 @@ public class CDIUtil {
 					if (sourceType == null) {
 						continue;
 					}
+					if(!sourceType.isInterface()) {
+						continue;
+					}
 					IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
 					if (annotation == null) {
 						annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
@@ -358,5 +363,93 @@ public class CDIUtil {
 			CDICorePlugin.getDefault().logError(e);
 		}
 		return method.getMethod();
+	}
+
+	/**
+	 * Finds the method which is overridden by the given method. Or null if this method overrides nothing. 
+	 *    
+	 * @param method
+	 * @return
+	 */
+	public static IMethod getOverridingMethodDeclaration(IBeanMethod method) {
+		IClassBean bean = method.getClassBean();
+		Map<IType, IMethod> foundMethods = new HashMap<IType, IMethod>();
+		try {
+			if (Flags.isStatic(method.getMethod().getFlags())) {
+				return null;
+			}
+			Set<IParametedType> types = bean.getLegalTypes();
+			for (IParametedType type : types) {
+				IType sourceType = type.getType();
+				if (sourceType == null || sourceType.isInterface()) {
+					continue;
+				}
+				IMethod[] methods = sourceType.getMethods();
+				for (IMethod iMethod : methods) {
+					if (method.getMethod().isSimilar(iMethod)) {
+						foundMethods.put(iMethod.getDeclaringType(), iMethod);
+					}
+				}
+			}
+			if(foundMethods.size()==1) {
+				return foundMethods.values().iterator().next();
+			} else if(foundMethods.size()>1) {
+				IType type = bean.getBeanClass();
+				IType superClass = getSuperClass(type);
+				while(superClass!=null) {
+					IMethod m = foundMethods.get(superClass);
+					if(m!=null) {
+						return m;
+					}
+					superClass = getSuperClass(superClass);
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Finds the method which is overridden by the given method. Or null if this method overrides nothing. 
+	 *    
+	 * @param method
+	 * @return
+	 */
+	public static IMethod getDirectOverridingMethodDeclaration(IBeanMethod method) {
+		IClassBean bean = method.getClassBean();
+		try {
+			if (Flags.isStatic(method.getMethod().getFlags())) {
+				return null;
+			}
+			IType type = bean.getBeanClass();
+			IType superClass = getSuperClass(type);
+			if(superClass!=null) {
+				IMethod[] methods = superClass.getMethods();
+				for (IMethod iMethod : methods) {
+					if (method.getMethod().isSimilar(iMethod)) {
+						return iMethod;
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return null;
+	}
+
+	private static IType getSuperClass(IType type) throws JavaModelException {
+		String superclassName = type.getSuperclassName();
+		if(superclassName!=null) {
+			String fullySuperclassName = EclipseJavaUtil.resolveType(type, superclassName);
+			if(fullySuperclassName!=null&&!fullySuperclassName.equals("java.lang.Object")) { //$NON-NLS-1$
+				if(fullySuperclassName.equals(type.getFullyQualifiedName())) {
+					return null;
+				}
+				IType superType = type.getJavaProject().findType(fullySuperclassName);
+				return superType;
+			}
+		}
+		return null;
 	}
 }

@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
@@ -684,6 +685,49 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						saveAllSuperTypesAsLinkedResources(classBean);
 					} else {
 						validationContext.addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
+					}
+				}
+
+				IAnnotationDeclaration sDeclaration = producerMethod.getSpecializesAnnotationDeclaration();
+				if(sDeclaration!=null) {
+					if(Flags.isStatic(producerMethod.getMethod().getFlags())) {
+						/*
+						 * 3.3.3. Specializing a producer method
+						 *  - method annotated @Specializes is static
+						 */
+						addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_STATIC, CDIPreferences.ILLEGAL_SPECIALIZING_PRODUCER, sDeclaration, producer.getResource());
+					} else {
+						/*
+						 * 3.3.3. Specializing a producer method
+						 *  - method annotated @Specializes does not directly override another producer method
+						 */
+						IMethod superMethod = CDIUtil.getDirectOverridingMethodDeclaration(producerMethod);
+						boolean overrides = false;
+						if(superMethod!=null) {
+							IType superType = superMethod.getDeclaringType();
+							if(superType.isBinary()) {
+								IAnnotation[] ants = superMethod.getAnnotations();
+								for (IAnnotation an : ants) {
+									if(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME.equals(an.getElementName())) {
+										overrides = true;
+									}
+								}
+							} else {
+								Set<IBean> beans = cdiProject.getBeans(superType.getResource().getFullPath());
+								for (IBean iBean : beans) {
+									if(iBean instanceof IProducerMethod) {
+										IProducerMethod prMethod = (IProducerMethod)iBean;
+										if(prMethod.getMethod().isSimilar(superMethod)) {
+											overrides = true;
+										}
+									}
+								}
+							}
+						}
+						if(!overrides) {
+							addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_OVERRIDE, CDIPreferences.ILLEGAL_SPECIALIZING_PRODUCER, sDeclaration, producer.getResource());
+						}
+						saveAllSuperTypesAsLinkedResources(producer.getClassBean());
 					}
 				}
 			}
