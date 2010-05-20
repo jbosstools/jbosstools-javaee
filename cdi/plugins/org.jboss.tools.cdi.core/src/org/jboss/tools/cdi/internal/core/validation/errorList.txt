@@ -65,9 +65,6 @@ Definition Errors
   is not a business method of the session bean
 - interceptor or decorator has a method annotated @Produces
 
-
-
-
 3.3.3. Specializing a producer method
 - method annotated @Specializes is static or does not directly override another producer method
 
@@ -93,6 +90,9 @@ Definition Errors
 - producer field is annotated @Inject
 - non-static field of a session bean class is annotated @Produces
 - interceptor or decorator has a field annotated @Produces
+
+
+
 
 3.5.1. Declaring a resource
 - producer field declaration specifies an EL name (together with one of 

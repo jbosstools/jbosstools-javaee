@@ -549,28 +549,6 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
-	 * 3.5.1. Declaring a resource
-	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
-	 * 
-	 * @throws Exception
-	 */
-	public void testResourceWithELName() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
-	}
-
-	/**
-	 * 3.11. The qualifier @Named at injection points
-	 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
-	 * 
-	 * @throws Exception
-	 */
-	public void testNamedInjectPoint() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
-	}
-
-	/**
 	 * 3.3.6. Declaring a disposer method
 	 * 	- method has more than one parameter annotated @Disposes
 	 * 
@@ -711,6 +689,28 @@ public class ValidationTest extends TCKTest {
 
 	/**
 	 * 3.4.2. Declaring a producer field
+	 *  - producer field is annotated @Inject
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerAnnotatedInject() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ProducerAnnotatedInjectBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 8);
+	}
+
+	/**
+	 * 3.4.2. Declaring a producer field
+	 *  - non-static field of a session bean class is annotated @Produces
+	 *  
+	 * @throws Exception
+	 */
+	public void testNonStaticProducerOfSessionBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/NonStaticProducerOfSessionBeanBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, 9);
+	}
+
+	/**
+	 * 3.4.2. Declaring a producer field
 	 *  - decorator has a field annotated @Produces
 	 *  
 	 * @throws Exception
@@ -732,6 +732,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.5.1. Declaring a resource
+	 * 	- producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+	 * 
+	 * @throws Exception
+	 */
+	public void testResourceWithELName() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
+	}
+
+	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
 	 *  
@@ -741,6 +752,17 @@ public class ValidationTest extends TCKTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
+	}
+
+	/**
+	 * 3.11. The qualifier @Named at injection points
+	 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
+	 * 
+	 * @throws Exception
+	 */
+	public void testNamedInjectPoint() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
 	}
 
 	/**

@@ -582,8 +582,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							if (nameDeclaration != null) {
 								declaration = nameDeclaration;
 							}
-							addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME,
-									declaration, producer.getResource());
+							addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
 						}
 					}
 				}
@@ -596,10 +595,16 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					for (String variableSig : typeVariables) {
 						String variableName = Signature.getTypeVariable(variableSig);
 						if (typeString.equals(variableName)) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_FIELD_TYPE_IS_VARIABLE,
-									typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
+							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_FIELD_TYPE_IS_VARIABLE,	typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
 						}
 					}
+				}
+				/*
+				 * 3.4.2. Declaring a producer field
+				 *  - non-static field of a session bean class is annotated @Produces
+				 */
+				if(producer.getClassBean() instanceof ISessionBean && !Flags.isStatic(producerField.getField().getFlags())) {
+					addError(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
 				}
 			} else {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
