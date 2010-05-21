@@ -33,8 +33,8 @@ public class ProducerMethodDefinitionTest extends TCKTest {
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals("Wrong number of injection points in the producer.", 2, injections.size());
 		// TODO use real location for injection points.
-		assertLocationEquals(injections, 0, 0);
-		assertLocationEquals(injections, 0, 0);
+		assertLocationEquals(injections, 1287, 29);
+		assertLocationEquals(injections, 1328, 19);
 	}
 
 	// TODO continue implementing producer tests.
