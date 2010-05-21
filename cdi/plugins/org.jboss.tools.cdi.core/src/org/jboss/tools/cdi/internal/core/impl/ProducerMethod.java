@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -50,6 +51,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		produces = definition.getProducesAnnotation();
 	}
 
+	protected Parameter newParameter() {
+		return new InjectionPointParameter();
+	}
+
 	public Set<ITypeDeclaration> getAllTypeDeclarations() {
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		if(typeDeclaration != null && typeDeclaration.getStartPosition() > 0) {
@@ -67,7 +72,13 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public Set<IInjectionPoint> getInjectionPoints() {
-		return new HashSet<IInjectionPoint>();
+		HashSet<IInjectionPoint> result = new HashSet<IInjectionPoint>();
+		for (IParameter p: parameters) {
+			if(p instanceof IInjectionPoint) {
+				result.add((IInjectionPoint)p);
+			}
+		}
+		return result;
 	}
 
 	public Set<IParametedType> getLegalTypes() {

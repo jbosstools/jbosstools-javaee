@@ -44,6 +44,7 @@ import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -245,8 +246,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(type == null) {
 			return result;
 		}
+		
+		boolean isParameter = injectionPoints instanceof InjectionPointParameter;
 
 		Set<IQualifierDeclaration> qs = injectionPoints.getQualifierDeclarations();
+		List<IType> qs2 = null;
+		if(isParameter) {
+			qs2 = new ArrayList<IType>();
+			Set<IQualifier> qs_ = ((InjectionPointParameter)injectionPoints).getQualifiers();
+			for (IQualifier q: qs_) {
+				IType t = q.getSourceType();
+				if(t != null) qs2.add(t);
+			}
+		}
 		
 		Set<IBean> beans = new HashSet<IBean>();
 		synchronized(allBeans) {
@@ -257,8 +269,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(containsType(types, type)) {
 				try {
 					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
-					if(areMatchingQualifiers(qsb, qs)) {
-						result.add(b);
+					if(isParameter) {
+						if(areMatchingQualifiers(qsb, qs2.toArray(new IType[0]))) {
+							result.add(b);
+						}
+					} else {
+						if(areMatchingQualifiers(qsb, qs)) {
+							result.add(b);
+						}
 					}
 				} catch (CoreException e) {
 					CDICorePlugin.getDefault().logError(e);

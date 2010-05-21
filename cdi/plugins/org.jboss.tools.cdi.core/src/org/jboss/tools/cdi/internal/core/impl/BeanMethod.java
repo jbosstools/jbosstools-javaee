@@ -41,11 +41,15 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 		
 		List<ParameterDefinition> ps = definition.getParameters();
 		for (ParameterDefinition p: ps) {
-			Parameter parameter = new Parameter();
+			Parameter parameter = newParameter();
 			parameter.setBeanMethod(this);
 			parameter.setDefinition(p);
 			parameters.add(parameter);
 		}
+	}
+
+	protected Parameter newParameter() {
+		return new Parameter();
 	}
 
 	public IMethod getMethod() {

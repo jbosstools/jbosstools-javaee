@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
@@ -59,6 +60,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 	void loadParamDefinitions(IType contextType, DefinitionContext context) throws CoreException {
 		if(method == null) return;
+		boolean isProducer = getProducesAnnotation() != null;
 		String[] parameterNames = method.getParameterNames();
 		if(parameterNames == null || parameterNames.length == 0) return;
 		if(contextType == null || contextType.isBinary()) return;
@@ -78,7 +80,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		int start = paramStart + 1;
 
 		for (int i = 0; i < params.length; i++) {
-			if(params[i].indexOf('@') < 0) {
+			if(params[i].indexOf('@') < 0 && !isProducer) {
 				start += params[i].length() + 1;
 				continue; //do not need parameters without annotation
 			}
@@ -91,14 +93,19 @@ public class MethodDefinition extends BeanMemberDefinition {
 			pd.name = parameterNames[i];
 			pd.index = i;
 			pd.type = type;
+			
+			String p = params[i].trim();
+			int pi = params[i].indexOf(p);
+			
 			ValueInfo v = new ValueInfo();
 			v.setValue(params[i]);
-			v.valueStartPosition = start;
-			v.valueLength = params[i].length();
+			v.valueStartPosition = start + pi;
+			v.valueLength = p.length();
 			pd.setPosition(v);
 
-			String[] tokens = params[i].split(" ");
-			for (String q: tokens) {
+			StringTokenizer tokens = new StringTokenizer(p, " \r\n\t");
+			while (tokens.hasMoreElements()) {
+				String q = tokens.nextToken();
 				if(!q.startsWith("@")) continue;
 				v = new ValueInfo();
 				v.setValue(q);
