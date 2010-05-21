@@ -390,7 +390,7 @@
 
         <table>
 
-            <title>VPE Preferences</title>
+            <title>VPE General Preferences</title>
             <tgroup cols="3">
 
                 <colspec colnum="1" align="left" colwidth="2*"/>
@@ -477,8 +477,8 @@
             </tgroup>
         </table>
 
-        <para>On the <property>Templates tab</property> you can add, edit or remove <link
-                linkend="vpe_templating">VPE templates</link>.</para>
+        <para>On the <property>Visual Templates</property> tab you can add, edit or remove <link
+                linkend="vpe_templating">VPE visual templates</link>.</para>
         <figure>
             <title>Visual Page Editor Templates</title>
             <mediaobject>
@@ -493,6 +493,89 @@
             </emphasis> button. It will pick up the <link linkend="template_dialog">Template
                 dialog</link> where you can adjust new settings.</para>
     </section>
+    
+    <section id="vpe_code_templates">
+        <title>Visual Page Editor Code Templates</title>
+        <para>On the <emphasis>
+            <property>JBoss Tools &gt; Web &gt; Editors &gt; Visual Page Editor &gt; Code Templates</property></emphasis>
+            preferences page you can create new and edit existing XHTML templates. Such a template allows you to
+            quickly insert an often used snippet of XHTML code. 
+        </para>
+        
+        <figure>
+            <title>Visual Page Editor Code Templates</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_8a.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>VPE provides four predefined templates:</para>
+        <itemizedlist>
+            <listitem><para>XHTML blank facelet page template</para></listitem>
+            <listitem><para>Common facelet page template</para></listitem>
+            <listitem><para>Form facelet page template</para></listitem>
+            <listitem><para>New JSF composite component template</para></listitem>
+        </itemizedlist>
+        
+        <para>The following table lists the configuration options for the code templates.</para>
+        <table>
+            
+            <title>VPE Code Templates Options</title>
+            <tgroup cols="2">
+                
+                <colspec colnum="1" align="left" colwidth="2*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Option</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>New</entry>
+                        <entry>Opens the dialog to create a new template. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Edit</entry>
+                        <entry>Opens the dialog to edit the currently selected template. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Remove</entry>
+                        <entry>Removes all selected templates. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Restore Removed</entry>
+                        <entry>Restores the removed templates.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Revert to Default</entry>
+                        <entry>Reverts the code templates list to default.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Import</entry>
+                        <entry>Allows you to import templates from the file system. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Edit</entry>
+                        <entry>Allows you to export all selected templates to the file system. </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        
+    </section>
+    
 
     <section id="el_variables">
         <?dbhtml filename="el_variables.html"?>
