@@ -1503,11 +1503,11 @@ two elements with equal id has been used, but should be used only one -->
             </section>
         </section>
         <section id="vpe_templating">
-            <title>Templating</title>
-            <para>The VPE also makes it possible to create templates for unknown tags.</para>
+            <title>Visual Templates</title>
+            <para>The VPE also makes it possible to create visual templates for unknown tags.</para>
             <para>To call the <property>Template dialog</property> for a tag, right-click on it in
                 Visual mode and select <emphasis>
-                    <property>Setup Template for &lt;tag name&gt;</property>
+                    <property>Setup Visual Template for &lt;tag name&gt;</property>
                 </emphasis> option.</para>
             <figure>
                 <title>Calling Template Dialog</title>
@@ -1527,6 +1527,24 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
+            
+            <para>The <emphasis>
+                <property>Tag Name</property></emphasis> field is for setting the name of the unknown tag.</para>
+            <note>
+                <title>Note:</title>
+                <para>The given field should be filled in according to the pattern: &quot;taglib:tag&quot;. Also make sure 
+                    you do not surround the name with angle brackets 
+                    which will cause the validation error (see the figure below).</para>
+            </note>
+            <figure>
+                <title>Validation Error in the Template Dialog</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/validation_error.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            
             <para><emphasis>
                     <property>Tag for Display</property>
                 </emphasis> field in the <property>Template dialog</property> requires specifying a
@@ -1542,8 +1560,14 @@ two elements with equal id has been used, but should be used only one -->
                 the field to bring the <link linkend="css_dialog">CSS Dialog</link> for editing
                 styles.</para>
             <para>You can observe all defined templates in the <link linkend="VisualPageEditor2">VPE
-                    Preferences</link> on the Templates tab which you can quickly access by pressing
-                    <link linkend="AdvancedSettings954">Preferences button</link>.</para>
+                Preferences</link> on the <emphasis>
+                    <property>Visual Templates</property>
+                    </emphasis> tab which you can quickly access by pressing
+                <link linkend="AdvancedSettings954">Preferences</link> ( <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/icon_1.png"/>
+                    </imageobject>
+                </inlinemediaobject> ).</para>
             <figure>
                 <title>Templates Tab of the VPE Preferences Page</title>
                 <mediaobject>
