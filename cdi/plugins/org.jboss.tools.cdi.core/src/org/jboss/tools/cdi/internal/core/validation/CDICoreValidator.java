@@ -49,6 +49,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
@@ -63,6 +64,7 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -757,7 +759,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * other than injected field declares a @Named annotation that does not
 		 * specify the value member
 		 */
-		if (!(injection instanceof IInjectionPointField)) {
+		if(injection instanceof IInjectionPointParameter) {
+			IInjectionPointParameter pinjection = (IInjectionPointParameter)injection;
+			if(pinjection.isAnnotationPresent(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
+				String value = ((Parameter)pinjection).getValue(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+				if(value == null || value.length() == 0) {
+					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
+							CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
+							pinjection.getAnnotationPosition(CDIConstants.NAMED_QUALIFIER_TYPE_NAME),
+							injection.getResource());
+				}
+				
+			}
+		} else if (!(injection instanceof IInjectionPointField)) {
 			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if (named != null) {
 				try {

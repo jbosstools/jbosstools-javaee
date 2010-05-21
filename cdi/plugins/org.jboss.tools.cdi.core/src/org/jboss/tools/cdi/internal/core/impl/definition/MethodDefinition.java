@@ -71,7 +71,9 @@ public class MethodDefinition extends BeanMemberDefinition {
 		if(nameRange != null) range = nameRange;
 		int paramStart = content.indexOf('(', range.getOffset());
 		if(paramStart < 0) return;
-		int paramEnd = content.indexOf(')', paramStart);
+		int declEnd = content.indexOf('{', paramStart);
+		if(declEnd < 0) return;
+		int paramEnd = content.lastIndexOf(')', declEnd);
 		if(paramEnd < 0) return;
 		String paramsString = content.substring(paramStart + 1, paramEnd);
 		if(paramsString.indexOf('@') < 0) return;
@@ -111,6 +113,8 @@ public class MethodDefinition extends BeanMemberDefinition {
 				v.setValue(q);
 				v.valueStartPosition = start + params[i].indexOf(q);
 				v.valueLength = q.length();
+				int s = q.indexOf('(');
+				if(s >= 0) q = q.substring(0, s).trim();
 				String annotationType = EclipseJavaUtil.resolveType(contextType, q.substring(1).trim());
 				if(annotationType != null) pd.annotationsByTypeName.put(annotationType, v);
 			}

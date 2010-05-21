@@ -75,6 +75,16 @@ public class ParametedTypeFactory {
 				cache.put(key, result);
 				return result;
 			}
+			String[] ps = context.getTypeParameterSignatures();
+			for (int i = 0; i < ps.length; i++) {
+				String t = ps[i];
+				if(t.endsWith(":")) t = t.substring(0, t.length() - 1);
+				t = "Q" + t + ";";
+				if(t.equals(result.getSignature())) {
+					cache. put(key, result);
+					return result;
+				}
+			}
 		} else {
 			int endToken = typeSignature.lastIndexOf('>');
 			if(endToken < startToken) return null;

@@ -62,4 +62,11 @@ public class ParameterDefinition implements IAnnotated {
 	public ITextSourceReference getPosition() {
 		return position;
 	}
+
+	public String getAnnotationText(String annotationTypeName) {
+		ITextSourceReference pos = getAnnotationPosition(annotationTypeName);
+		if(pos == null) return null;
+		String text = methodDefinition.getTypeDefinition().getContent().substring(pos.getStartPosition(), pos.getStartPosition() + pos.getLength());
+		return text;
+	}
 }

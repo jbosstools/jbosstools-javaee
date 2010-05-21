@@ -76,4 +76,21 @@ public class Parameter extends CDIElement implements IParameter {
 		return definition.getAnnotationTypes();
 	}
 
+	public String getValue(String annotationTypeName) {
+		String text = definition.getAnnotationText(annotationTypeName);
+		if(text != null) {
+			int i = text.indexOf('(');
+			int j = text.lastIndexOf(')');
+			if(i >= 0 && j > i) {
+				String values = text.substring(i + 1, j).trim();
+				if(values.startsWith("\"") && values.endsWith("\"")) {
+					return values.substring(1, values.length() - 1);
+				}
+				//TODO improve
+				return values;
+			}
+		}
+		return null;
+	}
+
 }
