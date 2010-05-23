@@ -251,9 +251,12 @@
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
             <title>Content Assist</title>
             <para><property>Content assist</property> is available when working with</para>
-            <itemizedlist>                
+            <itemizedlist>
                 <listitem>
-                    <para> <ulink url="../../seam/html_single/index.html#ContentAssist">Seam project files</ulink> </para>
+                    <para>
+                        <ulink url="../../seam/html_single/index.html#ContentAssist">Seam project
+                            files</ulink>
+                    </para>
                 </listitem>
                 <listitem>
                     <para>
@@ -286,14 +289,16 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para> <ulink url="../../esb_ref_guide/html_single/index.html#ESBContentAssist">ESB XML files</ulink> </para>
+                    <para>
+                        <ulink url="../../esb_ref_guide/html_single/index.html#ESBContentAssist">ESB
+                            XML files</ulink>
+                    </para>
                 </listitem>
                 <listitem>
                     <para>
                         <link linkend="ContentAssistForInsertTag">Insert Tag Wizard</link>
                     </para>
                 </listitem>
-                
             </itemizedlist>
             <para>Notice, that code completion for EL variables has icons illustrating what they are
                 from. The most of this icons are described in the table below.</para>
@@ -314,11 +319,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/icons_enumaration.png"
-                                    />
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_enumaration.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -332,11 +337,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/icons_seam_el.png"
-                                    />
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_seam_el.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -350,10 +355,10 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/icons_jsf_el.png"/>
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_jsf_el.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -368,11 +373,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/icons_jsf_actions.png"
-                                    />
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_jsf_actions.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -380,17 +385,17 @@
                             </entry>
                             <entry>
                                 <para>Used to show navigation rules defined in the <property
-                                    >faces-config.xml</property> . </para>
+                                        >faces-config.xml</property> . </para>
                             </entry>
                         </row>
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/icons_message_bundles.png"
-                                    />
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_message_bundles.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -404,11 +409,11 @@
                         <row>
                             <entry>
                                 <para><inlinemediaobject><imageobject>
-                                    <imagedata
-                                        fileref="images/editors_features/icons_resource_paths.png"
-                                    />
-                                </imageobject>
-                                </inlinemediaobject>
+                                            <imagedata
+                                                fileref="images/editors_features/icons_resource_paths.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject>
                                 </para>
                             </entry>
                             <entry>
@@ -438,20 +443,18 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>The ranking and sorting are available in EL code
-            completions.</para>
+            <para>The ranking and sorting are available in EL code completions.</para>
             <para>As you can see, together with proposals content assist also provides descriptions
                 of selected tags or attributes.</para>
             <figure>
                 <title>Tag description</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/editors_features/editors_features_11a.png"
-                        />
+                        <imagedata fileref="images/editors_features/editors_features_11a.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
-           <section id="JSFProjectFiles3087">
+            <section id="JSFProjectFiles3087">
                 <title>JSF Project Files</title>
                 <para>When working with JSF project in JBoss Developer Studio, you can use various
                         <property>Content Assist features</property> while developing:</para>
@@ -505,7 +508,6 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-
                 </section>
                 <section id="ContentAssistforCompositeComponents">
                     <title>Content Assist for Composite Components</title>
@@ -821,22 +823,22 @@
                 </section>
                 <section id="ContentAssistForEL">
                     <title>Content Assist for EL expressions</title>
-                    <para><property>Content Assist</property> also provides an expression language (JSF EL) support.
-                        It is used in web application pages to access the <property>JavaBeans</property> components 
-                        in the page bean and in other beans associated with the web application, 
-                        such as the session bean and the application bean.</para>
+                    <para><property>Content Assist</property> also provides an expression language
+                        (JSF EL) support. It is used in web application pages to access the
+                            <property>JavaBeans</property> components in the page bean and in other
+                        beans associated with the web application, such as the session bean and the
+                        application bean.</para>
                     <figure>
                         <title>EL Content Assist</title>
                         <mediaobject>
                             <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_27b.png"/>
+                                <imagedata
+                                    fileref="images/editors_features/editors_features_27b.png"/>
                             </imageobject>
                         </mediaobject>
                     </figure>
                 </section>
             </section>
-            
-            
             <section id="ContentAssistForXHTMLPages">
                 <title>Content Assist for XHTML Pages</title>
                 <para>The code completion for the Seam components in a Seam project shows the
@@ -849,16 +851,16 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
                 <para>If XHTML file uses custom Facelets components, the Content Assist should also
                     be available for them. For details, see <link
                         linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom
                         Facelets Components&quot;</link> later in this guide.</para>
             </section>
-            
             <section id="ContentAssistForJavaFiles">
                 <title>Content Assist for Java Files</title>
-                <para>Various tools tips provide you additional information about java elements (JavaDocs, source classes, return types, method names, params, and etc.) when working with java files</para>
+                <para>Various tools tips provide you additional information about java elements
+                    (JavaDocs, source classes, return types, method names, params, and etc.) when
+                    working with java files</para>
                 <figure>
                     <title>Content assist for JavaDoc</title>
                     <mediaobject>
@@ -867,7 +869,6 @@
                         </imageobject>
                     </mediaobject>
                 </figure>
-                
             </section>
             <section id="ContentAssistForInsertTag">
                 <title>Content Assist for Insert Tag Wizard</title>
@@ -882,7 +883,7 @@
                     </mediaobject>
                 </figure>
             </section>
-            <section id="AddingDynamicCodeAssistToCustomComponents8745">                
+            <section id="AddingDynamicCodeAssistToCustomComponents8745">
                 <title>Adding dynamic code assist to custom components that were added to JBoss
                     Tools Palette</title>
                 <para>Here is what you need to do to add project based code assist to a custom
@@ -1001,8 +1002,7 @@
                     </listitem>
                 </itemizedlist>
             </section>
-           
-         </section>        
+        </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
             <title>Synchronized Source and Visual Editing</title>
             <para><property>JBoss Developer Studio</property> offers the flexibility to edit any
@@ -1527,14 +1527,14 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-            
             <para>The <emphasis>
-                <property>Tag Name</property></emphasis> field is for setting the name of the unknown tag.</para>
+                    <property>Tag Name</property></emphasis> field is for setting the name of the
+                unknown tag.</para>
             <note>
                 <title>Note:</title>
-                <para>The given field should be filled in according to the pattern: &quot;taglib:tag&quot;. Also make sure 
-                    you do not surround the name with angle brackets 
-                    which will cause the validation error (see the figure below).</para>
+                <para>The given field should be filled in according to the pattern:
+                    &quot;taglib:tag&quot;. Also make sure you do not surround the name with angle
+                    brackets which will cause the validation error (see the figure below).</para>
             </note>
             <figure>
                 <title>Validation Error in the Template Dialog</title>
@@ -1544,7 +1544,6 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-            
             <para><emphasis>
                     <property>Tag for Display</property>
                 </emphasis> field in the <property>Template dialog</property> requires specifying a
@@ -1560,10 +1559,10 @@ two elements with equal id has been used, but should be used only one -->
                 the field to bring the <link linkend="css_dialog">CSS Dialog</link> for editing
                 styles.</para>
             <para>You can observe all defined templates in the <link linkend="VisualPageEditor2">VPE
-                Preferences</link> on the <emphasis>
+                    Preferences</link> on the <emphasis>
                     <property>Visual Templates</property>
-                    </emphasis> tab which you can quickly access by pressing
-                <link linkend="AdvancedSettings954">Preferences</link> ( <inlinemediaobject>
+                </emphasis> tab which you can quickly access by pressing <link
+                    linkend="AdvancedSettings954">Preferences</link> ( <inlinemediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/icon_1.png"/>
                     </imageobject>
@@ -1576,7 +1575,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Here it&apos;s possible to add a new and edit or remove any listed in the table template.</para>
+            <para>Here it&apos;s possible to add a new and edit or remove any listed in the table
+                template.</para>
         </section>
         <section id="AdvancedSettings954">
             <title>VPE Toolbar</title>
@@ -1981,22 +1981,24 @@ two elements with equal id has been used, but should be used only one -->
         </section>
         <section id="vpe_errors">
             <title>Error Messages</title>
-            <para><property>Visual Page Editor</property> provide a user friendly and effective <property>error</property> messages, which should make solving problems easier. <property>Error</property> message contains a  reference to the problem and its description. Also in <property>Error</property> area you can find a link to <property>Visual Page Editor</property> forum and <property>Details</property> button whick is used to see a error trace.  </para>
-            <para>If the error occurs while editor loading, error message will contain information about of what might have caused the error ( a missing library or errors in source code).</para>
+            <para><property>Visual Page Editor</property> provide a user friendly and effective
+                    <property>error</property> messages, which should make solving problems easier.
+                    <property>Error</property> message contains a reference to the problem and its
+                description. Also in <property>Error</property> area you can find a link to
+                    <property>Visual Page Editor</property> forum and <property>Details</property>
+                button whick is used to see a error trace. </para>
+            <para>If the error occurs while editor loading, error message will contain information
+                about of what might have caused the error ( a missing library or errors in source
+                code).</para>
             <figure>
                 <title>Visual Page Error Message</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/visual_page_16a.png"/>
                     </imageobject>
-                    
                 </mediaobject>
             </figure>
-            
         </section>
-        
-        
-        
         <section id="custom_facelets_support">
             <title>Support for Custom Facelets Components</title>
             <para><property>Visual Page Editor</property> (starting from 3.0.0.M3 version of
@@ -2468,8 +2470,8 @@ two elements with equal id has been used, but should be used only one -->
         </section>
         <section id="JavaScriptEditor">
             <title>JavaScript Editor</title>
-            <para>The <property>JavaScript editor</property> is a Source
-                viewer in which you can use code assist:</para>
+            <para>The <property>JavaScript editor</property> is a Source viewer in which you can use
+                code assist:</para>
             <figure>
                 <title>JavaScript Editor</title>
                 <mediaobject>
@@ -2478,8 +2480,8 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>You can also use the <property>JavaScript editor</property> 
-                with the Outline view to navigate around the file:</para>
+            <para>You can also use the <property>JavaScript editor</property> with the Outline view
+                to navigate around the file:</para>
             <figure>
                 <title>JavaScript Editor with the Outline view</title>
                 <mediaobject>
@@ -2589,6 +2591,17 @@ two elements with equal id has been used, but should be used only one -->
                     </imageobject>
                 </mediaobject>
             </figure>
+            <note>
+                <title>Note:</title>
+                <para>On case you want to use your own DTD or XML Schema make sure that this DTD or
+                    XML Schema is not listed in XML Catalog. If it is, you can't work with your DTD
+                    and XML Scheme and JBoss Tool,which uses this DTD or XML Schema. More
+                    information about XML Catalog you can find in <ulink
+                        url="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.wst.xmleditor.doc.user/topics/cxmlcat.html"
+                        >Eclipse Documentation</ulink> and on <ulink
+                        url="http://www.eclipse.org/webtools/community/tutorials/XMLCatalog/XMLCatalogTutorial.html"
+                        >XML Catalog Tutorial page</ulink>. </para>
+            </note>
         </section>
     </section>
 </chapter>
