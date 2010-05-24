@@ -9,6 +9,7 @@ public class CdiTextExtAllTests {
 		TestSuite suite = new TestSuite(CdiTextExtAllTests.class.getName());
 		suite.addTest(InjectedPointHyperlinkDetectorTest.suite());
 		suite.addTest(ProducerDisposerHyperlinkDetectorTest.suite());
+		suite.addTest(InjectedPointInProducerMethodHyperlinkDetectorTest.suite());
 		return suite;
 	}
 }
