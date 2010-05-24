@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -75,7 +76,7 @@ public class CDIUtil {
 	 * @param element
 	 */
 	public static IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element) {
-		if (!(element instanceof IField) && (element instanceof IMethod)) {
+		if (!(element instanceof IField) && (element instanceof IMethod) && (element instanceof ILocalVariable)) {
 			return null;
 		}
 
@@ -88,6 +89,10 @@ public class CDIUtil {
 					}
 				} else if (element instanceof IMethod && iPoint instanceof IInjectionPointMethod) {
 					if (((IInjectionPointMethod) iPoint).getMethod() != null && ((IInjectionPointMethod) iPoint).getMethod().equals(element)) {
+						return iPoint;
+					}
+				}else if(element instanceof ILocalVariable && iPoint instanceof IInjectionPointParameter){
+					if (((IInjectionPointParameter) iPoint).getName().equals(element.getElementName())) {
 						return iPoint;
 					}
 				}

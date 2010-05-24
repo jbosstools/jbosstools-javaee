@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICodeAssist;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -94,12 +95,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 					}
 				}
 
-				if (element instanceof IAnnotatable && element instanceof IMember) {
-					IAnnotatable annotatable = (IAnnotatable)element;
-					
-					if(!findAnnotation(annotatable, ((IMember)element).getDeclaringType()))
-						continue;
-					
+				if(findAnnotation(element)){
 					hyperlinks.add(new InjectedPointListHyperlink(file, textViewer, wordRegion, element, document));
 				}
 			}
@@ -113,15 +109,39 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	private boolean findAnnotation(IAnnotatable annotatable, IType type){
-		try{
-			IAnnotation[] annotations = annotatable.getAnnotations();
-			for(IAnnotation annotation : annotations){
-				if(annotation != null && annotation.getElementName() != null && CDIConstants.INJECT_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(type, annotation.getElementName())))
-					return true;
+	private IMember findMember(IJavaElement element){
+		IJavaElement elem = element;
+		while(elem != null){
+			if(elem instanceof IMember)
+				return (IMember)elem;
+			elem = elem.getParent();
+		}
+		return null;
+	}
+	
+	private boolean findAnnotation(IJavaElement element){
+		if(element instanceof IAnnotatable){
+			IAnnotatable annotatable = (IAnnotatable) element;
+			IType type = null;
+			if(element instanceof IMember){
+				type = ((IMember)element).getDeclaringType();
+				try{
+					IAnnotation[] annotations = annotatable.getAnnotations();
+					for(IAnnotation annotation : annotations){
+						if(annotation != null && annotation.getElementName() != null && CDIConstants.INJECT_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(type, annotation.getElementName())))
+							return true;
+					}
+				}catch (JavaModelException jme) {
+					CDIExtensionsPlugin.log(jme);
+				}
+			}else if(element instanceof ILocalVariable){
+				IMember member = findMember(element);
+				if(member == null)
+					return false;
+				type = member.getDeclaringType();
+				return true;
 			}
-		}catch (JavaModelException jme) {
-			CDIExtensionsPlugin.log(jme);
+			
 		}
 		return false;
 			
