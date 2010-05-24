@@ -1503,7 +1503,7 @@ two elements with equal id has been used, but should be used only one -->
             </section>
         </section>
         <section id="vpe_templating">
-            <title>Visual Templates</title>
+            <title>Visual Templates for Unknown Tags</title>
             <para>The VPE also makes it possible to create visual templates for unknown tags.</para>
             <para>To call the <property>Template dialog</property> for a tag, right-click on it in
                 Visual mode and select <emphasis>
@@ -1578,6 +1578,50 @@ two elements with equal id has been used, but should be used only one -->
             <para>Here it&apos;s possible to add a new and edit or remove any listed in the table
                 template.</para>
         </section>
+        
+        <section id="templates_export_import">
+            <title>Export/Import of the Templates for Unknown Tags</title>
+            <para>If you have a number of custom tags for which you have defined visual templates, you may need to share 
+            the templates definitions with other team members. In this case you can use export/import functionality for unknown tag templates.</para>
+            
+            <para>To export all visual templates you defined for unknown tags, navigate to <emphasis>
+                <property>File &gt; Export &gt; Other &gt; Unknown tags templates</property>.</emphasis> Here is what the wizard looks like.</para>
+                
+            <figure>
+                <title>Export of Unknown Tags Templates</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/export_template.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+                
+                <para>At this point click <emphasis>
+                    <property>Browse</property></emphasis> to set the path where to save the external XML file with templates 
+                    and then press <emphasis>
+                        <property>Finish</property>
+                    </emphasis>
+                    to complete the export.</para>
+            
+            <para>For import, use the similar steps. Follow to <emphasis>
+                <property>File &gt; Import &gt; Other &gt; Unknown tags templates</property></emphasis> to open the import wizard.
+            Click <emphasis>
+                    <property>Browse</property></emphasis> to point to the XML file which stores the custom tags templates and 
+                then hit <emphasis>
+                    <property>Finish</property></emphasis> to complete the import.
+            </para>
+            
+            <figure>
+                <title>Import of Custom Tags Templates</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/visual_page/import_template.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        
+        
         <section id="AdvancedSettings954">
             <title>VPE Toolbar</title>
             <para>The Visual Page Editor toolbar includes the next buttons: </para>
