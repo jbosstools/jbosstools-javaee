@@ -263,6 +263,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	}
 
 	private void validateEL(ELReference el) {
+		displaySubtask(JSFValidationMessages.VALIDATING_EL_FILE, new String[]{el.getResource().getProject().getName(), el.getResource().getName()});
 		el.deleteMarkers();
 		for (ELExpression expresion : el.getEl()) {
 			validateELExpression(el, expresion);

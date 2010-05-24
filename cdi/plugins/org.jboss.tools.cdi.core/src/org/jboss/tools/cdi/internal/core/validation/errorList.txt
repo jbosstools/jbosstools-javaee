@@ -91,14 +91,14 @@ Definition Errors
 - non-static field of a session bean class is annotated @Produces
 - interceptor or decorator has a field annotated @Produces
 
-
-
-
 3.5.1. Declaring a resource
 - producer field declaration specifies an EL name (together with one of 
   @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 - matching object in the Java EE component environment is not of the same type 
   as the producer field declaration
+
+
+
 
 3.6. Additional built-in beans
 - Java EE component class has an injection point of type UserTransaction 

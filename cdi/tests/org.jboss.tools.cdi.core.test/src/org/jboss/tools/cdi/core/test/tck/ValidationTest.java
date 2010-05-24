@@ -742,6 +742,13 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
 	}
 
+	/*
+	 * 3.5.1. Declaring a resource
+	 * 	- matching object in the Java EE component environment is not of the same type as the producer field declaration
+	 * 
+	 * Cannot implement this validation rule.
+	 */
+
 	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
