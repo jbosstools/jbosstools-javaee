@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
@@ -93,4 +94,11 @@ public class Parameter extends CDIElement implements IParameter {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IParameter#getBeanMethod()
+	 */
+	public IBeanMethod getBeanMethod() {
+		return beanMethod;
+	}
 }

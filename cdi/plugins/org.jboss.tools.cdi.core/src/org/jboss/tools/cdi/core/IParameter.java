@@ -52,5 +52,12 @@ public interface IParameter extends IBeanMember {
 	 * @return the element annotation of the given annotation type, or a null
 	 *         value
 	 */
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName);
+	ITextSourceReference getAnnotationPosition(String annotationTypeName);
+
+	/**
+	 * Returns the bean method which has this parameter.
+	 * 
+	 * @return the bean method which has this parameter
+	 */
+	IBeanMethod getBeanMethod();
 }

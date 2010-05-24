@@ -29,4 +29,8 @@ public class InjectionPointMethod extends BeanMethod implements
 		return getDelegateAnnotation() != null;
 	}
 
+	@Override
+	protected Parameter newParameter() {
+		return new InjectionPointParameter();
+	}
 }

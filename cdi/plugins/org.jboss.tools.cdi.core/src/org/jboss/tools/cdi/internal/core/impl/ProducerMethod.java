@@ -46,11 +46,13 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 	public ProducerMethod() {}
 
+	@Override
 	public void setDefinition(MethodDefinition definition) {
 		super.setDefinition(definition);
 		produces = definition.getProducesAnnotation();
 	}
 
+	@Override
 	protected Parameter newParameter() {
 		return new InjectionPointParameter();
 	}
