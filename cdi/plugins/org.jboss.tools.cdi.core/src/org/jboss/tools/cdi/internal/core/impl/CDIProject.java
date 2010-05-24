@@ -282,7 +282,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(isNew) {
 				//TODO improve
 				IType bType = b.getBeanClass();
-				if(type.equals(bType)) {
+				if(bType != null && bType.equals(type.getType())) {
 					result.add(b);
 				}
 				continue;
