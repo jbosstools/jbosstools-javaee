@@ -91,7 +91,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			{CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_constructorParameterIllegallyAnnotated_label},
 //			{CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_genericMethodAnnotatedInject_label},
 			{CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_multipleObservingParameters_label},
-//			{CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalObserverInSessionBean_label},
+			{CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalObserverInSessionBean_label},
 //			{CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalConditionalObserver_label},
 		},
 		CDICorePlugin.PLUGIN_ID

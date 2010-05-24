@@ -413,6 +413,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
 			}
+
+			validateSessionBeanMethod(bean, observer, declarations, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN,	CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN);
 		}
 	}
 
@@ -431,8 +433,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				boundDisposers.addAll(disposerMethods);
 				if (disposerMethods.size() > 1) {
 					/*
-					 * 3.3.7. Disposer method resolution - there are multiple
-					 * disposer methods for a single producer method
+					 * 3.3.7. Disposer method resolution
+					 *  - there are multiple disposer methods for a single producer method
 					 */
 					for (IBeanMethod disposerMethod : disposerMethods) {
 						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
@@ -448,8 +450,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			List<IParameter> params = disposer.getParameters();
 
 			/*
-			 * 3.3.6. Declaring a disposer method - method has more than one
-			 * parameter annotated @Disposes
+			 * 3.3.6. Declaring a disposer method
+			 *  - method has more than one parameter annotated @Disposes
 			 */
 			Set<ITextSourceReference> disposerDeclarations = new HashSet<ITextSourceReference>();
 			for (IParameter param : params) {
@@ -465,11 +467,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 
 			/*
-			 * 3.3.6. Declaring a disposer method - a disposer method has a
-			 * parameter annotated @Observes.
+			 * 3.3.6. Declaring a disposer method
+			 *  - a disposer method has a parameter annotated @Observes.
 			 * 
-			 * 10.4.2. Declaring an observer method - a observer method has a
-			 * parameter annotated @Disposes.
+			 * 10.4.2. Declaring an observer method
+			 *  - a observer method has a parameter annotated @Disposes.
 			 */
 			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
 			boolean observesExists = false;
@@ -488,11 +490,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 
 			/*
-			 * 3.3.6. Declaring a disposer method - a disposer method is
-			 * annotated @Inject.
+			 * 3.3.6. Declaring a disposer method
+			 *  - a disposer method is annotated @Inject.
 			 * 
-			 * 3.9.1. Declaring an initializer method - an initializer method
-			 * has a parameter annotated @Disposes
+			 * 3.9.1. Declaring an initializer method
+			 *  - an initializer method has a parameter annotated @Disposes
 			 * 
 			 * 3.7.1. Declaring a bean constructor
 			 * 	- bean constructor has a parameter annotated @Disposes
@@ -512,16 +514,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 
 			/*
-			 * 3.3.6. Declaring a disposer method - a non-static method of a
-			 * session bean class has a parameter annotated @Disposes, and the
-			 * method is not a business method of the session bean
+			 * 3.3.6. Declaring a disposer method
+			 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
 			 */
 			validateSessionBeanMethod(bean, disposer, disposerDeclarations, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN,
 					CDIPreferences.ILLEGAL_DISPOSER_IN_SESSION_BEAN);
 
 			/*
-			 * 3.3.6. Declaring a disposer method - decorators may not declare
-			 * disposer methods
+			 * 3.3.6. Declaring a disposer method
+			 *  - decorators may not declare disposer methods
 			 */
 			if (bean instanceof IDecorator) {
 				IDecorator decorator = (IDecorator) bean;
@@ -534,8 +535,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 
 			/*
-			 * 3.3.6. Declaring a disposer method - interceptors may not declare
-			 * disposer methods
+			 * 3.3.6. Declaring a disposer method
+			 *  - interceptors may not declare disposer methods
 			 */
 			if (bean instanceof IInterceptor) {
 				IInterceptor interceptor = (IInterceptor) bean;
@@ -549,9 +550,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 
 			/*
-			 * 3.3.7. Disposer method resolution - there is no producer method
-			 * declared by the (same) bean class that is assignable to the
-			 * disposed parameter of a disposer method
+			 * 3.3.7. Disposer method resolution
+			 *  - there is no producer method declared by the (same) bean class that is assignable to the disposed parameter of a disposer method
 			 */
 			if (!boundDisposers.contains(disposer)) {
 				for (ITextSourceReference declaration : disposerDeclarations) {

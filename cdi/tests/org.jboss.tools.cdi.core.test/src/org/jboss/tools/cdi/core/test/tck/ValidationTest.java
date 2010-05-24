@@ -856,6 +856,17 @@ public class ValidationTest extends TCKTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 28, 28);
 	}
 
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - non-static method of a session bean class has a parameter annotated @Observes, and the method is not a business method of the EJB
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodOnEnterpriseBeanNotBusinessMethodOrStaticFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/notBusinessMethod/TibetanTerrier_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, 25);
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}
