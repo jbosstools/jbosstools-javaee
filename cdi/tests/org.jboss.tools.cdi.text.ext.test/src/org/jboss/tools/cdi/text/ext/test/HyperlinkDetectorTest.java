@@ -17,12 +17,13 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
 import junit.framework.TestCase;
 
-public class HyperlinkDetectorTest  extends TestCase {
+public class HyperlinkDetectorTest  extends TCKTest {
 	protected boolean findOffsetInRegions(int offset, ArrayList<Region> regionList){
 		for(Region region : regionList){
 			if(offset >= region.getOffset() && offset <= region.getOffset()+region.getLength())

@@ -6,7 +6,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Region;
@@ -21,21 +20,14 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 
 public class InjectedPointInProducerMethodHyperlinkDetectorTest extends HyperlinkDetectorTest{
-	private static final String PROJECT_NAME = "/tests/jbt/openon";
 	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java";
 
 	public static Test suite() {
 		return new TestSuite(InjectedPointInProducerMethodHyperlinkDetectorTest.class);
 	}
 
-	public void testProducerDisposerHyperlinkDetector()  throws Exception {
-		IProject project = TCKTest.importPreparedProject(PROJECT_NAME);
-		doTest(project);
-		TCKTest.cleanProject(PROJECT_NAME);
-	}
-
-	private void doTest(IProject project) throws Exception {
-		IFile javaFile = project.getFile(FILE_NAME);
+	public void testProducerDisposerHyperlinkDetector() throws Exception {
+		IFile javaFile = tckProject.getFile(FILE_NAME);
 
 		TCKTest.assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile != null));
 		TCKTest.assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile.exists()));

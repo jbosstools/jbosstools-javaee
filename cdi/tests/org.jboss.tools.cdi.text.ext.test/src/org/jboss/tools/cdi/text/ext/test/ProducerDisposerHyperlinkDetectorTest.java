@@ -21,21 +21,14 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.hyperlink.ProducerDisposerHyperlinkDetector;
 
 public class ProducerDisposerHyperlinkDetectorTest extends HyperlinkDetectorTest{
-	private static final String PROJECT_NAME = "/tests/decorators/invocation/producer/method";
 	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/decorators/invocation/producer/method/ProducerImpl.java";
 
 	public static Test suite() {
 		return new TestSuite(ProducerDisposerHyperlinkDetectorTest.class);
 	}
 
-	public void testProducerDisposerHyperlinkDetector()  throws Exception {
-		IProject project = TCKTest.importPreparedProject(PROJECT_NAME);
-		doTest(project);
-		TCKTest.cleanProject(PROJECT_NAME);
-	}
-
-	private void doTest(IProject project) throws Exception {
-		IFile javaFile = project.getFile(FILE_NAME);
+	public void testProducerDisposerHyperlinkDetector() throws Exception {
+		IFile javaFile = tckProject.getFile(FILE_NAME);
 
 		TCKTest.assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile != null));
 		TCKTest.assertTrue("The file \"" + FILE_NAME + "\" is not found", (javaFile.exists()));
