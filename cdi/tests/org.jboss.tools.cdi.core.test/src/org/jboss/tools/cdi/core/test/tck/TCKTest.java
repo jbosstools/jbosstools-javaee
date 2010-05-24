@@ -2,6 +2,7 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -22,6 +23,9 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -113,6 +117,18 @@ public class TCKTest extends TestCase {
 		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
 		assertNotNull("There is no eny beans with " + typeName + " type", beans);
 		return beans;
+	}
+
+	protected IClassBean getClassBean(String path) {
+		IFile file = tckProject.getFile(path);
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		for (IBean bean : beans) {
+			if(bean instanceof IClassBean) {
+				return (IClassBean)bean;
+			}
+		}
+		fail("Can't find a class bean in " + path);
+		return null;
 	}
 
 	protected IQualifierDeclaration getQualifierDeclarationFromBeanClass(String beanClassFilePath, String annotationTypeName) throws JavaModelException {

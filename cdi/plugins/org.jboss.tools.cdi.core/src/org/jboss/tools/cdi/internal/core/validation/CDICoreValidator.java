@@ -832,9 +832,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateInjectionPoint(IInjectionPoint injection) {
 		/*
-		 * 3.11. The qualifier @Named at injection points - injection point
-		 * other than injected field declares a @Named annotation that does not
-		 * specify the value member
+		 * 3.11. The qualifier @Named at injection points
+		 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
 		 */
 		if(injection instanceof IInjectionPointParameter) {
 			IInjectionPointParameter pinjection = (IInjectionPointParameter)injection;

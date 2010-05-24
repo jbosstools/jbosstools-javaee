@@ -443,6 +443,23 @@ public class CDIUtil {
 		return null;
 	}
 
+	/**
+	 * Returns all the injection point parameters of the bean class.
+	 *  
+	 * @param bean
+	 * @return
+	 */
+	public static Set<IInjectionPointParameter> getInjectionPointParameters(IClassBean bean) {
+		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		Set<IInjectionPointParameter> params = new HashSet<IInjectionPointParameter>();
+		for (IInjectionPoint injection : points) {
+			if(injection instanceof IInjectionPointParameter) {
+				params.add((IInjectionPointParameter)injection);
+			}
+		}
+		return params;
+	}
+
 	private static IType getSuperClass(IType type) throws JavaModelException {
 		String superclassName = type.getSuperclassName();
 		if(superclassName!=null) {

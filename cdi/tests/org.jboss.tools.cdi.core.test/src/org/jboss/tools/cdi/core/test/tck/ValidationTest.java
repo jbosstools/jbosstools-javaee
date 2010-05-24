@@ -691,6 +691,9 @@ public class ValidationTest extends TCKTest {
 	 * 3.4.2. Declaring a producer field
 	 *  - producer field is annotated @Inject
 	 *  
+	 * 3.8.1. Declaring an injected field
+	 *  - injected field is annotated @Produces
+	 *  
 	 * @throws Exception
 	 */
 	public void testProducerAnnotatedInject() throws Exception {
