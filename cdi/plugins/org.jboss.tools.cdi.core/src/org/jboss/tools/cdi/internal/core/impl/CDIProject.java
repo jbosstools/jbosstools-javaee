@@ -248,6 +248,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		
 		boolean isParameter = injectionPoints instanceof InjectionPointParameter;
+		boolean isNew = false;
 
 		Set<IQualifierDeclaration> qs = injectionPoints.getQualifierDeclarations();
 		List<IType> qs2 = null;
@@ -256,7 +257,20 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			Set<IQualifier> qs_ = ((InjectionPointParameter)injectionPoints).getQualifiers();
 			for (IQualifier q: qs_) {
 				IType t = q.getSourceType();
-				if(t != null) qs2.add(t);
+				if(t != null) {
+					if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(t.getFullyQualifiedName())) {
+						isNew = true;
+					} else {
+						qs2.add(t);
+					}
+				}
+			}
+		} else {
+			for (IQualifierDeclaration d: qs) {
+				if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getType().getFullyQualifiedName())) {
+					isNew = true;
+					break;
+				}				
 			}
 		}
 		
@@ -265,6 +279,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			beans.addAll(allBeans);
 		}
 		for (IBean b: beans) {
+			if(isNew) {
+				//TODO improve
+				IType bType = b.getBeanClass();
+				if(type.equals(bType)) {
+					result.add(b);
+				}
+				continue;
+			}
 			Set<IParametedType> types = b.getLegalTypes();
 			if(containsType(types, type)) {
 				try {
