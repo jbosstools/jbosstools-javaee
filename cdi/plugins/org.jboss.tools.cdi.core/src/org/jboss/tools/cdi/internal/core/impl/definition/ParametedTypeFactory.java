@@ -6,8 +6,11 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;
@@ -46,10 +49,12 @@ public class ParametedTypeFactory {
 		return parametedType;
 	}
 
-	public ParametedType getParametedType(IType context, String typeSignature) throws JavaModelException {
+	public ParametedType getParametedType(IMember context, String typeSignature) throws JavaModelException {
 		if(typeSignature == null) return null;
+		
+		IType contextType = context instanceof IType ? (IType)context : context.getDeclaringType();
 
-		String key = context == null || context.isBinary() || "QObject;".equals(typeSignature) ? typeSignature : context.getFullyQualifiedName() + "+" + typeSignature;
+		String key = context == null || context.isBinary() || "QObject;".equals(typeSignature) ? typeSignature : contextType.getFullyQualifiedName() + "+" + typeSignature;
 		if(cache.containsKey(key)) return cache.get(key);
 		ParametedType result = new ParametedType();
 		result.setFactory(this);
@@ -64,7 +69,7 @@ public class ParametedTypeFactory {
 
 		int startToken = typeSignature.indexOf('<');
 		if(startToken < 0) {
-			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(context, typeSignature);
+			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(contextType, typeSignature);
 			if(resovedTypeName == null) return null;
 			if(!context.isBinary()) {
 				result.setSignature(result.getArrayPrefix() + "Q" + resovedTypeName + ";");
@@ -75,13 +80,25 @@ public class ParametedTypeFactory {
 				cache.put(key, result);
 				return result;
 			}
-			String[] ps = context.getTypeParameterSignatures();
+			if(context instanceof IMethod) {
+				String[] ps = ((IMethod)context).getTypeParameterSignatures();
+				for (int i = 0; i < ps.length; i++) {
+					String t = ps[i];
+					if(t.endsWith(":")) t = t.substring(0, t.length() - 1);
+					t = "Q" + t + ";";
+					if(t.equals(result.getSignature())) {
+						cache.put(key, result);
+						return result;
+					}
+				}
+			}
+			String[] ps = contextType.getTypeParameterSignatures();
 			for (int i = 0; i < ps.length; i++) {
 				String t = ps[i];
 				if(t.endsWith(":")) t = t.substring(0, t.length() - 1);
 				t = "Q" + t + ";";
 				if(t.equals(result.getSignature())) {
-					cache. put(key, result);
+					cache.put(key, result);
 					return result;
 				}
 			}
@@ -90,7 +107,7 @@ public class ParametedTypeFactory {
 			if(endToken < startToken) return null;
 			String typeName = typeSignature.substring(0, startToken) + typeSignature.substring(endToken + 1);
 			String params = typeSignature.substring(startToken + 1, endToken);
-			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(context, typeName);
+			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(contextType, typeName);
 			if(resovedTypeName == null) return null;
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {

@@ -89,7 +89,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 			ParameterDefinition pd = new ParameterDefinition();
 
-			ParametedType type = context.getProject().getTypeFactory().getParametedType(contextType, ps[i]);
+			ParametedType type = context.getProject().getTypeFactory().getParametedType(method, ps[i]);
 
 			pd.methodDefinition = this;
 			pd.name = parameterNames[i];

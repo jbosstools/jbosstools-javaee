@@ -41,7 +41,7 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 			String returnType = member instanceof IField ? ((IField)member).getTypeSignature()
 					: member instanceof IMethod ? ((IMethod)member).getReturnType() : null;
 			if(returnType != null) {
-				ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(member.getDeclaringType(), returnType);
+				ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(member, returnType);
 				if(p != null) {
 
 					int offset = -1;
