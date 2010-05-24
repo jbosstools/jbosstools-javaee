@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +30,6 @@ import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
-import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -42,7 +40,6 @@ import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -102,12 +99,21 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return (TypeDefinition)definition;
 	}
 
-	public Set<IBeanMethod> getBeanConstructor() {
+	public Set<IBeanMethod> getBeanConstructors() {
 		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+		IBeanMethod defaultConstructor = null;
 		for (BeanMethod m: methods) {
 			if(m.getDefinition().isConstructor()) {
-				result.add(m);
+				if(m.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME)==null && m.getMethod().getNumberOfParameters()==0) {
+					defaultConstructor = m;
+				} else {
+					result.add(m);
+				}
 			}
+		}
+		// If a bean class does not explicitly declare a constructor using @Inject, the constructor that accepts no parameters is the bean constructor.
+		if(result.isEmpty() && defaultConstructor!=null) {
+			result.add(defaultConstructor);
 		}
 		return result;
 	}
@@ -180,7 +186,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public Set<IBeanMethod> getObserverMethods() {
 		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
 		for (BeanMethod m: methods) {
-			if(m.isDisposer()) {
+			if(m.isObserver()) {
 				result.add(m);
 			}
 		}

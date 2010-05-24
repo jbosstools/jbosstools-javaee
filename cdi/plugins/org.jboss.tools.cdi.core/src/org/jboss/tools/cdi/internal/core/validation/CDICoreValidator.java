@@ -271,6 +271,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if (reporter.isCancelled() || file == null || !file.isAccessible()) {
 			return;
 		}
+		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		for (IBean bean : beans) {
 			validateBean(bean);
@@ -337,6 +338,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateClassBean(IClassBean bean) {
 		validateDisposers(bean);
+		validateObserves(bean);
 		if (!(bean instanceof ISessionBean)) {
 			validateManagedBean(bean);
 		} else {
@@ -347,7 +349,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void validateConstructors(IClassBean bean) {
-		Set<IBeanMethod> constructors = bean.getBeanConstructor();
+		Set<IBeanMethod> constructors = bean.getBeanConstructors();
 		if(constructors.size()>1) {
 			Set<IAnnotationDeclaration> injects = new HashSet<IAnnotationDeclaration>();
 			for (IBeanMethod constructor : constructors) {
@@ -364,6 +366,52 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				for (IAnnotationDeclaration inject : injects) {
 					addError(CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, CDIPreferences.MULTIPLE_INJECTION_CONSTRUCTORS, inject, bean.getResource());
 				}
+			}
+		}
+	}
+
+	private void validateObserves(IClassBean bean) {
+		Set<IBeanMethod> observes = bean.getObserverMethods();
+		if (observes.isEmpty()) {
+			return;
+		}
+		for (IBeanMethod observer : observes) {
+			List<IParameter> params = observer.getParameters();
+			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
+			for (IParameter param : params) {
+				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if (declaration != null) {
+					declarations.add(declaration);
+				}
+			}
+			/*
+			 * 10.4.2. Declaring an observer method
+			 *  - method has more than one parameter annotated @Observes
+			 */
+			if(declarations.size()>1) {
+				for (ITextSourceReference declaration : declarations) {
+					addError(CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, declaration, bean.getResource());
+				}
+			}
+			/*
+			 * 3.7.1. Declaring a bean constructor
+			 * 	- bean constructor has a parameter annotated @Observes
+			 * 
+			 * 10.4.2. Declaring an observer method
+			 *  - observer method is annotated @Inject
+			 */
+			IAnnotationDeclaration injectDeclaration = observer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+			try {
+				if (injectDeclaration != null) {
+					String pref = observer.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.OBSERVER_ANNOTATED_INJECT;
+					String message = observer.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES:CDIValidationMessages.OBSERVER_ANNOTATED_INJECT;
+					addError(message, pref, injectDeclaration, bean.getResource());
+					for (ITextSourceReference declaration : declarations) {
+						addError(message, pref, declaration, bean.getResource());
+					}
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
 			}
 		}
 	}
@@ -387,8 +435,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					 * disposer methods for a single producer method
 					 */
 					for (IBeanMethod disposerMethod : disposerMethods) {
-						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod,
-								CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 						for (ITextSourceReference declaration : disposerDeclarations) {
 							addError(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource());
 						}
@@ -436,8 +483,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 			if (observesExists) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration,
-							bean.getResource());
+					addError(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource());
 				}
 			}
 
@@ -447,13 +493,22 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 
 			 * 3.9.1. Declaring an initializer method - an initializer method
 			 * has a parameter annotated @Disposes
+			 * 
+			 * 3.7.1. Declaring a bean constructor
+			 * 	- bean constructor has a parameter annotated @Disposes
 			 */
 			IAnnotationDeclaration injectDeclaration = disposer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-			if (injectDeclaration != null) {
-				addError(CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, CDIPreferences.DISPOSER_ANNOTATED_INJECT, injectDeclaration, bean.getResource());
-				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, CDIPreferences.DISPOSER_ANNOTATED_INJECT, declaration, bean.getResource());
+			try {
+				if (injectDeclaration != null) {
+					String pref = disposer.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.DISPOSER_ANNOTATED_INJECT;
+					String message = disposer.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES:CDIValidationMessages.DISPOSER_ANNOTATED_INJECT;
+					addError(message, pref, injectDeclaration, bean.getResource());
+					for (ITextSourceReference declaration : disposerDeclarations) {
+						addError(message, pref, declaration, bean.getResource());
+					}
 				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
 			}
 
 			/*
@@ -983,14 +1038,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							}
 						}
 						if (!hasDefaultConstructor) {
-							addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN,
-									specializesDeclaration, bean.getResource());
+							addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN,	specializesDeclaration, bean.getResource());
 						}
 					}
 				} else {
 					// The specializing bean extends nothing
-					addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, specializesDeclaration,
-							bean.getResource());
+					addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_MANAGED_BEAN, specializesDeclaration, bean.getResource());
 				}
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
@@ -1095,8 +1148,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 					}
 					if (!typeWasFound) {
-						addError(CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration,
-								bean.getResource());
+						addError(CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration, bean.getResource());
 					}
 				}
 			}
@@ -1135,8 +1187,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 			if (declarationMap.size() > 1) {
 				for (IStereotypeDeclaration stereotypeDeclaration : declarationMap.values()) {
-					addError(CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, CDIPreferences.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE,
-							stereotypeDeclaration, bean.getResource());
+					addError(CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, CDIPreferences.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, stereotypeDeclaration, bean.getResource());
 				}
 			}
 		}
@@ -1221,8 +1272,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		Set<IScopeDeclaration> scopeDeclarations = stereotype.getScopeDeclarations();
 		if (scopeDeclarations.size() > 1) {
 			for (IScopeDeclaration scope : scopeDeclarations) {
-				addError(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope,
-						stereotype.getResource());
+				addError(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());
 			}
 		}
 	}

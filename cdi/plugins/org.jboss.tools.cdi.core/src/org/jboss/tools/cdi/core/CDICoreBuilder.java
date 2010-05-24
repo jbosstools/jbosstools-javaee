@@ -324,8 +324,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					if(srcs[i].isPrefixOf(path)) {
 						if(f.getName().endsWith(".java")) {
 							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
-							IType[] ts = unit.getTypes();
-							fileSet.add(f.getFullPath(), ts);
+							if(unit!=null) {
+								IType[] ts = unit.getTypes();
+								fileSet.add(f.getFullPath(), ts);
+							}
 						}
 						return false;
 					}

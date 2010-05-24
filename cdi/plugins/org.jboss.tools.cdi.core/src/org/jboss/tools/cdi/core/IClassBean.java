@@ -38,7 +38,7 @@ public interface IClassBean extends IBean {
 	 * 
 	 * @return a set of bean constructors of the bean.
 	 */
-	Set<IBeanMethod> getBeanConstructor();
+	Set<IBeanMethod> getBeanConstructors();
 
 	/**
 	 * Obtains the interceptor bindings of the bean.

@@ -22,7 +22,8 @@ import javax.inject.Inject;
 
 class AustralianTerrier_Broken
 {
-   public @Inject void observesAfterBeanDiscovery(@Observes AfterBeanDiscovery discovery)
+   @Inject
+   public void observesAfterBeanDiscovery(@Observes AfterBeanDiscovery discovery)
    {
    }
 }

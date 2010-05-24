@@ -768,6 +768,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.7.1. Declaring a bean constructor
+	 * 	- bean constructor has a parameter annotated @Disposes
+	 * 
+	 * @throws Exception
+	 */
+	public void testConstructorHasDisposesParameter() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/constructorHasDisposesParameter/DisposingConstructor.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES, 24, 25);
+	}
+
+	/**
+	 * 3.7.1. Declaring a bean constructor
+	 * 	- bean constructor has a parameter annotated @Observes
+	 * 
+	 * @throws Exception
+	 */
+	public void testConstructorHasObservesParameter() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/constructorHasObservesParameter/ObservingConstructor.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES, 25, 26);
+	}
+
+	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
 	 *  
@@ -792,6 +814,17 @@ public class ValidationTest extends TCKTest {
 
 	/**
 	 * 10.4.2. Declaring an observer method
+	 *  - method has more than one parameter annotated @Observes
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodMustHaveOnlyOneEventParameter() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/tooManyParameters/YorkshireTerrier_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, 24, 24);
+	}
+
+	/**
+	 * 10.4.2. Declaring an observer method
 	 *  - an observer method is annotated @Produces
 	 *  
 	 * @throws Exception
@@ -799,6 +832,17 @@ public class ValidationTest extends TCKTest {
 	public void testObserverMethodAnnotatedProducesFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isProducer/BorderTerrier_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 25);
+	}
+
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - observer method is annotated @Inject
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodAnnotatedInitializerFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isInitializer/AustralianTerrier_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT, 25, 26);
 	}
 
 	/**

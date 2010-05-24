@@ -57,7 +57,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			MethodDefinition m = new MethodDefinition();
 			m.setTypeDefinition(this);
 			m.setMethod(ms[i], context);
-			if(m.isCDIAnnotated()) {
+			if(m.isCDIAnnotated() || (ms[i].isConstructor() && ms[i].getNumberOfParameters()==0)) {
 				methods.add(m);
 			}
 		}
