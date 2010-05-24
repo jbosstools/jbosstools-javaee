@@ -343,6 +343,29 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateSessionBean((ISessionBean) bean);
 		}
 		validateMixedClassBean(bean);
+		validateConstructors(bean);
+	}
+
+	private void validateConstructors(IClassBean bean) {
+		Set<IBeanMethod> constructors = bean.getBeanConstructor();
+		if(constructors.size()>1) {
+			Set<IAnnotationDeclaration> injects = new HashSet<IAnnotationDeclaration>();
+			for (IBeanMethod constructor : constructors) {
+				IAnnotationDeclaration inject = constructor.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+				if(inject!=null) {
+					injects.add(inject);
+				}
+			}
+			/*
+			 * 3.7.1. Declaring a bean constructor
+			 * 	- bean class has more than one constructor annotated @Inject
+			 */
+			if(injects.size()>1) {
+				for (IAnnotationDeclaration inject : injects) {
+					addError(CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, CDIPreferences.MULTIPLE_INJECTION_CONSTRUCTORS, inject, bean.getResource());
+				}
+			}
+		}
 	}
 
 	private void validateDisposers(IClassBean bean) {
@@ -367,8 +390,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod,
 								CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 						for (ITextSourceReference declaration : disposerDeclarations) {
-							addError(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean
-									.getResource());
+							addError(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource());
 						}
 					}
 				}

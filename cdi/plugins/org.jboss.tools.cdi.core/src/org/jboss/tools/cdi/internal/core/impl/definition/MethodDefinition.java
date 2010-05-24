@@ -47,7 +47,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 	}
 
 	public boolean isConstructor() {
-		return isConstructor();
+		return isConstructor;
 	}
 
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {

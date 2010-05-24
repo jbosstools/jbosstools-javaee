@@ -97,13 +97,13 @@ Definition Errors
 - matching object in the Java EE component environment is not of the same type 
   as the producer field declaration
 
-
-
-
 3.6. Additional built-in beans
 - Java EE component class has an injection point of type UserTransaction 
   and qualifier @Default, and may not validly make use of the JTA UserTransaction 
   according to the Java EE platform specification
+
+
+
 
 3.7.1. Declaring a bean constructor
 - bean class has more than one constructor annotated @Inject

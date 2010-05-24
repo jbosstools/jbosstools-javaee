@@ -746,8 +746,26 @@ public class ValidationTest extends TCKTest {
 	 * 3.5.1. Declaring a resource
 	 * 	- matching object in the Java EE component environment is not of the same type as the producer field declaration
 	 * 
-	 * Cannot implement this validation rule.
+	 * TODO needs some investigation.
 	 */
+
+	/*
+	 * 3.6. Additional built-in beans
+	 * - Java EE component class has an injection point of type UserTransaction and qualifier @Default, and may not validly make use of the JTA UserTransaction according to the Java EE platform specification
+	 * 
+	 * TODO needs some investigation.
+	 */
+
+	/**
+	 * 3.7.1. Declaring a bean constructor
+	 * 	- bean class has more than one constructor annotated @Inject
+	 * 
+	 * @throws Exception
+	 */
+	public void testTooManyInitializerAnnotatedConstructor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/tooManyInitializerAnnotatedConstructors/Goose_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, 24, 29);
+	}
 
 	/**
 	 * 3.9.1. Declaring an initializer method

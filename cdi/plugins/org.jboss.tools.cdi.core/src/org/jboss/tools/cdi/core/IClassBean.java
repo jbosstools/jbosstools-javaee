@@ -34,9 +34,9 @@ public interface IClassBean extends IBean {
 	Set<IBeanMethod> getDisposers();
 
 	/**
-	 * Returns a set of bean constructor of the bean.
+	 * Returns a set of bean constructors of the bean.
 	 * 
-	 * @return a set of bean constructor of the bean.
+	 * @return a set of bean constructors of the bean.
 	 */
 	Set<IBeanMethod> getBeanConstructor();
 
