@@ -21,8 +21,8 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 
 public class InjectedPointInProducerMethodHyperlinkDetectorTest extends HyperlinkDetectorTest{
-	private static final String PROJECT_NAME = "/tests/decorators/invocation/producer/method";
-	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/decorators/invocation/producer/method/CustomProducerImpl.java";
+	private static final String PROJECT_NAME = "/tests/jbt/openon";
+	private static final String FILE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java";
 
 	public static Test suite() {
 		return new TestSuite(InjectedPointInProducerMethodHyperlinkDetectorTest.class);
@@ -43,25 +43,21 @@ public class InjectedPointInProducerMethodHyperlinkDetectorTest extends Hyperlin
 		FileEditorInput editorInput = new FileEditorInput(javaFile);
 
 		IDocumentProvider documentProvider = null;
-		Throwable exception = null;
 		try {
 			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
 		} catch (Exception x) {
-			exception = x;
 			x.printStackTrace();
+			fail("An exception caught: " + x.getMessage());
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
 		assertNotNull("The document provider for the file \"" + FILE_NAME + "\" is not loaded", documentProvider);
 
 		try {
 			documentProvider.connect(editorInput);
 		} catch (Exception x) {
-			exception = x;
 			x.printStackTrace();
-			assertTrue("The document provider is not able to be initialized with the editor input", false);
+			fail("The document provider is not able to be initialized with the editor input\nAn exception caught: "+x.getMessage());
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
 		IDocument document = documentProvider.getDocument(editorInput);
 
@@ -70,9 +66,9 @@ public class InjectedPointInProducerMethodHyperlinkDetectorTest extends Hyperlin
 		InjectedPointHyperlinkDetector elPartitioner = new InjectedPointHyperlinkDetector();
 
 		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(1374, 5)); // order
-		regionList.add(new Region(1462, 3)); 
-		regionList.add(new Region(1498, 3)); 
+		regionList.add(new Region(571, 5)); // order
+		regionList.add(new Region(659, 3)); 
+		regionList.add(new Region(695, 3)); 
 
 		IEditorPart part = openFileInEditor(javaFile);
 		ISourceViewer viewer = null;

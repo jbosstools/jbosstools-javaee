@@ -43,25 +43,21 @@ public class ProducerDisposerHyperlinkDetectorTest extends HyperlinkDetectorTest
 		FileEditorInput editorInput = new FileEditorInput(javaFile);
 
 		IDocumentProvider documentProvider = null;
-		Throwable exception = null;
 		try {
 			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
 		} catch (Exception x) {
-			exception = x;
 			x.printStackTrace();
+			fail("An exception caught: " + x.getMessage());
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
 		assertNotNull("The document provider for the file \"" + FILE_NAME + "\" is not loaded", documentProvider);
 
 		try {
 			documentProvider.connect(editorInput);
 		} catch (Exception x) {
-			exception = x;
 			x.printStackTrace();
-			assertTrue("The document provider is not able to be initialized with the editor input", false);
+			fail("The document provider is not able to be initialized with the editor input\nAn exception caught: "+x.getMessage());
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
 		IDocument document = documentProvider.getDocument(editorInput);
 

@@ -38,7 +38,8 @@ public class HyperlinkDetectorTest  extends TestCase {
 						.getActiveWorkbenchWindow().getActivePage();
 				return IDE.openEditor(page, input, true);
 			} catch (PartInitException pie) {
-				
+				pie.printStackTrace();
+				fail(pie.getMessage());
 			}
 		}
 		return null;
@@ -67,7 +68,10 @@ public class HyperlinkDetectorTest  extends TestCase {
 			IRegion region = null;
 			try {
 				region = JavaWordFinder.findWord(document, offset);
-			} catch (Exception x) {}
+			} catch (Exception x) {
+				x.printStackTrace();
+				fail(x.getMessage());
+			}
 			
 			return region;
 		}

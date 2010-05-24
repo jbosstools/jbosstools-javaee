@@ -3,35 +3,22 @@ package org.jboss.tools.cdi.text.ext.test;
 import java.util.ArrayList;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
-import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.DocumentProviderRegistry;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
-import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.util.AxisUtil;
 
 public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 	private static final String PROJECT_NAME = "/tests/lookup/injectionpoint";
@@ -56,25 +43,21 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		FileEditorInput editorInput = new FileEditorInput(javaFile);
 
 		IDocumentProvider documentProvider = null;
-		Throwable exception = null;
 		try {
 			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
 		} catch (Exception x) {
-			exception = x;
 			x.printStackTrace();
+			fail("An exception caught: " + x.getMessage());
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
 		assertNotNull("The document provider for the file \"" + FILE_NAME + "\" is not loaded", documentProvider);
 
 		try {
 			documentProvider.connect(editorInput);
 		} catch (Exception x) {
-			exception = x;
 			x.printStackTrace();
-			assertTrue("The document provider is not able to be initialized with the editor input", false);
+			fail("The document provider is not able to be initialized with the editor input\nAn exception caught: "+x.getMessage());
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 
 		IDocument document = documentProvider.getDocument(editorInput);
 
