@@ -58,8 +58,8 @@ public class MethodDefinition extends BeanMemberDefinition {
 		
 	}
 
-	boolean parametersAreInjectionPoints() {
-		return isConstructor || getProducesAnnotation() != null || getInjectAnnotation() != null;
+	public boolean parametersAreInjectionPoints() {
+		return getProducesAnnotation() != null || getInjectAnnotation() != null;
 	}
 
 	void loadParamDefinitions(IType contextType, DefinitionContext context) throws CoreException {
@@ -80,13 +80,17 @@ public class MethodDefinition extends BeanMemberDefinition {
 		int paramEnd = content.lastIndexOf(')', declEnd);
 		if(paramEnd < 0) return;
 		String paramsString = content.substring(paramStart + 1, paramEnd);
-		if(paramsString.indexOf('@') < 0) return;
-		String[] params = paramsString.split(",");
+		if(!parametersAreInjectionPoints && paramsString.indexOf('@') < 0) return;
+		String[] params = getParams(paramsString);
 		String[] ps = method.getParameterTypes();
 		int start = paramStart + 1;
 
 		for (int i = 0; i < params.length; i++) {
-			if(params[i].indexOf('@') < 0 && !parametersAreInjectionPoints) {
+			if(ps.length <= i) {
+				System.out.println("Panic");
+				continue;
+			}
+			if(!parametersAreInjectionPoints && params[i].indexOf('@') < 0) {
 				start += params[i].length() + 1;
 				continue; //do not need parameters without annotation
 			}
@@ -109,9 +113,8 @@ public class MethodDefinition extends BeanMemberDefinition {
 			v.valueLength = p.length();
 			pd.setPosition(v);
 
-			StringTokenizer tokens = new StringTokenizer(p, " \r\n\t");
-			while (tokens.hasMoreElements()) {
-				String q = tokens.nextToken();
+			String[] tokens = getParamTokens(p);
+			for (String q: tokens) {
 				if(!q.startsWith("@")) continue;
 				v = new ValueInfo();
 				v.setValue(q);
@@ -151,6 +154,81 @@ public class MethodDefinition extends BeanMemberDefinition {
 		}
 		return false;
 	}
-	
+
+	static String[] getParams(String paramsString) {
+		List<String> result = new ArrayList<String>();
+		int i = 0;
+		int c1 = 0;
+		int c2 = 0;
+		char quote = '\0';
+		StringBuffer sb = new StringBuffer();
+		while(i < paramsString.length()) {
+			char c = paramsString.charAt(i);
+			if(c == ',' && c1 == 0 && c2 == 0 && quote == '\0') {
+				result.add(sb.toString());
+				sb.setLength(0);
+				i++;
+				continue;
+			} else if(c == '(' && quote == '\0') {
+				c1++;
+			} else if(c == ')' && quote == '\0') {
+				c1--;
+			} else if(c == '<' && quote == '\0') {
+				c2++;
+			} else if(c == '>' && quote == '\0') {
+				c2--;
+			} else if((c == '\'' || c == '"') && quote == '\0') {
+				quote = c;
+			} else if(quote == c) {
+				quote = '\0';
+			}
+			sb.append(c);
+			i++;
+		}
+		if(sb.length() > 0) {
+			result.add(sb.toString());
+		}
+		return result.toArray(new String[0]);
+	}
+
+	static String[] getParamTokens(String paramsString) {
+		List<String> result = new ArrayList<String>();
+		int i = 0;
+		int c1 = 0;
+		int c2 = 0;
+		char quote = '\0';
+		StringBuffer sb = new StringBuffer();
+		while(i < paramsString.length()) {
+			char c = paramsString.charAt(i);
+			boolean ws = Character.isWhitespace(c);
+			if(ws && c1 == 0 && c2 == 0 && quote == '\0') {
+				String t = sb.toString().trim();
+				if(t.length() > 0) {
+					result.add(t);
+				}
+				sb.setLength(0);
+				i++;
+				continue;
+			} else if(c == '(' && quote == '\0') {
+				c1++;
+			} else if(c == ')' && quote == '\0') {
+				c1--;
+			} else if(c == '<' && quote == '\0') {
+				c2++;
+			} else if(c == '>' && quote == '\0') {
+				c2--;
+			} else if((c == '\'' || c == '"') && quote == '\0') {
+				quote = c;
+			} else if(quote == c) {
+				quote = '\0';
+			}
+			sb.append(c);
+			i++;
+		}
+		if(sb.length() > 0) {
+			result.add(sb.toString());
+		}
+		return result.toArray(new String[0]);
+	}
 
 }

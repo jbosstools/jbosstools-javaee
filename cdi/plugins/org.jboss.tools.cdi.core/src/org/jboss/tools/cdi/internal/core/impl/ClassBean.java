@@ -31,6 +31,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
@@ -244,6 +245,13 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			if(m instanceof IInjectionPoint) {
 				result.add((IInjectionPoint)m);
 			}
+			List<IParameter> ps = m.getParameters();
+			for (IParameter p: ps) {
+				if(p instanceof IInjectionPoint) {
+					result.add((IInjectionPoint)p);
+				}
+			}
+			
 		}
 		return result;
 	}

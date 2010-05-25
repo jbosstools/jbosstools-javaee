@@ -49,7 +49,7 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 	}
 
 	protected Parameter newParameter() {
-		return ((MethodDefinition)definition).isConstructor() ? new InjectionPointParameter() : new Parameter();
+		return ((MethodDefinition)definition).parametersAreInjectionPoints() ? new InjectionPointParameter() : new Parameter();
 	}
 
 	public IMethod getMethod() {
