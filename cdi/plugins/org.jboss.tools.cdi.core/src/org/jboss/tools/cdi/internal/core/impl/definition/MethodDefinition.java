@@ -58,9 +58,13 @@ public class MethodDefinition extends BeanMemberDefinition {
 		
 	}
 
+	boolean parametersAreInjectionPoints() {
+		return isConstructor || getProducesAnnotation() != null || getInjectAnnotation() != null;
+	}
+
 	void loadParamDefinitions(IType contextType, DefinitionContext context) throws CoreException {
 		if(method == null) return;
-		boolean isProducer = getProducesAnnotation() != null;
+		boolean parametersAreInjectionPoints = parametersAreInjectionPoints();
 		String[] parameterNames = method.getParameterNames();
 		if(parameterNames == null || parameterNames.length == 0) return;
 		if(contextType == null || contextType.isBinary()) return;
@@ -82,7 +86,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		int start = paramStart + 1;
 
 		for (int i = 0; i < params.length; i++) {
-			if(params[i].indexOf('@') < 0 && !isProducer) {
+			if(params[i].indexOf('@') < 0 && !parametersAreInjectionPoints) {
 				start += params[i].length() + 1;
 				continue; //do not need parameters without annotation
 			}
