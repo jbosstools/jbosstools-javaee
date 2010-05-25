@@ -12,14 +12,13 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.IParameter;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -87,8 +86,8 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 		for (int i = 0; i < params.length; i++) {
 			if(ps.length <= i) {
-				System.out.println("Panic");
-				continue;
+				CDICorePlugin.getDefault().logError(new IllegalArgumentException("Cannot parse method parameters for " + paramsString));
+				break;
 			}
 			if(!parametersAreInjectionPoints && params[i].indexOf('@') < 0) {
 				start += params[i].length() + 1;
@@ -165,7 +164,9 @@ public class MethodDefinition extends BeanMemberDefinition {
 		while(i < paramsString.length()) {
 			char c = paramsString.charAt(i);
 			if(c == ',' && c1 == 0 && c2 == 0 && quote == '\0') {
-				result.add(sb.toString());
+				if(sb.toString().trim().length() > 0) {
+					result.add(sb.toString());
+				}
 				sb.setLength(0);
 				i++;
 				continue;
