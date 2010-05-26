@@ -460,6 +460,51 @@ public class CDIUtil {
 		return params;
 	}
 
+	/**
+	 * Returns true if the method is generic
+	 * 
+	 * @param method
+	 * @return
+	 */
+	public static boolean isMethodGeneric(IBeanMethod method) {
+		try {
+			return method.getMethod().getTypeParameters().length>0;
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if the method is static
+	 * 
+	 * @param method
+	 * @return
+	 */
+	public static boolean isMethodStatic(IBeanMethod method) {
+		try {
+			return Flags.isStatic(method.getMethod().getFlags());
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if the method is abstract
+	 * 
+	 * @param method
+	 * @return
+	 */
+	public static boolean isMethodAbstract(IBeanMethod method) {
+		try {
+			return Flags.isAbstract(method.getMethod().getFlags());
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
 	private static IType getSuperClass(IType type) throws JavaModelException {
 		String superclassName = type.getSuperclassName();
 		if(superclassName!=null) {

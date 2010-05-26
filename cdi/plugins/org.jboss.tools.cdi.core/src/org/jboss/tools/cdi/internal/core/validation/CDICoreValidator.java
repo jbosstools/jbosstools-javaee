@@ -48,7 +48,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -592,14 +592,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			ITypeDeclaration typeDeclaration = null;
 			if (!typeDeclarations.isEmpty()) {
 				/*
-				 * 3.3. Producer methods - producer method return type contains
-				 * a wildcard type parameter
+				 * 3.3. Producer methods
+				 *  - producer method return type contains a wildcard type parameter
 				 * 
-				 * 2.2.1 Legal bean types - a parameterized type that contains a
-				 * wildcard type parameter is not a legal bean type.
+				 * 2.2.1 Legal bean types
+				 *  - a parameterized type that contains a wildcard type parameter is not a legal bean type.
 				 * 
-				 * 3.4. Producer fields - producer field type contains a
-				 * wildcard type parameter
+				 * 3.4. Producer fields
+				 *  - producer field type contains a wildcard type parameter
 				 */
 				typeDeclaration = typeDeclarations.iterator().next();
 				String[] paramTypes = Signature.getTypeArguments(typeDeclaration.getSignature());
@@ -615,14 +615,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					}
 				}
 
-				/**
-				 * 3.3. Producer methods - producer method with a parameterized
-				 * return type with a type variable declares any scope other
-				 * than @Dependent
+				/*
+				 * 3.3. Producer methods
+				 *  - producer method with a parameterized return type with a type variable declares any scope other than @Dependent
 				 * 
-				 * 3.4. Producer fields - producer field with a parameterized
-				 * type with a type variable declares any scope other than @Dependent
-				 */
+				 * 3.4. Producer fields
+				 *  - producer field with a parameterized type with a type variable declares any scope other than @Dependent
+				 */  
 				if (paramTypes.length > 0) {
 					IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(producer);
 					if (scopeOrStereotypeDeclaration != null) {
@@ -635,8 +634,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 
 			/*
-			 * 3.3.2. Declaring a producer method - producer method is annotated
-			 * @Inject
+			 * 3.3.2. Declaring a producer method
+			 *  - producer method is annotated @Inject
 			 */
 			IAnnotationDeclaration inject = producer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 			if (inject != null) {
@@ -647,9 +646,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 			if (producer instanceof IProducerField) {
 				/*
-				 * 3.5.1. Declaring a resource - producer field declaration
-				 * specifies an EL name (together with one of @Resource,
-				 * @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
+				 * 3.5.1. Declaring a resource
+				 *  - producer field declaration specifies an EL name (together with one of @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 				 */
 				IProducerField producerField = (IProducerField) producer;
 				if (producerField.getName() != null) {
@@ -666,7 +664,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					}
 				}
 				/*
-				 * 3.4. Producer fields - producer field type is a type variable
+				 * 3.4. Producer fields
+				 *  - producer field type is a type variable
 				 */
 				if (typeVariables.length > 0) {
 					String typeSign = producerField.getField().getTypeSignature();
@@ -694,22 +693,22 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				disposalDeclarations.add(producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
 				for (IParameter param : params) {
 					/*
-					 * 3.3.6. Declaring a disposer method - a disposer method is
-					 * annotated @Produces.
+					 * 3.3.6. Declaring a disposer method
+					 *  - a disposer method is annotated @Produces.
 					 * 
-					 * 3.3.2. Declaring a producer method - a has a parameter
-					 * annotated @Disposes
+					 * 3.3.2. Declaring a producer method
+					 *  - a has a parameter annotated @Disposes
 					 */
 					ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 					if (declaration != null) {
 						disposalDeclarations.add(declaration);
 					}
 					/*
-					 * 3.3.2. Declaring a producer method - a has a parameter
-					 * annotated @Observers
+					 * 3.3.2. Declaring a producer method
+					 *  - a has a parameter annotated @Observers
 					 * 
-					 * 10.4.2. Declaring an observer method - an observer method
-					 * is annotated @Produces
+					 * 10.4.2. Declaring an observer method
+					 *  - an observer method is annotated @Produces
 					 */
 					declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
 					if (declaration != null) {
@@ -730,11 +729,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 
 				/*
-				 * 3.3. Producer methods - producer method return type is a type
-				 * variable
+				 * 3.3. Producer methods
+				 *  - producer method return type is a type variable
 				 * 
-				 * 2.2.1 - Legal bean types - a type variable is not a legal
-				 * bean type
+				 * 2.2.1 - Legal bean types
+				 *  - a type variable is not a legal bean type
 				 */
 				String typeSign = producerMethod.getMethod().getReturnType();
 				String typeString = Signature.toString(typeSign);
@@ -847,7 +846,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 				
 			}
-		} else if (!(injection instanceof IInjectionPointField)) {
+		} else if (injection instanceof IInjectionPointMethod) {
 			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if (named != null) {
 				try {
@@ -860,12 +859,23 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 					}
 					if (!valueExists) {
-						addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named,
-								injection.getResource());
+						addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, injection.getResource());
 					}
 				} catch (JavaModelException e) {
 					CDICorePlugin.getDefault().logError(e);
 				}
+			}
+
+			/*
+			 * 
+			 */
+			IInjectionPointMethod injectionMethod = (IInjectionPointMethod)injection;
+			IAnnotationDeclaration declaration = injection.getInjectAnnotation();
+			if(CDIUtil.isMethodGeneric(injectionMethod)) {
+				addError(CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
+			}
+			if(CDIUtil.isMethodStatic(injectionMethod)) {
+				addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
 			}
 		}
 	}
@@ -883,8 +893,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 		if (sessionDeclaration != null) {
 			/*
-			 * 3.2. Session beans - bean class of a session bean is annotated
-			 * @Decorator
+			 * 3.2. Session beans
+			 *  - bean class of a session bean is annotated @Decorator
 			 */
 			if (decoratorDeclaration != null) {
 				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
@@ -893,8 +903,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						decoratorDeclaration, bean.getResource());
 			}
 			/*
-			 * 3.2. Session beans - bean class of a session bean is annotated
-			 * @Interceptor
+			 * 3.2. Session beans
+			 *  - bean class of a session bean is annotated @Interceptor
 			 */
 			if (interceptorDeclaration != null) {
 				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
@@ -911,8 +921,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			IType type = bean.getBeanClass();
 			try {
 				/*
-				 * 3.2. Session beans - session bean with a parameterized bean
-				 * class declares any scope other than @Dependent
+				 * 3.2. Session beans
+				 *  - session bean with a parameterized bean class declares any scope other than @Dependent
 				 */
 				String[] typeVariables = type.getTypeParameterSignatures();
 				if (typeVariables.length > 0) {
@@ -921,9 +931,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				} else {
 					if (bean.isStateless()) {
 						/*
-						 * 3.2. Session beans - session bean specifies an
-						 * illegal scope (a stateless session bean must belong
-						 * to the @Dependent pseudo-scope)
+						 * 3.2. Session beans
+						 *  - session bean specifies an illegal scope (a stateless session bean must belong to the @Dependent pseudo-scope)
 						 */
 						if (declaration != null) {
 							addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_SESSION_BEAN,
@@ -931,10 +940,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 					} else if (bean.isSingleton()) {
 						/*
-						 * 3.2. Session beans - session bean specifies an
-						 * illegal scope (a singleton bean must belong to either
-						 * the @ApplicationScoped scope or to the @Dependent
-						 * pseudo-scope)
+						 * 3.2. Session beans
+						 *  - session bean specifies an illegal scope (a singleton bean must belong to either the @ApplicationScoped scope or to the @Dependent pseudo-scope)
 						 */
 						if (declaration != null) {
 							declaration = CDIUtil.getDifferentScopeDeclarationThanApplicationScoped(bean);
@@ -950,9 +957,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		}
 		/*
-		 * 3.2.4. Specializing a session bean - session bean class annotated
-		 * @Specializes does not directly extend the bean class of another
-		 * session bean
+		 * 3.2.4. Specializing a session bean
+		 *  - session bean class annotated @Specializes does not directly extend the bean class of another session bean
 		 */
 		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
 		if (specializesDeclaration != null) {
@@ -963,8 +969,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_SESSION_BEAN, specializesDeclaration,
 						bean.getResource());
 			} else if (!CDIUtil.isSessionBean(sBean)) {
-				// The specializing bean directly extends a non-session bean
-				// class
+				// The specializing bean directly extends a non-session bean class
 				addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_SESSION_BEAN, specializesDeclaration,
 						bean.getResource());
 			}
@@ -973,7 +978,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateManagedBean(IClassBean bean) {
 		/*
-		 * 3.1. Managed beans - the bean class of a managed bean is annotated with both the @Interceptor and @Decorator stereotypes
+		 * 3.1. Managed beans
+		 *  - the bean class of a managed bean is annotated with both the @Interceptor and @Decorator stereotypes
 		 */
 		IAnnotationDeclaration decorator = bean.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
 		IAnnotationDeclaration interceptor = bean.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
@@ -987,7 +993,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			IType type = bean.getBeanClass();
 			try {
 				/*
-				 * 3.1. Managed beans - managed bean with a public field declares any scope other than @Dependent
+				 * 3.1. Managed beans
+				 *  - managed bean with a public field declares any scope other than @Dependent
 				 */
 				IField[] fields = type.getFields();
 				for (IField field : fields) {
@@ -998,7 +1005,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					}
 				}
 				/*
-				 * 3.1. Managed beans - managed bean with a parameterized bean class declares any scope other than @Dependent
+				 * 3.1. Managed beans
+				 *  - managed bean with a parameterized bean class declares any scope other than @Dependent
 				 */
 				String[] typeVariables = type.getTypeParameterSignatures();
 				if (typeVariables.length > 0) {
@@ -1010,7 +1018,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		}
 		/*
-		 * 3.1.4. Specializing a managed bean - managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
+		 * 3.1.4. Specializing a managed bean
+		 *  - managed bean class annotated @Specializes does not directly extend the bean class of another managed bean
 		 */
 		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
 		if (specializesDeclaration != null) {
@@ -1052,7 +1061,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateInterceptor(IInterceptor interceptor) {
 		/*
-		 * 2.5.3. Beans with no EL name - interceptor has a name (Non-Portable behavior)
+		 * 2.5.3. Beans with no EL name
+		 *  - interceptor has a name (Non-Portable behavior)
 		 */
 		if (interceptor.getName() != null) {
 			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
@@ -1066,7 +1076,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		/*
-		 * 2.6.1. Declaring an alternative - interceptor is an alternative (Non-Portable behavior)
+		 * 2.6.1. Declaring an alternative
+		 *  - interceptor is an alternative (Non-Portable behavior)
 		 */
 		if (interceptor.isAlternative()) {
 			ITextSourceReference declaration = interceptor.getAlternativeDeclaration();
@@ -1091,7 +1102,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateDecorator(IDecorator decorator) {
 		/*
-		 * 2.5.3. Beans with no EL name - decorator has a name (Non-Portable behavior)
+		 * 2.5.3. Beans with no EL name
+		 *  - decorator has a name (Non-Portable behavior)
 		 */
 		if (decorator.getName() != null) {
 			ITextSourceReference declaration = decorator.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
@@ -1105,7 +1117,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		/*
-		 * 2.6.1. Declaring an alternative - decorator is an alternative (Non-Portable behavior)
+		 * 2.6.1. Declaring an alternative
+		 *  - decorator is an alternative (Non-Portable behavior)
 		 */
 		if (decorator.isAlternative()) {
 			ITextSourceReference declaration = decorator.getAlternativeDeclaration();
@@ -1129,8 +1142,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	/*
-	 * 2.2.2. Restricting the bean types of a bean - bean class or producer method or field specifies a @Typed annotation,
-	 *        and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean
+	 * 2.2.2. Restricting the bean types of a bean
+	 *  - bean class or producer method or field specifies a @Typed annotation, and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean
 	 */
 	private void validateTyped(IBean bean) {
 		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
@@ -1166,10 +1179,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		// 2.4.4. Default scope
-		// - bean does not explicitly declare a scope when there is no default
-		// scope
-		// (there are two different stereotypes declared by the bean that
-		// declare different default scopes)
+		// - bean does not explicitly declare a scope when there is no default scope (there are two different stereotypes declared by the bean that declare different default scopes)
 		// 
 		// Such bean definitions are invalid because they declares two
 		// stereotypes that have different default scopes and the bean does not
@@ -1192,8 +1202,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		/*
-		 * 2.4.1. Built-in scope types - interceptor or decorator has any scope
-		 * other than @Dependent (Non-Portable behavior)
+		 * 2.4.1. Built-in scope types
+		 *  - interceptor or decorator has any scope other than @Dependent (Non-Portable behavior)
 		 */
 		boolean interceptor = bean instanceof IInterceptor;
 		boolean decorator = bean instanceof IDecorator;

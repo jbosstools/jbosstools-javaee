@@ -33,4 +33,12 @@ public class InjectionPointMethod extends BeanMethod implements
 	protected Parameter newParameter() {
 		return new InjectionPointParameter();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getInjectAnnotation()
+	 */
+	public IAnnotationDeclaration getInjectAnnotation() {
+		return inject;
+	}
 }

@@ -805,6 +805,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.9. Initializer methods
+	 *  - initializer method may not be static
+	 *  
+	 * @throws Exception
+	 */
+	public void testStaticInitializerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GenericInitializerMethodBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, 11);
+	}
+
+	/**
+	 * 3.9.1. Declaring an initializer method
+	 *  - generic method of a bean is annotated @Inject
+	 *  
+	 * @throws Exception
+	 */
+	public void testGenericInitializerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GenericInitializerMethodBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, 7);
+	}
+
+	/**
 	 * 3.11. The qualifier @Named at injection points
 	 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
 	 * 

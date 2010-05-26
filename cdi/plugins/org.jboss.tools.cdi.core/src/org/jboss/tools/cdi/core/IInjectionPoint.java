@@ -51,4 +51,11 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 *         parameter of injection point method. May be null.
 	 */
 	IAnnotationDeclaration getDelegateAnnotation();
+
+	/**
+	 * Returns the @Inject annotation declaration
+	 * 
+	 * @return the @Inject annotation declaration.
+	 */
+	IAnnotationDeclaration getInjectAnnotation();
 }

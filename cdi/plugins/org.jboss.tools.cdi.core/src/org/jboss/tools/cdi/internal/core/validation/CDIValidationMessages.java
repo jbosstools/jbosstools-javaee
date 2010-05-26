@@ -68,6 +68,7 @@ public class CDIValidationMessages {
 	public static String CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES;
 	public static String CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES;
 	public static String GENERIC_METHOD_ANNOTATED_INJECT;
+	public static String STATIC_METHOD_ANNOTATED_INJECT;
 	public static String MULTIPLE_OBSERVING_PARAMETERS;
 	public static String ILLEGAL_OBSERVER_IN_SESSION_BEAN;
 	public static String ILLEGAL_CONDITIONAL_OBSERVER;
