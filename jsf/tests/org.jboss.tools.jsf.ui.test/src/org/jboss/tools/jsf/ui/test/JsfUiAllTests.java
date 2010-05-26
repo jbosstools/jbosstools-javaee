@@ -21,13 +21,13 @@ public class JsfUiAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
 		suite.addTestSuite(CssClassNewWizardTest.class);
-		suite.addTestSuite(CssFileNewWizardTest.class);
+//		suite.addTestSuite(CssFileNewWizardTest.class);
 		suite.addTestSuite(CSSStyleDialogTest.class);
 		suite.addTestSuite(FacesConfigNewWizardTest.class);
 		suite.addTestSuite(FasesConfigEditorTest.class);
-		suite.addTestSuite(HtmlFileNewWizardTest.class);
-		suite.addTestSuite(JsFileNewWizardTest.class);
-		suite.addTestSuite(JspFileNewWizardTest.class);
+//		suite.addTestSuite(HtmlFileNewWizardTest.class);
+//		suite.addTestSuite(JsFileNewWizardTest.class);
+//		suite.addTestSuite(JspFileNewWizardTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
