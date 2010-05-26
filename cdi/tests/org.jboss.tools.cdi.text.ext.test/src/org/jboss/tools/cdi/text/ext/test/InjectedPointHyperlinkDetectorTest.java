@@ -44,4 +44,28 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/decorators/invocation/producer/method/ProducerImpl.java", regionList, new ProducerDisposerHyperlinkDetector());
 	}
 
+	public void testInjectedConstructorParametersHyperlinkDetector() throws Exception {
+		ArrayList<Region> regionList = new ArrayList<Region>();
+		regionList.add(new Region(880, 6));
+		regionList.add(new Region(898, 3));
+		regionList.add(new Region(950, 6));
+		regionList.add(new Region(967, 7));
+		regionList.add(new Region(979, 3));
+		regionList.add(new Region(1017, 3));
+
+		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxFarm.java", regionList, new InjectedPointHyperlinkDetector());
+	}
+	
+	public void testInjectedInitializerParametersHyperlinkDetector() throws Exception {
+		ArrayList<Region> regionList = new ArrayList<Region>();
+		regionList.add(new Region(880, 6));
+		regionList.add(new Region(898, 3));
+		regionList.add(new Region(945, 6));
+		regionList.add(new Region(967, 4));
+		regionList.add(new Region(976, 3));
+		regionList.add(new Region(1014, 3));
+
+		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxHole.java", regionList, new InjectedPointHyperlinkDetector());
+	}
+
 }
