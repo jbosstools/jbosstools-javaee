@@ -775,6 +775,16 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
 	}
 
+	// See https://jira.jboss.org/browse/JBIDE-6352
+	public void testErrorMarkerForEL() throws CoreException{
+		refreshProject(project);
+
+		IFile xhtmlFile = project.getFile("WebContent/markerTest.xhtml");
+
+		IMarker[] markers = findMarkers(xhtmlFile, IMarker.PROBLEM, "\"testtt\" cannot be resolved");
+		assertEquals("There should be an unresolved EL in markerTest.xhtml for 'testtt' segment.", 1, markers.length);
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return getMarkersNumberByGroupName(resource, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 	}
