@@ -19,8 +19,6 @@ public class CDITextExtTestSuite extends TestSuite {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("CDI Text Ext Tests");
 		suite.addTest(InjectedPointHyperlinkDetectorTest.suite());
-		suite.addTest(ProducerDisposerHyperlinkDetectorTest.suite());
-		suite.addTest(InjectedPointInProducerMethodHyperlinkDetectorTest.suite());
 		return suite;
 	}
 }
