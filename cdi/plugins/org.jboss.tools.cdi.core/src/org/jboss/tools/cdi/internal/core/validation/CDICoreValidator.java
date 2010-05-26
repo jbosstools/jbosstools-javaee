@@ -866,14 +866,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 
-			/*
-			 * 
-			 */
 			IInjectionPointMethod injectionMethod = (IInjectionPointMethod)injection;
 			IAnnotationDeclaration declaration = injection.getInjectAnnotation();
+			/*
+			 * 3.9.1. Declaring an initializer method
+			 *  - generic method of a bean is annotated @Inject
+			 */
 			if(CDIUtil.isMethodGeneric(injectionMethod)) {
 				addError(CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
 			}
+			/*
+			 * 3.9. Initializer methods
+			 *  - initializer method may not be static
+			 */
 			if(CDIUtil.isMethodStatic(injectionMethod)) {
 				addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
 			}
@@ -881,8 +886,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	/**
-	 * Validates class bean which may be both a session and decorator (or
-	 * interceptor).
+	 * Validates class bean which may be both a session and decorator (or interceptor).
 	 * 
 	 * @param bean
 	 */

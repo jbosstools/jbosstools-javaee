@@ -109,9 +109,6 @@ Definition Errors
 3.8.1. Declaring an injected field
 - injected field is annotated @Produces
 
-
-
-
 3.9.1. Declaring an initializer method
 - generic method of a bean is annotated @Inject (initializer method is a non-abstract, 
   non-static, non-generic method of a bean class)
@@ -119,6 +116,10 @@ Definition Errors
 3.11. The qualifier @Named at injection points
 - injection point other than injected field declares a @Named annotation that 
   does not specify the value member
+
+
+
+
 
 4.3.1. Direct and indirect specialization
 - X specializes Y but does not have some bean type of Y

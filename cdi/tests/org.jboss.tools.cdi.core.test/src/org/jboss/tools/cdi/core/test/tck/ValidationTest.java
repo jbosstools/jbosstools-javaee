@@ -793,6 +793,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 3.9. Initializer methods
+	 *  - initializer method may not be static
+	 *  
+	 * @throws Exception
+	 */
+	public void testStaticInitializerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GenericInitializerMethodBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, 11);
+	}
+
+	/**
 	 * 3.9.1. Declaring an initializer method
 	 *  - an initializer method has a parameter annotated @Disposes
 	 *  
@@ -802,17 +813,6 @@ public class ValidationTest extends TCKTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
-	}
-
-	/**
-	 * 3.9. Initializer methods
-	 *  - initializer method may not be static
-	 *  
-	 * @throws Exception
-	 */
-	public void testStaticInitializerMethod() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GenericInitializerMethodBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, 11);
 	}
 
 	/**
