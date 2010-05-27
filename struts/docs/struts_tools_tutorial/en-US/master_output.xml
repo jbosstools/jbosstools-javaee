@@ -2,13 +2,13 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
-[<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY struts_application  SYSTEM "modules/struts_application.xml">
-<!ENTITY generating_stub  SYSTEM "modules/generating_stub.xml">
-<!ENTITY coding_files  SYSTEM "modules/coding_files.xml">
-<!ENTITY compiling_and_running  SYSTEM "modules/compiling_and_running.xml">
-<!ENTITY struts_validation  SYSTEM "modules/struts_validation.xml">
-<!ENTITY relevant_resources  SYSTEM "modules/relevant_resources.xml">
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY struts_application  SYSTEM "struts_application.xml">
+<!ENTITY generating_stub  SYSTEM "generating_stub.xml">
+<!ENTITY coding_files  SYSTEM "coding_files.xml">
+<!ENTITY compiling_and_running  SYSTEM "compiling_and_running.xml">
+<!ENTITY struts_validation  SYSTEM "struts_validation.xml">
+<!ENTITY relevant_resources  SYSTEM "relevant_resources.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -42,13 +42,13 @@
         
         <copyright>
             <year>2007</year>
-            <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
-            <year diffmk:change="added">2009</year>
-            <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
+            <year>2008</year>
+            <year>2009</year>
+            <year>2010</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.CR2
+            Version: 3.1.1.GA
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -64,7 +64,7 @@
     <toc></toc>  
    
     
-<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/introduction.xml" xreflabel="introduction">
   <?dbhtml filename="introduction.html"?>
   <chapterinfo>
     <keywordset>
@@ -76,7 +76,7 @@
   </chapterinfo>
   <title>Introduction</title>
   <para>The following chapters describe how to deal with classic/old style of Struts development. We
-    recommend users to use <ulink url="../../seam/html_single/index.html">JBoss Seam</ulink> to
+    recommend users to use JBoss Seam to
     simplify development, but until then you can read about classical Struts usage here.</para>
 
   <para>We are going to show you how to create a simple <emphasis>
@@ -165,7 +165,7 @@
 </chapter>
 
     
-<chapter id="struts_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/struts_application.xml" xreflabel="struts_application">
+<chapter id="struts_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/struts_application.xml" xreflabel="struts_application">
     <?dbhtml filename="struts_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -592,7 +592,7 @@
     </section>
 </chapter>
     
-<chapter id="generating_stub" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/generating_stub.xml" xreflabel="generating_stub">
+<chapter id="generating_stub" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/generating_stub.xml" xreflabel="generating_stub">
     <?dbhtml filename="generating_stub.html"?>
     <chapterinfo>
         <keywordset>
@@ -643,7 +643,7 @@
             been generated.</para>
     </chapter>
     
-<chapter id="coding_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/coding_files.xml" xreflabel="coding_files">
+<chapter id="coding_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/coding_files.xml" xreflabel="coding_files">
     <?dbhtml filename="coding_files.html"?>
     <chapterinfo>
         <keywordset>
@@ -1072,7 +1072,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         </section>
     </chapter>
     
-<chapter id="compiling_and_running" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/compiling_and_running.xml" xreflabel="compiling_and_running">
+<chapter id="compiling_and_running" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/compiling_and_running.xml" xreflabel="compiling_and_running">
     <?dbhtml filename="compiling_and_running.html"?>
     <chapterinfo>
         <keywordset>
@@ -1087,12 +1087,12 @@ public class GreetingAction extends org.apache.struts.action.Action
         <para>As this is the Eclipse environment, no explicit compilation step is required. By
         default, Eclipse compiles as you go.</para>
 
-        <para>Thus at this point everything is ready for running our application without having to leave JBoss
+        <para><diffmk:wrapper diffmk:change="changed">Thus at this point everything is ready for running our application without having to leave JBoss
             Developer Studio by using the JBoss Application Server engine that comes with the JBoss
             Developer Studio. For controlling JBoss AS within JBoss Developer Studio, there is 
-            Servers view.</para>
+            Servers view.</diffmk:wrapper></para>
         <figure float="0">
-            <title>Servers Panel</title>
+            <title><diffmk:wrapper diffmk:change="changed">Servers Panel</diffmk:wrapper></title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/struts_application/struts_application_6.png"></imagedata>
@@ -1101,10 +1101,10 @@ public class GreetingAction extends org.apache.struts.action.Action
         </figure>
         <itemizedlist>
             <listitem>
-                <para>Start up JBoss AS by clicking on the icon in Servers view. (If JBoss AS
+                <para><diffmk:wrapper diffmk:change="changed">Start up JBoss AS by clicking on the icon in Servers view. (If JBoss AS
                     is already running, stop it by clicking on the red icon and then start it again.
                     Remember, the Struts run-time requires restarting the servlet engine when any
-                    changes have been made.)</para>
+                    changes have been made.)</diffmk:wrapper></para>
             </listitem>
             <listitem>
                 <para>After the messages in the Console tabbed view stop scrolling, JBoss AS is
@@ -1115,7 +1115,7 @@ public class GreetingAction extends org.apache.struts.action.Action
         <para>The browser should appear with the application started.</para>
     </chapter>
     
-<chapter id="struts_validation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/struts_validation.xml" xreflabel="struts_validation">
+<chapter id="struts_validation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/struts_validation.xml" xreflabel="struts_validation">
   <?dbhtml filename="struts_validation.html"?>
   <chapterinfo>
         <keywordset>
@@ -1153,7 +1153,7 @@ server side validation. You need to enable validation as a part of the project, 
 <listitem><para>In the dialog box, click on the <emphasis><property moreinfo="none">Browse...</property></emphasis>button next to the Folder field, expand the
     JavaSource folder in this next dialog box, select the sample subfolder, and click on the <emphasis><property moreinfo="none">OK</property></emphasis> button</para></listitem>
     <listitem><para>Back in the first dialog box, type in "applResources" for the Name field and click on the <emphasis><property moreinfo="none">Finish</property></emphasis> button</para></listitem>
-<listitem><para>Right-click on a newly created file and select <emphasis><property moreinfo="none">Add &gt; Default Error Messages</property></emphasis>
+<listitem><para>Right-click on a newly created file and select <emphasis><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">New &gt; Default Error Messages</diffmk:wrapper></property></emphasis>
  from the context menu</para></listitem>
 
 <listitem><para>Drag up the sample.applResources icon until you can drop it on the resources folder under struts-config.xml</para></listitem>
@@ -1354,7 +1354,7 @@ org.apache.struts.validator.ValidatorForm
 
 </chapter>
     
-<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
+<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/relevant_resources.xml" xreflabel="relevant_resources">
     <?dbhtml filename="relevant_resources.html"?>
     <chapterinfo>
         <keywordset>
@@ -1366,7 +1366,7 @@ org.apache.struts.validator.ValidatorForm
 
     <title>Other Relevant Resources on the topic</title>
 
-    <para>Our reference: <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink></para>
+    <para>Our reference: Struts Tools Reference Guide</para>
     <para>Apache Struts: <ulink url="http://struts.apache.org/">Struts Technology</ulink></para>
     <para>Struts 2: <ulink url="http://struts.apache.org/2.x/">Apache Struts 2</ulink></para>
     <para>Get Started: <ulink url="http://struts.apache.org/2.x/docs/home.html">Struts Getting
@@ -1377,15 +1377,15 @@ org.apache.struts.validator.ValidatorForm
     <para>Download: <ulink url="http://struts.apache.org/download.cgi#struts206">Release of Apache
             Struts</ulink></para>
 
-    <para>Thus, this tutorial should help you to execute the hole development circle for building a
-        sample Struts-based Web application using <property moreinfo="none">JBoss Tools</property> bundle of Eclipse
+    <para><diffmk:wrapper diffmk:change="changed">Thus, this tutorial should help you to execute the whole development circle for building a
+        sample Struts-based Web application using </diffmk:wrapper><property moreinfo="none">JBoss Tools</property> bundle of Eclipse
         plugins starting from organizing a new Struts project and ending with the running and
         deploying it onto the <property moreinfo="none">JBoss Server</property>.</para>
 
-    <para>To find out all the features of <property moreinfo="none">JBoss Tools</property> for working with Struts
-        refer to our <ulink url="../../struts_tools_ref_guide/html_single/index.html">Struts Tools Reference Guide</ulink>. If you
-        still have questions you are always welcome on 
-        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+    <para>To find out all the features of <property>JBoss Tools</property> for working with Struts
+        refer to our Struts Tools Reference Guide. If you
+        still have questions you are always welcome on <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
 

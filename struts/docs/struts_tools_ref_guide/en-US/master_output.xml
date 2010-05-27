@@ -3,15 +3,15 @@
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
 [
-<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY projects SYSTEM "modules/projects.xml">
-<!ENTITY editors SYSTEM "modules/editors.xml">
-<!ENTITY modules SYSTEM "modules/modules.xml">
-<!ENTITY code_generation SYSTEM "modules/code_generation.xml">
-<!ENTITY config_file_debugger SYSTEM "modules/config_file_debugger.xml">
-<!ENTITY page_links_recognizer SYSTEM "modules/page_links_recognizer.xml">
-<!ENTITY project_verification SYSTEM "modules/project_verification.xml">
-<!ENTITY rel_resources_links SYSTEM "modules/rel_resources_links.xml">
+<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY projects SYSTEM "projects.xml">
+<!ENTITY editors SYSTEM "editors.xml">
+<!ENTITY modules SYSTEM "modules.xml">
+<!ENTITY code_generation SYSTEM "code_generation.xml">
+<!ENTITY config_file_debugger SYSTEM "config_file_debugger.xml">
+<!ENTITY page_links_recognizer SYSTEM "page_links_recognizer.xml">
+<!ENTITY project_verification SYSTEM "project_verification.xml">
+<!ENTITY rel_resources_links SYSTEM "rel_resources_links.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -46,13 +46,13 @@
         
         <copyright>
             <year>2007</year>
-             <year><diffmk:wrapper diffmk:change="added">2008</diffmk:wrapper></year>
-             <year diffmk:change="added">2009</year>
-              <year diffmk:change="added"><diffmk:wrapper diffmk:change="added">2010</diffmk:wrapper></year>
+             <year>2008</year>
+             <year>2009</year>
+              <year>2010</year>
              <holder>JBoss by Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.CR2
+             Version: 3.1.1.GA
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -68,7 +68,7 @@
     <toc></toc>  
     
     
-<chapter id="intoduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/introduction.xml">
+<chapter id="intoduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/introduction.xml">
     <?dbhtml filename="introduction.html"?>
 
     <chapterinfo>
@@ -179,7 +179,7 @@
 </chapter>
 
     
-<chapter id="projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/projects.xml">
+<chapter id="projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/projects.xml">
     <?dbhtml filename="projects.html"?>
 
     <chapterinfo>
@@ -335,7 +335,7 @@
 
         <title>Importing an Existing Struts Project with Any Structure</title>
 
-        <para>For detailed information on migration projects to JBoss Developer Studio see <ulink url="../../Exadel-migration/html_single/index.html">Migration Guide</ulink>.</para>
+        <para><diffmk:wrapper diffmk:change="changed">For detailed information on migration projects to JBoss Developer Studio see the Migration Guide.</diffmk:wrapper></para>
 
     </section>
     <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
@@ -431,9 +431,9 @@
             </mediaobject>
         </figure>
 
-        <para>When done, you can open end edit the struts-config.xml file using useful Struts
+        <para><diffmk:wrapper diffmk:change="changed">When done, you can open and edit the struts-config.xml file using useful Struts
             configuration file editor provided by JBDS. (The Struts configuration is shown below in
-            the Tree viewer).</para>
+            the Tree viewer).</diffmk:wrapper></para>
 
         <figure float="0">
             <title>Struts-config.xml File</title>
@@ -448,13 +448,13 @@
     <section>
         <title>Relevant Resources Links</title>
         
-        <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
-            be used in various scenarios while developing Struts applications in our <ulink url="../../jsf/html_single/index.html">Visual Web Tools guide</ulink>.</para>
+        <para><diffmk:wrapper diffmk:change="changed">You can find more in-depth explanation on how to work with special wizards, editors and views that can
+            be used in various scenarios while developing Struts applications in our Visual Web Tools Guide.</diffmk:wrapper></para>
     </section>
 </chapter>
 
     
-<chapter id="editors" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/editors.xml">
+<chapter id="editors" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/editors.xml">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -479,8 +479,8 @@
 			describes the servlets and other components and deployment properties that make up your application.</para>
 		
 		<para><property moreinfo="none">JBoss Tools</property> add the <emphasis>
-			<property moreinfo="none">web.xml</property></emphasis> file to created Struts project automatically and provides a special editor for its editing.
-			See the Visual Web Tools guide that gives a descriptive information on the <ulink url="../../jsf/html_single/index.html#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
+			<property moreinfo="none">web.xml</property></emphasis><diffmk:wrapper diffmk:change="added"> file to created Struts project automatically and provides a special editor for its editing.
+			See the Visual Web Tools guide that gives a descriptive information on the </diffmk:wrapper><filename diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">web.xml</diffmk:wrapper></filename><diffmk:wrapper diffmk:change="added"> editor.</diffmk:wrapper></para>
 	</section>
 	
     <section id="struts_config_editor">
@@ -620,8 +620,8 @@
         		
         		<listitem><para>Under the <emphasis>
         			<property moreinfo="none">plug-ins</property></emphasis> node you can define a Struts plug-in. Right-click the node, select <emphasis>
-        				<property moreinfo="none">Create Plug-in</property></emphasis> 
-        			and specify the plug-ib <emphasis>
+        				<property moreinfo="none">Create Plug-in</property></emphasis><diffmk:wrapper diffmk:change="changed"> 
+        			and specify the plug-in </diffmk:wrapper><emphasis>
         				<property moreinfo="none">Id</property></emphasis> and <emphasis>
         					<property moreinfo="none">ClassName</property></emphasis> by pointing to the Java class which implements the org.apache.struts.action.PlugIn interface. </para></listitem>
         		
@@ -655,7 +655,7 @@
                     <para>File Folding</para>
                 </listitem>
             </itemizedlist>
-            <para>You can take advantage of <ulink url="../../jsf/html_single/index.html#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">code assist</ulink>.</para>
+            <para>You can take advantage of code assist.</para>
             <figure float="0">
                 <title>Code Assist</title>
                 <mediaobject>
@@ -688,7 +688,7 @@
                 </mediaobject>
             </figure>
             
-            <para>Find more information about editor features <ulink url="../../jsf/html_single/index.html#editors_features">in the editor features  chapter</ulink>.</para>
+            <para>Find more information about editor features in the editor features chapter.</para>
         </section>
     </section>
 
@@ -809,8 +809,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para><ulink url="../../jsf/html_single/index.html#CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Code
-                assist</ulink> is available in the Source mode.</para>
+            <para>Code
+                assist is available in the Source mode.</para>
             <figure float="0">
                 <title>Code Assist</title>
                 <mediaobject>
@@ -934,7 +934,7 @@
 </chapter>
 
     
-<chapter id="modules" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/modules.xml">
+<chapter id="modules" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/modules.xml">
     <?dbhtml filename="modules.html"?>
     <chapterinfo>
         <keywordset>
@@ -980,11 +980,16 @@
     <section id="EditingModulesInAnExistingProject1">
         
         <title>Editing Modules in an Existing Project</title>
-        <para>To edit modules in an existing project, right click the project and
-            select <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Modules Configuration</property>.
-            </emphasis></para>
-        <figure float="0">
+        <para><diffmk:wrapper diffmk:change="added">To edit modules in an existing project, right click the project in Web Project view
+            and select </diffmk:wrapper><emphasis diffmk:change="added">
+                <property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">JBoss Tools Struts &gt; Modules Configuration</diffmk:wrapper></property>
+            </emphasis><diffmk:wrapper diffmk:change="added">
+            (or right click the project in Package Explorer view
+            and select </diffmk:wrapper><emphasis>
+                <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Configure &gt; Modules Configuration</diffmk:wrapper></property>
+            </emphasis><diffmk:wrapper diffmk:change="added">).          
+        </diffmk:wrapper></para>
+           <figure float="0">
             <title>Choosing Modules Configuration</title>
             <mediaobject>
                 <imageobject>
@@ -1034,7 +1039,7 @@
 </chapter>
 
     
-<chapter id="code_generation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/code_generation.xml">
+<chapter id="code_generation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/code_generation.xml">
     <?dbhtml filename="code_generation.html"?>
     
     <chapterinfo>
@@ -1131,7 +1136,7 @@
     </figure>
 </chapter>
     
-<chapter id="config_file_debugger" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/config_file_debugger.xml">
+<chapter id="config_file_debugger" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/config_file_debugger.xml">
     <?dbhtml filename="config_file_debugger.html"?>
     <chapterinfo>
         <keywordset>
@@ -1161,7 +1166,7 @@
     </figure>
 </chapter>
     
-<chapter id="page_links_recognizer" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/page_links_recognizer.xml">
+<chapter id="page_links_recognizer" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/page_links_recognizer.xml">
     <?dbhtml filename="page_links_recognizer.html"?>
     
     <chapterinfo>
@@ -1192,7 +1197,7 @@
     </figure>
 </chapter>
     
-<chapter id="project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/project_verification.xml">
+<chapter id="project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/project_verification.xml">
     <?dbhtml filename="project_verification.html"?>
     <chapterinfo>
         <keywordset>
@@ -1295,7 +1300,7 @@
     </figure>
 </chapter>
     
-<chapter id="rel_resources_links" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en/modules/rel_resources_links.xml">
+<chapter id="rel_resources_links" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_ref_guide/en-US/rel_resources_links.xml">
         <?dbhtml filename="rel_resources_links.html"?>
         <chapterinfo>
                 <keywordset>
