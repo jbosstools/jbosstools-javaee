@@ -346,6 +346,34 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		validateMixedClassBean(bean);
 		validateConstructors(bean);
+		validateSpecializingBean(bean);
+	}
+
+	private void validateSpecializingBean(IClassBean bean) {
+		IBean specializingBean = bean.getSpecializedBean();
+		if(specializingBean==null) {
+			return;
+		}
+		/*
+		 * 4.3.1. Direct and indirect specialization
+		 *  - X specializes Y but does not have some bean type of Y
+		 */
+		Set<IParametedType> beanTypes = bean.getLegalTypes();
+		Set<IParametedType> specializingBeanTypes = specializingBean.getLegalTypes();
+		for (IParametedType specializingType : specializingBeanTypes) {
+			boolean found = false;
+			for (IParametedType type : beanTypes) {
+				if(specializingType.getType().getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
+						new String[]{bean.getBeanClass().getElementName(), specializingBean.getBeanClass().getElementName(), specializingType.getType().getElementName()},
+						bean.getSpecializesAnnotationDeclaration(), bean.getResource());
+			}
+		}
 	}
 
 	private void validateConstructors(IClassBean bean) {

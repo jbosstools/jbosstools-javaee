@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
@@ -835,6 +837,19 @@ public class ValidationTest extends TCKTest {
 	public void testNamedInjectPoint() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
+	}
+
+	/**
+	 * 4.3.1. Direct and indirect specialization
+	 *  - X specializes Y but does not have some bean type of Y
+	 * 
+	 * @throws Exception
+	 */
+	public void testBeanDoesNotHaveSomeTypeOfSpecializedBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/MissingTypeBeanBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Farmer"), 6);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Simple"), 6);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Object"), 6);
 	}
 
 	/**
