@@ -334,6 +334,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if (bean instanceof IClassBean) {
 			validateClassBean((IClassBean) bean);
 		}
+
+		validateSpecializingBean(bean);
 	}
 
 	private void validateClassBean(IClassBean bean) {
@@ -346,14 +348,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		validateMixedClassBean(bean);
 		validateConstructors(bean);
-		validateSpecializingBean(bean);
 	}
 
-	private void validateSpecializingBean(IClassBean bean) {
+	private void validateSpecializingBean(IBean bean) {
 		IBean specializingBean = bean.getSpecializedBean();
 		if(specializingBean==null) {
 			return;
 		}
+		String beanClassName = bean.getBeanClass().getElementName();
+		String beanName = bean instanceof IBeanMethod?beanClassName + "." + ((IBeanMethod)bean).getSourceMember().getElementName() + "()":beanClassName;
+		String specializingBeanClassName = specializingBean.getBeanClass().getElementName();
+		String specializingBeanName = specializingBean instanceof IBeanMethod?specializingBeanClassName + "." + ((IBeanMethod)specializingBean).getSourceMember().getElementName() + "()":specializingBeanClassName;
+
 		/*
 		 * 4.3.1. Direct and indirect specialization
 		 *  - X specializes Y but does not have some bean type of Y
@@ -370,8 +376,20 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 			if(!found) {
 				addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
-						new String[]{bean.getBeanClass().getElementName(), specializingBean.getBeanClass().getElementName(), specializingType.getType().getElementName()},
+						new String[]{beanName, specializingBeanName, specializingType.getType().getElementName()},
 						bean.getSpecializesAnnotationDeclaration(), bean.getResource());
+			}
+		}
+		/*
+		 * 4.3.1. Direct and indirect specialization
+		 *  - X specializes Y and Y has a name and X declares a name explicitly, using @Named
+		 */
+		if(specializingBean.getName()!=null) {
+			IAnnotationDeclaration nameDeclaration = bean.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if(nameDeclaration!=null) {
+				addError(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN,
+						new String[]{beanName, specializingBeanName},
+						nameDeclaration, bean.getResource());
 			}
 		}
 	}

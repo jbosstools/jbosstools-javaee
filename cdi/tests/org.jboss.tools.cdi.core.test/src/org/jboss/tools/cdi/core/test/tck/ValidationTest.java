@@ -853,6 +853,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 4.3.1. Direct and indirect specialization
+	 *  - X specializes Y and Y has a name and X declares a name explicitly, using @Named
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingAndSpecializedBeanHasName() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/producer/method/broken/specializingAndSpecializedBeanHaveName/HighSchool_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, "HighSchool_Broken.getStarPupil()", "School.getStarPupil()"), 25);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  
