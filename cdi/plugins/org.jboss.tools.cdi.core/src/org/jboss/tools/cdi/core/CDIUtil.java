@@ -216,19 +216,59 @@ public class CDIUtil {
 	}
 
 	/**
-	 * Return @Named declaration or the stereotype declaration if it declares
-	 * 
-	 * @Named.
+	 * Return @Named declaration or the stereotype declaration if it declares @Named.
 	 * 
 	 * @param stereotyped
 	 * @return
 	 */
 	public static IAnnotationDeclaration getNamedDeclaration(IBean bean) {
-		IAnnotationDeclaration declaration = bean.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		return getQualifierDeclaration(bean, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+	}
+
+	/**
+	 * Return the qualifier declaration or the stereotype or @Specializes declaration if it declares this qualifier.
+	 * 
+	 * @param stereotyped
+	 * @return
+	 */
+	public static IAnnotationDeclaration getQualifierDeclaration(IBean bean, String qualifierTypeName) {
+		IAnnotationDeclaration declaration = bean.getAnnotation(qualifierTypeName);
 		if (declaration == null) {
-			return getNamedStereotypeDeclaration(bean);
+			declaration = getQualifiedStereotypeDeclaration(bean, qualifierTypeName);
+		}
+		if(declaration == null) {
+			declaration = getQualifiedSpecializesDeclaration(bean, qualifierTypeName);
 		}
 		return declaration;
+	}
+
+	/**
+	 * Returns the @Specializes declaration of the bean if the specialized bean declares the given qualifier.
+	 * 
+	 * @param bean
+	 * @param qualifierTypeName
+	 * @return
+	 */
+	public static IAnnotationDeclaration getQualifiedSpecializesDeclaration(IBean bean, String qualifierTypeName) {
+		IBean specializedBean = bean.getSpecializedBean();
+		return specializedBean!=null?getQualifierDeclaration(bean, qualifierTypeName):null;
+	}
+
+	/**
+	 * Return the stereotype declaration which declares the given qualifier.
+	 * 
+	 * @param stereotyped
+	 * @return
+	 */
+	public static IAnnotationDeclaration getQualifiedStereotypeDeclaration(IStereotyped stereotyped, String qualifierTypeName) {
+		Set<IStereotypeDeclaration> declarations = stereotyped.getStereotypeDeclarations();
+		for (IStereotypeDeclaration declaration : declarations) {
+			if (qualifierTypeName.equals(declaration.getType().getFullyQualifiedName())
+					|| getQualifiedStereotypeDeclaration(declaration.getStereotype(), qualifierTypeName) != null) {
+				return declaration;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -238,14 +278,7 @@ public class CDIUtil {
 	 * @return
 	 */
 	public static IAnnotationDeclaration getNamedStereotypeDeclaration(IStereotyped stereotyped) {
-		Set<IStereotypeDeclaration> declarations = stereotyped.getStereotypeDeclarations();
-		for (IStereotypeDeclaration declaration : declarations) {
-			if (CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(declaration.getType().getFullyQualifiedName())
-					|| getNamedStereotypeDeclaration(declaration.getStereotype()) != null) {
-				return declaration;
-			}
-		}
-		return null;
+		return getQualifiedStereotypeDeclaration(stereotyped, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 	}
 
 	/**

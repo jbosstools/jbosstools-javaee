@@ -2,7 +2,6 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -24,8 +23,6 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -254,17 +251,33 @@ public class TCKTest extends TestCase {
 		fail(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier declaration with " + typeName + " type.");
 	}
 
-	public static void assertContainsQualifierType(IBean bean, String typeName) {
+	public static void assertContainsQualifierType(IBean bean, String... typeNames) {
+		assertContainsQualifierType(false, bean, typeNames);
+	}
+
+	public static void assertContainsQualifierType(boolean theNumbersOfQualifierShouldBeTheSame, IBean bean, String... typeNames) {
 		Set<IQualifier> qualifiers = bean.getQualifiers();
+
+		if(theNumbersOfQualifierShouldBeTheSame) {
+			assertEquals("Defferent numbers of qualifiers", typeNames.length, qualifiers.size());
+		}
+
 		StringBuffer allTypes = new StringBuffer("[");
 		for (IQualifier qualifier : qualifiers) {
 			allTypes.append(" ").append(qualifier.getSourceType().getFullyQualifiedName()).append(";");
-			if (typeName.equals(qualifier.getSourceType().getFullyQualifiedName())) {
-				return;
-			}
 		}
 		allTypes.append("]");
-		fail(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier with " + typeName + " type.");
+
+		for (String typeName : typeNames) {
+			boolean found = false;
+			for (IQualifier qualifier : qualifiers) {
+				if (typeName.equals(qualifier.getSourceType().getFullyQualifiedName())) {
+					found = true;
+					break;
+				}
+			}
+			assertTrue(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier with " + typeName + " type.", found);
+		}
 	}
 
 	public static void assertLocationEquals(ITextSourceReference reference, int startPosition, int length) {

@@ -126,6 +126,12 @@ Definition Errors
 - X specializes Y and Y has a name and X declares a name explicitly, using @Named
 - interceptor or decorator is annotated @Specializes (Non-Portable behavior)
 
+
+
+
+
+
+
 5.2.2. Legal injection point types
 - injection point type is a type variable
 
