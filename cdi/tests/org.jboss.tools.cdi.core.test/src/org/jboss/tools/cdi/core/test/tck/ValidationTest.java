@@ -864,6 +864,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 4.3.1. Direct and indirect specialization
+	 *  - interceptor is annotated @Specializes (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/SpecializingInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, 9);
+	}
+
+	/**
+	 * 4.3.1. Direct and indirect specialization
+	 *  - decorator is annotated @Specializes (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testSpecializingDecorator() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/SpecializingDecoratorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, 10);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

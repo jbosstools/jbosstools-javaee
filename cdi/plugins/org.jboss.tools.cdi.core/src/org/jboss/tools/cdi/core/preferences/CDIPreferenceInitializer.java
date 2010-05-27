@@ -36,5 +36,7 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.WARNING);
 	}
 }

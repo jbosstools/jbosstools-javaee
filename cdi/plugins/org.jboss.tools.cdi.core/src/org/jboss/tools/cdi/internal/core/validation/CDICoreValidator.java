@@ -351,6 +351,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void validateSpecializingBean(IBean bean) {
+		/*
+		 * 4.3.1. Direct and indirect specialization
+		 *  - decorator or interceptor is annotated @Specializes (Non-Portable behavior)
+		 */
+		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
+		if(specializesDeclaration!=null) {
+			if(bean instanceof IDecorator) {
+				addError(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
+			} else if(bean instanceof IInterceptor) {
+				addError(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
+			}
+		}
+
 		IBean specializingBean = bean.getSpecializedBean();
 		if(specializingBean==null) {
 			return;

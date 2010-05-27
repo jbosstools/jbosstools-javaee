@@ -117,17 +117,10 @@ Definition Errors
 - injection point other than injected field declares a @Named annotation that 
   does not specify the value member
 
-
-
-
-
 4.3.1. Direct and indirect specialization
 - X specializes Y but does not have some bean type of Y
 - X specializes Y and Y has a name and X declares a name explicitly, using @Named
 - interceptor or decorator is annotated @Specializes (Non-Portable behavior)
-
-
-
 
 
 

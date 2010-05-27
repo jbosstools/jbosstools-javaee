@@ -127,8 +127,8 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 				{CDIPreferences.ILLEGAL_SPECIALIZING_PRODUCER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalSpecializingProducer_label},
 				{CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingTypeInSpecializingBean_label},
 				{CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_conflictingNameInSpecializingBean_label},
-//				{CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorAnnotatedSpecializes_label},
-//				{CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_decoratorAnnotatedSpecializes_label},
+				{CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorAnnotatedSpecializes_label},
+				{CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_decoratorAnnotatedSpecializes_label},
 			},
 			CDICorePlugin.PLUGIN_ID
 		);
