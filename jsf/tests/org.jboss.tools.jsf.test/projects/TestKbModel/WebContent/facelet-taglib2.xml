@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<facelet-taglib version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+ <namespace>facelets_taglib2</namespace>
+ <composite-library-name>ii</composite-library-name>
+ <tag>
+  <tag-name>tag1</tag-name>
+  <handler-class>k</handler-class>
+  <attribute>
+   <name>attr1</name>
+   <type>v</type>
+  </attribute>
+  <attribute>
+   <name>attr2</name>
+  </attribute>
+  <tag-extension>
+   <xx/>
+   <xx/>
+  </tag-extension>
+  <tag-extension>
+   <yy/>
+  </tag-extension>
+ </tag>
+ <tag>
+  <tag-name>tag2</tag-name>
+  <handler-class>k</handler-class>
+  <attribute>
+   <name>attr3</name>
+   <type>v</type>
+  </attribute>
+  <attribute>
+   <name>attr4</name>
+  </attribute>
+  <tag-extension>
+   <xx/>
+   <xx/>
+  </tag-extension>
+  <tag-extension>
+   <yy/>
+  </tag-extension>
+ </tag>
+</facelet-taglib>
