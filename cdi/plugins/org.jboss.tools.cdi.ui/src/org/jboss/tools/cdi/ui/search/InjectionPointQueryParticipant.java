@@ -80,7 +80,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					IAnnotation annotation = annotatable.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 					if (annotation == null)
 						return;
-					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);
+					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, 0);
 					if(injectionPoint != null){
 						Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
 						List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
