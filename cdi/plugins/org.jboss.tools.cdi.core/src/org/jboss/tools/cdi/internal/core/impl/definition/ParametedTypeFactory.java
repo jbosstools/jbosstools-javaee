@@ -84,7 +84,8 @@ public class ParametedTypeFactory {
 				String[] ps = ((IMethod)context).getTypeParameterSignatures();
 				for (int i = 0; i < ps.length; i++) {
 					String t = ps[i];
-					if(t.endsWith(":")) t = t.substring(0, t.length() - 1);
+					int cp = t.indexOf(":");
+					if(cp > 0) t = t.substring(0, cp);
 					t = "Q" + t + ";";
 					if(t.equals(result.getSignature())) {
 						cache.put(key, result);
