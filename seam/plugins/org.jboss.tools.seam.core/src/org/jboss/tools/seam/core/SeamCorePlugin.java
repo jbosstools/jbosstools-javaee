@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.ISaveContext;
+import org.eclipse.core.resources.ISaveParticipant;
+import org.eclipse.core.resources.ISavedState;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -65,6 +69,37 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		super.start(context);
 		cleanCachedProjects();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
+		ISavedState lastState =
+			ResourcesPlugin.getWorkspace().addSaveParticipant(this, new ISaveParticipant() {
+					
+					public void saving(ISaveContext context)
+							throws CoreException {
+						switch (context.getKind()) {
+							case ISaveContext.SNAPSHOT:
+							case ISaveContext.FULL_SAVE:
+								break;
+							case ISaveContext.PROJECT_SAVE:
+								SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(context.getProject(), false);
+								try {
+									sp.store();
+								} catch (IOException e) {
+									SeamCorePlugin.getPluginLog().logError(e);
+								}
+								break;
+						}
+					}
+					
+					public void rollback(ISaveContext context) {
+
+					}
+					
+					public void prepareToSave(ISaveContext context) throws CoreException {
+					}
+					
+					public void doneSaving(ISaveContext context) {
+					}
+				});
+		
 	}
 
 	static void cleanCachedProjects() {

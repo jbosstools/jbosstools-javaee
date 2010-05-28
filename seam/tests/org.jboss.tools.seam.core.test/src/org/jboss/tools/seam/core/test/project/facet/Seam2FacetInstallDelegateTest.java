@@ -64,8 +64,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		// ws.removeResourceChangeListener( ValManager.getDefault() );
 		// EventManager.getManager().shutdown();
 
-		suspendXJobs = XJob.isSuspended();
-		XJob.setSuspended(true);
 		assertSeamHomeAvailable();
 
 		seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
@@ -94,7 +92,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		super.tearDown();
 		ValidationFramework.getDefault().suspendAllValidation(
 				suspendAllValidation);
-		XJob.setSuspended(suspendXJobs);
 
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(
 				EventManager.getManager(),

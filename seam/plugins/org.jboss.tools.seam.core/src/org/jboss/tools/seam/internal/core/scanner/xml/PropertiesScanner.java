@@ -43,8 +43,7 @@ public class PropertiesScanner implements IFileScanner {
 	 * @return
 	 */	
 	public boolean isRelevant(IFile resource) {
-		if(resource.getName().equals("seam.properties")) return true; //$NON-NLS-1$
-		return false;
+		return resource.getName().equals("seam.properties");
 	}
 	
 	/**
@@ -54,9 +53,7 @@ public class PropertiesScanner implements IFileScanner {
 	 * @return
 	 */
 	public boolean isLikelyComponentSource(IFile f) {
-		if(!f.isSynchronized(IFile.DEPTH_ZERO) || !f.exists()) return false;
-		if(f.getName().equals("seam.properties")) return true; //$NON-NLS-1$
-		return false;
+		return f.isSynchronized(IFile.DEPTH_ZERO) && f.exists() && f.getName().equals("seam.properties");
 	}
 
 	/**
@@ -67,53 +64,55 @@ public class PropertiesScanner implements IFileScanner {
 	 */
 	public LoadedDeclarations parse(IFile f, ISeamProject sp) throws ScannerException {
 		XModel model = InnerModelHelper.createXModel(f.getProject());
-		if(model == null) return null;
 		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
 		return parse(o, f.getFullPath());
 	}
 	
 	public LoadedDeclarations parse(XModelObject o, IPath source) {
-		if(o == null) return null;
+		LoadedDeclarations ds = null;
+		
+		if(o != null) {
 
-		if(o.getParent() instanceof FolderImpl) {
-			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
-			if(f != null && f.exists()) {
-				try {
-					((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
-				} catch (XModelException e) {
-					ModelPlugin.getPluginLog().logError(e);
+			if(o.getParent() instanceof FolderImpl) {
+				IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(source);
+				if(f != null && f.exists()) {
+					try {
+						((FolderImpl)o.getParent()).updateChildFile(o, f.getLocation().toFile());
+					} catch (XModelException e) {
+						ModelPlugin.getPluginLog().logError(e);
+					}
 				}
 			}
-		}
-		
-		LoadedDeclarations ds = new LoadedDeclarations();
-
-		XModelObject[] properties = o.getChildren();
-		Map<String, SeamPropertiesDeclaration> ds1 = new HashMap<String, SeamPropertiesDeclaration>();
-		for (int i = 0; i < properties.length; i++) {
-			String name = properties[i].getAttributeValue("name"); //$NON-NLS-1$
-			int q = name.lastIndexOf('.');
-			if(q < 0) continue;
-			String componentName = name.substring(0, q);
-			String propertyName = name.substring(q + 1);
-			SeamPropertiesDeclaration d = ds1.get(componentName);
-			if(d == null) {
-				d = new SeamPropertiesDeclaration();
-				d.setId(properties[i]);
-				d.setSourcePath(source);
-				d.setName(componentName);
-				ds1.put(componentName, d);
+			
+			ds = new LoadedDeclarations();
+	
+			XModelObject[] properties = o.getChildren();
+			Map<String, SeamPropertiesDeclaration> ds1 = new HashMap<String, SeamPropertiesDeclaration>();
+			for (int i = 0; i < properties.length; i++) {
+				String name = properties[i].getAttributeValue("name"); //$NON-NLS-1$
+				int q = name.lastIndexOf('.');
+				if(q < 0) continue;
+				String componentName = name.substring(0, q);
+				String propertyName = name.substring(q + 1);
+				SeamPropertiesDeclaration d = ds1.get(componentName);
+				if(d == null) {
+					d = new SeamPropertiesDeclaration();
+					d.setId(properties[i]);
+					d.setSourcePath(source);
+					d.setName(componentName);
+					ds1.put(componentName, d);
+				}
+				SeamProperty p = new SeamProperty();
+				p.setId(properties[i]);
+				p.setName(new XMLValueInfo(properties[i], "name")); //$NON-NLS-1$
+				p.setName(propertyName);
+				SeamValueString v = new SeamValueString();
+				v.setValue(new XMLValueInfo(properties[i], "value")); //$NON-NLS-1$
+				p.setValue(v);
+				d.addProperty(p);
 			}
-			SeamProperty p = new SeamProperty();
-			p.setId(properties[i]);
-			p.setName(new XMLValueInfo(properties[i], "name")); //$NON-NLS-1$
-			p.setName(propertyName);
-			SeamValueString v = new SeamValueString();
-			v.setValue(new XMLValueInfo(properties[i], "value")); //$NON-NLS-1$
-			p.setValue(v);
-			d.addProperty(p);
+			ds.getComponents().addAll(ds1.values());
 		}
-		ds.getComponents().addAll(ds1.values());
 		return ds;
 	}
 	

@@ -79,7 +79,7 @@ public class SeamBigProjectTest extends TestCase {
 		return new File(location);
 	}
 	
-	public void testBigProject() {
+	public void testBigProject() throws IOException {
 		ISeamProject sp = getSeamProject();
 		ISeamComponent[] cs = sp.getComponents();
 		int components = cs.length;
@@ -88,6 +88,7 @@ public class SeamBigProjectTest extends TestCase {
 		}
 		SeamProject impl = (SeamProject)sp;
 		System.out.println("Full build of " + components + " components completed in " + impl.fullBuildTime + "ms");
+		impl.store();
 		long time = impl.reload();
 		System.out.println("Reloaded " + sp.getComponents().length + " components in " + time + "ms");
 		List<Long> statistics = impl.statistics;

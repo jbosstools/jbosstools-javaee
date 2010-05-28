@@ -10,17 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamResourceVisitor;
@@ -30,44 +27,8 @@ import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 
 public class SeamCoreBuilder extends IncrementalProjectBuilder {
-	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder"; //$NON-NLS-1$
-	
-	SeamResourceVisitor resourceVisitor = null;
-	
-	SeamProject getSeamProject() {
-		IProject p = getProject();
-		if(p == null) return null;
-		return (SeamProject)SeamCorePlugin.getSeamProject(p, false);
-	}
-	
-	SeamResourceVisitor getResourceVisitor() {
-		if(resourceVisitor == null) {
-			SeamProject p = getSeamProject();
-			resourceVisitor = new SeamResourceVisitor(p);
-		}
-		return resourceVisitor;
-	}
 
-	class SampleDeltaVisitor implements IResourceDeltaVisitor {
-		/*
-		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
-		 */
-		public boolean visit(IResourceDelta delta) throws CoreException {
-			IResource resource = delta.getResource();
-			switch (delta.getKind()) {
-			case IResourceDelta.ADDED:
-				return getResourceVisitor().getVisitor().visit(resource);
-			case IResourceDelta.REMOVED:
-				SeamProject p = getSeamProject();
-				if(p != null) p.pathRemoved(resource.getFullPath());
-				break;
-			case IResourceDelta.CHANGED:
-				return getResourceVisitor().getVisitor().visit(resource);
-			}
-			//return true to continue visiting children.
-			return true;
-		}
-	}
+	public static String BUILDER_ID = "org.jboss.tools.seam.core.seambuilder"; //$NON-NLS-1$
 
 	/**
 	 * @see org.eclipse.core.resource.InternalProjectBuilder#build(int,
@@ -75,78 +36,46 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	 */
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-		SeamProject sp = getSeamProject();
-		if(sp == null) {
-			return null; 
-		}
-	
-		if(sp.hasNoStorage()) {
-			kind = FULL_BUILD;
-		}
+		SeamProject seamProject = (SeamProject)SeamCorePlugin.getSeamProject(getProject(), false);
+		SeamResourceVisitor resourceVisitor = new SeamResourceVisitor(seamProject);
 		
 		long begin = System.currentTimeMillis();
 		
-		sp.postponeFiring();
-		
-		try {
-		
-			sp.resolveStorage(kind != FULL_BUILD);
-			
-			if(sp.getClassPath().update()) {
-				sp.getClassPath().process();
-			} else if(sp.getClassPath().hasToUpdateProjectDependencies()) {
-				sp.getClassPath().validateProjectDependencies();
-			}
+		seamProject.postponeFiring();
 
+		try {
+
+			seamProject.build();
 			TypeInfoCollector.cleanCache();
 
-			if (kind == FULL_BUILD) {
-				fullBuild(monitor);
-			} else {
-				IResourceDelta delta = getDelta(getProject());
-				if (delta == null) {
-					fullBuild(monitor);
-				} else {
-					incrementalBuild(delta, monitor);
+			IResourceDelta delta = getDelta(getProject());
+
+			if (seamProject.hasNoStorage() || delta == null ) {
+				IPath[] paths = resourceVisitor.getPathsToVisit();
+				for (IPath iPath : paths) {
+					getProject().findMember(iPath.removeFirstSegments(1)).accept(resourceVisitor);
 				}
+			} else {
+				delta.accept(resourceVisitor);
 			}
+
 			long end = System.currentTimeMillis();
-			sp.fullBuildTime += end - begin;
-			try {
-				sp.store();
-			} catch (IOException e) {
-				SeamCorePlugin.getPluginLog().logError(NLS.bind(SeamCoreMessages.SeamCoreBuilder_1,sp.getProject().getName()), e); //$NON-NLS-1$
-			}
-			
-			sp.postBuild();
-		
+			seamProject.fullBuildTime += end - begin;
+			seamProject.postBuild();
+
 		} finally {
-			sp.fireChanges();
+			seamProject.fireChanges();
 		}
-		
+		// Check if we need to return something here instead of null
 		return null;
 	}
 
-	protected void fullBuild(final IProgressMonitor monitor)
-			throws CoreException {
-		try {
-			getProject().accept(getResourceVisitor().getVisitor());
-		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
-		}
-	}
-
-	protected void incrementalBuild(IResourceDelta delta,
-			IProgressMonitor monitor) throws CoreException {
-		// the visitor does the work.
-		delta.accept(new SampleDeltaVisitor());
-	}
 	
 	/**
 	 * Access to xml scanner for test.
 	 * @return
 	 */
-	public static IFileScanner getXMLScanner() {
+	public static IFileScanner createXMLScanner() {
 		return new XMLScanner();
 	}
 
@@ -154,7 +83,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	 * Access to java scanner for test.
 	 * @return
 	 */
-	public static IFileScanner getJavaScanner() {
+	public static IFileScanner createJavaScanner() {
 		return new JavaScanner();
 	}
 
@@ -162,13 +91,12 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 	 * Access to library scanner for test.
 	 * @return
 	 */
-	public static IFileScanner getLibraryScanner() {
+	public static IFileScanner createLibraryScanner() {
 		return new LibraryScanner();
 	}
 
 	protected void clean(IProgressMonitor monitor) throws CoreException {
-		SeamProject sp = getSeamProject();
-		if(sp != null) sp.clean();
+		((SeamProject)SeamCorePlugin.getSeamProject(getProject(), false)).clean();
 	}
 
 }

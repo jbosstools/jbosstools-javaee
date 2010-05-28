@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -39,7 +41,7 @@ import org.jboss.tools.seam.internal.core.scanner.xml.XMLScanner;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamResourceVisitor implements IResourceVisitor {
+public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 	static IFileScanner[] FILE_SCANNERS = {
 		new JavaScanner(), 
 		new XMLScanner(), 
@@ -50,6 +52,15 @@ public class SeamResourceVisitor implements IResourceVisitor {
 	IPath[] outs = new IPath[0];
 	IPath[] srcs = new IPath[0];
 	IPath webinf = null;
+	
+	public IPath[] getPathsToVisit() {
+		IPath[] dest = new IPath[srcs.length + (webinf==null?0:1)];
+		System.arraycopy(srcs, 0, dest, 0, srcs.length);
+		if(webinf!=null) {
+			dest[srcs.length] = webinf;
+		}
+		return dest;
+	}
 	
 	public SeamResourceVisitor(SeamProject p) {
 		this.p = p;
@@ -69,19 +80,10 @@ public class SeamResourceVisitor implements IResourceVisitor {
 			}
 		}
 	}
-	
-	public IResourceVisitor getVisitor() {
-		return this;
-	}
 
 	public boolean visit(IResource resource) {
 		if(resource instanceof IFile) {
 			IFile f = (IFile)resource;
-			for (int i = 0; i < outs.length; i++) {
-				if(outs[i].isPrefixOf(resource.getFullPath())) {
-					return false;
-				}
-			}
 			for (int i = 0; i < FILE_SCANNERS.length; i++) {
 				IFileScanner scanner = FILE_SCANNERS[i];
 				if(scanner.isRelevant(f)) {
@@ -103,29 +105,6 @@ public class SeamResourceVisitor implements IResourceVisitor {
 				}
 			}
 		}
-		if(resource instanceof IFolder) {
-			IPath path = resource.getFullPath();
-			for (int i = 0; i < outs.length; i++) {
-				if(outs[i].isPrefixOf(path)) {
-					return false;
-				}
-			}
-			for (int i = 0; i < srcs.length; i++) {
-				if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
-					return true;
-				}
-			}
-			if(webinf != null) {
-				if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
-					return true;
-				}
-			}
-			if(resource == resource.getProject()) {
-				return true;
-			}
-			return false;
-		}
-		//return true to continue visiting children.
 		return true;
 	}
 	
@@ -162,6 +141,70 @@ public class SeamResourceVisitor implements IResourceVisitor {
 		} catch(CoreException ce) {
 			ModelPlugin.getPluginLog().logError("Error while locating java source roots for " + project, ce);
 		}
+	}
+
+	public boolean visit(IResourceDelta delta) throws CoreException {
+		IResource resource = delta.getResource();
+		switch (delta.getKind()) {
+		case IResourceDelta.ADDED:
+		case IResourceDelta.CHANGED:
+			if(resource instanceof IFile) {
+				IFile f = (IFile)resource;
+				for (int i = 0; i < outs.length; i++) {
+					if(outs[i].isPrefixOf(resource.getFullPath())) {
+						return false;
+					}
+				}
+				for (int i = 0; i < FILE_SCANNERS.length; i++) {
+					IFileScanner scanner = FILE_SCANNERS[i];
+					if(scanner.isRelevant(f)) {
+						long t = System.currentTimeMillis();
+						if(!scanner.isLikelyComponentSource(f)) {
+							p.pathRemoved(f.getFullPath());
+							return false;
+						}
+						LoadedDeclarations c = null;
+						try {
+							c = scanner.parse(f, p);
+						} catch (ScannerException e) {
+							SeamCorePlugin.getDefault().logError(e);
+						}
+						if(c != null) componentsLoaded(c, f);
+						long dt = System.currentTimeMillis() - t;
+						timeUsed += dt;
+//						System.out.println("Time=" + timeUsed);
+					}
+				}
+			}
+			if(resource instanceof IFolder) {
+				IPath path = resource.getFullPath();
+				for (int i = 0; i < outs.length; i++) {
+					if(outs[i].isPrefixOf(path)) {
+						return false;
+					}
+				}
+				for (int i = 0; i < srcs.length; i++) {
+					if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
+						return true;
+					}
+				}
+				if(webinf != null) {
+					if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
+						return true;
+					}
+				}
+				if(resource == resource.getProject()) {
+					return true;
+				}
+				return false;
+			}
+			//return true to continue visiting children.
+			return true;
+		case IResourceDelta.REMOVED:
+			p.pathRemoved(resource.getFullPath());
+			break;
+		}
+		return true;
 	}
 
 }

@@ -286,4 +286,11 @@ public class ClassPath {
 		processedPaths.clear();
 	}
 
+	public void build() {
+		if(update()) {
+			process();
+		} else if(hasToUpdateProjectDependencies()) {
+			validateProjectDependencies();
+		}
+	}
 }

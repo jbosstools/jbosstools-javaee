@@ -108,9 +108,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		return SEAM_EAP_121_HOME_PROPERY;
 	}
 	
-	protected void tearDown()
-
-	throws Exception
+	protected void tearDown() throws Exception
 
 	{
 		

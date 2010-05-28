@@ -33,6 +33,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
@@ -52,8 +53,7 @@ public class JavaScanner implements IFileScanner {
 	 * @return
 	 */	
 	public boolean isRelevant(IFile resource) {
-		if(resource.getName().endsWith(".java")) return true; //$NON-NLS-1$
-		return false;
+		return resource.getName().endsWith(".java");
 	}
 	
 	/**
@@ -76,6 +76,8 @@ public class JavaScanner implements IFileScanner {
 		return true;
 	}
 	
+	private ASTParser p = ASTParser.newParser(AST.JLS3);
+
 	/**
 	 * Returns component or list of component
 	 * TODO change return type
@@ -93,7 +95,6 @@ public class JavaScanner implements IFileScanner {
 		}
 		if(u == null) return null;
 		ICompilationUnit[] us = new ICompilationUnit[]{u};
-		ASTParser p = ASTParser.newParser(AST.JLS3);
 		p.setSource(u);
 		p.setResolveBindings(true);
 		if("package-info.java".equals(f.getFullPath().lastSegment())) {
@@ -150,7 +151,7 @@ public class JavaScanner implements IFileScanner {
 			try {
 				ts = source.getTypes();
 			} catch (JavaModelException e) {
-				//ignore
+				SeamCorePlugin.getPluginLog().logError(e);
 			}
 			if(ts == null || ts.length == 0) return;
 			for (int i = 0; i < ts.length; i++) {
@@ -159,7 +160,7 @@ public class JavaScanner implements IFileScanner {
 				try {
 					f = ts[i].getFlags();
 				} catch (JavaModelException e) {
-					//ignore
+					SeamCorePlugin.getPluginLog().logError(e);
 					continue;
 				}
 				if(Flags.isPublic(f)) {

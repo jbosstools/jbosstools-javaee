@@ -58,6 +58,9 @@ import org.jboss.tools.seam.internal.core.scanner.ScannerException;
  */
 public class XMLScanner implements IFileScanner {
 	
+	private XModel model;
+	private XModelObject o;
+
 	public XMLScanner() {}
 
 	/**
@@ -67,9 +70,7 @@ public class XMLScanner implements IFileScanner {
 	 * @return
 	 */	
 	public boolean isRelevant(IFile resource) {
-		if(resource.getName().equals("components.xml")) return true; //$NON-NLS-1$
-		if(resource.getName().endsWith(".component.xml")) return true; //$NON-NLS-1$
-		return false;
+		return resource.getName().equals("components.xml") || resource.getName().endsWith(".component.xml");
 	}
 	
 	/**
@@ -79,15 +80,28 @@ public class XMLScanner implements IFileScanner {
 	 * @return
 	 */
 	public boolean isLikelyComponentSource(IFile f) {
-		if(!f.isSynchronized(IFile.DEPTH_ZERO) || !f.exists()) return false;
-		XModel model = InnerModelHelper.createXModel(f.getProject());
-		if(model == null) return false;
-		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
-		if(o == null) return false;
-		if(o.getModelEntity().getName().startsWith("FileSeamComponent")) return true; //$NON-NLS-1$
-		return false;
+		cleanState();
+		boolean isComponentSource = false;
+		if(f.isSynchronized(IFile.DEPTH_ZERO) && f.exists()) {
+			model = InnerModelHelper.createXModel(f.getProject());
+			if(model != null) {
+				o = EclipseResourceUtil.getObjectByResource(model, f);
+				if(o != null) {
+					isComponentSource = o.getModelEntity().getName().startsWith("FileSeamComponent"); //$NON-NLS-1$
+				}
+			}
+		}
+		if(!isComponentSource) {
+			cleanState();
+		}
+		return isComponentSource;
 	}
 
+	private void cleanState() {
+		model = null;
+		o = null;
+	}
+	
 	/**
 	 * Returns list of components
 	 * @param f
@@ -95,9 +109,8 @@ public class XMLScanner implements IFileScanner {
 	 * @throws ScannerException
 	 */
 	public LoadedDeclarations parse(IFile f, ISeamProject sp) throws ScannerException {
-		XModel model = InnerModelHelper.createXModel(f.getProject());
-		if(model == null) return null;
-		XModelObject o = EclipseResourceUtil.getObjectByResource(model, f);
+		model = InnerModelHelper.createXModel(f.getProject());
+		o = EclipseResourceUtil.getObjectByResource(model, f);
 		return parse(o, f.getFullPath(), sp);
 	}
 	
@@ -121,8 +134,6 @@ public class XMLScanner implements IFileScanner {
 	}
 	
 	public LoadedDeclarations parse(XModelObject o, IPath source, ISeamProject sp) {
-		if(o == null) return null;
-
 		NamespaceMapping nm = NamespaceMapping.load(o);
 		
 		if(o.getParent() instanceof FolderImpl) {

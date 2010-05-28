@@ -88,7 +88,7 @@ public class ScannerTest extends TestCase {
 		IFile f = project.getFile("WebContent/WEB-INF/components.xml");
 		assertTrue("Cannot find components.xml in test project", f != null && f.exists());
 		
-		IFileScanner scanner = SeamCoreBuilder.getXMLScanner();
+		IFileScanner scanner = SeamCoreBuilder.createXMLScanner();
 		assertTrue("Scanner cannot recognise components.xml", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise components.xml content", scanner.isLikelyComponentSource(f));
 		ISeamComponentDeclaration[] cs = null;
@@ -206,7 +206,7 @@ public class ScannerTest extends TestCase {
 		IFile f = project.getFile("JavaSource/demo/User.java");
 		assertTrue("Cannot find User.java in test project", f != null && f.exists());
 		
-		IFileScanner scanner = SeamCoreBuilder.getJavaScanner();
+		IFileScanner scanner = SeamCoreBuilder.createJavaScanner();
 		assertTrue("Scanner cannot recognise User.java", scanner.isRelevant(f));
 		assertTrue("Scanner cannot recognise User.java content", scanner.isLikelyComponentSource(f));
 		ISeamComponentDeclaration[] cs = null;
@@ -291,7 +291,7 @@ public class ScannerTest extends TestCase {
 		IFile f = project.getFile("WebContent/WEB-INF/lib/jboss-seam.jar");
 		assertTrue("Cannot find User.java in test project", f != null && f.exists());
 		
-		LibraryScanner scanner =(LibraryScanner)SeamCoreBuilder.getLibraryScanner();
+		LibraryScanner scanner =(LibraryScanner)SeamCoreBuilder.createLibraryScanner();
 		ClassPath cp = ((SeamProject)seamProject).getClassPath();
 		scanner.setClassPath(cp);
 		cp.update();
