@@ -19,6 +19,7 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 	public void testInjectedPointHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(115, 6)); // Inject
+		regionList.add(new Region(133, 6)); // Logger
 		regionList.add(new Region(140, 6)); // logger
 		regionList.add(new Region(196, 6)); // logger
 		regionList.add(new Region(250, 6)); // logger
@@ -28,9 +29,10 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 
 	public void testInjectedProducerMethodParametersHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
+		regionList.add(new Region(552, 3)); // Foo
+		regionList.add(new Region(556, 3)); // Foo
+		regionList.add(new Region(567, 3)); // Foo
 		regionList.add(new Region(571, 5)); // order
-		regionList.add(new Region(659, 3)); 
-		regionList.add(new Region(695, 3));
 		
 		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java", regionList, new InjectedPointHyperlinkDetector());
 	}
@@ -47,9 +49,9 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 	public void testInjectedConstructorParametersHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(880, 6));
+		regionList.add(new Region(894, 3)); // Fox
 		regionList.add(new Region(898, 3));
-		regionList.add(new Region(950, 6));
-		regionList.add(new Region(967, 7));
+		regionList.add(new Region(975, 3));
 		regionList.add(new Region(979, 3));
 		regionList.add(new Region(1017, 3));
 
@@ -59,9 +61,9 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 	public void testInjectedInitializerParametersHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(880, 6));
+		regionList.add(new Region(894, 3)); // Fox
 		regionList.add(new Region(898, 3));
-		regionList.add(new Region(945, 6));
-		regionList.add(new Region(967, 4));
+		regionList.add(new Region(972, 3));
 		regionList.add(new Region(976, 3));
 		regionList.add(new Region(1014, 3));
 

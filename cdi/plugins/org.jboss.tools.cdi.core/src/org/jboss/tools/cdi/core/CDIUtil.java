@@ -77,7 +77,7 @@ public class CDIUtil {
 	 * @param beans
 	 * @param element
 	 */
-	public static IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element) {
+	public static IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element, int position) {
 		if (!(element instanceof IField) && (element instanceof IMethod) && (element instanceof ILocalVariable)) {
 			return null;
 		}
@@ -86,17 +86,17 @@ public class CDIUtil {
 			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 			for (IInjectionPoint iPoint : injectionPoints) {
 				if (element instanceof IField && iPoint instanceof IInjectionPointField) {
-					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().equals(element)) {
+					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().equals(element))
 						return iPoint;
-					}
-				} else if (element instanceof IMethod && iPoint instanceof IInjectionPointMethod) {
-					if (((IInjectionPointMethod) iPoint).getMethod() != null && ((IInjectionPointMethod) iPoint).getMethod().equals(element)) {
+				} else if (element instanceof IMethod && iPoint instanceof IInjectionPointMethod && position == 0) {
+					if (((IInjectionPointMethod) iPoint).getMethod() != null && ((IInjectionPointMethod) iPoint).getMethod().equals(element))
 						return iPoint;
-					}
 				}else if(element instanceof ILocalVariable && iPoint instanceof IInjectionPointParameter){
-					if (((IInjectionPointParameter) iPoint).getName().equals(element.getElementName())) {
+					if (((IInjectionPointParameter) iPoint).getName().equals(element.getElementName())) 
 						return iPoint;
-					}
+				}else if(iPoint instanceof IInjectionPointParameter && position != 0){
+					if(iPoint.getStartPosition() <= position && (iPoint.getStartPosition()+iPoint.getLength()) >= position)
+						return iPoint;
 				}
 			}
 		}

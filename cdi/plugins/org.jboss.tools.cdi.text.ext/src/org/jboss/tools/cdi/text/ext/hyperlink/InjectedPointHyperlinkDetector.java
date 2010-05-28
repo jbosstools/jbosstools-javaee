@@ -11,18 +11,17 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IAnnotatable;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICodeAssist;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.ILocalVariable;
-import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.ResolvedBinaryType;
+import org.eclipse.jdt.internal.core.ResolvedSourceType;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -32,10 +31,13 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	
@@ -72,8 +74,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		
 		if(file == null)
 			return null;
-		
-		if(CDICorePlugin.getCDI(file.getProject(), true) == null)
+		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
+		if(cdiNature == null)
 			return null;
 		
 		IJavaElement[] elements = null;
@@ -85,18 +87,20 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			for (IJavaElement element : elements) {
-				
-				if(element instanceof IType){
-					if(CDIConstants.INJECT_ANNOTATION_TYPE_NAME.equals(((IType) element).getFullyQualifiedName())){
-						ICompilationUnit cUnit = (ICompilationUnit)input;
-						element = cUnit.getElementAt(wordRegion.getOffset());
-						if(element == null)
-							continue;
+				int position = 0;
+				if(element instanceof ResolvedSourceType || element instanceof ResolvedBinaryType){
+					ICompilationUnit cUnit = (ICompilationUnit)input;
+					element = cUnit.getElementAt(wordRegion.getOffset());
+					if(element == null)
+						continue;
+					
+					if(element instanceof IMethod){
+						position = offset;
 					}
 				}
 
-				if(findAnnotation(element)){
-					hyperlinks.add(new InjectedPointListHyperlink(file, textViewer, wordRegion, element, document));
+				if(findInjectedBeans(cdiNature, element, position, file)){
+					hyperlinks.add(new InjectedPointListHyperlink(file, textViewer, wordRegion, element, position, document));
 				}
 			}
 			
@@ -109,42 +113,24 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	private IMember findMember(IJavaElement element){
-		IJavaElement elem = element;
-		while(elem != null){
-			if(elem instanceof IMember)
-				return (IMember)elem;
-			elem = elem.getParent();
+	private boolean findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file){
+		ICDIProject cdiProject = nature.getDelegate();
+		
+		if(cdiProject == null){
+			return false;
 		}
-		return null;
-	}
-	
-	private boolean findAnnotation(IJavaElement element){
-		if(element instanceof IAnnotatable){
-			IAnnotatable annotatable = (IAnnotatable) element;
-			IType type = null;
-			if(element instanceof IMember){
-				type = ((IMember)element).getDeclaringType();
-				try{
-					IAnnotation[] annotations = annotatable.getAnnotations();
-					for(IAnnotation annotation : annotations){
-						if(annotation != null && annotation.getElementName() != null && CDIConstants.INJECT_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(type, annotation.getElementName())))
-							return true;
-					}
-				}catch (JavaModelException jme) {
-					CDIExtensionsPlugin.log(jme);
-				}
-			}else if(element instanceof ILocalVariable){
-				IMember member = findMember(element);
-				if(member == null)
-					return false;
-				type = member.getDeclaringType();
-				return true;
-			}
-			
+		
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		
+		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, offset);
+		if(injectionPoint == null){
+			return false;
 		}
+		
+		Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
+		if(resultBeanSet.size() > 0)
+			return true;
+		
 		return false;
-			
 	}
-
 }

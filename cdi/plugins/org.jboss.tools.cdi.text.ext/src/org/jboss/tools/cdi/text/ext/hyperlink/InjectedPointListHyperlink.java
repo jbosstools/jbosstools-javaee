@@ -33,19 +33,20 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 public class InjectedPointListHyperlink extends AbstractHyperlink{
 	private IFile file;
 	private IJavaElement element;
+	private int position;
 	private IRegion region;
 	private ITextViewer viewer;
 	
 	private static MultipleHyperlinkPresenter mhp = new MultipleHyperlinkPresenter(new RGB(0, 0, 255));
 	private static boolean installed = false;
 	
-	public InjectedPointListHyperlink(IFile file, ITextViewer viewer, IRegion region, IJavaElement element, IDocument document){
+	public InjectedPointListHyperlink(IFile file, ITextViewer viewer, IRegion region, IJavaElement element, int position, IDocument document){
 		this.file = file;
 		this.element = element;
+		this.position = position;
 		this.region = region;
 		this.viewer = viewer;
 		setDocument(document);
-		
 	}
 	
 
@@ -71,7 +72,7 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 		
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
-		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element);
+		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, position);
 		if(injectionPoint == null){
 			openFileFailed();
 			return;
