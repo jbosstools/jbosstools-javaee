@@ -128,6 +128,10 @@ Definition Errors
 5.2.2. Legal injection point types
 - injection point type is a type variable
 
+
+
+
+
 5.2.5. Qualifier annotations with members
 - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 

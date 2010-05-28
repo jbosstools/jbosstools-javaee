@@ -12,9 +12,12 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.jdt.core.ITypeParameter;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.IParametedType;
 
 /**
  * @author Alexey Kazakov
@@ -22,7 +25,7 @@ import org.jboss.tools.cdi.core.IInjectionPointParameter;
 public class InjectionPointTest extends TCKTest {
 
 	/**
-	 * Section 3.7.1 - Declaring a bean constructor
+	 * Section 3.7.1 - Declaring a bean constructorThe bean was not found.
 	 *  - All parameters of a bean constructor are injection points.
 	 */
 	public void testQualifierTypeAnnotatedConstructor() {
@@ -39,5 +42,20 @@ public class InjectionPointTest extends TCKTest {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/lifecycle/Mainz.java");
 		Set<IInjectionPointParameter> points = CDIUtil.getInjectionPointParameters(bean);
 		assertEquals("There should be two injection point parameters in the bean.", 1, points.size());
+	}
+
+	// https://jira.jboss.org/browse/JBIDE-6387 Type of a method parameter is null in case of generic method.
+	public void testMethodParameter() {
+		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/FarmBroken.java");
+		assertNotNull("Can't find the bean.", bean);
+		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		for (IInjectionPoint injectionPoint : injections) {
+			if(injectionPoint instanceof IInjectionPointParameter) {
+				IInjectionPointParameter param = (IInjectionPointParameter)injectionPoint;
+				IParametedType type = param.getType();
+				assertNotNull("Type of the parameter is null", type);
+				assertNotNull("Signature of parameter type is null", type.getSignature());
+			}
+		}
 	}
 }

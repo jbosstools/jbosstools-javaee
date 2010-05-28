@@ -368,6 +368,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(specializingBean==null) {
 			return;
 		}
+		validationContext.addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
+
 		String beanClassName = bean.getBeanClass().getElementName();
 		String beanName = bean instanceof IBeanMethod?beanClassName + "." + ((IBeanMethod)bean).getSourceMember().getElementName() + "()":beanClassName;
 		String specializingBeanClassName = specializingBean.getBeanClass().getElementName();
@@ -903,7 +905,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							pinjection.getAnnotationPosition(CDIConstants.NAMED_QUALIFIER_TYPE_NAME),
 							injection.getResource());
 				}
-				
 			}
 		} else if (injection instanceof IInjectionPointMethod) {
 			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
@@ -941,6 +942,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			if(CDIUtil.isMethodStatic(injectionMethod)) {
 				addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
 			}
+		}
+
+		if(!(injection instanceof IInjectionPointMethod) && CDIUtil.isTypeVariable(injection, false)) {
+			IAnnotationDeclaration declaration = injection.getInjectAnnotation();
+			addError(CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, CDIPreferences.INJECTION_TYPE_IS_VARIABLE, declaration, injection.getResource());
 		}
 	}
 

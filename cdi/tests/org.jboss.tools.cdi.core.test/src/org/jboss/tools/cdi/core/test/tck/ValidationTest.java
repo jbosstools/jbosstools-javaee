@@ -886,6 +886,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 5.2.2. Legal injection point types
+	 *  - injection point type is a type variable
+	 * 
+	 * @throws Exception
+	 */
+	public void testTypeVariableInjectionPoint() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/FarmBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, 11, 15);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

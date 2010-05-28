@@ -26,7 +26,9 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -534,6 +536,67 @@ public class CDIUtil {
 			return Flags.isAbstract(method.getMethod().getFlags());
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the bean member has a type variable as a type.
+	 * If the bean member is a field then checks its type.
+	 * If the bean member is a parameter of a method then checks its type.
+	 * If the bean member is a method then checks its return type.
+	 * 
+	 * @param member
+	 * @param checkGenericMethod if true then checks if this member use a type variable which is declared in the generic method (in case of the member is a method).
+	 * @return
+	 */
+	public static boolean isTypeVariable(IBeanMember member, boolean checkGenericMethod) {
+		try {
+			String[] typeVariableSegnatures = member.getClassBean().getBeanClass().getTypeParameterSignatures();
+			List<String> variables = new ArrayList<String>();
+			for (String variableSig : typeVariableSegnatures) {
+				variables.add(Signature.getTypeVariable(variableSig));
+			}
+			if(checkGenericMethod) {
+				ITypeParameter[] typeParams = null;
+				if(member instanceof IParameter) {
+					typeParams = ((IParameter)member).getBeanMethod().getMethod().getTypeParameters();
+				} if(member instanceof IBeanMethod) {
+					typeParams = ((IBeanMethod)member).getMethod().getTypeParameters();
+				}
+				if(typeParams!=null) {
+					for (ITypeParameter param : typeParams) {
+						variables.add(param.getElementName());
+					}
+				}
+			}
+			String signature = null;
+			if(member instanceof IBeanField) {
+				signature = ((IBeanField)member).getField().getTypeSignature();
+			} else if(member instanceof IParameter) {
+				if(((IParameter)member).getType()==null) {
+					return false;
+				}
+				signature = ((IParameter)member).getType().getSignature();
+			} else if(member instanceof IBeanMethod) {
+				signature = ((IBeanMethod)member).getMethod().getReturnType();
+			}
+			return isTypeVariable(variables, signature);
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
+	private static boolean isTypeVariable(List<String> typeVariables, String signature) {
+		if(signature==null) {
+			return false;
+		}
+		String typeString = Signature.toString(signature);
+		for (String variableName : typeVariables) {
+			if(typeString.equals(variableName)) {
+				return true;
+			}
 		}
 		return false;
 	}
