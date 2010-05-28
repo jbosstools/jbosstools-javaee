@@ -433,6 +433,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		for (IQualifierDeclaration d: ds) {
 			if(d.getQualifier() != null && d.getQualifier().getInheritedDeclaration() != null) {
 				result.add(d);
+			} else if(isSpecializing()) {
+				result.add(d);
 			}
 		}
 		return result;
