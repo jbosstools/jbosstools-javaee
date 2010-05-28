@@ -15,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.jsf.kb.test.FaceletsKbModelTest;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
@@ -29,6 +30,7 @@ public class JsfAllTests {
 		old.addTestSuite(JSFModelTest.class);
 		old.addTestSuite(ModelFormat_2_0_0_Test.class);
 		old.addTestSuite(JSFBeansTest.class);
+		old.addTestSuite(FaceletsKbModelTest.class);
 		suite.addTest(new ProjectImportTestSetup(old,
 				"org.jboss.tools.jsf.test", "projects/JSFKickStartOldFormat", //$NON-NLS-1$ //$NON-NLS-2$
 				"JSFKickStartOldFormat")); //$NON-NLS-1$
