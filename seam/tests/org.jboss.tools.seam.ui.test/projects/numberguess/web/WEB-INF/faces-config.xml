@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+                              "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+ <managed-bean>
+  <managed-bean-name>name</managed-bean-name>
+  <managed-bean-class>demo.Name</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Customize JSF validation messages -->
+ <application>
+  <message-bundle>messages</message-bundle>
+ </application>
+ <!-- Phase listener needed for all Seam applications -->
+ <lifecycle>
+  <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+ </lifecycle>
+</faces-config>
