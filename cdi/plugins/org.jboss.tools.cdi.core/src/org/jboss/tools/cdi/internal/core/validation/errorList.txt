@@ -122,9 +122,6 @@ Definition Errors
 - X specializes Y and Y has a name and X declares a name explicitly, using @Named
 - interceptor or decorator is annotated @Specializes (Non-Portable behavior)
 
-
-
-
 5.2.2. Legal injection point types
 - injection point type is a type variable
 
@@ -134,6 +131,10 @@ Definition Errors
 
 5.2.5. Qualifier annotations with members
 - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
+
+
+
+
 
 5.5.7. Injection point metadata
 - bean that declares any scope other than @Dependent has an injection point of type 
