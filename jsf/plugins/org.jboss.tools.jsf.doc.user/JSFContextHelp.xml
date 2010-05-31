@@ -1,18 +1,38 @@
 <contexts>
+    <context id="faces_config_editor">
+      	<description>The configuration file can be edited using a graphical interface.</description>
+      	<topic href="chap-3.html#proc-JSF_Editor_faces-config" label="faces-config.xml Editor"/>
+      	<topic href="chap-3.html#proc-JSF_CreateJSPPage" label="Create a JSP Page"/>
+    </context>
+    <!-- 
 	<context id="faces_config_editor" title="New Seam Project">
 		<description>Faces Config Editor</description>
 		<topic href="JSFStrutsTools.html#GraphicalEditorAndViewingForJSFConfigurationFiles76331" label="Graphical Editor and Viewing for JSF Configuration Files"/>
 		<topic href="jsf_application.html" label="Getting Started Guide for Creating a JSF Application"/>
 	</context>
+	-->
+	<context id="new_jsf_project" title="New JSF Project">
+      	<description>This wizard creates a new JSF project. Type the appropriate values for the project and click Next.</description>
+      	<topic href="chap-3.html#table-JSF_NewJSFProject_001" label="New JSF Project"/>
+    </context> 
+	<!--
 	<context id="new_jsf_project" title="New JSF Project">
 		<description>New JSF Project Wizard</description>
 		<topic href="JSFStrutsTools.html#CreatingANewJSFProject96" label="Creating a New JSF Project"/>
 		<topic href="JSFStrutsTools.html#SupportForJSFEnvironmentsJSF_RIMyFacesFaceletsShaleOrAnyCustom442" label="Support for JSF Environments: JSF-RI, MyFaces, Facelets or any Custom"/>
 	</context>
+	-->
 	<context id="import_jsf_project" title="Import JSF Project">
 		<description>Import JSF Project Wizard</description>
 		<topic href="JSFStrutsTools.html#ImportingExsJSFProjWithAnyStr74447" label="Importing Existing JSF Projects with Any Structure"/>
 	</context>
+	<!-- Additional context here -->
+	<context id="new_faces_config_file_wizard">
+      <description>This wizard creates a new faces-config.xml file. Type the appropriate values for the file and click Finish to render the file editor.</description>
+      <topic href="chap-6.html#proc-JBDS_NewOther" label="Available Wizards"/>
+      <topic href="chap-6.html#proc-JSF_NewFacesConfig" label="New faces-config.xml Wizard"/>
+      <topic href="chap-3.html#proc-JSF_Editor_faces-config" label="faces-config.xml Editor"/>
+    </context> 
 	<context id="add_jsf_project_template" title="Add JSF Project Template">
 		<description>Add JSF Project Template Wizard</description>
 		<topic href="JSFStrutsTools.html#AddingYourOwnProjectTemplates853" label="Adding Your Own Project Templates"/>
