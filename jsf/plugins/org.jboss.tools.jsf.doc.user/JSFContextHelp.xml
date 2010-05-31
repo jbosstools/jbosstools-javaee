@@ -29,8 +29,7 @@
 	<!-- Additional context here -->
 	<context id="new_faces_config_file_wizard">
       <description>This wizard creates a new faces-config.xml file. Type the appropriate values for the file and click Finish to render the file editor.</description>
-      <topic href="chap-6.html#proc-JBDS_NewOther" label="Available Wizards"/>
-      <topic href="chap-6.html#proc-JSF_NewFacesConfig" label="New faces-config.xml Wizard"/>
+      <topic href="chap-6.html#table-JSF_NewFacesConfig_001" label="New faces-config.xml Wizard"/>
       <topic href="chap-3.html#proc-JSF_Editor_faces-config" label="faces-config.xml Editor"/>
     </context> 
 	<context id="add_jsf_project_template" title="Add JSF Project Template">
