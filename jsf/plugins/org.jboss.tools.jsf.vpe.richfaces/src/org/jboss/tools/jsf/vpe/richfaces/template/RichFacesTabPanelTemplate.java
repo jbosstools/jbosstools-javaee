@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -350,7 +352,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		ComponentUtil.findAllElementsByName(data.getNode(), elements, HTML.TAG_TABLE);
 		for (nsIDOMNode node : elements) {
 			try {
-			nsIDOMElement element = (nsIDOMElement) node.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
 			if (ComponentUtil.getAttribute(element, RichFacesTabTemplate.TAB_HEADER_ATTR).equalsIgnoreCase(YES)) {
 				element.removeAttribute(HTML.ATTR_STYLE);
 			}

@@ -12,6 +12,7 @@
 
 package org.jboss.tools.jsf.vpe.richfaces.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class JBIDE1606Test extends VpeTest {
         
         assertTrue("Size of span's should be gt that 0", elements.size() > 0); //$NON-NLS-1$
         
-        nsIDOMElement element = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        nsIDOMElement element = queryInterface(elements.get(0), nsIDOMElement.class);
         
         assertEquals("Test should be equals "+HELLO,HELLO,element.getFirstChild().getNodeValue()); //$NON-NLS-1$
     

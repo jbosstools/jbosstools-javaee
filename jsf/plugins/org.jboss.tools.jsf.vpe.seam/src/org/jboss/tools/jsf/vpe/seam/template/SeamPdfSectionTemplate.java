@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 /**
  * @author yzhishko
  */
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.StringTokenizer;
 
@@ -147,8 +148,7 @@ public class SeamPdfSectionTemplate extends SeamPdfAbstractChapterTemplate {
 						|| HTML.TAG_H4.equalsIgnoreCase(nodeName)
 						|| HTML.TAG_H5.equalsIgnoreCase(nodeName)
 						|| HTML.TAG_H6.equalsIgnoreCase(nodeName)) {
-					return (nsIDOMElement) children.item(i).queryInterface(
-							nsIDOMElement.NS_IDOMELEMENT_IID);
+					return queryInterface(children.item(i), nsIDOMElement.class);
 				}
 			}
 		}

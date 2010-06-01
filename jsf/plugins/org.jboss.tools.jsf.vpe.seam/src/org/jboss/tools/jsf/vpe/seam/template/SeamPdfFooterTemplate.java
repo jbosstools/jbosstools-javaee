@@ -14,6 +14,8 @@ package org.jboss.tools.jsf.vpe.seam.template;
  * @author yzhishko
  */
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -33,8 +35,7 @@ public class SeamPdfFooterTemplate extends SeamPdfAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		sourceElement = (Element) sourceNode;
 		nsIDOMNode visualNode = visualDocument.createElement(HTML.TAG_DIV);
-		visualElement = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		visualElement = queryInterface(visualNode, nsIDOMElement.class);
 		SeamUtil.setAlignment(sourceElement, visualElement);
 		Node parentFontNode = SeamUtil.getParentByName(pageContext, sourceNode,
 				"p:font"); //$NON-NLS-1$

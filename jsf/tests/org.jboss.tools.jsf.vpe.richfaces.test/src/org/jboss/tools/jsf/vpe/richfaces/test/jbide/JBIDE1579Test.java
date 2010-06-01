@@ -1,5 +1,7 @@
 package org.jboss.tools.jsf.vpe.richfaces.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,6 @@ import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.jboss.tools.vpe.ui.test.VpeTest;
-import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 
@@ -52,8 +53,7 @@ public class JBIDE1579Test extends VpeTest {
 		assertNotNull(element);
 		
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-					.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 		
@@ -89,8 +89,7 @@ public class JBIDE1579Test extends VpeTest {
 		assertNotNull(element);
 		
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-					.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 		

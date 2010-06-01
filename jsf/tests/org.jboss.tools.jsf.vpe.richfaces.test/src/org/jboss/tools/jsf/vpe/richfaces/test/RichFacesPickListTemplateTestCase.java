@@ -8,16 +8,14 @@
  * Contributor:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-
-
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
@@ -79,7 +77,7 @@ public class RichFacesPickListTemplateTestCase extends VpeTest {
 
             TestUtil.findAllElementsByName(element, elements, HTML.TAG_TABLE);
             assertEquals("Count of tables should be 3", 3, elements.size()); //$NON-NLS-1$
-            nsIDOMElement tableOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+            nsIDOMElement tableOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
             assertEquals("Style class should be equals", "rich-list-picklist", tableOne.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$ //$NON-NLS-2$
             assertEquals("Style should be empty", "", tableOne.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$ //$NON-NLS-2$

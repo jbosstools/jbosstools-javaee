@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.jsf.template.selectitem.AbstractRadioSelectItemTemplate;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -136,8 +138,7 @@ public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 	boolean disabled = false;
 	try {
 	    nsIDOMNodeList list = node.getChildNodes();
-	    nsIDOMElement element = (nsIDOMElement) node
-		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
 	    disabled = ComponentUtil.string2boolean(ComponentUtil.getAttribute(
 		    sourceElement, HTML.ATTR_DISABLED));
 	    if (node.getNodeName().equalsIgnoreCase(HTML.TAG_INPUT)) {

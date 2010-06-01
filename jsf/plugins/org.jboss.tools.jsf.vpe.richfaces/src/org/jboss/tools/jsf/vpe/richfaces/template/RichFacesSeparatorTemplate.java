@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -116,7 +118,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	@Override
 	public void removeAttribute(VpePageContext pageContext,  Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
 		super.removeAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name);
-		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement element = queryInterface(visualNode, nsIDOMElement.class);
 		nsIDOMElement line = getLineElement(element);
 		String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
 		String width = sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH);
@@ -169,7 +171,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		String newStyle;
 		super.setAttribute(pageContext, sourceElement, visualDocument,
 				visualNode, data, name, value);
-		nsIDOMElement element = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement element = queryInterface(visualNode, nsIDOMElement.class);
 		nsIDOMElement line = getLineElement(element);
 		String style = sourceElement
 				.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
@@ -309,7 +311,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	private nsIDOMElement getLineElement(nsIDOMElement parent) {
 		nsIDOMNodeList list = parent.getChildNodes();
 		nsIDOMNode node = list.item(0);
-		nsIDOMElement element = (nsIDOMElement) node.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
 		return element;
 	}
 

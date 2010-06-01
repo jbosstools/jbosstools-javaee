@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,8 +71,7 @@ public class JBIDE1720Test extends VpeTest {
 		assertNotNull(element);
 
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -81,8 +82,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		for (int i = 0; i < elements.size(); i++) {
 
-			nsIDOMElement inputElement = (nsIDOMElement) elements.get(i)
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement inputElement = queryInterface(elements.get(i), nsIDOMElement.class);
 			assertNotNull(inputElement);
 			String dir = inputElement.getAttribute(HTML.ATTR_DIR);
 			assertNotNull(dir);
@@ -102,8 +102,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		for (int i = 0; i < elements.size(); i++) {
 
-			nsIDOMElement inputElement = (nsIDOMElement) elements.get(i)
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement inputElement = queryInterface(elements.get(i), nsIDOMElement.class);
 			assertNotNull(inputElement);
 			String style = inputElement.getAttribute(HTML.ATTR_CLASS);
 			assertNotNull(style);
@@ -144,8 +143,7 @@ public class JBIDE1720Test extends VpeTest {
 		assertNotNull(element);
 
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -154,8 +152,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		assertEquals(1, elements.size());
 
-		nsIDOMElement select = (nsIDOMElement) elements.get(0).queryInterface(
-				nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement select = queryInterface(elements.get(0), nsIDOMElement.class);
 
 		String size = select.getAttribute(HTML.ATTR_SIZE);
 		assertNotNull("Attribute size is not exist.", size);
@@ -182,8 +179,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		for (int i = 0; i < elements.size(); i++) {
 
-			nsIDOMElement inputElement = (nsIDOMElement) elements.get(i)
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement inputElement = queryInterface(elements.get(i), nsIDOMElement.class);
 			assertNotNull(inputElement);
 			String attr = inputElement.getAttribute(HTML.ATTR_CLASS);
 			assertNotNull("Attribute class is not exist in option tag", attr);
@@ -224,8 +220,7 @@ public class JBIDE1720Test extends VpeTest {
 		assertNotNull(element);
 
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -234,8 +229,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		assertEquals(1, elements.size());
 
-		nsIDOMElement select = (nsIDOMElement) elements.get(0).queryInterface(
-				nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement select = queryInterface(elements.get(0), nsIDOMElement.class);
 
 		String size = select.getAttribute(HTML.ATTR_SIZE);
 		assertNotNull("Attribute size is not exist.", size);
@@ -260,8 +254,7 @@ public class JBIDE1720Test extends VpeTest {
 
 		for (int i = 0; i < elements.size(); i++) {
 
-			nsIDOMElement inputElement = (nsIDOMElement) elements.get(i)
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement inputElement = queryInterface(elements.get(i), nsIDOMElement.class);
 			assertNotNull(inputElement);
 
 			String attr = inputElement.getAttribute(HTML.ATTR_CLASS);

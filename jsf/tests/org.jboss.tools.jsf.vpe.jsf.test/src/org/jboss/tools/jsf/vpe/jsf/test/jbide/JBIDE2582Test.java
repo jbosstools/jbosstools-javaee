@@ -12,6 +12,7 @@
 
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
 
         assertEquals("Size should be equals 1", 1, elements.size()); //$NON-NLS-1$
 
-        final nsIDOMElement spanOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        final nsIDOMElement spanOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
         assertEquals("Style attribute should be substituted", "Hello", spanOne.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -101,7 +102,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
         TestUtil.findAllElementsByName(rst, elements, "H3"); //$NON-NLS-1$
         assertEquals("Size should be equals 1", 1, elements.size()); //$NON-NLS-1$
 
-        final nsIDOMElement h3one = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        final nsIDOMElement h3one = queryInterface(elements.get(0), nsIDOMElement.class);
 
         assertEquals("Style attribute should be substituted", "Hello", h3one.getFirstChild().getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -109,7 +110,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
 
         TestUtil.findAllElementsByName(rst, elements, "SPAN"); //$NON-NLS-1$
         assertEquals("Size should be equals 1", 4, elements.size()); //$NON-NLS-1$
-        final nsIDOMElement pOne = ((nsIDOMElement) elements.get(2).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID));
+        final nsIDOMElement pOne = (queryInterface(elements.get(2), nsIDOMElement.class));
 
         assertEquals(
                 "Style attribute should be substituted", "There are the label:Hello Demo Application", pOne.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$

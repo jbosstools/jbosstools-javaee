@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
@@ -510,8 +512,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			RichFacesTemplatesActivator.getPluginLog().logError(e);
 		}
 		
-		final nsIDOMElement mainTable = (nsIDOMElement) mainTableWrapperChildren.item(0)
-			.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		final nsIDOMElement mainTable = queryInterface(mainTableWrapperChildren.item(0), nsIDOMElement.class);
 		
 		final RichFacesDataTableStyleClassesApplier styleClassesApplier = 
 			new RichFacesDataTableStyleClassesApplier(visualDocument, 

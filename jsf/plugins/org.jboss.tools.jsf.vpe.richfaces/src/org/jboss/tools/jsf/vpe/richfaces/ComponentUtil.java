@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.vpe.richfaces;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -344,8 +345,7 @@ public class ComponentUtil {
 		for (int i = 0; i < len; i++) {
 		    nsIDOMNode item = children.item(i);
 		    try {
-			nsIDOMElement elem = (nsIDOMElement) item
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement elem = queryInterface(item, nsIDOMElement.class);
 			result.add(elem);
 		    } catch (XPCOMException ex) {
 			// just ignore this exception

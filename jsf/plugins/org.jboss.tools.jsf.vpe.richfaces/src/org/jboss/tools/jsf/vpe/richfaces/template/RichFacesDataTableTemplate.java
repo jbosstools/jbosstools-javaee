@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -377,13 +379,13 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 
 	@Override
 	public void removeAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
-		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class); 
 		visualElement.removeAttribute(name);
 	}
 
 	@Override
 	public void setAttribute(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name, String value) {
-		nsIDOMElement visualElement = (nsIDOMElement)visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+		nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class); 
 		visualElement.setAttribute(name, value);
 	}
 }

@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -154,8 +156,7 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 			nsIDOMNode visualNode, Object data, String name) {
 
 		// get DOMElement(root element is select)
-		nsIDOMElement select = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement select = queryInterface(visualNode, nsIDOMElement.class);
 
 		// remove attribute
 		select.removeAttribute(name);

@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -155,8 +158,7 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 			nsIDOMNode visualNode, Object data, String name) {
 
 		// get DOMElement(root element is select)
-		nsIDOMElement select = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement select = queryInterface(visualNode, nsIDOMElement.class);
 
 		// remove attribute
 		select.removeAttribute(name);
@@ -174,8 +176,7 @@ public class JsfSelectOneListbox extends VpeAbstractTemplate {
 		boolean disabled = false;
 		try {
 			nsIDOMNodeList list = node.getChildNodes();
-			nsIDOMElement element = (nsIDOMElement) node
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
 			disabled = ComponentUtil.string2boolean(ComponentUtil.getAttribute(
 					sourceElement, HTML.ATTR_DISABLED))
 					|| ComponentUtil.string2boolean(ATTR_LIST_COPY

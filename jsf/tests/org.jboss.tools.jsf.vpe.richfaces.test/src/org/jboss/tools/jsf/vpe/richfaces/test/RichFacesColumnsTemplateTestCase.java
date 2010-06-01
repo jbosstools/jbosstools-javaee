@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.vpe.richfaces.test;
 
 
 import static org.jboss.tools.vpe.ui.test.TestUtil.performTestForRichFacesComponent;
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class RichFacesColumnsTemplateTestCase extends VpeTest {
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
 
-            nsIDOMElement divOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+            nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
             assertEquals("Style class should be equals", "dr-table-cell rich-table-cell myClass", divOne.getAttribute(HTML.ATTR_CLASS));
             assertEquals("Style should be equals ", "text-align: center;", divOne.getAttribute(HTML.ATTR_STYLE));
@@ -81,7 +82,7 @@ public class RichFacesColumnsTemplateTestCase extends VpeTest {
             final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
             TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
 
-            nsIDOMElement divOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+            nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
             assertEquals("Style class should be equals", "dr-table-cell rich-table-cell", divOne.getAttribute(HTML.ATTR_CLASS));
         } catch (CoreException e) {

@@ -14,6 +14,8 @@ package org.jboss.tools.jsf.vpe.seam.template;
  * @author yzhishko
  */
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -63,8 +65,7 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractChapterTemplate {
 			if (children.item(i).getNodeType() == nsIDOMNode.ELEMENT_NODE) {
 				if (children.item(i).getNodeName()
 						.equalsIgnoreCase(HTML.TAG_H1)) {
-					return (nsIDOMElement) children.item(i).queryInterface(
-							nsIDOMElement.NS_IDOMELEMENT_IID);
+					return queryInterface(children.item(i), nsIDOMElement.class);
 				}
 			}
 		}

@@ -11,6 +11,8 @@
 
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,8 +87,7 @@ public class JsfJbide1467Test extends VpeTest {
 		assertNotNull(element);
 
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 

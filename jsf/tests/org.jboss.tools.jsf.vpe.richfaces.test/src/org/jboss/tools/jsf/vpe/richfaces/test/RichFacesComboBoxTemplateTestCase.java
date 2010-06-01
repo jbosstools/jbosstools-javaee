@@ -12,6 +12,7 @@
 
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +96,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
 
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_DIV);
 
-        nsIDOMElement divOne = (nsIDOMElement) elements.get(5).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        nsIDOMElement divOne = queryInterface(elements.get(5), nsIDOMElement.class);
         assertTrue("Style classes should be contains ",divOne.getAttribute(HTML.ATTR_CLASS).contains("rich-combobox-font rich-combobox")); //$NON-NLS-1$ //$NON-NLS-2$
         assertTrue("Default style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).indexOf(width) > 1); //$NON-NLS-1$
         assertTrue("Default style should be contains " + width, divOne.getAttribute(HTML.ATTR_STYLE).contains("width")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -115,7 +116,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_INPUT);
 
         assertEquals("Size should be equals 2", 3, elements.size()); //$NON-NLS-1$
-        final nsIDOMElement input = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        final nsIDOMElement input = queryInterface(elements.get(0), nsIDOMElement.class);
         assertEquals("Value should be equals " + inputValue, inputValue, input.getAttribute(HTML.ATTR_VALUE)); //$NON-NLS-1$
     }
 
@@ -159,7 +160,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
 
         assertEquals("Size should be equals 2", 3, elements.size()); //$NON-NLS-1$
 
-        final nsIDOMElement input = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        final nsIDOMElement input = queryInterface(elements.get(0), nsIDOMElement.class);
 
         assertEquals("Default input class should be equals " + DEFAULT_INPUT_STYLE, input.getAttribute(HTML.ATTR_CLASS), //$NON-NLS-1$
                 DEFAULT_INPUT_STYLE);
@@ -167,7 +168,7 @@ public class RichFacesComboBoxTemplateTestCase extends VpeTest {
 //        assertEquals("Input type should be text", HTML.VALUE_TEXT_TYPE, input.getAttribute(HTML.ATTR_TYPE));
 //        assertEquals("Input size should be " + String.valueOf(10), String.valueOf(10), input.getAttribute(HTML.ATTR_SIZE));
 //
-//        final nsIDOMElement img = (nsIDOMElement) elements.get(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+//        final nsIDOMElement img = queryInterface(elements.get(1), nsIDOMElement.class);
 //        assertTrue("Shoul contains of image path ", img.getAttribute("src").indexOf("\\comboBox\\down.gif") > 1);
 
     }

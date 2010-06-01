@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 /**
  * @author yzhishko
  */
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,9 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 		sourceElement = (Element) sourceNode;
 		nsIDOMNode visualNode = visualDocument.createElement(HTML.TAG_DIV);
 		nsIDOMNode tableNode = visualDocument.createElement(HTML.TAG_TABLE);
-		nsIDOMElement visualTable = (nsIDOMElement) tableNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement visualTable = queryInterface(tableNode, nsIDOMElement.class);
 		visualNode.appendChild(tableNode);
-		visualElement = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		visualElement = queryInterface(visualNode, nsIDOMElement.class);
 		visualTable.setAttribute(HTML.ATTR_WIDTH, getWidthPerc(sourceElement));
 		visualTable.setAttribute(HTML.ATTR_ALIGN, getAlignment(sourceElement));
 		visualTable.setAttribute(HTML.ATTR_CELLSPACING, "0px"); //$NON-NLS-1$
@@ -92,8 +91,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 	private void setColumns(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument, VpeCreationData data) {
 		int numberOfColumns = getNumberOfColumns(sourceNode);
-		nsIDOMNode visualTable = ((nsIDOMElement) data.getNode()
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID))
+		nsIDOMNode visualTable = (queryInterface(data.getNode(), nsIDOMElement.class))
 				.getElementsByTagName(HTML.TAG_TABLE).item(0);
 		nsIDOMNode[] visualCells = getCells(data.getNode());
 		if (visualCells == null) {
@@ -188,8 +186,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 
 	private int getColspanValue(nsIDOMNode visualNode) {
 		int colspan = 1;
-		nsIDOMElement visualElement = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class);
 		String colspanString = visualElement.getAttribute(HTML.ATTR_COLSPAN);
 		if (colspanString != null) {
 			try {
@@ -214,8 +211,7 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 			nsIDOMNode child = children.item(i);
 			if (child.getNodeType() == nsIDOMNode.ELEMENT_NODE) {
 				if ("TD".equals(child.getNodeName())) { //$NON-NLS-1$
-					childrenList.add((nsIDOMElement) child
-							.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID));
+					childrenList.add(queryInterface(child, nsIDOMElement.class));
 				}
 			}
 		}

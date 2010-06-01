@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.seam.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -38,7 +40,7 @@ public class SeamMailBodyTemplate extends VpeAbstractTemplate {
 
 	private nsIDOMNode clearAllStyleAttrs(nsIDOMNode visualNode) {
 		if (visualNode.getNodeType() == nsIDOMNode.ELEMENT_NODE) {
-			nsIDOMElement visualElement = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class);
 			visualElement.removeAttribute(HTML.ATTR_CLASS);
 			visualElement.removeAttribute(HTML.ATTR_STYLE);
 		}

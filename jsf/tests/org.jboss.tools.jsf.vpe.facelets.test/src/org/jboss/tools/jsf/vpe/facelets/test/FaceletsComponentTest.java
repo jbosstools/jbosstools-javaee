@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.facelets.test;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +54,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testDebug() throws Throwable {
 	nsIDOMElement element = performTestForFaceletComponent("components/debug.xhtml"); //$NON-NLS-1$
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -61,11 +62,9 @@ public class FaceletsComponentTest extends VpeTest {
 	TestUtil.findAllElementsByName(node, elements, HTML.TAG_DIV);
 	assertEquals(5, elements.size());
 
-	nsIDOMElement divElement = (nsIDOMElement) elements.get(4)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement divElement = queryInterface(elements.get(4), nsIDOMElement.class);
 
-	nsIDOMText text = (nsIDOMText) divElement.getFirstChild()
-		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
+	nsIDOMText text = queryInterface(divElement.getFirstChild(), nsIDOMText.class);
 
 	assertEquals("Debug's content is not shown", text.getNodeValue(), //$NON-NLS-1$
 		"Ctrl+Shift+"); //$NON-NLS-1$
@@ -83,8 +82,7 @@ public class FaceletsComponentTest extends VpeTest {
     public void testDefine() throws Throwable {
 
 	nsIDOMElement element = performTestForFaceletComponent("components/define.xhtml"); //$NON-NLS-1$
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -93,19 +91,13 @@ public class FaceletsComponentTest extends VpeTest {
 
 	assertEquals(3, elements.size());
 
-	nsIDOMElement elementSpan0 = (nsIDOMElement) elements.get(0)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement elementSpan1 = (nsIDOMElement) elements.get(1)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement elementSpan2 = (nsIDOMElement) elements.get(2)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement elementSpan0 = queryInterface(elements.get(0), nsIDOMElement.class);
+	nsIDOMElement elementSpan1 = queryInterface(elements.get(1), nsIDOMElement.class);
+	nsIDOMElement elementSpan2 = queryInterface(elements.get(2), nsIDOMElement.class);
 
-	nsIDOMText text0 = (nsIDOMText) elementSpan0.getFirstChild()
-		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
-	nsIDOMText text1 = (nsIDOMText) elementSpan1.getFirstChild()
-		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
-	nsIDOMText text2 = (nsIDOMText) elementSpan2.getFirstChild()
-		.queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
+	nsIDOMText text0 = queryInterface(elementSpan0.getFirstChild(), nsIDOMText.class);
+	nsIDOMText text1 = queryInterface(elementSpan1.getFirstChild(), nsIDOMText.class);
+	nsIDOMText text2 = queryInterface(elementSpan2.getFirstChild(), nsIDOMText.class);
 
 	assertEquals(DEFINED_CONTENT_IS_NOT_SHOWN, text0.getNodeValue(),
 		"Greeting Page"); //$NON-NLS-1$
@@ -151,8 +143,7 @@ public class FaceletsComponentTest extends VpeTest {
     public void testComponent() throws Throwable {
 
 	nsIDOMElement element = performTestForFaceletComponent("components/component.xhtml"); //$NON-NLS-1$
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -161,8 +152,7 @@ public class FaceletsComponentTest extends VpeTest {
 
 	assertEquals(1, elements.size());
 
-	nsIDOMElement div = (nsIDOMElement) elements.get(0).queryInterface(
-		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement div = queryInterface(elements.get(0), nsIDOMElement.class);
 
 	String title = div.getAttribute("title"); //$NON-NLS-1$
 
@@ -180,8 +170,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testRemove() throws Throwable {
 	nsIDOMElement element = performTestForFaceletComponent("components/remove.xhtml"); //$NON-NLS-1$
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -190,11 +179,9 @@ public class FaceletsComponentTest extends VpeTest {
 
 	for (int i = 0; i < elements.size(); i++) {
 
-	    nsIDOMElement elementSpan = (nsIDOMElement) elements.get(i)
-		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement elementSpan = queryInterface(elements.get(i), nsIDOMElement.class);
 
-	    nsIDOMText text = (nsIDOMText) elementSpan.getFirstChild()
-		    .queryInterface(nsIDOMText.NS_IDOMTEXT_IID);
+	    nsIDOMText text = queryInterface(elementSpan.getFirstChild(), nsIDOMText.class);
 	    if (text == null)
 		continue;
 	    assertEquals(
@@ -236,8 +223,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testRepeat() throws Throwable {
 	nsIDOMElement element = performTestForFaceletComponent("components/repeat.xhtml"); //$NON-NLS-1$
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -246,8 +232,7 @@ public class FaceletsComponentTest extends VpeTest {
 
 	assertEquals(1, elements.size());
 
-	nsIDOMElement elementDL = (nsIDOMElement) elements.get(0)
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement elementDL = queryInterface(elements.get(0), nsIDOMElement.class);
 
 	elements.clear();
 
@@ -290,8 +275,7 @@ public class FaceletsComponentTest extends VpeTest {
      */
     public void testFragment() throws Throwable {
 	nsIDOMElement element = performTestForFaceletComponent("components/fragment.xhtml"); //$NON-NLS-1$
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -299,8 +283,7 @@ public class FaceletsComponentTest extends VpeTest {
 	TestUtil.findAllElementsByName(node, elements, HTML.TAG_DIV);
 	assertEquals(4, elements.size());
 
-	nsIDOMElement div = (nsIDOMElement) elements.get(3).queryInterface(
-		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement div = queryInterface(elements.get(3), nsIDOMElement.class);
 
 	String title = div.getAttribute("title"); //$NON-NLS-1$
 
@@ -365,21 +348,17 @@ public class FaceletsComponentTest extends VpeTest {
 	// check absolute path
 	nsIDOMElement element = performTestForFaceletComponent("components/param.xhtml"); //$NON-NLS-1$
 
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
 	// find "td" elements
 	TestUtil.findAllElementsByName(node, elements, HTML.TAG_TD);
 	assertEquals(5, elements.size());
-	nsIDOMElement td = (nsIDOMElement) elements.get(1).queryInterface(
-		nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement span = (nsIDOMElement) td.getFirstChild().queryInterface(
-		nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement td = queryInterface(elements.get(1), nsIDOMElement.class);
+	nsIDOMElement span = queryInterface(td.getFirstChild(), nsIDOMElement.class);
 
-	nsIDOMText text = (nsIDOMText) span.getFirstChild().queryInterface(
-		nsIDOMText.NS_IDOMTEXT_IID);
+	nsIDOMText text = queryInterface(span.getFirstChild(), nsIDOMText.class);
 
 	assertEquals(COMPONENT_S_CONTENT_IS_NOT_SHOWN, text.getNodeValue(),
 		USER);
@@ -391,23 +370,18 @@ public class FaceletsComponentTest extends VpeTest {
 
     private void checkTemplatePage(nsIDOMElement element, String contextString,
 	    String message) {
-	nsIDOMNode node = (nsIDOMNode) element
-		.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
 	// find "td" elements
 	TestUtil.findAllElementsByName(node, elements, HTML.TAG_TD);
 	assertEquals(message, 5, elements.size());
-	nsIDOMElement td = (nsIDOMElement) elements.get(0).queryInterface(
-		nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement div = (nsIDOMElement) td.getFirstChild().queryInterface(
-		nsIDOMElement.NS_IDOMELEMENT_IID);
-	nsIDOMElement span = (nsIDOMElement) div.getFirstChild()
-		.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	nsIDOMElement td = queryInterface(elements.get(0), nsIDOMElement.class);
+	nsIDOMElement div = queryInterface(td.getFirstChild(), nsIDOMElement.class);
+	nsIDOMElement span = queryInterface(div.getFirstChild(), nsIDOMElement.class);
 
-	nsIDOMText text = (nsIDOMText) span.getFirstChild().queryInterface(
-		nsIDOMText.NS_IDOMTEXT_IID);
+	nsIDOMText text = queryInterface(span.getFirstChild(), nsIDOMText.class);
 
 	assertEquals(message, contextString, text.getNodeValue());
     }

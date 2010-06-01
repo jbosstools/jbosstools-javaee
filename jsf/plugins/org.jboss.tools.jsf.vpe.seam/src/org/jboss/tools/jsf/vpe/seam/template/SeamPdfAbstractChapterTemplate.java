@@ -14,6 +14,8 @@ package org.jboss.tools.jsf.vpe.seam.template;
  * @author yzhishko
  */
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -55,8 +57,7 @@ public abstract class SeamPdfAbstractChapterTemplate extends
 		for (int i = 0; i < children.getLength(); i++) {
 			nsIDOMNode child = children.item(i);
 			if (HTML.TAG_SPAN.equalsIgnoreCase(child.getNodeName())) {
-				nsIDOMElement childElement = (nsIDOMElement) child
-						.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+				nsIDOMElement childElement = queryInterface(child, nsIDOMElement.class);
 				String attrType = childElement
 						.getAttribute(SeamUtil.SEAM_ATTR_TYPE_ID);
 				if (attrType != null

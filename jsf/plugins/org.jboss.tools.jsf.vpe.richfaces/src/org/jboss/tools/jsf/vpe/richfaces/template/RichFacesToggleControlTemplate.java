@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,8 +102,7 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 		
 		for (nsIDOMNode child : children) {
 			if (child instanceof nsIDOMElement) {
-				nsIDOMElement childElement = (nsIDOMElement)child
-						.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+				nsIDOMElement childElement = queryInterface(child, nsIDOMElement.class);
 				childElement.setAttribute(attrName, attrValue);
 				applyAttributeValueOnChildren(attrName, attrValue, ComponentUtil.getChildren(childElement));
 			}

@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
@@ -65,16 +67,13 @@ public class JBIDE3734Test extends VpeTest {
 	public void testLink() throws Throwable {
 		setException(null);
         VpeController vpeController = openTestPage();
-        nsIDOMElement head = (nsIDOMElement) vpeController
-        	.getVisualBuilder()
-        	.getHeadNode()
-        	.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        nsIDOMElement head = queryInterface(vpeController.getVisualBuilder()
+        		.getHeadNode(), nsIDOMElement.class);
 
         nsIDOMNodeList links = head.getElementsByTagName(HTML.TAG_STYLE);
         boolean pageCssLinkFound = false;
         for (int i = 0; i < links.getLength(); i++) {
-        	final String href = ((nsIDOMElement) links.item(i)
-        			.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID))
+        	final String href = queryInterface(links.item(i), nsIDOMElement.class)
         			.getAttribute(HTML.ATTR_HREF);
         	if (href != null && href.contains(TEST_FOLDER_PATH + CSS_FILE_NAME)) {
         		pageCssLinkFound = true;

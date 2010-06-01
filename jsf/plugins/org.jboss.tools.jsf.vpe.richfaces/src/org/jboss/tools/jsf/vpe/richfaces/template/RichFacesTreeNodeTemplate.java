@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -73,30 +75,28 @@ public class RichFacesTreeNodeTemplate extends RichFacesAbstractTreeTemplate {
 	 * in model
 	 */
 	if (NODE_ICON_EXPANDED_ATTR_NAME.equalsIgnoreCase(name)) {
-	    nsIDOMElement expandedIconCell = (nsIDOMElement) visualNode
-		    .getChildNodes().item(0).queryInterface(
-			    nsIDOMElement.NS_IDOMELEMENT_IID);
-	    nsIDOMElement img = (nsIDOMElement) expandedIconCell
-		    .getChildNodes().item(0).queryInterface(
-			    nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement expandedIconCell = queryInterface(
+	    		visualNode.getChildNodes().item(0), nsIDOMElement.class);
+	    nsIDOMElement img = queryInterface(expandedIconCell.getChildNodes().item(0),
+			    nsIDOMElement.class);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, Constants.EMPTY);
 	} else if (NODE_ICON_ATTR_NAME.equals(name)
 		&& !isLastElement(visualNode)) {
-	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
-		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
-		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
+	    		nsIDOMElement.class);
+	    nsIDOMElement img = queryInterface(iconCell.getChildNodes().item(0),
+	    		nsIDOMElement.class);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, Constants.EMPTY);
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equals(name)
 		&& isLastElement(sourceElement)) {
-	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
-		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
-		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
+	    		nsIDOMElement.class);
+	    nsIDOMElement img = queryInterface(iconCell.getChildNodes().item(0),
+	    		nsIDOMElement.class);
 	    ComponentUtil.setImgFromResources(pageContext, img, value,
 		    UNDEFINED_ICON);
 	    img.setAttribute(ICON_PARAM_NAME, Constants.EMPTY);
@@ -115,12 +115,10 @@ public class RichFacesTreeNodeTemplate extends RichFacesAbstractTreeTemplate {
 
 	boolean showLinesValue = getShowLinesAttr(sourceElement);
 	if (NODE_ICON_EXPANDED_ATTR_NAME.equalsIgnoreCase(name)) {
-	    nsIDOMElement expandedIconCell = (nsIDOMElement) visualNode
-		    .getChildNodes().item(0).queryInterface(
-			    nsIDOMElement.NS_IDOMELEMENT_IID);
-	    nsIDOMElement img = (nsIDOMElement) expandedIconCell
-		    .getChildNodes().item(0).queryInterface(
-			    nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement expandedIconCell = queryInterface(visualNode
+	    		.getChildNodes().item(0), nsIDOMElement.class);
+	    nsIDOMElement img = queryInterface(expandedIconCell.getChildNodes().item(0),
+			    nsIDOMElement.class);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
 		    .getAttribute(NODE_ICON_EXPANDED_ATTR_NAME);
 	    if (parentAttrName == null || parentAttrName.length() == 0) {
@@ -136,11 +134,11 @@ public class RichFacesTreeNodeTemplate extends RichFacesAbstractTreeTemplate {
 			    DEFAULT_ICON_EXPANDED_PARAM_VALUE);
 	} else if (NODE_ICON_ATTR_NAME.equalsIgnoreCase(name)
 		&& !isLastElement(sourceElement)) {
-	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
-		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
+	    		nsIDOMElement.class);
 
-	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
-		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement img = queryInterface(iconCell.getChildNodes().item(0),
+	    		nsIDOMElement.class);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
 		    .getAttribute(NODE_ICON_ATTR_NAME);
 	    if (parentAttrName == null || parentAttrName.length() == 0) {
@@ -155,10 +153,9 @@ public class RichFacesTreeNodeTemplate extends RichFacesAbstractTreeTemplate {
 
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equalsIgnoreCase(name)
 		&& isLastElement(sourceElement)) {
-	    nsIDOMElement iconCell = (nsIDOMElement) visualNode.getChildNodes()
-		    .item(1).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-	    nsIDOMElement img = (nsIDOMElement) iconCell.getChildNodes()
-		    .item(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
+	    		nsIDOMElement.class);
+	    nsIDOMElement img = queryInterface(iconCell.getChildNodes().item(0), nsIDOMElement.class);
 	    String parentAttrName = ((Element) sourceElement.getParentNode())
 		    .getAttribute(NODE_ICON_LEAF_ATTR_NAME);
 	    if (parentAttrName == null || parentAttrName.length() == 0) {

@@ -10,6 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.List;
 
 import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
@@ -17,8 +19,6 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
-import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilder;
-import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilderException;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionException;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VpeClassUtil;
@@ -88,7 +88,7 @@ public class RichFacesDataTableStyleClassesApplier {
 			if (tableChild.getNodeType() == nsIDOMNode.ELEMENT_NODE 
 					&& HTML.TAG_TR.equalsIgnoreCase( tableChild.getNodeName() )) {
 				final nsIDOMElement row = 
-					(nsIDOMElement) tableChild.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+					queryInterface(tableChild, nsIDOMElement.class);
 
 				applyClass(rowClasses, row, rowIndex);
 
@@ -113,7 +113,7 @@ public class RichFacesDataTableStyleClassesApplier {
 				if (rowChild.getNodeType() == nsIDOMNode.ELEMENT_NODE 
 						&& HTML.TAG_TD.equalsIgnoreCase( rowChild.getNodeName() )) {
 					final nsIDOMElement cell = 
-						(nsIDOMElement) rowChild.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+						queryInterface(rowChild, nsIDOMElement.class);
 					
 					applyClass(columnClasses, cell, columnIndex);
 					

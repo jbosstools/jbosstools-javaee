@@ -197,7 +197,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 //	 * @param name
 //	 */
 //	private void processAttributeChanges(VpePageContext pageContext, Element sourceElement, nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data, String name) {
-//		nsIDOMElement el = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+//		nsIDOMElement el = queryInterface(visualNode, nsIDOMElement.class);
 //		if (HTML.ATTR_STYLE.equals(name)) {
 //			ComponentUtil.correctAttribute(sourceElement, el, name, name, null, null);
 //		} else if (RichFaces.ATTR_STYLE_CLASS.equals(name)) {
@@ -211,7 +211,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 //				if ((temp != null)
 //						&& (temp.getNodeName()
 //								.equalsIgnoreCase(HTML.TAG_DT))) {
-//					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+//					nsIDOMElement tempVisualElement = queryInterface(temp, nsIDOMElement.class); 
 //					ComponentUtil.correctAttribute(sourceElement, 
 //							tempVisualElement,
 //							RichFaces.ATTR_HEADER_CLASS,
@@ -228,7 +228,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 //				if ((temp != null )
 //						&& (temp.getNodeName()
 //								.equalsIgnoreCase(HTML.TAG_DD))) {
-//					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID); 
+//					nsIDOMElement tempVisualElement = queryInterface(temp, nsIDOMElement.class); 
 //					ComponentUtil.correctAttribute(sourceElement, 
 //							tempVisualElement,
 //							RichFaces.ATTR_ROW_CLASSES,
@@ -245,7 +245,7 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 //				if ((temp != null)
 //						&& (temp.getNodeName()
 //								.equalsIgnoreCase(HTML.TAG_DD))) {
-//					nsIDOMElement tempVisualElement = (nsIDOMElement)temp.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+//					nsIDOMElement tempVisualElement = queryInterface(temp, nsIDOMElement.class);
 //					ComponentUtil.correctAttribute(
 //							sourceElement, 
 //							tempVisualElement,							

@@ -1,5 +1,7 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
@@ -69,19 +71,15 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 			this.delay = delay;
 			nsIDOMDocument idomDocument = controller.getXulRunnerEditor()
 					.getDOMDocument();
-			nsIDOMDocumentView documentView = (nsIDOMDocumentView) idomDocument
-					.queryInterface(nsIDOMDocumentView.NS_IDOMDOCUMENTVIEW_IID);
+			nsIDOMDocumentView documentView = queryInterface(idomDocument, nsIDOMDocumentView.class);
 			abstractView = documentView.getDefaultView();
-			documentEvent = (nsIDOMDocumentEvent) idomDocument
-					.queryInterface(nsIDOMDocumentEvent.NS_IDOMDOCUMENTEVENT_IID);
-			eventTarget = (nsIDOMEventTarget) idomDocument
-					.queryInterface(nsIDOMEventTarget.NS_IDOMEVENTTARGET_IID);
+			documentEvent = queryInterface(idomDocument, nsIDOMDocumentEvent.class);
+			eventTarget = queryInterface(idomDocument, nsIDOMEventTarget.class);
 		}
 
 		public Keybord pressDel() {
 			nsIDOMEvent delEvent = documentEvent.createEvent("KeyboardEvent"); //$NON-NLS-1$
-			nsIDOMKeyEvent delKeyEvent = (nsIDOMKeyEvent) delEvent
-					.queryInterface(nsIDOMKeyEvent.NS_IDOMKEYEVENT_IID);
+			nsIDOMKeyEvent delKeyEvent = queryInterface(delEvent, nsIDOMKeyEvent.class);
 			delKeyEvent
 					.initKeyEvent("keypress", true, true, abstractView, false, //$NON-NLS-1$
 							false, false, false, nsIDOMKeyEvent.DOM_VK_DELETE,
@@ -94,8 +92,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 
 		public Keybord pressBackSP() {
 			nsIDOMEvent bsEvent = documentEvent.createEvent("KeyboardEvent"); //$NON-NLS-1$
-			nsIDOMKeyEvent bsKeyEvent = (nsIDOMKeyEvent) bsEvent
-					.queryInterface(nsIDOMKeyEvent.NS_IDOMKEYEVENT_IID);
+			nsIDOMKeyEvent bsKeyEvent = queryInterface(bsEvent, nsIDOMKeyEvent.class);
 			bsKeyEvent.initKeyEvent("keypress", true, true, abstractView, //$NON-NLS-1$
 					false, false, false, false,
 					nsIDOMKeyEvent.DOM_VK_BACK_SPACE, 0);
@@ -108,8 +105,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		public Keybord pressLeft() {
 			nsIDOMEvent leftArrowEvent = documentEvent
 					.createEvent("KeyboardEvent"); //$NON-NLS-1$
-			nsIDOMKeyEvent leftArrowKeyEvent = (nsIDOMKeyEvent) leftArrowEvent
-					.queryInterface(nsIDOMKeyEvent.NS_IDOMKEYEVENT_IID);
+			nsIDOMKeyEvent leftArrowKeyEvent = queryInterface(leftArrowEvent, nsIDOMKeyEvent.class);
 			leftArrowKeyEvent.initKeyEvent("keypress", true, true, //$NON-NLS-1$
 					abstractView, false, false, false, false,
 					nsIDOMKeyEvent.DOM_VK_LEFT, 0);
@@ -129,11 +125,9 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 			this.delay = delay;
 			nsIDOMDocument idomDocument = controller.getXulRunnerEditor()
 					.getDOMDocument();
-			nsIDOMDocumentView documentView = (nsIDOMDocumentView) idomDocument
-					.queryInterface(nsIDOMDocumentView.NS_IDOMDOCUMENTVIEW_IID);
+			nsIDOMDocumentView documentView = queryInterface(idomDocument, nsIDOMDocumentView.class);
 			nsIDOMAbstractView abstractView = documentView.getDefaultView();
-			nsIInterfaceRequestor requestor = (nsIInterfaceRequestor) abstractView
-					.queryInterface(nsIInterfaceRequestor.NS_IINTERFACEREQUESTOR_IID);
+			nsIInterfaceRequestor requestor = queryInterface(abstractView, nsIInterfaceRequestor.class);
 			nsIDOMWindowUtils windowUtils = (nsIDOMWindowUtils) requestor
 					.getInterface(nsIDOMWindowUtils.NS_IDOMWINDOWUTILS_IID);
 			this.windowUtils = windowUtils;

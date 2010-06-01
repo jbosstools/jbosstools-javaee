@@ -12,6 +12,7 @@
 
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
 
         assertEquals("Count of divs should be equals 1", 1, elements.size()); //$NON-NLS-1$
-        final nsIDOMElement spanOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        final nsIDOMElement spanOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
         assertEquals("Style attribute should be substituted", VALUE_4, spanOne.getFirstChild().getNodeValue()); //$NON-NLS-1$
 
@@ -84,7 +85,7 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
         TestUtil.findAllElementsByName(rst, elements, HTML.TAG_P);
 
         assertEquals("Value should be equals", 1, elements.size()); //$NON-NLS-1$
-        final nsIDOMElement pOne = (nsIDOMElement) elements.get(0).queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+        final nsIDOMElement pOne = queryInterface(elements.get(0), nsIDOMElement.class);
        // DOMTreeDumper d = new DOMTreeDumper();
        // d.dumpToStream(System.out, rst);
 //        assertEquals("Value should be equals", "Hello "+VALUE_5, pOne.getFirstChild().getFirstChild().getNodeValue());

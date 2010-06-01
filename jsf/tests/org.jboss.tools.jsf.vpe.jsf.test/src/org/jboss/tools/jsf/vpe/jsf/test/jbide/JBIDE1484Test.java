@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +69,7 @@ public class JBIDE1484Test extends VpeTest {
 		assertNotNull(element);
 
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -76,12 +77,9 @@ public class JBIDE1484Test extends VpeTest {
 		TestUtil.findElementsByName(node, elements, HTML.TAG_INPUT);
 
 		assertEquals(3, elements.size());
-		nsIDOMElement elementInput0 = (nsIDOMElement) elements.get(0)
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		nsIDOMElement elementInput1 = (nsIDOMElement) elements.get(1)
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
-		nsIDOMElement elementInput2 = (nsIDOMElement) elements.get(2)
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement elementInput0 = queryInterface(elements.get(0), nsIDOMElement.class);
+		nsIDOMElement elementInput1 = queryInterface(elements.get(1), nsIDOMElement.class);
+		nsIDOMElement elementInput2 = queryInterface(elements.get(2), nsIDOMElement.class);
 
 		assertEquals(" ", elementInput0.getAttribute("value"));  //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(" ", elementInput1.getAttribute("value")); //$NON-NLS-1$ //$NON-NLS-2$

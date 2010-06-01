@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 /**
  * @author yzhishko
  */
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,7 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		nsIDOMNode headNode = visualDocument.createElement(HTML.TAG_DIV);
-		headElement = (nsIDOMElement) headNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		headElement = queryInterface(headNode, nsIDOMElement.class);
 		sourceElement = (Element) sourceNode;
 		setMarginValues();
 		return new VpeCreationData(headElement);
@@ -95,8 +95,8 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 
 	private void setFooter(VpePageContext pageContext, Node sourceNode,
 			VpeCreationData data) {
-		nsIDOMNode[] footers = findFootersForVisualDoc((nsIDOMElement) data
-				.getNode().queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID));
+		nsIDOMNode[] footers = findFootersForVisualDoc(
+				queryInterface(data.getNode(), nsIDOMElement.class));
 		int footersLength = footers.length;
 		if (footersLength == 0) {
 			return;
@@ -125,8 +125,7 @@ public class SeamPdfDocumentTemplate extends SeamPdfAbstractTemplate {
 				.getElementsByTagName(HTML.TAG_DIV);
 		List<nsIDOMElement> childrenElements = new ArrayList<nsIDOMElement>();
 		for (int i = 0; i < children.getLength(); i++) {
-			nsIDOMElement childElement = (nsIDOMElement) children.item(i)
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement childElement = queryInterface(children.item(i), nsIDOMElement.class);
 			String attrType = childElement
 					.getAttribute(SeamUtil.SEAM_ATTR_TYPE_ID);
 			if (attrType != null

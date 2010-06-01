@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -139,8 +141,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
     private void setAttributeToTree(nsIDOMNode node, String attrName,
 	    String attrValue) {
 	try {
-	    nsIDOMElement element = (nsIDOMElement) node
-		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
 	    if (node.getNodeName().equalsIgnoreCase(
 		    HTML.TAG_TABLE)) {
 		element.setAttribute(attrName, attrValue);
@@ -186,8 +187,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 
 	try {
 	    nsIDOMNodeList list = node.getChildNodes();
-	    nsIDOMElement element = (nsIDOMElement) node
-		    .queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
 	    String id = element
 		    .getAttribute(RichFacesTreeNodesAdaptorTemplate.ID_ATTR_NAME);
 	    if (id == null)
@@ -295,7 +295,7 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 	} else if (HTML.ATTR_STYLE.equalsIgnoreCase(name)) {
 	    setAttributeToTree(visualNode, HTML.ATTR_STYLE,
 		    removeFromStyleWithAndHeight(value));
-	    nsIDOMElement visualElement = (nsIDOMElement) visualNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+	    nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class);
 	    visualElement.setAttribute(
 		    HTML.ATTR_STYLE, value);
 	}

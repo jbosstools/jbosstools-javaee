@@ -10,8 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +22,6 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.NodeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
@@ -293,8 +293,7 @@ public class InputNumberSliderTemplate extends AbstractEditableRichFacesTemplate
 			append(styleClasses.get("input")).toString(); //$NON-NLS-1$
 		inputField.setAttribute(HTML.ATTR_CLASS, inputClass);
 
-		nsIDOMHTMLInputElement iDOMInputElement = (nsIDOMHTMLInputElement) inputField
-				.queryInterface(nsIDOMHTMLInputElement.NS_IDOMHTMLINPUTELEMENT_IID);
+		nsIDOMHTMLInputElement iDOMInputElement = queryInterface(inputField, nsIDOMHTMLInputElement.class);
 		iDOMInputElement.setReadOnly(false);
 
 		inputTD.appendChild(inputField);

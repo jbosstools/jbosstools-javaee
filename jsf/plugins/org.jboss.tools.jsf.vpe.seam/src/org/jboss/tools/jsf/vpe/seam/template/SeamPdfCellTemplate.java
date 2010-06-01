@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 /**
  * @author yzhishko
  */
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -34,8 +35,7 @@ public class SeamPdfCellTemplate extends SeamPdfAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		sourceElement = (Element) sourceNode;
 		nsIDOMNode visualNode = visualDocument.createElement(HTML.TAG_TD);
-		visualElement = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		visualElement = queryInterface(visualNode, nsIDOMElement.class);
 		copyAttrs(visualElement, sourceElement);
 		visualElement.setAttribute(HTML.ATTR_STYLE, "border-width: 2px; border-color: black; border-style: solid"); //$NON-NLS-1$
 		return new VpeCreationData(visualElement);

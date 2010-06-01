@@ -3,6 +3,8 @@ package org.jboss.tools.jsf.vpe.richfaces.test.jbide;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
@@ -50,8 +52,7 @@ public class JBIDE1613Test extends VpeTest {
 		assertNotNull(element);
 		
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-					.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 		

@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -78,8 +80,7 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument, nsIDOMNode visualNode, Object data,
 			String name, String value) {
 
-		nsIDOMElement img = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement img = queryInterface(visualNode, nsIDOMElement.class);
 
 		if (name.equalsIgnoreCase(MAP_STYLE_ATTRIBUTE_NAME)) {
 			if (value.trim().equalsIgnoreCase("") //$NON-NLS-1$
@@ -114,8 +115,7 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 			Element sourceElement, nsIDOMDocument visualDocument,
 			nsIDOMNode visualNode, Object data, String name) {
 
-		nsIDOMElement img = (nsIDOMElement) visualNode
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement img = queryInterface(visualNode, nsIDOMElement.class);
 
 		if (name.equalsIgnoreCase(MAP_STYLE_ATTRIBUTE_NAME)) {
 			ComponentUtil.setImg(img, EARTH_ROAD);

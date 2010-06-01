@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
@@ -62,8 +64,7 @@ public class SelectWholeElement_JBIDE4713 extends VpeTest {
 				vpeController.getPageContext()); 
 
 		assertTrue(selectedNode.getNodeType() == nsIDOMNode.ELEMENT_NODE);
-		nsIDOMElement element = (nsIDOMElement)
-				selectedNode.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement element = queryInterface(selectedNode, nsIDOMElement.class);
 
 		assertEquals(SELECTED_ELEMENT_ID, element.getAttribute(HTML.ATTR_ID));
 	}

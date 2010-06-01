@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -581,12 +583,10 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 			String popup = sourceElement.getAttribute(RichFaces.ATTR_POPUP);
 			if (popup != null && popup.equalsIgnoreCase(Constants.FALSE))
 				return;
-			nsIDOMElement element = (nsIDOMElement) visualNode
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement element = queryInterface(visualNode, nsIDOMElement.class);
 			nsIDOMNodeList list = element.getChildNodes();
 			nsIDOMNode tableNode = list.item(0);
-			nsIDOMElement input = (nsIDOMElement) tableNode
-					.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+			nsIDOMElement input = queryInterface(tableNode, nsIDOMElement.class);
 			input.setAttribute(HTML.ATTR_VALUE, value);
 		}
 

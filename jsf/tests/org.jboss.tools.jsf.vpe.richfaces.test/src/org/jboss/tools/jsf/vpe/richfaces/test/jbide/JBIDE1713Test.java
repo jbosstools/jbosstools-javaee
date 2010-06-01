@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.test.jbide;
 
+import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +69,7 @@ public class JBIDE1713Test extends VpeTest {
 		assertNotNull(element);
 
 		// get root node
-		nsIDOMNode node = (nsIDOMNode) element
-				.queryInterface(nsIDOMNode.NS_IDOMNODE_IID);
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
@@ -77,8 +78,7 @@ public class JBIDE1713Test extends VpeTest {
 
 		assertEquals(1, elements.size());
 
-		nsIDOMElement table = (nsIDOMElement) elements.get(0).queryInterface(
-				nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement table = queryInterface(elements.get(0), nsIDOMElement.class);
 
 		assertNotNull(table);
 
@@ -100,8 +100,7 @@ public class JBIDE1713Test extends VpeTest {
 
 		assertEquals(10, elements.size());
 
-		nsIDOMElement activeToggle = (nsIDOMElement) elements.get(5)
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement activeToggle = queryInterface(elements.get(5), nsIDOMElement.class);
 
 		assertNotNull(activeToggle);
 		String activeToggleClass = activeToggle.getAttribute(HTML.ATTR_CLASS);
@@ -122,8 +121,7 @@ public class JBIDE1713Test extends VpeTest {
 
 		assertEquals(2, contentElements.size());
 
-		nsIDOMElement contentElement = (nsIDOMElement) contentElements.get(1)
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement contentElement = queryInterface(contentElements.get(1), nsIDOMElement.class);
 
 		assertNotNull(contentElement);
 
@@ -140,8 +138,7 @@ public class JBIDE1713Test extends VpeTest {
 				activeContentClass);
 
 		// check facet
-		nsIDOMElement disabledToggle = (nsIDOMElement) elements.get(7)
-				.queryInterface(nsIDOMElement.NS_IDOMELEMENT_IID);
+		nsIDOMElement disabledToggle = queryInterface(elements.get(7), nsIDOMElement.class);
 
 		assertNotNull(contentElement);
 
@@ -161,8 +158,7 @@ public class JBIDE1713Test extends VpeTest {
 				contentElements, HTML.TAG_IMG);
 		assertEquals(1, contentElements.size());
 
-		disabledToggle = (nsIDOMElement) elements.get(9).queryInterface(
-				nsIDOMElement.NS_IDOMELEMENT_IID);
+		disabledToggle = queryInterface(elements.get(9), nsIDOMElement.class);
 
 		assertNotNull(contentElement);
 
