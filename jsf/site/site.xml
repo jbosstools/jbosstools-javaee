@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<description>To install these features, point Eclipse at this site.</description>
+	<!-- JBoss Tools jsf Nightly Build Update Site -->
+	<category-def label="JBoss Tools jsf Nightly Build Update Site" name="JBoss Tools jsf Nightly Build Update Site">
+		<description>JBoss Tools jsf Nightly Build Update Site: contains all features in this build.</description>
+	</category-def>
+	<feature url="features/org.jboss.tools.jsf.feature_0.0.0.jar" id="org.jboss.tools.jsf.feature" version="0.0.0">
+		<category name="JBoss Tools jsf Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.richfaces.feature_0.0.0.jar" id="org.jboss.tools.richfaces.feature" version="0.0.0">
+		<category name="JBoss Tools jsf Nightly Build Update Site"/>
+	</feature>
+
+</site>
