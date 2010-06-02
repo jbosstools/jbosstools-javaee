@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jst.jsp.core,
  org.eclipse.wst.html.core,
  org.jboss.tools.vpe.html,
- org.jboss.tools.jsf;bundle-version="2.0.0",
+ org.jboss.tools.jsf,
  org.eclipse.ui.ide,
  org.eclipse.ui.editors,
  org.jboss.tools.vpe.xulrunner
