@@ -38,5 +38,6 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.WARNING);
 	}
 }

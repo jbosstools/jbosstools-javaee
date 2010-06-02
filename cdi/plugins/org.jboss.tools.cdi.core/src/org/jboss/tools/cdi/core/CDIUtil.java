@@ -20,11 +20,13 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
@@ -614,5 +616,71 @@ public class CDIUtil {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns true if the member annotated @NonBinding.
+	 * 
+	 * @param sourceType the type where the member is declared
+	 * @param member
+	 * @return
+	 */
+	public static boolean hasNonBindingAnnotationDeclaration(IType sourceType, IAnnotatable member) {
+		return hasAnnotationDeclaration(sourceType, member, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
+	}
+
+	/**
+	 * Returns true if the member has the given annotation.
+	 * 
+	 * @param sourceType the type where the member is declared
+	 * @param member
+	 * @param annotationTypeName
+	 * @return
+	 */
+	public static boolean hasAnnotationDeclaration(IType sourceType, IAnnotatable member, String annotationTypeName) {
+		try {
+			IAnnotation[] annotations = member.getAnnotations();
+			String simpleAnnotationTypeName = annotationTypeName;
+			int lastDot = annotationTypeName.lastIndexOf('.');
+			if(lastDot>-1) {
+				simpleAnnotationTypeName = simpleAnnotationTypeName.substring(lastDot + 1);
+			}
+			for (IAnnotation annotation : annotations) {
+				if(annotationTypeName.equals(annotation.getElementName())) {
+					return true;
+				}
+				if(simpleAnnotationTypeName.equals(annotation.getElementName())) {
+					String fullAnnotationclassName = EclipseJavaUtil.resolveType(sourceType, simpleAnnotationTypeName);
+					if(fullAnnotationclassName!=null) {
+						IType annotationType = sourceType.getJavaProject().findType(fullAnnotationclassName);
+						if(annotationType!=null && annotationType.getFullyQualifiedName().equals(annotationTypeName)) {
+							return true;
+						}
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
+	/**
+	 * Converts ISourceRange to ITextSourceReference
+	 * 
+	 * @param range
+	 * @return
+	 */
+	public static ITextSourceReference convertToSourceReference(final ISourceRange range) {
+		return new ITextSourceReference() {
+
+			public int getStartPosition() {
+				return range.getOffset();
+			}
+
+			public int getLength() {
+				return range.getLength();
+			}
+		};
 	}
 }

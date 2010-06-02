@@ -66,6 +66,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<IPath, StereotypeElement> stereotypesByPath = new HashMap<IPath, StereotypeElement>();
 	private Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
 	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
+	private Map<IPath, QualifierElement> qualifiersByPath = new HashMap<IPath, QualifierElement>();
 	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
 
 	private Set<IBean> allBeans = new HashSet<IBean>();
@@ -486,6 +487,21 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getQualifiers()
+	 */
+	public IQualifier[] getQualifiers() {
+		IQualifier[] result = new IQualifier[qualifiers.size()];
+		synchronized (qualifiers) {
+			int i=0;
+			for (IQualifier q: qualifiers.values()) {
+				result[i++] = q;
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotypes()
 	 */
 	public IStereotype[] getStereotypes() {
@@ -670,6 +686,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return qualifiers.get(qualifiedName);
 	}
 
+	public QualifierElement getQualifier(IPath path) {
+		return qualifiersByPath.get(path);
+	}
+
 	public ScopeElement getScope(String qualifiedName) {
 		return scopes.get(qualifiedName);
 	}
@@ -685,6 +705,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		stereotypesByPath.clear();
 		interceptorBindings.clear();
 		qualifiers.clear();
+		qualifiersByPath.clear();
 		scopes.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
@@ -703,6 +724,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
 				qualifiers.put(d.getQualifiedName(), s);
+				if(d.getResource() != null && d.getResource().getFullPath() != null) {
+					qualifiersByPath.put(d.getResource().getFullPath(), s);
+				}
 			} else if(d.getKind() == AnnotationDefinition.SCOPE) {
 				ScopeElement s = new ScopeElement();
 				initAnnotationElement(s, d);

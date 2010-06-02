@@ -41,6 +41,8 @@ public interface CDIConstants {
 
 	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
+	public String NON_BINDING_ANNOTATION_TYPE_NAME ="javax.enterprise.util.Nonbinding";
+
 	public String STATEFUL_ANNOTATION_TYPE_NAME = "javax.ejb.Stateful";
 	public String STATELESS_ANNOTATION_TYPE_NAME = "javax.ejb.Stateless";
 	public String SINGLETON_ANNOTATION_TYPE_NAME = "javax.ejb.Singleton";

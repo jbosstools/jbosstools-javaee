@@ -152,11 +152,11 @@ public interface IBeanManager {
 	Set<IBean> getBeans(IPath path);
 
 	/**
-	 * Returns all the available qualifier types.
+	 * Returns all the available qualifiers.
 	 * 
-	 * @return all the available qualifier types.
+	 * @return all the available qualifiers.
 	 */
-	Set<IType> getQualifierTypes();
+	IQualifier[] getQualifiers();
 
 	/**
 	 * Returns all the available stereotypes.
@@ -201,6 +201,14 @@ public interface IBeanManager {
 	 * of qualifier annotation type
 	 */
 	IQualifier getQualifier(String qualifiedName);
+
+	/**
+	 * Returns the qualifier by resource path.
+	 * 
+	 * @param resource path
+	 * @return the qualifier by resource path
+	 */
+	IQualifier getQualifier(IPath path);
 
 	/**
 	 * Returns scope model element for fully qualified name of scope annotation

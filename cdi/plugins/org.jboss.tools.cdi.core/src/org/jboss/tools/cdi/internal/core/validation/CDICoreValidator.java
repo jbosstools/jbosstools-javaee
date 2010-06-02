@@ -56,6 +56,7 @@ import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -66,6 +67,7 @@ import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
@@ -127,12 +129,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 		List<IProject> projects = new ArrayList<IProject>();
 		projects.add(project);
-		// IProject[] array = set.getAllProjects();
-		// for (int i = 0; i < array.length; i++) {
-		// if(array[i].isAccessible()) {
-		// projects.add(array[i]);
-		// }
-		// }
 		return new ValidatingProjectSet(project, projects, rootContext);
 	}
 
@@ -254,11 +250,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateBean(bean);
 		}
 
-		IStereotype[] stereoTypes = cdiProject.getStereotypes();
-		for (IStereotype type : stereoTypes) {
-			validateStereotype(type);
+		IStereotype[] stereotypes = cdiProject.getStereotypes();
+		for (IStereotype stereotype : stereotypes) {
+			validateStereotype(stereotype);
 		}
 
+		IQualifier[] qualifiers = cdiProject.getQualifiers();
+		for (IQualifier qualifier : qualifiers) {
+			validateQualifier(qualifier);
+		}
 		return OK_STATUS;
 	}
 
@@ -278,6 +278,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
 		validateStereotype(stereotype);
+
+		IQualifier qualifier = cdiProject.getQualifier(file.getFullPath());
+		validateQualifier(qualifier);
 	}
 
 	/**
@@ -307,6 +310,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			IStereotype stereotype = stereotypeDeclaration.getStereotype();
 			if (!stereotype.getSourceType().isReadOnly()) {
 				validationContext.addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
+			}
+		}
+		Set<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
+		for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
+			IQualifier qualifier = qualifierDeclaration.getQualifier();
+			if (!qualifier.getSourceType().isReadOnly()) {
+				validationContext.addLinkedCoreResource(beanPath, qualifier.getResource().getFullPath(), false);
 			}
 		}
 
@@ -1355,6 +1365,59 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			for (IScopeDeclaration scope : scopeDeclarations) {
 				addError(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());
 			}
+		}
+	}
+
+	/**
+	 * Validates a qualifier.
+	 * 
+	 * @param qualifier
+	 */
+	private void validateQualifier(IQualifier qualifier) {
+		if(qualifier==null) {
+			return;
+		}
+		IResource resource = qualifier.getResource();
+		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
+			// validate sources only
+			return;
+		}
+		/*
+		 * 5.2.5. Qualifier annotations with members
+		 *  - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
+		 */
+		IType type = qualifier.getSourceType();
+		try {
+			IMethod[] methods = type.getMethods();
+			for (IMethod method : methods) {
+				String returnTypeSignature = method.getReturnType();
+				int kind = Signature.getTypeSignatureKind(returnTypeSignature);
+				if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
+					if(!CDIUtil.hasNonBindingAnnotationDeclaration(type, method)) {
+						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange());
+						addError(CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, reference, qualifier.getResource());
+					}
+				} else if(kind == Signature.CLASS_TYPE_SIGNATURE) {
+					String typeName = Signature.getSignatureSimpleName(returnTypeSignature);
+					String packageName = Signature.getSignatureQualifier(returnTypeSignature);
+					if(packageName.length()>0) {
+						typeName = packageName + "." + typeName;
+					} else {
+						typeName = EclipseJavaUtil.resolveType(type, typeName);
+					}
+					if(typeName!=null) {
+						IType memberType = type.getJavaProject().findType(typeName);
+						if(memberType!=null && memberType.isAnnotation()) {
+							if(!CDIUtil.hasNonBindingAnnotationDeclaration(type, method)) {
+								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange());
+								addError(CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, reference, qualifier.getResource());
+							}
+						}
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
 		}
 	}
 }
