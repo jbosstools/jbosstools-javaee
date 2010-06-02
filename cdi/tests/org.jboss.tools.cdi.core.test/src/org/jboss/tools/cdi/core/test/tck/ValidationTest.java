@@ -897,6 +897,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 5.2.5. Qualifier annotations with members
+	 *  - annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testAnnotationMemberWithoutNonBinding() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/binding/members/annotation/Expensive_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, 35);
+	}
+
+	/**
+	 * 5.2.5. Qualifier annotations with members
+	 *  - array-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testArrayMemberWithoutNonBinding() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/binding/members/array/Expensive_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, 34);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

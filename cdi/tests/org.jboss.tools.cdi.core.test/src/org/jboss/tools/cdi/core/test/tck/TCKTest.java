@@ -228,6 +228,37 @@ public class TCKTest extends TestCase {
 		fail(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.");
 	}
 
+	public static void assertContainsBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
+		assertContainsBeanClasses(true, beans, beanClassNames);
+	}
+
+	public static void assertContainsBeanClasses(boolean checkTheNumberOfBeans, Set<IBean> beans, String... beanClassNames) throws CoreException {
+		if(checkTheNumberOfBeans) {
+			assertEquals("Wrong number of beans.", beanClassNames.length, beans.size());
+		}
+		StringBuffer sb = new StringBuffer("[");
+		for (String beanClassName : beanClassNames) {
+			sb.append(beanClassName).append("; ");
+		}
+		sb.append("]");
+		for (String beanClassName : beanClassNames) {
+			assertTrue("Didn't found " + beanClassName + " among " + sb.toString(), containsBeanClass(beans, beanClassName));
+		}
+	}
+
+	public static void assertContainsBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
+		assertTrue("Didn't find " + beanClassName, containsBeanClass(beans, beanClassName));
+	}
+
+	private static boolean containsBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
+		for (IBean bean : beans) {
+			if(beanClassName.equals(bean.getBeanClass().getFullyQualifiedName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void assertContainsQualifier(IBean bean, IQualifierDeclaration declaration) throws CoreException {
 		String typeName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
 		Set<IQualifier> qualifiers = bean.getQualifiers();

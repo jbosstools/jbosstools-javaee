@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseScopeDefinitionTest;
@@ -22,8 +23,8 @@ import org.jboss.tools.cdi.core.test.tck.InjectionPointTest;
 import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
-import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.ValidationTest;
@@ -48,6 +49,7 @@ public class CDICoreTestSuite extends TestSuite {
 		suite.addTestSuite(ProducerMethodDefinitionTest.class);
 		suite.addTestSuite(InjectionPointTest.class);
 		suite.addTestSuite(BeanSpecializationTest.class);
+		suite.addTestSuite(ResolutionByTypeTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return suite;
 	}
