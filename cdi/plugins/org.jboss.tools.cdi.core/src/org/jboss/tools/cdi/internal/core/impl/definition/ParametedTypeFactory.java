@@ -10,7 +10,6 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;

@@ -10,10 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
@@ -35,6 +38,8 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 
 	protected int kind = NON_RELEVANT;
 
+	List<AnnotationMemberDefinition> methods = new ArrayList<AnnotationMemberDefinition>();
+
 	public AnnotationDefinition() {}
 
 	public void setKind(int kind) {
@@ -43,6 +48,10 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 
 	public int getKind() {
 		return kind;
+	}
+
+	public List<AnnotationMemberDefinition> getMethods() {
+		return methods;
 	}
 
 	@Override
@@ -72,6 +81,22 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 			kind = AnnotationDefinition.BASIC;
 		} else if(AnnotationHelper.CDI_ANNOTATION_TYPES.contains(qualifiedName)) {
 			kind = AnnotationDefinition.CDI;
+		}
+		
+		if(kind == QUALIFIER) {
+			initMemberDefinitions(contextType, context);
+		}
+	}
+
+	void initMemberDefinitions(IType contextType, DefinitionContext context) throws CoreException {
+		IMethod[] ms = getType().getMethods();
+		for (int i = 0; i < ms.length; i++) {
+			AnnotationMemberDefinition m = new AnnotationMemberDefinition();
+			m.setAnnotationDefinition(this);
+			m.setMethod(ms[i], context);
+			if(m.isCDIAnnotated()) {
+				methods.add(m);
+			}
 		}
 	}
 

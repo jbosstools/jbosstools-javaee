@@ -10,7 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationMemberDefinition;
 
 /**
  * 
@@ -18,7 +24,23 @@ import org.jboss.tools.cdi.core.IQualifier;
  *
  */
 public class QualifierElement extends CDIAnnotationElement implements IQualifier {
+	Set<IMethod> nonbindingMethods = null;
 
 	public QualifierElement() {}
+
+	public Set<IMethod> getNonBindingMethods() {
+		if(nonbindingMethods == null) {
+			Set<IMethod> result = new HashSet<IMethod>();
+			List<AnnotationMemberDefinition> ms = definition.getMethods();
+			for (AnnotationMemberDefinition m: ms) {
+				if(m.getNonbindingAnnotation() != null) {
+					result.add(m.getMethod());
+				}
+			}
+			nonbindingMethods = result;
+		}
+		return nonbindingMethods;
+		
+	}
 
 }

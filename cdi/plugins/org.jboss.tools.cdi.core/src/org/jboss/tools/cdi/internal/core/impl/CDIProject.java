@@ -317,7 +317,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return false;
 	}
 
-	public static boolean areMatchingQualifiers(Set<? extends IAnnotationDeclaration> beanQualifiers, Set<? extends IAnnotationDeclaration> injectionQualifiers) throws CoreException {
+	public static boolean areMatchingQualifiers(Set<IQualifierDeclaration> beanQualifiers, Set<IQualifierDeclaration> injectionQualifiers) throws CoreException {
 		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
 			if(injectionQualifiers == null || injectionQualifiers.isEmpty()) {
 				return true;
@@ -325,7 +325,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		TreeSet<String> injectionKeys = new TreeSet<String>();
-		if(injectionQualifiers != null) for (IAnnotationDeclaration d: injectionQualifiers) {
+		if(injectionQualifiers != null) for (IQualifierDeclaration d: injectionQualifiers) {
 			injectionKeys.add(getQualifierDeclarationKey(d));
 		}
 
@@ -339,7 +339,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		TreeSet<String> beanKeys = new TreeSet<String>();
 		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		} else for (IAnnotationDeclaration d: beanQualifiers) {
+		} else for (IQualifierDeclaration d: beanQualifiers) {
 			beanKeys.add(getQualifierDeclarationKey(d));
 		}
 		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
@@ -359,7 +359,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @return
 	 * @throws CoreException
 	 */
-	public static boolean areMatchingQualifiers(Set<? extends IAnnotationDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
+	public static boolean areMatchingQualifiers(Set<IQualifierDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
 		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
 			if(injectionQualifiers == null || injectionQualifiers.length == 0) {
 				return true;
@@ -394,7 +394,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return true;
 	}
 
-	public static String getQualifierDeclarationKey(IAnnotationDeclaration d) throws CoreException {
+	public static String getQualifierDeclarationKey(IQualifierDeclaration d) throws CoreException {
+		IQualifier q = d.getQualifier();
+		Set<IMethod> nb = q == null ? new HashSet<IMethod>() : q.getNonBindingMethods();
 		IType type = d.getType();
 		IMethod[] ms = type.getMethods();
 		StringBuffer result = new StringBuffer();
@@ -411,7 +413,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 			for (IMethod m: ms) {
 				String n = m.getElementName();
-				if(values.containsKey(n)) continue;
+				if(nb.contains(m)) {
+					values.remove(n);
+					continue;
+				}
+				if(values.containsKey(n)) {
+					continue;
+				}
 				IMemberValuePair p = m.getDefaultValue();
 				n = p.getMemberName();
 				Object o = p.getValue();

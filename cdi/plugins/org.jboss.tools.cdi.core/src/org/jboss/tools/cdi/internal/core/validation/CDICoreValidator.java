@@ -1393,7 +1393,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				String returnTypeSignature = method.getReturnType();
 				int kind = Signature.getTypeSignatureKind(returnTypeSignature);
 				if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
-					if(!CDIUtil.hasNonBindingAnnotationDeclaration(type, method)) {
+					if(!qualifier.getNonBindingMethods().contains(method)) {
 						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange());
 						addError(CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, reference, qualifier.getResource());
 					}

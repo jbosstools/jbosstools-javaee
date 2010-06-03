@@ -11,8 +11,6 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IField;
-import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
  * 
