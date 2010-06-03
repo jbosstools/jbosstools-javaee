@@ -3,6 +3,7 @@ package org.jboss.tools.jsf.jsf2.refactoring.action.rename;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.ltk.core.refactoring.Refactoring;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 @SuppressWarnings("restriction")
 public class CompositeAttributeRenameRefactoringWizard extends
@@ -10,8 +11,8 @@ public class CompositeAttributeRenameRefactoringWizard extends
 
 	public CompositeAttributeRenameRefactoringWizard(Refactoring refactoring) {
 		super(refactoring,
-				"Rename Composite Attribute", //$NON-NLS-1$
-				"Enter New Name for Composite Attribute", //$NON-NLS-1$
+				JSFUIMessages.Refactoring_JSF_2_Rename_Composite_Attribute,
+				JSFUIMessages.Refactoring_JSF_2_Rename_Enter_New_Name,
 				JavaPluginImages.DESC_WIZBAN_REFACTOR,
 				IJavaHelpContextIds.RENAME_LOCAL_VARIABLE_WIZARD_PAGE);
 	}

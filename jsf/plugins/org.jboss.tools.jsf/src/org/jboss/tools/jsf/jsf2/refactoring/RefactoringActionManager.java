@@ -14,6 +14,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.jsf.jsf2.refactoring.action.rename.IRenameDescriptor;
 import org.jboss.tools.jsf.jsf2.refactoring.action.rename.RenameUserInterfaceManager;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 @SuppressWarnings("restriction")
 public class RefactoringActionManager {
@@ -56,7 +57,7 @@ public class RefactoringActionManager {
 		if (descriptor == null) {
 			MessageDialog.openInformation(parent,
 					RefactoringMessages.RenameAction_rename,
-					"Refactoring is not available in the current place"); //$NON-NLS-1$
+					JSFUIMessages.Refactoring_JSF_2_Isnt_Available);
 			return;
 		}
 		descriptor.getRenameRefactoring().setProcessor(

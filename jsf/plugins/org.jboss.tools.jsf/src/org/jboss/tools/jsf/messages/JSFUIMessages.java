@@ -130,6 +130,16 @@ public class JSFUIMessages extends NLS {
 	public static String Create_JSF_2_Resources_Folder;
 	public static String Rename_JSF_2_Composite_Components;
 	public static String Refactoring_JSF_2_resources;
+	public static String Refactoring_JSF_2_Rename_Action;
+	public static String Refactoring_JSF_2_Rename_Composite_Attribute;
+	public static String Refactoring_JSF_2_Rename_Enter_New_Name;
+	public static String Refactoring_JSF_2_Rename_Composite_Attr_Changes;
+	public static String Refactoring_JSF_2_Changes_Rename_Composite_Attr;
+	public static String Refactoring_JSF_2_Composite_Attr_Rename_Changes;
+	public static String Refactoring_JSF_2_Rename_Composite_Attr_Name;
+	public static String Refactoring_JSF_2_Rename_Composite_Attr;
+	public static String Refactoring_JSF_2_Invalid_Attr;
+	public static String Refactoring_JSF_2_Isnt_Available;
 	
 	static {
 		// load message values from bundle file

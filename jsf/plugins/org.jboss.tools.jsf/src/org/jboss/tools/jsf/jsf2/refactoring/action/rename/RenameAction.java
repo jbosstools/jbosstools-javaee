@@ -16,6 +16,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.common.text.ext.IMultiPageEditor;
 import org.jboss.tools.jsf.jsf2.refactoring.RefactoringActionFactory;
 import org.jboss.tools.jsf.jsf2.refactoring.RefactoringActionManager;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 @SuppressWarnings("restriction")
 public class RenameAction extends AbstractHandler implements
@@ -73,7 +74,7 @@ public class RenameAction extends AbstractHandler implements
 		MessageDialog.openInformation(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell(),
 				RefactoringMessages.RenameAction_rename,
-				"Refactoring is not available in the current place"); //$NON-NLS-1$
+				JSFUIMessages.Refactoring_JSF_2_Rename_Action);
 	}
 
 }
