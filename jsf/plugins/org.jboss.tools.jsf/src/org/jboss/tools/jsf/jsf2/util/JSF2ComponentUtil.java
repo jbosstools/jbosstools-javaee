@@ -13,12 +13,22 @@ package org.jboss.tools.jsf.jsf2.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -124,6 +134,55 @@ public class JSF2ComponentUtil {
 			return true;
 		}
 		return false;
+	}
+
+	public static Map<IFile, List<IDOMNode>> findCompositeComponentsWithURI(
+			IResource resource, String URI) throws CoreException {
+		Map<IFile, List<IDOMNode>> nodeMap = new HashMap<IFile, List<IDOMNode>>();
+		findCompositeComponentsWithURI(resource, nodeMap, URI);
+		return nodeMap;
+	}
+
+	private static void findCompositeComponentsWithURI(IResource resource,
+			Map<IFile, List<IDOMNode>> nodeMap, String URI)
+			throws CoreException {
+		if (resource instanceof IFile) {
+			IFile file = (IFile) resource;
+			IDOMDocument document = JSF2ComponentModelManager
+					.getReadableDOMDocument(file);
+			Map<String, List<Element>> map = findCompositeComponents(document);
+			Set<Entry<String, List<Element>>> entries = map.entrySet();
+			List<IDOMNode> nodes = new ArrayList<IDOMNode>();
+			for (Iterator<Entry<String, List<Element>>> iterator = entries
+					.iterator(); iterator.hasNext();) {
+				Entry<String, List<Element>> entry = (Entry<String, List<Element>>) iterator
+						.next();
+				if (URI.equals(entry.getKey())) {
+					for (Element element : entry.getValue()) {
+						if (element instanceof IDOMNode) {
+							nodes.add((IDOMNode) element);
+						}
+					}
+				}
+			}
+			if (!nodes.isEmpty()) {
+				nodeMap.put(file, nodes);
+			}
+		} else if (resource instanceof IProject) {
+			IResource[] children = ((IProject) resource).members();
+			if (children != null) {
+				for (int i = 0; i < children.length; i++) {
+					findCompositeComponentsWithURI(children[i], nodeMap, URI);
+				}
+			}
+		} else if (resource instanceof IFolder) {
+			IResource[] children = ((IFolder) resource).members();
+			if (children != null) {
+				for (int i = 0; i < children.length; i++) {
+					findCompositeComponentsWithURI(children[i], nodeMap, URI);
+				}
+			}
+		}
 	}
 
 }
