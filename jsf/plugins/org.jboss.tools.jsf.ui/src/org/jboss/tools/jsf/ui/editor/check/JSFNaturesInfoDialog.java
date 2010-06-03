@@ -11,6 +11,8 @@
 
 package org.jboss.tools.jsf.ui.editor.check;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -45,10 +47,10 @@ public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 
 	@Override
 	protected String getMessageInfo() {
-		String dialogMessage = "JBoss Tools Editor might not fully work in project \"" + project.getName() + //$NON-NLS-1$
+		String dialogMessage = MessageFormat.format("JBoss Tools Editor might not fully work in project \"{0}" + //$NON-NLS-1$
 				"\" because it does not have JSF and code completion enabled completely.\n\n" //$NON-NLS-1$
 				+ "Please use the Configure menu on the project or \"Add JSF Capabilities...\" fix button to enable JSF if " //$NON-NLS-1$
-				+ "you want all features of the editor working."; //$NON-NLS-1$
+				+ "you want all features of the editor working.",project.getName()); //$NON-NLS-1$
 		return dialogMessage;
 	}
 

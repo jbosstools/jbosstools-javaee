@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.ui.editor.check;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -94,10 +95,10 @@ public class KBNaturesInfoDialog extends ProjectNaturesInfoDialog {
 
 	@Override
 	protected String getMessageInfo() {
-		String dialogMessage = "The project \"" + project.getName() + //$NON-NLS-1$
+		String dialogMessage = MessageFormat.format("The project \"{0}" + //$NON-NLS-1$
 				"\" does not have JSF code completion and validation enabled completely.\n\n" //$NON-NLS-1$
 				+ "Please use \"Enabale JSF Code Completion...\" fix button if " //$NON-NLS-1$
-				+ "you want these features working."; //$NON-NLS-1$
+				+ "you want these features working.",project.getName()); //$NON-NLS-1$
 		return dialogMessage;
 	}
 
