@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file-systems VERSION="2.0.0" application-name="JsfJbide1704Test"
+ model-entity="FileSystems" workspace-home="./WebContent/WEB-INF">
+ <file-system NAME="WEB-INF" location="%workspace.home%" model-entity="FileSystemFolder"/>
+ <file-system NAME="WEB-ROOT" info="Content-Type=Web"
+  location="%workspace.home%/.." model-entity="FileSystemFolder"/>
+ <file-system NAME="src" location="%workspace.home%/../../JavaSource" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib" location="%workspace.home%/lib" model-entity="FileSystemFolder"/>
+ <file-system NAME="classes" location="%workspace.home%/classes" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib-commons-beanutils.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-beanutils.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-collections.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-collections.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-digester.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-digester.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-logging.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-logging.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jstl.jar" info="hidden=yes"
+  location="%workspace.home%/lib/jstl.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-standard.jar" info="hidden=yes"
+  location="%workspace.home%/lib/standard.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jsf-facelets.jar"
+  location="%workspace.home%/lib/jsf-facelets.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="flet001" location="%eclipse.project%" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib-common-annotations.jar" info="hidden=yes"
+  location="%workspace.home%/lib/common-annotations.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jsf-tlds.jar" info="hidden=yes"
+  location="%workspace.home%/lib/jsf-tlds.jar" model-entity="FileSystemJar"/>
+ <web SERVLET_VERSION="2.5" model-entity="JstWeb" model-path="/web.xml">
+  <module URI="/WEB-INF/faces-config.xml" model-entity="WebJSFModule"
+   model-path="/faces-config.xml" root="WEB-ROOT" src="src"/>
+ </web>
+</file-systems>
