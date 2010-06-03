@@ -450,13 +450,6 @@
           class="org.jboss.tools.jsf.ui.el.refactoring.ELRefactorContributionFactory"
           locationURI="popup:org.eclipse.ui.popup.any?after=save">
     </menuContribution>
-        <menuContribution
-          locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?after=paste">
-   			  <dynamic
-                    class="org.jboss.tools.jsf.ui.editor.menu.JSF2CompositionComponentContrubutionItem"
-                    id="org.jboss.tools.jsf.ui.editor.menu.JSF2CompositionComponentContrubutionItem">
-              </dynamic>              
-    </menuContribution>
 	</extension>
 
 </plugin>
