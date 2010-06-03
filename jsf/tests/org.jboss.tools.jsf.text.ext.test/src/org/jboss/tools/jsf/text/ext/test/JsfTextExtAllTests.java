@@ -13,11 +13,17 @@ package org.jboss.tools.jsf.text.ext.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jboss.tools.test.util.ProjectImportTestSetup;
+
 public class JsfTextExtAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite(JsfTextExtAllTests.class.getName());
-		suite.addTest(ELExprPartitionerTest.suite());
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(OpenOnsTest.class),
+				"org.jboss.tools.jsf.text.ext.test",
+				new String[]{"projects/HiperlinksTestProject"},
+				new String[]{"HiperlinksTestProject"}));
+
 		return suite;
 	}
 }

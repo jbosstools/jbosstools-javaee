@@ -16,10 +16,33 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.jst.jsp,
  org.jboss.tools.jst.web,
  org.jboss.tools.vpe.xulrunner,
- org.mozilla.xpcom;bundle-version="1.9.1"
+ org.mozilla.xpcom;bundle-version="1.9.1",
+ org.jboss.tools.jsf.vpe.jsf;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
+ org.jboss.tools.vpe.html;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.ajax4jsf;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.jbpm;bundle-version="1.0.0",
+ org.jboss.tools.jsf.vpe.jstl;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.myfaces;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.seam;bundle-version="3.1.0",
+ org.jboss.tools.jsf;bundle-version="3.1.0",
+ org.jboss.tools.jsf.ui;bundle-version="3.1.0",
+ org.jboss.tools.jst.text.ext;bundle-version="3.1.0",
+ org.jboss.tools.jst.web.ui;bundle-version="3.1.0",
+ org.jboss.tools.common.el.core;bundle-version="3.1.0",
+ org.jboss.tools.common.el.ui;bundle-version="3.1.0",
+ org.jboss.tools.common.model.ui;bundle-version="3.1.0",
+ org.jboss.tools.common.resref.ui;bundle-version="3.1.0",
+ org.jboss.tools.common.ui;bundle-version="3.1.0",
+ org.jboss.tools.jsf.text.ext;bundle-version="3.1.0",
+ org.jboss.tools.jsf.text.ext.facelets;bundle-version="3.1.0",
+ org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0",
+ org.jboss.tools.vpe.jsp;bundle-version="3.1.0",
+ org.jboss.tools.vpe.resref;bundle-version="3.1.0",
+ org.jboss.tools.vpe.ui.palette;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.facelets.test
-Bundle-ClassPath: facelets-tests.jar
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

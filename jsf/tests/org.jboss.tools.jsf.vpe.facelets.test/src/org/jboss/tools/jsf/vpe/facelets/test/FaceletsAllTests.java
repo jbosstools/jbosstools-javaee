@@ -26,7 +26,7 @@ public class FaceletsAllTests {
 		// $JUnit-BEGIN$
 	
 		suite.addTestSuite(FaceletsComponentTest.class);
-		suite.addTestSuite(JBIDE3416Test.class);
+//		suite.addTestSuite(JBIDE3416Test.class);
 		suite.addTestSuite(FaceletsComponentContentTest.class);
 	
 		// $JUnit-END$

@@ -29,7 +29,7 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 		performInvisibleTagTest("components/keepAlive.xhtml","keepAlive");//$NON-NLS-1$
 	}
 	
-	public void testActionparam() throws Throwable {
+	public void _testActionparam() throws Throwable {
 		performInvisibleTagTest("components/actionparam.xhtml", "actionparam1"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
@@ -80,7 +80,7 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	public void testOutputPanel() throws Throwable {
 	}
 	
-	public void testPage() throws Throwable {
+	public void _testPage() throws Throwable {
 		performContentTest("components/page/page.xhtml");//$NON-NLS-1$
 	}
 	

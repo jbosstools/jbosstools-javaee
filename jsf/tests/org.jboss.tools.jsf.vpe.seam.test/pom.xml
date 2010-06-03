@@ -2,13 +2,33 @@
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion> 
 	<parent>
-	  <relativePath>../../../parent-pom.xml</relativePath>
-	  <groupId>org.jboss.tools</groupId>
-	  <artifactId>org.jboss.tools.parent.pom</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
+		<relativePath>../test-pom.xml</relativePath>
+		<groupId>org.jboss.tools.jsf.tests</groupId>
+		<artifactId>jsf.generic.test</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>org.jboss.tools.jsf.vpe.seam.test</artifactId> 
 	<version>3.1.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<configuration>
+					<explodedBundles>
+						<bundle>org.jboss.tools.vpe</bundle>
+						<bundle>org.jboss.tools.jsf.vpe.richfaces</bundle>
+						<bundle>org.jboss.tools.jsf.vpe.seam</bundle>
+						<bundle>org.mozilla.xulrunner.carbon.macosx</bundle>
+						<bundle>org.mozilla.xulrunner.cocoa.macosx</bundle>
+						<bundle>org.mozilla.xulrunner.gtk.linux.x86</bundle>
+						<bundle>org.mozilla.xulrunner.gtk.linux.x86_64</bundle>
+						<bundle>org.mozilla.xulrunner.win32.win32.x86</bundle>
+					</explodedBundles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>	
 </project>

@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sample="http://java.sun.com/jsf/composite/sample"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<style type="text/css">#{person.name}
+input[type="button"], input[type="submit"] {
+background-color:#{};
+}
+</style>
+</head>
+	<f:loadBundle basename="resources" var="msg" />
+	<h:outputText value="AnyValue" style="color:#{}" />
+	<sample:tag />
+	<ui:composition template="/templates/common.xhtml">
+			<ui:define name="pageTitle">Greeting to User</ui:define>
+			<ui:define name="pageHeader">Greeting Page</ui:define>
+			<ui:define name="body">
+				#{msg.greeting} #{person.name}!
+			</ui:define>
+	</ui:composition>
+</html>

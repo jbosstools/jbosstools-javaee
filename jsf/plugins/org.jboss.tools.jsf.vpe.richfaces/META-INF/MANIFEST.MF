@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.mozilla.xpcom;bundle-version="1.9.1",
  org.eclipse.wst.sse.core,
- org.jboss.tools.vpe.xulrunner
+ org.jboss.tools.vpe.xulrunner,
+ org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.jsf;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-ClassPath: lib/jhighlight-1.0.jar,

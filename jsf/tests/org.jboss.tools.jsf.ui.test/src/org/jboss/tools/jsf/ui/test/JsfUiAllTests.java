@@ -11,23 +11,40 @@
 
 package org.jboss.tools.jsf.ui.test;
 
-import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAForIDTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test;
+import org.jboss.tools.jsf.jsp.ca.test.CAForUnclosedELTest;
+import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test;
+import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
+import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
+import org.jboss.tools.jsf.jsp.ca.test.CAVarAttributeForDataTableTagJBIDE2016;
+import org.jboss.tools.jsf.jsp.ca.test.MissingKBBuilderTest;
+import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
+		suite.addTestSuite(CAForUnclosedELTest.class);
+		suite.addTestSuite(CAForCompositeComponentTest.class);
+//		suite.addTestSuite(MissingKBBuilderTest.class);
+		suite.addTestSuite(CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test.class);
+		suite.addTestSuite(CAForIDTest.class);
+		suite.addTestSuite(CAForELinStyleTest.class);
+		suite.addTestSuite(CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.class);
+		suite.addTestSuite(CASuggestsNotOnlyELProposalsJBIDE2437Test.class);
+		suite.addTestSuite(CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test.class);
+		suite.addTestSuite(CAVarAttributeForDataTableTagJBIDE2016.class);
 		suite.addTestSuite(CssClassNewWizardTest.class);
-//		suite.addTestSuite(CssFileNewWizardTest.class);
 		suite.addTestSuite(CSSStyleDialogTest.class);
 		suite.addTestSuite(FacesConfigNewWizardTest.class);
 		suite.addTestSuite(FasesConfigEditorTest.class);
-//		suite.addTestSuite(HtmlFileNewWizardTest.class);
-//		suite.addTestSuite(JsFileNewWizardTest.class);
-//		suite.addTestSuite(JspFileNewWizardTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(

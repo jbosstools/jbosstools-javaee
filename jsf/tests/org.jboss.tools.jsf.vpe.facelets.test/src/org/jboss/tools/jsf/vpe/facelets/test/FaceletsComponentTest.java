@@ -52,7 +52,7 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
-    public void testDebug() throws Throwable {
+    public void _testDebug() throws Throwable {
 	nsIDOMElement element = performTestForFaceletComponent("components/debug.xhtml"); //$NON-NLS-1$
 	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 

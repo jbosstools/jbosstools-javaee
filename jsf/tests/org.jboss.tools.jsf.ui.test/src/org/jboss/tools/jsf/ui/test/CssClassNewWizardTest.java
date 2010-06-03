@@ -35,6 +35,7 @@ public class CssClassNewWizardTest extends WizardTest {
 		boolean canFinish = wizard.canFinish();
 		
 		assertFalse("Finish button is enabled at first wizard page.", canFinish); //$NON-NLS-1$
+		wizard.performCancel();
 	}
 	
 	public void testCssClassNewWizardValidation2() {
@@ -64,6 +65,7 @@ public class CssClassNewWizardTest extends WizardTest {
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
 		//		Name field contains file name that already exists
+		wizard.performCancel();		
 	}
 	
 	public void testCssClassEditing() {
@@ -120,8 +122,7 @@ public class CssClassNewWizardTest extends WizardTest {
 		assertFalse("Finish button is not disabled.", wizard.canFinish()); //$NON-NLS-1$
 		wizard.getContainer().showPage(wizard.getNextPage(wizard.getContainer().getCurrentPage()));
 		assertTrue("Finish button is  disabled.", wizard.canFinish()); //$NON-NLS-1$
-		wizard.performFinish();
-
+		wizard.performCancel();
 	}
 	
 	public void testCssClassWithEditor() {

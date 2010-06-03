@@ -25,11 +25,16 @@ public class CSSStyleDialogTest extends TestCase {
 	private static String CSS_STYLE = "color:red;size:10px;"; //$NON-NLS-1$
 
 	public void testStyleDialog() {
-
-		CSSStyleDialog dialog = new CSSStyleDialog(WorkbenchUtils
-				.getActiveShell(), CSS_STYLE);
-		dialog.setBlockOnOpen(false);
-		dialog.open();
-		
+		CSSStyleDialog dialog = null;
+		try {
+			dialog = new CSSStyleDialog(WorkbenchUtils
+					.getActiveShell(), CSS_STYLE);
+			dialog.setBlockOnOpen(false);
+			dialog.open();
+		} finally {
+			if(dialog !=null) {	
+				dialog.close();
+			}
+		}
 	}
 }

@@ -13,7 +13,7 @@ public class FaceletsComponentContentTest extends ComponentContentTest {
 		setCheckWarning(false);
 	}
 
-	public void testCompositionWithTaglibs() throws Throwable {
+	public void _testCompositionWithTaglibs() throws Throwable {
 		performContentTest("components/compositionWithTaglibs.xhtml");//$NON-NLS-1$
 	}
 	

@@ -19,7 +19,7 @@ public class JBIDE3416Test extends ComponentContentTest {
 	super(name);
     }
 
-    public void testJBIDE3416() throws Throwable {	
+    public void _testJBIDE3416() throws Throwable {	
 	performContentTest("JBIDE/3416/jbide3416.xhtml"); //$NON-NLS-1$
     }
     

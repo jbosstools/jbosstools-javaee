@@ -14,7 +14,12 @@ Require-Bundle: org.junit,
  org.jboss.tools.common.model.ui,
  org.eclipse.ui.ide,
  org.eclipse.ltk.core.refactoring,
- org.eclipse.jst.j2ee 
+ org.eclipse.jst.j2ee,
+ org.eclipse.jface.text;bundle-version="3.5.2",
+ org.jboss.tools.jst.jsp.test,
+ org.jboss.tools.jst.css,
+ org.jboss.tools.jsf.text.ext,
+ org.jboss.tools.jsf.text.ext.facelets,
+ org.jboss.tools.jsf.text.ext.richfaces
 Bundle-Localization: plugin
-Bundle-ClassPath: jsf-ui-test.jar
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

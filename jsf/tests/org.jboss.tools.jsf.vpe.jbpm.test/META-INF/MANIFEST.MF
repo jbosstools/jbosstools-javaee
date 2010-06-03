@@ -8,7 +8,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.common,
  org.jboss.tools.vpe.ui.test,
- org.junit
+ org.junit,
+ org.jboss.tools.jsf.vpe.ajax4jsf;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.jbpm;bundle-version="1.0.0",
+ org.jboss.tools.jsf.vpe.jsf;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.jstl;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: %Bundle-Vendor.0

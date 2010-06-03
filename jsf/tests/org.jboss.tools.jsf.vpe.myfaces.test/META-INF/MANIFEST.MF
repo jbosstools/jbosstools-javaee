@@ -8,10 +8,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.vpe.ui.test,
  org.eclipse.core.resources,
- org.junit
+ org.junit,
+ org.jboss.tools.jsf.vpe.jsf;bundle-version="3.1.0",
+ org.jboss.tools.vpe.jsp;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.myfaces.test
-Bundle-ClassPath: myfaces-test.jar
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

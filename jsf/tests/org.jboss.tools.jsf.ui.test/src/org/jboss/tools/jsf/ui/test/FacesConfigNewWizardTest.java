@@ -34,6 +34,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		boolean canFinish = wizard.canFinish();
 		
 		assertFalse("Finish button is enabled at first wizard page.", canFinish);
+		wizard.performCancel();
 	}
 	
 	public void testFacesConfigNewWizardValidation2() {
@@ -147,5 +148,6 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		int p = webXmlContent.indexOf("faces-config22.xml");
 		
 		assertTrue("File faces-config22.xml is not registered in web.xml", p >= 0);
+		dialog.close();
 	}
 }

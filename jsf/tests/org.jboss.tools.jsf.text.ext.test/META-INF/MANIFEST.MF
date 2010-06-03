@@ -10,10 +10,21 @@ Require-Bundle: org.junit,
  org.eclipse.ui.ide,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
- org.jboss.tools.tests
+ org.jboss.tools.tests,
+ org.jboss.tools.common.model.ui;bundle-version="3.1.0",
+ org.eclipse.core.commands;bundle-version="3.5.0",
+ org.eclipse.jface;bundle-version="3.5.2",
+ org.jboss.tools.jst.jsp;bundle-version="3.1.0",
+ org.jboss.tools.vpe;bundle-version="3.1.0",
+ org.jboss.tools.jst.web.ui;bundle-version="3.1.0",
+ org.jboss.tools.jst.css;bundle-version="3.1.0",
+ org.jboss.tools.common.el.core;bundle-version="3.1.0",
+ org.jboss.tools.jst.text.ext;bundle-version="3.1.0",
+ org.jboss.tools.jsf.text.ext.facelets;bundle-version="3.1.0",
+ org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0",
+ org.jboss.tools.jsf.ui;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.jsf.text.ext.test
-Bundle-ClassPath: jsf-text-ext-tests.jar
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

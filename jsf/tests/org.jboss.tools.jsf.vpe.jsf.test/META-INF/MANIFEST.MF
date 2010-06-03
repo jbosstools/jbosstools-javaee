@@ -22,15 +22,22 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.jst.web,
  org.eclipse.core.filesystem,
  org.eclipse.ui.ide,
- org.jboss.tools.vpe.resref,
+ org.jboss.tools.vpe.resref;bundle-version="2.0.0",
  org.jboss.tools.common.el.ui;bundle-version="1.0.0",
- org.jboss.tools.common.el.core,
- org.jboss.tools.common.model.ui,
+ org.jboss.tools.common.el.core;bundle-version="2.0.0",
+ org.jboss.tools.common.model.ui;bundle-version="2.0.0",
  org.eclipse.wst.xml.ui;bundle-version="1.1.0",
  org.eclipse.jdt.ui;bundle-version="3.5.0",
  org.jboss.tools.common.ui,
- org.jboss.tools.jst.web.ui
-Bundle-ClassPath: jsf-test.jar
+ org.jboss.tools.jst.web.ui;bundle-version="2.0.0",
+ org.jboss.tools.vpe.jsp;bundle-version="3.1.0",
+ org.jboss.tools.vpe.html;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.jsf,
+ org.jboss.tools.jsf.vpe.ajax4jsf;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.myfaces;bundle-version="3.1.0",
+ org.jboss.tools.jsf.vpe.jstl;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.jboss.tools.jsf.vpe.jsf.test
