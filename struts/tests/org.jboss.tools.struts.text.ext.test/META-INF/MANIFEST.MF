@@ -10,7 +10,12 @@ Require-Bundle: org.junit,
  org.eclipse.jface.text,
  org.eclipse.ui.ide,
  org.jboss.tools.jst.jsp.test,
- org.jboss.tools.jst.web
+ org.jboss.tools.jst.web,
+ org.jboss.tools.struts;bundle-version="3.1.0",
+ org.jboss.tools.struts.text.ext;bundle-version="3.1.0",
+ org.jboss.tools.struts.ui;bundle-version="3.1.0",
+ org.jboss.tools.struts.validator.ui;bundle-version="3.1.0",
+ org.jboss.tools.struts.verification;bundle-version="3.1.0"
 Export-Package: org.jboss.tools.struts.text.tests
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin

@@ -10,7 +10,10 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
- org.junit
+ org.junit,
+ org.jboss.tools.struts.vpe.struts;bundle-version="3.1.0",
+ org.jboss.tools.vpe.jsp;bundle-version="3.1.0",
+ org.jboss.tools.vpe.html;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: struts-test.jar
 Export-Package: org.jboss.tools.struts.vpe.struts.test
