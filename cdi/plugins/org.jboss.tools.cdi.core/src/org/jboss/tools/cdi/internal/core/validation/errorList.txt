@@ -125,10 +125,6 @@ Definition Errors
 5.2.2. Legal injection point types
 - injection point type is a type variable
 
-
-
-
-
 5.2.5. Qualifier annotations with members
 - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 
@@ -141,6 +137,10 @@ Definition Errors
   InjectionPoint and qualifier @Default
 - Java EE component class supporting injection that is not a bean has an injection 
   point of type InjectionPoint and qualifier @Default
+
+
+
+
 
 8.1.2. Decorator delegate injection points
 - decorator has more than one delegate injection point, or

@@ -1408,7 +1408,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					if(typeName!=null) {
 						IType memberType = type.getJavaProject().findType(typeName);
 						if(memberType!=null && memberType.isAnnotation()) {
-							if(!CDIUtil.hasNonBindingAnnotationDeclaration(type, method)) {
+							if(!qualifier.getNonBindingMethods().contains(method)) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange());
 								addError(CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, reference, qualifier.getResource());
 							}
