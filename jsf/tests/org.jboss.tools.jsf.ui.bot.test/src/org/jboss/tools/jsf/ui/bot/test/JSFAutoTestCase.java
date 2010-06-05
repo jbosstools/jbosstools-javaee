@@ -91,7 +91,7 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 		StringBuilder builder = new StringBuilder(""); //$NON-NLS-1$
 		Scanner scanner = new Scanner(file);
 		while (scanner.hasNextLine()) {
-			builder.append(scanner.nextLine());
+			builder.append(scanner.nextLine()+"\n"); //$NON-NLS-1$
 		}
 		return builder.toString();
 	}

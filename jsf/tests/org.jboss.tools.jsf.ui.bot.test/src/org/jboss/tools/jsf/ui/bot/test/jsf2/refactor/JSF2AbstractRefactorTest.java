@@ -63,7 +63,7 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 			bot.textWithLabel("File name:").setText("echo"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Finish").click(); //$NON-NLS-1$
 			bot.sleep(2000);
-			bot.editorByTitle("echo.xhtml").close(); //$NON-NLS-1$
+			bot.editorByTitle("echo.xhtml").saveAndClose(); //$NON-NLS-1$
 		}
 	}
 

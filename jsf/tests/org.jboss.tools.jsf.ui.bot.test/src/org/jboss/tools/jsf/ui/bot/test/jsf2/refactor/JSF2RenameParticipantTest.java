@@ -8,8 +8,8 @@ import org.jboss.tools.ui.bot.test.WidgetVariables;
 public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 
 	public void testJSF2RenameParticipant() throws Exception {
-		createTestPage();
 		createCompositeComponent();
+		createTestPage();
 		renameCompositeComponent();
 		checkContent();
 	}
