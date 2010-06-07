@@ -115,4 +115,22 @@
 	</menuContribution>
 	</extension> 
   
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            name="CDI"
+            id="org.jboss.tools.cdi.ui">
+      </category>
+      <wizard 
+         category="org.jboss.tools.cdi.ui" 
+         class="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
+         icon="icons/cdi16.png"
+         id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
+         name="Qualifier Annotation Type" 
+         project="false">
+         <description>
+            Create a Qualifier Java File
+         </description>
+      </wizard>
+   </extension>
+
 </plugin>
