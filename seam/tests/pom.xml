@@ -14,12 +14,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<modules>
 		<module>org.jboss.tools.seam.core.test</module>
 		<module>org.jboss.tools.seam.pages.xml.test</module>
-		<module>org.jboss.tools.seam.text.ext.test</module>
 		<module>org.jboss.tools.seam.ui.bot.test</module>
-		<module>org.jboss.tools.seam.ui.pages.test</module>
 		<module>org.jboss.tools.seam.ui.test</module>
 		<module>org.jboss.tools.seam.xml.test</module>
-		<module>org.jboss.tools.seam.xml.ui.test</module>
 	</modules>
 </project>
 	

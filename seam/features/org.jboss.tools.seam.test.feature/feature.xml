@@ -30,20 +30,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.jboss.tools.seam.text.ext.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.ui.pages.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.jboss.tools.seam.ui.test"
          download-size="0"
          install-size="0"
@@ -51,13 +37,6 @@
 
    <plugin
          id="org.jboss.tools.seam.xml.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.xml.ui.test"
          download-size="0"
          install-size="0"
          version="0.0.0"

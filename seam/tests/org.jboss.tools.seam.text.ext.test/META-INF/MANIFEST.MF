@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Seam Text Extension Test
-Bundle-SymbolicName: org.jboss.tools.seam.text.ext.test
-Bundle-Version: 3.1.0.qualifier
-Bundle-Vendor: JBoss by RedHat
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
