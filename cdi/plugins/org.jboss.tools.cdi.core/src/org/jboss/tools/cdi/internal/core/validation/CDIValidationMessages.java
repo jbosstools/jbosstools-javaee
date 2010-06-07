@@ -27,6 +27,8 @@ public class CDIValidationMessages {
 	public static String INTERCEPTOR_HAS_NAME;
 	public static String DECORATOR_HAS_NAME;
 
+	public static String UNSATISFIED_INJECTION_POINTS;
+	public static String AMBIGUOUS_INJECTION_POINTS;
 	public static String ILLEGAL_TYPE_IN_TYPED_DECLARATION;
 	public static String PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD;
 	public static String PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE;

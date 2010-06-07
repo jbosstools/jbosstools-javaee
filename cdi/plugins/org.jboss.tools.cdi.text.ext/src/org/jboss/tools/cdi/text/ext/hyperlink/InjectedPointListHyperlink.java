@@ -78,7 +78,7 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 			return;
 		}
 		
-		Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
+		Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
 		List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
 			
 		IHyperlink[] hyperlinks = new IHyperlink[resultBeanList.size()];

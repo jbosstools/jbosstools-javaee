@@ -37,7 +37,7 @@ public interface IBeanManager {
 	 *            attemptToResolveAmbiguousNames==true the manager should try to
 	 *            resolve the EL name. If any of the beans are alternatives, the
 	 *            manager will eliminate all beans that are not alternatives,
-	 *            expect for producer methods and fields of beans that are
+	 *            except for producer methods and fields of beans that are
 	 *            alternatives. If the name of a bean is not resolvable then
 	 *            both beans would be included in the result list.  
 	 * @return all @Named beans
@@ -54,7 +54,7 @@ public interface IBeanManager {
 	 *            attemptToResolveAmbiguousNames==true the manager should try to
 	 *            resolve the EL name. If any of the beans are alternatives, the
 	 *            manager will eliminate all beans that are not alternatives,
-	 *            expect for producer methods and fields of beans that are
+	 *            except for producer methods and fields of beans that are
 	 *            alternatives.
 	 * @return the matched beans
 	 */
@@ -75,7 +75,7 @@ public interface IBeanManager {
 	 *            and attemptToResolveAmbiguousDependency==true the manager
 	 *            should try to resolve the ambiguity. If any of the beans are
 	 *            alternatives, the manager will eliminate all beans that are
-	 *            not alternatives, expect for producer methods and fields of
+	 *            not alternatives, except for producer methods and fields of
 	 *            beans that are alternatives.
 	 * 
 	 * @return the resulting set of beans
@@ -97,7 +97,7 @@ public interface IBeanManager {
 	 *            and attemptToResolveAmbiguousDependency==true the manager
 	 *            should try to resolve the ambiguity. If any of the beans are
 	 *            alternatives, the manager will eliminate all beans that are
-	 *            not alternatives, expect for producer methods and fields of
+	 *            not alternatives, except for producer methods and fields of
 	 *            beans that are alternatives.
 	 * 
 	 * @return the resulting set of beans
@@ -119,7 +119,7 @@ public interface IBeanManager {
 	 *            and attemptToResolveAmbiguousDependency==true the manager
 	 *            should try to resolve the ambiguity. If any of the beans are
 	 *            alternatives, the manager will eliminate all beans that are
-	 *            not alternatives, expect for producer methods and fields of
+	 *            not alternatives, except for producer methods and fields of
 	 *            beans that are alternatives.
 	 * 
 	 * @return the resulting set of beans
@@ -131,9 +131,17 @@ public interface IBeanManager {
 	 * points.
 	 * 
 	 * @param injectionPoint
+	 * @param attemptToResolveAmbiguousDependency
+	 *            if there are a few beans which are eligible for the given injection
+	 *            and attemptToResolveAmbiguousDependency==true the manager
+	 *            should try to resolve the ambiguity. If any of the beans are
+	 *            alternatives, the manager will eliminate all beans that are
+	 *            not alternatives, except for producer methods and fields of
+	 *            beans that are alternatives.
+
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(IInjectionPoint injectionPoint);
+	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint);
 
 	/**
 	 * Returns the bean which is declared in the given IType.

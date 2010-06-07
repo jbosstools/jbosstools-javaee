@@ -130,6 +130,10 @@ Definition Errors
 
 
 
+5.2.1. Unsatisfied and ambiguous dependencies
+- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
+  treats it as a deployment problem.
+
 
 
 5.5.7. Injection point metadata

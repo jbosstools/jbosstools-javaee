@@ -46,6 +46,11 @@ public class CDIPreferences extends SeverityPreferences {
 
 	//Type group
 
+//	5.2.1. Unsatisfied and ambiguous dependencies
+//	- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
+//	  treats it as a deployment problem.
+	public static final String UNSATISFIED_INJECTION_POINTS = INSTANCE.createSeverityOption("unsatisfiedInjectionPoints"); //$NON-NLS-1$
+	public static final String AMBIGUOUS_INJECTION_POINTS = INSTANCE.createSeverityOption("ambiguousInjectionPoints"); //$NON-NLS-1$
 //	- bean class or producer method or field specifies a @Typed annotation, 
 //	  and the value member specifies a class which does not correspond to a type 
 //	  in the unrestricted set of bean types of a bean (2.2.2)

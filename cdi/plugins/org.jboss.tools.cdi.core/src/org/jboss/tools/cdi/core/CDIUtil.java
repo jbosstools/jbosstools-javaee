@@ -117,9 +117,9 @@ public class CDIUtil {
 		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
 
 		for (IBean bean : beans) {
-			if (bean == null || bean instanceof IDecorator || bean instanceof IInterceptor) {
-				continue;
-			}
+//			if (bean == null || bean instanceof IDecorator || bean instanceof IInterceptor) {
+//				continue;
+//			}
 			if (bean.isAlternative()) {
 				alternativeBeans.add(bean);
 			} else {

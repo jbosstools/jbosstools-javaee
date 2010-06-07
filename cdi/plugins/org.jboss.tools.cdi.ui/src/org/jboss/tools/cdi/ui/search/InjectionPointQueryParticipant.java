@@ -82,7 +82,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 						return;
 					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, 0);
 					if(injectionPoint != null){
-						Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
+						Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
 						List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
 						for(IBean bean : resultBeanList){
 							if(bean != null){

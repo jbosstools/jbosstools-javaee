@@ -126,7 +126,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
 		assertLocationEquals(declarations, 914, 5);
 
-		Set<IBean> injectedBeans = cdiProject.getBeans(point);
+		Set<IBean> injectedBeans = cdiProject.getBeans(true, point);
 		assertEquals("Wrong number of beans.", 1, injectedBeans.size());
 		IBean injectedBean = injectedBeans.iterator().next();
 		IType beanClass = injectedBean.getBeanClass();

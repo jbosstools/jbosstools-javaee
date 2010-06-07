@@ -42,6 +42,8 @@ public class CDIPreferencesMessages extends NLS {
 
 	// Section Type
 	public static String CDIValidatorConfigurationBlock_section_type;
+	public static String CDIValidatorConfigurationBlock_pb_unsatisfiedInjectionPoints_label;
+	public static String CDIValidatorConfigurationBlock_pb_ambiguousInjectionPoints_label;
 	public static String CDIValidatorConfigurationBlock_pb_illegalTypeInTypedDeclaration_label;
 	public static String CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeHasWildcard_label;
 	public static String CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeIsVariable_label;

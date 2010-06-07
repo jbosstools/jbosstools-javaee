@@ -953,13 +953,28 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
 			}
 		}
+
+		IAnnotationDeclaration declaration = injection.getInjectAnnotation();
+
 		/*
 		 * 5.2.2. Legal injection point types
 		 *  - injection point type is a type variable
 		 */
 		if(!(injection instanceof IInjectionPointMethod) && CDIUtil.isTypeVariable(injection, false)) {
-			IAnnotationDeclaration declaration = injection.getInjectAnnotation();
 			addError(CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, CDIPreferences.INJECTION_TYPE_IS_VARIABLE, declaration, injection.getResource());
+		}
+
+		/*
+		 * 5.2.1. Unsatisfied and ambiguous dependencies
+		 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
+		 */
+		if(declaration!=null && !(injection instanceof IInjectionPointParameter)) {
+			Set<IBean> beans = cdiProject.getBeans(true, injection);
+			if(beans.isEmpty()) {
+				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, declaration, injection.getResource());
+			} else if(beans.size()>1) {
+				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, declaration, injection.getResource());
+			}
 		}
 	}
 

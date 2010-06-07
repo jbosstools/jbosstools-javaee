@@ -42,6 +42,8 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 	private static SectionDescription SECTION_TYPE = new SectionDescription(
 		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_type,
 		new String[][]{
+			{CDIPreferences.UNSATISFIED_INJECTION_POINTS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_unsatisfiedInjectionPoints_label},
+			{CDIPreferences.AMBIGUOUS_INJECTION_POINTS, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_ambiguousInjectionPoints_label},
 			{CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalTypeInTypedDeclaration_label},
 			{CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeHasWildcard_label},
 			{CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerMethodReturnTypeIsVariable_label},

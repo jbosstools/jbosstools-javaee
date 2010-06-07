@@ -127,7 +127,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			return false;
 		}
 		
-		Set<IBean> resultBeanSet = cdiProject.getBeans(injectionPoint);
+		Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
 		if(resultBeanSet.size() > 0)
 			return true;
 		

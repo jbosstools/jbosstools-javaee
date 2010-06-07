@@ -241,21 +241,25 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
 	}
 
-	public Set<IBean> getBeans(IInjectionPoint injectionPoints) {
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.jboss.tools.cdi.core.IInjectionPoint)
+	 */
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint) {
 		Set<IBean> result = new HashSet<IBean>();
-		IParametedType type = injectionPoints.getType();
+		IParametedType type = injectionPoint.getType();
 		if(type == null) {
 			return result;
 		}
 		
-		boolean isParameter = injectionPoints instanceof InjectionPointParameter;
+		boolean isParameter = injectionPoint instanceof InjectionPointParameter;
 		boolean isNew = false;
 
-		Set<IQualifierDeclaration> qs = injectionPoints.getQualifierDeclarations();
+		Set<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
 		List<IType> qs2 = null;
 		if(isParameter) {
 			qs2 = new ArrayList<IType>();
-			Set<IQualifier> qs_ = ((InjectionPointParameter)injectionPoints).getQualifiers();
+			Set<IQualifier> qs_ = ((InjectionPointParameter)injectionPoint).getQualifiers();
 			for (IQualifier q: qs_) {
 				IType t = q.getSourceType();
 				if(t != null) {
@@ -279,6 +283,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized(allBeans) {
 			beans.addAll(allBeans);
 		}
+		boolean delegateInjectionPoint = injectionPoint.isDelegate();
+
 		for (IBean b: beans) {
 			if(isNew) {
 				//TODO improve
@@ -291,6 +297,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			Set<IParametedType> types = b.getLegalTypes();
 			if(containsType(types, type)) {
 				try {
+					if(delegateInjectionPoint && b == injectionPoint.getClassBean()) {
+						continue;
+					}
 					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
 					if(isParameter) {
 						if(areMatchingQualifiers(qsb, qs2.toArray(new IType[0]))) {
@@ -307,7 +316,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 
-		return result;
+		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
 	}
 
 	public static boolean containsType(Set<IParametedType> types, IParametedType type) {
