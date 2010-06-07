@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -77,6 +78,20 @@ public class ResolutionByTypeTest extends TCKTest {
 		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.ScottishFishFarmer");
+	}
+
+	/**
+	 * Section 5.2 - Typesafe resolution
+	 *   j) Test with an array type.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testResolveByTypeWithArray() throws CoreException {
+		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.SpiderProducer");
+		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "[QSpider;");
+		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertTrue("The bean should be a producer method.", beans.iterator().next() instanceof IProducerMethod);
 	}
 
 	/**
