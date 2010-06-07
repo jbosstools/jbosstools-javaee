@@ -45,6 +45,8 @@ import org.mozilla.interfaces.nsIScriptableRegion;
 import org.mozilla.interfaces.nsISupportsArray;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 /**
  * Tests Drag&Drop functionality of the VPE.
@@ -54,24 +56,27 @@ import org.w3c.dom.Node;
  * 
  * @author yradtsevich
  */
-public class DnD_JBIDE5042Test  extends VpeTest {
+@SuppressWarnings("nls")
+public class DnD_JBIDE5042_JBIDE6229_Test  extends VpeTest {
 	private static final String DROP_CONTAINER_ID = "cell_01";
 	private static final String DRAG_ICON_ID = "dragIcon";
-	private static final String DRAGGABLE_ID = "draggable"; //$NON-NLS-1$
-	private static final String TEST_PAGE_NAME = "JBIDE/5042/JBIDE-5042.html"; //$NON-NLS-1$
+	private static final String DRAGGABLE_BUTTON_ID = "draggableButton";
+	private static final String DRAGGABLE_TEXT_CONTAINER_ID = "draggableTextContainer";
+	private static final String TEST_PAGE_NAME = "JBIDE/5042_6229/JBIDE-5042-6229.html";
+	private static final String DND_TEXT = "Text";
 	private static final Point DRAG_POINT = new Point(0, 0);
 	/**Cells in the table are 100x100px. Thus this point means 'top of the second cell'*/
 	private static final Point DROP_POINT = new Point(150, 10);
 	private Mockery context = new Mockery();
 
-	public DnD_JBIDE5042Test(String name) {
+	public DnD_JBIDE5042_JBIDE6229_Test(String name) {
 		super(name);
 	}
 	
 	/**
 	 * Try to open two pages in VPE and refresh them n times.
 	 */
-	public void testDnDWithMocks() throws Throwable {
+	public void testElementDnDWithMocks() throws Throwable {
 		setException(null);
 
 		JSPMultiPageEditor editor = openPageInVpe(TEST_PAGE_NAME);
@@ -80,6 +85,57 @@ public class DnD_JBIDE5042Test  extends VpeTest {
 		VpeController controller = TestUtil.getVpeController(editor);
 		TestUtil.waitForJobs();
 		
+		Element draggable = findSourceElementById(controller, DRAGGABLE_BUTTON_ID);
+		IndexedRegion region = (IndexedRegion) draggable;
+		setSelectedRange(controller, region.getStartOffset(),
+				region.getEndOffset() - region.getStartOffset());
+		TestUtil.waitForJobs();
+		
+		executeSelectionDragAndDropToSecondCell(visualEditor, controller);
+		
+		draggable = findSourceElementById(controller, DRAGGABLE_BUTTON_ID);
+		assertEquals(DROP_CONTAINER_ID, ((Element)draggable.getParentNode()).getAttribute("id"));
+
+		if (getException() != null) {
+			throw getException();
+		}
+	}
+
+	public void testTextDnDWithMocks() throws Throwable {
+		setException(null);
+	
+		JSPMultiPageEditor editor = openPageInVpe(TEST_PAGE_NAME);
+		final MozillaEditor visualEditor = ((VpeEditorPart) editor.getVisualEditor())
+				.getVisualEditor();
+		VpeController controller = TestUtil.getVpeController(editor);
+		TestUtil.waitForJobs();
+		
+		Element draggableTextContainer = findSourceElementById(controller, DRAGGABLE_TEXT_CONTAINER_ID);
+		Text draggableTextNode = (Text) draggableTextContainer.getChildNodes().item(0);
+		IndexedRegion draggableTextRegion = (IndexedRegion)draggableTextNode;
+		setSelectedRange(controller,
+				draggableTextRegion.getEndOffset() - DND_TEXT.length(), DND_TEXT.length());
+		TestUtil.waitForJobs();
+		
+		executeSelectionDragAndDropToSecondCell(visualEditor, controller);
+		
+		Element dropContainer = findSourceElementById(controller, DROP_CONTAINER_ID);
+		NodeList dropContainerChildren = dropContainer.getChildNodes();
+		assertTrue(dropContainerChildren.getLength() == 1);
+		assertTrue(dropContainerChildren.item(0) instanceof Text);
+		
+		String dropContainerContent = ((Text)dropContainerChildren.item(0)).getNodeValue();
+
+		assertEquals(DND_TEXT + "dddddd", dropContainerContent);
+
+		if (getException() != null) {
+			throw getException();
+		}
+	}
+
+	private void executeSelectionDragAndDropToSecondCell(
+			final MozillaEditor visualEditor, VpeController controller)
+			throws Throwable {
 		final nsIDragService dragService = mock(nsIDragService.class);
 		final nsIDragSession dragSession = mock(nsIDragSession.class);
 		checking(new Expectations() {{
@@ -88,21 +144,17 @@ public class DnD_JBIDE5042Test  extends VpeTest {
 			allowing(dragSession).setCanDrop(with(any(Boolean.TYPE)));
 		}});
 		replaceDragService(controller.getVpeDnD(), dragService);
-
-		Element draggable = findSourceElementById(controller, DRAGGABLE_ID);
-		setSelectedNode(controller, draggable);
-		TestUtil.waitForJobs();
-
+	
 		final nsIDOMElement dragIcon = controller.getXulRunnerEditor()
 				.getDOMDocument().getElementById(DRAG_ICON_ID);
-
+	
 		final nsIDOMMouseEvent mouseDownEvent = createMockMouseEvent(
 				DRAG_POINT, "mousedown", dragIcon, "mouseDown");
 		final nsIDOMMouseEvent dragOverMouseEvent = createMockMouseEvent(
 				DROP_POINT, "dragover", null, "dragover");
 		final nsIDOMMouseEvent dragDropMouseEvent = createMockMouseEvent(
 				DROP_POINT, "dragdrop", null, "dragdrop");
-
+	
 		final MozillaEventAdapter eventListener = visualEditor.getMozillaEventAdapter();
 		checking(new Expectations() {{
 			allowing(dragService).invokeDragSession(
@@ -121,13 +173,8 @@ public class DnD_JBIDE5042Test  extends VpeTest {
 					
 		eventListener.handleEvent(mouseDownEvent);
 		TestUtil.waitForJobs();
-		
-		draggable = findSourceElementById(controller, DRAGGABLE_ID);
-		assertEquals(DROP_CONTAINER_ID, ((Element)draggable.getParentNode()).getAttribute("id"));
-
-		if (getException() != null) {
-			throw getException();
-		}
+		TestUtil.delay(100);
+		TestUtil.waitForJobs();
 	}
 
 	private nsIDOMMouseEvent createMockMouseEvent(final Point mousePos,
@@ -173,12 +220,9 @@ public class DnD_JBIDE5042Test  extends VpeTest {
 		return editor;
 	}
 	
-	private void setSelectedNode(VpeController controller, Node node) {
-		IndexedRegion sourceNodeBounds = ((IndexedRegion)node);
-		
+	private void setSelectedRange(VpeController controller, int offset, int length) {
 		controller.getPageContext().getSourceBuilder().getStructuredTextViewer()
-				.setSelectedRange(sourceNodeBounds.getStartOffset(),
-						sourceNodeBounds.getEndOffset() - sourceNodeBounds.getStartOffset());
+				.setSelectedRange(offset, length);
 	}
 
 	/** @see org.jmock.Mockery#mock(java.lang.Class, java.lang.String) */
