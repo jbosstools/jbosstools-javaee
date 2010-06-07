@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+
 package org.jboss.tools.jsf.jsf2.refactoring;
 
 import java.util.HashSet;
@@ -12,9 +23,16 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.refactoring.action.rename.IRenameDescriptor;
 import org.jboss.tools.jsf.jsf2.refactoring.action.rename.RenameUserInterfaceManager;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
+
+/**
+ * 
+ * @author yzhishko
+ *
+ */
 
 @SuppressWarnings("restriction")
 public class RefactoringActionManager {
@@ -68,7 +86,8 @@ public class RefactoringActionManager {
 			starter.activate(descriptor.getRenameRefactoring(), parent,
 					RefactoringSaveHelper.SAVE_NOTHING);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			JSFModelPlugin.getPluginLog().logError(e);
 		}
 	}
+	
 }

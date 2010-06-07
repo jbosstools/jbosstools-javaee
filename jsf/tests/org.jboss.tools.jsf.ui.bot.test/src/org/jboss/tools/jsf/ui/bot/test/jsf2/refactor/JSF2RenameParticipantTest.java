@@ -22,6 +22,8 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		bot.menu("Refactor").menu("Rename...").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.textWithLabel("New name:").setText("echo1.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
+		bot.button("Preview >").click(); //$NON-NLS-1$
+		checkPreview();
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 	}
@@ -57,6 +59,13 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 		super.tearDown();
+	}
+
+	private void checkPreview() {
+		delay();
+		SWTBotTree tree = bot.tree();
+		tree
+				.expandNode("Rename composite component changes").expandNode("jsf2TestPage.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent").expandNode("Rename composite component"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 
 }

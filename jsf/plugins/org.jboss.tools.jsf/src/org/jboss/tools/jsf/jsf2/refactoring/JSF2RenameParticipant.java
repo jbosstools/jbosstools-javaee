@@ -23,7 +23,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.ui.ide.IDE;
-import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
+import org.jboss.tools.jsf.jsf2.refactoring.core.StructuredChanges;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
@@ -54,12 +54,13 @@ public class JSF2RenameParticipant extends RenameParticipant {
 		}
 		oldFileName = oldFileName.substring(0, oldFileName.lastIndexOf('.'));
 		newFileName = newFileName.substring(0, newFileName.lastIndexOf('.'));
-		JSF2ComponentModelManager.getManager().renameCompositeComponents(
-				project, URI, oldFileName, newFileName);
+		StructuredChanges changes = RefactoringChangesFactory
+				.createRenameCompositeComponentsChanges(project, URI,
+						oldFileName, newFileName);
 		project = null;
 		URI = null;
 		oldFileName = null;
-		return null;
+		return changes;
 	}
 
 	@Override

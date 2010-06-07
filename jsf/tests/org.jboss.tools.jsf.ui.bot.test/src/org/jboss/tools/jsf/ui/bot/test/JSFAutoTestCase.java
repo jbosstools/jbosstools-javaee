@@ -89,9 +89,16 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 	protected String loadFileContent(String resourceRelativePath) throws IOException {
 		File file = new File(getPathToResources(resourceRelativePath));
 		StringBuilder builder = new StringBuilder(""); //$NON-NLS-1$
-		Scanner scanner = new Scanner(file);
-		while (scanner.hasNextLine()) {
-			builder.append(scanner.nextLine()+"\n"); //$NON-NLS-1$
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				builder.append(scanner.nextLine()+"\n"); //$NON-NLS-1$
+			}
+		} catch (IOException e) {
+			if (scanner != null) {
+				scanner.close();
+			}
 		}
 		return builder.toString();
 	}

@@ -42,7 +42,8 @@ public class JSF2MoveParticipantTest extends JSF2AbstractRefactorTest {
 		tree = innerBot.tree();
 		tree
 				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp1").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		delay();
+		bot.button("Preview >").click(); //$NON-NLS-1$
+		checkPreview();
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 	}
@@ -82,6 +83,13 @@ public class JSF2MoveParticipantTest extends JSF2AbstractRefactorTest {
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 		super.tearDown();
+	}
+	
+	private void checkPreview(){
+		delay();
+		SWTBotTree tree = bot.tree();
+		tree
+				.expandNode("Rename composite URI changes").expandNode("jsf2TestPage.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent").expandNode("Rename composite URI"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 
 }

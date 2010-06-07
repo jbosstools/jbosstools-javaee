@@ -97,5 +97,5 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 		bot.sleep(2000);
 		editor.saveAndClose();
 	}
-
+	
 }

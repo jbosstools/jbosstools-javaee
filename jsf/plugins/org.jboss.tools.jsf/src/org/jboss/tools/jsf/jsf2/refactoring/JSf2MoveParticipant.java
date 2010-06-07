@@ -27,7 +27,6 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.MoveParticipant;
 import org.jboss.tools.jsf.JSFModelPlugin;
-import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
@@ -52,7 +51,7 @@ public class JSf2MoveParticipant extends MoveParticipant {
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
 		if (project != null) {
-			JSF2ComponentModelManager.getManager().renameURIs(project, urisMap);
+			return RefactoringChangesFactory.createRenameURIChanges(project, urisMap);
 		}
 		return null;
 	}

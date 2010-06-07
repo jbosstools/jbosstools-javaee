@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotStyledText;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
@@ -16,13 +17,15 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		checkContent();
 	}
 
-	private void renameCompositeAttribute() {
+	private void renameCompositeAttribute() throws IOException {
 		SWTBotEclipseEditor editor = bot
 				.editorByTitle("echo.xhtml").toTextEditor(); //$NON-NLS-1$
 		editor.selectRange(9, 29, 1);
 		bot.menu("Refactor").menu("Rename").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.shell("Rename Composite Attribute").activate(); //$NON-NLS-1$
 		bot.textWithLabel("New name:").setText("echo1"); //$NON-NLS-1$ //$NON-NLS-2$
+		bot.button("Preview >").click(); //$NON-NLS-1$
+		checkPreview();
 		bot.button("OK").click(); //$NON-NLS-1$
 	}
 
@@ -75,6 +78,18 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 		super.tearDown();
+	}
+
+	private void checkPreview() throws IOException {
+		delay();
+		SWTBotTree tree = bot.tree();
+		tree
+				.expandNode("Composite attribute name changes").expandNode("echo.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent/resources/mycomp").expandNode("Rename composite attribute name"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		tree
+				.expandNode("Composite attribute name changes").expandNode("jsf2TestPage.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent").expandNode("Rename composite attribute"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		SWTBotStyledText styledText = bot.styledText(0);
+		assertEquals(loadFileContent("refactor/compositeComponent.html"), styledText.getText()); //$NON-NLS-1$
+		System.out.println(styledText.getText());
 	}
 
 }

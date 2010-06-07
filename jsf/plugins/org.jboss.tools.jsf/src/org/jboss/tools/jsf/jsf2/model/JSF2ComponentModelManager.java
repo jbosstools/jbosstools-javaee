@@ -15,37 +15,25 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jdt.internal.core.JarEntryFile;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.core.internal.text.JobSafeStructuredDocument;
-import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.parser.XMLSourceParser;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.format.DocumentNodeFormatter;
 import org.jboss.tools.jsf.JSFModelPlugin;
-import org.jboss.tools.jsf.jsf2.util.JSF2ComponentUtil;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,172 +81,6 @@ public class JSF2ComponentModelManager {
 			}
 		});
 		return file;
-	}
-
-	public void renameCompositeComponents(IResource resource, String URI,
-			String oldName, String newName) throws CoreException {
-		if (resource instanceof IFile) {
-			IFile file = (IFile) resource;
-			renameCompositeComponentsInFile(file, URI, oldName, newName);
-		} else if (resource instanceof IProject) {
-			IResource[] children = ((IProject) resource).members();
-			if (children != null) {
-				for (int i = 0; i < children.length; i++) {
-					renameCompositeComponents(children[i], URI, oldName,
-							newName);
-				}
-			}
-		} else if (resource instanceof IFolder) {
-			IResource[] children = ((IFolder) resource).members();
-			if (children != null) {
-				for (int i = 0; i < children.length; i++) {
-					renameCompositeComponents(children[i], URI, oldName,
-							newName);
-				}
-			}
-		}
-	}
-
-	private boolean isFileCorrect(IFile file) {
-		if (file == null) {
-			return false;
-		}
-		if (!"xhtml".equals(file.getFileExtension()) && !"jsp".equals(file.getFileExtension())) { //$NON-NLS-1$ //$NON-NLS-2$
-			IContentType contentType = IDE.getContentType(file);
-			if (contentType == null) {
-				return false;
-			}
-			String id = contentType.getId();
-			if (!"org.eclipse.jst.jsp.core.jspsource".equals(id) && !"org.eclipse.wst.html.core.htmlsource".equals(id)) { //$NON-NLS-1$ //$NON-NLS-2$
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private void renameCompositeComponentsInFile(final IFile file,
-			final String URI, final String oldName, final String newName) {
-		if (!isFileCorrect(file)) {
-			return;
-		}
-		updateFileContent(new EditableDOMFile() {
-
-			@Override
-			public IFile getFile() {
-				return file;
-			}
-
-			@Override
-			protected void edit(IDOMModel model) throws CoreException,
-					IOException {
-				IDOMDocument document = model.getDocument();
-				Map<String, List<Element>> compositeComponentsMap = JSF2ComponentUtil
-						.findCompositeComponents(document);
-				List<Element> compositeComponents = compositeComponentsMap
-						.get(URI);
-				if (compositeComponents != null) {
-					for (Element element : compositeComponents) {
-						if (oldName.equals(element.getLocalName())) {
-							renameElement((IDOMElement) element, oldName,
-									newName);
-						}
-					}
-					model.save();
-					ValidationFramework.getDefault().validate(file,
-							new NullProgressMonitor());
-				}
-			}
-		});
-	}
-
-	public void renameURIs(IResource resource, Map<String, String> urisMap)
-			throws CoreException {
-		if (resource instanceof IFile) {
-			IFile file = (IFile) resource;
-			renameURIsInFile(file, urisMap);
-		} else if (resource instanceof IProject) {
-			IResource[] children = ((IProject) resource).members();
-			if (children != null) {
-				for (int i = 0; i < children.length; i++) {
-					renameURIs(children[i], urisMap);
-				}
-			}
-		} else if (resource instanceof IFolder) {
-			IResource[] children = ((IFolder) resource).members();
-			if (children != null) {
-				for (int i = 0; i < children.length; i++) {
-					renameURIs(children[i], urisMap);
-				}
-			}
-		}
-	}
-
-	private void renameURIsInFile(final IFile file,
-			final Map<String, String> urisMap) {
-		if (!isFileCorrect(file)) {
-			return;
-		}
-		updateFileContent(new EditableDOMFile() {
-
-			@Override
-			public IFile getFile() {
-				return file;
-			}
-
-			@Override
-			protected void edit(IDOMModel model) throws CoreException,
-					IOException {
-				IDOMDocument document = model.getDocument();
-				IDOMAttr[] uriAttrs = JSF2ComponentUtil
-						.findURIContainers(document);
-				for (int i = 0; i < uriAttrs.length; i++) {
-					if (urisMap.containsKey(uriAttrs[i].getValue())) {
-						renameURIAttr(uriAttrs[i], urisMap.get(uriAttrs[i]
-								.getValue()));
-					}
-				}
-				model.save();
-				ValidationFramework.getDefault().validate(file,
-						new NullProgressMonitor());
-			}
-
-		});
-	}
-
-	private void renameURIAttr(IDOMAttr idomAttr, final String replaceValue) {
-		int startOffset = idomAttr.getStartOffset();
-		String attrValue = idomAttr.getValue();
-		IStructuredDocument document = idomAttr.getStructuredDocument();
-		String value = document.getText().substring(idomAttr.getStartOffset());
-		value = value.substring(0, value.indexOf(attrValue)
-				+ idomAttr.getValue().length());
-		try {
-			document.replace(startOffset + value.indexOf(attrValue), attrValue
-					.length(), replaceValue);
-		} catch (BadLocationException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
-		idomAttr.getName();
-	}
-
-	private void renameElement(final IDOMElement element, final String oldName,
-			final String newName) {
-		String sourceString = element.getSource();
-		IStructuredDocument structuredDocument = element
-				.getStructuredDocument();
-		int startOffset = element.getStartOffset();
-		int endStartOffset = element.getEndStartOffset();
-		int endOffset = element.getEndOffset();
-		try {
-			if (endOffset != endStartOffset) {
-				structuredDocument.replace(sourceString.lastIndexOf(oldName)
-						+ startOffset, oldName.length(), newName);
-			}
-			structuredDocument.replace(element.getStartOffset()
-					+ sourceString.indexOf(oldName), oldName.length(), newName);
-		} catch (BadLocationException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
 	}
 
 	private void updateJSF2CompositeComponent(IDOMDocument componentDoc,
