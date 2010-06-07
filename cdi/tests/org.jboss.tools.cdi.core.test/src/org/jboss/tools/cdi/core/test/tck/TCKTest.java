@@ -2,6 +2,7 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -108,11 +109,17 @@ public class TCKTest extends TestCase {
 		return project;
 	}
 
-	protected Set<IBean> getBeans(String typeName) throws JavaModelException {
+	protected Set<IBean> getBeans(String typeName, String... qualifierNames) throws JavaModelException {
 		IParametedType type = getType(typeName);
 		assertNotNull("Can't find " + typeName + " type.", type);
-		Set<IBean> beans = cdiProject.getBeans(true, type, new IType[0]);
-		assertNotNull("There is no eny beans with " + typeName + " type", beans);
+		Set<IType> qualifiers = new HashSet<IType>();
+		for (String name : qualifierNames) {
+			IType qualifier = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), name);
+			assertNotNull("Can't find " + name + " type.", qualifier);
+			qualifiers.add(qualifier);
+		}
+		Set<IBean> beans = cdiProject.getBeans(true, type, qualifiers.toArray(new IType[0]));
+		assertNotNull("There is no beans with " + typeName + " type", beans);
 		return beans;
 	}
 
