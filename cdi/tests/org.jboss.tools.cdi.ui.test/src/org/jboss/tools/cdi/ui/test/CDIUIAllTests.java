@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui.test;
 
+import org.eclipse.jdt.internal.core.JavaModelManager;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -19,6 +21,9 @@ import junit.framework.TestSuite;
 public class CDIUIAllTests {
 
 	public static Test suite() {
+		// it could be done here because it is not needed to be enabled back
+		JavaModelManager.getIndexManager().disable();
+		
 		TestSuite suite = new TestSuite("CDI UI Tests");
 		suite.addTestSuite(CATest.class);
 		return suite;

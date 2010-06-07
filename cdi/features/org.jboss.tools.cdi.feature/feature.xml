@@ -21,14 +21,6 @@ for a full listing of individual contributors.
       %license
    </license>
 
-   <!-- <url>
-      <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/galileo/"/>
-   </url> -->
-
-   <requires>
-      <import feature="org.jboss.tools.richfaces.feature" version="3.1.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.jboss.tools.cdi.core"
          download-size="0"
@@ -56,12 +48,12 @@ for a full listing of individual contributors.
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.jboss.tools.cdi.text.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
 </feature>

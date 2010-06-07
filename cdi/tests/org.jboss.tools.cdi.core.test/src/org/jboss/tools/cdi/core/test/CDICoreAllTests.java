@@ -14,8 +14,24 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 //import org.jboss.tools.cdi.core.test.tck.NamedBeanRefactoringTest;
+import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
+import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
+import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.EnterpriseScopeDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.EnterpriseStereotypeDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.InjectionPointTest;
+import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ResolutionByTypeTest;
+import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
+import org.jboss.tools.cdi.core.test.tck.ValidationTest;
 import org.jboss.tools.tests.AbstractPluginsLoadTest;
 
 /**
@@ -24,33 +40,26 @@ import org.jboss.tools.tests.AbstractPluginsLoadTest;
 public class CDICoreAllTests {
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("CDI Core Tests");
-		suite.addTest(new CDICoreTestSetup(CDICoreTestSuite.suite()));
-		//suite.addTest(NamedBeanRefactoringTest.suite());
-
-		return new DisableJavaIndexingSetup(suite);
-	}
-
-	public class CDIPluginsLoadTest extends AbstractPluginsLoadTest {
-		public void testBundlesAreLoadedForSeamFeature(){
-			testBundlesAreLoadedFor("org.jboss.tools.cdi.feature");
-		}
-	}
-
-	public static class DisableJavaIndexingSetup extends TestSetup {
-
-		public DisableJavaIndexingSetup(Test test) {
-			super(test);
-		}
+		// it could be done here because it is not needed to be enabled back
+		JavaModelManager.getIndexManager().disable();
 		
-		@Override
-		protected void setUp() throws Exception {
-			JavaModelManager.getIndexManager().disable();
-		}
-
-		@Override
-		protected void tearDown() throws Exception {
-			JavaModelManager.getIndexManager().enable();
-		}
+		TestSuite suite = new TestSuite("CDI Core Tests");
+		suite.addTestSuite(BeanDefinitionTest.class);
+		suite.addTestSuite(NameDefinitionTest.class);
+		suite.addTestSuite(QualifierDefinitionTest.class);
+		suite.addTestSuite(EnterpriseQualifierDefinitionTest.class);
+		suite.addTestSuite(ScopeDefinitionTest.class);
+		suite.addTestSuite(EnterpriseScopeDefinitionTest.class);
+		suite.addTestSuite(StereotypeDefinitionTest.class);
+		suite.addTestSuite(DefaultNamedTest.class);
+		suite.addTestSuite(EnterpriseStereotypeDefinitionTest.class);
+		suite.addTestSuite(StereotypeInheritenceTest.class);
+		suite.addTestSuite(ProducerMethodDefinitionTest.class);
+		suite.addTestSuite(InjectionPointTest.class);
+		suite.addTestSuite(BeanSpecializationTest.class);
+		suite.addTestSuite(ResolutionByTypeTest.class);
+		suite.addTestSuite(ValidationTest.class);
+		return new CDICoreTestSetup(suite);
 	}
+
 }
