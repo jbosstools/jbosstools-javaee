@@ -4,9 +4,7 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -19,6 +17,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jst.common.project.facet.core.JavaFacet;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -66,7 +65,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		seamFacet = ProjectFacetsManager.getProjectFacet("jst.seam");
 		seamFacetVersion = seamFacet.getVersion("1.2");
 		
-		javaVersion = ProjectFacetsManager.getProjectFacet("jst.java").getVersion("5.0");
+		javaVersion = JavaFacet.JAVA_50; 
 		dynamicWebVersion = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("2.5");
 		javaFacesVersion = ProjectFacetsManager.getProjectFacet("jst.jsf").getVersion("1.2");
 		
