@@ -18,14 +18,14 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
  * @author Viacheslav Kabanovich
  *
  */
-public class NewQualifierCreationWizard extends NewCDIAnnotationCreationWizard {
+public class NewStereotypeCreationWizard extends NewCDIAnnotationCreationWizard {
 
-    public NewQualifierCreationWizard() {
-    	setWindowTitle(CDIUIMessages.NEW_QUALIFIER_WIZARD_TITLE);
+    public NewStereotypeCreationWizard() {
+    	setWindowTitle(CDIUIMessages.NEW_STEREOTYPE_WIZARD_TITLE);
     }
 
 	protected NewAnnotationWizardPage createAnnotationWizardPage() {
-		return new NewQualifierWizardPage();
+		return new NewStereotypeWizardPage();
 	}
 
 }

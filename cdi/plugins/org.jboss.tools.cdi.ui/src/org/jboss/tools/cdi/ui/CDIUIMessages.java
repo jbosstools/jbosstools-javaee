@@ -27,4 +27,10 @@ public class CDIUIMessages extends NLS{
 	public static String CDI_REFACTOR_CONTRIBUTOR_ERROR;
 	public static String CDI_REFACTOR_CONTRIBUTOR_RENAME_NAMED_BEAN_ACTION_NAME;
 	public static String RENAME_NAMED_BEAN_WIZARD_FIELD_NAME;
+	
+	public static String NEW_QUALIFIER_WIZARD_TITLE;
+	public static String NEW_QUALIFIER_WIZARD_PAGE_NAME;
+	public static String NEW_STEREOTYPE_WIZARD_TITLE;
+	public static String NEW_STEREOTYPE_WIZARD_PAGE_NAME;
+	
 }

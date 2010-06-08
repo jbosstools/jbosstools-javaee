@@ -1,108 +1,47 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.IBuffer;
-import org.eclipse.jdt.core.ISourceRange;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
-import org.eclipse.jdt.ui.wizards.NewAnnotationWizardPage;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.jdt.ui.wizards.NewTypeWizardPage.ImportsManager;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
-import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
-import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
-//import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
-import org.jboss.tools.common.ui.widget.editor.LabelFieldEditor;
+import org.jboss.tools.cdi.ui.CDIUIMessages;
 
-public class NewQualifierWizardPage extends NewAnnotationWizardPage {	
-	IFieldEditor inherited = null;
-	CheckBoxFieldEditor cbInherited = null;
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
+public class NewQualifierWizardPage extends NewCDIAnnotationWizardPage {	
 
-	protected void createTypeMembers(IType newType, final ImportsManager imports, IProgressMonitor monitor) throws CoreException {
-		ISourceRange range = newType.getSourceRange();
-		IBuffer buf = newType.getCompilationUnit().getBuffer();
+	public NewQualifierWizardPage() {
+		setTitle(CDIUIMessages.NEW_QUALIFIER_WIZARD_PAGE_NAME);
+	}
 
-		StringBuffer sb = new StringBuffer();
+	protected void addAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		addInheritedAnnotation(imports, sb, lineDelimiter);
+		addTargetAnnotation(imports, sb, lineDelimiter, getTargets());
+		addRetentionAnnotation(imports, sb, lineDelimiter);
+		addDocumentedAnnotation(imports, sb, lineDelimiter);
+		addQualifierAnnotation(imports, sb, lineDelimiter);
+	}
 
-		if(inherited != null && inherited.getValue() == Boolean.TRUE) {
-			imports.addImport("java.lang.annotation.Inherited");
-			sb.append("@Inherited").append("\n");
-		}
-
-		imports.addImport("java.lang.annotation.Target");
-		imports.addImport("static java.lang.annotation.ElementType.TYPE");
-		imports.addImport("static java.lang.annotation.ElementType.METHOD");
-		imports.addImport("static java.lang.annotation.ElementType.PARAMETER");
-		imports.addImport("static java.lang.annotation.ElementType.FIELD");
-		sb.append("@Target( {TYPE, METHOD, PARAMETER, FIELD} )").append("\n");
-
-		imports.addImport("java.lang.annotation.Retention");
-		imports.addImport("static java.lang.annotation.RetentionPolicy.RUNTIME");
-		sb.append("@Retention(RUNTIME)").append("\n");
-
-		imports.addImport("java.lang.annotation.Documented");
-		sb.append("@Documented").append("\n");
-
+	protected void addQualifierAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
 		imports.addImport("javax.inject.Qualifier");		
-		sb.append("@Qualifier").append("\n");
-		
-		buf.replace(range.getOffset(), 0, sb.toString());
+		sb.append("@Qualifier").append(lineDelimiter);
 	}
 
-	public void createControl(Composite parent) {
-		super_createControl(parent);
+	@Override
+	protected void createCustomFields(Composite parent) {
+		createInheritedField(parent, false);
 		
-		Composite composite = (Composite)getControl();
-		
-		String label = "Add @Inherited";
-		
-		inherited = /*IFieldEditorFactory.INSTANCE.*/createCheckboxEditor("isInherited", label, false);
-		inherited.doFillIntoGrid(composite);
-		
-		((Button)cbInherited.getCheckBoxControl()).setText(label);
-		
-	}
-
-	void super_createControl(Composite parent) {
-		initializeDialogUnits(parent);
-
-		Composite composite= new Composite(parent, SWT.NONE);
-
-		int nColumns= 4;
-
-		GridLayout layout= new GridLayout();
-		layout.numColumns= nColumns;
-		composite.setLayout(layout);
-
-		createContainerControls(composite, nColumns);
-		createPackageControls(composite, nColumns);
-//		createEnclosingTypeControls(composite, nColumns);
-
-		createSeparator(composite, nColumns);
-
-		createTypeNameControls(composite, nColumns);
-//		createModifierControls(composite, nColumns);
-
-		createCommentControls(composite, nColumns);
-		enableCommentControl(true);
-
-		setControl(composite);
-
-		Dialog.applyDialogFont(composite);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IJavaHelpContextIds.NEW_ANNOTATION_WIZARD_PAGE);
-	}
-
-	public IFieldEditor createCheckboxEditor(String name, String label,
-			boolean defaultValue) {
-		cbInherited = new CheckBoxFieldEditor(name,label,Boolean.valueOf(defaultValue));
-		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
-		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,""), cbInherited,});
-		return editor;
 	}
 
 }
