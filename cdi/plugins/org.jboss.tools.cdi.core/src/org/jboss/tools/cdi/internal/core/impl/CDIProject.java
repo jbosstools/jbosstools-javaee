@@ -707,6 +707,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return qualifiersByPath.get(path);
 	}
 
+	public Set<String> getScopeNames() {
+		Set<String> result = new HashSet<String>();
+		result.addAll(scopes.keySet());
+		return result;
+	}
+
 	public ScopeElement getScope(String qualifiedName) {
 		return scopes.get(qualifiedName);
 	}

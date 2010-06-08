@@ -219,6 +219,13 @@ public interface IBeanManager {
 	IQualifier getQualifier(IPath path);
 
 	/**
+	 * Returns names of all available scope annotations
+	 * 
+	 * @return names of all available scope annotations
+	 */
+	Set<String> getScopeNames();
+
+	/**
 	 * Returns scope model element for fully qualified name of scope annotation
 	 * type
 	 * 
