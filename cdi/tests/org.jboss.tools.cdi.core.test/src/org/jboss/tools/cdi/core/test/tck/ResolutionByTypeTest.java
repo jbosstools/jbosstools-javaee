@@ -37,7 +37,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testDefaultBindingTypeAssumed() throws CoreException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanType(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
+		assertContainsBeanType(false, beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
 	}
 
 	/**
@@ -128,6 +128,21 @@ public class ResolutionByTypeTest extends TCKTest {
 		IParametedType type = getType("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Animal");
 		Set<IBean> beans = cdiProject.getBeans(true, type, new IQualifierDeclaration[]{expensiveQualifier, whitefishQualifier});
 		assertContainsBeanClasses(beans, new String[]{"org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.RoundWhitefish", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Halibut"});
+	}
+
+	/**
+	 * Section 2.2.2 - Restricting the bean types of a bean
+	 *   a) Check managed bean.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testBeanTypesOnManagedBean() throws CoreException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary");
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
+		assertEquals("Wrong number of the beans", 0, beans.size());
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary", "java.lang.Object");
 	}
 
 	// TODO continue implementing the tests

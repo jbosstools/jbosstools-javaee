@@ -125,14 +125,12 @@ public class BeanDefinitionTest extends TCKTest {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Tarantula type", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		Set<IParametedType> types = bean.getLegalTypes();
-		assertEquals("Wrong number of legal types were found for org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", 6, types.size());
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Spider");
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Animal");
-		assertContainsBeanType(bean, "java.lang.Object");
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.DeadlySpider");
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.DeadlyAnimal");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Tarantula",
+									 "org.jboss.jsr299.tck.tests.definition.bean.Spider",
+									 "org.jboss.jsr299.tck.tests.definition.bean.Animal",
+									 "java.lang.Object",
+									 "org.jboss.jsr299.tck.tests.definition.bean.DeadlySpider",
+									 "org.jboss.jsr299.tck.tests.definition.bean.DeadlyAnimal");
 
 		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", declarations.size(), 3);
@@ -150,12 +148,10 @@ public class BeanDefinitionTest extends TCKTest {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope type", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		Set<IParametedType> types = bean.getLegalTypes();
-		assertEquals("Wrong number of legal types were found for org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope bean.", 4, types.size());
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.AbstractAntelope");
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Animal");
-		assertContainsBeanType(bean, "java.lang.Object");
+		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope",
+									 "org.jboss.jsr299.tck.tests.definition.bean.AbstractAntelope",
+									 "org.jboss.jsr299.tck.tests.definition.bean.Animal",
+									 "java.lang.Object");
 
 		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope bean.", declarations.size(), 2);

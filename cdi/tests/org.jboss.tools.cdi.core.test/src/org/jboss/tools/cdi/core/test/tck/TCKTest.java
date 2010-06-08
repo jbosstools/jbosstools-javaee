@@ -222,17 +222,28 @@ public class TCKTest extends TestCase {
 		fail(message.toString());
 	}
 
-	protected void assertContainsBeanType(IBean bean, String typeName) {
-		Set<IParametedType> types = bean.getLegalTypes();
-		StringBuffer allTypes = new StringBuffer("[");
-		for (IParametedType type : types) {
-			allTypes.append(" ").append(type.getType().getFullyQualifiedName()).append(";");
-			if (typeName.equals(type.getType().getFullyQualifiedName())) {
-				return;
-			}
+	protected void assertContainsBeanType(IBean bean, String... typeNames) {
+		assertContainsBeanType(true, bean, typeNames);
+	}
+
+	protected void assertContainsBeanType(boolean checkTheNumberOfTypes, IBean bean, String... typeNames) {
+		if(checkTheNumberOfTypes) {
+			assertEquals("Wrong number of types.", typeNames.length, bean.getLegalTypes().size());
 		}
-		allTypes.append("]");
-		fail(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.");
+		for (String typeName : typeNames) {
+			Set<IParametedType> types = bean.getLegalTypes();
+			StringBuffer allTypes = new StringBuffer("[");
+			boolean found = false;
+			for (IParametedType type : types) {
+				allTypes.append(" ").append(type.getType().getFullyQualifiedName()).append(";");
+				if (typeName.equals(type.getType().getFullyQualifiedName())) {
+					found = true;
+					break;
+				}
+			}
+			allTypes.append("]");
+			assertTrue(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeName + " type.", found);
+		}
 	}
 
 	public static void assertContainsBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
