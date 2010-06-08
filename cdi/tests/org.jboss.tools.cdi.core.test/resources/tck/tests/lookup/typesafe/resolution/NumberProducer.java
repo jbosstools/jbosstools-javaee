@@ -17,6 +17,7 @@
 package org.jboss.jsr299.tck.tests.lookup.typesafe.resolution;
 
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 class NumberProducer
 {
@@ -31,4 +32,12 @@ class NumberProducer
       return max;
    }
 
+   // JBT
+   @Inject
+   @Min
+   public double minInjection;
+
+   @Inject
+   @Max
+   public Double maxInjection;
 }

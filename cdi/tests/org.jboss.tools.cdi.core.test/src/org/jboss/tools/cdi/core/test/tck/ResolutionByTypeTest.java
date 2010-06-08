@@ -15,6 +15,8 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -92,6 +94,26 @@ public class ResolutionByTypeTest extends TCKTest {
 		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertTrue("The bean should be a producer method.", beans.iterator().next() instanceof IProducerMethod);
+	}
+
+	/**
+	 * Section 5.2 - Typesafe resolution
+	 *   i) Test with a primitive type.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testResolveByTypeWithPrimitives() throws CoreException {
+		Set<IBean> beans = getBeans("java.lang.Double", "javax.enterprise.inject.Any");
+		// There is checks for 2 beans (not for 3) in TCK but actually there is one more bean in another package which matches. So let's check for 3 beans.
+		assertEquals("Wrong number of the beans", 3, beans.size());
+		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/NumberProducer.java");
+		assertNotNull("Bean can't be a null", bean);
+		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		assertEquals("Wrong number of the injection points", 2, injections.size());
+		for (IInjectionPoint injectionPoint : injections) {
+			beans = cdiProject.getBeans(true, injectionPoint);
+			assertEquals("Wrong number of the beans", 1, beans.size());
+		}
 	}
 
 	/**

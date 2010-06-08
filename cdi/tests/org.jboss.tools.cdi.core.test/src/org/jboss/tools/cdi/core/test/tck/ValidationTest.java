@@ -886,6 +886,32 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 5.2.1. Unsatisfied and ambiguous dependencies
+	 *  - If an unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAmbiguousDependency() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/ambiguous/Farm_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 25);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 34);
+	}
+
+	/**
+	 * 5.2.1. Unsatisfied and ambiguous dependencies
+	 *  - If an unsatisfied dependency exists, the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testUnsatisfiedDependency() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/unsatisfied/Bean_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 25);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 34);
+	}
+
+	/**
 	 * 5.2.2. Legal injection point types
 	 *  - injection point type is a type variable
 	 * 
@@ -916,18 +942,6 @@ public class ValidationTest extends TCKTest {
 	public void testArrayMemberWithoutNonBinding() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/binding/members/array/Expensive_Broken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, 34);
-	}
-
-	/**
-	 * 5.2.1. Unsatisfied and ambiguous dependencies
-	 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
-	 * 
-	 * @throws Exception
-	 */
-	public void testAmbiguousDependency() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 34);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 34);
 	}
 
 	/**
