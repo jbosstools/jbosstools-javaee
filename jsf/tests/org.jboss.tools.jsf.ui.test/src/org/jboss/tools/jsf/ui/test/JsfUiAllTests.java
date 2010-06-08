@@ -51,14 +51,14 @@ public class JsfUiAllTests {
 				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				JSFNaturesInfoDialog_JBIDE5701.class),
-				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckTest", //$NON-NLS-1$ //$NON-NLS-2$
-				"naturesCheckTest")); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				KbNaturesInfoDialog_JBIDE6125.class),
-				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckKBTest", //$NON-NLS-1$ //$NON-NLS-2$
-				"naturesCheckKBTest")); //$NON-NLS-1$
+//		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+//				JSFNaturesInfoDialog_JBIDE5701.class),
+//				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckTest", //$NON-NLS-1$ //$NON-NLS-2$
+//				"naturesCheckTest")); //$NON-NLS-1$
+//		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+//				KbNaturesInfoDialog_JBIDE6125.class),
+//				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckKBTest", //$NON-NLS-1$ //$NON-NLS-2$
+//				"naturesCheckKBTest")); //$NON-NLS-1$
 		return new TestWizardsProject(suite);
 	}
 }
