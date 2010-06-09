@@ -136,7 +136,7 @@
                 wizard</property>.</para>
         <tip>
             <title>Tip:</title>
-            <para>We suggest that you look through AS manager guide to
+            <para>We suggest that you look through the Application Server Manager Guide to
                 find out more about runtimes and servers.</para>
         </tip>
         <figure>
@@ -383,11 +383,25 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        
         <itemizedlist>
             <listitem>
                 <para>Select EAR or WAR deployment by checking a necessary radio button.</para>
             </listitem>
             <listitem>
+                <para>Enter EJB project name and EAR project name in case of EAR radio button is checked.</para>
+            </listitem>
+         </itemizedlist>
+                
+         <tip>
+             <title>Tip:</title>
+             <para>If you want to name your web project "MyProject-war" note that the EJB project should not be "MyProject-war-ejb", 
+                   it should be "MyProject-ejb". The same for EAR and Test projects' names. They should be respectively "MyProject-ear" 
+                   and "MyProject-test".</para>
+         </tip>
+                
+         <itemizedlist>
+             <listitem>
                 <para>Select a <emphasis>
                         <property>Database Type</property>
                     </emphasis></para>

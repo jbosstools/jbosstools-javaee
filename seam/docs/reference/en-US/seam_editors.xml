@@ -460,6 +460,21 @@
             </figure>
         </section>
 
+        <section id="named_beans_code_assist" role="new">
+            <title>Content assist for @Named beans</title>
+            
+            <para>To the nice code completion you can also use Content assist for all occurrences where @Named  beans  are used.
+            </para>
+            
+            <figure>
+                <title>Content assist for @Named beans</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/seam_editors/seam_editors_1c.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
         
     </section>
         <section>

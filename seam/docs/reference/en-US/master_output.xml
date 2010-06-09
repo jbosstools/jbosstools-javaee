@@ -2,23 +2,23 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
-[<!ENTITY intro SYSTEM "modules/intro.xml">
-<!ENTITY creating_new_seam SYSTEM "modules/creating_new_seam.xml">
-<!ENTITY creating_mavenized_seam SYSTEM "modules/creating_mavenized_seam.xml">
-<!ENTITY directory_structure SYSTEM "modules/directory_structure.xml">
-<!ENTITY menus_and_actions SYSTEM "modules/seam_menus_and_actions.xml">
-<!ENTITY seam_wizards SYSTEM "modules/seam_wizards.xml">
-<!ENTITY generate_entities SYSTEM "modules/generate_entities.xml">
-<!ENTITY seam_refactoring SYSTEM "modules/seam_refactoring.xml">
-<!ENTITY seam_editors SYSTEM "modules/seam_editors.xml">
-<!ENTITY seam_view SYSTEM "modules/seam_view.xml">
-<!ENTITY seam_preferences SYSTEM "modules/seam_preferences.xml">
-<!ENTITY adding_seam_support_to_ear_project  SYSTEM "modules/adding_seam_support_to_ear_project.xml">
-<!ENTITY crud_database_application SYSTEM "modules/crud_database_application.xml">
-<!ENTITY crud_application_walkthrough SYSTEM "modules/crud_application_walkthrough.xml">
-<!ENTITY business_application SYSTEM "modules/business_application.xml">
-<!ENTITY testng SYSTEM "modules/testng.xml">
-<!ENTITY seam_faq SYSTEM "modules/seam_faq.xml">
+[<!ENTITY intro SYSTEM "intro.xml">
+<!ENTITY creating_new_seam SYSTEM "creating_new_seam.xml">
+<!ENTITY creating_mavenized_seam SYSTEM "creating_mavenized_seam.xml">
+<!ENTITY directory_structure SYSTEM "directory_structure.xml">
+<!ENTITY menus_and_actions SYSTEM "seam_menus_and_actions.xml">
+<!ENTITY seam_wizards SYSTEM "seam_wizards.xml">
+<!ENTITY generate_entities SYSTEM "generate_entities.xml">
+<!ENTITY seam_refactoring SYSTEM "seam_refactoring.xml">
+<!ENTITY seam_editors SYSTEM "seam_editors.xml">
+<!ENTITY seam_view SYSTEM "seam_view.xml">
+<!ENTITY seam_preferences SYSTEM "seam_preferences.xml">
+<!ENTITY adding_seam_support_to_ear_project  SYSTEM "adding_seam_support_to_ear_project.xml">
+<!ENTITY crud_database_application SYSTEM "crud_database_application.xml">
+<!ENTITY crud_application_walkthrough SYSTEM "crud_application_walkthrough.xml">
+<!ENTITY business_application SYSTEM "business_application.xml">
+<!ENTITY testng SYSTEM "testng.xml">
+<!ENTITY seam_faq SYSTEM "seam_faq.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -37,7 +37,7 @@
     
      <bookinfo>
          
-         <title>Seam Dev Tools Reference Guide</title>
+         <title>Seam Developer Tools Reference Guide</title>
              <corpauthor>
                  <inlinemediaobject>
                      <imageobject role="fo">
@@ -62,7 +62,7 @@
              <holder>JBoss by Red Hat</holder>
          </copyright>
          <releaseinfo><diffmk:wrapper diffmk:change="changed">
-             Version: 3.1.0.GA
+             Version: 3.1.1.GA
          </diffmk:wrapper></releaseinfo>
          
 <abstract>
@@ -77,7 +77,7 @@
     <toc></toc>  
 
 
-<chapter id="intro" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/intro.xml" xreflabel="intro">
+<chapter id="intro" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/intro.xml" xreflabel="intro">
     <?dbhtml filename="intro.html"?>
     <chapterinfo>
         <keywordset>
@@ -216,7 +216,7 @@
         <title>Other relevant resources on the topic</title>
 
         <para>The <ulink url="http://seamframework.org/">Seam Framework</ulink> - Next generation enterprise Java development.</para>
-        <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+        <para><diffmk:wrapper diffmk:change="changed">All JBoss Developer Studio/JBoss Tools release documentation you can find at </diffmk:wrapper><ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
         <para>There is some extra information on <ulink url="http://www.jboss.org/community/wiki/JBossSeam">JBoss Wiki. </ulink></para>
         <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
     	<para>You can find a set of screencasts on how to search/find references and use Seam refactoring tools in the following Max Andersen's 
@@ -225,7 +225,7 @@
 </chapter>
 
 
-<chapter id="create_seam" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/creating_new_seam.xml" xreflabel="create_seam">
+<chapter id="create_seam" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/creating_new_seam.xml" xreflabel="create_seam">
     <?dbhtml filename="create_new_seam.html"?>
     <chapterinfo>
         <keywordset>
@@ -362,8 +362,8 @@
                 wizard</property>.</para>
         <tip>
             <title>Tip:</title>
-            <para>We suggest that you look through <ulink url="../../as/html_single/index.html">AS manager guide</ulink> to
-                find out more about runtimes and servers.</para>
+            <para><diffmk:wrapper diffmk:change="changed">We suggest that you look through the Application Server Manager Guide to
+                find out more about runtimes and servers.</diffmk:wrapper></para>
         </tip>
         <figure float="0">
             <title>Completion of Runtime and Server Configuration</title>
@@ -606,12 +606,26 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        
         <itemizedlist>
             <listitem>
                 <para>Select EAR or WAR deployment by checking a necessary radio button.</para>
             </listitem>
             <listitem>
-                <para>Select a <emphasis>
+                <para><diffmk:wrapper diffmk:change="added">Enter EJB project name and EAR project name in case of EAR radio button is checked.</diffmk:wrapper></para>
+            </listitem>
+         </itemizedlist>
+                
+         <tip diffmk:change="added">
+             <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Tip:</diffmk:wrapper></title>
+             <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">If you want to name your web project "MyProject-war" note that the EJB project should not be "MyProject-war-ejb", 
+                   it should be "MyProject-ejb". The same for EAR and Test projects' names. They should be respectively "MyProject-ear" 
+                   and "MyProject-test".</diffmk:wrapper></para>
+         </tip>
+                
+         <itemizedlist diffmk:change="added">
+             <listitem diffmk:change="added">
+                <para diffmk:change="added">Select a <emphasis>
                         <property moreinfo="none">Database Type</property>
                     </emphasis></para>
             </listitem>
@@ -684,181 +698,10 @@
             </emphasis> to generate a project.</para>
         <para></para>
     </section>
+
+ <!--&creating_mavenized_seam;-->
 </chapter>
-
-
-<chapter id="mavenized_seam" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/creating_mavenized_seam.xml" xreflabel="mavenized_seam">
-	<?dbhtml filename="create_mavenized_seam.html"?>
-	<chapterinfo>
-		<keywordset>
-			<keyword>JBoss Tools</keyword>
-			<keyword>Seam</keyword>
-			<keyword>JBDS</keyword>
-		</keywordset>
-	</chapterinfo>
-	<title>Maven Integration for Seam Projects</title>
-	<para>Starting from 3.1 M2 version <property moreinfo="none">JBoss Tools</property> includes new Jboss Maven
-		Integration plug-in which for now allows to create mavenized Seam projects and enable Seam
-		tools support for imported Maven projects.</para>
-	<para>The Jboss Maven Integration requires <ulink url="http://m2eclipse.sonatype.org/">m2eclipse</ulink> to be installed.</para>
-	<note>
-		<title>Note:</title>
-		<para>For M2 release of <property moreinfo="none">Jboss Tools</property> it is important to use m2eclipse
-				<ulink url="http://m2eclipse.sonatype.org/update/">stable updatesite</ulink> or the
-				<ulink url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351">latest
-				integration build</ulink> that M2 was developed against. If you want to use the
-			latest development release of m2eclipse you need to use the <ulink url="http://download.jboss.org/jbosstools/updates/nightly/trunk/">nightly
-				builds</ulink> of <property moreinfo="none">JBoss Tools</property>.</para>
-	</note>
-	<section id="create_mavenized_project">
-		<title>Creating Maven ready Seam project</title>
-		<para>Maven Integration makes the Seam Wizard capable of creating Maven ready projects to
-			let Maven get the libraries instead of using the Seam runtime.</para>
-		<para>To create a mavenized Seam project you should perform the following steps:</para>
-		<itemizedlist>
-			<listitem>
-				<para>Navigate to <emphasis>
-						<property moreinfo="none">File &gt; New Seam Project</property>.</emphasis> Give the project
-					a meaningful name, specify a target runtime and server and select the proper
-					configuration for your Seam project:</para>
-				<figure float="0">
-					<title>Starting the Mavenized Seam Project</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/create_mavenized_seam/createMavenizedSeamProject.png"></imagedata>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</listitem>
-			<listitem>
-				<para>Click the <emphasis>
-						<property moreinfo="none">Modify</property></emphasis> button to enable the <emphasis>
-						<property moreinfo="none">Jboss Maven Integration</property></emphasis> facet:</para>
-				<figure float="0">
-					<title>Enabling the Jboss Maven Integration Facet</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/create_mavenized_seam/jbossMavenIntegrationFacet.png"></imagedata>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</listitem>
-			<listitem>
-				<para>On the <property moreinfo="none">JBoss M2 capabilities</property> page you'll be prompted
-					to add the following maven properties: groupId, artifactId, version, packaging,
-					name and description. Here it's possible to set a maven version of Seam and
-					also decide whether to remove WTP classpath containers (where the path starts
-					with org.eclipse.jst). </para>
-				<figure float="0">
-					<title>Adjusting JBoss M2 Capabilities</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/create_mavenized_seam/jbossM2capabilities.png"></imagedata>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</listitem>
-			<listitem>
-				<para> On the <property moreinfo="none">JSF Capabilities</property> page you can choose Maven as
-					libraries provider. This is possible when you use Maven JSF 1.2 Libraries as
-					type of JSF Implementing Library. Also it gives you capability to edit
-					Dependencies and Exclusions for the mavenized Seam project directly from the
-					wizard. </para>
-				<figure float="0">
-					<title>Using JSF Implementation libraries provided by Maven</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/create_mavenized_seam/seamJSFImplementation.png"></imagedata>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</listitem>
-			<listitem>
-				<para>On the <property moreinfo="none">Seam Facet</property> page configure the Seam Facet settings
-					and click <emphasis>
-						<property moreinfo="none">Finish</property>:</emphasis></para>
-				<figure float="0">
-					<title>Seam Facet Settings</title>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="images/create_mavenized_seam/seamFacetPage.png"></imagedata>
-						</imageobject>
-					</mediaobject>
-				</figure>
-			</listitem>
-		</itemizedlist>
-		<para>The organized Seam project contains five projects with the Maven nature, builder,
-			Maven classpath and the <emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis> files added: projectname, projectname-ear,
-			projectname-ejb, projectname-parent and projectname-test.</para>
-		<figure float="0">
-			<title>Mavenized Seam Project</title>
-			<mediaobject>
-				<imageobject>
-					<imagedata fileref="images/create_mavenized_seam/mavenizedProjectStructure.png"></imagedata>
-				</imageobject>
-			</mediaobject>
-		</figure>
-	</section>
-	<section id="import_maven_project">
-		<title>Existing Maven Projects Import</title>
-		<para>Maven Integration includes the Seam Maven configurator which is called when importing
-			a project, changing <emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis> and/or calling <emphasis>
-				<property moreinfo="none">Maven &gt; Update Project Configuration</property>.</emphasis> When
-			importing a Maven Seam project, the Seam Maven configurator picks up the settings set up
-			in <emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis> and adds to the project the
-			following:</para>
-		<itemizedlist>
-			<listitem>
-				<para>Seam nature</para>
-			</listitem>
-			<listitem>
-				<para>Seam facet and dependent facets to the EJB, EAR and WAR projects</para>
-			</listitem>
-			<listitem>
-				<para>JBoss Maven Integration facet if the Maven project contains a dependency with
-					the org.jboss.seam groupId and an artifactId starting with 'jboss-seam'</para>
-			</listitem>
-			<listitem>
-				<para>other required facets (Web Module, Java, JSF, etc.)</para>
-			</listitem>
-		</itemizedlist>
-		<para>If the Seam version from <emphasis>
-				<property moreinfo="none">pom.xml</property></emphasis> matches a version of a Seam runtime
-			configured in the workspace, Seam configurator will set that runtime, otherwise no Seam
-			runtime will be set and you'll have to set it manually under <link linkend="project_pref">Seam Settings in the project preferences</link>.</para>
-		<para>Seam configurator recognizes the Seam artifacts in the following way: the view folder
-			is a web content folder from the WAR project, the source folder is the first Eclipse
-			source folder. If there is a folder containing "hot" in the name, it will be
-			chosen as the action source folder. Package is the first package that has children or
-			doesn't have any subpackage. </para>
-		<para>Configuring the Seam when importing a Maven project as well as a Seam Runtime, Seam
-			artifacts and some facets could be suspended in the JBoss Maven Integration preferences
-				(<emphasis>
-				<property moreinfo="none">Window &gt; Preferences &gt; JBoss Tools &gt; JBoss Maven
-					Integration</property></emphasis>).</para>
-		<figure float="0">
-			<title>JBoss Maven Integration Preferences</title>
-			<mediaobject>
-				<imageobject>
-					<imagedata fileref="images/create_mavenized_seam/configure_maven_integration.png"></imagedata>
-				</imageobject>
-			</mediaobject>
-		</figure>
-	</section>
-	<section>
-		<title>Relevant Resources Links</title>
-		<para>In the <ulink url="http://in.relation.to/Bloggers/UsingMavenWithJBossTools">Using
-				Maven with JBoss Tools</ulink> article written by Max Andersen you'll find
-			references to the screencasts on how to use the examples of mavenized Seam projects
-			provided by <property moreinfo="none">JBoss Tools</property>.</para>
-	</section>
-</chapter>
-
-
-<chapter id="directory_str" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/directory_structure.xml" xreflabel="directory_str">
+<chapter id="directory_str" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/directory_structure.xml" xreflabel="directory_str">
     <?dbhtml filename="directory_structure.html"?>
     <chapterinfo>
         <keywordset>
@@ -951,8 +794,8 @@
 
         <title>Changing the Seam Version</title>
 
-        <para><diffmk:wrapper diffmk:change="added">To upgrade or downgrade your projects Seam version use the facet preferences. You
-            should right-click your project, open its </diffmk:wrapper><property diffmk:change="added" moreinfo="none"><diffmk:wrapper diffmk:change="added">Properties</diffmk:wrapper></property><diffmk:wrapper diffmk:change="added">  and choose </diffmk:wrapper><emphasis>
+        <para>To upgrade or downgrade your projects Seam version use the facet preferences. You
+            should right-click your project, open its <property moreinfo="none">Properties</property>  and choose <emphasis>
                 <property moreinfo="none">Project Facets</property>
             </emphasis> category. Next select <emphasis>
                 <property moreinfo="none">Seam</property>
@@ -1035,9 +878,9 @@
 
         <para>If you need to rename one of the Seam Project artifacts
                 (<emphasis>&lt;project_name&gt;</emphasis>,
-                <emphasis>&lt;project_name&gt;-test</emphasis>,
-                <emphasis>&lt;project_name&gt;-test</emphasis> or
-                <emphasis>&lt;project_name&gt;-ejb</emphasis>) or any entire folder like
+                <emphasis><diffmk:wrapper diffmk:change="changed">&lt;project_name&gt;-ear</diffmk:wrapper></emphasis>,
+                <emphasis><diffmk:wrapper diffmk:change="changed">&lt;project_name&gt;-ejb</diffmk:wrapper></emphasis> or
+                <emphasis><diffmk:wrapper diffmk:change="changed">&lt;project_name&gt;-test</diffmk:wrapper></emphasis>) or any entire folder like
                 <emphasis>&lt;project_name&gt;/WebContent</emphasis>,
                 <emphasis>&lt;project_name&gt;/ejbModule</emphasis>,
                 <emphasis>&lt;project_name&gt;-test/test-src</emphasis>, or project name in
@@ -1048,6 +891,15 @@
             </emphasis> or just pressing <emphasis>
                 <property moreinfo="none">Shift + Alt + R</property>
             </emphasis> under the chosen resource.</para>
+        
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Renaming the folder</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/directory_structure/directory_structure_7.png" scale="75"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
 
         <para>Use <emphasis>
                 <property moreinfo="none">Refactor &gt; Move...</property>
@@ -1056,13 +908,22 @@
             </emphasis>), if you need to move
                 <emphasis>&lt;project_name&gt;/WebContent</emphasis> folder,
                 <emphasis>&lt;project_name&gt;/ejbModule</emphasis> folder or
-                <emphasis>&lt;project_name&gt;/test-src</emphasis> folder in the other place
-            within the Project structure.</para>
+                <emphasis>&lt;project_name&gt;/test-src</emphasis><diffmk:wrapper diffmk:change="changed"> folder in the other place
+                within the Project structure.</diffmk:wrapper></para>
+        
+        <figure diffmk:change="added" float="0">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Moving the folder</diffmk:wrapper></title>
+            <mediaobject diffmk:change="added">
+                <imageobject diffmk:change="added">
+                    <imagedata diffmk:change="added" fileref="images/directory_structure/directory_structure_8.png" scale="75"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
     </section>
 </chapter>
 
-
-<chapter id="menus_and_actions" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_menus_and_actions.xml" xreflabel="menus_and_actions">
+<chapter id="menus_and_actions" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_menus_and_actions.xml" xreflabel="menus_and_actions">
     <?dbhtml filename="seam_menus_and_actions.html"?>
     <chapterinfo>
         <keywordset>
@@ -1425,7 +1286,7 @@
 </chapter>
 
 
-<chapter id="seam_wizards" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_wizards.xml" xreflabel="seam_wizards">
+<chapter id="seam_wizards" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_wizards.xml" xreflabel="seam_wizards">
     <?dbhtml filename="seam_wizards.html"?>
     <chapterinfo>
         <keywordset>
@@ -1767,7 +1628,7 @@
 </chapter>
 
 
-<chapter id="generate_entities" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/generate_entities.xml" xreflabel="generate_entities"> 
+<chapter id="generate_entities" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/generate_entities.xml" xreflabel="generate_entities"> 
     <?dbhtml filename="generate_entities.html"?>
     <chapterinfo>
         <keywordset>
@@ -1807,9 +1668,9 @@
 	
 		<note>
 			<title>Note:</title>
-			<para>The entities are generated from a database based on the console configuration that is created automatically during a Seam project creation. 
-				(Read more about <ulink url="../../hibernatetools/html_single/index.html#console_conf">console configuration</ulink>). The created console configuration is based on the 
-				connection profile set on the <link linkend="seamFacet">Seam Facets wizard page</link> while creating a project. 
+			<para><diffmk:wrapper diffmk:change="changed">The entities are generated from a database based on the console configuration that is created automatically during a Seam project creation. 
+				(Read more about the console configuration in the Hibernate guides). The created console configuration is based on the 
+				connection profile set on the </diffmk:wrapper><link linkend="seamFacet">Seam Facets wizard page</link> while creating a project. 
 				Configured connection profile settings are hold in the generated <literal moreinfo="none">hibernate-console.properties</literal>. To change the connection
 				profile, double-click the console configuration. It could be found in the <property moreinfo="none">Hibernate Configurations</property> view 
 				(<emphasis><property moreinfo="none">Window &gt; Show view &gt; Other &gt; Hibernate &gt; Hibernate Configurations</property></emphasis>
@@ -1823,7 +1684,7 @@
     <para>Read the <link linkend="crud_database_application">Generate a CRUD Database Application</link> chapter in order to see how the <property moreinfo="none">Generate Seam Entities</property> wizard can be used.</para>
   </chapter>
 
-<chapter id="seam_editors" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_editors.xml" xreflabel="seam_editors">
+<chapter id="seam_editors" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_editors.xml" xreflabel="seam_editors">
     <?dbhtml filename="seam_editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -2283,6 +2144,21 @@
             </figure>
         </section>
 
+        <section diffmk:change="added" id="named_beans_code_assist" role="new">
+            <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content assist for @Named beans</diffmk:wrapper></title>
+            
+            <para diffmk:change="added"><diffmk:wrapper diffmk:change="added">To the nice code completion you can also use Content assist for all occurrences where @Named  beans  are used.
+            </diffmk:wrapper></para>
+            
+            <figure diffmk:change="added" float="0">
+                <title diffmk:change="added"><diffmk:wrapper diffmk:change="added">Content assist for @Named beans</diffmk:wrapper></title>
+                <mediaobject diffmk:change="added">
+                    <imageobject diffmk:change="added">
+                        <imagedata diffmk:change="added" fileref="images/seam_editors/seam_editors_1c.png"></imagedata>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
         
     </section>
         <section>
@@ -2502,10 +2378,9 @@
     </section>
 
 </section>
+
 </chapter>
-
-
-<chapter id="seam_view" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_view.xml" xreflabel="seam_view">
+<chapter id="seam_view" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_view.xml" xreflabel="seam_view">
     <?dbhtml filename="seam_view.html"?>
     <chapterinfo>
         <keywordset>
@@ -2633,7 +2508,7 @@
   </chapter>
 
 
-<chapter id="seam_preferences" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_preferences.xml" xreflabel="seam_preferences">
+<chapter id="seam_preferences" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_preferences.xml" xreflabel="seam_preferences">
     <!-- mark as new -->
     <?dbhtml filename="seam_preferences.html"?>
     <chapterinfo>
@@ -2872,7 +2747,7 @@
 </chapter>
 
 
-<chapter id="seam_refactoring" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_refactoring.xml" xreflabel="seam_refactoring">
+<chapter id="seam_refactoring" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_refactoring.xml" xreflabel="seam_refactoring">
     <?dbhtml filename="seam_refactoring.html"?>
     <chapterinfo>
         <keywordset>
@@ -3104,7 +2979,7 @@
 
 
 
-<chapter id="adding_seam_support_to_ear_project" role="new" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/adding_seam_support_to_ear_project.xml" xreflabel="adding_seam_support_to _ear_project">
+<chapter id="adding_seam_support_to_ear_project" role="new" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/adding_seam_support_to_ear_project.xml" xreflabel="adding_seam_support_to _ear_project">
     <?dbhtml filename="adding_seam_support_to _ear_project.html"?>
     <chapterinfo>
         <keywordset>
@@ -3228,7 +3103,7 @@
     
 </chapter>
 
-<chapter id="crud_database_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/crud_database_application.xml" xreflabel="crud_database_application">
+<chapter id="crud_database_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/crud_database_application.xml" xreflabel="crud_database_application">
     <?dbhtml filename="crud_database_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -3712,7 +3587,7 @@
 </chapter>
 
 
-<chapter id="crud_application_walkthrough" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/crud_application_walkthrough.xml" xreflabel="crud_application_walkthrough">
+<chapter id="crud_application_walkthrough" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/crud_application_walkthrough.xml" xreflabel="crud_application_walkthrough">
     <?dbhtml filename="crud_application_walkthrough.html"?>
     <chapterinfo>
         <keywordset>
@@ -3843,7 +3718,7 @@
 </chapter>
 
 
-<chapter id="testNG" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/testng.xml" xreflabel="testNG">
+<chapter id="testNG" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/testng.xml" xreflabel="testNG">
     <?dbhtml filename="testNG.html"?>
     <chapterinfo>
         <keywordset>
@@ -4092,7 +3967,7 @@
 </chapter>
 
 
-<chapter id="seam_faq" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en/modules/seam_faq.xml" xreflabel="seam_faq">
+<chapter id="seam_faq" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/seam/docs/reference/en-US/seam_faq.xml" xreflabel="seam_faq">
     <?dbhtml filename="vwt_faq.html"?>
     <title>FAQ</title>
     
@@ -4154,11 +4029,13 @@
                     <property moreinfo="none">Edit</property></emphasis> to change their output location.</para>
         
         <para>In conclusion, the main goal of this document is to get you know with a full featureset
-            that <property moreinfo="none">JBoss Tools</property> provides to support Seam development. Thus if you have
-            some questions, comments or suggestions on the topic, please fell free to ask in the 
-            <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+            that <property>JBoss Tools</property> provides to support Seam development. Thus if you have
+            some questions, comments or suggestions on the topic, please fell free to ask in the <ulink
+                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
                 Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in
-            future leaving your vote on the article <ulink url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture">Overview of the improvements required by JBossTools/JBDS Docs users</ulink>. </para>
+            future leaving your vote on the article <ulink
+                url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture"
+                >Overview of the improvements required by JBossTools/JBDS Docs users</ulink>. </para>
         
         <para>A set of movies on Seam tooling is available on <ulink url="http://docs.jboss.org/tools/movies">Seam movies page</ulink>.</para>
     </section>
