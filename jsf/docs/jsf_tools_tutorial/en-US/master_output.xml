@@ -2,14 +2,14 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
-[<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY jsf_application SYSTEM "modules/jsf_application.xml">
-<!ENTITY adding_navigation SYSTEM "modules/adding_navigation.xml">
-<!ENTITY adding_managed_bean SYSTEM "modules/adding_managed_bean.xml">
-<!ENTITY jsp_view_files SYSTEM "modules/jsp_view_files.xml">
-<!ENTITY start_page SYSTEM "modules/start_page.xml">
-<!ENTITY running_application SYSTEM "modules/running_application.xml">
-<!ENTITY relevant_resources SYSTEM "modules/relevant_resources.xml">
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY jsf_application SYSTEM "jsf_application.xml">
+<!ENTITY adding_navigation SYSTEM "adding_navigation.xml">
+<!ENTITY adding_managed_bean SYSTEM "adding_managed_bean.xml">
+<!ENTITY jsp_view_files SYSTEM "jsp_view_files.xml">
+<!ENTITY start_page SYSTEM "start_page.xml">
+<!ENTITY running_application SYSTEM "running_application.xml">
+<!ENTITY relevant_resources SYSTEM "relevant_resources.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -50,7 +50,7 @@
         </copyright>
 
           <releaseinfo><diffmk:wrapper diffmk:change="changed">
-              Version: 3.1.0.GA
+              Version: 3.1.1.GA
             </diffmk:wrapper></releaseinfo>
 
 
@@ -68,7 +68,7 @@
     
     
     
-<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/introduction.xml" xreflabel="introduction">
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/introduction.xml" xreflabel="introduction">
   <?dbhtml filename="introduction.html"?>
   <chapterinfo>
     <keywordset>
@@ -80,8 +80,8 @@
   </chapterinfo>
   <title>Introduction</title>
   <para>The following chapters describe how to deal with classic/old style of JSF development. We
-    recommend users to use <ulink url="../../seam/html_single/index.html">JBoss
-    Seam</ulink> to simplify development, but until then you can read about classical JSF 
+    recommend users to use JBoss
+    Seam to simplify development, but until then you can read about classical JSF 
     usage here.</para>
   
   <para>Thus, in this document we are going to show you how to create a simple <property moreinfo="none">JSF application
@@ -169,7 +169,7 @@
 </chapter>
 
     
-<chapter id="jsf_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/jsf_application.xml" xreflabel="jsf_application">
+<chapter id="jsf_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/jsf_application.xml" xreflabel="jsf_application">
     <?dbhtml filename="jsf_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -270,7 +270,7 @@
 </chapter>
 
     
-<chapter id="adding_navigation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/adding_navigation.xml" xreflabel="adding_navigation">
+<chapter id="adding_navigation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/adding_navigation.xml" xreflabel="adding_navigation">
     <?dbhtml filename="adding_navigation.html"?>
     <chapterinfo>
         <keywordset>
@@ -293,13 +293,13 @@
             <itemizedlist>
                 <listitem>
                     <para>Right-click anywhere on the diagram and select <emphasis>
-                        <property moreinfo="none">New View...</property>
+                        <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Rule...</diffmk:wrapper></property>
                     </emphasis> from the pop-up menu</para>
                 </listitem>
                 <listitem>
                     <para>In the dialog box, type <emphasis>
                         <property moreinfo="none">pages/inputname</property>
-                    </emphasis> as the value for From-view-id</para>
+                    </emphasis><diffmk:wrapper diffmk:change="changed"> as the value for From View ID</diffmk:wrapper></para>
                 </listitem>
                 <listitem>
                     <para>Leave everything else as is</para>
@@ -315,13 +315,13 @@
                 </listitem>
                 <listitem>
                     <para>Back on the diagram, right-click anywhere and select <emphasis>
-                        <property moreinfo="none">New View...</property>
+                        <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Rule...</diffmk:wrapper></property>
                     </emphasis> from the pop-up menu</para>
                 </listitem>
                 <listitem>
                     <para>In the dialog box, type <emphasis>
                         <property moreinfo="none">pages/greeting</property>
-                    </emphasis> as the value for From-view-id</para>
+                    </emphasis><diffmk:wrapper diffmk:change="changed"> as the value for From View ID</diffmk:wrapper></para>
                 </listitem>
                 <listitem>
                     <para>Leave everything else as is</para>
@@ -378,7 +378,7 @@
    
 </chapter>
     
-<chapter id="adding_managed_bean" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/adding_managed_bean.xml" xreflabel="adding_managed_bean">
+<chapter id="adding_managed_bean" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/adding_managed_bean.xml" xreflabel="adding_managed_bean">
     <?dbhtml filename="adding_managed_bean.html"?>
     <chapterinfo>
         <keywordset>
@@ -468,7 +468,7 @@
     
     </chapter>
     
-<chapter id="jsp_view_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/jsp_view_files.xml" xreflabel="jsp_view_files">
+<chapter id="jsp_view_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/jsp_view_files.xml" xreflabel="jsp_view_files">
     <?dbhtml filename="jsp_view_files.html"?>
     <chapterinfo>
         <keywordset>
@@ -722,7 +722,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </section>
     </chapter>
     
-<chapter id="start_page" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/start_page.xml" xreflabel="start_page">
+<chapter id="start_page" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/start_page.xml" xreflabel="start_page">
     <?dbhtml filename="start_page.html"?>
     <chapterinfo>
         <keywordset>
@@ -785,7 +785,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </itemizedlist>
     </chapter>
     
-<chapter id="running_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/running_application.xml" xreflabel="running_application">
+<chapter id="running_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/running_application.xml" xreflabel="running_application">
     <?dbhtml filename="running_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -796,10 +796,10 @@ Hello <h:outputText value="#{personBean.name}"/>!
     </chapterinfo>
     
         <title>Running the Application</title>
-        <para>Everything is now ready for running our application by using the JBoss engine. For
-            controlling JBoss server there is JBoss Server view:</para>
+        <para><diffmk:wrapper diffmk:change="changed">Everything is now ready for running our application by using the JBoss engine. For
+            controlling JBoss server there is Servers view:</diffmk:wrapper></para>
         <figure float="0">
-            <title>JBoss Server View</title>
+            <title><diffmk:wrapper diffmk:change="changed">Servers view</diffmk:wrapper></title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_application/jsf_application_9.png"></imagedata>
@@ -808,11 +808,11 @@ Hello <h:outputText value="#{personBean.name}"/>!
         </figure>
         <itemizedlist>
             <listitem>
-                <para>Start up JBoss by clicking on the icon in JBoss Server view. (If JBoss is
+                <para><diffmk:wrapper diffmk:change="changed">Start up JBoss by clicking on the icon in Servers view. (If JBoss is
                     already running, stop it by clicking on the red icon and then start it again.
                     Remember, the JSF run-time requires restarting the servlet engine when any
                     changes have been made.) After the messages in the Console tabbed view stop
-                    scrolling, JBoss is available</para>
+                    scrolling, JBoss is available</diffmk:wrapper></para>
             </listitem>
             
             <listitem>
@@ -832,7 +832,7 @@ Hello <h:outputText value="#{personBean.name}"/>!
             appear.</para>
     </chapter>    
     
-<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en/modules/relevant_resources.xml" xreflabel="relevant_resources">
+<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_tutorial/en-US/relevant_resources.xml" xreflabel="relevant_resources">
     <?dbhtml filename="relevant_resources.html"?>
     <chapterinfo>
         <keywordset>
@@ -862,10 +862,9 @@ Hello <h:outputText value="#{personBean.name}"/>!
         using the wizards provided by <property moreinfo="none">JBoss Tools</property>, configure its stuff and
         finally run it on the <property moreinfo="none">JBoss Server</property>.</para>
 
-    <para>Find out more features on JSF tooling in our <ulink url="../../jsf_tools_ref_guide/html_single/index.html">JSF Tools
-    Reference Guide</ulink>. 
-        If you have questions and suggestions, please refer to
-        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+    <para>Find out more features on JSF tooling in our JSF Tools
+        Reference Guide. If you have questions and suggestions, please refer to <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
 </chapter>
         
