@@ -3,14 +3,14 @@
 "http://www.docbook.org/xml/4.3/docbookx.dtd"
 
 [
-<!ENTITY introduction SYSTEM "modules/introduction.xml">
-<!ENTITY jsf_support SYSTEM "modules/jsf_support.xml">
-<!ENTITY projects SYSTEM "modules/projects.xml">
-<!ENTITY webxml_editor SYSTEM "modules/webxml_editor.xml">
-<!ENTITY jsf_config_file SYSTEM "modules/jsf_config_file.xml">
-<!ENTITY managed_beans SYSTEM "modules/managed_beans.xml">
-<!ENTITY creation_and_registration SYSTEM "modules/creation_and_registration.xml">
-<!ENTITY jsf_project_verification SYSTEM "modules/jsf_project_verification.xml">
+<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY jsf_support SYSTEM "jsf_support.xml">
+<!ENTITY projects SYSTEM "projects.xml">
+<!ENTITY webxml_editor SYSTEM "webxml_editor.xml">
+<!ENTITY jsf_config_file SYSTEM "jsf_config_file.xml">
+<!ENTITY managed_beans SYSTEM "managed_beans.xml">
+<!ENTITY creation_and_registration SYSTEM "creation_and_registration.xml">
+<!ENTITY jsf_project_verification SYSTEM "jsf_project_verification.xml">
 
 <!ENTITY seamlink "../../seam/html_single/index.html">
 <!ENTITY aslink "../../as/html_single/index.html">
@@ -51,7 +51,7 @@
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo><diffmk:wrapper diffmk:change="changed">
-            Version: 3.1.0.GA
+            Version: 3.1.1.GA
         </diffmk:wrapper></releaseinfo>
 
 <abstract>
@@ -66,7 +66,7 @@
     <toc></toc>  
     
     
-<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/introduction.xml">
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/introduction.xml">
     <?dbhtml filename="introduction.html"?>
 
     <chapterinfo>
@@ -178,7 +178,7 @@
 </chapter>
 
     
-<chapter id="jsf_support" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_support.xml">
+<chapter id="jsf_support" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/jsf_support.xml">
         <?dbhtml filename="jsf_support.html"?>
         <chapterinfo>
                 <keywordset>
@@ -335,8 +335,8 @@
                 <section>
                         <title>Facelets components</title>
 
-                        <para>The <ulink url="../../jsf/html_single/index.html#palette">JBoss Tools
-                                        Palette</ulink> comes with the Facelets components ready to
+                        <para>The JBoss Tools
+                                        Palette comes with the Facelets components ready to
                                 use. A useful tip appears when you hover the mouse cursor over the
                                 tag, the tip includes a detailed description of the tag component,
                                 the syntax and available attributes.</para>
@@ -478,7 +478,7 @@
 </chapter>
 
     
-<chapter id="projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/projects.xml">
+<chapter id="projects" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/projects.xml">
         <?dbhtml filename="projects.html"?>
         <chapterinfo>
                 <keywordset>
@@ -549,13 +549,13 @@
                         customizable. Thus you can pick a different template on which the projects
                         Importing Existing should be based on. Almost all templates come in two
                         variations: with jsf libraries and without ones.</para>
-                <figure float="0">
-                        <title>Choosing JSF Templates</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_12.png "></imagedata>
-                                </imageobject>
-                        </mediaobject>
+		<figure float="0">
+			<title>Choosing JSF Templates</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_12.png"></imagedata>
+				</imageobject>
+			</mediaobject>
                 </figure>
 
                 <para>The table below provides description for each possible JSF template.</para>
@@ -692,9 +692,8 @@
 
                 <title>Importing Existing JSF Projects with Any Structure</title>
 
-                <para>For detailed information on migration of JSF projects into a workspace see
-                                <ulink url="../../Exadel-migration/html_single/index.html#jsf_struts">Migration
-                        Guide</ulink>.</para>
+                <para>For detailed information on migration of JSF projects into a workspace see the Migration
+                        Guide.</para>
 
         </section>
         <section id="add_jsf_capability">
@@ -875,12 +874,12 @@
                 <title>Relevant Resources Links</title>
 
                 <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
-                        be used in various scenarios while developing JSF applications in our <ulink url="../../jsf/html_single/index.html">Visual Web Tools guide</ulink>.</para>
+                        be used in various scenarios while developing JSF applications in our Visual Web Tools Guide.</para>
         </section>
 </chapter>
 
     
-<chapter id="webxml_editor" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/webxml_editor.xml" xreflabel="webxml_editor">
+<chapter id="webxml_editor" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/webxml_editor.xml" xreflabel="webxml_editor">
 	<?dbhtml filename="webxml_editor.html"?>
 	<chapterinfo>
 		<keywordset>
@@ -898,10 +897,10 @@
 	
 	<para><property moreinfo="none">JBoss Tools</property> add the <emphasis>
 		<property moreinfo="none">web.xml</property></emphasis> file to created JSF project automatically and provides a special editor for its editing.
-		See the Visual Web Tools guide that gives a descriptive information on the <ulink url="../../jsf/html_single/index.html#GraphicalWebApplicationFileEditor">web.xml editor</ulink>.</para>
+		See the Visual Web Tools guide that gives a descriptive information on the <filename moreinfo="none"><diffmk:wrapper diffmk:change="changed">web.xml editor</diffmk:wrapper></filename><diffmk:wrapper diffmk:change="changed">.</diffmk:wrapper></para>
 </chapter>
     
-<chapter id="jsf_config_file" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_config_file.xml">
+<chapter id="jsf_config_file" role="updated" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/jsf_config_file.xml">
     <?dbhtml filename="jsf_config_file.html"?>
     <chapterinfo>
         <keywordset>
@@ -997,7 +996,7 @@
 
         <para>It is also possible to create a new page with context menu by right-clicking anywhere
             on the diagram and selecting <emphasis>
-                <property moreinfo="none">New View</property>. </emphasis></para>
+                <property moreinfo="none"><diffmk:wrapper diffmk:change="changed">Rule...</diffmk:wrapper></property></emphasis></para>
         <figure float="0">
             <title>Creating a New View</title>
             <mediaobject>
@@ -1099,7 +1098,7 @@
         </itemizedlist>
 
         <figure float="0">
-            <title>Adding a New JSF Component to the JSF Configuration File</title>
+            <title><diffmk:wrapper diffmk:change="changed">Adding a New JSF Renderer Kit to the JSF Configuration File</diffmk:wrapper></title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/jsf_support/jsf_support_24d.png"></imagedata>
@@ -1281,8 +1280,8 @@
         <section id="jsf_openOn">
             <title>Open On</title>
             <para>The JSF configuration file editor comes with a very useful OpenOn navigating
-                feature. More fully you can read about it in our <ulink url="../../jsf/html_single/index.html#OpenOnSelection4Hyperlinknavigation">Visual Web Tools
-                    Guide</ulink>.</para>
+                feature. More fully you can read about it in our Visual Web Tools
+                    Guide.</para>
         </section>
 
         <section id="ContentAssist976">
@@ -1333,9 +1332,8 @@
     </section>
 
 </chapter>
-
     
-<chapter id="managed_beans" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/managed_beans.xml">
+<chapter id="managed_beans" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/managed_beans.xml">
     <?dbhtml filename="managed_beans.html"?>
     <chapterinfo>
         <keywordset>
@@ -1543,7 +1541,7 @@
 </chapter>
 
     
-<chapter id="creation_and_registration" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/creation_and_registration.xml">
+<chapter id="creation_and_registration" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/creation_and_registration.xml">
     <?dbhtml filename="creation_and_registration.html"?>
     <chapterinfo>
         <keywordset>
@@ -1877,7 +1875,7 @@
      </section>
 </chapter>
     
-<chapter id="jsf_project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en/modules/jsf_project_verification.xml">
+<chapter id="jsf_project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/jsf_project_verification.xml">
     <?dbhtml filename="struts_project_verification.html"?>
 
     <chapterinfo>
@@ -1979,9 +1977,8 @@
         reference introduces you to wizards for creating and importing JSF projects, JSF
         Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
     
-    <para>If you have questions or good suggestions, please refer to
-        <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
-            Tools Forum</ulink>.</para>
+    <para>If you have questions or good suggestions, please refer to <ulink
+        url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+        Tools Forum</ulink>.</para>
 </chapter>
-
 </book>
