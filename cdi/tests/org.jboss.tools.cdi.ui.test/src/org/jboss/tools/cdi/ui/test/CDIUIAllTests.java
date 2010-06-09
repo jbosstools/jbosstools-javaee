@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.test;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -26,6 +27,7 @@ public class CDIUIAllTests {
 		
 		TestSuite suite = new TestSuite("CDI UI Tests");
 		suite.addTestSuite(CATest.class);
+		suite.addTestSuite(NewCDIWizardTest.class);
 		return suite;
 	}
 }
