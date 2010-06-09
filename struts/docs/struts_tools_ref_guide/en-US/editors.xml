@@ -25,7 +25,7 @@
 		
 		<para><property>JBoss Tools</property> add the <emphasis>
 			<property>web.xml</property></emphasis> file to created Struts project automatically and provides a special editor for its editing.
-			See the Visual Web Tools guide that gives a descriptive information on the web.xml editor.</para>
+			See the Visual Web Tools guide that gives a descriptive information on the <filename>web.xml</filename> editor.</para>
 	</section>
 	
     <section id="struts_config_editor">
@@ -166,7 +166,7 @@
         		<listitem><para>Under the <emphasis>
         			<property>plug-ins</property></emphasis> node you can define a Struts plug-in. Right-click the node, select <emphasis>
         				<property>Create Plug-in</property></emphasis> 
-        			and specify the plug-ib <emphasis>
+        			and specify the plug-in <emphasis>
         				<property>Id</property></emphasis> and <emphasis>
         					<property>ClassName</property></emphasis> by pointing to the Java class which implements the org.apache.struts.action.PlugIn interface. </para></listitem>
         		

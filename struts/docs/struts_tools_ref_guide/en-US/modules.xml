@@ -45,11 +45,16 @@
     <section id="EditingModulesInAnExistingProject1">
         
         <title>Editing Modules in an Existing Project</title>
-        <para>To edit modules in an existing project, right click the project and
-            select <emphasis>
-                <property>JBoss Tools > Modules Configuration</property>.
-            </emphasis></para>
-        <figure>
+        <para>To edit modules in an existing project, right click the project in Web Project view
+            and select <emphasis>
+                <property>JBoss Tools Struts > Modules Configuration</property>
+            </emphasis>
+            (or right click the project in Package Explorer view
+            and select <emphasis>
+                <property>Configure > Modules Configuration</property>
+            </emphasis>).          
+        </para>
+           <figure>
             <title>Choosing Modules Configuration</title>
             <mediaobject>
                 <imageobject>
