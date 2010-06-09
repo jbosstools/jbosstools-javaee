@@ -246,6 +246,30 @@ public class TCKTest extends TestCase {
 		}
 	}
 
+	protected void assertContainsBeanTypeSignatures(IBean bean, String... typeSignatures) {
+		assertContainsBeanTypeSignatures(true, bean, typeSignatures);
+	}
+
+	protected void assertContainsBeanTypeSignatures(boolean checkTheNumberOfTypes, IBean bean, String... typeSignatures) {
+		if(checkTheNumberOfTypes) {
+			assertEquals("Wrong number of types.", typeSignatures.length, bean.getLegalTypes().size());
+		}
+		for (String typeSignature : typeSignatures) {
+			Set<IParametedType> types = bean.getLegalTypes();
+			StringBuffer allTypes = new StringBuffer("[");
+			boolean found = false;
+			for (IParametedType type : types) {
+				allTypes.append(" ").append(type.getSignature()).append(";");
+				if (typeSignature.equals(type.getSignature())) {
+					found = true;
+					break;
+				}
+			}
+			allTypes.append("]");
+			assertTrue(bean.getResource().getFullPath() + " bean " + allTypes.toString() + " should have " + typeSignature + " type signature.", found);
+		}
+	}
+
 	public static void assertContainsBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
 		assertContainsBeanClasses(true, beans, beanClassNames);
 	}

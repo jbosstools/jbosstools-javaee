@@ -145,5 +145,31 @@ public class ResolutionByTypeTest extends TCKTest {
 		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary", "java.lang.Object");
 	}
 
+	/**
+	 * Section 2.2.2 - Restricting the bean types of a bean
+	 *   e) Check generic managed bean.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testGenericBeanTypesOnManagedBean() throws CoreException {
+		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Emu");
+		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QFlightlessBird<QAustralian;>;");
+		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+
+		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Emu");
+		assertEquals("Wrong number of the beans", 0, beans.size());
+
+		type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Emu");
+		parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QFlightlessBird<QEuropean;>;");
+		beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		assertEquals("Wrong number of the beans", 0, beans.size());
+
+		assertContainsBeanType(false, bean, "java.lang.Object");
+		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird");
+		assertContainsBeanTypeSignatures(false, bean, "QFlightlessBird<QAustralian;>;");
+	}
+
 	// TODO continue implementing the tests
 }
