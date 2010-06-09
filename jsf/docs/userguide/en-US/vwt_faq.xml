@@ -64,4 +64,39 @@
                 <property>Web &gt; HTML Files &gt; Editor</property>
             </emphasis>).</para>
     </section>
+    <section id="question_3">
+        <title>Visual Editor starts OK, but the Missing Natures dialog appears</title>
+
+			<figure>
+			<title>Missing Nature</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/faq/missingnauture.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+	
+	
+	<para>
+	
+	Some functionality of Visual Editor may not work if a project doesn't have <property>org.jboss.tools.jsf.jsfnature</property> or <property>org.jboss.tools.jst.web.kb.kbnature</property> in <property>.project</property> configuration. To fix this problem and turn off the message box execute next steps:
+</para>
+<orderedlist>
+<listitem><para>
+   Right mouse button click on a project in Package Explorer.
+   </para></listitem>
+   <listitem><para>
+    Select <property>Configure -> Add JSF Capabilities</property> from the context menu.
+	</para></listitem>
+	<listitem><para>
+    Configure your project using Add JSF Capabilities wizard and press Finish.
+</para></listitem>
+
+</orderedlist>
+<para>
+If you are shure that your project does not need JSF capabilities, just disable this message box by checking <property>Do not show this dialog again!</property> checkbox.
+	</para>
+	
+	</section>
+
 </chapter>

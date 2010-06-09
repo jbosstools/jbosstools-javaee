@@ -22,7 +22,7 @@
     <itemizedlist>
         <listitem>
             <para>
-                <link linkend="PackagingArchives">Packaging Archives</link>
+                <link linkend="ProjectArchives">Project Archives</link>
             </para>
         </listitem>
 
@@ -150,17 +150,18 @@
             linkend="JBossServerPreferences">JBoss Server</link> and <link linkend="XDoclet"
             >XDoclet</link> module.</para>
 
-    <section id="PackagingArchives">
-        <?dbhtml filename="PackagingArchives.html"?>
-        <title>Packaging Archives</title>
+    <section id="ProjectArchives">
+        <?dbhtml filename="ProjectArchives.html"?>
+        <title>Project Archives</title>
 
-        <para>Fallow to <emphasis>
-                <property>JBoss Tools > Packaging Archives</property>
-            </emphasis> to open the page for changing Packaging Archives preferences.</para>
-        <para>Here you can determine settings for Project Packages view and core preferences.</para>
+        <para>Click on the <emphasis>
+                <property>Project Archives</property>
+            </emphasis> to open the page for changing Project Archives preferences.</para>
+        <para>Here you can determine settings for Core Preferences, Project Archives View,
+              Project Explorer Preferences and Fileset Preferences.</para>
 
         <figure>
-            <title>Packaging Archives</title>
+            <title>Project Archives</title>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/preferences/preferences_2.png"/>
@@ -168,11 +169,11 @@
             </mediaobject>
         </figure>
 
-        <para>The next table lists all available preferences for Packaging Archives and their
+        <para>The next table lists all available preferences for Project Archives and their
             description.</para>
 
         <table>
-            <title>Packaging Archives Preferences</title>
+            <title>Project Archives Preferences</title>
 
             <tgroup cols="3">
 
@@ -197,7 +198,14 @@
                     </row>
 
                     <row>
-                        <entry>Show full output path next to packages</entry>
+                        <entry>Show build error dialog</entry>
+                        <entry>If on, the Project Archives will show an error dialog 
+                               in case of a build or incremental update fails.</entry>
+                        <entry>On</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Show output path next to packages</entry>
                         <entry>This option allows you to show or hide an output path next to
                             packages
                             <!--(<link linkend="full_outputpath_for_packages">See the
@@ -206,8 +214,8 @@
                     </row>
 
                     <row>
-                        <entry>Show the full root directory of filesets</entry>
-                        <entry>If on, the full root directory is displayed next to filesets.
+                        <entry>Show the root directory of filesets</entry>
+                        <entry>If on, the root directory is displayed next to filesets.
                             Otherwise, it&apos;s hidden
                             <!--(<link
                                 linkend="full_rootdir_for_filesets">See the figure</link>)-->.</entry>
@@ -231,6 +239,21 @@
                             the previous one is checked.</entry>
                         <entry>Off</entry>
                     </row>
+                    
+                    <row>
+                        <entry>Show node in all proejcts</entry>
+                        <entry>Selecting this setting enables the Projects Archiving view to show 
+                               node in all projects.</entry>
+                        <entry>Off</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Enable Default Excludes</entry>
+                        <entry>You can set the list of  files which will be excluded by default. 
+                               Other files will be omitted.</entry>
+                        <entry>On</entry>
+                    </row>
+                   
                 </tbody>
             </tgroup>
         </table>
@@ -367,7 +390,7 @@
 
         <table>
 
-            <title>VPE Preferences</title>
+            <title>VPE General Preferences</title>
             <tgroup cols="3">
 
                 <colspec colnum="1" align="left" colwidth="2*"/>
@@ -454,8 +477,8 @@
             </tgroup>
         </table>
 
-        <para>On the <property>Templates tab</property> you can edit or remove <link
-                linkend="vpe_templating">VPE templates</link>.</para>
+        <para>On the <property>Visual Templates</property> tab you can add, edit or remove <link
+                linkend="vpe_templating">VPE visual templates</link>.</para>
         <figure>
             <title>Visual Page Editor Templates</title>
             <mediaobject>
@@ -470,6 +493,89 @@
             </emphasis> button. It will pick up the <link linkend="template_dialog">Template
                 dialog</link> where you can adjust new settings.</para>
     </section>
+    
+    <section id="vpe_code_templates">
+        <title>Visual Page Editor Code Templates</title>
+        <para>On the <emphasis>
+            <property>JBoss Tools &gt; Web &gt; Editors &gt; Visual Page Editor &gt; Code Templates</property></emphasis>
+            preferences page you can create new and edit existing XHTML templates. Such a template allows you to
+            quickly insert an often used snippet of XHTML code. 
+        </para>
+        
+        <figure>
+            <title>Visual Page Editor Code Templates</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_8a.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        
+        <para>VPE provides four predefined templates:</para>
+        <itemizedlist>
+            <listitem><para>XHTML blank facelet page template</para></listitem>
+            <listitem><para>Common facelet page template</para></listitem>
+            <listitem><para>Form facelet page template</para></listitem>
+            <listitem><para>New JSF composite component template</para></listitem>
+        </itemizedlist>
+        
+        <para>The following table lists the configuration options for the code templates.</para>
+        <table>
+            
+            <title>VPE Code Templates Options</title>
+            <tgroup cols="2">
+                
+                <colspec colnum="1" align="left" colwidth="2*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Option</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    <row>
+                        <entry>New</entry>
+                        <entry>Opens the dialog to create a new template. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Edit</entry>
+                        <entry>Opens the dialog to edit the currently selected template. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Remove</entry>
+                        <entry>Removes all selected templates. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Restore Removed</entry>
+                        <entry>Restores the removed templates.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Revert to Default</entry>
+                        <entry>Reverts the code templates list to default.</entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Import</entry>
+                        <entry>Allows you to import templates from the file system. </entry>
+                    </row>
+                    
+                    <row>
+                        <entry>Edit</entry>
+                        <entry>Allows you to export all selected templates to the file system. </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        
+    </section>
+    
 
     <section id="el_variables">
         <?dbhtml filename="el_variables.html"?>
