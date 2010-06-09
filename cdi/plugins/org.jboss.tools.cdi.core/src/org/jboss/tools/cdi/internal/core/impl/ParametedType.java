@@ -75,6 +75,7 @@ public class ParametedType implements IParametedType {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+		arrayPrefix = "";
 		if(signature != null) {
 			for (int i = 0; i < signature.length(); i++) {
 				if(signature.charAt(i) == '[') arrayPrefix += "["; else break;
@@ -106,6 +107,9 @@ public class ParametedType implements IParametedType {
 			if(!parameterTypes.get(i).equals(other.parameterTypes.get(i))) {
 				return false;
 			}
+		}
+		if(!arrayPrefix.equals(other.arrayPrefix)) {
+			return false;
 		}
 
 		return true;
@@ -246,8 +250,8 @@ public class ParametedType implements IParametedType {
 	void buildAllTypes(Set<String> processed, ParametedType p) {
 		IType t = p.getType();
 		if(t == null) return;
-		if(processed.contains(t.getFullyQualifiedName())) return;
-		processed.add(t.getFullyQualifiedName());
+		if(processed.contains(p.getArrayPrefix() + t.getFullyQualifiedName())) return;
+		processed.add(p.getArrayPrefix() + t.getFullyQualifiedName());
 		allInheritedTypes.add(p);
 		Set<IParametedType> ts = p.getInheritedTypes();
 		if(ts != null) for (IParametedType pp: ts) {
