@@ -786,8 +786,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			bean.setParent(this);
 			bean.setDefinition(typeDefinition);
 
-			beans.add(bean);
-			newClassBeans.put(typeDefinition.getType(), bean);
+			if(typeDefinition.hasBeanConstructor()) {
+				beans.add(bean);
+				newClassBeans.put(typeDefinition.getType(), bean);
+			}
 
 			Set<IProducer> ps = bean.getProducers();
 			for (IProducer producer: ps) {

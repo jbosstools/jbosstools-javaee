@@ -13,6 +13,9 @@ package org.jboss.tools.cdi.internal.core.impl;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIElement;
 
 /**
@@ -26,6 +29,15 @@ public class CDIElement implements ICDIElement {
 
 	public CDIProject getCDIProject() {
 		return parent != null ? parent.getCDIProject() : null;
+	}
+
+	protected ParametedType getObjectType(IMember context) {
+		try {
+			return getCDIProject().getNature().getTypeFactory().getParametedType(context, "QObject;");
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+			return null;
+		}
 	}
 
 	public void setParent(CDIElement parent) {

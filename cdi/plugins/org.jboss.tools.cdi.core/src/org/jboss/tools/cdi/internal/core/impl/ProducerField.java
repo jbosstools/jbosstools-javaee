@@ -67,6 +67,10 @@ public class ProducerField extends BeanField implements IProducerField {
 		if(d != null) {
 			Set<ITypeDeclaration> ts = getRestrictedTypeDeclaratios();
 			result.addAll(ts);
+			ParametedType object = getObjectType(getBeanClass());
+			if(object != null) {
+				result.add(object);
+			}
 			return result;
 		}
 		return getAllTypes();

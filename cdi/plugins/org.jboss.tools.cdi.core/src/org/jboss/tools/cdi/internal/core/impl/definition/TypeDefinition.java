@@ -31,6 +31,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	boolean isAbstract;
 	List<FieldDefinition> fields = new ArrayList<FieldDefinition>();
 	List<MethodDefinition> methods = new ArrayList<MethodDefinition>();
+	boolean hasBeanConstructor = false;
 
 	public TypeDefinition() {
 	}
@@ -53,6 +54,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			}
 		}
 		IMethod[] ms = getType().getMethods();
+		boolean hasConstructor = false;
 		for (int i = 0; i < ms.length; i++) {
 			MethodDefinition m = new MethodDefinition();
 			m.setTypeDefinition(this);
@@ -60,6 +62,15 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			if(m.isCDIAnnotated() || (ms[i].isConstructor() && ms[i].getNumberOfParameters()==0)) {
 				methods.add(m);
 			}
+			if(ms[i].isConstructor()) {
+				hasConstructor = true; 
+				if(ms[i].getNumberOfParameters() == 0 || m.getInjectAnnotation() != null) {
+					hasBeanConstructor = true;
+				}
+			}
+		}
+		if(!hasConstructor) {
+			hasBeanConstructor = true;
 		}
 	}
 
@@ -77,6 +88,10 @@ public class TypeDefinition extends AbstractTypeDefinition {
 
 	public boolean isAbstract() {
 		return isAbstract;
+	}
+
+	public boolean hasBeanConstructor() {
+		return hasBeanConstructor;
 	}
 
 	public AnnotationDeclaration getDecoratorAnnotation() {
