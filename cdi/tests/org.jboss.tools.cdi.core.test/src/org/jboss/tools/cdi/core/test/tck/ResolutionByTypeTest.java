@@ -123,8 +123,8 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testResolveByTypeWithNonBindingMembers() throws CoreException {
-		IQualifierDeclaration expensiveQualifier = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/RoundWhitefish.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Expensive");
-		IQualifierDeclaration whitefishQualifier = getQualifierDeclarationFromBeanClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/RoundWhitefish.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Whitefish");
+		IQualifierDeclaration expensiveQualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/RoundWhitefish.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Expensive");
+		IQualifierDeclaration whitefishQualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/RoundWhitefish.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Whitefish");
 		IParametedType type = getType("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Animal");
 		Set<IBean> beans = cdiProject.getBeans(true, type, new IQualifierDeclaration[]{expensiveQualifier, whitefishQualifier});
 		assertContainsBeanClasses(beans, new String[]{"org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.RoundWhitefish", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Halibut"});
@@ -171,5 +171,79 @@ public class ResolutionByTypeTest extends TCKTest {
 		assertContainsBeanTypeSignatures(false, bean, "QFlightlessBird<QAustralian;>;");
 	}
 
-	// TODO continue implementing the tests
+	/**
+	 * Section 2.2.2 - Restricting the bean types of a bean
+	 *   c) Check producer method.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testBeanTypesOnProducerMethod() throws CoreException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot");
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertContainsBeanType(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot", "java.lang.Object");
+
+		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
+		assertEquals("Wrong number of the beans", 0, beans.size());
+	}
+
+	/**
+	 * Section 2.2.2 - Restricting the bean types of a bean
+	 *   h) Check generic producer field.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testGenericBeanTypesOnProducerField() throws CoreException {
+		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.PetShop");
+		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QCat<QEuropean;>;");
+		IQualifierDeclaration qualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tame");
+		assertNotNull("Can't find the qualifier.", qualifier);
+		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[]{qualifier});
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+
+		assertContainsBeanType(false, bean, "java.lang.Object");
+		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
+		assertContainsBeanTypeSignatures(false, bean, "QCat<QEuropean;>;");
+
+		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.DomesticCat", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tame");
+		assertEquals("Wrong number of the beans", 0, beans.size());
+	}
+
+	/**
+	 * Section 2.2.2 - Restricting the bean types of a bean
+	 *   g) Check generic producer method.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testGenericBeanTypesOnProducerMethod() throws CoreException {
+		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.PetShop");
+		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QCat<QAfrican;>;");
+		IQualifierDeclaration qualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Wild");
+		assertNotNull("Can't find the qualifier.", qualifier);
+		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[]{qualifier});
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+
+		assertContainsBeanType(false, bean, "java.lang.Object");
+		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
+		assertContainsBeanTypeSignatures(false, bean, "QCat<QAfrican;>;");
+
+		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Lion", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Wild");
+		assertEquals("Wrong number of the beans", 0, beans.size());
+	}
+
+	/**
+	 * Section 2.2.2 - Restricting the bean types of a bean
+	 *   d) Check producer field.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testBeanTypesOnProducerField() throws CoreException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove");
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertContainsBeanType(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove", "java.lang.Object");
+
+		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
+		assertEquals("Wrong number of the beans", 0, beans.size());
+	}
 }

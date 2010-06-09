@@ -135,19 +135,21 @@ public class TCKTest extends TestCase {
 		return null;
 	}
 
-	protected IQualifierDeclaration getQualifierDeclarationFromBeanClass(String beanClassFilePath, String annotationTypeName) throws JavaModelException {
-		IFile file = tckProject.getFile(beanClassFilePath);
+	protected IQualifierDeclaration getQualifierDeclarationFromClass(String beanFilePath, String annotationTypeName) throws JavaModelException {
+		IFile file = tckProject.getFile(beanFilePath);
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		IBean bean = beans.iterator().next();
-		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
-		IParametedType type = getType(annotationTypeName);
-		for (IQualifierDeclaration declaration : declarations) {
-			IAnnotation annotation = declaration.getDeclaration();
-			if(type.getType().getElementName().equals(annotation.getElementName())) {
-				return declaration;
+		assertFalse("Can't find any bean in " + beanFilePath, beans.isEmpty());
+		for (IBean bean : beans) {
+			Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+			IParametedType type = getType(annotationTypeName);
+			for (IQualifierDeclaration declaration : declarations) {
+				IAnnotation annotation = declaration.getDeclaration();
+				if(type.getType().getElementName().equals(annotation.getElementName())) {
+					return declaration;
+				}
 			}
 		}
-		fail("Can't find " + annotationTypeName + " qualifier in " + beanClassFilePath + " bean.");
+		fail("Can't find " + annotationTypeName + " qualifier in " + beanFilePath);
 		return null;
 	}
 
