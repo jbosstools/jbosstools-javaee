@@ -83,6 +83,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected void createCustomFields(Composite composite) {
 		createInheritedField(composite, false);
 		createAlternativeField(composite);
+		createNamedField(composite);
 		createScopeField(composite);
 		createTargetField(composite);
 	}
@@ -148,6 +149,10 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			scope.setTags(scopes.keySet().toArray(new String[0]));
 			scope.setValue("");
 		}
+	}
+
+	public void setNamed(boolean b) {
+		if(named != null) named.composite.setValue(b);
 	}
 
 }

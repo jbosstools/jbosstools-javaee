@@ -166,4 +166,16 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 		return vs;
 	}
 
+	public void setInherited(boolean b) {
+		if(inherited != null) {
+			inherited.composite.setValue(b);
+		}
+	}
+
+	public void setTarget(String s) {
+		if(target != null) {
+			((CompositeEditor)target).setValue(s);
+		}
+	}
+
 }
