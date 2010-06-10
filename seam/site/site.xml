@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<description>To install these features, point Eclipse at this site.</description>
+	<!-- JBoss Tools seam Nightly Build Update Site -->
+	<category-def label="JBoss Tools seam Nightly Build Update Site" name="JBoss Tools seam Nightly Build Update Site">
+		<description>JBoss Tools seam Nightly Build Update Site: contains all features in this build.</description>
+	</category-def>
+
+</site>
