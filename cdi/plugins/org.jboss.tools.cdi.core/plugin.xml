@@ -104,4 +104,19 @@
          </validator>
    </extension>
 
+<!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=315390 -->
+	<extension
+	      id="excludeEJBValidation"
+	      point="org.eclipse.wst.validation.exclude">
+	   <validator
+	         id="org.eclipse.jst.jee.ejb3.validator">
+	      <exclude>
+	         <rules>
+	            <projectNature
+	                  id="org.jboss.tools.cdi.core.cdinature">
+	            </projectNature>
+	         </rules>
+	      </exclude>
+	   </validator>
+	</extension>
 </plugin>
