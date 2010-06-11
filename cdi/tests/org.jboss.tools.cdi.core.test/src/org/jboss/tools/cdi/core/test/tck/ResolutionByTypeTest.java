@@ -182,7 +182,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 		assertContainsBeanTypes(false, bean, "java.lang.Object");
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird");
-		assertContainsBeanTypeSignatures(false, bean, "QFlightlessBird<QAustralian;>;");
+		assertContainsBeanTypeSignatures(false, bean, "Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird<Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Australian;>;");
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 		assertContainsBeanTypes(false, bean, "java.lang.Object");
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
-		assertContainsBeanTypeSignatures(false, bean, "QCat<QEuropean;>;");
+		assertContainsBeanTypeSignatures(false, bean, "Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat<Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.European;>;");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.DomesticCat", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tame");
 		assertEquals("Wrong number of the beans", 0, beans.size());
@@ -240,7 +240,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 		assertContainsBeanTypes(false, bean, "java.lang.Object");
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
-		assertContainsBeanTypeSignatures(false, bean, "QCat<QAfrican;>;");
+		assertContainsBeanTypeSignatures(false, bean, "Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat<Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.African;>;");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Lion", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Wild");
 		assertEquals("Wrong number of the beans", 0, beans.size());
