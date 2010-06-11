@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +23,11 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
 
 /**
  * 
@@ -35,38 +39,42 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected CheckBoxEditorWrapper named = null;
 	protected ITaggedFieldEditor scope = null;
 	protected Map<String, String> scopes = new TreeMap<String, String>();
+	protected StereotypesSelectionProvider stereotypesProvider = new StereotypesSelectionProvider();
+	protected InterceptorBindingSelectionProvider interceptorBindingsProvider = new InterceptorBindingSelectionProvider();
+	protected ListFieldEditor stereotypes = null;
+	protected ListFieldEditor interceptorBindings = null;
+	
 
 	public NewStereotypeWizardPage() {
 		setTitle(CDIUIMessages.NEW_STEREOTYPE_WIZARD_PAGE_NAME);
 	}
 
 	protected void addAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		addStereotypeAnnotation(imports, sb, lineDelimiter);
 		addInheritedAnnotation(imports, sb, lineDelimiter);
 		addAlternativeAnnotation(imports, sb, lineDelimiter);
 		addScopeAnnotation(imports, sb, lineDelimiter);
 		addNamedAnnotation(imports, sb, lineDelimiter);
-		addStereotypeAnnotation(imports, sb, lineDelimiter);
+		addInterceptorBindingAnnotations(imports, sb, lineDelimiter);
+		addSuperStereotypeAnnotations(imports, sb, lineDelimiter);
 		addTargetAnnotation(imports, sb, lineDelimiter, getTargets());
 		addRetentionAnnotation(imports, sb, lineDelimiter);
 		addDocumentedAnnotation(imports, sb, lineDelimiter);
 	}
 
 	protected void addStereotypeAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
-		imports.addImport("javax.enterprise.inject.Stereotype");		
-		sb.append("@Stereotype").append(lineDelimiter);
+		addAnnotation(CDIConstants.STEREOTYPE_ANNOTATION_TYPE_NAME, imports, sb, lineDelimiter);
 	}
 
 	protected void addAlternativeAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
 		if(alternative != null && alternative.composite.getValue() == Boolean.TRUE) {
-			imports.addImport(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME);
-			sb.append("@Alternative").append(lineDelimiter);
+			addAnnotation(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME, imports, sb, lineDelimiter);
 		}
 	}
 
 	protected void addNamedAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
 		if(named != null && named.composite.getValue() == Boolean.TRUE) {
-			imports.addImport(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-			sb.append("@Named").append(lineDelimiter);
+			addAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME, imports, sb, lineDelimiter);
 		}
 	}
 
@@ -74,8 +82,35 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		if(scope != null && scope.getValue() != null && scope.getValue().toString().length() > 0) {
 			String scopeName = scope.getValue().toString();
 			String qScopeName = scopes.get(scopeName);
-			imports.addImport(qScopeName);
-			sb.append(scopeName).append(lineDelimiter);
+			addAnnotation(qScopeName, imports, sb, lineDelimiter);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void addSuperStereotypeAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		if(stereotypes != null) {
+			List list = (List)stereotypes.getValue();
+			for (Object o: list) {
+				if(o instanceof ICDIAnnotation) {
+					ICDIAnnotation a = (ICDIAnnotation)o;
+					String typeName = a.getSourceType().getFullyQualifiedName();
+					addAnnotation(typeName, imports, sb, lineDelimiter);
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void addInterceptorBindingAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		if(interceptorBindings != null) {
+			List list = (List)interceptorBindings.getValue();
+			for (Object o: list) {
+				if(o instanceof ICDIAnnotation) {
+					ICDIAnnotation a = (ICDIAnnotation)o;
+					String typeName = a.getSourceType().getFullyQualifiedName();
+					addAnnotation(typeName, imports, sb, lineDelimiter);
+				}
+			}
 		}
 	}
 
@@ -86,6 +121,8 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		createNamedField(composite);
 		createScopeField(composite);
 		createTargetField(composite);
+		createInterceptorBindingField(composite);
+		createStereotypeField(composite);
 	}
 
 	protected void createAlternativeField(Composite composite) {
@@ -101,7 +138,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected void createScopeField(Composite composite) {
 		List<String> vs = new ArrayList<String>();
 		vs.add("");
-		scope = createComboField("Scope", "Scope", composite, vs);
+		scope = createComboField("scope", CDIUIMessages.FIELD_EDITOR_SCOPE_LABEL, composite, vs);
 		setScopes(getPackageFragmentRoot());
 	}
 
@@ -113,6 +150,32 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		targetOptions.add("METHOD");
 		targetOptions.add("FIELD");
 		createTargetField(composite, targetOptions);
+	}
+
+	protected void createInterceptorBindingField(Composite composite) {
+		interceptorBindings = new ListFieldEditor("interceptorBindings", CDIUIMessages.FIELD_EDITOR_INTERCEPTOR_BINDINGS_LABEL, new ArrayList<Object>());
+		interceptorBindings.setProvider(interceptorBindingsProvider);
+		interceptorBindingsProvider.setEditorField(interceptorBindings);
+		interceptorBindings.doFillIntoGrid(composite);
+		setInterceptorBindings(getPackageFragmentRoot());
+		interceptorBindings.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				Object o = evt.getNewValue();
+				if(o instanceof List && !((List)o).isEmpty()) {
+					target.setValue("TYPE");
+					target.setEnabled(false);
+				} else {
+					target.setEnabled(true);
+				}
+			}});
+	}
+
+	protected void createStereotypeField(Composite composite) {
+		stereotypes = new ListFieldEditor("stereotypes", CDIUIMessages.FIELD_EDITOR_STEREOTYPES_LABEL, new ArrayList<Object>());
+		stereotypes.setProvider(stereotypesProvider);
+		stereotypesProvider.setEditorField(stereotypes);
+		stereotypes.doFillIntoGrid(composite);
+		setStereotypes(getPackageFragmentRoot());
 	}
 
 	public void setPackageFragmentRoot(IPackageFragmentRoot root, boolean canBeModified) {
@@ -135,6 +198,26 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			setScopes(new String[]{""});
 		}
 	}
+
+	void setInterceptorBindings(IPackageFragmentRoot root) {
+		interceptorBindingsProvider.setProject(null);
+		if(root != null) {
+			IJavaProject jp = root.getJavaProject();
+			ICDIProject cdi = CDICorePlugin.getCDIProject(jp.getProject(), true);
+			if(cdi != null) {
+				interceptorBindingsProvider.setProject(cdi);
+			}
+		}
+	}
+	
+	void setStereotypes(IPackageFragmentRoot root) {
+		stereotypesProvider.setProject(null);
+		if(root != null) {
+			IJavaProject jp = root.getJavaProject();
+			ICDIProject cdi = CDICorePlugin.getCDIProject(jp.getProject(), true);
+			if(cdi != null) stereotypesProvider.setProject(cdi);
+		}
+	}
 	
 	void setScopes(String[] tags) {
 		scopes.clear();
@@ -154,5 +237,5 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	public void setNamed(boolean b) {
 		if(named != null) named.composite.setValue(b);
 	}
-
+	
 }

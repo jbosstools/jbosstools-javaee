@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.ui.wizards.NewAnnotationWizardPage;
+import org.eclipse.jdt.ui.wizards.NewTypeWizardPage.ImportsManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -28,6 +29,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -66,23 +70,30 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 		}
 		sb.append("@Target( {" + list.toString() + "} )").append(lineDelimiter);
 	}
+	
+	protected void addAnnotation(String typeName, ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		int i = typeName.lastIndexOf('.');
+		String name = typeName.substring(i + 1);
+		imports.addImport(typeName);
+		sb.append("@").append(name).append(lineDelimiter);					
+	}
+
+
 
 	protected void addInheritedAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
 		if(inherited != null && inherited.composite.getValue() == Boolean.TRUE) {
-			imports.addImport("java.lang.annotation.Inherited");
-			sb.append("@Inherited").append(lineDelimiter);
+			addAnnotation(CDIConstants.INHERITED_ANNOTATION_TYPE_NAME, imports, sb, lineDelimiter);
 		}
 	}
 
 	protected void addRetentionAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
-		imports.addImport("java.lang.annotation.Retention");
+		imports.addImport(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
 		imports.addImport("static java.lang.annotation.RetentionPolicy.RUNTIME");
 		sb.append("@Retention(RUNTIME)").append(lineDelimiter);
 	}
 
 	protected void addDocumentedAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
-		imports.addImport("java.lang.annotation.Documented");
-		sb.append("@Documented").append(lineDelimiter);
+		addAnnotation("java.lang.annotation.Documented", imports, sb, lineDelimiter);
 	}
 
 	public void createControl(Composite parent) {
@@ -105,10 +116,10 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 		createTypeNameControls(composite, nColumns);
 //		createModifierControls(composite, nColumns);
 
+		createCustomFields(composite);
+
 		createCommentControls(composite, nColumns);
 		enableCommentControl(true);
-
-		createCustomFields(composite);
 
 		setControl(composite);
 
@@ -126,7 +137,6 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 	protected CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
 		CheckBoxEditorWrapper wrapper = new CheckBoxEditorWrapper();
 		wrapper.checkBox = new CheckBoxFieldEditor(name,label,Boolean.valueOf(defaultValue));
-		wrapper.composite = new CompositeEditor(name,label, defaultValue);
 		CompositeEditor editor = new CompositeEditor(name,label, defaultValue);
 		editor.addFieldEditors(new IFieldEditor[]{new LabelFieldEditor(name,""), wrapper.checkBox});
 		wrapper.composite = editor;
@@ -141,7 +151,7 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 	}
 
 	protected void createTargetField(Composite composite, List<String> values) {
-		target = createComboField("Target", "Target", composite, values);
+		target = createComboField("Target", CDIUIMessages.FIELD_EDITOR_TARGET_LABEL, composite, values);
 	}
 
 	protected ITaggedFieldEditor createComboField(String name, String label, Composite composite, List<String> values) {

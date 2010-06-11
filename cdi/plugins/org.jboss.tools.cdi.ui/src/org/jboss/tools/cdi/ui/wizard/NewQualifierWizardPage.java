@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
-import org.eclipse.jdt.ui.wizards.NewTypeWizardPage.ImportsManager;
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
 /**
@@ -26,16 +26,15 @@ public class NewQualifierWizardPage extends NewCDIAnnotationWizardPage {
 	}
 
 	protected void addAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		addQualifierAnnotation(imports, sb, lineDelimiter);
 		addInheritedAnnotation(imports, sb, lineDelimiter);
 		addTargetAnnotation(imports, sb, lineDelimiter, getTargets());
 		addRetentionAnnotation(imports, sb, lineDelimiter);
 		addDocumentedAnnotation(imports, sb, lineDelimiter);
-		addQualifierAnnotation(imports, sb, lineDelimiter);
 	}
 
 	protected void addQualifierAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
-		imports.addImport("javax.inject.Qualifier");		
-		sb.append("@Qualifier").append(lineDelimiter);
+		addAnnotation(CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME, imports, sb, lineDelimiter);
 	}
 
 	@Override
