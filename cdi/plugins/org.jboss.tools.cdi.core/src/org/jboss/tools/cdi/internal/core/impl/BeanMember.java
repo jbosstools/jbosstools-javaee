@@ -113,4 +113,7 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return r == null ? 0 : r.getOffset();
 	}
 
+	public boolean isNullable() {
+		return typeDeclaration==null?false:!typeDeclaration.isPrimitive();
+	}
 }

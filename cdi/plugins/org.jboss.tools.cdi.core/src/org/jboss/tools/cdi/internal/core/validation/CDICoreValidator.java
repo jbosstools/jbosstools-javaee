@@ -964,17 +964,37 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			addError(CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, CDIPreferences.INJECTION_TYPE_IS_VARIABLE, declaration, injection.getResource());
 		}
 
-		/*
-		 * 5.2.1. Unsatisfied and ambiguous dependencies
-		 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
-		 */
-		if(declaration!=null && !(injection instanceof IInjectionPointParameter)) {
+		if(declaration!=null && !(injection instanceof IInjectionPointMethod)) {
 			Set<IBean> beans = cdiProject.getBeans(true, injection);
+			ITextSourceReference reference = injection instanceof IInjectionPointParameter?injection:declaration;
+			/*
+			 * 5.2.1. Unsatisfied and ambiguous dependencies
+			 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
+			 */
 			if(beans.isEmpty()) {
-				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, declaration, injection.getResource());
+				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, reference, injection.getResource());
 			} else if(beans.size()>1) {
-				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, declaration, injection.getResource());
-			}
+				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource());
+			} else if(beans.size()==1) {
+				IBean bean = beans.iterator().next();
+				/*
+				 * 5.2.4. Primitive types and null values
+				 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
+				 */
+				if(bean.isNullable() && injection.getType()!=null && injection.getType().isPrimitive()) {
+					addError(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
+				}
+				/*
+				 * 5.1.4. Inter-module injection
+				 *  - a decorator can not be injected
+				 *  - an interceptor can not be injected
+				 */
+				if(bean instanceof IDecorator) {
+					addError(CDIValidationMessages.INJECTED_DECORATOR, CDIPreferences.INJECTED_DECORATOR, reference, injection.getResource());
+				} else if(bean instanceof IInterceptor) {
+					addError(CDIValidationMessages.INJECTED_INTERCEPTOR, CDIPreferences.INJECTED_INTERCEPTOR, reference, injection.getResource());
+				}
+			}	
 		}
 	}
 

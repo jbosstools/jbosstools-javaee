@@ -231,4 +231,13 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	public IAnnotationDeclaration getProducesAnnotation() {
 		return produces;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#isSelectedAlternative()
+	 */
+	public boolean isSelectedAlternative() {
+		// TODO
+		return isAlternative();
+	}
 }

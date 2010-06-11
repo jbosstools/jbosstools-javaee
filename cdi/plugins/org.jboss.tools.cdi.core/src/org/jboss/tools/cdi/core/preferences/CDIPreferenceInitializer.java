@@ -41,5 +41,8 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.UNSATISFIED_INJECTION_POINTS, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.INJECTED_DECORATOR, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.INJECTED_INTERCEPTOR, CDIPreferences.WARNING);
 	}
 }

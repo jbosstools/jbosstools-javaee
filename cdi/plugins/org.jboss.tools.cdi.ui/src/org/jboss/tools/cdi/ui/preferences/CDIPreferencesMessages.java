@@ -50,6 +50,7 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_producerFieldTypeHasWildcard_label;
 	public static String CDIValidatorConfigurationBlock_pb_producerFieldTypeIsVariable_label;
 	public static String CDIValidatorConfigurationBlock_pb_producerFieldTypeDoesNotMatchJavaEeObject_label;
+	public static String CDIValidatorConfigurationBlock_pb_injectResolvesToNullableBean_label;
 	public static String CDIValidatorConfigurationBlock_pb_injectionTypeIsVariable_label;
 	public static String CDIValidatorConfigurationBlock_pb_stereotypeIsAnnotatedTyped_label;
 	public static String CDIValidatorConfigurationBlock_pb_missingNonbindingInQualifierTypeMember_label;
@@ -105,6 +106,8 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_observerInInterceptorOrDecorator_label;
 	public static String CDIValidatorConfigurationBlock_pb_interceptorOrDecoratorIsAlternative_label;
 	public static String CDIValidatorConfigurationBlock_pb_missingInterceptorBinding_label;
+	public static String CDIValidatorConfigurationBlock_pb_injectedDecorator_label;
+	public static String CDIValidatorConfigurationBlock_pb_injectedInterceptor_label;
 
 	// Specializing
 	public static String CDIValidatorConfigurationBlock_section_specializing;

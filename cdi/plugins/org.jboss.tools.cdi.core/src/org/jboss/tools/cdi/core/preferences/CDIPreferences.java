@@ -63,6 +63,8 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String PRODUCER_FIELD_TYPE_HAS_WILDCARD = INSTANCE.createSeverityOption("producerFieldTypeHasWildcard"); //$NON-NLS-1$
 //	- producer field type is a type variable
 	public static final String PRODUCER_FIELD_TYPE_IS_VARIABLE = INSTANCE.createSeverityOption("producerFieldTypeIsVariable"); //$NON-NLS-1$
+//  - an injection point of primitive type resolves to a bean that may have null values, such as a producer method	with a non-primitive return type or a producer field with a non-primitive type	
+	public static final String INJECT_RESOLVES_TO_NULLABLE_BEAN = INSTANCE.createSeverityOption("injectResolvesToNullableBean"); //$NON-NLS-1$
 //	- matching object in the Java EE component environment is not of the same type
 //	  as the producer field declaration (3.5.1)
 	public static final String PRODUCER_FIELD_TYPE_DOES_NOT_MATCH_JAVA_EE_OBJECT = INSTANCE.createSeverityOption("producerFieldTypeDoesNotMatchJavaEeObject"); //$NON-NLS-1$
@@ -193,6 +195,10 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE = INSTANCE.createSeverityOption("interceptorOrDecoratorIsAlternative"); //$NON-NLS-1$
 //	- interceptor declared using @Interceptor does not declare any interceptor binding (9.2 non-portable)
 	public static final String MISSING_INTERCEPTOR_BINDING = INSTANCE.createSeverityOption("missingInterceptorBinding"); //$NON-NLS-1$
+//  - a decorator can not be injected
+	public static final String INJECTED_DECORATOR = INSTANCE.createSeverityOption("injectedDecorator"); //$NON-NLS-1$
+//  - an interceptor can not be injected
+	public static final String INJECTED_INTERCEPTOR = INSTANCE.createSeverityOption("injectedInterceptor"); //$NON-NLS-1$
 
 	//Specialization
 

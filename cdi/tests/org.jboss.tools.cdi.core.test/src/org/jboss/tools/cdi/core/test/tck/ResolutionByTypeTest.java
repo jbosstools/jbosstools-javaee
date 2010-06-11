@@ -37,7 +37,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testDefaultBindingTypeAssumed() throws CoreException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanType(false, beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
+		assertContainsBeanTypes(false, beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
 	}
 
 	/**
@@ -131,6 +131,20 @@ public class ResolutionByTypeTest extends TCKTest {
 	}
 
 	/**
+	 * 5.1.4. Inter-module injection
+	 *   i) Check a disabled managed bean is not injectable.
+	 *   
+	 * @throws CoreException 
+	 */
+	public void testPolicyNotAvailableInNonDeploymentArchive() throws CoreException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Spider");
+		assertFalse("Wrong number of the beans", beans.isEmpty());
+		assertDoesNotContainBeanClasses(beans, new String[]{"org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.CrabSpider", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.DaddyLongLegs"});
+		beans = cdiProject.getBeans("crabSpider", true);
+		assertTrue("Wrong nuber of the beans", beans.isEmpty());
+	}
+
+	/**
 	 * Section 2.2.2 - Restricting the bean types of a bean
 	 *   a) Check managed bean.
 	 *   
@@ -142,7 +156,7 @@ public class ResolutionByTypeTest extends TCKTest {
 		IBean bean = beans.iterator().next();
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
 		assertEquals("Wrong number of the beans", 0, beans.size());
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary", "java.lang.Object");
+		assertContainsBeanTypes(bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary", "java.lang.Object");
 	}
 
 	/**
@@ -166,8 +180,8 @@ public class ResolutionByTypeTest extends TCKTest {
 		beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 0, beans.size());
 
-		assertContainsBeanType(false, bean, "java.lang.Object");
-		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird");
+		assertContainsBeanTypes(false, bean, "java.lang.Object");
+		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird");
 		assertContainsBeanTypeSignatures(false, bean, "QFlightlessBird<QAustralian;>;");
 	}
 
@@ -180,7 +194,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testBeanTypesOnProducerMethod() throws CoreException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot");
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanType(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot", "java.lang.Object");
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot", "java.lang.Object");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
 		assertEquals("Wrong number of the beans", 0, beans.size());
@@ -201,8 +215,8 @@ public class ResolutionByTypeTest extends TCKTest {
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 
-		assertContainsBeanType(false, bean, "java.lang.Object");
-		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
+		assertContainsBeanTypes(false, bean, "java.lang.Object");
+		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
 		assertContainsBeanTypeSignatures(false, bean, "QCat<QEuropean;>;");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.DomesticCat", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tame");
@@ -224,8 +238,8 @@ public class ResolutionByTypeTest extends TCKTest {
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 
-		assertContainsBeanType(false, bean, "java.lang.Object");
-		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
+		assertContainsBeanTypes(false, bean, "java.lang.Object");
+		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
 		assertContainsBeanTypeSignatures(false, bean, "QCat<QAfrican;>;");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Lion", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Wild");
@@ -241,7 +255,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testBeanTypesOnProducerField() throws CoreException {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove");
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanType(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove", "java.lang.Object");
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove", "java.lang.Object");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
 		assertEquals("Wrong number of the beans", 0, beans.size());

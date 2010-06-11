@@ -106,30 +106,42 @@ public class CDIUtil {
 	}
 
 	/**
-	 * Sorts CDI beans which may be injected. Sets for alternative beans higher
-	 * position and for nonalternative beans lower position.
-	 * 
+	 * Sorts CDI beans which may be injected. The following order will be used:
+	 *  1) selected alternative beans
+	 *  2) nonalternative beans
+	 *  3) non-seleceted alternatives
+	 *  4) decorators
+	 *  5) interceptors
+	 *  
 	 * @param beans
-	 * @param element
 	 */
 	public static List<IBean> sortBeans(Set<IBean> beans) {
 		Set<IBean> alternativeBeans = new HashSet<IBean>();
+		Set<IBean> selectedAlternativeBeans = new HashSet<IBean>();
 		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
+		Set<IBean> decorators = new HashSet<IBean>();
+		Set<IBean> interceptors = new HashSet<IBean>();
 
 		for (IBean bean : beans) {
-//			if (bean == null || bean instanceof IDecorator || bean instanceof IInterceptor) {
-//				continue;
-//			}
-			if (bean.isAlternative()) {
+			if (bean.isSelectedAlternative()) {
+				selectedAlternativeBeans.add(bean);
+			} else if (bean.isAlternative()) {
 				alternativeBeans.add(bean);
+			} else if (bean instanceof IDecorator) {
+				decorators.add(bean);
+			} else if (bean instanceof IInterceptor) {
+				interceptors.add(bean);
 			} else {
 				nonAlternativeBeans.add(bean);
 			}
 		}
 
 		ArrayList<IBean> sortedBeans = new ArrayList<IBean>();
-		sortedBeans.addAll(alternativeBeans);
+		sortedBeans.addAll(selectedAlternativeBeans);
 		sortedBeans.addAll(nonAlternativeBeans);
+		sortedBeans.addAll(alternativeBeans);
+		sortedBeans.addAll(decorators);
+		sortedBeans.addAll(interceptors);
 		return sortedBeans;
 	}
 

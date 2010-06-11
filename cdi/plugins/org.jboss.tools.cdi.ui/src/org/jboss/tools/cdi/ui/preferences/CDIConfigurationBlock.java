@@ -50,6 +50,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			{CDIPreferences.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerFieldTypeHasWildcard_label},
 			{CDIPreferences.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerFieldTypeIsVariable_label},
 //			{CDIPreferences.PRODUCER_FIELD_TYPE_DOES_NOT_MATCH_JAVA_EE_OBJECT, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_producerFieldTypeDoesNotMatchJavaEeObject_label},
+			{CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_injectResolvesToNullableBean_label},
 			{CDIPreferences.INJECTION_TYPE_IS_VARIABLE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_injectionTypeIsVariable_label},
 			{CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_stereotypeIsAnnotatedTyped_label},
 			{CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingNonbindingInQualifierTypeMember_label},
@@ -117,6 +118,8 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 //				{CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerInInterceptorOrDecorator_label},
 				{CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorOrDecoratorIsAlternative_label},
 //				{CDIPreferences.MISSING_INTERCEPTOR_BINDING, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingInterceptorBinding_label},
+				{CDIPreferences.INJECTED_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_injectedDecorator_label},
+				{CDIPreferences.INJECTED_INTERCEPTOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_injectedInterceptor_label},
 		},
 		CDICorePlugin.PLUGIN_ID
 	);

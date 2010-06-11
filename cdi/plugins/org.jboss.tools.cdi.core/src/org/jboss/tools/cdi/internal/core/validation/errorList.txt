@@ -122,17 +122,26 @@ Definition Errors
 - X specializes Y and Y has a name and X declares a name explicitly, using @Named
 - interceptor or decorator is annotated @Specializes (Non-Portable behavior)
 
+5.2.1. Unsatisfied and ambiguous dependencies
+- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
+  treats it as a deployment problem.
+
 5.2.2. Legal injection point types
 - injection point type is a type variable
+
+5.1.4. Inter-module injection
+- a decorator can not be injected
+- an interceptor can not be injected
+
+5.2.4. Primitive types and null values
+- if an injection point of primitive type resolves to a bean that may have null values, such as a producer method
+  with a non-primitive return type or a producer field with a non-primitive type, the container automatically detects the problem
+  and treats it as a deployment problem.
 
 5.2.5. Qualifier annotations with members
 - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 
 
-
-5.2.1. Unsatisfied and ambiguous dependencies
-- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
-  treats it as a deployment problem.
 
 
 

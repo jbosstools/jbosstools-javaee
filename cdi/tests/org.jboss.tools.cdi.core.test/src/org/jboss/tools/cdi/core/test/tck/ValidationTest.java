@@ -885,6 +885,28 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 5.1.4. Inter-module injection
+	 *  - a decorator can not be injected
+	 * 
+	 * @throws Exception
+	 */
+	public void testDecoratorNotResolved() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/decorator/House.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTED_DECORATOR, 23);
+	}
+
+	/**
+	 * 5.1.4. Inter-module injection
+	 *  - an interceptor can not be injected
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorNotResolved() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InjectInterceptorBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTED_INTERCEPTOR, 7);
+	}
+
+	/**
 	 * 5.2.1. Unsatisfied and ambiguous dependencies
 	 *  - If an unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
 	 * 
@@ -919,6 +941,23 @@ public class ValidationTest extends TCKTest {
 	public void testTypeVariableInjectionPoint() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/FarmBroken.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, 11, 15);
+	}
+
+	/**
+	 * 5.2.4. Primitive types and null values
+	 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
+	 * 
+	 * @throws Exception
+	 */
+	public void testPrimitiveInjectionPointResolvedToNonPrimitiveProducerMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GameBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 7, 19);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 11);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 20);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 21);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 22);
 	}
 
 	/**

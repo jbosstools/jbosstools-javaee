@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -35,6 +35,7 @@ public class ParametedType implements IParametedType {
 	protected String arrayPrefix = "";
 	protected String signature;
 	protected List<ParametedType> parameterTypes = new ArrayList<ParametedType>();
+	protected boolean primitive;
 
 	boolean inheritanceIsBuilt = false;
 	protected ParametedType superType = null;
@@ -48,6 +49,18 @@ public class ParametedType implements IParametedType {
 	PositionProvider provider = null;
 
 	public ParametedType() {}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IParametedType#isPrimitive()
+	 */
+	public boolean isPrimitive() {
+		return primitive;
+	}
+
+	public void setPrimitive(boolean primitive) {
+		this.primitive = primitive;
+	}
 
 	public ParametedTypeFactory getFactory() {
 		return typeFactory;

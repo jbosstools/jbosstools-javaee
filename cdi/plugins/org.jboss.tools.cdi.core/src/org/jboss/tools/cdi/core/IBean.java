@@ -115,6 +115,14 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	boolean isAlternative();
 
 	/**
+	 * Determines if the bean is a selected alternative.
+	 * 
+	 * @return <tt>true</tt> if the bean is a selected alternative, and <tt>false</tt>
+	 *         otherwise.
+	 */
+	boolean isSelectedAlternative();
+
+	/**
 	 * Returns the location of @Alternative declaration of this bean. May be
 	 * declared in a stereotype.
 	 * 
@@ -166,4 +174,13 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * @return "true" if the bean is enabled
 	 */
 	boolean isEnabled();
+
+   /**
+    * Determines if the bean is nullable such as a producer method with a non-primitive
+    * return type or a producer field with a non-primitive type.
+    * 
+    * @return <tt>true</tt> if the {@code create()} method may return a null 
+    *        value, and <tt>false</tt> otherwise
+    */
+	boolean isNullable();
 }

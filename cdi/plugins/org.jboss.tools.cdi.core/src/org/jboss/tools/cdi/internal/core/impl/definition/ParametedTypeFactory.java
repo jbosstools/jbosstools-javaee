@@ -74,6 +74,7 @@ public class ParametedTypeFactory {
 		if(primitives.containsKey(typeSignature)) {
 			typeSignature = primitives.get(typeSignature);
 			result.setSignature(result.getArrayPrefix() + typeSignature);
+			result.setPrimitive(true);
 		}
 
 		int startToken = typeSignature.indexOf('<');

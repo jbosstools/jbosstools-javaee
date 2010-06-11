@@ -224,11 +224,11 @@ public class TCKTest extends TestCase {
 		fail(message.toString());
 	}
 
-	protected void assertContainsBeanType(IBean bean, String... typeNames) {
-		assertContainsBeanType(true, bean, typeNames);
+	protected void assertContainsBeanTypes(IBean bean, String... typeNames) {
+		assertContainsBeanTypes(true, bean, typeNames);
 	}
 
-	protected void assertContainsBeanType(boolean checkTheNumberOfTypes, IBean bean, String... typeNames) {
+	protected void assertContainsBeanTypes(boolean checkTheNumberOfTypes, IBean bean, String... typeNames) {
 		if(checkTheNumberOfTypes) {
 			assertEquals("Wrong number of types.", typeNames.length, bean.getLegalTypes().size());
 		}
@@ -272,6 +272,17 @@ public class TCKTest extends TestCase {
 		}
 	}
 
+	public static void assertDoesNotContainBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
+		StringBuffer sb = new StringBuffer("[");
+		for (String beanClassName : beanClassNames) {
+			sb.append(beanClassName).append("; ");
+		}
+		sb.append("]");
+		for (String beanClassName : beanClassNames) {
+			assertTrue("Found " + beanClassName + " among " + sb.toString(), doesNotContainBeanClass(beans, beanClassName));
+		}
+	}
+
 	public static void assertContainsBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
 		assertContainsBeanClasses(true, beans, beanClassNames);
 	}
@@ -292,6 +303,15 @@ public class TCKTest extends TestCase {
 
 	public static void assertContainsBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
 		assertTrue("Didn't find " + beanClassName, containsBeanClass(beans, beanClassName));
+	}
+
+	private static boolean doesNotContainBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
+		for (IBean bean : beans) {
+			if(beanClassName.equals(bean.getBeanClass().getFullyQualifiedName())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static boolean containsBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {

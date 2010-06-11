@@ -444,4 +444,20 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#isNullable()
+	 */
+	public boolean isNullable() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#isSelectedAlternative()
+	 */
+	public boolean isSelectedAlternative() {
+		// TODO
+		return isAlternative();
+	}
 }

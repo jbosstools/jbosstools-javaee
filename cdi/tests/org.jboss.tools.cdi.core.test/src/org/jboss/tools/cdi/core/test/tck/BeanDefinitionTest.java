@@ -125,7 +125,7 @@ public class BeanDefinitionTest extends TCKTest {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Tarantula type", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.Tarantula",
+		assertContainsBeanTypes(bean, "org.jboss.jsr299.tck.tests.definition.bean.Tarantula",
 									 "org.jboss.jsr299.tck.tests.definition.bean.Spider",
 									 "org.jboss.jsr299.tck.tests.definition.bean.Animal",
 									 "java.lang.Object",
@@ -148,7 +148,7 @@ public class BeanDefinitionTest extends TCKTest {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope type", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		assertContainsBeanType(bean, "org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope",
+		assertContainsBeanTypes(bean, "org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope",
 									 "org.jboss.jsr299.tck.tests.definition.bean.AbstractAntelope",
 									 "org.jboss.jsr299.tck.tests.definition.bean.Animal",
 									 "java.lang.Object");

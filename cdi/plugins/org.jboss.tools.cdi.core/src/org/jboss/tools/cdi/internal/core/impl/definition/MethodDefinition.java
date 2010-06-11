@@ -86,7 +86,8 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 		for (int i = 0; i < params.length; i++) {
 			if(ps.length <= i) {
-				CDICorePlugin.getDefault().logError(new IllegalArgumentException("Cannot parse method parameters for " + paramsString));
+				// CDICorePlugin.getDefault().logError(new IllegalArgumentException("Cannot parse method parameters for " + paramsString));
+				// The source code may be broken. Just ignore such errors.
 				break;
 			}
 			if(!parametersAreInjectionPoints && params[i].indexOf('@') < 0) {

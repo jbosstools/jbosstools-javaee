@@ -35,6 +35,7 @@ public class CDIValidationMessages {
 	public static String PRODUCER_FIELD_TYPE_HAS_WILDCARD;
 	public static String PRODUCER_FIELD_TYPE_IS_VARIABLE;
 	public static String PRODUCER_FIELD_TYPE_DOES_NOT_MATCH_JAVA_EE_OBJECT;
+	public static String INJECT_RESOLVES_TO_NULLABLE_BEAN;
 	public static String INJECTION_TYPE_IS_VARIABLE;
 	public static String STEREOTYPE_IS_ANNOTATED_TYPED;
 	public static String MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER;
@@ -96,6 +97,8 @@ public class CDIValidationMessages {
 	public static String INTERCEPTOR_IS_ALTERNATIVE;
 	public static String DECORATOR_IS_ALTERNATIVE;
 	public static String MISSING_INTERCEPTOR_BINDING;
+	public static String INJECTED_DECORATOR;
+	public static String INJECTED_INTERCEPTOR;
 
 	public static String ILLEGAL_SPECIALIZING_MANAGED_BEAN;
 	public static String ILLEGAL_SPECIALIZING_SESSION_BEAN;

@@ -33,4 +33,11 @@ public interface IParametedType {
 	 * @return signature of the declaration
 	 */
 	public String getSignature();
+
+	/**
+	 * Returns true if the type is a primitive type.
+	 * 
+	 * @return true if the type is a primitive type
+	 */
+	boolean isPrimitive();
 }

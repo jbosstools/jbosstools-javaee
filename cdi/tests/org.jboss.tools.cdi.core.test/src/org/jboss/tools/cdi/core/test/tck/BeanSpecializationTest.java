@@ -30,7 +30,7 @@ public class BeanSpecializationTest extends TCKTest {
 		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.LazyFarmer", "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Landowner");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Farmer");
+		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Farmer");
 		assertContainsQualifierType(true, bean,
 				"org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Landowner",
 				"org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Lazy",
@@ -48,7 +48,7 @@ public class BeanSpecializationTest extends TCKTest {
 		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.LazyFarmerLocal", "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Landowner");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		assertContainsBeanType(false, bean, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.FarmerLocal");
+		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.FarmerLocal");
 		assertContainsQualifierType(true, bean,
 				"org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Landowner",
 				"org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Lazy",

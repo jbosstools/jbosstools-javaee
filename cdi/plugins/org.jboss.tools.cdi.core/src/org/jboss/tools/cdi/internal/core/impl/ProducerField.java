@@ -179,4 +179,13 @@ public class ProducerField extends BeanField implements IProducerField {
 	public IAnnotationDeclaration getProducesAnnotation() {
 		return getDefinition().getProducesAnnotation();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#isSelectedAlternative()
+	 */
+	public boolean isSelectedAlternative() {
+		// TODO
+		return isAlternative();
+	}
 }

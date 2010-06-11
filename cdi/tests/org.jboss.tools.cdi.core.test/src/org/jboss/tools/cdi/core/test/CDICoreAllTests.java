@@ -10,17 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test;
 
-import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.internal.core.JavaModelManager;
-//import org.jboss.tools.cdi.core.test.tck.NamedBeanRefactoringTest;
+import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.EnterpriseResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseStereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.InjectionPointTest;
@@ -32,7 +31,6 @@ import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.ValidationTest;
-import org.jboss.tools.tests.AbstractPluginsLoadTest;
 
 /**
  * @author Alexey Kazakov
@@ -42,7 +40,7 @@ public class CDICoreAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
-		
+
 		TestSuite suite = new TestSuite("CDI Core Tests");
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
@@ -58,8 +56,9 @@ public class CDICoreAllTests {
 		suite.addTestSuite(InjectionPointTest.class);
 		suite.addTestSuite(BeanSpecializationTest.class);
 		suite.addTestSuite(ResolutionByTypeTest.class);
+		suite.addTestSuite(EnterpriseResolutionByTypeTest.class);
+		suite.addTestSuite(AssignabilityOfRawAndParameterizedTypesTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return new CDICoreTestSetup(suite);
 	}
-
 }
