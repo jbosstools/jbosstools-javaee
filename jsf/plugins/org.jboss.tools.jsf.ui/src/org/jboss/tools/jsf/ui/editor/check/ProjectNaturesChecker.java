@@ -65,8 +65,8 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 
 	private ProjectNaturesChecker() {
 		projectsCollection = new HashSet<IProject>(0);
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
-				IResourceChangeEvent.POST_CHANGE);
+//		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
+//				IResourceChangeEvent.POST_CHANGE);
 		IWorkbenchWindow window = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow();
 		window.getPartService().addPartListener(partListener);
@@ -165,11 +165,11 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 	private void updateProjectPersistentProperties(IProject project)
 			throws CoreException {
 		if (project.isAccessible()) {
-			String jsfCheckString = project
-					.getPersistentProperty(IS_JSF_CHECK_NEED);
-			if (jsfCheckString == null) {
+//			String jsfCheckString = project
+//					.getPersistentProperty(IS_JSF_CHECK_NEED);
+//			if (jsfCheckString == null) {
 				updateProjectJSFPersistents(project);
-			}
+//			}
 			if (project.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED) == null) {
 				project
 						.setPersistentProperty(IS_JSF_NATURES_CHECK_NEED,
@@ -198,7 +198,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 			window.getPartService().removePartListener(partListener);
 			partListener = null;
 		}
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+//		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		projectsCollection.clear();
 	}
 

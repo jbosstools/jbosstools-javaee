@@ -26,7 +26,7 @@ public class JsfUiPlugin extends BaseUIPlugin {
 
 	public void start(BundleContext context) throws Exception {
 	    super.start(context);
-//		ProjectNaturesChecker.getInstance();
+		ProjectNaturesChecker.getInstance();
 	}
 
 	public static JsfUiPlugin getDefault() {
