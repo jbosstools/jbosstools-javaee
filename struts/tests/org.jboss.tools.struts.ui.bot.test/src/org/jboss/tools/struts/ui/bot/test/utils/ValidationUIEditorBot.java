@@ -37,7 +37,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.hamcrest.Description;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
-import org.junit.Assert;
 
 public class ValidationUIEditorBot extends SWTBotEditor {
 
@@ -98,7 +97,7 @@ public class ValidationUIEditorBot extends SWTBotEditor {
 
     public void selectPage(final String page) {
         IWorkbenchPart p = ((EditorPartWrapper) (getReference().getPart(true))).getEditor();
-        Assert.assertTrue(p instanceof ObjectMultiPageEditor);
+        assert p instanceof ObjectMultiPageEditor;
         final ObjectMultiPageEditor editor = (ObjectMultiPageEditor) p;
         // Select page
         Display.getDefault().syncExec(new Runnable() {

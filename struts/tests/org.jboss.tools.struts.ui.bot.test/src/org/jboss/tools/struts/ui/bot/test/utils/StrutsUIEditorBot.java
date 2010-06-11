@@ -33,7 +33,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.EditorPart;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
-import org.junit.Assert;
 
 public class StrutsUIEditorBot extends SWTBotGefEditor {
 
@@ -90,7 +89,7 @@ public class StrutsUIEditorBot extends SWTBotGefEditor {
 
     public void selectPage(final String page) {
         IWorkbenchPart p = ((EditorPartWrapper) (getReference().getPart(true))).getEditor();
-        Assert.assertTrue(p instanceof ObjectMultiPageEditor);
+        assert p instanceof ObjectMultiPageEditor;
         final ObjectMultiPageEditor editor = (ObjectMultiPageEditor) p;
         // Select page
         Display.getDefault().syncExec(new Runnable() {
