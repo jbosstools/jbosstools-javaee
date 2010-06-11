@@ -26,7 +26,9 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewQualifierWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewScopeWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewStereotypeWizardPage;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.util.FileUtil;
@@ -42,6 +44,8 @@ public class NewCDIWizardTest extends TestCase {
 	static String PACK_NAME = "test";
 	static String QUALIFIER_NAME = "MyQualifier";
 	static String STEREOTYPE_NAME = "MyStereotype";
+	static String SCOPE_NAME = "MyScope";
+	static String INTERCEPTOR_BINDING_NAME = "MyInterceptorBinding";
 	
 	static class WizardContext {
 		NewCDIAnnotationCreationWizard wizard;
@@ -146,6 +150,50 @@ public class NewCDIWizardTest extends TestCase {
 			context.close();
 		}
 
+	}
+
+	public void testNewScopeWizard() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard",
+				PACK_NAME, SCOPE_NAME);
+
+		try {
+			NewScopeWizardPage page = (NewScopeWizardPage)context.page;
+			
+			context.wizard.performFinish();
+			
+			String text = context.getNewTypeContent();
+			
+			assertTrue(text.contains("@NormalScope"));
+			assertTrue(text.contains("@Inherited"));
+			assertTrue(text.contains("@Target( { TYPE, METHOD, FIELD })"));
+			assertTrue(text.contains("@Retention(RUNTIME)"));
+			
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewInterceptorBindingWizard() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard",
+				PACK_NAME, INTERCEPTOR_BINDING_NAME);
+
+		try {
+			NewInterceptorBindingWizardPage page = (NewInterceptorBindingWizardPage)context.page;
+			
+			context.wizard.performFinish();
+			
+			String text = context.getNewTypeContent();
+			
+			assertTrue(text.contains("@InterceptorBinding"));
+			assertTrue(text.contains("@Inherited"));
+			assertTrue(text.contains("@Target( { TYPE, METHOD })"));
+			assertTrue(text.contains("@Retention(RUNTIME)"));
+			
+		} finally {
+			context.close();
+		}
 	}
 
 }
