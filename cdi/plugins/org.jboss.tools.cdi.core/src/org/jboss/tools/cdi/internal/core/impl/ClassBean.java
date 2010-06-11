@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -259,8 +260,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public Set<IParametedType> getLegalTypes() {
 		Set<IParametedType> result = new HashSet<IParametedType>();
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
+		Set<IParametedType> all = getAllTypes();
 		if(d != null) {
-			Set<ITypeDeclaration> ts = getRestrictedTypeDeclaratios();
+			Set<ITypeDeclaration> ts = getRestrictedTypeDeclarations(all);
 			result.addAll(ts);
 			ParametedType object = getObjectType(getBeanClass());
 			if(object != null) {
@@ -268,7 +270,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			}
 			return result;
 		}
-		return getAllTypes();
+		return all;
 	}
 
 	/*
@@ -277,6 +279,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 */
 	public Set<IParametedType> getAllTypes() {
 		return getDefinition().getAllTypes();
+	}
+
+	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+		return getRestrictedTypeDeclarations(getAllTypes());
 	}
 
 	public String getName() {
@@ -468,4 +474,5 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}		
 		return false;
 	}
+
 }

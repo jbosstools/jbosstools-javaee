@@ -64,8 +64,9 @@ public class ProducerField extends BeanField implements IProducerField {
 	public Set<IParametedType> getLegalTypes() {
 		Set<IParametedType> result = new HashSet<IParametedType>();
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
+		Set<IParametedType> all = getAllTypes();
 		if(d != null) {
-			Set<ITypeDeclaration> ts = getRestrictedTypeDeclaratios();
+			Set<ITypeDeclaration> ts = getRestrictedTypeDeclarations(all);
 			result.addAll(ts);
 			ParametedType object = getObjectType(getBeanClass());
 			if(object != null) {
@@ -73,7 +74,7 @@ public class ProducerField extends BeanField implements IProducerField {
 			}
 			return result;
 		}
-		return getAllTypes();
+		return all;
 	}
 
 	/*
@@ -85,6 +86,10 @@ public class ProducerField extends BeanField implements IProducerField {
 			return typeDeclaration.getAllTypes();
 		}
 		return new HashSet<IParametedType>();
+	}
+
+	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+		return getRestrictedTypeDeclarations(getAllTypes());
 	}
 
 	public String getName() {

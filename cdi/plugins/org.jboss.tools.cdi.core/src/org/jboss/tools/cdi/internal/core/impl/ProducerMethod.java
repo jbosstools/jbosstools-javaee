@@ -86,8 +86,9 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	public Set<IParametedType> getLegalTypes() {
 		Set<IParametedType> result = new HashSet<IParametedType>();
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
+		Set<IParametedType> all = getAllTypes();
 		if(d != null) {
-			Set<ITypeDeclaration> ts = getRestrictedTypeDeclaratios();
+			Set<ITypeDeclaration> ts = getRestrictedTypeDeclarations(all);
 			result.addAll(ts);
 			ParametedType object = getObjectType(getBeanClass());
 			if(object != null) {
@@ -95,7 +96,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 			}
 			return result;
 		}
-		return getAllTypes();
+		return all;
 	}
 
 	/*
@@ -107,6 +108,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 			return typeDeclaration.getAllTypes();
 		}
 		return new HashSet<IParametedType>();
+	}
+
+	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+		return getRestrictedTypeDeclarations(getAllTypes());
 	}
 
 	public String getName() {

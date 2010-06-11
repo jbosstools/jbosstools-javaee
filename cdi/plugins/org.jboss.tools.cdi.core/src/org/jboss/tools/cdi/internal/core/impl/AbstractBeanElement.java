@@ -11,8 +11,10 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -22,6 +24,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -29,6 +32,7 @@ import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -205,7 +209,11 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		return result;
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+	public Set<ITypeDeclaration> getRestrictedTypeDeclarations(Set<IParametedType> alltypes) {
+		Map<String, IParametedType> map = new HashMap<String, IParametedType>();
+		for (IParametedType t: alltypes) {
+			map.put(t.getType().getFullyQualifiedName(), t);
+		}
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		AnnotationDeclaration typed = getDefinition().getTypedAnnotation();
 		if(typed != null) {
@@ -245,6 +253,14 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 									length = rawTypeName.length();
 								}
 							}
+							IParametedType other = p.getType() == null ? null : map.get(p.getType().getFullyQualifiedName());
+							if(other != null) {
+								String s1 = p.getSignature();
+								String s2 = other.getSignature();
+								if(!s1.equals(s2) && Signature.getArrayCount(s1) == Signature.getArrayCount(s2)) {
+									p.setSignature(s2);
+								}
+							}
 							result.add(new TypeDeclaration(p, offset, length));
 						}
 					}
@@ -261,6 +277,14 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 							if(q >= 0) {
 								offset = r.getOffset() + q;
 								length = rawTypeName.length();
+							}
+						}
+						IParametedType other = p.getType() == null ? null : map.get(p.getType().getFullyQualifiedName());
+						if(other != null) {
+							String s1 = p.getSignature();
+							String s2 = other.getSignature();
+							if(!s1.equals(s2) && Signature.getArrayCount(s1) == Signature.getArrayCount(s2)) {
+								p.setSignature(s2);
 							}
 						}
 						result.add(new TypeDeclaration(p, offset, length));
