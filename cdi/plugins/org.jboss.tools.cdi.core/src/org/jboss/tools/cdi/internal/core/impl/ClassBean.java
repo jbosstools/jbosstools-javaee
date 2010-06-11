@@ -457,7 +457,15 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * @see org.jboss.tools.cdi.core.IBean#isSelectedAlternative()
 	 */
 	public boolean isSelectedAlternative() {
-		// TODO
-		return isAlternative();
+		if(getDefinition().getAlternativeAnnotation() != null && getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
+			return true;
+		}
+		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+		for (IStereotypeDeclaration d: ds) {
+			IStereotype s = d.getStereotype();
+			if(s != null && s.isAlternative() && 
+					getCDIProject().isStereotypeAlternative(s.getSourceType().getFullyQualifiedName())	) return true;
+		}		
+		return false;
 	}
 }

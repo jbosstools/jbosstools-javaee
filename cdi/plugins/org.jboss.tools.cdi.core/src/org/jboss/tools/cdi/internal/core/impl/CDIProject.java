@@ -188,10 +188,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		while(it.hasNext()) {
 			IBean b = it.next();
 			if(b.isAlternative()) {
-				//TODO check that alternative is enabled in beans.xml
-				// otherwise it should be excluded from result
-				containsAlternatives = true;
-				break;
+				if(b.isSelectedAlternative()) {
+					containsAlternatives = true;
+				} else {
+					it.remove();
+				}
 			}
 		}
 		
@@ -490,6 +491,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		return result;
+	}
+
+	public boolean isTypeAlternative(String qualifiedName) {
+		return beansXMLData.getTypeAlternativeTypes().contains(qualifiedName);
+	}
+
+	public boolean isStereotypeAlternative(String qualifiedName) {
+		return beansXMLData.getStereotypeAlternativeTypes().contains(qualifiedName);
 	}
 
 	public Set<IType> getQualifierTypes() {
