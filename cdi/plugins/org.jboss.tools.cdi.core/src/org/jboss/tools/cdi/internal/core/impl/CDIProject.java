@@ -39,6 +39,7 @@ import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
@@ -693,6 +694,18 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public StereotypeElement getStereotype(IPath path) {
 		return stereotypesByPath.get(path);
+	}
+
+	public IInterceptorBinding[] getInterceptorBindings() {
+		IInterceptorBinding[] result = new IInterceptorBinding[interceptorBindings.size()];
+		synchronized (interceptorBindings) {
+			int i=0;
+			for (IInterceptorBinding s: interceptorBindings.values()) {
+				result[i++] = s;
+			}
+		}
+		return result;
+	
 	}
 
 	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {

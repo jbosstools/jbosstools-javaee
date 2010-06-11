@@ -191,6 +191,7 @@ public interface IBeanManager {
 	 */
 	IStereotype getStereotype(IPath path);
 
+	IInterceptorBinding[] getInterceptorBindings();
 	/**
 	 * Returns interceptor binding model element for fully qualified name of
 	 * interceptor binding annotation type
