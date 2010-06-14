@@ -33,8 +33,7 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
 				.bot();
 		SWTBotTree tree = innerBot.tree();
-		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		delay();
 		SWTBotEclipseEditor editor = bot.editorByTitle(
 				JSF2_Test_Page_Name + ".xhtml").toTextEditor(); //$NON-NLS-1$
@@ -42,6 +41,13 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 				loadFileContent("refactor/jsf2RenameAttrTestPageRefactor.html"), editor.getText()); //$NON-NLS-1$
 		delay();
 		editor.close();
+		innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER).bot();
+		tree = innerBot.tree();
+		tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		delay();
+		editor = bot.editorByTitle("echo.xhtml").toTextEditor(); //$NON-NLS-1$
+		assertEquals(
+				loadFileContent("refactor/compositeComponentAfterRename.html"), editor.getText()); //$NON-NLS-1$
 	}
 
 	@Override
@@ -50,8 +56,7 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
 				.bot();
 		SWTBotTree tree = innerBot.tree();
-		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		SWTBotEclipseEditor editor = bot
 				.editorByTitle("echo.xhtml").toTextEditor(); //$NON-NLS-1$
 		bot.menu("Edit").menu("Select All").click(); //$NON-NLS-1$ //$NON-NLS-2$
@@ -67,13 +72,11 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
 				.bot();
 		SWTBotTree tree = innerBot.tree();
-		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
-		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
@@ -83,12 +86,11 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 	private void checkPreview() throws IOException {
 		delay();
 		SWTBotTree tree = bot.tree();
-		tree
-				.expandNode("Composite attribute name changes").expandNode("echo.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent/resources/mycomp").expandNode("Rename composite attribute name"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		tree
-				.expandNode("Composite attribute name changes").expandNode("jsf2TestPage.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent").expandNode("Rename composite attribute"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		tree.expandNode("Composite attribute name changes").expandNode("echo.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent/resources/mycomp").expandNode("Rename composite attribute name"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		tree.expandNode("Composite attribute name changes").expandNode("jsf2TestPage.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent").expandNode("Rename composite attribute"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		SWTBotStyledText styledText = bot.styledText(0);
-		assertEquals(loadFileContent("refactor/compositeComponent.html"), styledText.getText()); //$NON-NLS-1$
+		assertEquals(
+				loadFileContent("refactor/compositeComponent.html"), styledText.getText()); //$NON-NLS-1$
 		System.out.println(styledText.getText());
 	}
 

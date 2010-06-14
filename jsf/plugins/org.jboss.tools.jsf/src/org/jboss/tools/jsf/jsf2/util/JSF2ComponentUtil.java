@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.w3c.dom.Element;
@@ -184,5 +185,66 @@ public class JSF2ComponentUtil {
 			}
 		}
 	}
-
+	
+	public static IDOMElement findCompositeImpl(Node node){
+		IDOMElement[] compositeImpl = new IDOMElement[1];
+		findCompositeImpl(node, compositeImpl);
+		return compositeImpl[0];
+	}
+	
+	private static void findCompositeImpl(Node node,
+			IDOMElement[] interfaceElement) {
+		if (node instanceof IDOMDocument) {
+			IDOMDocument document = (IDOMDocument) node;
+			findCompositeImpl(document.getDocumentElement(),
+					interfaceElement);
+		}
+		if (node instanceof ElementImpl) {
+			ElementImpl impl = (ElementImpl) node;
+			String nameSpace = impl.getNamespaceURI();
+			if (JSF2ResourceUtil.JSF2_URI_PREFIX.equals(nameSpace)) {
+				String nodeName = impl.getLocalName();
+				if ("implementation".equals(nodeName)) { //$NON-NLS-1$
+					interfaceElement[0] = impl;
+					return;
+				}
+			} else {
+				NodeList nodeList = node.getChildNodes();
+				if (nodeList != null) {
+					for (int i = 0; i < nodeList.getLength(); i++) {
+						findCompositeImpl(nodeList.item(i),
+								interfaceElement);
+					}
+				}
+			}
+		}
+	}
+	
+	public static IDOMAttr[] extractAttrsWithValue(IDOMElement elToExtract, String value){
+		List<IDOMAttr> attrs = new ArrayList<IDOMAttr>();
+		extractAttrsWithValue(elToExtract, value, attrs);
+		return attrs.toArray(new IDOMAttr[0]);
+	}
+	
+	private static void extractAttrsWithValue(IDOMElement elToExtract, String value, List<IDOMAttr> attrs){
+		NamedNodeMap namedNodeMap = elToExtract.getAttributes();
+		if (namedNodeMap != null) {
+			for (int i = 0; i < namedNodeMap.getLength(); i++) {
+				IDOMAttr attr = (IDOMAttr) namedNodeMap.item(i);
+				if (value.equals(attr.getValue().trim())) {
+					attrs.add(attr);
+				}
+			}
+		}
+		NodeList children = elToExtract.getChildNodes();
+		if (children != null) {
+			for (int i = 0; i < children.getLength(); i++) {
+				Node node = children.item(i);
+				if (node instanceof IDOMElement) {
+					extractAttrsWithValue((IDOMElement) node, value, attrs);
+				}
+			}
+		}
+	}
+	
 }

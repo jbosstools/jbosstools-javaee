@@ -90,7 +90,7 @@ public class JSF2RenameParticipant extends RenameParticipant {
 			return false;
 		}
 		IContentType contentType = IDE.getContentType(file);
-		if (!"org.eclipse.wst.html.core.htmlsource".equals(contentType.getId())) { //$NON-NLS-1$
+		if (!"jsf.facelet.composite".equals(contentType.getId()) && !"jsf.facelet".equals(contentType.getId())) { //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 //		if ((JSF2ComponentModelManager.getManager()

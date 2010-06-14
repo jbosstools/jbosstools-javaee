@@ -32,6 +32,7 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
+import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.refactoring.core.StructuredChanges;
 import org.jboss.tools.jsf.jsf2.refactoring.core.StructuredTextFileChange;
 import org.jboss.tools.jsf.jsf2.util.JSF2ComponentUtil;
@@ -57,7 +58,7 @@ public class CompositeAttributeRenameProcessor extends RenameProcessor
 	private static final GroupCategorySet CATEGORY_COMPOSITE_ATTR_RENAME = new GroupCategorySet(
 			new GroupCategory(
 					"org.jboss.tools.jsf.jsf2.refactoring.rename.composite.attr.type", JSFUIMessages.Refactoring_JSF_2_Rename_Composite_Attr_Changes, JSFUIMessages.Refactoring_JSF_2_Changes_Rename_Composite_Attr)); //$NON-NLS-1$ 
-	public static String IDENTIFIER = "org.jboss.tools.jsf.jsf2.refactor.compositeattrrenameprocessor"; //$NON-NLS-1$
+	public static final String IDENTIFIER = "org.jboss.tools.jsf.jsf2.refactor.compositeattrrenameprocessor"; //$NON-NLS-1$
 	private String newAttrName;
 	private String currentAttrName;
 	private IProject project;
@@ -91,10 +92,7 @@ public class CompositeAttributeRenameProcessor extends RenameProcessor
 			OperationCanceledException {
 		StructuredChanges changes = new StructuredChanges(
 				JSFUIMessages.Refactoring_JSF_2_Composite_Attr_Rename_Changes);
-		StructuredTextFileChange baseFileChange = new StructuredTextFileChange(baseFile.getFullPath().toOSString(), baseFile);
-		ReplaceEdit edit = new ReplaceEdit(attrToRename.getValueRegionStartOffset()+1, attrToRename.getValue().length(), getNewElementName());
-		TextChangeCompatibility.addTextEdit(baseFileChange, JSFUIMessages.Refactoring_JSF_2_Rename_Composite_Attr_Name, edit, CATEGORY_COMPOSITE_ATTR_RENAME);
-		changes.add(baseFileChange);
+		changes.add(createBaseFileChange());
 		Map<IFile, List<IDOMNode>> nodesMap = JSF2ComponentUtil
 				.findCompositeComponentsWithURI(getProject(), getURI());
 		Set<Entry<IFile, List<IDOMNode>>> entries = nodesMap.entrySet();
@@ -107,7 +105,31 @@ public class CompositeAttributeRenameProcessor extends RenameProcessor
 		}
 		return changes;
 	}
+	
+	private StructuredTextFileChange createBaseFileChange(){
+		StructuredTextFileChange baseFileChange = new StructuredTextFileChange(baseFile.getFullPath().toOSString(), baseFile);
+		ReplaceEdit edit = new ReplaceEdit(attrToRename.getValueRegionStartOffset()+1, attrToRename.getValue().length(), getNewElementName());
+		TextChangeCompatibility.addTextEdit(baseFileChange, JSFUIMessages.Refactoring_JSF_2_Rename_Composite_Attr_Name, edit, CATEGORY_COMPOSITE_ATTR_RENAME);
+		IDOMElement element = JSF2ComponentUtil.findCompositeImpl(JSF2ComponentModelManager.getReadableDOMDocument(baseFile));
+		if (element != null) {
+			IDOMAttr[] attrs = JSF2ComponentUtil.extractAttrsWithValue(element, computeAttrOldValue());
+			for (int i = 0; i < attrs.length; i++) {
+				edit = new ReplaceEdit(attrs[i].getValueRegionStartOffset()+1, attrs[i].getValue().length(), computeAttrNewValue());
+				TextChangeCompatibility.addTextEdit(baseFileChange, JSFUIMessages.Refactoring_JSF_2_Rename_Attr_Ref_Decl, edit, CATEGORY_COMPOSITE_ATTR_RENAME);
+			}
+		}
+		return baseFileChange;
+		
+	}
 
+	private String computeAttrOldValue(){
+		return "#{cc.attrs." + getCurrentElementName() + "}";  //$NON-NLS-1$//$NON-NLS-2$
+	}
+	
+	private String computeAttrNewValue(){
+		return "#{cc.attrs." + getNewElementName() + "}";  //$NON-NLS-1$//$NON-NLS-2$
+	}
+	
 	private StructuredTextFileChange createFileChange(IFile file,
 			List<IDOMNode> nodeList) {
 		StructuredTextFileChange fileChange = null;
