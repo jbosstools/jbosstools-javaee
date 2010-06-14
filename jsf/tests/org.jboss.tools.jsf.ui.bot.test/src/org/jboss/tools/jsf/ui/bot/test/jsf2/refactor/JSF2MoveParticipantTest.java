@@ -49,6 +49,7 @@ public class JSF2MoveParticipantTest extends JSF2AbstractRefactorTest {
 	}
 
 	private void createDistResFolder() throws Exception {
+	  bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER).show();
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
 				.bot();
 		SWTBotTree tree = innerBot.tree();
