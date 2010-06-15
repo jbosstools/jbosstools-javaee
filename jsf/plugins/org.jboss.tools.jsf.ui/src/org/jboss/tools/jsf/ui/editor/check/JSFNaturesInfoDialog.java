@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.editor.check.wizards.AddJSFCapabilitiesWizard;
 
 /**
@@ -27,10 +28,8 @@ import org.jboss.tools.jsf.ui.editor.check.wizards.AddJSFCapabilitiesWizard;
 
 public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 
-	private static final String fixButtonLabel = "Add JSF Capabilities..."; //$NON-NLS-1$
-
 	public JSFNaturesInfoDialog(IProject project) {
-		super(project, fixButtonLabel);
+		super(project, JsfUIMessages.ADD_JSF_CAPABILITIES_BUTTTON_LABEL);
 	}
 
 	@Override
@@ -39,18 +38,15 @@ public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 				.getActiveWorkbenchWindow().getShell().getDisplay(),
 				new Runnable() {
 					public void run() {
-						AddJSFCapabilitiesWizard.getInstance(project).run(
-								null);
+						AddJSFCapabilitiesWizard.getInstance(project).run(null);
 					}
 				});
 	}
 
 	@Override
 	protected String getMessageInfo() {
-		String dialogMessage = MessageFormat.format("JBoss Tools Editor might not fully work in project \"{0}" + //$NON-NLS-1$
-				"\" because it does not have JSF and code completion enabled completely.\n\n" //$NON-NLS-1$
-				+ "Please use the Configure menu on the project or \"Add JSF Capabilities...\" fix button to enable JSF if " //$NON-NLS-1$
-				+ "you want all features of the editor working.",project.getName()); //$NON-NLS-1$
+		String dialogMessage = MessageFormat.format(
+				JsfUIMessages.ENABLE_JSF_CAPABILITIES_TEXT, project.getName());
 		return dialogMessage;
 	}
 
@@ -58,8 +54,8 @@ public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 	protected void skipButtonPressed() {
 		try {
 			project.setPersistentProperty(
-					ProjectNaturesChecker.IS_JSF_NATURES_CHECK_NEED, Boolean
-							.toString(!isRemember));
+					ProjectNaturesChecker.IS_JSF_NATURES_CHECK_NEED,
+					Boolean.toString(!isRemember));
 		} catch (CoreException e) {
 		}
 	}

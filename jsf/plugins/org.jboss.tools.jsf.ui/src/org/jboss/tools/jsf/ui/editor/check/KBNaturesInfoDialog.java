@@ -30,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.internal.views.markers.MarkerSupportInternalUtilities;
 import org.eclipse.ui.views.markers.internal.MarkerMessages;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.check.wizards.QuickFixWizard;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
@@ -43,10 +44,8 @@ import org.jboss.tools.jst.web.kb.internal.KbProject;
 @SuppressWarnings("restriction")
 public class KBNaturesInfoDialog extends ProjectNaturesInfoDialog {
 
-	private static final String fixButtonLabel = "Enable JSF Code Completion..."; //$NON-NLS-1$
-
 	public KBNaturesInfoDialog(IProject project) {
-		super(project, fixButtonLabel);
+		super(project, JsfUIMessages.ENABLE_JSF_CODE_COMPLETION_BUTTON_LABEL);
 	}
 
 	@Override
@@ -95,10 +94,9 @@ public class KBNaturesInfoDialog extends ProjectNaturesInfoDialog {
 
 	@Override
 	protected String getMessageInfo() {
-		String dialogMessage = MessageFormat.format("The project \"{0}" + //$NON-NLS-1$
-				"\" does not have JSF code completion and validation enabled completely.\n\n" //$NON-NLS-1$
-				+ "Please use \"Enabale JSF Code Completion...\" fix button if " //$NON-NLS-1$
-				+ "you want these features working.",project.getName()); //$NON-NLS-1$
+		String dialogMessage = MessageFormat.format(
+				JsfUIMessages.ENABLE_JSF_CODE_COMPLETION_TEXT,
+				project.getName());
 		return dialogMessage;
 	}
 
@@ -120,8 +118,8 @@ public class KBNaturesInfoDialog extends ProjectNaturesInfoDialog {
 	protected void skipButtonPressed() {
 		try {
 			project.setPersistentProperty(
-					ProjectNaturesChecker.IS_KB_NATURES_CHECK_NEED, Boolean
-							.toString(!isRemember));
+					ProjectNaturesChecker.IS_KB_NATURES_CHECK_NEED,
+					Boolean.toString(!isRemember));
 		} catch (CoreException e) {
 		}
 	}

@@ -30,6 +30,17 @@ public class JsfUIMessages extends NLS {
 	public static String EL_REFACTOR_RENAME_HANDLER_ERROR;
 	public static String RENAME_EL_VARIABLE_WIZARD_EL_VARIABLE_NAME;
 	
+	public static String IS_JSF_CHECK_NEED;
+	public static String IS_KB_NATURE_CHECK_NEED;
+	public static String IS_JSF_NATURE_CHECK_NEED;
+	public static String ADD_JSF_CAPABILITIES_BUTTTON_LABEL;
+	public static String ENABLE_JSF_CAPABILITIES_TEXT;
+	public static String ENABLE_JSF_CODE_COMPLETION_BUTTON_LABEL;
+	public static String ENABLE_JSF_CODE_COMPLETION_TEXT;
+	public static String DONT_SHOW_CHECKER_DIALOG;
+	public static String MISSING_NATURES_INFO_MESSAGE_TITLE;
+	public static String SKIP_BUTTON_LABEL;
+	
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, JsfUIMessages.class);

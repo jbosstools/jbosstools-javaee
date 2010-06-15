@@ -28,6 +28,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
+import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
 import org.jboss.tools.jst.jsp.messages.JstUIMessages;
 
@@ -42,14 +43,12 @@ public abstract class ProjectNaturesInfoDialog extends MessageDialog {
 	private Button button;
 	private Link link;
 	protected boolean isRemember = false;
-	private static final String QUESTION = "Do not show this dialog again!"; //$NON-NLS-1$
-	private static final String TITLE = "Missing Natures"; //$NON-NLS-1$
 	protected IProject project;
 
 	protected ProjectNaturesInfoDialog(IProject project, String fixButtonLabel) {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				TITLE, null, "", INFORMATION, //$NON-NLS-1$
-				new String[] { fixButtonLabel, "Skip" }, 0); //$NON-NLS-1$
+				JsfUIMessages.MISSING_NATURES_INFO_MESSAGE_TITLE, null, "", INFORMATION, //$NON-NLS-1$
+				new String[] { fixButtonLabel, JsfUIMessages.SKIP_BUTTON_LABEL }, 0);
 		this.project = project;
 		message = getMessageInfo();
 	}
@@ -74,7 +73,7 @@ public abstract class ProjectNaturesInfoDialog extends MessageDialog {
 				isRemember = !isRemember;
 			}
 		});
-		button.setText(QUESTION);
+		button.setText(JsfUIMessages.DONT_SHOW_CHECKER_DIALOG);
 		link = new Link(parent, SWT.NONE);
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gridData.grabExcessHorizontalSpace = true;
