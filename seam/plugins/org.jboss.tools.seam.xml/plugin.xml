@@ -11,6 +11,7 @@
       <meta path="meta/seam-international.meta"/>
       <meta path="meta/seam-mail.meta"/>
       <meta path="meta/seam-pdf.meta"/>
+      <meta path="meta/seam-navigation.meta"/>
       <meta path="meta/seam-persistence.meta"/>
       <meta path="meta/seam-theme.meta"/>
       <meta path="meta/seam-web.meta"/>

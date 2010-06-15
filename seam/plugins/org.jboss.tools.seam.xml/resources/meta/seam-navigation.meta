@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="Seam" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="Handlers"/>
+  <MAPPING name="SeamNamespaces">
+   <PAIR name="navigation" value="http://jboss.com/products/seam/navigation"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemas">
+   <PAIR name="navigation$20" value="http://jboss.com/products/seam/navigation-2.0.xsd"/>
+   <PAIR name="navigation$21" value="http://jboss.com/products/seam/navigation-2.1.xsd"/>
+   <PAIR name="navigation$22" value="http://jboss.com/products/seam/navigation-2.2.xsd"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action">
+   <GROUP name="new">
+    <GROUP name="navigation"/>
+   </GROUP>
+  </GROUP>
+  <GROUP name="main">
+   <GROUP name="seam">
+    <GROUP name="navigation">
+     <ICON name="pages" path="images/struts/plug_in.gif"/>
+    </GROUP>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="navigation:pages" name="SeamNavigationPages">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="SeamNavigationResources" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.navigation.pages" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="navigation pages" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.navigation.pages" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general"
+    name="no-conversation-view-id" xmlname="no-conversation-view-id"/>
+   <XModelAttribute PROPERTIES="category=general" name="login-view-id" xmlname="login-view-id"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="http-port" xmlname="http-port">
+    <Constraint loader="%IntEL%">
+     <value name="minimum=0"/>
+    </Constraint>
+    <Editor name="Int"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="https-port" xmlname="https-port">
+    <Constraint loader="%IntEL%">
+     <value name="minimum=0"/>
+    </Constraint>
+    <Editor name="Int"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData;children=%Ordered%;childrenLoader=list;saveDefault=false"
+  XMLSUBPATH="navigation:resources" name="SeamNavigationResources">
+  <XChildrenEntities>
+   <XChildEntity name="SeamListEntry"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="resources" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="resources" name="name">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     WizardClassName="%Default%" displayName="Add Entry..."
+     kind="action" name="AddEntry">
+     <EntityData EntityName="SeamListEntry">
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileSeamComponents20">
+  <XChildrenEntities>
+   <XChildEntity name="SeamNavigationPages"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Navigation" group="1"
+     kind="list" name="Navigation">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Navigation Pages..." kind="action" name="AddNavigationPages">
+      <EntityData EntityName="SeamNavigationPages">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="no-conversation-view-id" Mandatory="no"/>
+       <AttributeData AttributeName="login-view-id" Mandatory="no"/>
+       <AttributeData AttributeName="http-port" Mandatory="no"/>
+       <AttributeData AttributeName="https-port" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamNavigationPages"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Navigation" group="1"
+     kind="list" name="Navigation">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Navigation Pages..." kind="action" name="AddNavigationPages">
+      <EntityData EntityName="SeamNavigationPages">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="no-conversation-view-id" Mandatory="no"/>
+       <AttributeData AttributeName="login-view-id" Mandatory="no"/>
+       <AttributeData AttributeName="http-port" Mandatory="no"/>
+       <AttributeData AttributeName="https-port" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamNavigationPages"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Navigation" group="1"
+     kind="list" name="Navigation">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Navigation Pages..." kind="action" name="AddNavigationPages">
+      <EntityData EntityName="SeamNavigationPages">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="no-conversation-view-id" Mandatory="no"/>
+       <AttributeData AttributeName="login-view-id" Mandatory="no"/>
+       <AttributeData AttributeName="http-port" Mandatory="no"/>
+       <AttributeData AttributeName="https-port" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+</XModelEntityGroup>
