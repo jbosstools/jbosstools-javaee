@@ -414,7 +414,8 @@
          <include>
             <rules>
             
-               	<contentType id="org.eclipse.wst.html.core.htmlsource"/>
+            	<contentType id="jsf.facelet"/>
+            	<contentType id="org.eclipse.wst.html.core.htmlsource"/>
 				<contentType id="org.eclipse.jst.jsp.core.jspfragmentsource"/>
          		<contentType id="org.eclipse.jst.jsp.core.tagsource"/>
                
@@ -569,6 +570,10 @@
           class="org.jboss.tools.jsf.web.validation.jsf2.JSF2SourceValidator"
           id="org.jboss.tools.jsf.jsf2sourcevalidator"
           scope="total">
+        <contentTypeIdentifier
+               id="jsf.facelet">
+            <partitionType id="org.eclipse.wst.html.HTML_DEFAULT"/>
+         </contentTypeIdentifier>
         <contentTypeIdentifier
                id="org.eclipse.wst.html.core.htmlsource">
             <partitionType id="org.eclipse.wst.html.HTML_DEFAULT"/>

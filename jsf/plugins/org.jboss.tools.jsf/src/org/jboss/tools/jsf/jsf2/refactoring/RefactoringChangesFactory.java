@@ -42,6 +42,9 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings("restriction")
 public class RefactoringChangesFactory {
+	private static final String JSF_CONTENT_TYPE = "jsf.facelet";
+	private static final String JSP_CONTENT_TYPE = "org.eclipse.jst.jsp.core.jspsource";
+	private static final String HTML_CONTENT_TYPE = "org.eclipse.wst.html.core.htmlsource";
 
 	private static final GroupCategorySet CATEGORY_COMPOSITE_URI_RENAME = new GroupCategorySet(
 			new GroupCategory(
@@ -217,7 +220,7 @@ public class RefactoringChangesFactory {
 				return false;
 			}
 			String id = contentType.getId();
-			if (!"org.eclipse.jst.jsp.core.jspsource".equals(id) && !"org.eclipse.wst.html.core.htmlsource".equals(id)) { //$NON-NLS-1$ //$NON-NLS-2$
+			if (!JSP_CONTENT_TYPE.equals(id) && ! HTML_CONTENT_TYPE.equals(id) && !JSF_CONTENT_TYPE.equals(id)) { //$NON-NLS-1$ //$NON-NLS-2$
 				return false;
 			}
 		}
