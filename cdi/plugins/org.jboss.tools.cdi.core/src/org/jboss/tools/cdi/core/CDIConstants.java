@@ -56,4 +56,6 @@ public interface CDIConstants {
 
 	public String DISPOSES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Disposes";
 	public String OBSERVERS_ANNOTATION_TYPE_NAME = "javax.enterprise.event.Observes";
+
+	public String INJECTIONPOINT_TYPE_NAME = "javax.enterprise.inject.spi.InjectionPoint";
 }

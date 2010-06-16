@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 
@@ -40,5 +41,13 @@ public class InjectionPointMethod extends BeanMethod implements
 	 */
 	public IAnnotationDeclaration getInjectAnnotation() {
 		return inject;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#containsDefaultQualifier()
+	 */
+	public boolean hasDefaultQualifier() {
+		return CDIUtil.containsDefaultQualifier(this);
 	}
 }

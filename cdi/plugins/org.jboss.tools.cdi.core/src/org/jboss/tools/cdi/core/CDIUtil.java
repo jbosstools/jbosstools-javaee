@@ -695,4 +695,23 @@ public class CDIUtil {
 			}
 		};
 	}
+
+	/**
+	 * Returns true if the injection point declares @Default qualifier or doesn't declare any qualifier at all.
+	 *  
+	 * @param point
+	 * @return
+	 */
+	public static boolean containsDefaultQualifier(IInjectionPoint point) {
+		Set<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
+		if(declarations.isEmpty()) {
+			return true;
+		}
+		for (IQualifierDeclaration declaration : declarations) {
+			if(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME.equals(declaration.getQualifier().getSourceType().getFullyQualifiedName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

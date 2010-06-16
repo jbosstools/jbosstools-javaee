@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 
@@ -45,5 +46,13 @@ public class InjectionPointField extends BeanField implements IInjectionPointFie
 	 */
 	public IAnnotationDeclaration getInjectAnnotation() {
 		return definition.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#containsDefaultQualifier()
+	 */
+	public boolean hasDefaultQualifier() {
+		return CDIUtil.containsDefaultQualifier(this);
 	}
 }

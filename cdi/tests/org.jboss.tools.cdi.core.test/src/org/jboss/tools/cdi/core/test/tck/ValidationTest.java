@@ -983,6 +983,17 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 5.5.7. Injection point metadata
+	 *  - bean that declares any scope other than @Dependent has an injection point of type InjectionPoint and qualifier @Default
+	 * 
+	 * @throws Exception
+	 */
+	public void testSessionScopedBeanWithInjectionPoint() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/broken/normal/scope/Cat_Broken.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, 27);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

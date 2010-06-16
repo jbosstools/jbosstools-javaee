@@ -69,9 +69,6 @@ import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.jst.web.kb.IKbProject;
-import org.jboss.tools.jst.web.kb.KbProjectFactory;
-import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
@@ -994,7 +991,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				} else if(bean instanceof IInterceptor) {
 					addError(CDIValidationMessages.INJECTED_INTERCEPTOR, CDIPreferences.INJECTED_INTERCEPTOR, reference, injection.getResource());
 				}
-			}	
+			}
+			/*
+			 * 5.5.7. Injection point metadata
+			 *  - bean that declares any scope other than @Dependent has an injection point of type InjectionPoint and qualifier @Default
+			 */
+			IType type = injection.getType().getType();
+			if(type!=null && CDIConstants.INJECTIONPOINT_TYPE_NAME.equals(type.getFullyQualifiedName())) {
+				IScope beanScope = injection.getClassBean().getScope();
+				if(injection.hasDefaultQualifier() && beanScope!=null && !CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(beanScope.getSourceType().getFullyQualifiedName())) {
+					addError(CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, CDIPreferences.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, reference, injection.getResource());
+				}
+			}
 		}
 	}
 

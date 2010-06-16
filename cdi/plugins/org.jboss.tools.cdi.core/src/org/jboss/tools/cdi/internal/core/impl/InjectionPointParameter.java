@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -57,5 +58,13 @@ public class InjectionPointParameter extends Parameter implements
 	 */
 	public IAnnotationDeclaration getInjectAnnotation() {
 		return beanMethod.inject;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#containsDefaultQualifier()
+	 */
+	public boolean hasDefaultQualifier() {
+		return CDIUtil.containsDefaultQualifier(this);
 	}
 }

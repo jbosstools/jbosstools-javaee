@@ -34,6 +34,13 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	Set<IQualifierDeclaration> getQualifierDeclarations();
 
 	/**
+	 * Returns true if the injection point declares @Default qualifier or doesn't declare any qualifier at all.
+	 *  
+	 * @return true if the injection point declares @Default qualifier or doesn't declare any qualifier at all
+	 */
+	boolean hasDefaultQualifier();
+
+	/**
 	 * Determines if the injection point is a decorator delegate injection
 	 * point.
 	 * 
