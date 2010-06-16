@@ -107,19 +107,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 */
 	public IValidatingProjectSet getValidatingProjects(IProject project) {
 		IValidationContext rootContext = null;
-		IProject war = null; // TODO get war ?
-		if (war != null && war.isAccessible()) {
-			IKbProject kbProject = KbProjectFactory.getKbProject(war, false);
-			if (kbProject != null) {
-				rootContext = kbProject.getValidationContext();
-			} else {
-				KbProject.checkKBBuilderInstalled(war);
-				CDICoreNature cdiProject = CDICorePlugin.getCDI(project, false);
-				if (cdiProject != null) {
-					rootContext = null; // cdiProject.getDelegate().getValidationContext();
-				}
-			}
-		}
+//		IProject war = null; // TODO get war ?
+//		if (war != null && war.isAccessible()) {
+//			IKbProject kbProject = KbProjectFactory.getKbProject(war, false);
+//			if (kbProject != null) {
+//				rootContext = kbProject.getValidationContext();
+//			} else {
+//				KbProject.checkKBBuilderInstalled(war);
+//				CDICoreNature cdiProject = CDICorePlugin.getCDI(project, false);
+//				if (cdiProject != null) {
+//					rootContext = null; // cdiProject.getDelegate().getValidationContext();
+//				}
+//			}
+//		}
 		if (rootContext == null) {
 			CDICoreNature cdiProject = CDICorePlugin.getCDI(project, false);
 			if (cdiProject != null) {

@@ -24,6 +24,8 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -281,6 +283,23 @@ public class TCKTest extends TestCase {
 		for (String beanClassName : beanClassNames) {
 			assertTrue("Found " + beanClassName + " among " + sb.toString(), doesNotContainBeanClass(beans, beanClassName));
 		}
+	}
+
+	protected IInjectionPointField getInjectionPointField(String beanClassFilePath, String fieldName) {
+		IFile file = tckProject.getFile(beanClassFilePath);
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
+		for (IInjectionPoint injectionPoint : injections) {
+			if(injectionPoint instanceof IInjectionPointField) {
+				IInjectionPointField field = (IInjectionPointField)injectionPoint;
+				if(fieldName.equals(field.getField().getElementName())) {
+					return field;
+				}
+			}
+		}
+		fail("Can't find \"" + fieldName + "\" injection point filed in " + beanClassFilePath);
+		return null;
 	}
 
 	public static void assertContainsBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
