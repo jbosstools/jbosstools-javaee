@@ -141,15 +141,11 @@ Definition Errors
 5.2.5. Qualifier annotations with members
 - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 
-
-
-
-
 5.5.7. Injection point metadata
 - bean that declares any scope other than @Dependent has an injection point of type 
   InjectionPoint and qualifier @Default
 - Java EE component class supporting injection that is not a bean has an injection 
-  point of type InjectionPoint and qualifier @Default
+  point of type InjectionPoint and qualifier @Default (JBT: let's ignore this rule so far since we don't have any good tool to recognize such components)
 
 
 

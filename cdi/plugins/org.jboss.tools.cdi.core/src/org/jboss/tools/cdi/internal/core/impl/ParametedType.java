@@ -168,7 +168,7 @@ public class ParametedType implements IParametedType {
 					try {
 						sc = resolveParameters(sc);
 					} catch (Exception e) {
-						e.printStackTrace();
+						CDICorePlugin.getDefault().logError(e);
 					}
 				} else if(!"java.lang.Object".equals(type.getFullyQualifiedName())) {
 					sc = "QObject;";

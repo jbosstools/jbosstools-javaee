@@ -60,7 +60,7 @@ public class ParametedTypeFactory {
 		try {
 			ps = type.getTypeParameterSignatures();
 		} catch (JavaModelException e) {
-			//ignore
+			CDICorePlugin.getDefault().logError(e);
 		}
 		if(ps != null && ps.length > 0) {
 			for (int i = 0; i < ps.length; i++) {
@@ -68,9 +68,9 @@ public class ParametedTypeFactory {
 					ParametedType p = getParametedTypeForParameter(type, ps[i], null);
 					if(p != null) parametedType.addParameter(p);
 				} catch (JavaModelException e) {
-					e.printStackTrace();
+					CDICorePlugin.getDefault().logError(e);
 				} catch (Exception ee) {
-					ee.printStackTrace();
+					CDICorePlugin.getDefault().logError(ee);
 				}
 				
 			}
@@ -150,9 +150,9 @@ public class ParametedTypeFactory {
 				StringBuffer newParams = new StringBuffer();
 				String[] paramSignatures = null;
 				try {
-				paramSignatures = Signature.getTypeArguments(typeSignature);
+					paramSignatures = Signature.getTypeArguments(typeSignature);
 				} catch (Exception e) {
-					e.printStackTrace();
+					CDICorePlugin.getDefault().logError(e);
 				}
 				if(paramSignatures != null) for (String paramSignature: paramSignatures) {
 					ParametedType param = getParametedType(context, paramSignature);
