@@ -182,6 +182,9 @@ public class CDIUtil {
 	 */
 	public static IAnnotationDeclaration getAnotherScopeDeclaration(IScoped scoped, String scopeTypeName) {
 		IScope scope = scoped.getScope();
+		if(scope == null) {
+			return null;
+		}
 		if (!scopeTypeName.equals(scope.getSourceType().getFullyQualifiedName())) {
 			Set<IScopeDeclaration> scopeDeclarations = scoped.getScopeDeclarations();
 			if (!scopeDeclarations.isEmpty()) {
