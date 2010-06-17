@@ -996,7 +996,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 5.5.7. Injection point metadata
 			 *  - bean that declares any scope other than @Dependent has an injection point of type InjectionPoint and qualifier @Default
 			 */
-			IType type = injection.getType().getType();
+			IType type = injection.getType() == null ? null : injection.getType().getType();
 			if(type!=null && CDIConstants.INJECTIONPOINT_TYPE_NAME.equals(type.getFullyQualifiedName())) {
 				IScope beanScope = injection.getClassBean().getScope();
 				if(injection.hasDefaultQualifier() && beanScope!=null && !CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(beanScope.getSourceType().getFullyQualifiedName())) {
