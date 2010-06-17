@@ -16,9 +16,14 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.jst.jsp.core.internal.java.search.JSPSearchSupport;
+import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author eskimo
@@ -26,7 +31,11 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
  */
 public class SeamValidatorsAllTests {
 
-	public static Test suite() {
+	public static Test suite() throws CoreException {
+		JavaModelManager.getIndexManager().disable();
+		JSPSearchSupport.getInstance().setCanceled(true);
+		ValidationFramework.getDefault().suspendAllValidation(true);
+		ResourcesUtils.setBuildAutomatically(false);
 		TestSuite suite = new TestSuite();
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamValidatorsTest.class),"org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject","SeamWebWarTestProject") {
 			@Override
@@ -39,7 +48,11 @@ public class SeamValidatorsAllTests {
 				} catch (Exception e) {
 					JUnitUtils.fail("Cannot configure seam nature.", e);
 				}
+				ResourcesUtils.setBuildAutomatically(false);
 			}
+			protected void tearDown() throws Exception {
+				ResourcesUtils.setBuildAutomatically(true);
+			};
 		} );
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamProjectPropertyValidatorTest.class),
 				"org.jboss.tools.seam.core.test",

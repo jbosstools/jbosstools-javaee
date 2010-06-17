@@ -4,7 +4,9 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -87,18 +89,18 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 
 		SeamRuntimeManager.getInstance().addRuntime(SEAM_1_2_0, folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
 		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_1_2_0);
-		
 	}
 
 	public static final String SYS_PROP_IS_NOT_DEFINED = "System property {0} is not defined";
+	
 	protected File getSeamHomeFolder() {
-		String seamHomeFolder = "C:\\JBoss\\jboss-seam-1.2.1.GA";//System.getProperty(getSystemPropertyName());
+		String seamHomeFolder = System.getProperty(getSystemPropertyName());
 		if(seamHomeFolder==null) {
 			throw new IllegalStateException(
 					MessageFormat.format(SYS_PROP_IS_NOT_DEFINED, getSystemPropertyName())
 					);
 		}
-		return new File(seamHomeFolder);
+		return new File(seamHomeFolder).getAbsoluteFile();
 	}
 	
 	public static final String SEAM_EAP_121_HOME_PROPERY = "jbosstools.test.seam.1.2.1.eap.home";
@@ -130,7 +132,6 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 						}						
 					}
 					r.delete(true, null);
-//					JobUtils.delay(5000);
 				} catch(Exception e) {
 					e.printStackTrace();
 					last = e;

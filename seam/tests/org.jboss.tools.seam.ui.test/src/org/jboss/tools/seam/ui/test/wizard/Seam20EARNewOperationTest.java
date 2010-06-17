@@ -59,7 +59,7 @@ public class Seam20EARNewOperationTest extends Seam12EARNewOperationTest {
 	
 	@Override
 	protected File getSeamHomeFolder() {
-		return new File(System.getProperty(SEAM_2_0_HOME));
+		return new File(System.getProperty(SEAM_2_0_HOME)).getAbsoluteFile();
 	}
 
 	@Override

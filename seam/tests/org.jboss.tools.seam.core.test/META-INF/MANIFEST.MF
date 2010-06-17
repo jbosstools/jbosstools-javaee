@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.seam.core.test;singleton:=true
 Bundle-Version: 3.1.0.qualifier
-Bundle-ClassPath: seam-core-tests.jar
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.seam.core.test,
  org.jboss.tools.seam.core.test.project.facet,
@@ -26,6 +25,14 @@ Require-Bundle:
  org.eclipse.text,
  org.eclipse.jdt.core.manipulation,
  org.jboss.tools.common.el.core,
- org.eclipse.jst.common.project.facet.core;bundle-version="1.4.1"
+ org.eclipse.jst.jee.web;bundle-version="1.0.201",
+ org.eclipse.jpt.core;bundle-version="2.2.1",
+ org.eclipse.jst.jsp.core;bundle-version="1.2.204",
+ org.eclipse.wst.validation.ui;bundle-version="1.2.104",
+ org.jboss.tools.common.el.core,
+ org.eclipse.jst.common.project.facet.core;bundle-version="1.4.1",
+ org.jboss.tools.vpe;bundle-version="3.1.0",
+ org.jboss.tools.jst.jsp;bundle-version="3.1.0",
+ org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0"
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

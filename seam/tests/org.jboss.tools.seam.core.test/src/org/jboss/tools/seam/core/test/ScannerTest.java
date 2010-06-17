@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.seam.core.BeanType;
@@ -59,12 +60,14 @@ public class ScannerTest extends TestCase {
 	}
 	
 	protected void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.seam.core.test",
-				null,"TestScanner" ,true);
-		project = provider.getProject();
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject("TestScanner");
+		if(!project.exists()) {
+			provider = new TestProjectProvider("org.jboss.tools.seam.core.test",
+					null,"TestScanner" ,true);
+			project = provider.getProject();
+		}
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		//EditorTestHelper.joinBackgroundActivities();
 	}
 
 	private ISeamProject getSeamProject() {
@@ -532,6 +535,8 @@ public class ScannerTest extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		provider.dispose();
+		if(provider!=null) {
+			provider.dispose();
+		}
 	}
 }

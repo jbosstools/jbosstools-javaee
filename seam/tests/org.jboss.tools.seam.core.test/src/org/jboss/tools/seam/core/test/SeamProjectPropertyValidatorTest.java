@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -58,9 +59,10 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 			pref.put(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "invalid test package name");
 //			pref.put(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "invalidConnectionName");
 			pref.flush();
-
-			JobUtils.waitForIdle();
-			JobUtils.delay(2000);
+			ejbProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			warProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			testProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			JobUtils.waitForIdle(2000);
 		}
 	}
 
@@ -88,15 +90,4 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 		assertMarkerIsCreated(warProject, null, ".*invalidRuntimeName.*");
 	}
 
-	/*
-	public void testConnectionProfileNameValidation() throws CoreException {
-		assertMarkerIsCreated(warProject, null, ".*invalidConnectionName.*");
-	}
-	*/
-
-	public static void main(String[] args) {
-		String errorMarker = "Model package name \"invalid model package name\" specified for Seam project \"RefactoringTestProject-war\" is not valid. Please correct this property in \"Seam settings\" page (Project->Properties->Seam Settings).";
-//		String errorMarker = "Main Seam project \"invalidParentProjectName  ";
-		System.out.println(errorMarker.matches(".*invalid model package name.*"));
-	}
 }

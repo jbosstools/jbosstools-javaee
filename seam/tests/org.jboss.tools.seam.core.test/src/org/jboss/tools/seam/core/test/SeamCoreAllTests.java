@@ -13,9 +13,12 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.jst.jsp.core.internal.java.search.JSPSearchSupport;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * @author V.Kabanovich
@@ -25,15 +28,18 @@ public class SeamCoreAllTests {
 	public static final String PLUGIN_ID = SeamCorePlugin.PLUGIN_ID;
 	//
 	public static Test suite() {
+		// it can be done here because it is not needed to be enabled back
+		JavaModelManager.getIndexManager().disable();
+		JSPSearchSupport.getInstance().setCanceled(true);
+		
 		TestSuite suite = new TestSuite();
 		suite.setName("All tests for " + PLUGIN_ID);
-		suite.addTestSuite(ScannerTest.class);
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(ScannerTest.class),"org.jboss.tools.seam.core.test","projects/TestScanner","TestScanner"));
 		suite.addTestSuite(SerializationTest.class);
 		suite.addTestSuite(SeamBigProjectTest.class);
 		suite.addTestSuite(SeamEARTest.class);
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
-		suite.addTestSuite(SeamPluginsLoadTest.class);
 		return suite;
 	}
 }

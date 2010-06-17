@@ -3,7 +3,6 @@
       id="org.jboss.tools.seam.feature"
       label="%featureName"
       version="3.1.0.qualifier"
-
       provider-name="%providerName"
       plugin="org.jboss.tools.seam.core">
 
@@ -19,14 +18,7 @@
       %license
    </license>
 
-   <!--
-   <url>
-      <update label="%updateSiteName" url="http://download.jboss.org/jbosstools/updates/stable/galileo/"/>
-   </url>
-   -->
-
    <requires>
-      <import feature="org.jboss.tools.richfaces.feature" version="3.1.0" match="greaterOrEqual"/>
       <import feature="org.jboss.ide.eclipse.as.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.hibernate.eclipse.feature" version="3.2.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.feature" version="1.6.1" match="greaterOrEqual"/>

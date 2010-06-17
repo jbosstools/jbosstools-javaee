@@ -11,7 +11,7 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 
 @Name("factoryTestName")
 public class FactoryTest {
-    @DataModel("somethings")
+    @DataModel("somethings1")
     @Out
     private List<String> somethingList;
  

@@ -11,14 +11,14 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.core.FacesMessages;
 
-@Name("component12")
-public class Component12 {
+@Name("duplicate.factory.component12")
+public class DuplicateFactory {
     @Factory("testFactory1") 
     public String getComp() {
    		return "";
     }
 
-    @Factory("testFactory1") 
+    @Factory("testFactory2") 
     public String getComp2() {
    		return "";
     }
