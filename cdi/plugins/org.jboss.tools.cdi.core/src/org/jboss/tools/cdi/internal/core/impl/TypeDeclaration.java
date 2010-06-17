@@ -36,6 +36,10 @@ public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
 		inheritedTypes = type.inheritedTypes;
 		superType = type.superType;
 		primitive = type.primitive;
+		
+		isLower = type.isLower;
+		isUpper = type.isUpper;
+		isVariable = type.isVariable;
 	}
 
 	public int getLength() {

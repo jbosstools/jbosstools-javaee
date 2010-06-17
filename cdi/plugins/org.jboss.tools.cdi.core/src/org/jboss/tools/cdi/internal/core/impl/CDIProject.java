@@ -322,8 +322,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public static boolean containsType(Set<IParametedType> types, IParametedType type) {
+		if(type == null) {
+			return false;
+		}
+		IType jType = type.getType();
+		if(jType == null) return false;
 		for (IParametedType t: types) {
-			if(t.equals(type)) return true;
+			IType jType1 = t.getType();
+			if(!jType.equals(jType1)) continue;
+			if(!((ParametedType)t).getArrayPrefix().equals(((ParametedType)type).getArrayPrefix())) continue;
+			if(((ParametedType)t).isAssignableTo((ParametedType)type, false)) {
+				return true;
+			}
+			
 		}
 		return false;
 	}

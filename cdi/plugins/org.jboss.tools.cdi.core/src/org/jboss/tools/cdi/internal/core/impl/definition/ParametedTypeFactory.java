@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;
@@ -55,6 +56,25 @@ public class ParametedTypeFactory {
 		parametedType.setFactory(this);
 		parametedType.setType(type);
 		if(type != null) parametedType.setSignature("Q" + type.getFullyQualifiedName() + ";");
+		String[] ps = null;
+		try {
+			ps = type.getTypeParameterSignatures();
+		} catch (JavaModelException e) {
+			//ignore
+		}
+		if(ps != null && ps.length > 0) {
+			for (int i = 0; i < ps.length; i++) {
+				try {
+					ParametedType p = getParametedTypeForParameter(type, ps[i], null);
+					if(p != null) parametedType.addParameter(p);
+				} catch (JavaModelException e) {
+					e.printStackTrace();
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+				
+			}
+		}
 		return parametedType;
 	}
 
@@ -75,14 +95,25 @@ public class ParametedTypeFactory {
 			typeSignature = primitives.get(typeSignature);
 			result.setSignature(result.getArrayPrefix() + typeSignature);
 			result.setPrimitive(true);
-		}
+		} else if(typeSignature.startsWith("+")) {
+			typeSignature = typeSignature.substring(1);
+			result.setUpper(true);
+		} else if(typeSignature.startsWith("-")) {
+			typeSignature = typeSignature.substring(1);
+			result.setLower(true);
+		} 
 
 		int startToken = typeSignature.indexOf('<');
 		if(startToken < 0) {
 			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(contextType, typeSignature);
 			if(resovedTypeName == null) return null;
 			if(!context.isBinary()) {
-				result.setSignature(result.getArrayPrefix() + "Q" + resovedTypeName + ";");
+				StringBuffer ns = new StringBuffer();
+				ns.append(result.getArrayPrefix());
+				if(result.isLower()) ns.append('-');
+				if(result.isUpper()) ns.append('+');
+				ns.append('Q').append(resovedTypeName).append(";");
+				result.setSignature(ns.toString());
 			}
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {
@@ -93,55 +124,90 @@ public class ParametedTypeFactory {
 			if(context instanceof IMethod) {
 				String[] ps = ((IMethod)context).getTypeParameterSignatures();
 				for (int i = 0; i < ps.length; i++) {
-					String t = ps[i];
-					int cp = t.indexOf(":");
-					if(cp > 0) t = t.substring(0, cp);
-					t = "Q" + t + ";";
-					if(t.equals(result.getSignature())) {
-						cache.put(key, result);
-						return result;
+					ParametedType st = getParametedTypeForParameter(context, ps[i], result);
+					if(st != null) {
+						if(st.getSignature().indexOf(':') >= 0) {
+							CDICorePlugin.getDefault().logWarning("Wrong signature=" + st.getSignature());
+						}
+						return st;
 					}
 				}
 			}
 			String[] ps = contextType.getTypeParameterSignatures();
 			for (int i = 0; i < ps.length; i++) {
-				String t = ps[i];
-				if(t.endsWith(":")) t = t.substring(0, t.length() - 1);
-				t = "Q" + t + ";";
-				if(t.equals(result.getSignature())) {
-					cache.put(key, result);
-					return result;
-				}
+				ParametedType st = getParametedTypeForParameter(contextType, ps[i], result);
+				if(st != null) return st;
 			}
 		} else {
 			int endToken = typeSignature.lastIndexOf('>');
 			if(endToken < startToken) return null;
 			String typeName = typeSignature.substring(0, startToken) + typeSignature.substring(endToken + 1);
-			String params = typeSignature.substring(startToken + 1, endToken);
 			String resovedTypeName = EclipseJavaUtil.resolveTypeAsString(contextType, typeName);
 			if(resovedTypeName == null) return null;
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {
 				result.setType(type);
 				StringBuffer newParams = new StringBuffer();
-				StringTokenizer st = new StringTokenizer(params, ",");
-				while(st.hasMoreTokens()) {
-					String paramSignature = st.nextToken();
+				String[] paramSignatures = null;
+				try {
+				paramSignatures = Signature.getTypeArguments(typeSignature);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(paramSignatures != null) for (String paramSignature: paramSignatures) {
 					ParametedType param = getParametedType(context, paramSignature);
 					if(param == null) {
 						param = new ParametedType();
 						param.setSignature(paramSignature);
 					}
 					result.addParameter(param);
-					if(newParams.length() > 0) newParams.append(',');
 					newParams.append(param.getSignature());
 				}
 				if(!context.isBinary()) {
-					result.setSignature(result.getArrayPrefix() + "Q" + resovedTypeName + '<' + newParams + '>' + ';');
+					StringBuffer ns = new StringBuffer();
+					ns.append(result.getArrayPrefix());
+					if(result.isLower()) ns.append('-');
+					if(result.isUpper()) ns.append('+');
+					ns.append('Q').append(resovedTypeName).append('<').append(newParams).append(">;");
+					result.setSignature(ns.toString());
 				}
 				cache.put(key, result);
 				return result;
 			}
+		}
+		return null;
+	}
+
+	public ParametedType getParametedTypeForParameter(IMember context, String typeParameterSignature, ParametedType result) throws JavaModelException {
+		IType contextType = context instanceof IType ? (IType)context : context.getDeclaringType();
+		String key = context == null ? typeParameterSignature : contextType.getFullyQualifiedName() + "+" + typeParameterSignature;
+
+		String t = typeParameterSignature;
+		int q = t.indexOf(":");
+		if(q >= 0) {
+			t = t.substring(0, q);
+		}
+		t = "Q" + t + ";";
+		if(result == null || t.equals(result.getSignature())) {
+			if(q >= 0) {
+				String sts = typeParameterSignature.substring(q + 1);
+				if(sts.length() > 0) {
+					ParametedType st = getParametedType(contextType, sts);
+					if(st != null) {
+						result = new TypeDeclaration(st, 0, 0);
+					}
+				} else if(result != null) {
+					result.setSignature(t);
+				}
+			}
+			if(result == null) {
+				result = new ParametedType();
+				result.setFactory(this);
+				result.setSignature(t);
+			}
+			result.setVariable(true);
+			cache.put(key, result);
+			return result;
 		}
 		return null;
 	}

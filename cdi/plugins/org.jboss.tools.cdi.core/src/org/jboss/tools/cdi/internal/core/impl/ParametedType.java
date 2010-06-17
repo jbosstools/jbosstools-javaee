@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
@@ -36,6 +37,10 @@ public class ParametedType implements IParametedType {
 	protected String signature;
 	protected List<ParametedType> parameterTypes = new ArrayList<ParametedType>();
 	protected boolean primitive;
+
+	protected boolean isUpper = false;
+	protected boolean isLower = false;
+	protected boolean isVariable = false;
 
 	boolean inheritanceIsBuilt = false;
 	protected ParametedType superType = null;
@@ -60,6 +65,30 @@ public class ParametedType implements IParametedType {
 
 	public void setPrimitive(boolean primitive) {
 		this.primitive = primitive;
+	}
+
+	public boolean isUpper() {
+		return isUpper;
+	}
+
+	public void setUpper(boolean b) {
+		isUpper = b;
+	}
+
+	public boolean isLower() {
+		return isLower;
+	}
+
+	public void setLower(boolean b) {
+		isLower = b;
+	}
+
+	public boolean isVariable() {
+		return isVariable;
+	}
+
+	public void setVariable(boolean b) {
+		isVariable = b;
 	}
 
 	public ParametedTypeFactory getFactory() {
@@ -136,7 +165,11 @@ public class ParametedType implements IParametedType {
 				String sc = type.getSuperclassTypeSignature();
 				boolean objectArray = false;
 				if(sc != null) {
-					sc = resolveParameters(sc);
+					try {
+						sc = resolveParameters(sc);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				} else if(!"java.lang.Object".equals(type.getFullyQualifiedName())) {
 					sc = "QObject;";
 				} else if("java.lang.Object".equals(type.getFullyQualifiedName()) && arrayPrefix.length() > 0) {
@@ -213,15 +246,12 @@ public class ParametedType implements IParametedType {
 		if(j < i) {
 			return typeSignature;
 		}
-		String params = typeSignature.substring(i + 1, j);
 		boolean replaced = false;
 		StringBuffer newParams = new StringBuffer();
-		StringTokenizer st = new StringTokenizer(params);
-		while(st.hasMoreTokens()) {
-			String param = st.nextToken();
+		String[] ps = Signature.getTypeArguments(typeSignature);
+		for (String param: ps) {
 			String newParam = resolveParameters( param);
 			if(!param.equals(newParam)) replaced = true;
-			if(newParam.length() == 0) newParams.append(',');
 			newParams.append(newParam);
 		}
 		if(replaced) {
@@ -274,6 +304,52 @@ public class ParametedType implements IParametedType {
 
 	public String toString() {
 		return signature + ":" + super.toString();
+	}
+
+	public boolean isAssignableTo(ParametedType other, boolean checkInheritance) {
+		if(equals(other)) return true;
+		if(this.type == null) return false;
+		if(other.isVariable && other.type == null) return true;
+		if(this.type.equals(other.type)) {
+			if(areTypeParametersAssignableTo(other)) return true;
+		}
+		if(checkInheritance) {
+			for (IParametedType t: getInheritedTypes()) {
+				if(((ParametedType)t).isAssignableTo(other, false)) return true;
+			}
+		}
+		return false;
+	}
+	
+	boolean areTypeParametersAssignableTo(ParametedType other) {
+		if(other.parameterTypes.size() == 0) return true;
+		if(this.parameterTypes.size() != other.parameterTypes.size()) return false;
+		for (int i = 0; i < parameterTypes.size(); i++) {
+			ParametedType p1 = parameterTypes.get(i);
+			ParametedType p2 = other.parameterTypes.get(i);
+			if(p1.isLower() || p1.isUpper()) return false;
+			if(p1.isVariable()) {
+				if(p2.isVariable()) {
+					if(p2.isAssignableTo(p1, true)) continue;
+				} else if(p2.isLower()) {
+					if(p2.isAssignableTo(p1, true)) continue;
+				} else if(p2.isUpper()) {
+					if(p2.isAssignableTo(p1, true)) continue;
+					if(p1.isAssignableTo(p2, true)) continue;
+				} else {
+					if(p2.isAssignableTo(p1, true)) continue;
+				}
+			} else {
+				if(p2.isLower()) {
+					if(p2.isAssignableTo(p1, true)) continue;
+				} else {
+					if(p1.isAssignableTo(p2, true)) continue;
+				}
+			}
+			
+			return false;
+		}
+		return true;
 	}
 
 }
