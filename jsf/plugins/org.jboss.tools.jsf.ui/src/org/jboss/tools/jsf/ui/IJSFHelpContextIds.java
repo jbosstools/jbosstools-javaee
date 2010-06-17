@@ -18,4 +18,6 @@ public interface IJSFHelpContextIds {
 	public static final String NEW_JSF_PROJECT = PREFIX + "new_jsf_project"; //$NON-NLS-1$
 
 	public static final String IMPORT_JSF_PROJECT = PREFIX + "import_jsf_project"; //$NON-NLS-1$
+	
+	public static final String NEW_FACES_CONFIG_FILE_WIZARD = PREFIX + "new_faces_config_file_wizard"; //$NON-NLS-1$ 
 }
