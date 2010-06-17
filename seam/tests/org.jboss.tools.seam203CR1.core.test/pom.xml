@@ -1,14 +1,61 @@
 <project
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion> 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
-	  <relativePath>../../../parent-pom.xml</relativePath>
-	  <groupId>org.jboss.tools</groupId>
-	  <artifactId>org.jboss.tools.parent.pom</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../parent-pom.xml</relativePath>
+		<groupId>org.jboss.tools</groupId>
+		<artifactId>org.jboss.tools.parent.pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
-	<artifactId>org.jboss.tools.seam203CR1.core201.test</artifactId> 
+	<artifactId>org.jboss.tools.seam203CR1.core.test</artifactId>
 	<version>3.1.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
+
+	<properties>
+		<requirements>seam-2.0.3.CR1</requirements>
+		<projectRoot>${basedir}/../../..</projectRoot>
+		<requirements.build>${projectRoot}/requirements/target</requirements.build>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<configuration>
+					<explodedBundles>
+						<bundle>org.jboss.tools.seam.core.test</bundle>
+						<bundle>org.jboss.tools.seam.core</bundle>
+					</explodedBundles>
+					<product>org.jboss.tools.tests</product>
+					<argLine>-Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.3.CR1</argLine>
+					<includes>
+						<include>org/jboss/tools/seam/core/test/project/facet/Seam20XFacetTestSuite203CR1.class</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<id>prepare-eclipse-base</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<ant dir="${projectRoot}/requirements" inheritAll="true">
+									<property name="requirements" value="${requirements}" />
+								</ant>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
