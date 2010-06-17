@@ -45,12 +45,12 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 */
 	public void testAssignabilityOfParameterizedTypeWithActualTypesToParameterizedTypeWithActualTypes() throws CoreException {
 		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.MapProducer");
-		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QMap<QInteger;>;");
+		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QMap<QInteger;QInteger;>;");
 		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 2, beans.size());
 
 		type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.IntegerHashMap");
-		parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QHashMap<QInteger;>;");
+		parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QHashMap<QInteger;QInteger;>;");
 		beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertFalse("Wrong number of the beans", beans.isEmpty());
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.IntegerHashMap");
@@ -83,7 +83,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
+		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection2");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
+		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection3");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
+		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
 	}
 
 	/**
@@ -122,6 +122,6 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection4");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
+		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
 	}
 }
