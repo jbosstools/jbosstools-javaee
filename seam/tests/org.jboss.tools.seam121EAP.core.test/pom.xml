@@ -17,6 +17,7 @@
 		<requirements>jbeap,eapseamgen</requirements>
 		<projectRoot>${basedir}/../../..</projectRoot>
 		<requirements.build>${projectRoot}/requirements/target</requirements.build>
+		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam</systemProperties>
 	</properties>
 
 	<build>
@@ -30,7 +31,6 @@
 						<bundle>org.jboss.tools.seam.core</bundle>
 					</explodedBundles>
 					<product>org.jboss.tools.tests</product>
-					<argLine>-Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam</argLine>
 					<includes>
 						<include>org/jboss/tools/seam/core/test/project/facet/Seam12XFacetTestSuite121EAP.class</include>
 					</includes>

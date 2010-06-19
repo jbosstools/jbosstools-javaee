@@ -17,6 +17,7 @@
 		<requirements>seam-2.0.2.SP1</requirements>
 		<projectRoot>${basedir}/../../..</projectRoot>
 		<requirements.build>${projectRoot}/requirements/target</requirements.build>
+		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.2.SP1</systemProperties>
 	</properties>
 
 	<build>
@@ -29,7 +30,6 @@
 						<bundle>org.jboss.tools.seam.core.test</bundle>
 						<bundle>org.jboss.tools.seam.core</bundle>
 					</explodedBundles>
-					<argLine>-Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.2.SP1</argLine>
 					<includes>
 						<include>org/jboss/tools/seam/core/test/project/facet/Seam20XFacetTestSuite202SP1.class</include>
 					</includes>

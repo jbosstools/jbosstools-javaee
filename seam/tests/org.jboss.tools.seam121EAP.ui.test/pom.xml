@@ -16,6 +16,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<requirements>jbeap,eapseamgen</requirements>
 		<projectRoot>${basedir}/../../..</projectRoot>
 		<requirements.build>${projectRoot}/requirements/target</requirements.build>
+		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam</systemProperties>
 	</properties>
 
 	<build>
@@ -31,7 +32,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						<bundle>org.jboss.tools.seam.core</bundle>
 					</explodedBundles>
 					<product>org.jboss.tools.tests</product>
-					<argLine>-Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam</argLine>
 					<includes>
 						<include>org/jboss/tools/seam/ui/test/wizard/Seam12XOperationsTestSuite121EAP.class</include>
 					</includes>

@@ -16,6 +16,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<requirements>seam-2.2.0.CR1</requirements>
 		<projectRoot>${basedir}/../../..</projectRoot>
 		<requirements.build>${projectRoot}/requirements/target</requirements.build>
+		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.2.0.CR1</systemProperties>
 	</properties>
 
 	<build>
@@ -31,7 +32,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						<bundle>org.jboss.tools.seam.core</bundle>
 					</explodedBundles>
 					<product>org.jboss.tools.tests</product>
-					<argLine>-Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.2.0.CR1</argLine>
 					<includes>
 						<include>org/jboss/tools/seam/ui/test/wizard/Seam20XOperationsTestSuite220CR1.class</include>
 					</includes>

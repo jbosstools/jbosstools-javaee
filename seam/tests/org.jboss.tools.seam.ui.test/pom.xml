@@ -16,6 +16,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<requirements>jbossas</requirements>
 		<projectRoot>${basedir}/../../..</projectRoot>
 		<requirements.build>${projectRoot}/requirements/target</requirements.build>
+		<systemProperties>-Djbosstools.test.jboss.home.4.2=${requirements.build}/jboss-4.2.3.GA -Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam -Djbosstools.test.seam.2fp.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seamfp -Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.1.GA -Djbosstools.test.seam.2.1.0.GA.home=${projectRoot}/requirements/target/jboss-seam-2.1.1.GA</systemProperties>
 	</properties>
 
 	<build>
@@ -30,7 +31,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						<bundle>org.jboss.tools.seam.core</bundle>
 					</explodedBundles>
 					<product>org.jboss.tools.tests</product>
-					<argLine>-Djbosstools.test.jboss.home.4.2=${requirements.build}/jboss-4.2.3.GA -Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam -Djbosstools.test.seam.2fp.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seamfp -Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.1.GA -Djbosstools.test.seam.2.1.0.GA.home=${projectRoot}/requirements/target/jboss-seam-2.1.1.GA</argLine>
 					<includes>
 						<include>org/jboss/tools/seam/ui/test/SeamUiAllTests.class</include>
 					</includes>
