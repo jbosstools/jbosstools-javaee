@@ -83,7 +83,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection2");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection3");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
 
 	/**
@@ -122,6 +122,6 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection4");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result");
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
 }
