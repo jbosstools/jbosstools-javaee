@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypes
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
+import org.jboss.tools.cdi.core.test.tck.DynamicLookupTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseScopeDefinitionTest;
@@ -60,6 +61,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(EnterpriseResolutionByTypeTest.class);
 		suite.addTestSuite(AssignabilityOfRawAndParameterizedTypesTest.class);
 		suite.addTestSuite(QualifierWithMembersTest.class);
+		suite.addTestSuite(DynamicLookupTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		return new CDICoreTestSetup(suite);
 	}
