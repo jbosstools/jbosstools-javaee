@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.IType;
 
 /**
@@ -40,4 +42,11 @@ public interface IParametedType {
 	 * @return true if the type is a primitive type
 	 */
 	boolean isPrimitive();
+
+	/**
+	 * Returns type parameters
+	 * 
+	 * @return type parameters
+	 */
+	List<? extends IParametedType> getParameters();
 }

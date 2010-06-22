@@ -254,6 +254,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			return result;
 		}
 		
+		if(type.getType() != null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
+			List<? extends IParametedType> ps = type.getParameters();
+			if(ps != null && ps.size() == 1) {
+				type = ps.get(0);
+			}
+		}
+		
 		boolean isParameter = injectionPoint instanceof InjectionPointParameter;
 		boolean isNew = false;
 

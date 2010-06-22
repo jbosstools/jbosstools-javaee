@@ -129,6 +129,10 @@ public class ParametedType implements IParametedType {
 		parameterTypes.add(p);
 	}
 
+	public List<? extends IParametedType> getParameters() {
+		return parameterTypes;
+	}
+
 	public void setPositionProvider(PositionProvider p) {
 		provider = p;
 	}
