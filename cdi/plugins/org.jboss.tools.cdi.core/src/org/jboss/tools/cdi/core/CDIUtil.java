@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
@@ -31,6 +33,8 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -716,5 +720,28 @@ public class CDIUtil {
 			}
 		}
 		return false;
+	}
+	
+	private static CDICoreNature cdiNature;
+	
+	public static CDICoreNature getCDINatureWithProgress(final IProject project){
+		cdiNature = null;
+		try{
+			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+					monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
+					monitor.worked(3);
+					cdiNature = CDICorePlugin.getCDI(project, true);
+				}
+				
+			});
+		}catch(InterruptedException ie){
+			CDICorePlugin.getDefault().logError(ie);
+		}catch(InvocationTargetException ite){
+			CDICorePlugin.getDefault().logError(ite);
+		}
+		
+		return cdiNature;
 	}
 }

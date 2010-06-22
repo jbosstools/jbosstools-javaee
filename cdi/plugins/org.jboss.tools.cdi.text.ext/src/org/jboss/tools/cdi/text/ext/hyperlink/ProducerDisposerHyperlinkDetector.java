@@ -34,6 +34,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -134,7 +135,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 	}
 	
 	private Set<IBean> getBeans(IFile file){
-		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
+		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
 		
 		if(cdiNature == null)
 			return null;
