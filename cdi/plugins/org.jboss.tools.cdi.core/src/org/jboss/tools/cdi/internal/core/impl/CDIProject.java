@@ -447,7 +447,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 							String s1 = s.substring(dot + 1);
 							if(!"class".equals(s1)) {
 								o = s1;
-								System.out.println(s + "-->" + s1);
 							}
 						}
 					}
