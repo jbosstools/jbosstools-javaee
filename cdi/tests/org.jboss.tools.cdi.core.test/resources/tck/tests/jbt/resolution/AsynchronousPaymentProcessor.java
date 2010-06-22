@@ -16,7 +16,7 @@
  */
 package org.jboss.jsr299.tck.tests.jbt.resolution;
 
-interface AsynchronousPaymentProcessor extends PaymentProcessor
+public interface AsynchronousPaymentProcessor extends PaymentProcessor
 {
    int getValue();
    void setValue(int value);

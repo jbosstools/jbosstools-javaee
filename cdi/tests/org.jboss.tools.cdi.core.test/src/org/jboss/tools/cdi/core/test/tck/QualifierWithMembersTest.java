@@ -101,4 +101,12 @@ public class QualifierWithMembersTest extends TCKTest {
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 0, beans.size());
 	}
+
+	public void testQualifierCoincidingSimpleNameInInjectingBeanAndCoincidingSimpleNameInInjectedBeanResolved() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/coincidence/ObtainsInstanceBean.java", "cashPaymentProcessor");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.jbt.resolution.coincidence.FirstPaymentProcessor");
+	}
+
 }
