@@ -377,7 +377,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 		for(String k: injectionKeys) {
 			if(!beanKeys.contains(k)) return false;
-		}		
+		}
 		return true;
 	}
 
@@ -437,6 +437,20 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				String n = p.getMemberName();
 				Object o = p.getValue();
 				if(o != null) {
+					int k = p.getValueKind();
+					if(k == IMemberValuePair.K_QUALIFIED_NAME || k == IMemberValuePair.K_SIMPLE_NAME) {
+						String s = o.toString();
+						int dot = s.lastIndexOf('.');
+						//We reduce value to simple name. That makes it not precise
+						//and there must be a test that display limit of this approach.
+						if(dot >= 0) {
+							String s1 = s.substring(dot + 1);
+							if(!"class".equals(s1)) {
+								o = s1;
+								System.out.println(s + "-->" + s1);
+							}
+						}
+					}
 					values.put(n, o.toString());
 				}
 			}
