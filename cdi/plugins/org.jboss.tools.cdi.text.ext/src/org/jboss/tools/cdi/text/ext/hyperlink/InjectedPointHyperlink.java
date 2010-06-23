@@ -64,12 +64,14 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 	@Override
 	public String getHyperlinkText() {
 		String text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
-		if(bean != null)
+		if(bean != null){
 			text += bean.getBeanClass().getElementName();
-		if(bean instanceof IProducerField){
-			text += "."+((IProducerField)bean).getField().getElementName();
-		}else if(bean instanceof IProducerMethod){
-			text += "."+((IProducerMethod)bean).getMethod().getElementName();
+			
+			if(bean instanceof IProducerField){
+				text += "."+((IProducerField)bean).getField().getElementName();
+			}else if(bean instanceof IProducerMethod){
+				text += "."+((IProducerMethod)bean).getMethod().getElementName();
+			}
 		}
 		return text;
 	}
