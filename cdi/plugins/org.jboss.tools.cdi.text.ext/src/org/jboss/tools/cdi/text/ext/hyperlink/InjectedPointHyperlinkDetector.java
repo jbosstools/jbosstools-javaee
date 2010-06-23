@@ -74,7 +74,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		
 		if(file == null)
 			return null;
-		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		//CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 		if(cdiNature == null)
 			return null;
 		

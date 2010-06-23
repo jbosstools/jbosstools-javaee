@@ -135,7 +135,8 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 	}
 	
 	private Set<IBean> getBeans(IFile file){
-		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		//CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 		
 		if(cdiNature == null)
 			return null;
