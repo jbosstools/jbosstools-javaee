@@ -22,13 +22,13 @@ public class NewFacesConfigFileWizard extends NewFileWizardEx {
 	protected NewFileContextEx createNewFileContext() {
 		return new NewFacesConfigFileContext();
 	}
-	
-	public void createPageControls(Composite parent) {
-		  super.createPageControls(parent);
-		  PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IJSFHelpContextIds.NEW_FACES_CONFIG_FILE_WIZARD);
-    }
 
-	
+// TODO https://jira.jboss.org/browse/JBIDE-6392
+//	public void createPageControls(Composite parent) {
+//		  super.createPageControls(parent);
+//		  PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IJSFHelpContextIds.NEW_FACES_CONFIG_FILE_WIZARD);
+//    }
+
 	class NewFacesConfigFileContext extends NewFileContextEx {
 		protected SpecialWizardSupport createSupport() {
 			return new CreateFacesConfigSupport();
