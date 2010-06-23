@@ -21,6 +21,10 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.hyperlink.MultipleHyperlinkPresenter;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -93,22 +97,45 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 			return;
 		}
 		
+		if(installed){
+			installed = false;
+			mhp.uninstall();
+		}
+		
 		if(hyperlinks.length == 1){
 			((InjectedPointHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			if(installed)
-				mhp.uninstall();
-			
 			installed = true;
 			
 			mhp.install(viewer);
 			mhp.showHyperlinks(hyperlinks);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(new IPartListener(){
+				public void partActivated(IWorkbenchPart arg0) {
+				}
+
+				public void partBroughtToTop(IWorkbenchPart arg0) {
+				}
+
+				public void partClosed(IWorkbenchPart arg0) {
+					if(installed){
+						installed = false;
+						mhp.uninstall();
+					}
+				}
+
+				public void partDeactivated(IWorkbenchPart arg0) {
+					
+				}
+
+				public void partOpened(IWorkbenchPart arg0) {
+				}
+			});
 		}
 	}
 
 	@Override
 	public String getHyperlinkText() {
-		return CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECTED_CLASS;
+		return CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECTED_BEAN;
 	}
 
 }
