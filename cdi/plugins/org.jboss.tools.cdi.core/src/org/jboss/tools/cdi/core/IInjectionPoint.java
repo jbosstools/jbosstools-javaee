@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
+import org.jboss.tools.common.text.ITextSourceReference;
+
 /**
  * Represents an injection point.
  * 
@@ -57,7 +59,7 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 * @return the @Delegate annotation of this injection point field or
 	 *         parameter of injection point method. May be null.
 	 */
-	IAnnotationDeclaration getDelegateAnnotation();
+	ITextSourceReference getDelegateAnnotation();
 
 	/**
 	 * Returns the @Inject annotation declaration

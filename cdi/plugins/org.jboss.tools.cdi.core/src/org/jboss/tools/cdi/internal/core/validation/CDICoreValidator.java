@@ -48,6 +48,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
@@ -1004,6 +1005,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 		}
+		/*
+		 * 8.1.2. Decorator delegate injection points
+		 *  - bean class that is not a decorator has an injection point annotated @Delegate
+		 */
+		if(!(injection.getClassBean() instanceof IDecorator) && injection.isDelegate()) {
+			ITextSourceReference reference = injection.getDelegateAnnotation();
+			addError(CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE, CDIPreferences.ILLEGAL_BEAN_DECLARING_DELEGATE, reference, injection.getResource());
+		}
 	}
 
 	/**
@@ -1263,6 +1272,44 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		Set<IProducer> producers = decorator.getProducers();
 		for (IProducer producer : producers) {
 			addError(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource());
+		}
+
+		Set<IInjectionPoint> injections = decorator.getInjectionPoints();
+		Set<ITextSourceReference> delegates = new HashSet<ITextSourceReference>();
+		for (IInjectionPoint injection : injections) {
+			ITextSourceReference delegateAnnotation = injection.getDelegateAnnotation();
+			if(delegateAnnotation!=null) {
+				if(injection instanceof IInjectionPointField) {
+					delegates.add(delegateAnnotation);
+				}
+				if(injection instanceof IInjectionPointParameter) {
+					if(((IInjectionPointParameter) injection).getBeanMethod().getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)==null) {
+						delegates.add(delegateAnnotation);
+					} else {
+						/*
+						 * 8.1.2. Decorator delegate injection points
+						 *  - injection point that is not an injected field, initializer method parameter or bean constructor method parameter is annotated @Delegate
+						 */
+						addError(CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE, CDIPreferences.ILLEGAL_INJECTION_POINT_DELEGATE, delegateAnnotation, decorator.getResource());
+					}
+				}
+			}
+		}
+		if(delegates.size()>1) {
+			/*
+			 * 8.1.2. Decorator delegate injection points
+			 *  - decorator has more than one delegate injection point
+			 */
+			for (ITextSourceReference declaration : delegates) {
+				addError(CDIValidationMessages.MULTIPLE_DELEGATE, CDIPreferences.MULTIPLE_DELEGATE, declaration, decorator.getResource());
+			}
+		} else if(delegates.isEmpty()) {
+			/*
+			 * 8.1.2. Decorator delegate injection points
+			 *  - decorator does not have a delegate injection point
+			 */
+			IAnnotationDeclaration declaration = decorator.getDecoratorAnnotation();
+			addError(CDIValidationMessages.MISSING_DELEGATE, CDIPreferences.MISSING_DELEGATE, declaration, decorator.getResource());
 		}
 	}
 

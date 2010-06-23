@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core;
 import java.util.List;
 
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * Represents a CDI element that can be annotated.
@@ -38,6 +39,18 @@ public interface IAnnotated {
 	 *         value
 	 */
 	IAnnotationDeclaration getAnnotation(String annotationTypeName);
+
+	/**
+	 * This method is similar to getAnnotation(String annotationTypeName). But
+	 * JDT doesn't have API for getting IAnnotation from method parameters so
+	 * this method is preferable for method parameters.
+	 * 
+	 * @param annotationTypeName
+	 *            the name of the annotation type
+	 * @return the text source reference of the annotation of the given annotation type, or a null
+	 *         value
+	 */
+	ITextSourceReference getAnnotationPosition(String annotationTypeName);
 
 	/**
 	 * Determine if the element has an annotation of a certain annotation type.

@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.QualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ScopeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -97,6 +98,14 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	 */
 	public AnnotationDeclaration getAnnotation(String typeName) {
 		return annotationsByType.get(typeName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotationPosition(java.lang.String)
+	 */
+	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+		return getAnnotation(annotationTypeName);
 	}
 
 	/*

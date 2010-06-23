@@ -42,6 +42,7 @@ import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -73,6 +74,14 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 			return definition.getAnnotation(annotationTypeName);
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotationPosition(java.lang.String)
+	 */
+	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+		return getAnnotation(annotationTypeName);
 	}
 
 	public boolean isAnnotationPresent(String annotationTypeName) {

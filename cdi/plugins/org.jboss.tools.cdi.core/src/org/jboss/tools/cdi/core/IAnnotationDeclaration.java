@@ -24,7 +24,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public interface IAnnotationDeclaration extends ITextSourceReference {
 
 	/**
-	 * Return the annotation declaration.
+	 * Return the annotation declaration. May be null.
 	 * 
 	 * @return the annotation declaration.
 	 */
@@ -38,7 +38,7 @@ public interface IAnnotationDeclaration extends ITextSourceReference {
 	IMember getParentMember();
 
 	/**
-	 * Returns the corresponding IType of the annotation.
+	 * Returns the corresponding IType of the annotation. May be null.
 	 * 
 	 * @return the corresponding IType of the annotation
 	 */

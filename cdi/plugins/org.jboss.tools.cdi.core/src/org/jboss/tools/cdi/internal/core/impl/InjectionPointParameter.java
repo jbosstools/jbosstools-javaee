@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -28,10 +29,18 @@ import org.jboss.tools.cdi.core.IQualifierDeclaration;
 public class InjectionPointParameter extends Parameter implements
 		IInjectionPointParameter {
 
-	public IAnnotationDeclaration getDelegateAnnotation() {
-		return null;
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getDelegateAnnotation()
+	 */
+	public ITextSourceReference getDelegateAnnotation() {
+		return getAnnotationPosition(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getQualifierDeclarations()
+	 */
 	public Set<IQualifierDeclaration> getQualifierDeclarations() {
 		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
 		//cannot implement
@@ -48,6 +57,10 @@ public class InjectionPointParameter extends Parameter implements
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#isDelegate()
+	 */
 	public boolean isDelegate() {
 		return isAnnotationPresent(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
 	}

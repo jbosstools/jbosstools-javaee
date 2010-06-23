@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -32,7 +33,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testLegalTypesInTyped() throws Exception {
 		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 25);
+		assertMarkerIsCreated(petShopFile, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 25);
 		int markerNumbers = getMarkersNumber(petShopFile);
 		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
 	}
@@ -45,7 +46,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InterceptorWithWrongScopeBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR, 8);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR, 8);
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testDecoratorWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/DecoratorWithWrongScopeBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR, 7);
 	}
 
 	/**
@@ -67,7 +68,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testMultipleBeanScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/scope/broken/tooManyScopes/BeanWithTooManyScopeTypes_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, 22, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, 22, 23);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithTyped_Broken.java should has two error markers.", markerNumbers, 2);
 	}
@@ -81,7 +82,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testBeanWithMultipleScopedStereotypes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/scopeConflict/Scallop_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, 24, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, 24, 25);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("Scallop_Broken.java should has two error markers.", markerNumbers, 2);
 	}
@@ -94,9 +95,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNamedInterceptor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 9);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NamedStereotypedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.INTERCEPTOR_HAS_NAME, 7);
 	}
 
 	/**
@@ -107,9 +108,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNamedDecorator() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 10);
+		assertMarkerIsCreated(file, CDIValidationMessages.DECORATOR_HAS_NAME, 10);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/NamedStereotypedDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_HAS_NAME, 8);
+		assertMarkerIsCreated(file, CDIValidationMessages.DECORATOR_HAS_NAME, 8);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testAlternativeInterceptor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/AlternativeInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, 7);
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testAlternativeDecorator() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/AlternativeDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, 7);
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testStereotypeScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/tooManyScopes/StereotypeWithTooManyScopeTypes_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, 32, 33);
+		assertMarkerIsCreated(file, CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, 32, 33);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithTooManyScopeTypes_Broken.java should has two error markers.", markerNumbers, 2);
 	}
@@ -155,7 +156,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNonEmptyNamedForStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/nonEmptyNamed/StereotypeWithNonEmptyNamed_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, 31);
+		assertMarkerIsCreated(file, CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, 31);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithNonEmptyNamed_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
@@ -168,7 +169,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testAnnotatedStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithBindingTypes_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, 30);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, 30);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithBindingTypes_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
@@ -181,7 +182,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testTypedStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithTyped_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, 15);
+		assertMarkerIsCreated(file, CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, 15);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
@@ -194,7 +195,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorCanNotAlsoBeDecorator() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/interceptors/definition/broken/interceptorCanNotBeDecorator/InterceptingDecorator.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, 24, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, 24, 25);
 	}
 
 	/**
@@ -205,7 +206,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNonDependentScopedBeanCanNotHavePublicField() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/dependentWithPublicField/Leopard_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, 21);
 	}
 
 	/**
@@ -216,7 +217,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNonDependentGenericManagedBeanNotOk() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/genericbroken/FooBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE, 21);
 	}
 
 	/**
@@ -228,7 +229,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingClassExtendsNonSimpleBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend3/Cow_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
 	}
 
 	/**
@@ -240,7 +241,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingClassDirectlyExtendsNothing() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend2/Cow_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
 	}
 
 	/**
@@ -252,7 +253,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingClassDirectlyExtendsEnterpriseBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/extendejb/Tractor_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
 	}
 
 	/**
@@ -264,7 +265,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingClassImplementsInterfaceAndExtendsNothing() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend1/Donkey_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
 	}
 
 	/**
@@ -276,7 +277,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testStatelessWithRequestScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithRequestScope/Beagle_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
 	}
 
 	/**
@@ -288,7 +289,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testStatelessWithApplicationScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithApplicationScope/Dachshund_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
 	}
 
 	/**
@@ -300,7 +301,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testStatelessWithConversationScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithConversationScope/Boxer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
 	}
 
 	/**
@@ -312,7 +313,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testStatelessWithSessionScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/statelessWithSessionScope/Bullmastiff_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, 23);
 	}
 
 
@@ -325,7 +326,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSingletonWithConversationScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/singletonWithConversationScope/Husky_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 24);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 24);
 	}
 
 	/**
@@ -337,7 +338,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSingletonWithSessionScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/singletonWithSessionScope/IrishTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 25);
 	}
 
 	/**
@@ -349,7 +350,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSingletonWithRequestScopeFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/broken/singletonWithRequestScope/Greyhound_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, 23);
 	}
 
 	/**
@@ -360,7 +361,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSessionBeanAnnotatedInterceptor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/sessionbeans/SessionBeanAnnotatedInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, 8, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, 8, 9);
 	}
 
 	/**
@@ -371,7 +372,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSessionBeanAnnotatedDecorator() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/sessionbeans/SessionBeanAnnotatedDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, 6, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, 6, 7);
 	}
 
 	/**
@@ -382,7 +383,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNonDependentGenericSessionBeanNotOk() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/sessionbeans/FooBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SESSION_BEAN_WITH_GENERIC_TYPE, 6);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_SESSION_BEAN_WITH_GENERIC_TYPE, 6);
 	}
 
 	/**
@@ -393,7 +394,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingClassDirectlyExtendsSimpleBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/directlyExtendsSimpleBean/Tractor_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
 	}
 	
 	/**
@@ -404,7 +405,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingEnterpriseClassImplementsInterfaceAndExtendsNothing() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/implementInterfaceAndExtendsNothing/Donkey_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
 	}
 
 	/**
@@ -415,7 +416,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingEnterpriseClassDirectlyExtendsNothing() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/enterprise/broken/directlyExtendsNothing/Cow_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, 22);
 	}
 
 	/**
@@ -429,7 +430,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedReturnTypeWithWildcard() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterizedTypeWithWildcard/SpiderProducer.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, 24);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, 24);
 	}
 
 	/**
@@ -443,9 +444,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedType() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterizedTypeWithTypeParameter2/TProducer.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 25);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/SpiderProducerVariableType_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 13);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 13);
 	}
 
 	/**
@@ -456,10 +457,10 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedReturnTypeWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 39);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 21);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 35);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 31);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 39);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 21);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 35);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 31);
 	}
 
 	/**
@@ -470,7 +471,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInitializerMethodAnnotatedProduces() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/methodAnnotatedProduces/Pheasant_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 25);
 	}
 
 	/**
@@ -481,7 +482,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducerMethodWithParameterAnnotatedDisposes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedDisposes/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, 25, 26);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, 25, 26);
 	}
 
 	/**
@@ -492,7 +493,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducerMethodWithParameterAnnotatedObserves() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/parameterAnnotatedObserves/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 26);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 26);
 	}
 
 	/**
@@ -503,7 +504,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducerMethodOnSessionBeanMustBeBusinessMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/enterprise/nonbusiness/FooProducer.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, 25);
 	}
 
 	/**
@@ -514,7 +515,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testDecoratorMustNotHaveProducerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/DecoratorHasProducerMethodBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_DECORATOR, 10);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_IN_DECORATOR, 10);
 	}
 
 	/**
@@ -525,7 +526,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorMustNotHaveProducerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/InterceptorHasProducerMethodBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, 17);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, 17);
 	}
 
 	/**
@@ -536,7 +537,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializedStaticMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/producer/method/broken/specializesStaticMethod/FurnitureShop_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_STATIC, 24);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_STATIC, 24);
 	}
 
 	/**
@@ -547,7 +548,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializedMethodIndirectlyOverridesAnotherProducerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/producer/method/broken/indirectOverride/ShoeShop_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_OVERRIDE, 24);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_OVERRIDE, 24);
 	}
 
 	/**
@@ -558,7 +559,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testMultipleDisposeParameters() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/multiParams/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, 30, 30);
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, 30, 30);
 	}
 
 	/**
@@ -569,7 +570,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducesUnallowed() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/producesUnallowed/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, 30, 31);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, 30, 31);
 	}
 
 	/**
@@ -580,7 +581,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverParameterUnallowed() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/observesUnallowed/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 32, 32);
+		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 32, 32);
 	}
 
 	/**
@@ -591,7 +592,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInitializerUnallowed() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/initializerUnallowed/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 32, 33);
+		assertMarkerIsCreated(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 32, 33);
 	}
 
 	/**
@@ -602,9 +603,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testDisposalMethodNotBusinessOrStatic() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/methodOnSessionBean/AppleTree.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 31);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 31);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/newBean/Fox.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 73);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 73);
 	}
 
 	/**
@@ -615,7 +616,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testDecoratorDeclaresDisposer() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/TimestampLogger.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_IN_DECORATOR, 6, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.DISPOSER_IN_DECORATOR, 6, 9);
 	}
 
 	/**
@@ -626,7 +627,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorDeclaresDisposer() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/FordInterceptor.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, 8, 16);
+		assertMarkerIsCreated(file, CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, 8, 16);
 	}
 
 	/**
@@ -637,8 +638,8 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testUnresolvedDisposalMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/unresolvedMethod/SpiderProducer_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 35);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 31);
+		assertMarkerIsCreated(file, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 35);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, 31);
 	}
 
 	/**
@@ -649,7 +650,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testMultipleDisposersForProducer() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/TimestampLogger_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, 13, 16);
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, 13, 16);
 	}
 
 	/**
@@ -660,8 +661,8 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedTypeWithWildcard() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/field/definition/broken/parameterizedReturnTypeWithWildcard/SpiderProducerWildCardType_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, 23, 1011, 1026);
-		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, 24, 1100, 1125);
+		assertMarkerIsCreatedForGivenPosition(file, CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, 23, 1011, 1026);
+		assertMarkerIsCreatedForGivenPosition(file, CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, 24, 1100, 1125);
 	}
 
 	/**
@@ -672,7 +673,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testTypeVariable() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/SpiderProducerVariableType_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, 10);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, 10);
 	}
 
 	/**
@@ -683,10 +684,10 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testParameterizedTypeWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 11, 18);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 14);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 16);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 11, 18);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 9);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 14);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 16);
 	}
 
 	/**
@@ -700,7 +701,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testProducerAnnotatedInject() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ProducerAnnotatedInjectBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 8);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 8);
 	}
 
 	/**
@@ -711,7 +712,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNonStaticProducerOfSessionBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/NonStaticProducerOfSessionBeanBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, 9);
 	}
 
 	/**
@@ -722,7 +723,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testDecoratorMustNotHaveProducerField() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/DecoratorHasProducerFieldBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_DECORATOR, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_IN_DECORATOR, 9);
 	}
 
 	/**
@@ -733,7 +734,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorMustNotHaveProducerField() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/InterceptorHasProducerFieldBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, 16);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, 16);
 	}
 
 	/**
@@ -744,7 +745,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testResourceWithELName() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/resources/ProducerFieldsBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
+		assertMarkerIsCreated(file, CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, 15, 19, 24, 27, 31);
 	}
 
 	/*
@@ -769,7 +770,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testTooManyInitializerAnnotatedConstructor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/tooManyInitializerAnnotatedConstructors/Goose_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, 24, 29);
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, 24, 29);
 	}
 
 	/**
@@ -780,7 +781,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testConstructorHasDisposesParameter() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/constructorHasDisposesParameter/DisposingConstructor.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES, 24, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES, 24, 25);
 	}
 
 	/**
@@ -791,7 +792,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testConstructorHasObservesParameter() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/constructorHasObservesParameter/ObservingConstructor.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES, 25, 26);
+		assertMarkerIsCreated(file, CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES, 25, 26);
 	}
 
 	/**
@@ -802,7 +803,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testStaticInitializerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GenericInitializerMethodBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, 11);
+		assertMarkerIsCreated(file, CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, 11);
 	}
 
 	/**
@@ -813,8 +814,8 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInitializerMethodHasParameterAnnotatedDisposes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
-		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
+		assertMarkerIsCreatedForGivenPosition(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
+		assertMarkerIsCreatedForGivenPosition(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
 	}
 
 	/**
@@ -825,7 +826,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testGenericInitializerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GenericInitializerMethodBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, 7);
 	}
 
 	/**
@@ -836,7 +837,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNamedInjectPoint() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/NamedInjectionBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
+		assertMarkerIsCreated(file, CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 10, 16);
 	}
 
 	/**
@@ -847,8 +848,8 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testBeanDoesNotHaveSomeTypeOfSpecializedBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/MissingTypeBeanBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Farmer"), 6);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Simple"), 6);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Farmer"), 6);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Simple"), 6);
 	}
 
 	/**
@@ -859,7 +860,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingAndSpecializedBeanHasName() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/producer/method/broken/specializingAndSpecializedBeanHaveName/HighSchool_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, MessageFormat.format(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, "HighSchool_Broken.getStarPupil()", "School.getStarPupil()"), 25);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, "HighSchool_Broken.getStarPupil()", "School.getStarPupil()"), 25);
 	}
 
 	/**
@@ -870,7 +871,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingInterceptor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/SpecializingInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, 9);
 	}
 
 	/**
@@ -881,7 +882,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSpecializingDecorator() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/SpecializingDecoratorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, 10);
+		assertMarkerIsCreated(file, CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, 10);
 	}
 
 	/**
@@ -892,7 +893,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testDecoratorNotResolved() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/decorator/House.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTED_DECORATOR, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.INJECTED_DECORATOR, 23);
 	}
 
 	/**
@@ -903,7 +904,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testInterceptorNotResolved() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InjectInterceptorBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTED_INTERCEPTOR, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.INJECTED_INTERCEPTOR, 7);
 	}
 
 	/**
@@ -914,9 +915,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testAmbiguousDependency() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/ambiguous/Farm_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 25);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 34);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 34);
 	}
 
 	/**
@@ -927,9 +928,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testUnsatisfiedDependency() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/unsatisfied/Bean_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 25);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 34);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 34);
 	}
 
 	/**
@@ -940,7 +941,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testTypeVariableInjectionPoint() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/FarmBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, 11, 15);
+		assertMarkerIsCreated(file, CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, 11, 15);
 	}
 
 	/**
@@ -951,13 +952,13 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testPrimitiveInjectionPointResolvedToNonPrimitiveProducerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GameBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 7, 19);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 10);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 11);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 20);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 21);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 22);
+		assertMarkerIsCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 7, 19);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 9);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 10);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 11);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 20);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 21);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 22);
 	}
 
 	/**
@@ -968,7 +969,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testAnnotationMemberWithoutNonBinding() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/binding/members/annotation/Expensive_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, 35);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, 35);
 	}
 
 	/**
@@ -979,7 +980,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testArrayMemberWithoutNonBinding() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/binding/members/array/Expensive_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, 34);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, 34);
 	}
 
 	/**
@@ -990,7 +991,65 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSessionScopedBeanWithInjectionPoint() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/broken/normal/scope/Cat_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, 27);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, 27);
+	}
+
+	/**
+	 * 8.1.2. Decorator delegate injection points
+	 *  - decorator has more than one delegate injection point
+	 * 
+	 * @throws Exception
+	 */
+	public void testMultipleDelegateInjectionPoints() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/multipleDelegateInjectionPoints/TimestampLogger.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_DELEGATE, 31, 32);
+	}
+
+	/**
+	 * 8.1.2. Decorator delegate injection points
+	 *  - decorator does not have a delegate injection point
+	 * 
+	 * @throws Exception
+	 */
+	public void testNoDelegateInjectionPoints() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/noDelegateInjectionPoints/TimestampLogger.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_DELEGATE, 25);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateInitializerMethod/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.MISSING_DELEGATE);
+	}
+
+	/**
+	 * 8.1.2. Decorator delegate injection points
+	 *  - decorator does not have a delegate injection point
+	 * 
+	 * @throws Exception
+	 */
+	public void testDecoratorDelegateInjectionPoints() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateInitializerMethod/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateConstructor/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/broken/delegateProducerMethod/TimestampLogger.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE, 33);
+	}
+
+	/**
+	 * 8.1.2. Decorator delegate injection points
+	 *  - bean class that is not a decorator has an injection point annotated @Delegate
+	 * 
+	 * @throws Exception
+	 */
+	public void testNonDecoratorWithDecoratesAnnotationNotOK() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/nonDecoratorWithDecorates/Elf.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
+		tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateInitializerMethod/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateConstructor/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
 	}
 
 	/**
@@ -1001,7 +1060,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverMethodMustHaveOnlyOneEventParameter() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/tooManyParameters/YorkshireTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, 24, 24);
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, 24, 24);
 	}
 
 	/**
@@ -1012,7 +1071,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverMethodAnnotatedProducesFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isProducer/BorderTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, 25, 25);
 	}
 
 	/**
@@ -1023,7 +1082,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverMethodAnnotatedInitializerFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isInitializer/AustralianTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT, 25, 26);
+		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT, 25, 26);
 	}
 
 	/**
@@ -1034,7 +1093,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverMethodWithDisposesParamFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/isDisposer/FoxTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 28, 28);
+		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, 28, 28);
 	}
 
 	/**
@@ -1045,10 +1104,30 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testObserverMethodOnEnterpriseBeanNotBusinessMethodOrStaticFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/notBusinessMethod/TibetanTerrier_Broken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, 25);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, 25);
 	}
 
 	public static int getMarkersNumber(IResource resource) {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
+	}
+
+	private static void assertMarkerIsCreated(IResource resource, String message, int... expectedLines) throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message), expectedLines);
+	}
+
+	private static void assertMarkerIsNotCreated(IResource resource, String message) throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message));
+	}
+
+	private static void assertMarkerIsNotCreated(IResource resource, String message, int expectedLine) throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message), expectedLine);
+	}
+
+	private static void assertMarkerIsCreatedForGivenPosition(IResource resource, String message, int lineNumber, int startPosition, int endPosition) throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message), lineNumber, startPosition, endPosition);
+	}
+
+	private static String convertMessageToPatern(String message) {
+		return message.replace("[", "\\[").replace("]", "\\]");
 	}
 }
