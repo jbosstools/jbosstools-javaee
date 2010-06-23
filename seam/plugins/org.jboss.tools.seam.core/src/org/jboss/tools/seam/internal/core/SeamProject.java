@@ -1023,7 +1023,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		return null;
 	}
-	
+
+	private Set<IPath> sourcesInRegistering = new HashSet<IPath>();
 	/**
 	 * 
 	 * @param ds
@@ -1033,21 +1034,35 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void registerComponentsInDependentProjects(LoadedDeclarations ds, IPath source) throws CloneNotSupportedException {
 		if(usedBy.isEmpty()) return;
 		if(EclipseResourceUtil.isJar(source.toString())) return;
+
+		if(sourcesInRegistering.contains(source)) {
+			return;
+		}
+		synchronized (sourcesInRegistering) {
+			sourcesInRegistering.add(source);
+		}
 		
-		for (SeamProject p : usedBy) {
-			p.resolve();
-			LoadedDeclarations ds1 = new LoadedDeclarations();
-			for (ISeamNamespace n: ds.getNamespaces()) {
-				ds1.getNamespaces().add(n); //no need to clone, it is read-only.
+		try {
+			for (SeamProject p : usedBy) {
+				if(p.sourcesInRegistering.contains(source)) continue;
+				p.resolve();
+				LoadedDeclarations ds1 = new LoadedDeclarations();
+				for (ISeamNamespace n: ds.getNamespaces()) {
+					ds1.getNamespaces().add(n); //no need to clone, it is read-only.
+				}
+				for (ISeamComponentDeclaration d:  ds.getComponents()) {
+					ds1.getComponents().add(d.clone());
+				}
+				for (ISeamFactory f : ds.getFactories()) {
+					ds1.getFactories().add(f.clone());
+				}
+				ds1.getImports().addAll(ds.getImports());
+				p.registerComponents(ds1, source);
 			}
-			for (ISeamComponentDeclaration d:  ds.getComponents()) {
-				ds1.getComponents().add(d.clone());
+		} finally {
+			synchronized (sourcesInRegistering) {
+				sourcesInRegistering.remove(source);
 			}
-			for (ISeamFactory f : ds.getFactories()) {
-				ds1.getFactories().add(f.clone());
-			}
-			ds1.getImports().addAll(ds.getImports());
-			p.registerComponents(ds1, source);
 		}
 	}
 	
