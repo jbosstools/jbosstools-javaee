@@ -17,8 +17,10 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.files.handlers.CreateFileSupport;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.undo.*;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.*;
+import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebHelper;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
@@ -119,7 +121,13 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 	private String checkRegister(XModelObject object, String register) {
 		if(!"yes".equals(register)) return null; //$NON-NLS-1$
 		XModelObject webxml = WebAppHelper.getWebApp(object.getModel());
-		if(webxml == null) return JSFUIMessages.CreateFacesConfigSupport_WebXMLNotFound;
+		if(webxml == null) {
+			if(!EclipseResourceUtil.hasNature(object.getModel(), JSFNature.NATURE_ID)) {
+				return JSFUIMessages.CreateFacesConfigHandler_JSFCapabilitiesAreMissing;
+			}
+			
+			return JSFUIMessages.CreateFacesConfigHandler_WebXMLNotFound;
+		}
 		if("yes".equals(webxml.get("isIncorrect"))) return JSFUIMessages.CreateFacesConfigSupport_WebXMLIncorrect; //$NON-NLS-1$ //$NON-NLS-2$
 		if(!webxml.isObjectEditable()) return JSFUIMessages.CreateFacesConfigSupport_WebXMLReadOnly;
 		return null;

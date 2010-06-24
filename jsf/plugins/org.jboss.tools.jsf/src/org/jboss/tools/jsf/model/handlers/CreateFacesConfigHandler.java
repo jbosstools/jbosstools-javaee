@@ -18,9 +18,11 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.impl.CreateFileHandler;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.undo.*;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.FacesProcessImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebHelper;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
@@ -73,7 +75,13 @@ public class CreateFacesConfigHandler extends CreateFileHandler implements JSFCo
 		boolean register = "yes".equals(extractProperties(data[0]).getProperty("register in web.xml")); //$NON-NLS-1$ //$NON-NLS-2$
 		if(!register) return;
 		XModelObject webxml = WebAppHelper.getWebApp(object.getModel());
-		if(webxml == null) throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLNotFound);
+		if(webxml == null) {
+			if(!EclipseResourceUtil.hasNature(object.getModel(), JSFNature.NATURE_ID)) {
+				throw new XModelException(JSFUIMessages.CreateFacesConfigHandler_JSFCapabilitiesAreMissing);
+			}
+			
+			throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLNotFound);
+		}
 		if("yes".equals(webxml.get("isIncorrect"))) throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLIncorrect); //$NON-NLS-1$ //$NON-NLS-2$
 		if(!webxml.isObjectEditable()) throw new XModelException (JSFUIMessages.CreateFacesConfigHandler_WebXMLReadOnly);
 	}
