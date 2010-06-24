@@ -8,7 +8,7 @@
 		<artifactId>org.jboss.tools.parent.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools</groupId>
+	<groupId>org.jboss.tools.seam.tests</groupId>
 	<artifactId>org.jboss.tools.seam.core.test</artifactId>
 	<version>3.1.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
@@ -26,13 +26,11 @@
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>maven-osgi-test-plugin</artifactId>
 				<configuration>
-					<skip>false</skip>
 					<explodedBundles>
 						<bundle>org.jboss.tools.seam.core.test</bundle>
 						<bundle>org.jboss.tools.seam.core</bundle>
 					</explodedBundles>
 					<product>org.jboss.tools.tests</product>
-					<!--argLine>-Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam -Djbosstools.test.seam.2fp.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seamfp -Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.1.GA -Djbosstools.test.seam.2.1.0.GA.home=${projectRoot}/requirements/target/jboss-seam-2.1.1.GA</argLine-->
 					<includes>
 						<include>org/jboss/tools/seam/core/test/SeamValidatorsAllTests.class</include>
 						<include>org/jboss/tools/seam/core/test/SeamCoreAllTests.class</include>
@@ -41,24 +39,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.3</version>
-				<executions>
-					<execution>
-						<id>prepare-eclipse-base</id>
-						<phase>generate-test-resources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<ant dir="${projectRoot}/requirements" inheritAll="true">
-									<property name="requirements" value="${requirements}" />
-								</ant>
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
+					<artifactId>maven-antrun-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

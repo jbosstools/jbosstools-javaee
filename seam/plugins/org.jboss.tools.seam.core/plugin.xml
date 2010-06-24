@@ -376,6 +376,9 @@
       	<persistent
             value="true">
       	</persistent>
+       <attribute
+             name="seamRuntimeName">
+       </attribute>
    </extension>
 
    <extension
