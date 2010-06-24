@@ -726,20 +726,24 @@ public class CDIUtil {
 	
 	public static CDICoreNature getCDINatureWithProgress(final IProject project){
 		cdiNature = null;
-		try{
-			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException, InterruptedException {
-					monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
-					monitor.worked(3);
-					cdiNature = CDICorePlugin.getCDI(project, true);
-				}
-				
-			});
-		}catch(InterruptedException ie){
-			CDICorePlugin.getDefault().logError(ie);
-		}catch(InvocationTargetException ite){
-			CDICorePlugin.getDefault().logError(ite);
+		cdiNature = CDICorePlugin.getCDI(project, false);
+		if(cdiNature != null && !cdiNature.isStorageResolved()){
+			try{
+				PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
+					public void run(IProgressMonitor monitor)
+							throws InvocationTargetException, InterruptedException {
+						monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
+						monitor.worked(3);
+						cdiNature.resolve();
+						monitor.worked(7);
+					}
+					
+				});
+			}catch(InterruptedException ie){
+				CDICorePlugin.getDefault().logError(ie);
+			}catch(InvocationTargetException ite){
+				CDICorePlugin.getDefault().logError(ite);
+			}
 		}
 		
 		return cdiNature;
