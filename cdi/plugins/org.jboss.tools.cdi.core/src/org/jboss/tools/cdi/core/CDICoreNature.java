@@ -88,6 +88,10 @@ public class CDICoreNature implements IProjectNature {
 	public ClassPathMonitor getClassPath() {
 		return classPath;
 	}
+
+	public boolean isStorageResolved() {
+		return isStorageResolved;
+	}
 	/**
 	 * 
 	 * @param load
