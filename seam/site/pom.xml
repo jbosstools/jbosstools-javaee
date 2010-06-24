@@ -6,8 +6,9 @@
 		<artifactId>org.jboss.tools.parent.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools</groupId>
-	<artifactId>seam.site</artifactId> 
+	<groupId>org.jboss.tools.seam</groupId>
+	<artifactId>site</artifactId>
+	<name>seam.site</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>eclipse-update-site</packaging>
 </project>

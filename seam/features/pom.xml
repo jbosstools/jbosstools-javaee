@@ -7,10 +7,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	  <artifactId>org.jboss.tools.parent.pom</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools</groupId>
-	<artifactId>seam.features</artifactId>
+	<groupId>org.jboss.tools.seam</groupId>
+	<artifactId>features</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<name>seam.features</name>
 	<modules>
 		<module>org.jboss.tools.seam.feature</module>
 		<module>org.jboss.tools.seam.test.feature</module>
