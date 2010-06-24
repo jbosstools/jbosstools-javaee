@@ -18,11 +18,11 @@ public class RenameComponentHandler extends AbstractHandler {
 	}
 
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
-		if(!isEnabled(object)) return;
-		
-		SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.seam.ui.views.actions.RenameComponentAction");
-		wizard.setObject(object);
-		wizard.execute();
+		if(isEnabled(object)) {
+			SpecialWizard wizard = SpecialWizardFactory.createSpecialWizard("org.jboss.tools.seam.ui.views.actions.RenameComponentAction");
+			wizard.setObject(object);
+			wizard.execute();
+		}
 	}
 
 }
