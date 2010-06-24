@@ -20,6 +20,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.pde.api.tools.apiAnalysisBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
@@ -28,5 +33,6 @@
 		<nature>org.eclipse.jem.beaninfo.BeanInfoNature</nature>
 		<nature>com.togethersoft.selena.sapient.qanature</nature>
 		<nature>com.togethersoft.selena.profiles.incolor.uml_in_color_nature</nature>
+		<nature>org.eclipse.pde.api.tools.apiAnalysisNature</nature>
 	</natures>
 </projectDescription>
