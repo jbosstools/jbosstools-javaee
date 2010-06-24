@@ -1043,13 +1043,116 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNonDecoratorWithDecoratesAnnotationNotOK() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/nonDecoratorWithDecorates/Elf.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
-		tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE, 24);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
 		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateInitializerMethod/TimestampLogger.java");
 		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateConstructor/TimestampLogger.java");
 		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE);
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type does not implement or extend a decorated type of the decorator
+	 * 
+	 * @throws Exception
+	 */
+	public void testNotAllDecoratedTypesImplemented() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/notAllDecoratedTypesImplemented/TimestampLogger.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "EnhancedLogger"), 31);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLogger.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "EnhancedLogger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "TimestampLogger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Object"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "MockLogger"));
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerWithMethod.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "EnhancedLogger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "TimestampLogger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Object"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "MockLogger"));
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type specifies different type parameters
+	 * 
+	 * @throws Exception
+	 */
+	public void testDelegateSpecifiesDifferentTypeParameterInInterfcaeInFiled() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "IClazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type specifies different type parameters
+	 * 
+	 * @throws Exception
+	 */
+	public void testDelegateSpecifiesDifferentTypeParameterInInterfcaeInMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampWithMethodBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "IClazz<java.lang.String>"), 10);
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type specifies different type parameters
+	 * 
+	 * @throws Exception
+	 */
+	public void testDelegateSpecifiesDifferentTypeParameterWithInterfaceInFiled() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type specifies different type parameters
+	 * 
+	 * @throws Exception
+	 */
+	public void testDelegateSpecifiesDifferentTypeParameterWithInterfaceInMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerWithMethodBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"), 10);
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type specifies different type parameters
+	 * 
+	 * @throws Exception
+	 */
+	public void testDelegateSpecifiesDifferentTypeParameterInFiled() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"), 10);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLogger.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Test"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Object"));
+	}
+
+	/**
+	 * 8.1.3. Decorator delegate injection points
+	 *  - delegate type specifies different type parameters
+	 * 
+	 * @throws Exception
+	 */
+	public void testDelegateSpecifiesDifferentTypeParameterInMethod() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerWithMethodBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerWithMethod.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Test"));
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Object"));
 	}
 
 	/**
@@ -1128,6 +1231,6 @@ public class ValidationTest extends TCKTest {
 	}
 
 	private static String convertMessageToPatern(String message) {
-		return message.replace("[", "\\[").replace("]", "\\]");
+		return message.replace("[", "\\[").replace("]", "\\]").replace("<", "\\<").replace(">", "\\>");
 	}
 }

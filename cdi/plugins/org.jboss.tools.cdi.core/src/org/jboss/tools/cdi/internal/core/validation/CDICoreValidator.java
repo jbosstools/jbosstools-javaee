@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.validation;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +31,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -290,6 +293,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if (reporter.isCancelled()) {
 			return;
 		}
+		if(bean.getBeanClass().isReadOnly()) {
+			return;
+		}
 		// Collect all relations between the bean and other CDI elements.
 		String name = bean.getName();
 		if (name != null) {
@@ -376,7 +382,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(specializingBean==null) {
 			return;
 		}
-		validationContext.addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
+		if(!specializingBean.getBeanClass().isReadOnly()) {
+			validationContext.addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
+		}
 
 		String beanClassName = bean.getBeanClass().getElementName();
 		String beanName = bean instanceof IBeanMethod?beanClassName + "." + ((IBeanMethod)bean).getSourceMember().getElementName() + "()":beanClassName;
@@ -1276,14 +1284,17 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 		Set<IInjectionPoint> injections = decorator.getInjectionPoints();
 		Set<ITextSourceReference> delegates = new HashSet<ITextSourceReference>();
+		IInjectionPoint delegate = null;
 		for (IInjectionPoint injection : injections) {
 			ITextSourceReference delegateAnnotation = injection.getDelegateAnnotation();
 			if(delegateAnnotation!=null) {
 				if(injection instanceof IInjectionPointField) {
+					delegate = injection;
 					delegates.add(delegateAnnotation);
 				}
 				if(injection instanceof IInjectionPointParameter) {
 					if(((IInjectionPointParameter) injection).getBeanMethod().getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)==null) {
+						delegate = injection;
 						delegates.add(delegateAnnotation);
 					} else {
 						/*
@@ -1311,6 +1322,97 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			IAnnotationDeclaration declaration = decorator.getDecoratorAnnotation();
 			addError(CDIValidationMessages.MISSING_DELEGATE, CDIPreferences.MISSING_DELEGATE, declaration, decorator.getResource());
 		}
+
+		/*
+		 * 8.1.3. Decorator delegate injection points
+		 *  - delegate type does not implement or extend a decorated type of the decorator, or specifies different type parameters
+		 */
+		if(delegate!=null) {
+			IParametedType delegateParametedType = delegate.getType();
+			if(delegateParametedType!=null) {
+				IType delegateType = delegateParametedType.getType();
+				if(delegateType != null) {
+					if(!checkTheOnlySuper(decorator, delegateParametedType)) {
+						Set<IParametedType> decoratedParametedTypes = decorator.getDecoratedTypes();
+						List<String> supers = null;
+						if(!delegateType.isReadOnly()) {
+							validationContext.addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
+						}
+						for (IParametedType decoratedParametedType : decoratedParametedTypes) {
+							IType decoratedType = decoratedParametedType.getType();
+							if(decoratedType==null) {
+								continue;
+							}
+							if(!decoratedType.isReadOnly()) {
+								validationContext.addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), decoratedType.getResource().getFullPath(), false);
+							}
+							String decoratedTypeName = decoratedType.getFullyQualifiedName();
+							// Ignore the type of the decorator class bean
+							if(decoratedTypeName.equals(decorator.getBeanClass().getFullyQualifiedName())) {
+								continue;
+							}
+							if(decoratedTypeName.equals("java.lang.Object")) { //$NON-NLS-1$
+								continue;
+							}
+							if(supers==null) {
+								supers = getSuppers(delegateParametedType);
+							}
+							if(supers.contains(decoratedParametedType.getSignature())) {
+								continue;
+							} else {
+								ITextSourceReference declaration = delegate.getDelegateAnnotation();
+								if(delegateParametedType instanceof ITypeDeclaration) {
+									declaration = (ITypeDeclaration)delegateParametedType;
+								}
+								String typeName = Signature.getSignatureSimpleName(decoratedParametedType.getSignature());
+								addError(MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, typeName), CDIPreferences.DELEGATE_HAS_ILLEGAL_TYPE, declaration, decorator.getResource());
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private boolean checkTheOnlySuper(IDecorator decorator, IParametedType delegatedType) {
+		try {
+			String superClassSignature = decorator.getBeanClass().getSuperclassTypeSignature();
+			String[] superInterfaceSignatures = decorator.getBeanClass().getSuperInterfaceTypeSignatures();
+			if(superClassSignature==null) {
+				if(superInterfaceSignatures.length==0) {
+					return true;
+				}
+				if(superInterfaceSignatures.length>1) {
+					return false;
+				}
+				IParametedType superType = cdiProject.getNature().getTypeFactory().getParametedType(decorator.getBeanClass(), superInterfaceSignatures[0]);
+				return superType.getSignature().equals(delegatedType.getSignature());
+			} else if(superInterfaceSignatures.length>0) {
+				return false;
+			}
+			IParametedType superType = cdiProject.getNature().getTypeFactory().getParametedType(decorator.getBeanClass(), superClassSignature);
+			return superType.getSignature().equals(delegatedType.getSignature());
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return true;
+	}
+
+	private List<String> getSuppers(IParametedType type) {
+		try {
+			List<IType> types = EclipseJavaUtil.getSupperTypes(type.getType());
+			List<String> signatures = new ArrayList<String>();
+			for (IType iType : types) {
+				IParametedType superType = cdiProject.getNature().getTypeFactory().newParametedType(iType);
+				signatures.add(superType.getSignature());
+			}
+			signatures.add(type.getSignature());
+			return signatures;
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return Collections.emptyList();
 	}
 
 	/*

@@ -154,14 +154,14 @@ Definition Errors
   or bean constructor method parameter is annotated @Delegate
 - bean class that is not a decorator has an injection point annotated @Delegate
 
-
-
-
-
-
 8.1.3. Decorated types of a decorator
 - delegate type does not implement or extend a decorated type of the decorator,
   or specifies different type parameters
+
+
+
+
+
 
 9.2. Declaring the interceptor bindings of an interceptor
 - interceptor for lifecycle callbacks declares an interceptor binding type 

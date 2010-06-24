@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -11,10 +11,10 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.Set;
+
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IParametedType;
-import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 
 /**
  * 
@@ -25,16 +25,29 @@ public class DecoratorBean extends ClassBean implements IDecorator {
 
 	public DecoratorBean() {}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IDecorator#getDecoratedTypes()
+	 */
 	public Set<IParametedType> getDecoratedTypes() {
-		return ((TypeDefinition)definition).getInheritedTypes();
+		return getLegalTypes();
+//		return ((TypeDefinition)definition).getInheritedTypes();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IDecorator#getDecoratorAnnotation()
+	 */
 	public IAnnotationDeclaration getDecoratorAnnotation() {
 		return getDefinition().getDecoratorAnnotation();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.internal.core.impl.ClassBean#isEnabled()
+	 */
+	@Override
 	public boolean isEnabled() {
 		return !getCDIProject().getDecoratorClasses(getBeanClass().getFullyQualifiedName()).isEmpty();
 	}
-
 }
