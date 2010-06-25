@@ -66,9 +66,11 @@ public class SeamXMLModelTest extends TestCase {
 	}
 
 	protected XModelObject getComponents22Object() {
-		if(project == null) return null;
+		assertNotNull(getTestProject());
 		IFile f = project.getFile(new Path("components22.xml"));
-		return f == null ? null : EclipseResourceUtil.createObjectForResource(f);
+		assertNotNull(f);
+		assertTrue(f.exists());
+		return EclipseResourceUtil.createObjectForResource(f);
 		
 	}
 
