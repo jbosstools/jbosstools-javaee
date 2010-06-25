@@ -88,38 +88,33 @@ public class JsfSelectManyListbox extends VpeAbstractTemplate {
 		Set<String> jsfAttributes = ATTR_LIST_COPY.keySet();
 
 		for (String attributeName : jsfAttributes) {
-
-			// get attribute
-			String attr = element.getAttribute(attributeName);
-
-			// add attribute to "select"
-			if (attr != null) {
+			if (element.hasAttribute(attributeName)) {
+				// get attribute
+				String attr = element.getAttribute(attributeName);
+				// add attribute to "select"
 				select.setAttribute(ATTR_LIST_COPY.get(attributeName), attr);
 			}
-
 		}
 
 		// set "multiple" attribute
 		select.setAttribute(HTML.ATTR_MULTIPLE, ATTR_MULTIPLE_VALUE);
 
-		// get "size" attribute
-		String size = element.getAttribute(JSF.ATTR_SIZE);
-
-		// get "dir" attribute
-		String dir = element.getAttribute(JSF.ATTR_DIR);
-
-		if (null != dir) {
+		// set "dir" attribute
+		if (element.hasAttribute(JSF.ATTR_DIR)) {
+			String dir = element.getAttribute(JSF.ATTR_DIR);
 			select.setAttribute(HTML.ATTR_DIR, dir);
 		}
 
-		// add "size" attribute to "select"
-		if (size != null)
+		// set "size" attribute
+		if (element.hasAttribute(JSF.ATTR_SIZE)) {
+			String size = element.getAttribute(JSF.ATTR_SIZE);
 			// if source has "size" attribute import it
 			select.setAttribute(HTML.ATTR_SIZE, size);
-		else
+		} else {
 			// count size
 			select.setAttribute(HTML.ATTR_SIZE, String
 					.valueOf(countSize(element)));
+		}
 
 		return new VpeCreationData(select);
 	}
