@@ -191,7 +191,13 @@ public interface IBeanManager {
 	 */
 	IStereotype getStereotype(IPath path);
 
+	/**
+	 * Returns all the available intercepter binding types.
+	 * 
+	 * @return all the available intercepter binding types
+	 */
 	IInterceptorBinding[] getInterceptorBindings();
+
 	/**
 	 * Returns interceptor binding model element for fully qualified name of
 	 * interceptor binding annotation type

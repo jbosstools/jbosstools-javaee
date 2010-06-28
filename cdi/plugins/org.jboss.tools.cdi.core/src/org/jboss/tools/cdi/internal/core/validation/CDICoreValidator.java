@@ -55,6 +55,7 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
@@ -1239,6 +1240,17 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		Set<IProducer> producers = interceptor.getProducers();
 		for (IProducer producer : producers) {
 			addError(CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), interceptor.getResource());
+		}
+		/*
+		 * 9.2. Declaring the interceptor bindings of an interceptor
+		 *  - interceptor declared using @Interceptor does not declare any interceptor binding (Non-Portable behavior)
+		 */
+		Set<IInterceptorBindingDeclaration> bindings = interceptor.getInterceptorBindings();
+		if(bindings.isEmpty()) {
+			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+			if(declaration!=null) {
+				addError(CDIValidationMessages.MISSING_INTERCEPTOR_BINDING, CDIPreferences.MISSING_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+			}
 		}
 	}
 

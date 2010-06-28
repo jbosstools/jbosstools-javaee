@@ -1156,6 +1156,20 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 9.2. Declaring the interceptor bindings of an interceptor
+	 *  - interceptor declared using @Interceptor does not declare any interceptor binding (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testNoInterceptorBinfdingsInInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/NoInterceptorBinfdingsInInterceptor.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_INTERCEPTOR_BINDING, 7);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/interceptors/definition/SecureTransaction.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.MISSING_INTERCEPTOR_BINDING);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  
