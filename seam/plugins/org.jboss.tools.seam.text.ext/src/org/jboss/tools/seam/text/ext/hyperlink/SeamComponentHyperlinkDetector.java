@@ -11,9 +11,7 @@
 package org.jboss.tools.seam.text.ext.hyperlink;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -21,12 +19,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICodeAssist;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -37,22 +32,16 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.tools.common.text.ext.hyperlink.HyperlinkBuilder;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.internal.core.scanner.ScannerException;
-import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
-import org.jboss.tools.seam.internal.core.scanner.java.ResolvedAnnotation;
-import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 
 /**
@@ -86,6 +75,9 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 			return null;
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(input.getResource().getProject(), true);
+		if(seamProject == null) {
+			return null;
+		}
 		SeamELCompletionEngine engine = new SeamELCompletionEngine();
 		
 		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
@@ -100,7 +92,8 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 			if (resource instanceof IFile)
 				file = (IFile) resource;
 		} catch (JavaModelException e) {
-			// Ignore. It is probably because of Java element's resource is not found 
+			// It is probably because of Java element's resource is not found
+			SeamExtPlugin.getDefault().logError(e);
 		}
 
 		int[] range = new int[]{wordRegion.getOffset(), wordRegion.getOffset() + wordRegion.getLength()};
@@ -167,7 +160,9 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 										javaElements = engine.getJavaElementsForExpression(
 																		seamProject, file, value);
 									} catch (StringIndexOutOfBoundsException e) {
+										SeamExtPlugin.getDefault().logError(e);
 									} catch (BadLocationException e) {
+										SeamExtPlugin.getDefault().logError(e);
 									}
 									if (javaElements != null) {
 										for (IJavaElement javaElement : javaElements) {
@@ -214,7 +209,7 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
 		} catch (JavaModelException jme) {
-			// ignore
+			SeamExtPlugin.getDefault().logError(jme);
 		}
 		return null;
 	}
