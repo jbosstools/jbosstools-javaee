@@ -26,8 +26,8 @@ public class InterceptorDefinitionTest extends TCKTest {
 	 *   b) An interceptor binding declared by a stereotype are inherited by any bean that declares that stereotype.
 	 * @throws JavaModelException 
 	 */
-	public void testBeanTypesNonEmpty() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.FileLogger");
+	public void testStereotypeInterceptorBindings() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.SecureTransaction");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("The bean should be an interceptor", bean instanceof IInterceptor);
