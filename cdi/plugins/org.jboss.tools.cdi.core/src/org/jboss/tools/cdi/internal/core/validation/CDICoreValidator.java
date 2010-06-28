@@ -31,7 +31,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -55,6 +54,7 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
@@ -347,6 +347,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		if (bean instanceof IClassBean) {
+			Set<IInterceptorBindingDeclaration> bindingDeclarations = ((IClassBean) bean).getInterceptorBindings();
+			for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
+				IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
+				if (!binding.getSourceType().isReadOnly()) {
+					validationContext.addLinkedCoreResource(beanPath, binding.getResource().getFullPath(), false);
+				}
+			}
+
 			validateClassBean((IClassBean) bean);
 		}
 
