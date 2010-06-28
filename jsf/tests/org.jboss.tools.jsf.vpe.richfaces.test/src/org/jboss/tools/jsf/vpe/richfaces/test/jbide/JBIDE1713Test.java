@@ -112,7 +112,7 @@ public class JBIDE1713Test extends VpeTest {
 		String activeToggleStyle = activeToggle.getAttribute(HTML.ATTR_STYLE);
 		assertNotNull(activeToggleStyle);
 		assertEquals(
-				"background: red none repeat scroll 0% 0%; color: blue; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;",
+				"color: blue; background: none repeat scroll 0% 0% red;",
 				activeToggleStyle);
 
 		// check active content

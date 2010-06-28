@@ -2,7 +2,7 @@
 	<test id="toolBar">
 		<DIV>
 			<TABLE WIDTH="100%" CLASS="dr-toolbar-ext rich-toolbar"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+				STYLE='/background-image: url\(".*resources/common/background.gif"\);/'>
 				<TBODY>
 					<TR VALIGN="middle">
 						<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="padding: 0px;">
@@ -73,7 +73,7 @@
 	<test id="toolBar2">
 		<DIV CLASS="dr-pnl rich-panel">
 			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+				STYLE='/background-image: url\(".*resources/common/background.gif"\);/'>
 				<SPAN CLASS="vpe-text">
 					Tool Bar &amp; Tool Bar  Group
 				</SPAN>
@@ -81,7 +81,7 @@
 			<DIV CLASS="dr-pnl-b rich-panel-body">
 				<DIV>
 					<TABLE WIDTH="100%" HEIGHT="26" CLASS="dr-toolbar-ext rich-toolbar btn"
-						STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+						STYLE='/background-image: url\(".*resources/common/background.gif"\);/'>
 						<TBODY>
 							<TR VALIGN="middle">
 								<TD CLASS="dr-toolbar-int rich-toolbar-item btn" STYLE="padding: 0px;">
@@ -177,7 +177,7 @@
 					<DIV>
 						<TABLE WIDTH="100%" HEIGHT="34"
 							CLASS="dr-toolbar-ext rich-toolbar evenRow"
-							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+							STYLE='/background-image: url\(".*resources/common/background.gif"\);/'>
 							<TBODY>
 								<TR VALIGN="middle">
 									<TD CLASS="dr-toolbar-int rich-toolbar-item"
@@ -393,7 +393,7 @@
 				</FORM>
 				<DIV>
 					<TABLE WIDTH="100%" HEIGHT="30" CLASS="dr-toolbar-ext rich-toolbar"
-						STYLE="/background-image: url\(.*resources/common/background.gif\); color: Cornsilk; font-style: italic; background-color: Orchid; text-decoration: underline; font-family: Arial Narrow,Bodoni MT; font-weight: bold;/">
+						STYLE='/background-image: url\(".*resources/common/background.gif"\); color: Cornsilk; font-style: italic; background-color: Orchid; text-decoration: underline; font-family: Arial Narrow,Bodoni MT; font-weight: bold;/'>
 						<TBODY>
 							<TR VALIGN="middle">
 								<TD CLASS="dr-toolbar-int rich-toolbar-item btn"
