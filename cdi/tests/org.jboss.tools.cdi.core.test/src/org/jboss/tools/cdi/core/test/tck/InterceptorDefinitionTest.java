@@ -14,7 +14,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IClassBean;
 
 /**
  * @author Alexey Kazakov
@@ -30,8 +30,8 @@ public class InterceptorDefinitionTest extends TCKTest {
 		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.SecureTransaction");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
-		assertTrue("The bean should be an interceptor", bean instanceof IInterceptor);
-		IInterceptor interceptor = (IInterceptor)bean;
+		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);
+		IClassBean interceptor = (IClassBean)bean;
 		assertFalse("The intercpetor should inherites interceptor bindings", interceptor.getInterceptorBindings().isEmpty());
 	}
 }
