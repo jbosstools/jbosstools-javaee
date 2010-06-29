@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import java.io.File;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
@@ -20,9 +19,7 @@ import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.ui.test.ComponentContentTest;
-import org.jboss.tools.vpe.ui.test.TestDomUtil;
 import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.w3c.dom.Document;
 
 /**
  * @author mareshkau
@@ -74,15 +71,7 @@ public class JBIDE4179Test extends ComponentContentTest{
 				.getLocation().toFile();
 
 		// get document
-		Document xmlTestDocument = TestDomUtil.getDocument(xmlTestFile);
-		assertNotNull("Can't get test file, possibly file not exists "+xmlTestFile,xmlTestDocument); //$NON-NLS-1$
-
-		List<String> ids = TestDomUtil.getTestIds(xmlTestDocument);
-
-		for (String id : ids) {
-
-			compareElements(vpeController, xmlTestDocument, id, id);
-		}
+		compareContent(vpeController, xmlTestFile);
 
 		if (getException() != null) {
 			throw getException();
@@ -93,6 +82,4 @@ public class JBIDE4179Test extends ComponentContentTest{
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_PROJECT_NAME;
 	}
-
-
 }
