@@ -1,7 +1,7 @@
 <tests>
 	<test id="jbide5352Test">
 	<DIV STYLE="margin: 36px;">
-<SPAN STYLE="font-family: unknown; font-size: 24pt;">
+<SPAN STYLE="font-size: 24pt;">
 <DIV><BR/>
 
 <SPAN CLASS="vpe-text">
@@ -103,7 +103,7 @@ This is another table.  It should be large enough to span multiple pages with th
 <TABLE WIDTH="100%" CELLSPACING="0px" ALIGN="center">
 <TR>
 <TD ALIGN="center" COLSPAN="2" STYLE="border: 2px solid black;">
-<SPAN STYLE="font-family: unknown; font-size: 20pt;">
+<SPAN STYLE="font-size: 20pt;">
 <DIV ALIGN="center"><BR/>
 
 <SPAN CLASS="vpe-text">
@@ -115,7 +115,7 @@ This is a header
 </TR>
 <TR>
 <TD VALIGN="middle" ALIGN="center" STYLE="border: 2px solid black;">
-<SPAN STYLE="font-family: unknown; font-size: 30pt;">
+<SPAN STYLE="font-size: 30pt;">
 <DIV><BR/>
 
 <SPAN CLASS="vpe-text">
