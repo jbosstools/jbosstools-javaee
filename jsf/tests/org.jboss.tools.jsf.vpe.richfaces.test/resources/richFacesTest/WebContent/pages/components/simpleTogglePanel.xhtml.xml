@@ -2,7 +2,7 @@
 	<test id="simpleTogglePanel">
 		<DIV CLASS="dr-stglpnl rich-stglpanel" STYLE="">
 			<DIV CLASS="dr-stglpnl-h rich-stglpanel-header"
-				STYLE='/position: relative; background-image: url\(".*resources/common/background.gif"\);/'
+				STYLE="/position: relative; background-image: url\(.*resources/common/background.gif\);/"
 				VPE-USER-TOGGLE-ID="false">
 				Add AJAX capability to existing JSF applications
 				<DIV STYLE="position: absolute; top: 0px; right: 5px;"

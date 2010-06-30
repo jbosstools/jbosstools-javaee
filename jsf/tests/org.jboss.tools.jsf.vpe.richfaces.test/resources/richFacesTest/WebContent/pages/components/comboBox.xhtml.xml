@@ -86,7 +86,7 @@
 	<test id="complexCombo">
 		<DIV CLASS="dr-pnl rich-panel btn">
 			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE='/background-image: url\(".*resources/common/background.gif"\);/'>
+				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<SPAN CLASS="vpe-text">
 					Combo Box
 				</SPAN>
