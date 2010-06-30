@@ -1261,6 +1261,28 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, 25);
 	}
 
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - interceptor has a method with a parameter annotated @Observes
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodInInterceptor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/ObserverMethodInInterceptorBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_IN_INTERCEPTOR, 10);
+	}
+
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - decorator has a method with a parameter annotated @Observes
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodInDecorator() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/ObserverMethodInDecoratorBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_IN_DECORATOR, 14);
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}

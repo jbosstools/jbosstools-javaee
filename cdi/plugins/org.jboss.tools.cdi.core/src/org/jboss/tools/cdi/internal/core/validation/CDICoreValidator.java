@@ -499,6 +499,19 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
 			}
+			/*
+			 * 10.4.2. Declaring an observer method
+			 *  - interceptor or decorator has a method with a parameter annotated @Observes
+			 */
+			if(bean instanceof IDecorator) {
+				for (ITextSourceReference declaration : declarations) {
+					addError(CDIValidationMessages.OBSERVER_IN_DECORATOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+				}
+			} else if(bean instanceof IInterceptor) {
+				for (ITextSourceReference declaration : declarations) {
+					addError(CDIValidationMessages.OBSERVER_IN_INTERCEPTOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+				}
+			}
 
 			validateSessionBeanMethod(bean, observer, declarations, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN,	CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN);
 		}

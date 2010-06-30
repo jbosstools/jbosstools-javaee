@@ -3,5 +3,6 @@
       <class>org.jboss.jsr299.tck.tests.jdt.validation.decorators.NamedDecoratorBroken</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.decorators.DecoratorWithWrongScopeBroken</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.decorators.AlternativeDecoratorBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.decorators.ObserverMethodInDecoratorBroken</class>
    </decorators>
 </beans>

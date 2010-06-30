@@ -9,5 +9,6 @@
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithLifeCycleMethodOk</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithPostConstructorBroken</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithPreDestroyBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.ObserverMethodInInterceptorBroken</class>
    </interceptors>
 </beans>

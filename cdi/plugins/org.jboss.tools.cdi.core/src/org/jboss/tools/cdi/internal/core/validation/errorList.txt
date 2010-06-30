@@ -158,15 +158,14 @@ Definition Errors
 - delegate type does not implement or extend a decorated type of the decorator,
   or specifies different type parameters
 
-
-
-
-
-
 9.2. Declaring the interceptor bindings of an interceptor
 - interceptor for lifecycle callbacks declares an interceptor binding type 
   that is defined @Target({TYPE, METHOD})
 - interceptor declared using @Interceptor does not declare any interceptor binding (Non-Portable behavior)
+
+
+
+
 
 9.3. Binding an interceptor to a bean
 - managed bean has a class level interceptor binding and is declared final 
