@@ -699,7 +699,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				.getAttribute(RichFaces.ATTR_SHOW_BUTTON_LABELS));
 
 		for (String key : labelsKeys) {
-			if (sourceElement.hasAttribute(key + "Label")) {
+			if (sourceElement.hasAttribute(key + "Label")) { //$NON-NLS-1$
 				String label = sourceElement.getAttribute(key + "Label"); //$NON-NLS-1$
 				labels.put(key, label);
 			}
@@ -710,7 +710,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// prepare style classes
 		Set<String> styleClassesKeys = defaultStyleClasses.keySet();
 		for (String key : styleClassesKeys) {
-			if (sourceElement.hasAttribute(key + "Class")) {
+			if (sourceElement.hasAttribute(key + "Class")) { //$NON-NLS-1$
 				String styleClass = sourceElement.getAttribute(key + "Class"); //$NON-NLS-1$
 				styleClasses.put(key, defaultStyleClasses.get(key) + " " //$NON-NLS-1$
 						+ styleClass);
