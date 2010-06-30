@@ -319,10 +319,13 @@ public class JBIDE788Test extends VpeTest {
 			IContentAssistant iContentAssistant = stvc
 			        .getContentAssistant((ISourceViewer) part.getSourceEditor()
 			                .getAdapter(ISourceViewer.class));
+			//this method should be called for correct initialization of CA
+			iContentAssistant.showPossibleCompletions();
 			assertNotNull(iContentAssistant);
 			IContentAssistProcessor iContentAssistProcessor = iContentAssistant
 			        .getContentAssistProcessor(caName);
 			assertNotNull(iContentAssistProcessor);
+			
 			results = iContentAssistProcessor
 			        .computeCompletionProposals(part.getSourceEditor()
 			                .getTextViewer(), newPosition);
