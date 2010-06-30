@@ -72,7 +72,7 @@ public class ParameterDefinition implements IAnnotated {
 	 * 
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotations()
 	 */
-	public List<AnnotationDeclaration> getAnnotations() {
+	public List<IAnnotationDeclaration> getAnnotations() {
 		return Collections.emptyList();
 	}
 

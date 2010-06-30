@@ -44,5 +44,6 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INJECTED_DECORATOR, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INJECTED_INTERCEPTOR, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.WARNING);
 	}
 }

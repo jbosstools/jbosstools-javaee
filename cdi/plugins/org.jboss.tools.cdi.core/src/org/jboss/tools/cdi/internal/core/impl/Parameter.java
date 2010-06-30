@@ -61,7 +61,7 @@ public class Parameter extends CDIElement implements IParameter {
 		throw new RuntimeException("Not implemented because limitations of JDT model.");
 	}
 
-	public List<AnnotationDeclaration> getAnnotations() {
+	public List<IAnnotationDeclaration> getAnnotations() {
 		throw new RuntimeException("Not implemented because limitations of JDT model.");
 	}
 

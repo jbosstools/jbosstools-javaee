@@ -6,5 +6,8 @@
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.AlternativeInterceptorBroken</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.CatInterceptor</class>
       <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.NoInterceptorBinfdingsInInterceptor</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithLifeCycleMethodOk</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithPostConstructorBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jdt.validation.interceptors.InterceptorWithPreDestroyBroken</class>
    </interceptors>
 </beans>

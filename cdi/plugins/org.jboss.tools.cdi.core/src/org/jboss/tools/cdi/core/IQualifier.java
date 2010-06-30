@@ -15,7 +15,7 @@ import java.util.Set;
 import org.eclipse.jdt.core.IMethod;
 
 /**
- * Represents an interceptor binding type.
+ * Represents a qualifier.
  * 
  * @author Viacheslav Kabanovich
  */

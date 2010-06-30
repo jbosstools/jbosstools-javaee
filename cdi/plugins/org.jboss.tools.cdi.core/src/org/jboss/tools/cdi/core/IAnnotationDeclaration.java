@@ -43,4 +43,11 @@ public interface IAnnotationDeclaration extends ITextSourceReference {
 	 * @return the corresponding IType of the annotation
 	 */
 	IType getType();
+
+	/**
+	 * Returns the corresponding annotation. May be null.
+	 * 
+	 * @return the corresponding annotation
+	 */
+	ICDIAnnotation getAnnotation();
 }

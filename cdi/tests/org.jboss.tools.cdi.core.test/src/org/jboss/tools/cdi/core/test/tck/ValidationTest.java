@@ -1170,6 +1170,43 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 9.2. Declaring the interceptor bindings of an interceptor
+	 *  - interceptor for lifecycle callbacks declares an interceptor binding type that is defined @Target({TYPE, METHOD})
+	 *    @PreDestroy
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorBinfdingsInInterceptorWithPreDestroyBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InterceptorWithPreDestroyBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, 7);
+	}
+
+	/**
+	 * 9.2. Declaring the interceptor bindings of an interceptor
+	 *  - interceptor for lifecycle callbacks declares an interceptor binding type that is defined @Target({TYPE, METHOD})
+	 *    @PostConstruct
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorBinfdingsInInterceptorWithPostConstructBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InterceptorWithPostConstructorBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, 7);
+	}
+
+	/**
+	 * 9.2. Declaring the interceptor bindings of an interceptor
+	 *  - interceptor for lifecycle callbacks declares an interceptor binding type that is defined @Target({TYPE, METHOD})
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorBinfdingsInInterceptorWithLifeCycleMethodOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InterceptorWithLifeCycleMethodOk.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/CatInterceptor.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  
@@ -1245,6 +1282,6 @@ public class ValidationTest extends TCKTest {
 	}
 
 	private static String convertMessageToPatern(String message) {
-		return message.replace("[", "\\[").replace("]", "\\]").replace("<", "\\<").replace(">", "\\>");
+		return message.replace("[", "\\[").replace("]", "\\]").replace("<", "\\<").replace(">", "\\>").replace("(", "\\(").replace(")", "\\)");
 	}
 }

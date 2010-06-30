@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotated;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.QualifierDeclaration;
@@ -36,7 +37,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public abstract class AbstractMemberDefinition implements IAnnotated {
-	protected List<AnnotationDeclaration> annotations = new ArrayList<AnnotationDeclaration>();
+	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>();
 	protected IAnnotatable member;
 	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
 	protected IResource resource;
@@ -88,7 +89,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotations()
 	 */
-	public List<AnnotationDeclaration> getAnnotations() {
+	public List<IAnnotationDeclaration> getAnnotations() {
 		return annotations;
 	}
 

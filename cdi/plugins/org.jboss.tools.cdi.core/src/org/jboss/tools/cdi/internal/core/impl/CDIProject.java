@@ -426,6 +426,15 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public static String getQualifierDeclarationKey(IQualifierDeclaration d) throws CoreException {
 		IQualifier q = d.getQualifier();
 		Set<IMethod> nb = q == null ? new HashSet<IMethod>() : q.getNonBindingMethods();
+		return getAnnotationDeclarationKey(d, nb);
+	}
+
+	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d) throws CoreException {
+		return getAnnotationDeclarationKey(d, null);
+	}
+
+	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Set<IMethod> ignoredMembers) throws CoreException {
+		Set<IMethod> nb = ignoredMembers == null ? new HashSet<IMethod>() : ignoredMembers;
 		IType type = d.getType();
 		IMethod[] ms = type.getMethods();
 		StringBuffer result = new StringBuffer();
@@ -581,10 +590,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			return false;
 		}
 		AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
-		List<AnnotationDeclaration> ds = d.getAnnotations();
-		for (AnnotationDeclaration a: ds) {
-			if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
-				return true;
+		List<IAnnotationDeclaration> ds = d.getAnnotations();
+		for (IAnnotationDeclaration a: ds) {
+			if(a instanceof AnnotationDeclaration) {
+				AnnotationDeclaration aa = (AnnotationDeclaration)a;
+				if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
+					return true;
+				}
 			}
 		}		
 		return false;
@@ -598,22 +610,25 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			return false;
 		}
 		AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
-		List<AnnotationDeclaration> ds = d.getAnnotations();
-		for (AnnotationDeclaration a: ds) {
-			if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(a.getTypeName())) {
-				IAnnotation ann = a.getDeclaration();
-				try {
-					IMemberValuePair[] ps = ann.getMemberValuePairs();
-					if(ps != null) for (IMemberValuePair p: ps) {
-						if("passivating".equals(p.getMemberName())) {
-							Object o = p.getValue();
-							return o != null && "true".equalsIgnoreCase(o.toString());
+		List<IAnnotationDeclaration> ds = d.getAnnotations();
+		for (IAnnotationDeclaration a: ds) {
+			if(a instanceof AnnotationDeclaration) {
+				AnnotationDeclaration aa = (AnnotationDeclaration)a;
+				if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
+					IAnnotation ann = a.getDeclaration();
+					try {
+						IMemberValuePair[] ps = ann.getMemberValuePairs();
+						if(ps != null) for (IMemberValuePair p: ps) {
+							if("passivating".equals(p.getMemberName())) {
+								Object o = p.getValue();
+								return o != null && "true".equalsIgnoreCase(o.toString());
+							}
 						}
+					} catch (JavaModelException e) {
+						CDICorePlugin.getDefault().logError(e);
 					}
-				} catch (JavaModelException e) {
-					CDICorePlugin.getDefault().logError(e);
+					return true;
 				}
-				return true;
 			}
 		}		
 		return false;

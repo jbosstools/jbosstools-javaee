@@ -347,7 +347,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		if (bean instanceof IClassBean) {
-			Set<IInterceptorBindingDeclaration> bindingDeclarations = ((IClassBean) bean).getInterceptorBindings();
+			Set<IInterceptorBindingDeclaration> bindingDeclarations = ((IClassBean) bean).getInterceptorBindingDeclarations();
 			for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
 				IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
 				if (!binding.getSourceType().isReadOnly()) {
@@ -1253,11 +1253,51 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * 9.2. Declaring the interceptor bindings of an interceptor
 		 *  - interceptor declared using @Interceptor does not declare any interceptor binding (Non-Portable behavior)
 		 */
-		Set<IInterceptorBindingDeclaration> bindings = interceptor.getInterceptorBindings();
+		Set<IInterceptorBinding> bindings = interceptor.getInterceptorBindings();
 		if(bindings.isEmpty()) {
 			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 			if(declaration!=null) {
 				addError(CDIValidationMessages.MISSING_INTERCEPTOR_BINDING, CDIPreferences.MISSING_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+			}
+		} else {
+			/*
+			 * 9.2. Declaring the interceptor bindings of an interceptor
+			 *  - interceptor for lifecycle callbacks declares an interceptor binding type that is defined @Target({TYPE, METHOD})
+			 */
+			for (IInterceptorBinding binding : bindings) {
+				boolean markedAsWrong = false;
+				IAnnotationDeclaration target = binding.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+				if(target!=null) {
+					try {
+						IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
+						if (ps != null && ps.length==1) {
+							IMemberValuePair pair = ps[0];
+							Object value = pair.getValue();
+							if(value != null && value instanceof Object[]) {
+								Object[] values = (Object[]) value;
+								if(values.length>1) {
+									Set<IBeanMethod> methods = interceptor.getAllMethods();
+									for (IBeanMethod method : methods) {
+										if(method.isLifeCycleCallbackMethod()) {
+											ITextSourceReference declaration = CDIUtil.getAnnotationDeclaration(interceptor, binding);
+											if(declaration==null) {
+												declaration = interceptor.getInterceptorAnnotation();
+											}
+											addError(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+											markedAsWrong = true;
+											break;
+										}
+									}
+								}
+							}
+						}
+					} catch (JavaModelException e) {
+						CDICorePlugin.getDefault().logError(e);
+					}
+				}
+				if(markedAsWrong) {
+					break;
+				}
 			}
 		}
 	}

@@ -23,13 +23,13 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
@@ -174,13 +174,31 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindings() {
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindingDeclarations()
+	 */
+	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
-		List<AnnotationDeclaration> as = definition.getAnnotations();
-		for (AnnotationDeclaration a: as) {
+		List<IAnnotationDeclaration> as = definition.getAnnotations();
+		for (IAnnotationDeclaration a: as) {
 			if(a instanceof InterceptorBindingDeclaration) {
 				result.add((InterceptorBindingDeclaration)a);
 			}
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindings()
+	 */
+	public Set<IInterceptorBinding> getInterceptorBindings() {
+		// TODO collect bindings from stereotypes. See https://jira.jboss.org/browse/JBIDE-6550 
+		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
+		Set<IInterceptorBindingDeclaration> declarations = getInterceptorBindingDeclarations();
+		for (IInterceptorBindingDeclaration declaration: declarations) {
+			result.add(declaration.getInterceptorBinding());
 		}
 		return result;
 	}
@@ -475,4 +493,13 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IClassBean#getAllMethods()
+	 */
+	public Set<IBeanMethod> getAllMethods() {
+		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+		result.addAll(methods);
+		return result;
+	}
 }

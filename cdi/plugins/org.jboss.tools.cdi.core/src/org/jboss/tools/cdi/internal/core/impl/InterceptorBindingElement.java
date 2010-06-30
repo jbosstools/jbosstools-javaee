@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 
@@ -29,8 +30,8 @@ public class InterceptorBindingElement extends CDIAnnotationElement implements I
 
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
-		List<AnnotationDeclaration> as = definition.getAnnotations();
-		for (AnnotationDeclaration a: as) {
+		List<IAnnotationDeclaration> as = definition.getAnnotations();
+		for (IAnnotationDeclaration a: as) {
 			if(a instanceof InterceptorBindingDeclaration) {
 				result.add((InterceptorBindingDeclaration)a);
 			}

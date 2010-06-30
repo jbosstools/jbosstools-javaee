@@ -46,4 +46,10 @@ public interface IBeanMethod extends IBeanMember {
 	 * @return
 	 */
 	public boolean isObserver();
+
+	/**
+	 * Returns true if method is annotated with @PreDestroy or @PostConstruct
+	 * @return
+	 */
+	public boolean isLifeCycleCallbackMethod();
 }

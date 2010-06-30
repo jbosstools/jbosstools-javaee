@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.IAnnotation;
  * 
  * @author Alexey Kazakov
  */
-public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation {
+public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation, IAnnotated {
 
 	/**
 	 * Returns the location of @Name declaration of this stereotype. If the bean

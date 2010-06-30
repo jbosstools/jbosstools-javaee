@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 /**
@@ -76,7 +77,6 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		return annotationTypeName;
 	}
 
-	
 	public IType getType() {
 		return type;
 	}
@@ -89,4 +89,11 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		return startPosition;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotationDeclaration#getAnnotation()
+	 */
+	public ICDIAnnotation getAnnotation() {
+		return null;
+	}
 }

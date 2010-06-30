@@ -239,6 +239,33 @@ public class CDIUtil {
 	}
 
 	/**
+	 * Returns the annotation declaration if it exists in the annotated element. If the
+	 * annotation declared in a stereotype then returns this stereotype declaration.
+	 * Returns null if there is not this annotation declaration neither corresponding
+	 * stereotype declaration. Doesn't check if a stereotype is inherited or not.
+	 * 
+	 * @param bean
+	 * @param scopeTypeName
+	 * @return
+	 */
+	public static IAnnotationDeclaration getAnnotationDeclaration(IAnnotated annotated, ICDIAnnotation annotation) {
+		List<IAnnotationDeclaration> annotations = annotated.getAnnotations();
+		for (IAnnotationDeclaration annotationDeclaration : annotations) {
+			ICDIAnnotation annotationElement = annotationDeclaration.getAnnotation();
+			if(annotationElement!=null && annotation.equals(annotationElement)) {
+				return annotationDeclaration;
+			}
+		}
+		if(annotated instanceof IStereotyped) {
+			Set<IStereotypeDeclaration> stereoTypeDeclarations = ((IStereotyped)annotated).getStereotypeDeclarations();
+			for (IStereotypeDeclaration stereotypeDeclaration : stereoTypeDeclarations) {
+				getAnnotationDeclaration(stereotypeDeclaration.getStereotype(), annotation);
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Return @Named declaration or the stereotype declaration if it declares @Named.
 	 * 
 	 * @param stereotyped

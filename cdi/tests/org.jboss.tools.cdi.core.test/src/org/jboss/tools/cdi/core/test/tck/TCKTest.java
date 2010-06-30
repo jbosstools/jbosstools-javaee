@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -181,6 +182,10 @@ public class TCKTest extends TestCase {
 
 			public int getStartPosition() {
 				return 0;
+			}
+
+			public ICDIAnnotation getAnnotation() {
+				return null;
 			}
 		};
 		return annotationDeclaration;

@@ -68,6 +68,9 @@ public interface CDIConstants {
 	public String OBSERVERS_ANNOTATION_TYPE_NAME = "javax.enterprise.event.Observes";
 
 	public String INJECTIONPOINT_TYPE_NAME = "javax.enterprise.inject.spi.InjectionPoint";
-	
+
 	public String INSTANCE_TYPE_NAME = "javax.enterprise.inject.Instance";
+
+	public String PRE_DESTROY_TYPE_NAME = "javax.annotation.PreDestroy";
+	public String POST_CONSTRUCTOR_TYPE_NAME = "javax.annotation.PostConstruct";
 }

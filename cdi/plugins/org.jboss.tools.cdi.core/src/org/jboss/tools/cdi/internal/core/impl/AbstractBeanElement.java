@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -62,13 +62,21 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		return definition;
 	}
 
-	public List<AnnotationDeclaration> getAnnotations() {
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotations()
+	 */
+	public List<IAnnotationDeclaration> getAnnotations() {
 		if(definition!=null) {
 			return definition.getAnnotations();
 		}
 		return Collections.emptyList();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotation(java.lang.String)
+	 */
 	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
 		if(definition!=null) {
 			return definition.getAnnotation(annotationTypeName);
@@ -84,6 +92,10 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		return getAnnotation(annotationTypeName);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IAnnotated#isAnnotationPresent(java.lang.String)
+	 */
 	public boolean isAnnotationPresent(String annotationTypeName) {
 		return definition!=null && definition.isAnnotationPresent(annotationTypeName);
 	}
@@ -116,7 +128,7 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations(boolean includeInherited) {
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
-		for (AnnotationDeclaration d: definition.getAnnotations()) {
+		for (IAnnotationDeclaration d: definition.getAnnotations()) {
 			if(d instanceof IStereotypeDeclaration) {
 				if(d instanceof IStereotypeDeclaration) {
 					result.add((IStereotypeDeclaration)d);
@@ -154,7 +166,7 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 	public Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
 		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
 		Set<IQualifier> qs = new HashSet<IQualifier>();
-		for(AnnotationDeclaration a: definition.getAnnotations()) {
+		for(IAnnotationDeclaration a: definition.getAnnotations()) {
 			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
 			if(k == AnnotationDefinition.QUALIFIER) {
 				IQualifierDeclaration q = (IQualifierDeclaration)a;

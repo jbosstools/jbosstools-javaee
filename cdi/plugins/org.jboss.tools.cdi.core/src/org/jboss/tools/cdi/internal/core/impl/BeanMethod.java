@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -87,4 +87,11 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanMethod#isLifeCycleCallbackMethod()
+	 */
+	public boolean isLifeCycleCallbackMethod() {
+		return definition.getAnnotation(CDIConstants.PRE_DESTROY_TYPE_NAME)!=null || definition.getAnnotation(CDIConstants.POST_CONSTRUCTOR_TYPE_NAME)!=null;
+	}
 }

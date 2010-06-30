@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2007 Red Hat, Inc. 
+ * Copyright (c) 2009 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
@@ -63,9 +64,12 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		}
 		Map<String, AnnotationDeclaration> ds = new HashMap<String, AnnotationDeclaration>();
 		
-		for (AnnotationDeclaration a: annotations) {
-			String typeName = a.getTypeName();
-			ds.put(typeName, a);
+		for (IAnnotationDeclaration a: annotations) {
+			if(a instanceof AnnotationDeclaration) {
+				AnnotationDeclaration aa = (AnnotationDeclaration)a;
+				String typeName = aa.getTypeName();
+				ds.put(typeName, aa);
+			}
 		}
 
 		if(ds.containsKey(CDIConstants.SCOPE_ANNOTATION_TYPE_NAME) 

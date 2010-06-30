@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.core;
 
 import java.util.List;
 
-import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -28,7 +27,7 @@ public interface IAnnotated {
 	 * @return all annotations of the element, or an empty list if no
 	 *         annotations are present
 	 */
-	List<AnnotationDeclaration> getAnnotations();
+	List<IAnnotationDeclaration> getAnnotations();
 
 	/**
 	 * Get element annotation of a certain annotation type.

@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 
@@ -40,7 +41,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
 		super.init(contextType, context);
 		isAbstract = Flags.isAbstract(type.getFlags());
-		for (AnnotationDeclaration a: annotations) {
+		for (IAnnotationDeclaration a: annotations) {
 			//provide initialization
 			context.getAnnotationKind(a.getType());
 		}

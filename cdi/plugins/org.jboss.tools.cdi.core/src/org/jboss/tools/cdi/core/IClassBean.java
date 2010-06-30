@@ -41,11 +41,27 @@ public interface IClassBean extends IBean {
 	Set<IBeanMethod> getBeanConstructors();
 
 	/**
+	 * Returns a set of the methods that are declared in this bean class.
+	 * 
+	 * @return a set of the methods that are declared in this bean class.
+	 */
+	Set<IBeanMethod> getAllMethods();
+
+	/**
+	 * Obtains the interceptor binding declarations of the class bean.
+	 * This set includes bindings declared in this java class.
+	 * Use getInterceptorBindings() to get all bindings (i.g. from Stereotypes)   
+	 * 
+	 * @return the set of interceptor binding declarations
+	 */
+	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations();
+
+	/**
 	 * Obtains the interceptor bindings of the bean.
 	 * 
 	 * @return the set of interceptor bindings
 	 */
-	Set<IInterceptorBindingDeclaration> getInterceptorBindings();
+	Set<IInterceptorBinding> getInterceptorBindings();
 
 	/**
 	 * Returns a set of observer methods of the bean.
