@@ -19,7 +19,7 @@ Hello, Custom Jsf 2.O Components
 </DIV>
 </DIV>
 </DIV>
-<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;" >
+<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="display: none; -moz-user-modify: read-only;">
 <H1 STYLE="-moz-user-modify: read-only;">
@@ -37,7 +37,6 @@ User Name
 </P>
 <P STYLE="-moz-user-modify: read-only;">
 <SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
-#{cc.attrs.password}
 </SPAN>
 <INPUT TYPE="password" STYLE="-moz-user-modify: read-only;"/>
 
